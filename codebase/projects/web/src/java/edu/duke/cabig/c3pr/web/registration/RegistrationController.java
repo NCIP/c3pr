@@ -10,32 +10,35 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
 import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.ScheduledEpochDao;
 import edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
+import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.AnatomicSite;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -43,7 +46,7 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
@@ -81,9 +84,16 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
 
     protected StudyInvestigatorDao studyInvestigatorDao;
 
-    protected AnatomicSiteDao anatomicSiteDao;
+    protected ICD9DiseaseSiteDao icd9DiseaseSiteDao;
+    
+    protected StudySiteStudyVersionDao studySiteStudyVersionDao;
 
-    protected ConfigurationProperty configurationProperty;
+    public void setStudySiteStudyVersionDao(
+			StudySiteStudyVersionDao studySiteStudyVersionDao) {
+		this.studySiteStudyVersionDao = studySiteStudyVersionDao;
+	}
+
+	protected ConfigurationProperty configurationProperty;
 
     protected StudySubjectService studySubjectService;
 
@@ -246,15 +256,32 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     }
     
     @Override
+    protected void onBind(HttpServletRequest request, Object oCommand,
+    		BindException errors) throws Exception {
+    	super.onBind(request, oCommand, errors);
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) oCommand;
+        StudySubject studySubject = wrapper.getStudySubject();
+    	if(WebUtils.hasSubmitParameter(request, "studySiteStudyVersionId")){
+    		StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(Integer.parseInt(request.getParameter("studySiteStudyVersionId")));
+    		if(studySiteStudyVersion == null){
+    			log.debug("Study Site Study Version is not set to Study Subject Study Version");
+    		}
+    		studySubject.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySiteStudyVersion);
+    		studySubject.setStudySite(studySiteStudyVersion.getStudySite());
+    	}else{
+    		log.debug("Study Site Study Version is not set to Study Subject Study Version");
+    	}
+    }
+    
+    @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
                     throws Exception {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
                         "MM/dd/yyyy"), true));
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
-        binder.registerCustomEditor(StudySite.class, new CustomDaoEditor(studySiteDao));
         binder.registerCustomEditor(EligibilityCriteria.class, new CustomDaoEditor(studySiteDao));
         binder.registerCustomEditor(Participant.class, new CustomDaoEditor(participantDao));
-        binder.registerCustomEditor(AnatomicSite.class, new CustomDaoEditor(anatomicSiteDao));
+        binder.registerCustomEditor(ICD9DiseaseSite.class, new CustomDaoEditor(icd9DiseaseSiteDao));
         binder.registerCustomEditor(Arm.class, new CustomDaoEditor(armDao));
         binder.registerCustomEditor(Epoch.class, new CustomDaoEditor(epochDao));
         binder.registerCustomEditor(StratificationCriterionPermissibleAnswer.class,
@@ -275,6 +302,9 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
                         ScheduledEpochDataEntryStatus.class));
         binder.registerCustomEditor(ScheduledEpochWorkFlowStatus.class, new EnumByNameEditor(
                         ScheduledEpochWorkFlowStatus.class));
+        binder.registerCustomEditor(ICD9DiseaseSiteCodeDepth.class, new EnumByNameEditor(
+        		ICD9DiseaseSiteCodeDepth.class));
+
     }
 
     public ConfigurationProperty getConfigurationProperty() {
@@ -333,15 +363,11 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         this.studyInvestigatorDao = studyInvestigatorDao;
     }
 
-    public AnatomicSiteDao getAnatomicSiteDao() {
-        return anatomicSiteDao;
-    }
+    public void setIcd9DiseaseSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
+		this.icd9DiseaseSiteDao = icd9DiseaseSiteDao;
+	}
 
-    public void setAnatomicSiteDao(AnatomicSiteDao anatomicSiteDao) {
-        this.anatomicSiteDao = anatomicSiteDao;
-    }
-
-    public EpochDao getEpochDao() {
+	public EpochDao getEpochDao() {
         return epochDao;
     }
 
