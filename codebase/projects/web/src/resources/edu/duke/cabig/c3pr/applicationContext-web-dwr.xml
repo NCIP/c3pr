@@ -30,7 +30,7 @@
 	<bean id="registrationAjaxFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.RegistrationAjaxFacade" />
 	<bean id="anatomicDiseaseSiteFacade" autowire="byType"
-		class="edu.duke.cabig.c3pr.web.ajax.AnatomicDiseaseSiteFacade" />
+		class="edu.duke.cabig.c3pr.web.ajax.ICD9DiseaseSiteFacade" />
 	<bean id="createReportFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.CreateReportFacade" />
 	<bean id="reportCommand" autowire="byType"
