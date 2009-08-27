@@ -8,10 +8,9 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
-import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
 import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
-import edu.duke.cabig.c3pr.domain.AnatomicSite;
+import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
+import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.accrual.Accrual;
@@ -27,15 +26,15 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 		MutableDomainObjectDao<Accrual> {
 
 	/** The anatomic site dao. */
-	private AnatomicSiteDao anatomicSiteDao;
+	private ICD9DiseaseSiteDao icd9DiseaseSiteDao;
 
 	/**
-	 * Sets the anatomic site dao.
+	 * Sets the icd9 disease site dao.
 	 * 
-	 * @param anatomicSiteDao the new anatomic site dao
+	 * @param icdDiseaseSiteDao the new anatomic site dao
 	 */
-	public void setAnatomicSiteDao(AnatomicSiteDao anatomicSiteDao) {
-		this.anatomicSiteDao = anatomicSiteDao;
+	public void setICD9DiseaseSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
+		this.icd9DiseaseSiteDao = icd9DiseaseSiteDao;
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 			studyAccrualReport.setIdentifier(study.getPrimaryIdentifier());
 
 			List<DiseaseSiteAccrualReport> diseaseSiteAccrualReports = new ArrayList<DiseaseSiteAccrualReport>();
-			for (AnatomicSite diseaseSite : study.getDiseaseSites()) {
+			for (ICD9DiseaseSite diseaseSite : study.getDiseaseSites()) {
 				DiseaseSiteAccrualReport diseaseSiteAccrualReport = new DiseaseSiteAccrualReport();
 				diseaseSiteAccrualReport.setName(diseaseSite.getName());
 				Accrual accrual = new Accrual();
@@ -115,8 +114,8 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 
 		Criteria diseaseHistoryCriteria = registrationCriteria
 				.createCriteria("diseaseHistoryInternal");
-		Criteria anatomicSiteCriteria = diseaseHistoryCriteria
-				.createCriteria("anatomicSite");
+		Criteria icdDiseaseSiteCriteria = diseaseHistoryCriteria
+				.createCriteria("icdDiseaseSite");
 
 		// Study Criteria
 		
@@ -144,7 +143,7 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 		// disease site criteria
 		
 		if(diseaseSiteName!=null){
-			anatomicSiteCriteria.add(Expression.eq("name", diseaseSiteName));
+			icdDiseaseSiteCriteria.add(Expression.eq("name", diseaseSiteName));
 		}
 
 		registrationCriteria
@@ -170,16 +169,16 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 	}
 	
 	public List<DiseaseSiteAccrualReport> getAllDiseaseSiteAccrualReports(String nciInstituteCode){
-		List<AnatomicSite> anatomicSites = (List<AnatomicSite>) getHibernateTemplate().find("from AnatomicSite order by name");
+		List<ICD9DiseaseSite> icdDiseaseSites = (List<ICD9DiseaseSite>) getHibernateTemplate().find("from ICD9DiseaseSite order by name");
 		
 		List<DiseaseSiteAccrualReport> diseaseSiteAccrualReports = new ArrayList<DiseaseSiteAccrualReport>();
 		
-		for(AnatomicSite anatomicSite:anatomicSites){
+		for(ICD9DiseaseSite icdDiseaseSite:icdDiseaseSites){
 			DiseaseSiteAccrualReport diseaseSiteAccrualReport = new DiseaseSiteAccrualReport();
-			diseaseSiteAccrualReport.setName(anatomicSite.getName());
+			diseaseSiteAccrualReport.setName(icdDiseaseSite.getName());
 			
 			Accrual accrual = new Accrual();
-			accrual.setValue(getAccrual(nciInstituteCode, null, anatomicSite.getName()));
+			accrual.setValue(getAccrual(nciInstituteCode, null, icdDiseaseSite.getName()));
 			diseaseSiteAccrualReport.setAccrual(accrual);
 			
 			diseaseSiteAccrualReports.add(diseaseSiteAccrualReport);
@@ -197,14 +196,14 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
     				"and sv=any elements" +
     				"(ssv.studySiteStudyVersion.studySite.studyInternal.studyVersionsInternal)and " +
     				"sv.shortTitleText = ? " +
-    				"and ss.diseaseHistoryInternal.anatomicSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
+    				"and ss.diseaseHistoryInternal.icdDiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
     				"(select h.id from HealthcareSite h where " +
     				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
 					new Object[]{shortTitleText, diseaseSteName, nciInstituteCode}).size();
     	}else {
     		accrual = getHibernateTemplate().find(
     				"Select ss from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and " +
-    				"ss.diseaseHistoryInternal.anatomicSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
+    				"ss.diseaseHistoryInternal.icdDiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
     				"(select h.id from HealthcareSite h where " +
     				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
     				new Object[]{diseaseSteName, nciInstituteCode}).size();
