@@ -9,11 +9,11 @@ import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
-import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
+import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.AnatomicSite;
+import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -52,7 +52,7 @@ public class StudySubjectFactory {
 
     private ParticipantDao participantDao;
     
-    private AnatomicSiteDao anatomicSiteDao;
+    private ICD9DiseaseSiteDao icd9DiseaseSiteDao;
     
     private HealthcareSiteDao healthcareSiteDao;
 
@@ -60,8 +60,8 @@ public class StudySubjectFactory {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
-	public void setAnatomicSiteDao(AnatomicSiteDao anatomicSiteDao) {
-		this.anatomicSiteDao = anatomicSiteDao;
+	public void setAnatomicSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
+		this.icd9DiseaseSiteDao = icd9DiseaseSiteDao;
 	}
 
 	public void setParticipantDao(ParticipantDao participantDao) {
@@ -327,13 +327,13 @@ public class StudySubjectFactory {
         			}
         		}
         	}
-        	if(source.getDiseaseHistory().getAnatomicSite()!=null){
-        		List<AnatomicSite> anatomicSites= anatomicSiteDao.searchByExample(source.getDiseaseHistory().getAnatomicSite());
-        		if(anatomicSites.size()!=1){
-        			studySubject.getDiseaseHistory().setOtherPrimaryDiseaseSiteCode(source.getDiseaseHistory().getAnatomicSite().getName());
-        			studySubject.getDiseaseHistory().setAnatomicSite(null);
+        	if(source.getDiseaseHistory().getIcd9DiseaseSite()!=null){
+        		ICD9DiseaseSite icd9DiseaseSite= icd9DiseaseSiteDao.getByCode(source.getDiseaseHistory().getIcd9DiseaseSite().getCode());
+        		if(icd9DiseaseSite == null){
+        			studySubject.getDiseaseHistory().setOtherPrimaryDiseaseSiteCode(source.getDiseaseHistory().getIcd9DiseaseSite().getName());
+        			studySubject.getDiseaseHistory().setIcd9DiseaseSite(null);
         		}else{
-        			studySubject.getDiseaseHistory().setAnatomicSite(anatomicSites.get(0));
+        			studySubject.getDiseaseHistory().setIcd9DiseaseSite(icd9DiseaseSite);
         		}
         	}
         }
