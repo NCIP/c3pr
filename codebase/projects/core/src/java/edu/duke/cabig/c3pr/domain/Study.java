@@ -1047,11 +1047,11 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	@Transient
-	public List<AnatomicSite> getDiseaseSites(){
-		List<AnatomicSite> diseaseSites = new ArrayList<AnatomicSite>();
+	public List<ICD9DiseaseSite> getDiseaseSites(){
+		List<ICD9DiseaseSite> diseaseSites = new ArrayList<ICD9DiseaseSite>();
 		for(StudySubject studySubject: this.getAllStudySubjects()){
-			if(studySubject.getDiseaseHistory()!=null && studySubject.getDiseaseHistory().getAnatomicSite()!=null){
-				diseaseSites.add(studySubject.getDiseaseHistory().getAnatomicSite());
+			if(studySubject.getDiseaseHistory()!=null && studySubject.getDiseaseHistory().getIcd9DiseaseSite()!=null){
+				diseaseSites.add(studySubject.getDiseaseHistory().getIcd9DiseaseSite());
 			}
 		}
 		return diseaseSites;

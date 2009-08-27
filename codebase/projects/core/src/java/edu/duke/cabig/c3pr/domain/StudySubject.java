@@ -140,6 +140,9 @@ public class StudySubject extends
 	private List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
 
 	private StudySubjectStudyVersion studySubjectStudyVersion;
+	
+	
+	private StudySite studySite;
 	/**
 	 * Instantiates a new study subject.
 	 */
@@ -335,6 +338,7 @@ public class StudySubject extends
 	public void setStudySite(StudySite studySite) {
 		if(studySite!=null){
 			this.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySite.getStudySiteStudyVersion());
+			this.studySite=studySite;
 		}
 	}
 

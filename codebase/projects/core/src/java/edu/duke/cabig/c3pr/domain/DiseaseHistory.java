@@ -34,30 +34,20 @@ public class DiseaseHistory extends AbstractMutableDeletableDomainObject {
 
     /** The study disease. */
     private StudyDisease studyDisease;
+    
+    private ICD9DiseaseSite icd9DiseaseSite;
 
-    /** The anatomic site. */
-    private AnatomicSite anatomicSite;
-
-    /**
-     * Gets the anatomic site.
-     * 
-     * @return the anatomic site
-     */
     @OneToOne
-    @JoinColumn(name = "anatomic_site_id")
+    @JoinColumn(name = "icd9_disease_site_id")
     @Cascade(value = { CascadeType.LOCK })
-    public AnatomicSite getAnatomicSite() {
-        return anatomicSite;
-    }
+    public ICD9DiseaseSite getIcd9DiseaseSite() {
+		return icd9DiseaseSite;
+	}
 
-    /**
-     * Sets the anatomic site.
-     * 
-     * @param anatomicSite the new anatomic site
-     */
-    public void setAnatomicSite(AnatomicSite anatomicSite) {
-        this.anatomicSite = anatomicSite;
-    }
+	public void setIcd9DiseaseSite(ICD9DiseaseSite icd9DiseaseSite) {
+		this.icd9DiseaseSite = icd9DiseaseSite;
+	}
+
 
     /**
      * Gets the study disease.
@@ -143,7 +133,7 @@ public class DiseaseHistory extends AbstractMutableDeletableDomainObject {
     public String getPrimaryDiseaseSiteStr() {
         if (!StringUtils.isBlank(otherPrimaryDiseaseSiteCode)) return otherPrimaryDiseaseSiteCode;
         try {
-            return anatomicSite.getName();
+            return icd9DiseaseSite.getName();
         }
         catch (RuntimeException e) {
         }

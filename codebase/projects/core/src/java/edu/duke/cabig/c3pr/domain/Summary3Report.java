@@ -27,7 +27,7 @@ public class Summary3Report extends AbstractMutableDeletableDomainObject{
 	private String reportingSource;
 
 	/** The report data. */
-	private Map<AnatomicSite,Map<String,Object>> reportData = new LinkedHashMap<AnatomicSite,Map<String,Object>>();
+	private Map<ICD9DiseaseSite,Map<String,Object>> reportData = new LinkedHashMap<ICD9DiseaseSite,Map<String,Object>>();
 
 
 	private String grantNumber;
@@ -53,7 +53,7 @@ public class Summary3Report extends AbstractMutableDeletableDomainObject{
 	 *
 	 * @return the report data
 	 */
-	public Map<AnatomicSite, Map<String, Object>> getReportData() {
+	public Map<ICD9DiseaseSite, Map<String, Object>> getReportData() {
 		return reportData;
 	}
 
@@ -62,7 +62,7 @@ public class Summary3Report extends AbstractMutableDeletableDomainObject{
 	 *
 	 * @param reportData the report data
 	 */
-	public void setReportData(Map<AnatomicSite, Map<String, Object>> reportData) {
+	public void setReportData(Map<ICD9DiseaseSite, Map<String, Object>> reportData) {
 		this.reportData = reportData;
 	}
 
