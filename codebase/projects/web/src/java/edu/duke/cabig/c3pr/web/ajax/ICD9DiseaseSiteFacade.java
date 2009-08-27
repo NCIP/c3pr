@@ -1,4 +1,4 @@
-/*package edu.duke.cabig.c3pr.web.ajax;
+package edu.duke.cabig.c3pr.web.ajax;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,11 +11,11 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.web.HttpSessionRequiredException;
 
-import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
-import edu.duke.cabig.c3pr.domain.AnatomicSite;
+import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
+import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 
-public class AnatomicDiseaseSiteFacade {
-    private AnatomicSiteDao anatomicSiteDao;
+public class ICD9DiseaseSiteFacade {
+    private ICD9DiseaseSiteDao icd9DiseaseSiteDao;
 
     @SuppressWarnings("unchecked")
     private <T> T buildReduced(T src, List<String> properties) {
@@ -39,16 +39,50 @@ public class AnatomicDiseaseSiteFacade {
         return dst;
     }
 
-    public List<AnatomicSite> matchDiseaseSites(String text) {
+    public List<ICD9DiseaseSite> matchDiseaseSites(String text) {
 
-        List<AnatomicSite> anatomicSites = anatomicSiteDao.getBySubnames(new String[] { text });
+        List<ICD9DiseaseSite> anatomicSites = icd9DiseaseSiteDao.getBySubnames(new String[] { text });
         // cut down objects for serialization
-        List<AnatomicSite> reducedAnatomicSites = new ArrayList<AnatomicSite>();
-        for (AnatomicSite anatomicSite : anatomicSites) {
+        List<ICD9DiseaseSite> reducedAnatomicSites = new ArrayList<ICD9DiseaseSite>();
+        for (ICD9DiseaseSite anatomicSite : anatomicSites) {
             reducedAnatomicSites.add(buildReduced(anatomicSite, Arrays.asList("id", "name")));
         }
         return reducedAnatomicSites;
     }
+    
+    public List<ICD9DiseaseSite> getLevel2DiseaseSiteCategories(Integer level1Id) {
+
+        List<ICD9DiseaseSite> level2ICD9DiseaseSites = icd9DiseaseSiteDao.getById(level1Id).getChildSites();
+        // cut down objects for serialization
+        List<ICD9DiseaseSite> reducedAnatomicSites = new ArrayList<ICD9DiseaseSite>();
+        for (ICD9DiseaseSite level2ICD9DiseaseSite : level2ICD9DiseaseSites) {
+            reducedAnatomicSites.add(buildReduced(level2ICD9DiseaseSite, Arrays.asList("id", "name")));
+        }
+        return reducedAnatomicSites;
+    }
+    
+    public List<ICD9DiseaseSite> getLevel3DiseaseSiteCategories(Integer level2Id) {
+
+        List<ICD9DiseaseSite> level3ICD9DiseaseSites = icd9DiseaseSiteDao.getById(level2Id).getChildSites();
+        // cut down objects for serialization
+        List<ICD9DiseaseSite> reducedAnatomicSites = new ArrayList<ICD9DiseaseSite>();
+        for (ICD9DiseaseSite level3ICD9DiseaseSite : level3ICD9DiseaseSites) {
+            reducedAnatomicSites.add(buildReduced(level3ICD9DiseaseSite, Arrays.asList("id", "name")));
+        }
+        return reducedAnatomicSites;
+    }
+    
+    public List<ICD9DiseaseSite> getLevel4DiseaseSiteCategories(Integer level3Id) {
+
+        List<ICD9DiseaseSite> level4ICD9DiseaseSites = icd9DiseaseSiteDao.getById(level3Id).getChildSites();
+        // cut down objects for serialization
+        List<ICD9DiseaseSite> reducedAnatomicSites = new ArrayList<ICD9DiseaseSite>();
+        for (ICD9DiseaseSite level4ICD9DiseaseSite : level4ICD9DiseaseSites) {
+            reducedAnatomicSites.add(buildReduced(level4ICD9DiseaseSite, Arrays.asList("id", "name")));
+        }
+        return reducedAnatomicSites;
+    }
+    
 
     private final Object getCommandOnly(HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession(false);
@@ -79,13 +113,12 @@ public class AnatomicDiseaseSiteFacade {
         return text.split("\\s+");
     }
 
-    public AnatomicSiteDao getAnatomicSiteDao() {
-        return anatomicSiteDao;
+    public ICD9DiseaseSiteDao getICD9DiseaseSiteDao() {
+        return icd9DiseaseSiteDao;
     }
 
-    public void setAnatomicSiteDao(AnatomicSiteDao anatomicSiteDao) {
-        this.anatomicSiteDao = anatomicSiteDao;
+    public void setAnatomicSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
+        this.icd9DiseaseSiteDao = icd9DiseaseSiteDao;
     }
 
 }
-*/
