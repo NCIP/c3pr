@@ -112,9 +112,9 @@
    	<prt_org_associations  version="1" prt_id="1002" org_id="1000"  retired_indicator = "false"/>
    	<prt_org_associations  version="1" prt_id="1010" org_id="1000"  retired_indicator = "false"/>
    	
-    <ANATOMIC_SITES id="1000" version="1" name="Skin" category="skin"  retired_indicator = "false" />     
+  	<icd9_disease_sites id="1000" version="0" name="Skin" code="200" description_text="skin" level="LEVEL2" selectable="0"  />    
 
-    <DISEASE_HISTORY id="1000" version="1" retired_indicator = "false" />
+    <DISEASE_HISTORY id="1000" version="1" icd9_disease_site_id="1000" retired_indicator = "false" />
 
     <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sti_id="1000" retired_indicator = "false" />
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1001" sti_id="1001" retired_indicator = "false" />
