@@ -723,7 +723,7 @@
         <constructor-arg ref="c3pr-registration-xml-castor-mapping"/>
     </bean>
 
-    <bean id="summaryReportXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+    <bean id="summaryReportXmlUtility" class="edu.duke.cabig.c3pr.xml.Summary3ReportXmlMarshaller">
         <constructor-arg ref="summary-3-report-castor-mapping"/>
     </bean>
 
