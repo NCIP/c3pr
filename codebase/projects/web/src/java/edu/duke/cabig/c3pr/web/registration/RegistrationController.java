@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.ArmDao;
+import edu.duke.cabig.c3pr.dao.ConsentVersionDao;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
@@ -35,6 +36,7 @@ import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.ConsentVersion;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -73,7 +75,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     protected ParticipantDao participantDao;
 
     protected StudySubjectDao studySubjectDao;
-    
+
 	protected HealthcareSiteDao healthcareSiteDao;
 
     protected StudySiteDao studySiteDao;
@@ -85,7 +87,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     protected StudyInvestigatorDao studyInvestigatorDao;
 
     protected ICD9DiseaseSiteDao icd9DiseaseSiteDao;
-    
+
     protected StudySiteStudyVersionDao studySiteStudyVersionDao;
 
     public void setStudySiteStudyVersionDao(
@@ -103,12 +105,23 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
 
     protected StudyDao studyDao;
 
-    protected StudySubjectRepository studySubjectRepository;
-    
+    protected ConsentVersionDao consentVersionDao;
+
+    public ConsentVersionDao getConsentVersionDao() {
+		return consentVersionDao;
+	}
+
+
+	public void setConsentVersionDao(ConsentVersionDao consentVersionDao) {
+		this.consentVersionDao = consentVersionDao;
+	}
+
+	protected StudySubjectRepository studySubjectRepository;
+
     protected RegistrationControllerUtils registrationControllerUtils;
-    
+
     protected C3PRExceptionHelper exceptionHelper;
-    
+
     public void setExceptionHelper(C3PRExceptionHelper exceptionHelper) {
 		this.exceptionHelper = exceptionHelper;
 	}
@@ -119,7 +132,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
 		this.registrationControllerUtils = registrationControllerUtils;
 	}
 
-    
+
     public void setStudySubjectRepository(StudySubjectRepository studySubjectRepository) {
         this.studySubjectRepository = studySubjectRepository;
     }
@@ -157,13 +170,13 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         Flow<StudySubject> flow = new Flow<StudySubject>(flowName);
         intializeFlows(flow);
     }
-    
+
     @Override
     protected Object currentFormObject(HttpServletRequest request,
     		Object command) throws Exception {
     	return command;
     }
-    
+
     @Override
     protected boolean shouldPersist(HttpServletRequest request, C command, Tab<C> tab) {
         if (WebUtils.hasSubmitParameter(request, "dontSave")) {
@@ -171,7 +184,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         }
         return true;
     }
-    
+
     @Override
     protected boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
     	return true;
@@ -203,7 +216,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         studySiteDao.initialize(merged.getStudySite());
         command.setStudySubject(merged);
         return command;
- 
+
     }
 
     @Override
@@ -213,7 +226,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
      */
     @Override
@@ -241,7 +254,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         return wrapper;
     }
 
-    
+
     @Override
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
                     int page) throws Exception {
@@ -254,7 +267,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         }
         super.postProcessPage(request, wrapper, errors, page);
     }
-    
+
     @Override
     protected void onBind(HttpServletRequest request, Object oCommand,
     		BindException errors) throws Exception {
@@ -272,7 +285,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     		log.debug("Study Site Study Version is not set to Study Subject Study Version");
     	}
     }
-    
+
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
                     throws Exception {
@@ -304,6 +317,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
                         ScheduledEpochWorkFlowStatus.class));
         binder.registerCustomEditor(ICD9DiseaseSiteCodeDepth.class, new EnumByNameEditor(
         		ICD9DiseaseSiteCodeDepth.class));
+        binder.registerCustomEditor(ConsentVersion.class, new CustomDaoEditor(consentVersionDao));
 
     }
 
@@ -382,5 +396,5 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;
     }
-    
+
 }

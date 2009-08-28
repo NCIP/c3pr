@@ -310,6 +310,16 @@ function hideDiseaseIndicator(){
 	$('diseaseIndicator').hide();
 }
 
+function setVersion(box){
+	cv = document.getElementById('consentVersion');
+	icv = document.getElementById('consentVersionToSet');
+	if (box.checked) {
+		icv.value=cv.value;
+    }else {
+    	icv.value="";
+    }
+}
+
 </script>
 <style>
 	#single-fields-interior div.row div.label {
@@ -340,20 +350,22 @@ function hideDiseaseIndicator(){
 <c:otherwise>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 <%--<tags:instructions code="enrollment_details" />--%>
-	<c:if test="${fn:length(command.studySubject.studySite.study.consents) == 1}">
-	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
-		<div class="value"><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
-	</div>
 	<div class="row">
 		<div class="label"><fmt:message key="registration.startDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></div>
 	</div>
+	<c:if test="${fn:length(command.studySubject.studySite.study.consents) == 1}">
+	<input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.latestConsentVersion.id}"/>
+	<form:hidden id="consentVersionToSet" path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consentVersion"/>
+
 	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentVersion"/></div>
-		<div class="value">
-			${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.latestConsentVersion.name}
-		</div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
+		<div class="value"><tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
+	</div>
+	<div class="row">
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.latestConsentVersion.name}</em></div>
+		<div class="value"><input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);"
+				<c:if test="${!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
 	</div>
 	</c:if>
 	<div class="row">
