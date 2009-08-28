@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -31,8 +30,8 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.util.CollectionUtils;
 
+import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
@@ -140,8 +139,7 @@ public class StudySubject extends
 	private List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
 
 	private StudySubjectStudyVersion studySubjectStudyVersion;
-	
-	
+
 	private StudySite studySite;
 	/**
 	 * Instantiates a new study subject.
@@ -169,6 +167,7 @@ public class StudySubject extends
 						SystemAssignedIdentifier.class));
 		setIdentifiers(new ArrayList<Identifier>());
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+
 		// mandatory, so that the lazy-projected list is managed properly.
 	}
 
@@ -197,6 +196,7 @@ public class StudySubject extends
 			this.startDate = new Date();
 		}
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+
 	}
 
 	/**
@@ -848,12 +848,33 @@ public Date getInformedConsentSignedDate() {
 	 * @return the registration data entry status
 	 */
 	public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus() {
-		if (this.getInformedConsentSignedDateStr().equals("")){
-			return RegistrationDataEntryStatus.INCOMPLETE;
+		if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ALL){
+			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+				if(studySubjectConsentVersion.getConsentVersion() == null){
+					return RegistrationDataEntryStatus.INCOMPLETE;
+				}
+				if(StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+					return RegistrationDataEntryStatus.INCOMPLETE;
+				}
+			}
+		}else if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
+			boolean dataEntryInComplete = true ;
+			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+				if(studySubjectConsentVersion.getConsentVersion() != null && !StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+					dataEntryInComplete = false ;
+					break;
+				}
+			}
+			if(dataEntryInComplete){
+				return RegistrationDataEntryStatus.INCOMPLETE;
+			}
 		}
-		if (StringUtils.getBlankIfNull(this.getInformedConsentVersion()).equals("")){
-			return RegistrationDataEntryStatus.INCOMPLETE;
-		}
+//		if (this.getInformedConsentSignedDateStr().equals("")){
+//			return RegistrationDataEntryStatus.INCOMPLETE;
+//		}
+//		if (StringUtils.getBlankIfNull(this.getInformedConsentVersion()).equals("")){
+//			return RegistrationDataEntryStatus.INCOMPLETE;
+//		}
 		for(StudySubject childStudySubject : this.getChildStudySubjects()){
 			childStudySubject.evaluateRegistrationDataEntryStatus();
 		}
@@ -870,13 +891,36 @@ public Date getInformedConsentSignedDate() {
 	 * @param errors the errors
 	 */
 	public void evaluateRegistrationDataEntryStatus(List<Error> errors) {
-		if (this.getInformedConsentSignedDateStr().equals("")) {
-			errors.add(new Error("Informed consent signed date is missing"));
+		if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ALL){
+			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+				if(studySubjectConsentVersion.getConsentVersion() == null){
+					errors.add(new Error("Informed consent version is missing"));
+				}
+				if(StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+					errors.add(new Error("Informed consent signed date is missing"));
+				}
+			}
+		}else if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
+			boolean dataEntryInComplete = true ;
+			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+				if(studySubjectConsentVersion.getConsentVersion() != null && !StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+					dataEntryInComplete = false ;
+					break;
+				}
+			}
+			if(dataEntryInComplete){
+				//TODO : FIXME
+//				return RegistrationDataEntryStatus.INCOMPLETE;
+			}
 		}
-		if (StringUtils.getBlankIfNull(this.getInformedConsentVersion())
-				.equals("")) {
-			errors.add(new Error("Informed consent version is missing"));
-		}
+//
+//		if (this.getInformedConsentSignedDateStr().equals("")) {
+//			errors.add(new Error("Informed consent signed date is missing"));
+//		}
+//		if (StringUtils.getBlankIfNull(this.getInformedConsentVersion())
+//				.equals("")) {
+//			errors.add(new Error("Informed consent version is missing"));
+//		}
 //		if (this.treatingPhysician==null && StringUtils.getBlankIfNull(this.otherTreatingPhysician).equals("")){
 //			errors.add(new Error("Enrolling phyisican is missing"));
 //		}

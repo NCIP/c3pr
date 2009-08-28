@@ -508,6 +508,7 @@
 	<bean id="accrualDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.accrual.AccrualDao" autowire="byName"/>
 	<bean id="studyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyVersionDao" autowire="byName"/>
 	<bean id="studySiteStudyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao" autowire="byName"/>
+	<bean id="consentVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ConsentVersionDao" autowire="byName"/>
 
 	<!-- Multisite Request Handlers -->
     <!--  <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">

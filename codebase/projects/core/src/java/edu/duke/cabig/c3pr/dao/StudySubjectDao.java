@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,6 +31,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -55,16 +55,16 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     /** The study dao. */
     private StudyDao studyDao;
-    
+
     /** The study site dao. */
     private StudySiteDao studySiteDao;
-    
+
     /** The participant dao. */
     private ParticipantDao participantDao;
-    
+
     /**
 	 * Sets the study dao.
-	 * 
+	 *
 	 * @param studyDao
 	 *            the new study dao
 	 */
@@ -88,7 +88,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     /**
 	 * Reporting.
-	 * 
+	 *
 	 * @param registration
 	 *            the registration
 	 * @param startDate
@@ -97,7 +97,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	 *            the end date
 	 * @param ccId
 	 *            the cc id
-	 * 
+	 *
 	 * @return list of matching registration objects based on the date present
 	 *         in the sample object that is passsed in. Also takes the date
 	 *         range(startDate, endDate) and gets all objects having their
@@ -173,19 +173,19 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
      */
     /**
 	 * Advanced study search.
-	 * 
+	 *
 	 * @param studySubject
 	 *            the study subject
-	 * 
+	 *
 	 * @return the list< study subject>
 	 */
     public List<StudySubject> advancedStudySearch(StudySubject studySubject) {
-    	String selectClause = "select ssub from StudySubject ssub ";                
+    	String selectClause = "select ssub from StudySubject ssub ";
 
     	String whereClause = "";
-    	
+
     	List<Object> params = new ArrayList<Object>();
-    	
+
     	Study study= studySubject.getStudySite().getStudy();
     	boolean addStudySelectClause = true;
     	String studyClause="join ssub.studySubjectStudyVersions ssbsv " +
@@ -204,7 +204,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         	whereClause += "and sid.value like ? ";
         	params.add(study.getIdentifiers().get(0).getValue());
         }
-        
+
         Participant participant= studySubject.getParticipant();
         boolean addParticipantSelectClause = true;
         String participantClause = "join ssub.participant prt ";
@@ -214,7 +214,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         	params.add(participant.getFirstName());
         	addParticipantSelectClause = false;
         }
-        
+
         if(!StringUtils.getBlankIfNull(participant.getLastName()).equals("")){
         	if(addParticipantSelectClause)
         		selectClause += participantClause;
@@ -222,7 +222,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         	params.add(participant.getLastName());
         	addParticipantSelectClause = false;
         }
-    	
+
         if (participant.getIdentifiers().size() > 0){
         	if(addParticipantSelectClause)
         		selectClause += participantClause;
@@ -232,9 +232,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         }
         whereClause = "where " + (whereClause.startsWith("and")?whereClause.replaceFirst("and", ""):whereClause);
         String advanceQuery = selectClause + whereClause;
-        
+
         return (List<StudySubject>)getHibernateTemplate().find(advanceQuery, params.toArray());
-        
+
 //    	Criteria studySubjectCriteria = getHibernateTemplate().getSessionFactory()
 //                        .getCurrentSession().createCriteria(StudySubject.class);
 //
@@ -291,26 +291,26 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
      */
 	/**
 	 * Search by participant id.
-	 * 
+	 *
 	 * @param participantId
 	 *            the participant id
-	 * 
+	 *
 	 * @return the list< study subject>
 	 */
     public List<StudySubject> searchByParticipantId(Integer participantId) {
 		return participantDao.getById(participantId).getStudySubjects();
 	}
-    
-	
+
+
 	/*
      * Used by searchRegistrationsController
      */
 	/**
 	 * Search by study id.
-	 * 
+	 *
 	 * @param studyId
 	 *            the study id
-	 * 
+	 *
 	 * @return the list< study subject>
 	 */
 	public List<StudySubject> searchByStudyId(Integer studyId) {
@@ -332,17 +332,17 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         }
         return registrations;
 	}
-	
+
     /**
 	 * *.
-	 * 
+	 *
 	 * @param registration
 	 *            the registration
 	 * @param isWildCard
 	 *            the is wild card
 	 * @param maxResults
 	 *            the max results
-	 * 
+	 *
 	 * @return list of matching registration objects based on your sample
 	 *         registration object
 	 */
@@ -387,10 +387,10 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     /**
 	 * *.
-	 * 
+	 *
 	 * @param registration
 	 *            the registration
-	 * 
+	 *
 	 * @return list of matching registration objects based on your sample
 	 *         registration object
 	 */
@@ -410,10 +410,10 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     /**
 	 * Search by scheduled epoch.
-	 * 
+	 *
 	 * @param scheduledEpoch
 	 *            the scheduled epoch
-	 * 
+	 *
 	 * @return the list< study subject>
 	 */
     public List<StudySubject> searchByScheduledEpoch(ScheduledEpoch scheduledEpoch) {
@@ -423,7 +423,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         Criteria registrationCriteria = getHibernateTemplate().getSessionFactory()
                         .getCurrentSession().createCriteria(StudySubject.class);
         registrationCriteria.add(example);
-        
+
        registrationCriteria.createCriteria("studySubjectStudyVersions").createCriteria("scheduledEpochs").createCriteria("epoch").add(
                         Restrictions.like("id", scheduledEpoch.getEpoch().getId()));
         return registrationCriteria.list();
@@ -432,9 +432,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     /**
 	 * Gets the all.
-	 * 
+	 *
 	 * @return the all
-	 * 
+	 *
 	 * @throws DataAccessException
 	 *             the data access exception
 	 */
@@ -444,27 +444,27 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     /**
 	 * Search by example.
-	 * 
+	 *
 	 * @param registration
 	 *            the registration
 	 * @param maxResults
 	 *            the max results
-	 * 
+	 *
 	 * @return the list< study subject>
 	 */
     public List<StudySubject> searchByExample(StudySubject registration,  int maxResults) {
         return searchByExample(registration, true, maxResults);
     }
 
-    
+
     /**
 	 * Gets the incomplete registrations.
-	 * 
+	 *
 	 * @param registration
 	 *            the registration
 	 * @param maxResults
 	 *            the max results
-	 * 
+	 *
 	 * @return the incomplete registrations
 	 */
     public List<StudySubject> getIncompleteRegistrations(int maxResults){
@@ -478,13 +478,13 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     	}
     	return studySubjects ;
     }
-    
+
     /**
 	 * Initialize.
-	 * 
+	 *
 	 * @param studySubject
 	 *            the study subject
-	 * 
+	 *
 	 * @throws DataAccessException
 	 *             the data access exception
 	 */
@@ -493,16 +493,16 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         studyDao.initialize(studySubject.getStudySite().getStudy());
         studySiteDao.initialize(studySubject.getStudySite());
         participantDao.initialize(studySubject.getParticipant());
-        
+
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyInvestigatorsInternal());
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyPersonnelInternal());
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudySiteStudyVersions());
         getHibernateTemplate().initialize(studySubject.getChildStudySubjects());
-        
+
         getHibernateTemplate().initialize(studySubject.getParticipant().getIdentifiers());
         getHibernateTemplate().initialize(studySubject.getParticipant().getRaceCodes());
         getHibernateTemplate().initialize(studySubject.getParticipant().getContactMechanisms());
-        
+
         getHibernateTemplate().initialize(studySubject.getScheduledEpochs());
         getHibernateTemplate().initialize(studySubject.getIdentifiers());
         for(ScheduledEpoch scheduledEpoch: studySubject.getScheduledEpochs()){
@@ -510,17 +510,18 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
             getHibernateTemplate().initialize(scheduledEpoch.getSubjectEligibilityAnswersInternal());
             getHibernateTemplate().initialize(scheduledEpoch.getSubjectStratificationAnswersInternal());
         }
-        
+
         for(StudySubject childStudySubject : studySubject.getChildStudySubjects()){
         	initialize(childStudySubject);
         }
+
     }
-    
+
     /**
 	 * Search by sys identifier.
-	 * 
+	 *
 	 * @param id  the id
-	 * 
+	 *
 	 * @return the list< study subject>
 	 */
     @SuppressWarnings("unchecked")
@@ -530,40 +531,40 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
                         + " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
                         new Object[] { id.getSystemName(), id.getValue(), id.getType()});
     }
-    
+
     /**
 	 * Search by org identifier.
-	 * 
+	 *
 	 * @param id   the id
-	 * 
+	 *
 	 * @return the list< study subject>
 	 */
     @SuppressWarnings("unchecked")
     public List<StudySubject> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
         return (List<StudySubject>) getHibernateTemplate()
-                .find("select S from StudySubject S, OrganizationAssignedIdentifier I where " + 
+                .find("select S from StudySubject S, OrganizationAssignedIdentifier I where " +
                 	  "I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
                       new Object[]{id.getValue(), id.getTypeInternal()});
     }
-    
+
     /**
 	 * Gets study subjects by identifiers.
-	 * 
+	 *
 	 * @param studySubjectIdentifiers
 	 *            the study subject identifiers
-	 * 
+	 *
 	 * @return the by identifiers
 	 */
     public List<StudySubject> getByIdentifiers(List<Identifier> studySubjectIdentifiers) {
         List<StudySubject> studySubjects = new ArrayList<StudySubject>();
         for (Identifier identifier : studySubjectIdentifiers) {
-            if (identifier instanceof SystemAssignedIdentifier){ 
+            if (identifier instanceof SystemAssignedIdentifier){
             	studySubjects.addAll(searchBySysIdentifier((SystemAssignedIdentifier) identifier));
             }
             else if (identifier instanceof OrganizationAssignedIdentifier) {
             	studySubjects.addAll(searchByOrgIdentifier((OrganizationAssignedIdentifier) identifier));
             }
-                            
+
         }
         Set<StudySubject> set = new LinkedHashSet<StudySubject>();
         set.addAll(studySubjects);
@@ -580,10 +581,10 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     /**
 	 * Merge.
-	 * 
+	 *
 	 * @param obj
 	 *            the obj
-	 * 
+	 *
 	 * @return the study subject
 	 */
     @Transactional(readOnly = false)
@@ -597,12 +598,12 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     /**
 	 * Search by example.
-	 * 
+	 *
 	 * @param ss
 	 *            the ss
 	 * @param isWildCard
 	 *            the is wild card
-	 * 
+	 *
 	 * @return the list< study subject>
 	 */
     public List<StudySubject> searchByExample(StudySubject ss, boolean isWildCard) {
@@ -611,7 +612,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
 	/**
 	 * Gets the participant dao.
-	 * 
+	 *
 	 * @return the participant dao
 	 */
 	public ParticipantDao getParticipantDao() {
@@ -620,20 +621,20 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
 	/**
 	 * Sets the participant dao.
-	 * 
+	 *
 	 * @param participantDao
 	 *            the new participant dao
 	 */
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
 	}
-	
+
 	/**
 	 * Search by identifier.
-	 * 
+	 *
 	 * @param id
 	 *            the id
-	 * 
+	 *
 	 * @return the list< study subject>
 	 */
 	@SuppressWarnings("unchecked")
@@ -645,7 +646,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
 	/**
 	 * Gets the study site dao.
-	 * 
+	 *
 	 * @return the study site dao
 	 */
 	public StudySiteDao getStudySiteDao() {
@@ -654,7 +655,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
 	/**
 	 * Sets the study site dao.
-	 * 
+	 *
 	 * @param studySiteDao
 	 *            the new study site dao
 	 */

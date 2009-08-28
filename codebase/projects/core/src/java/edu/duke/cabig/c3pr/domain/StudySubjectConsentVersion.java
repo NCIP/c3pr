@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -17,16 +16,17 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import edu.duke.cabig.c3pr.utils.DateUtil;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 
 @Entity
 @Table(name = "study_subject_consents")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STU_SUB_COSNT_VERS_ID_SEQ") })
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SUBJECT_CONSENTS_ID_SEQ") })
 public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainObject{
 
 	private ConsentVersion consentVersion;
 	private Date informedConsentSignedDate ;
+	private StudySubjectStudyVersion studySubjectStudyVersion;
 
 	@OneToOne
     @JoinColumn(name="consent_version_id", nullable=false)
@@ -46,12 +46,22 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 	public Date getInformedConsentSignedDate() {
 		return informedConsentSignedDate;
 	}
-	
+
 	@Transient
 	public String getInformedConsentSignedDateStr() {
-		if (informedConsentSignedDate != null) {
-			return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
-		}
-		return "";
+		return CommonUtils.getDateString(informedConsentSignedDate);
 	}
+
+	@ManyToOne
+	@JoinColumn(name="study_subject_ver_id", nullable=false)
+    @Cascade( { CascadeType.LOCK})
+	public StudySubjectStudyVersion getStudySubjectStudyVersion() {
+		return studySubjectStudyVersion;
+	}
+
+	public void setStudySubjectStudyVersion(
+			StudySubjectStudyVersion studySubjectStudyVersion) {
+		this.studySubjectStudyVersion = studySubjectStudyVersion;
+	}
+
 }

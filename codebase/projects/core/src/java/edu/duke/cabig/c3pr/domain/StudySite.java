@@ -35,13 +35,14 @@ import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class StudySite.
- * 
+ *
  * @author Ram Chilukuri, Priyatam
  * @author kherm
  */
@@ -58,7 +59,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     /** The target accrual number. */
     private Integer targetAccrualNumber;
 
-    
+
     /** The status change date range. */
     private List<DateRange> statusChangeDateRange;
 
@@ -96,7 +97,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Are there any assignments using this relationship?.
-     * 
+     *
      * @return true, if checks if is used
      */
     @Transient
@@ -108,7 +109,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the study subjects.
-     * 
+     *
      * @return the study subjects
      */
     @Transient
@@ -127,7 +128,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Sets the irb approval date.
-     * 
+     *
      * @param irbApprovalDate the new irb approval date
      */
     public void setIrbApprovalDate(Date irbApprovalDate) {
@@ -136,7 +137,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the irb approval date.
-     * 
+     *
      * @return the irb approval date
      */
     @Transient
@@ -146,7 +147,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the start date.
-     * 
+     *
      * @return the start date
      */
     @Transient
@@ -158,7 +159,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Sets the start date.
-     * 
+     *
      * @param startDate the new start date
      */
     public void setStartDate(Date startDate) {
@@ -172,10 +173,10 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     		dates.add(new DateRange(startDate , null));
     	}
     }
-    
+
     /**
      * Gets the start date.
-     * 
+     *
      * @return the start date
      */
     @Transient
@@ -187,7 +188,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Sets the start date.
-     * 
+     *
      * @param endDate the new start date
      */
     public void setEndDate(Date endDate) {
@@ -212,37 +213,27 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the irb approval date str.
-     * 
+     *
      * @return the irb approval date str
      */
     @Transient
     public String getIrbApprovalDateStr() {
-        try {
-            return DateUtil.formatDate(getIrbApprovalDate(), "MM/dd/yyyy");
-        }
-        catch (Exception e) {
-        	return "";
-        }
+        return CommonUtils.getDateString(getIrbApprovalDate());
     }
 
     /**
      * Gets the start date str.
-     * 
+     *
      * @return the start date str
      */
     @Transient
     public String getStartDateStr() {
-        try {
-            return DateUtil.formatDate(getStartDate(), "MM/dd/yyyy");
-        }
-        catch (Exception e) {
-        	return "";
-        }
+    	return CommonUtils.getDateString(getStartDate());
     }
 
     /**
      * Gets the site study status.
-     * 
+     *
      * @return the site study status
      */
     @Enumerated(EnumType.STRING)
@@ -252,7 +243,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the target accrual number.
-     * 
+     *
      * @return the target accrual number
      */
     public Integer getTargetAccrualNumber() {
@@ -261,7 +252,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Sets the target accrual number.
-     * 
+     *
      * @param targetAccrualNumber the new target accrual number
      */
     public void setTargetAccrualNumber(Integer targetAccrualNumber) {
@@ -270,7 +261,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the current accrual count.
-     * 
+     *
      * @return the current accrual count
      */
     @Transient
@@ -285,9 +276,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Evaluate site study status.
-     * 
+     *
      * @return the site study status
-     * 
+     *
      * @throws C3PRCodedException the c3 pr coded exception
      */
     public SiteStudyStatus evaluateSiteStudyStatus() throws C3PRCodedException {
@@ -306,10 +297,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             return SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT;
         }
 
-//        if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING
-//                        && this.getSiteStudyStatus() == SiteStudyStatus.ACTIVE) {
-//            return SiteStudyStatus.AMENDMENT_PENDING;
-//        }
         if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
 
             Date currentDate = new Date();
@@ -381,6 +368,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      * Activate.
      */
     public void activate() {
+    	// put checks for study version status
     	if (!(this.getSiteStudyStatus() == SiteStudyStatus.PENDING
     			|| this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL || this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)){
             throw getC3PRExceptionHelper().getRuntimeException(
@@ -463,7 +451,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
 	/**
 	 * Close to accrual.
-	 * 
+	 *
 	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
 	 */
 	public void closeToAccrual() throws C3PRCodedRuntimeException {
@@ -516,7 +504,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Temporarily close to accrual.
-     * 
+     *
      * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
      */
     public void temporarilyCloseToAccrual() throws C3PRCodedRuntimeException {
@@ -542,9 +530,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the code.
-     * 
+     *
      * @param errortypeString the errortype string
-     * 
+     *
      * @return the code
      */
     @Transient
@@ -554,7 +542,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the c3 pr exception helper.
-     * 
+     *
      * @return the c3 pr exception helper
      */
     @Transient
@@ -564,7 +552,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Sets the exception helper.
-     * 
+     *
      * @param c3PRExceptionHelper the new exception helper
      */
     public void setExceptionHelper(C3PRExceptionHelper c3PRExceptionHelper) {
@@ -573,7 +561,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the c3pr error messages.
-     * 
+     *
      * @return the c3pr error messages
      */
     @Transient
@@ -583,7 +571,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Sets the c3pr error messages.
-     * 
+     *
      * @param errorMessages the new c3pr error messages
      */
     public void setC3prErrorMessages(MessageSource errorMessages) {
@@ -592,7 +580,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Sets the site study status.
-     * 
+     *
      * @param siteStudyStatus the new site study status
      */
     public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus) {
@@ -601,7 +589,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Builds the map for notification.
-     * 
+     *
      * @return the map< object, object>
      */
     @SuppressWarnings("unused")
@@ -633,7 +621,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the possible transitions.
-     * 
+     *
      * @return the possible transitions
      */
     @Transient
@@ -689,7 +677,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the coordinating center study status.
-     * 
+     *
      * @return the coordinating center study status
      */
     @Column(name = "study_status")
@@ -700,7 +688,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Sets the coordinating center study status.
-     * 
+     *
      * @param coordinatingCenterStudyStatus the new coordinating center study status
      */
     public void setCoordinatingCenterStudyStatus(
@@ -710,7 +698,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /**
      * Gets the companion study association.
-     * 
+     *
      * @return the companion study association
      */
     @ManyToOne
@@ -722,7 +710,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
 	/**
 	 * Sets the companion study association.
-	 * 
+	 *
 	 * @param companionStudyAssociation the new companion study association
 	 */
 	public void setCompanionStudyAssociation(
@@ -732,7 +720,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
 	/**
 	 * Gets the study site study version.
-	 * 
+	 *
 	 * @return the study site study version
 	 */
 	@Transient
@@ -745,7 +733,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
 	/**
 	 * Gets the latest study site study version.
-	 * 
+	 *
 	 * @return the latest study site study version
 	 */
 	@Transient
@@ -766,9 +754,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	 * Due to amendments, participating sites can be on multiple version,
 	 * however at a given date the site should only be using a single study version.
 	 * Use this method to fetch the version applicable on a date.
-	 * 
+	 *
 	 * @param date the date
-	 * 
+	 *
 	 * @return the study version, null if no study version was active on the given date
 	 */
 	@Transient
@@ -780,15 +768,15 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		}
 		return null;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Checks if study version setup is valid.
 	 * This methods confirms if on a given date, the study version that the site is using
 	 * is same as the one the study deems as latest.
 	 * @param date the date
-	 * 
+	 *
 	 * throws RuntimeException:
 	 * -if no study version is available for a given date
 	 * -Code 347: if the study site does not have any study version while the study expects the
@@ -806,7 +794,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		}
 		if(studySiteStudyVersion.getStudyVersion() == null){
 			throw getC3PRExceptionHelper().getRuntimeException(
-                    getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.IMMEDIATE.CODE")); 
+                    getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.IMMEDIATE.CODE"));
 		}
 		if(coCenterStudyVersion == studySiteStudyVersion.getStudyVersion()){
 			return;
@@ -822,8 +810,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                     getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.OPTIONAL.CODE"));
 		}
 	}
-	
-	
+
+
 	/**
 	 * Checks if the current study version setup is valid.
 	 */
@@ -834,20 +822,20 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	/**
 	 * Checks if study site can accrue a subject
 	 * on a study version on a given date.
-	 * 
+	 *
 	 * @param studyVersion the study version
 	 * @param date the date
-	 * 
+	 *
 	 * @return true, if is registerable
 	 */
 	public boolean canEnroll(StudyVersion studyVersion , Date date){
 		StudySiteStudyVersion studySiteStudyVersion = getStudySiteStudyVersion(date);
 		return studySiteStudyVersion.getStudyVersion() == studyVersion;
 	}
-	
+
 	/**
 	 * Gets the study site study versions.
-	 * 
+	 *
 	 * @return the study site study versions
 	 */
 	@OneToMany(mappedBy = "studySite")
@@ -859,7 +847,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
 	/**
 	 * Sets the study site study versions.
-	 * 
+	 *
 	 * @param studySiteStudyVersions the new study site study versions
 	 */
 	public void setStudySiteStudyVersions(
@@ -869,7 +857,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
 	/**
 	 * Adds the study site study version.
-	 * 
+	 *
 	 * @param studySiteStudyVersion the study site study version
 	 */
 	public void addStudySiteStudyVersion(StudySiteStudyVersion studySiteStudyVersion) {
@@ -904,7 +892,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	/**
 	 * Gets the status change dates.
 	 * The format of this string is StartDate1 - EndDate1 , StartDate2 - EndDate2 , ....
-	 * 
+	 *
 	 * @return the status change dates
 	 */
 	public String getStatusChangeDates() {
@@ -920,7 +908,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
 	/**
 	 * Sets the status change dates.
-	 * 
+	 *
 	 * @param statusChangeDates the new status change dates
 	 */
 	public void setStatusChangeDates(String statusChangeDates) {
@@ -952,7 +940,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
 	/**
 	 * Gets the status change date range.
-	 * 
+	 *
 	 * @return the status change date range
 	 */
 	@Transient
