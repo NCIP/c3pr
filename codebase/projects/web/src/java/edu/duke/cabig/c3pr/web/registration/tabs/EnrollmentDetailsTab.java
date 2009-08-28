@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
+import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
@@ -44,7 +45,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     
     public List<ICD9DiseaseSite> getDiseaseSiteCategories(){
     	List<ICD9DiseaseSite> icd9DiseaseSites = new ArrayList<ICD9DiseaseSite>();
-    	icd9DiseaseSites.addAll(icd9DiseaseSiteDao.getAllOrderedByName());
+    	icd9DiseaseSites.addAll(icd9DiseaseSiteDao.getByLevel(ICD9DiseaseSiteCodeDepth.LEVEL1));
     	
     	return icd9DiseaseSites;
     }
