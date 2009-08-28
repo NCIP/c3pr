@@ -1,17 +1,13 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -21,6 +17,8 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
+
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
 @Table(name = "study_subject_versions")
@@ -39,7 +37,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 		lazyListHelper.add(StudySubjectConsentVersion.class,
 				new InstantiateFactory<StudySubjectConsentVersion>(StudySubjectConsentVersion.class));
 	}
-	
+
 	@OneToMany
 	@JoinColumn(name = "study_subject_ver_id")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
@@ -64,7 +62,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 	public void setStudySubjectConsentVersions(List<StudySubjectConsentVersion> studySubjectConsentVersions) {
 		setStudySubjectConsentVersionsInternal(studySubjectConsentVersions);
 	}
-	
+
 	@ManyToOne
     @JoinColumn(name = "spa_id", nullable=false)
     @Cascade( { CascadeType.SAVE_UPDATE, CascadeType.MERGE})
@@ -117,7 +115,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 			return null;
 		return tempList.get(tempList.size() - 1);
 	}
-	
+
 	/**
 	 * If scheduled epoch created for this epoch.
 	 *
@@ -133,7 +131,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 
 		return false;
 	}
-	
+
 	/**
 	 * Gets the matching scheduled epoch.
 	 *
@@ -149,7 +147,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 			}
 		return null;
 	}
-	
+
 	/**
 	 * Checks if is transferrable.
 	 *
@@ -167,7 +165,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 		}
 		return true;
 	}
-	
+
 	public int compareTo(StudySubjectStudyVersion studySubjectStudyVersion) {
 		return this.getStudySiteStudyVersion().getStudyVersion().compareTo(studySubjectStudyVersion.getStudySiteStudyVersion().getStudyVersion());
 	}

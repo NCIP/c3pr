@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -65,7 +66,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 	private AmendmentType amendmentType;
 	private Integer gracePeriod;
-	
+
 	public StudyVersion(){
 		lazyListHelper = new LazyListHelper();
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
@@ -698,5 +699,21 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
     		return this.versionDate.compareTo(studyVersion.getVersionDate());
     	}
    	}
+
+	@Transient
+	public ConsentVersion getLatestConsentVersion(){
+		// this method is applicable only of there is 1 onsent available.
+		List<Consent> consents = this.getConsents();
+		if(consents.size() == 1){
+			Consent consent = consents.get(0);
+			List<ConsentVersion> consentVersions = consent.getConsentVersions();
+			Collections.sort(consentVersions);
+			int size = consentVersions.size();
+			if(size >0){
+				return consentVersions.get(size - 1);
+			}
+		}
+		return null;
+	}
 
 }
