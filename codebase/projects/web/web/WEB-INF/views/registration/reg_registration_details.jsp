@@ -120,7 +120,7 @@ addLevel4Site: function(ulID, termID, termText, title) {
         return;
     }
     ul = document.getElementById(ulID);
-    
+
     checkbox = document.createElement("input");
     checkbox.type = 'checkbox';
     checkbox.name = termText;
@@ -137,7 +137,7 @@ addLevel4Site: function(ulID, termID, termText, title) {
 
     a.setAttribute("title", title);
     a.title = title;
-    
+
     li = document.createElement("li");
     li.appendChild(checkbox);
     li.appendChild(a);
@@ -165,8 +165,8 @@ showLevel1DiseaseSites: function(id){
     $("li_" + id).addClassName("li-category-selected");
     $('disease-subcategories').innerHTML = "";
     $('disease-terms').innerHTML = "";
-	
-    catId = id; 
+
+    catId = id;
     anatomicDiseaseSite.getLevel2DiseaseSiteCategories(catId, function(childCategories) {
         childCategories.each(function(childCategory) {
           var childCategoryName = (childCategory.name.length > 30 ? childCategory.name.substring(0, 30) + "..." : childCategory.name);
@@ -232,11 +232,11 @@ showDiseaseTermDetail :function(ulID, ilID, ilText) {
     selectedSubcategories.each(function(el) {
         el.removeClassName("li-subcategory-selected");
     });
-    
+
 	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
     $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
     $('disease-terms').innerHTML = "";
-    
+
 	subCatId = ilID;
     StudyAjaxFacade.getDiseaseTerms(subCatId, function(diseaseTerms) {
     	diseaseTerms.each(function(diseaseTerm) {
@@ -252,7 +252,7 @@ showDiseaseTermDetail :function(ulID, ilID, ilText) {
 	catSel.addStudyDisease(diseaseTerm);
 	$('diseaseTerm-hidden').value='' ;
 	$('diseaseTerm-input').value='' ;
-},	
+},
 
 addLIToUL: function(ulID, ilID, ilText, title) {
     ul = document.getElementById(ulID);
@@ -269,14 +269,14 @@ addLIToUL: function(ulID, ilID, ilText, title) {
             eval("catSel.addLevel4Site('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
         }
 	}
-    
+
 
     a.setAttribute("id", "liTerm" + ilID);
     a.id = "liTerm" + ilID;
 
     a.setAttribute("title", title);
     a.title = title;
-    
+
     li = document.createElement("li");
     li.appendChild(a);
     ul.appendChild(li);
@@ -286,7 +286,7 @@ addLIToUL: function(ulID, ilID, ilText, title) {
         $("liTerm" + ilID).addClassName("term-disabled");
     }
 },
-	
+
 showCategoryBox:function(){
 			this.showWindow('', '', 1000, 580 );
 	}
@@ -295,7 +295,7 @@ showCategoryBox:function(){
 function initalizeCategorySelector(){
 	catSel = new CategorySelector();
 }
-	
+
 initalizeCategorySelector();
 
 function deleteStudyDiseases(diseaseTerm){
@@ -309,7 +309,7 @@ function hideDiseaseIndicator(){
 function hideDiseaseIndicator(){
 	$('diseaseIndicator').hide();
 }
-						
+
 </script>
 <style>
 	#single-fields-interior div.row div.label {
@@ -321,7 +321,7 @@ function hideDiseaseIndicator(){
 	#main {
 		top:35px;
 	}
-	
+
 
 </style>
 </head>
@@ -332,7 +332,7 @@ function hideDiseaseIndicator(){
 	<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
 	<input type="hidden" name="registrationId" id="manage_registrationId" value=""/>
 	</form>
-	<font color="red">The participant is already registered on this epoch. If you want to move this subject to another epoch of this study, 
+	<font color="red">The participant is already registered on this epoch. If you want to move this subject to another epoch of this study,
 	please use Manage Registration module. You can navigate to Manage Registration by searching the registration and then clicking on the registration record.
 	</font>
 	</tags:panelBox>
@@ -340,30 +340,22 @@ function hideDiseaseIndicator(){
 <c:otherwise>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 <%--<tags:instructions code="enrollment_details" />--%>
+	<c:if test="${fn:length(command.studySubject.studySite.study.consents) == 1}">
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
 	</div>
 	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentVersion"/></div>
-		<div class="value">
-			<select id ="consentVersionOptions" name="studySubject.informedConsentVersion">
-				<c:if test="${!isConsentPresent}">
-					<option value="">Please select...</option>
-				</c:if>
-				<option value="${command.studySubject.studySite.study.consentVersion}" ${command.studySubject.studySite.study.consentVersion==command.studySubject.informedConsentVersion?'selected':'' }>${command.studySubject.studySite.study.consentVersion}</option>
-				<c:forEach items="${command.studySubject.studySite.study.studyAmendments}" var="amendment">
-					<c:if test="${!empty amendment.consentVersion && amendment.consentVersion!=''}">
-					<option value="${amendment.consentVersion }" ${amendment.consentVersion==command.studySubject.informedConsentVersion?'selected':'' }>${amendment.consentVersion }</option>
-					</c:if>
-				</c:forEach>
-			</select><em>(<fmt:message key="registration.currentConsentVersionIs"/> ${command.studySubject.studySite.study.latestConsentVersion})</em>
-		</div>
-	</div>
-	<div class="row">
 		<div class="label"><fmt:message key="registration.startDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></div>
 	</div>
+	<div class="row">
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentVersion"/></div>
+		<div class="value">
+			${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.latestConsentVersion.name}
+		</div>
+	</div>
+	</c:if>
 	<div class="row">
 		<div class="label"><c:if test="${hasInv}"><tags:requiredIndicator /></c:if><fmt:message key="registration.enrollingPhysician"/></div>
 		<div class="value">
@@ -381,7 +373,7 @@ function hideDiseaseIndicator(){
 					items="${command.studySubject.studySite.activeStudyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
 			</form:select>--%>
 			<c:if test="${empty command.studySubject.otherTreatingPhysician }">
-				<c:set var="physicianStyle" value="display: none;"></c:set>			 
+				<c:set var="physicianStyle" value="display: none;"></c:set>
 			</c:if>
 			<form:input path="studySubject.otherTreatingPhysician" cssStyle="${physicianStyle}"/>
 		</c:when>
@@ -402,7 +394,7 @@ function hideDiseaseIndicator(){
 			</form:select>
 			<tags:hoverHint keyProp="studySubject.primaryDisease"/>
 			<c:if test="${empty command.studySubject.diseaseHistory.otherPrimaryDiseaseCode}">
-				<c:set var="diseaseStyle" value="display:none;"></c:set>			 
+				<c:set var="diseaseStyle" value="display:none;"></c:set>
 			</c:if>
 			<span id="otherDisease" style="${diseaseStyle}">
 				<form:input id="otherDisease" path="studySubject.diseaseHistory.otherPrimaryDiseaseCode" />
@@ -433,6 +425,48 @@ function hideDiseaseIndicator(){
 		</div>
 	</div>
 <!-- MAIN BODY ENDS HERE -->
+<!--  CONSENT DIV BEGINS -->
+<c:if test="${fn:length(command.studySubject.studySite.study.consents) > 1}">
+<chrome:division title="Consents (${selectionHelp})">
+	<table class="tablecontent">
+		<tr>
+		  <th>
+          	<fmt:message key="c3pr.common.name"/>
+          	<tags:hoverHint keyProp="study.consent.name" />
+          </th>
+          <th width="30%">
+          	<fmt:message key="study.consent.consentVersion.name"/>
+          	<tags:hoverHint keyProp="study.consent.consentVersion.name" />
+          </th>
+          <th>
+          	<fmt:message key="registration.consentSignedDate"/>
+          	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
+          </th>
+		</tr>
+		<c:forEach items="${command.studySubject.studySite.study.consents}" var="consent" varStatus="status">
+		<tr>
+			<td>${consent.name}
+			</td>
+			<td>
+				<select id ="consentVersions" name="studySubject.studySubjectConsentVersions[${status.index}].consentVersion" onchange="manageConsentVersion(this, ${status.index} );">
+					<option value="">Please select...</option>
+					<c:forEach items="${consent.consentVersionListForRegistration}" var="consentVersion" varStatus="versionStatus">
+						<option value="${consentVersion.id}" ${consentVersion.id==command.studySubject.studySubjectConsentVersions[status.index].consentVersion.id?'selected':'' }
+									<c:if test="${consentVersion.id == consent.latestConsentVersion.id}">class="optionClass"</c:if>>
+								${consentVersion.name}
+								<c:if test="${consentVersion.id == consent.latestConsentVersion.id}"><em>(Latest version)</em></c:if>
+						</option>
+					</c:forEach>
+				</select>
+			</td>
+			<td>
+				<tags:dateInput path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
+			</td>
+		</tr>
+	</c:forEach>
+	</table>
+</chrome:division>
+</c:if>
 </tags:formPanelBox>
 <div style="display:none">
     <div id="chooseCategory">
@@ -494,7 +528,7 @@ function hideDiseaseIndicator(){
             </td>
         </tr>
         </table>
-        
+
         </chrome:box>
     </div>
 	</div>
