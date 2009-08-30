@@ -325,16 +325,16 @@ public class StudySitesTab extends StudyTab {
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 
-	private Map<String, String> validateStudySiteStudyVersionAssociation(Study study){
-		Map<String, String> map = new HashMap<String, String>();
-		for(StudySite studySite : study.getStudySites()){
-			try{
-				studySite.isCurrentStudyVersionSetupValid();
-			}catch(C3PRCodedRuntimeException ex){
-				map.put(studySite.get, value)
-			}
-		}
-
-		return null;
-	}
+//	private Map<String, String> validateStudySiteStudyVersionAssociation(Study study){
+//		Map<String, String> map = new HashMap<String, String>();
+//		for(StudySite studySite : study.getStudySites()){
+//			try{
+//				studySite.isCurrentStudyVersionSetupValid();
+//			}catch(C3PRCodedRuntimeException ex){
+//				map.put(studySite.get, value)
+//			}
+//		}
+//
+//		return null;
+//	}
 }
