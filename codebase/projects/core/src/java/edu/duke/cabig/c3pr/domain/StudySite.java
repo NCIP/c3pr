@@ -881,7 +881,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	 */
 	public boolean canEnroll(StudyVersion studyVersion , Date date){
 		StudySiteStudyVersion studySiteStudyVersion = getStudySiteStudyVersion(date);
-		return studySiteStudyVersion.getStudyVersion() == studyVersion;
+		return studySiteStudyVersion == null ? false : (studySiteStudyVersion.getStudyVersion() == studyVersion);
 	}
 
 	/**
