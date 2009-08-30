@@ -38,7 +38,6 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
-import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
@@ -1271,24 +1270,19 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	 * Gets the study version that's applicable for a date.
 	 * This can be used to fetch the correct amendment that should be
 	 * used for a given date.
-	 * 
+	 *
 	 * @param date the date
-	 * 
+	 *
 	 * @return the study version
 	 */
 	@Transient
 	public StudyVersion getStudyVersion(Date date) {
-		int studyVersionSize = getStudyVersions().size();
-		if(studyVersionSize == 0) return null;
-		Map<DateRange, StudyVersion> mappedStudyVersions = new HashMap<DateRange, StudyVersion>();
-		for (int i=0 ; i<studyVersionSize-2 ; i++){
-			mappedStudyVersions.put(new DateRange(getStudyVersions().get(i).getVersionDate() , getStudyVersions().get(i+1).getVersionDate()), getStudyVersions().get(i));
-		}
-		mappedStudyVersions.put(new DateRange(getStudyVersions().get(studyVersionSize-1).getVersionDate() , null), getStudyVersions().get(studyVersionSize-1));
-		Set<DateRange> dateRanges = mappedStudyVersions.keySet();
-		for (DateRange dateRange : dateRanges){
-			if (date.after(dateRange.getStartDate()) && date.before(dateRange.getEndDate()))
-				return mappedStudyVersions.get(dateRange);
+		List<StudyVersion> reverseSorted = this.getSortedStudyVersions() ;
+		Collections.reverse(reverseSorted);
+		for(StudyVersion studyVersion : reverseSorted){
+			if(studyVersion.getVersionDate().before(date)){
+				return studyVersion;
+			}
 		}
 		return null;
 	}
