@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -50,6 +52,7 @@ import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import freemarker.template.SimpleDate;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 
@@ -1833,6 +1836,39 @@ public Date getInformedConsentSignedDate() {
 			return true ;
 		}
 		return false ;
+	}
+	
+	/**
+	 * Change study version.
+	 * Updates the registration to use the study version valid on a given date.
+	 * This method will remove the previous references and add a new valid study version.
+	 * @param date the date
+	 */
+	public void changeStudyVersion(Date date){
+		if(this.getStudySubjectStudyVersions().size()>1){
+			throw new RuntimeException("Subject registered on multiple study version. Study subject setup incorrectly.");
+		}
+		StudySiteStudyVersion studySiteStudyVersion = this.getStudySite().getStudySiteStudyVersion(date);
+		if (studySiteStudyVersion == null){
+			throw this
+			.getC3PRExceptionHelper()
+			.getRuntimeException(
+					getCode("C3PR.EXCEPTION.REGISTRATION.STUDYVERSION.NOTFOUND"), new String[]{new SimpleDateFormat("MM/dd/yyyy").format(date)});
+		}
+		Epoch epoch = this.getStudySite().getStudy().getEpochByName(this.getScheduledEpoch().getEpoch().getName());
+		if(epoch == null){
+			throw this
+			.getC3PRExceptionHelper()
+			.getRuntimeException(
+					getCode("C3PR.EXCEPTION.REGISTRATION.EPOCH.NOTFOUND"), new String[]{this.getScheduledEpoch().getEpoch().getName() , this.getStudySiteVersion().getStudyVersion().getName()});
+		}
+		ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
+		scheduledEpoch.setEpoch(epoch);
+		StudySubjectStudyVersion studySubjectStudyVersion = new StudySubjectStudyVersion();
+		studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
+		studySubjectStudyVersion.setStudySubject(this);
+		this.getStudySubjectStudyVersions().set(0, studySubjectStudyVersion);
+		this.setStudySubjectStudyVersion(studySubjectStudyVersion);
 	}
 
 }
