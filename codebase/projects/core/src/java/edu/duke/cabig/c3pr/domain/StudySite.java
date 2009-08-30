@@ -427,7 +427,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 			StudySiteStudyVersion previousStudySiteStudyVersion = getPreviousStudySiteStudyVersion();
 			if(previousStudySiteStudyVersion != null){
 				if(previousStudySiteStudyVersion.getEndDate() == null  || previousStudySiteStudyVersion.getEndDate().after(getIrbApprovalDate())){
-					Calendar cal = Calendar.getInstance();
+					GregorianCalendar cal = new GregorianCalendar();
 					cal.setTime(getIrbApprovalDate());
 					cal.add(Calendar.DATE, -1);
 					previousStudySiteStudyVersion.setEndDate(cal.getTime());
@@ -478,7 +478,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                         new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL
                                                         .getDisplayName() });
         this.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
-        Calendar cal = Calendar.getInstance();
+        GregorianCalendar cal = new GregorianCalendar();
         cal.add(Calendar.DATE, -1);
         this.setEndDate(cal.getTime());
     }
@@ -498,7 +498,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                         new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
                                                         .getDisplayName() });
         this.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-        Calendar cal = Calendar.getInstance();
+        GregorianCalendar cal = new GregorianCalendar();
         cal.add(Calendar.DATE, -1);
         this.setEndDate(cal.getTime());
     }
@@ -519,7 +519,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                                             .getDisplayName() });
         }
         this.setSiteStudyStatus(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
-        Calendar cal = Calendar.getInstance();
+        GregorianCalendar cal = new GregorianCalendar();
         cal.add(Calendar.DATE, -1);
         this.setEndDate(cal.getTime());
     }
@@ -541,7 +541,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                             .getDisplayName() });
         }
         this.setSiteStudyStatus(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
-        Calendar cal = Calendar.getInstance();
+        GregorianCalendar cal = new GregorianCalendar();
         cal.add(Calendar.DATE, -1);
         this.setEndDate(cal.getTime());
     }
