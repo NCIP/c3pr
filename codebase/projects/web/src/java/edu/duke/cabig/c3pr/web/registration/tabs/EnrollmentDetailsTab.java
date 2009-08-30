@@ -94,13 +94,16 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     
     @Override
     public void validate(StudySubjectWrapper command, Errors errors) {
-		StudySiteStudyVersion studySiteStudyVersion = command.getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
-		if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , command.getStudySubject().getStartDate())){
-			errors.reject("studySubject.startDate", "Study version invalid on this date");
-		}
+    	Date date = command.getStudySubject().getStartDate();
+	    if(date !=null){
+			StudySiteStudyVersion studySiteStudyVersion = command.getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
+			if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , command.getStudySubject().getStartDate())){
+				errors.reject("studySubject.startDate", "Study version invalid on this date");
+			}
+    	}
     }
     
-    public ModelAndView validateRegistrationDate(HttpServletRequest request, StudySubjectWrapper command, Errors errors) {
+    public ModelAndView validateRegistrationDate(HttpServletRequest request, Object command, Errors errors) {
     	Map<String, Object> map = new HashMap<String, Object>();
     	Date registrationDate = null;
     	try {
@@ -109,7 +112,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 			throw new RuntimeException(e);
 		}
 		map.put("cannotEnroll", "false");
-		StudySiteStudyVersion studySiteStudyVersion = command.getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
+		StudySiteStudyVersion studySiteStudyVersion = ((StudySubjectWrapper)command).getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
 		if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , registrationDate)){
 			map.put("cannotEnroll", "true");
 			StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getStudyVersion(registrationDate);

@@ -13,7 +13,6 @@
 		</div>
 	</c:when>
 	<c:otherwise>
-	</c:otherwise>
 		<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
 			<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
 			<div style="font-size:20px; margin-bottom:5px;">Invalid</div>
@@ -25,8 +24,9 @@
 				</ul>
 				<fmt:message key="REGISTRATION.STUDYVERION.ERROR.FOUND.VALID.CONTINUE" />
 				<tags:button type="button" color="red" icon="Continue" value="Back" onclick="closePopup();" />
-				<tags:button type="button" color="green" icon="Save &amp; Continue" value="Apply Study Version" disabled="disabled" onclick="transfer();" cssClass="transferEpochButton" />
+				<tags:button type="button" color="green" icon="Save &amp; Continue" value="Apply Study Version" disabled="disabled" onclick="changeStudyVersion()" cssClass="transferEpochButton" />
 			</div>
 		</div>
+	</c:otherwise>
 	</c:choose>
 </c:if>
