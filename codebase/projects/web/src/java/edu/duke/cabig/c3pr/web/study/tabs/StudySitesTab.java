@@ -76,6 +76,7 @@ public class StudySitesTab extends StudyTab {
 		refdata.put("multisiteEnv", new Boolean(this.configuration.get(Configuration.MULTISITE_ENABLE)));
 		refdata.put("localNCICode", this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
 		refdata.put("openSections",request.getParameter("openSections"));
+		refdata.put("studyVersionAssociationMap",isStudyVersionSetupValid(wrapper.getStudy()));
 		// write code to see if each study site is on latest study version
 		return refdata;
 	}
@@ -325,16 +326,15 @@ public class StudySitesTab extends StudyTab {
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 
-//	private Map<String, String> validateStudySiteStudyVersionAssociation(Study study){
-//		Map<String, String> map = new HashMap<String, String>();
-//		for(StudySite studySite : study.getStudySites()){
-//			try{
-//				studySite.isCurrentStudyVersionSetupValid();
-//			}catch(C3PRCodedRuntimeException ex){
-//				map.put(studySite.get, value)
-//			}
-//		}
-//
-//		return null;
-//	}
+	private Map<String, String> isStudyVersionSetupValid(Study study){
+		Map<String, String> map = new HashMap<String, String>();
+		for(StudySite studySite : study.getStudySites()){
+			try{
+				studySite.isStudyVersionSetupValid();
+			}catch(C3PRCodedRuntimeException ex){
+				map.put(studySite.getHealthcareSite().getPrimaryIdentifier(), ex.getCodedExceptionMesssage());
+			}
+		}
+		return map;
+	}
 }
