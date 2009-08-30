@@ -117,6 +117,9 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 			map.put("cannotEnroll", "true");
 			StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getStudyVersion(registrationDate);
 			map.put("studyVersion", studyVersion);
+		}else{
+			map.put(AjaxableUtils.getFreeTextModelName(), "");
+			return new ModelAndView("",map);
 		}
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
     }

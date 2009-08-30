@@ -309,14 +309,16 @@ function setVersion(box){
 
 checkRegistrationDate = function(cal){
 	cal.hide();
+	Element.show('registrationDate-indicator');
 	$('updateStudyVersion').value='false';
 	$('registrationDate').value=$('studySubject.startDate').value;
 	<tags:tabMethod method="validateRegistrationDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateDiv'" formName="'studyVersionForm'" onComplete="displayStudyVersionError"/>
 }
 
 displayStudyVersionError = function(){
-	if($('checkRegistrationDateDiv').innerHTML != null){	
-		win = new Window({ width:850, height:450 ,className :"mac_os_x" , 
+	Element.hide('registrationDate-indicator');
+	if($('checkRegistrationDateDiv').innerHTML.replace(/^\s+|\s+$/g,'') != ""){	
+		win = new Window({ width:600, height:200 ,className :"mac_os_x" , 
 				title: "Message" , minimizable:false, maximizable:false ,
 				zIndex:100 , hideEffect:Element.hide, showEffect:Element.show}) 
 		win.setContent('checkRegistrationDateDiv') ;
@@ -326,6 +328,9 @@ displayStudyVersionError = function(){
 
 function closePopup(){
 	win.close();
+	$('studySubject.startDate').value="";
+	$('studySubject.startDate').focus();
+	ValidationManager.removeError("studySubject.startDate");
 }
 
 function changeStudyVersion(){
@@ -379,12 +384,16 @@ function changeStudyVersion(){
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 <%--<tags:instructions code="enrollment_details" />--%>
 	<div class="row">
-		<div class="label"><fmt:message key="registration.startDate"/></div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 		<div class="value">
-			<form:input path="studySubject.startDate" cssClass='validate-DATE' size="18"/>
+			<form:input path="studySubject.startDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
 			<a href="#" id="studySubject.startDate-calbutton">
 			    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 			</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/>
+			<span id="registrationDate-indicator">
+			<img src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator"/>
+			validating registration date...
+			</span>
 			<script type="text/javascript">
 				Calendar.setup(
 		            {
@@ -395,6 +404,7 @@ function changeStudyVersion(){
 		                onClose     : checkRegistrationDate
 		            }
 		        );
+		        Element.hide('registrationDate-indicator');
 			</script>
 		</div>
 	</div>
@@ -405,7 +415,7 @@ function changeStudyVersion(){
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value">
-			<input type="text" id="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" class='validate-DATE' size="18" 
+			<input type="text" id="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" class='validate-notEmpty validate-DATE' size="18" 
 				value="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1 ? command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate : ''}"/>
 			<a href="#" id="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton">
 			    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
