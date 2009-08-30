@@ -5,12 +5,11 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
  * Hibernate implementation of StudySiteDao
- * 
+ *
  * @see edu.duke.cabig.c3pr.dao.StudySiteDao
  * @author Priyatam
  */
@@ -26,7 +25,7 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
 
     /**
      * Reassociate.
-     * 
+     *
      * @param ss the ss
      */
     @Transactional(readOnly = false)
@@ -36,9 +35,9 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
 
     /**
      * Gets the by nci institute code.
-     * 
+     *
      * @param ctepCode the nci institute code
-     * 
+     *
      * @return the by nci institute code
      */
     public List<StudySite> getByCtepCode(String ctepCode) {
@@ -47,12 +46,12 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
            "s.healthcareSite.identifiersAssignedToOrganization.value = ? and s.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
            new Object[] {ctepCode});
     }
-    
+
     /**
      * Initialize.
-     * 
+     *
      * @param studySite the study site
-     * 
+     *
      * @throws DataAccessException the data access exception
      */
     @Transactional(readOnly = false)
@@ -63,9 +62,9 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
 
     /**
      * Merge.
-     * 
+     *
      * @param studySite the study site
-     * 
+     *
      * @return the study site
      */
     @Transactional(readOnly = false)

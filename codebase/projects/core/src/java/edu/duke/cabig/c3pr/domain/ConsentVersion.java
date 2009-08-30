@@ -16,6 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.validator.NotNull;
 
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 
 @Entity
@@ -85,10 +86,7 @@ public class ConsentVersion extends AbstractMutableDeletableDomainObject impleme
 
 	@Transient
 	public String getEffectiveDateStr() {
-		if (effectiveDate != null) {
-			return DateUtil.formatDate(effectiveDate, "MM/dd/yyyy");
-		}
-		return "";
+		return CommonUtils.getDateString(effectiveDate);
 	}
 
 }

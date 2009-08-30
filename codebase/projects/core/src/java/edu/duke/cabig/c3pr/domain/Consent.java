@@ -104,7 +104,7 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	public ConsentVersion getLatestConsentVersion(){
     	TreeSet<ConsentVersion> consentVersions = new TreeSet<ConsentVersion>();
     	consentVersions.addAll(getConsentVersions());
-    	int size = consentVersions.size();
+//    	int size = consentVersions.size();
 		return consentVersions.last();
 	}
 
