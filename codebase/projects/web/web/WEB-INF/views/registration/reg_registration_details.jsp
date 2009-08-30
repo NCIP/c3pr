@@ -142,8 +142,8 @@ showLevel2DiseaseSites: function(id){
     $('disease-subcategories').innerHTML = "";
     $('disease-level3Sites').innerHTML = "";
     $('disease-level4Sites').innerHTML = "";
-	
-    catId = id; 
+
+    catId = id;
     anatomicDiseaseSite.getLevel2DiseaseSiteCategories(catId, function(childCategories) {
         childCategories.each(function(childCategory) {
           var childCategoryName = (childCategory.name.length > 30 ? childCategory.name.substring(0, 30) + "..." : childCategory.name);
@@ -186,14 +186,14 @@ showLevel3DiseaseSites :function(ulID, ilID, ilText,title) {
     selectedSubcategories.each(function(el) {
         el.removeClassName("li-subcategory-selected");
     });
-    
+
 	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
     $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
-    
+
     $('disease-level3Sites').innerHTML = "";
     $('disease-level4Sites').innerHTML = "";
-	
-    level2Id = ilID; 
+
+    level2Id = ilID;
     anatomicDiseaseSite.getLevel3DiseaseSiteCategories(level2Id, function(childCategories) {
         childCategories.each(function(childCategory) {
           var childCategoryName = (childCategory.name.length > 30 ? childCategory.name.substring(0, 30) + "..." : childCategory.name);
@@ -242,8 +242,8 @@ showLevel4DiseaseSites :function(ulID, ilID, ilText,title) {
 	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
     $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
     $('disease-level4Sites').innerHTML = "";
-	
-    level3Id = ilID; 
+
+    level3Id = ilID;
     anatomicDiseaseSite.getLevel4DiseaseSiteCategories(level3Id, function(childCategories) {
         childCategories.each(function(childCategory) {
           var childCategoryName = (childCategory.name.length > 30 ? childCategory.name.substring(0, 30) + "..." : childCategory.name);
@@ -346,8 +346,6 @@ function setVersion(box){
 	<form:hidden id="consentVersionToSet" path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consentVersion"/>
 
 	<div class="row">
-		<div class="label"><fmt:message key="registration.startDate"/></div>
-		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></div>
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value"><tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></div>
 	</div>
@@ -544,11 +542,11 @@ function setVersion(box){
         padding-left: 0px;
 		list-style-type:none;
     }
-	
+
 	ul#categories li a {
 		margin-left:5px;
 	}
-	
+
     a.disease-category {
         font-size:9pt;
         cursor:pointer;
@@ -602,7 +600,7 @@ function setVersion(box){
         color:#cccccc;
         cursor:pointer;
     }
-    
+
     a.disease-subcategory-selected {
         font-size:9pt;
         cursor:pointer;
