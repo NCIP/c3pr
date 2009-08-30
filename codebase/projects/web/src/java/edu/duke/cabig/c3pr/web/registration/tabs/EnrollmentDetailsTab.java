@@ -1,20 +1,31 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
 /**
@@ -54,6 +65,17 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors errors) {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
     	StudySubject studySubject = wrapper.getStudySubject();
+    	if(request.getParameter("updateStudyVersion").equals("false")){
+    		Date registrationDate = null;
+    		try {
+				registrationDate = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("registrationDate"));
+			} catch (ParseException e) {
+				throw new RuntimeException("Invalid Submit. Registration Date is invalid");
+			}
+    		studySubject.changeStudyVersion(registrationDate);
+    		return;
+    	}
+    		
         if(!StringUtils.isBlank(request.getParameter("treatingPhysicianInternal"))){
             for(StudyInvestigator studyInvestigator : studySubject.getStudySite().getStudyInvestigators()){
                 if(studyInvestigator.getId()==Integer.parseInt(request.getParameter("treatingPhysicianInternal"))){
@@ -69,4 +91,31 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
         	}
         }
     }
+    
+    @Override
+    public void validate(StudySubjectWrapper command, Errors errors) {
+		StudySiteStudyVersion studySiteStudyVersion = command.getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
+		if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , command.getStudySubject().getStartDate())){
+			errors.reject("studySubject.startDate", "Study version invalid on this date");
+		}
+    }
+    
+    public ModelAndView validateRegistrationDate(HttpServletRequest request, StudySubjectWrapper command, Errors errors) {
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	Date registrationDate = null;
+    	try {
+			registrationDate = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("registrationDate"));
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
+		map.put("cannotEnroll", "false");
+		StudySiteStudyVersion studySiteStudyVersion = command.getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
+		if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , registrationDate)){
+			map.put("cannotEnroll", "true");
+			StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getStudyVersion(registrationDate);
+			map.put("studyVersion", studyVersion);
+		}
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+    }
+    
 }

@@ -12,22 +12,27 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
+import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 
 public class SearchEpochController implements Controller {
 
     private StudyDao studyDao;
 
     private StudySiteDao studySiteDao;
-
-    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
+    
+    private StudySiteStudyVersionDao studySiteStudyVersionDao;
+    
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
                     throws Exception {
 
-        String studySiteId = request.getParameter("studySiteId");
-        Integer id = Integer.valueOf(studySiteId);
-        Study study = studySiteDao.getById(id).getStudy();
-        List<Epoch> epochResults = study.getEpochs();
+    	String studySiteStudyVersionId = request.getParameter("studySiteStudyVersionId");
+        Integer id = Integer.valueOf(studySiteStudyVersionId);
+        StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(id);
+        List<Epoch> epochResults = studySiteStudyVersion.getStudyVersion().getEpochs();
+        
         epochResults.size();
         Map<String, List<Epoch>> map = new HashMap<String, List<Epoch>>();
         map.put("epochResults", epochResults);
@@ -35,8 +40,15 @@ public class SearchEpochController implements Controller {
         return new ModelAndView("/registration/epochResultsAsync", map);
 
     }
+	
+    public void setStudySiteStudyVersionDao(
+			StudySiteStudyVersionDao studySiteStudyVersionDao) {
+		this.studySiteStudyVersionDao = studySiteStudyVersionDao;
+	}
 
-    public StudyDao getStudyDao() {
+
+
+	public StudyDao getStudyDao() {
         return studyDao;
     }
 

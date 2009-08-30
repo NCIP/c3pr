@@ -307,6 +307,26 @@ function setVersion(box){
     }
 }
 
+function checkRegistrationDate(){
+	<tags:tabMethod method="validateRegistrationDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateInline'" 
+		javaScriptParam="'registrationDate='+$('command.studySubject.startDate').value"  formName="'invalidSubmitForm'" onComplete="displayStudyVersionError"/>
+}
+
+displayStudyVersionError = funtion(){
+	if($('checkRegistrationDateDiv').innerHTML != null){	
+		win = new Window({ width:850, height:450 ,className :"mac_os_x" , 
+				title: "Message" , minimizable:false, maximizable:false ,
+				zIndex:100 , hideEffect:Element.hide, showEffect:Element.show}) 
+		win.setContent('checkRegistrationDateDiv') ;
+		win.showCenter(true);
+	}
+}
+
+function updateStudyVersion(){
+	$('updateStudyVersion').value="true";
+	$('registrationDate').value=$('studySubject.startDate').value;
+	$('studyVersionForm').submit();
+}
 </script>
 <style>
 	#single-fields-interior div.row div.label {
@@ -335,11 +355,31 @@ function setVersion(box){
 	</tags:panelBox>
 </c:when>
 <c:otherwise>
+<div id="checkRegistrationDateDiv" style="display: none;">
+</div>
+<form:form id="studyVersionForm">
+<form:errors path="studySubject.startDate">
+	<input type="hidden" name="_target${tab.number}" id="_target"/>
+	<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
+	<input type="hidden" name="updateStudyVersion" value="false"/>
+	<input type="hidden" name="registrationDate"/>
+	<div id="checkRegistrationDateDivInline">
+	</div>
+	<script>
+		<tags:tabMethod method="validateRegistrationDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateInline'" javaScriptParam="'registrationDate=${command.studySubject.startDate}'"  formName="'invalidSubmitForm'"/>
+	</script>
+</form:errors>
+</form:form>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 <%--<tags:instructions code="enrollment_details" />--%>
 	<div class="row">
 		<div class="label"><fmt:message key="registration.startDate"/></div>
-		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></div>
+		<div class="value"><tags:dateInput path="studySubject.startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/>
+			<form:input path="studySubject.startDate" cssClass='date validate-DATE' size="18" onblur="$('updateStudyVersion').value='false';checkRegistrationDate();"/>
+			<a href="#" id="studySubject.startDate-calbutton">
+			    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
+			</a>
+		</div>
 	</div>
 	<c:if test="${fn:length(command.studySubject.studySite.study.consents) == 1}">
 	<input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.latestConsentVersion.id}"/>

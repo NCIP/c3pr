@@ -37,7 +37,7 @@
 	
 	function postProcessStudySelection(isActive, studySiteStudyVersionId,studySiteId, siteName, studyName, identifier){
 		document.getElementById("studySiteStudyVersionId").value = studySiteStudyVersionId;
-		var url = "../registration/searchEpoch?studySiteId="+studySiteId;
+		var url = "../registration/searchEpoch?studySiteStudyVersionId="+studySiteStudyVersionId;
 		new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
 		var message = "Selected Study: " +studyName+ " (" +identifier+ ") "  + " at " +siteName;
 		minimizeStudyBox(message);
