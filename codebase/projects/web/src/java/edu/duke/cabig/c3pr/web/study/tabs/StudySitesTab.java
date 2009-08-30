@@ -326,13 +326,13 @@ public class StudySitesTab extends StudyTab {
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 
-	private Map<String, String> isStudyVersionSetupValid(Study study){
-		Map<String, String> map = new HashMap<String, String>();
+	private Map<String, Integer> isStudyVersionSetupValid(Study study){
+		Map<String, Integer> map = new HashMap<String, Integer>();
 		for(StudySite studySite : study.getStudySites()){
 			try{
 				studySite.isStudyVersionSetupValid();
 			}catch(C3PRCodedRuntimeException ex){
-				map.put(studySite.getHealthcareSite().getPrimaryIdentifier(), ex.getCodedExceptionMesssage());
+				map.put(studySite.getHealthcareSite().getPrimaryIdentifier(), ex.getExceptionCode());
 			}
 		}
 		return map;

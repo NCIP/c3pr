@@ -23,9 +23,11 @@
 <chrome:deletableDivision divTitle="studySite-${site.healthcareSite.ctepCode}" onclick="deleteStudySite('${site.healthcareSite.ctepCode}');" title="(${site.healthcareSite.ctepCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.ctepCode}" id="divison-${site.healthcareSite.ctepCode}" cssClass="divisonClass">
 <div id="site-${site.healthcareSite.ctepCode}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
+		<!--  display message about new study version availablity -->
+			<c:if test='${not empty studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}'>
+				<div id="flash-message" class="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}+'.COLOR'"><img src="<tags:imageUrl name='error-red.png'/>" style="vertical-align:bottom;">&nbsp;<fmt:message key="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}" /></div>
+			</c:if>
 		<div class="leftpanel">
-			<!--  display message about new study version availablity -->
-			<studysiteTags:validateStudyVersion></studysiteTags:validateStudyVersion>
 			<div class="row">
 				<div class="label"><fmt:message key="site.studyVersion" /></div>
 				<div class="value">
