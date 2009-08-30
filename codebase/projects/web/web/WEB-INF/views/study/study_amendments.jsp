@@ -41,16 +41,16 @@ function amendmentTypeChanged(){
             	</form:select>
 			</div>
 			</div>
-			<div class="row" style="<c:if test="${empty command.study.currentStudyAmendment.gracePeriod}">display:none</c:if>" id="gracePeriodDiv">
+			<div class="row" style="<c:if test="${command.study.currentStudyAmendment.amendmentType != 'IMMEDIATE_AFTER_GRACE_PERIOD'}">display:none</c:if>" id="gracePeriodDiv">
 				<div class="label"><fmt:message key="study.gracePeriod" /></div>
 				<div class="value">
 					<form:input id="gracePeriodInput" path="study.currentStudyAmendment.gracePeriod" size="6" /></div>
 			</div>
+			<c:if test="${command.study.currentStudyAmendment.amendmentType == 'IMMEDIATE_AFTER_GRACE_PERIOD'}">
 			<script>
-				if($('gracePeriodDiv').style==""){
 					$("gracePeriodInput").className="validate-notEmpty&&NONZERO_NUMERIC";
-				}
 			</script>
+			</c:if>
 			<div class="row">
 			<div class="label"><fmt:message key="study.amendmentDate" /></div>
 			<div class="value"><tags:dateInput
