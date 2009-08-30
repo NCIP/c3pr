@@ -25,6 +25,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
@@ -72,11 +73,10 @@ public class StudySitesTab extends StudyTab {
 	public Map<String, Object> referenceData(HttpServletRequest request,
 			StudyWrapper wrapper) {
 		Map<String, Object> refdata = super.referenceData(wrapper);
-		refdata.put("multisiteEnv", new Boolean(this.configuration
-				.get(Configuration.MULTISITE_ENABLE)));
-		refdata.put("localNCICode", this.configuration
-				.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
+		refdata.put("multisiteEnv", new Boolean(this.configuration.get(Configuration.MULTISITE_ENABLE)));
+		refdata.put("localNCICode", this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
 		refdata.put("openSections",request.getParameter("openSections"));
+		// write code to see if each study site is on latest study version
 		return refdata;
 	}
 
@@ -323,5 +323,18 @@ public class StudySitesTab extends StudyTab {
 		Map map = new HashMap();
 		map.put("command", wrapper);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+	}
+
+	private Map<String, String> validateStudySiteStudyVersionAssociation(Study study){
+		Map<String, String> map = new HashMap<String, String>();
+		for(StudySite studySite : study.getStudySites()){
+			try{
+				studySite.isCurrentStudyVersionSetupValid();
+			}catch(C3PRCodedRuntimeException ex){
+				map.put(studySite.get, value)
+			}
+		}
+
+		return null;
 	}
 }

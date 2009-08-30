@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
+<%@ taglib prefix="studysiteTags" tagdir="/WEB-INF/tags/studysite" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@attribute name="site" required="true" type="edu.duke.cabig.c3pr.domain.StudySite"%>
@@ -23,6 +24,8 @@
 <div id="site-${site.healthcareSite.ctepCode}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
 		<div class="leftpanel">
+			<!--  display message about new study version availablity -->
+			<studysiteTags:validateStudyVersion></studysiteTags:validateStudyVersion>
 			<div class="row">
 				<div class="label"><fmt:message key="site.studyVersion" /></div>
 				<div class="value">
