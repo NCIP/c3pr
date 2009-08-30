@@ -17,7 +17,6 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.validator.NotNull;
 
 import edu.duke.cabig.c3pr.utils.CommonUtils;
-import edu.duke.cabig.c3pr.utils.DateUtil;
 
 @Entity
 @Table(name = "consent_versions", uniqueConstraints = { @UniqueConstraint(columnNames = { "consent_id", "name" }) })

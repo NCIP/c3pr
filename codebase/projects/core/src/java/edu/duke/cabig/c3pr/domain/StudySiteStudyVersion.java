@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -27,28 +28,28 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 
 	/** The irb approval date. */
 	private Date irbApprovalDate;
-	
+
 	/** The start date. */
 	private Date startDate;
-	
+
 	/** The end date. */
 	private Date endDate;
-	
+
 	/** The target accrual. */
 	private Integer targetAccrual;
-	
+
 	/** The study subject study versions. */
 	private List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
-	
+
 	/** The study site. */
 	private StudySite studySite;
-	
+
 	/** The study version. */
 	private StudyVersion studyVersion ;
-    
+
     /**
      * Gets the end date.
-     * 
+     *
      * @return the end date
      */
     public Date getEndDate() {
@@ -57,7 +58,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 
 	/**
 	 * Sets the end date.
-	 * 
+	 *
 	 * @param endDate the new end date
 	 */
 	public void setEndDate(Date endDate) {
@@ -66,7 +67,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 
 	/**
 	 * Gets the study site.
-	 * 
+	 *
 	 * @return the study site
 	 */
 	@ManyToOne
@@ -75,10 +76,10 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	public StudySite getStudySite() {
 		return studySite;
 	}
-	
+
 	/**
 	 * Sets the study site.
-	 * 
+	 *
 	 * @param studySite the new study site
 	 */
 	public void setStudySite(StudySite studySite) {
@@ -87,7 +88,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 
 	/**
 	 * Gets the study version.
-	 * 
+	 *
 	 * @return the study version
 	 */
 	@ManyToOne
@@ -96,55 +97,55 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	public StudyVersion getStudyVersion() {
 		return studyVersion;
 	}
-	
+
 	/**
 	 * Sets the study version.
-	 * 
+	 *
 	 * @param studyVersion the new study version
 	 */
 	public void setStudyVersion(StudyVersion studyVersion) {
 		this.studyVersion = studyVersion;
 	}
-	
+
 	/**
 	 * Gets the irb approval date.
-	 * 
+	 *
 	 * @return the irb approval date
 	 */
 	public Date getIrbApprovalDate() {
 		return irbApprovalDate;
 	}
-	
+
 	/**
 	 * Sets the irb approval date.
-	 * 
+	 *
 	 * @param irbApprovalDate the new irb approval date
 	 */
 	public void setIrbApprovalDate(Date irbApprovalDate) {
 		this.irbApprovalDate = irbApprovalDate;
 	}
-	
+
 	/**
 	 * Gets the start date.
-	 * 
+	 *
 	 * @return the start date
 	 */
 	public Date getStartDate() {
 		return startDate;
 	}
-	
+
 	/**
 	 * Sets the start date.
-	 * 
+	 *
 	 * @param startDate the new start date
 	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	
+
 	/**
 	 * Gets the target accrual.
-	 * 
+	 *
 	 * @return the target accrual
 	 */
 	public Integer getTargetAccrual() {
@@ -153,7 +154,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 
 	/**
 	 * Sets the target accrual.
-	 * 
+	 *
 	 * @param targetAccrual the new target accrual
 	 */
 	public void setTargetAccrual(Integer targetAccrual) {
@@ -162,7 +163,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 
 	/**
 	 * Gets the study subject study versions.
-	 * 
+	 *
 	 * @return the study subject study versions
 	 */
 	@OneToMany(mappedBy = "studySiteStudyVersion")
@@ -170,10 +171,10 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
 		return studySubjectStudyVersions;
 	}
-	
+
 	/**
 	 * Sets the study subject study versions.
-	 * 
+	 *
 	 * @param studySubjectStudyVersions the new study subject study versions
 	 */
 	public void setStudySubjectStudyVersions(
@@ -183,7 +184,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 
 	/**
 	 * Adds the study subject study version.
-	 * 
+	 *
 	 * @param studySubjectStudyVersion the study subject study version
 	 */
 	public void addStudySubjectStudyVersion(StudySubjectStudyVersion studySubjectStudyVersion) {
@@ -195,14 +196,14 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	 * Checks if the study version of the study site is valid for a given date.
 	 * The study version is valid for a site between the start date and the end date
 	 * of the site's IRB approval date for the version.
-	 * 
+	 *
 	 * @param date the date
-	 * 
+	 *
 	 * @return true, if is valid
 	 */
 	@Transient
 	public boolean isValid(Date date){
-		return (startDate == null ? false : date.after(startDate)) && (endDate == null ? true : date.before(endDate));
+		return (startDate == null ? false : date.after(startDate)) && (endDate == null  ? true : date.before(endDate));
 	}
 
 	/* (non-Javadoc)

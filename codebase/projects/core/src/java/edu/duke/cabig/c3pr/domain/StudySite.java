@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -421,6 +422,18 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             }
 
             this.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+            this.setStartDate(getIrbApprovalDate());
+			this.getLatestStudySiteStudyVersion().setStartDate(getIrbApprovalDate());
+			StudySiteStudyVersion previousStudySiteStudyVersion = getPreviousStudySiteStudyVersion();
+			if(previousStudySiteStudyVersion != null){
+				if(previousStudySiteStudyVersion.getEndDate() == null  || previousStudySiteStudyVersion.getEndDate().after(getIrbApprovalDate())){
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(getIrbApprovalDate());
+					cal.add(Calendar.DATE, -1);
+					previousStudySiteStudyVersion.setEndDate(cal.getTime());
+				}
+			}
+
             Study study = this.getStudy();
             if(!study.getCompanionIndicator()){
             	for(CompanionStudyAssociation companionStudyAssociation : study.getStudyVersion().getCompanionStudyAssociations()){
@@ -465,6 +478,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                         new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL
                                                         .getDisplayName() });
         this.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        this.setEndDate(cal.getTime());
     }
 
     /**
@@ -482,6 +498,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                         new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
                                                         .getDisplayName() });
         this.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        this.setEndDate(cal.getTime());
     }
 
     /**
@@ -500,6 +519,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                                             .getDisplayName() });
         }
         this.setSiteStudyStatus(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        this.setEndDate(cal.getTime());
     }
 
     /**
@@ -519,6 +541,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                             .getDisplayName() });
         }
         this.setSiteStudyStatus(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        this.setEndDate(cal.getTime());
     }
 
     /**
@@ -749,6 +774,17 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		return temp.get(temp.size()-1);
 	}
 
+	@Transient
+	public StudySiteStudyVersion getPreviousStudySiteStudyVersion(){
+		List<StudySiteStudyVersion> temp = new ArrayList<StudySiteStudyVersion>();
+		temp.addAll(this.getStudySiteStudyVersions());
+		Collections.sort(temp);
+		if(temp.size() > 1){
+			return temp.get(temp.size()-2);
+		}
+		return null;
+	}
+
 	/**
 	 * Gets the study site study version for a given date.
 	 * Due to amendments, participating sites can be on multiple version,
@@ -805,7 +841,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		if(coCenterStudyVersion == null){
 			throw new RuntimeException("No study version found on the date");
 		}
-		if(studySiteStudyVersion.getStudyVersion() == null){
+		if(studySiteStudyVersion == null){
 			throw getC3PRExceptionHelper().getRuntimeException(
                     getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.IMMEDIATE.CODE"));
 		}
@@ -828,8 +864,10 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	/**
 	 * Checks if the current study version setup is valid.
 	 */
-	public void isCurrentStudyVersionSetupValid(){
-		isStudyVersionSetupValid(new Date());
+	public void isStudyVersionSetupValid(){
+		if(siteStudyStatus != SiteStudyStatus.PENDING){
+			isStudyVersionSetupValid(new Date());
+		}
 	}
 
 	/**
@@ -960,5 +998,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	public List<DateRange> getStatusChangeDateRange() {
 		return statusChangeDateRange;
 	}
+
 
 }
