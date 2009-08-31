@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
@@ -65,7 +66,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors errors) {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
     	StudySubject studySubject = wrapper.getStudySubject();
-    	if(request.getParameter("updateStudyVersion").equals("false")){
+    	if(WebUtils.hasSubmitParameter(request, "updateStudyVersion") && request.getParameter("updateStudyVersion").equals("false")){
     		Date registrationDate = null;
     		try {
 				registrationDate = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("registrationDate"));

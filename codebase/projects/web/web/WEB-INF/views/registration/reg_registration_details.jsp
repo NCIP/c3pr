@@ -423,11 +423,10 @@ function changeStudyVersion(){
 			<script type="text/javascript">
 				Calendar.setup(
 		            {
-		                inputField  : "studySubject.startDate",
-		                button      : "studySubject.startDate-calbutton",
+		                inputField  : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate",
+		                button      : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton",
 		                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
-		                weekNumbers : false,
-		                onClose     : checkRegistrationDate
+		                weekNumbers : false
 		            }
 		        );
 			</script>
