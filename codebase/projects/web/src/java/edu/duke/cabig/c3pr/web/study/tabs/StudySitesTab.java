@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
@@ -356,11 +358,17 @@ public class StudySitesTab extends StudyTab {
 	        if (irbApprovalDate.before(calendar.getTime()) || irbApprovalDate.after(currentDate)) {
 	        	request.setAttribute("irbApprovalError", "IRB approval should be between" + allowedOldDate + "and "+ todayDate);
 	        }else{
+	        	StudySiteStudyVersion currentVersion = studySite.getStudySiteStudyVersion();
+	        	if(currentVersion != null && (currentVersion.getEndDate() == null || (currentVersion.getEndDate() != null && irbApprovalDate.before(currentVersion.getEndDate())))){
+	        		currentVersion.setEndDate(CommonUtils.getOldDate(irbApprovalDate, -1));
+	        	}
+
 	        	StudySiteStudyVersion studySiteStudyVersion  = new StudySiteStudyVersion();
 	        	studySiteStudyVersion.setIrbApprovalDate(irbApprovalDate);
 	        	studySiteStudyVersion.setStartDate(irbApprovalDate);
 	        	studySiteStudyVersion.setStudyVersion(wrapper.getStudy().getLatestActiveStudyVersion());
 	    		studySite.addStudySiteStudyVersion(studySiteStudyVersion);
+
 	    		Study modifiedStudy = studyDao.merge(study);
 	    		studySite = modifiedStudy.getStudySite(primaryIdentifier);
 	    		wrapper.setStudy(modifiedStudy);

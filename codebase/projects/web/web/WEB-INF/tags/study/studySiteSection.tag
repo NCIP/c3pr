@@ -211,7 +211,8 @@ function applyLatestAmendment(primaryIdentifier){
 		        );
 			</script>
 			<div class="row">
-			<input type="button" onclick="applyAmendment('${site.healthcareSite.ctepCode}', '${index}', '${localNCICode}', '${isMultisite}', '${action}', '${errorMessage}');" value="test"/>
+				<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.ctepCode}" onclick="applyAmendment('${site.healthcareSite.ctepCode}', '${index}', '${localNCICode}', '${isMultisite}', '${action}', '${errorMessage}');" size="small"/>
+				<tags:button type="button" color="blue" value="Close" id="close" onclick="closePopup();" size="small"/>
 			</div>
 	</div>
 </div>

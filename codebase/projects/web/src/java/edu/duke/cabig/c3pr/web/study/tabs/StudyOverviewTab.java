@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +13,13 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.constants.AmendmentType;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -66,6 +71,22 @@ public class StudyOverviewTab extends StudyTab {
             	}
                 request.setAttribute("studyMessage", "STUDY.CLOSED_SUCCESSFULLY");
             }else if(request.getParameter("statusChange").equals("applyAmendment")){
+            	// this should come after some validation , temp fix, fix it later
+            	for(StudySite studySite : study.getStudySites()){
+            		GregorianCalendar cal = new GregorianCalendar();
+					cal.setTime(study.getCurrentStudyAmendment().getVersionDate());
+            		StudySiteStudyVersion studySiteStudyVersion = studySite.getStudySiteStudyVersion();
+            		AmendmentType amendmentType = study.getCurrentStudyAmendment().getAmendmentType() ;
+            		if(amendmentType == AmendmentType.IMMEDIATE){
+            			cal.add(Calendar.DATE, -1);
+            			studySiteStudyVersion.setEndDate(cal.getTime());
+            		}else if(amendmentType == AmendmentType.IMMEDIATE_AFTER_GRACE_PERIOD){
+            			int gracePeriod = study.getCurrentStudyAmendment().getGracePeriod();
+            			cal.add(Calendar.DATE, -1+gracePeriod);
+            			studySiteStudyVersion.setEndDate(cal.getTime());
+            		}
+            	}
+            	studyRepository.merge(study);
             	study = studyRepository.applyAmendment(study.getIdentifiers());
             	request.setAttribute("studyMessage", "STUDY.AMENDED_SUCCESSFULLY");
             }
