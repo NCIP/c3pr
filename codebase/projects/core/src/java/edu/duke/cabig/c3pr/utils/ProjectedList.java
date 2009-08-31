@@ -179,7 +179,7 @@ public class ProjectedList<E> implements List<E> {
         int orgIndex = -1;
         for (Object o : list) {
             orgIndex++;
-            if (klass.equals(o.getClass())) i++;
+            if(o == null || klass.equals(o.getClass())) i++;
             if (i == index) break;
         }
         if (i < 0) throw new IllegalArgumentException("The last index of the projected object is "
