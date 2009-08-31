@@ -414,12 +414,12 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                                 new String[] { this.getHealthcareSite().getName(),
                                                         allowedOldDate });
             }
-            if ((this.getStartDate() == null) || (this.getStartDate().after(currentDate))) {
-                throw getC3PRExceptionHelper()
-                                .getRuntimeException(
-                                                getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.INVALID.START_DATE.CODE"),
-                                                new String[] { this.getHealthcareSite().getName() });
-            }
+//            if ((this.getStartDate() == null) || (this.getStartDate().after(currentDate))) {
+//                throw getC3PRExceptionHelper()
+//                                .getRuntimeException(
+//                                                getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.INVALID.START_DATE.CODE"),
+//                                                new String[] { this.getHealthcareSite().getName() });
+//            }
 
             this.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
             this.setStartDate(getIrbApprovalDate());

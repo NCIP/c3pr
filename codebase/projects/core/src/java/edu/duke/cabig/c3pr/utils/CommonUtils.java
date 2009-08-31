@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.utils;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
@@ -30,6 +32,21 @@ public class CommonUtils {
 		}
 		return "";
     }
+
+
+    public static Date getOldDate(Date date, int days){
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, days);
+		return cal.getTime();
+
+    }
+
+//    public static void main(String args[]){
+//    	Calendar cal = Calendar.getInstance();
+//        cal.add(Calendar.DATE, -1);
+//        System.out.println(cal.getTime());
+//    }
 
 
 }
