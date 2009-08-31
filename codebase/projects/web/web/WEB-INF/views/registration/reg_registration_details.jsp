@@ -97,6 +97,7 @@ finishMultiTermsSelection:function() {
 
 addLevel4Site: function(ulID, termID, termText, title) {
 	$('disease-added-terms').innerHTML = "";
+	$("liTerm" + termID).addClassName("a.term-selected");
     ul = document.getElementById(ulID);
 
     checkbox = document.createElement("input");
@@ -146,7 +147,7 @@ showLevel2DiseaseSites: function(id){
     catId = id;
     anatomicDiseaseSite.getLevel2DiseaseSiteCategories(catId, function(childCategories) {
         childCategories.each(function(childCategory) {
-          var childCategoryName = (childCategory.name.length > 30 ? childCategory.name.substring(0, 30) + "..." : childCategory.name);
+          var childCategoryName = (childCategory.name.length > 18 ? childCategory.code+" " +childCategory.name.substring(0, 18) + "..." : childCategory.code+" " +childCategory.name);
           catSel.showLevel2DiseaseSitesDetails("disease-subcategories", childCategory.id, childCategoryName, childCategory.name);
         })
     });
@@ -187,7 +188,7 @@ showLevel3DiseaseSites :function(ulID, ilID, ilText,title) {
         el.removeClassName("li-subcategory-selected");
     });
 
-	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
+//	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
     $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
 
     $('disease-level3Sites').innerHTML = "";
@@ -196,7 +197,7 @@ showLevel3DiseaseSites :function(ulID, ilID, ilText,title) {
     level2Id = ilID;
     anatomicDiseaseSite.getLevel3DiseaseSiteCategories(level2Id, function(childCategories) {
         childCategories.each(function(childCategory) {
-          var childCategoryName = (childCategory.name.length > 30 ? childCategory.name.substring(0, 30) + "..." : childCategory.name);
+        	var childCategoryName = (childCategory.name.length > 18 ? childCategory.code+" " +childCategory.name.substring(0, 18) + "..." : childCategory.code+" " +childCategory.name);
           catSel.showLevel3DiseaseSitesDetails("disease-level3Sites", childCategory.id, childCategoryName, childCategory.name);
         })
     });
@@ -213,15 +214,15 @@ showLevel3DiseaseSitesDetails: function(ulID, ilID, ilText, title){
     a.onclick = function() {
         eval("catSel.showLevel4DiseaseSites('disease-level4Sites', " + ilID + ", '" + ilText + "','" + title + "')");
     }
-    a.setAttribute("id", "subcategory_" + ilID);
-    a.id = "subcategory_" + ilID;
+    a.setAttribute("id", "level3Disease_" + ilID);
+    a.id = "level3Disease_" + ilID;
 
     a.setAttribute("title", title);
     a.title = title;
 
     li = document.createElement("li");
-    li.setAttribute("id", "subcategoryli_" + ilID);
-    li.id = "subcategoryli_" + ilID;
+    li.setAttribute("id", "level3Diseasel3_" + ilID);
+    li.id = "level3Diseasel3_" + ilID;
     li.appendChild(a);
     ul.appendChild(li);
 
@@ -234,19 +235,19 @@ showLevel4DiseaseSites :function(ulID, ilID, ilText,title) {
         el.removeClassName("disease-subcategory-selected");
     });
 
-    var selectedSubcategories = $$('li.li-subcategory-selected');
-    selectedSubcategories.each(function(el) {
-        el.removeClassName("li-subcategory-selected");
+    var selectedLevel3DiseaseSites = $$('li.li-subcategory-selected');
+    selectedLevel3DiseaseSites.each(function(el) {
+    //    el.removeClassName("li-subcategory-selected");
     });
 
-	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
-    $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
+//	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
+    $("level3Diseasel3_" + ilID).addClassName("li-subcategory-selected");
     $('disease-level4Sites').innerHTML = "";
 
     level3Id = ilID;
     anatomicDiseaseSite.getLevel4DiseaseSiteCategories(level3Id, function(childCategories) {
         childCategories.each(function(childCategory) {
-          var childCategoryName = (childCategory.name.length > 30 ? childCategory.name.substring(0, 30) + "..." : childCategory.name);
+        	var childCategoryName = (childCategory.name.length > 18 ? childCategory.code+" " +childCategory.name.substring(0, 18) + "..." : childCategory.code+" " +childCategory.name);
           catSel.addLIToUL("disease-level4Sites", childCategory.id, childCategoryName, childCategory.name);
         })
     });
@@ -271,7 +272,7 @@ addLIToUL: function(ulID, ilID, ilText, title) {
     li.appendChild(a);
     ul.appendChild(li);
 
-    $("liTerm" + ilID).addClassName("disease-category");
+    $("liTerm" + ilID).addClassName("li-subcategory-selected");
 },
 
 showCategoryBox:function(){
@@ -495,7 +496,7 @@ function changeStudyVersion(){
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete" style="display: none;"></div>
 			<tags:hoverHint keyProp="studySubject.diseaseSite"/>
-			<tags:button size="small" type="button" color="blue" icon="add" value="Add Disease Site" id="addSingleDiseaseBtn" onclick="$('diseaseIndicator').show();catSel.showCategoryBox();"/>
+			<tags:button size="small" type="button" color="blue" icon="add" value="Select Disease Site" id="addSingleDiseaseBtn" onclick="$('diseaseIndicator').show();catSel.showCategoryBox();"/>
 			<img id="diseaseIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none"/>
 		</div>
 	</div>
@@ -555,30 +556,35 @@ function changeStudyVersion(){
 </tags:formPanelBox>
 <div style="display:none">
     <div id="chooseCategory">
-        <chrome:box title="Select Disease Site">
+        <chrome:box title="ICD9 Disease Sites">
 
         <table width="100%" border="0" cellspacing="0" cellpadding="5">
         <tr bgcolor="#E4E4E4">
             <td align="left" width="20%"><h2 class="title">Disease Site Categories</h2></td>
             <td align="left" width="1px"><img src="<c:url value="/images/chrome/spacer.gif" />"></td>
-            <td align="left" width="20%"><h2 class="title">Disease Site Sub Categories&nbsp;<span style='font-size:12px;'></span></h2></td>
+            <td align="left" width="20%"><h2 class="title">Disease Site Subcategories&nbsp;<span style='font-size:12px;'></span></h2></td>
             <td align="left" width="1px"><img src="<c:url value="/images/chrome/spacer.gif" />"></td>
-            <td align="left" width="20%"><h2 class="title">Disease Sites&nbsp;<span style='font-size:12px;'>(Click to add)</span></h2></td>
+            <td align="left" width="20%"><h2 class="title">Disease Sites&nbsp;<span style='font-size:12px;'></span></h2></td>
             <td align="left" width="1px"><img src="<c:url value="/images/chrome/spacer.gif" />"></td>
-            <td align="left" width="20%"><h2 class="title">Disease Sites&nbsp;<span style='font-size:12px;'>(Click to add)</span></h2></td>
+            <td align="left" width="20%"><h2 class="title">Disease Sites&nbsp;<span style='font-size:12px;'></span></h2></td>
             <td align="left" width="1px"><img src="<c:url value="/images/chrome/spacer.gif" />"></td>
-            <td align="left" width="20%"><h2 class="title">Selected Disease Sites</h2></td>
+            <td align="left" width="20%"><h2 class="title">Selected Disease Site</h2></td>
         </tr>
         <tr>
             <td align="left" valign="top">
                 <div style="overflow:auto; height:460px;">
                 <ul id="categories" class="disease-category">
                     <c:forEach var="cat" items="${diseaseSiteCategories}">
-                    	<c:if test="${fn:length(cat.name) > 30}">
-                    		<c:set var="catName" value="${fn:substring(cat.name,0,30)}......"> </c:set>
-                    	</c:if>
+                    	<c:choose>
+                    	<c:when test="${fn:length(cat.name) > 18}">
+                    		<c:set var="catName" value="[${cat.code} ] ${fn:substring(cat.name,0,18)}..."> </c:set>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<c:set var="catName" value="[${cat.code} ] ${cat.name}"> </c:set>
+                    	</c:otherwise>
+                    	</c:choose>
                         <li id="li_${cat.id}">
-                        	<a id="category_${cat.id}" onclick='catSel.showLevel2DiseaseSites(${cat.id});' class='disease-category' title="${cat.name}">${fn:length(cat.name) > 30 ? catName : cat.name}</a>
+                        	<a id="category_${cat.id}" onclick='catSel.showLevel2DiseaseSites(${cat.id});' class='disease-category' title="${cat.name}">${catName}</a>
                         </li>
                     </c:forEach>
                 </ul>
@@ -608,9 +614,9 @@ function changeStudyVersion(){
         <tr>
             <td colspan="6" style="text-align:right;">
             </td>
-            <td colspan="1" style="text-align:center;">
+            <td colspan="3" style="text-align:center;">
                     <c:if test="${empty localButtons}">
-                        <tags:button color="green" value="Add Disease Site" icon="add" onclick="catSel.finishMultiTermsSelection()" />
+                        <tags:button color="green" value="Select Disease Site" icon="add" onclick="catSel.finishMultiTermsSelection()" />
                     </c:if>
             </td>
         </tr>
@@ -629,7 +635,7 @@ function changeStudyVersion(){
 		list-style-type:none;
     }
 
-	ul#categories li a {
+	ul#categories li a l3 {
 		margin-left:5px;
 	}
 
@@ -649,8 +655,17 @@ function changeStudyVersion(){
         background-image:url(/c3pr/images/chrome/cat-arrow.png);
 		background-repeat:no-repeat;
     }
+    
+    l3.l3-site-selected {
+        background-image:url(/c3pr/images/chrome/cat-arrow.png);
+		background-repeat:no-repeat;
+    }
 
     li.li-category {
+    }
+    
+    l3.l3-site {
+     margin-right: 5px;
     }
 
     a.disease-category:hover {
@@ -680,6 +695,10 @@ function changeStudyVersion(){
         color:#cccccc;
         cursor:pointer;
     }
+    a.term-selected {
+    	background-image:url(/c3pr/images/chrome/cat-arrow.png);
+		background-repeat:no-repeat;
+    }
 
     a.term-disabled:hover {
         font-size:9pt;
@@ -694,6 +713,11 @@ function changeStudyVersion(){
     }
 
     li.li-subcategory-selected {
+        background-image:url(/c3pr/images/chrome/cat-arrow.png);
+		background-repeat:no-repeat;
+    }
+    
+    l3.l3-site-selected {
         background-image:url(/c3pr/images/chrome/cat-arrow.png);
 		background-repeat:no-repeat;
     }
