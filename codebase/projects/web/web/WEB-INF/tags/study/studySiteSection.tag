@@ -21,12 +21,34 @@
 <c:set var="isSiteManageable" value="${site.hostedMode || isLocalSiteCoordinating || isSiteLocal}"/>
 <c:set var="showActionButtons" value="${empty isNewStudySite || !isNewStudySite}"/>
 <chrome:deletableDivision divTitle="studySite-${site.healthcareSite.ctepCode}" onclick="deleteStudySite('${site.healthcareSite.ctepCode}');" title="(${site.healthcareSite.ctepCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.ctepCode}" id="divison-${site.healthcareSite.ctepCode}" cssClass="divisonClass">
+<script >
+function applyLatestAmendment(primaryIdentifier){
+	var arr= $$("#IRBApproval-"+primaryIdentifier);
+	win = new Window({className :"mac_os_x", title: "Apply Latest Amendment",
+							hideEffect:Element.hide,
+							zIndex:100, width:400, height:150 , minimizable:false, maximizable:false,
+							showEffect:Element.show
+							})
+	win.setContent(arr[0]) ;
+	win.showCenter(true);
+}
+
+</script>
 <div id="site-${site.healthcareSite.ctepCode}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
-		<!--  display message about new study version availablity -->
-			<c:if test='${not empty studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}'>
-				<div id="flash-message" class="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}+'.COLOR'"><img src="<tags:imageUrl name='error-red.png'/>" style="vertical-align:bottom;">&nbsp;<fmt:message key="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}" /></div>
-			</c:if>
+		<!--  display message about new study version availablity
+
+
+
+		-->
+		<c:set var="message-color" value="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}+'.COLOR'" />
+		<c:if test='${not empty studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}'>
+			<div id="flash-message" class="${message-color}">
+				<img src="<tags:imageUrl name='error-${message-color}.png'/>" style="vertical-align:bottom;">&nbsp;
+				<fmt:message key="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}" />
+				Please <a href="#" onclick="javascript:applyLatestAmendment('${site.healthcareSite.primaryIdentifier}');">click here</a> to apply new amendment.
+			</div>
+		</c:if>
 		<div class="leftpanel">
 			<div class="row">
 				<div class="label"><fmt:message key="site.studyVersion" /></div>
@@ -162,10 +184,41 @@
 			</c:when>
 			<c:otherwise>
 			<div id="flash-message" class="error"><img src="<tags:imageUrl name='error-red.png'/>" style="vertical-align:bottom;">&nbsp;<fmt:message key="site.action.error.${action}" />&nbsp;${errorMessage}</div>
-
 			</c:otherwise>
 		</c:choose>
 	</div>
 	</c:if>
 </div>
 </chrome:deletableDivision>
+<div style="display:none">
+<div id="IRBApproval-${site.healthcareSite.primaryIdentifier}">
+<chrome:division title="Apply latest amendment">
+<div class="row">
+	<div class="label"><fmt:message key="site.IRBApprovalDate" /></div>
+	<div class="value">
+			<input type="text" name="irbApprovalDate" id="irbApprovalDate1-${site.healthcareSite.ctepCode}" />
+           	<a href="#" id="irbApprovalDate1-${site.healthcareSite.ctepCode}-calbutton">
+      	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+        	</a>
+        	<script type="text/javascript">
+				Calendar.setup(
+		            {
+		                inputField  : "irbApprovalDate1-${site.healthcareSite.ctepCode}",
+		                button      : "irbApprovalDate1-${site.healthcareSite.ctepCode}-calbutton",
+		                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
+		                weekNumbers : false
+		            }
+		        );
+			</script>
+			<div class="row">
+			<input type="button" onclick="applyAmendment('${site.healthcareSite.ctepCode}', '${index}', '${localNCICode}', '${isMultisite}', '${action}', '${errorMessage}');" value="test"/>
+			</div>
+	</div>
+</div>
+</chrome:division>
+<div id="appliedAmendmentDiv-${site.healthcareSite.primaryIdentifier}" style="display: none;">
+</div>
+<div id="irbError-${site.healthcareSite.primaryIdentifier}">
+</div>
+</div>
+</div>

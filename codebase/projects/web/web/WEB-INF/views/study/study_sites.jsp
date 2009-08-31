@@ -151,6 +151,10 @@
 		<tags:tabMethod method="removeCompanionStudyAssociation" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection" javaScriptParam="'studySiteId='+studySiteId+'&parentIndex='+parentIndex"/>
 		$("_doNotSave").name="_doNotSave";
 	}
+
+	function applyAmendment(siteID, index, localNCICode, isMultisite, action, errorMessage ){
+		<tags:tabMethod method="applyAmendment" divElement="'appliedAmendmentDiv-'+siteID" formName="'tabMethodForm'"  viewName="/study/asynchronous/applyAmendmentOnSite" javaScriptParam="'irbApprovalDate='+$('irbApprovalDate1-'+siteID).value+'&sitePrimaryId='+siteID+'&index='+index+'&localNCICode='+localNCICode+'&isMultisite='+isMultisite+'&action='+action+'&errorMessage='+errorMessage"/>
+	}
 	</script>
 </head>
 <body>

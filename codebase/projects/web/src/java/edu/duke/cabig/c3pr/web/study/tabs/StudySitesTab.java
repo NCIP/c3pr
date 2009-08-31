@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +25,12 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
@@ -323,6 +327,56 @@ public class StudySitesTab extends StudyTab {
 		wrapper.setStudy(modifiedStudy);
 		Map map = new HashMap();
 		map.put("command", wrapper);
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+	}
+
+	@SuppressWarnings("unchecked")
+	public ModelAndView applyAmendment(HttpServletRequest request, Object obj,Errors errors) {
+		StudyWrapper wrapper = (StudyWrapper) obj;
+		Study study = wrapper.getStudy();
+		String primaryIdentifier = request.getParameter("sitePrimaryId");
+		String irbApprovalDateStr = request.getParameter("irbApprovalDate");
+		String index = request.getParameter("index");
+		String localNCICode = request.getParameter("localNCICode");
+		String isMultisite = request.getParameter("isMultisite");
+		String action = request.getParameter("action");
+		String errorMessage = request.getParameter("isMultisite");
+
+		StudySite studySite = study.getStudySite(primaryIdentifier);
+		Date irbApprovalDate = null;
+		if(StringUtils.isNotBlank(irbApprovalDateStr)){
+			irbApprovalDate = DateUtil.getUtilDateFromString(irbApprovalDateStr, "MM/dd/yyyy");
+			Date currentDate = new Date();
+	        GregorianCalendar calendar = new GregorianCalendar();
+	        calendar.setTime(currentDate);
+	        calendar.add(calendar.YEAR, -1);
+
+	        String allowedOldDate = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
+	        String todayDate = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
+	        if (irbApprovalDate.before(calendar.getTime()) || irbApprovalDate.after(currentDate)) {
+	        	request.setAttribute("irbApprovalError", "IRB approval should be between" + allowedOldDate + "and "+ todayDate);
+	        }else{
+	        	StudySiteStudyVersion studySiteStudyVersion  = new StudySiteStudyVersion();
+	        	studySiteStudyVersion.setIrbApprovalDate(irbApprovalDate);
+	        	studySiteStudyVersion.setStartDate(irbApprovalDate);
+	        	studySiteStudyVersion.setStudyVersion(wrapper.getStudy().getLatestActiveStudyVersion());
+	    		studySite.addStudySiteStudyVersion(studySiteStudyVersion);
+	    		Study modifiedStudy = studyDao.merge(study);
+	    		studySite = modifiedStudy.getStudySite(primaryIdentifier);
+	    		wrapper.setStudy(modifiedStudy);
+	        }
+		}else{
+			request.setAttribute("irbApprovalError", "IRB approval date is mandatory");
+		}
+		Map map = new HashMap();
+		map.put("command", wrapper);
+		map.put("site", studySite);
+		map.put("index", index);
+		map.put("isMultisite", isMultisite);
+		map.put("localNCICode", localNCICode);
+		map.put("action", action);
+		map.put("errorMessage", errorMessage);
+
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 
