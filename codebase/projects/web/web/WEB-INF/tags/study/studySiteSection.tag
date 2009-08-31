@@ -26,7 +26,7 @@ function applyLatestAmendment(primaryIdentifier){
 	var arr= $$("#IRBApproval-"+primaryIdentifier);
 	win = new Window({className :"mac_os_x", title: "Apply Latest Amendment",
 							hideEffect:Element.hide,
-							zIndex:100, width:400, height:150 , minimizable:false, maximizable:false,
+							zIndex:100, width:450, height:100 , minimizable:false, maximizable:false,
 							showEffect:Element.show
 							})
 	win.setContent(arr[0]) ;
@@ -73,7 +73,7 @@ function applyLatestAmendment(primaryIdentifier){
 					</c:choose>
 				</div>
 			</div>
-			<div class="row">
+			<!-- <div class="row">
 				<div class="label"><fmt:message key="site.activationDate" /></div>
 				<div class="value">
 					<c:choose>
@@ -89,7 +89,7 @@ function applyLatestAmendment(primaryIdentifier){
 						</c:otherwise>
 					</c:choose>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="rightpanel">
 			<div class="row">
@@ -210,6 +210,7 @@ function applyLatestAmendment(primaryIdentifier){
 		            }
 		        );
 			</script>
+			<br>
 			<div class="row">
 				<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.ctepCode}" onclick="applyAmendment('${site.healthcareSite.ctepCode}', '${index}', '${localNCICode}', '${isMultisite}', '${action}', '${errorMessage}');" size="small"/>
 				<tags:button type="button" color="blue" value="Close" id="close" onclick="closePopup();" size="small"/>
