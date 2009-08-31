@@ -5,7 +5,6 @@ import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,7 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 @GenericGenerator(name = "id-generator", strategy = "assigned")
 public class ICD9DiseaseSite extends AbstractMutableDomainObject{
 	
-	private Double code;
+	private String code;
 	private String descriptionText;
 	private ICD9DiseaseSiteCodeDepth level;
 	private boolean selectable;
@@ -57,11 +56,11 @@ public class ICD9DiseaseSite extends AbstractMutableDomainObject{
 		this.name = name;
 	}
 
-	public Double getCode() {
+	public String getCode() {
 		return code;
 	}
 
-	public void setCode(Double code) {
+	public void setCode(String code) {
 		this.code = code;
 	}
 
