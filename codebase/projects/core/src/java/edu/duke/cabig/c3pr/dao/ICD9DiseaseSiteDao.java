@@ -100,7 +100,7 @@ public class ICD9DiseaseSiteDao extends GridIdentifiableDao<ICD9DiseaseSite> {
      * 
      * @return the list< icd9 disease sites>
      */
-    public ICD9DiseaseSite getByCode(Double code){
+    public ICD9DiseaseSite getByCode(String code){
     	return CollectionUtils.firstElement((List<ICD9DiseaseSite>)(getHibernateTemplate().find("from ICD9DiseaseSite where code=?",new Object[]{code})));
     }
     
