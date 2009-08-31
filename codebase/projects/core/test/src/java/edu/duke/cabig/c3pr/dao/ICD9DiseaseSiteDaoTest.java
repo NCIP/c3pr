@@ -70,7 +70,7 @@ public class ICD9DiseaseSiteDaoTest extends DaoTestCase {
 	}
 	
 	public void testGetByCode(){
-		ICD9DiseaseSite icd9DiseaseSite= icd9DiseaseSiteDao.getByCode(200.1);
+		ICD9DiseaseSite icd9DiseaseSite= icd9DiseaseSiteDao.getByCode("200.1");
 		assertNotNull("Error finding ICD9 disease site", icd9DiseaseSite);
 	}
 	
@@ -101,7 +101,7 @@ public class ICD9DiseaseSiteDaoTest extends DaoTestCase {
 		assertNotNull("ICD9 disease site with the give Id not found",icd9DiseaseSite);
 		assertNotNull("Child sites not retrieved",icd9DiseaseSite.getChildSites());
 		assertEquals("Wrong number of children retrieved",2, icd9DiseaseSite.getChildSites().size());
-		assertEquals("Wrong child site retrieved",200.2, icd9DiseaseSite.getChildSites().get(0).getCode());
+		assertEquals("Wrong child site retrieved","200.2", icd9DiseaseSite.getChildSites().get(0).getCode());
 	}
 
 }
