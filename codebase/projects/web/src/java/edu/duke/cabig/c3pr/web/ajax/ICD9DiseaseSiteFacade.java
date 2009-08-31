@@ -45,7 +45,7 @@ public class ICD9DiseaseSiteFacade {
         // cut down objects for serialization
         List<ICD9DiseaseSite> reducedAnatomicSites = new ArrayList<ICD9DiseaseSite>();
         for (ICD9DiseaseSite anatomicSite : anatomicSites) {
-            reducedAnatomicSites.add(buildReduced(anatomicSite, Arrays.asList("id", "name")));
+            reducedAnatomicSites.add(buildReduced(anatomicSite, Arrays.asList("id", "name","code")));
         }
         return reducedAnatomicSites;
     }
@@ -56,7 +56,7 @@ public class ICD9DiseaseSiteFacade {
         // cut down objects for serialization
         List<ICD9DiseaseSite> reducedAnatomicSites = new ArrayList<ICD9DiseaseSite>();
         for (ICD9DiseaseSite level2ICD9DiseaseSite : level2ICD9DiseaseSites) {
-            reducedAnatomicSites.add(buildReduced(level2ICD9DiseaseSite, Arrays.asList("id", "name")));
+            reducedAnatomicSites.add(buildReduced(level2ICD9DiseaseSite, Arrays.asList("id", "name","code")));
         }
         return reducedAnatomicSites;
     }
@@ -67,7 +67,7 @@ public class ICD9DiseaseSiteFacade {
         // cut down objects for serialization
         List<ICD9DiseaseSite> reducedAnatomicSites = new ArrayList<ICD9DiseaseSite>();
         for (ICD9DiseaseSite level3ICD9DiseaseSite : level3ICD9DiseaseSites) {
-            reducedAnatomicSites.add(buildReduced(level3ICD9DiseaseSite, Arrays.asList("id", "name")));
+            reducedAnatomicSites.add(buildReduced(level3ICD9DiseaseSite, Arrays.asList("id", "name","code")));
         }
         return reducedAnatomicSites;
     }
@@ -78,7 +78,7 @@ public class ICD9DiseaseSiteFacade {
         // cut down objects for serialization
         List<ICD9DiseaseSite> reducedAnatomicSites = new ArrayList<ICD9DiseaseSite>();
         for (ICD9DiseaseSite level4ICD9DiseaseSite : level4ICD9DiseaseSites) {
-            reducedAnatomicSites.add(buildReduced(level4ICD9DiseaseSite, Arrays.asList("id", "name")));
+            reducedAnatomicSites.add(buildReduced(level4ICD9DiseaseSite, Arrays.asList("id", "name","code")));
         }
         return reducedAnatomicSites;
     }
