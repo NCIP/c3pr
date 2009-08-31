@@ -652,16 +652,20 @@ function changeStudyVersion(){
     }
 
     li.li-category-selected {
-        background-image:url(/c3pr/images/chrome/cat-arrow.png);
+        background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
 		background-repeat:no-repeat;
     }
     
     l3.l3-site-selected {
-        background-image:url(/c3pr/images/chrome/cat-arrow.png);
+        background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
 		background-repeat:no-repeat;
     }
 
     li.li-category {
+    	cursor:pointer;
+        margin: 5px;
+        padding-left: 0px;
+		list-style-type:none;
     }
     
     l3.l3-site {
@@ -696,7 +700,7 @@ function changeStudyVersion(){
         cursor:pointer;
     }
     a.term-selected {
-    	background-image:url(/c3pr/images/chrome/cat-arrow.png);
+    	background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
 		background-repeat:no-repeat;
     }
 
@@ -710,16 +714,19 @@ function changeStudyVersion(){
         font-size:9pt;
         cursor:pointer;
         line-height:26px;
+        line-height:26px;
     }
 
     li.li-subcategory-selected {
-        background-image:url(/c3pr/images/chrome/cat-arrow.png);
+        background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
 		background-repeat:no-repeat;
+		line-height:26px;
     }
     
     l3.l3-site-selected {
-        background-image:url(/c3pr/images/chrome/cat-arrow.png);
+        background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
 		background-repeat:no-repeat;
+		line-height:26px;
     }
 </style>
 </c:otherwise>
