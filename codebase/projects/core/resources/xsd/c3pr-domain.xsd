@@ -530,7 +530,7 @@
   <xs:complexType name="ICD9DiseaseSiteType">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="code" type="xs:double" />
+      <xs:element minOccurs="0" maxOccurs="1" name="code" type="xs:string" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
