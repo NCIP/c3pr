@@ -229,10 +229,25 @@ public class HealthcareSiteDao extends OrganizationDao {
 		if(StringUtils.isEmpty(primaryIdentifierCode)){
 			return null;
 		}
-		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
+		/*return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
 				.find("select H from HealthcareSite H where " +
 					  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'", 
-						new Object[] {primaryIdentifierCode}));
+						new Object[] {primaryIdentifierCode}));*/
+		
+		Criteria orgCriteria = getHibernateTemplate().getSessionFactory()
+        				.getCurrentSession().createCriteria(HealthcareSite.class);
+        Criteria identifiersAssignedToOrganizationCriteria = orgCriteria.createCriteria("identifiersAssignedToOrganization");
+       
+    	identifiersAssignedToOrganizationCriteria.add(Expression.eq("value", primaryIdentifierCode));
+    	
+//    	identifiersAssignedToOrganizationCriteria.add(Expression.ilike("primaryIndicator", "1"));
+    	identifiersAssignedToOrganizationCriteria.add(Expression.eq("primaryIndicator", Boolean.TRUE));
+    	
+    	if(orgCriteria.list().size() > 0){
+    		return (HealthcareSite)orgCriteria.list().get(0);
+    	} else {
+    		return null;
+    	}        
 	}
 
 	/**

@@ -104,21 +104,11 @@ public class OrganizationDaoTest extends DaoTestCase {
      *
      * @throws Exception the exception
      */
-    public void testGetByNciIdentifier() throws Exception {
-        HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifier("du code");
-        assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
-    }
-
-    /**
-     * Test get by nci identifier.
-     *
-     * @throws Exception the exception
-     */
-    public void testGetByNciIdentifierFromLocal() throws Exception {
+    public void testGetByPrimaryIdentifierFromLocal() throws Exception {
         HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifierFromLocal("du code");
+        assertNotNull(hcs);
         assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
     }
-
 
     /**
      * Test search by example with wild card true.
