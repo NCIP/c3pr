@@ -6,6 +6,7 @@ import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
@@ -72,6 +73,7 @@ public class ICD9DiseaseSite extends AbstractMutableDomainObject{
 		this.descriptionText = descriptionText;
 	}
 
+	@Column(name = "depth")
 	@Enumerated(EnumType.STRING)
 	public ICD9DiseaseSiteCodeDepth getLevel() {
 		return level;
