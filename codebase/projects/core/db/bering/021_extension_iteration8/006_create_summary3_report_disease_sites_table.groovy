@@ -7,7 +7,7 @@ class CreateSummary3ReportDiseaseSites extends edu.northwestern.bioinformatics.b
         }
 		
 	 	if (databaseMatches('oracle')) {
-		   	execute('drop sequence SEQ_summ3_rep_disease_sites_ID cacade');
+		   	execute('drop sequence SEQ_SUMM3_REP_DISEASE_SITES_ID');
 	 	}
 	 	if (databaseMatches('postgres')) {
 		   	execute('drop sequence summ3_rep_disease_sites_ID_SEQ cascade');
