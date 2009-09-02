@@ -6,7 +6,7 @@ class CreateICD9DiseaseSites extends edu.northwestern.bioinformatics.bering.Migr
         	t.addVersionColumn()
         	t.addColumn('code', 'numeric', nullable:true)
         	t.addColumn('description_text', 'string', nullable:true)
-        	t.addColumn('level', 'string', nullable:false)
+        	t.addColumn('depth', 'string', nullable:false)
         	t.addColumn('selectable', 'boolean', nullable:false)
         	t.addColumn('parent_id', 'integer', nullable:true)
         	t.addColumn('summ3_rep_disease_site_id', 'integer', nullable:true)
