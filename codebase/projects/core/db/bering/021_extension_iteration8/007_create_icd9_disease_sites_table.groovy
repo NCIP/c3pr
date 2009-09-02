@@ -13,7 +13,7 @@ class CreateICD9DiseaseSites extends edu.northwestern.bioinformatics.bering.Migr
         }
 		
 	    if (databaseMatches('oracle')) {
-		   	execute('drop sequence SEQ_icd9_disease_sites_ID cascade');
+		   	execute('drop sequence SEQ_icd9_disease_sites_ID');
 	 	}
 	 	if (databaseMatches('postgres')) {
 		   	execute('drop sequence icd9_disease_sites_ID_SEQ cascade');
