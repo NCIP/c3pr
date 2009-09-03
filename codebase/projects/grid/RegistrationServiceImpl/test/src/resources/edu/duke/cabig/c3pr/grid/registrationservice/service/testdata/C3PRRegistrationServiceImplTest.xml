@@ -84,7 +84,7 @@
 
    	<CONTACT_MECHANISMS id="1100" version="1" prt_id="1000"/>
 
-    <icd9_disease_sites id="1100" version="0" name="Skin" code="200" description_text="skin" level="LEVEL2" selectable="0"  />    
+    <icd9_disease_sites id="1100" version="0" name="Skin" code="200" description_text="skin" depth="LEVEL2" selectable="0"  />    
 
     <DISEASE_HISTORY id="1100" version="1" icd9_disease_site_id="1100" retired_indicator = "false" />
 
