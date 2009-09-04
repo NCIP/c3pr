@@ -22,7 +22,6 @@ import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.ArmDao;
-import edu.duke.cabig.c3pr.dao.ConsentVersionDao;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
@@ -36,7 +35,6 @@ import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
-import edu.duke.cabig.c3pr.domain.ConsentVersion;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -104,17 +102,6 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     protected ScheduledEpochDao scheduledEpochDao;
 
     protected StudyDao studyDao;
-
-    protected ConsentVersionDao consentVersionDao;
-
-    public ConsentVersionDao getConsentVersionDao() {
-		return consentVersionDao;
-	}
-
-
-	public void setConsentVersionDao(ConsentVersionDao consentVersionDao) {
-		this.consentVersionDao = consentVersionDao;
-	}
 
 	protected StudySubjectRepository studySubjectRepository;
 
@@ -317,7 +304,6 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
                         ScheduledEpochWorkFlowStatus.class));
         binder.registerCustomEditor(ICD9DiseaseSiteCodeDepth.class, new EnumByNameEditor(
         		ICD9DiseaseSiteCodeDepth.class));
-        binder.registerCustomEditor(ConsentVersion.class, new CustomDaoEditor(consentVersionDao));
 
     }
 
