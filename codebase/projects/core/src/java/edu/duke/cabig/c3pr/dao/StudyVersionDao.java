@@ -52,9 +52,6 @@ public class StudyVersionDao extends GridIdentifiableDao<StudyVersion> implement
 		}
 
 		getHibernateTemplate().initialize(studyVersion.getConsents());
-		for(Consent consent: studyVersion.getConsents()){
-			getHibernateTemplate().initialize(consent.getConsentVersions());
-		}
 
 	}
 

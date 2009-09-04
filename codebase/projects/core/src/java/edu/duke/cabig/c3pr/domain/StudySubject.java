@@ -853,7 +853,7 @@ public Date getInformedConsentSignedDate() {
 	public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus() {
 		if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ALL){
 			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-				if(studySubjectConsentVersion.getConsentVersion() == null){
+				if(studySubjectConsentVersion.getConsent() == null){
 					return RegistrationDataEntryStatus.INCOMPLETE;
 				}
 				if(StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
@@ -863,7 +863,7 @@ public Date getInformedConsentSignedDate() {
 		}else if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
 			boolean dataEntryInComplete = true ;
 			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-				if(studySubjectConsentVersion.getConsentVersion() != null && !StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+				if(studySubjectConsentVersion.getConsent() != null && !StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
 					dataEntryInComplete = false ;
 					break;
 				}
@@ -896,7 +896,7 @@ public Date getInformedConsentSignedDate() {
 	public void evaluateRegistrationDataEntryStatus(List<Error> errors) {
 		if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ALL){
 			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-				if(studySubjectConsentVersion.getConsentVersion() == null){
+				if(studySubjectConsentVersion.getConsent() == null){
 					errors.add(new Error("Informed consent version is missing"));
 				}
 				if(StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
@@ -906,7 +906,7 @@ public Date getInformedConsentSignedDate() {
 		}else if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
 			boolean dataEntryInComplete = true ;
 			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-				if(studySubjectConsentVersion.getConsentVersion() != null && !StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+				if(studySubjectConsentVersion.getConsent() != null && !StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
 					dataEntryInComplete = false ;
 					break;
 				}

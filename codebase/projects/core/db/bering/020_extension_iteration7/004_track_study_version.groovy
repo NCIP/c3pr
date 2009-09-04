@@ -5,16 +5,8 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
        		t.addColumn('grid_id' , 'string' , nullable:true)
        		t.addVersionColumn()
             t.addColumn('name', 'string', nullable:false)
-            t.addColumn('stu_version_id', 'integer', nullable:false)
-        }
-
-        createTable('consent_versions') { t ->
-            t.addColumn('retired_indicator', 'string', nullable:true)
-       		t.addColumn('grid_id' , 'string' , nullable:true)
-       		t.addVersionColumn()
-            t.addColumn('name' , 'string' , nullable:false)
             t.addColumn('effective_date' , 'date' , nullable:false)
-            t.addColumn('consent_id', 'integer',nullable:false)
+            t.addColumn('stu_version_id', 'integer', nullable:false)
         }
 
         createTable('study_versions') { t ->

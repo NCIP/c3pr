@@ -488,17 +488,17 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         	clone.addCompanionStudyAssociation(cloneAssociation);
         }
 
-        for(Consent consent : this.getConsents()){
-        	Consent cloneConsent =  new Consent();
-        	cloneConsent.setName(consent.getName());
-        	for(ConsentVersion consentVersion : consent.getConsentVersions()){
-        		ConsentVersion cloneConsentVersion = new ConsentVersion();
-        		cloneConsentVersion.setEffectiveDate(consentVersion.getEffectiveDate());
-        		cloneConsentVersion.setName(consentVersion.getName());
-        		cloneConsent.addConsentVersion(cloneConsentVersion);
-        	}
-        	clone.addConsent(cloneConsent);
-        }
+//        for(Consent consent : this.getConsents()){
+//        	Consent cloneConsent =  new Consent();
+//        	cloneConsent.setName(consent.getName());
+//        	for(ConsentVersion consentVersion : consent.getConsentVersions()){
+//        		ConsentVersion cloneConsentVersion = new ConsentVersion();
+//        		cloneConsentVersion.setEffectiveDate(consentVersion.getEffectiveDate());
+//        		cloneConsentVersion.setName(consentVersion.getName());
+//        		cloneConsent.addConsentVersion(cloneConsentVersion);
+//        	}
+//        	clone.addConsent(cloneConsent);
+//        }
 
         for(Epoch epoch : this.getEpochs()){
         	Epoch cloneEpoch = new Epoch();
@@ -700,20 +700,20 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
     	}
    	}
 
-	@Transient
-	public ConsentVersion getLatestConsentVersion(){
-		// this method is applicable only of there is 1 onsent available.
-		List<Consent> consents = this.getConsents();
-		if(consents.size() == 1){
-			Consent consent = consents.get(0);
-			List<ConsentVersion> consentVersions = consent.getConsentVersions();
-			Collections.sort(consentVersions);
-			int size = consentVersions.size();
-			if(size >0){
-				return consentVersions.get(size - 1);
-			}
-		}
-		return null;
-	}
+//	@Transient
+//	public ConsentVersion getLatestConsentVersion(){
+//		// this method is applicable only of there is 1 onsent available.
+//		List<Consent> consents = this.getConsents();
+//		if(consents.size() == 1){
+//			Consent consent = consents.get(0);
+//			List<ConsentVersion> consentVersions = consent.getConsentVersions();
+//			Collections.sort(consentVersions);
+//			int size = consentVersions.size();
+//			if(size >0){
+//				return consentVersions.get(size - 1);
+//			}
+//		}
+//		return null;
+//	}
 
 }

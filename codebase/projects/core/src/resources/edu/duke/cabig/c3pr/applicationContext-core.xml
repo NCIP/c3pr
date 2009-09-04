@@ -160,7 +160,6 @@
 			   <value>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</value>
 			   <value>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</value>
 			   <value>edu.duke.cabig.c3pr.domain.Consent</value>
-			   <value>edu.duke.cabig.c3pr.domain.ConsentVersion</value>
 			   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
             </list>
         </property>
@@ -340,7 +339,6 @@
 				   <value>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</value>
 				   <value>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</value>
 				   <value>edu.duke.cabig.c3pr.domain.Consent</value>
-				   <value>edu.duke.cabig.c3pr.domain.ConsentVersion</value>
 				   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
               </list>
         </property>

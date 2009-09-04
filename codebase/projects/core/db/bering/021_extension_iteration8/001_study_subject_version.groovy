@@ -14,7 +14,7 @@ class StudySubjectVersionChanges extends edu.northwestern.bioinformatics.bering.
        		t.addVersionColumn()
             t.addColumn('informed_consent_signed_date', 'date')
             t.addColumn('study_subject_ver_id', 'integer',nullable:false)
-            t.addColumn('consent_version_id', 'integer',nullable:false)
+            t.addColumn('consent_id', 'integer',nullable:false)
         }
 		
 	    if (databaseMatches('oracle')) {

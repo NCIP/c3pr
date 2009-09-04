@@ -24,19 +24,19 @@ import edu.duke.cabig.c3pr.utils.CommonUtils;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SUBJECT_CONSENTS_ID_SEQ") })
 public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainObject{
 
-	private ConsentVersion consentVersion;
+	private Consent consent;
 	private Date informedConsentSignedDate ;
 	private StudySubjectStudyVersion studySubjectStudyVersion;
 
 	@OneToOne
-    @JoinColumn(name="consent_version_id", nullable=false)
+    @JoinColumn(name="consent_id", nullable=false)
     @Cascade( { CascadeType.LOCK})
-	public ConsentVersion getConsentVersion() {
-		return consentVersion;
+	public Consent getConsent() {
+		return consent;
 	}
 
-	public void setConsentVersion(ConsentVersion consentVersion) {
-		this.consentVersion = consentVersion;
+	public void setConsent(Consent consent) {
+		this.consent = consent;
 	}
 
 	public void setInformedConsentSignedDate(Date informedConsentSignedDate) {

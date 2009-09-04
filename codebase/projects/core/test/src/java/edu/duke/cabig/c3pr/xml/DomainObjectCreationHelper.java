@@ -9,7 +9,6 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Consent;
-import edu.duke.cabig.c3pr.domain.ConsentVersion;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -89,19 +88,11 @@ public class DomainObjectCreationHelper {
 	public static void addConsent(Study study){
 		Consent consent= study.getStudyVersion().getConsents().get(0);
 		consent.setName("Male");
-		ConsentVersion consentVersion= consent.getConsentVersions().get(0);
-		consentVersion.setEffectiveDate(new Date());
-		consentVersion.setName("consent name 1");
-		
-		consentVersion= consent.getConsentVersions().get(1);
-		consentVersion.setEffectiveDate(new Date());
-		consentVersion.setName("consent name 2");
+		consent.setEffectiveDate(new Date());
 		
 		consent= study.getStudyVersion().getConsents().get(1);
 		consent.setName("Female");
-		consentVersion= consent.getConsentVersions().get(0);
-		consentVersion.setEffectiveDate(new Date());
-		consentVersion.setName("consent name 3");
+		consent.setEffectiveDate(new Date());
 	}
 	
 	public static void addStudyDesign(Study study){
