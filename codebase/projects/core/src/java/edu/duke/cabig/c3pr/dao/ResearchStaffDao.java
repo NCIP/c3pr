@@ -16,6 +16,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -37,6 +38,7 @@ import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
@@ -383,11 +385,26 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	public List<ResearchStaff> getResearchStaffByOrganizationCtepCodeFromLocal(
 			HealthcareSite healthcareSite) {
 		//run a query against the updated database to get all research staff
+		/*
 		return getHibernateTemplate()
 				.find("from ResearchStaff rs where rs.healthcareSite.id in " +
 					  "(select h.id from HealthcareSite h where " +
 					  "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
-					  new Object[]{healthcareSite.getCtepCode()});
+					  new Object[]{healthcareSite.getCtepCode()});*/
+		
+		Criteria researchStaffCriteria = getHibernateTemplate().getSessionFactory()
+				.getCurrentSession().createCriteria(ResearchStaff.class);
+		Criteria healthcareSiteCriteria = researchStaffCriteria.createCriteria("healthcareSite");
+		Criteria identifiersAssignedToOrganizationCriteria = healthcareSiteCriteria.createCriteria("identifiersAssignedToOrganization");
+		
+		identifiersAssignedToOrganizationCriteria.add(Expression.eq("value", healthcareSite.getCtepCode()));
+		identifiersAssignedToOrganizationCriteria.add(Expression.eq("primaryIndicator", Boolean.TRUE));
+		
+		if(researchStaffCriteria.list().size() > 0){
+    		return researchStaffCriteria.list();
+    	} else {
+    		return null;
+    	}  
 	}
 
 
