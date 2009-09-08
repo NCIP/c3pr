@@ -10,6 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
@@ -112,25 +113,29 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     @SuppressWarnings("unchecked")
     public List<Participant> searchByOrgIdentifier(OrganizationAssignedIdentifier identifier) {
     	
-    	// Doing this check to prevent a SQL GRAMMER Exception when one of the parameters is null or 
-    	// we have to use criteria API or branch the query if there are null values
+    	List <Participant> participantList = new ArrayList<Participant>();
+    	Criteria participantCriteria = getHibernateTemplate().getSessionFactory().getCurrentSession().createCriteria(Participant.class);
+    	Criteria organizationAssignedIdentifiersCriteria = participantCriteria.createCriteria("identifiers");
+    	Criteria healthcareSiteCriteria = organizationAssignedIdentifiersCriteria.createCriteria("healthcareSite");
+    	
     	if(identifier.getType()!=null && identifier.getHealthcareSite()!=null && identifier.getValue()!=null){
     		if(identifier.getHealthcareSite().getId() != null){
-    			return (List<Participant>) getHibernateTemplate()
-                .find("select P from Participant P, Identifier I where I.healthcareSite.id=?" + " and I.value=? and " +
-                	  "I.typeInternal=? and I=any elements(P.identifiers)",
-                      new Object[] { identifier.getHealthcareSite().getId(),identifier.getValue(), identifier.getType() });
+    			healthcareSiteCriteria.add(Expression.eq("id", identifier.getHealthcareSite().getId()));
+    	    	organizationAssignedIdentifiersCriteria.add(Expression.eq("typeInternal", identifier.getType().getCode()));
+    	    	organizationAssignedIdentifiersCriteria.add(Expression.eq("value", identifier.getValue()));
     		}else{
-    			return (List<Participant>) getHibernateTemplate()
-            		.find("select P from Participant P, Identifier I where I.healthcareSite.id in " + 
-		    			  "(select h.id from HealthcareSite h where " +
-		    			  "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')" +
-		    			  " and I.value=? and I.typeInternal=? and I=any elements(P.identifiers)", 
-		    			  new Object[]{identifier.getHealthcareSite().getPrimaryIdentifier(), identifier.getValue(), identifier.getType().getName()});
+    			Criteria identifiersAssignedToOrganizationCriteria = healthcareSiteCriteria.createCriteria("identifiersAssignedToOrganization");
+
+    			identifiersAssignedToOrganizationCriteria.add(Expression.eq("value", identifier.getHealthcareSite().getPrimaryIdentifier()));
+    			identifiersAssignedToOrganizationCriteria.add(Expression.eq("primaryIndicator", Boolean.TRUE));
+    			organizationAssignedIdentifiersCriteria.add(Expression.eq("typeInternal", identifier.getType().getCode()));
+    	    	organizationAssignedIdentifiersCriteria.add(Expression.eq("value", identifier.getValue()));
     		}
-    	} 
-    	return new ArrayList<Participant>();
+    		return participantCriteria.list();
+    	}
+		return participantList;
     }
+
     
     /**
      * Search by system assigned identifier.
