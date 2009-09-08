@@ -77,8 +77,8 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
                 contactMechanismFax.setType(ContactMechanismType.Fax);
                 researchStaff.addContactMechanism(contactMechanismFax);
             }
-
             researchStaff.setGroups(personnelService.getGroups(researchStaff));
+            researchStaffDao.initialize(researchStaff);
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
         }
         else {
@@ -86,10 +86,8 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
             researchStaff.setVersion(Integer.parseInt("1"));
 
             addContactsToResearchStaff(researchStaff);
-
             request.getSession().setAttribute(FLOW, SAVE_FLOW);
         }
-        researchStaffDao.initialize(researchStaff);
         return researchStaff;
     }
 
