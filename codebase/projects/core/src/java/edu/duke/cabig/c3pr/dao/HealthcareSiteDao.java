@@ -220,10 +220,10 @@ public class HealthcareSiteDao extends OrganizationDao {
 	}
 	
 	/**
-	 * Gets by primary IDentifier code from local.
+	 * Gets by primary IDentifier code from local. 
 	 * 
 	 * @param primaryIdentifierCode the nci institute code
-	 * @return the HealthcareSite
+	 * @return the HealthcareSite (Null if not match is found)
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	public HealthcareSite getByPrimaryIdentifierFromLocal(String primaryIdentifierCode) {
 		if(StringUtils.isEmpty(primaryIdentifierCode)){
@@ -239,8 +239,6 @@ public class HealthcareSiteDao extends OrganizationDao {
         Criteria identifiersAssignedToOrganizationCriteria = orgCriteria.createCriteria("identifiersAssignedToOrganization");
        
     	identifiersAssignedToOrganizationCriteria.add(Expression.eq("value", primaryIdentifierCode));
-    	
-//    	identifiersAssignedToOrganizationCriteria.add(Expression.ilike("primaryIndicator", "1"));
     	identifiersAssignedToOrganizationCriteria.add(Expression.eq("primaryIndicator", Boolean.TRUE));
     	
     	if(orgCriteria.list().size() > 0){
