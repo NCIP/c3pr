@@ -273,14 +273,20 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 
         interruptSession();
         OrganizationAssignedIdentifier organizationAssignedIdentifier = new OrganizationAssignedIdentifier();
-        HealthcareSite healthcareSite = new LocalHealthcareSite();
-        healthcareSite.setCtepCode("code");
-        healthcareSite.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
-        organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
+        organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getById(1001));
         organizationAssignedIdentifier.setValue("Identifier Value");
         organizationAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);
         List<Participant> pList = participantDao.searchByOrgIdentifier(organizationAssignedIdentifier);
         assertEquals("wrong size of list", 1, pList.size());
+        assertEquals(pList.get(0).getFirstName(), "Bonds");
+        
+        interruptSession();
+        HealthcareSite healthcareSite = new LocalHealthcareSite();
+        healthcareSite.setCtepCode("code", true);
+        organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
+        List<Participant> prtList = participantDao.searchByOrgIdentifier(organizationAssignedIdentifier);
+        assertEquals("wrong size of list", 1, prtList.size());
+        assertEquals(pList.get(0).getFirstName(), "Bonds");
     }
 
     /**
