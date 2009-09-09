@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -38,9 +36,7 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StudySite.
  *
@@ -59,10 +55,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /** The target accrual number. */
     private Integer targetAccrualNumber;
-
-
-    /** The status change date range. */
-    private List<DateRange> statusChangeDateRange;
 
     /** The c3 pr exception helper. */
     private C3PRExceptionHelper c3PRExceptionHelper;
@@ -93,7 +85,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
         studySiteStudyVersions= new ArrayList<StudySiteStudyVersion>();
         siteStudyStatus = SiteStudyStatus.PENDING;
-        statusChangeDateRange = new ArrayList<DateRange>();
     }
 
     /**
@@ -153,9 +144,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      */
     @Transient
     public Date getStartDate() {
-    	List<DateRange> dates = getStatusChangeDateRange();
-    	if (dates.size() == 0) return null;
-        return dates.get(0).getStartDate();
+        return null ;
     }
 
     /**
@@ -164,15 +153,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      * @param startDate the new start date
      */
     public void setStartDate(Date startDate) {
-    	List<DateRange> dates = getStatusChangeDateRange();
-    	if (dates.size() == 0){
-    		dates.add(new DateRange(startDate , null));
-    	}else{
-    		if(dates.get(dates.size()-1).getEndDate()==null){
-    			throw new RuntimeException("Cannot set start end date for study site. Invalid date range detected");
-    		}
-    		dates.add(new DateRange(startDate , null));
-    	}
     }
 
     /**
@@ -182,9 +162,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      */
     @Transient
     public Date getEndDate() {
-    	List<DateRange> dates = getStatusChangeDateRange();
-    	if (dates.size() == 0) return null;
-        return dates.get(dates.size()-1).getEndDate();
+     return null;
     }
 
     /**
@@ -193,15 +171,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      * @param endDate the new start date
      */
     public void setEndDate(Date endDate) {
-    	List<DateRange> dates = getStatusChangeDateRange();
-    	if (dates.size() == 0){
-    		throw new RuntimeException("Cannot set start end date for study site. Invalid date range detected");
-    	}else{
-    		if(dates.get(dates.size()-1).getStartDate()==null || dates.get(dates.size()-1).getEndDate()!=null){
-    			throw new RuntimeException("Cannot set start end date for study site. Invalid date range detected");
-    		}
-    		dates.get(dates.size()-1).setEndDate(endDate);
-    	}
     }
 
     /* (non-Javadoc)
@@ -939,65 +908,5 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		}
 
 	}
-
-	/**
-	 * Gets the status change dates.
-	 * The format of this string is StartDate1 - EndDate1 , StartDate2 - EndDate2 , ....
-	 *
-	 * @return the status change dates
-	 */
-	public String getStatusChangeDates() {
-		String dateRangeString = "";
-		for (DateRange dateRange : statusChangeDateRange){
-			dateRangeString += dateRange.toString() + " , ";
-		}
-		if(!dateRangeString.equals("")){
-			return dateRangeString.substring(0, dateRangeString.length()-3);
-		}
-		return null;
-	}
-
-	/**
-	 * Sets the status change dates.
-	 *
-	 * @param statusChangeDates the new status change dates
-	 */
-	public void setStatusChangeDates(String statusChangeDates) {
-		if(StringUtils.getBlankIfNull(statusChangeDates).equals("")) return;
-		String[] start_end_date_pairs = statusChangeDates.split(" , ");
-		for (String startEndPair : start_end_date_pairs){
-			String[] pair = startEndPair.split(" - ");
-			if(pair.length == 1){
-				try {
-					DateRange dateRange = new DateRange(new SimpleDateFormat("MM/dd/yyyy").parse(pair[0]) , null);
-					statusChangeDateRange.add(dateRange);
-					return;
-				} catch (ParseException e) {
-					throw new RuntimeException("Invalid format '"+statusChangeDates+"'",e);
-				}
-			}
-			if(pair.length == 2){
-				try {
-					DateRange dateRange = new DateRange(new SimpleDateFormat("MM/dd/yyyy").parse(pair[0]) , new SimpleDateFormat("MM/dd/yyyy").parse(pair[1]));
-					statusChangeDateRange.add(dateRange);
-					return;
-				} catch (ParseException e) {
-					throw new RuntimeException("Invalid format '"+statusChangeDates+"'",e);
-				}
-			}
-		}
-		throw new RuntimeException("Invalid format '"+statusChangeDates+"'");
-	}
-
-	/**
-	 * Gets the status change date range.
-	 *
-	 * @return the status change date range
-	 */
-	@Transient
-	public List<DateRange> getStatusChangeDateRange() {
-		return statusChangeDateRange;
-	}
-
 
 }

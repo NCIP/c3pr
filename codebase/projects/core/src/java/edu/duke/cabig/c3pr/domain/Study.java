@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -83,7 +82,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	private String type;
 	private ConsentRequired consentRequired ;
     private StudyVersion studyVersion;
-	private Integer consentValidityPeriod;
 	// This is for the CADSR exclusion/inclusion criteria file
 	/** The criteria file. */
 	private byte[] criteriaFile;
@@ -1209,14 +1207,6 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	public void setConsentRequired(ConsentRequired consentRequired) {
 		this.consentRequired = consentRequired;
-	}
-
-	public Integer getConsentValidityPeriod() {
-		return consentValidityPeriod;
-	}
-
-	public void setConsentValidityPeriod(Integer consentValidityPeriod) {
-		this.consentValidityPeriod = consentValidityPeriod;
 	}
 
 	public void applyAmendment() {

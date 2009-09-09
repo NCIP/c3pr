@@ -11,7 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -34,9 +33,6 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 
 	/** The end date. */
 	private Date endDate;
-
-	/** The target accrual. */
-	private Integer targetAccrual;
 
 	/** The study subject study versions. */
 	private List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
@@ -141,24 +137,6 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
-	}
-
-	/**
-	 * Gets the target accrual.
-	 *
-	 * @return the target accrual
-	 */
-	public Integer getTargetAccrual() {
-		return targetAccrual;
-	}
-
-	/**
-	 * Sets the target accrual.
-	 *
-	 * @param targetAccrual the new target accrual
-	 */
-	public void setTargetAccrual(Integer targetAccrual) {
-		this.targetAccrual = targetAccrual;
 	}
 
 	/**

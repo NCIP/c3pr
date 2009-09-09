@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -66,6 +65,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 	private AmendmentType amendmentType;
 	private Integer gracePeriod;
+	private Boolean originalIndicator;
 
 	public StudyVersion(){
 		lazyListHelper = new LazyListHelper();
@@ -715,5 +715,13 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 //		}
 //		return null;
 //	}
+	
+	public Boolean getOriginalIndicator() {
+		return originalIndicator;
+	}
+
+	public void setOriginalIndicator(Boolean originalIndicator) {
+		this.originalIndicator = originalIndicator;
+	}
 
 }

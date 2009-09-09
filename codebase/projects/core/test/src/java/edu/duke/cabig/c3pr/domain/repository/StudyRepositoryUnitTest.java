@@ -499,11 +499,12 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         StudySite studySite=study.getStudySites().get(0);
         studySite.setHealthcareSite(healthcaresite); //
         studySite.setStartDate(new Date());
-
+        studySite.setTargetAccrualNumber(1000);
+        
         StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
         StudyVersion studyVersion = new StudyVersion();
         studySiteStudyVersion.setStudyVersion(studyVersion);
-        studySiteStudyVersion.setTargetAccrual(1000);
+        
         studyVersion.setStudy(study);
         studySite.addStudySiteStudyVersion(studySiteStudyVersion);
         study.addStudySite(studySite);

@@ -366,7 +366,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
         StudyVersion studyVersion = new StudyVersion();
         studySiteStudyVersion.setStudyVersion(studyVersion);
-        studySiteStudyVersion.setTargetAccrual(1000);
+        studySite.setTargetAccrualNumber(1000);
         studyVersion.setStudy(study);
         studySite.addStudySiteStudyVersion(studySiteStudyVersion);
         study.addStudySite(studySite);
