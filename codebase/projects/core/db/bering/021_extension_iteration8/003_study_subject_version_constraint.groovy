@@ -21,6 +21,9 @@ class StudySubjecVersionConstraint extends edu.northwestern.bioinformatics.berin
 
 		//add FK consent version to study subject consent version
 		execute("ALTER TABLE study_subject_consents ADD CONSTRAINT FK_SSC_CV FOREIGN KEY (consent_id) REFERENCES consents (ID)");
+		
+		dropColumn('study_subjects', 'informed_consent_signed_date');
+		dropColumn('study_subjects', 'informed_consent_version');
     }
 
 	void down() {

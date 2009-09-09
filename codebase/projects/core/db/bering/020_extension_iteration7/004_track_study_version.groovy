@@ -53,13 +53,11 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
 		
 		
 		addColumn('studies','consent_required', 'string');
-        addColumn('studies','consent_validity_period', 'integer');
 
         addColumn('epochs','stu_version_id', 'integer');
         addColumn('study_diseases','stu_version_id', 'integer');
 
         execute("update studies set consent_required='ALL'");
-		execute("update studies set consent_validity_period=90");
 		execute("update epochs set stu_version_id=stu_id");
 		execute("update study_diseases set stu_version_id=study_id");
 
@@ -78,18 +76,19 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
 		   	execute('rename SEQ_CONSENTS_ID to CONSENTS_ID_SEQ');
 		   	execute('rename SEQ_STUDY_VERSIONS_ID to STUDY_VERSIONS_ID_SEQ');
 		   	execute('rename SEQ_STUDY_SITE_VERSIONS_ID to STUDY_SITE_VERSIONS_ID_SEQ');
+		   	execute('rename SEQ_SITE_STATUS_HISTORY_ID to SITE_STATUS_HISTORY_ID_SEQ');
 	 	}
-
     }
 
 	void down() {
 	    dropTable('consents')
 	    dropTable('study_versions')
 	    dropTable('study_site_versions')
-
+		dropTable('site_status_history');
 	    dropColumn('studies','consent_required');
-        dropColumn('studies','consent_validity_period');
         dropColumn('epochs','stu_version_id');
         dropColumn('study_diseases','stu_version_id');
+        addColumn('epochs', 'stu_id', 'integer');
+        addColumn('study_diseases','stu_id', 'integer');
     }
 }
