@@ -10,7 +10,10 @@
 	<ORGANIZATIONS id="1100" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1100" />
     
     <STUDY_ORGANIZATIONS id="1100" version="1"   study_id="1100"
-    hcs_id="1100" type="SST" site_study_status="ACTIVE" />
+    hcs_id="1100" type="SST"  />
+    
+    	<SITE_STATUS_HISTORY id="1100" version="1" sto_id="1100" site_study_status="ACTIVE"  start_date="01-01-2000" />
+	
     
     <study_site_versions id="1100" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
     stu_version_id="1100" sto_id="1100"/>
