@@ -17,7 +17,10 @@ class MigrateToStudyVersionFropColumns extends edu.northwestern.bioinformatics.b
 		   	execute('rename STUDY_AMENDMENTS_ID_SEQ to SEQ_STUDY_AMENDMENTS_ID');
 	 	}
       	dropTable('study_amendments');
+      	
       	dropColumn('study_organizations','start_date');
+      	dropColumn('study_organizations','end_date');
+      	dropColumn('study_organizations','site_study_status');
     }
 
 	void down() {
