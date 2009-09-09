@@ -15,13 +15,17 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
@@ -36,6 +40,7 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
  * The Class StudySite.
@@ -70,11 +75,14 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
     /** The site study status. */
     private SiteStudyStatus siteStudyStatus;
+	private LazyListHelper lazyListHelper;
+
 
     /**
      * Instantiates a new study site.
      */
     public StudySite() {
+    	lazyListHelper = new LazyListHelper();
         coordinatingCenterStudyStatus=CoordinatingCenterStudyStatus.PENDING;
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
         resourceBundleMessageSource.setBasename("error_messages_multisite");
@@ -85,6 +93,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
         studySiteStudyVersions= new ArrayList<StudySiteStudyVersion>();
         siteStudyStatus = SiteStudyStatus.PENDING;
+        lazyListHelper.add(SiteStatusHistory.class,new InstantiateFactory<SiteStatusHistory>(SiteStatusHistory.class));
     }
 
     /**
@@ -908,5 +917,31 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		}
 
 	}
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name="sto_id")
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<SiteStatusHistory> getSiteStatusHistoryInternal() {
+		return lazyListHelper.getInternalList(SiteStatusHistory.class);
+	}
+
+	public void setSiteStatusHistoryInternal(final List<SiteStatusHistory> siteStatusHistory) {
+		lazyListHelper.setInternalList(SiteStatusHistory.class, siteStatusHistory);
+	}
+
+	@Transient
+	public List<SiteStatusHistory> getSiteStatusHistory() {
+		return lazyListHelper.getLazyList(SiteStatusHistory.class);
+	}
+
+	public void setSiteStatusHistory(List<SiteStatusHistory> siteStatusHistory) {
+		setSiteStatusHistoryInternal(siteStatusHistory);
+	}
+
+	public void addSiteStatusHistory(SiteStatusHistory siteStatusHistory) {
+		getSiteStatusHistory().add(siteStatusHistory);
+	}
+
 
 }
