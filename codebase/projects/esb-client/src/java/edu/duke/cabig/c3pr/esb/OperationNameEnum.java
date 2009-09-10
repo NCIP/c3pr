@@ -24,7 +24,28 @@ public enum OperationNameEnum implements CodedEnum<String> {
 	createCorrelation("createCorrelation"),
 	updateCorrelation("updateCorrelation"),
 	updateCorrelationStatus("updateCorrelationStatus"),
-	getPersonByCTEPId("getPersonByCTEPId");
+	getPersonByCTEPId("getPersonByCTEPId"),
+	//PA
+	get("get"),
+	getByPlannedActivity("getPersonByCTEPId"),
+	getByStudyProtocol("getPersonByCTEPId"),
+	getDocumentsByStudyProtocol("getPersonByCTEPId"),
+	getCurrentByStudyProtocol("getPersonByCTEPId"),
+	getByArm("getPersonByCTEPId"),
+	getPlannedEligibilityCriterion("getPersonByCTEPId"),
+	getPlannedEligibilityCriterionByStudyProtocol("getPersonByCTEPId"),
+	getByStudyProtocolAndRole("getPersonByCTEPId"),
+	getByStudyProtocolAndRoles("getPersonByCTEPId"),
+	isOnhold("getPersonByCTEPId"),
+	getByStudyParticipation("getPersonByCTEPId"),
+	getStudyProtocol("getPersonByCTEPId"),
+	getInterventionalStudyProtocol("getPersonByCTEPId"),
+	getStudyResourceByID("getPersonByCTEPId"),
+	getStudyResourceByStudyProtocol("getPersonByCTEPId"),
+	getSummaryForReportedResource("getPersonByCTEPId"),
+	getStudySiteAccrualStatus("getPersonByCTEPId"),
+	getStudySiteAccrualStatusByStudyParticipation("getPersonByCTEPId"),
+	getCurrentStudySiteAccrualStatusByStudyParticipation("getPersonByCTEPId");
 
     private String code;
 
