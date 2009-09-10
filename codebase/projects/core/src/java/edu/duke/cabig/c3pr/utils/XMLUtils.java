@@ -59,8 +59,8 @@ public class XMLUtils {
         rootElement.setAttribute("studyGridId", studySubject.getStudySite().getStudy().getGridId());
 
         rootElement.addContent(new Element("informedConsentFormSignedDate", "p1", ns)
-                        .setText(new SimpleDateFormat("yyyy-MM-dd").format(studySubject
-                                        .getInformedConsentSignedDate())));
+                        .setText(new SimpleDateFormat("yyyy-MM-dd").format(studySubject.getStudySubjectStudyVersion()
+                        		.getStudySubjectConsentVersions().get(0).getInformedConsentSignedDate())));
         rootElement.addContent(new Element("enrollmentDate", "p1", ns)
                         .setText(new SimpleDateFormat("yyyy-MM-dd").format(studySubject
                                         .getStartDate())));
