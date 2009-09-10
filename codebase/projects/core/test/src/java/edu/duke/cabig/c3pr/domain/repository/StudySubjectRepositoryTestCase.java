@@ -137,8 +137,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
-	        studySubject.setInformedConsentSignedDate(new Date());
-	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 	        studySubject.setId(1);
 	        OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 	        orgIdentifier.setHealthcareSite(studySubject.getStudySite().getHealthcareSite());
@@ -160,8 +159,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
-	        studySubject.setInformedConsentSignedDate(new Date());
-	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 	        studySubject.setId(1);
 	        SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
 			sysIdentifier.setSystemName("C3PR");
@@ -185,8 +183,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
-	        studySubject.setInformedConsentSignedDate(new Date());
-	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        
@@ -217,8 +214,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
-	        studySubject.setInformedConsentSignedDate(new Date());
-	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        studySubjectDao.save(studySubject);
@@ -245,8 +241,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
-	        studySubject.setInformedConsentSignedDate(new Date());
-	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
@@ -269,8 +264,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
-	        studySubject.setInformedConsentSignedDate(new Date());
-	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        studySubjectDao.save(studySubject);
@@ -293,8 +287,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
-	        studySubject.setInformedConsentSignedDate(new Date());
-	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.REGISTRATION.NOT_FOUND_GIVEN_IDENTIFIERS.CODE",null,null)).andReturn("1");
@@ -326,8 +319,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
-	        studySubject.setInformedConsentSignedDate(new Date());
-	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	       // studySubjectDao.merge(studySubject);
@@ -361,8 +353,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
-	        studySubject.setInformedConsentSignedDate(new Date());
-	        studySubject.setInformedConsentVersion("1.0");
+	        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	       // studySubjectDao.merge(studySubject);
