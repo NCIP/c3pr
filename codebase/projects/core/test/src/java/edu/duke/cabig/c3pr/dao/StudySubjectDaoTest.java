@@ -559,8 +559,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
                 scheduledTreatmentEpoch
                                 .addSubjectStratificationAnswers(subjectStratificationAnswer);
             }
-            studySubject.setInformedConsentSignedDate(new Date());
-            studySubject.setInformedConsentVersion("1.0");
             studySubject.setTreatingPhysician(studySubject.getStudySite()
                             .getStudyInvestigatorsInternal().get(0));
             studySubject.getDiseaseHistory().setIcd9DiseaseSite(icd9DiseaseSiteDao.getById(1000));
@@ -686,8 +684,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     private Object bindEnrollmentDetails(Object command) {
         StudySubject studySubject = (StudySubject) command;
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
         studySubject.setTreatingPhysician(studySubject.getStudySite()
                         .getStudyInvestigatorsInternal().get(0));
         return studySubject;
@@ -695,8 +691,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     private Object bindEnrollmentDetailsOtherTreatingPhysician(Object command) {
         StudySubject studySubject = (StudySubject) command;
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
         studySubject.setOtherTreatingPhysician("other treating physician");
         return studySubject;
     }
@@ -834,8 +828,9 @@ public class StudySubjectDaoTest extends DaoTestCase {
     }
 
     public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus(StudySubject studySubject) {
-        if (studySubject.getInformedConsentSignedDateStr().equals("")) return RegistrationDataEntryStatus.INCOMPLETE;
-        if (StringUtils.getBlankIfNull(studySubject.getInformedConsentVersion()).equals("")) return RegistrationDataEntryStatus.INCOMPLETE;
+        if (studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0)== null) return RegistrationDataEntryStatus.INCOMPLETE;
+        if (studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).getConsent()== null) return RegistrationDataEntryStatus.INCOMPLETE;
+        if (studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).getInformedConsentSignedDate().equals("")) return RegistrationDataEntryStatus.INCOMPLETE;
         return RegistrationDataEntryStatus.COMPLETE;
     }
 
@@ -1140,9 +1135,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
     
     public void testStartDateNotNullable() throws Exception{
     	StudySubject studySubject = new StudySubject();
-    	studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
-        StudySite studySite = studySiteDao.getById(1000);
+    	studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());   
+    	StudySite studySite = studySiteDao.getById(1000);
         Participant participant = dao.getById(1000);
         studySubject.setStudySite(studySite);
         studySubject.setParticipant(participant);
