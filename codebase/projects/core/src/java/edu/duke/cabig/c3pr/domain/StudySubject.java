@@ -90,12 +90,6 @@ public class StudySubject extends
 	/** The start date. */
 	private Date startDate;
 
-	/** The informed consent signed date. */
-	private Date informedConsentSignedDate;
-
-	/** The informed consent version. */
-	private String informedConsentVersion;
-
 	/** The primary identifier. */
 	private String primaryIdentifier;
 
@@ -380,25 +374,6 @@ public class StudySubject extends
 		return participant;
 	}
 
-//	@Transient
-	/**
- * Gets the informed consent signed date.
- *
- * @return the informed consent signed date
- */
-public Date getInformedConsentSignedDate() {
-		return informedConsentSignedDate ;
-	}
-
-	/**
-	 * Sets the informed consent signed date.
-	 *
-	 * @param informedConsentSignedDate the new informed consent signed date
-	 */
-	public void setInformedConsentSignedDate(Date informedConsentSignedDate) {
-		this.informedConsentSignedDate = informedConsentSignedDate;
-	}
-
 	/**
 	 * Gets the disapproval reason text.
 	 *
@@ -471,19 +446,6 @@ public Date getInformedConsentSignedDate() {
 				+ (participant != null ? participant.hashCode() : 0);
 		result = 29 * result + (startDate != null ? startDate.hashCode() : 0);
 		return result;
-	}
-
-	/**
-	 * Gets the informed consent signed date str.
-	 *
-	 * @return the informed consent signed date str
-	 */
-	@Transient
-	public String getInformedConsentSignedDateStr() {
-		if (informedConsentSignedDate != null) {
-			return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
-		}
-		return "";
 	}
 
 	/**
@@ -597,25 +559,6 @@ public Date getInformedConsentSignedDate() {
 		}
 
 		return primaryIdentifier;
-	}
-
-	/**
-	 * Gets the informed consent version.
-	 *
-	 * @return the informed consent version
-	 */
-	@Column(name = "informedConsentVersion", nullable = true)
-	public String getInformedConsentVersion() {
-		return informedConsentVersion;
-	}
-
-	/**
-	 * Sets the informed consent version.
-	 *
-	 * @param informedConsentVersion the new informed consent version
-	 */
-	public void setInformedConsentVersion(String informedConsentVersion) {
-		this.informedConsentVersion = informedConsentVersion;
 	}
 
 	/**
