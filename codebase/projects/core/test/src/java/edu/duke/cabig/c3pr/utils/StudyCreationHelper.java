@@ -188,6 +188,7 @@ public class StudyCreationHelper {
         study.setTargetAccrualNumber(150);
         study.setType("Diagnostic");
         study.setDescriptionText("Description Text");
+        study.setOriginalIndicator(true);
         study.setMultiInstitutionIndicator(multiSite);
         if (randomizationType != null) {
             study.setRandomizedIndicator(Boolean.TRUE);
