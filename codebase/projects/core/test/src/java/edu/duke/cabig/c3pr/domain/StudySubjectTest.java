@@ -109,8 +109,8 @@ public class StudySubjectTest extends AbstractTestCase {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        studySubject.getStudySubjectStudyVersion()
+		.getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
         assertEquals("Wrong Registration Data Entry Status", RegistrationDataEntryStatus.COMPLETE,
                         studySubject.evaluateRegistrationDataEntryStatus());
     }
@@ -424,10 +424,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testGetInformedConsentSignedDateStr() throws Exception{
     	StudySubject studySubject1 = new StudySubject();
-    	assertEquals("Unexpected consent signed date","", studySubject1.getInformedConsentSignedDateStr());
+    	assertEquals("Unexpected consent signed date","", studySubject1.getStudySubjectStudyVersion()
+    	 		.getStudySubjectConsentVersions().get(0).getInformedConsentSignedDateStr());
     	Date informedConsentSignedDate = new Date();
-    	studySubject1.setInformedConsentSignedDate(informedConsentSignedDate);
-    	assertEquals("Wrong consent date",DateUtil.formatDate(informedConsentSignedDate,"MM/dd/yyyy"), studySubject1.getInformedConsentSignedDateStr());
+    	 studySubject1.getStudySubjectStudyVersion()
+ 		.getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(informedConsentSignedDate);
+    	assertEquals("Wrong consent date",DateUtil.formatDate(informedConsentSignedDate,"MM/dd/yyyy"), studySubject1.getStudySubjectStudyVersion()
+    	 		.getStudySubjectConsentVersions().get(0).getInformedConsentSignedDateStr());
     }
 
     /**
@@ -586,8 +589,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 
 		replayMocks();
 
-		studySubject.setInformedConsentSignedDate(new Date());
-    	studySubject.setInformedConsentVersion("1");
+		studySubject.getStudySubjectStudyVersion()
+ 		.getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 
 		studySubject.setStudySite(studySite);
 		studySubject.addScheduledEpoch(scheduledEpoch);
@@ -898,8 +901,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 
     	StudySubject parentStudySubject = registerMockFor(StudySubject.class);
     	studySubject.setParentStudySubject(parentStudySubject);
-    	studySubject.setInformedConsentSignedDate(new Date());
-    	studySubject.setInformedConsentVersion("1");
+    	studySubject.getStudySubjectStudyVersion()
+ 		.getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 
     	EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
  		EasyMock.expect(scheduledEpoch.evaluateScheduledEpochDataEntryStatus((List<Error>)EasyMock.anyObject())).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
@@ -1021,8 +1024,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
     	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
 
-    	studySubject.setInformedConsentSignedDate(new Date());
-    	studySubject.setInformedConsentVersion("1");
+    	studySubject.getStudySubjectStudyVersion()
+ 		.getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
 
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
     	EasyMock.expect(epoch.getReservationIndicator()).andReturn(true);
