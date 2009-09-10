@@ -45,7 +45,8 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
-
+            study.getStudyVersion().setOriginalIndicator(true);
+            
             Epoch epoch1 = new Epoch();
             Arm armA = new Arm();
             armA.setName("A");
@@ -148,6 +149,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
             study.setType("Type");
+            study.getStudyVersion().setOriginalIndicator(true);
             study.setMultiInstitutionIndicator(Boolean.TRUE);
             Epoch epoch = new Epoch();
             InclusionEligibilityCriteria incCrit = new InclusionEligibilityCriteria();
@@ -276,6 +278,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
             study.setTargetAccrualNumber(150);
+            study.getStudyVersion().setOriginalIndicator(true);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
             Epoch epoch = new Epoch();
@@ -317,6 +320,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.getStudyVersion().setOriginalIndicator(true);
 
             Epoch epoch = new Epoch();
             epoch.setName("epoch Name");
