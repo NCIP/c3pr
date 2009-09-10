@@ -30,8 +30,6 @@ public class OrganizationServiceTest extends DaoTestCase {
     public static final String HCS_NAME = "Duke";
 
     public OrganizationServiceTest() {
-//        setAutowireMode(AUTOWIRE_BY_NAME);
-    	
     	organizationService = (OrganizationService) getApplicationContext()
     	.getBean("organizationService");
         String strValue = "test" + String.valueOf(Math.random());

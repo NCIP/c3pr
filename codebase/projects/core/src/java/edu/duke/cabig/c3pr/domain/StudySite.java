@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -19,7 +20,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
@@ -46,7 +46,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
  * The Class StudySite.
  *
  * @author Ram Chilukuri, Priyatam
- * @author kherm
+ * @author kherm, himanshu
  */
 @Entity
 @DiscriminatorValue(value = "SST")
@@ -74,7 +74,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     private List<StudySiteStudyVersion> studySiteStudyVersions;
 
     /** The site study status. */
-    private SiteStudyStatus siteStudyStatus;
 	private LazyListHelper lazyListHelper;
 
 
@@ -92,7 +91,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         this.c3prErrorMessages = resourceBundleMessageSource1;
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
         studySiteStudyVersions= new ArrayList<StudySiteStudyVersion>();
-        siteStudyStatus = SiteStudyStatus.PENDING;
         lazyListHelper.add(SiteStatusHistory.class,new InstantiateFactory<SiteStatusHistory>(SiteStatusHistory.class));
     }
 
@@ -105,8 +103,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     public boolean isUsed() {
         return getStudySubjects().size() > 0;
     }
-
-    // / BEAN PROPERTIES
 
     /**
      * Gets the study subjects.
@@ -153,35 +149,41 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      */
     @Transient
     public Date getStartDate() {
-        return null ;
+    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
+        if(siteStatusHistoryList.size() > 0){
+        	TreeSet<SiteStatusHistory> siteStatusHistorySet = new TreeSet<SiteStatusHistory>();
+            siteStatusHistorySet.addAll(siteStatusHistoryList);
+            return siteStatusHistorySet.last().getStartDate();
+        }
+    	return null ;
     }
-
-    /**
-     * Sets the start date.
-     *
-     * @param startDate the new start date
-     */
-    public void setStartDate(Date startDate) {
+    
+    public void setStartDate(Date startDate){
+    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
+    	int size = siteStatusHistoryList.size(); 
+        if(size == 0){
+        	getSiteStatusHistory().get(0).setStartDate(startDate);
+        }else{
+        	if(getSiteStatusHistory().get(size -1).getEndDate() != null){
+        		getSiteStatusHistory().get(size).setStartDate(startDate);
+        	}else{
+        		throw new RuntimeException("Cannot set start date for study site. end date is not set for previous status");
+        	}
+        }
     }
-
-    /**
-     * Gets the start date.
-     *
-     * @return the start date
-     */
-    @Transient
-    public Date getEndDate() {
-     return null;
+    
+    public void setEndDate(Date endDate){
+    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
+    	int size = siteStatusHistoryList.size(); 
+        if(size > 0){
+        	if(getSiteStatusHistory().get(size -1).getStartDate() != null){
+        		getSiteStatusHistory().get(size-1).setEndDate(endDate);
+        	}else{
+        		throw new RuntimeException("Cannot set end date for study site. start date is not set");
+        	}
+        }
     }
-
-    /**
-     * Sets the start date.
-     *
-     * @param endDate the new start date
-     */
-    public void setEndDate(Date endDate) {
-    }
-
+    
     /* (non-Javadoc)
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
@@ -215,9 +217,24 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      *
      * @return the site study status
      */
-    @Enumerated(EnumType.STRING)
+    @Transient
     public SiteStudyStatus getSiteStudyStatus() {
-        return siteStudyStatus;
+        List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
+        if(siteStatusHistoryList.size() > 0){
+        	TreeSet<SiteStatusHistory> siteStatusHistorySet = new TreeSet<SiteStatusHistory>();
+            siteStatusHistorySet.addAll(siteStatusHistoryList);
+            return siteStatusHistorySet.last().getSiteStudyStatus();
+        }
+        return SiteStudyStatus.PENDING;
+    }
+    
+    public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus){
+    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
+        if(siteStatusHistoryList.size() > 0){
+        	TreeSet<SiteStatusHistory> siteStatusHistorySet = new TreeSet<SiteStatusHistory>();
+            siteStatusHistorySet.addAll(siteStatusHistoryList);
+            siteStatusHistorySet.last().setSiteStudyStatus(siteStudyStatus);
+        }
     }
 
     /**
@@ -586,9 +603,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      *
      * @param siteStudyStatus the new site study status
      */
-    public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus) {
-        this.siteStudyStatus = siteStudyStatus;
-    }
 
     /**
      * Builds the map for notification.
@@ -843,7 +857,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	 * Checks if the current study version setup is valid.
 	 */
 	public void isStudyVersionSetupValid(){
-		if(siteStudyStatus != SiteStudyStatus.PENDING){
+		if(getSiteStudyStatus() != SiteStudyStatus.PENDING){
 			isStudyVersionSetupValid(new Date());
 		}
 	}

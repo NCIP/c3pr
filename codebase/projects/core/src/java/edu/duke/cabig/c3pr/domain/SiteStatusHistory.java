@@ -17,7 +17,7 @@ import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 @Entity
 @Table(name = "SITE_STATUS_HISTORY")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "SITE_STATUS_HISTORY_ID_SEQ") })
-public class SiteStatusHistory extends AbstractMutableDeletableDomainObject {
+public class SiteStatusHistory extends AbstractMutableDeletableDomainObject implements Comparable<SiteStatusHistory>{
 	
 	private Date startDate;
 	private Date endDate;
@@ -42,5 +42,17 @@ public class SiteStatusHistory extends AbstractMutableDeletableDomainObject {
 		this.siteStudyStatus = siteStudyStatus;
 	}
 	
+	public int compareTo(SiteStatusHistory siteStatusHistory) {
+    	if(this.startDate == null && siteStatusHistory.getStartDate() == null){
+    		return 0;
+    	}else if(this.startDate == null && siteStatusHistory.getStartDate() != null){
+    		return 1;
+    	}else if(this.startDate != null && siteStatusHistory.getStartDate() == null){
+    		return -1;
+    	}else{
+    		return this.startDate.compareTo(siteStatusHistory.getStartDate());
+    	}
+   	}
+
 	
 }
