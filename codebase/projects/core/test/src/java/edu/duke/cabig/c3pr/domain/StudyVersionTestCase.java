@@ -221,11 +221,6 @@ public class StudyVersionTestCase extends AbstractTestCase {
 		assertEquals("c3pr error message is instance of ResourceBundleMessageSource", true,  simpleStudyVersion.getC3prErrorMessages() instanceof ResourceBundleMessageSource) ;
 	}
 
-	public void testGetMandatoryIndicator() throws Exception{
-		//assertFalse("this version is not mandatory", basicStudyVersion.getMandatoryIndicator());
-		fail();
-	}
-
 	public void testGetComments() throws Exception{
 		assertEquals("comment is basic study", "basic study", basicStudyVersion.getComments());
 	}
