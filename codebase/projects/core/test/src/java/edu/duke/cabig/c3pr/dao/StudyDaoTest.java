@@ -170,6 +170,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
             SecurityContextTestUtils.switchToNobody();
 
             try {
@@ -242,6 +243,7 @@ public class StudyDaoTest extends DaoTestCase {
         study.setTargetAccrualNumber(150);
         study.setType("Type");
         study.setMultiInstitutionIndicator(Boolean.TRUE);
+        study.setOriginalIndicator(true);
         return study;
     }
 
@@ -545,6 +547,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
 
             createDefaultStudyWithDesign(study);
             dao.save(study);
@@ -578,6 +581,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(100);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
 
             createDefaultStudyWithDesign(study);
 
@@ -658,6 +662,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
 
             study.addEpoch(studyCreationHelper.createEpoch("Screening"));
             study.addEpoch(studyCreationHelper.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));
@@ -936,6 +941,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
             study.addEpoch(studyCreationHelper.createEpochWithArms("TestTreatmentEpoch1", "Arm A", "Arm B",
                             "Arm C"));
             study.getEpochs().get(0).setEpochOrder(0);
@@ -977,6 +983,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
 
             study.addEpoch(studyCreationHelper.createEpoch("TestNonTreatmentEpoch"));
             study.getEpochs().get(0).setEpochOrder(2);
@@ -1037,6 +1044,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
 
             study.addEpoch(studyCreationHelper.createEpochWithArms("TestTreatmentEpoch1", "Arm A", "Arm B",
                             "Arm C"));
@@ -1133,6 +1141,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
 
             // Study Site
             StudySite studySite = new StudySite();
@@ -1183,6 +1192,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
 
             // Study Site
             StudySite studySite = new StudySite();
@@ -1354,7 +1364,7 @@ public class StudyDaoTest extends DaoTestCase {
         study.setTargetAccrualNumber(150);
         study.setType("Type");
         study.setMultiInstitutionIndicator(Boolean.TRUE);
-
+        study.setOriginalIndicator(true);
         // Study Site
         StudySite studySite = new StudySite();
         studySite.setHealthcareSite(site);
@@ -1596,6 +1606,7 @@ public class StudyDaoTest extends DaoTestCase {
     	study.setShortTitleText("short title");
     	study.setType("type");
     	study.getStudyVersion().setPrecisText("");
+    	study.setOriginalIndicator(true);
     	StudySite studySite = new StudySite();
     	studySite.getStudySiteStudyVersion().setStudyVersion(study.getStudyVersion());
     	HealthcareSite healthcareSite = healthcareSitedao.getById(1000);
@@ -1623,6 +1634,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setTargetAccrualNumber(150);
             study.setType("Type");
             study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
             SecurityContextTestUtils.switchToNobody();
 
 
