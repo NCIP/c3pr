@@ -299,8 +299,9 @@ public class StudySubjectFactory {
     }
 
     private void fillStudySubjectDetails(StudySubject studySubject, StudySubject source){
-        studySubject.setInformedConsentSignedDate(source.getInformedConsentSignedDate());
-        studySubject.setInformedConsentVersion(source.getInformedConsentVersion());
+        studySubject.getStudySubjectStudyVersion()
+		.getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(source.getStudySubjectStudyVersion()
+        		.getStudySubjectConsentVersions().get(0).getInformedConsentSignedDate());
         studySubject.setStartDate(source.getStartDate());
         studySubject.setStratumGroupNumber(source.getStratumGroupNumber());
         studySubject.setPaymentMethod(source.getPaymentMethod());
