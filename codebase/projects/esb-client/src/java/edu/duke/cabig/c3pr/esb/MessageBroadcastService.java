@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.esb;
 
+import java.util.List;
+
 public interface MessageBroadcastService {
 
     public static final String DUMMY_ID = "dummy_grid_id";
@@ -33,4 +35,16 @@ public interface MessageBroadcastService {
      * @throws BroadcastException the broadcast exception
      */
     public String broadcastCoppaMessage(String cctsDomainObjectXML, edu.duke.cabig.c3pr.esb.Metadata localMetadata) throws BroadcastException;
+    
+    /**
+     * Broadcast coppa message.
+     * 
+     * @param cctsDomainObjectXMLList List of ccts domain object xmls
+     * @param localMetadata the local metadata
+     * 
+     * @return the string
+     * 
+     * @throws BroadcastException the broadcast exception
+     */
+    public String broadcastCoppaMessage(List<String> cctsDomainObjectXMLList, edu.duke.cabig.c3pr.esb.Metadata localMetadata) throws BroadcastException;
 }
