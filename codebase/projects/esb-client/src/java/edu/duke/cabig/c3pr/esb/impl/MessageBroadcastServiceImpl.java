@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.esb.impl;
 
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -52,4 +53,10 @@ public class MessageBroadcastServiceImpl extends JmsService implements MessageBr
     	// TODO Auto-generated method stub
     	return null;
     }
+
+
+	public String broadcastCoppaMessage(List<String> cctsDomainObjectXMLList, Metadata localMetadata) throws BroadcastException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
