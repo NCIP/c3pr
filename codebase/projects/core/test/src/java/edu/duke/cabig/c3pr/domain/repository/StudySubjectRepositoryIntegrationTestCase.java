@@ -84,12 +84,12 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     
     public void testSaveWithID() throws Exception{
         studySubject=studySubjectDao.getById(1100);
-        studySubject.setInformedConsentVersion("1.4");
+        studySubject.setOtherTreatingPhysician("other PI");
         Integer id=studySubjectRepository.save(studySubject).getId();
         assertNotNull("saved id is null", id);
         interruptSession();
         studySubject=studySubjectDao.getById(id);
-        assertEquals("Wrong Consent version", "1.4", studySubject.getInformedConsentVersion());
+        assertEquals("Wrong PI found", "other PI", studySubject.getOtherTreatingPhysician());
     }
     
     public void testSaveWithoutID() throws Exception{
@@ -97,8 +97,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         studySubject.setStudySite(persistedStudySubjectCreator.getLocalNonRandomizedStudySite(false, true, false));
         persistedStudySubjectCreator.prepareToPersistNewStudySubject(studySubject);
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
         Integer id=studySubjectRepository.save(studySubject).getId();
         assertNotNull("saved id is null", id);
         interruptSession();
@@ -109,8 +108,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     public void testDoLocalRegistrationNonRandomizedNonTreatmentStudy() throws Exception{
         studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(true, true, false);
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochWithEligibilityFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
         studySubjectRepository.doLocalRegistration(studySubject);
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
@@ -118,8 +116,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     public void testDoLocalRegistrationNonRandomizedTreatmentStudyWithArm() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratification(studySubject);
@@ -131,8 +128,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     public void testDoLocalRegistrationRandomizedStudyArmNotAssigned() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratification(studySubject);
@@ -154,8 +150,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     public void testDoLocalRegistrationRandomizedStudyArmAssignedPhoneCall() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratification(studySubject);
@@ -175,8 +170,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     public void testDoLocalRegistrationStraightRandomizedBookStudyStratumGroupAbsent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
@@ -193,8 +187,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     public void testDoLocalRegistrationRandomizedStudyBookStratumGroupPresent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratification(studySubject);
@@ -212,8 +205,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     public void testDoLocalRegistrationRandomizedStudyBookStratumGroupNumberPresent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
