@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import junit.framework.TestCase;
 import edu.duke.cabig.c3pr.esb.BroadcastException;
@@ -20,9 +22,9 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 
 	public static final String idpUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
 	public static final String ifsUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
-	public static final String caXchangeUrl = "https://cbvapp-d1017.nci.nih.gov:28445/wsrf-caxchange/services/cagrid/CaXchangeRequestProcessor";
+	public static final String caXchangeUrl = "https://cbvapp-d1017.nci.nih.gov:58445/wsrf-caxchange/services/cagrid/CaXchangeRequestProcessor";
 	
-	public static final String username = "ccts@nih.gov";
+	public static final String username = "Ccts@nih.gov";
 	public static final String password = "!Ccts@nih.gov1";
 	
 	private CaXchangeMessageBroadcasterImpl messageBroadcaster = new CaXchangeMessageBroadcasterImpl();
@@ -365,9 +367,133 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
 	}
 	
+	/**
+	 * Test broadcast for COppa Message - search Protocol.
+	 */
+	public void testBroadcastCoppaMessageForSearchProtocol(){
+
+		String payloadXml = getPayloadForFile("STUDY_PROTOCOL_SEARCH.xml");
+		String offsetXml = getPayloadForFile("OFFSET.xml");
+		
+		//search PA takes OFFSET as additional mandatory payload 
+		List<String> cctsDomainObjectXMLList = new ArrayList<String>();
+		cctsDomainObjectXMLList.add(payloadXml);
+		cctsDomainObjectXMLList.add(offsetXml);
+		
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.STUDY_PROTOCOL.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(cctsDomainObjectXMLList, mData);
+        	System.out.println(serviceResponsePayload);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message - get study Protocol.
+	 */
+	public void testBroadcastCoppaMessageForGetStudyProtocol(){
+
+		String payloadXml = getPayloadForFile("STUDY_PROTOCOL_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_PROTOCOL.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message - Get StudyParticipation.
+	 */
+	public void testBroadcastCoppaMessageForGetStudyParticipationByStudyProtocol(){
+
+		String payloadXml = getPayloadForFile("STUDY_PROTOCOL_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getByStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_PARTICIPATION.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message - Get StudyParticipation.
+	 */
+	public void testBroadcastCoppaMessageForGetStudyParticipation(){
+
+		String payloadXml = getPayloadForFile("STUDY_PARTICIPATION_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.get.getName(), "extId", ServiceTypeEnum.STUDY_PARTICIPATION.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message - get Arm.
+	 */
+	public void testBroadcastCoppaMessageForGetArm(){
+
+		String payloadXml = getPayloadForFile("ARM_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.get.getName(), "extId", ServiceTypeEnum.ARM.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message - get Arm By StudyProtocol.
+	 */
+	public void testBroadcastCoppaMessageForGetArmByStudyProtocol(){
+
+		String payloadXml = getPayloadForFile("STUDY_PROTOCOL_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getByStudyProtocol.getName(), "extId", ServiceTypeEnum.ARM.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	
 	/*	this test fails but with a xml message related exception which means that the connection was successfuly established.
 	 * 
-	 * public void testConnection() throws MalformedURIException, RemoteException, GlobusCredentialException, FileNotFoundException{
+	 * 
+	public void testConnection() throws RemoteException, GlobusCredentialException, FileNotFoundException, org.apache.axis.types.URI.MalformedURIException{
 		CaXchangeRequestProcessorClient crpc = new CaXchangeRequestProcessorClient(caXchangeUrl, new GlobusCredential(new FileInputStream("C:\\nci_credential")));
 		crpc.processRequestSynchronously(new Message());
 	}*/

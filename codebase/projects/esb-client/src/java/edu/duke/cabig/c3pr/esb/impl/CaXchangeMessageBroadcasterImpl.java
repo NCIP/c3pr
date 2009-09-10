@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -13,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -54,7 +56,6 @@ import gov.nih.nci.caxchange.Request;
 import gov.nih.nci.caxchange.ResponseMessage;
 import gov.nih.nci.caxchange.Statuses;
 import gov.nih.nci.caxchange.TargetResponseMessage;
-import gov.nih.nci.coppa.services.client.CoreServicesClient;
 
 /**
  * Sends messages to caXchange. Also, will notify of the message status
@@ -162,20 +163,14 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
      * @return responseXML as string
      */
     public String broadcastCoppaMessage(String cctsDomainObjectXML, edu.duke.cabig.c3pr.esb.Metadata localMetadata) throws BroadcastException {
-
     	String serviceResponsePayload = null;
-
-        CaXchangeRequestProcessorClient caXchangeClient = null;
-        GlobusCredential proxy = getProxy();
         Credentials credentials = getCredentials();
 
         //marshall the bean
         Document messageDOM = marshallBean(cctsDomainObjectXML);
         
-        ResponseMessage responseMessage = null;
         try {
-        	caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL, proxy);
-            Message xchangeMessage = CaXchangeMessageHelper.createXchangeMessage(messageDOM);
+            Message xchangeMessage = new Message();
 
             Metadata mData = buildMetadata(localMetadata, messageDOM, credentials);
             xchangeMessage.setMetadata(mData);
@@ -186,28 +181,92 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
             messagePayload.set_any(new MessageElement[]{messageElement});
             Request request = new Request();
             xchangeMessage.setRequest(request);
-
             xchangeMessage.getRequest().setBusinessMessagePayload(messagePayload);
 
-            log.debug("Sending message to caXchange");
-            responseMessage = caXchangeClient.processRequestSynchronously(xchangeMessage);
-            InputStream serializeStream = CaXchangeRequestProcessorClient.class.getResourceAsStream("client-config.wsdd");
-            StringWriter writer = new StringWriter();
-
-            Utils.serializeObject(responseMessage, new QName(namespaceURI,localPart),writer, serializeStream);
-            serviceResponsePayload =  writer.getBuffer().toString();
-
-        } catch (RemoteException e) {
-            log.error("caXchange could not process request", e);
-            throw new BroadcastException("caXchange could not process message", e);
+            serviceResponsePayload = broadcastCoppaMessage(xchangeMessage);
         } catch (MalformedURIException e) {
-			e.printStackTrace();
 			log.error("Could not instantiate CaXchangeRequestProcessorClient");
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.error("Could not serialize ");
-		}
+			log.error(e.getMessage());
+		} 
 		return serviceResponsePayload;
+    }
+    
+    /**
+     * * Broadcasts the COPPA content to caXchange. This is used by the PA searches which return more than one result 
+     *   and needs an offset to be specified.
+     *
+     * @param cctsDomainObjectXMLList list of xml messages 
+     * @param edu.duke.cabig.c3pr.esb.Metadata localMetadata   
+     * 			localMetadata includes attributes like externalId(business id of the message. You can track messages by this id)
+     * 			and operationType (e.g. NA, PERSON, ORGANIZATION etc)
+     * @throws BroadcastException
+     * @return responseXML as string
+     */
+    public String broadcastCoppaMessage(List<String> cctsDomainObjectXMLList, edu.duke.cabig.c3pr.esb.Metadata localMetadata) throws BroadcastException  {        
+    	String serviceResponsePayload = null;
+    	Credentials credentials = getCredentials(); 
+    	
+    	MessageElement[] messageElements = new MessageElement[2];        
+    	Document messageDOM = null;        
+    	MessageElement messageElement = null;                
+    	for(int i=0;i < cctsDomainObjectXMLList.size() ; i++){            
+	    	//marshall the bean            
+	    	messageDOM = marshallBean(cctsDomainObjectXMLList.get(i));            
+	    	messageElement = new MessageElement(messageDOM.getDocumentElement());            
+	    	messageElements[i] = messageElement;        
+    	}
+    	
+    	try {            
+    		Message xchangeMessage = new Message();   
+    		
+    		Metadata mData = buildMetadata(localMetadata, messageDOM, credentials);            
+    		xchangeMessage.setMetadata(mData);   
+    		
+    		MessagePayload messagePayload = new MessagePayload();            
+    		messagePayload.setXmlSchemaDefinition(new URI("http://pa.services.coppa.nci.nih.gov"));
+    		messagePayload.set_any(messageElements);            
+    		Request request = new Request();           
+    		xchangeMessage.setRequest(request);
+    		xchangeMessage.getRequest().setBusinessMessagePayload(messagePayload); 
+
+    		serviceResponsePayload = broadcastCoppaMessage(xchangeMessage);
+    	} catch (MalformedURIException e) {            
+    		log.error("Could not instantiate CaXchangeRequestProcessorClient");      
+    		log.error(e.getMessage());
+    	}  
+    	return serviceResponsePayload;
+    }
+    
+    
+    /** private method used by the broadcastCoppa overloaded methods
+     * 
+     * @param xchangeMessage
+     * @return
+     * @throws BroadcastException
+     */
+    private String broadcastCoppaMessage(Message xchangeMessage) throws BroadcastException{
+    	String serviceResponsePayload = null;   
+    	CaXchangeRequestProcessorClient caXchangeClient = null;        
+    	GlobusCredential proxy = getProxy();        
+    	
+    	ResponseMessage responseMessage = null;        
+    	try {            
+    		caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL, proxy);            
+
+    		log.debug("Sending message to caXchange");                        
+    		responseMessage = caXchangeClient.processRequestSynchronously(xchangeMessage);  
+    		InputStream serializeStream = CaXchangeRequestProcessorClient.class.getResourceAsStream("client-config.wsdd");            
+    		StringWriter writer = new StringWriter();            
+    		Utils.serializeObject(responseMessage, new QName(namespaceURI,localPart),writer, serializeStream);            
+    		serviceResponsePayload =  writer.getBuffer().toString();        
+    	} catch (RemoteException e) {           
+    		log.error("caXchange could not process request", e);            
+    		throw new BroadcastException("caXchange could not process message", e);        
+    	} catch (Exception e) {            
+    		log.error("Could not serialize ");
+    		log.error(e.getMessage());
+    	}       
+    	return serviceResponsePayload;
     }
     
     
@@ -275,10 +334,13 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
      * @throws BroadcastException the broadcast exception
      */
     private Document marshallBean(String cctsDomainObjectXML)  throws BroadcastException {
-    	Document messageDOM;
-    	try {
-            messageDOM = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(cctsDomainObjectXML)));
-        } catch (SAXException e) {
+    	DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();        
+    	dbf.setNamespaceAware(true);        
+    	Document messageDOM;        
+    	try {            
+    		DocumentBuilder db =dbf.newDocumentBuilder();            
+    		messageDOM = db.parse(new InputSource(new StringReader(cctsDomainObjectXML)));
+    	} catch (SAXException e) {
             throw new BroadcastException("caXchange could not serialize domain object", e);
         } catch (IOException e) {
             throw new BroadcastException("caXchange could not serialize domain object", e);
@@ -303,11 +365,6 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     	
         mData.setOperationName(localMetadata.getOperationName());
         mData.setExternalIdentifier(localMetadata.getExternalIdentifier());
-//        String nodeName = messageDOM.getDocumentElement().getNodeName();
-//        String serviceType =  (String) messageTypesMapping.get(nodeName.substring(nodeName.indexOf(":") + 1));
-        //mData.setServiceType((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName()));
-//        mData.setServiceType(ServiceTypeEnum.PERSON.name());
-        
         mData.setServiceType(localMetadata.getServiceType());
         //will be removed. temp
         mData.setCredentials(creds);
