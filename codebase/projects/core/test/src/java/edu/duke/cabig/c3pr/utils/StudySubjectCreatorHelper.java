@@ -324,8 +324,7 @@ public class StudySubjectCreatorHelper {
     }
 
     public void addEnrollmentDetails(StudySubject studySubject) {
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+    	studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
         studySubject.setOtherTreatingPhysician("Other T P");
     }
 
@@ -374,8 +373,7 @@ public class StudySubjectCreatorHelper {
     }
     
     public void completeRegistrationDataEntry(StudySubject studySubject){
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+    	studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
     }
     
     public void completeScheduledEpochDataEntry(StudySubject studySubject){
