@@ -254,6 +254,7 @@ public class StudyCreationHelper {
         study.setType("Type");
         study.setMultiInstitutionIndicator(Boolean.TRUE);
         study.setStratificationIndicator(Boolean.FALSE);
+        study.setOriginalIndicator(true);
 
         study.getStudyVersion().setName("name");
         study.getStudyVersion().setVersionDate(new Date());

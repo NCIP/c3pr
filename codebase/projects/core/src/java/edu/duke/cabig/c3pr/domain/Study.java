@@ -1276,4 +1276,14 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		return null;
 	}
+	
+	@Transient
+	public Boolean getOriginalIndicator() {
+		 return getStudyVersion().getOriginalIndicator();
+	}
+
+	public void setOriginalIndicator(Boolean originalIndicator) {
+		this.getStudyVersion().setOriginalIndicator(originalIndicator);
+	}
+
 }
