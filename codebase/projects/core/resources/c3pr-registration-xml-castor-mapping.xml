@@ -66,15 +66,6 @@
             <bind-xml name="startDate" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="informedConsentSignedDate" type="string"
-               handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
-            <bind-xml name="informedConsentFormSignedDate" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="informedConsentVersion" type="string">
-            <bind-xml name="informedConsentVersion" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
                collection="collection">
             <bind-xml name="identifier" node="element"
