@@ -53,6 +53,9 @@ public class SiteStatusHistory extends AbstractMutableDeletableDomainObject impl
     		return this.startDate.compareTo(siteStatusHistory.getStartDate());
     	}
    	}
+	
+	public SiteStatusHistory(){
+	}
 
 	
 }
