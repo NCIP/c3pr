@@ -1590,19 +1590,6 @@ public class StudySiteTestCase extends AbstractTestCase {
 		verifyMocks();
 	}
 
-	/**
-	 * Test pending amendment.
-	 */
-	public void testPendingAmendment() {
-		EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
-		EasyMock.expect(study.getLatestActiveStudyVersion()).andReturn(null);
-		replayMocks();
-		studySite.setStudy(study);
-		studySite.pendingAmendment();
-		assertEquals(SiteStudyStatus.AMENDMENT_PENDING, studySite
-				.getSiteStudyStatus());
-		verifyMocks();
-	}
 
 	/**
 	 * Test build map for notification.
