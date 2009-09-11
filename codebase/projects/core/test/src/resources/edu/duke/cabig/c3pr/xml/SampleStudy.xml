@@ -127,20 +127,10 @@
 	</studyOrganization>
 	<consent>
 		<name>Male</name>
-		<consentVersion>
-			<name>consent name 1</name>
-			<effectiveDate>2009-07-30</effectiveDate>
-		</consentVersion>
-		<consentVersion>
-			<name>consent name 2</name>
-			<effectiveDate>2009-07-30</effectiveDate>
-		</consentVersion>
+		<effectiveDate>2009-07-30</effectiveDate>
 	</consent>
 	<consent>
 		<name>Female</name>
-		<consentVersion>
-			<name>consent name 3</name>
-			<effectiveDate>2009-07-30</effectiveDate>
-		</consentVersion>
+		<effectiveDate>2009-07-30</effectiveDate>
 	</consent>
 </study>
