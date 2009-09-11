@@ -394,20 +394,6 @@
             <bind-xml name="name" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="consentVersions" type="edu.duke.cabig.c3pr.domain.ConsentVersion"
-               collection="collection">
-            <bind-xml node="element"
-                      auto-naming="deriveByClass"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-    </class>
-    
-    <class name="edu.duke.cabig.c3pr.domain.ConsentVersion">
-        <map-to xml="consentVersion" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="name" type="string">
-            <bind-xml name="name" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
         <field name="effectiveDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="effectiveDate" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
