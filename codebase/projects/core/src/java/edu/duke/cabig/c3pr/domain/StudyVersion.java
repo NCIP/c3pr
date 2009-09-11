@@ -86,6 +86,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         versionStatus = StatusType.IN ;
         amendmentReasons = new ArrayList<StudyPart>();
         amendmentType = AmendmentType.IMMEDIATE_AFTER_GRACE_PERIOD;
+        originalIndicator = false;
 	}
 
 	public StudyVersion(boolean forSearchByExample){
