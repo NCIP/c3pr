@@ -336,15 +336,9 @@
   <xs:complexType name="Consent">
     <xs:sequence>
       <xs:element name="name" minOccurs="1" maxOccurs="1" type="xs:string"/>
-      <xs:element minOccurs="1" maxOccurs="unbounded" name="consentVersion" type="ConsentVersion"/>
-    </xs:sequence>
-    <xs:attribute name="gridId" type="xs:string" />
-  </xs:complexType>
-  <xs:complexType name="ConsentVersion">
-    <xs:sequence>
-      <xs:element name="name" minOccurs="1" maxOccurs="1" type="xs:string"/>
       <xs:element minOccurs="1" maxOccurs="1" name="effectiveDate" type="xs:date" />
     </xs:sequence>
+    <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
   <xs:complexType name="StudyAmendmentType">
     <xs:sequence>
