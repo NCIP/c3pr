@@ -1088,8 +1088,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         int size = studyVersions.size();
         if( size == 0){
         	StudyVersion localStudyVersion= getStudyVersions().get(0);
+        	localStudyVersion.setOriginalIndicator(true);
         	localStudyVersion.setVersionDate(new Date());
-        	localStudyVersion.setName("1.0");
+        	localStudyVersion.setName("original version");
 			return localStudyVersion;
         }else{
 			return  studyVersions.get(size - 1 );
