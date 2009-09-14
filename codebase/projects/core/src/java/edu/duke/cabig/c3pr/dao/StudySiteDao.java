@@ -58,6 +58,7 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
     public void initialize(StudySite studySite) throws DataAccessException {
     	getHibernateTemplate().initialize(studySite.getStudySubjects());
     	getHibernateTemplate().initialize(studySite.getStudySiteStudyVersions());
+    	getHibernateTemplate().initialize(studySite.getSiteStatusHistory());
     }
 
     /**
