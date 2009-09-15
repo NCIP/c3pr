@@ -32,15 +32,9 @@ function applyLatestAmendment(primaryIdentifier){
 	win.setContent(arr[0]) ;
 	win.showCenter(true);
 }
-
 </script>
 <div id="site-${site.healthcareSite.ctepCode}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
-		<!--  display message about new study version availablity
-
-
-
-		-->
 		<c:set var="message-color" value="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}+'.COLOR'" />
 		<c:if test='${not empty studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}'>
 			<div id="flash-message" class="${message-color}">
@@ -57,6 +51,21 @@ function applyLatestAmendment(primaryIdentifier){
 				</div>
 			</div>
 			<div class="row">
+				<div class="label"><fmt:message key="c3pr.common.targetAccrual" /></div>
+				<div class="value">
+					<c:choose>
+						<c:when test="${isSiteManageable}">
+							<input type="test" id="targetAccrual-${site.healthcareSite.ctepCode}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
+						</c:when>
+						<c:otherwise>
+							${empty site.targetAccrualNumber?'NA':site.targetAccrualNumber}
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</div>
+		</div>
+		<div class="rightpanel">
+			<div class="row">
 				<div class="label"><fmt:message key="site.IRBApprovalDate" /></div>
 				<div class="value">
 					<c:choose>
@@ -69,38 +78,6 @@ function applyLatestAmendment(primaryIdentifier){
 						</c:when>
 						<c:otherwise>
 							${empty site.irbApprovalDateStr?'NA':site.irbApprovalDateStr }
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</div>
-			<!-- <div class="row">
-				<div class="label"><fmt:message key="site.activationDate" /></div>
-				<div class="value">
-					<c:choose>
-						<c:when test="${isSiteManageable}">
-							<input type="text" name="study.studySites[${index}].startDate" id="startDate-${site.healthcareSite.ctepCode}"
-							class="date validate-DATE" value="${site.startDateStr}"/>
-			            	<a href="#" id="startDate-${site.healthcareSite.ctepCode}-calbutton">
-			           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
-			           		</a>
-						</c:when>
-						<c:otherwise>
-							${empty site.startDateStr?'NA':site.startDateStr }
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</div> -->
-		</div>
-		<div class="rightpanel">
-			<div class="row">
-				<div class="label"><fmt:message key="c3pr.common.targetAccrual" /></div>
-				<div class="value">
-					<c:choose>
-						<c:when test="${isSiteManageable}">
-							<input type="test" id="targetAccrual-${site.healthcareSite.ctepCode}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
-						</c:when>
-						<c:otherwise>
-							${empty site.targetAccrualNumber?'NA':site.targetAccrualNumber}
 						</c:otherwise>
 					</c:choose>
 				</div>
