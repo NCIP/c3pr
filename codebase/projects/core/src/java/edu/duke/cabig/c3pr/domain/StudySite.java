@@ -44,6 +44,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 /**
  * The Class StudySite.
  *
+ *
  * @author Ram Chilukuri, Priyatam
  * @author kherm, himanshu
  */
@@ -121,23 +122,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     	studySubjects.addAll(h);
         return studySubjects;
     }
-
-        
-//    public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus){
-//    	SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
-//    	siteStatusHistory.setSiteStudyStatus(siteStudyStatus);
-//    	this.addSiteStatusHistory(siteStatusHistory);
-//    }
-//    
-//    public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus, Date startDate){
-//    	SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
-//    	siteStatusHistory.setSiteStudyStatus(siteStudyStatus);
-//    	siteStatusHistory.setStartDate(startDate);
-//    	this.addSiteStatusHistory(siteStatusHistory);
-//    	
-//    	// changing the end date of previous status history
-//    	
-//    }
 
     /**
      * Gets the target accrual number.
@@ -793,54 +777,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         return getStudySiteStudyVersion().getIrbApprovalDate();
     }
 
-    /**
-     * Gets the start date.
-     *
-     * @return the start date
-     */
-//    @Transient
-//    public Date getStartDate() {
-//    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
-//    	if(siteStatusHistoryList.size() == 0){
-//    		//Ideally it should not come here.
-//    		throw new RuntimeException("No status history found.");
-//    	}else if(siteStatusHistoryList.size() == 1){
-//    		return siteStatusHistoryList.get(0).getStartDate();
-//        }else if(siteStatusHistoryList.size() > 1){
-//        	throw new RuntimeException("Multiple status found.");
-//        }
-//    	return null ;
-//    }
-//    
-//    public void setStartDate(Date startDate){
-//    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
-//    	int size = siteStatusHistoryList.size(); 
-//        if(size == 0){
-//        	getSiteStatusHistory().get(0).setStartDate(startDate);
-//        }else{
-//        	if(getSiteStatusHistory().get(size -1).getEndDate() != null){
-//        		getSiteStatusHistory().get(size).setStartDate(startDate);
-//        	}else{	
-//        		throw new RuntimeException("Cannot set start date for study site. end date is not set for previous status");
-//        	}
-//        }
-//    }
-//    
-//    public void setEndDate(Date endDate){
-//    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
-//    	int size = siteStatusHistoryList.size(); 
-//        if(size > 0){
-//        	if(getSiteStatusHistory().get(size -1).getStartDate() != null){
-//        		getSiteStatusHistory().get(size-1).setEndDate(endDate);
-//        	}else{
-//        		throw new RuntimeException("Cannot set end date for study site. start date is not set");
-//        	}
-//        }
-//    }
-//    
-    /* (non-Javadoc)
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
     public int compareTo(StudySite o) {
         if (this.equals(o)) return 0;
         else return 1;
@@ -855,16 +791,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     public String getIrbApprovalDateStr() {
         return CommonUtils.getDateString(getIrbApprovalDate());
     }
-
-//    /**
-//     * Gets the start date str.
-//     *
-//     * @return the start date str
-//     */
-//    @Transient
-//    public String getStartDateStr() {
-//    	return CommonUtils.getDateString(getStartDate());
-//    }
 
     /**
      * Gets the site study status.

@@ -1,6 +1,14 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.Date;
+
+import org.easymock.classextension.EasyMock;
+import org.springframework.context.MessageSource;
+
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -8,127 +16,67 @@ import edu.duke.cabig.c3pr.AbstractTestCase;
  */
 public class StudySiteTestCase extends AbstractTestCase {
 
-	/** The study site. */
-//	private StudySite studySite;
-//
-//	/** The study. */
-//	private Study study;
-//
-//	/** The c3 pr exception helper. */
-//	private C3PRExceptionHelper c3PRExceptionHelper;
-//
-//	/** The message source. */
-//	private MessageSource messageSource;
-//
-//	/** The healthcare site. */
-//	private HealthcareSite healthcareSite;
-//
-//	private StudyVersion studyVersion;
-//
-//	/*
-//	 * (non-Javadoc)
-//	 * 
-//	 * @see edu.nwu.bioinformatics.commons.testing.CoreTestCase#setUp()
-//	 */
-//	@Override
-//	protected void setUp() throws Exception {
-//		super.setUp();
-//		studySite = new StudySite();
-//		study = registerMockFor(Study.class);
-//		studyVersion = registerMockFor(StudyVersion.class);
-//		c3PRExceptionHelper = registerMockFor(C3PRExceptionHelper.class);
-//		studySite.setExceptionHelper(c3PRExceptionHelper);
-//		healthcareSite = registerMockFor(HealthcareSite.class);
-//		studySite.setHealthcareSite(healthcareSite);
-//		messageSource = registerMockFor(MessageSource.class);
-//		studySite.setC3prErrorMessages(messageSource);
-//	}
-//
-//	/**
-//	 * Test compare different types of StudySites.
-//	 */
-//	public void testCompareToDifferentType() {
-//		StudySiteSubClass studySiteSubClass = new StudySiteSubClass();
-//		assertEquals(1, studySite.compareTo(studySiteSubClass));
-//	}
-//
-//	/**
-//	 * Test compare same reference.
-//	 */
-//	public void testCompareToSameReference() {
-//		StudySite studySite1 = studySite;
-//		assertEquals(0, studySite.compareTo(studySite1));
-//	}
-//
-//	/**
-//	 * Test get irb approval date.
-//	 */
-//	public void testGetIrbApprovalDateStr() {
-//		studySite.setIrbApprovalDate(new Date());
-//		assertEquals(DateUtil.formatDate(new Date(), "MM/dd/yyyy"), studySite
-//				.getIrbApprovalDateStr());
-//	}
-//
-//	/**
-//	 * Test get irb approval date , throws exception.
-//	 */
-//	public void testGetIrbApprovalDateException() {
-//		try {
-//			assertEquals("", studySite.getIrbApprovalDateStr());
-//		} catch (C3PRBaseRuntimeException e) {
-//			e.printStackTrace();
-//			fail("Shouldn't have failed");
-//		}
-//	}
-//
-//	/**
-//	 * Test get start date.
-//	 */
-//	public void testGetStartDateStr() {
-//		studySite.setStartDate(new Date());
-//		assertEquals(DateUtil.formatDate(new Date(), "MM/dd/yyyy"), studySite
-//				.getStartDateStr());
-//	}
-//
-//	/**
-//	 * Test get start date, null date.
-//	 */
-//	public void testGetStartDateException() {
-//		try {
-//			assertEquals("", studySite.getStartDateStr());
-//		} catch (C3PRBaseRuntimeException e) {
-//			e.printStackTrace();
-//			fail("Shouldn't have failed");
-//		}
-//	}
-//
-//	// /**
-//	// * Test get current accrual count.
-//	// */
-//	// public void testGetCurrentAccrualCount(){
-//	// studySite.setStudySubjects(new ArrayList<StudySubject>());
-//	// StudySubject studySubject= new StudySubject();
-//	// studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
-//	// studySite.addStudySubject(studySubject);
-//	// studySubject= new StudySubject();
-//	// studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.INVALID);
-//	// studySite.addStudySubject(studySubject);
-//	// studySubject= new StudySubject();
-//	// studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
-//	// studySite.addStudySubject(studySubject);
-//	// studySubject= new StudySubject();
-//	// studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
-//	// studySite.addStudySubject(studySubject);
-//	// studySubject= new StudySubject();
-//	// studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
-//	// studySite.addStudySubject(studySubject);
-//	// studySubject= new StudySubject();
-//	// studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
-//	// studySite.addStudySubject(studySubject);
-//	// assertEquals(3, studySite.getCurrentAccrualCount());
-//	// }
-//
-//	
+	private StudySite studySite;
+	private Study study;
+	private C3PRExceptionHelper c3PRExceptionHelper;
+	private MessageSource messageSource;
+	private HealthcareSite healthcareSite;
+	private StudyVersion studyVersion;
+	private SiteStatusHistory siteStatusHistory ;
+	private StudySiteStudyVersion studySiteStudyVersion ; 
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		studySite = new StudySite();
+		study = registerMockFor(Study.class);
+		studyVersion = registerMockFor(StudyVersion.class);
+		siteStatusHistory = registerMockFor(SiteStatusHistory.class);
+		c3PRExceptionHelper = registerMockFor(C3PRExceptionHelper.class);
+		studySite.setExceptionHelper(c3PRExceptionHelper);
+		healthcareSite = registerMockFor(HealthcareSite.class);
+		studySite.setHealthcareSite(healthcareSite);
+		messageSource = registerMockFor(MessageSource.class);
+		studySite.setC3prErrorMessages(messageSource);
+		studySiteStudyVersion = registerMockFor(StudySiteStudyVersion.class);
+	}
+
+	/**
+	 * Test compare different types of StudySites.
+	 */
+	public void testCompareToDifferentType() {
+		SubStudySite subStudySite = new SubStudySite();
+		assertEquals(1, studySite.compareTo(subStudySite));
+	}
+
+	/**
+	 * Test compare same reference.
+	 */
+	public void testCompareToSameReference() {
+		StudySite studySite1 = studySite;
+		assertEquals(0, studySite.compareTo(studySite1));
+	}
+
+	/**
+	 * Test get irb approval date.
+	 */
+	public void testGetIrbApprovalDateStr() {
+		studySite.setIrbApprovalDate(new Date());
+		assertEquals(DateUtil.formatDate(new Date(), "MM/dd/yyyy"), studySite.getIrbApprovalDateStr());
+	}
+
+	/**
+	 * Test get irb approval date , throws exception.
+	 */
+	public void testGetIrbApprovalDateException() {
+		try {
+			assertEquals("", studySite.getIrbApprovalDateStr());
+		} catch (C3PRBaseRuntimeException e) {
+			e.printStackTrace();
+			fail("Shouldn't have failed");
+		}
+	}
+
 //	/**
 //	 * Test activate. siteStudyStatus: Active
 //	 */
@@ -1541,4 +1489,8 @@ public class StudySiteTestCase extends AbstractTestCase {
 //		verifyMocks();
 //	}
 
+}
+
+class SubStudySite extends StudySite{
+	
 }
