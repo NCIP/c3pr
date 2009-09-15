@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -35,6 +37,8 @@ public class SiteStatusHistory extends AbstractMutableDeletableDomainObject impl
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	@Enumerated(EnumType.STRING)
 	public SiteStudyStatus getSiteStudyStatus() {
 		return siteStudyStatus;
 	}

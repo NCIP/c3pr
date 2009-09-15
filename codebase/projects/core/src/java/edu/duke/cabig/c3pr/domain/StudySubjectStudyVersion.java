@@ -5,11 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -21,7 +19,6 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
-
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity

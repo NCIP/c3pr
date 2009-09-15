@@ -503,6 +503,18 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	 *
 	 * @return the study site study version
 	 */
+//	@Transient
+//	public StudySiteStudyVersion getStudySiteStudyVersion(){
+//		if(studySiteStudyVersion == null){
+//			if(getStudySiteStudyVersions().size()==0){
+//				StudySiteStudyVersion newStudySiteStudyVersion = new StudySiteStudyVersion();
+//				this.addStudySiteStudyVersion(newStudySiteStudyVersion);
+//				return newStudySiteStudyVersion;
+//			}
+//			getStudySiteStudyVersion(new Date());
+//		}
+//		return studySiteStudyVersion;
+//	}
 	@Transient
 	public StudySiteStudyVersion getStudySiteStudyVersion(){
 		if(studySiteStudyVersion == null){
@@ -510,6 +522,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		}
 		return studySiteStudyVersion;
 	}
+
 
 	/**
 	 * Gets the latest study site study version.
@@ -815,7 +828,11 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         		return siteStatusHistory.getSiteStudyStatus();
         	}
         }
-        return SiteStudyStatus.PENDING;
+        SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
+    	siteStatusHistory.setStartDate(date);
+    	siteStatusHistory.setSiteStudyStatus(SiteStudyStatus.PENDING);
+    	this.addSiteStatusHistory(siteStatusHistory);
+    	return SiteStudyStatus.PENDING;
     }
     
 	public void handleStudySiteStatusChange(Date effectiveDate, SiteStudyStatus status){
