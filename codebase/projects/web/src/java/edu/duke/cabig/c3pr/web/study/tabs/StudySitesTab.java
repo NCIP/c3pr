@@ -244,22 +244,23 @@ public class StudySitesTab extends StudyTab {
 				endPoint = studyRepository.temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
 						nciInstituteCode);
 			}
-			else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
-				studySite = studyRepository.activateStudySite(studyIdentifiers,
-							studySite);
-			} else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL) {
-				studySite = studyRepository.closeStudySiteToAccrual(studyIdentifiers,
-							nciInstituteCode);
-			}else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
-				studySite = studyRepository.closeStudySiteToAccrualAndTreatment(studyIdentifiers,
-							nciInstituteCode);
-			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL) {
-				studySite = studyRepository.temporarilyCloseStudySiteToAccrual(studyIdentifiers,
-							nciInstituteCode);
-			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
-				studySite = studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(studyIdentifiers,
-							nciInstituteCode);
-			}
+			//TODO fix this
+//			else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
+//				studySite = studyRepository.activateStudySite(studyIdentifiers,
+//							studySite);
+//			} else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL) {
+//				studySite = studyRepository.closeStudySiteToAccrual(studyIdentifiers,
+//							nciInstituteCode);
+//			}else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
+//				studySite = studyRepository.closeStudySiteToAccrualAndTreatment(studyIdentifiers,
+//							nciInstituteCode);
+//			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL) {
+//				studySite = studyRepository.temporarilyCloseStudySiteToAccrual(studyIdentifiers,
+//							nciInstituteCode);
+//			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
+//				studySite = studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(studyIdentifiers,
+//							nciInstituteCode);
+//			}
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			map.put("errorMessage", e.getMessage());

@@ -129,7 +129,8 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
         Study study = ((StudyWrapper) command).getStudy();
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         for (StudySite studySite : study.getStudySites()) {
-            studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
+        	//TODO fix it later
+//            studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
         }
         super.postProcessPage(request, command, errors, page);
 

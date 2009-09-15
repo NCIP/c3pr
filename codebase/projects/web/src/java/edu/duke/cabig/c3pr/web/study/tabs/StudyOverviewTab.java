@@ -186,8 +186,9 @@ public class StudyOverviewTab extends StudyTab {
 
             int studySiteIndex = Integer.parseInt(property.split("_")[1]);
             SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
-            command.getStudy().getStudySites().get(
-                            studySiteIndex).setSiteStudyStatus(statusObject);
+          //TODO fix it later
+//            command.getStudy().getStudySites().get(
+//                            studySiteIndex).setSiteStudyStatus(statusObject);
             retValue = command.getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus()
                         .getCode();
 

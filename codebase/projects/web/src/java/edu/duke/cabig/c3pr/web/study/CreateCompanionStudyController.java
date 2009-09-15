@@ -75,7 +75,8 @@ public class CreateCompanionStudyController<C extends StudyWrapper> extends Crea
                 StudySite ss = companionStudy.getStudySites().get(studySiteIndex);
                 ss.setHealthcareSite(studySite.getHealthcareSite());
                 ss.setIrbApprovalDate(studySite.getIrbApprovalDate());
-                ss.setStartDate(studySite.getStartDate());
+              //TODO fix it later
+//                ss.setStartDate(studySite.getStartDate());
                 studySiteIndex++;
             }
 
