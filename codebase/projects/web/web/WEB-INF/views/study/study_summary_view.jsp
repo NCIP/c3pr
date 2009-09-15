@@ -352,27 +352,7 @@
         <c:forEach items="${command.study.consents}" var="consent">
             <tr>
                 <td class="alt">${consent.name}</td>
-                <c:if test="${not empty consent.consentVersions}">
-                    <td>
-                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-
-                            <tr>
-                                <th><b><fmt:message key="study.consent.consentVersion.name"/></b></th>
-                                <th><b><fmt:message key="study.consent.consentVersion.date"/></b></th>
-                                <th/>
                             </tr>
-
-                            <tr>
-                                <c:forEach items="${consent.consentVersions}" var="version">
-                                <tr>
-                                    <td>${version.name}</td>
-                                    <td>${version.effectiveDateStr }</td>
-                                </tr>
-                                </c:forEach>
-                        </table>
-                    </td>
-                </c:if>
-            </tr>
         </c:forEach>
     </table>
 </chrome:division>
