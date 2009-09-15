@@ -70,7 +70,8 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
             
             for(StudySite studySite:study.getStudySites()){
                 studySite.setHostedMode(false);
-                studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
+                //TODO fix it later
+//                studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
             }
             for(StudyCoordinatingCenter studyCoordinatingCenter:study.getStudyCoordinatingCenters()){
                 studyCoordinatingCenter.setHostedMode(false);
@@ -146,9 +147,11 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         try {
         	StudySite studySite= studyRepository.getUniqueStudy(identifiers).getStudySite(studySiteList.get(0).getHealthcareSite().getPrimaryIdentifier());
         	studySite.setIrbApprovalDate(studySiteList.get(0).getIrbApprovalDate());
-        	studySite.setStartDate(studySiteList.get(0).getStartDate());
+        	//TODO fix it later
+//        	studySite.setStartDate(studySiteList.get(0).getStartDate());
         	studySiteDao.save(studySite);
-            studyRepository.activateStudySite(identifiers, studySiteList.get(0).getHealthcareSite().getPrimaryIdentifier());
+        	//TODO fix it later
+//            studyRepository.activateStudySite(identifiers, studySiteList.get(0).getHealthcareSite().getPrimaryIdentifier());
         }
         catch (Exception e) {
             throw new RemoteException(e.getMessage());
@@ -199,7 +202,8 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         }
         WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
         try {
-            studyRepository.closeStudySiteToAccrual(identifiers, heaList.get(0).getPrimaryIdentifier());
+        	//TODO fix it later
+//            studyRepository.closeStudySiteToAccrual(identifiers, heaList.get(0).getPrimaryIdentifier());
         }
         catch (Exception e) {
             throw new RemoteException(e.getMessage());
@@ -223,7 +227,8 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         }
         WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
         try {
-            studyRepository.closeStudySiteToAccrualAndTreatment(identifiers, heaList.get(0).getPrimaryIdentifier());
+        	//TODO fix it later
+//            studyRepository.closeStudySiteToAccrualAndTreatment(identifiers, heaList.get(0).getPrimaryIdentifier());
         }
         catch (Exception e) {
             throw new RemoteException(e.getMessage());
@@ -280,7 +285,8 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
             studyFactory.buildStudy(study);
             for(StudySite studySite:study.getStudySites()){
                 studySite.setHostedMode(false);
-                studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
+              //TODO fix it later
+//                studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
             }
             for(StudyCoordinatingCenter studyCoordinatingCenter:study.getStudyCoordinatingCenters()){
                 studyCoordinatingCenter.setHostedMode(false);
@@ -315,7 +321,8 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         }
         WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
         try {
-            studyRepository.temporarilyCloseStudySiteToAccrual(identifiers, heaList.get(0).getPrimaryIdentifier());
+        	//TODO fix it later
+//            studyRepository.temporarilyCloseStudySiteToAccrual(identifiers, heaList.get(0).getPrimaryIdentifier());
         }
         catch (Exception e) {
             throw new RemoteException(e.getMessage());
@@ -339,7 +346,8 @@ public class C3PRStudyServiceImpl implements StudyServiceI {
         }
         WebRequest webRequest=SessionAndAuditHelper.setupHibernateSessionAndAudit(interceptor, "C3PR Admin", "Coordinating Center", new Date(), "Coordinating Center");
         try {
-            studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(identifiers, heaList.get(0).getPrimaryIdentifier());
+        	//TODO fix it later
+//            studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(identifiers, heaList.get(0).getPrimaryIdentifier());
         }
         catch (Exception e) {
             throw new RemoteException(e.getMessage());
