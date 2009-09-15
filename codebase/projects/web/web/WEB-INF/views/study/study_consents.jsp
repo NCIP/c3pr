@@ -36,27 +36,7 @@
 	} 
 
 
-    var consentVersionInserterProps= {
-            add_row_division_id: "consentVersion",
-            skeleton_row_division_id: "dummy-consentVersion",
-            initialIndex: ${fn:length(command.study.consents[consentCount.index].consentVersions)},
-            softDelete: ${softDelete == 'true'},
-            isAdmin: ${isAdmin == 'true'},
-            row_index_indicator: "NESTED.PAGE.ROW.INDEX",
-            path: "study.consents[PAGE.ROW.INDEX].consentVersions",
-          	postProcessRowInsertion: function(object){
-            	inputDateElementLocal="study.consents[" + object.parent_row_index + "].consentVersions[" + object.localIndex + "].effectiveDate";
-            	inputDateElementLink="study.consents[" + object.parent_row_index + "].consentVersions[" + object.localIndex + "].effectiveDate-calbutton";
-                Calendar.setup( {
-                    inputField  : inputDateElementLocal,         // ID of the input field
-                    ifFormat    : "%m/%d/%Y",    // the date format
-                    button      : inputDateElementLink       // ID of the button
-                } );
-      		}
-        };
-
-     var genericConsentRowInserterProps= {
-          	nested_row_inserter: consentVersionInserterProps,
+    var genericConsentRowInserterProps= {
             add_row_division_id: "consent",
             skeleton_row_division_id: "dummy-genericConsent",
             initialIndex: ${fn:length(command.study.consents)},
@@ -102,7 +82,6 @@
     <c:forEach items="${command.study.consents}" var="consent"  varStatus="consentCount" >
         <tr id="consent-${consentCount.index}">
             <script type="text/javascript">
-                RowManager.getNestedRowInserter(genericConsentRowInserterProps,${consentCount.index}).updateIndex(${fn:length(command.study.consents[consentCount.index].consentVersions)});
             </script>
             <td>
       			<chrome:deletableDivision divTitle="consentTitle-${consentCount.index}" id="consentBox-${consentCount.index}"
@@ -125,23 +104,7 @@
       </table>
   </td>
 </tr>
-<tr bgcolor="eeffee">
-  <td colspan="3" align="left">
-      <!--CONSENT VERSION TABLE-->
-      <table id="consentVersion" class="tablecontent" border="0">
-      <tr id="h-${consentCount.index}" >
-          <th>
-          	<tags:requiredIndicator /><fmt:message key="study.consent.consentVersion.name"/>
-          	<tags:hoverHint id="study.consent.consentVersion.name-${consentCount.index}" keyProp="study.consent.consentVersion.name" />
-          </th>
-          <th>
-          	<fmt:message key="study.consent.consentVersion.date"/>
-          	<tags:hoverHint id="study.consent.consentVersion.date-${consentCount.index}" keyProp="study.consent.consentVersion.date" />
-          </th>
-          <th></th>
-      </tr>
-  </td>
-</tr>
+
 </table>
 <!-- GENERIC END-->
 </chrome:deletableDivision>
