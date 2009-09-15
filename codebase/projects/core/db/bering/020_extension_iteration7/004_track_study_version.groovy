@@ -5,7 +5,6 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
        		t.addColumn('grid_id' , 'string' , nullable:true)
        		t.addVersionColumn()
             t.addColumn('name', 'string', nullable:false)
-            t.addColumn('effective_date' , 'date' , nullable:false)
             t.addColumn('stu_version_id', 'integer', nullable:false)
         }
 
@@ -41,7 +40,7 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
             t.addColumn('sto_id', 'integer')
         }
 		
-		createTable('site_status_history') { t ->
+		createTable('stu_site_status_history') { t ->
         	t.addColumn('retired_indicator', 'string', nullable:true)
        		t.addColumn('grid_id' , 'string' , nullable:true)
        		t.addVersionColumn()
@@ -76,7 +75,7 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
 		   	execute('rename SEQ_CONSENTS_ID to CONSENTS_ID_SEQ');
 		   	execute('rename SEQ_STUDY_VERSIONS_ID to STUDY_VERSIONS_ID_SEQ');
 		   	execute('rename SEQ_STUDY_SITE_VERSIONS_ID to STUDY_SITE_VERSIONS_ID_SEQ');
-		   	execute('rename SEQ_SITE_STATUS_HISTORY_ID to SITE_STATUS_HISTORY_ID_SEQ');
+		   	execute('rename SEQ_STU_SITE_STATUS_HISTORY_ID to STU_SITE_STATUS_HISTORY_ID_SEQ');
 	 	}
     }
 
@@ -84,7 +83,7 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
 	    dropTable('consents')
 	    dropTable('study_versions')
 	    dropTable('study_site_versions')
-		dropTable('site_status_history');
+		dropTable('stu_site_status_history');
 	    dropColumn('studies','consent_required');
         dropColumn('epochs','stu_version_id');
         dropColumn('study_diseases','stu_version_id');
