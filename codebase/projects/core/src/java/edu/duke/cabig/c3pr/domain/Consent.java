@@ -28,16 +28,6 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	}
 
 	private String name;
-	private Date effectiveDate;
-	
-	@NotNull
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
 
 	@NotNull
 	public String getName() {
