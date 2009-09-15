@@ -77,6 +77,3 @@ public class ParameterizedBiDirectionalInstantiateFactoryTest extends AbstractTe
 	}
 }
 
-class StudySiteSubClass extends StudySite{
-	
-}
