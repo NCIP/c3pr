@@ -13,7 +13,7 @@
     
     <STUDY_ORGANIZATIONS id="1000" version="1"  study_id="1000"
                          hcs_id="1000" type="SST"   retired_indicator="false"/>
-    <SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="01-01-2000" />
+    <STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="01-01-2000" />
 	
                          
     <RESEARCH_STAFF id="1000" version="1" first_name="Research Bill" last_name="Staff2" dtype="Local" hcs_id="1000" nci_identifier="rjfk_1003" retired_indicator = "false" />

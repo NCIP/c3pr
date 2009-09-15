@@ -15,7 +15,7 @@
 	<STUDY_ORGANIZATIONS id="1101" version="1"  study_id="1100"
     hcs_id="1100" type="SCC"/>
     
-    <SITE_STATUS_HISTORY id="1100" version="1" sto_id="1100" site_study_status="ACTIVE"  start_date="01-01-2000" />
+    <STU_SITE_STATUS_HISTORY id="1100" version="1" sto_id="1100" site_study_status="ACTIVE"  start_date="01-01-2000" />
 	
     
     <STUDY_SITE_VERSIONS id="1100" version="1" irb_approval_date="01-01-2000" start_date="01-01-2001" 

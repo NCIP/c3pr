@@ -34,7 +34,7 @@
     <STUDY_ORGANIZATIONS id="1000" version="1"  study_id="1000"
              hcs_id="1000" type="SST"   retired_indicator="false"/>
              
-    <SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="01-01-2000" />
+    <STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="01-01-2000" />
              
     <study_site_versions id="1000" version="1"  irb_approval_date="01-01-2000"
     stu_version_id="1000" sto_id="1000"/>

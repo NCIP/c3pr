@@ -13,7 +13,7 @@
     hcs_id="1100" type="SST"  />
     
      	
-	<SITE_STATUS_HISTORY id="1100" version="1" sto_id="1100" site_study_status="ACTIVE"  start_date="01-01-2000" />
+	<STU_SITE_STATUS_HISTORY id="1100" version="1" sto_id="1100" site_study_status="ACTIVE"  start_date="01-01-2000" />
 	
     
     <study_site_versions id="1100" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
