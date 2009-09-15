@@ -88,11 +88,9 @@ public class DomainObjectCreationHelper {
 	public static void addConsent(Study study){
 		Consent consent= study.getStudyVersion().getConsents().get(0);
 		consent.setName("Male");
-		consent.setEffectiveDate(new Date());
 		
 		consent= study.getStudyVersion().getConsents().get(1);
 		consent.setName("Female");
-		consent.setEffectiveDate(new Date());
 	}
 	
 	public static void addStudyDesign(Study study){
