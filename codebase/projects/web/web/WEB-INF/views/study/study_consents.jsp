@@ -129,7 +129,6 @@
   <td colspan="3" align="left">
       <!--CONSENT VERSION TABLE-->
       <table id="consentVersion" class="tablecontent" border="0">
-      <tags:errors path="study.consents[${consentCount.index}].consentVersions" />
       <tr id="h-${consentCount.index}" >
           <th>
           	<tags:requiredIndicator /><fmt:message key="study.consent.consentVersion.name"/>
@@ -141,34 +140,6 @@
           </th>
           <th></th>
       </tr>
-      <c:choose>
-      	<c:when test="${fn:length(consent.consentVersions) == 0}">
-      		<tr>
-      			<td align="left" id="addConsentVersionMessage-${consentCount.index}"><fmt:message key="study.consent.addConsentVersion"/></td>
-      		</tr>
-      	</c:when>
-      	<c:otherwise>
-      		<c:forEach items="${consent.consentVersions}" var="version" varStatus="versionStatus">
-	            <tr id="consentVersion-${versionStatus.index}">
-	                <td valign="top">
-	                	<form:input path="study.consents[${consentCount.index}].consentVersions[${versionStatus.index}].name" size="25" cssClass="validate-notEmpty" />
-	                </td>
-	                <td valign="top">
-	                	<tags:dateInput path="study.consents[${consentCount.index}].consentVersions[${versionStatus.index}].effectiveDate" cssClass="validate validate-DATE&&notEmpty" />
-	                </td>
-	                <td valign="top" align="left">
-	                    <a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(genericConsentRowInserterProps,${consentCount.index}),${versionStatus.index },'${version.id==null?'HC#':'ID#'}${version.id==null?version.hashCode:version.id}');">
-	                    	<img src="<tags:imageUrl name="checkno.gif"/>" border="0">
-	                    </a>
-	                </td>
-	            </tr>
-            </c:forEach>
-      	</c:otherwise>
-      </c:choose>    
-      </table>
-      <br>
-      <tags:button id="addVersion-${consentCount.index}" type="button" color="blue" icon="add" value="Add Consent Version"
-					onclick="$('addConsentVersionMessage-${consentCount.index}') != null ? $('addConsentVersionMessage-${consentCount.index}').hide():''; javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericConsentRowInserterProps,${consentCount.index}));" size="small"/>
   </td>
 </tr>
 </table>
@@ -192,25 +163,6 @@
 
 <div id="dummy-genericConsent" style="display: none"></div>
 
-<div id="dummy-consentVersion" style="display: none">
-<table id="consentVersion" class="tablecontent" width="50%">
-	<tr>
-		<td valign="top">
-			<input type="text" size="25" name="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].name" class="validate-notEmpty" />
-		</td>
-		<td valign="top">
-		 	<input type="text" id="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].effectiveDate" name="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].effectiveDate" class="date validate-DATE&&notEmpty" size="18"/>
-		 	    <a href="#" id="study.consents[PAGE.ROW.INDEX].consentVersions[NESTED.PAGE.ROW.INDEX].effectiveDate-calbutton">
-                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
-                </a>
-			
-		</td>
-		<td valign="top" align="left"><a
-			href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(genericConsentRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);"><img
-			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-	</tr>
-</table>
-</div>
 
 <div id="genericHtml" style="display: none">
 <table width="100%">
@@ -231,28 +183,7 @@
 					</table>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="3" align="left">
-					<table id="consentVersion" class="tablecontent">
-						<tr id="h-PAGE.ROW.INDEX">
-							<th><span class=""><tags:requiredIndicator /><fmt:message key="study.consent.consentVersion.name"/></span>
-								<tags:hoverHint id="study.consent.consentVersion.name-PAGE.ROW.INDEX" keyProp="study.consent.consentVersion.name" /></th>
-							<th>
-								<fmt:message key="study.consent.consentVersion.date"/>
-								<tags:hoverHint id="study.consent.consentVersion.date-PAGE.ROW.INDEX" keyProp="study.consent.consentVersion.date" />
-							</th>
-							<th></th>
-						</tr>
-						<tr>
-			      			<td  colspan="3" align="left" id="addConsentVersionMessage-PAGE.ROW.INDEX"><fmt:message key="study.consent.addConsentVersion"/></td>
-			      		</tr>
-					</table>
-					<br>
-					<tags:button id="addConsentVersion-PAGE.ROW.INDEX" type="button" color="blue" icon="add" value="Add Consent Version"
-					onclick="$('addConsentVersionMessage-PAGE.ROW.INDEX').hide();javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericConsentRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
-					</td>
-				</tr>
-
+				
 			</table>
 			</div>
 			
