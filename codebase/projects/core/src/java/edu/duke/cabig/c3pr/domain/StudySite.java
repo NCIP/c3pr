@@ -128,16 +128,16 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 //    	siteStatusHistory.setSiteStudyStatus(siteStudyStatus);
 //    	this.addSiteStatusHistory(siteStatusHistory);
 //    }
-    
-    public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus, Date startDate){
-    	SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
-    	siteStatusHistory.setSiteStudyStatus(siteStudyStatus);
-    	siteStatusHistory.setStartDate(startDate);
-    	this.addSiteStatusHistory(siteStatusHistory);
-    	
-    	// changing the end date of previous status history
-    	
-    }
+//    
+//    public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus, Date startDate){
+//    	SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
+//    	siteStatusHistory.setSiteStudyStatus(siteStudyStatus);
+//    	siteStatusHistory.setStartDate(startDate);
+//    	this.addSiteStatusHistory(siteStatusHistory);
+//    	
+//    	// changing the end date of previous status history
+//    	
+//    }
 
     /**
      * Gets the target accrual number.
@@ -384,12 +384,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     }
 
     /**
-     * Sets the site study status.
-     *
-     * @param siteStudyStatus the new site study status
-     */
-
-    /**
      * Builds the map for notification.
      *
      * @return the map< object, object>
@@ -581,6 +575,18 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		}
 		return null;
 	}
+	
+	public StudySiteStudyVersion getAccruingStudySiteStudyVersion(Date date){
+		SiteStudyStatus status = getSiteStudyStatus(date);
+		if(status == SiteStudyStatus.ACTIVE){
+			for(StudySiteStudyVersion studySiteStudyVersion : getStudySiteStudyVersions()){
+				if(studySiteStudyVersion.isValid(date)){
+					return studySiteStudyVersion;
+				}
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Gets the study study version for a given date.
@@ -636,7 +642,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                     getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.OPTIONAL.CODE"));
 		}
 	}
-
 
 	/**
 	 * Checks if the current study version setup is valid.
