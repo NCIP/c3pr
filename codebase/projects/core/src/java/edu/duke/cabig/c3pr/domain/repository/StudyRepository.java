@@ -50,12 +50,12 @@ public interface StudyRepository {
 //    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
 //                    String nciInstituteCode);
 
-    public StudySite activateStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    public StudySite activateStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate);
 
 //    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
 //            StudySite studySite);
 
-    public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySite);
+    public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySite, Date effectiveDate);
 
     public Study amendStudy(List<Identifier> studyIdentifiers, Study study);
 
@@ -73,13 +73,13 @@ public interface StudyRepository {
     public Study updateStudyStatus(List<Identifier> studyIdentifiers,
                     CoordinatingCenterStudyStatus status);
 
-    public StudySite closeStudySiteToAccrual(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    public StudySite closeStudySiteToAccrual(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate);
 
-    public StudySite closeStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    public StudySite closeStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate);
 
-    public StudySite temporarilyCloseStudySiteToAccrual(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    public StudySite temporarilyCloseStudySiteToAccrual(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate);
 
-    public StudySite temporarilyCloseStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers, String nciInstituteCode);
+    public StudySite temporarilyCloseStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate);
 
     public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers);
 

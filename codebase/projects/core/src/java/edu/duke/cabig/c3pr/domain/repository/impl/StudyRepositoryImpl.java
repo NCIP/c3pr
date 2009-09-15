@@ -131,10 +131,10 @@ public class StudyRepositoryImpl implements StudyRepository {
     }
 
     @Transactional
-    public StudySite activateStudySite(List<Identifier> studyIdentifiers, String ctepCode){
+    public StudySite activateStudySite(List<Identifier> studyIdentifiers, String ctepCode, Date effectiveDate){
         Study study = getUniqueStudy(studyIdentifiers);
         StudySite studySite = study.getStudySite(ctepCode);
-        return activateStudySite(studyIdentifiers, studySite);
+        return activateStudySite(studyIdentifiers, studySite, effectiveDate);
     }
 
     @Transactional
@@ -205,11 +205,11 @@ public class StudyRepositoryImpl implements StudyRepository {
     }
 
     @Transactional
-    public StudySite closeStudySiteToAccrual(List<Identifier> studyIdentifiers, String nciInstituteCode){
+    public StudySite closeStudySiteToAccrual(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate){
         Study study=getUniqueStudy(studyIdentifiers);
         StudySite studySite = study.getStudySite(
                         nciInstituteCode);
-        studySite.closeToAccrual();
+        studySite.closeToAccrual(effectiveDate);
         if(study.isMultisite() && !studySite.getHostedMode() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
@@ -227,12 +227,11 @@ public class StudyRepositoryImpl implements StudyRepository {
     }
 
     @Transactional
-    public StudySite closeStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers,
-                    String nciInstituteCode) {
+    public StudySite closeStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate) {
         Study study=getUniqueStudy(studyIdentifiers);
         StudySite studySite = study.getStudySite(
                         nciInstituteCode);
-        studySite.closeToAccrualAndTreatment();
+        studySite.closeToAccrualAndTreatment(effectiveDate);
         if(study.isMultisite() && !studySite.getHostedMode() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
@@ -251,12 +250,11 @@ public class StudyRepositoryImpl implements StudyRepository {
     }
 
     @Transactional
-    public StudySite temporarilyCloseStudySiteToAccrual(List<Identifier> studyIdentifiers,
-                    String nciInstituteCode) {
+    public StudySite temporarilyCloseStudySiteToAccrual(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate) {
         Study study=getUniqueStudy(studyIdentifiers);
         StudySite studySite = study.getStudySite(
                         nciInstituteCode);
-        studySite.temporarilyCloseToAccrual();
+        studySite.temporarilyCloseToAccrual(effectiveDate);
         if(study.isMultisite() && !studySite.getHostedMode() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
@@ -275,12 +273,10 @@ public class StudyRepositoryImpl implements StudyRepository {
     }
 
     @Transactional
-    public StudySite temporarilyCloseStudySiteToAccrualAndTreatment(
-                    List<Identifier> studyIdentifiers, String nciInstituteCode) {
+    public StudySite temporarilyCloseStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate) {
         Study study=getUniqueStudy(studyIdentifiers);
-        StudySite studySite = study.getStudySite(
-                        nciInstituteCode);
-        studySite.temporarilyCloseToAccrualAndTreatment();
+        StudySite studySite = study.getStudySite(nciInstituteCode);
+        studySite.temporarilyCloseToAccrualAndTreatment(effectiveDate);
         if(study.isMultisite() && !studySite.getHostedMode() && !studyService.isStudyOrganizationLocal(nciInstituteCode) && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
             List<AbstractMutableDomainObject> domainObjects= new ArrayList<AbstractMutableDomainObject>();
             domainObjects.addAll(studyIdentifiers);
@@ -300,10 +296,10 @@ public class StudyRepositoryImpl implements StudyRepository {
     }
 
     @Transactional
-    public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers){
+    public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers, Date effectiveDate){
         Study study = getUniqueStudy(studyIdentifiers);
         for (StudySite studySite : study.getStudySites()) {
-            studySite.closeToAccrual();
+            studySite.closeToAccrual(effectiveDate);
             studySiteDao.save(studySite);
         }
 //        if(study.studyService.canMultisiteBroadcast() && study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())){
@@ -416,7 +412,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 //        return studySiteDao.merge(studySite);
 //    }
 
-    public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySiteObj){
+    public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySiteObj, Date effectiveDate){
         Study study = getUniqueStudy(studyIdentifiers);
         String nciInstituteCode = studySiteObj.getHealthcareSite().getPrimaryIdentifier();
         StudySite studySite;
@@ -432,7 +428,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 //            throw c3PRExceptionHelper.getRuntimeException(
 //                            getCode("C3PR.EXCEPTION.STUDYSITE.NEED_APPROVAL_FROM_CO_CENTER.CODE"));
 //        }
-        studySite.activate();
+        studySite.activate(effectiveDate);
         if (study.isMultisite() && !studySite.getStudy().getStudyCoordinatingCenter().getHostedMode()
                         && !study.isCoOrdinatingCenter(studyService.getLocalNCIInstituteCode())) {
             List<AbstractMutableDomainObject> domainObjects = new ArrayList<AbstractMutableDomainObject>();
@@ -763,5 +759,11 @@ public class StudyRepositoryImpl implements StudyRepository {
 		study.applyAmendment(studyVersion);
 		return this.merge(study);
 	}
+
+	public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

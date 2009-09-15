@@ -190,5 +190,9 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	public int compareTo(StudySiteStudyVersion studySiteStudyVersion) {
 		return this.irbApprovalDate.compareTo(studySiteStudyVersion.getIrbApprovalDate());
 	}
+	
+	public void validateIRBApprovalDate(){
+		
+	}
 
 }

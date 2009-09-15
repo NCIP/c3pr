@@ -345,7 +345,8 @@ public class StudySubjectCreatorHelper {
         healthcaresite.setCtepCode("NU healthcare");
         healthcaresite.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
         studySite.setHealthcareSite(healthcaresite);
-        studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+      //TODO fix it later
+//        studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         studySite.setStudy(study);
         study.getStudySites().add(studySite);
 

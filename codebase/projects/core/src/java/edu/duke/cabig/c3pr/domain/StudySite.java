@@ -35,7 +35,6 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
@@ -61,7 +60,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     /** The target accrual number. */
     private Integer targetAccrualNumber;
 
-    /** The c3 pr exception helper. */
+    /** The c3pr exception helper. */
     private C3PRExceptionHelper c3PRExceptionHelper;
 
     /** The c3pr error messages. */
@@ -123,115 +122,21 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         return studySubjects;
     }
 
-    /**
-     * Sets the irb approval date.
-     *
-     * @param irbApprovalDate the new irb approval date
-     */
-    public void setIrbApprovalDate(Date irbApprovalDate) {
-        getStudySiteStudyVersion().setIrbApprovalDate(irbApprovalDate);
-    }
-
-    /**
-     * Gets the irb approval date.
-     *
-     * @return the irb approval date
-     */
-    @Transient
-    public Date getIrbApprovalDate() {
-        return getStudySiteStudyVersion().getIrbApprovalDate();
-    }
-
-    /**
-     * Gets the start date.
-     *
-     * @return the start date
-     */
-    @Transient
-    public Date getStartDate() {
-    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
-        if(siteStatusHistoryList.size() > 0){
-        	TreeSet<SiteStatusHistory> siteStatusHistorySet = new TreeSet<SiteStatusHistory>();
-            siteStatusHistorySet.addAll(siteStatusHistoryList);
-            return siteStatusHistorySet.last().getStartDate();
-        }
-    	return null ;
-    }
+        
+//    public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus){
+//    	SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
+//    	siteStatusHistory.setSiteStudyStatus(siteStudyStatus);
+//    	this.addSiteStatusHistory(siteStatusHistory);
+//    }
     
-    public void setStartDate(Date startDate){
-    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
-    	int size = siteStatusHistoryList.size(); 
-        if(size == 0){
-        	getSiteStatusHistory().get(0).setStartDate(startDate);
-        }else{
-        	if(getSiteStatusHistory().get(size -1).getEndDate() != null){
-        		getSiteStatusHistory().get(size).setStartDate(startDate);
-        	}else{
-        		throw new RuntimeException("Cannot set start date for study site. end date is not set for previous status");
-        	}
-        }
-    }
-    
-    public void setEndDate(Date endDate){
-    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
-    	int size = siteStatusHistoryList.size(); 
-        if(size > 0){
-        	if(getSiteStatusHistory().get(size -1).getStartDate() != null){
-        		getSiteStatusHistory().get(size-1).setEndDate(endDate);
-        	}else{
-        		throw new RuntimeException("Cannot set end date for study site. start date is not set");
-        	}
-        }
-    }
-    
-    /* (non-Javadoc)
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(StudySite o) {
-        if (this.equals(o)) return 0;
-        else return 1;
-    }
-
-    /**
-     * Gets the irb approval date str.
-     *
-     * @return the irb approval date str
-     */
-    @Transient
-    public String getIrbApprovalDateStr() {
-        return CommonUtils.getDateString(getIrbApprovalDate());
-    }
-
-    /**
-     * Gets the start date str.
-     *
-     * @return the start date str
-     */
-    @Transient
-    public String getStartDateStr() {
-    	return CommonUtils.getDateString(getStartDate());
-    }
-
-    /**
-     * Gets the site study status.
-     *
-     * @return the site study status
-     */
-    @Transient
-    public SiteStudyStatus getSiteStudyStatus() {
-        List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
-        int size = siteStatusHistoryList.size();
-        if(size > 0){
-        	Collections.sort(siteStatusHistoryList);
-        	return siteStatusHistoryList.get(size - 1).getSiteStudyStatus();
-        }
-        return SiteStudyStatus.PENDING;
-    }
-    
-    public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus){
+    public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus, Date startDate){
     	SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
     	siteStatusHistory.setSiteStudyStatus(siteStudyStatus);
+    	siteStatusHistory.setStartDate(startDate);
     	this.addSiteStatusHistory(siteStatusHistory);
+    	
+    	// changing the end date of previous status history
+    	
     }
 
     /**
@@ -268,87 +173,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     }
 
     /**
-     * Evaluate site study status.
-     *
-     * @return the site study status
-     *
-     * @throws C3PRCodedException the c3 pr coded exception
-     */
-    public SiteStudyStatus evaluateSiteStudyStatus() throws C3PRCodedException {
-
-        if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL) {
-            return SiteStudyStatus.CLOSED_TO_ACCRUAL;
-        }
-        if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) {
-            return SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT;
-        }
-
-        if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL) {
-            return SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL;
-        }
-        if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT) {
-            return SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT;
-        }
-
-        if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
-
-            Date currentDate = new Date();
-            Date allowedOldDateForIRBApprivalandStartDate = getAllowedOldDateForIRBApprovalAndStartDate();
-            String allowedOldDate = "";
-            String todayDate = "";
-
-            try {
-                allowedOldDate = DateUtil.formatDate(allowedOldDateForIRBApprivalandStartDate, "MM/dd/yyyy");
-                todayDate = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
-            }
-            catch (Exception e) {
-                throw getC3PRExceptionHelper().getException( getCode("C3PR.EXCEPTION.STUDYSITE.PARSING.DATE.CODE"), new String[] { this.getHealthcareSite().getName() });
-            }
-
-            if (this.getIrbApprovalDate() == null) {
-                if (this.getId() != null) {
-                    throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.IRB_APPROVAL_DATE.CODE"), new String[] { this.getHealthcareSite().getName() });
-                }
-                return SiteStudyStatus.PENDING;
-            }
-            
-            if (this.getIrbApprovalDate().after(currentDate)) {
-                if ((this.getId() != null)) {
-                    throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.INVALID.IRB_APPROVAL_DATE.CODE"),new String[] {this.getHealthcareSite().getName(),todayDate });
-                }
-                return SiteStudyStatus.PENDING;
-            }
-            if (this.getIrbApprovalDate().before(allowedOldDateForIRBApprivalandStartDate)) {
-                if ((this.getId() != null)) {
-                    throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.EXPIRED.IRB_APPROVAL_DATE.CODE"),new String[] {this.getHealthcareSite().getName(),allowedOldDate });
-                }
-                return SiteStudyStatus.PENDING;
-            }
-
-            
-            if (this.getStartDate() == null) {
-                if (this.getId() != null) {
-                    throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.START_DATE.CODE"), new String[] { this.getHealthcareSite().getName() });
-                }
-                return SiteStudyStatus.PENDING;
-            }
-            if (this.getStartDate().before(allowedOldDateForIRBApprivalandStartDate)) {
-                if ((this.getId() != null)) {
-                    throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.INVALID.START_DATE.CODE"),new String[] {this.getHealthcareSite().getName(),allowedOldDate });
-                }
-                return SiteStudyStatus.PENDING;
-            }
-            
-            return SiteStudyStatus.ACTIVE;
-        }
-
-        return SiteStudyStatus.PENDING;
-    }
-
-    /**
      * Activate.
      */
-    public void activate() {
+    public void activate(Date effectiveDate) {
     	// put checks for study version status
     	if (!(this.getSiteStudyStatus() == SiteStudyStatus.PENDING
     			|| this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL || this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)){
@@ -358,12 +185,12 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         }
         if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
         	 Date currentDate = new Date();
-             Date allowedOldDateForIRBApprivalandStartDate = getAllowedOldDateForIRBApprovalAndStartDate();
+             Date allowedOldDateForIRBApprival = getAllowedOldDateForIRBApproval();
              String allowedOldDate = "";
              String todayDate = "";
 
              try {
-                 allowedOldDate = DateUtil.formatDate(allowedOldDateForIRBApprivalandStartDate, "MM/dd/yyyy");
+                 allowedOldDate = DateUtil.formatDate(allowedOldDateForIRBApprival, "MM/dd/yyyy");
                  todayDate = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
              }
              catch (Exception e) {
@@ -377,29 +204,39 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
              if (this.getIrbApprovalDate().after(currentDate)) {
                      throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.INVALID.IRB_APPROVAL_DATE.CODE"),new String[] {this.getHealthcareSite().getName(),todayDate });
              }
-             if (this.getIrbApprovalDate().before(allowedOldDateForIRBApprivalandStartDate)) {
+             if (this.getIrbApprovalDate().before(allowedOldDateForIRBApprival)) {
                      throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.EXPIRED.IRB_APPROVAL_DATE.CODE"),new String[] {this.getHealthcareSite().getName(),allowedOldDate });
              }
 
+             Date allowedStartDate = getAllowedOldDateForStartDate();
              
-             if (this.getStartDate() == null) {
+             if (effectiveDate == null) {
                      throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.START_DATE.CODE"), new String[] { this.getHealthcareSite().getName() });
              }
-             if (this.getStartDate().before(allowedOldDateForIRBApprivalandStartDate)) {
+             if (effectiveDate.before(allowedStartDate)) {
                      throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.INVALID.START_DATE.CODE"),new String[] {this.getHealthcareSite().getName(),allowedOldDate });
              }
+             if (effectiveDate.before(this.getIrbApprovalDate())) {
+                 throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.START_DATE.BEFORE.IRB_APPROVAL_DATE.CODE"),new String[] {this.getHealthcareSite().getName(),allowedOldDate });
+             }
+             
+             SiteStatusHistory latestSiteStatusHistory = getLatestSiteStatusHistory();
+             if(latestSiteStatusHistory.getSiteStudyStatus() == SiteStudyStatus.PENDING){
+            	this.getLatestStudySiteStudyVersion().setStartDate(effectiveDate);
+             }else{
+            	 this.getLatestStudySiteStudyVersion().setStartDate(getIrbApprovalDate());
+             }
+ 			StudySiteStudyVersion previousStudySiteStudyVersion = getPreviousStudySiteStudyVersion();
+ 			if(previousStudySiteStudyVersion != null){
+ 				if(previousStudySiteStudyVersion.getEndDate() == null  || previousStudySiteStudyVersion.getEndDate().after(getIrbApprovalDate())){
+ 					GregorianCalendar cal = new GregorianCalendar();
+ 					cal.setTime(getIrbApprovalDate());
+ 					cal.add(Calendar.DATE, -1);
+ 					previousStudySiteStudyVersion.setEndDate(cal.getTime());
+ 				}
+ 			}
 
-            this.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
-			this.getLatestStudySiteStudyVersion().setStartDate(getIrbApprovalDate());
-			StudySiteStudyVersion previousStudySiteStudyVersion = getPreviousStudySiteStudyVersion();
-			if(previousStudySiteStudyVersion != null){
-				if(previousStudySiteStudyVersion.getEndDate() == null  || previousStudySiteStudyVersion.getEndDate().after(getIrbApprovalDate())){
-					GregorianCalendar cal = new GregorianCalendar();
-					cal.setTime(getIrbApprovalDate());
-					cal.add(Calendar.DATE, -1);
-					previousStudySiteStudyVersion.setEndDate(cal.getTime());
-				}
-			}
+ 			handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.ACTIVE);
 
             Study study = this.getStudy();
             if(!study.getCompanionIndicator()){
@@ -407,7 +244,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
             		for(StudySite studySite : companionStudyAssociation.getStudySites()){
             			if(studySite.getHealthcareSite().getPrimaryIdentifier() == this.getHealthcareSite().getPrimaryIdentifier()){
             				if(studySite.getSiteStudyStatus() != SiteStudyStatus.ACTIVE){
-            					studySite.activate();
+            					studySite.activate(effectiveDate);
             				}
             			}
             		}
@@ -434,26 +271,20 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	 *
 	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
 	 */
-	public void closeToAccrual() throws C3PRCodedRuntimeException {
+	public void closeToAccrual(Date effectiveDate) throws C3PRCodedRuntimeException {
         if (this.getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL) {
         	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_ALREADY_CLOSED_TO_ACCRUAL.CODE"));
         }
-            
-        if (this.getSiteStudyStatus() == SiteStudyStatus.PENDING || this.getSiteStudyStatus() == SiteStudyStatus.AMENDMENT_PENDING) {
+        if (this.getSiteStudyStatus() == SiteStudyStatus.PENDING) {
         	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL.getDisplayName() });
         }
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.add(Calendar.DATE, -1);
-        this.setEndDate(cal.getTime());
-        // this will create site status history object, hence setting end date before this
-        this.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
-        
+        handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.CLOSED_TO_ACCRUAL) ;
     }
-
+	
     /**
      * Close to accrual and treatment.
      */
-    public void closeToAccrualAndTreatment() {
+    public void closeToAccrualAndTreatment(Date effectiveDate) {
         if (this.getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT){
         	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_ALREADY_CLOSED_TO_ACCRUAL_AND_TREATMENT.CODE"));
         }
@@ -462,18 +293,13 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE"),new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
                                             .getDisplayName() });
         }
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.add(Calendar.DATE, -1);
-        this.setEndDate(cal.getTime());
-        // this will create site status history object, hence setting end date before this
-        this.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-       
+        handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) ;       
     }
 
     /**
      * Temporarily close to accrual and treatment.
      */
-    public void temporarilyCloseToAccrualAndTreatment() {
+    public void temporarilyCloseToAccrualAndTreatment(Date effectiveDate) {
 
         if (this.getSiteStudyStatus() == SiteStudyStatus.PENDING
                         || this.getSiteStudyStatus() == SiteStudyStatus.AMENDMENT_PENDING
@@ -485,12 +311,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                                             new String[] { SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT
                                                             .getDisplayName() });
         }
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.add(Calendar.DATE, -1);
-        this.setEndDate(cal.getTime());
-        
-        // this will create site status history object, hence setting end date before this
-        this.setSiteStudyStatus(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+        handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) ;
     }
 
     /**
@@ -498,7 +319,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      *
      * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
      */
-    public void temporarilyCloseToAccrual() throws C3PRCodedRuntimeException {
+    public void temporarilyCloseToAccrual(Date effectiveDate) throws C3PRCodedRuntimeException {
 
         if (this.getSiteStudyStatus() == SiteStudyStatus.PENDING
                         || this.getSiteStudyStatus() == SiteStudyStatus.AMENDMENT_PENDING
@@ -509,12 +330,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                             new String[] { SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
                                             .getDisplayName() });
         }
-        GregorianCalendar cal = new GregorianCalendar();
-        cal.add(Calendar.DATE, -1);
-        this.setEndDate(cal.getTime());
-        
-        // this will create site status history object, hence setting end date before this
-        this.setSiteStudyStatus(SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
+        handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) ;
     }
 
     /**
@@ -927,23 +743,183 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	}
 	
 	@Transient
-	private Date getAllowedOldDateForIRBApprovalAndStartDate(){
+	private Date getAllowedOldDateForIRBApproval(){
 		 TreeSet<StudySiteStudyVersion> studySiteStudyVersions = new TreeSet<StudySiteStudyVersion>();
 		 studySiteStudyVersions.addAll(getStudySiteStudyVersions());
+		 Date versionDate = studySiteStudyVersions.last().getStudyVersion().getVersionDate();
 		 
-		 List<StudyVersion> studyVersions = getStudy().getStudyVersions() ;
-		 Collections.sort(studyVersions);
+		 Date currentDate = new Date();
+         GregorianCalendar calendar = new GregorianCalendar();
+         calendar.setTime(currentDate);
+         calendar.add(calendar.YEAR, -1);
 		 
-		 int size = studyVersions.size();
-		 int index = studyVersions.indexOf(studySiteStudyVersions.last().getStudyVersion());
+		 Date yearOldDate = calendar.getTime(); 
 		 
-		 if(index == size - 1){
-			 throw new RuntimeException("Study site is already on latest study version, hence no version available to apply on study site");
-		 }else if(index < size - 1){
-			 return studyVersions.get(index + 1).getVersionDate();
+		 if(versionDate.before(yearOldDate)){
+			 return yearOldDate ;
+		 }else{
+			 return versionDate ;
 		 }
-		 return null ;
 	}
+	
+	@Transient
+	private Date getAllowedOldDateForStartDate() {
+		TreeSet<StudySiteStudyVersion> studySiteStudyVersions = new TreeSet<StudySiteStudyVersion>();
+		studySiteStudyVersions.addAll(getStudySiteStudyVersions());
+		return studySiteStudyVersions.last().getStudyVersion().getVersionDate();
+	}
+	
+	/**
+     * Sets the irb approval date.
+     *
+     * @param irbApprovalDate the new irb approval date
+     */
+    public void setIrbApprovalDate(Date irbApprovalDate) {
+        getStudySiteStudyVersion().setIrbApprovalDate(irbApprovalDate);
+    }
 
+    /**
+     * Gets the irb approval date.
+     *
+     * @return the irb approval date
+     */
+    @Transient
+    public Date getIrbApprovalDate() {
+        return getStudySiteStudyVersion().getIrbApprovalDate();
+    }
 
+    /**
+     * Gets the start date.
+     *
+     * @return the start date
+     */
+//    @Transient
+//    public Date getStartDate() {
+//    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
+//    	if(siteStatusHistoryList.size() == 0){
+//    		//Ideally it should not come here.
+//    		throw new RuntimeException("No status history found.");
+//    	}else if(siteStatusHistoryList.size() == 1){
+//    		return siteStatusHistoryList.get(0).getStartDate();
+//        }else if(siteStatusHistoryList.size() > 1){
+//        	throw new RuntimeException("Multiple status found.");
+//        }
+//    	return null ;
+//    }
+//    
+//    public void setStartDate(Date startDate){
+//    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
+//    	int size = siteStatusHistoryList.size(); 
+//        if(size == 0){
+//        	getSiteStatusHistory().get(0).setStartDate(startDate);
+//        }else{
+//        	if(getSiteStatusHistory().get(size -1).getEndDate() != null){
+//        		getSiteStatusHistory().get(size).setStartDate(startDate);
+//        	}else{	
+//        		throw new RuntimeException("Cannot set start date for study site. end date is not set for previous status");
+//        	}
+//        }
+//    }
+//    
+//    public void setEndDate(Date endDate){
+//    	List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
+//    	int size = siteStatusHistoryList.size(); 
+//        if(size > 0){
+//        	if(getSiteStatusHistory().get(size -1).getStartDate() != null){
+//        		getSiteStatusHistory().get(size-1).setEndDate(endDate);
+//        	}else{
+//        		throw new RuntimeException("Cannot set end date for study site. start date is not set");
+//        	}
+//        }
+//    }
+//    
+    /* (non-Javadoc)
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(StudySite o) {
+        if (this.equals(o)) return 0;
+        else return 1;
+    }
+
+    /**
+     * Gets the irb approval date str.
+     *
+     * @return the irb approval date str
+     */
+    @Transient
+    public String getIrbApprovalDateStr() {
+        return CommonUtils.getDateString(getIrbApprovalDate());
+    }
+
+//    /**
+//     * Gets the start date str.
+//     *
+//     * @return the start date str
+//     */
+//    @Transient
+//    public String getStartDateStr() {
+//    	return CommonUtils.getDateString(getStartDate());
+//    }
+
+    /**
+     * Gets the site study status.
+     *
+     * @return the site study status
+     */
+    @Transient
+    public SiteStudyStatus getSiteStudyStatus() {
+       return getSiteStudyStatus(new Date());
+    }
+    
+    @Transient
+    public SiteStudyStatus getSiteStudyStatus(Date date) {
+        List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
+        Collections.sort(siteStatusHistoryList);
+        for(SiteStatusHistory siteStatusHistory : siteStatusHistoryList){
+        	Date startDate = siteStatusHistory.getStartDate();
+        	Date endDate = siteStatusHistory.getEndDate();
+        	if((date.after(startDate) || date.equals(startDate)) && (endDate != null && (date.before(endDate) || date.equals(endDate)))){
+        		return siteStatusHistory.getSiteStudyStatus();
+        	}else if((date.after(startDate) || date.equals(startDate)) && endDate == null){
+        		return siteStatusHistory.getSiteStudyStatus();
+        	}
+        }
+        return SiteStudyStatus.PENDING;
+    }
+    
+	public void handleStudySiteStatusChange(Date effectiveDate, SiteStudyStatus status){
+		SiteStatusHistory lastSiteStatusHistory = getLatestSiteStatusHistory();
+		if( lastSiteStatusHistory != null){
+        	if(lastSiteStatusHistory.getStartDate() == null){
+        		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.NO.START_DATE.CODE"),new String[] {this.getHealthcareSite().getName() });
+        	}else if(lastSiteStatusHistory.getStartDate() != null && lastSiteStatusHistory.getStartDate().after(effectiveDate)){ 
+        		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.INVALID.EFFECTIVE_DATE.CODE"),new String[] {this.getHealthcareSite().getName() });
+        	}
+        	if(lastSiteStatusHistory.getEndDate() != null){
+        		// last history object should not have end date
+        		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.END_DATE_PRESENT.CODE"),new String[] {this.getHealthcareSite().getName() });
+        	}else{
+        		 Date currentDate = new Date();
+                 GregorianCalendar calendar = new GregorianCalendar();
+                 calendar.setTime(currentDate);
+                 calendar.add(calendar.DATE, -1);
+                 lastSiteStatusHistory.setEndDate(calendar.getTime());
+        	}
+        }
+		SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
+    	siteStatusHistory.setStartDate(effectiveDate);
+    	siteStatusHistory.setSiteStudyStatus(status);
+    	this.addSiteStatusHistory(siteStatusHistory);
+	}
+	
+	@Transient
+	public SiteStatusHistory getLatestSiteStatusHistory(){
+		TreeSet<SiteStatusHistory> siteStatusHistorySet = new TreeSet<SiteStatusHistory>();
+        siteStatusHistorySet.addAll(getSiteStatusHistory());
+        SiteStatusHistory lastSiteStatusHistory  = null ;
+        if(siteStatusHistorySet.size() > 0){
+        	lastSiteStatusHistory = siteStatusHistorySet.last(); 
+        }
+        return lastSiteStatusHistory;
+	}
 }

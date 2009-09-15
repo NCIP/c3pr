@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.xml;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
-import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
@@ -25,12 +24,14 @@ public class StudySiteStudyStatusHandler implements FieldHandler {
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
         StudySite studySite = (StudySite) object;
-        studySite.setSiteStudyStatus(SiteStudyStatus.valueOf((String) value));
+        //TODO RK is going to look into this
+ //        studySite.setSiteStudyStatus(SiteStudyStatus.valueOf((String) value));
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
         StudySite studySite = (StudySite) object;
-        studySite.setSiteStudyStatus(null);
+      //TODO RK is going to look into this
+//        studySite.setSiteStudyStatus(null);
     }
 
     /**
