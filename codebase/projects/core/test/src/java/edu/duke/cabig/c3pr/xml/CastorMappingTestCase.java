@@ -178,7 +178,6 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	
 	public void assertConsent(Consent expected, Consent actual){
 		assertEquals(expected.getName(), actual.getName());
-		assertEquals(expected.getEffectiveDate(), actual.getEffectiveDate());
 		
 	}
 	
