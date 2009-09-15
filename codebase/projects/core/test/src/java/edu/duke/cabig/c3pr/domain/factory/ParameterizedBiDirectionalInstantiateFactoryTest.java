@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain.factory;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.extensions.DomainAbstractSubClass;
 import edu.duke.cabig.c3pr.utils.extensions.DomainPrivateSubClass;
 import edu.duke.cabig.c3pr.utils.extensions.DomainSubClass;
@@ -74,4 +75,8 @@ public class ParameterizedBiDirectionalInstantiateFactoryTest extends AbstractTe
 		DomainObject domainObject=parameterizedInstantiateFactory.create();
 		assertNull(domainObject);
 	}
+}
+
+class StudySiteSubClass extends StudySite{
+	
 }
