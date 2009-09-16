@@ -313,8 +313,7 @@ public class StudyCreationHelper {
                     Study study) {
     	StudySite studySite = new StudySite();
     	studySite.setIrbApprovalDate(Calendar.getInstance().getTime());
-    	//TODO fix it later
-//    	studySite.setStartDate(Calendar.getInstance().getTime());
+    	studySite.getStudySiteStudyVersion().setStartDate(new Date());
         study.addStudySite(studySite);
         Epoch treatmentEpoch = new Epoch();
         treatmentEpoch.setName("Treatment Epoch1");
