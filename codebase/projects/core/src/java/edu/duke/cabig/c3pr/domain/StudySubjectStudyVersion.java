@@ -36,8 +36,6 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 
 	public StudySubjectStudyVersion() {
 		lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(StudySubjectConsentVersion.class,
-				new InstantiateFactory<StudySubjectConsentVersion>(StudySubjectConsentVersion.class));
 		lazyListHelper.add(StudySubjectConsentVersion.class, new ParameterizedBiDirectionalInstantiateFactory<StudySubjectConsentVersion>(StudySubjectConsentVersion.class, this));
 	}
 
