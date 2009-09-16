@@ -779,7 +779,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     }
 
     private Object createRegistration(StudySubject studySubject) {
-        studySubject.setRegDataEntryStatus(evaluateRegistrationDataEntryStatus(studySubject));
+        studySubject.setRegDataEntryStatus(studySubject.evaluateRegistrationDataEntryStatus());
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
                         evaluateScheduledEpochDataEntryStatus(studySubject));
         ScheduledEpoch current = studySubject.getScheduledEpoch();
@@ -825,13 +825,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
             }
         }
         return command;
-    }
-
-    public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus(StudySubject studySubject) {
-        if (studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0)== null) return RegistrationDataEntryStatus.INCOMPLETE;
-        if (studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).getConsent()== null) return RegistrationDataEntryStatus.INCOMPLETE;
-        if (studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).getInformedConsentSignedDate().equals("")) return RegistrationDataEntryStatus.INCOMPLETE;
-        return RegistrationDataEntryStatus.COMPLETE;
     }
 
     public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(
@@ -949,7 +942,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             		scheduledEpoch.getExclusionEligibilityAnswers().size());
             assertEquals("Wrong number of subject stratification answers", 1,
             		scheduledEpoch.getSubjectStratificationAnswers().size());
-            assertEquals("Wrong registration status", "COMPLETE", loaded.getRegDataEntryStatus()
+            assertEquals("Wrong registration status", "INCOMPLETE", loaded.getRegDataEntryStatus()
                             .getName());
         }
         interruptSession();
