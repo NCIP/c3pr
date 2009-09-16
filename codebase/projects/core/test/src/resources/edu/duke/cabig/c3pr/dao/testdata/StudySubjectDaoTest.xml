@@ -1,6 +1,6 @@
 <dataset>
 
-	<STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" />
+	<STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN" consent_required="ONE"  retired_indicator = "false" />
     <STUDIES id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty"  status="OPEN" retired_indicator = "false" />
     <STUDIES id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" />
     
@@ -48,7 +48,7 @@
     
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
             
-    <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" stu_version_id="1000" retired_indicator = "false" />
+    <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" enrollment_indicator="1" stu_version_id="1000" retired_indicator = "false" />
     <EPOCHS id="1001" version="1" name="Treatment1001" description_text="cancer desc" stu_version_id="1000" retired_indicator = "false" />
     <EPOCHS id="1002" version="1" name="Treatment1002" description_text="treatement desc" stu_version_id="1000"   retired_indicator = "false" />
     <EPOCHS id="1003" version="1" name="Treatment1003" description_text="cancer desc" stu_version_id="1000"   retired_indicator = "false" />
