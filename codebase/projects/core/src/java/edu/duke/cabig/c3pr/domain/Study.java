@@ -80,7 +80,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	private Boolean stratificationIndicator;
 	private String phaseCode;
 	private String type;
-	private ConsentRequired consentRequired ;
+	private ConsentRequired consentRequired = ConsentRequired.ONE;
     private StudyVersion studyVersion;
 	// This is for the CADSR exclusion/inclusion criteria file
 	/** The criteria file. */
