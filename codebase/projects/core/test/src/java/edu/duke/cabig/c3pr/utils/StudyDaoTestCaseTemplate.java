@@ -128,12 +128,9 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
             term2.setMedraCode(10322);
             term2.setCategory(disCatSaved);
             diseaseTermDao.save(term1);
-            System.out.println("disease term1 id ************" + term1.getId());
             diseaseTermDao.save(term2);
-            System.out.println("disease term2 id ************" + term2.getId());
 
             interruptSession();
-            System.out.println("hc site id ************" + healthcaresite.getId());
 
             disId = disCatSaved.getId();
             invId = invSave.getId();
@@ -141,7 +138,6 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
             hcsiId = hcsiSave.getId();
             term1Id = term1.getId();
             term2Id = term2.getId();
-            System.out.println("hcsi id ************" + hcsiId);
         }
 
         DiseaseCategory disCat = diseaseCategoryDao.getById(disId);
@@ -157,8 +153,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         StudySite studySite = new StudySite();
         study.addStudySite(studySite);
         studySite.setHealthcareSite(healthcareSitedao.getById(hcsId)); //
-      //TODO fix it later
-//        studySite.setStartDate(new Date());
+        studySite.getStudySiteStudyVersion().setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
@@ -183,8 +178,6 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         study.getIdentifiers().addAll(identifiers);
 
         // Diseases
-        System.out.println("disease disCat id ************" + disCat.getId());
-
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term1Id));
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term2Id));
@@ -258,8 +251,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
         StudySite studySite = new StudySite();
         study.addStudySite(studySite);
         studySite.setHealthcareSite(healthcaresite); //
-      //TODO fix it later
-//        studySite.setStartDate(new Date());
+        studySite.getStudySiteStudyVersion().setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
