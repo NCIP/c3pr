@@ -252,17 +252,82 @@
   </xs:simpleType>
   <xs:complexType name="Registration">
     <xs:sequence>
-      <xs:element minOccurs="1" maxOccurs="1" name="studyIdentifiers" type="IdentifiersType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="studyVersion" type="xs:string" />
-      <xs:element minOccurs="1" maxOccurs="1" name="subject" type="SubjectType" />
-      <xs:element minOccurs="1" maxOccurs="1" name="site" type="HealthcareSiteType" />
-      <xs:element minOccurs="1" maxOccurs="1" name="startDate" type="xs:date" />
-      <xs:element minOccurs="1" maxOccurs="1" name="informedConsent" type="InformedConsentType" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
-      <xs:element minOccurs="0" maxOccurs="1" name="status" type="RegWorkflowStatusType" />
-      <xs:element minOccurs="1" maxOccurs="1" name="scheduledEpoch" type="ScheduledEpochType"/>
-      <xs:element minOccurs="0" maxOccurs="1" name="enrollingPhysician" type="StudyInvestigatorType" />
-      <xs:element minOccurs="0" maxOccurs="1" name="otherEnrollingPhysician" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="studyIdentifiers" type="IdentifiersType" >
+        <xs:annotation>
+          <xs:documentation>Study identifiers to uniquely identify the study on the which the subject is/will register(ed).</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="studyVersion" type="xs:string" >
+        <xs:annotation>
+          <xs:documentation>
+            Study version name to determine which version of the study, subject is/will register(ed).This field is to facilitate registration on
+            an amended version of the study. If this is not provided then the latest study version/amendment will be used. 
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="1" name="subject" type="SubjectType" >
+        <xs:annotation>
+          <xs:documentation>
+            Subject/Partcipant details. 
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="1" name="site" type="HealthcareSiteType" >
+        <xs:annotation>
+          <xs:documentation>
+            Study Site details on which the subject will be registered.  
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="1" name="startDate" type="xs:date" >
+        <xs:annotation>
+          <xs:documentation>
+            Registration Date. 
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="informedConsent" type="InformedConsentType" >
+        <xs:annotation>
+          <xs:documentation>
+            Informed Consent Details. 
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="identifier" type="IdentifierType">
+        <xs:annotation>
+          <xs:documentation>
+            Registration identifers. There are the identifiers assigned to a subject on a study, e.g. C3D patient position.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="status" type="RegWorkflowStatusType" >
+        <xs:annotation>
+          <xs:documentation>
+            Registration Status 
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="1" name="scheduledEpoch" type="ScheduledEpochType">
+        <xs:annotation>
+          <xs:documentation>
+            Assignement details including arm. 
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="enrollingPhysician" type="StudyInvestigatorType" >
+        <xs:annotation>
+          <xs:documentation>
+            Enrolling physcian details. The physician should be available in C3PR.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" name="otherEnrollingPhysician" type="xs:string" >
+        <xs:annotation>
+          <xs:documentation>
+            Enrolling physican name, in case the physician is not present in C3PR. 
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element minOccurs="0" maxOccurs="1" name="offStudyReasonText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="offStudyDate" type="xs:date" />
       <xs:element minOccurs="0" maxOccurs="1" name="diseaseHistory" type="DiseaseHistoryType" />
