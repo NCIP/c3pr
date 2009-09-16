@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a sample xml file. This file should be modified with proper data elements -->
+<!-- before using. -->
 <registration xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
 	<studyIdentifiers>
 		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

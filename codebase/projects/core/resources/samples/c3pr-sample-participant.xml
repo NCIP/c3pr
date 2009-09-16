@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a sample xml file. This file should be modified with proper data elements -->
+<!-- before using. -->
 <participant xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
     <firstName>First</firstName>
     <lastName>Last</lastName>
