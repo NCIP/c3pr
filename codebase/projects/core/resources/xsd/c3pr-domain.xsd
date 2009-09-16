@@ -214,7 +214,7 @@
   </xs:complexType>
   <xs:simpleType name="RaceCodeType">
     <xs:restriction base="xs:token">
-      <xs:pattern value="((Asian|Black_or_African_American|White|American_Indian_or_Alaska_Native|Native_Hawaiian_or_Pacific_Islander|Not_Reported|Asian : Unknown) : )*(Asian|Black_or_African_American|White|American_Indian_or_Alaska_Native|Native_Hawaiian_or_Pacific_Islander|Not_Reported|Asian : Unknown)"/>
+      <xs:pattern value="((Asian|Black_or_African_American|White|American_Indian_or_Alaska_Native|Native_Hawaiian_or_Pacific_Islander|Not_Reported|Asian|Unknown) : )*(Asian|Black_or_African_American|White|American_Indian_or_Alaska_Native|Native_Hawaiian_or_Pacific_Islander|Not_Reported|Asian|Unknown)"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="EthnicGroupCodeType">
@@ -257,8 +257,7 @@
       <xs:element minOccurs="1" maxOccurs="1" name="subject" type="SubjectType" />
       <xs:element minOccurs="1" maxOccurs="1" name="site" type="HealthcareSiteType" />
       <xs:element minOccurs="1" maxOccurs="1" name="startDate" type="xs:date" />
-      <xs:element minOccurs="1" maxOccurs="1" name="informedConsentFormSignsedDate" type="xs:date" />
-      <xs:element minOccurs="1" maxOccurs="1" name="informedConsentVersion" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="informedConsent" type="InformedConsentType" />
       <xs:element minOccurs="0" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
       <xs:element minOccurs="0" maxOccurs="1" name="status" type="RegWorkflowStatusType" />
       <xs:element minOccurs="1" maxOccurs="1" name="scheduledEpoch" type="ScheduledEpochType"/>
@@ -270,6 +269,12 @@
       <xs:element minOccurs="0" maxOccurs="1" name="paymentMethod" type="PaymentMethodType" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="InformedConsentType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="consent" type="Consent"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="informedConsentFormSignedDate" type="xs:date" />
+    </xs:sequence>
   </xs:complexType>
   <xs:simpleType name="RegDataEntryStatusType">
     <xs:restriction base="xs:string">
@@ -298,7 +303,7 @@
       <xs:element minOccurs="1" maxOccurs="1" name="epoch" type="EpochType"/>
       <xs:element minOccurs="0" maxOccurs="1" name="scheduledArm" type="ScheduledArmType" />
       <xs:element minOccurs="0" maxOccurs="1" name="eligibilityIndicator" type="xs:boolean" />
-      <xs:element minOccurs="0" maxOccurs="1" name="stratumGroup" type="StratumGroupType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="stratumGroup" type="xs:string" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
@@ -336,7 +341,6 @@
   <xs:complexType name="Consent">
     <xs:sequence>
       <xs:element name="name" minOccurs="1" maxOccurs="1" type="xs:string"/>
-      <xs:element minOccurs="1" maxOccurs="1" name="effectiveDate" type="xs:date" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>

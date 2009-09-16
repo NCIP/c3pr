@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<registration xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+	<studyIdentifiers>
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:type="OrganizationAssignedIdentifierType">
+			<value>test id</value>
+			<primaryIndicator>true</primaryIndicator>
+			<healthcareSite gridId="c143e551-e1d4-432f-97de-ab047ea2736a"
+				xsi:type="LocalHealthcareSiteType">
+				<name>Duke</name>
+				<descriptionText>DUKE healthcare</descriptionText>
+				<address>
+						<streetAddress>A imperial building</streetAddress>
+						<city>Charlotte</city>
+						<stateCode>NC</stateCode>
+						<postalCode>12123</postalCode>
+						<countryCode>USA</countryCode>
+					</address>
+				<identifier xsi:type="OrganizationAssignedIdentifierType">
+					<value>DUKE NCI</value>
+					<primaryIndicator>true</primaryIndicator>
+					<type>CTEP</type>
+				</identifier>
+			</healthcareSite>
+			<type>COORDINATING_CENTER_IDENTIFIER</type>
+		</identifier>
+	</studyIdentifiers>
+	<studyVersion>1.0</studyVersion>
+	<subject>
+		<firstName>firstName</firstName>
+		<lastName>lastName</lastName>
+		<address/>
+		<administrativeGenderCode>Male</administrativeGenderCode>
+		<birthDate>2009-08-14</birthDate>
+		<ethnicGroupCode>Unknown</ethnicGroupCode>
+		<raceCode>Unknown</raceCode>
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:type="OrganizationAssignedIdentifierType">
+			<value>test id0.19187658675850972</value>
+			<primaryIndicator>true</primaryIndicator>
+			<healthcareSite gridId="baabab39-dcee-410c-8130-77b357f01678"
+				xsi:type="LocalHealthcareSiteType">
+				<name>Northwestern Memorial Hospital</name>
+				<descriptionText>NU healthcare</descriptionText>
+				<address>
+						<streetAddress>123 Lake Shore Dr</streetAddress>
+						<city>Chicago</city>
+						<stateCode>IL</stateCode>
+						<postalCode>83929</postalCode>
+						<countryCode>USA</countryCode>
+					</address>
+				<identifier xsi:type="OrganizationAssignedIdentifierType">
+					<value>NU healthcare</value>
+					<primaryIndicator>true</primaryIndicator>
+					<type>CTEP</type>
+				</identifier>
+			</healthcareSite>
+			<type>MRN</type>
+		</identifier>
+	</subject>
+	<site xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		gridId="baabab39-dcee-410c-8130-77b357f01678" xsi:type="LocalHealthcareSiteType">
+		<name>Northwestern Memorial Hospital</name>
+		<descriptionText>NU healthcare</descriptionText>
+		<address>
+				<streetAddress>123 Lake Shore Dr</streetAddress>
+				<city>Chicago</city>
+				<stateCode>IL</stateCode>
+				<postalCode>83929</postalCode>
+				<countryCode>USA</countryCode>
+			</address>
+		<identifier xsi:type="OrganizationAssignedIdentifierType">
+			<value>NU healthcare</value>
+			<primaryIndicator>true</primaryIndicator>
+			<type>CTEP</type>
+		</identifier>
+	</site>
+	<startDate>2009-08-14</startDate>
+	<informedConsent>
+		<consent><name>1.0</name></consent>
+		<informedConsentFormSignedDate>2009-08-14 </informedConsentFormSignedDate>
+	</informedConsent>
+	<status>PENDING</status>
+	<scheduledEpoch>
+		<startDate>2009-08-14</startDate>
+		<epoch gridId="69422c8c-375a-47ca-8ca1-150565a3e5c0">
+			<name>epoch1</name>
+			<stratificationIndicator>false</stratificationIndicator>
+			<randomizedIndicator>true</randomizedIndicator>
+			<reservationIndicator>false</reservationIndicator>
+			<treatmentIndicator>false</treatmentIndicator>
+			<enrollmentIndicator>true</enrollmentIndicator>
+			<arm gridId="84b8f18b-cdda-418f-8e95-cb1f990e17fd">
+				<name>A</name>
+			</arm>
+			<stratificationCriteria>
+				<questionNumber>0</questionNumber>
+				<questionText>will I work?</questionText>
+				<permissibleAnswer>
+					<answerText>lets find out1</answerText>
+				</permissibleAnswer>
+				<permissibleAnswer>
+					<answerText>lets find out2</answerText>
+				</permissibleAnswer>
+			</stratificationCriteria>
+			<randomization>
+				<type>BOOK</type>
+			</randomization>
+		</epoch>
+		<scheduledArm>
+			<arm gridId="84b8f18b-cdda-418f-8e95-cb1f990e17fd">
+				<name>A</name>
+			</arm>
+		</scheduledArm>
+		<eligibilityIndicator>true</eligibilityIndicator>
+		<stratumGroup>0:lets find out1</stratumGroup>
+	</scheduledEpoch>
+	<diseaseHistory/>
+</registration>
