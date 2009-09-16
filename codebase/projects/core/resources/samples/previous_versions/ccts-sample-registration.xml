@@ -14,7 +14,6 @@
 		<longTitleText>Test C3D study Dec 4th</longTitleText>
 		<identifier
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			type="04_C_0121"
 			xsi:type="OrganizationAssignedIdentifierType">
 			<type>Coordinating Center Identifier</type>
 			<value>04_C_0121</value>
@@ -24,8 +23,7 @@
 				</healthcareSite>
 		</identifier>
 		<identifier
-			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			type="04_C_0121" xsi:type="OrganizationAssignedIdentifierType">
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="OrganizationAssignedIdentifierType">
 			<type>Protocol Authority Identifier</type>
 			<value>04_C_0121</value>
 			<primaryIndicator>false</primaryIndicator>
@@ -35,7 +33,6 @@
 		</identifier>
 	</studyRef>
 	<participant gridId="8c68df33-0eac-45e5-84d3-4b60a43cc00a">
-		<gridId>8c68df33-0eac-45e5-8 4d3-4b60a43cc00a</gridId>
 		<firstName>Lee</firstName>
 		<lastName>Anderson</lastName>
 		<address />
@@ -44,8 +41,7 @@
 		<ethnicGroupCode>Non Hispanic or Latino</ethnicGroupCode>
 		<raceCode>American_Indian_or_Alaska_Native</raceCode>
 		<identifier
-			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-			type="1212-11-234" xsi:type="OrganizationAssignedIdentifierType">
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="OrganizationAssignedIdentifierType">
 			<type>MRN</type>
 			<value>1212-11-234</value>
 			<primaryIndicator>true</primaryIndicator>
