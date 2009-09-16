@@ -32,6 +32,12 @@ function applyLatestAmendment(primaryIdentifier){
 	win.setContent(arr[0]) ;
 	win.showCenter(true);
 }
+
+function showSiteStatusHistory(primaryIdentifier){
+	var id = 'site_status_history-'+primaryIdentifier
+	Dialog.alert($(id).innerHTML, {className: "alphacube", width:600, okLabel: "Close"});
+}
+
 </script>
 <div id="site-${site.healthcareSite.ctepCode}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
@@ -102,7 +108,7 @@ function applyLatestAmendment(primaryIdentifier){
 			</div>
 			<div class="row">
 				<div class="label"><fmt:message key="c3pr.common.status" /></div>
-				<div class="value">${site.siteStudyStatus.code}</div>
+				<div class="value">${site.siteStudyStatus.code}&nbsp;&nbsp;<a href="#" onclick="showSiteStatusHistory('${site.healthcareSite.primaryIdentifier}');">Status history</a></div>
 			</div>
 		</div>
 	</div>
@@ -166,6 +172,27 @@ function applyLatestAmendment(primaryIdentifier){
 	</div>
 	</c:if>
 </div>
+<div id="site_status_history-${site.healthcareSite.primaryIdentifier}" style="display:none">
+<div>
+	<table id="siteStatusHistoryTable-${site.healthcareSite.primaryIdentifier}" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <th><b><tags:requiredIndicator /><fmt:message key="study.site.status"/></b>
+            <tags:hoverHint keyProp="study.site.status" /></th>
+            <th><b><fmt:message key="study.site.startdate"/></b>
+            <tags:hoverHint keyProp="study.site.startdate" /></th>
+            <th><b><fmt:message key="study.site.enddate"/></b>
+            <tags:hoverHint keyProp="study.site.enddate" /></th>
+        </tr>
+        <c:forEach items="${site.siteStatusHistory}" var="siteStatusHistory">
+        <tr>
+            <td>${siteStatusHistory.siteStudyStatus }</td>
+            <td>${siteStatusHistory.startDateStr }</td>
+            <td>${siteStatusHistory.endDateStr }</td>
+        </tr>
+        </c:forEach>
+    </table>
+    <div>
+</div>
 </chrome:deletableDivision>
 <div style="display:none">
 <div id="IRBApproval-${site.healthcareSite.primaryIdentifier}">
@@ -199,5 +226,7 @@ function applyLatestAmendment(primaryIdentifier){
 </div>
 <div id="irbError-${site.healthcareSite.primaryIdentifier}">
 </div>
+
+
 </div>
 </div>
