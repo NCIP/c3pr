@@ -110,7 +110,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         Criteria registrationCriteria = getHibernateTemplate().getSessionFactory()
                         .getCurrentSession().createCriteria(StudySubject.class);
 
-        Criteria studySiteCriteria = registrationCriteria.createCriteria("studySubjectStudyVersions").createCriteria("studySiteStudyVersion").createCriteria("studySite");
+        Criteria studySubjectStudyVersionCriteria = registrationCriteria.createCriteria("studySubjectStudyVersions");
+        Criteria studySubjectConsentVersionCriteria = studySubjectStudyVersionCriteria.createCriteria("studySubjectConsentVersionsInternal");
+        Criteria studySiteCriteria = studySubjectStudyVersionCriteria.createCriteria("studySiteStudyVersion").createCriteria("studySite");
         Criteria participantCriteria = registrationCriteria.createCriteria("participant");
         Criteria studyCriteria = studySiteCriteria.createCriteria("studyInternal");
         Criteria studyVersionCriteria = studyCriteria.createCriteria("studyVersionsInternal");
@@ -139,14 +141,15 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
                             + "%"));
         }
 
-        // registration criteria
+        // registration consent criteria
         if (startDate != null && endDate != null) {
-            registrationCriteria.add(Expression.between("informedConsentSignedDate", startDate, endDate));
+        	studySubjectConsentVersionCriteria.add(Expression.between("informedConsentSignedDate", startDate, endDate));
         }else if(startDate != null){
-        	registrationCriteria.add(Expression.ge("informedConsentSignedDate", startDate));
+        	studySubjectConsentVersionCriteria.add(Expression.ge("informedConsentSignedDate", startDate));
         }else if(endDate != null){
-        	registrationCriteria.add(Expression.le("informedConsentSignedDate", endDate));
+        	studySubjectConsentVersionCriteria.add(Expression.le("informedConsentSignedDate", endDate));
         }
+        
 
         // participant/subject criteria
         if (registration.getParticipant().getBirthDate() != null) {
