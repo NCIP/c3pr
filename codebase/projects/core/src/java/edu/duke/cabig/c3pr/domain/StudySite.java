@@ -518,14 +518,15 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	@Transient
 	public StudySiteStudyVersion getStudySiteStudyVersion(){
 		if(studySiteStudyVersion == null){
-			if(getSiteStudyStatus() != SiteStudyStatus.PENDING || getStudySiteStudyVersions().size() > 1) {
+			if(getSiteStudyStatus() == SiteStudyStatus.PENDING && getStudySiteStudyVersions().size() == 1 ) {
+				studySiteStudyVersion= getStudySiteStudyVersions().get(0);
+			}else  if(getSiteStudyStatus() != SiteStudyStatus.PENDING ) {
 				studySiteStudyVersion= getStudySiteStudyVersion(new Date());	
 			}else {
 				StudySiteStudyVersion newStudySiteStudyVersion = new StudySiteStudyVersion();
 				this.addStudySiteStudyVersion(newStudySiteStudyVersion);
 				studySiteStudyVersion= getStudySiteStudyVersions().get(0);
 			}
-			
 		}
 		return studySiteStudyVersion;
 	}
@@ -753,9 +754,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	
 	@Transient
 	private Date getAllowedOldDateForIRBApproval(){
-		 TreeSet<StudySiteStudyVersion> studySiteStudyVersions = new TreeSet<StudySiteStudyVersion>();
-		 studySiteStudyVersions.addAll(getStudySiteStudyVersions());
-		 Date versionDate = studySiteStudyVersions.last().getStudyVersion().getVersionDate();
+
+		 Date versionDate =  getAllowedOldDate();
 		 
 		 Date currentDate = new Date();
          GregorianCalendar calendar = new GregorianCalendar();
@@ -773,9 +773,20 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	
 	@Transient
 	private Date getAllowedOldDateForStartDate() {
-		TreeSet<StudySiteStudyVersion> studySiteStudyVersions = new TreeSet<StudySiteStudyVersion>();
-		studySiteStudyVersions.addAll(getStudySiteStudyVersions());
-		return studySiteStudyVersions.last().getStudyVersion().getVersionDate();
+		return getAllowedOldDate();
+	}
+	
+	@Transient
+	private Date getAllowedOldDate() {
+		// taking care of special scenario where start date ca be null when study site study version start date is null
+		List<StudySiteStudyVersion> studySiteStudyVersions = getStudySiteStudyVersions();
+		if(getSiteStudyStatus() == SiteStudyStatus.PENDING && getStudySiteStudyVersion().getStartDate() == null) {
+			return getStudySiteStudyVersion().getStudyVersion().getVersionDate();
+		}else {
+			TreeSet<StudySiteStudyVersion> studySiteStudyVersionSet = new TreeSet<StudySiteStudyVersion>();
+			studySiteStudyVersionSet.addAll(studySiteStudyVersions);
+			return studySiteStudyVersionSet.last().getStudyVersion().getVersionDate();
+		}
 	}
 	
 	/**
@@ -835,8 +846,14 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         		return siteStatusHistory.getSiteStudyStatus();
         	}
         }
+
+        Date currentDate = new Date();
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(currentDate);
+        calendar.add(calendar.YEAR, -100);
+        
         SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
-    	siteStatusHistory.setStartDate(date);
+    	siteStatusHistory.setStartDate(calendar.getTime());
     	siteStatusHistory.setSiteStudyStatus(SiteStudyStatus.PENDING);
     	this.addSiteStatusHistory(siteStatusHistory);
     	return SiteStudyStatus.PENDING;

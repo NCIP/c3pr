@@ -760,10 +760,5 @@ public class StudyRepositoryImpl implements StudyRepository {
 		return this.merge(study);
 	}
 
-	public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

@@ -160,8 +160,8 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
     
     public void testActivateStudySiteClosedStudySite() {
         study=getPersistedStudy();
-      //TODO fix it later
-//        study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+        study.getStudySites().get(0).handleStudySiteStatusChange(new Date(), SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         interruptSession();
         try {
@@ -206,8 +206,8 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
 
     public void testCloseAffiliateStudySite() throws C3PRCodedException {
         study=getPersistedStudy();
-      //TODO fix it later
-//        study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+        study.getStudySites().get(0).activate(new Date());
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         int id = study.getId();
         interruptSession();

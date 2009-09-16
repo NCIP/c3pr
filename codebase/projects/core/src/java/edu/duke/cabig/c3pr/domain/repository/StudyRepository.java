@@ -81,7 +81,7 @@ public interface StudyRepository {
 
     public StudySite temporarilyCloseStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate);
 
-    public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers);
+    public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers, Date effectiveDate);
 
     public void createStudyAtAffiliates(List<Identifier> studyIdentifiers);
 
