@@ -3,7 +3,7 @@ package edu.duke.cabig.c3pr.xml;
 import edu.duke.cabig.c3pr.AbstractTestCase;
 
 
-public class XMLTransformerTest extends AbstractTestCase {
+public class CCTSXMLTransformerTest extends AbstractTestCase {
 
 	private XMLParser xmlParser;
 
@@ -20,7 +20,7 @@ public class XMLTransformerTest extends AbstractTestCase {
 
 	public void testRegistrationTransformationFromString() throws Exception {
 		String xslName = "ccts-registration-transformer.xsl";
-		String sampleXml = "c3pr-sample-registration_v2.7.2.xml";
+		String sampleXml = "c3pr-sample-registration.xml";
 		String cctsXml= new XMLTransformer().transform(readFile(xslName),
 				readFile(sampleXml));
 		System.out.println(cctsXml);
