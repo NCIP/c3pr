@@ -518,7 +518,12 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	@Transient
 	public StudySiteStudyVersion getStudySiteStudyVersion(){
 		if(studySiteStudyVersion == null){
-			studySiteStudyVersion= getLatestStudySiteStudyVersion();
+			if(getSiteStudyStatus() != SiteStudyStatus.PENDING || getStudySiteStudyVersions().size() > 1) {
+				studySiteStudyVersion= getStudySiteStudyVersion(new Date());	
+			}else {
+				studySiteStudyVersion= getStudySiteStudyVersions().get(0);
+			}
+			
 		}
 		return studySiteStudyVersion;
 	}
