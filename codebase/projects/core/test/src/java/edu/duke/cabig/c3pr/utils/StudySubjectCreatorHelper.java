@@ -331,6 +331,10 @@ public class StudySubjectCreatorHelper {
    
     public void addStudySiteAndCoCenter(Study study, boolean makeStudysiteCoCenter) {
         StudySite studySite = new StudySite();
+
+        Date effectiveDate = new Date();
+        effectiveDate.setYear(50);
+        studySite.handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.ACTIVE);
         
         HealthcareSite healthcaresite = new LocalHealthcareSite();
         Address address = new Address();
