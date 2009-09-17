@@ -718,8 +718,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
 	}
 	
-//	@OneToMany(fetch = FetchType.LAZY)
-//	@JoinColumn(name="sto_id")
 	@OneToMany(mappedBy = "studySite", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
