@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -52,7 +50,6 @@ import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import freemarker.template.SimpleDate;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 
@@ -110,10 +107,6 @@ public class StudySubject extends
 
 	/** The identifiers. */
 	private List<Identifier> identifiers;
-
-	// TODO going to be removed
-	/** The stratum group number. */
-	private Integer stratumGroupNumber;
 
 	/** The payment method. */
 	private String paymentMethod;
@@ -765,26 +758,6 @@ public class StudySubject extends
 	 */
 	public void setOffStudyReasonText(String offStudyReasonText) {
 		this.offStudyReasonText = offStudyReasonText;
-	}
-
-	// TODO to be deleted
-	/**
-	 * Gets the stratum group number.
-	 *
-	 * @return the stratum group number
-	 */
-	public Integer getStratumGroupNumber() {
-		return stratumGroupNumber;
-	}
-
-	// TODO to be deleted
-	/**
-	 * Sets the stratum group number.
-	 *
-	 * @param stratumGroupNumber the new stratum group number
-	 */
-	public void setStratumGroupNumber(Integer stratumGroupNumber) {
-		this.stratumGroupNumber = stratumGroupNumber;
 	}
 
 	// Adding refactored code

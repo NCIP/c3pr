@@ -209,7 +209,6 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
-        studySubject.setStratumGroupNumber(0);
         try {
             studySubjectRepository.doLocalRegistration(studySubject);
         }

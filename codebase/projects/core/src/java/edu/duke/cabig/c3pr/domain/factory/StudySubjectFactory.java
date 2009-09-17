@@ -303,7 +303,6 @@ public class StudySubjectFactory {
 		.getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(source.getStudySubjectStudyVersion()
         		.getStudySubjectConsentVersions().get(0).getInformedConsentSignedDate());
         studySubject.setStartDate(source.getStartDate());
-        studySubject.setStratumGroupNumber(source.getStratumGroupNumber());
         studySubject.setPaymentMethod(source.getPaymentMethod());
         studySubject.getIdentifiers().addAll(source.getIdentifiers());
         for (OrganizationAssignedIdentifier organizationAssignedIdentifier : studySubject
