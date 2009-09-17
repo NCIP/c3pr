@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -11,8 +9,6 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.validator.NotNull;
-
-import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
 @Table(name = "consents", uniqueConstraints = { @UniqueConstraint(columnNames = { "stu_version_id", "name" }) })
@@ -36,12 +32,6 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	private LazyListHelper lazyListHelper;
-
-	public Consent(){
-		lazyListHelper = new LazyListHelper();
 	}
 
 	@Override
