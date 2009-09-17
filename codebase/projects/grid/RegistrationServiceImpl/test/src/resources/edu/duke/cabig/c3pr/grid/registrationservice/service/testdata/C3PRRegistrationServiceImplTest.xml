@@ -32,9 +32,9 @@
     <STUDY_ORGANIZATIONS id="2102" version="1"  hcs_id="2101" type="SST" hosted_mode="0" study_id="2100" />`
     
     	
-	<SITE_STATUS_HISTORY id="1100" version="1" sto_id="1100" site_study_status="ACTIVE"  start_date="01-01-2000" />
-    <SITE_STATUS_HISTORY id="2101" version="1" sto_id="2101" site_study_status="ACTIVE"  start_date="01-01-2000" />
-	<SITE_STATUS_HISTORY id="2102" version="1" sto_id="2102" site_study_status="ACTIVE"  start_date="01-01-2000" />
+	<STU_SITE_STATUS_HISTORY id="1100" version="1" sto_id="1100" site_study_status="ACTIVE"  start_date="01-01-2000" />
+    <STU_SITE_STATUS_HISTORY id="2101" version="1" sto_id="2101" site_study_status="ACTIVE"  start_date="01-01-2000" />
+	<STU_SITE_STATUS_HISTORY id="2102" version="1" sto_id="2102" site_study_status="ACTIVE"  start_date="01-01-2000" />
 	
 	
 
