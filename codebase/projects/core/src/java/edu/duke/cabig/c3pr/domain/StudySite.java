@@ -161,14 +161,11 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      * Activate.
      */
     public void activate(Date effectiveDate) {
-    	// put checks for study version status
-    	if (!(this.getSiteStudyStatus() == SiteStudyStatus.PENDING
-    			|| this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL || this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)){
-            throw getC3PRExceptionHelper().getRuntimeException(
-                            getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_CANNOT_SET_STATUS.CODE"),
-                            new String[] { this.getSiteStudyStatus().getDisplayName() });
+    	if (!(this.getSiteStudyStatus() == SiteStudyStatus.PENDING || this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL || this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)){
+            	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_CANNOT_SET_STATUS.CODE"),new String[] { this.getSiteStudyStatus().getDisplayName() });
         }
         if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
+        	 
         	 Date currentDate = new Date();
              Date allowedOldDateForIRBApprival = getAllowedOldDateForIRBApproval();
              String allowedOldDate = "";
@@ -222,33 +219,25 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
  			}
 
  			handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.ACTIVE);
-
-            Study study = this.getStudy();
-            if(!study.getCompanionIndicator()){
-            	for(CompanionStudyAssociation companionStudyAssociation : study.getStudyVersion().getCompanionStudyAssociations()){
-            		for(StudySite studySite : companionStudyAssociation.getStudySites()){
-            			if(studySite.getHealthcareSite().getPrimaryIdentifier() == this.getHealthcareSite().getPrimaryIdentifier()){
-            				if(studySite.getSiteStudyStatus() != SiteStudyStatus.ACTIVE){
-            					studySite.activate(effectiveDate);
-            				}
-            			}
-            		}
-            	}
-            }
+ 			
+//			 TODO companion study
+//            Study study = this.getStudy();
+//            if(!study.getCompanionIndicator()){
+//            	for(CompanionStudyAssociation companionStudyAssociation : study.getStudyVersion().getCompanionStudyAssociations()){
+//            		for(StudySite studySite : companionStudyAssociation.getStudySites()){
+//            			if(studySite.getHealthcareSite().getPrimaryIdentifier() == this.getHealthcareSite().getPrimaryIdentifier()){
+//            				if(studySite.getSiteStudyStatus() != SiteStudyStatus.ACTIVE){
+//            					studySite.activate(effectiveDate);
+//            				}
+//            			}
+//            		}
+//            	}
+//            }
         }
         else {
-            throw getC3PRExceptionHelper()
-                            .getRuntimeException(
-                                            getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_CANNOT_BE_SET_WITH_CURRENT_COORDINATING_CENTER_STATUS.CODE"),
-                                            new String[] {
-                                                    SiteStudyStatus.ACTIVE.getDisplayName(),
-                                                    this
-                                                                    .getStudy()
-                                                                    .getCoordinatingCenterStudyStatus()
-                                                                    .getDisplayName() });
-
+            throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_CANNOT_BE_SET_WITH_CURRENT_COORDINATING_CENTER_STATUS.CODE"),
+                                            new String[] {SiteStudyStatus.ACTIVE.getDisplayName(),this.getStudy().getCoordinatingCenterStudyStatus().getDisplayName() });
         }
-
     }
 
 	/**
@@ -885,6 +874,10 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		SiteStatusHistory siteStatusHistory = getSiteStatusHistory().get(size);
     	siteStatusHistory.setStartDate(effectiveDate);
     	siteStatusHistory.setSiteStudyStatus(status);
+	}
+	
+	public void handleStudySiteStudyVersionDateRange(Date effective) {
+//		StudySiteStudyVersion currentStudySiteStudyVersion = 
 	}
 	
 	@Transient

@@ -12,6 +12,7 @@ import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.ServiceName;
+import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -170,7 +171,6 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     
     //TODO 
     // check the logic and method calls for this test case.
-
     public void testOpenStudyMultisite() throws C3PRCodedException {
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(8);
         EasyMock.expect(studyDao.merge(study)).andReturn(study).times(2);
@@ -298,8 +298,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 
     public void testActivateStudySiteClosedStudySite() {
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
-    	//TODO fix it later
-//    	studySite.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL);
+    	studySite.handleStudySiteStatusChange(new Date(),SiteStudyStatus.CLOSED_TO_ACCRUAL);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
         replayMocks();
         try {
@@ -321,7 +320,10 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
 
     public void testActivateCoordinatingCenterStudySite() throws C3PRCodedException {
+    	StudySiteStudyVersion studySiteStudyVersion = registerMockFor(StudySiteStudyVersion.class);
     	studySite.setHostedMode(false);
+//    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+//    	EasyMock.expect(studySite.getIrbApprovalDate()).andReturn(new Date());
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
@@ -357,8 +359,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 
     public void testCloseAffiliateStudySite() throws C3PRCodedException {
     	studySite.setHostedMode(false);
-    	//TODO fix it later
-//    	studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+    	studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
         EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke");
