@@ -25,7 +25,7 @@
 			<address/>
 			<identifier xsi:type="OrganizationAssignedIdentifierType">
 				<value>site_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
+				<primaryIndicator>true</primaryIndicator>
 				<type>CTEP</type>
 			</identifier>
 		</healthcareSite>
@@ -39,7 +39,7 @@
 			<address/>
 			<identifier xsi:type="OrganizationAssignedIdentifierType">
 				<value>site_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
+				<primaryIndicator>true</primaryIndicator>
 				<type>CTEP</type>
 			</identifier>
 		</healthcareSite>
@@ -112,7 +112,7 @@
 			<address/>
 			<identifier xsi:type="OrganizationAssignedIdentifierType">
 				<value>site_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
+				<primaryIndicator>true</primaryIndicator>
 				<type>CTEP</type>
 			</identifier>
 		</healthcareSite>
@@ -142,7 +142,7 @@
 			<address/>
 			<identifier xsi:type="OrganizationAssignedIdentifierType">
 				<value>site_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
+				<primaryIndicator>true</primaryIndicator>
 				<type>CTEP</type>
 			</identifier>
 		</healthcareSite>
@@ -153,12 +153,12 @@
 			<address/>
 			<identifier xsi:type="OrganizationAssignedIdentifierType">
 				<value>site_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
+				<primaryIndicator>true</primaryIndicator>
 				<type>CTEP</type>
 			</identifier>
 		</healthcareSite>
-		<irbApprovalDate>2009-07-30</irbApprovalDate>
-		<endDate>2009-07-30</endDate>
+		<irbApprovalDate>2009-09-17</irbApprovalDate>
+		<statusChangeDates>PENDING</statusChangeDates>
 		<siteStudyStatus>PENDING</siteStudyStatus>
 	</studyOrganization>
 	<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -167,13 +167,13 @@
 			<address/>
 			<identifier xsi:type="OrganizationAssignedIdentifierType">
 				<value>remote_ctep_id</value>
-				<primaryIndicator>false</primaryIndicator>
+				<primaryIndicator>true</primaryIndicator>
 				<type>CTEP</type>
 			</identifier>
 			<externalId>external_id</externalId>
 		</healthcareSite>
-		<irbApprovalDate>2009-07-30</irbApprovalDate>
-		<endDate>2009-07-30</endDate>
+		<irbApprovalDate>2009-09-17</irbApprovalDate>
+		<statusChangeDates>PENDING</statusChangeDates>
 		<siteStudyStatus>PENDING</siteStudyStatus>
 	</studyOrganization>
 	<companionStudy>
@@ -201,7 +201,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -215,7 +215,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -289,7 +289,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -309,7 +309,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -320,7 +320,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -343,8 +343,8 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-07-30</irbApprovalDate>
-				<endDate>2009-07-30</endDate>
+				<irbApprovalDate>2009-09-17</irbApprovalDate>
+				<statusChangeDates>PENDING</statusChangeDates>
 				<siteStudyStatus>PENDING</siteStudyStatus>
 			</studyOrganization>
 			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -353,7 +353,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>remote_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 					<externalId>external_id</externalId>
@@ -377,27 +377,15 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-07-30</irbApprovalDate>
-				<endDate>2009-07-30</endDate>
+				<irbApprovalDate>2009-09-17</irbApprovalDate>
+				<statusChangeDates>PENDING</statusChangeDates>
 				<siteStudyStatus>PENDING</siteStudyStatus>
 			</studyOrganization>
 			<consent>
 				<name>Male</name>
-				<consentVersion>
-					<name>consent name 1</name>
-					<effectiveDate>2009-07-30</effectiveDate>
-				</consentVersion>
-				<consentVersion>
-					<name>consent name 2</name>
-					<effectiveDate>2009-07-30</effectiveDate>
-				</consentVersion>
 			</consent>
 			<consent>
 				<name>Female</name>
-				<consentVersion>
-					<name>consent name 3</name>
-					<effectiveDate>2009-07-30</effectiveDate>
-				</consentVersion>
 			</consent>
 		</study>
 		<mandatoryIndicator>true</mandatoryIndicator>
@@ -426,7 +414,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -440,7 +428,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -452,7 +440,7 @@
 				<descriptionText>DescriptionText</descriptionText>
 				<accrualCeiling>10</accrualCeiling>
 				<stratificationIndicator>true</stratificationIndicator>
-				<randomizedIndicator>true</randomizedIndicator>
+				<randomizedIndicator>false</randomizedIndicator>
 				<reservationIndicator>false</reservationIndicator>
 				<treatmentIndicator>true</treatmentIndicator>
 				<enrollmentIndicator>true</enrollmentIndicator>
@@ -510,7 +498,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -530,7 +518,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -541,7 +529,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -564,8 +552,8 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-07-30</irbApprovalDate>
-				<endDate>2009-07-30</endDate>
+				<irbApprovalDate>2009-09-17</irbApprovalDate>
+				<statusChangeDates>PENDING</statusChangeDates>
 				<siteStudyStatus>PENDING</siteStudyStatus>
 			</studyOrganization>
 			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -574,7 +562,7 @@
 					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>remote_ctep_id</value>
-						<primaryIndicator>false</primaryIndicator>
+						<primaryIndicator>true</primaryIndicator>
 						<type>CTEP</type>
 					</identifier>
 					<externalId>external_id</externalId>
@@ -598,47 +586,23 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-07-30</irbApprovalDate>
-				<endDate>2009-07-30</endDate>
+				<irbApprovalDate>2009-09-17</irbApprovalDate>
+				<statusChangeDates>PENDING</statusChangeDates>
 				<siteStudyStatus>PENDING</siteStudyStatus>
 			</studyOrganization>
 			<consent>
 				<name>Male</name>
-				<consentVersion>
-					<name>consent name 1</name>
-					<effectiveDate>2009-07-30</effectiveDate>
-				</consentVersion>
-				<consentVersion>
-					<name>consent name 2</name>
-					<effectiveDate>2009-07-30</effectiveDate>
-				</consentVersion>
 			</consent>
 			<consent>
 				<name>Female</name>
-				<consentVersion>
-					<name>consent name 3</name>
-					<effectiveDate>2009-07-30</effectiveDate>
-				</consentVersion>
 			</consent>
 		</study>
 		<mandatoryIndicator>true</mandatoryIndicator>
 	</companionStudy>
 	<consent>
 		<name>Male</name>
-		<consentVersion>
-			<name>consent name 1</name>
-			<effectiveDate>2009-07-30</effectiveDate>
-		</consentVersion>
-		<consentVersion>
-			<name>consent name 2</name>
-			<effectiveDate>2009-07-30</effectiveDate>
-		</consentVersion>
 	</consent>
 	<consent>
 		<name>Female</name>
-		<consentVersion>
-			<name>consent name 3</name>
-			<effectiveDate>2009-07-30</effectiveDate>
-		</consentVersion>
 	</consent>
 </study>
