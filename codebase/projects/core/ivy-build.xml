@@ -58,7 +58,7 @@
                 <include name="*.*"/>
             </fileset>
             <fileset dir="${resources.dir}/xsd">
-                <include name="c3pr-domain.xsd"/>
+                <include name="*.*"/>
             </fileset>
         	<fileset dir="${resources.dir}/samples">
                 <include name="*.xml"/>
