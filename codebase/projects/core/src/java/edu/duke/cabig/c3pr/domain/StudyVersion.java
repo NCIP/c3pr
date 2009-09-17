@@ -78,7 +78,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
 
 		lazyListHelper.add(Epoch.class,new InstantiateFactory<Epoch>(Epoch.class));
-		lazyListHelper.add(Consent.class,new ParameterizedBiDirectionalInstantiateFactory<Consent>(Consent.class, this));
+		lazyListHelper.add(Consent.class,new InstantiateFactory<Consent>(Consent.class));
 		lazyListHelper.add(CompanionStudyAssociation.class,new ParameterizedBiDirectionalInstantiateFactory<CompanionStudyAssociation>(CompanionStudyAssociation.class, this,"ParentStudyVersion"));
 		lazyListHelper.add(StudySiteStudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudySiteStudyVersion>(StudySiteStudyVersion.class, this));
 
