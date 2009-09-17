@@ -277,12 +277,14 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 
     public void testCloseAffiliateStudySite() throws C3PRCodedException {
         study=getPersistedStudy();
-        study.getStudySites().get(0).handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
-        study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
+        StudySite studySite1 = study.getStudySites().get(0);
+		studySite1.handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
+		studySite1 = studySiteDao.merge(studySite1);
+        study.getStudySites().set(0, studySite1);
         int id = study.getId();
         interruptSession();
         study=studyDao.getById(id);
-        StudySite studySite=studyRepository.closeStudySiteToAccrual(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode(), new Date());
+        StudySite studySite=studyRepository.closeStudySiteToAccrual(study.getIdentifiers(), studySite1.getHealthcareSite().getCtepCode(), new Date());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.CLOSED_TO_ACCRUAL, studySite.getSiteStudyStatus() );
     }
 

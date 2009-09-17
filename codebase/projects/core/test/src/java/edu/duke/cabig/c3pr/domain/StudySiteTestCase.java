@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.DateUtil;
@@ -76,6 +77,12 @@ public class StudySiteTestCase extends AbstractTestCase {
 			e.printStackTrace();
 			fail("Shouldn't have failed");
 		}
+	}
+	
+	public void testChangeStudySiteStatus() {
+		assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.PENDING);
+		studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
+		assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.ACTIVE);
 	}
 
 //	/**
