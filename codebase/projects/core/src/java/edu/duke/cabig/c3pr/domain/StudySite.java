@@ -22,7 +22,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
@@ -509,14 +508,15 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	@Transient
 	public StudySiteStudyVersion getStudySiteStudyVersion(){
 		if(studySiteStudyVersion == null){
-			if(getSiteStudyStatus() == SiteStudyStatus.PENDING && getStudySiteStudyVersions().size() == 1 ) {
-				studySiteStudyVersion= getStudySiteStudyVersions().get(0);
-			}else  if(getSiteStudyStatus() != SiteStudyStatus.PENDING ) {
-				studySiteStudyVersion= getStudySiteStudyVersion(new Date());	
-			}else {
+			int size = getStudySiteStudyVersions().size();
+			if(size == 0 ) {
 				StudySiteStudyVersion newStudySiteStudyVersion = new StudySiteStudyVersion();
 				this.addStudySiteStudyVersion(newStudySiteStudyVersion);
-				studySiteStudyVersion= getStudySiteStudyVersions().get(0);
+			}
+			if(getSiteStudyStatus() == SiteStudyStatus.PENDING &&  size == 1 ) {
+				getStudySiteStudyVersions().get(0);
+			}else  if(getSiteStudyStatus() != SiteStudyStatus.PENDING ) {
+				studySiteStudyVersion= getStudySiteStudyVersion(new Date());	
 			}
 		}
 		return studySiteStudyVersion;
@@ -532,6 +532,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	public StudySiteStudyVersion getLatestStudySiteStudyVersion(){
 		if(getStudySiteStudyVersions().size()==0){
 			StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
+			if(getSiteStudyStatus() == SiteStudyStatus.PENDING) {
+				studySiteStudyVersion.setStartDate(new Date());	
+			}
 			this.addStudySiteStudyVersion(studySiteStudyVersion);
 			return studySiteStudyVersion;
 		}
@@ -679,8 +682,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	 *
 	 * @param studySiteStudyVersions the new study site study versions
 	 */
-	public void setStudySiteStudyVersions(
-			List<StudySiteStudyVersion> studySiteStudyVersions) {
+	public void setStudySiteStudyVersions(List<StudySiteStudyVersion> studySiteStudyVersions) {
 		this.studySiteStudyVersions = studySiteStudyVersions;
 	}
 
