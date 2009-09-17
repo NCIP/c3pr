@@ -514,7 +514,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 				this.addStudySiteStudyVersion(newStudySiteStudyVersion);
 			}
 			if(getSiteStudyStatus() == SiteStudyStatus.PENDING &&  size == 1 ) {
-				getStudySiteStudyVersions().get(0);
+				studySiteStudyVersion = getStudySiteStudyVersions().get(0);
 			}else  if(getSiteStudyStatus() != SiteStudyStatus.PENDING ) {
 				studySiteStudyVersion= getStudySiteStudyVersion(new Date());	
 			}
