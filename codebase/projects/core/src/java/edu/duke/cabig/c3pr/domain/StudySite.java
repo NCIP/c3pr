@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
@@ -91,7 +92,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         this.c3prErrorMessages = resourceBundleMessageSource1;
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
         studySiteStudyVersions= new ArrayList<StudySiteStudyVersion>();
-        lazyListHelper.add(SiteStatusHistory.class,new InstantiateFactory<SiteStatusHistory>(SiteStatusHistory.class));
+        lazyListHelper.add(SiteStatusHistory.class,new ParameterizedBiDirectionalInstantiateFactory<SiteStatusHistory>(SiteStatusHistory.class, this));
         createDefaultStudyStatusHistory();
     }
 
@@ -717,8 +718,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name="sto_id")
+//	@OneToMany(fetch = FetchType.LAZY)
+//	@JoinColumn(name="sto_id")
+	@OneToMany(mappedBy = "studySite", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<SiteStatusHistory> getSiteStatusHistoryInternal() {
@@ -739,7 +741,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	}
 
 	public void addSiteStatusHistory(SiteStatusHistory siteStatusHistory) {
-		getSiteStatusHistory().add(siteStatusHistory);
+		siteStatusHistory.setStudySite(this);
+		getSiteStatusHistoryInternal().add(siteStatusHistory);
 	}
 	
 	@Transient
@@ -846,9 +849,10 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         calendar.setTime(currentDate);
         calendar.add(calendar.YEAR, -100);
         
-        SiteStatusHistory siteStatusHistory = getSiteStatusHistory().get(0);
+        SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
     	siteStatusHistory.setStartDate(calendar.getTime());
     	siteStatusHistory.setSiteStudyStatus(SiteStudyStatus.PENDING);
+    	this.addSiteStatusHistory(siteStatusHistory);
     }
     
 	public void handleStudySiteStatusChange(Date effectiveDate, SiteStudyStatus status){
@@ -871,9 +875,10 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                  lastSiteStatusHistory.setEndDate(calendar.getTime());
         	}
         }
-		SiteStatusHistory siteStatusHistory = getSiteStatusHistory().get(size);
+		SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
     	siteStatusHistory.setStartDate(effectiveDate);
     	siteStatusHistory.setSiteStudyStatus(status);
+    	this.addSiteStatusHistory(siteStatusHistory);
 	}
 	
 	public void handleStudySiteStudyVersionDateRange(Date effective) {

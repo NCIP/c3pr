@@ -5,9 +5,13 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -26,6 +30,7 @@ public class SiteStatusHistory extends AbstractMutableDeletableDomainObject impl
 	private Date startDate;
 	private Date endDate;
 	private SiteStudyStatus siteStudyStatus ;
+	private StudySite studySite;
 	
 	public Date getStartDate() {
 		return startDate;
@@ -72,6 +77,17 @@ public class SiteStatusHistory extends AbstractMutableDeletableDomainObject impl
    	}
 	
 	public SiteStatusHistory(){
+	}
+
+	public void setStudySite(StudySite studySite) {
+		this.studySite = studySite;
+	}
+	
+	@ManyToOne
+    @JoinColumn(name = "sto_id", nullable = false)
+    @Cascade( { CascadeType.LOCK })
+	public StudySite getStudySite() {
+		return studySite;
 	}
 
 	

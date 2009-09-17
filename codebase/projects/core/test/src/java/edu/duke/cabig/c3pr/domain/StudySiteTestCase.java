@@ -84,6 +84,8 @@ public class StudySiteTestCase extends AbstractTestCase {
 		studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
 		assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.ACTIVE);
 	}
+	
+
 
 //	/**
 //	 * Test activate. siteStudyStatus: Active

@@ -1,9 +1,11 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.ServiceName;
+import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.GridEndPoint;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -83,5 +85,22 @@ public class StudySiteDaoTest extends DaoTestCase {
         assertNotNull("Empty Endpoint", endPoint);
         assertEquals("Wrong Service", ServiceName.STUDY, endPoint.getServiceName());
         assertEquals("Wrong Service", APIName.OPEN_STUDY, endPoint.getApiName());
+    }
+    
+    public void testStudySiteStatusChange() {
+    	 List<StudySite> sites = dao.getByCtepCode("code");
+    	 StudySite studySite=sites.get(0);
+    	 int id = studySite.getId();
+    	 assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.PENDING);
+    	 studySite = dao.merge(studySite);
+    	 interruptSession();
+    	 studySite = dao.getById(id);
+    	 assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.PENDING);
+    	 studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
+    	 assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.ACTIVE);
+    	 studySite = dao.merge(studySite);
+    	 interruptSession();
+    	 studySite = dao.getById(id);
+    	 assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.ACTIVE);
     }
 }
