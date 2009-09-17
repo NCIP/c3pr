@@ -5,117 +5,174 @@
 	<studyIdentifiers>
 		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xsi:type="OrganizationAssignedIdentifierType">
-			<value>test id</value>
-			<primaryIndicator>true</primaryIndicator>
-			<healthcareSite gridId="c143e551-e1d4-432f-97de-ab047ea2736a"
-				xsi:type="LocalHealthcareSiteType">
-				<name>Duke</name>
-				<descriptionText>DUKE healthcare</descriptionText>
-				<address>
-						<streetAddress>A imperial building</streetAddress>
-						<city>Charlotte</city>
-						<stateCode>NC</stateCode>
-						<postalCode>12123</postalCode>
-						<countryCode>USA</countryCode>
-					</address>
+			<value>cocenter id</value>
+			<primaryIndicator>false</primaryIndicator>
+			<healthcareSite xsi:type="LocalHealthcareSiteType">
+				<address/>
 				<identifier xsi:type="OrganizationAssignedIdentifierType">
-					<value>DUKE NCI</value>
+					<value>site_ctep_id</value>
 					<primaryIndicator>true</primaryIndicator>
 					<type>CTEP</type>
 				</identifier>
 			</healthcareSite>
 			<type>COORDINATING_CENTER_IDENTIFIER</type>
 		</identifier>
-	</studyIdentifiers>
-	<studyVersion>1.0</studyVersion>
-	<subject>
-		<firstName>firstName</firstName>
-		<lastName>lastName</lastName>
-		<address/>
-		<administrativeGenderCode>Male</administrativeGenderCode>
-		<birthDate>2009-08-14</birthDate>
-		<ethnicGroupCode>Unknown</ethnicGroupCode>
-		<raceCode>Unknown</raceCode>
 		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xsi:type="OrganizationAssignedIdentifierType">
-			<value>test id0.19187658675850972</value>
-			<primaryIndicator>true</primaryIndicator>
-			<healthcareSite gridId="baabab39-dcee-410c-8130-77b357f01678"
-				xsi:type="LocalHealthcareSiteType">
-				<name>Northwestern Memorial Hospital</name>
-				<descriptionText>NU healthcare</descriptionText>
-				<address>
-						<streetAddress>123 Lake Shore Dr</streetAddress>
-						<city>Chicago</city>
-						<stateCode>IL</stateCode>
-						<postalCode>83929</postalCode>
-						<countryCode>USA</countryCode>
-					</address>
+			<value>funding sponsor id</value>
+			<primaryIndicator>false</primaryIndicator>
+			<healthcareSite xsi:type="LocalHealthcareSiteType">
+				<address/>
 				<identifier xsi:type="OrganizationAssignedIdentifierType">
-					<value>NU healthcare</value>
+					<value>site_ctep_id</value>
+					<primaryIndicator>true</primaryIndicator>
+					<type>CTEP</type>
+				</identifier>
+			</healthcareSite>
+			<type>PROTOCOL_AUTHORITY_IDENTIFIER</type>
+		</identifier>
+	</studyIdentifiers>
+	<studyVersion>original version</studyVersion>
+	<subject>
+		<firstName>First</firstName>
+		<lastName>Last</lastName>
+		<address><streetAddress>1391 Park Center Rd, Ste#420</streetAddress><city>Herndon</city><stateCode>VA</stateCode><postalCode>20170</postalCode><countryCode>US</countryCode></address>
+		<administrativeGenderCode>Male</administrativeGenderCode>
+		<birthDate>2009-09-17</birthDate>
+		<ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>
+		<raceCode>Asian : Unknown</raceCode>
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:type="OrganizationAssignedIdentifierType">
+			<value>org id value</value>
+			<primaryIndicator>false</primaryIndicator>
+			<type>MRN</type>
+		</identifier>
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:type="OrganizationAssignedIdentifierType">
+			<value>org id value</value>
+			<primaryIndicator>false</primaryIndicator>
+			<healthcareSite xsi:type="LocalHealthcareSiteType">
+				<address/>
+				<identifier xsi:type="OrganizationAssignedIdentifierType">
+					<value>site_ctep_id</value>
 					<primaryIndicator>true</primaryIndicator>
 					<type>CTEP</type>
 				</identifier>
 			</healthcareSite>
 			<type>MRN</type>
 		</identifier>
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:type="SystemAssignedIdentifierType">
+			<value>sys id value</value>
+			<primaryIndicator>false</primaryIndicator>
+			<systemName>some_system</systemName>
+			<type>some_system_id_type</type>
+		</identifier>
 	</subject>
-	<site xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		gridId="baabab39-dcee-410c-8130-77b357f01678" xsi:type="LocalHealthcareSiteType">
-		<name>Northwestern Memorial Hospital</name>
-		<descriptionText>NU healthcare</descriptionText>
-		<address>
-				<streetAddress>123 Lake Shore Dr</streetAddress>
-				<city>Chicago</city>
-				<stateCode>IL</stateCode>
-				<postalCode>83929</postalCode>
-				<countryCode>USA</countryCode>
-			</address>
+	<site xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LocalHealthcareSiteType">
+		<address/>
 		<identifier xsi:type="OrganizationAssignedIdentifierType">
-			<value>NU healthcare</value>
+			<value>site_ctep_id</value>
 			<primaryIndicator>true</primaryIndicator>
 			<type>CTEP</type>
 		</identifier>
 	</site>
-	<startDate>2009-08-14</startDate>
+	<startDate>2009-09-17</startDate>
 	<informedConsent>
-		<consent><name>1.0</name></consent>
-		<informedConsentFormSignedDate>2009-08-14 </informedConsentFormSignedDate>
+		<consent>
+			<name>Male</name>
+		</consent>
+		<informedConsentFormSignedDate>2009-09-17</informedConsentFormSignedDate>
 	</informedConsent>
-	<status>PENDING</status>
+	<informedConsent>
+		<consent>
+			<name>Female</name>
+		</consent>
+		<informedConsentFormSignedDate>2009-09-17</informedConsentFormSignedDate>
+	</informedConsent>
+	<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:type="OrganizationAssignedIdentifierType">
+		<value>SSID</value>
+		<primaryIndicator>false</primaryIndicator>
+		<healthcareSite xsi:type="LocalHealthcareSiteType">
+			<address/>
+			<identifier xsi:type="OrganizationAssignedIdentifierType">
+				<value>site_ctep_id</value>
+				<primaryIndicator>true</primaryIndicator>
+				<type>CTEP</type>
+			</identifier>
+		</healthcareSite>
+		<type>COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER</type>
+	</identifier>
+	<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:type="SystemAssignedIdentifierType">
+		<value>sys id value</value>
+		<primaryIndicator>false</primaryIndicator>
+		<systemName>some_system</systemName>
+		<type>some_system_id_type</type>
+	</identifier>
+	<status>OFF_STUDY</status>
 	<scheduledEpoch>
-		<startDate>2009-08-14</startDate>
-		<epoch gridId="69422c8c-375a-47ca-8ca1-150565a3e5c0">
-			<name>epoch1</name>
-			<stratificationIndicator>false</stratificationIndicator>
+		<startDate>2009-09-17</startDate>
+		<epoch gridId="grid">
+			<name>epoch 1</name>
+			<epochOrder>1</epochOrder>
+			<descriptionText>DescriptionText</descriptionText>
+			<accrualCeiling>10</accrualCeiling>
+			<stratificationIndicator>true</stratificationIndicator>
 			<randomizedIndicator>true</randomizedIndicator>
 			<reservationIndicator>false</reservationIndicator>
-			<treatmentIndicator>false</treatmentIndicator>
+			<treatmentIndicator>true</treatmentIndicator>
 			<enrollmentIndicator>true</enrollmentIndicator>
-			<arm gridId="84b8f18b-cdda-418f-8e95-cb1f990e17fd">
-				<name>A</name>
+			<arm gridId="grid1">
+				<name>arm 1</name>
+				<descriptionText>DescriptionText1</descriptionText>
+				<targetAccrualNumber>20</targetAccrualNumber>
 			</arm>
-			<stratificationCriteria>
-				<questionNumber>0</questionNumber>
-				<questionText>will I work?</questionText>
-				<permissibleAnswer>
-					<answerText>lets find out1</answerText>
-				</permissibleAnswer>
-				<permissibleAnswer>
-					<answerText>lets find out2</answerText>
-				</permissibleAnswer>
-			</stratificationCriteria>
-			<randomization>
-				<type>BOOK</type>
-			</randomization>
+			<arm gridId="grid2">
+				<name>arm 2</name>
+				<descriptionText>DescriptionText2</descriptionText>
+				<targetAccrualNumber>30</targetAccrualNumber>
+			</arm>
 		</epoch>
 		<scheduledArm>
-			<arm gridId="84b8f18b-cdda-418f-8e95-cb1f990e17fd">
-				<name>A</name>
+			<arm gridId="grid1">
+				<name>arm 1</name>
+				<descriptionText>DescriptionText1</descriptionText>
+				<targetAccrualNumber>20</targetAccrualNumber>
 			</arm>
 		</scheduledArm>
 		<eligibilityIndicator>true</eligibilityIndicator>
-		<stratumGroup>0:lets find out1</stratumGroup>
+		<stratumGroup>0</stratumGroup>
 	</scheduledEpoch>
-	<diseaseHistory/>
+	<enrollingPhysician>
+		<roleCode>Principal Investigator</roleCode>
+		<healthcareSiteInvestigator>
+			<investigator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="LocalInvestigatorType">
+				<nciIdentifier>ctep_assigned_id</nciIdentifier>
+				<fullName>first last</fullName>
+			</investigator>
+		</healthcareSiteInvestigator>
+	</enrollingPhysician>
+	<otherEnrollingPhysician>Some other treating physician</otherEnrollingPhysician>
+	<offStudyReasonText>Some reason</offStudyReasonText>
+	<offStudyDate>2009-09-17</offStudyDate>
+	<diseaseHistory>
+		<otherPrimaryDiseaseCode>some other disease code</otherPrimaryDiseaseCode>
+		<otherPrimaryDiseaseSiteCode>some other disease site code</otherPrimaryDiseaseSiteCode>
+		<studyDisease>
+			<leadDisease>true</leadDisease>
+			<diseaseTerm>
+				<term>some term</term>
+				<ctepTerm>some ctep term</ctepTerm>
+				<medraCode>123213</medraCode>
+			</diseaseTerm>
+		</studyDisease>
+		<icd9DiseaseSite>
+			<name>some name</name>
+			<code>some code</code>
+		</icd9DiseaseSite>
+	</diseaseHistory>
+	<paymentMethod>Medicare</paymentMethod>
 </registration>

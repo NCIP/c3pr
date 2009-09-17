@@ -71,9 +71,9 @@
   </xs:complexType>
   <xs:complexType name="DiseaseTermType">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="term" type="xs:string" />
-      <xs:element minOccurs="1" maxOccurs="unbounded" name="ctepTerm" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="medraCode" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="term" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="ctepTerm" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="medraCode" type="xs:long" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
@@ -585,15 +585,15 @@
   </xs:complexType>
   <xs:complexType name="StudyDiseaseType">
     <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="leadDisease" type="xs:boolean" />
-      <xs:element minOccurs="1" maxOccurs="unbounded" name="diseaseTerm" type="DiseaseTermType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="leadDisease" type="xs:boolean" />
+      <xs:element minOccurs="1" maxOccurs="1" name="diseaseTerm" type="DiseaseTermType" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
   <xs:complexType name="ICD9DiseaseSiteType">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="1" name="name" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="code" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="code" type="xs:string" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>

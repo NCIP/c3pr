@@ -4,17 +4,20 @@ import java.util.Date;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.DiseaseHistory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
@@ -23,6 +26,8 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.domain.ScheduledArm;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -32,6 +37,9 @@ import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
@@ -296,5 +304,83 @@ public class DomainObjectCreationHelper {
 		address.setStreetAddress("1391 Park Center Rd, Ste#420");
 		participant.setAddress(address);
 		return participant;
+	}
+	
+	public static StudySubject getSubjectSubject(){
+		StudySubject studySubject = new StudySubject();
+		studySubject.setOffStudyDate(new Date());
+		studySubject.setOffStudyReasonText("Some reason");
+		studySubject.setPaymentMethod("Medicare");
+		studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
+		studySubject.setStartDate(new Date());
+		return studySubject;
+	}
+	
+	public static void addStudySite(StudySubject studySubject){
+		Study study = getStudyWithDetails(RandomizationType.BOOK);
+		addStudyDesign(study);
+		addConsent(study);
+		addStudySites(study);
+		studySubject.setStudySite(study.getStudySites().get(0));
+	}
+	
+	public static void addInformedConsent(StudySubject studySubject){
+		StudySubjectStudyVersion studySubjectStudyVersion = studySubject.getStudySubjectStudyVersion();
+		for(Consent consent : studySubject.getStudySite().getStudy().getConsents()){
+			StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
+			studySubjectConsentVersion.setConsent(consent);
+			studySubjectConsentVersion.setInformedConsentSignedDate(new Date());
+			studySubjectStudyVersion.addStudySubjectConsentVersion(studySubjectConsentVersion);
+		}
+	}
+	
+	public static void addIdentifiers(StudySubject studySubject) {
+		OrganizationAssignedIdentifier orgIdentifier= new OrganizationAssignedIdentifier();
+		orgIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER);
+		orgIdentifier.setHealthcareSite(createHealthcareSite(true));
+		orgIdentifier.setValue("SSID");
+		studySubject.addIdentifier(orgIdentifier);
+		
+		SystemAssignedIdentifier systemAssignedIdentifier= new SystemAssignedIdentifier();
+		systemAssignedIdentifier.setType("some_system_id_type");
+		systemAssignedIdentifier.setValue("sys id value");
+		systemAssignedIdentifier.setSystemName("some_system");
+		studySubject.addIdentifier(systemAssignedIdentifier);
+	}
+	
+	public static void addScheduledEpoch(StudySubject studySubject) {
+		ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
+		scheduledEpoch.setStartDate(new Date());
+		scheduledEpoch.setEligibilityIndicator(true);
+		scheduledEpoch.setStratumGroupNumber(0);
+		Epoch epoch = studySubject.getStudySite().getStudy().getEpochs().get(0);
+		scheduledEpoch.setEpoch(epoch);
+		ScheduledArm scheduledArm = scheduledEpoch.getScheduledArms().get(0);
+		scheduledArm.setArm(epoch.getArms().get(0));
+		studySubject.addScheduledEpoch(scheduledEpoch);
+	}
+	
+	public static void addEnrollingPhysician(StudySubject studySubject) {
+		studySubject.setTreatingPhysician(studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getStudyInvestigators().get(0));
+		studySubject.setOtherTreatingPhysician("Some other treating physician");
+	}
+	
+	public static void addDiseaseHistory(StudySubject studySubject){
+		DiseaseHistory diseaseHistory = new DiseaseHistory();
+		DiseaseTerm diseaseTerm = new DiseaseTerm();
+		diseaseTerm.setCtepTerm("some ctep term");
+		diseaseTerm.setTerm("some term");
+		diseaseTerm.setMedraCode(123213);
+		StudyDisease studyDisease = new StudyDisease();
+		studyDisease.setLeadDisease(true);
+		studyDisease.setDiseaseTerm(diseaseTerm);
+		diseaseHistory.setStudyDisease(studyDisease);
+		ICD9DiseaseSite icd9DiseaseSite = new ICD9DiseaseSite();
+		icd9DiseaseSite.setCode("some code");
+		icd9DiseaseSite.setName("some name");
+		diseaseHistory.setIcd9DiseaseSite(icd9DiseaseSite);
+		diseaseHistory.setOtherPrimaryDiseaseCode("some other disease code");
+		diseaseHistory.setOtherPrimaryDiseaseSiteCode("some other disease site code");
+		studySubject.setDiseaseHistory(diseaseHistory);
 	}
 }

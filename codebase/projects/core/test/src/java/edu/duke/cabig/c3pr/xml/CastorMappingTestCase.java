@@ -26,19 +26,23 @@ import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 
 public class CastorMappingTestCase extends AbstractTestCase{
 
-	private XmlMarshaller marshaller;
+	private XmlMarshaller studyMarshaller;
+	
+	private XmlMarshaller registrationMarshaller;
 	
 	private XMLParser xmlParser;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		marshaller= new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
+		studyMarshaller= new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
+		registrationMarshaller= new XmlMarshaller("c3pr-registration-xml-castor-mapping.xml");
 		xmlParser= new XMLParser("c3pr-domain.xsd");
 	}
 	
@@ -76,9 +80,29 @@ public class CastorMappingTestCase extends AbstractTestCase{
 		return studyVersion;
 	}
 	
+	public StudySubject buildStudySubject(){
+		StudySubject studySubject = DomainObjectCreationHelper.getSubjectSubject();
+		DomainObjectCreationHelper.addStudySite(studySubject);
+		studySubject.setParticipant(DomainObjectCreationHelper.getParticipantWithAddress());
+		DomainObjectCreationHelper.addInformedConsent(studySubject);
+		DomainObjectCreationHelper.addIdentifiers(studySubject);
+		DomainObjectCreationHelper.addScheduledEpoch(studySubject);
+		DomainObjectCreationHelper.addEnrollingPhysician(studySubject);
+		DomainObjectCreationHelper.addDiseaseHistory(studySubject);
+		return studySubject;
+	}
+	
 	public void testStudyMarshalling() throws Exception{
 		Study study= buildStudy();
-		String xml= marshaller.toXML(study);
+		String xml= studyMarshaller.toXML(study);
+		System.out.println(xml);
+		xmlParser.validate(xml.getBytes());
+		assertNotNull(xml);
+	}
+	
+	public void testRegistrationMarshalling() throws Exception{
+		StudySubject studySubject = buildStudySubject();
+		String xml= registrationMarshaller.toXML(studySubject);
 		System.out.println(xml);
 		xmlParser.validate(xml.getBytes());
 		assertNotNull(xml);
@@ -86,7 +110,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	
 	public void testStudyAmendmentMarshalling() throws Exception{
 		StudyVersion studyVersion= buildStudyVersion();
-		String xml= marshaller.toXML(studyVersion);
+		String xml= studyMarshaller.toXML(studyVersion);
 		System.out.println(xml);
 		xmlParser.validate(xml.getBytes());
 		assertNotNull(xml);
@@ -94,7 +118,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	
 	public void testParticipantMarshalling() throws Exception{
 		Participant participant= DomainObjectCreationHelper.getParticipantWithAddress();
-		String xml= marshaller.toXML(participant);
+		String xml= studyMarshaller.toXML(participant);
 		System.out.println(xml);
 		xmlParser.validate(xml.getBytes());
 		assertNotNull(xml);
@@ -102,18 +126,18 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	
 	public void testStudyUnMarshalling() throws Exception{
 		Study serializable= buildStudy();
-		String xml= marshaller.toXML(serializable);
+		String xml= studyMarshaller.toXML(serializable);
 		System.out.println(xml);
-		Study study= (Study)marshaller.fromXML(new StringReader(xml));
+		Study study= (Study)studyMarshaller.fromXML(new StringReader(xml));
 		assertNotNull(study);
 		assertStudy(study);
 	}
 	
 	public void testStudyAmendmentUnMarshalling() throws Exception{
 		StudyVersion expected= buildStudyVersion();
-		String xml= marshaller.toXML(expected);
+		String xml= studyMarshaller.toXML(expected);
 		System.out.println(xml);
-		StudyVersion actual= (StudyVersion)marshaller.fromXML(new StringReader(xml));
+		StudyVersion actual= (StudyVersion)studyMarshaller.fromXML(new StringReader(xml));
 		assertNotNull(actual);
 		assertEquals(expected.getName(), actual.getName());
 		assertEquals(expected.getVersionDateStr(), actual.getVersionDateStr());
@@ -123,9 +147,9 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	
 	public void testParticipantUnMarshalling() throws Exception{
 		Participant expected= DomainObjectCreationHelper.getParticipantWithAddress();
-		String xml= marshaller.toXML(expected);
+		String xml= studyMarshaller.toXML(expected);
 		System.out.println(xml);
-		Participant actual=(Participant)marshaller.fromXML(new StringReader(xml));
+		Participant actual=(Participant)studyMarshaller.fromXML(new StringReader(xml));
 		assertNotNull(actual);
 		assertEquals(expected.getFullName(), actual.getFullName());
 		assertEquals(expected.getAdministrativeGenderCode(), actual.getAdministrativeGenderCode());

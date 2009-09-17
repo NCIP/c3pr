@@ -1786,5 +1786,14 @@ public class StudySubject extends
 		this.getStudySubjectStudyVersions().set(0, studySubjectStudyVersion);
 		this.setStudySubjectStudyVersion(studySubjectStudyVersion);
 	}
+	
+	@Transient
+	public List<StudySubjectConsentVersion> getStudySubjectConsentVersions() {
+		return getStudySubjectStudyVersion().getStudySubjectConsentVersions();
+	}
+
+	public void addStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion) {
+		this.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
+	}
 
 }

@@ -66,6 +66,12 @@
             <bind-xml name="startDate" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="informedConsents" type="edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion"
+               collection="collection" get-method="getStudySubjectConsentVersions" set-method="addStudySubjectConsentVersion">
+            <bind-xml node="element"
+                      name="informedConsent"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
                collection="collection">
             <bind-xml name="identifier" node="element"
@@ -103,6 +109,18 @@
         </field>
         <field name="paymentMethod" type="string">
             <bind-xml name="paymentMethod" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+
+	<class name="edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion">
+        <map-to xml="informedConsent" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="consent" type="edu.duke.cabig.c3pr.domain.Consent">
+            <bind-xml name="consent" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="informedConsentSignedDate" type="string"
+               handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
+            <bind-xml name="informedConsentFormSignedDate" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
