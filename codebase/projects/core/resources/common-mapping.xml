@@ -394,9 +394,5 @@
             <bind-xml name="name" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="effectiveDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
-            <bind-xml name="effectiveDate" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
     </class>
 </mapping>
