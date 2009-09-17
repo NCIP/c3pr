@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.Date;
 
-import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
@@ -48,6 +47,8 @@ public class StudySiteTestCase extends AbstractTestCase {
 		SubStudySite subStudySite = new SubStudySite();
 		assertEquals(1, studySite.compareTo(subStudySite));
 	}
+	
+	
 
 	/**
 	 * Test compare same reference.

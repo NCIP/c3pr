@@ -229,8 +229,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 
     public void testActivateStudySiteClosedStudySite() {
         study=getPersistedStudy();
-      //TODO fix it later
-//        study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
+        study.getStudySites().get(0).handleStudySiteStatusChange(new Date(), SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         interruptSession();
         try {
@@ -278,13 +277,11 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 
     public void testCloseAffiliateStudySite() throws C3PRCodedException {
         study=getPersistedStudy();
-      //TODO fix it later
-//        study.getStudySites().get(0).setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+        study.getStudySites().get(0).handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
         study.getStudySites().set(0, studySiteDao.merge(study.getStudySites().get(0)));
         int id = study.getId();
         interruptSession();
-        study = studyDao.getById(id);
-        healthcareSitedao.initialize(study.getStudySites().get(0).getHealthcareSite());
+        study=studyDao.getById(id);
         StudySite studySite=studyRepository.closeStudySiteToAccrual(study.getIdentifiers(), study.getStudySites().get(0).getHealthcareSite().getCtepCode(), new Date());
         assertEquals("Wrong SiteStudyStatus", SiteStudyStatus.CLOSED_TO_ACCRUAL, studySite.getSiteStudyStatus() );
     }
@@ -372,9 +369,8 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         studyVersion.setStudy(study);
         studySite.addStudySiteStudyVersion(studySiteStudyVersion);
         study.addStudySite(studySite);
-        studySite.setHealthcareSite(healthcareSitedao.getById(hcsId)); //
-      //TODO fix it later
-//        studySite.setStartDate(new Date());
+        studySite.setHealthcareSite(healthcareSitedao.getById(hcsId)); 
+        studySite.getStudySiteStudyVersion().setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);

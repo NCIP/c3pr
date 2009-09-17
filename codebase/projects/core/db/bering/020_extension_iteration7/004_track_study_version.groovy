@@ -50,6 +50,7 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
             t.addColumn('sto_id', 'integer')
         }
 		
+		execute("ALTER TABLE stu_site_status_history ADD CONSTRAINT FK_STU_SITE_STATUS_HIST FOREIGN KEY (sto_id) REFERENCES study_organizations (ID)");
 		
 		addColumn('studies','consent_required', 'string');
 

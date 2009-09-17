@@ -92,6 +92,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
         studySiteStudyVersions= new ArrayList<StudySiteStudyVersion>();
         lazyListHelper.add(SiteStatusHistory.class,new InstantiateFactory<SiteStatusHistory>(SiteStatusHistory.class));
+        createDefaultStudyStatusHistory();
     }
 
     /**
@@ -846,21 +847,24 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         		return siteStatusHistory.getSiteStudyStatus();
         	}
         }
-
-        Date currentDate = new Date();
+        createDefaultStudyStatusHistory();
+    	return SiteStudyStatus.PENDING;
+    }
+    
+    public void createDefaultStudyStatusHistory() {
+    	Date currentDate = new Date();
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTime(currentDate);
         calendar.add(calendar.YEAR, -100);
         
-        SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
+        SiteStatusHistory siteStatusHistory = getSiteStatusHistory().get(0);
     	siteStatusHistory.setStartDate(calendar.getTime());
     	siteStatusHistory.setSiteStudyStatus(SiteStudyStatus.PENDING);
-    	this.addSiteStatusHistory(siteStatusHistory);
-    	return SiteStudyStatus.PENDING;
     }
     
 	public void handleStudySiteStatusChange(Date effectiveDate, SiteStudyStatus status){
 		SiteStatusHistory lastSiteStatusHistory = getLatestSiteStatusHistory();
+		int size = getSiteStatusHistory().size();
 		if( lastSiteStatusHistory != null){
         	if(lastSiteStatusHistory.getStartDate() == null){
         		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.NO.START_DATE.CODE"),new String[] {this.getHealthcareSite().getName() });
@@ -878,10 +882,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
                  lastSiteStatusHistory.setEndDate(calendar.getTime());
         	}
         }
-		SiteStatusHistory siteStatusHistory = new SiteStatusHistory();
+		SiteStatusHistory siteStatusHistory = getSiteStatusHistory().get(size);
     	siteStatusHistory.setStartDate(effectiveDate);
     	siteStatusHistory.setSiteStudyStatus(status);
-    	this.addSiteStatusHistory(siteStatusHistory);
 	}
 	
 	@Transient
