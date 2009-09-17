@@ -40,6 +40,11 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	/** The study site. */
 	private StudySite studySite;
 
+	public StudySiteStudyVersion() {
+		super();
+		this.startDate = new Date();
+	}
+
 	/** The study version. */
 	private StudyVersion studyVersion ;
 
