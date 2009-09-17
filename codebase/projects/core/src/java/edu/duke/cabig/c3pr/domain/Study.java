@@ -80,7 +80,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	private Boolean stratificationIndicator;
 	private String phaseCode;
 	private String type;
-	private ConsentRequired consentRequired = ConsentRequired.ONE;
+	private ConsentRequired consentRequired;
     private StudyVersion studyVersion;
 	// This is for the CADSR exclusion/inclusion criteria file
 	/** The criteria file. */
@@ -112,6 +112,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		multiInstitutionIndicator = false;
 		standaloneIndicator = true;
 		companionIndicator = false;
+		consentRequired = ConsentRequired.ONE;
 
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(StudySite.class,new ParameterizedBiDirectionalInstantiateFactory<StudySite>(StudySite.class, this));
@@ -149,6 +150,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 			blindedIndicator = false;
 			multiInstitutionIndicator = false;
 			stratificationIndicator = true;
+			consentRequired = ConsentRequired.ONE;
 		}
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
