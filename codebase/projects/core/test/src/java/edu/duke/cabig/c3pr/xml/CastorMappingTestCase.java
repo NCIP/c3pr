@@ -12,6 +12,7 @@ import edu.duke.cabig.c3pr.constants.StudyPart;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.DiseaseHistory;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -20,6 +21,8 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
+import edu.duke.cabig.c3pr.domain.ScheduledArm;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
@@ -27,8 +30,11 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.utils.DateUtil;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 public class CastorMappingTestCase extends AbstractTestCase{
 
@@ -133,6 +139,15 @@ public class CastorMappingTestCase extends AbstractTestCase{
 		assertStudy(study);
 	}
 	
+	public void testStudySubjectUnMarshalling() throws Exception{
+		StudySubject serializable= buildStudySubject();
+		String xml= registrationMarshaller.toXML(serializable);
+		System.out.println(xml);
+		StudySubject studySubject= (StudySubject)registrationMarshaller.fromXML(new StringReader(xml));
+		assertNotNull(studySubject);
+		assertStudySubject(studySubject);
+	}
+	
 	public void testStudyAmendmentUnMarshalling() throws Exception{
 		StudyVersion expected= buildStudyVersion();
 		String xml= studyMarshaller.toXML(expected);
@@ -151,6 +166,11 @@ public class CastorMappingTestCase extends AbstractTestCase{
 		System.out.println(xml);
 		Participant actual=(Participant)studyMarshaller.fromXML(new StringReader(xml));
 		assertNotNull(actual);
+		assertParticipant(actual);
+	}
+	
+	public void assertParticipant(Participant actual){
+		Participant expected= DomainObjectCreationHelper.getParticipantWithAddress();
 		assertEquals(expected.getFullName(), actual.getFullName());
 		assertEquals(expected.getAdministrativeGenderCode(), actual.getAdministrativeGenderCode());
 		assertEquals(expected.getBirthDateStr(), actual.getBirthDateStr());
@@ -163,6 +183,74 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	public void assertStudy(Study study){
 		Study expectedStudy= buildStudy();
 		assertStudy(expectedStudy, study);
+	}
+	
+	public void assertStudySubject(StudySubject studySubject){
+		StudySubject expectedStudySubject = buildStudySubject();
+		assertStudySubject(expectedStudySubject, studySubject);
+	}
+	
+	public void assertStudySubject(StudySubject expected, StudySubject actual) {
+		assertEquals(expected.getOffStudyDateStr(), actual.getOffStudyDateStr());
+		assertEquals(expected.getOffStudyReasonText(), actual.getOffStudyReasonText());
+		assertEquals(expected.getOtherTreatingPhysician(), actual.getOtherTreatingPhysician());
+		assertEquals(expected.getPaymentMethod(), actual.getPaymentMethod());
+		assertEquals(expected.getStartDateStr(), actual.getStartDateStr());
+		assertEquals(expected.getRegWorkflowStatus(), actual.getRegWorkflowStatus());
+		assertHealthcareSite(expected.getStudySite().getHealthcareSite(), actual.getStudySite().getHealthcareSite());
+		assertIdentifiers(expected.getStudySite().getStudy().getIdentifiers(), actual.getStudySite().getStudy().getIdentifiers());
+		assertParticipant(actual.getParticipant());
+		assertInformedConsents(expected.getStudySubjectConsentVersions(), actual.getStudySubjectConsentVersions());
+		assertIdentifiers(expected.getIdentifiers(), actual.getIdentifiers());
+		assertScheduledEpochs(expected.getScheduledEpochs(), actual.getScheduledEpochs());
+		assertStudyInvestigator(expected.getTreatingPhysician(), actual.getTreatingPhysician());
+		assertDiseaseHistory(expected.getDiseaseHistory(), actual.getDiseaseHistory());
+	}
+	
+	public void assertInformedConsents(List<StudySubjectConsentVersion> expected, List<StudySubjectConsentVersion> actual){
+		assertEquals(expected.size(), actual.size());
+		for(int i=0 ; i<expected.size() ; i++){
+			assertInformedConsent(expected.get(i), actual.get(i));
+		}
+	}
+	
+	public void assertInformedConsent(StudySubjectConsentVersion expected, StudySubjectConsentVersion actual){
+		assertEquals(expected.getInformedConsentSignedDateStr(), actual.getInformedConsentSignedDateStr());
+		assertConsent(expected.getConsent(), actual.getConsent());
+	}
+	
+	public void assertScheduledEpochs(List<ScheduledEpoch> expected, List<ScheduledEpoch> actual){
+		assertEquals(expected.size(), actual.size());
+		for(int i=0 ; i<expected.size() ; i++){
+			assertScheduledEpoch(expected.get(i), actual.get(i));
+		}
+	}
+	
+	public void assertScheduledEpoch(ScheduledEpoch expected, ScheduledEpoch actual){
+		assertEquals(DateUtil.toString(expected.getStartDate(),"MM/dd/yyyy"), DateUtil.toString(actual.getStartDate(),"MM/dd/yyyy"));
+		assertEquals(expected.getEligibilityIndicator(), actual.getEligibilityIndicator());
+		assertEquals(expected.getStratumGroupNumber(), actual.getStratumGroupNumber());
+		assertEpoch(expected.getEpoch(), actual.getEpoch());
+		assertScheduledArms(expected.getScheduledArms(), actual.getScheduledArms());
+	}
+	
+	public void assertScheduledArms(List<ScheduledArm> expected, List<ScheduledArm> actual){
+		assertEquals(expected.size(), actual.size());
+		for(int i=0 ; i<expected.size() ; i++){
+			assertScheduledArm(expected.get(i), actual.get(i));
+		}
+	}
+	
+	public void assertScheduledArm(ScheduledArm expected, ScheduledArm actual){
+		assertArm(expected.getArm(), actual.getArm());
+	}
+	
+	public void assertDiseaseHistory(DiseaseHistory expected, DiseaseHistory actual){
+		assertEquals(expected.getOtherPrimaryDiseaseCode(), actual.getOtherPrimaryDiseaseCode());
+		assertEquals(expected.getOtherPrimaryDiseaseSiteCode(), actual.getOtherPrimaryDiseaseSiteCode());
+		assertStudyDisease(expected.getStudyDisease(), actual.getStudyDisease());
+		assertEquals(expected.getIcd9DiseaseSite().getCode(), actual.getIcd9DiseaseSite().getCode());
+		assertEquals(expected.getIcd9DiseaseSite().getName(), actual.getIcd9DiseaseSite().getName());
 	}
 	
 	public void assertStudy(Study expected, Study actual){

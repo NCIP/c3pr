@@ -317,7 +317,7 @@ public class DomainObjectCreationHelper {
 	}
 	
 	public static void addStudySite(StudySubject studySubject){
-		Study study = getStudyWithDetails(RandomizationType.BOOK);
+		Study study = getStudyWithDetails(null);
 		addStudyDesign(study);
 		addConsent(study);
 		addStudySites(study);
