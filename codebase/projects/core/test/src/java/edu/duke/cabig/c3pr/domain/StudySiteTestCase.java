@@ -10,7 +10,6 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class StudySiteTestCase.
  */
@@ -59,53 +58,24 @@ public class StudySiteTestCase extends AbstractTestCase {
 		assertEquals(0, studySite.compareTo(studySite1));
 	}
 
-	/**
-	 * Test get irb approval date.
-	 */
-	public void testGetIrbApprovalDateStr() {
-		studySite.setIrbApprovalDate(new Date());
-		assertEquals(DateUtil.formatDate(new Date(), "MM/dd/yyyy"), studySite.getIrbApprovalDateStr());
-	}
-
-	/**
-	 * Test get irb approval date , throws exception.
-	 */
-	public void testGetIrbApprovalDateException() {
-		try {
-			assertEquals("", studySite.getIrbApprovalDateStr());
-		} catch (C3PRBaseRuntimeException e) {
-			e.printStackTrace();
-			fail("Shouldn't have failed");
-		}
-	}
-	
 	public void testChangeStudySiteStatus() {
 		assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.PENDING);
 		studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
 		assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.ACTIVE);
 	}
-	
 
-
-//	/**
-//	 * Test activate. siteStudyStatus: Active
-//	 */
+	/**
+	 * Test activate. siteStudyStatus: Active
+	 */
 //	public void testActivateAlreadyActiveStudySite() {
 //		EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
 //		EasyMock.expect(study.getLatestActiveStudyVersion()).andReturn(null);
 //		C3PRCodedRuntimeException c3CodedException = new C3PRCodedRuntimeException(
 //				1, "test");
-//		studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
-//		EasyMock
-//				.expect(
-//						messageSource
-//								.getMessage(
-//										"C3PR.EXCEPTION.STUDYSITE.STATUS_CANNOT_SET_STATUS.CODE",
-//										null, null)).andReturn("1");
-//		EasyMock.expect(
-//				c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),
-//						EasyMock.isA(String[].class))).andReturn(
-//				c3CodedException);
+//		studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
+////		studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+//		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDYSITE.STATUS_CANNOT_SET_STATUS.CODE",null, null)).andReturn("1");
+//		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 //		replayMocks();
 //		studySite.setStudy(study);
 //		try {
@@ -1484,15 +1454,19 @@ public class StudySiteTestCase extends AbstractTestCase {
 //	 * CloseToAccrualAndTreatment
 //	 */
 //	public void testGetPossibleTransition17() {
+//		Date date = new Date();
 //		EasyMock.expect(study.getStudyVersion()).andReturn(studyVersion);
 //		EasyMock.expect(study.getLatestActiveStudyVersion()).andReturn(null);
-//		studySite
-//				.setSiteStudyStatus(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
-//		studySite
-//				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-//		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(
-//				CoordinatingCenterStudyStatus.OPEN).times(2);
+//		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+//		
+////		EasyMock.expect(studySiteStudyVersion.isValid(date)).andReturn(true);
+//		List<StudySiteStudyVersion> studySiteStuVersions =  new ArrayList<StudySiteStudyVersion>();
+//		studySiteStuVersions.add(studySiteStudyVersion);
+//		studySite.setStudySiteStudyVersions(studySiteStuVersions);
+//		
+//		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN).times(2);
 //		replayMocks();
+//		studySite.handleStudySiteStatusChange(date,SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 //		studySite.setStudy(study);
 //		List<APIName> apiNames = studySite.getPossibleTransitions();
 //		assertEquals(0, apiNames.size());
