@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.domain.factory;
 
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
@@ -15,7 +14,7 @@ public class ParameterizedBiDirectionalInstantiateFactory<T extends DomainObject
                 InstantiateFactory<T> {
     
     /** The parent. */
-    private Object parent;
+    protected Object parent;
 
     /** The bi directional property name. */
     private String biDirectionalPropertyName;

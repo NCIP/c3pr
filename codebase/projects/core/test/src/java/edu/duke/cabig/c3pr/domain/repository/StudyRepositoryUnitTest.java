@@ -110,10 +110,10 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     // check the method calls and logic for the workflow in the following test case
     public void testCreateStudyCompleteDataEntryCoCenter() {
     	EasyMock.expect(studyService.isMultisiteEnable()).andReturn(true);
-    	EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(3);
-    	EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(3);
-    	EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(2);
-    	EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(2);
+    	EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(2);
+    	EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
+    	EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(1);
+    	EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(1);
     	EasyMock.expect(studyDao.merge(study)).andReturn(study);
         replayMocks();
 		studyRepository.createStudy(study);
@@ -172,12 +172,12 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     //TODO 
     // check the logic and method calls for this test case.
     public void testOpenStudyMultisite() throws C3PRCodedException {
-        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(8);
+        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(6);
         EasyMock.expect(studyDao.merge(study)).andReturn(study).times(2);
         EasyMock.expect(studyService.isMultisiteEnable()).andReturn(true).times(2);
-        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(6);
-        EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(4);
-        EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(4);
+        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(4);
+        EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(2);
+        EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(2);
         replayMocks();
         studyRepository.openStudy(ids);
         verifyMocks();
@@ -321,9 +321,12 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 
     public void testActivateCoordinatingCenterStudySite() throws C3PRCodedException {
     	StudySiteStudyVersion studySiteStudyVersion = registerMockFor(StudySiteStudyVersion.class);
+    	StudyVersion studyVersion = registerMockFor(StudyVersion.class);
     	studySite.setHostedMode(false);
 //    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
 //    	EasyMock.expect(studySite.getIrbApprovalDate()).andReturn(new Date());
+//    	EasyMock.expect(studySiteStudyVersion.getStudyVersion()).andReturn(studyVersion);
+//    	EasyMock.expect(studyVersion.getVersionDate()).andReturn(new Date());
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
@@ -497,7 +500,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         study.getEpochs().get(1).setEnrollmentIndicator(true);
 
         // Study Site
-        StudySite studySite=study.getStudySites().get(0);
+        StudySite studySite= new StudySite();
         studySite.setHealthcareSite(healthcaresite); //
       //TODO fix it later
 //        studySite.setStartDate(new Date());
@@ -538,9 +541,6 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         id.setType("local");
         identifiers.add(id);
         study.getIdentifiers().addAll(identifiers);
-
-        // Diseases
-        System.out.println("disease disCat id ************" + disCat.getId());
 
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(term1);

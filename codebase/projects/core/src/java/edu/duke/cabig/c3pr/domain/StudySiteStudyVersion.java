@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -15,6 +16,10 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.context.MessageSource;
+
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -25,52 +30,22 @@ import org.hibernate.annotations.Parameter;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SITE_VERSIONS_ID_SEQ") })
 public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject implements Comparable<StudySiteStudyVersion>{
 
-	/** The irb approval date. */
 	private Date irbApprovalDate;
-
-	/** The start date. */
 	private Date startDate;
-
-	/** The end date. */
 	private Date endDate;
-
-	/** The study subject study versions. */
 	private List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
-
-	/** The study site. */
-	private StudySite studySite;
-
-	public StudySiteStudyVersion() {
-		super();
-		this.startDate = new Date();
-	}
-
-	/** The study version. */
+	private C3PRExceptionHelper c3PRExceptionHelper;
+    private MessageSource c3prErrorMessages;
+    private StudySite studySite;
 	private StudyVersion studyVersion ;
 
-    /**
-     * Gets the end date.
-     *
-     * @return the end date
-     */
-    public Date getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
-
-	/**
-	 * Sets the end date.
-	 *
-	 * @param endDate the new end date
-	 */
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
-	/**
-	 * Gets the study site.
-	 *
-	 * @return the study site
-	 */
 	@ManyToOne
     @JoinColumn(name = "sto_id", nullable=false)
     @Cascade( { CascadeType.LOCK})
@@ -78,20 +53,10 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 		return studySite;
 	}
 
-	/**
-	 * Sets the study site.
-	 *
-	 * @param studySite the new study site
-	 */
 	public void setStudySite(StudySite studySite) {
 		this.studySite = studySite;
 	}
 
-	/**
-	 * Gets the study version.
-	 *
-	 * @return the study version
-	 */
 	@ManyToOne
     @JoinColumn(name = "stu_version_id")
     @Cascade( { CascadeType.LOCK})
@@ -99,77 +64,41 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 		return studyVersion;
 	}
 
-	/**
-	 * Sets the study version.
-	 *
-	 * @param studyVersion the new study version
-	 */
 	public void setStudyVersion(StudyVersion studyVersion) {
 		this.studyVersion = studyVersion;
 	}
 
-	/**
-	 * Gets the irb approval date.
-	 *
-	 * @return the irb approval date
-	 */
 	public Date getIrbApprovalDate() {
 		return irbApprovalDate;
 	}
+	
+	@Transient
+	public String getIrbApprovalDateStr() {
+		return CommonUtils.getDateString(irbApprovalDate);
+	}
 
-	/**
-	 * Sets the irb approval date.
-	 *
-	 * @param irbApprovalDate the new irb approval date
-	 */
 	public void setIrbApprovalDate(Date irbApprovalDate) {
 		this.irbApprovalDate = irbApprovalDate;
 	}
 
-	/**
-	 * Gets the start date.
-	 *
-	 * @return the start date
-	 */
 	public Date getStartDate() {
 		return startDate;
 	}
 
-	/**
-	 * Sets the start date.
-	 *
-	 * @param startDate the new start date
-	 */
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	/**
-	 * Gets the study subject study versions.
-	 *
-	 * @return the study subject study versions
-	 */
 	@OneToMany(mappedBy = "studySiteStudyVersion")
 	@Cascade(value = { CascadeType.LOCK, CascadeType.DELETE_ORPHAN })
 	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
 		return studySubjectStudyVersions;
 	}
 
-	/**
-	 * Sets the study subject study versions.
-	 *
-	 * @param studySubjectStudyVersions the new study subject study versions
-	 */
-	public void setStudySubjectStudyVersions(
-			List<StudySubjectStudyVersion> studySubjectStudyVersions) {
+	public void setStudySubjectStudyVersions(List<StudySubjectStudyVersion> studySubjectStudyVersions) {
 		this.studySubjectStudyVersions = studySubjectStudyVersions;
 	}
 
-	/**
-	 * Adds the study subject study version.
-	 *
-	 * @param studySubjectStudyVersion the study subject study version
-	 */
 	public void addStudySubjectStudyVersion(StudySubjectStudyVersion studySubjectStudyVersion) {
 		this.getStudySubjectStudyVersions().add(studySubjectStudyVersion);
 		studySubjectStudyVersion.setStudySiteStudyVersion(this);
@@ -186,12 +115,9 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	 */
 	@Transient
 	public boolean isValid(Date date){
-		return (startDate == null ? false : date.after(startDate)) && (endDate == null  ? true : date.before(endDate));
+		return (startDate == null ? false : !startDate.after(date)) && (endDate == null  ? true : !endDate.before(date));
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
 	public int compareTo(StudySiteStudyVersion studySiteStudyVersion) {
 		if(this.irbApprovalDate == null && studySiteStudyVersion.getIrbApprovalDate() == null){
     		return 0;
@@ -204,8 +130,87 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
     	}
 	}
 	
-	public void validateIRBApprovalDate(){
+	private void validateIRBApprovalDate(){
+		String allowedOldDate = "";
+        String todayDate = "";
+        
+		Date currentDate = new Date();
+		Date versionDate = studyVersion.getVersionDate();
+		Date oldestAllowableIRBApprovalDate;
+
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setTime(currentDate);
+		calendar.add(calendar.YEAR, -1);
+		Date oneYearOldDate = calendar.getTime();
+
+		if (versionDate.before(oneYearOldDate)) {
+			oldestAllowableIRBApprovalDate = oneYearOldDate;
+		} else {
+			oldestAllowableIRBApprovalDate = versionDate;
+		}
 		
+        allowedOldDate = CommonUtils.getDateString(oldestAllowableIRBApprovalDate);
+        todayDate = CommonUtils.getDateString(currentDate);
+		
+		if (this.getIrbApprovalDate() == null) {
+            throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.IRB_APPROVAL_DATE.CODE"), new String[] { studySite.getHealthcareSite().getName() });
+	    }
+	    
+	    if (this.getIrbApprovalDate().after(currentDate)) {
+	            throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.INVALID.IRB_APPROVAL_DATE.CODE"),new String[] {studySite.getHealthcareSite().getName(),todayDate });
+	    }
+	    if (this.getIrbApprovalDate().before(oldestAllowableIRBApprovalDate)) {
+	            throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.EXPIRED.IRB_APPROVAL_DATE.CODE"),new String[] {studySite.getHealthcareSite().getName(),allowedOldDate });
+	    }
 	}
+	
+	private void validateStartDate(Date date) {
+		Date allowedStartDate = studyVersion.getVersionDate();
+		String allowedStartDateStr =  CommonUtils.getDateString(allowedStartDate);
+        if (date == null) {
+            throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.START_DATE.CODE"), new String[] { studySite.getHealthcareSite().getName() });
+        }
+        if (date.before(allowedStartDate)) {
+            throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.INVALID.START_DATE.CODE"),new String[] {studySite.getHealthcareSite().getName(),allowedStartDateStr });
+        }
+        if (date.before(irbApprovalDate)) {
+            throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.START_DATE.BEFORE.IRB_APPROVAL_DATE.CODE"),new String[] {studySite.getHealthcareSite().getName(),getIrbApprovalDateStr() });
+        }
+	}
+
+	public void apply(Date startDate) {
+		validateIRBApprovalDate();
+		validateStartDate(startDate);
+        this.setStartDate(startDate);
+	}
+	
+	@Transient
+	public Date getAllowedOldDateForStartDate() {
+		return studyVersion.getVersionDate();
+	}
+	
+	@Transient
+	public C3PRExceptionHelper getC3PRExceptionHelper() {
+		return c3PRExceptionHelper;
+	}
+
+	public void setC3PRExceptionHelper(C3PRExceptionHelper c3prExceptionHelper) {
+		c3PRExceptionHelper = c3prExceptionHelper;
+	}
+	
+	@Transient
+	public MessageSource getC3prErrorMessages() {
+		return c3prErrorMessages;
+	}
+
+	public void setC3prErrorMessages(MessageSource c3prErrorMessages) {
+		this.c3prErrorMessages = c3prErrorMessages;
+	}
+	
+	@Transient
+    public int getCode(String errortypeString) {
+        return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
+    }
+
 
 }

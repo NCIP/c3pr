@@ -5,14 +5,12 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.EXPORT_STUDY;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.xml.sax.InputSource;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -161,7 +159,6 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
 
         StudySite studySiteObject = new StudySite();
         studySiteObject.setGridId(strValue);
-        studySiteObject.setIrbApprovalDate(dateValue);
 
         SystemAssignedIdentifier identifierObject = new SystemAssignedIdentifier();
         identifierObject.setSystemName(strValue);
@@ -169,6 +166,7 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
 
         studyObject.addIdentifier(identifierObject);
         studyObject.addStudySite(studySiteObject);
+        studySiteObject.setIrbApprovalDate(dateValue);
 
        /* studyObject.addEpoch(Epoch.createEpoch("Screening"));
         studyObject.addEpoch(Epoch.createEpochWithArms("Treatment", "Arm A", "Arm B", "Arm C"));

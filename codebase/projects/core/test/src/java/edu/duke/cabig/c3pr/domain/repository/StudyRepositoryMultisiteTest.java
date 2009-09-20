@@ -89,8 +89,6 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
     }
 
     public void testCreateStudyCompleteDataEntry() {
-        // study = studySubjectCreatorHelper.getPersistedMultiSiteNonRandomizedWithArmStudySubject(
-        // false).getStudySite().getStudy();
         study = studyCreationHelper.createBasicStudy();
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
@@ -338,12 +336,8 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
             term2.setMedraCode(10322);
             term2.setCategory(disCatSaved);
             diseaseTermDao.save(term1);
-            System.out.println("disease term1 id ************" + term1.getId());
             diseaseTermDao.save(term2);
-            System.out.println("disease term2 id ************" + term2.getId());
-
             interruptSession();
-            System.out.println("hc site id ************" + healthcaresite.getId());
 
             disId = disCatSaved.getId();
             invId = invSave.getId();
@@ -351,7 +345,6 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
             hcsiId = hcsiSave.getId();
             term1Id = term1.getId();
             term2Id = term2.getId();
-            System.out.println("hcsi id ************" + hcsiId);
         }
 
         DiseaseCategory disCat = diseaseCategoryDao.getById(disId);
@@ -364,16 +357,24 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 
         // Study Site
         StudySite studySite = new StudySite();
+
         StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
+
         StudyVersion studyVersion = new StudyVersion();
+        studyVersion.setOriginalIndicator(true);
+        studyVersion.setName("Original study");
+        studyVersion.setVersionDate(new Date());
+        studyVersion.setGracePeriod(0);
         studySiteStudyVersion.setStudyVersion(studyVersion);
+        studySiteStudyVersion.setIrbApprovalDate(new Date());
+        studySiteStudyVersion.setStartDate(new Date());
         studySite.setTargetAccrualNumber(1000);
-        studyVersion.setStudy(study);
+        study.addStudyVersion(studyVersion);
         studySite.addStudySiteStudyVersion(studySiteStudyVersion);
-        study.addStudySite(studySite);
         studySite.setHealthcareSite(healthcareSitedao.getById(hcsId)); 
-        studySite.getStudySiteStudyVersion().setStartDate(new Date());
-        studySite.setIrbApprovalDate(new Date());
+        
+        study.addStudySite(studySite);
+        
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 
@@ -395,9 +396,6 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
         id.setType("local");
         identifiers.add(id);
         study.getIdentifiers().addAll(identifiers);
-
-        // Diseases
-        System.out.println("disease disCat id ************" + disCat.getId());
 
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term1Id));

@@ -177,7 +177,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             Participant participant = new Participant();
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
@@ -194,7 +194,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             Participant participant = new Participant();
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
@@ -212,7 +212,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             Participant participant = new Participant();
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
@@ -239,7 +239,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             Participant participant = new Participant();
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
@@ -259,7 +259,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             Participant participant = new Participant();
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
@@ -279,7 +279,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             Participant participant = new Participant();
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
@@ -305,7 +305,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             participant.setFirstName("Rudolph");
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
@@ -324,7 +324,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             participant.setLastName("Douglas");
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
@@ -344,7 +344,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             participant.setLastName("%o%");
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
@@ -372,7 +372,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
@@ -1065,7 +1065,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	StudySite studySite = new StudySite();
     	HealthcareSite site = healthcareSiteDao.getById(1000);
     	studySite.setHealthcareSite(site);
-    	studySite.setStudy(study);
+    	study.addStudySite(studySite);
     	studySubject.setStudySite(studySite);
     	studySubject.setParticipant(participant);
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();

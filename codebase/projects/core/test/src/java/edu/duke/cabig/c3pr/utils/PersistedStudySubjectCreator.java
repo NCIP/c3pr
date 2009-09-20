@@ -29,8 +29,7 @@ public class PersistedStudySubjectCreator extends StudySubjectCreatorHelper {
         studySubject=new StudySubject();
     }
     
-    public StudySubject getPersistedLocalNonRandomizedStudySubject(Boolean reserving, Boolean enrolling,
-                    boolean makeStudysiteCoCenter) {
+    public StudySubject getPersistedLocalNonRandomizedStudySubject(Boolean reserving, Boolean enrolling, boolean makeStudysiteCoCenter) {
         studySubject.setStudySite(getLocalNonRandomizedStudySite(reserving, enrolling, makeStudysiteCoCenter));
         prepareToPersistNewStudySubject(studySubject);
         studySubjectDao.save(studySubject);

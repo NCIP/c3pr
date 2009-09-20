@@ -339,9 +339,8 @@ public class StudyCreationHelper {
     }
 
     public void addStudySiteAsCooordinatingCenter(Study study) {
-        StudySite studySite=study.getStudySites().get(0);
-        StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters()
-                        .get(0);
+        StudySite studySite= study.getStudySites().get(0);
+        StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters().get(0);
         studyCoordinatingCenter.setHealthcareSite(studySite.getHealthcareSite());
         studyCoordinatingCenter.setStudy(study);
     }

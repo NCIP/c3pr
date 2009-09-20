@@ -91,8 +91,7 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateRegistrationDataEntryStatusInComplete() throws Exception {
         assertEquals("Wrong Registration Data Entry Status",
-                        RegistrationDataEntryStatus.INCOMPLETE, studySubject
-                                        .evaluateRegistrationDataEntryStatus());
+                        RegistrationDataEntryStatus.INCOMPLETE, studySubject.evaluateRegistrationDataEntryStatus());
     }
 
     /**
@@ -254,11 +253,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
         sc.setEpoch(nt);
         studySubject.addScheduledEpoch(sc);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        studySubject.setStudySite(new StudySite());
-        studySubject.getStudySite().setStudy(new Study());
-        studySubject.getStudySite().getStudy().setMultiInstitutionIndicator(true);
-        assertEquals("Wrong requiresCoordinatingCenterApproval return", true,
-                        studySubject.requiresCoordinatingCenterApproval());
+        
+        Study study1 = new Study();
+        study1.setMultiInstitutionIndicator(true);
+    	StudySite studySite1 = new StudySite();
+    	study1.addStudySite(studySite1);
+    	
+        studySubject.setStudySite(studySite1);
+        assertEquals("Wrong requiresCoordinatingCenterApproval return", true,studySubject.requiresCoordinatingCenterApproval());
     }
 
     /**
@@ -272,9 +274,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
         sc.setEpoch(nt);
         studySubject.addScheduledEpoch(sc);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        studySubject.setStudySite(new StudySite());
-        studySubject.getStudySite().setStudy(new Study());
-        studySubject.getStudySite().getStudy().setMultiInstitutionIndicator(true);
+        Study study1 = new Study();
+        study1.setMultiInstitutionIndicator(true);
+    	StudySite studySite1 = new StudySite();
+    	study1.addStudySite(studySite1);
+    	
+        studySubject.setStudySite(studySite1);
         assertEquals("Wrong requiresCoordinatingCenterApproval return", false,
                         studySubject.requiresCoordinatingCenterApproval());
     }
@@ -290,9 +295,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
         sc.setEpoch(nt);
         studySubject.addScheduledEpoch(sc);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        studySubject.setStudySite(new StudySite());
-        studySubject.getStudySite().setStudy(new Study());
-        studySubject.getStudySite().getStudy().setMultiInstitutionIndicator(false);
+        Study study1 = new Study();
+        study1.setMultiInstitutionIndicator(false);
+    	StudySite studySite1 = new StudySite();
+    	study1.addStudySite(studySite1);
+    	
+        studySubject.setStudySite(studySite1);
         assertEquals("Wrong requiresCoordinatingCenterApproval return", false,
                         studySubject.requiresCoordinatingCenterApproval());
     }
@@ -317,9 +325,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     public void testEquals1() throws Exception{
     	StudySubject studySubject1 = new StudySubject();
     	StudySubject studySubject2 = new StudySubject();
-
+    	
+    	Study study1 = new Study();
     	StudySite studySite1 = new StudySite();
-
+    	
+    	study1.addStudySite(studySite1);
+    	
     	studySubject1.setStudySite(studySite1);
     	studySubject2.setStudySite(studySite1);
 
@@ -350,7 +361,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	assertFalse("Should not have been equal",studySubject1.equals(new StudySite()));
     	StudySubject studySubject2 = new StudySubject();
 
+    	Study study1 = new Study();
     	StudySite studySite1 = new StudySite();
+    	
+    	study1.addStudySite(studySite1);
 
     	studySubject1.setStudySite(studySite1);
     	studySubject2.setStudySite(studySite1);
@@ -381,14 +395,19 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	assertFalse("Should not have been equal",studySubject1.equals(new StudySite()));
     	StudySubject studySubject2 = new StudySubject();
 
+    	Study study1 = new Study();
     	StudySite studySite1 = new StudySite();
-
+    	
+    	study1.addStudySite(studySite1);
+    	
     	studySubject1.setStudySite(null);
     	studySubject2.setStudySite(studySite1);
 
     	assertFalse("The two study subjects should not have been equal",studySubject1.equals(null));
 
     	StudySite studySite2 = new StudySite();
+    	study1.addStudySite(studySite2);
+    	
     	studySite2.setHealthcareSite(new LocalHealthcareSite());
     	studySubject1.setStudySite(studySite1);
     	studySubject2.setStudySite(studySite2);
@@ -410,7 +429,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 
     	assertEquals("Wrong hash code",prime*prime*prime + studySubject1.getStartDate().hashCode(), studySubject1.hashCode());
 
+    	Study study1 = new Study();
     	StudySite studySite1 = new StudySite();
+    	
+    	study1.addStudySite(studySite1);
 
     	studySubject1.setStudySite(studySite1);
     	assertEquals("Wrong hash code",prime*prime*(prime+studySite1.hashCode()) + studySubject1.getStartDate().hashCode(), studySubject1.hashCode());

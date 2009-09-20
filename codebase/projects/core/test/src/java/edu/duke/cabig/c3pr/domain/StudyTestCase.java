@@ -194,10 +194,9 @@ public class StudyTestCase extends AbstractTestCase {
 	 */
 	public void testRemoveStudySite() {
 		StudySite site = registerMockFor(StudySite.class);
-		site.setStudy(simpleStudy);
-
 		StudySite site2 = registerMockFor(StudySite.class);
-		site2.setStudy(simpleStudy);
+		site.setup(simpleStudy);
+		site2.setup(simpleStudy);
 
 		replayMocks();
 

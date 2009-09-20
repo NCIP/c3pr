@@ -183,8 +183,12 @@ public class DomainObjectCreationHelper {
 	}
 	
 	public static void addStudySites(Study study){
-		study.addStudySite(createStudySite(true));
-		study.addStudySite(createStudySite(false));
+		StudySite studySite1 = createStudySite(true);
+		study.addStudySite(studySite1);
+		studySite1.setIrbApprovalDate(new Date());
+		StudySite studySite2 = createStudySite(false);
+		study.addStudySite(studySite2);
+		studySite2.setIrbApprovalDate(new Date());
 	}
 	
 	public static void addInvestigators(StudyOrganization studyOrganization){
@@ -212,7 +216,7 @@ public class DomainObjectCreationHelper {
 	
 	public static StudySite createStudySite(boolean local){
 		StudySite studySite= new StudySite();
-		studySite.setIrbApprovalDate(new Date());
+//		studySite.setIrbApprovalDate(new Date());
 		HealthcareSite healthcareSite= createHealthcareSite(local);
 		studySite.setHealthcareSite(healthcareSite);
 		return studySite;

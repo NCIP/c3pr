@@ -45,6 +45,7 @@ import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedInstantiateFactory;
+import edu.duke.cabig.c3pr.domain.factory.StudySiteBiDirectionalInstantiateFactory;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
@@ -115,7 +116,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		consentRequired = ConsentRequired.ONE;
 
 		lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(StudySite.class,new ParameterizedBiDirectionalInstantiateFactory<StudySite>(StudySite.class, this));
+		lazyListHelper.add(StudySite.class,new StudySiteBiDirectionalInstantiateFactory(StudySite.class, this));
 		lazyListHelper.add(StudyFundingSponsor.class,new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class, this));
 		lazyListHelper.add(StudyCoordinatingCenter.class,new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class, this));
 		lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
@@ -229,7 +230,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	}
 
 	public void addStudySite(StudySite studySite) {
-		studySite.setStudy(this);
+		studySite.setup(this);
 		lazyListHelper.getLazyList(StudySite.class).add(studySite);
 	}
 
@@ -1164,6 +1165,16 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
             studyVersion= getLatestStudyVersion();
         }
 		return studyVersion;
+	}
+    
+    @Transient
+	public StudyVersion getStudyVersion(String name) {
+    	for(StudyVersion studyVersion : getStudyVersions()){
+			if(StringUtils.equals(name, studyVersion.getName())){
+				return studyVersion;
+			}
+		}
+		return null;
 	}
 
 	public void setStudyVersion(StudyVersion studyVersion) {

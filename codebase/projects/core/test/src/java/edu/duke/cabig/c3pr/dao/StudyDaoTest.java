@@ -19,7 +19,6 @@ import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
@@ -913,9 +912,6 @@ public class StudyDaoTest extends DaoTestCase {
         identifiers.add(id);
         study.getIdentifiers().addAll(identifiers);
 
-        // Diseases
-        System.out.println("disease disCat id ************" + disCat.getId());
-
         StudyDisease studyDisease = new StudyDisease();
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term1Id));
         studyDisease.setDiseaseTerm(diseaseTermDao.getById(term2Id));
@@ -1612,7 +1608,6 @@ public class StudyDaoTest extends DaoTestCase {
     	study.getStudyVersion().setPrecisText("");
     	study.setOriginalIndicator(true);
     	StudySite studySite = new StudySite();
-    	studySite.getStudySiteStudyVersion().setStudyVersion(study.getStudyVersion());
     	HealthcareSite healthcareSite = healthcareSitedao.getById(1000);
     	studySite.setHealthcareSite(healthcareSite);
     	studySite.setStudy(study);

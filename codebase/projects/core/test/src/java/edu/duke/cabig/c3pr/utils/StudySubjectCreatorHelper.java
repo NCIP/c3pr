@@ -351,9 +351,8 @@ public class StudySubjectCreatorHelper {
         studySite.setHealthcareSite(healthcaresite);
       //TODO fix it later
 //        studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
-        studySite.setStudy(study);
-        study.getStudySites().add(studySite);
-
+        study.addStudySite(studySite);
+        
         StudyCoordinatingCenter stC = study.getStudyCoordinatingCenters().get(0);
         stC.setStudy(study);
         if (makeStudysiteCoCenter){
