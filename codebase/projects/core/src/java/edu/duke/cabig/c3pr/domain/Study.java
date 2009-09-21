@@ -212,6 +212,16 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		this.getStudyOrganizations().add(studyOrganization);
 		studyOrganization.setStudy(this);
 	}
+	
+	public void addStudyOrganizations(List<StudyOrganization> studyOrganizations) {
+		for(StudyOrganization studyOrg : studyOrganizations){
+			if(studyOrg instanceof StudySite){
+				this.addStudySite((StudySite)studyOrg);
+			}else{
+				this.addStudyOrganization(studyOrg);
+			}
+		}
+	}
 
 	public void removeStudyOrganization(StudyOrganization studyOrganization) {
 		this.getStudyOrganizations().remove(studyOrganization);
@@ -1093,7 +1103,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
         	StudyVersion localStudyVersion= getStudyVersions().get(0);
         	localStudyVersion.setOriginalIndicator(true);
         	localStudyVersion.setVersionDate(new Date());
-        	localStudyVersion.setName("original version");
+        	localStudyVersion.setName("Original version");
 			return localStudyVersion;
         }else{
 			return  studyVersions.get(size - 1 );
