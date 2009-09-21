@@ -26,6 +26,15 @@ public class CCTSXMLTransformerTest extends AbstractTestCase {
 		System.out.println(cctsXml);
 		xmlParser.validate(cctsXml.getBytes());
 	}
+	
+	public void testStudyTransformationFromString() throws Exception {
+		String xslName = "ccts-study-transformer.xsl";
+		String sampleXml = "c3pr-sample-study.xml";
+		String cctsXml= new XMLTransformer().transform(readFile(xslName),
+				readFile(sampleXml));
+		System.out.println(cctsXml);
+		xmlParser.validate(cctsXml.getBytes());
+	}
 
 	private String readFile(String filename) throws Exception {
 		java.io.BufferedReader br = new java.io.BufferedReader(
