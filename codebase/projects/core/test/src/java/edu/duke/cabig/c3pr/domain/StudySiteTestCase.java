@@ -101,6 +101,24 @@ public class StudySiteTestCase extends AbstractTestCase {
 		assertEquals(SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT, studySite.getSiteStudyStatus());
 	}
 	
+	public void testTemporarilyCloseToAccrualAlreadyTemporarilyClosedToAccrualAndTreament() {
+		studySite.handleStudySiteStatusChange(new Date(),SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
+		C3PRCodedRuntimeException c3CodedException = new C3PRCodedRuntimeException(1, "test");
+		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDYSITE.STATUS_ALREADY_TEMPORARY_CLOSED_TO_ACCRUAL_AND_TREATMENT.CODE",null, null)).andReturn("1");
+		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
+		replayMocks();
+		try {
+			studySite.temporarilyCloseToAccrual(new Date());
+		} catch (C3PRCodedRuntimeException e) {
+			e.printStackTrace();
+			assertEquals(1, e.getExceptionCode());
+			return;
+		} finally {
+			verifyMocks();
+		}
+		fail("Should have failed");
+	}
+
 	public void testTemporarilyCloseToAccrualAlreadyTemporarilyClosedToAccrual() {
 		studySite.handleStudySiteStatusChange(new Date(),SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
 		C3PRCodedRuntimeException c3CodedException = new C3PRCodedRuntimeException(1, "test");
