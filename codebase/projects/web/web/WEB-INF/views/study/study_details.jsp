@@ -262,16 +262,20 @@
 	            	<option value="">Please Select</option>
 	            	<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 	        	</form:select>
-	        	<tags:hoverHint keyProp="study.standaloneIndicator"/></div>
+	        	<tags:hoverHint keyProp="study.standaloneIndicator"/>
 	        </div>
-    	</div>
+		</div>
         <div class="row">
-	        <div class="label"><tags:requiredIndicator /><fmt:message key="study.versionNameNumber"/></div>
+	        <div class="label">
+	        	<tags:requiredIndicator />
+	        	<fmt:message key="study.versionNameNumber"/>
+	        </div>
 	       <div class="value">
-            	<form:input path="study.versionName" cssClass="validate-notEmpty" />
+            	<form:input path="study.versionName" cssClass="validate-notEmpty" ></form:input>
             	<tags:hoverHint keyProp="study.versionNameNumber"/>
             </div>
     	</div>
+	</div>
 </chrome:division>
 
 <chrome:division title="Stratification & Randomization">
