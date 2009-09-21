@@ -159,12 +159,10 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         healthcaresite.setDescriptionText("duke healthcare");
         healthcaresite.setCtepCode("Nci duke");
         // TODO fix it later
-//        StudySite studySite = new StudySite();
-//        studyObject.addStudySite(studySite);
-//        studySite.setHealthcareSite(healthcaresite); //
-//        studySite.setStartDate(dateValue);
-//        studySite.setIrbApprovalDate(dateValue);
-//        studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+        StudySite studySite = new StudySite();
+        studySite.setHealthcareSite(healthcaresite); //
+        studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
+        studySite.setIrbApprovalDate(dateValue);studyObject.addStudySite(studySite);
 
         StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
         ans.setPermissibleAnswer("it is valid");

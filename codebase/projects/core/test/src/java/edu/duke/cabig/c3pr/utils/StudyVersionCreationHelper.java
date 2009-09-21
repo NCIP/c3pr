@@ -22,7 +22,7 @@ public class StudyVersionCreationHelper {
         studyVersion.setName("Default version");
         studyVersion.setStudy(study);
         studyVersion.setVersionStatus(StatusType.AC);
-        //TODO: FIXME
+        //TODO: fix it later
         //studyVersion.setMandatoryIndicator(false);
         return studyVersion;
 	}
