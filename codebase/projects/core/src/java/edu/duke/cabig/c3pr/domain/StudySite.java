@@ -212,11 +212,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		
     }
 
-	/**
-	 * Close to accrual.
-	 *
-	 * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
-	 */
 	public void closeToAccrual(Date effectiveDate) throws C3PRCodedRuntimeException {
         if (this.getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL) {
         	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_ALREADY_CLOSED_TO_ACCRUAL.CODE"),new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
@@ -232,9 +227,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.CLOSED_TO_ACCRUAL) ;
     }
 	
-    /**
-     * Close to accrual and treatment.
-     */
     public void closeToAccrualAndTreatment(Date effectiveDate) {
         if (this.getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT){
         	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_ALREADY_CLOSED_TO_ACCRUAL_AND_TREATMENT.CODE"),new String[] { SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT
@@ -247,9 +239,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) ;       
     }
 
-    /**
-     * Temporarily close to accrual and treatment.
-     */
     public void temporarilyCloseToAccrualAndTreatment(Date effectiveDate) {
     	if (this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT) {
             throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.STATUS_ALREADY_TEMPORARY_CLOSED_TO_ACCRUAL_AND_TREATMENT.CODE"),new String[] { SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT.getDisplayName() });
@@ -263,11 +252,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT) ;
     }
 
-    /**
-     * Temporarily close to accrual.
-     *
-     * @throws C3PRCodedRuntimeException the c3 pr coded runtime exception
-     */
     public void temporarilyCloseToAccrual(Date effectiveDate) throws C3PRCodedRuntimeException {
     	if (this.getSiteStudyStatus() == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL) {
             throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.SITE.STUDY.ALREADY.TEMPORARILY_CLOSED_TO_ACCRUAL.CODE"),new String[] { SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL.getDisplayName() });
@@ -296,49 +280,24 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
 
-    /**
-     * Gets the c3 pr exception helper.
-     *
-     * @return the c3 pr exception helper
-     */
     @Transient
     public C3PRExceptionHelper getC3PRExceptionHelper() {
         return c3PRExceptionHelper;
     }
 
-    /**
-     * Sets the exception helper.
-     *
-     * @param c3PRExceptionHelper the new exception helper
-     */
     public void setExceptionHelper(C3PRExceptionHelper c3PRExceptionHelper) {
         this.c3PRExceptionHelper = c3PRExceptionHelper;
     }
 
-    /**
-     * Gets the c3pr error messages.
-     *
-     * @return the c3pr error messages
-     */
     @Transient
     public MessageSource getC3prErrorMessages() {
         return c3prErrorMessages;
     }
 
-    /**
-     * Sets the c3pr error messages.
-     *
-     * @param errorMessages the new c3pr error messages
-     */
     public void setC3prErrorMessages(MessageSource errorMessages) {
         c3prErrorMessages = errorMessages;
     }
 
-    /**
-     * Builds the map for notification.
-     *
-     * @return the map< object, object>
-     */
     @Transient
     /*
      * Used by the notifications use case to compose the email message by replacing the sub vars.
@@ -365,85 +324,70 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         return map;
     }
 
-    /**
-     * Gets the possible transitions.
-     *
-     * @return the possible transitions
-     */
     @Transient
     public List<APIName> getPossibleTransitions(){
         List<APIName> possibleActions=new ArrayList<APIName>();
-        List<SiteStudyStatus> statuses=new ArrayList<SiteStudyStatus>();
-        if(this.coordinatingCenterStudyStatus!=this.getStudy().getCoordinatingCenterStudyStatus()){
-            CoordinatingCenterStudyStatus studyCoordinatingCenterStudyStatus=this.getStudy().getCoordinatingCenterStudyStatus();
-            if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
+        if(this.coordinatingCenterStudyStatus != this.getStudy().getCoordinatingCenterStudyStatus()){
+            CoordinatingCenterStudyStatus studyCoordinatingCenterStudyStatus = this.getStudy().getCoordinatingCenterStudyStatus();
+            if(studyCoordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.READY_TO_OPEN){
                 if(this.coordinatingCenterStudyStatus!=CoordinatingCenterStudyStatus.PENDING){
-                	throw getC3PRExceptionHelper().getRuntimeException(
-                            getCode("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE"),
-                            new String[] { this.getHealthcareSite().getName(), this.coordinatingCenterStudyStatus.getDisplayName(), studyCoordinatingCenterStudyStatus.getDisplayName()});
+                	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE"),new String[] { this.getHealthcareSite().getName(), this.coordinatingCenterStudyStatus.getDisplayName(), studyCoordinatingCenterStudyStatus.getDisplayName()});
                 }
             	possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
                 return possibleActions;
-            }else if(studyCoordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.OPEN){
-                if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.PENDING){
+            }else if(studyCoordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.OPEN){
+                if(this.coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.PENDING){
                     possibleActions.add(APIName.CREATE_AND_OPEN_STUDY);
                     return possibleActions;
                 }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
                     possibleActions.add(APIName.OPEN_STUDY);
                     return possibleActions;
                 }else{
-                	throw getC3PRExceptionHelper().getRuntimeException(
-                            getCode("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE"),
-                            new String[] { this.getHealthcareSite().getName(), this.coordinatingCenterStudyStatus.getDisplayName(), studyCoordinatingCenterStudyStatus.getDisplayName()});
+                	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE"),new String[] { this.getHealthcareSite().getName(), this.coordinatingCenterStudyStatus.getDisplayName(), studyCoordinatingCenterStudyStatus.getDisplayName()});
                 }
             }
         }
-        if(this.getStudy().getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.OPEN)
-            return possibleActions;
-        if(this.getSiteStudyStatus()==SiteStudyStatus.PENDING){
+        
+        if(this.getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
+        	return possibleActions;
+        }
+        if(this.getSiteStudyStatus() == SiteStudyStatus.PENDING){
             possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
             return possibleActions;
-        }
-        else if(this.getSiteStudyStatus()==SiteStudyStatus.ACTIVE){
+        }else if(this.getSiteStudyStatus()==SiteStudyStatus.ACTIVE){
             possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL);
             possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT);
             possibleActions.add(APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL);
             possibleActions.add(APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT);
             return possibleActions;
-        }else if(this.getSiteStudyStatus()==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL || this.getSiteStudyStatus()==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT){
+        }else if(this.getSiteStudyStatus()==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL){
+        	possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
+        	possibleActions.add(APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT);
+        	possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL);
+            possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT);
+            return possibleActions;
+        }else if(this.getSiteStudyStatus()==SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT){
         	possibleActions.add(APIName.ACTIVATE_STUDY_SITE);
         	possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL);
+            possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT);
+            return possibleActions;
+        }else if(this.getSiteStudyStatus()==SiteStudyStatus.CLOSED_TO_ACCRUAL){
             possibleActions.add(APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT);
             return possibleActions;
         }
         return possibleActions;
     }
 
-    /**
-     * Gets the coordinating center study status.
-     *
-     * @return the coordinating center study status
-     */
     @Column(name = "study_status")
     @Enumerated(EnumType.STRING)
     public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
         return coordinatingCenterStudyStatus;
     }
 
-    /**
-     * Sets the coordinating center study status.
-     *
-     * @param coordinatingCenterStudyStatus the new coordinating center study status
-     */
     public void setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
         this.coordinatingCenterStudyStatus = coordinatingCenterStudyStatus;
     }
 
-    /**
-     * Gets the companion study association.
-     *
-     * @return the companion study association
-     */
     @ManyToOne
 	@Cascade( { CascadeType.LOCK})
 	@JoinColumn(name = "comp_assoc_id" , insertable=false, updatable=false)
@@ -451,11 +395,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		return companionStudyAssociation;
 	}
 
-	/**
-	 * Sets the companion study association.
-	 *
-	 * @param companionStudyAssociation the new companion study association
-	 */
 	public void setCompanionStudyAssociation(
 			CompanionStudyAssociation companionStudyAssociation) {
 		this.companionStudyAssociation = companionStudyAssociation;
@@ -587,11 +526,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		return studySiteStudyVersion == null ? false : (studySiteStudyVersion.getStudyVersion() == studyVersion);
 	}
 
-	/**
-	 * Gets the study site study versions.
-	 *
-	 * @return the study site study versions
-	 */
 	@OneToMany(mappedBy = "studySite")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudySiteStudyVersion> getStudySiteStudyVersions() {
@@ -599,38 +533,15 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	}
 
 
-	/**
-	 * Sets the study site study versions.
-	 *
-	 * @param studySiteStudyVersions the new study site study versions
-	 */
 	public void setStudySiteStudyVersions(List<StudySiteStudyVersion> studySiteStudyVersions) {
 		this.studySiteStudyVersions = studySiteStudyVersions;
 	}
 
-	/**
-	 * Adds the study site study version.
-	 *
-	 * @param studySiteStudyVersion the study site study version
-	 */
 	public void addStudySiteStudyVersion(StudySiteStudyVersion studySiteStudyVersion) {
 		this.getStudySiteStudyVersions().add(studySiteStudyVersion);
 		studySiteStudyVersion.setStudySite(this);
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.domain.StudyOrganization#getStudy()
-	 */
-	@Override
-	@Transient
-	public Study getStudy() {
-		return super.getStudy();
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.domain.StudyOrganization#setStudy(edu.duke.cabig.c3pr.domain.Study)
-	 * 
-	 */
 	public void setup(Study study) {
 		// this is the method where we will setup the study site for the  first time.
 		super.setStudy(study);
@@ -654,7 +565,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		
 		this.addStudySiteStudyVersion(studySiteStudyVersion);
 		
-		// 3. add default pending status to the study site
+		// 4. add default pending status to the study site
 		createDefaultStudyStatusHistory();
 	}
 	
