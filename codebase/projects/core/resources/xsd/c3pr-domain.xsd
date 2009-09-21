@@ -519,7 +519,6 @@
       <xs:extension base="StudyOrganizationType">
         <xs:sequence>
           <xs:element minOccurs="0" maxOccurs="1" name="irbApprovalDate" type="xs:date" />
-          <xs:element minOccurs="0" maxOccurs="1" name="statusChangeDates" type="xs:string" />
           <xs:element minOccurs="0" maxOccurs="1" name="siteStudyStatus" type="SiteStudyStatusType" />
         </xs:sequence>
       </xs:extension>
