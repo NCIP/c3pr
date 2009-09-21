@@ -245,7 +245,6 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     @Override
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
                     int page) throws Exception {
-        // TODO Auto-generated method stub
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
         if (studySubject.getScheduledEpoch() != null) {

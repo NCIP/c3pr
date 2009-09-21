@@ -243,7 +243,7 @@ public class StudySitesTab extends StudyTab {
 				endPoint = studyRepository.temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
 						nciInstituteCode);
 			}
-			//TODO fix this
+			//TODO fix it later
 //			else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
 //				studySite = studyRepository.activateStudySite(studyIdentifiers,
 //							studySite);
