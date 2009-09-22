@@ -293,6 +293,48 @@
         </div>
     </div>
 </chrome:division>
+<chrome:division title="Identifiers">
+    <h4>Organization Assigned Identifiers</h4>
+    <br>
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
+            <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
+            <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
+        </tr>
+        <c:forEach items="${command.studySubject.organizationAssignedIdentifiers}" var="orgIdentifier">
+            <tr class="results">
+			 <c:choose>
+				<c:when test="${orgIdentifier.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+            		<td class="alt" align="left">${orgIdentifier.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/></td>
+               </c:when>
+			  <c:otherwise>
+					<td class="alt" align="left">${orgIdentifier.healthcareSite.name} </td>
+			  </c:otherwise>
+			</c:choose>
+                <td class="alt" align="left">${orgIdentifier.type}</td>
+                <td class="alt" align="left">${orgIdentifier.value}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    <br>
+    <h4>System Assigned Identifiers</h4>
+    <br>
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left"><fmt:message key="c3pr.common.systemName"/></th>
+            <th width="35%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
+            <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
+        </tr>
+        <c:forEach items="${command.studySubject.systemAssignedIdentifiers}" var="identifier">
+            <tr class="results">
+                <td class="alt" align="left">${identifier.systemName}</td>
+                <td class="alt" align="left">${identifier.type}</td>
+                <td class="alt" align="left">${identifier.value}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
 <div id="editRegistrationSection">
 <chrome:division id="Current Epoch Information" title="Epoch & Arm">
     <div class="leftpanel">
