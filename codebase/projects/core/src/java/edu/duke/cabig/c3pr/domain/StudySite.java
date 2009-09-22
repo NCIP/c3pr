@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
 import javax.persistence.Column;
@@ -110,14 +111,13 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      */
     @Transient
     public List<StudySubject> getStudySubjects() {
-    	List<StudySubject> studySubjects= new ArrayList<StudySubject>();
+    	Set<StudySubject> h = new HashSet<StudySubject>();
     	for (StudySiteStudyVersion studySiteStudyVersion: getStudySiteStudyVersions()){
     		for(StudySubjectStudyVersion studySubjectStudyVersion: studySiteStudyVersion.getStudySubjectStudyVersions()){
-    			studySubjects.add(studySubjectStudyVersion.getStudySubject());
+    			h.add(studySubjectStudyVersion.getStudySubject());
     		}
     	}
-    	HashSet<StudySubject> h = new HashSet<StudySubject>(studySubjects);
-    	studySubjects.clear();
+    	List<StudySubject> studySubjects= new ArrayList<StudySubject>();
     	studySubjects.addAll(h);
         return studySubjects;
     }
@@ -303,24 +303,12 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      * Used by the notifications use case to compose the email message by replacing the sub vars.
      */
     public Map<Object, Object> buildMapForNotification() {
-
         Map<Object, Object> map = new HashMap<Object, Object>();
-        map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_STATUS.toString(),
-                        getSiteStudyStatus().getDisplayName() == null ? "status"
-                                        : getSiteStudyStatus().getDisplayName());
-        map
-                        .put(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString(),
-                                        getHealthcareSite().getName() == null ? "site name"
-                                                        : getHealthcareSite().getName().toString());
-        map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(), getStudy()
-                        .getShortTitleText() == null ? "Short Title" : getStudy()
-                        .getShortTitleText().toString());
-
-        map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_CURRENT_ACCRUAL.toString(),
-        		getStudy().getCurrentAccrualCount() == null ? "Study site current accrual" : getStudy().getCurrentAccrualCount().toString());
-        map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD.toString(),
-        		getStudy().getTargetAccrualNumber() == null ? "Study site accrual threshold" : getStudy().getTargetAccrualNumber().toString());
-
+        map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_STATUS.toString(),getSiteStudyStatus().getDisplayName() == null ? "status": getSiteStudyStatus().getDisplayName());
+        map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString(),getHealthcareSite().getName() == null ? "site name": getHealthcareSite().getName().toString());
+        map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(), getStudy().getShortTitleText() == null ? "Short Title" : getStudy().getShortTitleText().toString());
+        map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SITE_CURRENT_ACCRUAL.toString(),getStudy().getCurrentAccrualCount() == null ? "Study site current accrual" : getStudy().getCurrentAccrualCount().toString());
+        map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_ACCRUAL_THRESHOLD.toString(),getStudy().getTargetAccrualNumber() == null ? "Study site accrual threshold" : getStudy().getTargetAccrualNumber().toString());
         return map;
     }
 
@@ -411,6 +399,10 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 			studySiteStudyVersion= getStudySiteStudyVersion(new Date());	
 		}
 		return studySiteStudyVersion;
+	}
+	
+	public void setStudySiteStudyVersion(StudySiteStudyVersion studySiteStudyVersion) {
+		this.studySiteStudyVersion = studySiteStudyVersion;
 	}
 
 	@Transient
