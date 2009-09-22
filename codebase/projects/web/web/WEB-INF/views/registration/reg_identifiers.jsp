@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
+    <title><registrationTags:htmlTitle registration="${studySubject}" /></title>
     
 <%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
@@ -34,13 +34,13 @@ var systemIdentifierRowInserterProps = {
     skeleton_row_division_id: "dummy-row-systemIdentifier",
     initialIndex: ${fn:length(command.studySubject.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
     softDelete: true,
-    path: "systemAssignedIdentifiers"                               /* this is the path of the collection that holds the rows  */
+    path: "studySubject.systemAssignedIdentifiers"                               /* this is the path of the collection that holds the rows  */
 };
 var organizationIdentifierRowInserterProps = {
        add_row_division_id: "organizationIdentifier", 	        /* this id belongs to element where the row would be appended to */
        skeleton_row_division_id: "dummy-row-organizationIdentifier",
        initialIndex: ${fn:length(command.studySubject.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
-       path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
+       path: "studySubject.organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
        softDelete: ${flowType!='CREATE_STUDY'},
        postProcessRowInsertion: function(object){
 	       clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
@@ -75,10 +75,10 @@ function manageIdentifierRadio(element){
 		
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
-					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.assigningAuthority"/></th>
-					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></th>
-					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></th>
-					<th><fmt:message key="c3pr.common.primaryIndicator"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.assigningAuthority"/><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/><tags:hoverHint keyProp="study.healthcareSite.identifierType"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/><tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
+					<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
 					<th></th>
 				</tr>
 				<c:forEach var="orgIdentifier" items="${command.studySubject.organizationAssignedIdentifiers}"
@@ -87,45 +87,49 @@ function manageIdentifierRadio(element){
 						<td>${orgIdentifier.healthcareSite.name}</td>
 						<td>${orgIdentifier.type}</td>
 						<td>${orgIdentifier.value}</td>
-						<td>${orgIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="command.studySubject.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
+						<td>${orgIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="studySubject.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
+						<td><a
+							href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgIdentifier.id==null?'HC#':'ID#'}${orgIdentifier.id==null?orgIdentifier.hashCode:orgIdentifier.id}');"><img
+							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 					</tr>
 				</c:forEach>
 			</table>
 
 			<br>
 			<div align="right">
-
-			<input id="addOrganizationIdentifier" type="button"
-				value="Add Another Identifier"
-				onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" />
-				</div>
+				<tags:button type="button" color="blue" icon="add" value="Add Identifier" 
+				onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
+			</div>
 
 		</chrome:division>
 		<chrome:division title="System Assigned Identifiers">
 			<table id="systemIdentifier" class="tablecontent">
 				<tr>
-					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.systemName"/></th>
-					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></th>
-					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></th>
-					<th><fmt:message key="c3pr.common.primaryIndicator"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.systemName"/><tags:hoverHint keyProp="study.systemAssignedIdentifier.systemName"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/><tags:hoverHint keyProp="study.systemAssignedIdentifier.identifierType"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/><tags:hoverHint id="study.systemAssignedIdentifier.identifier" keyProp="study.coordinatingcenter.identifier"/></th>
+					<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.systemAssignedIdentifier.primaryIndicator"/></th>
 					<th></th>
 				</tr>
 				<c:forEach items="${command.studySubject.systemAssignedIdentifiers}"	varStatus="status" var="sysIdentifier">
 					<tr id="systemIdentifier-${status.index}">
 						<td>${sysIdentifier.systemName}</td>
 						<td>${sysIdentifier.type}</td>
-						<td>${orgIsysIdentifierdentifier.value}</td>
-						<td>${sysIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="command.studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
+						<td>${sysIdentifier.value}</td>
+						<td>${sysIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
+						<td><a
+							href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},'${sysIdentifier.id==null?'HC#':'ID#'}${sysIdentifier.id==null?sysIdentifier.hashCode:sysIdentifier.id}');"><img
+							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 					</tr>
 				</c:forEach>
 			</table>
 
 			<br>
-<div align="right">
-			<input id="addSystemIdentifier" type="button"
-				value="Add Another Identifier"
-				onclick="RowManager.addRow(systemIdentifierRowInserterProps);" />
-				</div>
+		<div align="right">
+
+			<tags:button type="button" color="blue" icon="add" value="Add Identifier" 
+				onclick="javascript:RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
+		</div>
 
 		</chrome:division>
 </td></tr></table>
@@ -143,7 +147,7 @@ function manageIdentifierRadio(element){
 			name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="validate-notEmpty">
 			<option value="">--Please Select--</option>
-			<c:forEach items="${identifiersTypeRefData}" var="id">
+			<c:forEach items="${registrationIdentifiersType}" var="id">
 				<option value="${id.desc}">${id.desc}</option>
 			</c:forEach>
 		</select></td>
@@ -168,7 +172,7 @@ function manageIdentifierRadio(element){
 			name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
 		<input class="autocomplete validate-notEmpty" type="text"
 			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
-			value="${command.studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
+			value="${studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
 		<tags:indicator
 			id="healthcareSitePAGE.ROW.INDEX-indicator" />
 		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete">
@@ -177,7 +181,7 @@ function manageIdentifierRadio(element){
 			name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="validate-notEmpty">
 			<option value="">--Please Select--</option>
-			<c:forEach items="${identifiersTypeRefData}" var="id">
+			<c:forEach items="${registrationIdentifiersType}" var="id">
 				<option value="${id.desc}">${id.desc}</option>
 			</c:forEach>
 		</select></td>
