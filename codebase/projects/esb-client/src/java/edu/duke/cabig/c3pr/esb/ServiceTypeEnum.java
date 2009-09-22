@@ -11,6 +11,7 @@ public enum ServiceTypeEnum implements CodedEnum<String> {
 	CLINICAL_RESEARCH_STAFF_CORRELATION("Clinical Research Staff Corelation"),
 	CLINICAL_RESEARCH_STAFF("Clinical Research Staff"),
 	HEALTH_CARE_FACILITY("Healthcare Facility"),
+	RESEARCH_ORGANIZATION("Research Organization"),
 	HEALTH_CARE_PROVIDER("Healthcare Provider"),
 	IDENTIFIED_ORGANIZATION("Identified Organization"),
 	IDENTIFIED_PERSON("Identified Person"),
