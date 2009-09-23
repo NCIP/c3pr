@@ -237,9 +237,63 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 	public void testBroadcastCoppaMessageForHealthcareFacilitySearch(){
 
 		String payloadXml = getPayloadForFile("HEALTH_CARE_FACILITY_SEARCH.xml");
+		String offsetXml = getPayloadForFile("OFFSET.xml");
 		String serviceResponsePayload = null;
+		
+		//search takes OFFSET as additional mandatory payload 
+		List<String> cctsDomainObjectXMLList = new ArrayList<String>();
+		cctsDomainObjectXMLList.add(payloadXml);
+		cctsDomainObjectXMLList.add(offsetXml);
+		
         //build metadata with operation name and the external Id and pass it to the broadcast method.
         Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.HEALTH_CARE_FACILITY.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(cctsDomainObjectXMLList, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message. - Search ResearchOrganization
+	 */
+	public void testBroadcastCoppaMessageForResearchOrganizationSearch(){
+
+		String payloadXml = getPayloadForFile("RESEARCH_ORGANIZATION_SEARCH.xml");
+		String offsetXml = getPayloadForFile("OFFSET.xml");
+		
+		//search PA takes OFFSET as additional mandatory payload 
+		List<String> cctsDomainObjectXMLList = new ArrayList<String>();
+		cctsDomainObjectXMLList.add(payloadXml);
+		cctsDomainObjectXMLList.add(offsetXml);
+		
+		String serviceResponsePayload = null;
+		
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.RESEARCH_ORGANIZATION.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(cctsDomainObjectXMLList, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message. - getById ResearchOrganization
+	 */
+	public void testBroadcastCoppaMessageForResearchOrganizationGetById(){
+
+		String payloadXml = getPayloadForFile("RESEARCH_ORGANIZATION_ID.xml");
+		String serviceResponsePayload = null;
+		
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "extId", ServiceTypeEnum.RESEARCH_ORGANIZATION.getName());
         try {
         	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
 		} catch (BroadcastException e) {
@@ -249,6 +303,7 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 		assertNotNull(serviceResponsePayload);
 		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
 	}
+	
 	
 	/**
 	 * Test broadcast for COppa Message. - getById HealthcareFacility
