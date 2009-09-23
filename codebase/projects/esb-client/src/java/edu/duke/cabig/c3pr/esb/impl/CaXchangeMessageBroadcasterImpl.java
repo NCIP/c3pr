@@ -206,7 +206,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     	String serviceResponsePayload = null;
     	Credentials credentials = getCredentials(); 
     	
-    	MessageElement[] messageElements = new MessageElement[2];        
+    	MessageElement[] messageElements = new MessageElement[cctsDomainObjectXMLList.size()];        
     	Document messageDOM = null;        
     	MessageElement messageElement = null;                
     	for(int i=0;i < cctsDomainObjectXMLList.size() ; i++){            
@@ -253,7 +253,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     	try {            
     		caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL, proxy);            
 
-    		log.debug("Sending message to caXchange");                        
+    		log.debug("Sending message to caXchange ");                        
     		responseMessage = caXchangeClient.processRequestSynchronously(xchangeMessage);  
     		InputStream serializeStream = CaXchangeRequestProcessorClient.class.getResourceAsStream("client-config.wsdd");            
     		StringWriter writer = new StringWriter();            
