@@ -65,8 +65,8 @@
 				</identifier>
 				<externalId>external_id</externalId>
 			</healthcareSite>
-			<irbApprovalDate>2009-08-14</irbApprovalDate>
 			<siteStudyStatus>PENDING</siteStudyStatus>
+			<irbApprovalDate>2009-08-14</irbApprovalDate>
 		</studyOrganization>
 	</study>
 	<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -94,8 +94,8 @@
 			</identifier>
 			<externalId>external_id</externalId>
 		</healthcareSite>
-		<irbApprovalDate>2009-08-14</irbApprovalDate>
 		<siteStudyStatus>PENDING</siteStudyStatus>
+		<irbApprovalDate>2009-08-14</irbApprovalDate>
 	</studyOrganization>
 	<studyInvestigator>
 		<roleCode>role1</roleCode>
