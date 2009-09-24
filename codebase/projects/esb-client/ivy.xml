@@ -80,10 +80,10 @@
 		<dependency org="gov.nih.nci.caxchange"	name="CoreServices-service" rev="1.2" />
 		
 		<!-- jars for PA -->
-		<dependency org="gov.nih.nci.caxchange" name="PAServices-common" rev="1.1" />
-		<dependency org="gov.nih.nci.caxchange" name="PAServices-stubs" rev="1.1" />
-		<dependency org="gov.nih.nci.caxchange" name="PAServices-client" rev="1.1" />
-		<dependency org="gov.nih.nci.caxchange" name="PAServices-service" rev="1.1" />	
+		<dependency org="gov.nih.nci.caxchange" name="PAServices-common" rev="1.2" />
+		<dependency org="gov.nih.nci.caxchange" name="PAServices-stubs" rev="1.2" />
+		<dependency org="gov.nih.nci.caxchange" name="PAServices-client" rev="1.2" />
+		<dependency org="gov.nih.nci.caxchange" name="PAServices-service" rev="1.2" />	
 		
 		<!-- coppa commons jar for PA -->
 		<dependency org="gov.nih.nci.caxchange" name="coppa-commons" rev="1.2.2" />
