@@ -18,7 +18,7 @@ public class RegistrationIdentifiersTab<C extends StudySubjectWrapper> extends R
     @Override
 	public Map<String, Object> referenceData(C command) {
         Map<String, Object> refdata = super.referenceData();
-        refdata.put("registrationIdentifiersType", getConfigurationProperty().getMap().get("registrationIdentifiersType"));
+        refdata.put("registrationIdentifiersType", configurationProperty.getMap().get("registrationIdentifiersType"));
         return refdata;
     }
 

@@ -23,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
@@ -143,6 +144,9 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
     	map.put("paymentMethods", configMap.get("paymentMethods"));
     	map.put("canChangeEpoch", canChangeEpoch(studySubject));
 		map.put("companions", registrationControllerUtils.getCompanionStudySubject(studySubject.getSystemAssignedIdentifiers().get(0), studySubject));
+		if(configuration.get(Configuration.ESB_ENABLE).equals("true")){
+			map.put("canBroadcast", "true");
+        }
 		return map;
 	}
 
@@ -150,13 +154,8 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 			Object commandObj, Errors error) {
 		StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj;
 		StudySubject command = wrapper.getStudySubject();
-		String responseMessage = null;
-		try {
-			responseMessage = studySubjectService
-					.getCCTSWofkflowStatus(command).getDisplayName();
-		} catch (Exception e) {
-			responseMessage = "error";
-		}
+		String responseMessage = studySubjectService
+				.getCCTSWofkflowStatus(command).getDisplayName();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("responseMessage", responseMessage);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);

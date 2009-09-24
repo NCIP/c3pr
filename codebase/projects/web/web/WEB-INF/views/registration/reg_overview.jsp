@@ -12,6 +12,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <script>
     	
+    	function confirmBroadcastRegistration(){
+			contentWin = new Window({ width:400, height:200 ,className :"alert_lite"}) 
+			contentWin.setContent('confirmation-msg') ;
+			contentWin.showCenter(true);
+        }
+    	
         function getBroadcastStatus() {
             $('viewDetails').disable('broadcastBtn');
             $('viewDetails').disable('broadcastStatusBtn');
@@ -22,21 +28,16 @@
         }
 
       paramString="<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
-        
-      function doSendMessageToESB() {
-          $('broadcastResponse').innerHTML = 'Sending Message...';
-
-          $('viewDetails').disable('broadcastBtn');
-          $('viewDetails').disable('broadcastStatusBtn');
+      
+      doSendMessageToESB = function() {
+        	new Element.update('broadcastResponse','');
+        	new Element.hide('broadcastAction');
+        	new Element.show('broadcastWait');
+        	new Element.show('broadcastResponse');
 
 	        <tags:tabMethod method="broadcastRegistration"
-	       viewName="/ajax/broadcast_res" onComplete="onBroadcastComplete"
-	       divElement="'broadcastResponse'" formName="'tabMethodForm'" params="dontSave=true"/>
-        }
-
-        function onBroadcastComplete() {
-            $('viewDetails').enable('broadcastBtn');
-            $('viewDetails').enable('broadcastStatusBtn');
+	            viewName="/registration/asynchronous/broadcast_res" divElement="'broadcastResponse'"
+	            formName="'broadcastForm'"/>
         }
         
 		function accessApp(url,targetWindow){
@@ -165,6 +166,9 @@
 	    	<c:if test="${takeSubjectOffStudy}">
 				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
 			</c:if>
+			<c:if test="${canBroadcast}">
+				<tags:oneControlPanelItem linkhref="javascript:confirmBroadcastRegistration();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_broadcast.png" linktext="Broadcast Registration" />
+			</c:if>
     	</csmauthz:accesscontrol>
 		<tags:oneControlPanelItem linkhref="javascript:$('exportForm')._target.name='xxxx';$('exportForm').submit();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
@@ -178,6 +182,9 @@
 	<input type="hidden" name="parentRegistrationId" id="create_parent_id" value=""/>
 	<input type="hidden" name="create_companion" value=""/>
 	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
+</form>
+<form id="broadcastForm">
+	<tags:tabFields tab="${tab}"/>
 </form>
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.studySubject.gridId }"/>
@@ -558,9 +565,7 @@
     </table>
 </chrome:division>
 </div>
-
-
-	<div id="companionAssociationsDiv" <c:if test="${fn:length(companions) == 0 || !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator || not empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
+<div id="companionAssociationsDiv" <c:if test="${fn:length(companions) == 0 || !command.studySubject.scheduledEpoch.epoch.enrollmentIndicator || not empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
 	<chrome:division id="companionRegistration" title="Companion Registration">
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="80%">
 				<tr>
@@ -604,85 +609,21 @@
 				</c:forEach>
 			</table>
 	</chrome:division>
-	</div>
-<c:if test="${command.studySubject.regWorkflowStatus=='REGISTERED' && hotlinkEnable}">
-    <chrome:division title="CCTS Workflow">
-        <form:form id="viewDetails" name="viewDetails">
-            <div class="content">
-                <div class="row">
-                    <table width="50%"><tr>
-                    	<td width="25%" align="right">
-                        <b>Broadcast status:</b>
-                        </td>
-						<td width="75%" align="left">
-						<div id="broadcastResponse">
-                            ${command.studySubject.cctsWorkflowStatus.displayName}
-                            <c:if test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
-                        	<a href="javascript:C3PR.showCCTSError();">Click here to see the error message</a>
-                        	<div id="cctsErrorMessage" style="display: none;">${ command.studySubject.cctsErrorString}</div>
-                        	</c:if>
-                        </div>
-                        </td>
-                    </tr><tr><td colspan="2">&nbsp;</td></tr><tr>
-                        <td colspan="2" align="center">
-                        <input type="button" id="broadcastStatusBtn" value="Refresh"
-                               onclick="getBroadcastStatus();"/>
-                        <input type="button" id="broadcastBtn" value="Broadcast"
-                               onclick="doSendMessageToESB();"/>
-						
-						</td>
-					</tr></table>
-                </div>
-            </div>
-        </form:form>
-        <div id="built-cctsErrorMessage" style="display: none;"/>
+</div>
+<c:if test="${canBroadcast}">
+    <chrome:division title="CCTS Applications">
+    	<ul>
+	    	<c:if test="${!empty caaersBaseUrl}">
+		    <li><a href="javascript:accessApp('${caaersBaseUrl }','${caaers_window }')"><b>Adverse Event Reporting System</b></a></li>
+		    </c:if>
+			<c:if test="${!empty pscBaseUrl}">
+		    <li><a href="javascript:accessApp('${pscBaseUrl }','${psc_window }')">Patient Study Calendar</a></li>
+		    </c:if>
+			<c:if test="${!empty c3dBaseUrl}">
+		    <li><a href="avascript:accessApp('${c3dBaseUrl }','${c3d_window }')">Cancer Central Clinical Database</a></li>
+		    </c:if>
+	  	</ul>
     </chrome:division>
-    <%--<table width="60%">
-		<c:if test="${!empty caaersBaseUrl}">
-		<tr>
-			<td align="left"><a
-				href="javascript:accessApp('${caaersBaseUrl }','_caaers');">
-			<b>Adverse Event Reporting</b></a> </td>
-		</tr>
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-		</tr>
-		</c:if>
-		<c:if test="${!empty pscBaseUrl}">
-		<tr>
-			<td align="left"><a
-				href="javascript:accessApp('${pscBaseUrl }','_psc');">
-			<b>Study Calendar</b></a></td>
-		</tr>
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-		</tr>
-		</c:if>
-		<c:if test="${!empty c3dBaseUrl}">
-		<tr>
-			<td align="left"><a
-				href="javascript:accessApp('${c3dBaseUrl }','_c3d');">
-			<b>Clinical Database</b></a></td>
-		</tr>
-		</c:if>
-	</table>--%>
-	<ul>
-    	<c:if test="${!empty caaersBaseUrl}">
-	    <li><a href="${caaersBaseUrl }" target="${caaers_window }"><b>Adverse Event Reporting System</b></a></li>
-	    </c:if>
-		<c:if test="${!empty pscBaseUrl}">
-	    <li><a href="${pscBaseUrl }" target="${psc_window }">Patient Study Calendar</a></li>
-	    </c:if>
-		<c:if test="${!empty c3dBaseUrl}">
-	    <li><a href="${c3dBaseUrl }" target="${c3d_window }">Cancer Central Clinical Database</a></li>
-	    </c:if>
-	  </ul>
 </c:if>
 
 </div>
@@ -843,5 +784,52 @@
     <tags:tabFields tab="${tab}"/>
     <input type="hidden" name="_action" value="export"/>
 </form:form>
+<div id="confirmation-msg" style="display: none;">
+	<div id="broadcastAction">
+		<c:choose>
+			<c:when test="${empty command.registration.cctsWorkflowStatus}">
+				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<strong><fmt:message key="REGISTRATION.BROADCAST.NOT_YET_SENT"/></strong>
+				</div>
+				<div align="center" style="padding-top: 20px">
+				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
+				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				</div>
+			</c:when>
+			<c:when test="${command.registration.cctsWorkflowStatus=='MESSAGE_SEND'}">
+				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<strong><fmt:message key="REGISTRATION.BROADCAST.SENT_NO_RESPONSE"/></strong>
+				</div>
+				<div align="center" style="padding-top: 20px">
+				<tags:button type="button "color="blue" value="Check response" onclick="javascript:getBroadcastStatus();"/>
+				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				</div>
+			</c:when>
+			<c:when test="${command.registration.cctsWorkflowStatus=='MESSAGE_SEND_CONFIRMED'}">
+				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<strong><fmt:message key="REGISTRATION.BROADCAST.SENT_SUCCESSFULLY"/></strong>
+				</div>
+				<div align="center" style="padding-top: 20px">
+				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
+				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				</div>
+			</c:when>
+			<c:when test="${command.registration.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
+				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<strong><fmt:message key="REGISTRATION.BROADCAST.SEND_FAILED"/><fmt:message key="BROADCAST.RESEND"/></strong>
+				</div>
+				<div align="center" style="padding-top: 20px">
+				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
+				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				</div>
+			</c:when>
+		</c:choose>
+	</div>
+	<div id="broadcastWait" align="center" style="display: none;">
+		<div style="padding-top: 5px"><img src="/c3pr/images/broadcast_animation.gif"><div style="font-size: 15pt; padding-top: 5px">Please Wait... Sending</div></div>
+	</div>
+	<div id="broadcastResponse">
+	</div>	
+</div>
 </body>
 </html>

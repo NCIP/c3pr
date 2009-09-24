@@ -8,6 +8,7 @@ import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
@@ -38,8 +39,14 @@ public abstract class RegistrationTab<C extends StudySubjectWrapper> extends InP
     protected HealthcareSiteDao healthcareSiteDao;
     
     protected StudySiteDao studySiteDao;
+    
+    protected Configuration configuration;
 
-    public RegistrationControllerUtils getRegistrationControllerUtils() {
+    public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
+
+	public RegistrationControllerUtils getRegistrationControllerUtils() {
 		return registrationControllerUtils;
 	}
 
@@ -67,10 +74,6 @@ public abstract class RegistrationTab<C extends StudySubjectWrapper> extends InP
     public RegistrationTab(String longTitle, String shortTitle, String viewName, String display) {
         super(longTitle, shortTitle, viewName);
         setDisplay(display);
-    }
-
-    public ConfigurationProperty getConfigurationProperty() {
-        return configurationProperty;
     }
 
     public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
