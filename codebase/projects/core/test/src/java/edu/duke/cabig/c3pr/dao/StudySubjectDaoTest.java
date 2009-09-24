@@ -30,11 +30,11 @@ import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -42,13 +42,14 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
@@ -77,6 +78,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
     private ScheduledEpochDao scheduledEpochDao;
 
 	private HealthcareSiteDao healthcareSiteDao;
+	
+	private StudySiteStudyVersionDao studySiteStudyVersionDao;
 
     private XmlMarshaller xmlUtility;
 
@@ -94,6 +97,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
         studySubjectDao.setStudySiteDao(studySiteDao);
         studySubjectDao.setParticipantDao(dao);
+        studySiteStudyVersionDao = (StudySiteStudyVersionDao) getApplicationContext().getBean("studySiteStudyVersionDao");
         scheduledEpochDao = (ScheduledEpochDao) getApplicationContext()
                         .getBean("scheduledEpochDao");
         studyDao = (StudyDao) getApplicationContext().getBean("studyDao");
@@ -1168,6 +1172,19 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	
     	assertEquals("Wrong number of study identifiers retrieved",2,loadedStudy.getIdentifiers().size());
     	assertEquals("Wrong number of study subject identifiers retrieved",2,loadedStudySubject.getIdentifiers().size());
+    }
+    
+    public void testSaveStudySubjectWithStudySubjectVersionAndStudySubjectConsent() throws Exception{
+    	StudySubject studySubject = new StudySubject();
+    	StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
+    	studySubjectConsentVersion.setConsent(new Consent());
+    	StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(1000);
+    	studySubject.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySiteStudyVersion);
+    	Participant participant = dao.getById(1000);
+    	studySubject.setParticipant(participant);
+    	studySubject.getStudySubjectStudyVersion();
+    	studySubjectDao.save(studySubject);
+    	System.out.println();
     }
     		
 }
