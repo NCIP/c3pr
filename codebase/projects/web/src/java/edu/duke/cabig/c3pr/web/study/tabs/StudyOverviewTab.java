@@ -25,6 +25,7 @@ import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
+import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty;
 
 /**
  * Tab for Study Overview/Summary page <p/> Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007
@@ -97,15 +98,8 @@ public class StudyOverviewTab extends StudyTab {
     public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj,
                                                   Errors error) {
         Study study = ((StudyWrapper) commandObj).getStudy();
-        String responseMessage = null;
-        try {
-            log.debug("Getting status for study");
-            responseMessage = studyService.getCCTSWofkflowStatus(study).getDisplayName();
-        }
-        catch (Exception e) {
-            log.error(e);
-            responseMessage = "error";
-        }
+        log.debug("Getting status for study");
+        String responseMessage = studyService.getCCTSWofkflowStatus(study).getDisplayName();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("responseMessage", responseMessage);
         return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
@@ -136,6 +130,9 @@ public class StudyOverviewTab extends StudyTab {
         refdata.put("canAmendStudy", command.canAmendStudy());
         refdata.put("resumeAmendment", command.resumeAmendment());
         refdata.put("applyAmendment", command.applyAmendment());
+        if(configuration.get(Configuration.ESB_ENABLE).equals("true")){
+        	request.setAttribute("canBroadcast", "true");
+        }
         return refdata ;
     }
 

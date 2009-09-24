@@ -15,28 +15,35 @@
             $("exportForm").submit();
         }
 
-        function getBroadcastStatus() {
+		function confirmBroadcastStudy(){
+			contentWin = new Window({ width:400, height:200 ,className :"alert_lite"}) 
+			contentWin.setContent('confirmation-msg') ;
+			//contentWin.setContent('broadcastWait') ;
+			contentWin.showCenter(true);
+        }
+        
+        doSendMessageToESB = function() {
+        	new Element.update('broadcastResponse','');
+        	new Element.hide('broadcastAction');
+        	new Element.show('broadcastWait');
+        	new Element.show('broadcastResponse');
+
+	        <tags:tabMethod method="sendMessageToESB"
+	            viewName="/study/asynchronous/broadcast_res" divElement="'broadcastResponse'"
+	            formName="'broadcastForm'"/>
+        }
+
+		function getBroadcastStatus() {
+			new Element.update('broadcastResponse','');
+			new Element.hide('broadcastAction');
+        	new Element.show('broadcastWait');
+        	new Element.show('broadcastResponse');
             $('viewDetails').disable('broadcastBtn');
             $('viewDetails').disable('broadcastStatusBtn');
 
         <tags:tabMethod method="getMessageBroadcastStatus" onComplete="onBroadcastComplete"
-            viewName="/ajax/broadcast_res" divElement="'broadcastResponse'"
-            formName="'viewDetails'"/>
-        }
-
-        function doSendMessageToESB() {
-            $('broadcastResponse').innerHTML = 'Sending Message...';
-            $('viewDetails').disable('broadcastBtn');
-            $('viewDetails').disable('broadcastStatusBtn');
-
-        <tags:tabMethod method="sendMessageToESB" onComplete="onBroadcastComplete"
-            viewName="/ajax/broadcast_res" divElement="'broadcastResponse'"
-            formName="'viewDetails'"/>
-        }
-
-        function onBroadcastComplete() {
-            $('viewDetails').enable('broadcastBtn');
-            $('viewDetails').enable('broadcastStatusBtn');
+            viewName="/study/asynchronous/broadcast_res" divElement="'broadcastResponse'"
+            formName="'broadcastForm'"/>
         }
 
         function statusChangeCallback(statusCode) {
@@ -186,22 +193,25 @@
 			</c:if>
 			<c:if test="${empty flowType}">
 				<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
-	                	<c:choose>
-		                    <c:when test="${command.study.companionIndicator=='true'}">
-		                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit Study" />
-		                    </c:when>
-		                    <c:otherwise>
-		                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit Study" />
-		                    </c:otherwise>
-		                </c:choose>
-	                    <c:if test="${command.study.standaloneIndicator && canAmendStudy}">
-	                    	<c:set var="amend" value="${resumeAmendment?'Resume Amendment':'Amend Study'}"></c:set>
-			                <tags:oneControlPanelItem linkhref="javascript:amendStudy(${command.study.id},${command.study.companionIndicator})" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
-	                     </c:if>
-	                </csmauthz:accesscontrol>
-	                <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-						<tags:oneControlPanelItem linkhref="javascript:updateTargetAccrual();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Edit Accrual" />
-					</csmauthz:accesscontrol>
+                	<c:choose>
+	                    <c:when test="${command.study.companionIndicator=='true'}">
+	                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit Study" />
+	                    </c:when>
+	                    <c:otherwise>
+	                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit Study" />
+	                    </c:otherwise>
+	                </c:choose>
+                    <c:if test="${command.study.standaloneIndicator && canAmendStudy}">
+                    	<c:set var="amend" value="${resumeAmendment?'Resume Amendment':'Amend Study'}"></c:set>
+		                <tags:oneControlPanelItem linkhref="javascript:amendStudy(${command.study.id},${command.study.companionIndicator})" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
+                     </c:if>
+                </csmauthz:accesscontrol>
+                <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+					<tags:oneControlPanelItem linkhref="javascript:updateTargetAccrual();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Edit Accrual" />
+				</csmauthz:accesscontrol>
+				<c:if test="${canBroadcast}">
+					<tags:oneControlPanelItem linkhref="javascript:confirmBroadcastStudy();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_broadcast.png" linktext="Broadcast Study" />
+				</c:if>	
 				<tags:oneControlPanelItem linkhref="javascript:doExportAction();;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 				<tags:oneControlPanelItem linkhref="javascript:launchPrint();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 			</c:if>
@@ -218,9 +228,13 @@
     <input type="hidden" name="closeStatus" id="closeStatus"/>
 </form:form>
 
-<form:form id="exportForm" name="viewDetails">
+<form:form id="exportForm">
 <tags:tabFields tab="${tab}"/>
 <input type="hidden" id="_action" name="_action" value="export"/>
+</form:form>
+
+<form:form id="broadcastForm">
+<tags:tabFields tab="${tab}"/>
 </form:form>
 
 <form:form id="viewDetails" name="viewDetails">
@@ -563,45 +577,6 @@
 	</chrome:division>
 </div>
 
-<c:if test="${command.study.coordinatingCenterStudyStatus == 'OPEN' && isCCTSEnv}">
-    <chrome:division title="CCTS Workflow" cssClass="big">
-        <div class="content">
-            <div class="row">
-                <table width="60%">
-                    <tr>
-                        <td width="15%" align="right">
-                            <b>Broadcast Status:</b>
-                        </td>
-                        <td width="85%" align="left">
-                            <div id="broadcastResponse">
-                                    ${!empty command.study.cctsWorkflowStatus.displayName?command.study.cctsWorkflowStatus.displayName:'The study has not yet been broadcasted. Click on the broadcast button to create study in other CTMS Application'}
-                                <c:if test="${command.study.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
-                                    <a href="javascript:C3PR.showCCTSError();">Click here to see the error message</a>
-
-                                    <div id="cctsErrorMessage"
-                                         style="display: none;">${command.study.cctsErrorString}</div>
-                                </c:if>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" align="center">
-                        	<tags:button id="broadcastStatusBtn" type="button" color="blue" value="Refresh"
-							onclick="getBroadcastStatus();" size="small"/>
-							<tags:button id="broadcastBtn" type="button" color="blue" value="Broadcast"
-							onclick="doSendMessageToESB();" size="small"/>
-
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div id="built-cctsErrorMessage" style="display: none;"></div>
-        </chrome:division>
-</c:if>
 <div class="content buttons autoclear">
         <div class="flow-buttons">
         <span class="next">
@@ -659,6 +634,53 @@
 <div id="closeStudyDiv" >
 <%@ include file="close_study.jsp"%>
 </div>
+</div>
+<div id="confirmation-msg" style="display: none;">
+	<div id="broadcastAction">
+		<c:choose>
+			<c:when test="${empty command.study.cctsWorkflowStatus}">
+				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<strong><fmt:message key="STUDY.BROADCAST.NOT_YET_SENT"/></strong>
+				</div>
+				<div align="center" style="padding-top: 20px">
+				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
+				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				</div>
+			</c:when>
+			<c:when test="${command.study.cctsWorkflowStatus=='MESSAGE_SEND'}">
+				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<strong><fmt:message key="STUDY.BROADCAST.SENT_NO_RESPONSE"/></strong>
+				</div>
+				<div align="center" style="padding-top: 20px">
+				<tags:button type="button "color="blue" value="Check response" onclick="javascript:getBroadcastStatus();"/>
+				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				</div>
+			</c:when>
+			<c:when test="${command.study.cctsWorkflowStatus=='MESSAGE_SEND_CONFIRMED'}">
+				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<strong><fmt:message key="STUDY.BROADCAST.SENT_SUCCESSFULLY"/></strong>
+				</div>
+				<div align="center" style="padding-top: 20px">
+				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
+				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				</div>
+			</c:when>
+			<c:when test="${command.study.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
+				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<strong><fmt:message key="STUDY.BROADCAST.SEND_FAILED"/><fmt:message key="BROADCAST.RESEND"/></strong>
+				</div>
+				<div align="center" style="padding-top: 20px">
+				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
+				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				</div>
+			</c:when>
+		</c:choose>
+	</div>
+	<div id="broadcastWait" align="center" style="display: none;">
+		<div style="padding-top: 5px"><img src="/c3pr/images/broadcast_animation.gif"><div style="font-size: 15pt; padding-top: 5px">Please Wait... Sending</div></div>
+	</div>
+	<div id="broadcastResponse">
+	</div>	
 </div>
 </body>
 </html>
