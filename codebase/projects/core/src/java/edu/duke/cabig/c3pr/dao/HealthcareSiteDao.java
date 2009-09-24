@@ -22,6 +22,7 @@ import com.semanticbits.coppa.infrastructure.RemoteSession;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Organization;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -134,13 +135,18 @@ public class HealthcareSiteDao extends OrganizationDao {
     @Override
     public HealthcareSite getById(int arg0) {
     	HealthcareSite healthcareSite = super.getById(arg0);
-    	initialize((Organization)healthcareSite);
+    	initialize(healthcareSite);
     	return healthcareSite;
     }
 
 	public void initialize(HealthcareSite healthcareSite){
-		super.initialize((Organization)healthcareSite);
         getHibernateTemplate().initialize(healthcareSite.getHealthcareSiteInvestigators());
+        getHibernateTemplate().initialize(healthcareSite.getIdentifiersAssignedToOrganization());
+        for(OrganizationAssignedIdentifier organizationAssignedIdentifier: healthcareSite.getOrganizationAssignedIdentifiers()){
+        	if(organizationAssignedIdentifier.getHealthcareSite() != null && organizationAssignedIdentifier.getHealthcareSite() != healthcareSite){
+        		this.initialize(organizationAssignedIdentifier.getHealthcareSite());
+        	}
+        }
 	}
 	
 	/* Saves a domain object

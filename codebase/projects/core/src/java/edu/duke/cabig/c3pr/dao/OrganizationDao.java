@@ -30,10 +30,6 @@ public abstract class OrganizationDao extends GridIdentifiableDao<HealthcareSite
         return HealthcareSite.class;
     }
     
-	public void initialize(Organization organization){
-        getHibernateTemplate().initialize(organization.getIdentifiersAssignedToOrganization());
-	}
-    
 	/* Saves a domain object
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#merge(gov.nih.nci.cabig.ctms.domain.DomainObject)
      */
