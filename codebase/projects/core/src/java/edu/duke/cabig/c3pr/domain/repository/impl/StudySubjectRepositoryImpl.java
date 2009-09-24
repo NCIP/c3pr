@@ -251,7 +251,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         return studySubjectDao.searchBySubjectAndStudySite(exampleSS);
     }
 
-	public StudySubject enroll(List<Identifier> studySubjectIdentifiers) {
+	public StudySubject enroll(List<Identifier> studySubjectIdentifiers) throws C3PRCodedException {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
 		studySubjectDao.initialize(studySubject);
 		this.continueEnrollment(studySubject);
@@ -293,7 +293,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         }
 	}
 
-	public StudySubject enroll(StudySubject studySubject) {
+	public StudySubject enroll(StudySubject studySubject) throws C3PRCodedException {
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 		studySubjects=findRegistrations(studySubject);
 		studySubjectDao.initialize(studySubject);
@@ -314,7 +314,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		return studySubject;
 	}
 	
-	public void continueEnrollment(StudySubject studySubject) {
+	public void continueEnrollment(StudySubject studySubject) throws C3PRCodedException {
+		if(studySubject.getStudySite().getStudySiteStudyVersion(studySubject.getStartDate()) != studySubject.getStudySiteVersion()){
+			throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.WRONG_STUDY_SITE_STUDY_VERSION_FOR_DATE.CODE"), new String[]{studySubject.getStudySiteVersion().getStudyVersion().getVersion().toString(),studySubject.getStartDateStr()});
+		}
 		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
 			studySubject.prepareForEnrollment();
 		}
