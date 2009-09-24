@@ -20,16 +20,8 @@ import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 public class StudySubjectServiceImpl extends WorkflowServiceImpl implements StudySubjectService {
 
     private static final Logger logger = Logger.getLogger(StudySubjectServiceImpl.class);
-    private StudySubjectDao studySubjectDao;
     
     private boolean hostedMode = true;
-
-    private StudyTargetAccrualNotificationEmail notificationEmailer;
-    
-    public void setNotificationEmailer(
-                    StudyTargetAccrualNotificationEmail studyTargetAccrualNotificationEmail) {
-        this.notificationEmailer = studyTargetAccrualNotificationEmail;
-    }
 
     public String getLocalNCIInstituteCode() {
 		return this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
@@ -52,16 +44,8 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
         && !studySubject.isCoOrdinatingCenter(getLocalInstanceNCICode()) && !isHostedMode();
     }
 
-    public List<StudySubject> searchByExample(StudySubject ss, int maxResults) {
-        return studySubjectDao.searchByExample(ss, maxResults);
-    }
-    
     public List<StudySubject> getIncompleteRegistrations(int maxResults) {
-    	return studySubjectDao.getIncompleteRegistrations(maxResults) ;
+    	return ((StudySubjectDao)dao).getIncompleteRegistrations(maxResults) ;
     }
 
-	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
-		this.studySubjectDao = studySubjectDao;
-	}
-    
 }
