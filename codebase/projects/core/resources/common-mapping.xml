@@ -329,16 +329,12 @@
 
     <class name="edu.duke.cabig.c3pr.domain.StudySite" extends="edu.duke.cabig.c3pr.domain.StudyOrganization">
         <map-to xml="StudySiteType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="irbApprovalDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
-            <bind-xml name="irbApprovalDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="statusChangeDates" type="string"
-               handler="edu.duke.cabig.c3pr.xml.StudySiteStudyStatusHandler">
-            <bind-xml name="statusChangeDates" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
         <field name="siteStudyStatus" type="string"
                handler="edu.duke.cabig.c3pr.xml.StudySiteStudyStatusHandler">
             <bind-xml name="siteStudyStatus" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="irbApprovalDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
+            <bind-xml name="irbApprovalDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
