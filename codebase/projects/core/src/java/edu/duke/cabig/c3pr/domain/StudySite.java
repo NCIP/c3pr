@@ -538,27 +538,27 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		// this is the method where we will setup the study site for the  first time.
 		super.setStudy(study);
 		// 1. initially there is no study site study version, so we are creating one and associating it to study site.
-		studySiteStudyVersion = new StudySiteStudyVersion();
-		
-	     // 2. If we have active study version available , we are associating that study versin to study site study version otherwise we will associate latest available.
-		StudyVersion studyVersion = study.getLatestActiveStudyVersion();
-		if(studyVersion != null){
-			studySiteStudyVersion.setStudyVersion(studyVersion);
-		}else{
-			studySiteStudyVersion.setStudyVersion(study.getStudyVersion());
+		if(getStudySiteStudyVersions().size() == 0){
+			studySiteStudyVersion = new StudySiteStudyVersion();
+		     // 2. If we have active study version available , we are associating that study versin to study site study version otherwise we will associate latest available.
+			StudyVersion studyVersion = study.getLatestActiveStudyVersion();
+			if(studyVersion != null){
+				studySiteStudyVersion.setStudyVersion(studyVersion);
+			}else{
+				studySiteStudyVersion.setStudyVersion(study.getStudyVersion());
+			}
+			//3. initializing startdate of study site study version to 100 years old so that for the first time, it is not invalid
+			Date currentDate = new Date();
+	        GregorianCalendar calendar = new GregorianCalendar();
+	        calendar.setTime(currentDate);
+	        calendar.add(calendar.YEAR, -100);
+	        studySiteStudyVersion.setStartDate(calendar.getTime());
+	        this.addStudySiteStudyVersion(studySiteStudyVersion);
 		}
-
-		//3. initializing startdate of study site study version to 100 years old so that for the first time, it is not invalid
-		Date currentDate = new Date();
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(currentDate);
-        calendar.add(calendar.YEAR, -100);
-        studySiteStudyVersion.setStartDate(calendar.getTime());
-		
-		this.addStudySiteStudyVersion(studySiteStudyVersion);
-		
-		// 4. add default pending status to the study site
-		createDefaultStudyStatusHistory();
+		if(getSiteStatusHistory().size() == 0){
+			// 4. add default pending status to the study site
+			createDefaultStudyStatusHistory();		
+		}
 	}
 	
     public void setIrbApprovalDate(Date irbApprovalDate) {
