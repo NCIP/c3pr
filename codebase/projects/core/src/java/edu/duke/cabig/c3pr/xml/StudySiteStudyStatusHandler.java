@@ -1,9 +1,13 @@
 package edu.duke.cabig.c3pr.xml;
 
+import java.util.Date;
+
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
+import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 25, 2007 Time: 10:35:33 AM To change this
@@ -24,6 +28,11 @@ public class StudySiteStudyStatusHandler implements FieldHandler {
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
         StudySite studySite = (StudySite) object;
+        StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
+        studySiteStudyVersion.setStartDate(new Date());
+        studySite.addStudySiteStudyVersion(studySiteStudyVersion);
+        SiteStudyStatus siteStudyStatus = SiteStudyStatus.valueOf(value.toString());
+        studySite.handleStudySiteStatusChange(new Date(), siteStudyStatus);
         //TODO RK is going to look into this
  //        studySite.setSiteStudyStatus(SiteStudyStatus.valueOf((String) value));
     }
