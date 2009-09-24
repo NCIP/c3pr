@@ -501,16 +501,20 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 
         // Study Site
         StudySite studySite= new StudySite();
-        studySite.setHealthcareSite(healthcaresite); //
-      //TODO fix it later
-//        studySite.setStartDate(new Date());
+        studySite.setHealthcareSite(healthcaresite); 
         studySite.setTargetAccrualNumber(1000);
         
         StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
-        StudyVersion studyVersion = new StudyVersion();
+        StudyVersion studyVersion = null;
+        if(study.getStudyVersion() == null){
+        	studyVersion = new StudyVersion();
+        }else{
+        	studyVersion = study.getStudyVersion();
+        }
         studySiteStudyVersion.setStudyVersion(studyVersion);
+        studySiteStudyVersion.setStartDate(new Date());
+        study.addStudyVersion(studyVersion);
         
-        studyVersion.setStudy(study);
         studySite.addStudySiteStudyVersion(studySiteStudyVersion);
         study.addStudySite(studySite);
 

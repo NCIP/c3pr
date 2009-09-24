@@ -360,7 +360,12 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 
         StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
 
-        StudyVersion studyVersion = new StudyVersion();
+        StudyVersion studyVersion = null;
+        if(study.getStudyVersion() == null){
+        	studyVersion = new StudyVersion();
+        }else{
+        	studyVersion  = study.getStudyVersion();
+        }
         studyVersion.setOriginalIndicator(true);
         studyVersion.setName("Original study");
         studyVersion.setVersionDate(new Date());
