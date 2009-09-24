@@ -476,7 +476,7 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 		String payloadXml = getPayloadForFile("STUDY_PROTOCOL_ID.xml");
 		String serviceResponsePayload = null;
         //build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.getByStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_PARTICIPATION.getName());
+        Metadata mData = new Metadata(OperationNameEnum.getByStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_SITE.getName());
         try {
         	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
 		} catch (BroadcastException e) {
@@ -495,7 +495,7 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 		String payloadXml = getPayloadForFile("STUDY_PARTICIPATION_ID.xml");
 		String serviceResponsePayload = null;
         //build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.get.getName(), "extId", ServiceTypeEnum.STUDY_PARTICIPATION.getName());
+        Metadata mData = new Metadata(OperationNameEnum.get.getName(), "extId", ServiceTypeEnum.STUDY_SITE.getName());
         try {
         	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
 		} catch (BroadcastException e) {
