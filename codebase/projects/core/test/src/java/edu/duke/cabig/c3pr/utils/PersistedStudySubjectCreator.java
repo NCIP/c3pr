@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.utils;
 
+import java.util.Date;
+
 import org.springframework.context.ApplicationContext;
 
 import edu.duke.cabig.c3pr.constants.RandomizationType;
@@ -8,6 +10,7 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
@@ -27,6 +30,9 @@ public class PersistedStudySubjectCreator extends StudySubjectCreatorHelper {
         participantDao=(ParticipantDao)context.getBean("participantDao");
         healthcareSiteDao=(HealthcareSiteDao)context.getBean("healthcareSiteDao");
         studySubject=new StudySubject();
+        Date startDate = new Date();
+        startDate.setMonth(startDate.getMonth()+1);
+        studySubject.setStartDate(startDate);
     }
     
     public StudySubject getPersistedLocalNonRandomizedStudySubject(Boolean reserving, Boolean enrolling, boolean makeStudysiteCoCenter) {
@@ -77,6 +83,9 @@ public class PersistedStudySubjectCreator extends StudySubjectCreatorHelper {
     public void prepareToPersistNewStudySubject(StudySubject studySubject){
         for(StudyOrganization studyOrganization:studySubject.getStudySite().getStudy().getStudyOrganizations())
             healthcareSiteDao.save(studyOrganization.getHealthcareSite());
+        Consent consent = new Consent();
+        consent.setName("new consent");
+        studySubject.getStudySite().getStudy().getStudyVersion().addConsent(consent);
         studyDao.save(studySubject.getStudySite().getStudy());
         studySubject.setParticipant(createNewParticipant());
         addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());

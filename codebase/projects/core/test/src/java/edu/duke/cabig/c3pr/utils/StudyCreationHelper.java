@@ -62,7 +62,15 @@ public class StudyCreationHelper {
         Epoch epoch = getTreatmentEpochWithArm();
         addRandomization(randomizationType, epoch);
         study.addEpoch(epoch);
+        addDefaultConsentToStudy(study);
         return study;
+    }
+    
+    public Study addDefaultConsentToStudy(Study study){
+    	Consent consent = new Consent();
+    	consent.setName("default consent");
+    	study.getStudyVersion().addConsent(consent);
+    	return study;
     }
 
     public Study getLocalStudyWith1stEpochRandomized2ndNonRandomized(RandomizationType randomizationType) throws Exception {
@@ -339,8 +347,9 @@ public class StudyCreationHelper {
     }
 
     public void addStudySiteAsCooordinatingCenter(Study study) {
-        StudySite studySite= study.getStudySites().get(0);
-        StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters().get(0);
+        StudySite studySite=study.getStudySites().get(0);
+        StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters()
+                        .get(0);
         studyCoordinatingCenter.setHealthcareSite(studySite.getHealthcareSite());
         studyCoordinatingCenter.setStudy(study);
     }

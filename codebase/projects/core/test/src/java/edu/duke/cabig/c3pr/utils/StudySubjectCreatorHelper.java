@@ -334,7 +334,6 @@ public class StudySubjectCreatorHelper {
 
         Date effectiveDate = new Date();
         effectiveDate.setYear(50);
-        studySite.handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.ACTIVE);
         
         HealthcareSite healthcaresite = new LocalHealthcareSite();
         Address address = new Address();
@@ -353,6 +352,8 @@ public class StudySubjectCreatorHelper {
 //        studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         study.addStudySite(studySite);
         
+        studySite.handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.ACTIVE);
+
         StudyCoordinatingCenter stC = study.getStudyCoordinatingCenters().get(0);
         stC.setStudy(study);
         if (makeStudysiteCoCenter){
@@ -378,6 +379,8 @@ public class StudySubjectCreatorHelper {
     
     public void completeRegistrationDataEntry(StudySubject studySubject){
     	studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
+    	studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setConsent(studySubject.getStudySite()
+    			.getStudy().getStudyVersion().getConsents().get(0));
     }
     
     public void completeScheduledEpochDataEntry(StudySubject studySubject){
