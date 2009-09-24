@@ -36,9 +36,9 @@ public interface StudySubjectRepository {
     
     public StudySubject register(List<Identifier> studySubjectIdentifiers);
     
-    public StudySubject enroll(List<Identifier> studySubjectIdentifiers);
+    public StudySubject enroll(List<Identifier> studySubjectIdentifiers) throws C3PRCodedException;
     
-    public StudySubject enroll(StudySubject studySubject);
+    public StudySubject enroll(StudySubject studySubject) throws C3PRCodedException;
     
     public StudySubject transferSubject(List<Identifier> studySubjectIdentifiers);
     
