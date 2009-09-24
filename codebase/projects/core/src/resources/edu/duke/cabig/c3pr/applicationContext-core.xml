@@ -19,10 +19,6 @@
         <constructor-arg value="c3pr-registration-xml-castor-mapping.xml"/>
     </bean>
 
-    <bean id="ccts-study-castor-mapping" class="java.lang.String">
-        <constructor-arg value="ccts-study-castor-mapping.xml"/>
-    </bean>
-
     <!-- Report castor mapping xml -->
 
     <bean id="summary-3-report-castor-mapping" class="java.lang.String">
@@ -525,13 +521,21 @@
 
     <!-- Services -->
     <bean id="workflowService" class="edu.duke.cabig.c3pr.service.impl.WorkflowServiceImpl"
-          abstract="true" autowire="byType">
+          abstract="true">
+        <property name="endpointDao" ref="endpointDao"/>
+        <property name="messageBroadcaster" ref="messageBroadcaster"/>  
+        <property name="cctsMessageWorkflowCallbackFactory" ref="cctsMessageWorkflowCallbackFactory"/>
+        <property name="configuration" ref="configuration"/>  
+        <property name="xmlTransformer" ref="xmlTransformer"/>  
         <property name="exceptionHelper" ref="exceptionHelper"/>
+        <property name="endPointFactory" ref="endPointFactory"/>
+        <property name="c3prErrorMessages" ref="c3prErrorMessages"/>
     </bean>
 
-    <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
-          autowire="byName" parent="workflowService">
-          <property name="dao" ref="studyDao"/>
+    <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" parent="workflowService">
+        <property name="dao" ref="studyDao"/>
+    	<property name="cctsXmlUtility" ref="studyXmlUtility"/>
+    	<property name="cctsXSLTName" value="ccts-study-transformer.xsl"/>
     </bean>
 
     <bean id="endPointFactory" class="edu.duke.cabig.c3pr.domain.factory.EndPointFactory">
@@ -553,8 +557,7 @@
 
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
           autowire="byName"/>
-    <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl"
-          autowire="byName" parent="workflowService">
+    <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl" parent="workflowService">
         <property name="cctsXSLTName" value="ccts-registration-transformer.xsl"/>
         <property name="cctsXmlUtility" ref="registrationXmlUtility"/>
         <property name="dao" ref="studySubjectDao"/>
@@ -713,10 +716,6 @@
 
     <bean id="studyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="c3pr-study-xml-castorMapping"/>
-    </bean>
-
-    <bean id="cctsStudyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-        <constructor-arg ref="ccts-study-castor-mapping"/>
     </bean>
 
     <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
