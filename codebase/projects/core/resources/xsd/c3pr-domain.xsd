@@ -518,8 +518,8 @@
     <xs:complexContent mixed="false">
       <xs:extension base="StudyOrganizationType">
         <xs:sequence>
-          <xs:element minOccurs="0" maxOccurs="1" name="irbApprovalDate" type="xs:date" />
           <xs:element minOccurs="0" maxOccurs="1" name="siteStudyStatus" type="SiteStudyStatusType" />
+           <xs:element minOccurs="0" maxOccurs="1" name="irbApprovalDate" type="xs:date" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
