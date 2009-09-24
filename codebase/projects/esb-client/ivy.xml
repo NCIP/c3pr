@@ -86,7 +86,7 @@
 		<dependency org="gov.nih.nci.caxchange" name="PAServices-service" rev="1.2" />	
 		
 		<!-- coppa commons jar for PA -->
-		<dependency org="gov.nih.nci.caxchange" name="coppa-commons" rev="1.2.2" />
+		<dependency org="gov.nih.nci.caxchange" name="coppa-commons" rev="1.2.3" />
 		
 		<dependency org="gov.nih.nci.cagrid" name="cagrid-cds-client" rev="1.2" />
 		<dependency org="gov.nih.nci.cagrid" name="cagrid-cds-common" rev="1.2" />
