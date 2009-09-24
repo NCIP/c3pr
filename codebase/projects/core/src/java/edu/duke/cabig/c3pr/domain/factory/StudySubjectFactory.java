@@ -9,15 +9,16 @@ import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
-import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -27,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -96,6 +98,7 @@ public class StudySubjectFactory {
                                 .getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
             }
         }
+        buildAndAddStudySubjectConsentVersions(built, studySite);
         built.setStudySite(studySite);
         built.setParticipant(participant);
         Epoch epoch = buildEpoch(studySite.getStudy().getEpochs(), deserializedStudySubject
@@ -105,6 +108,16 @@ public class StudySubjectFactory {
         built.getScheduledEpochs().add(0, scheduledEpoch);
         fillStudySubjectDetails(built, deserializedStudySubject);
         return built;
+    }
+    
+    public void buildAndAddStudySubjectConsentVersions(StudySubject built,StudySite studySite){
+    	for (Consent consent :studySite.getStudy().getStudyVersion().getConsents()){
+    		StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
+    		studySubjectConsentVersion.setConsent(consent);
+    		built.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
+    		built.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySite.getStudySiteStudyVersion());
+    		studySite.getStudySiteStudyVersion().addStudySubjectStudyVersion(built.getStudySubjectStudyVersion());
+    	}
     }
 
     public StudySubject buildReferencedStudySubject(StudySubject deserializedStudySubject)
