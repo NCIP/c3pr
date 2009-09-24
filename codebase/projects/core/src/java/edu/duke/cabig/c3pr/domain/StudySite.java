@@ -592,9 +592,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         		// last history object should not have end date
         		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.END_DATE_PRESENT.CODE"),new String[] {this.getHealthcareSite().getName() });
         	}else{
-        		 Date currentDate = new Date();
+        		 Date suggestedEndDate = effectiveDate;
                  GregorianCalendar calendar = new GregorianCalendar();
-                 calendar.setTime(currentDate);
+                 calendar.setTime(suggestedEndDate);
                  calendar.add(calendar.DATE, -1);
                  lastSiteStatusHistory.setEndDate(calendar.getTime());
         	}
