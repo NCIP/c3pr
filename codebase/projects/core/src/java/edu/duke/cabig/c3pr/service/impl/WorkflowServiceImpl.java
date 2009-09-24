@@ -119,7 +119,7 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
             catch (XMLUtilityException e) {
                 e.printStackTrace();
                 throw this.exceptionHelper.getException(
-                                getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.XML_ERROR"), e);
+                                getCode("C3PR.EXCEPTION.BROADCAST.XML_ERROR"), e);
             }
             if (log.isDebugEnabled()) {
                 log.debug(" - XML for Registration"); //$NON-NLS-1$
@@ -138,12 +138,12 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
             catch (Exception e) {
                 e.printStackTrace();
                 throw this.exceptionHelper.getException(
-                                getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.SEND_ERROR"), e);
+                                getCode("C3PR.EXCEPTION.BROADCAST.SEND_ERROR"), e);
             }
         }
         else {
             throw this.exceptionHelper
-                            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.DISABLED"));
+                            .getException(getCode("C3PR.EXCEPTION.BROADCAST.DISABLED"));
         }
     }
 
