@@ -78,7 +78,6 @@
 		<dependency org="gov.nih.nci.caxchange" name="CoreServices-stubs" rev="1.2" />
 		<dependency org="gov.nih.nci.caxchange" name="CoreServices-client" rev="1.2" />
 		<dependency org="gov.nih.nci.caxchange"	name="CoreServices-service" rev="1.2" />
-		<dependency org="gov.nih.nci.caxchange"	name="CoreServices-service" rev="1.2" />
 		
 		<!-- jars for PA -->
 		<dependency org="gov.nih.nci.caxchange" name="PAServices-common" rev="1.1" />
