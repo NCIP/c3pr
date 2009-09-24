@@ -36,6 +36,10 @@
                    address_id="1001" retired_indicator="false"/>
     <ORGANIZATIONS id="1002" version="1" name="CALGB" description_text="CALGB" dtype="Local" address_id="1000"
                    retired_indicator="false"/>
+    <ORGANIZATIONS id="1003" version="1" name="WAKE" description_text="WAKE" dtype="Local" address_id="1000"
+                   retired_indicator="false"/>
+    <ORGANIZATIONS id="1004" version="1" name="MAYO" description_text="WAKE" dtype="Local" address_id="1000"
+                   retired_indicator="false"/>
 
 
     <STUDY_ORGANIZATIONS id="1000" version="1"
@@ -94,6 +98,10 @@
     <IDENTIFIERS id="1006" version="1" value="Duke" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="1"/>
 	<IDENTIFIERS id="1007" version="1" value="NCI" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001" primary_indicator="1"/>
 	<IDENTIFIERS id="1008" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002" primary_indicator="1"/>
+	<IDENTIFIERS id="1009" version="1" value="nci1" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1003" dtype="OAI" stu_id="1000"
+                 retired_indicator="false"/>
+    <IDENTIFIERS id="1010" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1004" primary_indicator="1"/>
+    <IDENTIFIERS id="1011" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1004" primary_indicator="1"/>
 
     <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" prt_id="1000" sti_id="1000" retired_indicator="false"/>
     <STUDY_SUBJECTS id="1001" version="1" start_date="2001-01-01" prt_id="1000" sti_id="1001" retired_indicator="false"/>
