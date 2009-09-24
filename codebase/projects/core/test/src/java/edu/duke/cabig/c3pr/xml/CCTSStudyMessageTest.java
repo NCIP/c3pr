@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.xml;
 
+import java.util.List;
+
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
@@ -22,12 +24,24 @@ public class CCTSStudyMessageTest extends MasqueradingDaoTestCase<StudyDao> {
     }
 
     public void testSerialization() throws Exception {
-        for (Study study : getDao().getAll()) {
-            String marshalledStudy = marshaller.toXML(study);
-            assertNotNull(marshalledStudy);
-            System.out.println(marshalledStudy);
-        }
+//    	List<Study> studies = getDao().getAll();
+//    	for (Study study : studies) {
+//    		getDao().initialize(study);
+//    	}
+//    	interruptSession();
+//        for (Study study : studies) {
+//            String marshalledStudy = marshaller.toXML(study);
+//            assertNotNull(marshalledStudy);
+//            System.out.println(marshalledStudy);
+//        }
+        Study study = getDao().getById(1000);
+        getDao().initialize(study);
+        interruptSession();
+        String marshalledStudy = marshaller.toXML(study);
+        assertNotNull(marshalledStudy);
+        System.out.println(marshalledStudy);
     }
+    
 
     /**
      * What dao class is the test trying to Masquerade
