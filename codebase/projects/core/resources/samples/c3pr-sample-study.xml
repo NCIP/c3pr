@@ -157,9 +157,8 @@
 				<type>CTEP</type>
 			</identifier>
 		</healthcareSite>
-		<irbApprovalDate>2009-09-17</irbApprovalDate>
-		<statusChangeDates>PENDING</statusChangeDates>
 		<siteStudyStatus>PENDING</siteStudyStatus>
+		<irbApprovalDate>2009-09-17</irbApprovalDate>
 	</studyOrganization>
 	<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:type="StudySiteType">
@@ -172,9 +171,8 @@
 			</identifier>
 			<externalId>external_id</externalId>
 		</healthcareSite>
-		<irbApprovalDate>2009-09-17</irbApprovalDate>
-		<statusChangeDates>PENDING</statusChangeDates>
 		<siteStudyStatus>PENDING</siteStudyStatus>
+		<irbApprovalDate>2009-09-17</irbApprovalDate>
 	</studyOrganization>
 	<companionStudy>
 		<study>
@@ -343,9 +341,8 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-09-17</irbApprovalDate>
-				<statusChangeDates>PENDING</statusChangeDates>
 				<siteStudyStatus>PENDING</siteStudyStatus>
+				<irbApprovalDate>2009-09-17</irbApprovalDate>
 			</studyOrganization>
 			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				xsi:type="StudySiteType">
@@ -377,9 +374,8 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-09-17</irbApprovalDate>
-				<statusChangeDates>PENDING</statusChangeDates>
 				<siteStudyStatus>PENDING</siteStudyStatus>
+				<irbApprovalDate>2009-09-17</irbApprovalDate>
 			</studyOrganization>
 			<consent>
 				<name>Male</name>
@@ -552,9 +548,8 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-09-17</irbApprovalDate>
-				<statusChangeDates>PENDING</statusChangeDates>
 				<siteStudyStatus>PENDING</siteStudyStatus>
+				<irbApprovalDate>2009-09-17</irbApprovalDate>
 			</studyOrganization>
 			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				xsi:type="StudySiteType">
@@ -586,9 +581,8 @@
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
-				<irbApprovalDate>2009-09-17</irbApprovalDate>
-				<statusChangeDates>PENDING</statusChangeDates>
 				<siteStudyStatus>PENDING</siteStudyStatus>
+				<irbApprovalDate>2009-09-17</irbApprovalDate>
 			</studyOrganization>
 			<consent>
 				<name>Male</name>
