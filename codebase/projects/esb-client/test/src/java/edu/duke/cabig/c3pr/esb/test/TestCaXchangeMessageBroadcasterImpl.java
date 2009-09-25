@@ -490,12 +490,12 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 	/**
 	 * Test broadcast for COppa Message - Get StudyParticipation.
 	 */
-	public void testBroadcastCoppaMessageForGetStudyParticipation(){
+	public void testBroadcastCoppaMessageForGetByIdStudySite(){
 
-		String payloadXml = getPayloadForFile("STUDY_PARTICIPATION_ID.xml");
+		String payloadXml = getPayloadForFile("STUDY_SITE_ID.xml");
 		String serviceResponsePayload = null;
         //build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.get.getName(), "extId", ServiceTypeEnum.STUDY_SITE.getName());
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "extId", ServiceTypeEnum.STUDY_SITE.getName());
         try {
         	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
 		} catch (BroadcastException e) {
