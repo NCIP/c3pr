@@ -7,9 +7,6 @@ import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -17,7 +14,6 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.PersistedStudySubjectCreator;
-import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
 /**
@@ -27,16 +23,6 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
 public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
 
-    private StudySubjectService studySubjectService;
-
-    private StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
-
-    private StudyDao dao;
-
-    private HealthcareSiteDao healthcareSitedao;
-
-    private ParticipantDao participantDao;
-
     private StudySubjectDao studySubjectDao;
 
     private StudySubjectXMLImporterService studySubjectXMLImporterService;
@@ -45,17 +31,10 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
 
     private MessageSource c3prErrorMessages;
 
-    private final String identifierTypeValueStr = "Coordinating Center Identifier";
-
     private PersistedStudySubjectCreator persistedStudySubjectCreator;
 
     protected void setUp() throws Exception {
         super.setUp();
-        healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
-                        .getBean("healthcareSiteDao");
-
-        participantDao = (ParticipantDao) getApplicationContext().getBean("participantDao");
-
         studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
 
         studySubjectXMLImporterService = (StudySubjectXMLImporterService) getApplicationContext()
@@ -63,9 +42,6 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
 
         c3prErrorMessages = (MessageSource) getApplicationContext().getBean("c3prErrorMessages");
 
-        dao = (StudyDao) getApplicationContext().getBean("studyDao");
-        studySubjectService = (StudySubjectService) getApplicationContext().getBean(
-                        "studySubjectService");
         xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean(
                         "c3pr-registration-xml-castor-mapping"));
         persistedStudySubjectCreator = new PersistedStudySubjectCreator(getApplicationContext());
@@ -131,6 +107,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
     public void testImportRegistrationCase1() throws Exception {
         StudySubject studySubject = persistedStudySubjectCreator
                         .getMultiSiteRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
+        interruptSession();
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
                         studySubject.getStudySite().getHealthcareSite());
@@ -145,7 +122,6 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         }
         catch (C3PRCodedException e) {
             e.printStackTrace();
-            interruptSession();
             assertEquals(
                             "Exception Code unmatched",
                             getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.REQUIRED.ARM.NOTFOUND.CODE"),
@@ -154,13 +130,10 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         }
         catch (Exception e) {
             e.printStackTrace();
-            interruptSession();
             fail("Wrong Exception Type.");
             return;
         }
         fail("Should have thrown C3PR Coded Exception.");
-        interruptSession();
-
     }
 
     /*
@@ -274,6 +247,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
     public void testImportRegistrationCase4() throws Exception {
         StudySubject studySubject = persistedStudySubjectCreator
                         .getLocalNonRandomizedTrestmentWithArmStudySubject(false);
+        interruptSession();
         studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
         persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
                         studySubject.getStudySite().getHealthcareSite());
@@ -298,11 +272,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             e.printStackTrace();
             fail("Wrong Exception Type.");
         }
-        finally {
-            interruptSession();
-        }
         fail("Should have thrown C3PR Coded Exception.");
-        interruptSession();
     }
 
     /*
