@@ -26,10 +26,10 @@
 	}
 
 	function addStudySite(){
-		nciCode = $('studysite-hidden').value ;
+		primaryIdentifier = $('studysite-hidden').value ;
 		var alreadyExist = false ;
 		$$('.divisonClass').each(function(element){
-			if(element.id.indexOf(nciCode) !=-1){
+			if(element.id.indexOf(primaryIdentifier) !=-1){
 				alreadyExist = true ;
 			}
 		});
@@ -37,8 +37,7 @@
 			Dialog.alert("Study site already exist", {className: "alphacube", width:240, okLabel: "Done" });
 			return;
 		}
-		// check if this already exists
-		<tags:tabMethod method="addStudySite" divElement="'newStudySite'" formName="'tabMethodForm'"  viewName="/study/asynchronous/add_study_site_section" javaScriptParam="'nciCode='+nciCode" onComplete="refreshStudySiteSection" /> ;
+		<tags:tabMethod method="addStudySite" divElement="'newStudySite'" formName="'tabMethodForm'"  viewName="/study/asynchronous/add_study_site_section" javaScriptParam="'primaryIdentifier='+primaryIdentifier" onComplete="refreshStudySiteSection" /> ;
 	}
 
 	function refreshStudySiteSection(){
@@ -107,6 +106,10 @@
 		}
 		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/updatedStudySiteSection" divElement="'siteSection_'+nciCode" javaScriptParam="submitStr"/>
 		Element.show('sendingMessage-'+nciCode);
+	}
+
+	function selectEffetiveDateForAction(nciCode, action){
+		
 	}
 
 	function changeCompanionStudySiteStatus(nciCode){

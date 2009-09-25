@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -201,6 +202,8 @@ public class StudySitesTab extends StudyTab {
 	@SuppressWarnings("unchecked")
 	public ModelAndView changeStatus(HttpServletRequest request, Object obj,
 			Errors errors) {
+		String effectiveDateStr = request.getParameter("effectiveDate");
+		Date effectiveDate = DateUtil.getUtilDateFromString(effectiveDateStr, "MM/dd/yyyy");
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
 		// updating study with irb approval date, target accrual and activation date.
@@ -243,23 +246,22 @@ public class StudySitesTab extends StudyTab {
 				endPoint = studyRepository.temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
 						nciInstituteCode);
 			}
-			//TODO fix it later
-//			else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
-//				studySite = studyRepository.activateStudySite(studyIdentifiers,
-//							studySite);
-//			} else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL) {
-//				studySite = studyRepository.closeStudySiteToAccrual(studyIdentifiers,
-//							nciInstituteCode);
-//			}else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
-//				studySite = studyRepository.closeStudySiteToAccrualAndTreatment(studyIdentifiers,
-//							nciInstituteCode);
-//			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL) {
-//				studySite = studyRepository.temporarilyCloseStudySiteToAccrual(studyIdentifiers,
-//							nciInstituteCode);
-//			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
-//				studySite = studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(studyIdentifiers,
-//							nciInstituteCode);
-//			}
+			else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
+				studySite = studyRepository.activateStudySite(studyIdentifiers,
+							studySite, effectiveDate);
+			} else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL) {
+				studySite = studyRepository.closeStudySiteToAccrual(studyIdentifiers,
+							nciInstituteCode, effectiveDate);
+			}else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
+				studySite = studyRepository.closeStudySiteToAccrualAndTreatment(studyIdentifiers,
+							nciInstituteCode, effectiveDate);
+			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL) {
+				studySite = studyRepository.temporarilyCloseStudySiteToAccrual(studyIdentifiers,
+							nciInstituteCode, effectiveDate);
+			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT) {
+				studySite = studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(studyIdentifiers,
+							nciInstituteCode, effectiveDate);
+			}
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			map.put("errorMessage", e.getMessage());
@@ -293,10 +295,10 @@ public class StudySitesTab extends StudyTab {
 	public ModelAndView addStudySite(HttpServletRequest request, Object obj,Errors errors) {
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
-		String nciCode = request.getParameter("nciCode");
-		HealthcareSite healthcareSite = (HealthcareSite)healthcareSiteDao.getByPrimaryIdentifier(nciCode);
+		String primaryIdentifier = request.getParameter("primaryIdentifier");
+		HealthcareSite healthcareSite = (HealthcareSite)healthcareSiteDao.getByPrimaryIdentifier(primaryIdentifier);
 		for(StudySite site : study.getStudySites()){
-			if(site.getHealthcareSite().getPrimaryIdentifier().equals(nciCode)){
+			if(site.getHealthcareSite().getPrimaryIdentifier().equals(primaryIdentifier)){
 				return new ModelAndView("study/exist_study_site");
 			}
 		}
@@ -304,13 +306,6 @@ public class StudySitesTab extends StudyTab {
 		studySite.setHealthcareSite(healthcareSite);
 		study.addStudySite(studySite);
 		setCoordinatingCenterStudyStatus(request, study, studySite);
-
-
-		// adding latest active study version to the study site
-		StudyVersion studyVersion = study.getLatestActiveStudyVersion();
-
-
-
 
 		Map map = new HashMap();
 		map.put("site", studySite);
