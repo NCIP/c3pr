@@ -520,24 +520,6 @@ public class OrganizationDaoTest extends DaoTestCase {
     }
 
     /**
-     * Test for clear.
-     *
-     * @throws Exception the exception
-     */
-    public void testForClear() throws Exception{
-    	HealthcareSite organization = healthcareSiteDao.getById(1000);
-    	assertNotNull("organization is null",organization);
-    	assertEquals("Duke Comprehensive Cancer Center",organization.getName());
-    	healthcareSiteDao.clear();
-    	try{
-    	organization.getHealthcareSiteInvestigators().get(0);
-    	fail("Should throw lazy initialization");
-    	}catch(org.hibernate.LazyInitializationException ex){
-
-    	}
-    }
-
-    /**
      * Test get by subname.
      *
      * @throws Exception the exception
