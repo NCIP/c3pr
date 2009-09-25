@@ -157,4 +157,5 @@
     <IDENTIFIERS id="1005" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1006" version="1" value="mrn" type="MRN" dtype="OAI" retired_indicator="false" prt_id="1000"  hcs_id="1003" primary_indicator="1"/>
       
+    <CONTACT_MECHANISMS/>
 </dataset>
