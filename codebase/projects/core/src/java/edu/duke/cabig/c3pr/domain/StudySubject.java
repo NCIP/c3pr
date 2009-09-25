@@ -820,16 +820,27 @@ public class StudySubject extends
 				}
 			}
 		}else if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
-			boolean dataEntryInComplete = true ;
+			boolean consentDataEntryInComplete = true ;
 			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-				if(studySubjectConsentVersion.getConsent() != null && !StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
-					dataEntryInComplete = false ;
+				if(studySubjectConsentVersion.getConsent() != null ){
+					consentDataEntryInComplete = false ;
 					break;
 				}
 			}
-			if(dataEntryInComplete){
-				//TODO : FIXME
-//				return RegistrationDataEntryStatus.INCOMPLETE;
+			if(consentDataEntryInComplete){
+				errors.add(new Error("Informed consent version is missing"));
+			}
+			
+			boolean consentSignedDataEntryInComplete = true ;
+			
+			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+				if(!StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+					consentSignedDataEntryInComplete = false ;
+					break;
+				}
+			}
+			if(consentSignedDataEntryInComplete){
+				errors.add(new Error("Informed consent signed date is missing"));
 			}
 		}
 //
