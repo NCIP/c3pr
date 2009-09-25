@@ -1591,7 +1591,7 @@ public class StudyDaoTest extends DaoTestCase {
         loadedStudy.addIdentifier(sysId);
         dao.save(loadedStudy);
         Study reloadedStudy = dao.getById(1000);
-        assertEquals("Wrong number of identifiers for study",4,reloadedStudy.getIdentifiers().size());
+        assertEquals("Wrong number of identifiers for study",5,reloadedStudy.getIdentifiers().size());
     }
 
     public void testGetStudySubjectsForCompanionStudy() throws Exception {
