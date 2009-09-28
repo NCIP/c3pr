@@ -23,6 +23,12 @@ import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 public class StudyInvestigator extends AbstractMutableDeletableDomainObject implements
                 Comparable<StudyInvestigator> {
 
+	/* Role Code value for PI */
+	public static final String PRINCIPAL_INVESTIGATOR = "Principal Investigator";
+	
+	/* Role Code value for Site Inv */
+	public static final String SITE_INVESTIGATOR = "Site Investigator";
+	
     private HealthcareSiteInvestigator healthcareSiteInvestigator;
 
     private StudyOrganization studyOrganization;
