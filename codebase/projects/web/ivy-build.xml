@@ -19,9 +19,6 @@
 	<property name="webapp.name" value="c3pr"/>
 	<property name="deploy.path" value="${catalina.home}/webapps"/>
 	
-    <property name="war.dir" value="${dist.dir}/war"/>
-    <property name="war.file" value="${application_name}.war"/>
-	
 	<target name="module-specific-flow" description="Copy resources into classpath">
 		<property name="build.context.dir" location="${classes.dir}/context"/>
 		<copy file="${antfiles.dir}/selenium.properties"
@@ -41,10 +38,10 @@
               tofile="${webinf.dir}/log4j.properties"
               overwrite="true"
               filtering="true">
-            <filterset>
+            <!--  <filterset>
                 <filter token="catalina.home" value="${catalina.home.unix}"/>
                 <filter token="log4j.filename" value="${log4j.filename}"/>
-            </filterset>
+            </filterset>-->
         </copy>
 
 		<!--copy the spring app context files-->
@@ -64,8 +61,12 @@
 	<!-- ============================================================== -->
     <!-- Creates the war file                                           -->
     <!-- ============================================================== -->
-    <target name="war" depends="jar" description="Builds the war files">
-        <war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
+    <target name="war" description="Builds the war files">
+    	<delete includeemptydirs="true" dir="${war.dir}"/>
+    	<echo>war directory: ${war.dir}</echo>
+    	<echo>war filename: ${war.filename}</echo>
+    	<mkdir dir="${war.dir}"/>
+        <war destfile="${war.dir}/${war.filename}" webxml="${web.dir}/WEB-INF/web.xml">
             <webinf dir="${web.dir}/WEB-INF">
                 <include name="**/*"/>
                 <exclude name="web.xml"/>
@@ -89,7 +90,7 @@
     </target>
 
     <target name="deploy-war" description="Will deploy a pre-built war file to Tomcat">
-        <copy file="${war.dir}/${war.file}" todir="${deploy.path}"/>
+        <copy file="${war.dir}/${war.filename}" todir="${deploy.path}"/>
     </target>
 
 	<target name="deploy-prebuilt" description="Deploys a prebuild webapp">
