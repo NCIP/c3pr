@@ -39,17 +39,17 @@
               tofile="${classes.dir}/log4j.properties"
               overwrite="true"
               filtering="true">
-            <filterset>
+            <!--<filterset>
                 <filter token="catalina.home" value="${catalina.home.unix}"/>
                 <filter token="log4j.filename" value="${log4j.filename}"/>
-            </filterset>
+            </filterset>-->
         </copy>
 
         <!--copy the castor mapping file-->
         <copy todir="${classes.dir}" filtering="true" overwrite="true">
             <filterset>
-                <filter token="catalina.home" value="${catalina.home.unix}"/>
-                <filter token="user.home" value="${user.home}"/>
+                <!--<filter token="catalina.home" value="${catalina.home.unix}"/>
+                <filter token="user.home" value="${user.home}"/> -->
             </filterset>
             <fileset dir="${main.src.resources}">
                 <include name="**/*.*"/>
