@@ -46,28 +46,6 @@
         <property name="transactionManager" ref="transactionManager"/>
     </bean>
 
-    <!--Properties file for c3pr are expected to be in the
-    following locations (in order of preference)
-    ${CATALINA_HOME/conf/c3pr.properties
-    ${USER_HOME}/.c3pr/c3pr.properties
-
-    if the above two files are not found, then the application bundled properties
-    file is used.
-    -->
-    <!-- <bean id="c3prPropertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="ignoreUnresolvablePlaceholders" value="true"/>
-        <property name="ignoreResourceNotFound" value="true"/>
-        <property name="locations">
-            <list>
-                <value>classpath:context/c3pr.properties</value>
-                <value>file:@user.home@/.c3pr/c3pr.properties</value>
-                <value>file:@catalina.home@/conf/c3pr.properties</value>
-            </list>
-        </property>
-    </bean>-->
-
-
     <bean
             class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
 
