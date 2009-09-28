@@ -33,6 +33,7 @@ public class StudyInvestigator extends AbstractMutableDeletableDomainObject impl
 
     private StudyOrganization studyOrganization;
 
+    /** The role code.  Make this an enum eventually.*/
     private String roleCode;
 
     private InvestigatorStatusCodeEnum statusCode;
