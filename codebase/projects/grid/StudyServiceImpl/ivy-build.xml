@@ -27,10 +27,10 @@
               tofile="${webapp.deploy.dir}/WEB-INF/log4j.properties"
               overwrite="true"
               filtering="true">
-            <filterset>
+            <!--  <filterset>
                 <filter token="catalina.home" value="${catalina.home.unix}"/>
                 <filter token="log4j.filename" value="${log4j.filename}"/>
-            </filterset>
+            </filterset> -->
         </copy>
     </target>
 	
