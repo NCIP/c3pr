@@ -6,6 +6,8 @@
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 	<script type="text/javascript">
 	var nciCode ;
+	var primaryIdentifier;
+	
 	function updateStudy() {
 		$('openSections').value = getOpenSectionsStr();
 	    document.getElementById("studySitesForm").submit();
@@ -91,25 +93,6 @@
 		    		$(hiddenField).value=selectedChoice.ctepCode;
 		    		$('addStudySite').disabled=false ;
 		}
-	}
-
-	function takeAction(nciCode, action){
-		submitStr='action=' + action+'&nciCode='+nciCode+'&DO_NOT_SAVE=true';
-		if($("irbApprovalDate-"+nciCode)){
-			submitStr+='&'+$("irbApprovalDate-"+nciCode).name+'='+$("irbApprovalDate-"+nciCode).value;
-		}
-		if($("startDate-"+nciCode)){
-			submitStr+='&'+$("startDate-"+nciCode).name+'='+$("startDate-"+nciCode).value;
-		}
-		if($("targetAccrual-"+nciCode)){
-			submitStr+='&'+$("targetAccrual-"+nciCode).name+'='+$("targetAccrual-"+nciCode).value;
-		}
-		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/updatedStudySiteSection" divElement="'siteSection_'+nciCode" javaScriptParam="submitStr"/>
-		Element.show('sendingMessage-'+nciCode);
-	}
-
-	function selectEffetiveDateForAction(nciCode, action){
-		
 	}
 
 	function changeCompanionStudySiteStatus(nciCode){

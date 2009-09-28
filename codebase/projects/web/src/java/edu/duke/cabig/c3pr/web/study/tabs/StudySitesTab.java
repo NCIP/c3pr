@@ -10,7 +10,6 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +26,6 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
-import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -209,7 +207,7 @@ public class StudySitesTab extends StudyTab {
 		// updating study with irb approval date, target accrual and activation date.
 		study = studyDao.merge(study);
 		Map map = new HashMap();
-		String nciInstituteCode = request.getParameter("nciCode");
+		String nciInstituteCode = request.getParameter("primaryIdentifier");
 		String studySiteType = request.getParameter("studySiteType");
 		List<Identifier> studyIdentifiers = study.getIdentifiers();
 		StudySite studySite;
@@ -338,6 +336,7 @@ public class StudySitesTab extends StudyTab {
 		String isMultisite = request.getParameter("isMultisite");
 		String action = request.getParameter("action");
 		String errorMessage = request.getParameter("isMultisite");
+		String versionName = request.getParameter("versionName");
 
 		StudySite studySite = study.getStudySite(primaryIdentifier);
 		Date irbApprovalDate = null;
@@ -353,18 +352,8 @@ public class StudySitesTab extends StudyTab {
 	        if (irbApprovalDate.before(calendar.getTime()) || irbApprovalDate.after(currentDate)) {
 	        	request.setAttribute("irbApprovalError", "IRB approval should be between" + allowedOldDate + "and "+ todayDate);
 	        }else{
-	        	StudySiteStudyVersion currentVersion = studySite.getStudySiteStudyVersion();
-	        	if(currentVersion != null && (currentVersion.getEndDate() == null || (currentVersion.getEndDate() != null && irbApprovalDate.before(currentVersion.getEndDate())))){
-	        		currentVersion.setEndDate(CommonUtils.getOldDate(irbApprovalDate, -1));
-	        	}
-
-	        	StudySiteStudyVersion studySiteStudyVersion  = new StudySiteStudyVersion();
-	        	studySiteStudyVersion.setIrbApprovalDate(irbApprovalDate);
-	        	studySiteStudyVersion.setStartDate(irbApprovalDate);
-	        	studySiteStudyVersion.setStudyVersion(wrapper.getStudy().getLatestActiveStudyVersion());
-	    		studySite.addStudySiteStudyVersion(studySiteStudyVersion);
-
-	    		Study modifiedStudy = studyDao.merge(study);
+	        	studySite.applyStudyAmendment(versionName, irbApprovalDate);
+	        	Study modifiedStudy = studyDao.merge(study);
 	    		studySite = modifiedStudy.getStudySite(primaryIdentifier);
 	    		wrapper.setStudy(modifiedStudy);
 	        }
@@ -379,7 +368,6 @@ public class StudySitesTab extends StudyTab {
 		map.put("localNCICode", localNCICode);
 		map.put("action", action);
 		map.put("errorMessage", errorMessage);
-
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 
