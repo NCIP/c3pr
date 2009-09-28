@@ -42,6 +42,12 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	public Date getEndDate() {
 		return endDate;
 	}
+	
+	@Transient
+	public String getEndDateStr() {
+		return CommonUtils.getDateString(endDate);
+	}
+	
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
@@ -84,6 +90,12 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	public Date getStartDate() {
 		return startDate;
 	}
+	
+	@Transient
+	public String getStartDateStr() {
+		return CommonUtils.getDateString(startDate);
+	}
+
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
@@ -130,7 +142,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
     	}
 	}
 	
-	private void validateIRBApprovalDate(){
+	private void validateIRBApprovalDate(Date date){
 		String allowedOldDate = "";
         String todayDate = "";
         
@@ -152,14 +164,14 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
         allowedOldDate = CommonUtils.getDateString(oldestAllowableIRBApprovalDate);
         todayDate = CommonUtils.getDateString(currentDate);
 		
-		if (this.getIrbApprovalDate() == null) {
+		if (date == null) {
             throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.IRB_APPROVAL_DATE.CODE"), new String[] { studySite.getHealthcareSite().getName() });
 	    }
 	    
-	    if (this.getIrbApprovalDate().after(currentDate)) {
+	    if (date.after(currentDate)) {
 	            throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.INVALID.IRB_APPROVAL_DATE.CODE"),new String[] {studySite.getHealthcareSite().getName(),todayDate });
 	    }
-	    if (this.getIrbApprovalDate().before(oldestAllowableIRBApprovalDate)) {
+	    if (date.before(oldestAllowableIRBApprovalDate)) {
 	            throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.EXPIRED.IRB_APPROVAL_DATE.CODE"),new String[] {studySite.getHealthcareSite().getName(),allowedOldDate });
 	    }
 	}
@@ -179,7 +191,14 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	}
 
 	public void apply(Date startDate) {
-		validateIRBApprovalDate();
+		validateIRBApprovalDate(irbApprovalDate);
+		validateStartDate(startDate);
+        this.setStartDate(startDate);
+	}
+	
+	public void apply(Date startDate, Date irbDate) {
+		validateIRBApprovalDate(irbDate);
+		this.setIrbApprovalDate(irbDate);
 		validateStartDate(startDate);
         this.setStartDate(startDate);
 	}
@@ -211,6 +230,5 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
     public int getCode(String errortypeString) {
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
-
 
 }

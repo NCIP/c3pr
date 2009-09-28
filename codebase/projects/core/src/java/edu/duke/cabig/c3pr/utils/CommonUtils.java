@@ -9,6 +9,8 @@ import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
 
+import com.karneim.util.collection.regex.ParseException;
+
 public class CommonUtils {
 
 	public static Boolean isAdmin() {
@@ -28,7 +30,10 @@ public class CommonUtils {
 
     public static String getDateString(Date date){
       if (date != null) {
+    	  	try{
 			return DateUtil.formatDate(date, "MM/dd/yyyy");
+    	  	}catch (ParseException e) {
+			}
 		}
 		return "";
     }

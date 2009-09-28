@@ -1216,6 +1216,13 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		return studyVersions;
 	}
 
+	@Transient
+	public List<StudyVersion> getReverseSortedStudyVersions() {
+		List<StudyVersion> studyVersions = this.getSortedStudyVersions();
+		Collections.reverse(studyVersions);
+		return studyVersions;
+	}
+	
 	public void setTargetAccrualNumber(Integer targetAccrualNumber) {
 		this.targetAccrualNumber = targetAccrualNumber;
 	}

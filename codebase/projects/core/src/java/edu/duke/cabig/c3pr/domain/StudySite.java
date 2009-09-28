@@ -192,7 +192,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     public void applyStudyAmendment(String versionName, Date irbApprovalDate) {
     	StudySiteStudyVersion previousStudySiteStudyVersion = getLatestStudySiteStudyVersion();
     	if(previousStudySiteStudyVersion == null){
-    		//TODO
     		throw new RuntimeException();
     	}
     	StudySiteStudyVersion newStudySiteStudyVersion = new StudySiteStudyVersion();
@@ -202,9 +201,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     	this.addStudySiteStudyVersion(newStudySiteStudyVersion);
     	newStudySiteStudyVersion.apply(irbApprovalDate);
     	
-		if(previousStudySiteStudyVersion.getEndDate() == null  || previousStudySiteStudyVersion.getEndDate().after(getIrbApprovalDate())){
+		if(previousStudySiteStudyVersion.getEndDate() == null  || previousStudySiteStudyVersion.getEndDate().after(irbApprovalDate)){
 			GregorianCalendar cal = new GregorianCalendar();
-			cal.setTime(getIrbApprovalDate());
+			cal.setTime(irbApprovalDate);
 			cal.add(Calendar.DATE, -1);
 			previousStudySiteStudyVersion.setEndDate(cal.getTime());
 		}
@@ -484,10 +483,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 			return;
 		}
 		if(coCenterStudyVersion.getAmendmentType() == AmendmentType.IMMEDIATE_AFTER_GRACE_PERIOD){
-			long daysLeft = (studySiteStudyVersion.getEndDate().getTime() - new Date().getTime()) / (1000*60*60*24);
+//			long daysLeft = (studySiteStudyVersion.getEndDate().getTime() - new Date().getTime()) / (1000*60*60*24);
 			throw getC3PRExceptionHelper().getRuntimeException(
-                    getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.GRACE.CODE"),
-                    new String[] { daysLeft+"" });
+                    getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.GRACE.CODE"));
 		}
 		if(coCenterStudyVersion.getAmendmentType() == AmendmentType.OPTIONAL){
 			throw getC3PRExceptionHelper().getRuntimeException(
@@ -523,7 +521,13 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	public List<StudySiteStudyVersion> getStudySiteStudyVersions() {
 		return studySiteStudyVersions;
 	}
-
+	
+	@Transient
+	public List<StudySiteStudyVersion> getSortedStudySiteStudyVersions() {
+		List<StudySiteStudyVersion> sortedStudySiteStudyVersions = getStudySiteStudyVersions();
+		Collections.sort(getStudySiteStudyVersions());
+		return sortedStudySiteStudyVersions;
+	}
 
 	public void setStudySiteStudyVersions(List<StudySiteStudyVersion> studySiteStudyVersions) {
 		this.studySiteStudyVersions = studySiteStudyVersions;
