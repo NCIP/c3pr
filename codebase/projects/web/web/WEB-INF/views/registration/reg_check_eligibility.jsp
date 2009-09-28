@@ -48,14 +48,32 @@ function navRollOver(obj, state) {
 											<td width="85%">
 												${criteria.questionText}
 											</td>
-											<td width="15%" valign="center">
-												<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
-													<option value="">Please select</option>
-													<form:option value="Yes" />
-													<form:option value="No" />
-													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
-												</form:select>
-											</td>
+											<c:set var="inclusionAnswerSelected" value="false"></c:set>
+											<c:forEach var="eligAnswer" varStatus="eligAnswerStatus" items="${command.studySubject.scheduledEpoch.subjectEligibilityAnswers}">
+												<c:if test="${eligAnswer.eligibilityCriteria.id == criteria.id}">
+													<td width="15%" valign="center">
+														<form:select id="scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText">
+															<option value="">Please select</option>
+															<form:option value="Yes" />
+															<form:option value="No" />
+															<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
+														</form:select>
+													</td>
+													<c:set var="inclusionAnswerSelected" value="true"></c:set>
+												</c:if>
+											</c:forEach>
+											
+											<c:if test="${inclusionAnswerSelected == 'false'}">
+												<td width="15%" valign="center">
+													<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
+														<option value="">Please select</option>
+														<form:option value="Yes" />
+														<form:option value="No" />
+														<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
+													</form:select>
+												</td>
+											</c:if>
+											
 										</tr>
 										<c:set var="index" value="${index+1}"/>
 									</c:forEach>
@@ -86,14 +104,30 @@ function navRollOver(obj, state) {
 											<td width="85%">
 												${criteria.questionText}
 											</td>
-											<td width="15%" valign="center">
-												<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
-													<option value="">Please select</option>
-													<form:option value="Yes" />
-													<form:option value="No" />
-													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
-												</form:select>
-											</td>
+											<c:set var="exclusionAnswerSelected" value="false"></c:set>
+											<c:forEach var="eligAnswer" varStatus="eligAnswerStatus" items="${command.studySubject.scheduledEpoch.subjectEligibilityAnswers}">
+												<c:if test="${eligAnswer.eligibilityCriteria.id == criteria.id}">
+													<td width="15%" valign="center">
+														<form:select id="scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText">
+															<option value="">Please select</option>
+															<form:option value="Yes" />
+															<form:option value="No" />
+															<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
+														</form:select>
+													</td>
+													<c:set var="exclusionAnswerSelected" value="true"></c:set>
+												</c:if>
+											</c:forEach>
+											<c:if test="${exclusionAnswerSelected == 'false'}">
+												<td width="15%" valign="center">
+													<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
+														<option value="">Please select</option>
+														<form:option value="Yes" />
+														<form:option value="No" />
+														<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
+													</form:select>
+												</td>
+											</c:if>
 										</tr>
 										<c:set var="index" value="${index+1}"/>										
 									</c:forEach>
