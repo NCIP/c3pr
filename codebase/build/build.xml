@@ -212,6 +212,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	</target>
 
 	<target name="validate:pre:build">
+		<mkdir dir="${target.dir}/download"/>
 		<validate-pre-build
 			/>
 	</target>
