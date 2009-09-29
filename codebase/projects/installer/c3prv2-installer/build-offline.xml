@@ -39,38 +39,11 @@
                dest="${base.codebase.dir}"
                overwrite="true"/>
     	
-    	<property file="${base.codebase.dir}/antfiles/c3pr-ivy.properties" />
-    	<mkdir dir="${basedir}/ivy2-files"/>
-    	<unzip src="${basedir}/${ivy2.install.artifact}"
-    		    			    	               dest="${basedir}/ivy2-files"
-    		    			    	               overwrite="true"/>
-    	<taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
-    		<classpath>
-    		   	<fileset dir="${basedir}" includes="ant-contrib*.jar"/>
-    		</classpath>
-    	</taskdef>
-    	<if>
-    		<available file="${ivy.jar.file}" />
-    		<then>
-    			<echo message="ivy already present"/>		
-    		</then>
-    		<else>
-    			<echo message="ivy not present. creating ivy home."/>
-    			<mkdir dir="${ivy.jar.dir}"/>
-    			<copy todir="${ivy.jar.dir}">
-    				<fileset dir="${basedir}/ivy2-files/ivy-jars"></fileset>
-    			</copy>
-    		</else>
-    	</if>
-    	<echo message="copying c3pr-cache...."/>
-    	<mkdir dir="${ivy.cache}"/>
-    	<copy todir="${ivy.cache}" overwrite="false">
-    		<fileset dir="${basedir}/ivy2-files/c3pr-cache"></fileset>
-    	</copy>
+    	<property file="${base.codebase.dir}/c3pr-ivy.properties" />
 
         <!--override build.properties with installers-->
         <copy file="${basedir}/ant.install.properties"
-              tofile="${base.codebase.dir}/antfiles/build.properties"
+              tofile="${base.codebase.dir}/build.properties"
                 />
 
     </target>
@@ -113,53 +86,50 @@
 
     <target name="deploy-webapp">
 
-
-        <!--Works for all OS-->
-        <pathconvert targetos="unix" property="tomcat.webapp.dir">
-            <path location="${tomcat.home}/webapps"/>
-        </pathconvert>
-
-        <!-- Refactoring code for ivy migration 
-        -->
-    	<!--<ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
-             inheritall="false" target="deploy-webapp">
-            <property name="deploy.path" value="${tomcat.webapp.dir}"/>
-            <property name="basedir" value="${base.codebase.dir}"/>
-            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
-            <property name="env.CATALINA_HOME" value="${tomcat.home}"/>
-            <property name="offline.installer" value="true"/>
-        </ant>
-		-->
-    	<!--<subant target="deploy-webapp" buildpath="${base.codebase.dir}/antfiles/ivy-master-build.xml"/>-->
-		<!--<subant buildpath="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="deploy-webapp" inheritall="false"/>-->
-		<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="deploy-webapp" inheritall="false">
-			<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
-		</ant>
-
+        <!--copy c3pr.war to $CATALINA_HOME/webapps-->
+        <copy file="${base.codebase.dir}/${war.filename}"
+              todir="${tomcat.home}/webapps" overwrite="true"/>
+        
         <!--copy c3pr.properties to $CATALINA_HOME/conf-->
         <copy file="${basedir}/ant.install.properties"
               tofile="${tomcat.home}/conf/c3pr/c3pr.properties"
                 />
-        <copy file="${basedir}/resources/coppa_person_data.xml"
-              tofile="${tomcat.home}/coppa_person_data.xml"
-                />
-        <copy file="${basedir}/resources/coppa_organization_data.xml"
-              tofile="${tomcat.home}/coppa_organization_data.xml"
-                />
-
     </target>
 
     <!--will only be run if deploy-webapp has been run-->
     <target name="tomcat.security">
-        <!--<ant dir="${c3pr.core.dir}"
-             inheritall="false"
-             target="tomcat.security">
-            <property name="catalina.home" value="${tomcat.home}"/>
-        </ant>-->
-    	<!--<subant target="tomcat.security" buildpath="${c3pr.core.dir}/ivy-build.xml" />-->
-    	<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="tomcat.security">
-    		<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
-    	</ant>
+    	<echo>Configuring CSM and UPT for the Tomcat instance in ${catalina.home}</echo>
+        <property name="tomcat.security.dir" value="${tomcat.home}/conf/cabig"/>
+
+        <!-- default UPT dialect to same as SC's, if not already set -->
+        <property name="datasource.dialect.upt" value="${datasource.dialect}"/>
+        <mkdir dir="${tomcat.security.dir}"/>
+        <copy todir="${tomcat.security.dir}" overwrite="true">
+            <filterset>
+                <filter token="tomcat.security.dir" value="${tomcat.security.dir}"/>
+                <filter token="datasource.username" value="${datasource.username}"/>
+                <filter token="datasource.password" value="${datasource.password}"/>
+                <filter token="datasource.url" value='${datasource.url}'/>
+                <filter token="datasource.driver" value="${datasource.driver}"/>
+                <filter token="datasource.dialect.upt" value="${datasource.dialect}"/>
+                <filter token="csm.context.name" value="${csm.context.name}"/>
+            </filterset>
+            <fileset dir="${base.codebase.dir}">
+                <include name="csm_jaas.config"/>
+            </fileset>
+        </copy>
+
+        <echo taskname="todo">
+            ===== MANUAL STEPS =====
+            ========================
+            The automatic portion of the security setup is complete. If you have not
+            done so already, please perform the following manual actions.
+
+            * In ${catalina.home}/conf/catalina.properties, add two lines:
+            java.security.auth.login.config=${tomcat.security.dir}/csm_jaas.config
+            ========= END ==========
+            ===== MANUAL STEPS =====
+        </echo>
     </target>
     
     <!--will only be run if SQL Server Database-->
