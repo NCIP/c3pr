@@ -26,7 +26,8 @@ This is the install config for c3pr2.5 installer
 
         <hidden property="application_name" value="@application_name@"/>
         <hidden property="iteration_number" value="@iteration_number@"/>
-
+		<hidden property="ctmsi.commons.version" value="@ctmsi.commons.version@"/>
+        <hidden property="rules.repository" value="file://${rules.repository.dir}"/>
     </page>
 
 
@@ -113,26 +114,6 @@ This is the install config for c3pr2.5 installer
                 target="deploy-webapp"
                 defaultValue="true"
                 />
-        <target
-                displayText="C3PR2.5 Source Code"
-                target="deploy-codebase"
-                defaultValue="true"
-                />
-        <comment displayText="Note:Source code will be installed in ${install.dir}/codebase"/>
-
-        <comment displayText=""/>
-        <!--<target
-                displayText="C3PRV2 Study Consumer Grid Service"
-                target="deploy-grid-C3PRStudyConsumer"
-                defaultValue="false"
-                />
-        <target
-                displayText="C3PRV2 Registration Consumer Grid Service"
-                target="deploy-grid-C3PRStudyConsumer"
-                defaultValue="false"
-                />
-        <comment displayText="Globus/caGrid should be deployed prior to deploying the grid services."/>-->
-
     </page>
 
     <page type="text"
@@ -143,25 +124,6 @@ This is the install config for c3pr2.5 installer
         <comment bold="true" displayText="Replace"/>
     </page>
 
-    <page
-            type="input"
-            name="selectLogFilename"
-            displayText="Select Log File name"
-            ifTarget="deploy-webapp">
-        <text
-                property="log4j.filename"
-                displayText="Log Filename"
-                defaultValue="c3pr.log"/>
-
-        <comment/>
-
-        <comment
-                displayText="Note: Logs will be created in ${tomcat.home}/logs"
-                bold="true"/>
-        <hidden property="ctmsi.commons.version" value="@ctmsi.commons.version@"/>
-        <hidden property="rules.repository" value="file://${rules.repository.dir}"/>
-    </page>
-    
     <page
             type="input"
             name="inputTimeOut"
