@@ -27,7 +27,7 @@
             		image = '';
             	}
 
-            	return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+            	return (obj.name+" ("+obj.ctepCode+")" + image)
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
@@ -83,7 +83,7 @@
 
 <div id="main">
 
-    <chrome:search title="Search">
+    <chrome:search title="Search hytuiuy">
 	<tags:instructions code="investigator_search" />
     <form name="searchForm" id="searchForm" method="post">
     	
