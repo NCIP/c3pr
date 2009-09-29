@@ -47,10 +47,6 @@
 
         <!--copy the castor mapping file-->
         <copy todir="${classes.dir}" filtering="true" overwrite="true">
-            <filterset>
-                <!--<filter token="catalina.home" value="${catalina.home.unix}"/>
-                <filter token="user.home" value="${user.home}"/> -->
-            </filterset>
             <fileset dir="${main.src.resources}">
                 <include name="**/*.*"/>
             </fileset>
@@ -262,15 +258,9 @@
                 <filter token="csm.context.name" value="${csm.context.name}"/>
             </filterset>
             <fileset dir="${csm.conf.dir}">
-                <include name="ApplicationSecurityConfig.xml"/>
-                <include name="hibernate.cfg.xml"/>
                 <include name="csm_jaas.config"/>
             </fileset>
         </copy>
-
-        <copy file="${tomcat.security.dir}/hibernate.cfg.xml"
-              tofile="${tomcat.security.dir}/${csm.context.name}.hibernate.cfg.xml"/>
-        <delete file="${tomcat.security.dir}/hibernate.cfg.xml"/>
 
         <echo taskname="todo">
             ===== MANUAL STEPS =====
@@ -279,7 +269,6 @@
             done so already, please perform the following manual actions.
 
             * In ${catalina.home}/conf/catalina.properties, add two lines:
-            gov.nih.nci.security.configFile=${tomcat.security.dir}/ApplicationSecurityConfig.xml
             java.security.auth.login.config=${tomcat.security.dir}/csm_jaas.config
             ========= END ==========
             ===== MANUAL STEPS =====
