@@ -330,8 +330,8 @@
 	<!-- =============================================================== -->
     <!-- create target to create a release of Installer  project          -->
     <!-- =============================================================== -->
-    <target name="prepareInstallerForRelease" depends="clean">
-        <property name="project.archive" value="c3prv2-installpack.zip"/>
+    <target name="prepareInstallerForRelease" >
+        <!--<property name="project.archive" value="c3prv2-installpack.zip"/>
     	<delete dir="${projects.dir}/installer/installpack"/>
         <mkdir dir="${projects.dir}/installer/installpack"/>
         <zip destfile="${projects.dir}/installer/installpack/${project.archive}">
@@ -346,7 +346,18 @@
         <zip destfile="${projects.dir}/installer/installpack/ivy2.zip">
             <zipfileset dir="${ivy.cache}" prefix="${ivy.cache.name}"/>
         	<zipfileset dir="${ivy.jar.dir}" prefix="ivy-jars"/>
-        </zip>
+        </zip>-->
+    	<property name="project.archive" value="c3prv2-installpack.zip"/>
+    	<delete dir="${projects.dir}/installer/installpack"/>
+        <mkdir dir="${projects.dir}/installer/installpack"/>
+    	<zip destfile="${projects.dir}/installer/installpack/${project.archive}">
+    		<fileset file="${projects.dir}/web/build/dist/war/${war.filename}"/>
+    		<fileset dir="${basedir}">
+    			<include name="c3pr-ivy.properties"/>
+    			<include name="build.properties"/>
+    		</fileset>
+    		<fileset file="${projects.dir}/core/conf/csm/csm_jaas.config"/>
+    	</zip>
     </target>
 
 	<!-- ================================= 
