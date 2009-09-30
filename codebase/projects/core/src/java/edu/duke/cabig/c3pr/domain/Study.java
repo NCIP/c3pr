@@ -53,7 +53,6 @@ import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
-// TODO: Auto-generated Javadoc
 /**
  * A systematic evaluation of an observation or an intervention (for example,
  * treatment, drug, device, procedure or system) in one or more subjects.

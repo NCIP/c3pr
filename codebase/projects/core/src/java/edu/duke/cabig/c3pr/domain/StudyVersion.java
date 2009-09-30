@@ -308,6 +308,9 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		if(this.getVersionDate() == null){
 			errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.VERSION_DATE.CODE")).getMessage()));
 		}
+		if(!this.hasConsents()){
+			errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.CONSENTS.CODE")).getMessage()));
+		}
 		if ((!this.hasEnrollingEpoch())) {
 			errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE")).getMessage()));
 		}
@@ -336,8 +339,17 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 
 		return errors.size() == 0 ? StudyDataEntryStatus.COMPLETE : StudyDataEntryStatus.INCOMPLETE;
 	}
+	
+	@Transient
+    private boolean hasConsents() {
+    	if(getConsents().size() == 0){
+    		return false;
+    	}else{
+    		return true;	
+    	}
+	}
 
-    @Transient
+	@Transient
 	public boolean hasRandomizedEpoch() {
 		for (Epoch epoch : this.getEpochs()) {
 			if (epoch.getRandomizedIndicator())
@@ -489,17 +501,11 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         	clone.addCompanionStudyAssociation(cloneAssociation);
         }
 
-//        for(Consent consent : this.getConsents()){
-//        	Consent cloneConsent =  new Consent();
-//        	cloneConsent.setName(consent.getName());
-//        	for(ConsentVersion consentVersion : consent.getConsentVersions()){
-//        		ConsentVersion cloneConsentVersion = new ConsentVersion();
-//        		cloneConsentVersion.setEffectiveDate(consentVersion.getEffectiveDate());
-//        		cloneConsentVersion.setName(consentVersion.getName());
-//        		cloneConsent.addConsentVersion(cloneConsentVersion);
-//        	}
-//        	clone.addConsent(cloneConsent);
-//        }
+        for(Consent consent : this.getConsents()){
+        	Consent cloneConsent =  new Consent();
+        	cloneConsent.setName(consent.getName());
+        	clone.addConsent(cloneConsent);
+        }
 
         for(Epoch epoch : this.getEpochs()){
         	Epoch cloneEpoch = new Epoch();
@@ -557,6 +563,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         		cloneRandomization.setPhoneNumber(phoneCallRandomization.getPhoneNumber());
         		cloneEpoch.setRandomization(cloneRandomization);
         	}
+        	
 //        	if( randomization instanceof BookRandomization){
 //        		BookRandomization bookRandomization = (BookRandomization) randomization ;
 //        		BookRandomization cloneRandomization =  new BookRandomization();
@@ -701,22 +708,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
     	}
    	}
 
-//	@Transient
-//	public ConsentVersion getLatestConsentVersion(){
-//		// this method is applicable only of there is 1 onsent available.
-//		List<Consent> consents = this.getConsents();
-//		if(consents.size() == 1){
-//			Consent consent = consents.get(0);
-//			List<ConsentVersion> consentVersions = consent.getConsentVersions();
-//			Collections.sort(consentVersions);
-//			int size = consentVersions.size();
-//			if(size >0){
-//				return consentVersions.get(size - 1);
-//			}
-//		}
-//		return null;
-//	}
-	
 	public Boolean getOriginalIndicator() {
 		return originalIndicator;
 	}
