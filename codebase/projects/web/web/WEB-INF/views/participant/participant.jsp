@@ -178,7 +178,7 @@ top:83px;
 				</div>
 		</chrome:division>
 		<chrome:division title="Primary Identifier">
-		<tags:errors path="primaryIdentifier"/>
+		<tags:errors path="primaryIdentifierValue"/>
          		<div id="mrnDetails">
 					 <div class="leftpanel">
 	                	 <div class="row">

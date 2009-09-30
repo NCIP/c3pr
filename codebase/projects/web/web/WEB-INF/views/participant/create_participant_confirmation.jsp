@@ -27,7 +27,7 @@ function manageParticipant(){
 				 </div>
 				 <div class="row" >
 				     <div class="label" ><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
-				     <div class="value" >${command.primaryIdentifier}</div>
+				     <div class="value" >${command.primaryIdentifierValue}</div>
 				 </div>
 		<br/>
     </chrome:box>
