@@ -15,6 +15,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -22,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 
 public class StudyValidator implements Validator {
@@ -46,9 +48,31 @@ public class StudyValidator implements Validator {
         validateStudyIdentifiers(target, errors);
         validateStudySites(target, errors);
         validateStudyDesign(target, errors);
+        validateConsents(target, errors);
+        validateStudyVersion(target, errors);
     }
 
-    public void validateStudy(Object target, Errors errors) {
+    public void validateStudyVersion(Object target, Errors errors) {
+    	Study study = (Study) target;
+        List<StudyVersion> allVersions = study.getStudyVersions();
+        Set<StudyVersion> uniqueVersions = new HashSet<StudyVersion>();
+        uniqueVersions.addAll(allVersions);
+        try {
+            if (allVersions.size() > uniqueVersions.size()) {
+                errors.rejectValue("study.studyVersions", new Integer(
+                                getCode("C3PR.STUDY.DUPLICATE.STUDY_VERSION.ERROR")).toString(),
+                                getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY_VERSION.ERROR"),
+                                                null, null));
+            }
+
+        }
+        catch (Exception ex) {
+            log.debug(ex.getMessage());
+        }
+		
+	}
+
+	public void validateStudy(Object target, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "study.longTitleText", "required",
                         "required field");
         ValidationUtils.rejectIfEmpty(errors, "study.coordinatingCenterStudyStatus", "required",
@@ -67,8 +91,6 @@ public class StudyValidator implements Validator {
                 errors
                                 .pushNestedPath("study.organizationAssignedIdentifiers["
                                                 + orgIdentifierIndex + "]");
-                // ValidationUtils.invokeValidator(this.identifierValidator,
-                // allOrganizationAssigedIdentitiers.get(orgIdentifierIndex), errors);
                 errors.popNestedPath();
             }
 
@@ -388,37 +410,20 @@ public class StudyValidator implements Validator {
         return msg;
     }
 
-    public void validateConsentTab(Object target, Errors errors) {
-//        Study study = (Study) target;
-//        List<Consent> consents = study.getConsents();
-//        try {
-//            Set<Consent> uniqueConsents = new HashSet<Consent>();
-//            uniqueConsents.addAll(consents);
-//            if (consents.size() > uniqueConsents.size()) {
-//                errors.rejectValue("study.consents",
-//                			new Integer(getCode("C3PR.STUDY.DUPLICATE.CONSENT.ERROR")).toString(),
-//                                getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.CONSENT.ERROR"), null, null));
-//            }
-//
-//        }
-//        catch (Exception ex) {
-//            log.debug(ex.getMessage());
-//        }
-    }
-
     public void validateConsents(Object target, Errors errors) {
-//        Study study = (Study) target;
-//        List<Consent> consents = study.getConsents();
-//        try {
-//            for (int consentIndex = 0; consentIndex < consents.size(); consentIndex++) {
-//                errors.pushNestedPath("study.consents[" + consentIndex + "]");
-//                ValidationUtils.invokeValidator(this.consentValidator, consents.get(consentIndex), errors);
-//                errors.popNestedPath();
-//            }
-//        }
-//        catch (Exception ex) {
-//            log.debug(ex.getMessage());
-//        }
+    	  Study study = (Study) target;
+          List<Consent> consents = study.getConsents();
+          try {
+              Set<Consent> uniqueConsents = new HashSet<Consent>();
+              uniqueConsents.addAll(consents);
+              if (consents.size() > uniqueConsents.size()) {
+                  errors.rejectValue("study.consents", new Integer(getCode("C3PR.STUDY.DUPLICATE.CONSENT.ERROR")).toString(), getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.CONSENT.ERROR"), null, null));
+              }
+
+          }
+          catch (Exception ex) {
+              log.debug(ex.getMessage());
+          }
     }
 
     private ConsentValidator consentValidator;
