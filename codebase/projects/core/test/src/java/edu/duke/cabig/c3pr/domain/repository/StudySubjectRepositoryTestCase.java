@@ -164,7 +164,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
 			sysIdentifier.setSystemName("C3PR");
 			sysIdentifier.setType("Study Subject Identifier1");
-			sysIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + "_" +studySubject.getParticipant().getPrimaryIdentifier());
+			sysIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + "_" +studySubject.getParticipant().getPrimaryIdentifierValue());
 			studySubject.addIdentifier(sysIdentifier);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());

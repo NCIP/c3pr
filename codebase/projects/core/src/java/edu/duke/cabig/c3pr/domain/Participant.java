@@ -432,15 +432,25 @@ private String administrativeGenderCode;
 	}
 
 	/**
-	 * Gets the primary identifier.
+	 * Gets the primary identifier value.
 	 * 
-	 * @return the primary identifier
+	 * @return the primary identifier value
 	 */
 	@Transient
-	public String getPrimaryIdentifier() {
+	public String getPrimaryIdentifierValue() {
+		return getPrimaryIdentifier()==null ? null : getPrimaryIdentifier().getValue();
+	}
+	
+	/**
+	 * Gets the primary identifier value.
+	 * 
+	 * @return the primary identifier value
+	 */
+	@Transient
+	public Identifier getPrimaryIdentifier() {
 		for (Identifier identifier : getIdentifiers()) {
 			if (identifier.getPrimaryIndicator()) {
-				return identifier.getValue();
+				return identifier;
 			}
 		}
 		return null;

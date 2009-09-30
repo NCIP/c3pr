@@ -173,7 +173,7 @@ public class ParticipantTest extends TestCase{
 		orgIdentifier1.setValue("1232");
 		participant1.addIdentifier(orgIdentifier1);
 		
-		assertEquals("Wrong primary identifier","1232",participant1.getPrimaryIdentifier());
+		assertEquals("Wrong primary identifier","1232",participant1.getPrimaryIdentifierValue());
 	}
 	
 	
