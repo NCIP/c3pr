@@ -106,17 +106,17 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     
     public ModelAndView validateRegistrationDate(HttpServletRequest request, Object command, Errors errors) {
     	Map<String, Object> map = new HashMap<String, Object>();
-    	Date registrationDate = null;
+    	Date consentSignedDate = null;
     	try {
-			registrationDate = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("registrationDate"));
+    		consentSignedDate = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("consentSignedDate"));
 		} catch (ParseException e) {
 			throw new RuntimeException(e);
 		}
 		map.put("cannotEnroll", "false");
 		StudySiteStudyVersion studySiteStudyVersion = ((StudySubjectWrapper)command).getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
-		if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , registrationDate)){
+		if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , consentSignedDate)){
 			map.put("cannotEnroll", "true");
-			StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getStudyVersion(registrationDate);
+			StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getStudyVersion(consentSignedDate);
 			map.put("studyVersion", studyVersion);
 		}else{
 			map.put(AjaxableUtils.getFreeTextModelName(), "");
