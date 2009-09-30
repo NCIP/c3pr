@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.ArmDao;
+import edu.duke.cabig.c3pr.dao.ConsentDao;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
@@ -35,6 +36,7 @@ import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -102,6 +104,12 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     protected ScheduledEpochDao scheduledEpochDao;
 
     protected StudyDao studyDao;
+    
+    protected ConsentDao consentDao;
+
+	public void setConsentDao(ConsentDao consentDao) {
+		this.consentDao = consentDao;
+	}
 
 	protected StudySubjectRepository studySubjectRepository;
 
@@ -199,6 +207,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     	if(merged==null){
     		return null;
     	}
+    	participantDao.initialize(merged.getParticipant());
         studyDao.initialize(merged.getStudySite().getStudy());
         studySiteDao.initialize(merged.getStudySite());
         command.setStudySubject(merged);
@@ -283,6 +292,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         binder.registerCustomEditor(ICD9DiseaseSite.class, new CustomDaoEditor(icd9DiseaseSiteDao));
         binder.registerCustomEditor(Arm.class, new CustomDaoEditor(armDao));
         binder.registerCustomEditor(Epoch.class, new CustomDaoEditor(epochDao));
+        binder.registerCustomEditor(Consent.class, new CustomDaoEditor(consentDao));
         binder.registerCustomEditor(StratificationCriterionPermissibleAnswer.class,
                         new CustomDaoEditor(stratificationAnswerDao));
         Object command = binder.getTarget();
