@@ -60,7 +60,6 @@ public class StudyConsentTab extends StudyTab {
 	 @Override
 	    public void validate(StudyWrapper wrapper, Errors errors) {
 	       super.validate(wrapper, errors);
-	        this.studyValidator.validateConsentTab(wrapper.getStudy(), errors);
 	        this.studyValidator.validateConsents(wrapper.getStudy(), errors);
 	    }
 }
