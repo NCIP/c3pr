@@ -50,7 +50,13 @@ public class StudyAmendmentTab extends StudyTab {
             } else {
                 request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(true));
             }
-
+        	
+        	if (studyParts.contains(StudyPart.CONSENT)) {
+                request.getSession().setAttribute(DISABLE_FORM_CONSENT, new Boolean(false));
+            } else {
+                request.getSession().setAttribute(DISABLE_FORM_CONSENT, new Boolean(true));
+            }
+        	
         	if (studyParts.contains(StudyPart.ELIGIBILITY)) {
                 request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(false));
             } else {
