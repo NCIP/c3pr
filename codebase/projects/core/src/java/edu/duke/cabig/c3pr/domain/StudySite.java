@@ -314,6 +314,10 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     @Transient
     public List<APIName> getPossibleTransitions(){
         List<APIName> possibleActions=new ArrayList<APIName>();
+        SiteStatusHistory siteHistory = getSiteStatusHistory(new Date());
+        if(siteHistory.getEndDate() != null){
+        	return possibleActions;
+        }
         if(this.coordinatingCenterStudyStatus != this.getStudy().getCoordinatingCenterStudyStatus()){
             CoordinatingCenterStudyStatus studyCoordinatingCenterStudyStatus = this.getStudy().getCoordinatingCenterStudyStatus();
             if(studyCoordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.READY_TO_OPEN){
@@ -547,9 +551,11 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		     // 2. If we have active study version available , we are associating that study versin to study site study version otherwise we will associate latest available.
 			StudyVersion studyVersion = study.getLatestActiveStudyVersion();
 			if(studyVersion != null){
-				studySiteStudyVersion.setStudyVersion(studyVersion);
+				studyVersion.addStudySiteStudyVersion(studySiteStudyVersion);
+//				studySiteStudyVersion.setStudyVersion(studyVersion);
 			}else{
-				studySiteStudyVersion.setStudyVersion(study.getStudyVersion());
+				study.getStudyVersion().addStudySiteStudyVersion(studySiteStudyVersion);
+//				studySiteStudyVersion.setStudyVersion(study.getStudyVersion());
 			}
 			//3. initializing startdate of study site study version to 100 years old so that for the first time, it is not invalid
 			Date currentDate = new Date();
@@ -688,6 +694,31 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	public void addSiteStatusHistory(SiteStatusHistory siteStatusHistory) {
 		siteStatusHistory.setStudySite(this);
 		getSiteStatusHistoryInternal().add(siteStatusHistory);
+	}
+	
+	@Transient
+	public SiteStatusHistory getNextPossibleSiteStatusHistory(){
+		SiteStatusHistory siteHistory = getSiteStatusHistory(new Date());
+		if(siteHistory.getEndDate() != null){
+			List<SiteStatusHistory> listSiteStatusHistories = getSiteStatusHistory();
+			Collections.sort(listSiteStatusHistories);
+			int index = listSiteStatusHistories.indexOf(siteHistory);
+			if(listSiteStatusHistories.size() > index){
+				return listSiteStatusHistories.get(index + 1);
+			}
+		}
+		return null;
+	}
+	
+	@Transient
+	public StudySiteStudyVersion getCurrentStudySiteStudyVersion(){
+		Date currentDate = new Date();
+		StudySiteStudyVersion currentSiteStudyVersion= getStudySiteStudyVersion(currentDate);
+		if(currentSiteStudyVersion == null){
+			List<StudySiteStudyVersion> listStudySiteStudyVersion = getSortedStudySiteStudyVersions();
+			return listStudySiteStudyVersion.get(listStudySiteStudyVersion.size() - 1);
+		}
+		return currentSiteStudyVersion;
 	}
 	
 }

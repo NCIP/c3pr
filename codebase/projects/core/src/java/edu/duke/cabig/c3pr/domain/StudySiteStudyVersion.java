@@ -230,5 +230,35 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
     public int getCode(String errortypeString) {
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
+	
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj) return true;
+//        if (obj == null) return false;
+//        if (getClass() != obj.getClass()) return false;
+//        final SiteStatusHistory other = (SiteStatusHistory) obj;
+//        
+//        if (siteStudyStatus == null) {
+//            if (other.siteStudyStatus != null) return false;
+//        }
+//        else if (!siteStudyStatus.equals(other.siteStudyStatus)) return false;
+//        
+//        if (startDate == null) {
+//            if (other.startDate != null) return false;
+//        }
+//        else if (!startDate.equals(other.startDate)) return false;
+//        
+//        if (endDate == null) {
+//            if (other.endDate != null) return false;
+//        }
+//        else if (!endDate.equals(other.endDate)) return false;
+//        
+//        if (studySite == null) {
+//            if (other.studySite != null) return false;
+//        }
+//        else if (!studySite.equals(other.studySite)) return false;
+//        
+//        return true;
+//	}
 
 }

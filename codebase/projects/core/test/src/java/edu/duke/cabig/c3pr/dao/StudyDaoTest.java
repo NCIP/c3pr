@@ -1693,4 +1693,84 @@ public class StudyDaoTest extends DaoTestCase {
             assertEquals("Wrong name", "ShortTitleText", loaded.getShortTitleText());
         }
     }
+    
+    public void testStudyVersionStudySiteStudyVersionAssociationBug(){
+		Study study = studyCreationHelper.createBasicStudy();
+
+		HealthcareSite healthcaresite = new LocalHealthcareSite();
+		Address address = new Address();
+		address.setCity("Reston");
+		address.setCountryCode("USA");
+		address.setPostalCode("20191");
+		address.setStateCode("VA");
+		address.setStreetAddress("12359 Sunrise Valley Dr");
+		healthcaresite.setAddress(address);
+		healthcaresite.setName("duke healthcare");
+		healthcaresite.setDescriptionText("duke healthcare");
+		healthcaresite.setCtepCode("Nci duke");
+		healthcareSitedao.save(healthcaresite);
+
+		HealthcareSite healthcaresite1 = new LocalHealthcareSite();
+		Address address1 = new Address();
+		address1.setCity("Reston");
+		address1.setCountryCode("USA");
+		address1.setPostalCode("20192");
+		address1.setStateCode("VA");
+		address1.setStreetAddress("12359 Sunrise Valley Dr");
+		healthcaresite1.setAddress(address);
+		healthcaresite1.setName("duke healthcare");
+		healthcaresite1.setDescriptionText("duke healthcare1");
+		healthcaresite1.setCtepCode("Nci duke1");
+		healthcareSitedao.save(healthcaresite1);
+
+//		StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters().get(0);
+//		studyCoordinatingCenter.setHealthcareSite(healthcaresite);
+//		study.addStudyOrganization(studyCoordinatingCenter);
+		
+		OrganizationAssignedIdentifier orgId1 = new OrganizationAssignedIdentifier();
+        orgId1.setHealthcareSite(healthcaresite);
+        orgId1.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
+        orgId1.setValue("abc");
+        
+        study.addIdentifier(orgId1);
+
+		StudySite studySite = new StudySite();
+		studySite.setHealthcareSite(healthcaresite1);
+		
+		StudySite studySite1 = new StudySite();
+		studySite1.setHealthcareSite(healthcaresite);
+		
+		study.addStudySite(studySite);
+		study.addStudySite(studySite1);
+
+		dao.save(study);
+		
+		int id = study.getId();
+		
+		study = dao.getById(id);
+		dao.initialize(study);
+		
+		assertEquals(2, study.getStudySites().size());
+		assertEquals(2, study.getStudyVersion().getStudySiteStudyVersions().size());
+		
+		study.removeStudySite(studySite);
+		
+		dao.evict(study);
+		
+		study = dao.getById(id);
+		dao.initialize(study);
+		
+		assertEquals(1, study.getStudySites().size());
+		assertEquals(1, study.getStudyVersion().getStudySiteStudyVersions().size());
+		
+		study.removeStudySite(studySite1);
+
+		dao.evict(study);
+		
+		study = dao.getById(id);
+		dao.initialize(study);
+		
+		assertEquals(0, study.getStudySites().size());
+		assertEquals(0, study.getStudyVersion().getStudySiteStudyVersions().size());
+    }
 }

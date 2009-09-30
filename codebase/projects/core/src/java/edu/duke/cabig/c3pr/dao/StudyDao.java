@@ -581,7 +581,11 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
                                         "select S from Study S, Identifier I where I.id=? and I=any elements(S.identifiers)",
                                         new Object[] {id});
     }
-    
+
+    @Transactional(readOnly = false)
+    public void flush() {
+		getHibernateTemplate().flush();
+	}
     
 //    @SuppressWarnings("unchecked")
 //	public List<StudySubject> getStudySubjectsForCompanionStudy(Integer studyId) {

@@ -274,16 +274,20 @@ public class StudyCreationHelper {
     	return addStudySiteAndEnrollingEpochToBasicStudy(study,"Name");
     }
 
-    public Study addStudySiteAndEnrollingEpochToBasicStudy(Study study, String name) {
-    	EligibilityCriteria criteria = new InclusionEligibilityCriteria();
-        study.addStudySite(new StudySite());
-        Epoch epoch = new Epoch();
-        epoch.setName(name);
-        epoch.addEligibilityCriterion(criteria);
-        epoch.setEnrollmentIndicator(new Boolean(true));
-        study.addEpoch(epoch);
-        return study;
-    }
+	public Study addStudySiteAndEnrollingEpochToBasicStudy(Study study,String name) {
+		EligibilityCriteria criteria = new InclusionEligibilityCriteria();
+		StudySite studySite = new StudySite();
+		HealthcareSite hcs = new LocalHealthcareSite();
+		hcs.setNCICode("NCI_CODE");
+		studySite.setHealthcareSite(hcs);
+		study.addStudySite(studySite);
+		Epoch epoch = new Epoch();
+		epoch.setName(name);
+		epoch.addEligibilityCriterion(criteria);
+		epoch.setEnrollmentIndicator(new Boolean(true));
+		study.addEpoch(epoch);
+		return study;
+	}
 
 
     public Study addStudySiteAndRandomizedTreatmentEpochToBasicStudy(Study study) {
@@ -354,7 +358,7 @@ public class StudyCreationHelper {
         studyCoordinatingCenter.setStudy(study);
     }
 
-	public Study createBasicStudyObject(){
+    public Study createBasicStudyObject(){
  		Study study = new Study(false);
         study.setPrecisText("New study");
         study.setShortTitleText("ShortTitleText");
