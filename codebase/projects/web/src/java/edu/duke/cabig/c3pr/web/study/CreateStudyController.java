@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
@@ -128,12 +127,6 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
         Study study = ((StudyWrapper) command).getStudy();
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-        for (StudySite studySite : study.getStudySites()) {
-        	//TODO fix it later
-//            studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
-        }
         super.postProcessPage(request, command, errors, page);
-
     }
-
 }
