@@ -51,6 +51,7 @@ public class SearchParticipantAjaxFacade {
 
         Row row = model.getRowInstance();
         row.setHighlightRow(Boolean.TRUE);
+        row.setInterceptor("edu.duke.cabig.c3pr.web.ajax.ParticipantRowInterceptor");
         model.addRow(row);
 
         Column name = model.getColumnInstance();
@@ -60,7 +61,7 @@ public class SearchParticipantAjaxFacade {
         
         Column primaryIdentifier = model.getColumnInstance();
         primaryIdentifier.setTitle("Primary identifier");
-        primaryIdentifier.setProperty("primaryIdentifier");
+        primaryIdentifier.setProperty("primaryIdentifierValue");
         model.addColumn(primaryIdentifier);
         
         Column gender = model.getColumnInstance();
@@ -71,7 +72,6 @@ public class SearchParticipantAjaxFacade {
         Column races = model.getColumnInstance();
         races.setTitle("Race(s)");
         races.setProperty("raceCodes");
-        races.setCell((ParticipantLinkDisplayCell.class).getName());
         model.addColumn(races);
         
         Column birthDate = model.getColumnInstance();
