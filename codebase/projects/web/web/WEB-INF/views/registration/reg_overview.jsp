@@ -403,11 +403,11 @@
         </c:if>
         <div class="row">
             <div class="label"><fmt:message key="registration.consentSignedDate"/>:</div>
-            <div class="value">${command.studySubject.informedConsentSignedDateStr }</div>
+            <div class="value">${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr }</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="registration.consentVersion"/>:</div>
-            <div class="value">${command.studySubject.informedConsentVersion}</div>
+            <div class="value">${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
@@ -698,11 +698,11 @@
 			</div>
 			<div class="row">
 				<div class="label"><b><fmt:message key="registration.consentSignedDate"/></b>:</div>
-				<div class="value">${command.studySubject.informedConsentSignedDateStr}</div>
+				<div class="value">${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr}</div>
 			</div>
 			<div class="row">
 				<div class="label"><b><fmt:message key="registration.consentVersion"/></b>:</div>
-				<div class="value">${command.studySubject.informedConsentVersion}</div>
+				<div class="value">${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}</div>
 			</div>
 			<div class="row">
 				<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
@@ -787,7 +787,7 @@
 <div id="confirmation-msg" style="display: none;">
 	<div id="broadcastAction">
 		<c:choose>
-			<c:when test="${empty command.registration.cctsWorkflowStatus}">
+			<c:when test="${empty command.studySubject.cctsWorkflowStatus}">
 				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
 					<strong><fmt:message key="REGISTRATION.BROADCAST.NOT_YET_SENT"/></strong>
 				</div>
@@ -796,7 +796,7 @@
 				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
 				</div>
 			</c:when>
-			<c:when test="${command.registration.cctsWorkflowStatus=='MESSAGE_SEND'}">
+			<c:when test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND'}">
 				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
 					<strong><fmt:message key="REGISTRATION.BROADCAST.SENT_NO_RESPONSE"/></strong>
 				</div>
@@ -805,7 +805,7 @@
 				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
 				</div>
 			</c:when>
-			<c:when test="${command.registration.cctsWorkflowStatus=='MESSAGE_SEND_CONFIRMED'}">
+			<c:when test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND_CONFIRMED'}">
 				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
 					<strong><fmt:message key="REGISTRATION.BROADCAST.SENT_SUCCESSFULLY"/></strong>
 				</div>
@@ -814,7 +814,7 @@
 				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
 				</div>
 			</c:when>
-			<c:when test="${command.registration.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
+			<c:when test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
 				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
 					<strong><fmt:message key="REGISTRATION.BROADCAST.SEND_FAILED"/><fmt:message key="BROADCAST.RESEND"/></strong>
 				</div>

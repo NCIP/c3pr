@@ -1,6 +1,6 @@
 <%@ include file="taglibs.jsp"%>
 <script>
-var transferEpochId = '${command.studySubject.currentScheduledEpoch.epoch.id}' ;
+var transferEpochId = '${command.studySubject.scheduledEpoch.epoch.id}' ;
 var transferToStatus = 'flow' ;
 function manageEpochSelection(element){
 	$$(".epochCheck").each(function(e){
@@ -10,14 +10,14 @@ function manageEpochSelection(element){
 	element.checked=true;
 	transferToStatus = element.id ;
 	transferEpochId=element.value;
-	if(transferEpochId != '${command.studySubject.currentScheduledEpoch.epoch.id}'){
+	if(transferEpochId != '${command.studySubject.scheduledEpoch.epoch.id}'){
 		$$(".transferEpochButton")[0].disabled="";
 	}else{
 		$$(".transferEpochButton")[0].disabled="disabled";
 	}
 }
 function transfer(){
-	if(transferEpochId == '${command.studySubject.currentScheduledEpoch.epoch.id}'){
+	if(transferEpochId == '${command.studySubject.scheduledEpoch.epoch.id}'){
 		alert("Already Registered");
 	}else{
 		registerSubject(transferEpochId, transferToStatus, '${command.studySubject.parentStudySubject}');

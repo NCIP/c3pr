@@ -130,11 +130,11 @@ function createReg(studySite, participant, parentRegistrationId){
 			</div>
 			<div class="row">
 				<div class="label"><b><fmt:message key="registration.consentSignedDate"/></b>:</div>
-				<div class="value">${command.studySubject.informedConsentSignedDateStr}</div>
+				<div class="value">${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr}</div>
 			</div>
 			<div class="row">
 				<div class="label"><b><fmt:message key="registration.consentVersion"/></b>:</div>
-				<div class="value">${command.studySubject.informedConsentVersion}&nbsp;</div>
+				<div class="value">${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}&nbsp;</div>
 			</div>
 			<div class="row">
 				<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
@@ -190,11 +190,11 @@ function createReg(studySite, participant, parentRegistrationId){
 				</div>
 				<div class="row">
 					<div class="label"><b><fmt:message key="registration.consentSignedDate"/></b>:</div>
-					<div class="value">${childStudySubject.informedConsentSignedDateStr}</div>
+					<div class="value">${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr}</div>
 				</div>
 				<div class="row">
 					<div class="label"><b><fmt:message key="registration.consentVersion"/></b>:</div>
-					<div class="value">${childStudySubject.informedConsentVersion}</div>
+					<div class="value">${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}</div>
 				</div>
 				<div class="row">
 					<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>

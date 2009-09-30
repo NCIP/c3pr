@@ -80,7 +80,7 @@ showWindow:function(wUrl, wTitle, wWidth, wHeight){
 },
 
 finishMultiTermsSelection:function() {
-	hideDiseaseIndicator();
+	hideDiseaseIndicator();																																
     var selectedTerm = $('chk');
       if (selectedTerm.checked) {
     	  $('diseaseSite-hidden').value= selectedTerm.value;
@@ -92,12 +92,30 @@ finishMultiTermsSelection:function() {
     $('disease-level3Sites').innerHTML = "";
     $('disease-level4Sites').innerHTML = "";
     $('disease-added-terms').innerHTML = "";
+    var selectedCategories = $$('a.disease-category-selected');
+    selectedCategories.each(function(el) {
+        el.removeClassName("disease-category-selected");
+    });
+
+    var selectedCategories = $$('li.li-category-selected');
+    selectedCategories.each(function(el) {
+        el.removeClassName("li-category-selected");
+    });
     return;
 },
 
 addLevel4Site: function(ulID, termID, termText, title) {
 	$('disease-added-terms').innerHTML = "";
-	$("liTerm" + termID).addClassName("a.term-selected");
+	var selecedSites = $$('a.l3-site-selected');
+	selecedSites.each(function(e1){
+		e1.removeClassName("l3-site-selected");
+	});
+
+	$("subcategoryli_" + termID).addClassName("l3-site-selected");
+
+	//$("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
+	
+//	$("liTerm" + termID).addClassName("term-selected");
     ul = document.getElementById(ulID);
 
     checkbox = document.createElement("input");
@@ -170,7 +188,6 @@ showLevel2DiseaseSitesDetails: function(ulID, ilID, ilText, title){
 
     li = document.createElement("li");
     li.setAttribute("id", "subcategoryli_" + ilID);
-    li.id = "subcategoryli_" + ilID;
     li.appendChild(a);
     ul.appendChild(li);
 
@@ -269,10 +286,11 @@ addLIToUL: function(ulID, ilID, ilText, title) {
     a.title = title;
 
     li = document.createElement("li");
+    li.setAttribute("id", "subcategoryli_" + ilID);
+    
+ //   $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
     li.appendChild(a);
     ul.appendChild(li);
-
-    $("liTerm" + ilID).addClassName("li-subcategory-selected");
 },
 
 showCategoryBox:function(){
@@ -299,8 +317,8 @@ function hideDiseaseIndicator(){
 }
 
 function setVersion(box){
-	cv = document.getElementById('consentVersion');
-	icv = document.getElementById('consentVersionToSet');
+	cv = document.getElementById('consent');
+	icv = document.getElementById('consentToSet');
 	if (box.checked) {
 		icv.value=cv.value;
     }else {
@@ -310,14 +328,15 @@ function setVersion(box){
 
 checkRegistrationDate = function(cal){
 	cal.hide();
-	Element.show('registrationDate-indicator');
+	Element.show('consentSignedDate-indicator');
 	$('updateStudyVersion').value='false';
-	$('registrationDate').value=$('studySubject.startDate').value;
+	$('dontSave').value='false';
+	$('consentSignedDate').value=$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value;
 	<tags:tabMethod method="validateRegistrationDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateDiv'" formName="'studyVersionForm'" onComplete="displayStudyVersionError"/>
 }
 
 displayStudyVersionError = function(){
-	Element.hide('registrationDate-indicator');
+	Element.hide('consentSignedDate-indicator');
 	if($('checkRegistrationDateDiv').innerHTML.replace(/^\s+|\s+$/g,'') != ""){	
 		win = new Window({ width:600, height:200 ,className :"mac_os_x" , 
 				title: "Message" , minimizable:false, maximizable:false ,
@@ -329,14 +348,14 @@ displayStudyVersionError = function(){
 
 function closePopup(){
 	win.close();
-	$('studySubject.startDate').value="";
-	$('studySubject.startDate').focus();
-	ValidationManager.removeError("studySubject.startDate");
+	$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value="";
+	$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').focus();
+	ValidationManager.removeError("studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate");
 }
 
 function changeStudyVersion(){
 	$('updateStudyVersion').value="true";
-	$('registrationDate').value=$('studySubject.startDate').value;
+	$('consentSignedDate').value=$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value;
 	$('studyVersionForm').submit();
 }
 </script>
@@ -370,17 +389,16 @@ function changeStudyVersion(){
 <div id="checkRegistrationDateDiv" style="display: none;">
 </div>
 <form:form id="studyVersionForm">
-	<form:errors path="studySubject.startDate">
+	<form:errors path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate">
 		<div id="checkRegistrationDateDivInline">
 		</div>
 		<script>
-			<tags:tabMethod method="validateRegistrationDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateInline'" javaScriptParam="'registrationDate=${command.studySubject.startDate}'"  formName="'invalidSubmitForm'"/>
+			<tags:tabMethod method="validateRegistrationDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateInline'" javaScriptParam="'consentSignedDate=${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate}'"  formName="'invalidSubmitForm'"/>
 		</script>
 	</form:errors>
-	<input type="hidden" name="_target${tab.number}" id="_target"/>
-	<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
 	<input type="hidden" id="updateStudyVersion" name="updateStudyVersion" value="false"/>
-	<input type="hidden" id="registrationDate" name="registrationDate"/>
+	<input type="hidden" id="consentSignedDate" name="consentSignedDate"/>
+	<input type="hidden" id="dontSave" name="dontSave" value="true"/>
 </form:form>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 <%--<tags:instructions code="enrollment_details" />--%>
@@ -391,10 +409,6 @@ function changeStudyVersion(){
 			<a href="#" id="studySubject.startDate-calbutton">
 			    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 			</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/>
-			<span id="registrationDate-indicator">
-			<img src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator"/>
-			validating registration date...
-			</span>
 			<script type="text/javascript">
 				Calendar.setup(
 		            {
@@ -402,43 +416,47 @@ function changeStudyVersion(){
 		                button      : "studySubject.startDate-calbutton",
 		                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
 		                weekNumbers : false,
-		                onClose     : checkRegistrationDate
 		            }
 		        );
-		        Element.hide('registrationDate-indicator');
 			</script>
 		</div>
 	</div>
 	<c:if test="${fn:length(command.studySubject.studySite.study.consents) == 1}">
-	<input type="hidden" name="studySubject.consentVersion" id="consentVersion" value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.latestConsentVersion.id}"/>
-	<input type="hidden" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consentVersion" id="consentVersionToSet" 
-		value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.latestConsentVersion.id}"/>
+	<input type="hidden" name="studySubject.consentVersion" id="consent" value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
+	<input type="hidden" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent" id="consentToSet" 
+		value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
+		
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value">
-			<input type="text" id="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" class='validate-notEmpty validate-DATE' size="18" 
-				value="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1 ? command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate : ''}"/>
+			<form:input path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
 			<a href="#" id="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton">
 			    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 			</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
+			<span id="consentSignedDate-indicator">
+			<img src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator"/>
+			validating study version ...
+			</span>
 			<script type="text/javascript">
 				Calendar.setup(
 		            {
 		                inputField  : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate",
 		                button      : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton",
 		                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
-		                weekNumbers : false
+		                weekNumbers : false,
+		                onClose     : checkRegistrationDate
 		            }
 		        );
+		        Element.hide('consentSignedDate-indicator');
 			</script>
 			</div>
 	</div>
 	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.latestConsentVersion.name}</em></div>
+		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em></div>
 		<div class="value">
 			<input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);"
 				${(fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1 && 
-								!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consentVersion) ? "checked" : ""}/>
+								!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent) ? "checked" : ""}/>
 			<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
 	</div>
 	</c:if>
@@ -534,19 +552,7 @@ function changeStudyVersion(){
 			<td>${consent.name}
 			</td>
 			<td>
-				<select id ="consentVersions" name="studySubject.studySubjectConsentVersions[${status.index}].consentVersion" onchange="manageConsentVersion(this, ${status.index} );">
-					<option value="">Please select...</option>
-					<c:forEach items="${consent.consentVersionListForRegistration}" var="consentVersion" varStatus="versionStatus">
-						<option value="${consentVersion.id}" ${consentVersion.id==command.studySubject.studySubjectConsentVersions[status.index].consentVersion.id?'selected':'' }
-									<c:if test="${consentVersion.id == consent.latestConsentVersion.id}">class="optionClass"</c:if>>
-								${consentVersion.name}
-								<c:if test="${consentVersion.id == consent.latestConsentVersion.id}"><em>(Latest version)</em></c:if>
-						</option>
-					</c:forEach>
-				</select>
-			</td>
-			<td>
-				<tags:dateInput path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
+				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
 			</td>
 		</tr>
 	</c:forEach>
@@ -659,6 +665,7 @@ function changeStudyVersion(){
     l3.l3-site-selected {
         background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
 		background-repeat:no-repeat;
+		line-height:26px;
     }
 
     li.li-category {
@@ -700,8 +707,8 @@ function changeStudyVersion(){
         cursor:pointer;
     }
     a.term-selected {
-    	background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
-		background-repeat:no-repeat;
+		line-height:26px;
+		background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
     }
 
     a.term-disabled:hover {
@@ -713,7 +720,6 @@ function changeStudyVersion(){
     a.disease-subcategory-selected {
         font-size:9pt;
         cursor:pointer;
-        line-height:26px;
         line-height:26px;
     }
 

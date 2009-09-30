@@ -106,11 +106,6 @@ function redirectToTab(tabNumber){
 					<div class="value">${command.studySubject.studySite.irbApprovalDateStr}
 					</div>
 				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="site.activationDate"/>:</div>
-					<div class="value">${command.studySubject.studySite.startDateStr}
-					</div>
-				</div>
 			</div>
 	</chrome:division>
 	<chrome:division id="Subject Information" title="Subject">
@@ -192,11 +187,11 @@ function redirectToTab(tabNumber){
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="registration.consentSignedDate"/>:</div>
-					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentSignedDateStr}' workflow='registration'/></div>
+					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr}' workflow='registration'/></div>
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="registration.consentVersion"/>:</div>
-					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.informedConsentVersion}' workflow='registration'/></div>
+					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}' workflow='registration'/></div>
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>

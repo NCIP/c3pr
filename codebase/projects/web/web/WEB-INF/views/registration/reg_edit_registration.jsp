@@ -48,7 +48,7 @@ function editRegistration(){
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 		<div class="value">
-			<input type="text" name="studySubject.informedConsentSignedDate" value="${command.studySubject.informedConsentSignedDateStr}" id="consentSignedDate" class="date validate-DATE&&notEmpty" />
+			<input type="text" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" value="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr}" id="consentSignedDate" class="date validate-DATE&&notEmpty" />
             <a href="#" id="consentSignedDate-calbutton">
            	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            	</a>
@@ -126,7 +126,7 @@ function editRegistration(){
 		<div class="label"><fmt:message key="registration.primaryDiseaseSite"/></div>
 		<div class="value">
 			<form:input id="diseaseSite-input" path="studySubject.diseaseHistory.otherPrimaryDiseaseSiteCode" cssClass="autocomplete"/>
-			<form:hidden id="diseaseSite-hidden" path="studySubject.diseaseHistory.anatomicSite"/>
+			<form:hidden id="diseaseSite-hidden" path="studySubject.diseaseHistory.icd9DiseaseSite"/>
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete" style="display: none;"></div>
 			<tags:hoverHint keyProp="studySubject.diseaseSite"/>

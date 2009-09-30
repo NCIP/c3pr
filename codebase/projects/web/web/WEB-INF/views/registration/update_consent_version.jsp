@@ -26,19 +26,6 @@ function updateConsentVersion(id){
 				<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
 		</div>
 	</div>
-	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentVersion"/></div>
-		<div class="value">
-			<select id ="consentVersionOptions" name="studySubject.informedConsentVersion">
-				<option value="${command.studySubject.studySite.study.consentVersion}" ${command.studySubject.studySite.study.consentVersion==command.studySubject.informedConsentVersion?'selected':'' }>${command.studySubject.studySite.study.consentVersion}</option>
-				<c:forEach items="${command.studySubject.studySite.study.studyAmendments}" var="amendment">
-					<c:if test="${!empty amendment.consentVersion && amendment.consentVersion!=''}">
-					<option value="${amendment.consentVersion }" ${amendment.consentVersion==command.studySubject.informedConsentVersion?'selected':'' }>${amendment.consentVersion }</option>
-					</c:if>
-				</c:forEach>
-			</select><em>(<fmt:message key="registration.currentConsentVersionIs"/> ${command.studySubject.studySite.study.latestConsentVersion})</em>
-		</div>
-	</div>
 </chrome:box>
 <div class="flow-buttons">
    	<span class="next">
