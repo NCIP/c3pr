@@ -5,4 +5,3 @@
 new Effect.Highlight($('siteSection_${site.healthcareSite.ctepCode }'), { startcolor: '#ffff99',
 endcolor: '#ffffff' });
 </script>
-<div id="siteSection_${site.healthcareSite.ctepCode }">

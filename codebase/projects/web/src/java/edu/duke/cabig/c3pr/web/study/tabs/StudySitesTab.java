@@ -86,8 +86,9 @@ public class StudySitesTab extends StudyTab {
 	}
 
 	@Override
-	public void postProcessOnValidation(HttpServletRequest request,
-			StudyWrapper wrapper, Errors errors) {
+	public void postProcessOnValidation(HttpServletRequest request,StudyWrapper wrapper, Errors errors) {
+//		Study study = studyDao.getById(wrapper.getStudy().getId());
+//		wrapper.setStudy(study);
 		Study study = wrapper.getStudy();
 		for (StudySite studySite : study.getStudySites()) {
 			setCoordinatingCenterStudyStatus(request, study, studySite);
@@ -102,6 +103,7 @@ public class StudySitesTab extends StudyTab {
 
 	private void setCoordinatingCenterStudyStatus(HttpServletRequest request,
 			Study study, StudySite studySite) {
+		//TODO: Investigate the postProcessOnValidation change for dao.getByID. Make sure it does not impact the hosted mode functionality.
 		if (studySite.getIsCoordinatingCenter() || studySite.getHostedMode()) {
 			studySite.setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
 		} else if (WebUtils.hasSubmitParameter(request, "submitted")
@@ -314,12 +316,18 @@ public class StudySitesTab extends StudyTab {
 	@SuppressWarnings("unchecked")
 	public ModelAndView deleteStudySite(HttpServletRequest request, Object obj,Errors errors) {
 		StudyWrapper wrapper = (StudyWrapper) obj;
-		Study study = wrapper.getStudy();
+		int id = wrapper.getStudy().getId();
+		Study study = studyDao.getById(id);
+		studyDao.initialize(study);
 		String nciCode = request.getParameter("nciCode");
 		StudySite studySite = study.getStudySite(nciCode);
 		study.removeStudySite(studySite);
-		Study modifiedStudy = studyDao.merge(study);
-		wrapper.setStudy(modifiedStudy);
+		studyDao.flush();
+		studyDao.evict(study);
+		study = studyDao.getById(id);
+		studyDao.initialize(study);
+		
+		wrapper.setStudy(study);
 		Map map = new HashMap();
 		map.put("command", wrapper);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);

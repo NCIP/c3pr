@@ -24,7 +24,7 @@
 	}
 
 	function deleteStudySite(nciCode){
-		<tags:tabMethod method="deleteStudySite" divElement="'studySites'" formName="'tabMethodForm'"  viewName="/study/asynchronous/delete_study_site_section" javaScriptParam="'nciCode='+nciCode+'&openSections='+getOpenSectionsStr()" /> ;
+		<tags:tabMethod method="deleteStudySite" divElement="'studySites'" formName="'tabMethodForm'"  viewName="/study/asynchronous/delete_study_site_section" javaScriptParam="'_doNotSave=true&nciCode='+nciCode+'&openSections='+getOpenSectionsStr()" /> ;
 	}
 
 	function addStudySite(){
@@ -43,22 +43,12 @@
 	}
 
 	function refreshStudySiteSection(){
-		if($('startDate-'+nciCode) != null){
 			Element.insert($('studySites'), { bottom: $('newStudySite').innerHTML })
 			$('studysite-hidden').value = '' ;
 			$('studysite-input').value = '' ;
 			$('addStudySite').disabled=true ;
-			inputDateElementLocal1="startDate-"+nciCode;
-			inputDateElementLink1="startDate-"+nciCode+"-calbutton";
-			Calendar.setup(
-			{
-			    inputField  : inputDateElementLocal1,         // ID of the input field
-			    ifFormat    : "%m/%d/%Y",    // the date format
-			    button      : inputDateElementLink1       // ID of the button
-			}
-			);
-			inputDateElementLocal="irbApprovalDate-"+nciCode;
-	       	inputDateElementLink="irbApprovalDate-"+nciCode+"-calbutton";
+			inputDateElementLocal="irbApprovalDate-"+primaryIdentifier;
+	       	inputDateElementLink="irbApprovalDate-"+primaryIdentifier+"-calbutton";
 	       	Calendar.setup(
 	       	{
 	       	    inputField  : inputDateElementLocal,         // ID of the input field
@@ -67,9 +57,7 @@
 	       	}
 	       	);
 	       	$('siteIndicator').hide();
-	       	$('divison-'+nciCode).scrollIntoView();
-
-		}
+	       	$('divison-'+primaryIdentifier).scrollIntoView();
 	}
 
 	var multisiteStudySiteAutocompleterProps = {
@@ -138,9 +126,7 @@
 		$("_doNotSave").name="_doNotSave";
 	}
 
-	function applyAmendment(siteID, index, localNCICode, isMultisite, action, errorMessage ){
-		<tags:tabMethod method="applyAmendment" divElement="'appliedAmendmentDiv-'+siteID" formName="'tabMethodForm'"  viewName="/study/asynchronous/applyAmendmentOnSite" javaScriptParam="'irbApprovalDate='+$('irbApprovalDate1-'+siteID).value+'&sitePrimaryId='+siteID+'&index='+index+'&localNCICode='+localNCICode+'&isMultisite='+isMultisite+'&action='+action+'&errorMessage='+errorMessage"/>
-	}
+	
 	</script>
 </head>
 <body>
@@ -173,5 +159,5 @@
 				<tags:button color="green" value="Save" icon="save" id="save" type="button" onclick="updateStudy();"></tags:button>
 			</span>
 		</div>
-</body>
+	</body>
 </html>

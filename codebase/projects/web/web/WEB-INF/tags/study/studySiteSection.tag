@@ -20,32 +20,20 @@
 <c:set var="isSiteLocal" value="${localNCICode==site.healthcareSite.ctepCode}"></c:set>
 <c:set var="isSiteManageable" value="${site.hostedMode || isLocalSiteCoordinating || isSiteLocal}"/>
 <c:set var="showActionButtons" value="${empty isNewStudySite || !isNewStudySite}"/>
-<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.ctepCode}" onclick="deleteStudySite('${site.healthcareSite.ctepCode}');" title="(${site.healthcareSite.ctepCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.ctepCode}" id="divison-${site.healthcareSite.ctepCode}" cssClass="divisonClass">
 <script >
-function applyLatestAmendment(primaryIdentifier){
-	var arr= $$("#IRBApproval-"+primaryIdentifier);
-	win = new Window({className :"mac_os_x", title: "Apply Latest Amendment",
-							hideEffect:Element.hide,
-							zIndex:100, width:450, height:100 , minimizable:false, maximizable:false,
-							showEffect:Element.show
-							})
-	win.setContent(arr[0]) ;
-	win.showCenter(true);
-}
-
 function showSiteStatusHistory(primaryIdentifier){
 	var id = 'site_status_history-'+primaryIdentifier
 	Dialog.alert($(id).innerHTML, {className: "alphacube", width:600, okLabel: "Close"});
 }
 
-function applyAmendment(siteID, versionIndex,  index, localNCICode, isMultisite, action, errorMessage , versionName){
-	<tags:tabMethod method="applyAmendment" divElement="'appliedAmendmentDiv-'+siteID" formName="'tabMethodForm'"  viewName="/study/asynchronous/applyAmendmentOnSite" javaScriptParam="'irbApprovalDate='+$('irbApproval-'+siteID+'-'+versionIndex).value+'&sitePrimaryId='+siteID+'&index='+index+'&localNCICode='+localNCICode+'&isMultisite='+isMultisite+'&action='+action+'&errorMessage='+errorMessage+'&versionName='+versionName"/>
+function applyAmendment(siteID, versionIndex,  index, primaryIdentifier, isMultisite, action, errorMessage , versionName){
+	<tags:tabMethod method="applyAmendment" divElement="'siteSection_'+primaryIdentifier" formName="'tabMethodForm'"  viewName="/study/asynchronous/updatedStudySiteSection" javaScriptParam="'irbApprovalDate='+$('irbApproval-'+siteID+'-'+versionIndex).value+'&sitePrimaryId='+siteID+'&index='+index+'&localNCICode='+primaryIdentifier+'&isMultisite='+isMultisite+'&action='+action+'&errorMessage='+errorMessage+'&versionName='+versionName"/>
 }
 
 function chooseEffectiveDate(primaryIdentifier, action){
 	var arr= $$("#effectiveDate-"+primaryIdentifier);
 	$('_actionToTake').value = action ;
-	win = new Window({className :"mac_os_x", title: "Choose Effet	ive Date",
+	win = new Window({className :"mac_os_x", title: "Choose Effective Date",
 							hideEffect:Element.hide,
 							zIndex:100, width:450, height:100 , minimizable:false, maximizable:false,
 							showEffect:Element.show
@@ -69,6 +57,7 @@ function takeAction(primaryIdentifier){
 	closePopup();
 }
 </script>
+<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.ctepCode}" onclick="deleteStudySite('${site.healthcareSite.ctepCode}');" title="(${site.healthcareSite.ctepCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.ctepCode}" id="divison-${site.healthcareSite.ctepCode}" cssClass="divisonClass">
 <div id="site-${site.healthcareSite.ctepCode}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
 		<c:set var="message-color" value="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}+'.COLOR'" />
@@ -76,14 +65,13 @@ function takeAction(primaryIdentifier){
 			<div id="flash-message" class="${message-color}">
 				<img src="<tags:imageUrl name='error-${message-color}.png'/>" style="vertical-align:bottom;">&nbsp;
 				<fmt:message key="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}" />
-				Please <a href="#" onclick="javascript:applyLatestAmendment('${site.healthcareSite.primaryIdentifier}');">click here</a> to apply new amendment.
 			</div>
 		</c:if>
 		<div class="leftpanel">
 			<div class="row">
 				<div class="label"><fmt:message key="site.studyVersion" /></div>
 				<div class="value">
-					${site.studySiteStudyVersion.studyVersion.name}
+					${site.currentStudySiteStudyVersion.studyVersion.name}
 				</div>
 			</div>
 			<div class="row">
@@ -107,13 +95,13 @@ function takeAction(primaryIdentifier){
 					<c:choose>
 						<c:when test="${isSiteManageable}">
 							<input type="text" name="study.studySites[${index}].irbApprovalDate" id="irbApprovalDate-${site.healthcareSite.ctepCode}"
-							class="date validate-DATE" value="${site.irbApprovalDateStr}"/>
+							class="date validate-DATE" value="${site.currentStudySiteStudyVersion.irbApprovalDateStr}"/>
 			            	<a href="#" id="irbApprovalDate-${site.healthcareSite.ctepCode}-calbutton">
 			           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
 			           		</a>
 						</c:when>
 						<c:otherwise>
-							${empty site.irbApprovalDateStr?'NA':site.irbApprovalDateStr }
+							${empty site.currentStudySiteStudyVersion.irbApprovalDateStr?'NA':site.currentStudySiteStudyVersion.irbApprovalDateStr }
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -140,6 +128,11 @@ function takeAction(primaryIdentifier){
 				<div class="label"><fmt:message key="c3pr.common.status" /></div>
 				<div class="value">${site.siteStudyStatus.code}&nbsp;&nbsp;<a href="#" onclick="showSiteStatusHistory('${site.healthcareSite.primaryIdentifier}');">Status history</a></div>
 			</div>
+			<c:if test="${site.nextPossibleSiteStatusHistory != null}">
+			<div class="row">
+				<div class="green">Study site status will change to ${site.nextPossibleSiteStatusHistory.siteStudyStatus.displayName} on  ${site.nextPossibleSiteStatusHistory.startDateStr}</div>
+			</div>
+			</c:if>
 		</div>
 	</div>
 	<c:if test="${showActionButtons && fn:length(site.possibleTransitions)>0 && isSiteManageable}">
@@ -202,7 +195,7 @@ function takeAction(primaryIdentifier){
 	</div>
 	</c:if>
 	<br>
-	<div id="site__study_version-${site.healthcareSite.primaryIdentifier}">
+	<div id="site_study_version-${site.healthcareSite.primaryIdentifier}">
 	<div>
 		<table id="siteStudyVersionsTable-${site.healthcareSite.primaryIdentifier}" class="tablecontent" border="0" cellspacing="0" cellpadding="0" width="100%">
 	        <tr>
@@ -219,57 +212,44 @@ function takeAction(primaryIdentifier){
 	        <c:forEach items="${site.study.reverseSortedStudyVersions}" var="sortedStudyVersion" varStatus="status">
 	        <tr>
 	            <td>${sortedStudyVersion.name }</td>
-	            <c:choose>
-	            <c:when test="${fn:length(sortedStudyVersion.studySiteStudyVersions) != 0}">
-	            	<c:forEach items="${sortedStudyVersion.studySiteStudyVersions}" var="studySiteStudyVersion">
-		            <c:choose>
-			            <c:when test="${studySiteStudyVersion.studyVersion.name == sortedStudyVersion.name}">
-			            	<td>${studySiteStudyVersion.startDateStr }</td>
-				            <td>${studySiteStudyVersion.endDateStr }</td>
-				            <td>${studySiteStudyVersion.irbApprovalDateStr }</td>
-				            <td></td>
-			            </c:when>
-			            <c:otherwise>
-			                <td></td>
-				            <td></td>
-				            <td></td>
-				            <td>
-				            	<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.ctepCode}-${status.index}" onclick="applyAmendment('${site.healthcareSite.ctepCode}', '${index}', '${localNCICode}', '${isMultisite}', '${action}', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
-				            </td>
-			            </c:otherwise>
-		            </c:choose>
+            	<c:forEach items="${sortedStudyVersion.studySiteStudyVersions}" var="studySiteStudyVersion">
+		            <c:if test="${studySiteStudyVersion.studySite.id == site.id}">
+		            	<td>${studySiteStudyVersion.startDateStr }</td>
+			            <td>${studySiteStudyVersion.endDateStr }</td>
+			            <td>${studySiteStudyVersion.irbApprovalDateStr }</td>
+			            <td></td>
+			            <c:set var="studySiteStudyVersionPresent" value="true"></c:set>
+		            </c:if>
 	            </c:forEach>
-	            </c:when>
-	            <c:otherwise>
-            	  	<td></td>
-		            <td></td>
-		            <td>
-		            	<input type="text" name="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}" id="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}"/>
-			           	<a href="#" id="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}-calbutton">
-			      	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
-			        	</a>
-			        	<script type="text/javascript">
-							Calendar.setup(
-					            {
-					                inputField  : "irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}",
-					                button      : "irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}-calbutton",
-					                ifFormat    : "%m/%d/%Y", 
-					                weekNumbers : false
-					            }
-					        );
-						</script>
-		            </td>
-		            <td>
-		            	<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.ctepCode}-${status.index}" onclick="applyAmendment('${site.healthcareSite.ctepCode}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', '${action}', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
-		            </td>
-	            </c:otherwise>
-	            </c:choose>
-	            
+	            <c:if test="${studySiteStudyVersionPresent != true}">
+            	<td></td>
+	            <td></td>
+	            <td>
+	            	<input type="text" name="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}" id="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}"/>
+		           	<a href="#" id="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}-calbutton">
+		      	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+		        	</a>
+		        	<script type="text/javascript">
+						Calendar.setup(
+				            {
+				                inputField  : "irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}",
+				                button      : "irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}-calbutton",
+				                ifFormat    : "%m/%d/%Y", 
+				                weekNumbers : false
+				            }
+				        );
+					</script>
+	            </td>
+	            <td>
+	            	<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.ctepCode}-${status.index}" onclick="applyAmendment('${site.healthcareSite.ctepCode}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', '${action}', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
+	            </td>
+	            </c:if>
 	        </tr>
 	        </c:forEach>
 	    </table>
 	   <div>
 	</div>
+</div>
 </div>
 <div id="site_status_history-${site.healthcareSite.primaryIdentifier}" style="display:none">
 <div>
@@ -289,9 +269,11 @@ function takeAction(primaryIdentifier){
             <td>${siteStatusHistory.endDateStr }</td>
         </tr>
         </c:forEach>
+        
     </table>
-   <div>
-</div>
+    </div>
+    </div>
+    </div>
 </chrome:deletableDivision>
 <div style="display:none">
 <input type="hidden" name="_actionToTake" id="_actionToTake"/>
@@ -329,5 +311,4 @@ function takeAction(primaryIdentifier){
 </div>
 <div id="appliedAmendmentDiv-${site.healthcareSite.primaryIdentifier}" style="display: none;"></div>
 <div id="irbError-${site.healthcareSite.primaryIdentifier}"></div>
-</div>
 </div>
