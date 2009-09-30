@@ -304,9 +304,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		
 		this.saveStratumGroup(studySubject);
 		this.updateEpoch(studySubject);
-		studySubjectDao.save(studySubject);
-		studySubject = studySubjectDao.getById(studySubject.getId());
-		studySubjectDao.initialize(studySubject);
+		studySubject = studySubjectDao.merge(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
 		broadcastMessage(studySubject);
