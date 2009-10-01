@@ -58,7 +58,7 @@
 						<td>${participant.lastName},${participant.firstName}</td>
 						</c:otherwise>
 						</c:choose>
-						<td>${participant.primaryIdentifier}</a></td>
+						<td>${participant.primaryIdentifierValue}</a></td>
 						<td>${participant.administrativeGenderCode}</td>
 						<td>
 							<c:forEach items="${participant.raceCodes}" var="raceCode">
