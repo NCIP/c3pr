@@ -891,8 +891,8 @@ public class StudyTestCase extends AbstractTestCase {
 	public void testEvaluateCoordinatingCenterStudyStatus1() {
 		basicStudy.setStratificationIndicator(false);
 		basicStudy.setRandomizedIndicator(false);
-		studyCreationHelper
-				.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+		studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+		studyCreationHelper.addConsent(basicStudy, "consent 1");
 		CoordinatingCenterStudyStatus status = null;
 		try {
 			status = basicStudy.evaluateCoordinatingCenterStudyStatus();
@@ -915,6 +915,7 @@ public class StudyTestCase extends AbstractTestCase {
 		basicStudy.setRandomizedIndicator(false);
 		studyCreationHelper
 				.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+		studyCreationHelper.addConsent(basicStudy, "consent 1");
 		CoordinatingCenterStudyStatus status = null;
 		try {
 			status = basicStudy.evaluateCoordinatingCenterStudyStatus();
@@ -945,6 +946,7 @@ public class StudyTestCase extends AbstractTestCase {
 		basicStudy.setRandomizedIndicator(false);
 		studyCreationHelper
 				.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+		studyCreationHelper.addConsent(basicStudy, "consent 1");
 		CoordinatingCenterStudyStatus status = null;
 		try {
 			status = basicStudy.evaluateCoordinatingCenterStudyStatus();
@@ -967,6 +969,7 @@ public class StudyTestCase extends AbstractTestCase {
 		basicStudy.setRandomizedIndicator(false);
 		studyCreationHelper
 				.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+		studyCreationHelper.addConsent(basicStudy, "consent 1");
 		CoordinatingCenterStudyStatus status = null;
 		try {
 			status = basicStudy.evaluateCoordinatingCenterStudyStatus();
@@ -989,6 +992,7 @@ public class StudyTestCase extends AbstractTestCase {
 		basicStudy.setRandomizedIndicator(false);
 		studyCreationHelper
 				.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
+		studyCreationHelper.addConsent(basicStudy, "consent 1");
 		CoordinatingCenterStudyStatus status = null;
 		try {
 			status = basicStudy.evaluateCoordinatingCenterStudyStatus();
