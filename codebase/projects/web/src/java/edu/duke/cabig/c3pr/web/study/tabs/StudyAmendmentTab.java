@@ -43,7 +43,7 @@ public class StudyAmendmentTab extends StudyTab {
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
     	StudyVersion sAmendment = (StudyVersion) wrapper.getStudy().getCurrentStudyAmendment();
-        if (sAmendment != null) {
+        if (sAmendment != null && sAmendment.getAmendmentReasons() != null) {
         	List<StudyPart> studyParts = sAmendment.getAmendmentReasons();
         	if (studyParts.contains(StudyPart.DESIGN)) {
                 request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
