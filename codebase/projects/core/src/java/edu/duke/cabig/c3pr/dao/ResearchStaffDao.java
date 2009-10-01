@@ -599,6 +599,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		csmUser.setLastName(c3prUser.getLastName());
 		csmUser.setPassword(c3prUser.getLastName());
 		csmUser.setEmailId(c3prUser.getEmail());
+		csmUser.setLoginName(c3prUser.getEmail().toLowerCase());
 
 //		for (ContactMechanism cm : c3prUser.getContactMechanisms()) {
 //			if (cm.getType().equals(ContactMechanismType.EMAIL)) {
