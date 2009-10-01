@@ -316,9 +316,11 @@ function hideDiseaseIndicator(){
 	$('diseaseIndicator').hide();
 }
 
-function setVersion(box){
-	cv = document.getElementById('consent');
-	icv = document.getElementById('consentToSet');
+function setVersion(box,index){
+	cv = document.getElementById('consent'-index);
+	alert(cv.value);
+	icv = document.getElementById('consentToSet'-index);
+	alert(icv.value);
 	if (box.checked) {
 		icv.value=cv.value;
     }else {
@@ -422,43 +424,43 @@ function changeStudyVersion(){
 		</div>
 	</div>
 	<c:if test="${fn:length(command.studySubject.studySite.study.consents) == 1}">
-	<input type="hidden" name="studySubject.consentVersion" id="consent" value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
-	<input type="hidden" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent" id="consentToSet" 
-		value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
-		
-	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
-		<div class="value">
-			<form:input path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
-			<a href="#" id="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton">
-			    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-			</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
-			<span id="consentSignedDate-indicator">
-			<img src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator"/>
-			validating study version ...
-			</span>
-			<script type="text/javascript">
-				Calendar.setup(
-		            {
-		                inputField  : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate",
-		                button      : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton",
-		                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
-		                weekNumbers : false,
-		                onClose     : checkRegistrationDate
-		            }
-		        );
-		        Element.hide('consentSignedDate-indicator');
-			</script>
-			</div>
-	</div>
-	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em></div>
-		<div class="value">
-			<input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this);"
-				${(fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1 && 
-								!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent) ? "checked" : ""}/>
-			<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
-	</div>
+		<input type="hidden" name="studySubject.consentVersion" id="consent" value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
+		<input type="hidden" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent" id="consentToSet" 
+			value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
+			
+		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
+			<div class="value">
+				<form:input path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
+				<a href="#" id="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton">
+				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
+				</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
+				<span id="consentSignedDate-indicator">
+				<img src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator"/>
+				validating study version ...
+				</span>
+				<script type="text/javascript">
+					Calendar.setup(
+			            {
+			                inputField  : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate",
+			                button      : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton",
+			                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
+			                weekNumbers : false,
+			                onClose     : checkRegistrationDate
+			            }
+			        );
+			        Element.hide('consentSignedDate-indicator');
+				</script>
+				</div>
+		</div>
+		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em></div>
+			<div class="value">
+				<input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this,0);"
+					${(fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1 && 
+									!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent) ? "checked" : ""}/>
+				<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
+		</div>
 	</c:if>
 	<div class="row">
 		<div class="label"><c:if test="${hasInv}"><tags:requiredIndicator /></c:if><fmt:message key="registration.enrollingPhysician"/></div>
@@ -530,6 +532,48 @@ function changeStudyVersion(){
 	</div>
 <!-- MAIN BODY ENDS HERE -->
 <!--  CONSENT DIV BEGINS -->
+
+<c:if test="${fn:length(command.studySubject.studySite.study.consents) == 1}">
+		<input type="hidden" name="studySubject.consentVersion" id="consent-0" value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
+		<input type="hidden" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent" id="consentToSet-0" 
+			value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
+			
+		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
+			<div class="value">
+				<form:input path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
+				<a href="#" id="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton">
+				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
+				</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
+				<span id="consentSignedDate-indicator">
+				<img src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator"/>
+				validating study version ...
+				</span>
+				<script type="text/javascript">
+					Calendar.setup(
+			            {
+			                inputField  : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate",
+			                button      : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton",
+			                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
+			                weekNumbers : false,
+			                onClose     : checkRegistrationDate
+			            }
+			        );
+			        Element.hide('consentSignedDate-indicator');
+				</script>
+				</div>
+		</div>
+		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em></div>
+			<div class="value">
+				<input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this,${status.index});"
+					${(fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1 && 
+									!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent) ? "checked" : ""}/>
+				<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
+		</div>
+	</c:if>
+
+
 <c:if test="${fn:length(command.studySubject.studySite.study.consents) > 1}">
 <chrome:division title="Consents (${selectionHelp})">
 	<table class="tablecontent">
@@ -543,19 +587,33 @@ function changeStudyVersion(){
           	<tags:hoverHint keyProp="study.consent.consentVersion.name" />
           </th>
           <th>
+          	<tags:requiredIndicator />
+          	<fmt:message key="registration.currentConsentVersionIs"/>
+          </th>
+          <th>
           	<fmt:message key="registration.consentSignedDate"/>
           	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
           </th>
 		</tr>
 		<c:forEach items="${command.studySubject.studySite.study.consents}" var="consent" varStatus="status">
-		<tr>
-			<td>${consent.name}
-			</td>
-			<td>
-				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
-			</td>
-		</tr>
-	</c:forEach>
+		
+			<input type="hidden" name="studySubject.consentVersion" id="consent-${status.index }" value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
+			<input type="hidden" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index }].consent" id="consentToSet-${status.index }" 
+			value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
+			<tr>
+				<td>
+					${consent.name}
+				</td>
+				<td>
+					<input type="checkbox" name="studySubject.currentVersionIndicator-${status.index }" value="true" onclick="setVersion(this,0);"
+						${!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].consent ? "checked" : ""}/>
+					<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
+				</td>
+				<td>
+					<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
+				</td>
+			</tr>
+		</c:forEach>
 	</table>
 </chrome:division>
 </c:if>

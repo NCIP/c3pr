@@ -128,14 +128,12 @@ function createReg(studySite, participant, parentRegistrationId){
 				<div class="label"><b><fmt:message key="registration.startDate"/></b>:</div>
 				<div class="value">${command.studySubject.startDateStr}</div>
 			</div>
-			<div class="row">
-				<div class="label"><b><fmt:message key="registration.consentSignedDate"/></b>:</div>
-				<div class="value">${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr}</div>
-			</div>
-			<div class="row">
-				<div class="label"><b><fmt:message key="registration.consentVersion"/></b>:</div>
-				<div class="value">${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}&nbsp;</div>
-			</div>
+			<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+				<div class="row">
+					<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
+					<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</div>
+				</div>
+			</c:forEach>
 			<div class="row">
 				<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
 				<c:choose>
@@ -188,10 +186,13 @@ function createReg(studySite, participant, parentRegistrationId){
 					<div class="label"><b><fmt:message key="registration.startDate"/></b>:</div>
 					<div class="value">${childStudySubject.startDateStr}</div>
 				</div>
-				<div class="row">
-					<div class="label"><b><fmt:message key="registration.consentSignedDate"/></b>:</div>
-					<div class="value">${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr}</div>
-				</div>
+				<c:forEach items="${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+					<div class="row">
+						<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
+						<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</div>
+					</div>
+				</c:forEach>
+					
 				<div class="row">
 					<div class="label"><b><fmt:message key="registration.consentVersion"/></b>:</div>
 					<div class="value">${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}</div>
