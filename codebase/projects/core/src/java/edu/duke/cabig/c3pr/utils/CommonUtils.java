@@ -8,6 +8,7 @@ import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.acegisecurity.userdetails.User;
 
 import com.karneim.util.collection.regex.ParseException;
 
@@ -27,7 +28,15 @@ public class CommonUtils {
         return new Boolean(false);
     }
 
-
+	public static String getLoggedInUsername() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication auth = context.getAuthentication();
+        if (auth != null) {
+            return ((User)auth.getPrincipal()).getUsername();
+        }
+        return "";
+    }
+	
     public static String getDateString(Date date){
       if (date != null) {
     	  	try{
