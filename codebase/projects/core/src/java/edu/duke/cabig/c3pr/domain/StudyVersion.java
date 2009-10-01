@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -480,8 +481,10 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 
     public Object clone() throws CloneNotSupportedException{
+    	HashMap<String, Object> map = new HashMap<String, Object>();
+    	
         StudyVersion clone = new StudyVersion();
-        // create a copy of current object in clone object and return clone.
+
         clone.setDescriptionText(this.getDescriptionText());
         clone.setLongTitleText(this.getLongTitleText());
         clone.setPrecisText(this.getPrecisText());
@@ -521,25 +524,15 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         	cloneEpoch.setTreatmentIndicator(epoch.getTreatmentIndicator());
 
         	for(Arm arm : epoch.getArms()){
+        		String key = arm.getClass().getName() + arm.getId() ;
         		Arm cloneArm = new Arm();
         		cloneArm.setDescriptionText(arm.getDescriptionText());
         		cloneArm.setName(arm.getName());
         		cloneArm.setTargetAccrualNumber(arm.getTargetAccrualNumber());
         		cloneEpoch.addArm(cloneArm);
+        		map.put(key, cloneArm);
         	}
-
-        	for(StratificationCriterion criteria : epoch.getStratificationCriteria()){
-        		StratificationCriterion cloneCriteria = new StratificationCriterion();
-        		cloneCriteria.setQuestionNumber(criteria.getQuestionNumber());
-        		cloneCriteria.setQuestionText(criteria.getQuestionText());
-        		for(StratificationCriterionPermissibleAnswer permissibleAnswer : criteria.getPermissibleAnswers()){
-        			StratificationCriterionPermissibleAnswer clonePermissibleAnswer = new StratificationCriterionPermissibleAnswer();
-        			clonePermissibleAnswer.setPermissibleAnswer(permissibleAnswer.getPermissibleAnswer());
-        			cloneCriteria.addPermissibleAnswer(clonePermissibleAnswer);
-        		}
-        		cloneEpoch.addStratificationCriterion(cloneCriteria);
-        	}
-
+        	
         	for(EligibilityCriteria inclusionEligibility : epoch.getInclusionEligibilityCriteria()){
         		EligibilityCriteria cloneInclusionEligibility = new InclusionEligibilityCriteria() ;
         		cloneInclusionEligibility.setNotApplicableIndicator(inclusionEligibility.getNotApplicableIndicator());
@@ -556,6 +549,45 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         		cloneEpoch.addEligibilityCriterion(cloneExclusionEligibility);
         	}
 
+        	for(StratificationCriterion criteria : epoch.getStratificationCriteria()){
+        		String keyStratificationCriterion = criteria.getClass().getName() + criteria.getId();
+        		
+        		StratificationCriterion cloneCriteria = new StratificationCriterion();
+        		cloneCriteria.setQuestionNumber(criteria.getQuestionNumber());
+        		cloneCriteria.setQuestionText(criteria.getQuestionText());
+        		for(StratificationCriterionPermissibleAnswer permissibleAnswer : criteria.getPermissibleAnswers()){
+        			String keyStratificationCriterionPermissibleAnswer = permissibleAnswer.getClass().getName() + permissibleAnswer.getId();
+        			StratificationCriterionPermissibleAnswer clonePermissibleAnswer = new StratificationCriterionPermissibleAnswer();
+        			clonePermissibleAnswer.setPermissibleAnswer(permissibleAnswer.getPermissibleAnswer());
+        			cloneCriteria.addPermissibleAnswer(clonePermissibleAnswer);
+        			map.put(keyStratificationCriterionPermissibleAnswer, clonePermissibleAnswer);
+        		}
+        		cloneEpoch.addStratificationCriterion(cloneCriteria);
+        		map.put(keyStratificationCriterion, cloneCriteria);
+        	}
+        	for(StratumGroup group : epoch.getStratumGroups()){
+        		String keyStratumGroup = group.getClass().getName() + group.getId();
+    			
+        		StratumGroup cloneGroup = new StratumGroup();
+        		cloneGroup.setStratumGroupNumber(group.getStratumGroupNumber());
+        		cloneGroup.setCurrentPosition(group.getCurrentPosition());
+        		
+        		for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : group.getStratificationCriterionAnswerCombination()){
+        			StratificationCriterionAnswerCombination cloneStratificationCriterionAnswerCombination = new StratificationCriterionAnswerCombination();
+        			
+        			StratificationCriterion sCriteria = stratificationCriterionAnswerCombination.getStratificationCriterion();
+        			String keyStratificationCriterion = sCriteria.getClass().getName() + sCriteria.getId();
+        			cloneStratificationCriterionAnswerCombination.setStratificationCriterion((StratificationCriterion)map.get(keyStratificationCriterion));
+
+        			StratificationCriterionPermissibleAnswer sCriteriaPermissibleAnswer = stratificationCriterionAnswerCombination.getStratificationCriterionPermissibleAnswer();
+        			String keyStratificationCriterionPermissibleAnswer = sCriteriaPermissibleAnswer.getClass().getName() + sCriteriaPermissibleAnswer.getId();
+        			cloneStratificationCriterionAnswerCombination.setStratificationCriterionPermissibleAnswer((StratificationCriterionPermissibleAnswer)map.get(keyStratificationCriterionPermissibleAnswer));
+        			cloneGroup.addStratificationCriterionAnswerCombination(cloneStratificationCriterionAnswerCombination);
+        		}
+        		cloneEpoch.addStratumGroup(cloneGroup);
+        		map.put(keyStratumGroup, cloneGroup);
+        	}
+        	
         	Randomization randomization = epoch.getRandomization() ;
         	if( randomization instanceof PhoneCallRandomization){
         		PhoneCallRandomization phoneCallRandomization = (PhoneCallRandomization) randomization ;
@@ -564,40 +596,30 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         		cloneEpoch.setRandomization(cloneRandomization);
         	}
         	
-//        	if( randomization instanceof BookRandomization){
-//        		BookRandomization bookRandomization = (BookRandomization) randomization ;
-//        		BookRandomization cloneRandomization =  new BookRandomization();
-//        		for(BookRandomizationEntry bookRandomizationEntry : bookRandomization.getBookRandomizationEntry()){
-//        			BookRandomizationEntry cloneBookRandomizationEntry = new BookRandomizationEntry();
-//        			cloneBookRandomizationEntry.setPosition(bookRandomizationEntry.getPosition());
-//        			cloneBookRandomizationEntry.set
-//        		}
-//
-//
-//
-//        		cloneEpoch.setRandomization(cloneRandomization);
-//        	}
-
-
-//        	for(StratumGroup group : epoch.getStratumGroups()){
-//        		StratumGroup cloneGroup = new StratumGroup();
-//        		cloneGroup.setStratumGroupNumber(group.getStratumGroupNumber());
-//        		cloneGroup.setCurrentPosition(group.getCurrentPosition());
-//
-//
-//        		for(StratificationCriterionAnswerCombination answerCombination : group.getStratificationCriterionAnswerCombination()){
-//        			StratificationCriterionAnswerCombination cloneAnswerCombination = new StratificationCriterionAnswerCombination();
-//        			cloneAnswerCombination.se
-//        		}
-//
-//
-//        	}
+        	if( randomization instanceof BookRandomization){
+        		BookRandomization bookRandomization = (BookRandomization) randomization ; 
+        		BookRandomization cloneRandomization =  new BookRandomization();
+        		for(BookRandomizationEntry bookRandomizationEntry : bookRandomization.getBookRandomizationEntry()){
+        			BookRandomizationEntry cloneBookRandomizationEntry = new BookRandomizationEntry();
+        			cloneBookRandomizationEntry.setPosition(bookRandomizationEntry.getPosition());
+        			Arm arm = bookRandomizationEntry.getArm() ;
+        			String key = arm.getClass().getName() + arm.getId(); 
+        			cloneBookRandomizationEntry.setArm((Arm)map.get(key));
+        			StratumGroup stratumGroup = bookRandomizationEntry.getStratumGroup();
+        			if(stratumGroup != null){
+						String keyGroup = stratumGroup.getClass().getName() + stratumGroup.getId();
+						StratumGroup clonedStartumGroup = (StratumGroup)map.get(keyGroup);
+	        			clonedStartumGroup.addBookRandomizationEntry(cloneBookRandomizationEntry);
+        			}
+        			cloneRandomization.addBookRandomizationEntry(cloneBookRandomizationEntry);
+        		}
+        		cloneEpoch.setRandomization(cloneRandomization);
+        	}
         	clone.addEpoch(cloneEpoch);
         }
         return clone ;
     }
-
-
+    
     public String getComments() {
         return comments;
     }

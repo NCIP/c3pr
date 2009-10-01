@@ -607,6 +607,10 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	public List<StratumGroup> getStratumGroupsInternal() {
 		return lazyListHelper.getInternalList(StratumGroup.class);
 	}
+	
+	public void addStratumGroup(StratumGroup stratumGroup){
+		getStratumGroups().add(stratumGroup);
+	}
 
 	/**
 	 * Sets the stratum groups internal.

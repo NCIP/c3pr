@@ -96,6 +96,10 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     public List<StratificationCriterionAnswerCombination> getStratificationCriterionAnswerCombinationInternal() {
         return lazyListHelper.getInternalList(StratificationCriterionAnswerCombination.class);
     }
+    
+    public void addStratificationCriterionAnswerCombination(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination){
+    	getStratificationCriterionAnswerCombination().add(stratificationCriterionAnswerCombination);
+    }
 
     /**
      * Sets the stratification criterion answer combination internal.
@@ -128,6 +132,11 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     public List<BookRandomizationEntry> getBookRandomizationEntryInternal() {
         return lazyListHelper.getInternalList(BookRandomizationEntry.class);
+    }
+    
+    public void addBookRandomizationEntry(BookRandomizationEntry bookRandomizationEntry){
+    	getBookRandomizationEntry().add(bookRandomizationEntry);
+    	bookRandomizationEntry.setStratumGroup(this);
     }
 
     /**

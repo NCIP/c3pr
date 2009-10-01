@@ -49,6 +49,10 @@ public class BookRandomization extends Randomization {
     public List<BookRandomizationEntry> getBookRandomizationEntryInternal() {
         return lazyListHelper.getInternalList(BookRandomizationEntry.class);
     }
+    
+    public void addBookRandomizationEntry(BookRandomizationEntry bookRandomizationEntry){
+    	getBookRandomizationEntry().add(bookRandomizationEntry);
+    }
 
     /**
      * Sets the book randomization entry internal.
