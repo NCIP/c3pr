@@ -478,10 +478,11 @@ public class StudyCreationHelper {
 			return consent;
 		}
 
-		public void addConsent(Study basicStudy, String name) {
+		public Study addConsent(Study study, String name) {
 			Consent consent = new Consent();
 			consent.setName(name);
-			basicStudy.addConsent(consent);
+			study.addConsent(consent);
+			return study;
 		}
 
 }
