@@ -3,11 +3,13 @@ package edu.duke.cabig.c3pr.utils;
 import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
@@ -378,9 +380,17 @@ public class StudySubjectCreatorHelper {
     }
     
     public void completeRegistrationDataEntry(StudySubject studySubject){
-    	studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
-    	studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setConsent(studySubject.getStudySite()
-    			.getStudy().getStudyVersion().getConsents().get(0));
+    	if(studySubject.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
+    		studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(new Date());
+    		studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setConsent(studySubject.getStudySite().
+    				getStudy().getStudyVersion().getConsents().get(0));
+    	} else if(studySubject.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ALL){
+	    	for(int i=0;i < studySubject.getStudySite().getStudy().getStudyVersion().getConsents().size();i++){
+	    		Consent consent = studySubject.getStudySite().getStudy().getStudyVersion().getConsents().get(i);
+	    		studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(i).setInformedConsentSignedDate(new Date());
+	    		studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(i).setConsent(consent);
+	    	}
+    	}
     }
     
     public void completeScheduledEpochDataEntry(StudySubject studySubject){
