@@ -315,7 +315,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     public List<APIName> getPossibleTransitions(){
         List<APIName> possibleActions=new ArrayList<APIName>();
         SiteStatusHistory siteHistory = getSiteStatusHistory(new Date());
-        if(siteHistory.getEndDate() != null){
+        if(siteHistory != null && siteHistory.getEndDate() != null){
         	return possibleActions;
         }
         if(this.coordinatingCenterStudyStatus != this.getStudy().getCoordinatingCenterStudyStatus()){
