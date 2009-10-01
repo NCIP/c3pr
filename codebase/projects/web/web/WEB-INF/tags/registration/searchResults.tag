@@ -85,7 +85,7 @@ function submitLocalForm(formName, idParamStr, companion){
 				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
 					onClick='submitLocalForm("${formType}",paramString_${status.index }, "${not empty registration.parentStudySubject}")'>
 					<td>${registration.participant.lastName}</td>
-					<td>${registration.participant.primaryIdentifier}</td>
+					<td>${registration.participant.primaryIdentifierValue}</td>
 					<td>${registration.studySite.study.trimmedShortTitleText}</td>
 					<td>${registration.studySite.study.primaryIdentifier}</td>
 					<td>${registration.studySite.healthcareSite.name}</td>

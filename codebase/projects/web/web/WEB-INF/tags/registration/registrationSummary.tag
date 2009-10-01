@@ -19,7 +19,7 @@
 		</td>
 		<td valign="top">
 			<table>
-				<tags:tdNameValue name="Subject MRN" value="${studySubject.studySubject.participant.primaryIdentifier }" columnAttrName="width='50%' class='labelR'"/>
+				<tags:tdNameValue name="Subject MRN" value="${studySubject.studySubject.participant.primaryIdentifierValue }" columnAttrName="width='50%' class='labelR'"/>
 				<tags:tdNameValue name="Study version" value="${studySubject.studySubject.studySiteVersion.studyVersion.name}" columnAttrName="class='labelR'"/>
 				<tags:tdNameValue name="Enrolling site" value="(${studySubject.studySubject.studySite.healthcareSite.ctepCode}) ${studySubject.studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>
 			</table>

@@ -53,7 +53,7 @@ function submitlinksPage(){
 		<tr>
 			<td valign="top" width="40%" align="right"><b><fmt:message key="c3pr.common.primaryIdentifier"/>
 			:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studySubject.participant.primaryIdentifier
+			<td valign="bottom" align="left">${command.studySubject.participant.primaryIdentifierValue
 			}</td>
 		</tr>
 		<tr>
