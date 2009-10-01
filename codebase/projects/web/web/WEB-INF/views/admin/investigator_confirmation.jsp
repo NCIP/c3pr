@@ -9,7 +9,7 @@
 <div id="main">
 		<div id="controlPanel" <c:if test="${studyflow=='true'}">style="display:none;"</c:if>>
 			<tags:controlPanel>
-				<tags:oneControlPanelItem linkhref="javascript:document.location='editInvestigator?emailId=${command.contactMechanisms[0].value}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				<tags:oneControlPanelItem linkhref="javascript:document.location='editInvestigator?emailId=${command.email}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 				<tags:oneControlPanelItem linkhref="javascript:document.location='createInvestigator';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchInvestigatorController.png" linktext="Create investigator" />
 			</tags:controlPanel>
 		</div>
@@ -37,7 +37,7 @@
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="c3pr.common.email"/>:</div>
-					<div class="value">${command.contactMechanisms[0].value}</div>
+					<div class="value">${command.email}</div>
 				</div>
                 </div>
 </chrome:box>

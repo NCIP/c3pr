@@ -275,8 +275,8 @@
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
 						<c:choose>
-							<c:when test="${!empty command.emailAsString}">
-								<div class="value">${command.emailAsString}</div>
+							<c:when test="${!empty command.email}">
+								<div class="value">${command.email}</div>
 							</c:when>
 							<c:otherwise>
 								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
@@ -285,7 +285,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="30" path="contactMechanisms[0].value" cssClass="validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
+							<form:input size="30" path="email" cssClass="validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -296,8 +296,8 @@
 			<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
 						<c:choose>
-							<c:when test="${!empty command.phoneAsString}">
-								<div class="value">${command.phoneAsString}</div>
+							<c:when test="${!empty command.phone}">
+								<div class="value">${command.phone}</div>
 							</c:when>
 							<c:otherwise>
 								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
@@ -307,7 +307,7 @@
 					<c:otherwise>
 						<div class="value">
 							<form:input size="25"
-                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.phone"/>
+                            path="phone" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.phone"/>
 						  </div>
 					</c:otherwise>
 			</c:choose>
@@ -318,8 +318,8 @@
 			<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
 						<c:choose>
-							<c:when test="${!empty command.faxAsString}">
-								<div class="value">${command.faxAsString}</div>
+							<c:when test="${!empty command.fax}">
+								<div class="value">${command.fax}</div>
 							</c:when>
 							<c:otherwise>
 								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
@@ -329,7 +329,7 @@
 					<c:otherwise>
 						<div class="value">
 							 <form:input size="25"
-                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.fax"/>
+                            path="fax" cssClass="validate-US_PHONE_NO" /><tags:hoverHint keyProp="contactMechanism.fax"/>
 						  </div>
 					</c:otherwise>
 			</c:choose>
@@ -393,7 +393,7 @@
               	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onClick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
                 <td align="left">${remRs.firstName}</td>
                 <td align="left">${remRs.lastName}</td>
-                <td align="left">${remRs.emailAsString}</td>
+                <td align="left">${remRs.email}</td>
               </tr>
             </c:forEach>
           </table>

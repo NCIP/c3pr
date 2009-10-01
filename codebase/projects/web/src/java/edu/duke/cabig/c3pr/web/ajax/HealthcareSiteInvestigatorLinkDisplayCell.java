@@ -35,13 +35,14 @@ public class HealthcareSiteInvestigatorLinkDisplayCell extends AbstractCell {
     }
     
     private String getEmailId(Investigator inv){
-    	List<ContactMechanism> contactMechanisms = inv.getContactMechanisms();
-    	for(ContactMechanism contactMechanism : contactMechanisms){
-    		if(contactMechanism.getType() == ContactMechanismType.EMAIL){
-    			return contactMechanism.getValue();
-    		}
-    	}
-    	return "" ;
+//    	List<ContactMechanism> contactMechanisms = inv.getContactMechanisms();
+//    	for(ContactMechanism contactMechanism : contactMechanisms){
+//    		if(contactMechanism.getType() == ContactMechanismType.EMAIL){
+//    			return contactMechanism.getValue();
+//    		}
+//    	}
+//    	return "" ;
+    	return inv.getEmail();
     }
 
 }

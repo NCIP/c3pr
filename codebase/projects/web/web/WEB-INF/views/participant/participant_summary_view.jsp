@@ -140,24 +140,24 @@ top:83px;
 		</chrome:division>
 		<chrome:division title="Contact Information" link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit()" condition="${flowType != 'VIEW_SUBJECT'}">
 			<c:choose>
-			<c:when test="${fn:length(command.contactMechanisms) == 0 || (command.contactMechanisms[0].valueString == '' && command.contactMechanisms[1].valueString == '' && command.contactMechanisms[2].valueString == '') }">
+			<c:when test="${empty command.email && empty command.phone && empty command.fax}">
 				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.contactInfoNotProvided"/></span></div>				
 			</c:when>
 			<c:otherwise>
 				<div class="leftpanel">
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.email"/>:</div>
-						<tags:value value="${command.contactMechanisms[0].valueString}" ></tags:value>
+						<tags:value value="${command.email}" ></tags:value>
 					</div>
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.phone"/>:</div>
-						<tags:value value="${command.contactMechanisms[1].valueString}" ></tags:value>
+						<tags:value value="${command.phone}" ></tags:value>
 					</div>
 				</div>
 				<div class="rightpanel">
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.fax"/>:</div>
-						<tags:value value="${command.contactMechanisms[2].valueString}" ></tags:value>
+						<tags:value value="${command.fax}" ></tags:value>
 					</div>
 				</div>
 			</c:otherwise>

@@ -89,12 +89,12 @@
             		image = '';
             	}
             	
-                return (obj.firstName +" " +obj.lastName + " (" +obj.contactMechanisms[0].value+ ") " + image)
+                return (obj.firstName +" " +obj.lastName + " (" +obj.email+ ") " + image)
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								//hiddenField=userEmailAutocompleterProps.basename+"-hidden"
 	    							hiddenField=inputElement.id.split("-")[0]+"-hidden";
-	    							$(hiddenField).value=selectedChoice.contactMechanisms[0].value;
+	    							$(hiddenField).value=selectedChoice.email;
 			 }
         }         
 	</script>
@@ -482,7 +482,7 @@
 							<c:forEach var="cm" varStatus="cmStatus" items="${command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
 								<tr id="table3-${cmStatus.index}">
 								<td class="alt">
-									<form:input size="30" path="plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${cmStatus.index}].contactMechanisms[0].value" 
+									<form:input size="30" path="plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${cmStatus.index}].email" 
 											cssClass="validate-notEmpty&&EMAIL" /></td>
 								<td class="alt" valign="top"><a
 									href="javascript:RowManager.deleteRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${cmStatus.index},'${cm.id==null?'HC#':'ID#'}${cm.id==null?cm.hashCode:cm.id}');">
@@ -679,8 +679,8 @@
 			<table>
 			<tr>
 				<td class="alt">
-		            <input id="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value" 
-		            	   name="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
+		            <input id="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].email" 
+		            	   name="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].email"
 						   class="validate-notEmpty&&EMAIL" size="30" type="text" />
 	            </td>
 				<td class="alt" valign="top"><a

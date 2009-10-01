@@ -10,7 +10,7 @@
 <div id="main">
 <div id="controlPanel">
 			<tags:controlPanel>
-				<tags:oneControlPanelItem linkhref="javascript:document.location='editResearchStaff?emailId=${command.contactMechanisms[0].value}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				<tags:oneControlPanelItem linkhref="javascript:document.location='editResearchStaff?emailId=${command.email}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 				<tags:oneControlPanelItem linkhref="javascript:document.location='createResearchStaff';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchResearchStaffController.png" linktext="Create research staff" />
 			</tags:controlPanel>
 		</div>
@@ -38,7 +38,7 @@
 							</div>
 							<div class="row">
 								<div class="label"><fmt:message key="c3pr.common.email"/>:</div>
-								<div class="value">${command.contactMechanisms[0].value}</div>
+								<div class="value">${command.email}</div>
 							</div>
 							<div class="row">
 								<div class="label"><fmt:message key="c3pr.common.role"/>(s):</div>

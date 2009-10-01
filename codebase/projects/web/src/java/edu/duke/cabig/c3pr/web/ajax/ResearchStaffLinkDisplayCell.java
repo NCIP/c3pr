@@ -24,7 +24,7 @@ public class ResearchStaffLinkDisplayCell extends AbstractCell {
     }
     
     public void setRowOnClick(TableModel tableModel, ResearchStaff rStaff){    	
-    	String url = "document.location='" + VIEW_RSTAFF_URL + rStaff.getEmailAsString() + "'";
+    	String url = "document.location='" + VIEW_RSTAFF_URL + rStaff.getEmail() + "'";
     	tableModel.getRowHandler().getRow().setOnclick(url);
     	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
     }

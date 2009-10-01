@@ -44,19 +44,28 @@ public class UsernameDuplicateValidator implements Validator {
 						errors.reject("duplicate.nci.id.error");
 					}
 				}
-				for (ContactMechanism cm : user.getContactMechanisms()) {
-                    if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-                    	ResearchStaff researchStaffByEmail = null;
-                    	researchStaffByEmail = dao.getByEmailAddressFromLocal(cm.getValue());
-                    	if (researchStaffByEmail != null){
-                    		if(user.getId()== null){
-                    			errors.reject("duplicate.username.error");
-                    		} else if (!user.getId().equals(researchStaffByEmail.getId())) {
-        						errors.reject("duplicate.username.error");
-        					}
-                    	}
-                    }
-                }
+        		ResearchStaff researchStaffByEmail = null;
+            	researchStaffByEmail = dao.getByEmailAddressFromLocal(user.getEmail());
+            	if (researchStaffByEmail != null){
+            		if(user.getId()== null){
+            			errors.reject("duplicate.username.error");
+            		} else if (!user.getId().equals(researchStaffByEmail.getId())) {
+						errors.reject("duplicate.username.error");
+					}
+            	}
+//				for (ContactMechanism cm : user.getContactMechanisms()) {
+//                    if (cm.getType().equals(ContactMechanismType.EMAIL)) {
+//                    	ResearchStaff researchStaffByEmail = null;
+//                    	researchStaffByEmail = dao.getByEmailAddressFromLocal(cm.getValue());
+//                    	if (researchStaffByEmail != null){
+//                    		if(user.getId()== null){
+//                    			errors.reject("duplicate.username.error");
+//                    		} else if (!user.getId().equals(researchStaffByEmail.getId())) {
+//        						errors.reject("duplicate.username.error");
+//        					}
+//                    	}
+//                    }
+//                }
         	}
 
         if (user.getGroups() != null && user.getGroups().size() < 1) {

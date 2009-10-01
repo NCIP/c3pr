@@ -60,23 +60,23 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         String email = request.getParameter("emailId") ;
         if (!StringUtils.isBlank(email)) {
             researchStaff = researchStaffDao.getByEmailAddress(email);
-            int cmSize = researchStaff.getContactMechanisms().size();
-            if (cmSize == 0) {
-                addContactsToResearchStaff(researchStaff);
-            }
-            if (cmSize == 1) {
-                ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-                ContactMechanism contactMechanismFax = new LocalContactMechanism();
-                contactMechanismPhone.setType(ContactMechanismType.PHONE);
-                contactMechanismFax.setType(ContactMechanismType.Fax);
-                researchStaff.addContactMechanism(contactMechanismPhone);
-                researchStaff.addContactMechanism(contactMechanismFax);
-            }
-            if (cmSize == 2) {
-                ContactMechanism contactMechanismFax = new LocalContactMechanism();
-                contactMechanismFax.setType(ContactMechanismType.Fax);
-                researchStaff.addContactMechanism(contactMechanismFax);
-            }
+//            int cmSize = researchStaff.getContactMechanisms().size();
+//            if (cmSize == 0) {
+//                addContactsToResearchStaff(researchStaff);
+//            }
+//            if (cmSize == 1) {
+//                ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+//                ContactMechanism contactMechanismFax = new LocalContactMechanism();
+//                contactMechanismPhone.setType(ContactMechanismType.PHONE);
+//                contactMechanismFax.setType(ContactMechanismType.Fax);
+//                researchStaff.addContactMechanism(contactMechanismPhone);
+//                researchStaff.addContactMechanism(contactMechanismFax);
+//            }
+//            if (cmSize == 2) {
+//                ContactMechanism contactMechanismFax = new LocalContactMechanism();
+//                contactMechanismFax.setType(ContactMechanismType.Fax);
+//                researchStaff.addContactMechanism(contactMechanismFax);
+//            }
             researchStaff.setGroups(personnelService.getGroups(researchStaff));
             researchStaffDao.initialize(researchStaff);
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
@@ -85,23 +85,23 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
             researchStaff = new LocalResearchStaff();
             researchStaff.setVersion(Integer.parseInt("1"));
 
-            addContactsToResearchStaff(researchStaff);
+            //addContactsToResearchStaff(researchStaff);
             request.getSession().setAttribute(FLOW, SAVE_FLOW);
         }
         return researchStaff;
     }
 
-    public void addContactsToResearchStaff(ResearchStaff rs) {
-        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
-        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-        ContactMechanism contactMechanismFax = new LocalContactMechanism();
-        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
-        contactMechanismPhone.setType(ContactMechanismType.PHONE);
-        contactMechanismFax.setType(ContactMechanismType.Fax);
-        rs.addContactMechanism(contactMechanismEmail);
-        rs.addContactMechanism(contactMechanismPhone);
-        rs.addContactMechanism(contactMechanismFax);
-    }
+//    public void addContactsToResearchStaff(ResearchStaff rs) {
+//        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
+//        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+//        ContactMechanism contactMechanismFax = new LocalContactMechanism();
+//        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
+//        contactMechanismPhone.setType(ContactMechanismType.PHONE);
+//        contactMechanismFax.setType(ContactMechanismType.Fax);
+//        rs.addContactMechanism(contactMechanismEmail);
+//        rs.addContactMechanism(contactMechanismPhone);
+//        rs.addContactMechanism(contactMechanismFax);
+//    }
 
     @Override
     protected Map<String, Object> referenceData(HttpServletRequest request) {
@@ -120,7 +120,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     			if (! request.getParameter("_action").equals("syncResearchStaff")) {
 					ResearchStaff rStaffFromDB = researchStaffDao
 							.getByEmailAddressFromLocal(researchStaff
-									.getEmailAsString());
+									.getEmail());
 					if (rStaffFromDB != null) {
 						// This check is already being done in the UsernameDuplicate Validator.
 						//errors.reject("RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " already exists");
@@ -130,13 +130,13 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 				List<ResearchStaff> remoteResearchStaff = researchStaffDao.getRemoteResearchStaff(researchStaff);
         		boolean matchingExternalResearchStaffPresent = false;
         		for(ResearchStaff remoteRStaff : remoteResearchStaff){
-        			if(remoteRStaff.getEmailAsString().equals(researchStaff.getEmailAsString())){
+        			if(remoteRStaff.getEmail().equals(researchStaff.getEmail())){
         				researchStaff.addExternalResearchStaff(remoteRStaff);
         				matchingExternalResearchStaffPresent = true;
         			}
         		}
         		if(matchingExternalResearchStaffPresent){
-        			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " exisits in external system");
+        			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmail()+ " exisits in external system");
         		}
         	}
 	}

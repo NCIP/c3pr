@@ -42,16 +42,16 @@ top:83px;
 	</chrome:division>
 	<chrome:division title="Contact Information">
 		<div class="row">
-			<div class="label"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName }</b>&nbsp;</div>
-			<div class="value"><form:input path="contactMechanisms[0].value"  cssClass="validate-EMAIL" size="30" /><tags:hoverHint keyProp="contactMechanism.email"/></div>
+			<div class="label"><fmt:message key="c3pr.common.email" />&nbsp;</div>
+			<div class="value"><form:input path="email"  cssClass="validate-EMAIL" size="30" /><tags:hoverHint keyProp="contactMechanism.email"/></div>
 		</div>
 		<div class="row">
-			<div class="label"><em></em><em></em> <b>${command.contactMechanisms[1].type.displayName }</b>&nbsp;</div>
-			<div class="value"><form:input path="contactMechanisms[1].value"  cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.phone"/></div>
+			<div class="label"><fmt:message key="c3pr.common.phone" />&nbsp;</div>
+			<div class="value"><form:input path="phone"  cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.phone"/></div>
 		</div>
 		<div class="row">
-			<div class="label"><em></em><em></em> <b>${command.contactMechanisms[2].type.displayName }</b>&nbsp;</div>
-			<div class="value"><form:input path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.fax"/></div>
+			<div class="label"><fmt:message key="c3pr.common.fax" />&nbsp;</div>
+			<div class="value"><form:input path="fax" cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.fax"/></div>
 		</div>
 	</chrome:division>
 	</jsp:attribute>

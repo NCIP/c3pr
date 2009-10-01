@@ -66,24 +66,24 @@ public class CreateInvestigatorController<C extends Investigator> extends
             log.info(" Request URl  is:" + request.getRequestURL().toString());
             inv = investigatorDao.getByEmailAddress(email);
             if(inv != null){
-            	int cmSize = inv.getContactMechanisms().size();
-                if (cmSize == 0) {
-                    addContacts(inv);
-                }
-                if (cmSize == 1) {
-                    ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-                    ContactMechanism contactMechanismFax = new LocalContactMechanism();
-                    contactMechanismPhone.setType(ContactMechanismType.PHONE);
-                    contactMechanismFax.setType(ContactMechanismType.Fax);
-                    inv.addContactMechanism(contactMechanismPhone);
-                    inv.addContactMechanism(contactMechanismFax);
-                }
-
-                if (cmSize == 2) {
-                    ContactMechanism contactMechanismFax = new LocalContactMechanism();
-                    contactMechanismFax.setType(ContactMechanismType.Fax);
-                    inv.addContactMechanism(contactMechanismFax);
-                }
+//            	int cmSize = inv.getContactMechanisms().size();
+//                if (cmSize == 0) {
+//                    addContacts(inv);
+//                }
+//                if (cmSize == 1) {
+//                    ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+//                    ContactMechanism contactMechanismFax = new LocalContactMechanism();
+//                    contactMechanismPhone.setType(ContactMechanismType.PHONE);
+//                    contactMechanismFax.setType(ContactMechanismType.Fax);
+//                    inv.addContactMechanism(contactMechanismPhone);
+//                    inv.addContactMechanism(contactMechanismFax);
+//                }
+//
+//                if (cmSize == 2) {
+//                    ContactMechanism contactMechanismFax = new LocalContactMechanism();
+//                    contactMechanismFax.setType(ContactMechanismType.Fax);
+//                    inv.addContactMechanism(contactMechanismFax);
+//                }
                 request.getSession().setAttribute(FLOW, EDIT_FLOW);
                 log.info(" Investigator's ID is:" + inv.getId());
             }
@@ -109,7 +109,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
     			if (! request.getParameter("_action").equals("syncInvestigator")) {
 					Investigator invFromDB = investigatorDao
 							.getByEmailAddressFromLocal(investigator
-									.getEmailAsString());
+									.getEmail());
 					if (invFromDB != null) {
 						return;
 					}
@@ -117,13 +117,13 @@ public class CreateInvestigatorController<C extends Investigator> extends
 				List<Investigator> remoteInvestigators = investigatorDao.getRemoteInvestigators(investigator);
         		boolean matchingExternalInvestigatorPresent = false;
         		for(Investigator remoteInv : remoteInvestigators){
-        			if(remoteInv.getEmailAsString().equals(investigator.getEmailAsString())){
+        			if(remoteInv.getEmail().equals(investigator.getEmail())){
         				investigator.addExternalInvestigator(remoteInv);
         				matchingExternalInvestigatorPresent = true;
         			}
         		}
         		if(matchingExternalInvestigatorPresent){
-        			errors.reject("REMOTE_INV_EXISTS","Investigator with email " +investigator.getEmailAsString()+ " exisits in external system");
+        			errors.reject("REMOTE_INV_EXISTS","Investigator with email " +investigator.getEmail()+ " exisits in external system");
         		}
         	}
 	}
@@ -207,22 +207,22 @@ public class CreateInvestigatorController<C extends Investigator> extends
         LocalInvestigator investigator = new LocalInvestigator();
         HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
         investigator.addHealthcareSiteInvestigator(healthcareSiteInvestigator);
-        addContacts(investigator);
+//        addContacts(investigator);
         return investigator;
     }
 
-    private void addContacts(Investigator inv) {
-
-        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
-        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-        ContactMechanism contactMechanismFax = new LocalContactMechanism();
-        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
-        contactMechanismPhone.setType(ContactMechanismType.PHONE);
-        contactMechanismFax.setType(ContactMechanismType.Fax);
-        inv.addContactMechanism(contactMechanismEmail);
-        inv.addContactMechanism(contactMechanismPhone);
-        inv.addContactMechanism(contactMechanismFax);
-    }
+//    private void addContacts(Investigator inv) {
+//
+//        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
+//        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+//        ContactMechanism contactMechanismFax = new LocalContactMechanism();
+//        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
+//        contactMechanismPhone.setType(ContactMechanismType.PHONE);
+//        contactMechanismFax.setType(ContactMechanismType.Fax);
+//        inv.addContactMechanism(contactMechanismEmail);
+//        inv.addContactMechanism(contactMechanismPhone);
+//        inv.addContactMechanism(contactMechanismFax);
+//    }
     
     /*
      * (non-Javadoc)

@@ -104,12 +104,12 @@ public class CreateParticipantController<C extends Participant> extends
         return super.isFormSubmission(request);
     }
 
-    @Override
-    protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        Participant participant = (Participant) super.formBackingObject(request);
-        participant = createParticipantWithContacts(participant);
-        return participant;
-    }
+//    @Override
+//    protected Object formBackingObject(HttpServletRequest request) throws Exception {
+//        Participant participant = (Participant) super.formBackingObject(request);
+//        participant = createParticipantWithContacts(participant);
+//        return participant;
+//    }
 
     protected void layoutTabs(Flow flow) {
         flow.addTab(new ParticipantDetailsTab());
@@ -117,19 +117,19 @@ public class CreateParticipantController<C extends Participant> extends
         flow.addTab(new ParticipantSubmitTab());
     }
 
-    private Participant createParticipantWithContacts(Participant participant) {
-
-        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
-        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-        ContactMechanism contactMechanismFax = new LocalContactMechanism();
-        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
-        contactMechanismPhone.setType(ContactMechanismType.PHONE);
-        contactMechanismFax.setType(ContactMechanismType.Fax);
-        participant.addContactMechanism(contactMechanismEmail);
-        participant.addContactMechanism(contactMechanismPhone);
-        participant.addContactMechanism(contactMechanismFax);
-        return participant;
-    }
+//    private Participant createParticipantWithContacts(Participant participant) {
+//
+//        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
+//        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+//        ContactMechanism contactMechanismFax = new LocalContactMechanism();
+//        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
+//        contactMechanismPhone.setType(ContactMechanismType.PHONE);
+//        contactMechanismFax.setType(ContactMechanismType.Fax);
+//        participant.addContactMechanism(contactMechanismEmail);
+//        participant.addContactMechanism(contactMechanismPhone);
+//        participant.addContactMechanism(contactMechanismFax);
+//        return participant;
+//    }
 
     @Override
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
