@@ -1723,10 +1723,6 @@ public class StudyDaoTest extends DaoTestCase {
 		healthcaresite1.setCtepCode("Nci duke1");
 		healthcareSitedao.save(healthcaresite1);
 
-//		StudyCoordinatingCenter studyCoordinatingCenter = study.getStudyCoordinatingCenters().get(0);
-//		studyCoordinatingCenter.setHealthcareSite(healthcaresite);
-//		study.addStudyOrganization(studyCoordinatingCenter);
-		
 		OrganizationAssignedIdentifier orgId1 = new OrganizationAssignedIdentifier();
         orgId1.setHealthcareSite(healthcaresite);
         orgId1.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
@@ -1755,6 +1751,7 @@ public class StudyDaoTest extends DaoTestCase {
 		
 		study.removeStudySite(studySite);
 		
+		dao.flush();
 		dao.evict(study);
 		
 		study = dao.getById(id);
@@ -1765,6 +1762,7 @@ public class StudyDaoTest extends DaoTestCase {
 		
 		study.removeStudySite(studySite1);
 
+		dao.flush();
 		dao.evict(study);
 		
 		study = dao.getById(id);
