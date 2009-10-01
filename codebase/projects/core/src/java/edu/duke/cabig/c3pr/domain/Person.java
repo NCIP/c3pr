@@ -67,7 +67,11 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
 	}
 	
 	private void setContactMechanism(String value, ContactMechanismType contactMechanismType, boolean local){
+		ContactMechanism contactMechanism= getContactMechanism(contactMechanismType);
 		if(StringUtils.getBlankIfNull(value).equals("")){
+			if(contactMechanism !=null){
+				contactMechanisms.remove(contactMechanism);
+			}
 			return;
 		}
 		if(contactMechanismType == null){
@@ -79,7 +83,6 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
 		if((contactMechanismType == ContactMechanismType.PHONE || contactMechanismType == ContactMechanismType.Fax) && !StringUtils.isValidPhone(value)){
 			throw new IllegalArgumentException("Invalid phone number");
 		}
-		ContactMechanism contactMechanism= getContactMechanism(contactMechanismType);
 		if(contactMechanism == null){
 			if(local){
 				contactMechanism = new LocalContactMechanism();
