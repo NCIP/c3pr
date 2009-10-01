@@ -1112,9 +1112,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	// this method is required for study site study version default association.
 	@Transient
 	public StudyVersion getLatestActiveStudyVersion(){
-       List<StudyVersion> reverseSorted = this.getSortedStudyVersions() ;
-	   Collections.reverse(reverseSorted);
-	   for(StudyVersion studyVersion : reverseSorted){
+	   for(StudyVersion studyVersion : getReverseSortedStudyVersions()){
 		   if(studyVersion.getVersionStatus() == StatusType.AC){
 			   return studyVersion ;
 		   }
@@ -1297,9 +1295,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	 */
 	@Transient
 	public StudyVersion getStudyVersion(Date date) {
-		List<StudyVersion> reverseSorted = this.getSortedStudyVersions() ;
-		Collections.reverse(reverseSorted);
-		for(StudyVersion studyVersion : reverseSorted){
+		for(StudyVersion studyVersion : getReverseSortedStudyVersions()){
 			if(studyVersion.getVersionDate().before(date)){
 				return studyVersion;
 			}

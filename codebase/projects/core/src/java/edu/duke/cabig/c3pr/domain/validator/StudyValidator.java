@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain.validator;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -437,11 +438,26 @@ public class StudyValidator implements Validator {
 	}
 
 	public void validateAmendment(Study study, Errors errors) {
+		validateStudyVersion(study, errors);
 		if(study.getCurrentStudyAmendment().getAmendmentReasons() == null){
-			errors.rejectValue("tempProp", "C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE",
-                            getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE"),null, null));
+			errors.reject("tempProp", getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE"),null, null));
 		}
+		// validate date for amendment
+		validateAmendmentDate(study, errors);
+		
 
+	}
+
+	private void validateAmendmentDate(Study study, Errors errors) {
+		if(study.getStudyVersion().getVersionDate().after(new Date())){
+			errors.reject("tempProp", getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.FUTURE.AMENDMENT_DATE.CODE"),null, null));
+		}
+		List<StudyVersion> studyVersions = study.getSortedStudyVersions();
+		for(StudyVersion studyVersion : studyVersions){
+			if(studyVersion != study.getStudyVersion() && studyVersion.getVersionDate() == study.getStudyVersion().getVersionDate()){
+				errors.reject("tempProp", getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.NO_AMENDMENT_ON_SAME_DATE.CODE"),null, null));
+			}
+		}
 	}
 
 }
