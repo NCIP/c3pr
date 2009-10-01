@@ -24,6 +24,7 @@ function amendmentTypeChanged(){
 <form:form name="myform" cssClass="standard">
 	<tags:tabFields tab="${tab}" />
 	<chrome:box title="Amendment Details">
+		<tags:errors path="*" />
 		<chrome:division id="study-amendments">
 			<div class="row">
 				<div id="errorMsg1" style="display: none"><span id='sid1' style='color: #EE3324'>Please enter the Version# or Amendment Date.</span><br /></div>
@@ -53,8 +54,8 @@ function amendmentTypeChanged(){
 			</c:if>
 			<div class="row">
 			<div class="label"><fmt:message key="study.amendmentDate" /></div>
-			<div class="value"><tags:dateInput
-				path="study.currentStudyAmendment.versionDate" cssClass="validate-NOTEMPTY"/></div>
+			<div class="value">
+				<tags:dateInput path="study.currentStudyAmendment.versionDate" cssClass="validate-NOTEMPTY&&DATE"/></div>
 			</div>
 			<div class="row">
 			<div class="label"><fmt:message key="c3pr.common.comments" /></div>
