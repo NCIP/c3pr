@@ -491,7 +491,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 						// checking for the uniquness of email and NCI
 						// Identifier before saving into database
 						ResearchStaff researchStaffWithMatchingEmail = getByEmailAddressFromLocal(remoteResearchStaff
-																				.getEmailAsString());
+																				.getEmail());
 						ResearchStaff researchStaffWithMatchingNCIIdentifier = getByNciIdentifierFromLocal(remoteResearchStaff
 																				.getNciIdentifier());
 						if (researchStaffWithMatchingEmail == null
@@ -499,7 +499,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 							saveResearchStaff(remoteResearchStaff);
 						} else {
 							log.error("This remote research person : "	+ remoteResearchStaff.getFullName()
-										+ "'s email id : " + remoteResearchStaff.getEmailAsString()
+										+ "'s email id : " + remoteResearchStaff.getEmail()
 										+ "and/or NCI Identifier: "+ remoteResearchStaff.getNciIdentifier()
 										+ " is already in the database. Deferring to the local. :");
 						}
@@ -598,13 +598,14 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		csmUser.setFirstName(c3prUser.getFirstName());
 		csmUser.setLastName(c3prUser.getLastName());
 		csmUser.setPassword(c3prUser.getLastName());
+		csmUser.setEmailId(c3prUser.getEmail());
 
-		for (ContactMechanism cm : c3prUser.getContactMechanisms()) {
-			if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-				csmUser.setLoginName(cm.getValue().toLowerCase());
-				csmUser.setEmailId(cm.getValue());
-			}
-		}
+//		for (ContactMechanism cm : c3prUser.getContactMechanisms()) {
+//			if (cm.getType().equals(ContactMechanismType.EMAIL)) {
+//				csmUser.setLoginName(cm.getValue().toLowerCase());
+//				csmUser.setEmailId(cm.getValue());
+//			}
+//		}
 	}
 
 	/*
@@ -733,10 +734,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		// searchCriteria.setHealthcareSite(researchStaff.getHealthcareSite());
 		searchCriteria.setFirstName(researchStaff.getFirstName());
 		searchCriteria.setLastName(researchStaff.getLastName());
-		ContactMechanism emailContactMechanism = new LocalContactMechanism();
-		emailContactMechanism.setType(ContactMechanismType.EMAIL);
-		emailContactMechanism.setValue(researchStaff.getEmailAsString());
-		searchCriteria.addContactMechanism(emailContactMechanism);
+//		ContactMechanism emailContactMechanism = new LocalContactMechanism();
+//		emailContactMechanism.setType(ContactMechanismType.EMAIL);
+//		emailContactMechanism.setValue(researchStaff.getEmail());
+//		searchCriteria.addContactMechanism(emailContactMechanism);
+		searchCriteria.setEmail(researchStaff.getEmail());
 		List<ResearchStaff> remoteResearchStaffs = (List) remoteSession
 				.find(searchCriteria);
 		return remoteResearchStaffs;

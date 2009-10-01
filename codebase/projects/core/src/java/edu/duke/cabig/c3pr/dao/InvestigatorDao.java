@@ -133,10 +133,11 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	} else {
     		//First fetch the remote Inv's
         	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
-        	ContactMechanism contactMechanism = new RemoteContactMechanism();
-    		contactMechanism.setType(ContactMechanismType.EMAIL);
-    		contactMechanism.setValue(emailAddress);
-    		remoteInvestigator.addContactMechanism(contactMechanism);
+//        	ContactMechanism contactMechanism = new RemoteContactMechanism();
+//    		contactMechanism.setType(ContactMechanismType.EMAIL);
+//    		contactMechanism.setValue(emailAddress);
+//    		remoteInvestigator.addContactMechanism(contactMechanism);
+        	remoteInvestigator.setEmail(emailAddress);
     		
         	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
         	
@@ -210,7 +211,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 		if(matchingRemoteInvestigatorFromDb == null ){
 			// check the uniqueness of email and nci identifier of new investigator in database before saving him
 			Investigator investigatorsWithMatchingEmail = null;
-			investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmailAsString());
+			investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmail());
 			
 			Investigator investigatorsWithMatchingNCICode = null;
 			investigatorsWithMatchingNCICode = getByNciIdentifierFromLocal(retrievedRemoteInvestigator.getNciIdentifier());
@@ -221,7 +222,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 				log
 				.error("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
 						+ "'s email id : " + retrievedRemoteInvestigator
-								.getEmailAsString()	+ "and/or NCI Identifier: "
+								.getEmail()	+ "and/or NCI Identifier: "
 						+ retrievedRemoteInvestigator.getNciIdentifier()
 						+ " is already in the database. Deferring to the local. :");
 			}
@@ -333,10 +334,11 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	Investigator searchCriteria = new RemoteInvestigator();
     	searchCriteria.setFirstName(investigator.getFirstName());
     	searchCriteria.setLastName(investigator.getLastName());
-    	ContactMechanism emailContactMechanism = new LocalContactMechanism();
-    	emailContactMechanism.setType(ContactMechanismType.EMAIL);
-    	emailContactMechanism.setValue(investigator.getEmailAsString());
-    	searchCriteria.addContactMechanism(emailContactMechanism);
+//    	ContactMechanism emailContactMechanism = new LocalContactMechanism();
+//    	emailContactMechanism.setType(ContactMechanismType.EMAIL);
+//    	emailContactMechanism.setValue(investigator.getEmail());
+//    	searchCriteria.addContactMechanism(emailContactMechanism);
+    	searchCriteria.setEmail(investigator.getEmail());
     	List<Investigator> remoteInvestigators = (List)remoteSession.find(searchCriteria); 
     	return remoteInvestigators;
     }

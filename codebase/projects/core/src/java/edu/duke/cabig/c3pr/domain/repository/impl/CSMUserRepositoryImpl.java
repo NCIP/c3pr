@@ -209,21 +209,23 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 	}
 	
 	private String getEmailAddress(User user){
-		for (ContactMechanism cm : user.getContactMechanisms()) {
-            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-                return cm.getValue();
-            }
-        }
-		return null;
+//		for (ContactMechanism cm : user.getContactMechanisms()) {
+//            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
+//                return cm.getValue();
+//            }
+//        }
+//		return null;
+		return user.getEmail();
 	}
 	
 	private String getPhoneNumber(User user){
-		for (ContactMechanism cm : user.getContactMechanisms()) {
-            if (cm.getType().equals(ContactMechanismType.PHONE)) {
-                return cm.getValue();
-            }
-        }
-		return null;
+//		for (ContactMechanism cm : user.getContactMechanisms()) {
+//            if (cm.getType().equals(ContactMechanismType.PHONE)) {
+//                return cm.getValue();
+//            }
+//        }
+//		return null;
+		return user.getPhone();
 	}
 	// end
 

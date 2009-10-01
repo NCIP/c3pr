@@ -63,17 +63,19 @@ public class PersonnelServiceTestCase extends DaoTestCase {
         researchStaff.setNciIdentifier("test-user");
         researchStaff.setFirstName("test");
         researchStaff.setLastName("user");
-        email = new LocalContactMechanism();
-        email.setType(ContactMechanismType.EMAIL);
-        email.setValue("test-user@test.org");
-        researchStaff.addContactMechanism(email);
+//        email = new LocalContactMechanism();
+//        email.setType(ContactMechanismType.EMAIL);
+//        email.setValue("test-user@test.org");
+//        researchStaff.addContactMechanism(email);
+        researchStaff.setEmail("test-user@test.org");
         personnelService.save(researchStaff);
 
         // now change the staff details
         researchStaff.setFirstName("changed");
-        researchStaff.removeContactMechanism(email);
-        email.setValue("changed");
-        researchStaff.addContactMechanism(email);
+//        researchStaff.removeContactMechanism(email);
+//        email.setValue("changed");
+//        researchStaff.addContactMechanism(email);
+        researchStaff.setEmail("test-user-changed@test.org");
         researchStaff.setNciIdentifier("changed");
         personnelService.merge(researchStaff);
 

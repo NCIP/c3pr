@@ -347,11 +347,12 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		remoteInvestigator.setLastName("remote lname");
 		remoteInvestigator.setExternalId(externalId);
 		
-		RemoteContactMechanism contactMechanism = new RemoteContactMechanism();
-		contactMechanism.setType(ContactMechanismType.PHONE);
-		contactMechanism.setValue("9727401169");
-		
-		remoteInvestigator.getContactMechanisms().add(contactMechanism);
+//		RemoteContactMechanism contactMechanism = new RemoteContactMechanism();
+//		contactMechanism.setType(ContactMechanismType.PHONE);
+//		contactMechanism.setValue("9727401169");
+//		
+//		remoteInvestigator.getContactMechanisms().add(contactMechanism);
+		remoteInvestigator.setRemotePhone("9727401169");
 		return remoteInvestigator;
 
 		/*

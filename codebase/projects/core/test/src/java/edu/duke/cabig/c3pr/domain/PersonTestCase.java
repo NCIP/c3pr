@@ -34,7 +34,7 @@ public class PersonTestCase extends AbstractTestCase {
 	 * Test get email as string.
 	 */
 	public void testGetEmailAsString(){
-		assertNull("Email should come as null", person.getEmailAsString());
+		assertNull("Email should come as null", person.getEmail());
 	}
 
 	/**
@@ -42,8 +42,8 @@ public class PersonTestCase extends AbstractTestCase {
 	 */
 	public void testGetEmailAsString1(){
 		person.setEmail("test@best.com");
-		assertNotNull("Email should not be null", person.getEmailAsString());
-		assertEquals("Email id should be test@best.com", "test@best.com", person.getEmailAsString());
+		assertNotNull("Email should not be null", person.getEmail());
+		assertEquals("Email id should be test@best.com", "test@best.com", person.getEmail());
 	}
 	
 	/**
@@ -51,14 +51,14 @@ public class PersonTestCase extends AbstractTestCase {
 	 */
 	public void testGetEmailAsString2(){
 		person.setFax("1234567890");
-		assertNull("Email should be null", person.getEmailAsString());
+		assertNull("Email should be null", person.getEmail());
 	}
 	
 	/**
 	 * Test get phone as string.
 	 */
 	public void testGetPhoneAsString(){
-		assertNull("Phone should come as null", person.getPhoneAsString());
+		assertNull("Phone should come as null", person.getPhone());
 	}
 
 	/**
@@ -66,8 +66,8 @@ public class PersonTestCase extends AbstractTestCase {
 	 */
 	public void testGetPhoneAsString1(){
 		person.setPhone("1234567890");
-		assertNotNull("Phone should not be null", person.getPhoneAsString());
-		assertEquals("Phone number should be 1234567890", "1234567890", person.getPhoneAsString());
+		assertNotNull("Phone should not be null", person.getPhone());
+		assertEquals("Phone number should be 1234567890", "1234567890", person.getPhone());
 	}
 	
 	/**
@@ -75,14 +75,14 @@ public class PersonTestCase extends AbstractTestCase {
 	 */
 	public void testGetPhoneAsString2(){
 		person.setFax("1234567890");
-		assertNull("Phone should be null", person.getPhoneAsString());
+		assertNull("Phone should be null", person.getPhone());
 	}
 	
 	/**
 	 * Test get fax as string.
 	 */
 	public void testGetFaxAsString(){
-		assertNull("Fax should come as null", person.getFaxAsString());
+		assertNull("Fax should come as null", person.getFax());
 	}
 
 	/**
@@ -90,8 +90,8 @@ public class PersonTestCase extends AbstractTestCase {
 	 */
 	public void testGetFaxAsString1(){
 		person.setFax("1234567890");
-		assertNotNull("Fax should not be null", person.getFaxAsString());
-		assertEquals("Fax number should be 1234567890", "1234567890", person.getFaxAsString());
+		assertNotNull("Fax should not be null", person.getFax());
+		assertEquals("Fax number should be 1234567890", "1234567890", person.getFax());
 	}
 	
 	/**
@@ -99,7 +99,7 @@ public class PersonTestCase extends AbstractTestCase {
 	 */
 	public void testGetFaxAsString2(){
 		person.setPhone("1234567890");
-		assertNull("Fax should be null", person.getFaxAsString());
+		assertNull("Fax should be null", person.getFax());
 	}
 	
 	/**
@@ -284,6 +284,9 @@ public class PersonTestCase extends AbstractTestCase {
 		assertFalse("comparing person object to another person", person.equals(newPerson));
 	}
 
-	
+	public void testSetEmail(){
+		Person newPerson = new PersonSubClass();
+		newPerson.setEmail("aaa@bbb.com");
+	}
 	
 }

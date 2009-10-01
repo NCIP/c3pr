@@ -36,96 +36,84 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
 
     protected List<ContactMechanism> contactMechanisms = new ArrayList<ContactMechanism>();
 
-    public void addContactMechanism(ContactMechanism contactMechanism) {
-        contactMechanisms.add(contactMechanism);
-    }
-
-    public void removeContactMechanism(ContactMechanism contactMechanism) {
-        contactMechanisms.remove(contactMechanism);
-    }
-    
     @Transient
-	public String getEmailAsString(){
+	public String getEmail(){
 		for(ContactMechanism contactMechanism: getContactMechanisms()){
 			if(contactMechanism.getType()==ContactMechanismType.EMAIL){
 				return contactMechanism.getValue();
 			}
 		}
-		
 		return null;
 	}
 	
 	@Transient
-	public String getPhoneAsString(){
+	public String getPhone(){
 		for(ContactMechanism contactMechanism: getContactMechanisms()){
 			if(contactMechanism.getType()==ContactMechanismType.PHONE){
 				return contactMechanism.getValue();
 			}
 		}
-		
 		return null;
 	}
 	
 	@Transient
-	public String getFaxAsString(){
+	public String getFax(){
 		for(ContactMechanism contactMechanism: getContactMechanisms()){
 			if(contactMechanism.getType()==ContactMechanismType.Fax){
 				return contactMechanism.getValue();
 			}
 		}
-		
 		return null;
 	}
 	
-	public void setEmail(String email, ContactMechanism emailContactMechanism){
-		if(emailContactMechanism == null){
-			emailContactMechanism = new LocalContactMechanism();
+	private void setContactMechanism(String value, ContactMechanismType contactMechanismType, boolean local){
+		if(StringUtils.getBlankIfNull(value).equals("")){
+			return;
 		}
-		emailContactMechanism.setType(ContactMechanismType.EMAIL);
-		emailContactMechanism.setValue(email);
-		this.addContactMechanism(emailContactMechanism);
-	}
-	
-	public void setPhone(String phone, ContactMechanism phoneContactMechanism){
-		if(phoneContactMechanism == null){
-			phoneContactMechanism = new LocalContactMechanism();
+		if(contactMechanismType == null){
+			throw new NullPointerException("Cannot set empty contact mechanism type");
 		}
-		phoneContactMechanism.setType(ContactMechanismType.PHONE);
-		phoneContactMechanism.setValue(phone);
-		this.addContactMechanism(phoneContactMechanism);
-	}
-	
-	public void setFax(String fax, ContactMechanism faxContactMechanism){
-		if(faxContactMechanism == null){
-			faxContactMechanism = new LocalContactMechanism();
+		if(contactMechanismType == ContactMechanismType.EMAIL && !StringUtils.isValidEmail(value)){
+			throw new IllegalArgumentException("Invalid email address");
 		}
-		faxContactMechanism.setType(ContactMechanismType.Fax);
-		faxContactMechanism.setValue(fax);
-		this.addContactMechanism(faxContactMechanism);
+		if((contactMechanismType == ContactMechanismType.PHONE || contactMechanismType == ContactMechanismType.Fax) && !StringUtils.isValidPhone(value)){
+			throw new IllegalArgumentException("Invalid phone number");
+		}
+		ContactMechanism contactMechanism= getContactMechanism(contactMechanismType);
+		if(contactMechanism == null){
+			if(local){
+				contactMechanism = new LocalContactMechanism();
+			}else{
+				contactMechanism = new RemoteContactMechanism();
+			}
+			contactMechanism.setType(contactMechanismType);
+			contactMechanisms.add(contactMechanism);
+		}
+		contactMechanism.setValue(value);
 	}
 	
 	public void setEmail(String email){
-		setEmail(email, new LocalContactMechanism());
+		setContactMechanism(email, ContactMechanismType.EMAIL, true);
 	}
 	
 	public void setPhone(String phone){
-		setPhone(phone, new LocalContactMechanism());
+		setContactMechanism(phone, ContactMechanismType.PHONE, true);
 	}
 	
 	public void setFax(String fax){
-		setFax(fax, new LocalContactMechanism());
+		setContactMechanism(fax, ContactMechanismType.Fax, true);
 	}
 	
 	public void setRemoteEmail(String email){
-		setEmail(email, new RemoteContactMechanism());
+		setContactMechanism(email, ContactMechanismType.EMAIL, false);
 	}
 	
 	public void setRemotePhone(String phone){
-		setPhone(phone, new RemoteContactMechanism());
+		setContactMechanism(phone, ContactMechanismType.PHONE, false);
 	}
 	
 	public void setRemoteFax(String fax){
-		setFax(fax, new RemoteContactMechanism());
+		setContactMechanism(fax, ContactMechanismType.Fax, false);
 	}
     
     @RemoteProperty
@@ -179,6 +167,15 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
     @Transient
     public List<ContactMechanism> getContactMechanisms() {
         return contactMechanisms;
+    }
+    
+    @Transient
+    private ContactMechanism getContactMechanism(ContactMechanismType type) {
+        for(ContactMechanism contactMechanism: getContactMechanisms()){
+        	if(contactMechanism.getType() == type)
+        		return contactMechanism;
+        }
+        return null;
     }
     
     @RemoteProperty

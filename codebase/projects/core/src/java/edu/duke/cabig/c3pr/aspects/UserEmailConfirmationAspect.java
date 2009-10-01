@@ -28,25 +28,39 @@ public class UserEmailConfirmationAspect {
                     + " && args(staff)")
     public void sendEmail(ResearchStaff staff) {
 
-        for (ContactMechanism cm : staff.getContactMechanisms()) {
-            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-                try {
-                    SimpleMailMessage msg = new SimpleMailMessage(
-                                    this.accountCreatedTemplateMessage);
-                    msg.setTo(cm.getValue());
-                    msg.setText("An account has been created for you.\n" + " Username:"
-                                    + cm.getValue() + " Password:" + staff.getLastName() + ""
-                                    + "\n -c3pr admin");
-                    log.debug("Trying to send user account confirmation email");
-                    this.mailSender.send(msg);
-                }
-                catch (MailException e) {
-                    log.debug("Could not send email due to  " + e.getMessage());
-                    // just log it for now
-                }
-
-            }
-        }
+    	try {
+          SimpleMailMessage msg = new SimpleMailMessage(
+                          this.accountCreatedTemplateMessage);
+          msg.setTo(staff.getEmail());
+          msg.setText("An account has been created for you.\n" + " Username:"
+                          + staff.getEmail() + " Password:" + staff.getLastName() + ""
+                          + "\n -c3pr admin");
+          log.debug("Trying to send user account confirmation email");
+          this.mailSender.send(msg);
+      }
+      catch (MailException e) {
+          log.debug("Could not send email due to  " + e.getMessage());
+          // just log it for now
+      }
+//        for (ContactMechanism cm : staff.getContactMechanisms()) {
+//            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
+//                try {
+//                    SimpleMailMessage msg = new SimpleMailMessage(
+//                                    this.accountCreatedTemplateMessage);
+//                    msg.setTo(cm.getValue());
+//                    msg.setText("An account has been created for you.\n" + " Username:"
+//                                    + cm.getValue() + " Password:" + staff.getLastName() + ""
+//                                    + "\n -c3pr admin");
+//                    log.debug("Trying to send user account confirmation email");
+//                    this.mailSender.send(msg);
+//                }
+//                catch (MailException e) {
+//                    log.debug("Could not send email due to  " + e.getMessage());
+//                    // just log it for now
+//                }
+//
+//            }
+//        }
     }
 
     public MailSender getMailSender() {

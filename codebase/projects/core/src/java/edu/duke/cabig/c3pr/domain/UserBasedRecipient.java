@@ -92,20 +92,22 @@ public class UserBasedRecipient extends Recipient {
     	}
 		List<ContactMechanism> cmList = null;		
 		if(researchStaff != null){
-			cmList = researchStaff.getContactMechanisms();
+			//cmList = researchStaff.getContactMechanisms();
+			return researchStaff.getEmail();
 		} else {
 			if(investigator != null){
-				cmList = investigator.getContactMechanisms();
+//				cmList = investigator.getContactMechanisms();
+				return investigator.getEmail();
 			}
 		}
 		
-		if(cmList != null){
-			for(ContactMechanism cm: cmList){
-				if(cm.getType().equals(ContactMechanismType.EMAIL)){
-					return cm.getValue();
-				}
-			}
-		}			
+//		if(cmList != null){
+//			for(ContactMechanism cm: cmList){
+//				if(cm.getType().equals(ContactMechanismType.EMAIL)){
+//					return cm.getValue();
+//				}
+//			}
+//		}			
 		return "";
 	}
     

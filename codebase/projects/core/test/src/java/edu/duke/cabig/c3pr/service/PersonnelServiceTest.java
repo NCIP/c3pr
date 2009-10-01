@@ -32,11 +32,12 @@ public class PersonnelServiceTest extends DaoTestCase {
         inv.setFirstName("Dummy");
         inv.setLastName("User");
 
-        ContactMechanism cm = new LocalContactMechanism();
-        cm.setType(ContactMechanismType.EMAIL);
-        cm.setValue("dummy@dummy.org");
-
-        inv.addContactMechanism(cm);
+//        ContactMechanism cm = new LocalContactMechanism();
+//        cm.setType(ContactMechanismType.EMAIL);
+//        cm.setValue("dummy@dummy.org");
+//
+//        inv.addContactMechanism(cm);
+        inv.setEmail("dummy@dummy.org");
 
     }
 

@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtils extends org.apache.commons.lang.StringUtils {
 
@@ -262,5 +264,13 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
             if (br != null) br.close();
             return(sb.toString());
         }
+    }
+    
+    public static boolean isValidEmail(String email){
+        return email.matches(".+@.+\\.[a-z]+");
+    }
+    
+    public static boolean isValidPhone(String phone){
+        return phone.matches("(\\d-)?(\\d{3}-)?\\d{3}-\\d{4}") || phone.matches("\\d{10}");
     }
 }

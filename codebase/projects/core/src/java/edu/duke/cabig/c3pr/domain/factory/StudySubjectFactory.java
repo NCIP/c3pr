@@ -181,7 +181,7 @@ public class StudySubjectFactory {
         	HealthcareSite healthcareSite= healthcareSiteDao.getByPrimaryIdentifier(organizationAssignedIdentifier.getHealthcareSite().getPrimaryIdentifier());
         	organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
         }
-        addContactsToParticipant(participant);
+//        addContactsToParticipant(participant);
         return participant;
     }
 
@@ -354,19 +354,19 @@ public class StudySubjectFactory {
         studySubject.setMultisiteWorkflowStatus(source.getMultisiteWorkflowStatus());*/
     }
     
-    private Participant addContactsToParticipant(Participant participant) {
-
-        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
-        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-        ContactMechanism contactMechanismFax = new LocalContactMechanism();
-        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
-        contactMechanismPhone.setType(ContactMechanismType.PHONE);
-        contactMechanismFax.setType(ContactMechanismType.Fax);
-        participant.addContactMechanism(contactMechanismEmail);
-        participant.addContactMechanism(contactMechanismPhone);
-        participant.addContactMechanism(contactMechanismFax);
-        return participant;
-    }
+//    private Participant addContactsToParticipant(Participant participant) {
+//
+//        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
+//        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
+//        ContactMechanism contactMechanismFax = new LocalContactMechanism();
+//        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
+//        contactMechanismPhone.setType(ContactMechanismType.PHONE);
+//        contactMechanismFax.setType(ContactMechanismType.Fax);
+//        participant.addContactMechanism(contactMechanismEmail);
+//        participant.addContactMechanism(contactMechanismPhone);
+//        participant.addContactMechanism(contactMechanismFax);
+//        return participant;
+//    }
 
     private int getCode(String errortypeString) {
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));

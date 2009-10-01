@@ -36,12 +36,14 @@ public class InvestigatorValidator implements Validator {
     	}
     	
     	Investigator investigatorsbyEmail = null;
-    	investigatorsbyEmail =  investigatorDao.getByEmailAddressFromLocal(inv.getContactMechanisms().get(0).getValue());
+    	//investigatorsbyEmail =  investigatorDao.getByEmailAddressFromLocal(inv.getContactMechanisms().get(0).getValue());
+    	investigatorsbyEmail =  investigatorDao.getByEmailAddressFromLocal(inv.getEmail());
     	
     	if(investigatorsbyEmail != null){
     		if(inv.getId()==null){
     			errors.reject("tempProperty","Investigator with this Email already exists");
-        	} else if(inv.getContactMechanisms().get(0).getValue().equals(investigatorsbyEmail.getContactMechanisms().get(0).getValue()) && !inv.getId().equals(investigatorsbyEmail.getId())){
+        	} else if(inv.getEmail().equals(investigatorsbyEmail.getEmail()) && !inv.getId().equals(investigatorsbyEmail.getId())){
+        		//else if(inv.getContactMechanisms().get(0).getValue().equals(investigatorsbyEmail.getContactMechanisms().get(0).getValue()) && !inv.getId().equals(investigatorsbyEmail.getId())){
 				errors.reject("tempProperty","Investigator with this Email already exists");
     		}
     	}
