@@ -90,6 +90,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 
     public void testCreateStudyCompleteDataEntry() {
         study = studyCreationHelper.createBasicStudy();
+        study = studyCreationHelper.addConsent(study, "consent 1");
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         studyDao.save(study);
@@ -119,6 +120,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 
     public void testOpenStudyPending() throws C3PRCodedException {
         Study study = studyCreationHelper.createBasicStudy();
+        study = studyCreationHelper.addConsent(study, "consent 1");
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         studyDao.save(study);
@@ -413,6 +415,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
 
     private Study getPersistedStudy() {
         Study study = studyCreationHelper.createBasicStudy();
+        study = studyCreationHelper.addConsent(study, "consent 1");
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         studyDao.save(study);

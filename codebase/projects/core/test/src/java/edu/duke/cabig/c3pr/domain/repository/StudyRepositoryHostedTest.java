@@ -28,6 +28,7 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
         // study = studySubjectCreatorHelper.getPersistedMultiSiteNonRandomizedWithArmStudySubject(
         // false).getStudySite().getStudy();
         study = studyCreationHelper.createBasicStudy();
+        study = studyCreationHelper.addConsent(study, "consent 1");
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         studyDao.save(study);
@@ -52,6 +53,7 @@ public class StudyRepositoryHostedTest extends StudyDaoTestCaseTemplate {
 
     public void testOpenStudyPending() throws C3PRCodedException {
         Study study = studyCreationHelper.createBasicStudy();
+        study = studyCreationHelper.addConsent(study, "consent 1");
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         studyDao.save(study);

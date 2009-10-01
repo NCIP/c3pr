@@ -1,14 +1,10 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
-
-import javax.persistence.Transient;
 
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;

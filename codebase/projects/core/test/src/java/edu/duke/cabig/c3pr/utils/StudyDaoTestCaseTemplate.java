@@ -188,6 +188,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
 
     protected Study getPersistedStudy() {
         Study study = studyCreationHelper.createBasicStudy();
+        study = studyCreationHelper.addConsent(study, "consent 1");
         study = createDefaultStudyWithDesign(study);
         studyCreationHelper.addStudySiteAsCooordinatingCenter(study);
         studyDao.save(study);
