@@ -9,21 +9,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
@@ -36,6 +35,8 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     private PersonnelService personnelService;
 
     private ResearchStaffDao researchStaffDao;
+    
+    private Configuration configuration;
 
     private String EDIT_FLOW = "EDIT_FLOW";
 
@@ -60,23 +61,6 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         String email = request.getParameter("emailId") ;
         if (!StringUtils.isBlank(email)) {
             researchStaff = researchStaffDao.getByEmailAddress(email);
-//            int cmSize = researchStaff.getContactMechanisms().size();
-//            if (cmSize == 0) {
-//                addContactsToResearchStaff(researchStaff);
-//            }
-//            if (cmSize == 1) {
-//                ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-//                ContactMechanism contactMechanismFax = new LocalContactMechanism();
-//                contactMechanismPhone.setType(ContactMechanismType.PHONE);
-//                contactMechanismFax.setType(ContactMechanismType.Fax);
-//                researchStaff.addContactMechanism(contactMechanismPhone);
-//                researchStaff.addContactMechanism(contactMechanismFax);
-//            }
-//            if (cmSize == 2) {
-//                ContactMechanism contactMechanismFax = new LocalContactMechanism();
-//                contactMechanismFax.setType(ContactMechanismType.Fax);
-//                researchStaff.addContactMechanism(contactMechanismFax);
-//            }
             researchStaff.setGroups(personnelService.getGroups(researchStaff));
             researchStaffDao.initialize(researchStaff);
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
@@ -91,23 +75,15 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         return researchStaff;
     }
 
-//    public void addContactsToResearchStaff(ResearchStaff rs) {
-//        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
-//        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-//        ContactMechanism contactMechanismFax = new LocalContactMechanism();
-//        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
-//        contactMechanismPhone.setType(ContactMechanismType.PHONE);
-//        contactMechanismFax.setType(ContactMechanismType.Fax);
-//        rs.addContactMechanism(contactMechanismEmail);
-//        rs.addContactMechanism(contactMechanismPhone);
-//        rs.addContactMechanism(contactMechanismFax);
-//    }
-
     @Override
-    protected Map<String, Object> referenceData(HttpServletRequest request) {
-        Map<String, Object> model = super.referenceData(request);
+    protected Map referenceData(HttpServletRequest request, Object command,
+    		Errors errors) throws Exception {
+    	// TODO Auto-generated method stub
+    	Map<String, Object> model = super.referenceData(request, command, errors);
         model.put("groups", C3PRUserGroupType.values());
         model.put("isAdmin", CommonUtils.isAdmin());
+        model.put("isLoggedInUser", CommonUtils.getLoggedInUsername().equals(((ResearchStaff)command).getEmail()));
+        model.put("coppaEnable", configuration.get(Configuration.COPPA_ENABLE));
         return model;
     }
     
@@ -253,5 +229,9 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     protected C getPrimaryDomainObject(C command) {
         return command;
     }
+
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
 
 }

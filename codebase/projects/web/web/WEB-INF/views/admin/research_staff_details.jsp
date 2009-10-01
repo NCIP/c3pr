@@ -11,6 +11,7 @@
 
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
+	<c:if test="${!isLoggedInUser}">
 	ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		var error = document.getElementById("errorMsg1");
 		
@@ -35,6 +36,7 @@
 			return false;
 		}
 	}
+	</c:if>
 
 
   var sponsorSiteAutocompleterProps = {
@@ -273,6 +275,9 @@
             <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" /> (Username)
             </div>
 				<c:choose>
+					<c:when test="${isLoggedInUser }">
+						<div class="value">${command.email}</div>
+					</c:when>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
 						<c:choose>
 							<c:when test="${!empty command.email}">
@@ -336,11 +341,39 @@
         </div>
     </div>
 </chrome:division>
+<c:choose>
+<c:when test="${isLoggedInUser}">
+<chrome:division id="staff-details" title="* User Role(s)">
+	<c:forEach items="${groups}" var="group" varStatus="status">
+		<c:set var="userHasGroup" value="false"></c:set>
+	    <div class="row">
+	        <div class="label">
+	                ${group.displayName}
+	        </div>
+	        <div class="value">
+	        	<c:forEach items="${command.groups}" var="userGroup">
+	        		<c:if test="${userGroup.displayName == group.displayName}">
+	        			<c:set var="userHasGroup" value="true"></c:set>
+	        		</c:if>
+	        	</c:forEach>
+	        	<c:choose>
+	        		<c:when test="${userHasGroup}">
+	        			<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
+	        		</c:when>
+	        		<c:otherwise>
+	        			<img src="<tags:imageUrl name='checkno.gif'/>"/>
+	        		</c:otherwise>
+	        	</c:choose>
+	        </div>
+	    </div>
+	</c:forEach>
+</chrome:division>
+</c:when>
+<c:otherwise>
 <chrome:division id="staff-details" title="* User Role (At least one required- Check all that apply)">
 	<div id="errorMsg1" style="display:none">
 		<span id='sid1' style='color:#EE3324'>Please select atleast one role.</span><br/> 	
 	</div>
-	   
         <c:forEach items="${groups}" var="group" varStatus="status">
             <div class="row">
                 <div class="label">
@@ -352,14 +385,15 @@
             </div>
         </c:forEach>
 </chrome:division>
-
+</c:otherwise>
+</c:choose>
 </chrome:box>
 </form:form> <tags:tabControls tab="${tab}" flow="${flow}"
 	localButtons="${localButtons}" willSave="true">
 	<jsp:attribute name="submitButton">
 		<table>
 				<tr>
-					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalResearchStaff'}">
+					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalResearchStaff' && coppaEnable}">
 						<td valign="bottom">
 									<tags:button type="submit" value="Sync" color="blue"
 									id="sync-org" onclick="javascript:syncResearchStaff();" />	
