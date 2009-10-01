@@ -104,32 +104,10 @@ public class CreateParticipantController<C extends Participant> extends
         return super.isFormSubmission(request);
     }
 
-//    @Override
-//    protected Object formBackingObject(HttpServletRequest request) throws Exception {
-//        Participant participant = (Participant) super.formBackingObject(request);
-//        participant = createParticipantWithContacts(participant);
-//        return participant;
-//    }
-
     protected void layoutTabs(Flow flow) {
         flow.addTab(new ParticipantDetailsTab());
         flow.addTab(new ParticipantAddressAndContactInfoTab());
-        flow.addTab(new ParticipantSubmitTab());
     }
-
-//    private Participant createParticipantWithContacts(Participant participant) {
-//
-//        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
-//        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-//        ContactMechanism contactMechanismFax = new LocalContactMechanism();
-//        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
-//        contactMechanismPhone.setType(ContactMechanismType.PHONE);
-//        contactMechanismFax.setType(ContactMechanismType.Fax);
-//        participant.addContactMechanism(contactMechanismEmail);
-//        participant.addContactMechanism(contactMechanismPhone);
-//        participant.addContactMechanism(contactMechanismFax);
-//        return participant;
-//    }
 
     @Override
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
@@ -182,7 +160,6 @@ public class CreateParticipantController<C extends Participant> extends
         }
         response.sendRedirect("confirmCreateParticipant?"+ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0)));
         return null;
-//        return new ModelAndView("redirect:confirmCreateParticipant?"+ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0)));
     }
 
     

@@ -10,9 +10,10 @@ top:83px;
 </style>
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}"
-	formName="participantAddressForm">    
-	<jsp:attribute name="singleFields">
+<form:form id="participantAddressForm" name="participantAddressForm">   
+	<chrome:box title="Address">
+	<input type="hidden" id="currentPage" name="_page${tab.number}"/>
+	<input type="hidden" id="_finish" name="_finish"/> 
     <tags:instructions code="participant_address" />
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
@@ -54,8 +55,11 @@ top:83px;
 			<div class="value"><form:input path="fax" cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.fax"/></div>
 		</div>
 	</chrome:division>
-	</jsp:attribute>
-</tags:tabForm>
+	<div class="content buttons autoclear"><div class="flow-buttons"><span class="next">
+		<tags:button type="submit" color="green" id="flow-next"  value="Save & Done" icon="save"/>
+	</span></div></div>
+	</chrome:box>
+</form:form>
 
 </body>
 </html>
