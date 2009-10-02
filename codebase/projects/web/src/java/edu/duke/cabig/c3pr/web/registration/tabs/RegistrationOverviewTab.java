@@ -26,6 +26,7 @@ import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
@@ -192,7 +193,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	}
 
 	private boolean canEditRegistration(StudySubject studySubject) {
-		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY && CommonUtils.isAdmin()) {
+		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY && WebUtils.isAdmin()) {
 			return true;
 		}
 		return false;

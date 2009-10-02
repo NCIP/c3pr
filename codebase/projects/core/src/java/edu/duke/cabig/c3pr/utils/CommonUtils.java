@@ -14,20 +14,6 @@ import com.karneim.util.collection.regex.ParseException;
 
 public class CommonUtils {
 
-	public static Boolean isAdmin() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication auth = context.getAuthentication();
-        if (auth != null) {
-            GrantedAuthority[] groups = auth.getAuthorities();
-            for (GrantedAuthority ga : groups) {
-                if (ga.getAuthority().endsWith("admin")) {
-                    return new Boolean(true);
-                }
-            }
-        }
-        return new Boolean(false);
-    }
-
 	public static String getLoggedInUsername() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();

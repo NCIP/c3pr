@@ -39,15 +39,7 @@ public class StudyEligibilityChecklistTab extends StudyTab {
     @Override
     public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
-        boolean isAdmin = isAdmin();
-        if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true"))
-                || (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true"))) {
-            if (request.getSession().getAttribute(DISABLE_FORM_ELIGIBILITY) != null && !isAdmin) {
-                refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_ELIGIBILITY));
-            } else {
-                refdata.put("disableForm", new Boolean(false));
-            }
-        }
+        refdata = canDisableTab(request, refdata, DISABLE_FORM_ELIGIBILITY);
         refdata.put("epochIndex",request.getParameter("epochIndex"));
         return refdata;
     }

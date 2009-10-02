@@ -27,18 +27,8 @@ public class CompanionStudyTab extends StudyTab {
         addConfigMapToRefdata(refdata, "statusRefData");
         addConfigMapToRefdata(refdata, "typeRefData");
         addConfigMapToRefdata(refdata, "yesNo");
-        boolean isAdmin = isAdmin();
         refdata.put("dataFromParent", dataForCompanionStudies(wrapper.getStudy()));
-        if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
-                .toString().equals("true"))
-                || (request.getAttribute("editFlow") != null && request.getAttribute(
-                "editFlow").toString().equals("true"))) {
-            if (request.getSession().getAttribute(DISABLE_FORM_COMPANION) != null && !isAdmin) {
-                refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_COMPANION));
-            } else {
-                refdata.put("disableForm", new Boolean(false));
-            }
-        }
+        refdata = canDisableTab(request, refdata, DISABLE_FORM_COMPANION);
         return refdata;
     }
     

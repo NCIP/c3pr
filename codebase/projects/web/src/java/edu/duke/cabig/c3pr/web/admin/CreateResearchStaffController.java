@@ -25,6 +25,7 @@ import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 
 /**
  * @author Ramakrishna
@@ -81,7 +82,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     	// TODO Auto-generated method stub
     	Map<String, Object> model = super.referenceData(request, command, errors);
         model.put("groups", C3PRUserGroupType.values());
-        model.put("isAdmin", CommonUtils.isAdmin());
+        model.put("isAdmin", WebUtils.isAdmin());
         model.put("isLoggedInUser", CommonUtils.getLoggedInUsername().equals(((ResearchStaff)command).getEmail()));
         model.put("coppaEnable", configuration.get(Configuration.COPPA_ENABLE));
         return model;

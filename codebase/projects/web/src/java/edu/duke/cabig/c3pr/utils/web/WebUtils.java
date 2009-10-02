@@ -5,6 +5,11 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.acegisecurity.Authentication;
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
+
 public class WebUtils {
 
 	/**
@@ -21,5 +26,20 @@ public class WebUtils {
 		}
 		return options;
 	}
+	
+	public static Boolean isAdmin() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication auth = context.getAuthentication();
+        if (auth != null) {
+            GrantedAuthority[] groups = auth.getAuthorities();
+            for (GrantedAuthority ga : groups) {
+                if (ga.getAuthority().endsWith("admin")) {
+                    return new Boolean(true);
+                }
+            }
+        }
+        return new Boolean(false);
+    }
+
 
 }

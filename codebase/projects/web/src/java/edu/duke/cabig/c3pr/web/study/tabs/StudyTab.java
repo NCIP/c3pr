@@ -25,6 +25,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
@@ -194,6 +195,7 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
 
     public void disableAll(HttpServletRequest request) {
         request.getSession().setAttribute(DISABLE_FORM_DETAILS, new Boolean(true));
+        request.getSession().setAttribute(DISABLE_FORM_CONSENT, new Boolean(true));
         request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(true));
         request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(true));
         request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(true));
@@ -204,6 +206,7 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
 
     public void enableAll(HttpServletRequest request) {
         request.getSession().setAttribute(DISABLE_FORM_DETAILS, new Boolean(false));
+        request.getSession().setAttribute(DISABLE_FORM_CONSENT, new Boolean(false));
         request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
         request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(false));
         request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(false));
@@ -213,19 +216,23 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
     }
 
     public Boolean isAdmin() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication auth = context.getAuthentication();
-        if (auth != null) {
-            GrantedAuthority[] groups = auth.getAuthorities();
-            for (GrantedAuthority ga : groups) {
-                if (ga.getAuthority().endsWith("admin")) {
-                    return new Boolean(true);
-                }
-            }
-        }
-
-        return new Boolean(false);
+        return WebUtils.isAdmin();
     }
+    
+    protected Map<String, Object> canDisableTab(HttpServletRequest request, Map<String, Object> refdata, String tabName){
+		Object amendFlow = request.getAttribute("amendFlow");
+		Object editFlow = request.getAttribute("editFlow");
+		Object tabAttribute = request.getSession().getAttribute(tabName);
+		
+		if ((amendFlow != null && amendFlow.toString().equals("true")) || (editFlow != null && editFlow.toString().equals("true"))) {
+			if (tabAttribute != null && !isAdmin()) {
+				refdata.put("disableForm", tabAttribute);
+			} else {
+				refdata.put("disableForm", new Boolean(false));
+			}
+		}
+		return refdata ;
+	}
 
     @Override
     public final void postProcess(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {

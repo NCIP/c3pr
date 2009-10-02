@@ -38,20 +38,8 @@ public class StudyStratificationTab extends StudyTab {
 	@Override
 	public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
 		Map<String, Object> refdata = super.referenceData(wrapper);
-		boolean isAdmin = isAdmin();
-		if ((request.getAttribute("amendFlow") != null && request.getAttribute(
-				"amendFlow").toString().equals("true"))
-				|| (request.getAttribute("editFlow") != null && request
-						.getAttribute("editFlow").toString().equals("true"))) {
-			if (request.getSession().getAttribute(DISABLE_FORM_STRATIFICATION) != null
-					&& !isAdmin) {
-				refdata.put("disableForm", request.getSession().getAttribute(
-						DISABLE_FORM_STRATIFICATION));
-			} else {
-				refdata.put("disableForm", new Boolean(false));
-				refdata.put("mandatory", "true");
-			}
-		}
+		refdata = canDisableTab(request, refdata, DISABLE_FORM_STRATIFICATION);
+		
 		if(wrapper.getStudy().getRandomizedIndicator() && wrapper.getStudy().getRandomizationType().equals(RandomizationType.BOOK)){
 			refdata.put("isBookRandomized", "true");
 		}else{
@@ -60,6 +48,7 @@ public class StudyStratificationTab extends StudyTab {
 		refdata.put("epochId",request.getParameter("epochId"));
 		return refdata;
 	}
+	
 
 	/**
 	 * This method gets the serialized string that has the order of the re-ordered Stratum Groups.
