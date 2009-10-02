@@ -24,7 +24,7 @@ public class StudyIdentifiersTab extends StudyTab {
     @Override
     public Map<String, Object> referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData();
-        addConfigMapToRefdata(refdata, "identifiersTypeRefData");
+        addConfigMapToRefdata(refdata, "orgIdentifiersTypeRefData");
         return refdata;
     }
 
