@@ -27,18 +27,6 @@ function activateAndSaveStudy(){
 	}
 }
 
-function createStudy(){
-	if (${fn:length(errors)} > 0){
-		var d = $('errorsCreateDiv');
-		Dialog.alert(d.innerHTML,
-		{width:500, height:200, okLabel: "close", ok:function(win) {debug("validate alert panel"); return true;}});
-	} else {
-		document.getElementById("_activate").value="false";
-		document.getElementById("_action").value="create";
-		document.getElementById("viewDetails").submit();
-	}
-}
-
 function closePopup() {
 	win.close();
 }
