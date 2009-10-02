@@ -265,6 +265,16 @@
 	        	<tags:hoverHint keyProp="study.standaloneIndicator"/>
 	        </div>
 		</div>
+		<div class="row">
+	        <div class="label"><tags:requiredIndicator /><fmt:message key="study.supportBackDatedRegistration"/></div>
+	        <div class="value">
+	        	<form:select path="study.backDatedRegistrationIndicator" cssClass="validate-notEmpty" >
+	            	<option value="">Please Select</option>
+	            	<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+	        	</form:select>
+	        	<tags:hoverHint keyProp="study.supportBackDatedRegistration"/>
+	        </div>
+		</div>
         <div class="row">
 	        <div class="label">
 	        	<tags:requiredIndicator />

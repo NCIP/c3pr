@@ -159,6 +159,10 @@ function updateTargetAccrual(){
 		<div class="label"><fmt:message key="study.randomizationType"/>:</div>
 		<div class="value">${command.study.randomizationType.displayName}</div>
 	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="study.supportBackDatedRegistration"/>:</div>
+		<div class="value">${command.study.backDatedRegistrationIndicator}</div>
+	</div>
 </div>
 </chrome:division>
 <chrome:division id="study-pi" cssClass="big" title="Principal Investigator">

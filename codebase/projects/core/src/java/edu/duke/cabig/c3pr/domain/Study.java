@@ -82,6 +82,8 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	private String type;
 	private ConsentRequired consentRequired;
     private StudyVersion studyVersion;
+    private boolean backDatedRegistrationIndicator;
+	
 	// This is for the CADSR exclusion/inclusion criteria file
 	/** The criteria file. */
 	private byte[] criteriaFile;
@@ -113,6 +115,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		standaloneIndicator = true;
 		companionIndicator = false;
 		consentRequired = ConsentRequired.ONE;
+		backDatedRegistrationIndicator = false ;
 
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(StudySite.class,new StudySiteBiDirectionalInstantiateFactory(StudySite.class, this));
@@ -1311,5 +1314,15 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public void setOriginalIndicator(Boolean originalIndicator) {
 		this.getStudyVersion().setOriginalIndicator(originalIndicator);
 	}
+	
+	@Column(name="back_dated_reg_support")
+	public boolean getBackDatedRegistrationIndicator() {
+		return backDatedRegistrationIndicator;
+	}
+
+	public void setBackDatedRegistrationIndicator(boolean backDatedRegistrationIndicator) {
+		this.backDatedRegistrationIndicator = backDatedRegistrationIndicator;
+	}
+ 
 
 }
