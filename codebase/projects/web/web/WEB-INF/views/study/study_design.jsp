@@ -313,7 +313,7 @@ DELETED TD
 	                	<form:input path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name" size="43" cssClass="validate-notEmpty" />
 	                </td>
 	                <td valign="top">
-	                	<form:textarea path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].descriptionText" rows="2" cols="40" />
+	                	<form:textarea path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].descriptionText" rows="2" cols="40" cssClass="validate-MAXLENGTH2000"/>
 	                </td>
 	                <td valign="top" align="left">
 	                	<form:input path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber" size="6" maxlength="6"
@@ -363,7 +363,7 @@ DELETED TD
 			class="validate-notEmpty" value="Arm A" /></td>
 		<td><textarea
 			name="study.epochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].descriptionText"
-			rows="2" cols="40"></textarea></td>
+			rows="2" cols="40" class="validate-MAXLENGTH2000"></textarea></td>
 		<td valign="top" align="left"><input type="text"
 			name="study.epochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].targetAccrualNumber"
 			size="6" maxlength="6" class="validate-numeric" /></td>
