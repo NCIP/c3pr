@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain.validator;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +27,8 @@ import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 
 public class StudyValidator implements Validator {
     private StudySiteValidator studySiteValidator;
@@ -437,25 +440,44 @@ public class StudyValidator implements Validator {
 		this.consentValidator = consentValidator;
 	}
 
-	public void validateAmendment(Study study, Errors errors) {
+	public void validateAmendment(Study study, Errors errors, String versionName) {
+		StudyVersion currentVersion = study.getStudyVersion(versionName);
 		validateStudyVersion(study, errors);
-		if(study.getCurrentStudyAmendment().getAmendmentReasons() == null){
-			errors.reject("tempProp", getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE"),null, null));
+		validateAmendmentDate(study, errors, versionName);
+		if(!errors.hasErrors()  && currentVersion.getAmendmentReasons() == null){
+			errors.rejectValue("study.studyVersions", new Integer(
+                    getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE")).toString(),
+                    getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE"),
+                                    null, null));
 		}
-		// validate date for amendment
-		validateAmendmentDate(study, errors);
-		
-
 	}
 
-	private void validateAmendmentDate(Study study, Errors errors) {
-		if(study.getStudyVersion().getVersionDate().after(new Date())){
-			errors.reject("tempProp", getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.FUTURE.AMENDMENT_DATE.CODE"),null, null));
+	private void validateAmendmentDate(Study study, Errors errors, String versionName) {
+		StudyVersion currentVersion = study.getStudyVersion(versionName);
+		if(currentVersion.getVersionDate().after(new Date())){
+			errors.rejectValue("study.studyVersions", new Integer(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.FUTURE.AMENDMENT_DATE.CODE")).toString(),
+					getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.FUTURE.AMENDMENT_DATE.CODE"), null, null));
 		}
 		List<StudyVersion> studyVersions = study.getSortedStudyVersions();
 		for(StudyVersion studyVersion : studyVersions){
-			if(studyVersion != study.getStudyVersion() && studyVersion.getVersionDate() == study.getStudyVersion().getVersionDate()){
-				errors.reject("tempProp", getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.NO_AMENDMENT_ON_SAME_DATE.CODE"),null, null));
+			if(studyVersion != currentVersion &&  DateUtil.daysEqual(studyVersion.getVersionDate(), currentVersion.getVersionDate())){
+				errors.rejectValue("study.studyVersions", new Integer(
+	                    getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.NO_AMENDMENT_ON_SAME_DATE.CODE")).toString(),
+	                    getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.NO_AMENDMENT_ON_SAME_DATE.CODE"),
+	                                    null, null));
+			}
+		}
+		if(studyVersions.size() > 1){
+			StudyVersion previousVersion = study.getReverseSortedStudyVersions().get(studyVersions.size() - 2); 
+			GregorianCalendar cal = new GregorianCalendar();
+			cal.setTime(previousVersion.getVersionDate());
+			cal.add(cal.DATE, 1);
+			String previousVersionDateStr = CommonUtils.getDateString(cal.getTime());
+			if(currentVersion.getVersionDate().before(previousVersion.getVersionDate())){
+				errors.rejectValue("study.studyVersions", new Integer(
+	                    getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.DATE.OLDER_THAN_PREVIOUD_VERSION.CODE")).toString(),
+	                    getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.DATE.OLDER_THAN_PREVIOUD_VERSION.CODE"),
+	                                    new String[]{previousVersionDateStr}, null));
 			}
 		}
 	}

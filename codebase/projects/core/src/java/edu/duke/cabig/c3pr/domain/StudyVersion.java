@@ -699,7 +699,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 			return false;
 		final StudyVersion other = (StudyVersion) obj;
 		if (this.getStudy().equals(other.getStudy()))  {
-			if(this.getName() == other.getName()){
+			if(this.getName().equals(other.getName())){
 				return true;
 			}else{
 				return false ;
