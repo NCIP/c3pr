@@ -170,7 +170,7 @@
 			<td><textarea
 				id="study.epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
 				name="study.epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
-				rows="1" cols="80" class="validate-notEmpty"></textarea></td>
+				rows="1" cols="80" class="validate-notEmpty&&MAXLENGTH1024"></textarea></td>
 			<td><input type="checkbox"
 				id="study.epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
 				name="study.epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
@@ -187,7 +187,7 @@
 			<td><textarea
 				id="study.epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
 				name="study.epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
-				rows="1" cols="80" class="validate-notEmpty"></textarea></td>
+				rows="1" cols="80" class="validate-notEmpty&&MAXLENGTH1024"></textarea></td>
 			<td><input type="checkbox"
 				id="study.epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
 				name="study.epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />

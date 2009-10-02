@@ -66,7 +66,7 @@
 						<tr id="addInclusionRowTable-${index}-${status.index}">
 							<td>
 								<textarea name="study.epochs[${index }].inclusionEligibilityCriteria[${status.index}].questionText"
-								rows="1" cols="80" class="validate-notEmpty" />
+								rows="1" cols="80" class="validate-notEmpty&&MAXLENGTH1024" />
 							</td>
 							<td>
 								<input type="checkbox" name="study.epochs[${index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
@@ -105,7 +105,7 @@
 						<tr id="addExclusionRowTable-${index}-${status.index}">
 							<td>
 								<textarea name="study.epochs[${index }].exclusionEligibilityCriteria[${status.index}].questionText"
-								rows="1" cols="80" class="validate-notEmpty" />
+								rows="1" cols="80" class="validate-notEmpty&&MAXLENGTH1024" />
 							</td>
 							<td>
 								<input type="checkbox" name="study.epochs[${index }].exclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
