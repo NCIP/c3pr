@@ -124,9 +124,12 @@ function manageIdentifierRadio(element){
 				<form:hidden path="study.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" id="identifier-org-${organizationStatus.index}-hidden"/>
 				<input type="radio" class="identifierRadios" id="identifier-org-${organizationStatus.index}" onclick="manageIdentifierRadio(this);"/>
 			</td>
-			<td><a
+			<td>
+				<c:if test="${!orgIdentifier.primaryIndicator}"><a
 				href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgIdentifier.id==null?'HC#':'ID#'}${orgIdentifier.id==null?orgIdentifier.hashCode:orgIdentifier.id}');"><img
-				src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+				src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+				</c:if>
+			</td>
 		</tr>
 		</c:otherwise>	
 		</c:choose>
