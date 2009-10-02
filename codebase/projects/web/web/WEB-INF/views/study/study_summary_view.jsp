@@ -18,7 +18,6 @@
 		function confirmBroadcastStudy(){
 			contentWin = new Window({ width:400, height:200 ,className :"alert_lite"}) 
 			contentWin.setContent('confirmation-msg') ;
-			//contentWin.setContent('broadcastWait') ;
 			contentWin.showCenter(true);
         }
         
@@ -360,17 +359,11 @@
 
     </table>
 </chrome:division>
-<chrome:division title="Consents &amp; Consent Versions">
+<chrome:division title="Consents">
     <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%"><b><fmt:message key="study.consents"/></b></th>
-            <th><b><fmt:message key="study.consent.consentVersions"/></b>
-            </th>
-        </tr>
+        <tr><th width="50%"><b><fmt:message key="study.consents"/></b></th></tr>
         <c:forEach items="${command.study.consents}" var="consent">
-            <tr>
-                <td class="alt">${consent.name}</td>
-                            </tr>
+            <tr><td class="alt">${consent.name}</td></tr>
         </c:forEach>
     </table>
 </chrome:division>
