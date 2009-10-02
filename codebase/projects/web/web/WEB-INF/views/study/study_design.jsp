@@ -214,7 +214,7 @@ DELETED TD
           <td align="right"><b><fmt:message key="c3pr.common.description"/></b></td>
           <td align="left" colspan="3"><form:textarea
 											path="study.epochs[${treatmentEpochCount.index}].descriptionText"
-											rows="2" cssClass="descTextarea"/>
+											rows="2" cssClass="validate-MAXLENGTH2000"/>
                                         <tags:hoverHint
 											id="study.treatmentEpoch.description-${treatmentEpochCount.index}"
 											keyProp="study.treatmentEpoch.description" /></td>
@@ -467,7 +467,7 @@ DELETED TD
 							<td align="right"><b><fmt:message key="c3pr.common.description"/></b></td>
 							<td align="left" colspan="3"><textarea
 								name="study.epochs[PAGE.ROW.INDEX].descriptionText" rows="2"
-								class="descTextarea"></textarea><tags:hoverHint
+								class="validate-MAXLENGTH2000"></textarea><tags:hoverHint
 								id="study.treatmentEpoch.description-PAGE.ROW.INDEX"
 								keyProp="study.treatmentEpoch.description" /></td>
 						</tr>
