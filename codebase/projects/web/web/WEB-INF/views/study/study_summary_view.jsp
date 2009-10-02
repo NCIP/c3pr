@@ -57,13 +57,27 @@
         function reloadCompanion() {
         <tags:tabMethod method="reloadCompanion" divElement="'companionDiv'" formName="'tabMethodForm'"  viewName="/study/companionSection"/>
         }
+        
+        function showCloseStudyPopup(){
+			closeWin = new Window({className :"mac_os_x", title: "Edit Registration", 
+									hideEffect:Element.hide, 
+									zIndex:100, width:550, height:400 , minimizable:false, maximizable:false,
+									showEffect:Element.show 
+									}) 
+			closeWin.setContent($('closeStudyDiv')) ;
+			closeWin.showCenter(true);
+	 	}
 
         function setCloseStatus(status){
-        	$('closeStatus').value=closeStatus;
+        	$('closeStatus').value=status;
         }
-		function closeStudy(closeStatus){
-			$('closeStatus').value=closeStatus;
+		function closeStudy(){
+			closeWin.close();
 			changeStudyStatus('close');
+		}
+		
+		function closeConfirmWin(){
+			confirmWin.close();
 		}
 
         function changeStudyStatus(status) {
@@ -75,13 +89,16 @@
                 }
         		Dialog.alert(d.innerHTML, {className: "alphacube", width:400, okLabel: "Close" });
         	} else if(status=='close') {
-        		confirmChangeStudyStatus(status, "Are you sure you want to close the study?");
+        		if($('closeStatus').value.indexOf('Close')==0){
+        			messageDiv='closeMessage';
+        		}else{
+        			messageDiv='temporarilyCloseMessage';
+        		}
+        		confirmChangeStudyStatus(status, messageDiv);
         	}else if(status=='applyAmendment') {
-        		confirmChangeStudyStatus(status, "Are you sure you want to apply current amendment to the study?");
+        		confirmChangeStudyStatus(status, "applyAmendmentMessage");
         	}else if(status=='open') {
-        		confirmChangeStudyStatus(status, "Are you sure you want to open the study?");
-        	}else if(status=='readyToOpen') {
-        		confirmChangeStudyStatus(status, "Are you sure you want to put study in ready to open status?");
+        		confirmChangeStudyStatus(status, "openMessage");
         	}
         }
 
@@ -98,12 +115,21 @@
 		         });
         }
 
-        function confirmChangeStudyStatus(status, message){
-        	Dialog.confirm(message,
-		               {width:300, height:85, okLabel: "Ok",
-		               ok:function(win) {$('statusChange').value = status;
-		               $('command').submit();}
-		         });
+        function confirmChangeStudyStatus(status, messageDiv){
+        	$('statusChange').value = status
+        	confirmWin = new Window({className :"mac_os_x", title: "Edit Registration", 
+									hideEffect:Element.hide, 
+									zIndex:100, width:400, height:120 , minimizable:false, maximizable:false,
+									showEffect:Element.show 
+									}); 
+			//alert($(messageDiv).innerHTML);									
+			confirmWin.setContent($(messageDiv)) ;
+			confirmWin.showCenter(true);
+        	//Dialog.confirm(message,
+		     //          {width:300, height:85, okLabel: "Ok",
+		      //         ok:function(win) {$('statusChange').value = status;
+		       //        $('command').submit();}
+		        // });
         }
 
 		function closePopup() {
@@ -175,7 +201,7 @@
 		<c:if test="${not empty editAuthorizationTask}">
 			<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
 				<c:if test="${!empty closed}">
-                	<tags:oneControlPanelItem linkhref="#" onclick="javascript:Effect.SlideDown('close-choices');" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Close Study" id="closeStudy"/>
+                	<tags:oneControlPanelItem linkhref="#" onclick="javascript:showCloseStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_closeStudy.jpg" linktext="Close Study" id="closeStudy"/>
                 </c:if>
                 <c:if test="${!empty open}">
                 	<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('open');" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Open Study" />
@@ -627,10 +653,54 @@
 <%@ include file="update_target_accrual.jsp"%>
 </div>
 </div>
-<div id="CloseStudyPage" style="display:none;">
-<div id="closeStudyDiv" >
-<%@ include file="close_study.jsp"%>
-</div>
+<div id="HiddenPage" style="display:none;">
+	<div id="closeMessage" style="padding: 15px;">
+		<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.CLOSE.WARNING"/>
+		<div id="actionButtons">
+			<div class="flow-buttons">
+		   	<span class="next">
+		   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
+				<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Close Study" />
+			</span>
+			</div>
+		</div>
+	</div>
+	<div id="temporarilyCloseMessage" style="padding: 15px;">
+		<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.TEMPORARLY_CLOSE.WARNING"/>
+		<div id="actionButtons">
+			<div class="flow-buttons">
+		   	<span class="next">
+		   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
+				<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Close Study" />
+			</span>
+			</div>
+		</div>
+	</div>
+	<div id="applyAmendmentMessage" style="padding: 15px;">
+		<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.APPLY_AMENDMENT.WARNING"/>
+		<div id="actionButtons">
+			<div class="flow-buttons">
+		   	<span class="next">
+		   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
+				<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Close Study" />
+			</span>
+			</div>
+		</div>
+	</div>
+	<div id="openMessage" style="padding: 15px;">
+		<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.OPEN.WARNING"/>
+		<div id="actionButtons">
+			<div class="flow-buttons">
+		   	<span class="next">
+		   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
+				<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Close Study" />
+			</span>
+			</div>
+		</div>
+	</div>
+	<div id="closeStudyDiv" >
+		<%@ include file="close_study.jsp"%>
+	</div>
 </div>
 <div id="confirmation-msg" style="display: none;">
 	<div id="broadcastAction">
