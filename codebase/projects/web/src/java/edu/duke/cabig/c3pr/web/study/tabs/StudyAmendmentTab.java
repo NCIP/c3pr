@@ -43,7 +43,7 @@ public class StudyAmendmentTab extends StudyTab {
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
     	StudyVersion sAmendment = (StudyVersion) wrapper.getStudy().getCurrentStudyAmendment();
-        if (sAmendment != null && sAmendment.getAmendmentReasons() != null) {
+        if (sAmendment != null) {
         	List<StudyPart> studyParts = sAmendment.getAmendmentReasons();
         	if (studyParts.contains(StudyPart.DESIGN)) {
                 request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
@@ -89,10 +89,10 @@ public class StudyAmendmentTab extends StudyTab {
         }
     }
 
-//    @Override
-//    public void validate(StudyWrapper wrapper, Errors errors) {
-//    	super.validate(wrapper, errors);
-//	    this.studyValidator.validateAmendment(wrapper.getStudy(), errors);
-//    }
+    @Override
+    public void validate(StudyWrapper wrapper, Errors errors) {
+    	super.validate(wrapper, errors);
+	    this.studyValidator.validateAmendment(wrapper.getStudy(), errors, wrapper.getStudy().getStudyVersion().getName());
+    }
 
 }
