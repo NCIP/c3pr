@@ -14,20 +14,33 @@
 <%@attribute name="action" type="edu.duke.cabig.c3pr.constants.APIName"%>
 <%@attribute name="errorMessage"%>
 <%@attribute name="isNewStudySite"%>
-<c:set var="keepOpen" value="${(!empty maximized && maximized) || fn:contains(openSections, site.healthcareSite.ctepCode)}"/>
+<c:set var="keepOpen" value="${(!empty maximized && maximized) || fn:contains(openSections, site.healthcareSite.primaryIdentifier)}"/>
 <c:set var="isActionSuccess" value="${empty errorMessage?true:false}" />
 <c:set var="isLocalSiteCoordinating" value="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode}"/>
-<c:set var="isSiteLocal" value="${localNCICode==site.healthcareSite.ctepCode}"></c:set>
+<c:set var="isSiteLocal" value="${localNCICode==site.healthcareSite.primaryIdentifier}"></c:set>
 <c:set var="isSiteManageable" value="${site.hostedMode || isLocalSiteCoordinating || isSiteLocal}"/>
 <c:set var="showActionButtons" value="${empty isNewStudySite || !isNewStudySite}"/>
+<style>
+	.rightpanel {
+		float:right;
+		width:60%;
+	}
+	.leftpanel {
+		float:left;
+		width:38%;
+	}
+</style>
+
 <script >
 function showSiteStatusHistory(primaryIdentifier){
-	var id = 'site_status_history-'+primaryIdentifier
-	Dialog.alert($(id).innerHTML, {className: "alphacube", width:600, okLabel: "Close"});
-}
-
-function applyAmendment(siteID, versionIndex,  index, primaryIdentifier, isMultisite, action, errorMessage , versionName){
-	<tags:tabMethod method="applyAmendment" divElement="'siteSection_'+primaryIdentifier" formName="'tabMethodForm'"  viewName="/study/asynchronous/updatedStudySiteSection" javaScriptParam="'irbApprovalDate='+$('irbApproval-'+siteID+'-'+versionIndex).value+'&sitePrimaryId='+siteID+'&index='+index+'&localNCICode='+primaryIdentifier+'&isMultisite='+isMultisite+'&action='+action+'&errorMessage='+errorMessage+'&versionName='+versionName"/>
+	var arr= $$("#site_status_history-"+primaryIdentifier);
+	win = new Window({className :"mac_os_x", title: "Site Status History",
+							hideEffect:Element.hide,
+							zIndex:100, width:600, height:250 , minimizable:false, maximizable:false,
+							showEffect:Element.show
+							})
+	win.setContent(arr[0]) ;
+	win.showCenter(true);
 }
 
 function chooseEffectiveDate(primaryIdentifier, action){
@@ -56,9 +69,33 @@ function takeAction(primaryIdentifier){
 	Element.show('sendingMessage-'+primaryIdentifier);
 	closePopup();
 }
+
+
+function applyAmendment(primaryIdentifier, versionIndex,  index, localNCICode, isMultisite, action, errorMessage , versionName){
+	<tags:tabMethod method="applyAmendment" divElement="'siteSection_'+primaryIdentifier" formName="'tabMethodForm'"  viewName="/study/asynchronous/updatedStudySiteSection" javaScriptParam="'irbApprovalDate='+$('irbApproval-'+primaryIdentifier+'-'+versionIndex).value+'&sitePrimaryId='+primaryIdentifier+'&index='+index+'&localNCICode='+localNCICode+'&isMultisite='+isMultisite+'&action='+action+'&errorMessage='+errorMessage+'&versionName='+versionName"/>
+}
+
+function confirmTakeAction(primaryIdentifier){
+	win = new Window({className :"mac_os_x", title: "Confirm", 
+		hideEffect:Element.hide, 
+		zIndex:100, width:400, height:150 , minimizable:false, maximizable:false,
+		showEffect:Element.show 
+		}); 
+	win.setContent($('statusChangeConfirmation')) ;
+	win.showCenter(true);
+}
 </script>
-<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.ctepCode}" onclick="deleteStudySite('${site.healthcareSite.ctepCode}');" title="(${site.healthcareSite.ctepCode}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.ctepCode}" id="divison-${site.healthcareSite.ctepCode}" cssClass="divisonClass">
-<div id="site-${site.healthcareSite.ctepCode}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
+<div id="statusChangeConfirmation" style="display : none;padding: 15px;">
+	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.SITE.STATUS_CHANGE.WARNING"/>
+	<div class="flow-buttons">
+   	<span class="next">
+   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" size="small"/>
+		<tags:button type="button" color="green" icon="save" onclick="takeAction(${site.healthcareSite.primaryIdentifier});" value="Continue" size="small"/>
+	</span>
+	</div>
+</div>
+<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.primaryIdentifier}" onclick="deleteStudySite('${site.healthcareSite.primaryIdentifier}');" title="(${site.healthcareSite.primaryIdentifier}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.primaryIdentifier}" id="divison-${site.healthcareSite.primaryIdentifier}" cssClass="divisonClass">
+<div id="site-${site.healthcareSite.primaryIdentifier}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
 		<c:set var="message-color" value="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}+'.COLOR'" />
 		<c:if test='${not empty studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}'>
@@ -79,7 +116,7 @@ function takeAction(primaryIdentifier){
 				<div class="value">
 					<c:choose>
 						<c:when test="${isSiteManageable}">
-							<input type="test" id="targetAccrual-${site.healthcareSite.ctepCode}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
+							<input type="test" id="targetAccrual-${site.healthcareSite.primaryIdentifier}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
 						</c:when>
 						<c:otherwise>
 							${empty site.targetAccrualNumber?'NA':site.targetAccrualNumber}
@@ -94,9 +131,9 @@ function takeAction(primaryIdentifier){
 				<div class="value">
 					<c:choose>
 						<c:when test="${isSiteManageable}">
-							<input type="text" name="study.studySites[${index}].irbApprovalDate" id="irbApprovalDate-${site.healthcareSite.ctepCode}"
+							<input type="text" name="study.studySites[${index}].irbApprovalDate" id="irbApprovalDate-${site.healthcareSite.primaryIdentifier}"
 							class="date validate-DATE" value="${site.currentStudySiteStudyVersion.irbApprovalDateStr}"/>
-			            	<a href="#" id="irbApprovalDate-${site.healthcareSite.ctepCode}-calbutton">
+			            	<a href="#" id="irbApprovalDate-${site.healthcareSite.primaryIdentifier}-calbutton">
 			           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
 			           		</a>
 						</c:when>
@@ -112,13 +149,13 @@ function takeAction(primaryIdentifier){
 					<div class="value">
 					<c:choose>
 						<c:when test="${isLocalSiteCoordinating}">
-							<input type="checkbox" id="hostedMode-${site.healthcareSite.ctepCode}" name="study.studySites[${index}].hostedMode" ${site.hostedMode?'checked':'' } />
-	            			<input type="hidden" id="_hostedMode-${site.healthcareSite.ctepCode}" value="1" name="_study.studySites[${index}].hostedMode"/>
-       						<input type="hidden" id="hostedMode-wasHosted-${site.healthcareSite.ctepCode}" name="${site.healthcareSite.ctepCode}-wasHosted" value="${site.hostedMode}"/>
+							<input type="checkbox" id="hostedMode-${site.healthcareSite.primaryIdentifier}" name="study.studySites[${index}].hostedMode" ${site.hostedMode?'checked':'' } />
+	            			<input type="hidden" id="_hostedMode-${site.healthcareSite.primaryIdentifier}" value="1" name="_study.studySites[${index}].hostedMode"/>
+       						<input type="hidden" id="hostedMode-wasHosted-${site.healthcareSite.primaryIdentifier}" name="${site.healthcareSite.primaryIdentifier}-wasHosted" value="${site.hostedMode}"/>
 						</c:when>
 						<c:otherwise>
 							${empty site.hostedMode?'No':(site.hostedMode?'Yes':'No') }
-							<input type="hidden" id="hostedMode-wasHosted-${site.healthcareSite.ctepCode}" name="${site.healthcareSite.ctepCode}-wasHosted" value="${site.hostedMode}"/>
+							<input type="hidden" id="hostedMode-wasHosted-${site.healthcareSite.primaryIdentifier}" name="${site.healthcareSite.primaryIdentifier}-wasHosted" value="${site.hostedMode}"/>
 						</c:otherwise>
 					</c:choose>
 					</div>
@@ -143,7 +180,7 @@ function takeAction(primaryIdentifier){
 		<c:choose>
 			<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
 				<c:if test="${site.hostedMode || isSiteLocal}">
-					<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="chooseEffectiveDate('${site.healthcareSite.ctepCode}', '${possibleAction}');" size="small"/>
+					<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
 				</c:if>
 			</c:when>
 			<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL' || possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
@@ -157,27 +194,27 @@ function takeAction(primaryIdentifier){
 				</c:if>
 			</c:when>
 			<c:otherwise>
-				<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="chooseEffectiveDate('${site.healthcareSite.ctepCode}', '${possibleAction}');" size="small"/>
+				<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
 			</c:otherwise>
 		</c:choose>
 		</c:forEach>
 		<c:if test="${close}">
 			<tags:button type="button" color="blue" value="Close Study Site" id="closeStudy"
-			onclick="Effect.SlideDown('close-choices-${site.healthcareSite.ctepCode }')" size="small"/>
-			<div id="close-choices-${site.healthcareSite.ctepCode }" class="autocomplete" style="display: none">
+			onclick="Effect.SlideDown('close-choices-${site.healthcareSite.primaryIdentifier }')" size="small"/>
+			<div id="close-choices-${site.healthcareSite.primaryIdentifier }" class="autocomplete" style="display: none">
 				<ul>
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.ctepCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Closed To Accrual And Treatment</li>
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.ctepCode}', 'CLOSE_STUDY_SITE_TO_ACCRUAL');">Closed To Accrual</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Closed To Accrual And Treatment</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'CLOSE_STUDY_SITE_TO_ACCRUAL');">Closed To Accrual</li>
 					<c:if test="${temporary}">
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.ctepCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Temporarily Closed To Accrual And Treatment</li>
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.ctepCode}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL');">Temporarily Closed To Accrual</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Temporarily Closed To Accrual And Treatment</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL');">Temporarily Closed To Accrual</li>
 					</c:if>
 				</ul>
 				<div align="right"><tags:button type="button" color="red" value="Cancel" icon="x"
 					onclick="Effect.SlideUp('close-choices')" size="small"/></div>
 			</div>
 		</c:if>
-		<div id="sendingMessage-${site.healthcareSite.ctepCode }" class="working" style="display: none">
+		<div id="sendingMessage-${site.healthcareSite.primaryIdentifier }" class="working" style="display: none">
 			Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
 		</div>
 	</div>
@@ -241,7 +278,7 @@ function takeAction(primaryIdentifier){
 					</script>
 	            </td>
 	            <td>
-	            	<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.ctepCode}-${status.index}" onclick="applyAmendment('${site.healthcareSite.ctepCode}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', '${action}', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
+	            	<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', '${action}', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
 	            </td>
 	            </c:if>
 	        </tr>
@@ -252,8 +289,8 @@ function takeAction(primaryIdentifier){
 </div>
 </div>
 <div id="site_status_history-${site.healthcareSite.primaryIdentifier}" style="display:none">
-<div>
-	<table id="siteStatusHistoryTable-${site.healthcareSite.primaryIdentifier}" class="tablecontent" border="0" cellspacing="0" cellpadding="0" width="100%">
+<chrome:division title="Site Status History" >
+	<table id="siteStatusHistoryTable-${site.healthcareSite.primaryIdentifier}" class="tablecontent" border="0" cellspacing="0" cellpadding="0" width="95%" align="center">
         <tr>
             <th align="center"><b><tags:requiredIndicator /><fmt:message key="study.site.status"/></b>
             <tags:hoverHint keyProp="study.site.status" /></th>
@@ -269,11 +306,14 @@ function takeAction(primaryIdentifier){
             <td>${siteStatusHistory.endDateStr }</td>
         </tr>
         </c:forEach>
-        
     </table>
+    <br>
+    <div align="center">
+    	<tags:button type="button" color="green" value="Close" id="close" onclick="closePopup();"  />
     </div>
-    </div>
-    </div>
+</chrome:division>
+ </div>
+</div>
 </chrome:deletableDivision>
 <div style="display:none">
 <input type="hidden" name="_actionToTake" id="_actionToTake"/>
@@ -284,7 +324,7 @@ function takeAction(primaryIdentifier){
 				<fmt:message key="site.effectiveDate" />
 			</div>
 			<div class="value">
-				<input type="text" name="effectiveDate" id="effectiveDateField-${site.healthcareSite.primaryIdentifier}"/>
+				<input type="text" name="effectiveDate" id="effectiveDateField-${site.healthcareSite.primaryIdentifier}" class="validate-NotEmpty&&DATE"/>
 	           	<a href="#" id="effectiveDateField-${site.healthcareSite.primaryIdentifier}-calbutton">
 	      	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
 	        	</a>
@@ -300,7 +340,7 @@ function takeAction(primaryIdentifier){
 				</script>
 				<br>
 				<div class="row">
-					<tags:button type="button" color="blue" value="OK" id="changeSiteStatus-${site.healthcareSite.ctepCode}" onclick="takeAction('${site.healthcareSite.ctepCode}' );" size="small"/>
+					<tags:button type="button" color="blue" value="OK" id="changeSiteStatus-${site.healthcareSite.primaryIdentifier}" onclick="takeAction('${site.healthcareSite.primaryIdentifier}' );" size="small"/>
 					<tags:button type="button" color="blue" value="Close" id="close" onclick="closePopup();" size="small"/>
 				</div>
 			</div>
@@ -309,6 +349,4 @@ function takeAction(primaryIdentifier){
 	<div id="effectiveDateDiv-${site.healthcareSite.primaryIdentifier}" style="display: none;"></div>
 	<div id="effectiveDateError-${site.healthcareSite.primaryIdentifier}"></div>
 </div>
-<div id="appliedAmendmentDiv-${site.healthcareSite.primaryIdentifier}" style="display: none;"></div>
-<div id="irbError-${site.healthcareSite.primaryIdentifier}"></div>
 </div>

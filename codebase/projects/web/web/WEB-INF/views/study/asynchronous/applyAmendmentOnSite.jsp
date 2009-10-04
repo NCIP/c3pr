@@ -11,8 +11,8 @@ ${irbApprovalError}
 		<studyTags:studySiteSection index="${index}" site="${site}" isMultisite="${isMultisite}" localNCICode="${localNCICode}" maximized="true" isNewStudySite="false"/>
 		</div>
 		<script>
-		Element.update('siteSection_${site.healthcareSite.ctepCode }',$('tempSiteSection-${site.healthcareSite.primaryIdentifier}').innerHTML);
-		new Effect.Highlight($('siteSection_${site.healthcareSite.ctepCode }'), { startcolor: '#ffff99',
+		Element.update('siteSection_${site.healthcareSite.primaryIdentifier }',$('tempSiteSection-${site.healthcareSite.primaryIdentifier}').innerHTML);
+		new Effect.Highlight($('siteSection_${site.healthcareSite.primaryIdentifier }'), { startcolor: '#ffff99',
 		endcolor: '#ffffff' });
 		closePopup();
 		</script>

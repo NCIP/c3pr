@@ -1,5 +1,5 @@
 <%@ include file="taglibs.jsp"%>
-<link href="themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
+<link href="themes/mac_os_x.css" rel="stylesheet" type="text/css" />
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}" /></title>

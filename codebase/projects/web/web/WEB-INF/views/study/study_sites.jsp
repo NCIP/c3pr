@@ -5,7 +5,6 @@
     <title><studyTags:htmlTitle study="${command.study}" /></title>
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 	<script type="text/javascript">
-	var nciCode ;
 	var primaryIdentifier;
 	
 	function updateStudy() {
@@ -23,8 +22,8 @@
 		return strHiddenDiv;
 	}
 
-	function deleteStudySite(nciCode){
-		<tags:tabMethod method="deleteStudySite" divElement="'studySites'" formName="'tabMethodForm'"  viewName="/study/asynchronous/delete_study_site_section" javaScriptParam="'_doNotSave=true&nciCode='+nciCode+'&openSections='+getOpenSectionsStr()" /> ;
+	function deleteStudySite(primaryIdentifier){
+		<tags:tabMethod method="deleteStudySite" divElement="'studySites'" formName="'tabMethodForm'"  viewName="/study/asynchronous/delete_study_site_section" javaScriptParam="'_doNotSave=true&nciCode='+primaryIdentifier+'&openSections='+getOpenSectionsStr()" /> ;
 	}
 
 	function addStudySite(){
@@ -83,10 +82,10 @@
 		}
 	}
 
-	function changeCompanionStudySiteStatus(nciCode){
-		action=$("companionSiteAction-"+nciCode).value;
-		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/companionSites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&nciCode='+nciCode+ '&studySiteType=companionSite&DO_NOT_SAVE=true'" />
-		Element.show('companionSendingMessage-'+nciCode);
+	function changeCompanionStudySiteStatus(primaryIdentifier){
+		action=$("companionSiteAction-"+primaryIdentifier).value;
+		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/companionSites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&primaryIdentifier='+primaryIdentifier+ '&studySiteType=companionSite&DO_NOT_SAVE=true'" />
+		Element.show('companionSendingMessage-'+primaryIdentifier);
 	}
 
 	failedStatusChange= function (responseXML){
@@ -113,8 +112,8 @@
 		win.close();
 	}
 
-	function reloadParentStudySites(studyId , studyAssociationId , nciCodes , parentIndex, irbApprovalSites){
-		$('nciCodes').value=nciCodes;
+	function reloadParentStudySites(studyId , studyAssociationId , primaryIdentifiers , parentIndex, irbApprovalSites){
+		$('primaryIdentifiers').value=primaryIdentifiers;
 		$('irbApprovalSites').value=irbApprovalSites;
 		$('studyAssociationId').value=studyAssociationId;
 		<tags:tabMethod method="associateParentStudySites" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection" javaScriptParam="'parentIndex='+parentIndex"/>

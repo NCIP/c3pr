@@ -25,11 +25,9 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.tools.Configuration;
-import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
@@ -137,25 +135,25 @@ public class StudySitesTab extends StudyTab {
 		Study study = wrapper.getStudy();
 
 		String parentAssociationId = request.getParameter("studyAssociationId");
-		String nciCodes = request.getParameter("nciCodes");
+		String primaryIdentifiers = request.getParameter("primaryIdentifiers");
 		String irbApprovalSites = request.getParameter("irbApprovalSites");
 
-		List<String> nciCodeList = getTokenList(nciCodes);
+		List<String> primaryIdentifierList = getTokenList(primaryIdentifiers);
 		List<String> irbApprovalList = getTokenList(irbApprovalSites);
 
 		for (CompanionStudyAssociation parentStudyAssociation : study
 				.getParentStudyAssociations()) {
 			if (StringUtils.equals(parentAssociationId, parentStudyAssociation
 					.getId().toString())) {
-				for (String nciCode : nciCodeList) {
+				for (String primaryIdentifier : primaryIdentifierList) {
 					HealthcareSite healthcareSite = (HealthcareSite) healthcareSiteDao
-							.getByPrimaryIdentifier(nciCode);
+							.getByPrimaryIdentifier(primaryIdentifier);
 					StudySite studySite = new StudySite();
 					studySite.setHealthcareSite(healthcareSite);
 					studySite.setStudy(study);
-					if (irbApprovalList.contains(nciCode)) {
+					if (irbApprovalList.contains(primaryIdentifier)) {
 						studySite.setIrbApprovalDate(parentStudyAssociation
-								.getParentStudy().getStudySite(nciCode)
+								.getParentStudy().getStudySite(primaryIdentifier)
 								.getIrbApprovalDate());
 					}
 					parentStudyAssociation.addStudySite(studySite);
@@ -187,10 +185,10 @@ public class StudySitesTab extends StudyTab {
 		if (!StringUtils.isBlank(studySiteId)) {
 			StudySite studySite = studySiteDao.getById(Integer
 					.parseInt(studySiteId));
-			String nciCode = studySite.getHealthcareSite()
+			String primaryIdentifier = studySite.getHealthcareSite()
 					.getPrimaryIdentifier();
 			CompanionStudyAssociation companionStudyAssociation = study
-					.getCompanionStudySite(nciCode)
+					.getCompanionStudySite(primaryIdentifier)
 					.getCompanionStudyAssociation();
 			companionStudyAssociation.removeStudySite(studySite);
 			map.put("parentStudyAssociation", companionStudyAssociation);
@@ -319,8 +317,8 @@ public class StudySitesTab extends StudyTab {
 		int id = wrapper.getStudy().getId();
 		Study study = studyDao.getById(id);
 		studyDao.initialize(study);
-		String nciCode = request.getParameter("nciCode");
-		StudySite studySite = study.getStudySite(nciCode);
+		String primaryIdentifier = request.getParameter("primaryIdentifier");
+		StudySite studySite = study.getStudySite(primaryIdentifier);
 		study.removeStudySite(studySite);
 		studyDao.flush();
 		studyDao.evict(study);
@@ -337,6 +335,7 @@ public class StudySitesTab extends StudyTab {
 	public ModelAndView applyAmendment(HttpServletRequest request, Object obj,Errors errors) {
 		StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
+		int id = study.getId();
 		String primaryIdentifier = request.getParameter("sitePrimaryId");
 		String irbApprovalDateStr = request.getParameter("irbApprovalDate");
 		String index = request.getParameter("index");
@@ -360,10 +359,13 @@ public class StudySitesTab extends StudyTab {
 	        if (irbApprovalDate.before(calendar.getTime()) || irbApprovalDate.after(currentDate)) {
 	        	request.setAttribute("irbApprovalError", "IRB approval should be between" + allowedOldDate + "and "+ todayDate);
 	        }else{
+	        	//TODO write api in study repo to apply amendment, dont merger here.
 	        	studySite.applyStudyAmendment(versionName, irbApprovalDate);
-	        	Study modifiedStudy = studyDao.merge(study);
-	    		studySite = modifiedStudy.getStudySite(primaryIdentifier);
-	    		wrapper.setStudy(modifiedStudy);
+	        	studyDao.merge(study);
+	        	study = studyDao.getById(id);
+	        	studyDao.initialize(study);
+	        	wrapper.setStudy(study);
+	    		studySite = study.getStudySite(primaryIdentifier);
 	        }
 		}else{
 			request.setAttribute("irbApprovalError", "IRB approval date is mandatory");
