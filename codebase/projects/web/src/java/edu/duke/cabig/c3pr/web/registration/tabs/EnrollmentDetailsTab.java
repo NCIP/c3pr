@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
+import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -66,14 +67,18 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors errors) {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
     	StudySubject studySubject = wrapper.getStudySubject();
-    	if(WebUtils.hasSubmitParameter(request, "updateStudyVersion") && request.getParameter("updateStudyVersion").equals("false")){
-    		Date registrationDate = null;
+    	if(studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED && studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
+    		studySubject.getScheduledEpoch().setStartDate(studySubject.getStartDate());
+    	}
+    	if(WebUtils.hasSubmitParameter(request, "updateStudyVersion") && request.getParameter("updateStudyVersion").equals("true")){
+    		Date consentSignedDate = null;
     		try {
-				registrationDate = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("registrationDate"));
+    			consentSignedDate = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("consentSignedDate"));
+    			request.setAttribute("consentSignedDate", request.getParameter("consentSignedDate"));
 			} catch (ParseException e) {
 				throw new RuntimeException("Invalid Submit. Registration Date is invalid");
 			}
-    		studySubject.changeStudyVersion(registrationDate);
+    		studySubject.changeStudyVersion(consentSignedDate);
     		return;
     	}
     		
@@ -93,16 +98,17 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
         }
     }
     
-    @Override
+   /* @Override
     public void validate(StudySubjectWrapper command, Errors errors) {
     	Date date = command.getStudySubject().getStartDate();
 	    if(date !=null){
 			StudySiteStudyVersion studySiteStudyVersion = command.getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
-			if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , command.getStudySubject().getStartDate())){
+			if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , command.getStudySubject()
+					.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).getInformedConsentSignedDate())){
 				errors.reject("studySubject.startDate", "Study version invalid on this date");
 			}
     	}
-    }
+    }*/
     
     public ModelAndView validateRegistrationDate(HttpServletRequest request, Object command, Errors errors) {
     	Map<String, Object> map = new HashMap<String, Object>();
