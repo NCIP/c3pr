@@ -843,17 +843,7 @@ public class StudySubject extends
 				errors.add(new Error("Informed consent signed date is missing"));
 			}
 		}
-//
-//		if (this.getInformedConsentSignedDateStr().equals("")) {
-//			errors.add(new Error("Informed consent signed date is missing"));
-//		}
-//		if (StringUtils.getBlankIfNull(this.getInformedConsentVersion())
-//				.equals("")) {
-//			errors.add(new Error("Informed consent version is missing"));
-//		}
-//		if (this.treatingPhysician==null && StringUtils.getBlankIfNull(this.otherTreatingPhysician).equals("")){
-//			errors.add(new Error("Enrolling phyisican is missing"));
-//		}
+		// register errors for child registrations 
 		for(StudySubject childStudySubject : this.getChildStudySubjects()){
 			childStudySubject.evaluateRegistrationDataEntryStatus(errors);
 		}
@@ -952,9 +942,16 @@ public class StudySubject extends
 	 */
 	public List<Error> updateDataEntryStatus() {
 		List<Error> errors = new ArrayList<Error>();
-		this.evaluateRegistrationDataEntryStatus(errors);
-		this.setRegDataEntryStatus((errors.size() > 0) ? RegistrationDataEntryStatus.INCOMPLETE : RegistrationDataEntryStatus.COMPLETE);
+		if(this.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
+			// for enrolling epochs signing informed consent(s) is mandatory
+			this.evaluateRegistrationDataEntryStatus(errors);
+			this.setRegDataEntryStatus((errors.size() > 0) ? RegistrationDataEntryStatus.INCOMPLETE : RegistrationDataEntryStatus.COMPLETE);
+		} else {
+			// for non-enrolling epochs signing informed consent is not mandatory
+			this.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
+		}
 		this.getScheduledEpoch().setScEpochDataEntryStatus(this.evaluateScheduledEpochDataEntryStatus(errors));
+		
 		return errors;
 	}
 
@@ -1639,6 +1636,16 @@ public class StudySubject extends
 	 * @return the list< error>
 	 */
 	public List<Error> canEnroll(List<Error> errors){
+		
+		for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+			if(this.getStartDate().before(studySubjectConsentVersion.getInformedConsentSignedDate())){
+				errors.add(new Error("Enrollment cannot start before the subject signed the informed consent :" + studySubjectConsentVersion.getConsent().getName()));
+			}
+		}
+		
+		if(this.getStartDate().after(getScheduledEpoch().getStartDate()) || this.getStartDate().after(getScheduledEpoch().getStartDate())) {
+    		errors.add(new Error("Scheduled epoch start date and registration start date are different"));
+    	}
 
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			CompanionStudyAssociation matchingCompanionStudyAssociation = null;
@@ -1792,6 +1799,7 @@ public class StudySubject extends
 		ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
 		scheduledEpoch.setEpoch(epoch);
 		StudySubjectStudyVersion studySubjectStudyVersion = new StudySubjectStudyVersion();
+		studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
 		studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
 		studySubjectStudyVersion.setStudySubject(this);
 		this.getStudySubjectStudyVersions().set(0, studySubjectStudyVersion);
