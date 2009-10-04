@@ -116,7 +116,6 @@ function confirmTakeAction(primaryIdentifier){
 			</c:choose>
 		</div>
 		</c:if>
-		<br>
 		<div class="leftpanel">
 			<div class="row">
 				<div class="label"><fmt:message key="site.studyVersion" /></div>

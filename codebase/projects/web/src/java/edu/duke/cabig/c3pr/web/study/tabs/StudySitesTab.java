@@ -342,7 +342,7 @@ public class StudySitesTab extends StudyTab {
 		String localNCICode = request.getParameter("localNCICode");
 		String isMultisite = request.getParameter("isMultisite");
 		String action = request.getParameter("action");
-		String errorMessage = request.getParameter("isMultisite");
+		String errorMessage = request.getParameter("errorMessage");
 		String versionName = request.getParameter("versionName");
 
 		StudySite studySite = study.getStudySite(primaryIdentifier);
