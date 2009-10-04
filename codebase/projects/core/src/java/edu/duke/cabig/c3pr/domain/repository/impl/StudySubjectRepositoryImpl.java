@@ -313,7 +313,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	}
 	
 	public void continueEnrollment(StudySubject studySubject) throws C3PRCodedException {
-		if(studySubject.getStudySite().getStudySiteStudyVersion(studySubject.getStartDate()) != studySubject.getStudySiteVersion()){
+		if(studySubject.getStudySite().getStudySiteStudyVersion(studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).getInformedConsentSignedDate()) != studySubject.getStudySiteVersion()){
 			throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.WRONG_STUDY_SITE_STUDY_VERSION_FOR_DATE.CODE"), new String[]{studySubject.getStudySiteVersion().getStudyVersion().getVersion().toString(),studySubject.getStartDateStr()});
 		}
 		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
