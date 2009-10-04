@@ -31,7 +31,7 @@
 	}
 </style>
 
-<script >
+<script>
 function showSiteStatusHistory(primaryIdentifier){
 	var arr= $$("#site_status_history-"+primaryIdentifier);
 	win = new Window({className :"mac_os_x", title: "Site Status History",
@@ -104,6 +104,19 @@ function confirmTakeAction(primaryIdentifier){
 				<fmt:message key="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}" />
 			</div>
 		</c:if>
+		<c:if test="${!empty action}">
+		<div class="row">
+			<c:choose>
+				<c:when test="${isActionSuccess}">
+					<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="site.action.success.${action}" /></div>
+				</c:when>
+				<c:otherwise>
+				<div id="flash-message" class="error"><img src="<tags:imageUrl name='error-red.png'/>" style="vertical-align:bottom;">&nbsp;<fmt:message key="site.action.error.${action}" />&nbsp;${errorMessage}</div>
+				</c:otherwise>
+			</c:choose>
+		</div>
+		</c:if>
+		<br>
 		<div class="leftpanel">
 			<div class="row">
 				<div class="label"><fmt:message key="site.studyVersion" /></div>
@@ -219,19 +232,6 @@ function confirmTakeAction(primaryIdentifier){
 		</div>
 	</div>
 	</c:if>
-	<c:if test="${!empty action}">
-	<div class="row">
-		<c:choose>
-			<c:when test="${isActionSuccess}">
-				<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="site.action.success.${action}" /></div>
-			</c:when>
-			<c:otherwise>
-			<div id="flash-message" class="error"><img src="<tags:imageUrl name='error-red.png'/>" style="vertical-align:bottom;">&nbsp;<fmt:message key="site.action.error.${action}" />&nbsp;${errorMessage}</div>
-			</c:otherwise>
-		</c:choose>
-	</div>
-	</c:if>
-	<br>
 	<div id="site_study_version-${site.healthcareSite.primaryIdentifier}">
 	<div>
 		<table id="siteStudyVersionsTable-${site.healthcareSite.primaryIdentifier}" class="tablecontent" border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -278,7 +278,7 @@ function confirmTakeAction(primaryIdentifier){
 					</script>
 	            </td>
 	            <td>
-	            	<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', '${action}', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
+	            	<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', 'APPLY_AMENDMENT', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
 	            </td>
 	            </c:if>
 	        </tr>

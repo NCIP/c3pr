@@ -361,7 +361,10 @@ public class StudySitesTab extends StudyTab {
 	        }else{
 	        	//TODO write api in study repo to apply amendment, dont merger here.
 	        	studySite.applyStudyAmendment(versionName, irbApprovalDate);
-	        	studyDao.merge(study);
+	        	studySiteDao.merge(studySite);
+	        	studySiteDao.evict(studySite);
+	        	studyDao.evict(study);
+	        	
 	        	study = studyDao.getById(id);
 	        	studyDao.initialize(study);
 	        	wrapper.setStudy(study);
