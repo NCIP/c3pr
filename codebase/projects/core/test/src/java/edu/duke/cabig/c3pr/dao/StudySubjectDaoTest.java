@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -175,7 +176,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     public void testAdvancedStudySearch1() {
         List<StudySubject> ssList;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setShortTitleText("%short%");
 
             Participant participant = new Participant();
@@ -192,7 +193,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         }
         interruptSession();
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setShortTitleText("%short%2");
 
             Participant participant = new Participant();
@@ -210,7 +211,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         interruptSession();
         
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setShortTitleText("%short%1");
 
             Participant participant = new Participant();
@@ -234,7 +235,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     public void testAdvancedStudySearch2() {
         List<StudySubject> ssList;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
 
             SystemAssignedIdentifier id = new SystemAssignedIdentifier();
             id.setValue("nci%");
@@ -254,7 +255,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         }
         interruptSession();
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
 
             SystemAssignedIdentifier id = new SystemAssignedIdentifier();
             id.setValue("nci1");
@@ -274,7 +275,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         }
         interruptSession();
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
 
             OrganizationAssignedIdentifier id = new OrganizationAssignedIdentifier();
             id.setValue("nci2");
@@ -301,7 +302,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     public void testAdvancedParticipantSearch1() {
         List<StudySubject> ssList;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
 
 
             Participant participant = new Participant();
@@ -320,7 +321,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         }
         interruptSession();
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
 
 
             Participant participant = new Participant();
@@ -339,7 +340,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         }
         interruptSession();
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
 
 
             Participant participant = new Participant();
@@ -366,7 +367,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     public void testAdvancedPaticipantSearch2() {
         List<StudySubject> ssList;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
 
 
             Participant participant = new Participant();
@@ -1052,7 +1053,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     public void testAdvancedSearch() throws Exception{
     	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
     	
-    	Study study = new Study(true);
+    	Study study = new LocalStudy(true);
         SystemAssignedIdentifier id = new SystemAssignedIdentifier();
         id.setValue(null);
         study.addIdentifier(id);

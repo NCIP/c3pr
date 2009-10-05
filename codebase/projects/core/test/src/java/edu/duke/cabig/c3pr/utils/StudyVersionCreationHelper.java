@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.utils;
 
 import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 
@@ -9,7 +10,7 @@ import edu.duke.cabig.c3pr.domain.StudyVersion;
 public class StudyVersionCreationHelper {
 
 	public StudyVersion buildBasicStudyVersion(){
-		Study study = new Study();
+		Study study = new LocalStudy();
 
 		StudyVersion studyVersion = new StudyVersion();
         studyVersion.setPrecisText("Study with randomization");

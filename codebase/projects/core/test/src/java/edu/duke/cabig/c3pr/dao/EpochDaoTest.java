@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
@@ -36,7 +37,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
     public void testRetiredIndicator() throws Exception {
         Integer savedId;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
@@ -140,7 +141,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
     public void testSaveTreatmentEpochWithEligibilityCriteria() throws Exception {
         Integer savedId;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setPrecisText("New study");
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
@@ -270,7 +271,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
     public void testSaveNewTreatmentEpochWithStratificationCriteria() throws Exception {
         Integer savedId;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setPrecisText("New study");
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
@@ -310,7 +311,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
     public void testSaveTreatmentEpochWithStratificationCriteria() throws Exception {
         Integer savedId;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setPrecisText("New study");
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");

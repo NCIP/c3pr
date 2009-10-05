@@ -59,7 +59,7 @@ public class StudyOrganizationTest extends AbstractTestCase{
 	public void testEquals(){
 
 		StudyOrganization studyOrganization1 = new StudySite();
-		Study study1 = new Study();
+		Study study1 = new LocalStudy();
 		HealthcareSite healthcareSite1 = new LocalHealthcareSite();
 
 		studyOrganization1.setStudy(study1);
@@ -67,7 +67,7 @@ public class StudyOrganizationTest extends AbstractTestCase{
 
 
 		StudyOrganization studyOrganization2 = new StudySite();
-		Study study2 = new Study();
+		Study study2 = new LocalStudy();
 		HealthcareSite healthcareSite2 = new LocalHealthcareSite();
 
 		studyOrganization2.setStudy(study2);
@@ -79,7 +79,7 @@ public class StudyOrganizationTest extends AbstractTestCase{
 
 	public void testHashcode(){
 		StudyOrganization studyOrganization1 = new StudySite();
-		Study study1 = new Study();
+		Study study1 = new LocalStudy();
 		HealthcareSite healthcareSite1 = new LocalHealthcareSite();
 
 		studyOrganization1.setStudy(study1);
@@ -87,7 +87,7 @@ public class StudyOrganizationTest extends AbstractTestCase{
 
 
 		StudyOrganization studyOrganization2 = new StudySite();
-		Study study2 = new Study();
+		Study study2 = new LocalStudy();
 		HealthcareSite healthcareSite2 = new LocalHealthcareSite();
 
 		studyOrganization2.setStudy(study2);
@@ -211,7 +211,7 @@ public class StudyOrganizationTest extends AbstractTestCase{
 	 * Test get is coordinating center.
 	 */
 	public void testGetIsCoordinatingCenter(){
-		Study study = new Study();
+		Study study = new LocalStudy();
 		StudyCoordinatingCenter studyCoordinatingCenter = new StudyCoordinatingCenter();
 		HealthcareSite healthcareSite = new LocalHealthcareSite();
 		studyCoordinatingCenter.setHealthcareSite(healthcareSite);

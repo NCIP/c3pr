@@ -138,11 +138,11 @@ public class StudyVersionTestCase extends AbstractTestCase {
 	}
 
 	public void testEquals2() throws Exception{
-		assertFalse("study versions not equal because they are different domain objects", basicStudyVersion.equals(new Study()));
+		assertFalse("study versions not equal because they are different domain objects", basicStudyVersion.equals(new LocalStudy()));
 	}
 
 	public void testEquals3() throws Exception{
-		simpleStudyVersion.setStudy(new Study());
+		simpleStudyVersion.setStudy(new LocalStudy());
 		assertFalse("study versions not equal because they are associated with different studies", basicStudyVersion.equals(simpleStudyVersion));
 	}
 

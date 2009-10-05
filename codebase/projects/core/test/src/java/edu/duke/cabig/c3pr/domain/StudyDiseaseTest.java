@@ -29,7 +29,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		assertTrue("The two study diseases should have been equal",studyDisease1.equals(studyDisease2));
 		assertFalse("The two objects cannot be equal",studyDisease1.equals(new ICD9DiseaseSite()));
 
-		Study study = new Study();
+		Study study = new LocalStudy();
 		study.addStudyDisease(studyDisease2);
 
 		assertTrue("The two study diseases are equal",studyDisease1.equals(studyDisease2));
@@ -40,7 +40,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		StudyDisease studyDisease1 = new StudyDisease();
 		StudyDisease studyDisease2 = new StudyDisease();
 
-		Study study = new Study();
+		Study study = new LocalStudy();
 		study.addStudyDisease(studyDisease2);
 
 		study.addStudyDisease(studyDisease1);
@@ -66,7 +66,7 @@ public class StudyDiseaseTest extends AbstractTestCase{
 		StudyDisease studyDisease1 = new StudyDisease();
 		StudyDisease studyDisease2 = new StudyDisease();
 
-		Study study = new Study();
+		Study study = new LocalStudy();
 		study.addStudyDisease(studyDisease2);
 
 		study.addStudyDisease(studyDisease1);
