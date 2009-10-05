@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
+import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -47,6 +48,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -131,6 +133,8 @@ public class StudySubject extends
 	private StudySubjectStudyVersion studySubjectStudyVersion;
 
 	private StudySite studySite;
+	
+	private Logger log = Logger.getLogger(StudySubject.class);
 	/**
 	 * Instantiates a new study subject.
 	 */
@@ -144,7 +148,6 @@ public class StudySubject extends
 		this.c3prErrorMessages = resourceBundleMessageSource1;
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
 		lazyListHelper = new LazyListHelper();
-		this.startDate = new Date();
 		this.regDataEntryStatus = RegistrationDataEntryStatus.INCOMPLETE;
 		this.regWorkflowStatus = RegistrationWorkFlowStatus.PENDING;
 		lazyListHelper
@@ -182,9 +185,6 @@ public class StudySubject extends
 				new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(
 						SystemAssignedIdentifier.class));
 		setIdentifiers(new ArrayList<Identifier>());
-		if (!forExample) {
-			this.startDate = new Date();
-		}
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 
 	}
@@ -767,40 +767,9 @@ public class StudySubject extends
 	 * @return the registration data entry status
 	 */
 	public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus() {
-		if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ALL){
-			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-				if(studySubjectConsentVersion.getConsent() == null){
-					return RegistrationDataEntryStatus.INCOMPLETE;
-				}
-				if(StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
-					return RegistrationDataEntryStatus.INCOMPLETE;
-				}
-			}
-		}else if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
-			boolean dataEntryInComplete = true ;
-			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-				if(studySubjectConsentVersion.getConsent() != null && !StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
-					dataEntryInComplete = false ;
-					break;
-				}
-			}
-			if(dataEntryInComplete){
-				return RegistrationDataEntryStatus.INCOMPLETE;
-			}
-		}
-//		if (this.getInformedConsentSignedDateStr().equals("")){
-//			return RegistrationDataEntryStatus.INCOMPLETE;
-//		}
-//		if (StringUtils.getBlankIfNull(this.getInformedConsentVersion()).equals("")){
-//			return RegistrationDataEntryStatus.INCOMPLETE;
-//		}
-		for(StudySubject childStudySubject : this.getChildStudySubjects()){
-			childStudySubject.evaluateRegistrationDataEntryStatus();
-		}
-		if(getWorkPendingOnMandatoryCompanionRegistrations()){
-			return RegistrationDataEntryStatus.INCOMPLETE;
-		}
-		return RegistrationDataEntryStatus.COMPLETE;
+		List<Error> errors = new ArrayList<Error>();
+		evaluateRegistrationDataEntryStatus(errors);
+		return (errors.size() > 0) ? RegistrationDataEntryStatus.INCOMPLETE : RegistrationDataEntryStatus.COMPLETE;
 	}
 
 	// Adding refactored code
@@ -942,16 +911,9 @@ public class StudySubject extends
 	 */
 	public List<Error> updateDataEntryStatus() {
 		List<Error> errors = new ArrayList<Error>();
-		if(this.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
-			// for enrolling epochs signing informed consent(s) is mandatory
-			this.evaluateRegistrationDataEntryStatus(errors);
-			this.setRegDataEntryStatus((errors.size() > 0) ? RegistrationDataEntryStatus.INCOMPLETE : RegistrationDataEntryStatus.COMPLETE);
-		} else {
-			// for non-enrolling epochs signing informed consent is not mandatory
-			this.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-		}
+		this.evaluateRegistrationDataEntryStatus(errors);
+		this.setRegDataEntryStatus((errors.size() > 0) ? RegistrationDataEntryStatus.INCOMPLETE : RegistrationDataEntryStatus.COMPLETE);
 		this.getScheduledEpoch().setScEpochDataEntryStatus(this.evaluateScheduledEpochDataEntryStatus(errors));
-		
 		return errors;
 	}
 
@@ -1521,12 +1483,18 @@ public class StudySubject extends
 				}
 			}
 		}
-
+		if(this.getStartDate() == null){
+			this.setStartDate(this.getScheduledEpoch().getStartDate());
+			log.debug("Setting the registration start date to scheduled epoch start date");
+		}
 
 		if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
 			register();
 			List<Error> errors = new ArrayList<Error>();
 			canEnroll(errors);
+			if(errors.size() > 0){
+				throw new C3PRBaseRuntimeException(CommonUtils.listErrors(errors));
+			}
 		}
 
 	}
@@ -1637,16 +1605,19 @@ public class StudySubject extends
 	 */
 	public List<Error> canEnroll(List<Error> errors){
 		
+		
+		
+		StudySiteStudyVersion studySiteStudyVersion = this.getStudySubjectStudyVersion().getStudySiteStudyVersion();
+		
 		for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+			if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , studySubjectConsentVersion.getInformedConsentSignedDate())){
+				errors.add(new Error("The informed consent signed date does not correspond to the current study site study version. This seems to be a back dated registration"));
+			}
 			if(this.getStartDate().before(studySubjectConsentVersion.getInformedConsentSignedDate())){
 				errors.add(new Error("Enrollment cannot start before the subject signed the informed consent :" + studySubjectConsentVersion.getConsent().getName()));
 			}
 		}
 		
-		if(this.getStartDate().after(getScheduledEpoch().getStartDate()) || this.getStartDate().after(getScheduledEpoch().getStartDate())) {
-    		errors.add(new Error("Scheduled epoch start date and registration start date are different"));
-    	}
-
 		for (StudySubject childStudySubject : this.getChildStudySubjects()) {
 			CompanionStudyAssociation matchingCompanionStudyAssociation = null;
 			matchingCompanionStudyAssociation = getMatchingCompanionStudyAssociation(childStudySubject);
