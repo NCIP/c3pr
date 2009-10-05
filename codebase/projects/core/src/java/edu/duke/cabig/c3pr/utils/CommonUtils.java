@@ -3,14 +3,15 @@ package edu.duke.cabig.c3pr.utils;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.acegisecurity.Authentication;
-import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.userdetails.User;
 
-import com.karneim.util.collection.regex.ParseException;
+import edu.duke.cabig.c3pr.domain.Error;
+
 
 public class CommonUtils {
 
@@ -25,10 +26,7 @@ public class CommonUtils {
 	
     public static String getDateString(Date date){
       if (date != null) {
-    	  	try{
-			return DateUtil.formatDate(date, "MM/dd/yyyy");
-    	  	}catch (ParseException e) {
-			}
+    	  		return DateUtil.formatDate(date, "MM/dd/yyyy");
 		}
 		return "";
     }
@@ -42,11 +40,14 @@ public class CommonUtils {
 
     }
 
-//    public static void main(String args[]){
-//    	Calendar cal = Calendar.getInstance();
-//        cal.add(Calendar.DATE, -1);
-//        System.out.println(cal.getTime());
-//    }
+    public static String listErrors(List<Error> errors){
+    	
+    	StringBuffer sb = new StringBuffer();
+    	for(int i=0;i< errors.size();i++){
+    		sb.append(i + "." + " " + errors.get(i).getErrorMessage());
+    	}
+    	return sb.toString();
+    }
 
 
 }
