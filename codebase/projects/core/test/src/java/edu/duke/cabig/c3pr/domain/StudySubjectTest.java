@@ -280,7 +280,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
         studySubject.addScheduledEpoch(sc);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         
-        Study study1 = new Study();
+        Study study1 = new LocalStudy();
         study1.setMultiInstitutionIndicator(true);
     	StudySite studySite1 = new StudySite();
     	study1.addStudySite(studySite1);
@@ -300,7 +300,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
         sc.setEpoch(nt);
         studySubject.addScheduledEpoch(sc);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        Study study1 = new Study();
+        Study study1 = new LocalStudy();
         study1.setMultiInstitutionIndicator(true);
     	StudySite studySite1 = new StudySite();
     	study1.addStudySite(studySite1);
@@ -321,7 +321,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
         sc.setEpoch(nt);
         studySubject.addScheduledEpoch(sc);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
-        Study study1 = new Study();
+        Study study1 = new LocalStudy();
         study1.setMultiInstitutionIndicator(false);
     	StudySite studySite1 = new StudySite();
     	study1.addStudySite(studySite1);
@@ -352,7 +352,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	StudySubject studySubject1 = new StudySubject();
     	StudySubject studySubject2 = new StudySubject();
     	
-    	Study study1 = new Study();
+    	Study study1 = new LocalStudy();
     	StudySite studySite1 = new StudySite();
     	
     	study1.addStudySite(studySite1);
@@ -387,7 +387,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	assertFalse("Should not have been equal",studySubject1.equals(new StudySite()));
     	StudySubject studySubject2 = new StudySubject();
 
-    	Study study1 = new Study();
+    	Study study1 = new LocalStudy();
     	StudySite studySite1 = new StudySite();
     	
     	study1.addStudySite(studySite1);
@@ -421,7 +421,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	assertFalse("Should not have been equal",studySubject1.equals(new StudySite()));
     	StudySubject studySubject2 = new StudySubject();
 
-    	Study study1 = new Study();
+    	Study study1 = new LocalStudy();
     	StudySite studySite1 = new StudySite();
     	
     	study1.addStudySite(studySite1);
@@ -455,7 +455,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 
     	assertEquals("Wrong hash code",prime*prime*prime + studySubject1.getStartDate().hashCode(), studySubject1.hashCode());
 
-    	Study study1 = new Study();
+    	Study study1 = new LocalStudy();
     	StudySite studySite1 = new StudySite();
     	
     	study1.addStudySite(studySite1);

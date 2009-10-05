@@ -34,7 +34,7 @@ public class StudyTestCase extends AbstractTestCase {
 		basicStudy = studyCreationHelper.createBasicStudy();
 		basicStudy.setC3prErrorMessages(c3prErrorMessages);
 		basicStudy.setC3PRExceptionHelper(c3prExceptionHelper);
-		simpleStudy = new Study();
+		simpleStudy = new LocalStudy();
 	}
 
 	/** The c3pr exception helper. */
@@ -689,7 +689,7 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test compare to
 	 */
 	public void testCompareTo() {
-		Study study1 = new Study();
+		Study study1 = new LocalStudy();
 		Study study2 = study1;
 		assertEquals("condition should come out as false", 0, study1
 				.compareTo(study2));
@@ -699,7 +699,7 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test equals, if objects are of different class
 	 */
 	public void testEquals() {
-		Study study1 = new Study();
+		Study study1 = new LocalStudy();
 		Epoch epoch = new Epoch();
 		assertFalse("objects are from differnt class", study1.equals(epoch));
 	}
@@ -712,7 +712,7 @@ public class StudyTestCase extends AbstractTestCase {
 				basicStudy,
 				OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER,
 				"value");
-		Study study = new Study();
+		Study study = new LocalStudy();
 		assertFalse(
 				"both objects has null coordinating center identifer  hence unequal",
 				basicStudy.equals(study));
@@ -726,7 +726,7 @@ public class StudyTestCase extends AbstractTestCase {
 				basicStudy,
 				OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER,
 				"value");
-		Study study = new Study();
+		Study study = new LocalStudy();
 		study = studyCreationHelper.addOrganizationAssignedIdentifier(study,
 				OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER,
 				"testValue");
@@ -743,7 +743,7 @@ public class StudyTestCase extends AbstractTestCase {
 				basicStudy,
 				OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER,
 				"value");
-		Study study = new Study();
+		Study study = new LocalStudy();
 		study = studyCreationHelper.addOrganizationAssignedIdentifier(study,
 				OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER,
 				"value");

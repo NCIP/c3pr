@@ -34,6 +34,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
@@ -159,7 +160,7 @@ public class StudyDaoTest extends DaoTestCase {
 
         Integer savedId;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setPrecisText("New study");
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
@@ -232,7 +233,7 @@ public class StudyDaoTest extends DaoTestCase {
      * @return the study
      */
     public Study buildStudy() {
-        Study study = new Study();
+        Study study = new LocalStudy();
         study.setPrecisText("Study with randomization");
         study.setShortTitleText("ShortTitleText1");
         study.setLongTitleText("LongTitleText1");
@@ -536,7 +537,7 @@ public class StudyDaoTest extends DaoTestCase {
     public void testSaveNewStudyWithAssociations() throws Exception {
         Integer savedId;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setPrecisText("New study");
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
@@ -570,7 +571,7 @@ public class StudyDaoTest extends DaoTestCase {
     public void testSaveStudyWithNotifications() throws Exception {
         Integer savedId;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setPrecisText("Study with Notifications");
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
@@ -652,7 +653,7 @@ public class StudyDaoTest extends DaoTestCase {
             System.out.println("hcsi id ************" + hcsi.getId());
             HealthcareSiteInvestigator hcsiloaded = hcsidao.getById(hcsi.getId());
 
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
@@ -788,7 +789,7 @@ public class StudyDaoTest extends DaoTestCase {
      *
      * @throws Exception      */
     public void testSearchStudySimple() {
-        Study studySearchCriteria = new Study(true);
+        Study studySearchCriteria = new LocalStudy(true);
         studySearchCriteria.setShortTitleText("short_title_text");
         List<Study> results = dao.searchByExample(studySearchCriteria);
         assertEquals("Wrong number of Studies", 3, results.size());
@@ -800,7 +801,7 @@ public class StudyDaoTest extends DaoTestCase {
      * Make sure DAO returns unique results.
      */
     public void testIdentifierUniqueResults() {
-        Study studySearchCriteria = new Study(true);
+        Study studySearchCriteria = new LocalStudy(true);
         studySearchCriteria.setShortTitleText("short_title_text2");
         List<Study> results = dao.searchByExample(studySearchCriteria);
         assertEquals("Wrong number of Studies", 1, results.size());
@@ -929,7 +930,7 @@ public class StudyDaoTest extends DaoTestCase {
     public void testSaveNewStudyWithEpochAndArms() throws Exception {
         Integer savedId;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
@@ -971,7 +972,7 @@ public class StudyDaoTest extends DaoTestCase {
         Integer savedId;
         {
 
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
@@ -1032,7 +1033,7 @@ public class StudyDaoTest extends DaoTestCase {
     public void testSaveNewStudyWithTreatmentEpochsAndArms() throws Exception {
         Integer savedId;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
@@ -1082,12 +1083,29 @@ public class StudyDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testSearchStudyByWildCards() throws Exception {
-        Study studySearchCriteria = new Study(true);
+        Study studySearchCriteria = new LocalStudy(true);
         studySearchCriteria.setShortTitleText("ti%e");
         List<Study> results = dao.searchByExample(studySearchCriteria, true);
         assertEquals("Wrong number of Studies", 4, results.size());
     }
 
+    /**
+     * Test for searching Studies using wildcards for Coppa.
+     *
+     * @throws Exception the exception
+     */
+    public void testSearchStudyByWildCardsForCoppa() throws Exception {
+        Study studySearchCriteria = new LocalStudy();
+        //studySearchCriteria.setShortTitleText("Evaluation");
+        OrganizationAssignedIdentifier organizationAssignedIdentifier = new OrganizationAssignedIdentifier();
+        organizationAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
+        organizationAssignedIdentifier.setValue("NCI-2009-00004");
+        studySearchCriteria.getIdentifiers().add(organizationAssignedIdentifier);
+        
+        List<Study> results = dao.searchByExample(studySearchCriteria, true);
+        assertEquals("Wrong number of Studies", 1, results.size());
+    }
+    
     /**
      * Test for retrieving all study funding sponsors associated with this Study.
      *
@@ -1129,7 +1147,7 @@ public class StudyDaoTest extends DaoTestCase {
             HealthcareSite sponsor = healthcareSitedao.getById(1001);
             HealthcareSite site = healthcareSitedao.getById(1000);
 
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
@@ -1181,7 +1199,7 @@ public class StudyDaoTest extends DaoTestCase {
             HealthcareSite site = healthcareSitedao.getById(1000);
             HealthcareSite center = healthcareSitedao.getById(1002);
 
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
             study.setPhaseCode("PhaseCode");
@@ -1354,7 +1372,7 @@ public class StudyDaoTest extends DaoTestCase {
         HealthcareSite site = healthcareSitedao.getById(1000);
         HealthcareSite center = healthcareSitedao.getById(1002);
 
-        Study study = new Study();
+        Study study = new LocalStudy();
         study.setShortTitleText("ShortTitleText");
         study.setLongTitleText("LongTitleText");
         study.setPhaseCode("PhaseCode");
@@ -1507,7 +1525,7 @@ public class StudyDaoTest extends DaoTestCase {
      * Test search by example using study status.
      */
     public void testSearchByExampleUsingStudyStatus(){
-        Study exampleStudy = new Study();
+        Study exampleStudy = new LocalStudy();
         List<Study> studySearchResults = dao.searchByStatus(exampleStudy, "Open", true);
         assertEquals("Wrong Number of studies retrieved",4,studySearchResults.size());
 
@@ -1601,7 +1619,7 @@ public class StudyDaoTest extends DaoTestCase {
     }
 
     public void testSaveStudyWithStudyVersionAndStudySite() throws Exception {
-    	Study study = new Study();
+    	Study study = new LocalStudy();
     	study.setPhaseCode("");
     	study.setShortTitleText("short title");
     	study.setType("type");
@@ -1623,7 +1641,7 @@ public class StudyDaoTest extends DaoTestCase {
 
         Integer savedId;
         {
-            Study study = new Study();
+            Study study = new LocalStudy();
             study.setPrecisText("New study");
             study.setShortTitleText("ShortTitleText");
             study.setLongTitleText("LongTitleText");
