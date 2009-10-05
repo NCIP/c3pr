@@ -208,14 +208,14 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 		if(matchingRemoteInvestigatorFromDb == null ){
 			// check the uniqueness of email and nci identifier of new investigator in database before saving him
 			Investigator investigatorsWithMatchingEmail = null;
-			investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmailAsString());
+			investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmail());
 			
 			Investigator investigatorsWithMatchingNCICode = null;
 			investigatorsWithMatchingNCICode = getByNciIdentifierFromLocal(retrievedRemoteInvestigator.getNciIdentifier());
 			
 			if(investigatorsWithMatchingEmail != null){
 				log.error("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
-						+ "'s email id : " + retrievedRemoteInvestigator.getEmailAsString()	+ " is already in the database.");
+						+ "'s email id : " + retrievedRemoteInvestigator.getEmail()	+ " is already in the database.");
 				return investigatorsWithMatchingEmail;
 			} else if(investigatorsWithMatchingNCICode != null){
 				log.error("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
