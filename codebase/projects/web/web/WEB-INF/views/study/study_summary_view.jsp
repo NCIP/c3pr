@@ -193,7 +193,7 @@
             </c:if>
         </c:forEach>
 		<c:if test="${not empty editAuthorizationTask}">
-			<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+			<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
 				<c:if test="${!empty closed}">
                 	<tags:oneControlPanelItem linkhref="#" onclick="javascript:showCloseStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_closeStudy.jpg" linktext="Close Study" id="closeStudy"/>
                 </c:if>
@@ -225,7 +225,7 @@
 		                <tags:oneControlPanelItem linkhref="javascript:amendStudy(${command.study.id},${command.study.companionIndicator})" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
                      </c:if>
                 </csmauthz:accesscontrol>
-                <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+                <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
 					<tags:oneControlPanelItem linkhref="javascript:updateTargetAccrual();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Edit Accrual" />
 				</csmauthz:accesscontrol>
 				<c:if test="${canBroadcast}">
@@ -632,7 +632,7 @@
 </div>
 <div align="right">
 	<c:if test="${!empty flowType && applyAmendment}">
-	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="domainObjectAuthorizationCheck">
+	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="studyAuthorizationCheck">
 		<tags:button color="blue" value="Apply Amendment" icon="applyAmendment" onclick="javascript:changeStudyStatus('applyAmendment')"/>
 	</csmauthz:accesscontrol>
 	</c:if>
