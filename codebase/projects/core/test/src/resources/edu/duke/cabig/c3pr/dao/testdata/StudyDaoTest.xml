@@ -9,10 +9,10 @@
 	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1000" />
 	<CSM_PROTECTION_ELEMENT protection_element_id="1000" protection_element_name="dbunit" application_id="1" object_id="temp" attribute="" />
 
-    <STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" />
-    <STUDIES id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty" status="OPEN" retired_indicator = "false" />
-    <STUDIES id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" />
-    <STUDIES id="1003" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" />
+    <STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" dtype="Local"/>
+    <STUDIES id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty" status="OPEN" retired_indicator = "false" dtype="Local"/>
+    <STUDIES id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" dtype="Local"/>
+    <STUDIES id="1003" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" dtype="Local"/>
 
     <STUDY_VERSIONS  original_indicator="true" amendment_type="OPTIONAL" id="1000" study_id="1000" long_title_text="long_title_text" name="1.0" version_date="01-01-2001" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS  original_indicator="true" amendment_type="OPTIONAL" id="1001" study_id="1001" long_title_text="long_title_text2" name="1.0" version_date="01-01-2001" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
@@ -100,8 +100,8 @@
 	<IDENTIFIERS id="1008" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002" primary_indicator="1"/>
 	<IDENTIFIERS id="1009" version="1" value="nci1" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1003" dtype="OAI" stu_id="1000"
                  retired_indicator="false"/>
-    <IDENTIFIERS id="1010" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1004" primary_indicator="1"/>
-    <IDENTIFIERS id="1011" version="1" value="CALGB" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1004" primary_indicator="1"/>
+    <IDENTIFIERS id="1010" version="1" value="3583138" type="NCI" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1004" primary_indicator="1"/>
+    <IDENTIFIERS id="1011" version="1" value="3583155" type="NCI" dtype="OAI" retired_indicator="false" org_id="1004" primary_indicator="1"/>
 
     <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" prt_id="1000" sti_id="1000" retired_indicator="false"/>
     <STUDY_SUBJECTS id="1001" version="1" start_date="2001-01-01" prt_id="1000" sti_id="1001" retired_indicator="false"/>
