@@ -20,6 +20,7 @@ import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -127,7 +128,8 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	 */
 	@Transient
 	public boolean isValid(Date date){
-		return (startDate == null ? false : !startDate.after(date)) && (endDate == null  ? true : !endDate.before(date));
+		Date newDate = DateUtil.getUtilDateFromString(DateUtil.formatDate(date, "MM/dd/yyyy"), "MM/dd/yyyy");
+		return (startDate == null ? false : !startDate.after(newDate)) && (endDate == null  ? true : !endDate.before(newDate));
 	}
 
 	public int compareTo(StudySiteStudyVersion studySiteStudyVersion) {

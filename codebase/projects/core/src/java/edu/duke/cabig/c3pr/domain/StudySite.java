@@ -39,6 +39,7 @@ import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateF
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
@@ -640,12 +641,13 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	
 	@Transient
 	public SiteStatusHistory getSiteStatusHistory(Date date){
+		Date newDate = DateUtil.getUtilDateFromString(DateUtil.formatDate(date, "MM/dd/yyyy"), "MM/dd/yyyy");
 		List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
         Collections.sort(siteStatusHistoryList);
         for(SiteStatusHistory siteStatusHistory : siteStatusHistoryList){
         	Date startDate = siteStatusHistory.getStartDate();
         	Date endDate = siteStatusHistory.getEndDate();
-        	if(!startDate.after(date) && (endDate == null ? true : !endDate.before(date))) {
+        	if(!startDate.after(newDate) && (endDate == null ? true : !endDate.before(newDate))) {
         		return siteStatusHistory ;
         	}
         }
