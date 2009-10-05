@@ -28,12 +28,19 @@ function registerSubject(transferEpochId, transferToStatus, parentStudySubject){
 	closePopup();
 	if(transferToStatus == 'flow' && (parentStudySubject == null || parentStudySubject == '')){
 		$("edit_epoch").value=transferEpochId;
+		document.getElementById("t_offEpochDate").value=document.getElementById('offEpochDate').value;
+		document.getElementById("t_offEpochReasonText").value=document.getElementById('offEpochReasonText').value;
 		$("transferEpoch").submit();
 	}else if(transferToStatus == 'flow' && (parentStudySubject != null || parentStudySubject != '')){
 		$("edit_epoch_companion").value=transferEpochId;
+		$("tc_offEpochDate").value=document.getElementById('offEpochDate').value;
+		$("tc_offEpochReasonText").value=document.getElementById('offEpochReasonText').value;
 		$("transferCompanionEpoch").submit();
 	}else{
+		alert("in manage registration");
 		$("m_manage_epoch").value=transferEpochId;
+		$("m_offEpochDate").value=document.getElementById('offEpochDate').value;
+		$("m_offEpochReasonText").value=document.getElementById('offEpochReasonText').value;
 		$("manageTransferEpoch").submit();
 	}
 }
@@ -52,18 +59,25 @@ input[disabled] {
 	<input type="hidden" name="_finish" id="_finish"/>
 	<input type="hidden" name="_target0" id="_target0" value="0"/>
 	<input type="hidden" name="epoch" id="m_manage_epoch"/>
+	<input type="hidden" name="studySubject.scheduledEpoch.offEpochDate" id="m_offEpochDate"/>
+	<input type="hidden" name="studySubject.scheduledEpoch.offEpochReasonText" id="m_offEpochReasonText"/>
 </form>
 <form action="../registration/transferEpochRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="transferEpoch">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
 	<input type="hidden" name="epoch" id="edit_epoch"/>
+	<input type="hidden" name="studySubject.scheduledEpoch.offEpochDate" id="t_offEpochDate"/>
+	<input type="hidden" name="studySubject.scheduledEpoch.offEpochReasonText" id="t_offEpochReasonText"/>
 </form>
 <form action="../registration/transferEpochCompanionRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="transferCompanionEpoch">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
 	<input type="hidden" name="epoch" id="edit_epoch_companion"/>
+	<input type="hidden" name="studySubject.scheduledEpoch.offEpochDate" id="tc_offEpochDate"/>
+	<input type="hidden" name="studySubject.scheduledEpoch.offEpochReasonText" id="tc_offEpochReasonText"/>
 </form>
 <chrome:box title="Change Epoch">
+<chrome:division title="Select Epoch">
 <c:choose>
 	<c:when test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus!='REGISTERED'}">
 		<tags:instructions code="MANAGEREGISTRATION.UNAPPROVED_CURRENT_EPOCH"/>
@@ -85,7 +99,38 @@ input[disabled] {
 			</script>
 	</c:forEach>
 </table>
+</chrome:division>
+
+<chrome:division title="Off Epoch Details">
+
+<table border="0" cellspacing="5px" cellpadding="5" class="tablecontent"  width="100%">
+	<tr>
+		<td><b>Off epoch reason text:</b></td>
+		<td><textarea name="offEpochReasonText" id="offEpochReasonText" rows="2" cols="30" class="validate-notEmpty&&maxlength1024"></textarea>
+	            	<tags:hoverHint keyProp="scheduledEpoch.offEpochReasonText"/></td>
+		<td><b>Off epoch date:</b></td>
+		<td><input type="text" name="offEpochDate" id="offEpochDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
+					<a href="#" id="offEpochDate-calbutton">
+					    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
+					</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="scheduledEpoch.offEpochDate"/>
+					<script type="text/javascript">
+						Calendar.setup(
+				            {
+				                inputField  : "offEpochDate",
+				                button      : "offEpochDate-calbutton",
+				                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
+				                weekNumbers : false,
+				            }
+				        );
+					</script></td>
+	</tr>
+</table>
+</chrome:division>
+
 </chrome:box>
+
+
+
 <div class="flow-buttons">
 	<span class="next">
 		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
