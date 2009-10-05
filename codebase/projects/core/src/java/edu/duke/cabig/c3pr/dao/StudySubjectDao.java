@@ -32,6 +32,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -501,10 +502,12 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyPersonnelInternal());
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudySiteStudyVersions());
         getHibernateTemplate().initialize(studySubject.getChildStudySubjects());
+        getHibernateTemplate().initialize(studySubject.getStudySubjectStudyVersions());
+        
+        for(StudySubjectStudyVersion studySubjectStudyVersion : studySubject.getStudySubjectStudyVersions()){
+        	getHibernateTemplate().initialize(studySubjectStudyVersion.getStudySubjectConsentVersionsInternal());
+        }
 
-//        getHibernateTemplate().initialize(studySubject.getParticipant().getIdentifiers());
-//        getHibernateTemplate().initialize(studySubject.getParticipant().getRaceCodes());
-//        getHibernateTemplate().initialize(studySubject.getParticipant().getContactMechanisms());
         participantDao.initialize(studySubject.getParticipant());
 
         getHibernateTemplate().initialize(studySubject.getScheduledEpochs());
@@ -515,7 +518,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
             getHibernateTemplate().initialize(scheduledEpoch.getSubjectStratificationAnswersInternal());
         }
 
-        for(StudySubject childStudySubject : studySubject.getChildStudySubjects()){
+        for(StudySubject childStudySubject : studySubject.getChildStudySubjects(){
         	initialize(childStudySubject);
         }
 
