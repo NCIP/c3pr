@@ -25,6 +25,7 @@ import org.hibernate.annotations.Parameter;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
@@ -43,6 +44,26 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 
     /** The start date. */
     private Date startDate;
+    
+    private Date offEpochDate;
+    
+    public Date getOffEpochDate() {
+		return offEpochDate;
+	}
+
+	public void setOffEpochDate(Date offEpochDate) {
+		this.offEpochDate = offEpochDate;
+	}
+
+	public String getOffEpochReasonText() {
+		return offEpochReasonText;
+	}
+
+	public void setOffEpochReasonText(String offEpochReasonText) {
+		this.offEpochReasonText = offEpochReasonText;
+	}
+
+	private String offEpochReasonText;
 
     /** The sc epoch data entry status. */
     private ScheduledEpochDataEntryStatus scEpochDataEntryStatus;
@@ -596,4 +617,32 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 		this.currentPosition = currentPosition;
 	}
     
+	
+	/**
+	 * Gets the start date str.
+	 *
+	 * @return the start date str
+	 */
+	@Transient
+	public String getStartDateStr() {
+		if(startDate!=null){
+			return DateUtil.formatDate(startDate, "MM/dd/yyyy");
+		}
+		return "";
+	}
+	
+	/**
+	 * Gets the start date str.
+	 *
+	 * @return the start date str
+	 */
+	@Transient
+	public String getOffEpochDateStr() {
+		if(offEpochDate!=null){
+			return DateUtil.formatDate(offEpochDate, "MM/dd/yyyy");
+		}
+		return "";
+	}
+
+
 }
