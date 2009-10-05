@@ -21,6 +21,8 @@ public class ParameterizedBiDirectionalInstantiateFactory<T extends DomainObject
 
     /** The class to instantiate. */
     private Class<T> classToInstantiate;
+    
+    private Class biDirectionalClass; 
 
     /**
      * Instantiates a new parameterized bi directional instantiate factory.
@@ -29,10 +31,7 @@ public class ParameterizedBiDirectionalInstantiateFactory<T extends DomainObject
      * @param parent the parent
      */
     public ParameterizedBiDirectionalInstantiateFactory(Class<T> classToInstantiate, Object parent) {
-        super(classToInstantiate);
-        this.classToInstantiate = classToInstantiate;
-        this.parent = parent;
-        this.biDirectionalPropertyName = parent.getClass().getSimpleName();
+        this(classToInstantiate, parent, parent.getClass().getSimpleName());
     }
 
     /**
@@ -44,12 +43,27 @@ public class ParameterizedBiDirectionalInstantiateFactory<T extends DomainObject
      */
     public ParameterizedBiDirectionalInstantiateFactory(Class<T> classToInstantiate, Object parent,
                     String biDirectionalPropertyName) {
+    	this(classToInstantiate, parent, biDirectionalPropertyName, parent.getClass());
+    }
+
+    /**
+     * Instantiates a new parameterized bi directional instantiate factory.
+     * 
+     * @param classToInstantiate the class to instantiate
+     * @param parent the parent
+     * @param biDirectionalPropertyName the bi directional property name
+     */
+    public ParameterizedBiDirectionalInstantiateFactory(Class<T> classToInstantiate, Object parent,
+                    String biDirectionalPropertyName, Class biDirectionalClassName) {
         super(classToInstantiate);
         this.classToInstantiate = classToInstantiate;
         this.parent = parent;
         this.biDirectionalPropertyName = biDirectionalPropertyName;
+        this.biDirectionalClass = biDirectionalClassName;
     }
 
+    
+    
     /* (non-Javadoc)
      * @see org.apache.commons.collections15.functors.InstantiateFactory#create()
      */
@@ -59,7 +73,7 @@ public class ParameterizedBiDirectionalInstantiateFactory<T extends DomainObject
         try {
             object = (T) classToInstantiate.newInstance();
             Method m = object.getClass().getMethod(getSetterString(this.biDirectionalPropertyName),
-                            new Class[] { this.parent.getClass() });
+                            new Class[] { biDirectionalClass });
             m.invoke(object, new Object[] { parent });
         }
         catch (Exception e) {

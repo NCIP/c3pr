@@ -10,6 +10,11 @@ public class StudySiteBiDirectionalInstantiateFactory extends ParameterizedBiDir
 		super(classToInstantiate, parent);
 	}
 	
+	public StudySiteBiDirectionalInstantiateFactory(Class<StudySite> classToInstantiate, Object parent,
+            String biDirectionalPropertyName, Class biDirectionalClassName){
+		super(classToInstantiate, parent, biDirectionalPropertyName, parent.getClass());
+	}
+	
 	@Override
 	public StudySite create() {
 		 StudySite studySite = super.create();
