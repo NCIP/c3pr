@@ -1483,10 +1483,8 @@ public class StudySubject extends
 				}
 			}
 		}
-		if(this.getStartDate() == null){
-			this.setStartDate(this.getScheduledEpoch().getStartDate());
+			this.getScheduledEpoch().setStartDate(this.getStartDate());
 			log.debug("Setting the registration start date to scheduled epoch start date");
-		}
 
 		if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
 			register();
