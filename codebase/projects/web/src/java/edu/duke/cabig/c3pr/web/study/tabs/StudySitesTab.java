@@ -357,10 +357,14 @@ public class StudySitesTab extends StudyTab {
 	        String allowedOldDate = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
 	        String todayDate = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
 	        if (irbApprovalDate.before(calendar.getTime()) || irbApprovalDate.after(currentDate)) {
-	        	request.setAttribute("irbApprovalError", "IRB approval should be between" + allowedOldDate + "and "+ todayDate);
+	        	errorMessage= "IRB approval should be between" + allowedOldDate + "and "+ todayDate ;
 	        }else{
 	        	//TODO write api in study repo to apply amendment, dont merger here.
-	        	studySite.applyStudyAmendment(versionName, irbApprovalDate);
+	        	try{
+	        		studySite.applyStudyAmendment(versionName, irbApprovalDate);
+	        	}catch (Exception e) {
+					errorMessage = e.getMessage();
+				}
 	        	studySiteDao.merge(studySite);
 	        	studySiteDao.evict(studySite);
 	        	studyDao.evict(study);
@@ -371,7 +375,7 @@ public class StudySitesTab extends StudyTab {
 	    		studySite = study.getStudySite(primaryIdentifier);
 	        }
 		}else{
-			request.setAttribute("irbApprovalError", "IRB approval date is mandatory");
+			errorMessage =  "IRB approval date is mandatory";
 		}
 		Map map = new HashMap();
 		map.put("command", wrapper);
@@ -396,4 +400,6 @@ public class StudySitesTab extends StudyTab {
 		}
 		return map;
 	}
+	
+	
 }

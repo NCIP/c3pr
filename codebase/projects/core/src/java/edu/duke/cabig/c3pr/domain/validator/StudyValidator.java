@@ -145,8 +145,6 @@ public class StudyValidator implements Validator {
         try {
             for (int studySiteIndex = 0; studySiteIndex < allStudySites.size(); studySiteIndex++) {
                 errors.pushNestedPath("study.studySites[" + studySiteIndex + "]");
-                // ValidationUtils.invokeValidator(this.studySiteValidator,
-                // allStudySites.get(studySiteIndex), errors);
                 errors.popNestedPath();
             }
             Set<StudySite> uniqueStudySites = new HashSet<StudySite>();
