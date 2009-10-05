@@ -15,17 +15,17 @@ public class TestMultisiteDelegatedCredentialProvider extends MultisiteDelegated
 	public String password = "";
 	
 	public TestMultisiteDelegatedCredentialProvider() {
-		this.username = "ccts@nih.gov";
-		this.password = "!Ccts@nih.gov1";
-		setIdpUrl("https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian");
-		setIfsUrl("https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian");
+		this.username = "cctsdev1";
+		this.password = "An010101!!";
+		setIdpUrl("https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian");
+		setIfsUrl("https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian");
 	}
 	
 	public TestMultisiteDelegatedCredentialProvider(String username, String password) {
 		this.username = username;
 		this.password = password;
-		setIdpUrl("https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian");
-		setIfsUrl("https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian");
+		setIdpUrl("https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian");
+		setIfsUrl("https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian");
 	}
 	
 	
