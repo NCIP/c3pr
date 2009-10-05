@@ -1093,7 +1093,7 @@ public class StudyDaoTest extends DaoTestCase {
      * Test for searching Studies using wildcards for Coppa.
      *
      * @throws Exception the exception
-     */
+     
     public void testSearchStudyByWildCardsForCoppa() throws Exception {
         Study studySearchCriteria = new LocalStudy();
         //studySearchCriteria.setShortTitleText("Evaluation");
@@ -1104,7 +1104,7 @@ public class StudyDaoTest extends DaoTestCase {
         
         List<Study> results = dao.searchByExample(studySearchCriteria, true);
         assertEquals("Wrong number of Studies", 1, results.size());
-    }
+    }*/
     
     /**
      * Test for retrieving all study funding sponsors associated with this Study.
