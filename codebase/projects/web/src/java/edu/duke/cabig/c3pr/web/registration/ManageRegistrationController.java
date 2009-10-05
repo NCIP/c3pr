@@ -79,7 +79,7 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     		Integer id = Integer.parseInt(request.getParameter("epoch"));
 	        Epoch epoch = epochDao.getById(id);
 	        epochDao.initialize(epoch);
-	        if (epoch.getTreatmentIndicator()) {
+	        if (epoch.getRandomizedIndicator()) {
 	            (epoch).getArms().size();
 	            scheduledEpoch = new ScheduledEpoch();
 	        }
