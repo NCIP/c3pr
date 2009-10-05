@@ -79,6 +79,13 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     		studySubject.changeStudyVersion(consentSignedDate);
     		return;
     	}
+    	
+    	// set the scheduled epoch start date to registration start date for first time enrollment
+    	
+    	if(command.getStudySubject().getScheduledEpoch().getEpoch().getEnrollmentIndicator() &&
+    			command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
+    		command.getStudySubject().getScheduledEpoch().setStartDate(command.getStudySubject().getStartDate());
+    	}
     		
         if(!StringUtils.isBlank(request.getParameter("treatingPhysicianInternal"))){
             for(StudyInvestigator studyInvestigator : studySubject.getStudySite().getStudyInvestigators()){
