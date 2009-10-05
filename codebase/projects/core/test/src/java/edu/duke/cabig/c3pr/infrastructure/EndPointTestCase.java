@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.GridEndPoint;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.grid.studyservice.client.StudyServiceClient;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -90,7 +91,7 @@ public class EndPointTestCase extends AbstractTestCase {
     public void testGetArguments(){
         endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
         List<AbstractMutableDomainObject> list=new ArrayList<AbstractMutableDomainObject>();
-        list.add(new Study());	
+        list.add(new LocalStudy());	
         Object[] args=endPoint.getArguments(list);
         assertNotNull(args);
         assertEquals("Wrong args length", args.length, 1);

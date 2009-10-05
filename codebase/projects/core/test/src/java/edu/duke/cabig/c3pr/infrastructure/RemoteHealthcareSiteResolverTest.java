@@ -23,12 +23,12 @@ public class RemoteHealthcareSiteResolverTest extends ApplicationContextTest{
 	CaXchangeMessageBroadcasterImpl coppaMessageBroadcaster = null;
 	PersonOrganizationResolverUtils personResolverUtils = null;
 	
-	public static final String idpUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
-	public static final String ifsUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
-	public static final String caXchangeUrl = "https://cbvapp-d1017.nci.nih.gov:28445/wsrf-caxchange/services/cagrid/CaXchangeRequestProcessor";
+	public static final String idpUrl = "https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian";
+	public static final String ifsUrl = "https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian";
+	public static final String caXchangeUrl = "https://ncias-c278-v.nci.nih.gov:58445/wsrf-caxchange/services/cagrid/CaXchangeRequestProcessor";
 	
-	public static final String username = "ccts@nih.gov";
-	public static final String password = "!Ccts@nih.gov1";
+	public static final String username = "cctsdev1";
+	public static final String password = "An010101!!";
 	
 	
 	@Override

@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
@@ -153,7 +154,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
 
     public void testOpenStudyMultipleStudiesFound() {
-        list.add(new Study());
+        list.add(new LocalStudy());
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         replayMocks();
         try {
