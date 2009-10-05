@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,12 +21,12 @@ import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialPr
 
 public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 
-	public static final String idpUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
-	public static final String ifsUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
-	public static final String caXchangeUrl = "https://cbvapp-d1017.nci.nih.gov:58445/wsrf-caxchange/services/cagrid/CaXchangeRequestProcessor";
+	public static final String idpUrl = "https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian";
+	public static final String ifsUrl = "https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian";
+	public static final String caXchangeUrl = "https://ncias-c278-v.nci.nih.gov:58445/wsrf-caxchange/services/cagrid/CaXchangeRequestProcessor";
 	
-	public static final String username = "Ccts@nih.gov";
-	public static final String password = "!Ccts@nih.gov1";
+	public static final String username = "cctsdev1";
+	public static final String password = "An010101!!";
 	
 	private CaXchangeMessageBroadcasterImpl messageBroadcaster = new CaXchangeMessageBroadcasterImpl();
 	private HashMap<String, String> messageTypesMapping = new LinkedHashMap<String, String>();
@@ -479,6 +480,29 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
         Metadata mData = new Metadata(OperationNameEnum.getByStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_SITE.getName());
         try {
         	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
+	
+	/**
+	 * Test broadcast for COppa Message - Get StudyContact.
+	 */
+	public void testBroadcastCoppaMessageForGetStudyContactByStudyProtocol(){
+
+		String paPayload = "<ns1:Id root=\"2.16.840.1.113883.3.26.4.3\" identifierName=\"NCI study protocol entity identifier\" extension=\"27525\" xmlns:ns1=\"http://pa.services.coppa.nci.nih.gov\"/>";
+		String rolePayload = "<ns1:StudySiteContact xmlns:ns1=\"http://pa.services.coppa.nci.nih.gov\"><ns1:roleCode code=\"Principal Investigator\"/></ns1:StudySiteContact>";
+		List<String> payLoads = Arrays.asList(paPayload, rolePayload);
+		
+		String payloadXml = getPayloadForFile("STUDY_PROTOCOL_ID.xml");
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getByStudyProtocolAndRole.getName(), "extId", ServiceTypeEnum.STUDY_CONTACT.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payLoads, mData);
 		} catch (BroadcastException e) {
 			e.printStackTrace();
 			fail();
