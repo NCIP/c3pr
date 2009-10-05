@@ -41,7 +41,11 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	private StudyVersion studyVersion ;
 
 	public Date getEndDate() {
-		return endDate;
+		if(endDate != null){
+			return DateUtil.getUtilDateFromString(DateUtil.formatDate(endDate, "MM/dd/yyyy"), "MM/dd/yyyy");
+		}else{
+			return endDate ;
+		}
 	}
 	
 	@Transient
@@ -89,7 +93,11 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	}
 
 	public Date getStartDate() {
-		return startDate;
+		if(startDate != null){
+			return DateUtil.getUtilDateFromString(DateUtil.formatDate(startDate, "MM/dd/yyyy"), "MM/dd/yyyy");
+		}else{
+			return startDate ;
+		}
 	}
 	
 	@Transient

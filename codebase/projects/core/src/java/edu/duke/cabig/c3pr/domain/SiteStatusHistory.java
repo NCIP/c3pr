@@ -17,6 +17,7 @@ import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 
 /**
  * @author Himanshu
@@ -33,7 +34,11 @@ public class SiteStatusHistory extends AbstractMutableDeletableDomainObject impl
 	private StudySite studySite;
 	
 	public Date getStartDate() {
-		return startDate;
+		if(startDate != null){
+			return DateUtil.getUtilDateFromString(DateUtil.formatDate(startDate, "MM/dd/yyyy"), "MM/dd/yyyy");
+		}else{
+			return startDate ;
+		}
 	}
 	
 	@Transient
@@ -50,7 +55,11 @@ public class SiteStatusHistory extends AbstractMutableDeletableDomainObject impl
 		this.startDate = startDate;
 	}
 	public Date getEndDate() {
-		return endDate;
+		if(endDate != null){
+			return DateUtil.getUtilDateFromString(DateUtil.formatDate(endDate, "MM/dd/yyyy"), "MM/dd/yyyy");
+		}else{
+			return endDate ;
+		}
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
