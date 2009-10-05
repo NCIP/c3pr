@@ -23,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty;
@@ -70,7 +71,9 @@ public class StudyOverviewTab extends StudyTab {
             	}else if(closeStudyStatus.equals("Temporarily_Closed_To_Accrual")){
             		study = studyRepository.temporarilyCloseStudy(study.getIdentifiers());
             	}
-                request.setAttribute("studyMessage", "STUDY.CLOSED_SUCCESSFULLY");
+            	if(!StringUtils.getBlankIfNull(closeStudyStatus).equals("")){
+            		request.setAttribute("studyMessage", "STUDY.CLOSED_SUCCESSFULLY");
+            	}
             }else if(request.getParameter("statusChange").equals("applyAmendment")){
             	// this should come after some validation , temp fix, fix it later
             	for(StudySite studySite : study.getStudySites()){
