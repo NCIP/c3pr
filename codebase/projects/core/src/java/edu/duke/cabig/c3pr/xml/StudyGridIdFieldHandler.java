@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.xml;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -32,7 +33,7 @@ public class StudyGridIdFieldHandler implements FieldHandler {
         }
         Study study = studySite.getStudy();
         if (study == null) {
-            study = new Study();
+            study = new LocalStudy();
             studySite.setStudy(study);
         }
         study.setGridId((String) value);

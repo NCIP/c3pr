@@ -13,11 +13,13 @@ import org.springframework.context.MessageSource;
 
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
+import edu.duke.cabig.c3pr.constants.CoppaStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
 import edu.duke.cabig.c3pr.esb.Metadata;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
@@ -48,6 +50,11 @@ public class PersonOrganizationResolverUtils {
 	
 	public static final String idpUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
 	public static final String ifsUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
+	
+	public static final String CTEP_ROOT = "Cancer Therapy Evaluation Program Organization Identifier";
+	public static final String CTEP_ID = "CTEP ID";
+	public static final String NCI_ID = "NCI Research Organization identifier";
+	public static final String NCI_ROOT = "2.16.840.1.113883.3.26.4.4.5";
 	
     
     
@@ -174,6 +181,19 @@ public class PersonOrganizationResolverUtils {
 		remoteOrganization.setCtepCode(identifier);
 	}
 	
+	/**
+	 * Sets a primaryOAI as the NCI from given extension
+	 * @param remoteOrganization
+	 * @param extension
+	 */
+	public void setNciCodeFromExtension(HealthcareSite remoteOrganization, String extension) {
+		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
+		identifier.setType(OrganizationIdentifierTypeEnum.NCI);
+		identifier.setValue(extension);
+		identifier.setPrimaryIndicator(true);
+
+		remoteOrganization.setCtepCode(identifier);
+	}
 	
 	/**
 	 * Broadcast organization search.
@@ -211,6 +231,19 @@ public class PersonOrganizationResolverUtils {
         Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
 		return broadcastCoppaMessage(personXml, mData);
 	}
+	
+	
+	public String broadcastResearchOrganizationGetById(String roXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.RESEARCH_ORGANIZATION.getName());
+		return broadcastCoppaMessage(roXml, mData);
+	}
+	
+	public String broadcastHealthcareFacilityGetById(String roXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_FACILITY.getName());
+		return broadcastCoppaMessage(roXml, mData);
+	}
 
 	public String broadcastPersonGetById(String iiXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
@@ -230,6 +263,11 @@ public class PersonOrganizationResolverUtils {
 		return broadcastCoppaMessage(personXml, mData);
 	}
 	
+	public String broadcastHealthcareProviderGetById(String personXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
+		return broadcastCoppaMessage(personXml, mData);
+	}
 	/**
 	 * Broadcast healthcare site create.
 	 * 
@@ -265,6 +303,67 @@ public class PersonOrganizationResolverUtils {
 		return caXchangeResponseXml;
 	}	
 	
+	
+	/** Populate Remote Organization , given the Coppa Organization.
+	 *  Populate the ctepCode   from  IdentifiedOrganization.assignedId.extension by calling the IdentifiedOrganization search.
+	 *  Get ctep only if the "getCtepFromIdentifiedOrganization" boolean is true. Else assume CTEP code is already available.
+	 *  Populate the externalId from  IdentifiedOrganization.identifier.extension by calling the IdentifiedOrganization search.
+	 * 
+	 * @param coppaOrganization
+	 * @return RemoteHealthcareSite
+	 */
+	public RemoteHealthcareSite getRemoteHealthcareSiteFromCoppaOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization){
+		return getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, true);
+	}
+	
+	public RemoteHealthcareSite getRemoteHealthcareSiteFromCoppaOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization, boolean getCtepFromIdentifiedOrganization){
+		RemoteHealthcareSite remoteHealthcareSite = null;
+		if(coppaOrganization != null){
+			remoteHealthcareSite = new RemoteHealthcareSite();
+			//using coppa organization identier and previously obtained id of CTEP (hard coded in CoppaObjectFactory.getIIOfCTEP) get Identified organization
+			if(getCtepFromIdentifiedOrganization){
+				IdentifiedOrganization identifiedOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganizationSearchCriteriaForCorrelation(coppaOrganization.getIdentifier());
+				String identifiedOrganizationXml = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganization);		
+				String resultXml = "";
+				try {
+					resultXml = broadcastIdentifiedOrganizationSearch(identifiedOrganizationXml);
+				} catch (C3PRCodedException e) {
+					//throwing a runtimeException here as this is non-recoverable exception
+					throw new RuntimeException();
+				}
+				
+				List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
+				if (results.size() > 0) {
+					identifiedOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganization(results.get(0));
+					if (identifiedOrganization.getAssignedId() != null ) {
+						//Setting the CTEP ID 
+						setCtepCodeFromExtension(remoteHealthcareSite, identifiedOrganization.getAssignedId().getExtension());
+					}
+				}
+			}
+			
+			//set values from CoppaOrganization
+			remoteHealthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
+			remoteHealthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
+			remoteHealthcareSite.setCoppaStatusCode(CoppaStatusCodeEnum.getByCode(coppaOrganization.getStatusCode().getCode()));
+			
+			Address address = getAddressFromCoppaOrganization(coppaOrganization);
+			remoteHealthcareSite.setAddress(address);
+		}
+		
+		return remoteHealthcareSite;
+	}
+	
+	public void setCtepCodeFromStructuralRoleIIList(RemoteHealthcareSite remoteHealthcareSite, List<II> iiList){
+		for(II ii: iiList){
+			if(ii.getRoot().equalsIgnoreCase(CTEP_ROOT) || ii.getIdentifierName().equals(CTEP_ID) ){
+				setCtepCodeFromExtension(remoteHealthcareSite, ii.getExtension());
+			}
+			if(ii.getRoot().equalsIgnoreCase(NCI_ROOT) || ii.getIdentifierName().equals(NCI_ID) ){
+				setNciCodeFromExtension(remoteHealthcareSite, ii.getExtension());
+			}
+		}
+	}
 	
 	/**
      * Gets the error code which is used to retrieve the exception message.

@@ -4,6 +4,7 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
@@ -32,7 +33,7 @@ public class IdentifiersHolderFieldHandler implements FieldHandler {
                     IllegalArgumentException {
     	if(value==null) return;
     	IdentifiersHolder identifiersHolder= (IdentifiersHolder) value;
-    	Study study= new Study();
+    	Study study= new LocalStudy();
     	study.getIdentifiers().addAll(identifiersHolder.getIdentifiers());
     	if (object instanceof StudyVersion) {
 			StudyVersion studyVersion = (StudyVersion) object;
