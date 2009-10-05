@@ -312,7 +312,6 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.completeRegistrationDataEntry(studySubject);
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
-	       // studySubjectDao.merge(studySubject);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject).times(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        studySubjectDao.initialize(studySubject);
@@ -330,7 +329,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        	studySubjectRepository.transferSubject(studySubject.getIdentifiers());
 	        	}
 	        catch(Exception ex){
-	        	 log.error("StudySubject.transfer() threw exception");
+	        	ex.printStackTrace();
+	        	fail("StudySubject.transfer() threw exception");
 	        	}
 	        verifyMocks();
 	    }
