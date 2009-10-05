@@ -8,8 +8,8 @@
 	<CSM_PROTECTION_GROUP protection_group_id="1000" protection_group_name="dbunit" application_id="1" large_element_count_flag="0" parent_protection_group_id="6"/>
 	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1000" />
 	 -->
-    <STUDIES id="1100" version="1" blinded_indicator="1" multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN" />
-    <STUDIES id="1200" version="1" blinded_indicator="1" multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN" />
+    <STUDIES id="1100" version="1" blinded_indicator="1" multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN"  dtype="Local"/>
+    <STUDIES id="1200" version="1" blinded_indicator="1" multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN"  dtype="Local"/>
 
     <STUDY_VERSIONS amendment_type="OPTIONAL" id="1100" study_id="1100" long_title_text="long_title_text" name="1.0" version_date="01-01-2001" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false" original_indicator="true"/>
     <STUDY_VERSIONS amendment_type="OPTIONAL" id="1201" study_id="1200" long_title_text="long_title_text2" name="1.0" version_date="01-01-2001" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false" original_indicator="true"/>
