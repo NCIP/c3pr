@@ -10,12 +10,10 @@ import org.iso._21090.II;
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.RemoteContactMechanism;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -319,7 +317,14 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		return coppaOrganizationList;
 	}
 
-	private RemoteInvestigator loadInvestigatorForPersonResult(String personResultXml) {
+	/**
+	 * Load investigator for person result. This is also used from StudyResolver; hence the public scope.
+	 * 
+	 * @param personResultXml the person result xml
+	 * 
+	 * @return the remote investigator
+	 */
+	public RemoteInvestigator loadInvestigatorForPersonResult(String personResultXml) {
         List<String> results = XMLUtils.getObjectsFromCoppaResponse(personResultXml);
         List<gov.nih.nci.coppa.po.Organization> coppaOrganizationList = null;
         RemoteInvestigator remoteInvestigator = null;
@@ -341,21 +346,6 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 	
 
 	public Object getRemoteEntityByUniqueId(String externalId) {
-		RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
-		
-		remoteInvestigator.setFirstName("remote fname");
-		remoteInvestigator.setLastName("remote lname");
-		remoteInvestigator.setExternalId(externalId);
-		
-//		RemoteContactMechanism contactMechanism = new RemoteContactMechanism();
-//		contactMechanism.setType(ContactMechanismType.PHONE);
-//		contactMechanism.setValue("9727401169");
-//		
-//		remoteInvestigator.getContactMechanisms().add(contactMechanism);
-		remoteInvestigator.setRemotePhone("9727401169");
-		return remoteInvestigator;
-
-		/*
 		II ii = CoppaObjectFactory.getIISearchCriteriaForPerson(externalId);
 		
 		String iiXml = CoppaObjectFactory.getCoppaIIXml(ii);
@@ -363,7 +353,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		try {
 			resultXml = personOrganizationResolverUtils.broadcastPersonGetById(iiXml);
 		} catch (C3PRCodedException e) {
-			logger.error(e.getMessage());
+			log.error(e.getMessage());
 		}
 		
 		List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
@@ -375,7 +365,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		}
 		
 		RemoteInvestigator remoteInvestigator = populateRemoteInvestigator(coppaPerson, null, coppaOrganizationList);
-		return remoteInvestigator;*/
+		return remoteInvestigator;
 	}
 
 

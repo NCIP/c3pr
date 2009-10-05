@@ -217,7 +217,15 @@ public class HealthcareSiteDao extends OrganizationDao {
 		HealthcareSite healthcareSite = getByPrimaryIdentifierFromLocal(primaryIdentifierCode);
 		if(healthcareSite == null){
 			List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
-			remoteHealthcareSites.addAll(getExternalOrganizationsByExampleFromResolver(new RemoteHealthcareSite()));
+			
+			//create a example remoteHealthcareSite with the primaryId set in it.
+			RemoteHealthcareSite exampleRemoteHealthcareSite = new RemoteHealthcareSite();
+			OrganizationAssignedIdentifier oai = new OrganizationAssignedIdentifier();
+			oai.setPrimaryIndicator(Boolean.TRUE);
+			oai.setValue(primaryIdentifierCode);			
+			exampleRemoteHealthcareSite.getIdentifiers().add(oai);
+			
+			remoteHealthcareSites.addAll(getExternalOrganizationsByExampleFromResolver(exampleRemoteHealthcareSite));
 			updateDatabaseWithRemoteHealthcareSites(remoteHealthcareSites);
 			
 			return getByPrimaryIdentifierFromLocal(primaryIdentifierCode);
@@ -230,15 +238,12 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * 
 	 * @param primaryIdentifierCode the nci institute code
 	 * @return the HealthcareSite (Null if not match is found)
-	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
+	 * @throws C3PRBaseException 	
+	 * @throws C3PRBaseRuntimeException 	 */
 	public HealthcareSite getByPrimaryIdentifierFromLocal(String primaryIdentifierCode) {
 		if(StringUtils.isEmpty(primaryIdentifierCode)){
 			return null;
 		}
-		/*return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
-				.find("select H from HealthcareSite H where " +
-					  "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'", 
-						new Object[] {primaryIdentifierCode}));*/
 		
 		Criteria orgCriteria = getHibernateTemplate().getSessionFactory()
         				.getCurrentSession().createCriteria(HealthcareSite.class);
@@ -254,6 +259,44 @@ public class HealthcareSiteDao extends OrganizationDao {
     	}        
 	}
 
+	/**
+	 * Gets NCI Organization from local.
+	 * 
+	 * @return the HealthcareSite
+	 */
+	public HealthcareSite getNCIOrganization() {
+		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
+				.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.value=?", 
+						new Object[] {OrganizationIdentifierTypeEnum.NCI.getName()}));
+	}
+	
+	/**
+	 * Gets CTEP Organization from local.
+	 * 
+	 * @return the HealthcareSite
+	 */
+	public HealthcareSite getCTEPOrganization() {
+		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
+				.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.value=?", 
+						new Object[] {OrganizationIdentifierTypeEnum.CTEP.getName()}));
+	}
+	
+	/**
+	 * Gets by ctep code from local.
+	 * 
+	 * @param primaryIdentifierCode the nci institute code
+	 * @return the HealthcareSite
+	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
+	public HealthcareSite getByNciCodeFromLocal(String nciCode) {
+		if(StringUtils.isEmpty(nciCode)){
+			return null;
+		}
+		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
+				.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.typeInternal=? and " +
+					  "H.identifiersAssignedToOrganization.value=?", 
+						new Object[] {OrganizationIdentifierTypeEnum.NCI.getName(), nciCode}));
+	}
+	
 	/**
 	 * Gets by ctep code from local.
 	 * 
@@ -312,8 +355,10 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	public void updateDatabaseWithRemoteHealthcareSites(List<HealthcareSite> remoteHealthcareSiteList) {
 
+		HealthcareSite remoteHealthcareSite = null;
 		try {
-			for (HealthcareSite remoteHealthcareSite : remoteHealthcareSiteList) {
+			for (int i = 0; i< remoteHealthcareSiteList.size(); i++) {
+				remoteHealthcareSite = remoteHealthcareSiteList.get(i);
 				if(remoteHealthcareSite != null){
 					RemoteHealthcareSite remoteHealthcareSiteTemp = (RemoteHealthcareSite)remoteHealthcareSite;
 					HealthcareSite healthcareSiteFromDatabase = 
@@ -323,19 +368,32 @@ public class HealthcareSiteDao extends OrganizationDao {
 					
 					if (healthcareSiteFromDatabase == null) {
 						HealthcareSite healthcareSiteWithSameCtepCode = null;
+						HealthcareSite healthcareSiteWithSameNciCode = null;
 						//If healthcareSiteFromDatabase is null then it doesnt exists as a remoteOrg
-						//check to see if it exists as localOrg
+						//check to see if it exists as local Organization
 
 						// check by ctepCode
 						healthcareSiteWithSameCtepCode = getByCtepCodeFromLocal(remoteHealthcareSiteTemp.getCtepCode());
-						if(healthcareSiteWithSameCtepCode == null){
+						healthcareSiteWithSameNciCode = getByNciCodeFromLocal(remoteHealthcareSiteTemp.getNciIdentifierAsString());
+						if(healthcareSiteWithSameCtepCode != null){
+							//make the remoteHcs refer to the existing one so other associations can be saved succesfully.
+							remoteHealthcareSiteList.remove(i);
+							remoteHealthcareSiteList.add(i, healthcareSiteWithSameCtepCode);
+							log.error("Healthcare site with CTEP: " + remoteHealthcareSiteTemp.getCtepCode() + " already exists in database");
+						} else if(healthcareSiteWithSameNciCode != null){
+							//make the remoteHcs refer to the existing one so other associations can be saved succesfully.
+							remoteHealthcareSiteList.remove(i);
+							remoteHealthcareSiteList.add(i, healthcareSiteWithSameNciCode);
+							log.error("Healthcare site with NCI: " + remoteHealthcareSiteTemp.getNciIdentifierAsString() + " already exists in database");
+						} else {
 							// this site doesn't exist
 							createGroupForOrganization(remoteHealthcareSiteTemp);
 							getHibernateTemplate().save(remoteHealthcareSiteTemp);
-						} else{
-							log.error("Healthcare site with CTEP: " + remoteHealthcareSiteTemp.getCtepCode() + 
-									  " already exists in database");
 						}
+					} else {
+						//make the study Org list refer to the existing org so other associations can be saved succesfully.
+						remoteHealthcareSiteList.remove(i);
+						remoteHealthcareSiteList.add(i, healthcareSiteFromDatabase);
 					}
 					getHibernateTemplate().flush();
 				} else {

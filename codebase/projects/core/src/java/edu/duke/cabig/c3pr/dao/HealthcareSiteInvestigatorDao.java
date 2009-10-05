@@ -121,6 +121,13 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
                  EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
+    /*
+	 * Saves a domain object
+	 */
+	public void save(HealthcareSiteInvestigator healthcareSiteInvestigator) {
+		getHibernateTemplate().saveOrUpdate(healthcareSiteInvestigator);
+	}
+	
 	public InvestigatorDao getInvestigatorDao() {
 		return investigatorDao;
 	}

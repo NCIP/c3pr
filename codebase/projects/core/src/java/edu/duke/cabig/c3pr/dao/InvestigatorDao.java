@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.RemoteContactMechanism;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -133,10 +134,6 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	} else {
     		//First fetch the remote Inv's
         	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
-//        	ContactMechanism contactMechanism = new RemoteContactMechanism();
-//    		contactMechanism.setType(ContactMechanismType.EMAIL);
-//    		contactMechanism.setValue(emailAddress);
-//    		remoteInvestigator.addContactMechanism(contactMechanism);
         	remoteInvestigator.setEmail(emailAddress);
     		
         	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
@@ -205,34 +202,37 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * 
      * @param remoteResearchStaff the remote research staff
      */
-    private void updateDatabaseWithRemoteContent(RemoteInvestigator retrievedRemoteInvestigator){
+    public Investigator updateDatabaseWithRemoteContent(RemoteInvestigator retrievedRemoteInvestigator){
     	//See if the retrieved remoteInvs already exist in our database.
 		Investigator matchingRemoteInvestigatorFromDb = this.getByUniqueIdentifier(retrievedRemoteInvestigator.getExternalId());
 		if(matchingRemoteInvestigatorFromDb == null ){
 			// check the uniqueness of email and nci identifier of new investigator in database before saving him
 			Investigator investigatorsWithMatchingEmail = null;
-			investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmail());
+			investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmailAsString());
 			
 			Investigator investigatorsWithMatchingNCICode = null;
 			investigatorsWithMatchingNCICode = getByNciIdentifierFromLocal(retrievedRemoteInvestigator.getNciIdentifier());
 			
-			if(investigatorsWithMatchingEmail == null && investigatorsWithMatchingNCICode == null){
+			if(investigatorsWithMatchingEmail != null){
+				log.error("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
+						+ "'s email id : " + retrievedRemoteInvestigator.getEmailAsString()	+ " is already in the database.");
+				return investigatorsWithMatchingEmail;
+			} else if(investigatorsWithMatchingNCICode != null){
+				log.error("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
+						+ "'s NCI Identifier: " + retrievedRemoteInvestigator.getNciIdentifier() + " is already in the database.");
+				return investigatorsWithMatchingNCICode;
+			} else {
 				buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
-			}else {
-				log
-				.error("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
-						+ "'s email id : " + retrievedRemoteInvestigator
-								.getEmail()	+ "and/or NCI Identifier: "
-						+ retrievedRemoteInvestigator.getNciIdentifier()
-						+ " is already in the database. Deferring to the local. :");
 			}
 		} else {
 			//we have the retrieved staff's Org in our db...link up with the same and persist
 			// only update if remote investigator exists
 			if(matchingRemoteInvestigatorFromDb instanceof RemoteInvestigator){
 				buildAndUpdateExistingRemoteInvestigator(retrievedRemoteInvestigator,(RemoteInvestigator) matchingRemoteInvestigatorFromDb);
+				return matchingRemoteInvestigatorFromDb;
 			}
 		}
+		return retrievedRemoteInvestigator;
 	}
 
     /**In this case the remoteInv does not exist in our database.
@@ -242,14 +242,20 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      */
     public void buildAndSaveNewRemoteInvestigator(RemoteInvestigator retrievedRemoteInvestigator) {
             HealthcareSite healthcareSite = null;
+            HealthcareSite healthcareSiteByExternalId = null;
+            
             String ctepCode = "";
             
             //for every hcs_inv in the remoteInv.....ensure the corresponding org is in the database and link it to the hcs_inv before saving the remoteInv.
             for(HealthcareSiteInvestigator healthcareSiteInvestigator: retrievedRemoteInvestigator.getHealthcareSiteInvestigators()){
                     ctepCode = healthcareSiteInvestigator.getHealthcareSite().getPrimaryIdentifier();
                     healthcareSite = healthcareSiteDao.getByPrimaryIdentifierFromLocal(ctepCode);
+                    if(healthcareSiteInvestigator.getHealthcareSite() instanceof RemoteHealthcareSite){
+                    	healthcareSiteByExternalId  = healthcareSiteDao.getByUniqueIdentifier(((RemoteHealthcareSite)healthcareSiteInvestigator.getHealthcareSite()).getExternalId());
+                    }
+                    
                     //The org related to the remoteInv does not exist...load it from COPPA and save it; then link it to the remoteInv
-                    if(healthcareSite == null){
+                    if(healthcareSite == null && healthcareSiteByExternalId == null){
                     	try {
 							healthcareSiteDao.createGroupForOrganization(healthcareSiteInvestigator.getHealthcareSite());
 							healthcareSiteDao.save(healthcareSiteInvestigator.getHealthcareSite());
@@ -260,7 +266,12 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 						}
                     } else {
                         //update the hcs_inv with the org 
-                        healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
+                    	if(healthcareSiteByExternalId != null){
+                    		healthcareSiteInvestigator.setHealthcareSite(healthcareSiteByExternalId);
+                    	}
+                    	if(healthcareSite != null){
+                    		healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
+                    	}
                     }
             }
             //save the investigator explicitly.
@@ -334,10 +345,6 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	Investigator searchCriteria = new RemoteInvestigator();
     	searchCriteria.setFirstName(investigator.getFirstName());
     	searchCriteria.setLastName(investigator.getLastName());
-//    	ContactMechanism emailContactMechanism = new LocalContactMechanism();
-//    	emailContactMechanism.setType(ContactMechanismType.EMAIL);
-//    	emailContactMechanism.setValue(investigator.getEmail());
-//    	searchCriteria.addContactMechanism(emailContactMechanism);
     	searchCriteria.setEmail(investigator.getEmail());
     	List<Investigator> remoteInvestigators = (List)remoteSession.find(searchCriteria); 
     	return remoteInvestigators;

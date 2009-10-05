@@ -17,6 +17,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -69,8 +71,9 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
 @Table(name = "STUDIES")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDIES_ID_SEQ") })
-public class Study extends InteroperableAbstractMutableDeletableDomainObject
+public abstract class Study extends InteroperableAbstractMutableDeletableDomainObject
 		implements Comparable<Study> , Customizable, CustomFieldAuthorable{
 
 	private Boolean blindedIndicator;
@@ -102,6 +105,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 
 	/** The parent study associations. */
 	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
+	
 	public Study() {
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 		resourceBundleMessageSource.setBasename("error_messages_multisite");
@@ -118,9 +122,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 //		backDatedRegistrationIndicator = false ;
 
 		lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(StudySite.class,new StudySiteBiDirectionalInstantiateFactory(StudySite.class, this));
-		lazyListHelper.add(StudyFundingSponsor.class,new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class, this));
-		lazyListHelper.add(StudyCoordinatingCenter.class,new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class, this));
+		lazyListHelper.add(StudySite.class,new StudySiteBiDirectionalInstantiateFactory(StudySite.class, this, "Study", Study.class));
+		lazyListHelper.add(StudyFundingSponsor.class,new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class, this, "Study", Study.class));
+		lazyListHelper.add(StudyCoordinatingCenter.class,new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class, this, "Study", Study.class));
 		lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
 		lazyListHelper.add(PlannedNotification.class,new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
@@ -130,7 +134,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		coordinatingCenterStudyStatus = CoordinatingCenterStudyStatus.PENDING;
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
-		lazyListHelper.add(StudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudyVersion>(StudyVersion.class, this));
+		lazyListHelper.add(StudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudyVersion>(StudyVersion.class, this, "Study", Study.class));
 	}
 
 	/**
@@ -140,9 +144,9 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	 */
 	public Study(boolean forSearchByExample) {
 		lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(StudySite.class, new ParameterizedBiDirectionalInstantiateFactory<StudySite>(StudySite.class, this));
-		lazyListHelper.add(StudyFundingSponsor.class,new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class, this));
-		lazyListHelper.add(StudyCoordinatingCenter.class, new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class, this));
+		lazyListHelper.add(StudySite.class, new StudySiteBiDirectionalInstantiateFactory(StudySite.class, this, "Study", Study.class));
+		lazyListHelper.add(StudyFundingSponsor.class,new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class, this, "Study", Study.class));
+		lazyListHelper.add(StudyCoordinatingCenter.class, new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class, this, "Study", Study.class));
 		lazyListHelper.add(SystemAssignedIdentifier.class,new ParameterizedInstantiateFactory<SystemAssignedIdentifier>( SystemAssignedIdentifier.class));
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
 		lazyListHelper.add(PlannedNotification.class,new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
@@ -157,7 +161,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 		}
 		lazyListHelper.add(CustomFieldDefinition.class,new ParameterizedBiDirectionalInstantiateFactory<CustomFieldDefinition>(CustomFieldDefinition.class, this));
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
-		lazyListHelper.add(StudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudyVersion>(StudyVersion.class, this));
+		lazyListHelper.add(StudyVersion.class,new ParameterizedBiDirectionalInstantiateFactory<StudyVersion>(StudyVersion.class, this, "Study", Study.class));
 		addStudyVersion(new StudyVersion(true));
 	}
 
@@ -300,7 +304,7 @@ public class Study extends InteroperableAbstractMutableDeletableDomainObject
 	public StudyInvestigator getPrincipalStudyInvestigator() {
 		for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
 			for (StudyInvestigator studyInvestigator : studyOrganization.getStudyInvestigators()) {
-				if (StringUtils.equals(studyInvestigator.getRoleCode(), "Principal Investigator")) {
+				if (StringUtils.equals(studyInvestigator.getRoleCode(), StudyInvestigator.PRINCIPAL_INVESTIGATOR)) {
 					return studyInvestigator;
 				}
 			}

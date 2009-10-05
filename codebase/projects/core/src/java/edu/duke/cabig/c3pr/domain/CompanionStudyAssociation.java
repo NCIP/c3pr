@@ -124,7 +124,7 @@ public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObj
 	}
 	
 	public CompanionStudyAssociation(){
-		companionStudy = new Study();
+		companionStudy = new LocalStudy();
 		companionStudy.setCompanionIndicator(true);
 	}
 	

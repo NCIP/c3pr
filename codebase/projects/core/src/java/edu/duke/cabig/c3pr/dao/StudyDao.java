@@ -15,25 +15,37 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.semanticbits.coppa.infrastructure.RemoteSession;
+
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
+import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.domain.RemoteStudy;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.emory.mathcs.backport.java.util.Collections;
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
-// TODO: Auto-generated Javadoc
 /**
  * Hibernate implementation of StudyDao.
  * 
@@ -54,9 +66,12 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     /** The log. */
     private static Log log = LogFactory.getLog(StudyDao.class);
     
-    /** The epoch dao. */
-    private EpochDao epochDao;
+	/** The remote session. */
+	private RemoteSession remoteSession;
+    
     private StudyVersionDao studyVersionDao ;
+    
+    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
     public HealthcareSiteDao getHealthcareSiteDao() {
         return healthcareSiteDao;
@@ -67,6 +82,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     }
 
     private HealthcareSiteDao healthcareSiteDao ;
+    
+    private InvestigatorDao investigatorDao;
 
     public void setStudyVersionDao(StudyVersionDao studyVersionDao) {
 		this.studyVersionDao = studyVersionDao;
@@ -301,10 +318,130 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * @return the list< study>
      */
     public List<Study> searchByExample(Study study, boolean isWildCard) {
+			
+    	//First get the matching studies from COPPA and update the db with it
+		List<Study> remoteStudies = new ArrayList<Study>();
+		remoteStudies.addAll(getExternalStudiesByExampleFromResolver(study));
+		updateDatabaseWithRemoteStudies(remoteStudies);
+			
+		//now run the search
         return searchByExample(study, isWildCard, 0);
     }
 
-    /**
+	private List<Study> getExternalStudiesByExampleFromResolver(Study exampleStudy) {
+    	Study remoteStudy = new RemoteStudy();
+    	//set the short-title/identifier/status in the example object as we support searches based on these 3 only.
+		remoteStudy.setShortTitleText(StringUtils.getBlankIfNull(exampleStudy.getShortTitleText()));
+		//NOTE: we dont support searches on long title in our UI but coppa does.
+		remoteStudy.setLongTitleText(StringUtils.getBlankIfNull(exampleStudy.getLongTitleText()));
+		remoteStudy.setCoordinatingCenterStudyStatus(exampleStudy.getCoordinatingCenterStudyStatus());
+		//Note that our tsuyd search looks for all identifiers but coppa only searches by the Coordinating center identifier.
+		if(exampleStudy.getIdentifiers().size() > 0){
+			OrganizationAssignedIdentifier organizationAssignedIdentifier = new OrganizationAssignedIdentifier();
+			organizationAssignedIdentifier.setValue(exampleStudy.getIdentifiers().get(0).getValue());
+			organizationAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
+			remoteStudy.getIdentifiers().add(organizationAssignedIdentifier);
+		}
+		List<Object> objectList = remoteSession.find(remoteStudy);
+		List<Study> studyList = new ArrayList<Study>();
+
+		for (Object object : objectList) {
+			studyList.add((Study) object);
+		}
+		return studyList;
+	}
+	
+	
+    private void updateDatabaseWithRemoteStudies(List<Study> remoteStudies) {
+		try {
+			for (Study remoteStudy : remoteStudies) {
+				if(remoteStudy != null){
+					RemoteStudy remoteStudyTemp = (RemoteStudy)remoteStudy;
+					for(OrganizationAssignedIdentifier organizationAssignedIdentifier: remoteStudyTemp.getOrganizationAssignedIdentifiers()){
+						if(organizationAssignedIdentifier.getType().equals(OrganizationIdentifierTypeEnum.NCI)){
+							organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getNCIOrganization());
+						}
+						if(organizationAssignedIdentifier.getType().equals(OrganizationIdentifierTypeEnum.CTEP)){
+							organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getCTEPOrganization());
+						}
+					}
+					
+					Study studyFromDatabase = getByExternalIdentifier(remoteStudyTemp.getExternalId());
+					
+					//If studyFromDatabase is null then save else it already exists as a remoteStudy
+					if (studyFromDatabase == null) {
+						//save the assciated HealthcareSites first
+						List<HealthcareSite> healthcareSiteList = new ArrayList<HealthcareSite>();
+						for(StudyOrganization studyOrganization: remoteStudyTemp.getStudyOrganizations()){
+							if(studyOrganization.getHealthcareSite() instanceof RemoteHealthcareSite){
+								healthcareSiteList.add(studyOrganization.getHealthcareSite());
+							}
+						}
+						healthcareSiteDao.updateDatabaseWithRemoteHealthcareSites(healthcareSiteList);
+						HealthcareSite healthcareSite = null;
+						for(int i=0; i < remoteStudyTemp.getStudyOrganizations().size(); i++){
+							healthcareSite = remoteStudyTemp.getStudyOrganizations().get(i).getHealthcareSite();
+							if(healthcareSite instanceof RemoteHealthcareSite){
+								remoteStudyTemp.getStudyOrganizations().get(i).setHealthcareSite(healthcareSiteList.get(i));
+								/*for(StudyInvestigator studyInvestigator : remoteStudyTemp.getStudyOrganizations().get(i).getStudyInvestigators()){
+									studyInvestigator.getHealthcareSiteInvestigator().setHealthcareSite(healthcareSiteList.get(i));
+								}*/
+							}
+						}
+							
+						//save the associated Investigators first
+						Investigator investigator = null;
+						Investigator savedInvestigator = null;
+						for(StudyOrganization studyOrganization : remoteStudyTemp.getStudyOrganizations()){
+							for(StudyInvestigator studyInvestigator : studyOrganization.getStudyInvestigators()){
+								investigator = studyInvestigator.getHealthcareSiteInvestigator().getInvestigator();
+								if(investigator instanceof RemoteInvestigator){
+									savedInvestigator = investigatorDao.updateDatabaseWithRemoteContent((RemoteInvestigator)investigator);
+									//make sure to set the hcsi in the so by getting it from the savedInvestigator
+									for(HealthcareSiteInvestigator hcsi : savedInvestigator.getHealthcareSiteInvestigators()){
+										if(hcsi.equals(studyInvestigator.getHealthcareSiteInvestigator())){
+											studyInvestigator.setHealthcareSiteInvestigator(hcsi);
+										}
+									}
+									//If savedInv does not have the hcsi for some reason save it explicitly
+									if(studyInvestigator.getHealthcareSiteInvestigator().getId() == null){
+										healthcareSiteInvestigatorDao.save(studyInvestigator.getHealthcareSiteInvestigator());
+									}
+								}
+							}
+						}
+						
+						//TODO: Check to see if it exists as localStudy by using the searchByOrganizationAssignedIdentifier()
+						save(remoteStudyTemp);
+					}
+					getHibernateTemplate().flush();
+				} else {
+					log.error("Null Remote Study in the list in updateDatabaseWithRemote Content");
+				}
+			}
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		} catch (C3PRBaseRuntimeException e) {
+			e.printStackTrace();
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+
+
+	/**Gets by the unique Identifier
+	 * @param externalId
+	 * @return
+	 */
+	public Study getByExternalIdentifier(String externalId) {
+		if(StringUtils.isEmpty(externalId)){
+			return null;
+		}
+		return CollectionUtils.firstElement((List<Study>) getHibernateTemplate()
+					.find("from RemoteStudy s where s.externalId = ?", externalId));
+	}
+	
+	/**
      * Search by example.
      *                                                                                                                           
      * @param study the exmple study
@@ -519,21 +656,21 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     /**
      * Reassociate.
      * 
-     * @param s the s
+     * @param study the study
      */
     @Transactional(readOnly = false)
-    public void reassociate(Study s) {
-        getHibernateTemplate().update(s);
+    public void reassociate(Study study) {
+        getHibernateTemplate().update(study);
     }
 
     /**
      * Refresh.
      * 
-     * @param s the s
+     * @param study the study
      */
     @Transactional(readOnly = false)
-    public void refresh(Study s) {
-        getHibernateTemplate().refresh(s);
+    public void refresh(Study study) {
+        getHibernateTemplate().refresh(study);
     }
 
     /**
@@ -558,15 +695,6 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         studies.addAll(set);
         return studies;
     }
-
-    /**
-     * Sets the epoch dao.
-     * 
-     * @param epochDao the new epoch dao
-     */
-    public void setEpochDao(EpochDao epochDao) {
-        this.epochDao = epochDao;
-    }
     
     /**
      * Search by identifier.
@@ -587,8 +715,26 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 		getHibernateTemplate().flush();
 	}
     
-//    @SuppressWarnings("unchecked")
-//	public List<StudySubject> getStudySubjectsForCompanionStudy(Integer studyId) {
-//    	return getHibernateTemplate().find("select ss from StudySubject ss where ss.studySite.study.id = ? ", studyId);
-//    }
+    
+	/**
+	 * Sets the remote session.
+	 * @param remoteSession the new remote session
+	 */
+	public void setRemoteSession(RemoteSession remoteSession) {
+		this.remoteSession = remoteSession;
+	}
+
+	public InvestigatorDao getInvestigatorDao() {
+		return investigatorDao;
+	}
+
+	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
+		this.investigatorDao = investigatorDao;
+	}
+
+	public void setHealthcareSiteInvestigatorDao(
+			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
+		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+	}
+
 }
