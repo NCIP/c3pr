@@ -189,19 +189,19 @@
 			<dependency name="jackrabbit-jcr-rmi" org="org.apache.jackrabbit" rev="1.2.1" />
 			<dependency name="jackrabbit-jcr-server" org="org.apache.jackrabbit" rev="1.2.1" />		
 			<!-- COPPA Common dependencies --> 
-			<dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="0.3.17.2" />
+			<dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="0.3.17.5" />
 			<!-- jars for PO  -->
 			<dependency org="gov.nih.nci.caxchange" name="CoreServices-common" rev="1.2" />
 			<dependency org="gov.nih.nci.caxchange" name="CoreServices-stubs" rev="1.2" />
 			<dependency org="gov.nih.nci.caxchange" name="CoreServices-client" rev="1.2" />
 			<dependency org="gov.nih.nci.caxchange" name="CoreServices-service" rev="1.2" />
 			<!-- jars for PA -->
-			<dependency org="gov.nih.nci.caxchange" name="PAServices-common" rev="1.1" />
-			<dependency org="gov.nih.nci.caxchange" name="PAServices-stubs" rev="1.1" />
-			<dependency org="gov.nih.nci.caxchange" name="PAServices-client" rev="1.1" />
-			<dependency org="gov.nih.nci.caxchange" name="PAServices-service" rev="1.1" />	
+			<dependency org="gov.nih.nci.caxchange" name="PAServices-common" rev="1.2" />
+			<dependency org="gov.nih.nci.caxchange" name="PAServices-stubs" rev="1.2" />
+			<dependency org="gov.nih.nci.caxchange" name="PAServices-client" rev="1.2" />
+			<dependency org="gov.nih.nci.caxchange" name="PAServices-service" rev="1.2" />	
 			<!-- coppa commons jar for PA -->
-			<dependency org="gov.nih.nci.caxchange" name="coppa-commons" rev="1.2.2" />
+			<dependency org="gov.nih.nci.caxchange" name="coppa-commons" rev="1.2.3" />
 			
 			<!-- Infrared dependencies --> 
             <dependency org="net.sf.infrared.aspects.aj" name="infrared" rev="2.4.1.BETA" >
