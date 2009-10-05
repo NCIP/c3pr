@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
@@ -184,7 +185,7 @@ public class StudyCreationHelper {
     }
 
     public Study buildBasicStudy(Boolean multiSite, RandomizationType randomizationType) {
-        Study study = new Study();
+        Study study = new LocalStudy();
         study.setPrecisText("Study with randomization");
         study.setShortTitleText("ShortTitleText1");
         study.setLongTitleText("LongTitleText1");
@@ -249,7 +250,7 @@ public class StudyCreationHelper {
 
     public Study createBasicStudy() {
 
-        Study study = new Study();
+        Study study = new LocalStudy();
         study.setPrecisText("New study");
         study.setShortTitleText("ShortTitleText");
         study.setLongTitleText("LongTitleText");
@@ -358,8 +359,8 @@ public class StudyCreationHelper {
         studyCoordinatingCenter.setStudy(study);
     }
 
-    public Study createBasicStudyObject(){
- 		Study study = new Study(false);
+	public Study createBasicStudyObject(){
+ 		Study study = new LocalStudy(false);
         study.setPrecisText("New study");
         study.setShortTitleText("ShortTitleText");
         study.setLongTitleText("LongTitleText");
