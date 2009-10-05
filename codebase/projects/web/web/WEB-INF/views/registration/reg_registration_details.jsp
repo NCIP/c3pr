@@ -416,6 +416,28 @@ function changeStudyVersion(){
 		</c:otherwise>
 	</c:choose>
 	
+	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'false'}">
+		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="scheduledEpoch.startDate"/></div>
+			<div class="value">
+				<form:input path="studySubject.scheduledEpoch.startDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
+				<a href="#" id="studySubject.scheduledEpoch.startDate-calbutton">
+				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
+				</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.scheduledEpoch.startDate"/>
+				<script type="text/javascript">
+					Calendar.setup(
+			            {
+			                inputField  : "studySubject.scheduledEpoch.startDate",
+			                button      : "studySubject.scheduledEpoch.startDate-calbutton",
+			                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
+			                weekNumbers : false,
+			            }
+			        );
+				</script>
+			</div>
+		</div>
+	</c:if>
+	
 	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'true'}">
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
