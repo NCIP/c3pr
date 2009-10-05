@@ -518,7 +518,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
             getHibernateTemplate().initialize(scheduledEpoch.getSubjectStratificationAnswersInternal());
         }
 
-        for(StudySubject childStudySubject : studySubject.getChildStudySubjects(){
+        for(StudySubject childStudySubject : studySubject.getChildStudySubjects()){
         	initialize(childStudySubject);
         }
 
