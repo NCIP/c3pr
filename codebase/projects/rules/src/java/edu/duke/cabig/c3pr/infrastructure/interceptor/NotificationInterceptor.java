@@ -101,7 +101,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	/*
 	 *  Return true only if the state is modified in anyway.
 	 */
-/*	@Override
+	@Override
 	public boolean onSave(Object entity, Serializable id, Object[] state,
 		String[] propertyNames, Type[] types) {
 		log.debug(this.getClass().getName() + ": Entering onSave()");
@@ -120,14 +120,14 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		}
 		log.debug(this.getClass().getName() + ": Exiting onSave()");
 		return false;
-	}*/
+	}
 
 
 	/*
 	 * This call back intercepts all updates to the database.
 	 * return true only if the current state is modified in anyway. Do NOT modify the previousState.
 	 */
-	/*@Override
+	@Override
 	public boolean onFlushDirty(final Object entity, Serializable id, final Object[] currentState,
 					            final Object[] previousState, String[] propertyNames, Type[] types) {
 		
@@ -200,7 +200,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		log.debug(this.getClass().getName() + ": Exiting onFlushDirty()");
 		return false;
 	}
-	*/
+	
 	//activates rules for the NEW_REGISTRATION_EVENT & REGISTATION_STATUS_CHANGE
 	public void handleNewStudySubjectSaved(final Object previousState, final Object currentState, final Object studySubject){
 		RegistrationWorkFlowStatus previousRegStatus = null;
@@ -419,7 +419,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		//defaulting to the hosting site if nothing is found
 		if(hcsList.size() == 0){
 			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
-			hcsList.add(healthcareSiteDao.getByCtepCodeFromLocal(localNciCode));
+			hcsList.add(healthcareSiteDao.getByPrimaryIdentifierFromLocal(localNciCode));
 		}
 		
 		removeDuplicates(hcsList);
