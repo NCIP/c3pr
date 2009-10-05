@@ -381,6 +381,7 @@ public class StudySitesTab extends StudyTab {
 		map.put("localNCICode", localNCICode);
 		map.put("action", action);
 		map.put("errorMessage", errorMessage);
+		map.put("showActionButtons", true);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 

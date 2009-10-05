@@ -184,7 +184,7 @@ function confirmTakeAction(primaryIdentifier){
 			</c:if>
 		</div>
 	</div>
-	<c:if test="${showActionButtons && fn:length(site.possibleTransitions)>0 && isSiteManageable}">
+	<c:if test="${fn:length(site.possibleTransitions)>0 && isSiteManageable}">
 	<div class="row">
 		<c:set var="close" value="false"/>
 		<c:set var="temporary" value="false"/>
@@ -323,7 +323,7 @@ function confirmTakeAction(primaryIdentifier){
 				<fmt:message key="site.effectiveDate" />
 			</div>
 			<div class="value">
-				<input type="text" name="effectiveDate" id="effectiveDateField-${site.healthcareSite.primaryIdentifier}" class="validate-NotEmpty&&DATE"/>
+				<input type="text" name="effectiveDate" id="effectiveDateField-${site.healthcareSite.primaryIdentifier}" class="validate-DATE"/>
 	           	<a href="#" id="effectiveDateField-${site.healthcareSite.primaryIdentifier}-calbutton">
 	      	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
 	        	</a>

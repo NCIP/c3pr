@@ -92,7 +92,7 @@ public class StudyAmendmentTab extends StudyTab {
     @Override
     public void validate(StudyWrapper wrapper, Errors errors) {
     	super.validate(wrapper, errors);
-	    this.studyValidator.validateAmendment(wrapper.getStudy(), errors, wrapper.getStudy().getStudyVersion().getName());
+	    this.studyValidator.validateAmendment(wrapper.getStudy(), errors,  wrapper.getStudy().getCurrentStudyAmendment().getName());
     }
 
 }

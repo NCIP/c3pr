@@ -23,7 +23,6 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	    if(formElement.id=="command" && continueSubmission){
 	        
 	 	}
- 	}
 	return continueSubmission;
 } 
 
