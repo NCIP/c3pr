@@ -130,7 +130,7 @@ public class StudySubjectTest extends AbstractTestCase {
     	Consent consent = registerMockFor(Consent.class);
     	List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
     	studySubjectConsentVersions.add(studySubjectConsentVersion);
-    	EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+    	EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions).times(2);
     	EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent);
     	EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDateStr()).andReturn("01/11/1980");
     	
@@ -629,6 +629,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		CompanionStudyAssociation companionStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
 		ArrayList<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 		companionStudyAssociations.add(companionStudyAssociation);
+		EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+		EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(false);
 
 		replayMocks();
 
@@ -637,6 +639,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 
 		studySubject.setStudySite(studySite);
 		studySubject.addScheduledEpoch(scheduledEpoch);
+		
 
 		assertEquals("wrong registration status", RegistrationDataEntryStatus.INCOMPLETE, studySubject.evaluateRegistrationDataEntryStatus());
 
