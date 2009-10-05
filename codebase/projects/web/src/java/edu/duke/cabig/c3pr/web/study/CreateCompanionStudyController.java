@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
@@ -56,7 +57,7 @@ public class CreateCompanionStudyController<C extends StudyWrapper> extends Crea
         if (embedded != null) {
             Study parentStudy = (Study) request.getSession().getAttribute("studyObj");
 
-            Study companionStudy = new Study();
+            Study companionStudy = new LocalStudy();
             companionStudy.setShortTitleText(parentStudy.getShortTitleText());
             companionStudy.setLongTitleText(parentStudy.getLongTitleText());
             companionStudy.setMultiInstitutionIndicator(parentStudy.getMultiInstitutionIndicator());

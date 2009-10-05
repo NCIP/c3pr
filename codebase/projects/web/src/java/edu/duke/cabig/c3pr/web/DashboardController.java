@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -147,7 +148,7 @@ public class DashboardController extends ParameterizableViewController {
     
     
     private void getMostActiveStudies(HttpServletRequest request) {
-        Study study = new Study(true);
+        Study study = new LocalStudy(true);
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending",
                         "id");
@@ -166,7 +167,7 @@ public class DashboardController extends ParameterizableViewController {
     }
 
     private void getRecentPendingStudies(HttpServletRequest request) {
-        Study study = new Study(true);
+        Study study = new LocalStudy(true);
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending",
                         "id");

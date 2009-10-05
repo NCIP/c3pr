@@ -18,6 +18,7 @@ import org.extremecomponents.table.core.TableModelImpl;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -53,7 +54,7 @@ public class CreateStudyReportFacade extends BaseStudyAjaxFacade {
         Participant participant;
         SystemAssignedIdentifier id;
 
-        Study study = new Study(true);
+        Study study = new LocalStudy(true);
         if (!StringUtils.isEmpty(params[0].toString())) {
             study.setShortTitleText(params[0].toString());
         }

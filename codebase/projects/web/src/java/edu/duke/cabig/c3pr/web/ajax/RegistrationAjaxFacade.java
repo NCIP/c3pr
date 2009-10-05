@@ -16,6 +16,7 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -130,7 +131,7 @@ public class RegistrationAjaxFacade {
 
         Identifier orgIdentifier = new OrganizationAssignedIdentifier();
         orgIdentifier.setValue(text);
-        Study studyObj = new Study(true);
+        Study studyObj = new LocalStudy(true);
         studyObj.addIdentifier(orgIdentifier);
         studies = studyDao.searchByExample(studyObj, true);
         List<OrganizationAssignedIdentifier> studyOrgIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
@@ -148,7 +149,7 @@ public class RegistrationAjaxFacade {
         List<Study> studiesSys = new ArrayList<Study>();
         Identifier sysIdentifier = new OrganizationAssignedIdentifier();
         sysIdentifier.setValue(text);
-        Study study = new Study(true);
+        Study study = new LocalStudy(true);
         study.addIdentifier(sysIdentifier);
         studiesSys = studyDao.searchByExample(study, true);
         List<SystemAssignedIdentifier> studySysIdentifiers = new ArrayList<SystemAssignedIdentifier>();

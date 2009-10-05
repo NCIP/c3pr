@@ -6,6 +6,7 @@ import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.view.html.ColumnBuilder;
 import org.extremecomponents.util.HtmlBuilder;
 
+import edu.duke.cabig.c3pr.domain.RemoteStudy;
 import edu.duke.cabig.c3pr.domain.Study;
 
 /**
@@ -31,7 +32,7 @@ public class ViewStudyLinkCustomCell extends AbstractCell {
 
 //      html.a(tableModel.getContext().getContextPath() + VIEW_STUDY_URL, "studyId", study.getId().toString());
 //      html.close();
-        columnBuilder.tdBody(column.getValueAsString());
+        columnBuilder.tdBody(getCellValue(tableModel, column));
 //      html.aEnd();
         columnBuilder.tdEnd();
         return html.toString();
@@ -43,7 +44,17 @@ public class ViewStudyLinkCustomCell extends AbstractCell {
     }
 
     protected String getCellValue(TableModel tableModel, Column column) {
-        return column.getValueAsString();
+    	Study study = null;
+    	if(tableModel.getCurrentRowBean() instanceof Study){
+    		study = (Study)tableModel.getCurrentRowBean();
+    	} 
+    	
+    	String cellValue = column.getValueAsString();
+    	if(study != null && study instanceof RemoteStudy){
+        	cellValue = cellValue + "<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='17' height='16' border='0' align='middle'/>";
+        }
+    	setRowOnClick(tableModel, study);
+        return cellValue;
     }
 
     public void setRowOnClick(TableModel tableModel, Study study){    	

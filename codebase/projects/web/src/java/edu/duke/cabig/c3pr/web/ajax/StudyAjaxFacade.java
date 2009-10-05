@@ -42,6 +42,7 @@ import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
@@ -191,7 +192,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         Collection<Study> studies = null;
 
         // do a new search
-        Study study = new Study(true);
+        Study study = new LocalStudy(true);
         String type = ((List) parameterMap.get("searchType")).get(0).toString();
         String searchtext = ((List) parameterMap.get("searchText")).get(0).toString();
 

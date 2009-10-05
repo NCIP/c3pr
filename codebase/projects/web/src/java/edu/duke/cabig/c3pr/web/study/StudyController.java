@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyVersionDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
@@ -149,7 +150,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     }
 
     protected Study createDefaultStudyWithDesign() {
-        Study study = new Study();
+        Study study = new LocalStudy();
         if (companionIndicator != null) {
             study.setCompanionIndicator(companionIndicator);
             if (!companionIndicator) {

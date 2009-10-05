@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.web.study;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
@@ -48,7 +49,7 @@ public class SearchStudyController extends SimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response,
                                     Object oCommand, BindException errors) throws Exception {
         SearchCommand searchStudyCommand = (SearchCommand) oCommand;
-        Study study = new Study(true);
+        Study study = new LocalStudy(true);
         String type = searchStudyCommand.getSearchType();
         String searchtext = searchStudyCommand.getSearchText().trim();
 

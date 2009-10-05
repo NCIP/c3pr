@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -102,7 +103,7 @@ public class CreateReportController extends SimpleFormController {
         Context context = null;
         context = new HttpServletRequestContext(request);
 
-        Study study = new Study();
+        Study study = new LocalStudy();
         TableModel model = new TableModelImpl(context);
         String[] params = reportCommand.getParams();
         String studyShortTitle = "";

@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -85,7 +86,7 @@ public class SearchRegistrationController extends SimpleFormController {
            
         }
         else if (request.getParameter("select").equals("Study")) {
-            Study study = new Study(true);
+            Study study = new LocalStudy(true);
             String studyOption = request.getParameter("studyOption");
             if (id == null) {
             	registrations = studySubjectDao.getAll();

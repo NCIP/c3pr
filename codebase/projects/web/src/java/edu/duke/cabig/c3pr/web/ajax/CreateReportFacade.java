@@ -24,6 +24,7 @@ import org.extremecomponents.table.core.TableModelImpl;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -113,7 +114,7 @@ public class CreateReportFacade {
 
     public String getTable(Map parameterMap, String[] params, HttpServletRequest request) {
 
-        Study study = new Study();
+        Study study = new LocalStudy();
         String studyShortTitle = "";
         String studyCoordinatingSiteId = "";
         String siteName = "";
