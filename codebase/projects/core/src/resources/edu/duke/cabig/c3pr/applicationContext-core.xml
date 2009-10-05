@@ -58,7 +58,8 @@
         <!-- Must reference all OR mapping files. -->
         <property name="annotatedClasses">
             <list>
-                <value>edu.duke.cabig.c3pr.domain.Study</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalStudy</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteStudy</value>
                 <value>edu.duke.cabig.c3pr.domain.Epoch</value>
                 <value>edu.duke.cabig.c3pr.domain.Arm</value>
                 <value>edu.duke.cabig.c3pr.domain.StudySite</value>
@@ -242,7 +243,8 @@
         <property name="dataAuditRepository" ref="dataAuditRepository"></property>
          <property name="auditableEntities">
               <list>
-	                <value>edu.duke.cabig.c3pr.domain.Study</value>
+	                <value>edu.duke.cabig.c3pr.domain.LocalStudy</value>
+	                <value>edu.duke.cabig.c3pr.domain.RemoteStudy</value>
 	                <value>edu.duke.cabig.c3pr.domain.Epoch</value>
 	                <value>edu.duke.cabig.c3pr.domain.Arm</value>
 	                <value>edu.duke.cabig.c3pr.domain.StudySite</value>
@@ -331,12 +333,15 @@
 		-->
     <bean id="personOrganizationResolverUtils" class="edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils" autowire="byName">
     </bean>
-
+    <bean id="protocolAbstractionResolverUtils" class="edu.duke.cabig.c3pr.utils.ProtocolAbstractionResolverUtils" autowire="byName">
+    </bean>
     <bean id="remoteHealthcareSiteResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver" autowire="byName">
     </bean>
     <bean id="remoteResearchStaffResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver" autowire="byName">
     </bean>
     <bean id="remoteInvestigatorResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteInvestigatorResolver" autowire="byName">
+    </bean>
+    <bean id="remoteStudyResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteStudyResolver" autowire="byName">
     </bean>
 
     <bean id="remoteSession" class="com.semanticbits.coppa.infrastructure.RemoteSession" init-method="init">
@@ -348,6 +353,7 @@
                 <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteStudy</value>
             </list>
         </property>
         <property name="remoteResolvers">
@@ -355,6 +361,7 @@
                 <ref local="remoteHealthcareSiteResolver"/>
                 <ref local="remoteResearchStaffResolver"/>
                 <ref local="remoteInvestigatorResolver"/>
+                <ref local="remoteStudyResolver"/>
             </list>
         </property>
     </bean>
