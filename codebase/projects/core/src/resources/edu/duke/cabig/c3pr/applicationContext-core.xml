@@ -669,6 +669,10 @@
         <property name="pathSeperator" value="."/>
     </bean>
 
+	<bean id="studyPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.StudyPrivilegeAndObjectIdGenerator">
+    	<property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
+        <property name="pathSeperator" value="."/>
+    </bean>
 
     <!--Utilities-->
     <bean id="mailSender" class="edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl">
