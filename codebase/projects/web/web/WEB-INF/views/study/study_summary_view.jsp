@@ -59,7 +59,7 @@
         }
         
         function showCloseStudyPopup(){
-			closeWin = new Window({className :"mac_os_x", title: "Edit Registration", 
+			closeWin = new Window({className :"mac_os_x", title: "Close Study", 
 									hideEffect:Element.hide, 
 									zIndex:100, width:550, height:400 , minimizable:false, maximizable:false,
 									showEffect:Element.show 
@@ -117,19 +117,13 @@
 
         function confirmChangeStudyStatus(status, messageDiv){
         	$('statusChange').value = status
-        	confirmWin = new Window({className :"mac_os_x", title: "Edit Registration", 
+        	confirmWin = new Window({className :"mac_os_x", title: "Confirm", 
 									hideEffect:Element.hide, 
 									zIndex:100, width:400, height:120 , minimizable:false, maximizable:false,
 									showEffect:Element.show 
 									}); 
-			//alert($(messageDiv).innerHTML);									
 			confirmWin.setContent($(messageDiv)) ;
 			confirmWin.showCenter(true);
-        	//Dialog.confirm(message,
-		     //          {width:300, height:85, okLabel: "Ok",
-		      //         ok:function(win) {$('statusChange').value = status;
-		       //        $('command').submit();}
-		        // });
         }
 
 		function closePopup() {
@@ -678,7 +672,7 @@
 			<div class="flow-buttons">
 		   	<span class="next">
 		   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
-				<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Close Study" />
+				<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Apply amendment" />
 			</span>
 			</div>
 		</div>
@@ -689,7 +683,7 @@
 			<div class="flow-buttons">
 		   	<span class="next">
 		   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
-				<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Close Study" />
+				<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Open study" />
 			</span>
 			</div>
 		</div>
