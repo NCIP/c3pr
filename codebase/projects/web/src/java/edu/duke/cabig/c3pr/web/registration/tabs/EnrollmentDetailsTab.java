@@ -18,12 +18,10 @@ import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
-import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -98,17 +96,20 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
         }
     }
     
-   /* @Override
+    @Override
     public void validate(StudySubjectWrapper command, Errors errors) {
-    	Date date = command.getStudySubject().getStartDate();
-	    if(date !=null){
-			StudySiteStudyVersion studySiteStudyVersion = command.getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
-			if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , command.getStudySubject()
-					.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).getInformedConsentSignedDate())){
-				errors.reject("studySubject.startDate", "Study version invalid on this date");
-			}
+    	if(command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED && 
+    			command.getStudySubject().getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
+	    	Date date = command.getStudySubject().getStartDate();
+		    if(date !=null){
+		    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+					if(date.before(studySubjectConsentVersion.getInformedConsentSignedDate())){
+						errors.reject("studySubject.startDate", "Registration start date cannot be before the informed consent signed date");
+					}
+				}
+	    	}
     	}
-    }*/
+    }
     
     public ModelAndView validateRegistrationDate(HttpServletRequest request, Object command, Errors errors) {
     	Map<String, Object> map = new HashMap<String, Object>();
