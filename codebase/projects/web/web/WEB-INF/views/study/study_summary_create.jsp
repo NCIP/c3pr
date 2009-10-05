@@ -78,7 +78,7 @@ function updateTargetAccrual(){
 			<tags:oneControlPanelItem linkhref="javascript:activateAndSaveStudy();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Open Study" />
 		</c:if>
 		<tags:oneControlPanelItem linkhref="javascript:javascript:document.location='../study/viewStudy?studyId=${command.study.id}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage Study" />
-		<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+		<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
 			<tags:oneControlPanelItem linkhref="javascript:updateTargetAccrual();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Edit Accrual" />
 		</csmauthz:accesscontrol>
 	</tags:controlPanel>

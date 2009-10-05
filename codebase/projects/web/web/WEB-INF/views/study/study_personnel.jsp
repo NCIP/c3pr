@@ -274,7 +274,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 </c:choose>
 <div align="right">
 	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE"
-                            authorizationCheckName="domainObjectAuthorizationCheck">
+                            authorizationCheckName="studyAuthorizationCheck">
 		<tags:button id="createPersonnel" type="button" size="small" color="blue" value="Create Research Staff"/>
 	</csmauthz:accesscontrol>
 </div>

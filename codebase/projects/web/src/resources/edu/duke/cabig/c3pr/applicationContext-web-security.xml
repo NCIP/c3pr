@@ -213,5 +213,17 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<property name="privilegeGenerator"
 			ref="domainObjectPrivilegeAndObjectIdGenerator" />
 	</bean>
+	
+	<bean id="studyAuthorizationCheck"
+		class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+		<property name="authorizationSwitch" ref="authorizationSwitch" />
+		<property name="csmAuthorizationCheck"
+			ref="csmGroupAuthorizationCheck" />
+		<property name="objectIdGenerator"
+			ref="studyPrivilegeAndObjectIdGenerator" />
+		<property name="privilegeGenerator"
+			ref="studyPrivilegeAndObjectIdGenerator" />
+	</bean>
+	
 
 </beans>
