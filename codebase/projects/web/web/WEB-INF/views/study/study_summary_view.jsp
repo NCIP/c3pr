@@ -61,7 +61,7 @@
         function showCloseStudyPopup(){
 			closeWin = new Window({className :"mac_os_x", title: "Close Study", 
 									hideEffect:Element.hide, 
-									zIndex:100, width:550, height:400 , minimizable:false, maximizable:false,
+									zIndex:100, width:550, height:250 , minimizable:false, maximizable:false,
 									showEffect:Element.show 
 									}) 
 			closeWin.setContent($('closeStudyDiv')) ;
@@ -102,18 +102,24 @@
         	}
         }
 
-        function amendStudy(id, companionIndicator){
-        	Dialog.confirm("Are you sure you want to amend the study?",
-		               {width:300, height:85, okLabel: "Ok",
-		               ok:function(win) {
-	               			if(companionIndicator == 'true' ){
-	               				document.location='../study/amendCompanionStudy?studyId='+id
-	               			}else{
-	               				document.location='../study/amendStudy?studyId='+id
-	               			}
-		               }
-		         });
+        function amendStudyPopup(){
+        	confirmWin = new Window({className :"mac_os_x", title: "Confirm", 
+									hideEffect:Element.hide, 
+									zIndex:100, width:400, height:120 , minimizable:false, maximizable:false,
+									showEffect:Element.show 
+									}); 
+			confirmWin.setContent($('amendMessage')) ;
+			confirmWin.showCenter(true);
         }
+        
+        function amendStudy(id, companionIndicator){
+   			if(companionIndicator == 'true' ){
+   				document.location='../study/amendCompanionStudy?studyId='+id;
+   			}else{
+   				document.location='../study/amendStudy?studyId='+id;
+   			}
+        }
+        
 
         function confirmChangeStudyStatus(status, messageDiv){
         	$('statusChange').value = status
@@ -222,7 +228,7 @@
 	                </c:choose>
                     <c:if test="${command.study.standaloneIndicator && canAmendStudy}">
                     	<c:set var="amend" value="${resumeAmendment?'Resume Amendment':'Amend Study'}"></c:set>
-		                <tags:oneControlPanelItem linkhref="javascript:amendStudy(${command.study.id},${command.study.companionIndicator})" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
+		                <tags:oneControlPanelItem linkhref="javascript:amendStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
                      </c:if>
                 </csmauthz:accesscontrol>
                 <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
@@ -684,6 +690,17 @@
 		   	<span class="next">
 		   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
 				<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Open study" />
+			</span>
+			</div>
+		</div>
+	</div>
+	<div id="amendMessage" style="padding: 15px;">
+		<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.AMENDMENT.WARNING"/>
+		<div id="actionButtons">
+			<div class="flow-buttons">
+		   	<span class="next">
+		   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
+				<tags:button type="button" color="green" icon="save" onclick="amendStudy('${command.study.id}','${command.study.companionIndicator}')" value="Amend study" />
 			</span>
 			</div>
 		</div>
