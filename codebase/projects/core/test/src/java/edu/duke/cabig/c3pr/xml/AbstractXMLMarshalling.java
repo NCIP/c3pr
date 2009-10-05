@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -119,7 +120,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
      * @return
      */
     protected Study createDummyStudy(String gridId) {
-        Study studyObject = new Study();
+        Study studyObject = new LocalStudy();
 
         studyObject.setGridId(gridId);
         studyObject.setShortTitleText(strValue);

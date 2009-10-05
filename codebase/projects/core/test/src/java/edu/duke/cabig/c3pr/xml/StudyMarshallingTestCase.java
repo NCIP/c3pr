@@ -16,6 +16,7 @@ import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -139,7 +140,7 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
      * @return
      */
     protected Study createDummyStudy(String gridId) {
-        Study studyObject = new Study();
+        Study studyObject = new LocalStudy();
 
         studyObject.setGridId(gridId);
         studyObject.setShortTitleText(strValue);

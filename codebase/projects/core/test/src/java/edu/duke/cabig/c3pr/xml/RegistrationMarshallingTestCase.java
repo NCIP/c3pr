@@ -6,6 +6,7 @@ import java.io.StringReader;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -56,7 +57,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
         site.setGridId(siteGridId);
         studySite.setHealthcareSite(site);
 
-        Study study = new Study();
+        Study study = new LocalStudy();
         study.setGridId(studyGridId);
         study.setIdentifiers(getIdentifiers());
         studySite.setStudy(study);
