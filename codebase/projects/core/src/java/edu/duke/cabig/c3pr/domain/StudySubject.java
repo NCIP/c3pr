@@ -1483,12 +1483,18 @@ public class StudySubject extends
 				}
 			}
 		}
+		
+		List<Error> errors = new ArrayList<Error>();
+		
+		if(this.getStartDate() == null){
+			errors.add(new Error("Registration start date is missing"));
+		}
 			this.getScheduledEpoch().setStartDate(this.getStartDate());
 			log.debug("Setting the registration start date to scheduled epoch start date");
 
 		if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
 			register();
-			List<Error> errors = new ArrayList<Error>();
+			
 			canEnroll(errors);
 			if(errors.size() > 0){
 				throw new C3PRBaseRuntimeException(CommonUtils.listErrors(errors));
