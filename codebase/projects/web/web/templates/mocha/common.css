@@ -814,12 +814,12 @@ div.row div.label {
 	float: left;
 	margin-left: 0.5em;
 	text-align: right; /* default width; pages might override */
-	width: 13em;
+	width: 12.3em;
 	font-weight:bold;
 }
 div.row div.value {
 	font-weight: normal; /* default; should be changed whenever .label width is changed */
-	margin-left: 14em;
+	margin-left: 13em;
 }
 img.indicator { 
 	visibility: hidden;

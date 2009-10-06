@@ -10,11 +10,11 @@
 			top:35px;
 		}
 		div.row div.label {
-			margin-left:-0.3em;
+			margin-left:-1.3em;
 			
 		}
 		div.row div.value {
-			margin-left:13em;
+			margin-left:12em;
 		}
 	</style>
     <script type="text/javascript">
