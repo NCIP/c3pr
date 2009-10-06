@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
@@ -184,13 +185,13 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
 	        studySubjectCreatorHelper.completeRegistrationDataEntry(studySubject);
+	        studySubject.setStartDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        studySubjectDao.initialize(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
-//	        EasyMock.expect(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject)).andReturn(new OrganizationAssignedIdentifier());
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
@@ -213,6 +214,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
 	        studySubjectCreatorHelper.completeRegistrationDataEntry(studySubject);
+	        studySubject.setStartDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
@@ -238,6 +240,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
 	        studySubjectCreatorHelper.completeRegistrationDataEntry(studySubject);
+	        studySubject.setStartDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
@@ -259,6 +262,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
 	        studySubjectCreatorHelper.completeRegistrationDataEntry(studySubject);
+	        studySubject.setStartDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
@@ -280,6 +284,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
 	        studySubjectCreatorHelper.completeRegistrationDataEntry(studySubject);
+	        studySubject.setStartDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.REGISTRATION.NOT_FOUND_GIVEN_IDENTIFIERS.CODE",null,null)).andReturn("1");
@@ -310,6 +315,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
 	        studySubjectCreatorHelper.completeRegistrationDataEntry(studySubject);
+	        studySubject.setStartDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject).times(1);
@@ -342,6 +348,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
 	        studySubjectCreatorHelper.completeRegistrationDataEntry(studySubject);
+	        studySubject.setStartDate(new Date());
 	        studySubject.setId(1);
 	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject).times(1);
@@ -363,6 +370,33 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.bindStratification(studySubject);
 	        studySubjectRepository.transferSubject(studySubject.getIdentifiers());
 	        assertSame("The subject should have been successfully transferred",ScheduledEpochWorkFlowStatus.REGISTERED,studySubject.getScheduledEpochs().get(1).getScEpochWorkflowStatus());
+	        verifyMocks();
+	    }
+	  
+	  public void testUnSuccessfulEnrollRegistrationDateMissing() throws Exception{
+	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
+	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
+	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpochWithoutArm(false));
+	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
+	        studySubject.addScheduledEpoch(scheduledEpochFirst);
+	        studySubjectCreatorHelper.buildCommandObject(studySubject);
+	        studySubjectCreatorHelper.bindEligibility(studySubject);
+	        studySubjectCreatorHelper.bindStratification(studySubject);
+	        studySubjectCreatorHelper.completeRegistrationDataEntry(studySubject);
+	        studySubject.setId(1);
+	        studySubject.getStudySite().getStudy().setId(1);
+	        
+	        studySubjectDao.initialize(studySubject);
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+
+	        replayMocks();
+	        try {
+	        	studySubjectRepository.enroll(studySubject);
+	        	fail("should have thrown run time exception for missing registration date");
+	        }catch (C3PRBaseRuntimeException ex){
+	        	assertTrue(ex.getMessage().contains("Registration start date is missing"));
+	        }
+	       
 	        verifyMocks();
 	    }
 
