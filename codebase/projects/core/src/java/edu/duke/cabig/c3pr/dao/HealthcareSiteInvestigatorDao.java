@@ -121,11 +121,24 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
                  EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
+    public HealthcareSiteInvestigator updateDatabaseWithRemoteContent(HealthcareSiteInvestigator healthcareSiteInvestigator){
+    	HealthcareSiteInvestigator savedHealthcareSiteInvestigator = getSiteInvestigator(healthcareSiteInvestigator.getHealthcareSite(), healthcareSiteInvestigator.getInvestigator());
+    	if(savedHealthcareSiteInvestigator == null){
+    		log.debug("Saving the HealthcareSiteInvestigator.");
+    		save(healthcareSiteInvestigator);
+    		return healthcareSiteInvestigator;
+    	} else {
+    		log.debug("This HealthcareSiteInvestigator already exists in the database.");
+    		return savedHealthcareSiteInvestigator;
+    	}
+    }
+    
     /*
 	 * Saves a domain object
 	 */
 	public void save(HealthcareSiteInvestigator healthcareSiteInvestigator) {
 		getHibernateTemplate().saveOrUpdate(healthcareSiteInvestigator);
+		getHibernateTemplate().flush();
 	}
 	
 	public InvestigatorDao getInvestigatorDao() {

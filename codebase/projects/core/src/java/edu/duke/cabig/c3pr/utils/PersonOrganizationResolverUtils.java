@@ -161,9 +161,14 @@ public class PersonOrganizationResolverUtils {
 		c3prUser.setFirstName(firstName);
 		c3prUser.setLastName(lastName);
 		c3prUser.setMiddleName(middleName);
-		c3prUser.setRemoteEmail(emailStr);
-		c3prUser.setRemotePhone(phoneNumber);
-		c3prUser.setRemoteFax(faxNumber);
+		try{
+			c3prUser.setRemoteEmail(emailStr);
+			c3prUser.setRemotePhone(phoneNumber);
+			c3prUser.setRemoteFax(faxNumber);
+			
+		} catch(IllegalArgumentException iae){
+			log.error("Person has invalid contact information. Proceeding with out it.");
+		}
 		return c3prUser;
 	}
 	

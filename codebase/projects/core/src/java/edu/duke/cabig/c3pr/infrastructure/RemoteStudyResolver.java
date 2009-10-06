@@ -69,8 +69,6 @@ public class RemoteStudyResolver implements RemoteResolver {
 	private PersonOrganizationResolverUtils personOrganizationResolverUtils = null;
 	
 	
-	
-
 	/* (non-Javadoc)
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#getRemoteEntityByUniqueId(java.lang.String)
 	 */

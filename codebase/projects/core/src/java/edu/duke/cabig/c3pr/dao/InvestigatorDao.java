@@ -216,19 +216,24 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 			if(investigatorsWithMatchingEmail != null){
 				log.error("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
 						+ "'s email id : " + retrievedRemoteInvestigator.getEmail()	+ " is already in the database.");
+				//add the hcsi to the existing inv and return it.
+				investigatorsWithMatchingEmail.getHealthcareSiteInvestigators().addAll(retrievedRemoteInvestigator.getHealthcareSiteInvestigators());
 				return investigatorsWithMatchingEmail;
 			} else if(investigatorsWithMatchingNCICode != null){
 				log.error("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
 						+ "'s NCI Identifier: " + retrievedRemoteInvestigator.getNciIdentifier() + " is already in the database.");
+				//add the hcsi to the existing inv and return it.
+				investigatorsWithMatchingNCICode.getHealthcareSiteInvestigators().addAll(retrievedRemoteInvestigator.getHealthcareSiteInvestigators());
 				return investigatorsWithMatchingNCICode;
 			} else {
 				buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
 			}
 		} else {
 			//we have the retrieved staff's Org in our db...link up with the same and persist
-			// only update if remote investigator exists
+			//only update if remote investigator exists.
 			if(matchingRemoteInvestigatorFromDb instanceof RemoteInvestigator){
-				buildAndUpdateExistingRemoteInvestigator(retrievedRemoteInvestigator,(RemoteInvestigator) matchingRemoteInvestigatorFromDb);
+				// buildAndUpdateExistingRemoteInvestigator(retrievedRemoteInvestigator,(RemoteInvestigator) matchingRemoteInvestigatorFromDb);
+				matchingRemoteInvestigatorFromDb.getHealthcareSiteInvestigators().addAll(retrievedRemoteInvestigator.getHealthcareSiteInvestigators());
 				return matchingRemoteInvestigatorFromDb;
 			}
 		}
