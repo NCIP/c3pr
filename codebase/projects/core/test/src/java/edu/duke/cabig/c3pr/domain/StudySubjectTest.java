@@ -339,7 +339,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     public void testConstructor() throws Exception{
     	StudySubject studySubject = new StudySubject(false);
 
-    	assertNotNull("Start Date is null, may be not initialized", studySubject.getStartDate());
+    	assertNotNull("Identifiers is null, may be not initialized", studySubject.getIdentifiers());
 
     }
 
@@ -447,13 +447,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testHashCode1() throws Exception{
-    	/*EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
-    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
-    	replayMocks();*/
     	int prime = 29;
     	StudySubject studySubject1 = new StudySubject();
 
-    	assertEquals("Wrong hash code",prime*prime*prime + studySubject1.getStartDate().hashCode(), studySubject1.hashCode());
+    	assertEquals("Wrong hash code",prime*prime, studySubject1.hashCode());
 
     	Study study1 = new LocalStudy();
     	StudySite studySite1 = new StudySite();
@@ -461,8 +458,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	study1.addStudySite(studySite1);
 
     	studySubject1.setStudySite(studySite1);
-    	assertEquals("Wrong hash code",prime*prime*(prime+studySite1.hashCode()) + studySubject1.getStartDate().hashCode(), studySubject1.hashCode());
-    //	verifyMocks();
+    	assertEquals("Wrong hash code",prime*(prime+studySite1.hashCode()), studySubject1.hashCode());
     }
 
     /**
