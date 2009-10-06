@@ -246,6 +246,7 @@ function confirmTakeAction(primaryIdentifier){
 	            <th/>
 	        </tr>
 	        <c:forEach items="${site.study.reverseSortedStudyVersions}" var="sortedStudyVersion" varStatus="status">
+	        <c:set var="studySiteStudyVersionPresent" value="false"></c:set>
 	        <tr>
 	            <td>${sortedStudyVersion.name }</td>
             	<c:forEach items="${sortedStudyVersion.studySiteStudyVersions}" var="studySiteStudyVersion">
@@ -255,12 +256,14 @@ function confirmTakeAction(primaryIdentifier){
 			            <td>${studySiteStudyVersion.irbApprovalDateStr }</td>
 			            <td></td>
 			            <c:set var="studySiteStudyVersionPresent" value="true"></c:set>
+			            <c:set var="newerVersionApplied" value="true"></c:set>
 		            </c:if>
 	            </c:forEach>
 	            <c:if test="${studySiteStudyVersionPresent != true}">
             	<td></td>
 	            <td></td>
 	            <td>
+	            	<c:if test="${newerVersionApplied != true}">
 	            	<input type="text" name="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}" id="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}"/>
 		           	<a href="#" id="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}-calbutton">
 		      	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
@@ -275,9 +278,12 @@ function confirmTakeAction(primaryIdentifier){
 				            }
 				        );
 					</script>
+					</c:if>
 	            </td>
 	            <td>
-	            	<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', 'APPLY_AMENDMENT', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
+	            	<c:if test="${newerVersionApplied != true}">
+	            		<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', 'APPLY_AMENDMENT', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
+	            	</c:if>
 	            </td>
 	            </c:if>
 	        </tr>
