@@ -276,7 +276,8 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	}
 
 	private boolean isRequiresAdditionalInfo(StudySubject studySubject,Epoch epoch) {
-		if (epoch.getEligibilityCriteria().size() > 0 || epoch.getStratificationCriteria().size() > 0 || epoch.getRandomizedIndicator() || epoch.getArms().size() > 0 || isWorkPendingOnMandatoryCompanion(studySubject, epoch)) {
+		
+		if ((epoch.getEnrollmentIndicator() && studySubject.getStartDate()== null ) || epoch.getEligibilityCriteria().size() > 0 || epoch.getStratificationCriteria().size() > 0 || epoch.getRandomizedIndicator() || epoch.getArms().size() > 0 || isWorkPendingOnMandatoryCompanion(studySubject, epoch)) {
 			return true;
 		}
 		return false;
@@ -352,6 +353,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 			return "Additional information is not required to register on this epoch" ;
 		}
 	}
+	
 
 	
     public ModelAndView editRegistration(HttpServletRequest request, Object command , Errors error) {
