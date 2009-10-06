@@ -137,7 +137,7 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 	@Transient
 	public boolean isValid(Date date){
 		Date newDate = DateUtil.getUtilDateFromString(DateUtil.formatDate(date, "MM/dd/yyyy"), "MM/dd/yyyy");
-		return (startDate == null ? false : !startDate.after(newDate)) && (endDate == null  ? true : !endDate.before(newDate));
+		return (getStartDate() == null ? false : !getStartDate().after(newDate)) && (getEndDate() == null  ? true : !getEndDate().before(newDate));
 	}
 
 	public int compareTo(StudySiteStudyVersion studySiteStudyVersion) {
