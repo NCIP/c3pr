@@ -495,7 +495,7 @@ function changeStudyVersion(){
 				<input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this,0);"
 					${(fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1 && 
 									!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent) ? "checked" : ""}/>
-				<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
+				<tags:hoverHint keyProp="studySubject.informedConsentSigned"/></div>
 		</div>
 	</c:if>
 	<div class="row">
@@ -601,7 +601,7 @@ function changeStudyVersion(){
 				<td>
 					<input type="checkbox" name="studySubject.currentVersionIndicator-${status.index }" value="true" onclick="setVersion(this,${status.index});"
 						${!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].consent ? "checked" : ""}/>
-					<tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></div>
+					<tags:hoverHint keyProp="studySubject.informedConsentSigned"/></div>
 				</td>
 			</tr>
 		</c:forEach>
