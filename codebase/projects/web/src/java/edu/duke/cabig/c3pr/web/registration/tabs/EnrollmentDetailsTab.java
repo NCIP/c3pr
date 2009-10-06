@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -80,7 +81,26 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     		return;
     	}
     	
+    	// remove dummy study subject consent versions that were created because of lazy list helper
+    	
+    	Iterator iterator = command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions().iterator();
+    	
+    	while(iterator.hasNext()){
+    		StudySubjectConsentVersion studySubjectConsentVersion = (StudySubjectConsentVersion)iterator.next();
+    		if (studySubjectConsentVersion.getConsent() == null){
+    			iterator.remove();
+    		}
+    	}
+    	
+    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+    		if (studySubjectConsentVersion.getConsent() == null){
+    			command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions().remove(studySubjectConsentVersion);
+    		}
+    	}
+    	
     	// set the scheduled epoch start date to registration start date for first time enrollment
+    	
+    	
     	
     	if(command.getStudySubject().getScheduledEpoch().getEpoch().getEnrollmentIndicator() &&
     			command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
