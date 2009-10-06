@@ -44,7 +44,8 @@ public class CommonUtils {
     	
     	StringBuffer sb = new StringBuffer();
     	for(int i=0;i< errors.size();i++){
-    		sb.append(i + "." + " " + errors.get(i).getErrorMessage());
+    		sb.append("\n");
+    		sb.append(i+1 + "." + " " + errors.get(i).getErrorMessage());
     	}
     	return sb.toString();
     }
