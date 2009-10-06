@@ -218,6 +218,7 @@
 			</c:if>
 			<c:if test="${empty flowType}">
 				<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
+                	<c:if test="${command.study.coordinatingCenterStudyStatus != 'CLOSED_TO_ACCRUAL' && command.study.coordinatingCenterStudyStatus != 'CLOSED_TO_ACCRUAL_AND_TREATMENT'}">
                 	<c:choose>
 	                    <c:when test="${command.study.companionIndicator=='true'}">
 	                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit Study" />
@@ -229,6 +230,7 @@
                     <c:if test="${command.study.standaloneIndicator && canAmendStudy}">
                     	<c:set var="amend" value="${resumeAmendment?'Resume Amendment':'Amend Study'}"></c:set>
 		                <tags:oneControlPanelItem linkhref="javascript:amendStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
+                     </c:if>
                      </c:if>
                 </csmauthz:accesscontrol>
                 <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
