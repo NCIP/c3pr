@@ -403,12 +403,6 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	studySubject1.setStartDate(startDate);
     	assertTrue("The two study subjects should have been equal",studySubject1.equals(studySubject2));
 
-    	GregorianCalendar calendar = new GregorianCalendar();
-    	calendar.setTime(startDate);
-    	calendar.add(calendar.YEAR, -1);
-
-    	studySubject2.setStartDate(calendar.getTime());
-    	assertFalse("The two study subjects should not have been equal",studySubject1.equals(studySubject2));
     }
 
     /**
