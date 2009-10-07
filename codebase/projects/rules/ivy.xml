@@ -104,7 +104,6 @@
 			<dependency name="jackrabbit-jcr-commons" org="org.apache.jackrabbit" rev="1.2.1" />
 			<dependency name="jackrabbit-jcr-rmi" org="org.apache.jackrabbit" rev="1.2.1" />
 			<dependency name="jackrabbit-jcr-server" org="org.apache.jackrabbit" rev="1.2.1" />		
-			<!-- DROOLS -->
 			
 			<!-- Testing dependencies -->
         	<dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
