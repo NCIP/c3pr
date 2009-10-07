@@ -132,9 +132,11 @@ public class RemoteStudyResolver implements RemoteResolver {
 		//Set core attributes from COPPA Object
 		remoteStudy.setShortTitleText(CoppaPAObjectFactory.getShortTitleFromStudyProtocol(studyProtocol));
 		remoteStudy.setLongTitleText(CoppaPAObjectFactory.getLongTitleFromStudyProtocol(studyProtocol));
+		remoteStudy.setDescriptionText(CoppaPAObjectFactory.getPublicDescriptionFromStudyProtocol(studyProtocol));
 		remoteStudy.setType(CoppaPAObjectFactory.getTypeFromStudyProtocol(studyProtocol));
 		remoteStudy.setPhaseCode(protocolAbstractionResolverUtils.getPhaseCodeFromCoppaPhaseCode(studyProtocol.getPhaseCode().getCode()));
 		remoteStudy.setExternalId(studyProtocol.getIdentifier().getExtension());
+//		remoteStudy.setTargetAccrualNumber(Integer.getInteger(studyProtocol.getTargetAccrualNumber().getOriginalText().getValue()));
 		
 		//Set NCI identifier for Study
 		setStudyNciIdentifier(remoteStudy, studyProtocol.getAssignedIdentifier().getExtension());
@@ -142,9 +144,6 @@ public class RemoteStudyResolver implements RemoteResolver {
 		//Set StudyOrganizations
 		List<StudyOrganization> remoteStudyOrganizations = getStudyOrganizationsForStudyProtocol(studyProtocol);
 		remoteStudy.addStudyOrganizations(remoteStudyOrganizations);
-		for(StudyOrganization studyOrganization : remoteStudyOrganizations){
-			studyOrganization.setStudy(remoteStudy);
-		}
 
 		//Set PI for Study
 		setPrincipalInvestigator(remoteStudy, studyProtocol.getIdentifier().getExtension());

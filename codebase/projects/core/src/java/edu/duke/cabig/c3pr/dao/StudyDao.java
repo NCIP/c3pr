@@ -369,7 +369,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 					Study studyFromDatabase = getByExternalIdentifier(remoteStudyTemp.getExternalId());
 					//If studyFromDatabase is null then save else it already exists as a remoteStudy.
 					if (studyFromDatabase == null) {
-						//save the assciated HealthcareSites first.
+						//save the associated HealthcareSites first.
 						List<HealthcareSite> healthcareSiteList = new ArrayList<HealthcareSite>();
 						for(StudyOrganization studyOrganization: remoteStudyTemp.getStudyOrganizations()){
 							if(studyOrganization.getHealthcareSite() instanceof RemoteHealthcareSite){
@@ -378,6 +378,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 						}
 						healthcareSiteDao.updateDatabaseWithRemoteHealthcareSites(healthcareSiteList);
 						HealthcareSite healthcareSite = null;
+						//Update the studyInv and the hcsi to point to the saved hcs.
 						for(int i=0; i < remoteStudyTemp.getStudyOrganizations().size(); i++){
 							healthcareSite = remoteStudyTemp.getStudyOrganizations().get(i).getHealthcareSite();
 							if(healthcareSite instanceof RemoteHealthcareSite){
@@ -388,23 +389,17 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 							}
 						}
 							
-						//save the associated Investigators first.
+						//save the associated Investigators next.
 						Investigator investigator = null;
 						Investigator savedInvestigator = null;
 						for(StudyOrganization studyOrganization : remoteStudyTemp.getStudyOrganizations()){
 							for(StudyInvestigator studyInvestigator : studyOrganization.getStudyInvestigators()){
 								investigator = studyInvestigator.getHealthcareSiteInvestigator().getInvestigator();
 								if(investigator instanceof RemoteInvestigator){
-									//this does not save the associated ncsi
+									//this does not save the associated hcsi. It returns the saved Inv with the unsaved hcsi attached to it
 									savedInvestigator = investigatorDao.updateDatabaseWithRemoteContent((RemoteInvestigator)investigator);
-									//make sure to set the hcsi in the so by getting it from the savedInvestigator
-									/*for(HealthcareSiteInvestigator hcsi : savedInvestigator.getHealthcareSiteInvestigators()){
-										if(hcsi.equals(studyInvestigator.getHealthcareSiteInvestigator())){
-											studyInvestigator.setHealthcareSiteInvestigator(hcsi);
-										}
-									}*/
+									//Set the saved Investigator in the hcsi. So now the hcsi has the saved hcs and inv in it.
 									studyInvestigator.getHealthcareSiteInvestigator().setInvestigator(savedInvestigator);
-									//If savedInv does not have the hcsi save it explicitly
 									HealthcareSiteInvestigator savedHealthcareSiteInvestigator = null;
 									if(studyInvestigator.getHealthcareSiteInvestigator().getId() == null){
 										savedHealthcareSiteInvestigator  = healthcareSiteInvestigatorDao.updateDatabaseWithRemoteContent(studyInvestigator.getHealthcareSiteInvestigator());
