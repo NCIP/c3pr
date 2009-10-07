@@ -511,45 +511,62 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<if>
 			<equals arg1="${c3pr.install}" arg2="true"/>
 			<then>
-				<!-- generating datasource.properties and putting it in tomcat conf folder -->
-				<mkdir dir="${tomcat.home}/conf/c3pr"/>
-						<switch value="${database.type}">
-				    		<case value="oracle">
-					    		<copy file="${software.dir}/../../../antfiles/templates/oracle/oracle.datasource.properties" tofile="${tomcat.home}/conf/c3pr/datasource.properties" overwrite="true" />
-				    		</case>
-				    		<case value="postgresql">
-				    			<copy file="${software.dir}/../../../antfiles/templates/postgres/postgres.datasource.properties" tofile="${tomcat.home}/conf/c3pr/datasource.properties" overwrite="true" />
-				    		</case>
-				    	</switch>
-				    	<replace file="${tomcat.home}/conf/c3pr/datasource.properties" token="@DB_USER@" value="${database.user}" />
-				    	<replace file="${tomcat.home}/conf/c3pr/datasource.properties" token="@DB_PASSWORD@" value="${database.password}" />
-				    	<replace file="${tomcat.home}/conf/c3pr/datasource.properties" token="@DB_HOST@" value="${database.server}" />
-				    	<replace file="${tomcat.home}/conf/c3pr/datasource.properties" token="@DB_PORT@" value="${database.port}" />
-				    	<replace file="${tomcat.home}/conf/c3pr/datasource.properties" token="@DB_NAME@" value="${database.name}" />
-				    	<replace file="${tomcat.home}/conf/c3pr/datasource.properties" token="@URL@" value="${rules.repository}" />
-
-						<replace file="${tomcat.home}/conf/c3pr/datasource.properties" token="@JACKRABBIT_REPOSITORY@" value="${jackrabbit.repository}" />
-						<replace file="${tomcat.home}/conf/c3pr/datasource.properties" token="@QUARTZ_DELEGATE_CLASSNAME@" value="${jdbc.quartz.delegateClassName}" />
-				    	<replace file="${tomcat.home}/conf/c3pr/datasource.properties" token="@AUDIT_DIALECT@" value="${audit.dialect}" />
-
-						<!-- calling tomcat.security target to generate csm_jass and hibernate.cfg.xml and app context files -->
-						<ant target="tomcat.security" antfile="ivy-master-build.xml" dir="${software.dir}/../../../antfiles" inheritall="false">
-							<property name="catalina.home" value="${tomcat.home}"></property>
-						</ant>
-
-						<!-- updating catalina.properties in tomcat conf folder -->
-						<echo file="${tomcat.home}/conf/catalina.properties" append="true">&#x0A;java.security.auth.login.config=${catalina.home}/conf/cabig/csm_jaas.config</echo>
-
-						<!-- call migrate on c3pr-->
-						<!-- we are not calling migrate any longer because it might create some issue while migrating, we are planning to leave migration to tomcate related listeners-->
-						<!--<ant target="migrate" antfile="ivy-master-build.xml" dir="${software.dir}/../../../antfiles" inheritall="false">
-							<property name="catalina.home" value="${tomcat.home}"></property>
-						</ant>-->
-
+				<!-- tomcat container related modifications--> 
+				<ant target="c3pr:tomcat:datasource-property" antfile="${ant.file}" inheritall="false">
+					<property name="tomcat.home" value="${tomcat.home}"></property>
+				</ant>
+				<ant target="c3pr:tomcat:catalina-property" antfile="${ant.file}" inheritall="false">
+					<property name="tomcat.home" value="${tomcat.home}"></property>
+				</ant>
+				<ant target="c3pr:tomcat:csm-configuration" antfile="${ant.file}" inheritall="false">
+					<property name="tomcat.home" value="${tomcat.home}"></property>
+				</ant>
 			</then>
 		</if>
 	</target>
+	
+	<target name="c3pr:tomcat:csm-configuration" description="Configure tomcat container for c3pr application">
+		<mkdir dir="${tomcat.home}/conf/cabig"/>
+		<echo file="${tomcat.home}/conf/cabig/csm_jaas.config" append="true">
+			&#x0A;${application.context.name} {&#x0A;
+			    gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule required &#x0A;
+			    driver="${datasource.driver}"&#x0A;
+			    url="${database.url}"&#x0A;
+			    user="${database.user}"&#x0A;
+			    passwd="${database.password}"&#x0A;
+			    encryption-enabled="YES"&#x0A;
+			    query="SELECT * FROM CSM_USER WHERE LOGIN_NAME=LOWER(?) and PASSWORD=?"&#x0A;
+			    ;
+			};
+		</echo>
+	</target>
+	
+	<target name="c3pr:tomcat:catalina-property" description="Configure tomcat container for c3pr application">
+		<echo file="${tomcat.home}/conf/catalina.properties" append="true">&#x0A;java.security.auth.login.config=${tomcat.home}/conf/cabig/csm_jaas.config</echo>
+	</target>
+	
+	<target name="c3pr:tomcat:datasource-property" description="Configure tomcat container for c3pr application">
+		<mkdir dir="${tomcat.home}/conf/${application.context.name}"/>
+		<switch value="${database.type}">
+    		<case value="oracle">
+	    		<copy file="${software.dir}/../../../antfiles/templates/oracle/oracle.datasource.properties" tofile="${tomcat.home}/conf/${application.context.name}/datasource.properties" overwrite="true" />
+    		</case>
+    		<case value="postgresql">
+    			<copy file="${software.dir}/../../../antfiles/templates/postgres/postgres.datasource.properties" tofile="${tomcat.home}/conf/${application.context.name}/datasource.properties" overwrite="true" />
+    		</case>
+    	</switch>
+    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@DB_USER@" value="${database.user}" />
+    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@DB_PASSWORD@" value="${database.password}" />
+    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@DB_HOST@" value="${database.server}" />
+    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@DB_PORT@" value="${database.port}" />
+    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@DB_NAME@" value="${database.name}" />
+    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@URL@" value="${rules.repository}" />
 
+		<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@JACKRABBIT_REPOSITORY@" value="${jackrabbit.repository}" />
+		<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@QUARTZ_DELEGATE_CLASSNAME@" value="${jdbc.quartz.delegateClassName}" />
+    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@AUDIT_DIALECT@" value="${audit.dialect}" />
+	</target>
+	
 	<target name="install:tomcat:c3pr-webapp:re-configure" description="Configure c3pr-webapp application, copies over externalized properties or configurations that are not part of the tomcat configuration" unless="exclude.tomcat" depends="common:init,common:tomcat:init">
 	</target>
 
