@@ -48,11 +48,11 @@ public class BaseStudyAjaxFacade {
         Column columnTitle = model.getColumnInstance();
         columnTitle.setTitle("Short Title");
         columnTitle.setProperty("shortTitleText");
+        columnTitle.setCell((ViewStudyLinkCustomCell.class).getName());
         model.addColumn(columnTitle);
 
         Column columnIdentifier = model.getColumnInstance();
         columnIdentifier.setProperty("primaryIdentifier");
-        columnIdentifier.setCell((ViewStudyLinkCustomCell.class).getName());
         model.addColumn(columnIdentifier);
 
         Column columnPhase = model.getColumnInstance();
