@@ -38,8 +38,8 @@
 		<div class="value" id="uploadCaDSRFile-${index}">
 			<input type="hidden" name="name" value="${epoch.name}" />
 			<input type="file" name="study.criteriaFile"/>
-			<tags:button type="button" size="small" color="blue" value="Upload" onclick="uploadCaDSRFile('${index}','${epoch.name}')"/>
-			<tags:hoverHint keyProp="study.criteriafile" />
+			<tags:button type="button" size="small" color="blue" value="Upload himanshu" onclick="uploadCaDSRFile('${index}','${epoch.name}')"/>
+			<tags:hoverHint id="study.criteriafile-${epochCount.index}" keyProp="study.criteriafile" />
 		</div>
 	</div>
 	<chrome:division title="Inclusion Criteria" minimize="false" divIdToBeMinimized="inclusionCriteria-${index}">
