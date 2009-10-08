@@ -17,6 +17,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.springframework.context.MessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
@@ -39,6 +40,17 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
     private MessageSource c3prErrorMessages;
     private StudySite studySite;
 	private StudyVersion studyVersion ;
+	
+	public StudySiteStudyVersion() {
+		 ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
+        resourceBundleMessageSource.setBasename("error_messages_multisite");
+        ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
+        resourceBundleMessageSource1.setBasename("error_messages_c3pr");
+        resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
+		this.c3prErrorMessages = resourceBundleMessageSource1;
+        this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
+	}
+	
 
 	public Date getEndDate() {
 		if(endDate != null){

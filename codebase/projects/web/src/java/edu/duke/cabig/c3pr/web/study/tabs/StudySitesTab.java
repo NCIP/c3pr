@@ -279,6 +279,7 @@ public class StudySitesTab extends StudyTab {
 		}
 		map.put("site", studySite);
 		map.put("apiName", apiName);
+		map.put("action", request.getParameter("action"));
 		Integer index=null;
 		for(int i=0 ; i<wrapper.getStudy().getStudySites().size(); i++){
 			if(wrapper.getStudy().getStudySites().get(i).getHealthcareSite().getPrimaryIdentifier().equals(nciInstituteCode)){
