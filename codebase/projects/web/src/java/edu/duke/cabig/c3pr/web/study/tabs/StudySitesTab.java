@@ -28,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
@@ -79,6 +80,7 @@ public class StudySitesTab extends StudyTab {
 		refdata.put("localNCICode", this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
 		refdata.put("openSections",request.getParameter("openSections"));
 		refdata.put("studyVersionAssociationMap",isStudyVersionSetupValid(wrapper.getStudy()));
+		refdata.put("currentDate",CommonUtils.getDateString(new Date()));
 		// write code to see if each study site is on latest study version
 		return refdata;
 	}

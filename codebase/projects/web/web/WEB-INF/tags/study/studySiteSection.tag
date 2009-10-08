@@ -329,7 +329,7 @@ function confirmTakeAction(primaryIdentifier){
 				<fmt:message key="site.effectiveDate" />
 			</div>
 			<div class="value">
-				<input type="text" name="effectiveDate" id="effectiveDateField-${site.healthcareSite.primaryIdentifier}" class="validate-DATE"/>
+				<input type="text" name="effectiveDate" id="effectiveDateField-${site.healthcareSite.primaryIdentifier}" class="validate-DATE" value="${currentDate }"/>
 	           	<a href="#" id="effectiveDateField-${site.healthcareSite.primaryIdentifier}-calbutton">
 	      	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
 	        	</a>
