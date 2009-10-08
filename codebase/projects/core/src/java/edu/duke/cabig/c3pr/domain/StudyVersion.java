@@ -647,7 +647,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 
 	@Column(name = "amendment_reason")
-	public String getAmendmentReasonInternal() {
+	public String getAmendmentReasonsInternal() {
 		String amendmentReason = null ;
 		for(StudyPart reason : amendmentReasons){
 				if(amendmentReason != null ){
@@ -659,7 +659,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return amendmentReason;
 	}
 
-	public void setAmendmentReasonInternal(String amendmentReason) {
+	public void setAmendmentReasonsInternal(String amendmentReason) {
 		amendmentReasons = new ArrayList<StudyPart>();
 		if (!StringUtils.isBlank(amendmentReason)) {
 			StringTokenizer tokenizer = new StringTokenizer(amendmentReason, " : ");
