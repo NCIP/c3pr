@@ -62,7 +62,7 @@
 					<input type="file" name="study.criteriaFile" id="criteriaFile-${epochCount.index}">
 					<tags:button type="button" size="small" color="blue" value="Upload" onclick="uploadFile('${epochCount.index}','${epoch.name}', '${fn:length(command.study.epochs)}');"/>
 					<img id="uploadIndicator-${epochCount.index }" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none" />
-					<tags:hoverHint keyProp="study.criteriafile" />
+					<tags:hoverHint id="study.criteriafile-${epochCount.index}" keyProp="study.criteriafile" />
 				</div>
 			</div>
 			<chrome:division title="Inclusion Criteria" minimize="${(not empty epochIndex &&  epochIndex == epochCount.index)?'false':'true'}"
