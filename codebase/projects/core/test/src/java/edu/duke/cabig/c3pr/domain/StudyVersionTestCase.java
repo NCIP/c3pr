@@ -169,7 +169,7 @@ public class StudyVersionTestCase extends AbstractTestCase {
 		assertEquals("no amendment reason present", 0, basicStudyVersion.getAmendmentReasons().size());
 		basicStudyVersion.addAmendmentReason(StudyPart.COMPANION);
 		basicStudyVersion.addAmendmentReason(StudyPart.DESIGN);
-		assertEquals("COMPANION : DESIGN", basicStudyVersion.getAmendmentReasonInternal());
+		assertEquals("COMPANION : DESIGN", basicStudyVersion.getAmendmentReasonsInternal());
 	}
 
 	public void testSetAmendmentReason() throws Exception{
@@ -181,13 +181,13 @@ public class StudyVersionTestCase extends AbstractTestCase {
 
 	public void testSetAmendmentReasonInternal() throws Exception{
 		assertEquals("no amendment reason present", 0, basicStudyVersion.getAmendmentReasons().size());
-		basicStudyVersion.setAmendmentReasonInternal("COMPANION : DESIGN");
+		basicStudyVersion.setAmendmentReasonsInternal("COMPANION : DESIGN");
 		assertEquals("2 amendment reason present", 2, basicStudyVersion.getAmendmentReasons().size());
 	}
 
 	public void testSetAmendmentReasonInternal1() throws Exception{
 		assertEquals("no amendment reason present", 0, basicStudyVersion.getAmendmentReasons().size());
-		basicStudyVersion.setAmendmentReasonInternal("");
+		basicStudyVersion.setAmendmentReasonsInternal("");
 		assertEquals("no amendment reason present", 0, basicStudyVersion.getAmendmentReasons().size());
 	}
 
