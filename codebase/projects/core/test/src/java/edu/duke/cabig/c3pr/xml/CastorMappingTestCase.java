@@ -156,7 +156,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 		assertNotNull(actual);
 		assertEquals(expected.getName(), actual.getName());
 		assertEquals(expected.getVersionDateStr(), actual.getVersionDateStr());
-		assertEquals(expected.getAmendmentReasonInternal(), actual.getAmendmentReasonInternal());
+		assertEquals(expected.getAmendmentReasonsInternal(), actual.getAmendmentReasonsInternal());
 		assertIdentifiers(expected.getStudy().getIdentifiers(), actual.getStudy().getIdentifiers());
 	}
 	
