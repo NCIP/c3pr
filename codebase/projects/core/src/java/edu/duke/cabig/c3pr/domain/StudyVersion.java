@@ -646,7 +646,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		this.amendmentReasons.add(studyPart);
 	}
 
-	@Column(name = "amendment_reason")
+	@Column(name = "amendment_reasons")
 	public String getAmendmentReasonsInternal() {
 		String amendmentReason = null ;
 		for(StudyPart reason : amendmentReasons){
