@@ -115,7 +115,7 @@
 <!-- BIG TABLE END -->
  <hr noshade size="1" width="100%" style="border-top: 1px black dotted;" align="left">
 	<div align="left">
-	<tags:button type="button" color="blue" icon="add" value="Add Consent"
+	<tags:button type="button" color="blue" icon="add" value="Add Consent" size="small"
 	onclick="$('dummy-genericConsent').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericConsentRowInserterProps)" />
     <br></div>
 	</chrome:box>
