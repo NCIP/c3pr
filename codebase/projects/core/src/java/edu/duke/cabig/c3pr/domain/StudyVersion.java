@@ -401,7 +401,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 				errors.add(new Error(
 								getC3PRExceptionHelper().getRuntimeException(
 												getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
-												new String[] { this.getName() }).getMessage()));
+												new String[] { epoch.getName() }).getMessage()));
 			}
 		}
 		return true;
@@ -423,14 +423,14 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 				if (epoch.getArms().size() < 2) {
 					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
 							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE"),
-							new String[] { this.getName() }).getMessage()));
+							new String[] { epoch.getName() }).getMessage()));
 				}
 			}else{
 				if (this.getRandomizationType() == (RandomizationType.BOOK)) {
 						if (!epoch.hasBookRandomizationEntry()) {
 							errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
 									getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.BOOK_ENTRIES_FOR_BOOK_RANDOMIZED_EPOCH.CODE"),
-									new String[] { this.getName() }).getMessage()));
+									new String[] { epoch.getName() }).getMessage()));
 						}
 				}else if(this.getRandomizationType() == (RandomizationType.PHONE_CALL)) {
 						Randomization randomization = epoch.getRandomization();
@@ -438,7 +438,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 							if (StringUtils.isBlank(((PhoneCallRandomization) randomization).getPhoneNumber())) {
 								errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(
 										getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE"),
-										new String[] { this.getName() }).getMessage()));
+										new String[] { epoch.getName() }).getMessage()));
 						}
 					}
 				}
