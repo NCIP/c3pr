@@ -1,13 +1,9 @@
 package edu.duke.cabig.c3pr.web.ajax;
 
-import java.util.List;
-
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.cell.AbstractCell;
 import org.extremecomponents.table.core.TableModel;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 
@@ -17,9 +13,7 @@ public class HealthcareSiteInvestigatorLinkDisplayCell extends AbstractCell {
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
         Investigator inv = (Investigator) model.getCurrentRowBean();
-     
     	String cellValue = "";
-        
     	for(HealthcareSiteInvestigator healthcareSiteInvestigator : inv.getHealthcareSiteInvestigators()){
     		cellValue += healthcareSiteInvestigator.getHealthcareSite().getName()+"<br>"  ;
     	}
@@ -35,13 +29,6 @@ public class HealthcareSiteInvestigatorLinkDisplayCell extends AbstractCell {
     }
     
     private String getEmailId(Investigator inv){
-//    	List<ContactMechanism> contactMechanisms = inv.getContactMechanisms();
-//    	for(ContactMechanism contactMechanism : contactMechanisms){
-//    		if(contactMechanism.getType() == ContactMechanismType.EMAIL){
-//    			return contactMechanism.getValue();
-//    		}
-//    	}
-//    	return "" ;
     	return inv.getEmail();
     }
 
