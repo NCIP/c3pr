@@ -31,6 +31,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
 
@@ -404,8 +405,11 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		
 		List<HealthcareSite> hcsList = new ArrayList<HealthcareSite>();
 		if(entity instanceof StudySubject){
-			hcsList.add(((StudySubject)entity).getStudySite().getHealthcareSite());
-			hcsList.add(((StudySubject)entity).getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+			StudySubject studySubject = (StudySubject)entity;
+			hcsList.add(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite().getHealthcareSite());
+			hcsList.add(studySubject.getStudySiteVersion().getStudyVersion().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+			//hcsList.add(((StudySubject)entity).getStudySite().getHealthcareSite());
+			//hcsList.add(((StudySubject)entity).getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
 		}
 		if(entity instanceof StudySite){
 			hcsList.add(((StudySite)entity).getHealthcareSite());
