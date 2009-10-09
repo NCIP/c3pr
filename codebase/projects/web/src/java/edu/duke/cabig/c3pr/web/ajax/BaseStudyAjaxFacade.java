@@ -43,16 +43,18 @@ public class BaseStudyAjaxFacade {
 
         Row row = model.getRowInstance();
         row.setHighlightRow(Boolean.TRUE);
+        row.setInterceptor("edu.duke.cabig.c3pr.web.ajax.StudyRowInterceptor");
         model.addRow(row);
 
         Column columnTitle = model.getColumnInstance();
         columnTitle.setTitle("Short Title");
         columnTitle.setProperty("shortTitleText");
-        columnTitle.setCell((ViewStudyLinkCustomCell.class).getName());
+//        columnTitle.setCell((ViewStudyLinkCustomCell.class).getName());
         model.addColumn(columnTitle);
 
         Column columnIdentifier = model.getColumnInstance();
         columnIdentifier.setProperty("primaryIdentifier");
+        columnIdentifier.setCell((ViewStudyLinkCustomCell.class).getName());
         model.addColumn(columnIdentifier);
 
         Column columnPhase = model.getColumnInstance();

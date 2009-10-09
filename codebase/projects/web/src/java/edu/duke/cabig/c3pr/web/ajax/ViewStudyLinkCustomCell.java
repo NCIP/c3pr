@@ -16,24 +16,19 @@ import edu.duke.cabig.c3pr.domain.Study;
  */
 public class ViewStudyLinkCustomCell extends AbstractCell {
 
-    public static final String VIEW_STUDY_URL = "../study/viewStudy?studyId=";
-
     @Override
     public String getHtmlDisplay(TableModel tableModel, Column column) {
-        Study study = (Study) tableModel.getCurrentRowBean();
         CustomHtmlBuilder html = new CustomHtmlBuilder();
-
-        setRowOnClick(tableModel, study);
-        
         ColumnBuilder columnBuilder = new ColumnBuilder(html, column);
         columnBuilder.tdStart();
+
 //		Call the html.a() method if you want only one cell to be a hyperlink.
 //      This is now replaced with the setRowOnClick() above which makes the entire row clickable  
-
 //      html.a(tableModel.getContext().getContextPath() + VIEW_STUDY_URL, "studyId", study.getId().toString());
 //      html.close();
-        columnBuilder.tdBody(getCellValue(tableModel, column));
 //      html.aEnd();
+
+        columnBuilder.tdBody(getCellValue(tableModel, column));
         columnBuilder.tdEnd();
         return html.toString();
     }
@@ -51,21 +46,12 @@ public class ViewStudyLinkCustomCell extends AbstractCell {
     	
     	String cellValue = column.getValueAsString();
     	if(study != null && study instanceof RemoteStudy){
-        	cellValue = cellValue + "<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='17' height='16' border='0' align='middle'/>";
+        	cellValue = cellValue + " <img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='17' height='16' border='0' align='middle'/>";
         }
-    	setRowOnClick(tableModel, study);
         return cellValue;
     }
 
-    public void setRowOnClick(TableModel tableModel, Study study){    	
-    	String url = "document.location='" + VIEW_STUDY_URL + study.getId().toString() + "'";
-    	tableModel.getRowHandler().getRow().setOnclick(url);
-    	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
-    }
-    
-    
     private class CustomHtmlBuilder extends HtmlBuilder {
-
         public HtmlBuilder a(String href, String paramName, String paramValue) {
             append("<a href=");
             quote();
@@ -76,7 +62,6 @@ public class ViewStudyLinkCustomCell extends AbstractCell {
             append(paramValue);
             quote();
             return this;
-
         }
     }
 
