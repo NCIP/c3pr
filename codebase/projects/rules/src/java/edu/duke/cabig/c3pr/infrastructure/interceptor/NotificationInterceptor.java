@@ -405,11 +405,11 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		
 		List<HealthcareSite> hcsList = new ArrayList<HealthcareSite>();
 		if(entity instanceof StudySubject){
-			StudySubject studySubject = (StudySubject)entity;
-			hcsList.add(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite().getHealthcareSite());
-			hcsList.add(studySubject.getStudySiteVersion().getStudyVersion().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
-			//hcsList.add(((StudySubject)entity).getStudySite().getHealthcareSite());
-			//hcsList.add(((StudySubject)entity).getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+//			StudySubject studySubject = (StudySubject)entity;
+//			hcsList.add(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite().getHealthcareSite());
+//			hcsList.add(studySubject.getStudySiteVersion().getStudyVersion().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+			hcsList.add(((StudySubject)entity).getStudySite().getHealthcareSite());
+			hcsList.add(((StudySubject)entity).getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
 		}
 		if(entity instanceof StudySite){
 			hcsList.add(((StudySite)entity).getHealthcareSite());
