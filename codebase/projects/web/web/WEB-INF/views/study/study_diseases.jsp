@@ -291,7 +291,8 @@
 		<c:if test="${fn:length(command.study.studyDiseases) == 0}">
 			<fmt:message key="study.disease.noDisease" />
 		</c:if>
-		<br>	
+		<br>
+		</div>	
 	</chrome:box>
 	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 </form:form>
