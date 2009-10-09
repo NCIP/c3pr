@@ -8,6 +8,7 @@ import org.apache.axis.message.MessageElement;
 import org.w3c.dom.Document;
 
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -37,7 +38,7 @@ public class XMLUtilsTestCase extends TestCase {
         String xml=StringUtils.readFile("edu/duke/cabig/c3pr/xml/test-study-domain-objects.xml");
         List<? extends AbstractMutableDomainObject> domainObjects=xmUtils.extractDomainObjectsFromXML(xml);
         assertEquals("Wrong size of list", domainObjects.size(),5);
-        assertEquals("Wrong deserialized domain object", Study.class, domainObjects.get(0).getClass());
+        assertEquals("Wrong deserialized domain object", LocalStudy.class, domainObjects.get(0).getClass());
         assertEquals("Wrong deserialized domain object", OrganizationAssignedIdentifier.class, domainObjects.get(1).getClass());
         assertEquals("Wrong deserialized domain object", StudySite.class, domainObjects.get(2).getClass());
         assertEquals("Wrong deserialized domain object", StudyInvestigator.class, domainObjects.get(3).getClass());
