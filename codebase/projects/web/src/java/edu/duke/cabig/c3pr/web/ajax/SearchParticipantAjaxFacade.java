@@ -1,12 +1,8 @@
 package edu.duke.cabig.c3pr.web.ajax;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,10 +16,7 @@ import org.extremecomponents.table.context.Context;
 import org.extremecomponents.table.context.HttpServletRequestContext;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
