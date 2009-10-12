@@ -60,7 +60,7 @@ function takeAction(primaryIdentifier){
 	var actionToTake = $('_actionToTake').value ;
 	submitStr='action=' + actionToTake+'&primaryIdentifier='+primaryIdentifier+'&effectiveDate='+effectDate+'&DO_NOT_SAVE=true';
 	if($("irbApprovalDate-"+primaryIdentifier)){
-		submitStr+='&'+$("irbApprovalDate-"+primaryIdentifier).name+'='+$("irbApprovalDate-"+primaryIdentifier).value;
+		submitStr+='&irbApprovalDate-'+primaryIdentifier+'='+$("irbApprovalDate-"+primaryIdentifier).value;
 	}
 	if($("targetAccrual-"+primaryIdentifier)){
 		submitStr+='&'+$("targetAccrual-"+primaryIdentifier).name+'='+$("targetAccrual-"+primaryIdentifier).value;
@@ -175,7 +175,7 @@ function confirmTakeAction(primaryIdentifier){
 			</div>
 			<div class="row">
 				<div class="label"><fmt:message key="c3pr.common.status" /></div>
-				<div class="value">${site.siteStudyStatus.code}&nbsp;&nbsp;<a href="#" onclick="showSiteStatusHistory('${site.healthcareSite.primaryIdentifier}');">Status history</a></div>
+				<div class="value">${site.siteStudyStatus.code} <c:if test="${fn:length(site.siteStatusHistory) > 1}"> &nbsp;&nbsp;<a href="#" onclick="showSiteStatusHistory('${site.healthcareSite.primaryIdentifier}');">Status history</a></c:if></div>
 			</div>
 			<c:if test="${site.nextPossibleSiteStatusHistory != null}">
 			<div class="row">
