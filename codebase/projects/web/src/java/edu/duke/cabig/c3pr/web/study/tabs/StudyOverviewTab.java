@@ -80,14 +80,16 @@ public class StudyOverviewTab extends StudyTab {
             		GregorianCalendar cal = new GregorianCalendar();
 					cal.setTime(study.getCurrentStudyAmendment().getVersionDate());
             		StudySiteStudyVersion studySiteStudyVersion = studySite.getStudySiteStudyVersion();
-            		AmendmentType amendmentType = study.getCurrentStudyAmendment().getAmendmentType() ;
-            		if(amendmentType == AmendmentType.IMMEDIATE){
-            			cal.add(Calendar.DATE, -1);
-            			studySiteStudyVersion.setEndDate(cal.getTime());
-            		}else if(amendmentType == AmendmentType.IMMEDIATE_AFTER_GRACE_PERIOD){
-            			int gracePeriod = study.getCurrentStudyAmendment().getGracePeriod();
-            			cal.add(Calendar.DATE, -1+gracePeriod);
-            			studySiteStudyVersion.setEndDate(cal.getTime());
+            		if(studySiteStudyVersion != null && studySiteStudyVersion.getEndDate()!= null){
+            			AmendmentType amendmentType = study.getCurrentStudyAmendment().getAmendmentType() ;
+                		if(amendmentType == AmendmentType.IMMEDIATE){
+                			cal.add(Calendar.DATE, -1);
+                			studySiteStudyVersion.setEndDate(cal.getTime());
+                		}else if(amendmentType == AmendmentType.IMMEDIATE_AFTER_GRACE_PERIOD){
+                			int gracePeriod = study.getCurrentStudyAmendment().getGracePeriod();
+                			cal.add(Calendar.DATE, -1+gracePeriod);
+                			studySiteStudyVersion.setEndDate(cal.getTime());
+                		}
             		}
             	}
             	studyRepository.merge(study);
