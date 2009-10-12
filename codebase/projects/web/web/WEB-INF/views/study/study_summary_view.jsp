@@ -150,7 +150,7 @@
    			var arr= $$("#targetAccrual");
    			win = new Window({className :"mac_os_x", title: "Update Target Accrual",
    									hideEffect:Element.hide,
-   									zIndex:100, width:500, height:150 , minimizable:false, maximizable:false, closable : false,
+   									zIndex:100, width:550, height:170 , minimizable:false, maximizable:false, closable : false,
    									showEffect:Element.show
    									})
    			win.setContent(arr[0]) ;
@@ -162,6 +162,13 @@
 			top:33px;
 		}
 	</style>
+	<!--[if lte IE 7]>
+	<style>
+		#targetAccrual button.omnipotent-button {
+			margin:0;
+		}
+	</style>
+<![endif]-->
 </head>
 
 <body>
