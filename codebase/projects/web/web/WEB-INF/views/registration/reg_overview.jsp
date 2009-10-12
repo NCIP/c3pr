@@ -8,7 +8,7 @@
 			top:30px;
 		}
     </style>
-
+	
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <script>
     	
@@ -319,7 +319,7 @@
 					<td class="alt" align="left">${orgIdentifier.healthcareSite.name} </td>
 			  </c:otherwise>
 			</c:choose>
-                <td class="alt" align="left">${orgIdentifier.type}</td>
+                <td class="alt" align="left">${orgIdentifier.type.displayName}</td>
                 <td class="alt" align="left">${orgIdentifier.value}</td>
             </tr>
         </c:forEach>
