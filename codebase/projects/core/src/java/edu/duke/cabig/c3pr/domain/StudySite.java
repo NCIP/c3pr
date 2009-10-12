@@ -553,17 +553,12 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 			StudyVersion studyVersion = study.getLatestActiveStudyVersion();
 			if(studyVersion != null){
 				studyVersion.addStudySiteStudyVersion(studySiteStudyVersion);
-//				studySiteStudyVersion.setStudyVersion(studyVersion);
 			}else{
-				study.getStudyVersion().addStudySiteStudyVersion(studySiteStudyVersion);
-//				studySiteStudyVersion.setStudyVersion(study.getStudyVersion());
+				studyVersion = study.getStudyVersion();
+				studyVersion.addStudySiteStudyVersion(studySiteStudyVersion);
 			}
 			//3. initializing startdate of study site study version to 100 years old so that for the first time, it is not invalid
-			Date currentDate = new Date();
-	        GregorianCalendar calendar = new GregorianCalendar();
-	        calendar.setTime(currentDate);
-	        calendar.add(calendar.YEAR, -100);
-	        studySiteStudyVersion.setStartDate(calendar.getTime());
+	        studySiteStudyVersion.setStartDate(studyVersion.getVersionDate());
 	        this.addStudySiteStudyVersion(studySiteStudyVersion);
 		}
 		if(getSiteStatusHistory().size() == 0){
