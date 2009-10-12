@@ -2,6 +2,10 @@
 <html>
 <head>
 	<style>
+		*{zoom:1}
+		#workflow-tabs {
+			top:25px;
+		}
 		#main {
 			top:33px;
 		}
