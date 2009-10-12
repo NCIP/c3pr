@@ -74,7 +74,7 @@
                 <xsl:value-of select="@xsi:type"/>
             </xsl:attribute>
             <xsl:apply-templates select="c3pr:healthcareSite"/>
-            <xsl:apply-templates select="c3pr:studyIvestigator"/>
+            <xsl:apply-templates select="c3pr:studyInvestigator"/>
             <xsl:if test="@xsi:type='StudySiteType'">
                 <xsl:copy-of select="./c3pr:name"/>
                 <xsl:copy-of select="./c3pr:siteStudyStatus"/>
@@ -91,12 +91,24 @@
             </nciInstituteCode>
         </healthcareSite>
     </xsl:template>
-    <xsl:template match="c3pr:studyIvestigator">
+    <xsl:template match="c3pr:studyInvestigator">
         <studyInvestigator xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
-            <xsl:copy>
-                <xsl:copy-of select="@*"/>
-                <xsl:apply-templates/>
-            </xsl:copy>
+            <xsl:copy-of select="./c3pr:roleCode"/>
+            <xsl:copy-of select="./c3pr:statusCode"/>
+            <xsl:copy-of select="./c3pr:startDate"/>
+            <xsl:copy-of select="./c3pr:endDate"/>
+            <xsl:apply-templates select="./c3pr:healthcareSiteInvestigator"/>
         </studyInvestigator>
+    </xsl:template>
+    <xsl:template match="c3pr:healthcareSiteInvestigator">
+        <healthcareSiteInvestigator xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+            <xsl:apply-templates select="./c3pr:investigator"/>
+        </healthcareSiteInvestigator>
+    </xsl:template>
+    <xsl:template match="c3pr:investigator">
+        <investigator xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+            <xsl:copy-of select="./c3pr:nciIdentifier"/>
+            <xsl:copy-of select="./c3pr:fullName"/>
+        </investigator>
     </xsl:template>
 </xsl:stylesheet>
