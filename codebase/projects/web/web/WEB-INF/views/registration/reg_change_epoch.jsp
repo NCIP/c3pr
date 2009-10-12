@@ -37,7 +37,6 @@ function registerSubject(transferEpochId, transferToStatus, parentStudySubject){
 		$("tc_offEpochReasonText").value=document.getElementById('offEpochReasonText').value;
 		$("transferCompanionEpoch").submit();
 	}else{
-		alert("in manage registration");
 		$("m_manage_epoch").value=transferEpochId;
 		$("m_offEpochDate").value=document.getElementById('offEpochDate').value;
 		$("m_offEpochReasonText").value=document.getElementById('offEpochReasonText').value;
@@ -63,15 +62,15 @@ input[disabled] {
 	<input type="hidden" name="studySubject.scheduledEpoch.offEpochReasonText" id="m_offEpochReasonText"/>
 </form>
 <form action="../registration/transferEpochRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="transferEpoch">
-	<input type="hidden" name="_page" id="_page0" value="0"/>
-	<input type="hidden" name="_target1" id="_target1" value="1"/>
+	<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
+	<input type="hidden" name="_target0" id="_target0" value="0"/>
 	<input type="hidden" name="epoch" id="edit_epoch"/>
 	<input type="hidden" name="studySubject.scheduledEpoch.offEpochDate" id="t_offEpochDate"/>
 	<input type="hidden" name="studySubject.scheduledEpoch.offEpochReasonText" id="t_offEpochReasonText"/>
 </form>
 <form action="../registration/transferEpochCompanionRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="transferCompanionEpoch">
-	<input type="hidden" name="_page" id="_page0" value="0"/>
-	<input type="hidden" name="_target1" id="_target1" value="1"/>
+	<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
+	<input type="hidden" name="_target0" id="_target0" value="0"/>
 	<input type="hidden" name="epoch" id="edit_epoch_companion"/>
 	<input type="hidden" name="studySubject.scheduledEpoch.offEpochDate" id="tc_offEpochDate"/>
 	<input type="hidden" name="studySubject.scheduledEpoch.offEpochReasonText" id="tc_offEpochReasonText"/>
