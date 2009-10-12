@@ -307,7 +307,7 @@ function confirmTakeAction(primaryIdentifier){
         <c:forEach items="${site.siteStatusHistory}" var="siteStatusHistory">
         <tr>
             <td>${siteStatusHistory.siteStudyStatus.displayName }</td>
-            <td>${siteStatusHistory.startDateStr }</td>
+            <td>${siteStatusHistory.siteStudyStatus == 'PENDING'? 'NA ' : siteStatusHistory.startDateStr }</td>
             <td>${siteStatusHistory.endDateStr }</td>
         </tr>
         </c:forEach>
