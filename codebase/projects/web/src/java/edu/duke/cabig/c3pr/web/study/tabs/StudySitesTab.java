@@ -210,22 +210,23 @@ public class StudySitesTab extends StudyTab {
 		study = studyDao.merge(study);
 		Map map = new HashMap();
 		String nciInstituteCode = request.getParameter("primaryIdentifier");
-		
-		
-		String irbApprovalDateStr = request.getParameter("irbApprovalDate-" + nciInstituteCode);
-		Date irbApprovalDate = DateUtil.getUtilDateFromString(irbApprovalDateStr, "MM/dd/yyyy");
-		
-		String studySiteType = request.getParameter("studySiteType");
-		List<Identifier> studyIdentifiers = study.getIdentifiers();
 		StudySite studySite;
 		EndPoint endPoint = null;
+		String studySiteType = request.getParameter("studySiteType");
 		if (StringUtils.isBlank(studySiteType)) {
 			studySite = study.getStudySite(nciInstituteCode);
 		} else {
 			studySite = study.getCompanionStudySite(nciInstituteCode);
 		}
 		
-		studySite.setIrbApprovalDate(irbApprovalDate);
+		String irbApprovalDateStr = request.getParameter("irbApprovalDate-" + nciInstituteCode);
+		Date irbApprovalDate;
+		if(StringUtils.isNotBlank(irbApprovalDateStr)){
+			irbApprovalDate = DateUtil.getUtilDateFromString(irbApprovalDateStr, "MM/dd/yyyy");	
+			studySite.setIrbApprovalDate(irbApprovalDate);
+		}
+		List<Identifier> studyIdentifiers = study.getIdentifiers();
+		
 		studySiteDao.merge(studySite);
 
 		APIName apiName = APIName.valueOf(request.getParameter("action"));
