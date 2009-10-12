@@ -30,7 +30,7 @@ public class ReviewSubmitTab extends RegistrationTab<StudySubjectWrapper> {
 		StudySubject studySubject = command.getStudySubject();
 		String armAssigned = "";
 		String armAssignedLabel = "";
-		if ((studySubject.getScheduledEpoch()).getScheduledArm() != null) {
+		if (studySubject.getScheduledEpoch().getScheduledArm() != null) {
 			if (studySubject.getStudySite().getStudy().getBlindedIndicator() && studySubject.getScheduledEpoch().getRequiresRandomization()) {
 				armAssigned = (studySubject.getScheduledEpoch())
 						.getScheduledArm().getKitNumber();
@@ -40,6 +40,8 @@ public class ReviewSubmitTab extends RegistrationTab<StudySubjectWrapper> {
 				armAssigned = (studySubject.getScheduledEpoch())
 						.getScheduledArm().getArm().getName();
 				armAssignedLabel = "Arm assigned";
+			} else if (studySubject.getScheduledEpoch().getEpoch().getArms().size() > 0){
+				armAssignedLabel="Arm not assigned";
 			}
 
 		}
