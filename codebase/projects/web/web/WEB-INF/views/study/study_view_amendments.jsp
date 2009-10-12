@@ -74,7 +74,7 @@ function applyAmendment(index){
 			<tr>
 				<td>${amendment.name}</td>
 				<td>${amendment.versionDateStr}</td>
-				<td>${amendment.mandatoryIndicator ? 'Yes' : 'No'}</td>
+				<td>${amendment.amendmentType.displayName }</td>
 				<td>${amendment.versionStatus.code}</td>
 				<td>
 					<c:choose>
