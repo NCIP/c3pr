@@ -1245,8 +1245,10 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	}
 
 	public void applyAmendment() {
-		if(this.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
-			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"),
+		if(this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL ||
+				this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT ||
+				this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING ){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_AMENDABLE.CODE"),
 					new String[] {this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 		if(this.getStudyVersion().getVersionStatus() == StatusType.AC){
@@ -1256,28 +1258,32 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		List<Error> errors = new ArrayList<Error>();
 		evaluateDataEntryStatus(errors) ;
 		if (errors.size() > 0) {
-			throw new C3PRInvalidDataEntryException(" Amendment cannot be applied because data entry is not complete", errors);
+			throw new C3PRInvalidDataEntryException("C3PR.EXCEPTION.STUDY.STUDY.AMENDMENT.DATAENTRY.INCOMPLETE.CODE", errors);
 		}
 		this.getStudyVersion().setVersionStatus(StatusType.AC);
 	}
 
 	public void applyAmendment(StudyVersion studyVersion){
-		if(this.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
-			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"),
+		if(this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL ||
+				this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT ||
+				this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING ){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_AMENDABLE.CODE"),
 					new String[] {this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 		List<Error> errors = new ArrayList<Error>();
 		studyVersion.evaluateDataEntryStatus(errors) ;
 		if (errors.size() > 0) {
-			throw new C3PRInvalidDataEntryException("Amendment cannot be applied because data entry is not complete", errors);
+			throw new C3PRInvalidDataEntryException("C3PR.EXCEPTION.STUDY.STUDY.AMENDMENT.DATAENTRY.INCOMPLETE.CODE", errors);
 		}
 		studyVersion.setVersionStatus(StatusType.AC);
 		this.addStudyVersion(studyVersion);
 	}
 
 	public void createAmendment() {
-		if(this.getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
-			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE"),
+		if(this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL ||
+				this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT ||
+				this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING ){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_AMENDABLE.CODE"),
 					new String[] {this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 		if(this.getStudyVersion().getVersionStatus() != StatusType.AC){
