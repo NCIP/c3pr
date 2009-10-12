@@ -45,7 +45,17 @@
             <xsl:attribute name="xsi:type">
                 <xsl:value-of select="@xsi:type"/>
             </xsl:attribute>
-            <xsl:copy-of select="./c3pr:type"/>
+            <xsl:choose>
+                <xsl:when test="./c3pr:type='COORDINATING_CENTER_IDENTIFIER'">
+                    <type xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">Coordinating Center Identifier</type>
+                </xsl:when>
+                <xsl:when test="./c3pr:type='PROTOCOL_AUTHORITY_IDENTIFIER'">
+                    <type xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">Protocol Authority Identifier</type>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:copy-of select="./c3pr:type"/>
+                </xsl:otherwise>
+            </xsl:choose>
             <xsl:copy-of select="./c3pr:value"/>
             <xsl:copy-of select="./c3pr:primaryIndicator"/>
             <xsl:choose>
