@@ -186,14 +186,6 @@ function redirectToTab(tabNumber){
 					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.startDateStr }' workflow='registration'/></div>
 				</div>
 				<div class="row">
-					<div class="label"><fmt:message key="registration.consentSignedDate"/>:</div>
-					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr}' workflow='registration'/></div>
-				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="registration.consentVersion"/>:</div>
-					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}' workflow='registration'/></div>
-				</div>
-				<div class="row">
 					<div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
 					<c:choose>
 						<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
@@ -241,6 +233,35 @@ function redirectToTab(tabNumber){
 				</div>
 			</div>
 	</chrome:division>
+	
+	<chrome:division title="Informed Consents">
+	 <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+	 		<tr>
+			  <th>
+	          	<fmt:message key="c3pr.common.name"/>
+	          </th>
+	          <th width="30%">
+	          	Signed
+	          </th>
+	          <th>
+	          	<fmt:message key="registration.consentSignedDate"/>
+	          </th>
+			</tr>
+			<c:forEach items="${command.studySubject.studySite.study.consents}" var="consent" varStatus="status">
+				<tr>
+					<td>
+						${consent.name}
+					</td>
+					<td>
+							${!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].consent ? "Yes" : "No"}
+					</td>
+					<td>
+						${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].informedConsentSignedDateStr} 
+					</td>
+				</tr>
+			</c:forEach>
+	</table>
+</chrome:division>
 	<chrome:division id="Eligibility" title="Eligibility" link="javascript:redirectToTab('${eligibilityTab}');">
 		<div class="leftpanel">
 		<div class="row">
