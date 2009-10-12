@@ -12,10 +12,6 @@ public class StudyRowInterceptor implements RowInterceptor {
 	
 	public void addRowAttributes(TableModel tableModel, Row row) {
 		// TODO Auto-generated method stub
-		/*    	String url = "document.location='" + VIEW_STUDY_URL + study.getId().toString() + "'";
-    	tableModel.getRowHandler().getRow().setOnclick(url);
-    	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");*/
-
 	}
 
 	public void modifyRowAttributes(TableModel model, Row row) {
