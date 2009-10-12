@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.web.registration;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +13,7 @@ import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.CompanionRegistrationTab;
@@ -51,6 +54,17 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     		throws Exception {
     	StudySubjectWrapper wrapper= (StudySubjectWrapper)super.formBackingObject(request);
     	ScheduledEpoch scheduledEpoch;
+    	
+    	if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.offEpochDate")){
+    		Date offEpochDate = new Date();
+    		offEpochDate = DateUtil.getUtilDateFromString(request.getParameter("studySubject.scheduledEpoch.offEpochDate"),"mm/dd/yyyy");
+    		wrapper.getStudySubject().getScheduledEpoch().setOffEpochDate(offEpochDate);
+    	}
+    	if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.offEpochReasonText")){
+    		String offEpochReasonText = request.getParameter("studySubject.scheduledEpoch.offEpochReasonText");
+    		wrapper.getStudySubject().getScheduledEpoch().setOffEpochReasonText(offEpochReasonText);
+    	}
+    	
     	if(WebUtils.hasSubmitParameter(request, "epoch")){
 	        Integer id = Integer.parseInt(request.getParameter("epoch"));
 	        Epoch epoch = epochDao.getById(id);
@@ -68,8 +82,14 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     	}
     	return wrapper;
     }
-
     @Override
+	protected void onBindOnNewForm(HttpServletRequest request, Object command)
+			throws Exception {
+		// TODO Auto-generated method stub
+		super.onBindOnNewForm(request, command);
+	}
+
+	@Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
