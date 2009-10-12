@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
+import javax.wsdl.OperationType;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -51,6 +52,7 @@ import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.caxchange.Credentials;
 import gov.nih.nci.caxchange.Message;
 import gov.nih.nci.caxchange.MessagePayload;
+import gov.nih.nci.caxchange.MessageTypes;
 import gov.nih.nci.caxchange.Metadata;
 import gov.nih.nci.caxchange.Request;
 import gov.nih.nci.caxchange.ResponseMessage;
@@ -172,7 +174,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         try {
             Message xchangeMessage = new Message();
 
-            Metadata mData = buildMetadata(localMetadata, messageDOM, credentials);
+            Metadata mData = buildMetadataForCoppa(localMetadata, messageDOM, credentials);
             xchangeMessage.setMetadata(mData);
             
             MessageElement messageElement = new MessageElement(messageDOM.getDocumentElement());
@@ -219,7 +221,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     	try {            
     		Message xchangeMessage = new Message();   
     		
-    		Metadata mData = buildMetadata(localMetadata, messageDOM, credentials);            
+    		Metadata mData = buildMetadataForCoppa(localMetadata, messageDOM, credentials);            
     		xchangeMessage.setMetadata(mData);   
     		
     		MessagePayload messagePayload = new MessagePayload();            
@@ -352,7 +354,27 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
 
     
     /**
-     * Builds the metadata.
+     * Builds the metadata for COPPa scenarios.
+     * 
+     * @param localMetadata the local metadata
+     * @param messageDOM the message dom
+     * @param creds the creds
+     * 
+     * @return the metadata
+     */
+    private Metadata buildMetadataForCoppa(edu.duke.cabig.c3pr.esb.Metadata localMetadata, Document messageDOM, Credentials creds) {
+    	Metadata mData = new Metadata();
+    	
+        mData.setOperationName(localMetadata.getOperationName());
+        mData.setExternalIdentifier(localMetadata.getExternalIdentifier());
+        mData.setServiceType(localMetadata.getServiceType());
+        //will be removed. temp
+        mData.setCredentials(creds);
+        return mData;
+    }
+    
+    /**
+     * Builds the metadata For interoperability.
      * 
      * @param localMetadata the local metadata
      * @param messageDOM the message dom
@@ -362,10 +384,10 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
      */
     private Metadata buildMetadata(edu.duke.cabig.c3pr.esb.Metadata localMetadata, Document messageDOM, Credentials creds) {
     	Metadata mData = new Metadata();
-    	
-        mData.setOperationName(localMetadata.getOperationName());
+        //mData.setOperationName(OperationNameEnum.PROCESS.getName());
+        mData.setServiceType((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName()));
         mData.setExternalIdentifier(localMetadata.getExternalIdentifier());
-        mData.setServiceType(localMetadata.getServiceType());
+
         //will be removed. temp
         mData.setCredentials(creds);
         return mData;
