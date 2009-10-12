@@ -181,7 +181,7 @@ function redirectToTab(tabNumber){
 	</chrome:division>
 	<chrome:division id="enrollment" title="Enrollment Details"  link="javascript:redirectToTab('${enrollmentTab}');">
 			<div class="leftpanel">
-			<c:if test="${command.studySubject.scheduledEpoch.epoch.reservationIndicator != 'true'}">
+			<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'true'}">
 			
 				<div class="row">
 					<div class="label"><fmt:message key="registration.startDate"/>:</div>
