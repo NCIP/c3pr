@@ -100,6 +100,10 @@
 	.descTextarea {
 		width: 280px;
 	}
+	*{zoom:1}
+	#workflow-tabs {
+	top:25px;
+}
 </style>
 <!--[if IE]>
 <style>

@@ -3,7 +3,9 @@
 <head>
 <title><studyTags:htmlTitle study="${command.study}" /></title>
 <style>
-.tablecontent .division {
+* {zoom:1}
+#workflow-tabs {
+	top:25px;
 }
 </style>
 <script>
