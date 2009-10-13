@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Required;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
-import edu.duke.cabig.c3pr.esb.CaXchangeMessageResponseHandler;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.caxchange.MessagePayload;
 import gov.nih.nci.caxchange.Response;
