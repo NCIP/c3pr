@@ -23,6 +23,22 @@
            } catch(ex) {
            }
         }
+
+       function manageTreatmentIndicatorSelectBox(box, index) {
+           if (isNaN(index)) return;
+           try {
+               if (box.value == 'false') {
+                   $('study.epochs[' + index + '].reservationIndicator').disabled = false;
+                   $('study.epochs[' + index + '].enrollmentIndicator').disabled = false;
+               } else {
+                   $('study.epochs[' + index + '].reservationIndicator').disabled = true;
+                   $('study.epochs[' + index + '].enrollmentIndicator').disabled = true;
+                   $('study.epochs[' + index + '].enrollmentIndicator').value = true;
+                   $('study.epochs[' + index + '].reservationIndicator').value = false;
+               }
+           } catch(ex) {
+           }
+        }
         
        	function manageReservingIndicatorSelectBox(box, index) {
              if (isNaN(index)) return;
@@ -170,7 +186,7 @@ DELETED TD
 		</td>
         <td>
 			<form:select path="study.epochs[${treatmentEpochCount.index}].treatmentIndicator" disabled="${treatmentEpoch.reservationIndicator}"
-											cssClass="validate-notEmpty">
+											cssClass="validate-notEmpty" onchange="manageTreatmentIndicatorSelectBox(this,${treatmentEpochCount.index});">
                     <option value="">Please Select</option>
                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 			</form:select>
@@ -420,7 +436,7 @@ DELETED TD
 							<td align="left"><select
 								id="study.epochs[PAGE.ROW.INDEX].treatmentIndicator"
 								name="study.epochs[PAGE.ROW.INDEX].treatmentIndicator"
-								onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);"
+								onchange="manageTreatmentIndicatorSelectBox(this,PAGE.ROW.INDEX);"
 								class="validate-notEmpty">
 								<option value="">Please Select</option>
 								<option value="true">Yes</option>
