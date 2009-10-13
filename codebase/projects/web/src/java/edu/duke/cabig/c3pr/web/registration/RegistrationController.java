@@ -16,6 +16,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
@@ -313,6 +314,8 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
                         ScheduledEpochWorkFlowStatus.class));
         binder.registerCustomEditor(ICD9DiseaseSiteCodeDepth.class, new EnumByNameEditor(
         		ICD9DiseaseSiteCodeDepth.class));
+        binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor(
+        		OrganizationIdentifierTypeEnum.class));
 
     }
 
