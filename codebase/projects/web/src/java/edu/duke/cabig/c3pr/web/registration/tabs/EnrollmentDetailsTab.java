@@ -130,7 +130,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 	    	Date date = command.getStudySubject().getStartDate();
 		    if(date !=null){
 		    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-					if(date.before(studySubjectConsentVersion.getInformedConsentSignedDate())){
+					if(studySubjectConsentVersion.getInformedConsentSignedDate()!= null &&  date.before(studySubjectConsentVersion.getInformedConsentSignedDate())){
 						errors.reject("studySubject.startDate", "Registration start date cannot be before the informed consent signed date");
 					}
 				}
