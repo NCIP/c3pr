@@ -1840,9 +1840,9 @@ public class StudyTestCase extends AbstractTestCase {
 
 	public void testCreateAmendment() throws Exception {
 		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(239),EasyMock.aryEq(new String[]
-        {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() }))).andReturn( new C3PRCodedRuntimeException(239, "exception message"));
-		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE",null, null)).andReturn("239");
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(368),EasyMock.aryEq(new String[]
+        {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() }))).andReturn( new C3PRCodedRuntimeException(368, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STUDY_NOT_AMENDABLE.CODE",null, null)).andReturn("368");
 		replayMocks();
 		try {
 			basicStudy.createAmendment();
@@ -1885,9 +1885,9 @@ public class StudyTestCase extends AbstractTestCase {
 
 	public void testApplyAmendmentWithStudyVersion() throws Exception {
 		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(239),EasyMock.aryEq(new String[]
-        {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() }))).andReturn( new C3PRCodedRuntimeException(239, "exception message"));
-		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STUDY_NOT_OPEN.CODE",null, null)).andReturn("239");
+		EasyMock.expect(c3prExceptionHelper.getRuntimeException(EasyMock.eq(368),EasyMock.aryEq(new String[]
+        {basicStudy.getCoordinatingCenterStudyStatus().getDisplayName() }))).andReturn( new C3PRCodedRuntimeException(368, "exception message"));
+		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.STUDY_NOT_AMENDABLE.CODE",null, null)).andReturn("368");
 
 		StudyVersion studyVersion = registerMockFor(StudyVersion.class);
 		replayMocks();
