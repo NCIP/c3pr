@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.DateUtil;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.CompanionRegistrationTab;
@@ -55,12 +56,16 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     	StudySubjectWrapper wrapper= (StudySubjectWrapper)super.formBackingObject(request);
     	ScheduledEpoch scheduledEpoch;
     	
-    	if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.offEpochDate")){
-    		Date offEpochDate = new Date();
+    	if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.offEpochDate") && 
+    			!StringUtils.isBlank(request.getParameter("studySubject.scheduledEpoch.offEpochReasonText"))){
+    		Date offEpochDate;
     		offEpochDate = DateUtil.getUtilDateFromString(request.getParameter("studySubject.scheduledEpoch.offEpochDate"),"mm/dd/yyyy");
     		wrapper.getStudySubject().getScheduledEpoch().setOffEpochDate(offEpochDate);
     	}
-    	if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.offEpochReasonText")){
+    	
+    	
+    	if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.offEpochReasonText") &&
+    			!StringUtils.isBlank(request.getParameter("studySubject.scheduledEpoch.offEpochReasonText"))){
     		String offEpochReasonText = request.getParameter("studySubject.scheduledEpoch.offEpochReasonText");
     		wrapper.getStudySubject().getScheduledEpoch().setOffEpochReasonText(offEpochReasonText);
     	}
