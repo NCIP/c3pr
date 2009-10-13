@@ -461,32 +461,12 @@
 </div>
 </chrome:division>
 <chrome:division title="Informed Consents">
-	 <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-	 		<tr>
-			  <th>
-	          	<fmt:message key="c3pr.common.name"/>
-	          </th>
-	          <th width="30%">
-	          	Signed
-	          </th>
-	          <th>
-	          	<fmt:message key="registration.consentSignedDate"/>
-	          </th>
-			</tr>
-			<c:forEach items="${command.studySubject.studySite.study.consents}" var="consent" varStatus="status">
-				<tr>
-					<td>
-						${consent.name}
-					</td>
-					<td>
-							${!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].consent ? "Yes" : "No"}
-					</td>
-					<td>
-						${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].informedConsentSignedDateStr} 
-					</td>
-				</tr>
-			</c:forEach>
-	</table>
+	 <c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+				<div class="row">
+					<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
+					<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</div>
+				</div>
+	</c:forEach>
 </chrome:division>
 
 
@@ -505,7 +485,7 @@
                   varStatus="organizationStatus">
             <tr>
                 <td>${orgIdentifier.healthcareSite.name}</td>
-                <td>${orgIdentifier.type}</td>
+                <td>${orgIdentifier.type.displayName}</td>
                 <td>${orgIdentifier.value}</td>
                 <td>${orgIdentifier.primaryIndicator?'Yes':'No'}</td>
                    

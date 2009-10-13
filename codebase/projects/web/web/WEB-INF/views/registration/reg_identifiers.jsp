@@ -85,7 +85,7 @@ function manageIdentifierRadio(element){
 					begin="0" varStatus="organizationStatus">
 					<tr id="organizationIdentifier-${organizationStatus.index}">
 						<td>${orgIdentifier.healthcareSite.name}</td>
-						<td>${orgIdentifier.type}</td>
+						<td>${orgIdentifier.type.displayName}</td>
 						<td>${orgIdentifier.value}</td>
 						<td>${orgIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="studySubject.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
 						<td><a

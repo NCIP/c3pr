@@ -102,7 +102,7 @@ input[disabled] {
 
 <chrome:division title="Off Epoch Details">
 
-<table border="0" cellspacing="5px" cellpadding="5" class="tablecontent"  width="100%">
+<table border="0" cellspacing="5px" cellpadding="5"  width="100%">
 	<tr>
 		<td><b>Off epoch reason text:</b></td>
 		<td><textarea name="offEpochReasonText" id="offEpochReasonText" rows="2" cols="30" class="validate-notEmpty&&maxlength1024"></textarea>

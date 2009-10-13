@@ -20,14 +20,12 @@
                 <div class="value">${command.studySubject.offStudyDateStr }</div>
             </div>
         </c:if>
-        <div class="row">
-            <div class="label"><fmt:message key="registration.consentSignedDate"/>:</div>
-            <div class="value">${command.studySubject.informedConsentSignedDateStr }</div>
-        </div>
-        <div class="row">
-            <div class="label"><fmt:message key="registration.consentVersion"/>:</div>
-            <div class="value">${command.studySubject.informedConsentVersion}</div>
-        </div>
+        <c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+				<div class="row">
+					<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
+					<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</div>
+				</div>
+			</c:forEach>
 	</div>
 	<div class="rightpanel">
         <div class="row">

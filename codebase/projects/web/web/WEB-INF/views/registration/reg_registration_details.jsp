@@ -330,11 +330,14 @@ function setVersion(box,index){
 
 checkRegistrationDate = function(cal){
 	cal.hide();
-	Element.show('consentSignedDate-indicator');
-	$('updateStudyVersion').value='false';
-	$('dontSave').value='false';
-	$('consentSignedDate').value=$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value;
-	<tags:tabMethod method="validateRegistrationDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateDiv'" formName="'studyVersionForm'" onComplete="displayStudyVersionError"/>
+	if($('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value != null &&
+			$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value != ''){
+		Element.show('consentSignedDate-indicator');
+		$('updateStudyVersion').value='false';
+		$('dontSave').value='false';
+		$('consentSignedDate').value=$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value;
+		<tags:tabMethod method="validateRegistrationDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateDiv'" formName="'studyVersionForm'" onComplete="displayStudyVersionError"/>
+	}
 }
 
 displayStudyVersionError = function(){
@@ -418,7 +421,7 @@ function changeStudyVersion(){
 	
 	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'false'}">
 		<div class="row">
-			<div class="label"><tags:requiredIndicator /><fmt:message key="scheduledEpoch.startDate"/></div>
+			<div class="label"><tags:requiredIndicator /><b>${command.studySubject.scheduledEpoch.epoch.name} epoch start date</b></div>
 			<div class="value">
 				<form:input path="studySubject.scheduledEpoch.startDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
 				<a href="#" id="studySubject.scheduledEpoch.startDate-calbutton">
@@ -570,7 +573,7 @@ function changeStudyVersion(){
 <!--  CONSENT DIV BEGINS -->
 
 <c:if test="${fn:length(command.studySubject.studySite.study.consents) > 1}">
-<chrome:division title="Consents (${selectionHelp})">
+<chrome:division title="Consents">
 	<table class="tablecontent">
 		<tr>
 		  <th>

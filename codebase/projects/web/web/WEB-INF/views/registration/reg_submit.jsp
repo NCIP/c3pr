@@ -181,25 +181,36 @@ function redirectToTab(tabNumber){
 	</chrome:division>
 	<chrome:division id="enrollment" title="Enrollment Details"  link="javascript:redirectToTab('${enrollmentTab}');">
 			<div class="leftpanel">
-			<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'true'}">
-			
-				<div class="row">
-					<div class="label"><fmt:message key="registration.startDate"/>:</div>
-					<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.startDateStr }' workflow='registration'/></div>
-				</div>
+				<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'true'}">
 				
-			</c:if>
-				<div class="row">
-					<div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
-					<c:choose>
-						<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
-							<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
-						</c:when>
-						<c:otherwise>
-							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
-						</c:otherwise>
-					</c:choose>
-				</div>
+					<div class="row">
+						<div class="label"><fmt:message key="registration.startDate"/>:</div>
+						<div class="value"><tags:requiredFieldEmptyIndicator value='${command.studySubject.startDateStr }' workflow='registration'/></div>
+					</div>
+					
+				</c:if>
+					<div class="row">
+						<div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
+						<c:choose>
+							<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
+								<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div class="row">
+						<div class="label"><fmt:message key="registration.paymentMethod"/>:</div>
+						<c:choose>
+							<c:when test="${!empty command.studySubject.paymentMethod}">
+								<div class="value">${command.studySubject.paymentMethod}</div>
+							</c:when>
+							<c:otherwise>
+								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+							</c:otherwise>
+						</c:choose>
+					</div>
 			</div>
 			<div class="rightpanel">
 				<div class="row">
@@ -224,47 +235,24 @@ function redirectToTab(tabNumber){
 						</c:otherwise>
 					</c:choose>
 				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="registration.paymentMethod"/>:</div>
-					<c:choose>
-						<c:when test="${!empty command.studySubject.paymentMethod}">
-							<div class="value">${command.studySubject.paymentMethod}</div>
-						</c:when>
-						<c:otherwise>
-							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
-						</c:otherwise>
-					</c:choose>
-				</div>
 			</div>
 	</chrome:division>
 	
 	<chrome:division title="Informed Consents">
-	 <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-	 		<tr>
-			  <th>
-	          	<fmt:message key="c3pr.common.name"/>
-	          </th>
-	          <th width="30%">
-	          	Signed
-	          </th>
-	          <th>
-	          	<fmt:message key="registration.consentSignedDate"/>
-	          </th>
-			</tr>
-			<c:forEach items="${command.studySubject.studySite.study.consents}" var="consent" varStatus="status">
-				<tr>
-					<td>
-						${consent.name}
-					</td>
-					<td>
-							${!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].consent ? "Yes" : "No"}
-					</td>
-					<td>
-						${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].informedConsentSignedDateStr} 
-					</td>
-				</tr>
+		<c:choose>
+			<c:when test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions)> 0}">
+				<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+				<div class="row">
+					<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
+					<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</div>
+				</div>
 			</c:forEach>
-	</table>
+			</c:when>
+			<c:otherwise>
+			 The subject has not signed any consent forms.
+			</c:otherwise>
+		</c:choose>
+	
 </chrome:division>
 	<chrome:division id="Eligibility" title="Eligibility" link="javascript:redirectToTab('${eligibilityTab}');">
 		<div class="leftpanel">
