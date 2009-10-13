@@ -35,15 +35,12 @@ public class ReviewSubmitTab extends RegistrationTab<StudySubjectWrapper> {
 				armAssigned = (studySubject.getScheduledEpoch())
 						.getScheduledArm().getKitNumber();
 				armAssignedLabel = "Kit assigned";
-			} else if ((studySubject.getScheduledEpoch()).getScheduledArm()
+			} else if (studySubject.getScheduledEpoch().getScheduledArm()
 					.getArm() != null) {
 				armAssigned = (studySubject.getScheduledEpoch())
 						.getScheduledArm().getArm().getName();
 				armAssignedLabel = "Arm assigned";
-			} else if (studySubject.getScheduledEpoch().getEpoch().getArms().size() > 0){
-				armAssignedLabel="Arm not assigned";
-			}
-
+			} 
 		}
 		
 		map.put("companions", registrationControllerUtils.getCompanionStudySubject(studySubject.getSystemAssignedIdentifiers().get(0), studySubject));
