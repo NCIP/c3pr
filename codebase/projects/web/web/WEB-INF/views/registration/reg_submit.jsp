@@ -163,7 +163,15 @@ function redirectToTab(tabNumber){
 	            <div class="label"><fmt:message key="study.epoch.arm"/>:</div>
 	            <c:choose>
 	            	<c:when test="${empty armAssignedLabel}">
-	            		<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notApplicable"/></span></div>
+	            		<c:choose>
+	            			<c:when test="${fn:length(command.studySubject.scheduledEpoch.epoch.arms > 0)}">
+	            				<font color="red"> Arm not assigned</font> 
+	            				
+	            			</c:when>
+	            			<c:otherwise>
+	            				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notApplicable"/></span></div>
+	            			</c:otherwise>
+	            		</c:choose>
 	            	</c:when>
 	            	<c:otherwise>
 	            		<div class="value">${armAssigned}</div>
