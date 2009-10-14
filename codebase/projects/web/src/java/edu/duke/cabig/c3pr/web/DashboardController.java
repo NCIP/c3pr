@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.web;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
 
@@ -154,7 +155,7 @@ public class DashboardController extends ParameterizableViewController {
                         "id");
         log.debug("Open studies found: " + studies.size());
 
-        Calendar cal = Calendar.getInstance();
+    	GregorianCalendar cal = new GregorianCalendar();
         Date endDate = new Date(System.currentTimeMillis());
         cal.setTime(endDate);
         cal.roll(Calendar.DATE, -6);
@@ -169,8 +170,7 @@ public class DashboardController extends ParameterizableViewController {
     private void getRecentPendingStudies(HttpServletRequest request) {
         Study study = new LocalStudy(true);
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-        List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending",
-                        "id");
+        List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending", "id");
         log.debug("Pending studies found: " + studies.size());
         request.setAttribute("pStudies", studies);
     }
