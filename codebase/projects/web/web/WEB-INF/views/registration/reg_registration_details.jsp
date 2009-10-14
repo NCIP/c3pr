@@ -42,6 +42,35 @@ var diseaseSiteAutocompleterProps = {
 }
 AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
 ValidationManager.submitPostProcess=function(formElement, flag){
+								var consentsNumber = ${fn:length(command.studySubject.studySite.study.consents)};
+								 atLeastOneConsentSelected = false;
+								 allConsentsSelected = true;
+									for(var i=0; i <consentsNumber; i++){
+										var informedConsentDate = document.getElementById("studySubject.studySubjectStudyVersion.studySubjectConsentVersions["+i+"].informedConsentSignedDate");
+										if (informedConsentDate.value != null && informedConsentDate.value != ''){
+											atLeastOneConsentSelected=true;
+										}else{
+											allConsentsSelected = false;
+										}
+									}
+							if (${command.studySubject.studySite.study.consentRequired == 'ONE'}){
+									var error = document.getElementById("errorMsg1");
+									if(!atLeastOneConsentSelected){
+										if(${fn:length(command.studySubject.studySite.study.consents) > 1}){
+											error.innerHTML="<span id='sid1' style='color:#EE3324'>At least one consent needs to be signed.</span><br/>";
+										} else {
+											error.innerHTML="<span id='sid1' style='color:#EE3324'>Consent is required.</span><br/>";
+										}
+										error.style.display="";
+									}else {error.style.display= "none" ;}
+							} else if (${command.studySubject.studySite.study.consentRequired == 'ALL'}){
+								var error = document.getElementById("errorMsg1");
+									if(!allConsentsSelected){
+										error.innerHTML="<span id='sid1' style='color:#EE3324'>All consents need to be signed.</span><br/>";
+										error.style.display="";
+									} else {error.style.display="none";}
+							}
+									
 							if(formElement.id!='command' || !flag)
 								return flag;
 							if(${hasInv} && $("treatingPhysician").value=="" && $("studySubject.otherTreatingPhysician").value==""){
@@ -408,6 +437,9 @@ function changeStudyVersion(){
 	<input type="hidden" id="dontSave" name="dontSave" value="true"/>
 </form:form>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
+	<div id="errorMsg1" style="display:none">
+	</div>
+
 <%--<tags:instructions code="enrollment_details" />--%>
 
 	<c:choose>
@@ -421,7 +453,7 @@ function changeStudyVersion(){
 	
 	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'false'}">
 		<div class="row">
-			<div class="label"><tags:requiredIndicator /><b>${command.studySubject.scheduledEpoch.epoch.name} epoch start date</b></div>
+			<div class="label"><tags:requiredIndicator /><b>${command.studySubject.scheduledEpoch.epoch.name} start date</b></div>
 			<div class="value">
 				<form:input path="studySubject.scheduledEpoch.startDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
 				<a href="#" id="studySubject.scheduledEpoch.startDate-calbutton">
@@ -495,9 +527,15 @@ function changeStudyVersion(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em></div>
 			<div class="value">
-				<input type="checkbox" name="studySubject.currentVersionIndicator" value="true" onclick="setVersion(this,0);"
-					${(fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1 && 
-									!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent) ? "checked" : ""}/>
+				<c:choose>
+					<c:when test="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate != null &&
+							command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate != ''}">			
+							 <font color="#254117"> yes </font> (<em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em>)
+					</c:when>
+					<c:otherwise>
+							<font color="red"> no </font> (<em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em>)
+					</c:otherwise>
+				</c:choose>
 				<tags:hoverHint keyProp="studySubject.informedConsentSigned"/></div>
 		</div>
 	</c:if>
@@ -506,7 +544,7 @@ function changeStudyVersion(){
 		<div class="value">
 		<c:choose>
 		<c:when test="${hasInv}">
-			<select id ="treatingPhysician" name="studySubject.treatingPhysician">
+			<select id ="treatingPhysician" name="studySubject.treatingPhysician" class="validate-notEmpty">
 				<option value="">Please select...</option>
 				<c:forEach items="${command.studySubject.studySite.activeStudyInvestigators}" var="activeInv">
 					<option value="${activeInv.id }" ${!empty command.studySubject.treatingPhysician && command.studySubject.treatingPhysician.id==activeInv.id?'selected':''}>${activeInv.healthcareSiteInvestigator.investigator.fullName }</option>
@@ -602,9 +640,15 @@ function changeStudyVersion(){
 					<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
 				</td>
 				<td>
-					<input type="checkbox" name="studySubject.currentVersionIndicator-${status.index }" value="true" onclick="setVersion(this,${status.index});"
-						${!empty command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].consent ? "checked" : ""}/>
-					<tags:hoverHint keyProp="studySubject.informedConsentSigned"/></div>
+					<c:choose>
+						<c:when test="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].informedConsentSignedDate != null &&
+								command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].informedConsentSignedDate != ''}">			
+								 <font color="#254117"> yes </font>
+						</c:when>
+						<c:otherwise>
+								<font color="red"> no </font>
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 		</c:forEach>
