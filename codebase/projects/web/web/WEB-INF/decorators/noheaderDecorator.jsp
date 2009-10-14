@@ -21,7 +21,7 @@
 </head>
 
 <body>
-
+<tags:ajaxLoadingIndicator/>
 <c:set var="__decorator_title"><decorator:title/></c:set>
 
 <chrome:noheaderbody title="${__decorator_title}">

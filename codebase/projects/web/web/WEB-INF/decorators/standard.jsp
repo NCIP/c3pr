@@ -21,6 +21,7 @@
 </head>
 
 <body>
+<tags:ajaxLoadingIndicator/>
 <div id="all">
 <layout:header/>
 

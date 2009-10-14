@@ -30,6 +30,7 @@
 </head>
 
 <body>
+	<tags:ajaxLoadingIndicator/>
 <c:set var="studySubject" value="${command}" scope="request"/>
 <div class="tabpane">
 <c:choose>

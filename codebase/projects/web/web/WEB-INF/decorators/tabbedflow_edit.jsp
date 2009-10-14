@@ -23,6 +23,7 @@
 </head>
 
 <body>
+<tags:ajaxLoadingIndicator/>
 <script language="JavaScript1.2">
 <c:forEach items="${flow.tabs}" var="atab" varStatus="status">
     <c:set var="selected" value="${atab.number == tab.number}"/>

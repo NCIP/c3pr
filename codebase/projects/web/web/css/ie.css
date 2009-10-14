@@ -14,3 +14,6 @@ button.omnipotent-button {
 button.omnipotent-button.small {
 	margin:0;
 }
+#ajax-loading-indictor #spinning-logo {
+    margin: auto -9%;
+}

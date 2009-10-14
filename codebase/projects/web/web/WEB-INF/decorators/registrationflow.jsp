@@ -27,6 +27,7 @@
 </head>
 
 <body>
+	<tags:ajaxLoadingIndicator/>
 	<%--<c:set var="roboHelpKey">ROBOHELP_${tab.class.name}</c:set>
     <spring:message var="roboHelpLink" code="${roboHelpKey}" text="NO_${roboHelpKey}"/>--%>
 <div id="all">

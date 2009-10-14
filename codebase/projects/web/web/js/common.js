@@ -285,6 +285,8 @@ function confirmationMessage(message){
 
 function openInfoDialog()
 { 
-	//Dialog.info('<img alt="http://www.usaautowarranty.com/images/progress_bar.gif" src="http://www.usaautowarranty.com/images/progress_bar.gif">', {width:380, height:80, className:'alert_lite'});
-	Dialog.info('<img src="/c3pr/images/Please_Wait.gif"><div><h3>Please Wait... Loading</h3></div>', {width:280, height:230, className:'alert_lite'});
+	var elIndicator =  $('ajax-loading-indictor');
+	 if(elIndicator) {
+	 	elIndicator.show();
+    }
 }
