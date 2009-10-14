@@ -385,7 +385,6 @@
           autowire="byName"/>
 
     <bean id="remoteEntityInterceptor" class="com.semanticbits.coppa.infrastructure.hibernate.RemoteEntityInterceptor" lazy-init="true">
-    	<property name="enabled" value="${coppaEnable}"/>
     	<property name="remoteSession" ref="remoteSession"/>
     </bean>
 
