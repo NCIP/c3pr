@@ -113,20 +113,25 @@
     	
     </script>
 <style>
-	.descTextarea {
-		width: 280px;
-	}
 	*{zoom:1}
-	#workflow-tabs {
-	top:25px;
-}
 </style>
-<!--[if IE]>
-<style>
-	.descTextarea {
-    	width:280px;
-	}
-</style>
+<!--[if lte IE 7]>
+	<style>
+		.descTextarea {
+	    	width:280px;
+		}
+		#workflow-tabs {
+			top:25px;
+		}
+		#workflow-tabs li.selected {
+			margin-top:-4px;
+			padding-top:4px;
+		}
+		#workflow-tabs li.selected a{
+			padding-bottom:1px;
+			padding-top:1px;
+		}
+	</style>
 <![endif]-->
 
 <%--
@@ -362,7 +367,6 @@ DELETED TD
 </c:forEach>
 </table>
 <!-- BIG TABLE END -->
- <hr noshade size="1" width="100%" style="border-top: 1px black dotted;" align="left">
 	<div align="left">
 	<tags:button type="button" color="blue" icon="add" value="Add Epoch"
 	onclick="$('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps)" />

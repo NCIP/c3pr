@@ -13,6 +13,7 @@
 <html>
 <head>
     <title><decorator:title /></title>
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <link rel="shortcut icon" href="<tags:imageUrl name="favicon.ico"/>" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 

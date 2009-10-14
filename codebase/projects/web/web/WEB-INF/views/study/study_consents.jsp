@@ -3,9 +3,6 @@
 <head>
 	<style>
 		*{zoom:1}
-		#workflow-tabs {
-			top:25px;
-		}
 		#main {
 			top:33px;
 		}
@@ -19,6 +16,21 @@
 			font-weight:bold;
 		}
 	</style>
+<!--[if lte IE 7]>
+	<style>
+		#workflow-tabs {
+			top:25px;
+		}
+		#workflow-tabs li.selected {
+			margin-top:-4px;
+			padding-top:4px;
+		}
+		#workflow-tabs li.selected a{
+			padding-bottom:1px;
+			padding-top:1px;
+		}
+	</style>
+<![endif]-->
     <title><studyTags:htmlTitle study="${command.study}" /></title>
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
     <script type="text/javascript">
@@ -117,7 +129,7 @@
 </c:forEach>
 </table>
 <!-- BIG TABLE END -->
- <hr noshade size="1" width="100%" style="border-top: 1px black dotted;" align="left">
+
 	<div align="left">
 	<tags:button type="button" color="blue" icon="add" value="Add Consent" size="small"
 	onclick="$('dummy-genericConsent').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericConsentRowInserterProps)" />

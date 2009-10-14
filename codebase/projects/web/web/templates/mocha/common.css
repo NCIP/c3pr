@@ -13,7 +13,7 @@ body {
 	background-position: center;
 }
 #all {
-	width:980px;
+	width:979px;
 	margin:0px auto;
 	text-align:left;
 	position:relative;
@@ -423,7 +423,7 @@ width:100%;
 background-image:url(images/header_bg.png);
 background-position:center top;
 height:100px;
-width:100%;
+width:980px;
 }
 #headerTitle1 {
 	background: url(../../images/C3PR_name.png) no-repeat left;
