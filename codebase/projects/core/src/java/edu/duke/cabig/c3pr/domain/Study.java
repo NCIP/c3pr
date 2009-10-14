@@ -1198,9 +1198,18 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 
     @Transient
     public StudyVersion getCurrentStudyAmendment(){
-        if(getLatestStudyVersion().getVersionStatus() == StatusType.IN){
-            return getLatestStudyVersion() ;
-        }
+    	List<StudyVersion> amendmentVersions = new ArrayList<StudyVersion>();
+    	for(StudyVersion version : getStudyVersions()){
+    		if(version.getVersionStatus() == StatusType.IN){
+    			amendmentVersions.add(version);
+    		}
+    	}
+    	if(amendmentVersions.size() > 1){
+    		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_IS_CORRUPTED_MULTIPLE_INCOMPLETE_AMENDMENT"),
+					new String[] {this.getCoordinatingCenterStudyStatus().getDisplayName() });
+    	}else if(amendmentVersions.size() == 1){
+    		return amendmentVersions.get(0);
+    	}
         return null ;
     }
 

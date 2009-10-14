@@ -488,9 +488,11 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 			return;
 		}
 		if(coCenterStudyVersion.getAmendmentType() == AmendmentType.IMMEDIATE_AFTER_GRACE_PERIOD){
-//			long daysLeft = (studySiteStudyVersion.getEndDate().getTime() - new Date().getTime()) / (1000*60*60*24);
-			throw getC3PRExceptionHelper().getRuntimeException(
-                    getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.GRACE.CODE"));
+			long daysLeft = 0;
+			if(studySiteStudyVersion.getEndDate() != null){
+				daysLeft = (studySiteStudyVersion.getEndDate().getTime() - new Date().getTime()) / (1000*60*60*24);
+			}
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.GRACE.CODE"),new String[]  {Long.toString(daysLeft)});
 		}
 		if(coCenterStudyVersion.getAmendmentType() == AmendmentType.OPTIONAL){
 			throw getC3PRExceptionHelper().getRuntimeException(

@@ -21,7 +21,6 @@ function amendmentTypeChanged(){
 
 ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	    if(formElement.id=="command" && continueSubmission){
-	    	validateAmendmentReasons();
 	 	}
 	return continueSubmission;
 } 
@@ -46,7 +45,7 @@ function validateAmendmentReasons(){
 <form:form name="myform" cssClass="standard">
 	<tags:tabFields tab="${tab}" />
 	<chrome:box title="Amendment Details">
-		<tags:errors path="*" />
+		<tags:errors path="study.studyVersions" />
 		<chrome:division id="study-amendments">
 			<div class="row">
 				<div class="label"><tags:requiredIndicator /><fmt:message key="study.versionNameNumber" /></div>
