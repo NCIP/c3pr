@@ -21,10 +21,23 @@ function amendmentTypeChanged(){
 
 ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	    if(formElement.id=="command" && continueSubmission){
-	        
+	    	validateAmendmentReasons();
 	 	}
 	return continueSubmission;
 } 
+
+function validateAmendmentReasons(){
+	var alreadyChecked = false ;
+	$$('.amendmentReason').each(function(element){
+		if(element.checked ){
+			alreadyChecked = true ;
+		}
+	});
+	if(!alreadyChecked){
+		Dialog.alert("Please select atleast one amendment reason", {className: "alphacube", width:240, okLabel: "Done" });
+		return;
+	}
+}
 
 
 </script>
@@ -76,27 +89,27 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			<table>
                       <tr>
                       	<td width="25%"><b><fmt:message key="study.basicDetails"/></b></td>
-                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="DETAIL"/></td>
+                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="DETAIL" cssClass="amendmentReason"/></td>
                           <td width="25%"><b><fmt:message key="study.epoch&Arms"/></b></td>
-                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="DESIGN"/></td>
+                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="DESIGN" cssClass="amendmentReason"/></td>
                       </tr>
                       <tr>
                       	<td width="25%"><b><fmt:message key="study.eligibility"/></b></td>
-                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="ELIGIBILITY"/></td>
+                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="ELIGIBILITY" cssClass="amendmentReason"/></td>
                           <td><b><fmt:message key="study.stratification"/></b></td>
-                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="STRATIFICATION"/></td>
+                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="STRATIFICATION" cssClass="amendmentReason"/></td>
                       </tr>
                       <tr>
                           <td><b><fmt:message key="study.randomization"/></b></td>
-                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="RANDOMIZATION"/></td>
+                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="RANDOMIZATION" cssClass="amendmentReason"/></td>
                           <td><b><fmt:message key="study.diseases"/></b></td>
-                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="DISEASE"/></td>
+                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="DISEASE" cssClass="amendmentReason"/></td>
                       </tr>
                       <tr>
                           <td><b><fmt:message key="study.consent"/></b></td>
-                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="CONSENT"/></td>
+                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="CONSENT" cssClass="amendmentReason"/></td>
                           <td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><b><fmt:message key="study.companionStudy"/></b></td>
-                          <td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="COMPANION"/></td>
+                          <td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="COMPANION" cssClass="amendmentReason"/></td>
                       </tr>
                   </table>
 		</chrome:division>
