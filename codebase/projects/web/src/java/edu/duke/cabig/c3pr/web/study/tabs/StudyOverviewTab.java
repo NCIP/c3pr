@@ -80,7 +80,7 @@ public class StudyOverviewTab extends StudyTab {
             		GregorianCalendar cal = new GregorianCalendar();
 					cal.setTime(study.getCurrentStudyAmendment().getVersionDate());
             		StudySiteStudyVersion studySiteStudyVersion = studySite.getStudySiteStudyVersion();
-            		if(studySiteStudyVersion != null && studySiteStudyVersion.getEndDate()!= null){
+            		if(studySiteStudyVersion != null && studySiteStudyVersion.getStartDate()!= null){
             			AmendmentType amendmentType = study.getCurrentStudyAmendment().getAmendmentType() ;
                 		if(amendmentType == AmendmentType.IMMEDIATE){
                 			cal.add(Calendar.DATE, -1);
