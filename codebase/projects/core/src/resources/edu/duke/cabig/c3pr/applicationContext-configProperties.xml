@@ -143,6 +143,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                             <property name="code" value="T" />
                             <property name="desc" value="Preventive" />  
                         </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Interventional" />
+                            <property name="desc" value="Interventional" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Observational" />
+                            <property name="desc" value="Observational" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="AE" />
+                            <property name="desc" value="AE" />  
+                        </bean>
                     </list>
                 </entry>
                 <entry key="sponsorCodeRefData">
