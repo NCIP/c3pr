@@ -236,7 +236,9 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
 
     @Override
     public final void postProcess(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
-        postProcessOnValidation(request, wrapper, errors);
+        if(!errors.hasErrors()){
+        	postProcessOnValidation(request, wrapper, errors);
+        }
     }
 
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,

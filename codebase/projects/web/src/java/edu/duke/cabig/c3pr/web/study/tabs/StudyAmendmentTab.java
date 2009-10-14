@@ -42,51 +42,53 @@ public class StudyAmendmentTab extends StudyTab {
 
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
-    	StudyVersion sAmendment = (StudyVersion) wrapper.getStudy().getCurrentStudyAmendment();
-        if (sAmendment != null) {
-        	List<StudyPart> studyParts = sAmendment.getAmendmentReasons();
-        	if (studyParts.contains(StudyPart.DESIGN)) {
-                request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
-            } else {
-                request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(true));
-            }
-        	
-        	if (studyParts.contains(StudyPart.CONSENT)) {
-                request.getSession().setAttribute(DISABLE_FORM_CONSENT, new Boolean(false));
-            } else {
-                request.getSession().setAttribute(DISABLE_FORM_CONSENT, new Boolean(true));
-            }
-        	
-        	if (studyParts.contains(StudyPart.ELIGIBILITY)) {
-                request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(false));
-            } else {
-                request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(true));
-            }
-
-        	if (studyParts.contains(StudyPart.STRATIFICATION)) {
-                request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(false));
-            } else {
-                request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(true));
-            }
-
-        	if (studyParts.contains(StudyPart.DISEASE)) {
-                request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(false));
-            } else {
-                request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(true));
-            }
-
-        	if (studyParts.contains(StudyPart.RANDOMIZATION)) {
-                request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(false));
-            } else {
-                request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(true));
-            }
-
-        	if (studyParts.contains(StudyPart.COMPANION)) {
-                request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(false));
-            } else {
-                request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(true));
-            }
-        }
+    	if(!errors.hasErrors()){
+	    	StudyVersion sAmendment = (StudyVersion) wrapper.getStudy().getCurrentStudyAmendment();
+	        if (sAmendment != null) {
+	        	List<StudyPart> studyParts = sAmendment.getAmendmentReasons();
+	        	if (studyParts.contains(StudyPart.DESIGN)) {
+	                request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
+	            } else {
+	                request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(true));
+	            }
+	        	
+	        	if (studyParts.contains(StudyPart.CONSENT)) {
+	                request.getSession().setAttribute(DISABLE_FORM_CONSENT, new Boolean(false));
+	            } else {
+	                request.getSession().setAttribute(DISABLE_FORM_CONSENT, new Boolean(true));
+	            }
+	        	
+	        	if (studyParts.contains(StudyPart.ELIGIBILITY)) {
+	                request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(false));
+	            } else {
+	                request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(true));
+	            }
+	
+	        	if (studyParts.contains(StudyPart.STRATIFICATION)) {
+	                request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(false));
+	            } else {
+	                request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(true));
+	            }
+	
+	        	if (studyParts.contains(StudyPart.DISEASE)) {
+	                request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(false));
+	            } else {
+	                request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(true));
+	            }
+	
+	        	if (studyParts.contains(StudyPart.RANDOMIZATION)) {
+	                request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(false));
+	            } else {
+	                request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(true));
+	            }
+	
+	        	if (studyParts.contains(StudyPart.COMPANION)) {
+	                request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(false));
+	            } else {
+	                request.getSession().setAttribute(DISABLE_FORM_COMPANION, new Boolean(true));
+	            }
+	        }
+	    }
     }
 
     @Override
