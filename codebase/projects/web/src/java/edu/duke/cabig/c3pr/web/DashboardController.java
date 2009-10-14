@@ -130,9 +130,9 @@ public class DashboardController extends ParameterizableViewController {
         }
 
         getMostActiveStudies(request);
-//        getRecentPendingStudies(request);
-//        getRecentPendingRegistrations(request);
-//        testSmtpConnection(request);
+        getRecentPendingStudies(request);
+        getRecentPendingRegistrations(request);
+        testSmtpConnection(request);
 
         getNotifications(request);
         request.setAttribute("cctsEnv", isCCTSEnv());
