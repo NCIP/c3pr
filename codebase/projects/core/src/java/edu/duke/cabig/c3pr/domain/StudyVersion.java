@@ -61,7 +61,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	private Date versionDate;
 	private String name;
     private String comments;
-    private List<StudyPart> amendmentReasons  = new ArrayList<StudyPart>();
+    private List<StudyPart> amendmentReasons ;
 	private Study study;
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 	private AmendmentType amendmentType;
@@ -649,12 +649,14 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	@Column(name = "amendment_reasons")
 	public String getAmendmentReasonsInternal() {
 		String amendmentReason = null ;
-		for(StudyPart reason : amendmentReasons){
-				if(amendmentReason != null ){
-					amendmentReason =  amendmentReason + " : " + reason.getName();
-				}else{
-					amendmentReason = reason.getName();
-				}
+		if(amendmentReasons != null){
+			for(StudyPart reason : amendmentReasons){
+					if(amendmentReason != null ){
+						amendmentReason =  amendmentReason + " : " + reason.getName();
+					}else{
+						amendmentReason = reason.getName();
+					}
+			}
 		}
 		return amendmentReason;
 	}

@@ -442,7 +442,7 @@ public class StudyValidator implements Validator {
 		StudyVersion currentVersion = study.getStudyVersion(versionName);
 		validateStudyVersion(study, errors);
 		validateAmendmentDate(study, errors, versionName);
-		if(!errors.hasErrors()  && currentVersion.getAmendmentReasons() == null){
+		if(!errors.hasErrors()  && (currentVersion.getAmendmentReasons() == null || currentVersion.getAmendmentReasons().size() == 0)){
 			errors.rejectValue("study.studyVersions", new Integer(
                     getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE")).toString(),
                     getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE"),
