@@ -63,10 +63,7 @@ public class SearchStudyController extends SimpleFormController {
             study.setShortTitleText(searchtext);
         }
 
-        if (WebUtils.hasSubmitParameter(request, "activeOnly")) {
-            if (request.getParameter("activeOnly").toString().equalsIgnoreCase("true")) {
-                study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-            }
+        if (WebUtils.hasSubmitParameter(request, "fromRegistration")) {
             if (request.getParameter("standaloneOnly").toString().equalsIgnoreCase("true")) {
                 study.setStandaloneIndicator(true);
             }
@@ -92,7 +89,8 @@ public class SearchStudyController extends SimpleFormController {
         }
         if(fromRegistration.equalsIgnoreCase("true")){
         	for(int i=0 ; i<exampleStudies.size() ; i++){
-            	if(exampleStudies.get(i).getStudySites().size()!=0){
+            	if(exampleStudies.get(i).getStudySites().size()!=0 && 
+            			exampleStudies.get(i).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING){
             		studies.add(exampleStudies.get(i));
             	}
             }
