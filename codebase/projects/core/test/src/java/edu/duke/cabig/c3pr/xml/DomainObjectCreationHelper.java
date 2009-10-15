@@ -48,7 +48,15 @@ public class DomainObjectCreationHelper {
 	private static StudyCreationHelper studyCreationHelper= new StudyCreationHelper();
 	
 	public static Study getStudyWithDetails(RandomizationType randomizationType){
-		Study study= studyCreationHelper.buildBasicStudy(true, randomizationType);
+		Study study= studyCreationHelper.buildBasicLocalStudy(true, randomizationType);
+		addCooCenterAndIdentifier(study);
+		addFundingSponsorAndIdentifier(study);
+		addPI(study.getStudyCoordinatingCenter());
+		return study;
+	}
+	
+	public static Study getRemoteStudyWithDetails(RandomizationType randomizationType){
+		Study study= studyCreationHelper.buildBasicRemoteStudy(true, randomizationType);
 		addCooCenterAndIdentifier(study);
 		addFundingSponsorAndIdentifier(study);
 		addPI(study.getStudyCoordinatingCenter());

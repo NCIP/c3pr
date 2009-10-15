@@ -23,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
+import edu.duke.cabig.c3pr.domain.RemoteStudy;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
@@ -34,7 +35,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 public class StudyCreationHelper {
 
     public Study getMultiSiteRandomizedStudy(RandomizationType randomizationType) throws Exception {
-        Study study = buildBasicStudy(true, randomizationType);
+        Study study = buildBasicLocalStudy(true, randomizationType);
         Epoch epoch = getTreatmentEpochWithArm();
         addRandomization(randomizationType, epoch);
         study.addEpoch(epoch);
@@ -42,7 +43,7 @@ public class StudyCreationHelper {
     }
 
     public Study getMultiSiteNonRandomizedStudy(Boolean reserving, Boolean enrolling) {
-        Study study = buildBasicStudy(true, null);
+        Study study = buildBasicLocalStudy(true, null);
         Epoch epoch = new Epoch();
         epoch.setName("screening");
         epoch.setReservationIndicator(reserving);
@@ -52,14 +53,14 @@ public class StudyCreationHelper {
     }
 
     public Study getMultiSiteNonRandomizedWithArmStudy() {
-        Study study = buildBasicStudy(true, null);
+        Study study = buildBasicLocalStudy(true, null);
         Epoch epoch = getTreatmentEpochWithArm();
         study.addEpoch(epoch);
         return study;
     }
 
     public Study getLocalRandomizedStudy(RandomizationType randomizationType) throws Exception {
-        Study study = buildBasicStudy(false, randomizationType);
+        Study study = buildBasicLocalStudy(false, randomizationType);
         Epoch epoch = getTreatmentEpochWithArm();
         addRandomization(randomizationType, epoch);
         study.addEpoch(epoch);
@@ -75,7 +76,7 @@ public class StudyCreationHelper {
     }
 
     public Study getLocalStudyWith1stEpochRandomized2ndNonRandomized(RandomizationType randomizationType) throws Exception {
-        Study study = buildBasicStudy(false, randomizationType);
+        Study study = buildBasicLocalStudy(false, randomizationType);
         Epoch epoch = getTreatmentEpochWithArm();
         addRandomization(randomizationType, epoch);
         epoch.setEpochOrder(1);
@@ -87,7 +88,7 @@ public class StudyCreationHelper {
     }
 
     public Study getLocalNonRandomizedStudy(Boolean reserving, Boolean enrolling) {
-        Study study = buildBasicStudy(false, null);
+        Study study = buildBasicLocalStudy(false, null);
         Epoch epoch = new Epoch();
         epoch.setName("screening");
         epoch.setReservationIndicator(reserving);
@@ -97,7 +98,7 @@ public class StudyCreationHelper {
     }
 
     public Study getLocalNonRandomizedTratmentWithArmStudy() {
-        Study study = buildBasicStudy(false, null);
+        Study study = buildBasicLocalStudy(false, null);
         Epoch epoch = getTreatmentEpochWithArm();
         epoch.setRandomizedIndicator(false);
         study.addEpoch(epoch);
@@ -105,7 +106,7 @@ public class StudyCreationHelper {
     }
 
     public Study getLocalNonRandomizedTratmentWithoutArmStudy() {
-        Study study = buildBasicStudy(false, null);
+        Study study = buildBasicLocalStudy(false, null);
         Epoch epoch = new Epoch();
         epoch.setName("epoch1");
         study.addEpoch(epoch);
@@ -184,8 +185,11 @@ public class StudyCreationHelper {
         epoch1.getStratumGroups().addAll(sgList);
     }
 
-    public Study buildBasicStudy(Boolean multiSite, RandomizationType randomizationType) {
-        Study study = new LocalStudy();
+    public Study buildBasicLocalStudy(Boolean multiSite, RandomizationType randomizationType) {
+        return buildBasicStudy(multiSite, randomizationType, new LocalStudy());
+    }
+    
+    public Study buildBasicStudy(Boolean multiSite, RandomizationType randomizationType, Study study) {
         study.setPrecisText("Study with randomization");
         study.setShortTitleText("ShortTitleText1");
         study.setLongTitleText("LongTitleText1");
@@ -206,6 +210,12 @@ public class StudyCreationHelper {
             study.setRandomizedIndicator(Boolean.FALSE);
         }
         return study;
+    }
+    
+    public Study buildBasicRemoteStudy(Boolean multiSite, RandomizationType randomizationType) {
+    	RemoteStudy remoteStudy = new RemoteStudy();
+    	remoteStudy.setExternalId("some coppa id");
+        return buildBasicStudy(multiSite, randomizationType, remoteStudy);
     }
 
     private void addRandomization(RandomizationType randomizationType, Epoch epoch)

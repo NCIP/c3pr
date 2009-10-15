@@ -40,6 +40,8 @@ public class CastorMappingTestCase extends AbstractTestCase{
 
 	private XmlMarshaller studyMarshaller;
 	
+	private XmlMarshaller remoteStudyMarshaller;
+	
 	private XmlMarshaller registrationMarshaller;
 	
 	private XMLParser xmlParser;
@@ -48,12 +50,20 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	protected void setUp() throws Exception {
 		super.setUp();
 		studyMarshaller= new XmlMarshaller("c3pr-study-xml-castor-mapping.xml");
+		remoteStudyMarshaller= new XmlMarshaller("c3pr-remote-study-xml-castor-mapping.xml");
 		registrationMarshaller= new XmlMarshaller("c3pr-registration-xml-castor-mapping.xml");
 		xmlParser= new XMLParser("c3pr-domain.xsd");
 	}
 	
-	public Study buildStudy(){
-		Study study= DomainObjectCreationHelper.getStudyWithDetails(RandomizationType.BOOK);
+	public Study buildLocalStudy(){
+		return buildStudy(DomainObjectCreationHelper.getStudyWithDetails(RandomizationType.BOOK));
+	}
+	
+	public Study buildRemoteStudy(){
+		return buildStudy(DomainObjectCreationHelper.getRemoteStudyWithDetails(RandomizationType.BOOK));
+	}
+	
+	public Study buildStudy(Study study){
 		DomainObjectCreationHelper.addConsent(study);
 		DomainObjectCreationHelper.addStudyDesign(study);
 		Epoch epoch= study.getEpochs().get(0);
@@ -68,7 +78,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	}
 	
 	public StudyVersion buildStudyVersion(){
-		Study study= buildStudy();
+		Study study= buildLocalStudy();
 		StudyVersion studyVersion=study.getStudyVersion();
 		studyVersion.setVersionStatus(StatusType.IN);
 		studyVersion.setName("1.1");
@@ -99,8 +109,16 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	}
 	
 	public void testStudyMarshalling() throws Exception{
-		Study study= buildStudy();
+		Study study= buildLocalStudy();
 		String xml= studyMarshaller.toXML(study);
+		System.out.println(xml);
+		xmlParser.validate(xml.getBytes());
+		assertNotNull(xml);
+	}
+	
+	public void testRemoetStudyMarshalling() throws Exception{
+		Study study= buildRemoteStudy();
+		String xml= remoteStudyMarshaller.toXML(study);
 		System.out.println(xml);
 		xmlParser.validate(xml.getBytes());
 		assertNotNull(xml);
@@ -131,7 +149,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	}
 	
 	public void testStudyUnMarshalling() throws Exception{
-		Study serializable= buildStudy();
+		Study serializable= buildLocalStudy();
 		String xml= studyMarshaller.toXML(serializable);
 		System.out.println(xml);
 		try {
@@ -186,7 +204,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	}
 	
 	public void assertStudy(Study study){
-		Study expectedStudy= buildStudy();
+		Study expectedStudy= buildLocalStudy();
 		assertStudy(expectedStudy, study);
 	}
 	
