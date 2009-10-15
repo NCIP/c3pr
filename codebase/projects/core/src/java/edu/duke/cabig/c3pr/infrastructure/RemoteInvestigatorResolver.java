@@ -16,6 +16,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -45,46 +46,49 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 	 * @return the remote investigator
 	 */
 	public RemoteInvestigator populateRemoteInvestigator(Person coppaPerson, String staffNciIdentifier, List<gov.nih.nci.coppa.po.Organization> coppaOrganizationList){
-		
-		RemoteInvestigator remoteInvestigator = (RemoteInvestigator)personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteInvestigator());
-
-		remoteInvestigator.setNciIdentifier(coppaPerson.getIdentifier().getExtension());
-		remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
-		
-		if(!StringUtils.isEmpty(staffNciIdentifier)){
-			remoteInvestigator.setNciIdentifier(staffNciIdentifier);
+		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteInvestigator());
+		if(object == null){
+			return null;
 		} else {
-			II ii = CoppaObjectFactory.getIISearchCriteriaForPerson(coppaPerson.getIdentifier().getExtension());
-			IdentifiedPerson identifiedPerson = personOrganizationResolverUtils.getIdentifiedPerson(ii);
-			if(identifiedPerson  != null){
-				remoteInvestigator.setNciIdentifier(identifiedPerson.getAssignedId().getExtension());
+			RemoteInvestigator remoteInvestigator = (RemoteInvestigator) object;
+			remoteInvestigator.setNciIdentifier(coppaPerson.getIdentifier().getExtension());
+			remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
+			
+			if(!StringUtils.isEmpty(staffNciIdentifier)){
+				remoteInvestigator.setNciIdentifier(staffNciIdentifier);
 			} else {
-				log.error("IdentifiedPerson is null for person with coppaId: "+coppaPerson.getIdentifier().getExtension());
+				II ii = CoppaObjectFactory.getIISearchCriteriaForPerson(coppaPerson.getIdentifier().getExtension());
+				IdentifiedPerson identifiedPerson = personOrganizationResolverUtils.getIdentifiedPerson(ii);
+				if(identifiedPerson  != null){
+					remoteInvestigator.setNciIdentifier(identifiedPerson.getAssignedId().getExtension());
+				} else {
+					log.error("IdentifiedPerson is null for person with coppaId: "+coppaPerson.getIdentifier().getExtension());
+				}
 			}
-		}
-		
-		//Build HealthcareSite and HealthcareSiteInvestigator
-		RemoteHealthcareSite healthcareSite = null;
-		if(coppaOrganizationList != null && coppaOrganizationList.size()>0){
-			for(gov.nih.nci.coppa.po.Organization coppaOrganization: coppaOrganizationList){
-				IdentifiedOrganization identifiedOrganization = personOrganizationResolverUtils.getIdentifiedOrganization(coppaOrganization);
+			
+			//Build HealthcareSite and HealthcareSiteInvestigator
+			RemoteHealthcareSite healthcareSite = null;
+			if(coppaOrganizationList != null && coppaOrganizationList.size()>0){
+				for(gov.nih.nci.coppa.po.Organization coppaOrganization: coppaOrganizationList){
+					IdentifiedOrganization identifiedOrganization = personOrganizationResolverUtils.getIdentifiedOrganization(coppaOrganization);
 
-				healthcareSite = new RemoteHealthcareSite();
-				personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
-				healthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
-				healthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
-				Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
-				healthcareSite.setAddress(address);
-				
-				HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
-				healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
-				healthcareSiteInvestigator.setInvestigator(remoteInvestigator);
-				healthcareSiteInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
-				
-				remoteInvestigator.getHealthcareSiteInvestigators().add(healthcareSiteInvestigator);
+					healthcareSite = new RemoteHealthcareSite();
+					personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
+					healthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
+					healthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
+					Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
+					healthcareSite.setAddress(address);
+					
+					HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
+					healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
+					healthcareSiteInvestigator.setInvestigator(remoteInvestigator);
+					healthcareSiteInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
+					
+					remoteInvestigator.getHealthcareSiteInvestigators().add(healthcareSiteInvestigator);
+				}
 			}
+			return remoteInvestigator;
 		}
-		return remoteInvestigator;
 	}
 	
 	/**
@@ -98,21 +102,26 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 	 */
 	public RemoteInvestigator populateRemoteInvestigator(Person coppaPerson, String staffNciIdentifier, IdentifiedOrganization identifiedOrganization){
 
-		RemoteInvestigator remoteInvestigator = (RemoteInvestigator)personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteInvestigator());
-
-		remoteInvestigator.setNciIdentifier(coppaPerson.getIdentifier().getExtension());
-		remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
-		
-		//Build HealthcareSite
-		HealthcareSite healthcareSite = new RemoteHealthcareSite();
-		personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
-		
-		
-		HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
-		hcsi.setHealthcareSite(healthcareSite);
-		hcsi.setInvestigator(remoteInvestigator);
-		remoteInvestigator.getHealthcareSiteInvestigators().add(hcsi);
-		return remoteInvestigator;
+		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteInvestigator());
+		if(object == null){
+			return null;
+		} else {
+			RemoteInvestigator remoteInvestigator = (RemoteInvestigator)object;
+	
+			remoteInvestigator.setNciIdentifier(coppaPerson.getIdentifier().getExtension());
+			remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
+			
+			//Build HealthcareSite
+			HealthcareSite healthcareSite = new RemoteHealthcareSite();
+			personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
+			
+			
+			HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
+			hcsi.setHealthcareSite(healthcareSite);
+			hcsi.setInvestigator(remoteInvestigator);
+			remoteInvestigator.getHealthcareSiteInvestigators().add(hcsi);
+			return remoteInvestigator;
+		}
 	}
 	
 	/**

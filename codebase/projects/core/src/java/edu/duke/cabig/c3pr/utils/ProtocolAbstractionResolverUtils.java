@@ -41,8 +41,12 @@ public class ProtocolAbstractionResolverUtils {
     /*HashMap for CoppaStatus - C3PR status*/
 	public static LinkedHashMap<String, CoordinatingCenterStudyStatus> statusMap = new LinkedHashMap<String, CoordinatingCenterStudyStatus>();
 	
-	/*HashMap for CoppaStatus - C3PR status*/
+	/*HashMap for Study Protocol Phase Code - C3PR Study Phase Code */
 	public static LinkedHashMap<String, String> phaseCodeMap = new LinkedHashMap<String, String>(); 
+	
+	/*HashMap for Study Protocol Type - C3PR Study Type*/
+	public static LinkedHashMap<String, String> studyTypeMap = new LinkedHashMap<String, String>(); 
+	
 	
 	public ProtocolAbstractionResolverUtils() {
 		statusMap.put("In Review", CoordinatingCenterStudyStatus.PENDING);
@@ -68,6 +72,11 @@ public class ProtocolAbstractionResolverUtils {
 		phaseCodeMap.put("Pilot", "Pilot");
 		phaseCodeMap.put("N/A", "N/A");
 		phaseCodeMap.put("Other", "Other");
+		
+		//studyTypeMap mappings
+		studyTypeMap.put("InterventionalStudyProtocol", "Interventional");
+		studyTypeMap.put("ObservationalStudyProtocol", "Observational");
+		studyTypeMap.put("AE", "AE");
 	}
 
 	
@@ -79,7 +88,7 @@ public class ProtocolAbstractionResolverUtils {
 	 * @return the coordinating center study status from coppa overall status
 	 */
 	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatusFromCoppaOverallStatus(StudyOverallStatus status) {
-		if(phaseCodeMap.containsKey(status.getStatusCode().getCode())){
+		if(statusMap.containsKey(status.getStatusCode().getCode())){
 			return statusMap.get(status.getStatusCode().getCode());
 		} else{
 			return CoordinatingCenterStudyStatus.PENDING;
@@ -103,6 +112,21 @@ public class ProtocolAbstractionResolverUtils {
 	}
 	
 	/**
+	 * Gets the C3PR Phase code from coppa PhaseCode.
+	 * 
+	 * @param status the status
+	 * 
+	 * @return the coordinating center study status from coppa overall status
+	 */
+	public String getStudyTypeFromCoppaStudyType(String studyType) {
+		if(studyTypeMap.containsKey(studyType)){
+			return studyTypeMap.get(studyType);
+		} else{
+			return "N/A";
+		}
+	}
+	
+	/**
 	 * Broadcast Interventional Study Protocol search.
 	 * 
 	 * @param gov.nih.nci.coppa.po.Organization coppa organization example to search by.
@@ -111,11 +135,11 @@ public class ProtocolAbstractionResolverUtils {
 	 */
 	public String broadcastStudyProtocolSearch(String studyProtocolXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.STUDY_PROTOCOL.getName());
         Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.STUDY_PROTOCOL.getName());
         
         List<String> cctsDomainObjectXMLList = new ArrayList<String>();
         cctsDomainObjectXMLList.add(studyProtocolXml);
-        
         return broadcastCoppaMessage(cctsDomainObjectXMLList, mData);
 	}
 
@@ -128,6 +152,7 @@ public class ProtocolAbstractionResolverUtils {
 	 */
 	public String broadcastStudyProtocolGetById(String studyProtocolXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getStudyProtocol.getName() + "   Service -->" +ServiceTypeEnum.STUDY_PROTOCOL.getName());
         Metadata mData = new Metadata(OperationNameEnum.getStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_PROTOCOL.getName());
         return broadcastCoppaMessage(studyProtocolXml, mData);
 	}
@@ -142,12 +167,14 @@ public class ProtocolAbstractionResolverUtils {
 	 */
 	public String broadcastInterventionalStudyProtocolSearch(String healthcareSiteXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getInterventionalStudyProtocol.getName() + "   Service -->" +ServiceTypeEnum.STUDY_PROTOCOL.getName());
         Metadata mData = new Metadata(OperationNameEnum.getInterventionalStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_PROTOCOL.getName());
         return broadcastCoppaMessage(healthcareSiteXml, mData);
 	}	
 
 	public String broadcastStudySiteGetByStudyProtocol(String studySiteXml) throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByStudyProtocol.getName() + "   Service -->" +ServiceTypeEnum.STUDY_SITE.getName());
         Metadata mData = new Metadata(OperationNameEnum.getByStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_SITE.getName());
         return broadcastCoppaMessage(studySiteXml, mData);
 	}
@@ -155,31 +182,36 @@ public class ProtocolAbstractionResolverUtils {
 	
 	public String broadcastStudyOverallStatusGetByStudyProtocol(String studySiteXml) throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getCurrentByStudyProtocol.getName() + "   Service -->" +ServiceTypeEnum.STUDY_OVERALL_STATUS.getName());
         Metadata mData = new Metadata(OperationNameEnum.getCurrentByStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_OVERALL_STATUS.getName());
         return broadcastCoppaMessage(studySiteXml, mData);
 	}
 	
 	public String broadcastDocumentWorkflowStatusGetByStudyProtocol(String payLoad)  throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getCurrentByStudyProtocol.getName() + "   Service -->" +ServiceTypeEnum.DOCUMENT_WORKFLOW_STATUS.getName());
         Metadata mData = new Metadata(OperationNameEnum.getCurrentByStudyProtocol.getName(), "extId", ServiceTypeEnum.DOCUMENT_WORKFLOW_STATUS.getName());
         return broadcastCoppaMessage(payLoad, mData);
 	}
 	
 	public String broadcastResearchOrganizationGetById(String researchOrganizationXml) throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getById.getName() + "   Service -->" +ServiceTypeEnum.RESEARCH_ORGANIZATION.getName());
         Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "extId", ServiceTypeEnum.RESEARCH_ORGANIZATION.getName());
         return broadcastCoppaMessage(researchOrganizationXml, mData);
 	}
 	
 	public String broadcastStudyContactGetByStudyProtocol(String payLoad) throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByStudyProtocol.getName() + "   Service -->" +ServiceTypeEnum.STUDY_CONTACT.getName());
         Metadata mData = new Metadata(OperationNameEnum.getByStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_CONTACT.getName());
         return broadcastCoppaMessage(payLoad, mData);
 	}
 	
 	public String broadcastStudySiteContactGetByStudySite(String studySiteXml) throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.getByStudySite.getName(), "extId", ServiceTypeEnum.STUDY_SITE_CONTACT.getName());
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByStudySite.getName() + "   Service -->" +ServiceTypeEnum.STUDY_SITE_CONTACT.getName());
+		Metadata mData = new Metadata(OperationNameEnum.getByStudySite.getName(), "extId", ServiceTypeEnum.STUDY_SITE_CONTACT.getName());
         return broadcastCoppaMessage(studySiteXml, mData);
 	}
 	
@@ -192,7 +224,6 @@ public class ProtocolAbstractionResolverUtils {
 	 * @throws C3PRCodedException the c3 pr coded exception
 	 */
 	private String broadcastCoppaMessage(String healthcareSiteXml, Metadata mData) throws C3PRCodedException {
-
 		String caXchangeResponseXml = null;
 		try {
             caXchangeResponseXml = getCoppaMessageBroadcaster().broadcastCoppaMessage(healthcareSiteXml, mData);
@@ -200,7 +231,7 @@ public class ProtocolAbstractionResolverUtils {
         catch (Exception e) {
             log.error(e);
             throw this.exceptionHelper.getException(
-                            getCode("C3PR.EXCEPTION.ORGANIZATION.SEARCH.BROADCAST.SEND_ERROR"), e);
+                    getCode("C3PR.EXCEPTION.ORGANIZATION.SEARCH.BROADCAST.SEND_ERROR"), e);
         }
 		return caXchangeResponseXml;
 	}
@@ -214,10 +245,9 @@ public class ProtocolAbstractionResolverUtils {
 	 * @param healthcareSiteXml the healthcare site xml
 	 * @param mData the m data
 	 * @return the string
-	 * @throws C3PRCodedException the c3 pr coded exception
+	 * @throws C3PRCodedException the c3pr coded exception
 	 */
 	private String broadcastCoppaMessage(List<String> cctsDomainObjectXMLList, Metadata mData) throws C3PRCodedException {
-
 		String caXchangeResponseXml = null;
 		//adding a default limit-offset setting incase its not already specified
 		if(cctsDomainObjectXMLList.size() == 1){
@@ -230,7 +260,7 @@ public class ProtocolAbstractionResolverUtils {
         catch (Exception e) {
             log.error(e);
             throw this.exceptionHelper.getException(
-                            getCode("C3PR.EXCEPTION.ORGANIZATION.SEARCH.BROADCAST.SEND_ERROR"), e);
+                    getCode("C3PR.EXCEPTION.ORGANIZATION.SEARCH.BROADCAST.SEND_ERROR"), e);
         }
 		return caXchangeResponseXml;
 	}
@@ -270,5 +300,4 @@ public class ProtocolAbstractionResolverUtils {
 		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
 	}
 
-	
 }

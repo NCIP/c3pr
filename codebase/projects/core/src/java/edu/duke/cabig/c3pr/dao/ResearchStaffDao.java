@@ -28,17 +28,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
@@ -295,10 +291,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 		ResearchStaff researchStaff = getByEmailAddressFromLocal(emailAddress);
 		if(researchStaff == null){
-//			 get the remote staff and update the database first
+			//Get the remote staff and update the database first
 			RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
 			remoteResearchStaff.setExternalId(emailAddress);
-
 			getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
 
 			return CollectionUtils.firstElement((List<ResearchStaff>) getHibernateTemplate().find(
@@ -319,11 +314,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 */
 	public List<ResearchStaff> getByExternalIdentifierFromLocal(
 			String externalIdentifier) {
-		// get the remote staff and update the database first
-		// RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
-		// remoteResearchStaff.setExternalIdentifier(emailAddress);
-		// getAndUpdateRemoteResearchStaff(remoteResearchStaff);
-
 		List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
 		researchStaffList.addAll(getHibernateTemplate().find(
 				"from RemoteResearchStaff rs where rs.externalId = '"
@@ -385,13 +375,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	public List<ResearchStaff> getResearchStaffByOrganizationCtepCodeFromLocal(
 			HealthcareSite healthcareSite) {
 		//run a query against the updated database to get all research staff
-		/*
-		return getHibernateTemplate()
-				.find("from ResearchStaff rs where rs.healthcareSite.id in " +
-					  "(select h.id from HealthcareSite h where " +
-					  "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
-					  new Object[]{healthcareSite.getCtepCode()});*/
-		
 		Criteria researchStaffCriteria = getHibernateTemplate().getSessionFactory()
 				.getCurrentSession().createCriteria(ResearchStaff.class);
 		Criteria healthcareSiteCriteria = researchStaffCriteria.createCriteria("healthcareSite");
@@ -490,15 +473,14 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					if (remoteResearchStaff.getHealthcareSite() != null) {
 						// checking for the uniquness of email and NCI
 						// Identifier before saving into database
-						ResearchStaff researchStaffWithMatchingEmail = getByEmailAddressFromLocal(remoteResearchStaff
-																				.getEmail());
-						ResearchStaff researchStaffWithMatchingNCIIdentifier = getByNciIdentifierFromLocal(remoteResearchStaff
-																				.getNciIdentifier());
-						if (researchStaffWithMatchingEmail == null
-									&& researchStaffWithMatchingNCIIdentifier == null) {
-							saveResearchStaff(remoteResearchStaff);
+						ResearchStaff researchStaffWithMatchingEmail = 
+								getByEmailAddressFromLocal(remoteResearchStaff.getEmail());
+						ResearchStaff researchStaffWithMatchingNCIIdentifier = 
+								getByNciIdentifierFromLocal(remoteResearchStaff.getNciIdentifier());
+						if (researchStaffWithMatchingEmail == null && researchStaffWithMatchingNCIIdentifier == null) {
+								saveResearchStaff(remoteResearchStaff);
 						} else {
-							log.error("This remote research person : "	+ remoteResearchStaff.getFullName()
+							log.debug("This remote research person : "	+ remoteResearchStaff.getFullName()
 										+ "'s email id : " + remoteResearchStaff.getEmail()
 										+ "and/or NCI Identifier: "+ remoteResearchStaff.getNciIdentifier()
 										+ " is already in the database. Deferring to the local. :");
@@ -516,15 +498,20 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		}
 	}
 
+	/**
+	 * Merge research staff.
+	 * 
+	 * @param staff the staff
+	 */
 	public void mergeResearchStaff(ResearchStaff staff) {
 		getHibernateTemplate().merge(staff);
 	}
 
-	/*
+	
+	/**
 	 * Moved csm related save/save code here from personnelServiceImpl for coppa
 	 * integration
-	 */
-	/**
+	 * 
 	 * @param staff
 	 * @throws C3PRBaseException
 	 */
@@ -600,13 +587,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		csmUser.setPassword(c3prUser.getLastName());
 		csmUser.setEmailId(c3prUser.getEmail());
 		csmUser.setLoginName(c3prUser.getEmail().toLowerCase());
-
-//		for (ContactMechanism cm : c3prUser.getContactMechanisms()) {
-//			if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-//				csmUser.setLoginName(cm.getValue().toLowerCase());
-//				csmUser.setEmailId(cm.getValue());
-//			}
-//		}
 	}
 
 	/*
@@ -665,8 +645,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				log.error(e.getMessage());
 			}
 		}
-		Group returnGroup = (Group) userProvisioningManager.getObjects(sc).get(
-				0);
+		Group returnGroup = (Group) userProvisioningManager.getObjects(sc).get(0);
 		return returnGroup.getGroupId().toString();
 	}
 
@@ -735,13 +714,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		// searchCriteria.setHealthcareSite(researchStaff.getHealthcareSite());
 		searchCriteria.setFirstName(researchStaff.getFirstName());
 		searchCriteria.setLastName(researchStaff.getLastName());
-//		ContactMechanism emailContactMechanism = new LocalContactMechanism();
-//		emailContactMechanism.setType(ContactMechanismType.EMAIL);
-//		emailContactMechanism.setValue(researchStaff.getEmail());
-//		searchCriteria.addContactMechanism(emailContactMechanism);
 		searchCriteria.setEmail(researchStaff.getEmail());
-		List<ResearchStaff> remoteResearchStaffs = (List) remoteSession
-				.find(searchCriteria);
+		List<ResearchStaff> remoteResearchStaffs = (List)remoteSession.find(searchCriteria);
 		return remoteResearchStaffs;
 	}
 

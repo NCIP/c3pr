@@ -57,9 +57,7 @@ public class PersonOrganizationResolverUtils {
 	public static final String NCI_ROOT = "2.16.840.1.113883.3.26.4.4.5";
 	
     
-    
 	public IdentifiedPerson getIdentifiedPerson(II personIdentifier) {
-        
         IdentifiedPerson ip = CoppaObjectFactory.getCoppaIdentfiedPersonSearchCriteriaForCorrelation(personIdentifier);
         String ipPayload = CoppaObjectFactory.getCoppaIdentfiedPersonXml(ip);                
         
@@ -78,7 +76,6 @@ public class PersonOrganizationResolverUtils {
 	}
     
 	public IdentifiedPerson getIdentifiedPerson(IdentifiedPerson ip) {
-        
         String ipPayload = CoppaObjectFactory.getCoppaIdentfiedPersonXml(ip);              
         String result = "";
 		try {
@@ -118,8 +115,15 @@ public class PersonOrganizationResolverUtils {
 	}
 	
 	
+	/**
+	 * Sets the c3pr user details. Returns null if person doesnt have legal email address.
+	 * 
+	 * @param coppaPerson the coppa person
+	 * @param c3prUser the c3pr user
+	 * 
+	 * @return the c3 pr user
+	 */
 	public C3PRUser setC3prUserDetails(Person coppaPerson, C3PRUser c3prUser) {
-		
 		Iterator<ENXP> enxpItr = coppaPerson.getName().getPart().iterator();
 		String firstName = null;
 		String middleName = "";
@@ -169,7 +173,13 @@ public class PersonOrganizationResolverUtils {
 		} catch(IllegalArgumentException iae){
 			log.error("Person has invalid contact information. Proceeding with out it.");
 		}
-		return c3prUser;
+		
+		if(emailStr == null){
+			//Dont worry about persons who dont have a valid email id.
+			return null;
+		} else {
+			return c3prUser;
+		}
 	}
 	
 	/**
@@ -200,115 +210,6 @@ public class PersonOrganizationResolverUtils {
 		remoteOrganization.setCtepCode(identifier);
 	}
 	
-	/**
-	 * Broadcast organization search.
-	 * 
-	 * @param gov.nih.nci.coppa.po.Organization coppa organization example to search by.
-	 * @return the List<Object> list of coppa organizations
-	 * @throws C3PRCodedException the c3 pr coded exception
-	 */
-	public String broadcastOrganizationSearch(String healthcareSiteXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.ORGANIZATION.getName());
-        return broadcastCoppaMessage(healthcareSiteXml, mData);
-	}	
-	
-	public String broadcastIdentifiedPersonSearch(String ipXml) throws C3PRCodedException{
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-		Metadata mData = new Metadata(OperationNameEnum.search.getName(),  "externalId", ServiceTypeEnum.IDENTIFIED_PERSON.getName());
-		return broadcastCoppaMessage(ipXml, mData);
-	}
-	
-	public String broadcastOrganizationGetById(String iiXml) throws C3PRCodedException{
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.getById.getName(),  "extId", ServiceTypeEnum.ORGANIZATION.getName());
-		return broadcastCoppaMessage(iiXml, mData);
-	}
-	
-	public String broadcastIdentifiedOrganizationSearch(String healthcareSiteXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
-        return broadcastCoppaMessage(healthcareSiteXml, mData);
-	}
-	
-	public String broadcastClinicalResearchStaffSearch(String personXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
-		return broadcastCoppaMessage(personXml, mData);
-	}
-	
-	
-	public String broadcastResearchOrganizationGetById(String roXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.RESEARCH_ORGANIZATION.getName());
-		return broadcastCoppaMessage(roXml, mData);
-	}
-	
-	public String broadcastHealthcareFacilityGetById(String roXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_FACILITY.getName());
-		return broadcastCoppaMessage(roXml, mData);
-	}
-
-	public String broadcastPersonGetById(String iiXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.PERSON.getName());
-		return broadcastCoppaMessage(iiXml, mData);
-	}
-	
-	public String broadcastPersonSearch(String iiXml) throws C3PRCodedException{
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(),  "externalId", ServiceTypeEnum.PERSON.getName());
-		return broadcastCoppaMessage(iiXml, mData);
-	}
-	
-	public String broadcastHealthcareProviderSearch(String personXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
-		return broadcastCoppaMessage(personXml, mData);
-	}
-	
-	public String broadcastHealthcareProviderGetById(String personXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
-		return broadcastCoppaMessage(personXml, mData);
-	}
-	/**
-	 * Broadcast healthcare site create.
-	 * 
-	 * @param healhtcareSiteXml the healhtcare site xml
-	 * @return the string
-	 * @throws C3PRCodedException the c3pr coded exception
-	 */
-	public String broadcastOrganizationCreate(String healhtcareSiteXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.create.getName(), "externalId", ServiceTypeEnum.ORGANIZATION.getName());
-		return broadcastCoppaMessage(healhtcareSiteXml, mData);
-	}
-	
-	/**
-	 * Broadcast coppa message. The actual call to the esb-client.
-	 * 
-	 * @param healthcareSiteXml the healthcare site xml
-	 * @param mData the m data
-	 * @return the string
-	 * @throws C3PRCodedException the c3 pr coded exception
-	 */
-	private String broadcastCoppaMessage(String healthcareSiteXml, Metadata mData) throws C3PRCodedException {
-
-		String caXchangeResponseXml = null;
-		try {
-            caXchangeResponseXml = getCoppaMessageBroadcaster().broadcastCoppaMessage(healthcareSiteXml, mData);
-        }
-        catch (Exception e) {
-            log.error(e);
-            throw this.exceptionHelper.getException(
-                            getCode("C3PR.EXCEPTION.ORGANIZATION.SEARCH.BROADCAST.SEND_ERROR"), e);
-        }
-		return caXchangeResponseXml;
-	}	
-	
-	
 	/** Populate Remote Organization , given the Coppa Organization.
 	 *  Populate the ctepCode   from  IdentifiedOrganization.assignedId.extension by calling the IdentifiedOrganization search.
 	 *  Get ctep only if the "getCtepFromIdentifiedOrganization" boolean is true. Else assume CTEP code is already available.
@@ -321,6 +222,14 @@ public class PersonOrganizationResolverUtils {
 		return getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, true);
 	}
 	
+	/**
+	 * Gets the remote healthcare site from coppa organization.
+	 * 
+	 * @param coppaOrganization the coppa organization
+	 * @param getCtepFromIdentifiedOrganization the get ctep from identified organization
+	 * 
+	 * @return the remote healthcare site from coppa organization
+	 */
 	public RemoteHealthcareSite getRemoteHealthcareSiteFromCoppaOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization, boolean getCtepFromIdentifiedOrganization){
 		RemoteHealthcareSite remoteHealthcareSite = null;
 		if(coppaOrganization != null){
@@ -355,7 +264,6 @@ public class PersonOrganizationResolverUtils {
 			Address address = getAddressFromCoppaOrganization(coppaOrganization);
 			remoteHealthcareSite.setAddress(address);
 		}
-		
 		return remoteHealthcareSite;
 	}
 	
@@ -369,6 +277,138 @@ public class PersonOrganizationResolverUtils {
 			}
 		}
 	}
+
+	/** Populate the Address object from the coppaOrganization which is passed into it.
+	 * 
+	 * @param coppaOrganization
+	 * @return Address
+	 */
+	public Address getAddressFromCoppaOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization) {
+		Address address  = new Address();
+		
+		address.setCity(CoppaObjectFactory.getCity(coppaOrganization.getPostalAddress()));
+		address.setCountryCode(CoppaObjectFactory.getCountry(coppaOrganization.getPostalAddress()));
+		address.setStateCode(CoppaObjectFactory.getState(coppaOrganization.getPostalAddress()));
+		address.setPostalCode(CoppaObjectFactory.getZip(coppaOrganization.getPostalAddress()));
+		address.setStreetAddress(CoppaObjectFactory.getStreet(coppaOrganization.getPostalAddress()));
+		
+		return address;
+	}
+	
+	/**
+	 * Broadcast organization search.
+	 * 
+	 * @param gov.nih.nci.coppa.po.Organization coppa organization example to search by.
+	 * @return the List<Object> list of coppa organizations
+	 * @throws C3PRCodedException the c3 pr coded exception
+	 */
+	public String broadcastOrganizationSearch(String healthcareSiteXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.ORGANIZATION.getName());
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.ORGANIZATION.getName());
+        return broadcastCoppaMessage(healthcareSiteXml, mData);
+	}	
+	
+	public String broadcastIdentifiedPersonSearch(String ipXml) throws C3PRCodedException{
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.IDENTIFIED_PERSON.getName());
+		Metadata mData = new Metadata(OperationNameEnum.search.getName(),  "externalId", ServiceTypeEnum.IDENTIFIED_PERSON.getName());
+		return broadcastCoppaMessage(ipXml, mData);
+	}
+	
+	public String broadcastOrganizationGetById(String iiXml) throws C3PRCodedException{
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getById.getName() + "   Service -->" +ServiceTypeEnum.ORGANIZATION.getName());
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(),  "extId", ServiceTypeEnum.ORGANIZATION.getName());
+		return broadcastCoppaMessage(iiXml, mData);
+	}
+	
+	public String broadcastIdentifiedOrganizationSearch(String healthcareSiteXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
+        return broadcastCoppaMessage(healthcareSiteXml, mData);
+	}
+	
+	public String broadcastClinicalResearchStaffSearch(String personXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
+		return broadcastCoppaMessage(personXml, mData);
+	}
+	
+	
+	public String broadcastResearchOrganizationGetById(String roXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getById.getName() + "   Service -->" +ServiceTypeEnum.RESEARCH_ORGANIZATION.getName());
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.RESEARCH_ORGANIZATION.getName());
+		return broadcastCoppaMessage(roXml, mData);
+	}
+	
+	public String broadcastHealthcareFacilityGetById(String roXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getById.getName() + "   Service -->" +ServiceTypeEnum.HEALTH_CARE_FACILITY.getName());
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_FACILITY.getName());
+		return broadcastCoppaMessage(roXml, mData);
+	}
+
+	public String broadcastPersonGetById(String iiXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getById.getName() + "   Service -->" +ServiceTypeEnum.PERSON.getName());
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.PERSON.getName());
+		return broadcastCoppaMessage(iiXml, mData);
+	}
+	
+	public String broadcastPersonSearch(String iiXml) throws C3PRCodedException{
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.PERSON.getName());
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(),  "externalId", ServiceTypeEnum.PERSON.getName());
+		return broadcastCoppaMessage(iiXml, mData);
+	}
+	
+	public String broadcastHealthcareProviderSearch(String personXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
+        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
+		return broadcastCoppaMessage(personXml, mData);
+	}
+	
+	public String broadcastHealthcareProviderGetById(String personXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getById.getName() + "   Service -->" +ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
+        Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
+		return broadcastCoppaMessage(personXml, mData);
+	}
+
+	public String broadcastOrganizationCreate(String healhtcareSiteXml) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.create.getName() + "   Service -->" +ServiceTypeEnum.ORGANIZATION.getName());
+        Metadata mData = new Metadata(OperationNameEnum.create.getName(), "externalId", ServiceTypeEnum.ORGANIZATION.getName());
+		return broadcastCoppaMessage(healhtcareSiteXml, mData);
+	}
+	
+	/**
+	 * Broadcast coppa message. The actual call to the esb-client.
+	 * 
+	 * @param healthcareSiteXml the healthcare site xml
+	 * @param mData the m data
+	 * @return the string
+	 * @throws C3PRCodedException the c3 pr coded exception
+	 */
+	private String broadcastCoppaMessage(String healthcareSiteXml, Metadata mData) throws C3PRCodedException {
+
+		String caXchangeResponseXml = null;
+		try {
+            caXchangeResponseXml = getCoppaMessageBroadcaster().broadcastCoppaMessage(healthcareSiteXml, mData);
+        }
+        catch (Exception e) {
+            log.error(e);
+            throw this.exceptionHelper.getException(
+                            getCode("C3PR.EXCEPTION.ORGANIZATION.SEARCH.BROADCAST.SEND_ERROR"), e);
+        }
+		return caXchangeResponseXml;
+	}	
+	
 	
 	/**
      * Gets the error code which is used to retrieve the exception message.
@@ -404,40 +444,6 @@ public class PersonOrganizationResolverUtils {
 			CCTSMessageBroadcaster coppaMessageBroadcaster) {
 		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
 	}
-
-	/** Populate the Address object from the coppaOrganization which is passed into it.
-	 * 
-	 * @param coppaOrganization
-	 * @return Address
-	 */
-	public Address getAddressFromCoppaOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization) {
-		Address address  = new Address();
-		
-		address.setCity(CoppaObjectFactory.getCity(coppaOrganization.getPostalAddress()));
-		address.setCountryCode(CoppaObjectFactory.getCountry(coppaOrganization.getPostalAddress()));
-		address.setStateCode(CoppaObjectFactory.getState(coppaOrganization.getPostalAddress()));
-		address.setPostalCode(CoppaObjectFactory.getZip(coppaOrganization.getPostalAddress()));
-		address.setStreetAddress(CoppaObjectFactory.getStreet(coppaOrganization.getPostalAddress()));
-		
-		return address;
-	}
-	
-	/*public edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster getCoppaMessageBroadcaster() {
-		if(coppaMessageBroadcaster instanceof CaXchangeMessageBroadcasterImpl){
-			coppaMessageBroadcaster = (CaXchangeMessageBroadcasterImpl)coppaMessageBroadcaster;
-			if(coppaMessageBroadcaster.getDelegatedCredentialProvider() == null){
-				TestMultisiteDelegatedCredentialProvider testMultisiteDelegatedCredentialProvider = 
-					new TestMultisiteDelegatedCredentialProvider(username, password);
-				coppaMessageBroadcaster.setDelegatedCredentialProvider(testMultisiteDelegatedCredentialProvider); 
-			}
-		}
-		return coppaMessageBroadcaster;
-	}*/
-
-	/*public void setCoppaMessageBroadcaster(
-			edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster coppaMessageBroadcaster) {
-		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
-	}*/
 	
 	
 }

@@ -294,22 +294,12 @@ public class NotificationEmailService implements ApplicationContextAware {
     //merge this with getEmailAddressesFromInvestigator
     public List<String> getEmailAddressesFromResearchStaff(ResearchStaff rs) {
         List<String> returnList = new ArrayList<String>();
-//        for (ContactMechanism cm : rs.getContactMechanisms()) {
-//            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-//                returnList.add(cm.getValue());
-//            }
-//        }
         returnList.add(rs.getEmail());
         return returnList;
     }
     
     public List<String> getEmailAddressesFromInvestigator(Investigator inv) {
         List<String> returnList = new ArrayList<String>();
-//        for (ContactMechanism cm : inv.getContactMechanisms()) {
-//            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-//                returnList.add(cm.getValue());
-//            }
-//        }
         returnList.add(inv.getEmail());
         return returnList;
     }

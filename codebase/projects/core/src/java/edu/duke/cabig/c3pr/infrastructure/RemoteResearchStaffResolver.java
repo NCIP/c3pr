@@ -10,7 +10,6 @@ import org.iso._21090.II;
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
-import edu.duke.cabig.c3pr.constants.CoppaStatusCodeEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
@@ -151,7 +150,9 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
                                 nciIdentifier = identifiedPerson.getAssignedId().getExtension();
                             }
                             tempRemoteResearchStaff = populateRemoteResearchStaff(person, nciIdentifier, coppaIdOrganization);
-                            remoteResearchStaffList.add(tempRemoteResearchStaff);
+                            if(tempRemoteResearchStaff != null){
+                            	remoteResearchStaffList.add(tempRemoteResearchStaff);
+                            }
                         }
                     } catch (C3PRCodedException e) {
                             log.error(e);
@@ -186,7 +187,9 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 				//if the person is not a staff then he/she wont have a role and hence wont have a org
 				if(coppaOrganizationList.size() > 0){
 					tempRemoteResearchStaff = populateRemoteResearchStaff(coppaPerson, null, coppaOrganizationList);
-					remoteResearchStaffList.add(tempRemoteResearchStaff);
+					if(tempRemoteResearchStaff != null){
+						remoteResearchStaffList.add(tempRemoteResearchStaff);
+					}
 				}
 			}
 		}
@@ -291,40 +294,44 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	 * @return the research staff
 	 */
 	public RemoteResearchStaff populateRemoteResearchStaff(Person coppaPerson, String staffNciIdentifier, List<gov.nih.nci.coppa.po.Organization> coppaOrganizationList){
-		
-		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff)personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
-		remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
-		
-		if(!StringUtils.isEmpty(staffNciIdentifier)){
-			remoteResearchStaff.setNciIdentifier(staffNciIdentifier);
+		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
+		if(object == null){
+			return null;
 		} else {
-			II ii = CoppaObjectFactory.getIISearchCriteriaForPerson(coppaPerson.getIdentifier().getExtension());
-			IdentifiedPerson identifiedPerson = personOrganizationResolverUtils.getIdentifiedPerson(ii);
-			if(identifiedPerson  != null){
-				remoteResearchStaff.setNciIdentifier(identifiedPerson.getAssignedId().getExtension());
+			RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff) object;
+			remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
+			
+			if(!StringUtils.isEmpty(staffNciIdentifier)){
+				remoteResearchStaff.setNciIdentifier(staffNciIdentifier);
 			} else {
-				log.error("IdentifiedPerson is null for person with coppaId: "+coppaPerson.getIdentifier().getExtension());
+				II ii = CoppaObjectFactory.getIISearchCriteriaForPerson(coppaPerson.getIdentifier().getExtension());
+				IdentifiedPerson identifiedPerson = personOrganizationResolverUtils.getIdentifiedPerson(ii);
+				if(identifiedPerson  != null){
+					remoteResearchStaff.setNciIdentifier(identifiedPerson.getAssignedId().getExtension());
+				} else {
+					log.error("IdentifiedPerson is null for person with coppaId: "+coppaPerson.getIdentifier().getExtension());
+				}
 			}
-		}
-		
-		//Build HealthcareSite 
-		RemoteHealthcareSite healthcareSite = null;
-		if(coppaOrganizationList != null && coppaOrganizationList.size()>0){
-			for(gov.nih.nci.coppa.po.Organization coppaOrganization: coppaOrganizationList){
-				IdentifiedOrganization identifiedOrganization = personOrganizationResolverUtils.getIdentifiedOrganization(coppaOrganization);
-				
-				healthcareSite = new RemoteHealthcareSite();
-				personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
-				healthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
-				
-				healthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
-				Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
-				healthcareSite.setAddress(address);
-				
-				remoteResearchStaff.setHealthcareSite(healthcareSite);
+			
+			//Build HealthcareSite 
+			RemoteHealthcareSite healthcareSite = null;
+			if(coppaOrganizationList != null && coppaOrganizationList.size()>0){
+				for(gov.nih.nci.coppa.po.Organization coppaOrganization: coppaOrganizationList){
+					IdentifiedOrganization identifiedOrganization = personOrganizationResolverUtils.getIdentifiedOrganization(coppaOrganization);
+					
+					healthcareSite = new RemoteHealthcareSite();
+					personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
+					healthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
+					
+					healthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
+					Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
+					healthcareSite.setAddress(address);
+					
+					remoteResearchStaff.setHealthcareSite(healthcareSite);
+				}
 			}
+			return remoteResearchStaff;
 		}
-		return remoteResearchStaff;
 	}
 	
 	/**
@@ -338,15 +345,20 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	 */
 	public RemoteResearchStaff populateRemoteResearchStaff(Person coppaPerson, String staffNciIdentifier, IdentifiedOrganization identifiedOrganization){
 
-		RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff)personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
-		remoteResearchStaff.setNciIdentifier(staffNciIdentifier);
-		remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
-		
-		//Build HealthcareSite
-		HealthcareSite healthcareSite = new RemoteHealthcareSite();
-		personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite,identifiedOrganization.getAssignedId().getExtension());
-		remoteResearchStaff.setHealthcareSite(healthcareSite);
-		return remoteResearchStaff;
+		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
+		if(object == null){
+			return null;
+		} else {
+			RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff) object;
+			remoteResearchStaff.setNciIdentifier(staffNciIdentifier);
+			remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
+			
+			//Build HealthcareSite
+			HealthcareSite healthcareSite = new RemoteHealthcareSite();
+			personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite,identifiedOrganization.getAssignedId().getExtension());
+			remoteResearchStaff.setHealthcareSite(healthcareSite);
+			return remoteResearchStaff;
+		}
 	}
 	
 	

@@ -21,7 +21,6 @@ import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -475,8 +474,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 					.toString(), new String[] { siteAccessRoleId });
 
 		} catch (CSObjectNotFoundException e) {
-			log
-					.error("###Error getting info for"
+			log.error("###Error getting info for"
 							+ csmApplicationContextName
 							+ " application from CSM. Application configuration exception###");
 			throw new C3PRBaseRuntimeException(

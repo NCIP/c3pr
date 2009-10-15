@@ -6,13 +6,9 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
-import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 
@@ -38,10 +34,6 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
     /** The Constant SUBNAME_SUBEMAIL_MATCH_PROPERTIES. */
     private static final List<String> SUBNAME_SUBEMAIL_MATCH_PROPERTIES = Arrays.asList("investigator.firstName","investigator.lastName","investigator.contactMechanisms.value");
     
-    private InvestigatorDao investigatorDao;
-    
-    private HealthcareSiteDao healthcareSiteDao;
-
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
      */
@@ -49,11 +41,6 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
         return HealthcareSiteInvestigator.class;
     }
 
-    /*
-     * Returns all HealthcarSite objects (non-Javadoc)
-     * 
-     * @see edu.duke.cabig.c3pr.dao.HealthcareSiteDao#getAll()
-     */
     /**
      * Gets all HealthcareSiteInvestigators.
      * 
@@ -80,9 +67,7 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
 //    	HealthcareSite healthcareSiteWithNciId = new LocalHealthcareSite();
 //    	healthcareSiteWithNciId.setCtepCode(healthcareSite.getCtepCode());
 //    	hcsi.setHealthcareSite(healthcareSiteWithNciId);
-//    	
 //    	remoteInvestigator.getHealthcareSiteInvestigators().add(hcsi);
-//    	
 //    	investigatorDao.getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
     	
     	return findBySubname(subnames, "o.healthcareSite.id = '" + healthcareSiteId + "'",
@@ -121,6 +106,13 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
                  EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
+    /**
+     * Update database with remote content.
+     * 
+     * @param healthcareSiteInvestigator the healthcare site investigator
+     * 
+     * @return the healthcare site investigator
+     */
     public HealthcareSiteInvestigator updateDatabaseWithRemoteContent(HealthcareSiteInvestigator healthcareSiteInvestigator){
     	HealthcareSiteInvestigator savedHealthcareSiteInvestigator = getSiteInvestigator(healthcareSiteInvestigator.getHealthcareSite(), healthcareSiteInvestigator.getInvestigator());
     	if(savedHealthcareSiteInvestigator == null){
@@ -140,23 +132,5 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
 		getHibernateTemplate().saveOrUpdate(healthcareSiteInvestigator);
 		getHibernateTemplate().flush();
 	}
-	
-	public InvestigatorDao getInvestigatorDao() {
-		return investigatorDao;
-	}
 
-	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
-		this.investigatorDao = investigatorDao;
-	}
-
-	public HealthcareSiteDao getHealthcareSiteDao() {
-		return healthcareSiteDao;
-	}
-
-	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-		this.healthcareSiteDao = healthcareSiteDao;
-	}
-    
-    
-    
 }
