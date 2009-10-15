@@ -19,23 +19,25 @@
         }
     	
         function getBroadcastStatus() {
-            $('viewDetails').disable('broadcastBtn');
-            $('viewDetails').disable('broadcastStatusBtn');
+			new Element.update('broadcastResponse','');
+			new Element.hide('broadcastAction');
+        	new Element.show('broadcastResponseCheckWait');
+        	new Element.show('broadcastResponse');
 
-	        <tags:tabMethod method="getMessageBroadcastStatus" onComplete="onBroadcastComplete"
-	        viewName="/ajax/broadcast_res" divElement="'broadcastResponse'"
-	        formName="'viewDetails'" params="dontSave=true"/>
+        <tags:tabMethod method="getMessageBroadcastStatus"
+            viewName="/registration/asynchronous/broadcast_res" divElement="'broadcastResponse'"
+            formName="'broadcastForm'"/>
         }
 
       paramString="<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
       
-      doSendMessageToESB = function() {
+        doSendMessageToESB = function() {
         	new Element.update('broadcastResponse','');
         	new Element.hide('broadcastAction');
         	new Element.show('broadcastWait');
         	new Element.show('broadcastResponse');
 
-	        <tags:tabMethod method="broadcastRegistration"
+	        <tags:tabMethod method="sendMessageToESB"
 	            viewName="/registration/asynchronous/broadcast_res" divElement="'broadcastResponse'"
 	            formName="'broadcastForm'"/>
         }
@@ -183,7 +185,7 @@
 	<input type="hidden" name="create_companion" value=""/>
 	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
 </form>
-<form id="broadcastForm">
+<form id="broadcastForm" action="/c3pr/pages/registration/manageRegistration">
 	<tags:tabFields tab="${tab}"/>
 </form>
 <form id="hotlinksForm" action="" method="get">
@@ -788,8 +790,8 @@
 	<div id="broadcastAction">
 		<c:choose>
 			<c:when test="${empty command.studySubject.cctsWorkflowStatus}">
-				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
-					<strong><fmt:message key="REGISTRATION.BROADCAST.NOT_YET_SENT"/></strong>
+				<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<fmt:message key="REGISTRATION.BROADCAST.NOT_YET_SENT"/>
 				</div>
 				<div align="center" style="padding-top: 20px">
 				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
@@ -797,17 +799,19 @@
 				</div>
 			</c:when>
 			<c:when test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND'}">
-				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
-					<strong><fmt:message key="REGISTRATION.BROADCAST.SENT_NO_RESPONSE"/></strong>
+				<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<fmt:message key="REGISTRATION.BROADCAST.SENT_NO_RESPONSE"/>
 				</div>
 				<div align="center" style="padding-top: 20px">
 				<tags:button type="button "color="blue" value="Check response" onclick="javascript:getBroadcastStatus();"/>
-				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				<tags:button type="button" color="red" icon="x" value="Later" onclick="window.location.reload();" />
 				</div>
 			</c:when>
 			<c:when test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND_CONFIRMED'}">
-				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
-					<strong><fmt:message key="REGISTRATION.BROADCAST.SENT_SUCCESSFULLY"/></strong>
+				<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<strong><font color="green">
+						<fmt:message key="REGISTRATION.BROADCAST.SENT_SUCCESSFULLY"/>
+					</font><br></strong><br><fmt:message key="REGISTRATION.BROADCAST.SENT_SUCCESSFULLY.RESEND"/>
 				</div>
 				<div align="center" style="padding-top: 20px">
 				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
@@ -815,8 +819,28 @@
 				</div>
 			</c:when>
 			<c:when test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
-				<div style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
-					<strong><fmt:message key="REGISTRATION.BROADCAST.SEND_FAILED"/><fmt:message key="BROADCAST.RESEND"/></strong>
+				<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<div style="float: left; padding: 5px;">
+						<img src="<tags:imageUrl name='error.png'/>" alt="Calendar" border="0" align="middle"/>
+					</div>
+					<c:choose>
+						<c:when test="${empty command.studySubject.cctsErrorString}"><fmt:message key="REGISTRATION.BROADCAST.SEND_ERROR"/></c:when>
+						<c:otherwise><fmt:message key="REGISTRATION.BROADCAST.SEND_FAILED"/>${command.studySubject.cctsErrorString}</c:otherwise>
+					</c:choose>
+					<fmt:message key="BROADCAST.RESEND"/>
+				</div>
+				<div align="center" style="padding-top: 20px">
+				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
+				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				</div>
+			</c:when>
+			<c:when test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_ACK_FAILED'}">
+				<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+					<div style="float: left; padding: 5px;">
+						<img src="<tags:imageUrl name='error.png'/>" alt="Calendar" border="0" align="middle"/>
+					</div>
+					<fmt:message key="REGISTRATION.BROADCAST.SENT_NO_ACK"/>
+					<fmt:message key="BROADCAST.RESEND"/>
 				</div>
 				<div align="center" style="padding-top: 20px">
 				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
@@ -827,6 +851,9 @@
 	</div>
 	<div id="broadcastWait" align="center" style="display: none;">
 		<div style="padding-top: 5px"><img src="/c3pr/images/broadcast_animation.gif"><div style="font-size: 15pt; padding-top: 5px">Please Wait... Sending</div></div>
+	</div>
+	<div id="broadcastResponseCheckWait" align="center" style="display: none;">
+		<div style="padding-top: 5px"><img src="/c3pr/images/broadcast_animation.gif"><div style="font-size: 10pt; padding-top: 5px">Checking response. This may take few minutes...</div></div>
 	</div>
 	<div id="broadcastResponse">
 	</div>	
