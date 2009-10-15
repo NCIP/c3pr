@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
@@ -64,8 +65,15 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     
     @Override
     public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors errors) {
+    	 
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
     	StudySubject studySubject = wrapper.getStudySubject();
+    	 if(request.getSession().getAttribute("studyVersion") !=null ){
+           	request.getSession().removeAttribute("studyVersion");
+           }
+       if(request.getSession().getAttribute("canEnroll") !=null ){
+       	request.getSession().removeAttribute("canEnroll");
+       }
     	if(studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED && studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
     		studySubject.getScheduledEpoch().setStartDate(studySubject.getStartDate());
     	}
@@ -82,19 +90,11 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     	}
     	
     	// remove dummy study subject consent versions that were created because of lazy list helper
-    	
-    	Iterator iterator = command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions().iterator();
-    	
+    	Iterator iterator =studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().iterator();
     	while(iterator.hasNext()){
     		StudySubjectConsentVersion studySubjectConsentVersion = (StudySubjectConsentVersion)iterator.next();
-    		if (studySubjectConsentVersion.getConsent() == null){
+    		if (studySubjectConsentVersion.getInformedConsentSignedDateStr() == null || studySubjectConsentVersion.getInformedConsentSignedDateStr()== "" ){
     			iterator.remove();
-    		}
-    	}
-    	
-    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-    		if (studySubjectConsentVersion.getConsent() == null){
-    			command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions().remove(studySubjectConsentVersion);
     		}
     	}
     	
@@ -121,7 +121,23 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
         		command.getStudySubject().getDiseaseHistory().setOtherPrimaryDiseaseSiteCode("");
         	}
         }
+        
+        StudySiteStudyVersion studySiteStudyVersion = ((StudySubjectWrapper)command).getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
+        
+        for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+			if(studySubjectConsentVersion.getInformedConsentSignedDateStr()!=null && studySubjectConsentVersion.getInformedConsentSignedDateStr() != ""){
+				if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , studySubjectConsentVersion.getInformedConsentSignedDate())){
+					request.getSession().setAttribute("canEnroll",false);
+					StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getStudyVersion(studySubjectConsentVersion.getInformedConsentSignedDate());
+					request.getSession().setAttribute("studyVersion",studyVersion);
+					errors.reject("tempProperty","Informed consent signed date does not correspond to the selected study version");
+					break;
+				}
+			}
+		}
     }
+    
+    
     
     @Override
     public void validate(StudySubjectWrapper command, Errors errors) {
@@ -131,10 +147,33 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 		    if(date !=null){
 		    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
 					if(studySubjectConsentVersion.getInformedConsentSignedDate()!= null &&  date.before(studySubjectConsentVersion.getInformedConsentSignedDate())){
-						errors.reject("studySubject.startDate", "Registration start date cannot be before the informed consent signed date");
+						errors.reject("studySubject.startDate", "Registration start date cannot be prior to informed consent signed date");
 					}
 				}
 	    	}
+    	}
+    	
+    	if(command.getStudySubject().getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
+    		boolean atLeastOneConsentSigned = false;
+    		for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+    			if(studySubjectConsentVersion.getInformedConsentSignedDateStr()!=null && studySubjectConsentVersion.getInformedConsentSignedDateStr() != ""){
+    				atLeastOneConsentSigned = true;
+    			}
+    		}
+    		if(!atLeastOneConsentSigned){
+    			errors.reject("tempProperty","At least one consent needs to be signed.");
+    		}
+    		
+    	} else if (command.getStudySubject().getStudySite().getStudy().getConsentRequired() == ConsentRequired.ALL){
+    		boolean allConsentsSigned = true;
+    		for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+    			if(studySubjectConsentVersion.getInformedConsentSignedDateStr() ==null || studySubjectConsentVersion.getInformedConsentSignedDateStr() == ""){
+    				allConsentsSigned = false;
+    			}
+    		}
+    		if(!allConsentsSigned){
+    			errors.reject("tempProperty","All consents need to be signed.");
+    		}
     	}
     }
     
