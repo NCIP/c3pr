@@ -30,12 +30,12 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 	CaXchangeMessageBroadcasterImpl coppaMessageBroadcaster = null;
 	PersonOrganizationResolverUtils personResolverUtils = null;
 	
-	public static final String idpUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
-	public static final String ifsUrl = "https://cbvapp-d1017.nci.nih.gov:38443/wsrf/services/cagrid/Dorian";
+	public static final String idpUrl = "https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian";
+	public static final String ifsUrl = "https://cagrid-dorian-stage.nci.nih.gov:8443/wsrf/services/cagrid/Dorian";
 	public static final String caXchangeUrl = "https://ncias-c278-v.nci.nih.gov:58445/wsrf-caxchange/services/cagrid/CaXchangeRequestProcessor";
 	
-	public static final String username = "ccts@nih.gov";
-	public static final String password = "!Ccts@nih.gov1";
+	public static final String username = "cctsdev1";
+	public static final String password = "An010101!!";
 	
 	public static final String COPPA_NS_URI = "http://po.coppa.nci.nih.gov";
 	public static final String COPPA_WSDD_FILE = "/gov/nih/nci/coppa/services/client/client-config.wsdd";
@@ -46,7 +46,7 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 		super.setUp();
 		remoteInvestigatorResolver = (RemoteInvestigatorResolver) getApplicationContext().getBean("remoteInvestigatorResolver");
 		coppaMessageBroadcaster = (CaXchangeMessageBroadcasterImpl) getApplicationContext().getBean("coppaMessageBroadcaster");
-		personResolverUtils = (PersonOrganizationResolverUtils)getApplicationContext().getBean("personResolverUtils");
+		personResolverUtils = (PersonOrganizationResolverUtils)getApplicationContext().getBean("personOrganizationResolverUtils");
 		
 		TestMultisiteDelegatedCredentialProvider testMultisiteDelegatedCredentialProvider = new TestMultisiteDelegatedCredentialProvider(username, password);
 		testMultisiteDelegatedCredentialProvider.setIdpUrl(idpUrl);
@@ -189,7 +189,7 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 	 */
 	private RemoteInvestigator getSampleRemoteInvestigatorWithName() {
 		RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
-		remoteInvestigator.setFirstName("J");
+		remoteInvestigator.setFirstName("Ja");
 		remoteInvestigator.setLastName("long");
 		Address address = new Address();
 		address.setCity("");
