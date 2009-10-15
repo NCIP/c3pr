@@ -95,7 +95,7 @@
                     <fmt:message key="c3pr.common.searchCriteria"/>
                 </div>
                 <div class="value">
-                	<input type="hidden" id="activeOnly" name="activeOnly" value="true"/>
+                	<input type="hidden" id="nonPending" name="nonPending" value="true"/>
                 	<input type="hidden" id="standaloneOnly" name="standaloneOnly" value="true"/>
                 	<input id="searchText" name="searchText" type="text" value="" size="25"/>
                 	<tags:button type="button" icon="search" size="small" color="blue" value="Search" onclick="searchStudy();"/>
