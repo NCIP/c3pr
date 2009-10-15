@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
+import org.apache.log4j.Logger;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -30,6 +33,7 @@ import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
+import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To
@@ -37,6 +41,11 @@ import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
  */
 public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		RegistrationTab<C> {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger log = Logger
+			.getLogger(RegistrationOverviewTab.class);
 
 	private StudySubjectService studySubjectService;
 
@@ -150,31 +159,39 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
         }
 		return map;
 	}
-
-	public ModelAndView getMessageBroadcastStatus(HttpServletRequest request,
-			Object commandObj, Errors error) {
-		StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj;
-		StudySubject command = wrapper.getStudySubject();
-		String responseMessage = studySubjectService
-				.getCCTSWofkflowStatus(command).getDisplayName();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("responseMessage", responseMessage);
-		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+	
+	public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj,
+            Errors error) {
+		StudySubject command = ((StudySubjectWrapper) commandObj).getStudySubject();
+		command = studySubjectDao.getById(command.getId());
+		((StudySubjectWrapper) commandObj).setStudySubject(command);
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
 
-	public ModelAndView broadcastRegistration(HttpServletRequest request,
-			Object commandObj, Errors error) {
-		StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj;
+    public ModelAndView sendMessageToESB(HttpServletRequest request, Object commandObj, Errors error) {
+    	StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj;
 		StudySubject command = wrapper.getStudySubject();
-		try {
-			this.studySubjectService.broadcastMessage(command);
-			return getMessageBroadcastStatus(request, commandObj, error);
-		} catch (C3PRCodedException e) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("responseMessage", e.getMessage());
-			return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
-		}
-	}
+    	try {
+            log.debug("Sending message to CCTS esb");
+            studySubjectService.broadcastMessage(command);
+            return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
+        }
+        catch (C3PRCodedException e) {
+        	log.error(e);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("codedError", e);
+            return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+        }
+        catch (Exception e) {
+        	log.error(e);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("generalError", e);
+            return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+        }finally{
+        	command = studySubjectDao.getById(command.getId());
+            ((StudySubjectWrapper) commandObj).setStudySubject(command);
+        }
+    }
 
 	public ModelAndView showEndpointMessage(HttpServletRequest request,
 			Object obj, Errors errors) {
