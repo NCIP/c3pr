@@ -41,7 +41,7 @@ public class CCTSCaXchangeBroadcasterTester extends MasqueradingDaoTestCase<Stud
     public void testCaXchangeMessageSender() throws Exception {
         for (StudySubject subject : getDao().getAll()) {
             messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory
-                            .createWorkflowCallback(subject));
+                            .createWorkflowCallback(getDao()));
             String message = marshaller.toXML(subject);
             System.out.println(message);
             Document messageDOM = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(

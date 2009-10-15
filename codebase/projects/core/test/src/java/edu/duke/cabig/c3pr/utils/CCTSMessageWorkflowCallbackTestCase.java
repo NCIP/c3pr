@@ -23,7 +23,7 @@ public class CCTSMessageWorkflowCallbackTestCase extends MasqueradingDaoTestCase
     public void testCallback() {
         for (StudySubject subject : getDao().getAll()) {
             MessageWorkflowCallback callback = cctsMessageWorkflowCallbackFactory
-                            .createWorkflowCallback(subject);
+                            .createWorkflowCallback(getDao());
             callback.messageSendSuccessful("success");
 
             StudySubject reloaded = getDao().getById(subject.getId());

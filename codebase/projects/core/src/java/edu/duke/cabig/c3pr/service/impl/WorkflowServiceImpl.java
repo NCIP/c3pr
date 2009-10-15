@@ -111,7 +111,7 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
                     throws C3PRCodedException {
         if (getIsBroadcastEnable().equalsIgnoreCase("true")) {
             messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory
-                            .createWorkflowCallback(cctsObject));
+                            .createWorkflowCallback(dao));
             String xml = "";
             try {
                 xml = cctsXmlUtility.toXML(cctsObject);
@@ -136,7 +136,7 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
                 messageBroadcaster.broadcast(transformedXML, mData);
             }
             catch (Exception e) {
-                e.printStackTrace();
+                //e.printStackTrace();
                 throw this.exceptionHelper.getException(
                                 getCode("C3PR.EXCEPTION.BROADCAST.SEND_ERROR"), e);
             }
