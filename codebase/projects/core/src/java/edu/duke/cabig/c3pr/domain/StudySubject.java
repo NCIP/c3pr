@@ -713,11 +713,11 @@ public class StudySubject extends
 	 * @param value the new c3 d identifier
 	 */
 	public void setC3DIdentifier(String value) {
-		SystemAssignedIdentifier identifier = getSystemAssignedIdentifiers()
-				.get(0);
+		SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
 		identifier.setSystemName("C3D");
 		identifier.setType("C3D Identifier");
 		identifier.setValue(value);
+		this.getSystemAssignedIdentifiers().add(identifier);
 	}
 
 	/**
