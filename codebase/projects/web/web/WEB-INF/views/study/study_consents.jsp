@@ -52,7 +52,7 @@
 	} 
 
 
-    var genericConsentRowInserterProps= {
+    var genericConsentRowInserterProps={
             add_row_division_id: "consent",
             skeleton_row_division_id: "dummy-genericConsent",
             initialIndex: ${fn:length(command.study.consents)},
@@ -62,7 +62,7 @@
             postProcessRowInsertion: function(object){
       								var inputName="study.consents["+object.localIndex+"].name";
       								setTimeout("enableFocus(\'"+inputName+"\')",10);
-      							},
+      							}
             };
  		RowManager.addRowInseter(genericConsentRowInserterProps);
         RowManager.registerRowInserters();
