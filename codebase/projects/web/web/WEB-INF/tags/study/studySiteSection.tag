@@ -43,47 +43,6 @@ function showSiteStatusHistory(primaryIdentifier){
 	win.showCenter(true);
 }
 
-function chooseEffectiveDate(primaryIdentifier, action){
-	var arr= $$("#effectiveDate-"+primaryIdentifier);
-	$('_actionToTake').value = action ;
-	win = new Window({className :"mac_os_x", title: "Choose Effective Date",
-							hideEffect:Element.hide,
-							zIndex:100, width:450, height:100 , minimizable:false, maximizable:false,
-							showEffect:Element.show
-							})
-	win.setContent(arr[0]) ;
-	win.showCenter(true);
-}
-
-function takeAction(primaryIdentifier){
-	var effectDate = $('effectiveDateField-'+primaryIdentifier).value;
-	var actionToTake = $('_actionToTake').value ;
-	submitStr='action=' + actionToTake+'&primaryIdentifier='+primaryIdentifier+'&effectiveDate='+effectDate+'&DO_NOT_SAVE=true';
-	if($("irbApprovalDate-"+primaryIdentifier)){
-		submitStr+='&irbApprovalDate-'+primaryIdentifier+'='+$("irbApprovalDate-"+primaryIdentifier).value;
-	}
-	if($("targetAccrual-"+primaryIdentifier)){
-		submitStr+='&'+$("targetAccrual-"+primaryIdentifier).name+'='+$("targetAccrual-"+primaryIdentifier).value;
-	}
-	<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/updatedStudySiteSection" divElement="'siteSection_'+primaryIdentifier" javaScriptParam="submitStr"/>
-	Element.show('sendingMessage-'+primaryIdentifier);
-	closePopup();
-}
-
-
-function applyAmendment(primaryIdentifier, versionIndex,  index, localNCICode, isMultisite, action, errorMessage , versionName){
-	<tags:tabMethod method="applyAmendment" divElement="'siteSection_'+primaryIdentifier" formName="'tabMethodForm'"  viewName="/study/asynchronous/updatedStudySiteSection" javaScriptParam="'irbApprovalDate='+$('irbApproval-'+primaryIdentifier+'-'+versionIndex).value+'&sitePrimaryId='+primaryIdentifier+'&index='+index+'&localNCICode='+localNCICode+'&isMultisite='+isMultisite+'&action='+action+'&errorMessage='+errorMessage+'&versionName='+versionName"/>
-}
-
-function confirmTakeAction(primaryIdentifier){
-	win = new Window({className :"mac_os_x", title: "Confirm", 
-		hideEffect:Element.hide, 
-		zIndex:100, width:400, height:150 , minimizable:false, maximizable:false,
-		showEffect:Element.show 
-		}); 
-	win.setContent($('statusChangeConfirmation')) ;
-	win.showCenter(true);
-}
 </script>
 <div id="statusChangeConfirmation" style="display : none;padding: 15px;">
 	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.SITE.STATUS_CHANGE.WARNING"/>
