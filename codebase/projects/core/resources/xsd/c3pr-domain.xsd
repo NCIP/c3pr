@@ -404,6 +404,8 @@
       <xs:element minOccurs="1" maxOccurs="unbounded" name="consent" type="Consent"/>
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
+    <!-- TODO: Added as a quick workaround for CCTS Remote Study Broadcast. -->
+    <xs:attribute name="externalId" type="xs:string" />
   </xs:complexType>
   <xs:complexType name="Consent">
     <xs:sequence>

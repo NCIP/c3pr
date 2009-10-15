@@ -521,6 +521,13 @@
         <property name="dao" ref="studyDao"/>
     	<property name="cctsXmlUtility" ref="studyXmlUtility"/>
     	<property name="cctsXSLTName" value="ccts-study-transformer.xsl"/>
+    	<!-- TODO: Added as a quick workaround for CCTS Remote Study Broadcast. -->
+    	<property name="remoteStudyXmlUtility">
+    		<!-- TODO: Added as a quick workaround for CCTS Remote Study Broadcast. -->
+		    <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+		        <constructor-arg value="c3pr-remote-study-xml-castor-mapping.xml"/>
+		    </bean>
+    	</property>
     </bean>
 
     <bean id="endPointFactory" class="edu.duke.cabig.c3pr.domain.factory.EndPointFactory">
@@ -706,7 +713,7 @@
     <bean id="studyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="c3pr-study-xml-castorMapping"/>
     </bean>
-
+    
     <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="c3pr-registration-xml-castor-mapping"/>
     </bean>

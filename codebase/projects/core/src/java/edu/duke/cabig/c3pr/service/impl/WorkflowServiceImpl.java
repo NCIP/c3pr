@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.dao.EndpointDao;
 import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject;
+import edu.duke.cabig.c3pr.domain.RemoteStudy;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.factory.EndPointFactory;
@@ -48,6 +49,9 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
     private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster messageBroadcaster;
     
     protected XmlMarshaller cctsXmlUtility;
+    
+    // TODO: Added as a quick workaround for CCTS Remote Study Broadcast.
+    protected XmlMarshaller remoteStudyXmlUtility;
     
     private DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory;
 
@@ -114,7 +118,12 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
                             .createWorkflowCallback(dao));
             String xml = "";
             try {
-                xml = cctsXmlUtility.toXML(cctsObject);
+            	if (cctsObject instanceof RemoteStudy) {
+            		// TODO: Added as a quick workaround for CCTS Remote Study Broadcast.
+            		xml = remoteStudyXmlUtility.toXML(cctsObject);
+				}else{
+					xml = cctsXmlUtility.toXML(cctsObject);
+				}
             }
             catch (XMLUtilityException e) {
                 e.printStackTrace();
@@ -263,6 +272,10 @@ public abstract class WorkflowServiceImpl implements CCTSWorkflowService, MultiS
 
 	public void setEndpointDao(EndpointDao endpointDao) {
 		this.endpointDao = endpointDao;
+	}
+
+	public void setRemoteStudyXmlUtility(XmlMarshaller remoteStudyXmlUtility) {
+		this.remoteStudyXmlUtility = remoteStudyXmlUtility;
 	}
     
 }

@@ -26,6 +26,13 @@
             <xsl:copy-of select="./c3pr:type"/>
             <xsl:copy-of select="./c3pr:targetAccrualNumber"/>
             <xsl:apply-templates select="./c3pr:identifier"/>
+            <xsl:if test="@externalId">
+                <identifier xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" xsi:type="SystemAssignedIdentifierType">
+                    <type xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">COPPA Identifier</type>
+                    <value xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"><xsl:value-of select="@externalId"/></value>
+                    <systemName xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">COPPA</systemName>
+                </identifier>
+            </xsl:if>
             <xsl:apply-templates select="./c3pr:epoch" />
             <xsl:apply-templates select="./c3pr:studyOrganization" />
         </study>
