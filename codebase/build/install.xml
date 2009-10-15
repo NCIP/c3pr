@@ -495,8 +495,17 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<delete dir="${tomcat.home}/temp"/>
 		<delete dir="${tomcat.home}/work"/>
 		<delete dir="${tomcat.home}/webapps/${application.context.name}"/>
-		<copy file="${c3pr-webapp.dir.dist}/war/${c3pr-webapp.war.file}" todir="${tomcat.home}/webapps" overwrite="true" />
+		<copy file="${c3pr-webapp.dir.dist}/${c3pr-webapp.war.file}" todir="${tomcat.home}/webapps" overwrite="true" />
 		<copy file="${database.driver.file}" todir="${tomcat.home}/common/lib" overwrite="true" />
+	</target>
+	
+	<!-- c3pr target for suite installer -->
+	<target name="install:c3pr" description="Install/Deploy c3pr related artifacts onto the tomcat container and configure tomcat with c3pr"
+		depends=
+		"common:init,
+		install:tomcat:c3pr-webapp,
+		install:post:tomcat:c3pr:config
+		">
 	</target>
 
 	<target name="install:tomcat:c3pr-webapp:configure" description="Configure c3pr-webapp application, copies over externalized properties or configurations that are not part of the tomcat configuration" unless="exclude.tomcat" depends="common:init,common:tomcat:init">
@@ -508,76 +517,68 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
         </copy> -->
 	</target>
 	<target name="install:post:tomcat:c3pr:config">
-		<if>
-			<equals arg1="${c3pr.install}" arg2="true"/>
-			<then>
-				<!-- tomcat container related modifications--> 
-				<ant target="c3pr:tomcat:datasource-property" antfile="${ant.file}" inheritall="false">
-					<property name="tomcat.home" value="${tomcat.home}"></property>
-				</ant>
-				<ant target="c3pr:tomcat:catalina-property" antfile="${ant.file}" inheritall="false">
-					<property name="tomcat.home" value="${tomcat.home}"></property>
-				</ant>
-				<ant target="c3pr:tomcat:csm-configuration" antfile="${ant.file}" inheritall="false">
-					<property name="tomcat.home" value="${tomcat.home}"></property>
-				</ant>
-			</then>
-		</if>
+		<antcall target="c3pr:datasource:properties:config"/>
+		<antcall target="c3pr:csm_jass:config"/>
+		<antcall target="c3pr:catalina_property:config"/>
+	</target>
+
+	<target name="c3pr:datasource:properties:config" description="Configure tomcat container for c3pr application">
+		<mkdir dir="${tomcat.home}/conf/${application.context.name}"/>
+		<copy file="${c3pr-webapp.dir.dist}/c3pr-templates/c3pr.datasource.properties" tofile="${tomcat.home}/conf/${application.context.name}/datasource.properties" overwrite="true" />
+		<antcall target="c3pr:properties:config">
+			<param name="filename" value="datasource.properties"/>
+		</antcall>
 	</target>
 	
-	<target name="c3pr:tomcat:csm-configuration" description="Configure tomcat container for c3pr application">
-		<switch value="${database.type}">
-			<case value="oracle">
-				<property name="database.driver.file" value="${bda-utils.dir}/ojdbc14-10.2.0.4.0.jar"/>
-			</case>
-			<case value="mysql">
-				<property name="database.driver" value="com.mysql.jdbc.Driver"/>
-			</case>
-			<case value="postgresql">
-				<property name="database.driver" value="org.postgresql.Driver"/>
-			</case>
-		</switch>
+	<target name="c3pr:csm_jass:config" description="Configure tomcat container for c3pr application">
 		<mkdir dir="${tomcat.home}/conf/cabig"/>
-		<echo file="${tomcat.home}/conf/cabig/csm_jaas.config" append="true">
-			${application.context.name} {
-			    gov.nih.nci.security.authentication.loginmodules.RDBMSLoginModule required
-			    driver="${database.driver}"
-			    url="${database.url}"
-			    user="${database.user}"
-			    passwd="${database.password}"
-			    encryption-enabled="YES"
-			    query="SELECT * FROM CSM_USER WHERE LOGIN_NAME=LOWER(?) and PASSWORD=?"
-			    ;
-			};
-		</echo>
+		<copy file="${c3pr-webapp.dir.dist}/c3pr-templates/c3pr.csm_jaas.config" tofile="${tomcat.home}/conf/${application.context.name}/${application.context.name}_csm_jaas.config" overwrite="true" />
+
+		<antcall target="c3pr:properties:config">
+			<param name="filename" value="${application.context.name}_csm_jaas.config"/>
+		</antcall>
+		
+		<loadfile property="c3pr.csm.jass.content" srcFile="${tomcat.home}/conf/${application.context.name}/${application.context.name}_csm_jaas.config"/>
+		
+		<touch file="${tomcat.home}/conf/cabig/csm_jaas.config"/>
+		
+		<replace file="${tomcat.home}/conf/cabig/csm_jaas.config" token="${c3pr.csm.jass.content}" value=""/>
+		
+		<echo file="${tomcat.home}/conf/cabig/csm_jaas.config" append="true">&#x0A;${c3pr.csm.jass.content}</echo>	
 	</target>
 	
-	<target name="c3pr:tomcat:catalina-property" description="Configure tomcat container for c3pr application">
+	<target name="c3pr:catalina_property:config" description="Configure tomcat container for c3pr application">
+		<replace file="${tomcat.home}/conf/catalina.properties" token="java.security.auth.login.config=${tomcat.home}/conf/cabig/csm_jaas.config" value=""/>
 		<echo file="${tomcat.home}/conf/catalina.properties" append="true">&#x0A;java.security.auth.login.config=${tomcat.home}/conf/cabig/csm_jaas.config</echo>
 	</target>
 	
-	<target name="c3pr:tomcat:datasource-property" description="Configure tomcat container for c3pr application">
-		<mkdir dir="${tomcat.home}/conf/${application.context.name}"/>
+	<target name="c3pr:properties:config" description="Configure tomcat container for c3pr application">
 		<switch value="${database.type}">
-    		<case value="oracle">
-	    		<copy file="${software.dir}/../../../antfiles/templates/oracle/oracle.datasource.properties" tofile="${tomcat.home}/conf/${application.context.name}/datasource.properties" overwrite="true" />
-    		</case>
-    		<case value="postgresql">
-    			<copy file="${software.dir}/../../../antfiles/templates/postgres/postgres.datasource.properties" tofile="${tomcat.home}/conf/${application.context.name}/datasource.properties" overwrite="true" />
-    		</case>
-    	</switch>
-    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@DB_USER@" value="${database.user}" />
-    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@DB_PASSWORD@" value="${database.password}" />
-    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@DB_HOST@" value="${database.server}" />
-    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@DB_PORT@" value="${database.port}" />
-    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@DB_NAME@" value="${database.name}" />
-    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@URL@" value="${rules.repository}" />
+			<case value="oracle">
+				<property name="database.driver" value="oracle.jdbc.OracleDriver"/>
+				<property name="database.dialect" value="org.hibernate.dialect.Oracle9Dialect"/>
+			</case>
+			<case value="postgresql">
+				<property name="database.driver" value="org.postgresql.Driver"/>
+				<property name="database.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+			</case>
+		</switch>
 
-		<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@JACKRABBIT_REPOSITORY@" value="${jackrabbit.repository}" />
-		<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@QUARTZ_DELEGATE_CLASSNAME@" value="${jdbc.quartz.delegateClassName}" />
-    	<replace file="${tomcat.home}/conf/${application.context.name}/datasource.properties" token="@AUDIT_DIALECT@" value="${audit.dialect}" />
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_URL@" value="${database.url}" />
+		
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_NAME@" value="${database.name}" />
+    	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_USER@" value="${database.user}" />
+    	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_PASSWORD@" value="${database.password}" />
+    	
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_DIALECT@" value="${database.dialect}" />
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_DRIVER@" value="${database.driver}" />
+		
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@URL@" value="${rules.repository}" />
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@JACKRABBIT_REPOSITORY@" value="${jackrabbit.repository}" />
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@QUARTZ_DELEGATE_CLASSNAME@" value="${jdbc.quartz.delegateClassName}" />
+    	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@AUDIT_DIALECT@" value="${audit.dialect}" />
 	</target>
-	
+		
 	<target name="install:tomcat:c3pr-webapp:re-configure" description="Configure c3pr-webapp application, copies over externalized properties or configurations that are not part of the tomcat configuration" unless="exclude.tomcat" depends="common:init,common:tomcat:init">
 	</target>
 
