@@ -124,9 +124,9 @@
 
     <DISEASE_HISTORY id="1000" version="1" icd9_disease_site_id="1000" retired_indicator = "false" />
 
-    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="01-01-2000" prt_id="1000" sti_id="1000" retired_indicator = "false" />
-    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="01-01-2000" prt_id="1001" sti_id="1001" retired_indicator = "false" />
-    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1002" version="1" start_date="01-01-2000" prt_id="1002" sti_id="1001" retired_indicator = "false" />
+    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="01-01-2000" prt_id="1000" sti_id="1000" retired_indicator = "false" grid_id="1000"/>
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="01-01-2000" prt_id="1001" sti_id="1001" retired_indicator = "false" grid_id="1001"/>
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1002" version="1" start_date="01-01-2000" prt_id="1002" sti_id="1001" retired_indicator = "false" grid_id="1002"/>
 	
 	<study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
     <study_subject_versions id="1001" version="1" study_site_ver_id="1000" spa_id="1001" retired_indicator = "false" />
