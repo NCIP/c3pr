@@ -83,7 +83,7 @@
 
 <div id="main">
 
-    <chrome:search title="Search hytuiuy">
+    <chrome:search title="Search Investigator">
 	<tags:instructions code="investigator_search" />
     <form name="searchForm" id="searchForm" method="post">
     	
