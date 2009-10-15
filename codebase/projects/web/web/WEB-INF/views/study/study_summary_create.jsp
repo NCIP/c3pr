@@ -2,11 +2,6 @@
 <html>
 <head>
  <title><studyTags:htmlTitle study="${command.study}"/></title>
- <style>
-		#main {
-			top:33px;
-		}
-	</style>
 <script>
 
 function redirectToTab(tabNumber){

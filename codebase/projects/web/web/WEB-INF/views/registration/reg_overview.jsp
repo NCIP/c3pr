@@ -2,11 +2,6 @@
 <html>
 <head>
     <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
-
-    <style type="text/css">
-		#main {
-			top:30px;
-		}
     </style>
 	
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">

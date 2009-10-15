@@ -3,11 +3,6 @@
 <head>
 <title><studyTags:htmlTitle study="${command.study}" /></title>
 <jwr:script src="/js/tabbedflow.js" />
-<style>
-#main {
-	top: 33px;
-}
-</style>
 <script>
 function viewStudyAmendment(){
 	Dialog.confirm("Are you sure you want to see this amendment version of the study?",

@@ -2,12 +2,22 @@
 <html>
 <head>
 <title><studyTags:htmlTitle study="${command.study}" /></title>
+<!--[if lte IE 7]>
 <style>
 * {zoom:1}
 #workflow-tabs {
-	top:25px;
+	top:-15px;
 }
+#workflow-tabs li.selected {
+			margin-top:-4px;
+			padding-top:4px;
+		}
+		#workflow-tabs li.selected a{
+			padding-bottom:1px;
+			padding-top:1px;
+		}
 </style>
+<![endif]-->
 <script>
 	//firstVisit - global var	           
     var firstVisit = true;

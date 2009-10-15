@@ -423,7 +423,8 @@ width:100%;
 #header { 
 background-image:url(images/header_bg.png);
 background-position:center top;
-height:100px;
+height:180px;
+background-repeat:no-repeat;
 width:980px;
 }
 #headerTitle1 {
@@ -591,9 +592,12 @@ p { margin: 1em 0; }
 /**** PAGE CONTENT BOXES */
 
 #main {
-	padding:20px 18px 20px;
+	padding:15px 18px 20px;
 	position:relative;
-	top:75px;
+}
+.tabpane {
+	position:relative;
+	top:-40px;
 }
 #flash-message {
 	border: 1px solid #999;
@@ -941,7 +945,7 @@ width:75%;
 	text-align:right;
 	position:relative;
 	display:block;
-	min-height:38px;
+	height:38px;
 	min-width:150px;
 	margin-bottom:15px;
 }

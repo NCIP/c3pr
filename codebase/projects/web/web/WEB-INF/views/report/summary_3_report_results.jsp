@@ -13,12 +13,6 @@
 
 <html>
 <head>
-<style>
-		#main {
-			top:35px;
-		}
-	</style>
-
 <script language="JavaScript" type="text/JavaScript">
 	  function submitPDFForm(){
 		  	document.getElementById('_finish').value='true';

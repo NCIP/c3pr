@@ -155,11 +155,6 @@
    			win.showCenter(true);
         }
     </script>
-	<style>
-		#main {
-			top:33px;
-		}
-	</style>
 	<!--[if lte IE 7]>
 	<style>
 		#targetAccrual button.omnipotent-button {

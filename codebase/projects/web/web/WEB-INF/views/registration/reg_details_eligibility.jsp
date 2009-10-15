@@ -28,11 +28,6 @@ field.value="";
 <script language="JavaScript" id="js1">
 	var cal1 = new CalendarPopup();
 </script>
-<style>
-	/*#main {
-		top:35px;
-	}*/
-</style>
 </head>
 <body>
 <!-- MAIN BODY STARTS HERE -->

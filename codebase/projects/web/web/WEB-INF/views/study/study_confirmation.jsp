@@ -3,11 +3,6 @@
 <html>
 	<head>
         <title><studyTags:htmlTitle study="${command.study}" /></title>   
-        <style>
-        	#main {
-		top:35px;
-	}
-        </style>
 	</head>
 	<body>
 	<div id="controlPanel">

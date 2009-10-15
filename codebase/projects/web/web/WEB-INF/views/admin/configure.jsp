@@ -29,9 +29,6 @@
         	margin-right: 0.5em;
         	width: 20em
         }
-        	#main {
-		top:35px;
-	}
     </style>
     <script type="text/javascript">
     function manageCCTSConfiguration(box) {

@@ -121,7 +121,7 @@
 	    	width:280px;
 		}
 		#workflow-tabs {
-			top:25px;
+			top:-15px;
 		}
 		#workflow-tabs li.selected {
 			margin-top:-4px;

@@ -405,11 +405,6 @@ function changeStudyVersion(){
 	#single-fields-interior div.row div.value {
 		margin-left:23em;
 	}
-	#main {
-		top:35px;
-	}
-
-
 </style>
 </head>
 <body>

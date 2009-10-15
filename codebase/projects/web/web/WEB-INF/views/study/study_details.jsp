@@ -6,9 +6,6 @@
     <jwr:script src="/js/tabbedflow.js" />
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
     <style>
-		#main {
-			top:35px;
-		}
 		div.row div.label {
 			margin-left:-1.3em;
 			

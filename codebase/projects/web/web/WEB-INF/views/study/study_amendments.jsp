@@ -3,11 +3,7 @@
 <head>
 <title><studyTags:htmlTitle study="${command.study}" /></title>
 <jwr:script src="/js/tabbedflow.js" />
-<style>
-#main {
-	top: 33px;
-}
-</style>
+
 <script>
 function amendmentTypeChanged(){
 	$("gracePeriodInput").className="" ;

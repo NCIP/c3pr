@@ -9,11 +9,6 @@ function navRollOver(obj, state) {
 }
 
 </script>
-<style>
-	#main {
-		top:35px;
-	}
-</style>
 </head>
 <body>
 

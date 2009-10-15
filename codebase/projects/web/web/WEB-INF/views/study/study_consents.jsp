@@ -3,9 +3,7 @@
 <head>
 	<style>
 		*{zoom:1}
-		#main {
-			top:33px;
-		}
+
 		div.row div.newlabel {
 			font-weight: normal;
 			float: left;
@@ -19,7 +17,7 @@
 <!--[if lte IE 7]>
 	<style>
 		#workflow-tabs {
-			top:25px;
+			top:-15px;
 		}
 		#workflow-tabs li.selected {
 			margin-top:-4px;

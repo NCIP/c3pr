@@ -25,11 +25,7 @@ function createReg(studySite, participant, parentRegistrationId){
 }
 
 </script>
-<style>
-	#main {
-		top:35px;
-	}
-</style>
+
 </head>
 <body>
 <tags:controlPanel>
