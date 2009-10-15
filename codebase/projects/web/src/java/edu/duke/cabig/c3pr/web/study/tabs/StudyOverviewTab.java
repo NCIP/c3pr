@@ -16,11 +16,13 @@ import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.constants.AmendmentType;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -44,7 +46,7 @@ public class StudyOverviewTab extends StudyTab {
     public StudyOverviewTab(String longTitle, String shortTitle, String viewName) {
         super(longTitle, shortTitle, viewName);
     }
-
+    
     public StudyOverviewTab(String longTitle, String shortTitle, String viewName, Boolean willSave) {
         super(longTitle, shortTitle, viewName,willSave);
     }
@@ -102,28 +104,39 @@ public class StudyOverviewTab extends StudyTab {
 
     public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj,
                                                   Errors error) {
-        Study study = ((StudyWrapper) commandObj).getStudy();
-        log.debug("Getting status for study");
-        String responseMessage = studyService.getCCTSWofkflowStatus(study).getDisplayName();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("responseMessage", responseMessage);
-        return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+    	Study study = ((StudyWrapper) commandObj).getStudy();
+    	study = studyDao.getById(study.getId());
+        ((StudyWrapper) commandObj).setStudy(study);
+        return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
     }
 
     public ModelAndView sendMessageToESB(HttpServletRequest request, Object commandObj, Errors error) {
-        try {
+    	Study study = ((StudyWrapper) commandObj).getStudy();
+    	try {
             log.debug("Sending message to CCTS esb");
-            Study study = ((StudyWrapper) commandObj).getStudy();
             studyService.broadcastMessage(study);
-            return getMessageBroadcastStatus(request, commandObj, error);
+            return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
         }
-        catch (C3PRBaseException e) {
+        catch (C3PRCodedException e) {
+        	log.error(e);
             Map<String, Object> map = new HashMap<String, Object>();
-            map.put("responseMessage", e.getMessage());
+            map.put("codedError", e);
             return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+        }
+        catch (Exception e) {
+        	log.error(e);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("generalError", e);
+            return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+        }finally{
+        	study = studyDao.getById(study.getId());
+            ((StudyWrapper) commandObj).setStudy(study);
         }
     }
 
+    private void checkResponse(Study study){
+    	
+    }
     @Override
     public Map referenceData(HttpServletRequest request, StudyWrapper command) {
 
