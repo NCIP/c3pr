@@ -27,6 +27,13 @@ public interface MessageWorkflowCallback {
      * @param objectId id of the domain object (external Identifier)
      */
     public void messageSendFailed(String objectId);
+    
+    /**
+     * Message acknowledgment failed
+     *
+     * @param objectId id of the domain object (external Identifier)
+     */
+    public void messageAcknowledgmentFailed(String objectId);
 
     /**
      * Confirm that message was sent to CCTS Hub and confirmation

@@ -135,14 +135,15 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
                 messageWorkflowCallback.messageSendSuccessful(externalId);
             }
         } catch (RemoteException e) {
-            log.error("caXchange could not process request", e);
-            if (messageWorkflowCallback != null) {
+        	if (messageWorkflowCallback != null) {
                 messageWorkflowCallback.messageSendFailed(externalId);
             }
-            throw new BroadcastException("caXchange could not process message", e);
+            throw new BroadcastException(e);
         }catch (MalformedURIException e) {
-			e.printStackTrace();
-			log.error("Could not instantiate CaXchangeRequestProcessorClient");
+        	if (messageWorkflowCallback != null) {
+                messageWorkflowCallback.messageSendFailed(externalId);
+            }
+			throw new BroadcastException(e);
 		}
 
         //logging epr info
@@ -572,9 +573,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
             log.debug("Elapsed time : " + elapsedTime + " seconds");
             if (elapsedTime > timeout) {
                 log.debug("Giving up. caXchange never returned a response for more than 60 seconds. Recording Error.");
-                ResponseErrors<CCTSApplicationNames> errors= new ResponseErrors<CCTSApplicationNames>();
-                errors.addError(CCTSApplicationNames.CAXCHANGE, "Timedout. No response from caXchange.");
-                messageWorkflowCallback.recordError(objectId, errors);
+                messageWorkflowCallback.messageAcknowledgmentFailed(objectId);
                 return null;
             }
 
@@ -582,8 +581,8 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
                 log.debug("Checking caXchange for response");
                 return responseService.getResponse();
             } catch (RemoteException e) {
-                //sleep for 3 seconds and check again
-                log.error("Remote Exchange from EPR"+e.getMessage(),e);
+            	//sleep for 3 seconds and check again
+                log.info("Response not yet ready. Waiting...");
                 Thread.sleep(3000);
                 return call();
             }
