@@ -141,14 +141,12 @@ C3PR.buildCCTSErrorHtml=function(error){
 			errorValues=appError.split("||||")
 			appName=errorValues[0]
 			errorString=errorValues[1]
-			errorHtml+="<tr><td><b>"+appName+"<b></td></tr>"
-			errorHtml+="<tr><td>"+errorString+"</td></tr>"
-			errorHtml+="<tr><td>&nbsp;</td></tr>"
+			errorHtml+="<tr><td width='20%'><b>"+appName+":<b></td><td>"+errorString+"</td></tr>"
 			appFlag=false
 		}
 	}
 	if(appFlag)
-		errorHtml+="<tr><td><b>There are no error messages recorded.</b></td></tr>"
+		errorHtml+="<tr><td><b>There are no error messages recorded from the integration hub.</b></td></tr>"
 	errorHtml+="</table>"
 	return errorHtml
 }
