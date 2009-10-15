@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.dao;
 
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
-import java.util.Iterator;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
@@ -11,9 +10,6 @@ import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
-import edu.duke.cabig.c3pr.domain.RemoteContactMechanism;
-import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
@@ -132,13 +128,34 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     	assertNotNull("Wrong number of investigators", investigator);
     }
     
-    /*public void testGetByEmailForRemote() throws Exception{
-    	ContactMechanism contactMechanism = new ContactMechanism();
-    	contactMechanism.setType(ContactMechanismType.EMAIL);
-    	List<Investigator> investigators = new ArrayList<Investigator>();
-    	investigators = getDao().getByEmailAddress("hbardem@nci.org");
-    	assertEquals("Wrong number of investigators",1, investigators.size());
+    /**
+     * Test get by name for remote.
+     * 
+     * @throws Exception the exception
+     
+    public void testGetByNameForRemote() throws Exception{
+    	RemoteInvestigator remoteInvestigator = getSampleRemoteInvestigatorWithName();
+		List objList = getDao().searchByExample(remoteInvestigator, true);
+		
+		assertNotNull(objList);
+		assertTrue(objList.size() > 0);
     }*/
+    
+	/**
+	 * Gets the sample remote Investigator with Name.
+	 * 
+	 * @return the sample remote Investigator
+	 
+	private RemoteInvestigator getSampleRemoteInvestigatorWithName() {
+		RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
+		remoteInvestigator.setFirstName("Jam");
+		remoteInvestigator.setLastName("long");
+		Address address = new Address();
+		address.setCity("");
+		address.setCountryCode("");
+		remoteInvestigator.setAddress(address);
+		return remoteInvestigator;
+	}*/
     
     public void testMerge() throws Exception{
     	Investigator investigator = getDao().getLoadedInvestigatorById(1000);
