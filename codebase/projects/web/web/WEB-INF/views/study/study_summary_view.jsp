@@ -749,17 +749,17 @@
 				</div>
 			</c:when>
 			<c:when test="${command.study.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">
-				<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+				<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 5px; padding-left: 5px; padding-right: 5px">
 					<div style="float: left; padding: 5px;">
 						<img src="<tags:imageUrl name='error.png'/>" alt="Calendar" border="0" align="middle"/>
 					</div>
 					<c:choose>
 						<c:when test="${empty command.study.cctsErrorString}"><fmt:message key="STUDY.BROADCAST.SEND_ERROR"/></c:when>
-						<c:otherwise><fmt:message key="STUDY.BROADCAST.SEND_FAILED"/>${command.study.cctsErrorString}</c:otherwise>
+						<c:otherwise><fmt:message key="STUDY.BROADCAST.SEND_FAILED"/><div id="ccts-error-message"></div><script>$("ccts-error-message").update(C3PR.buildCCTSErrorHtml("${command.study.cctsErrorString}"))</script></c:otherwise>
 					</c:choose>
 					<fmt:message key="BROADCAST.RESEND"/>
 				</div>
-				<div align="center" style="padding-top: 20px">
+				<div align="center">
 				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
 				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
 				</div>

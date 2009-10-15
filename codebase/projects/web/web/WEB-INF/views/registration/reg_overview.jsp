@@ -823,7 +823,7 @@
 					</div>
 					<c:choose>
 						<c:when test="${empty command.studySubject.cctsErrorString}"><fmt:message key="REGISTRATION.BROADCAST.SEND_ERROR"/></c:when>
-						<c:otherwise><fmt:message key="REGISTRATION.BROADCAST.SEND_FAILED"/>${command.studySubject.cctsErrorString}</c:otherwise>
+						<c:otherwise><fmt:message key="REGISTRATION.BROADCAST.SEND_FAILED"/><div id="ccts-error-message"></div><script>$("ccts-error-message").update(C3PR.buildCCTSErrorHtml("${command.studySubject.cctsErrorString}"))</script></c:otherwise>
 					</c:choose>
 					<fmt:message key="BROADCAST.RESEND"/>
 				</div>
