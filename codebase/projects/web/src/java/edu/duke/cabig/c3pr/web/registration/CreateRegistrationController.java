@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.web.registration;
 
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,6 +10,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
@@ -50,6 +53,16 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
+        
+     // remove dummy study subject consent versions that were created because of lazy list helper
+    	Iterator iterator =studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().iterator();
+    	while(iterator.hasNext()){
+    		StudySubjectConsentVersion studySubjectConsentVersion = (StudySubjectConsentVersion)iterator.next();
+    		if (studySubjectConsentVersion.getInformedConsentSignedDateStr() == null || studySubjectConsentVersion.getInformedConsentSignedDateStr()== "" ){
+    			iterator.remove();
+    		}
+    	}
+        
         if(wrapper.getShouldReserve()==null){
         	studySubject=studySubjectRepository.save(studySubject);
         }else if(wrapper.getShouldReserve()){
