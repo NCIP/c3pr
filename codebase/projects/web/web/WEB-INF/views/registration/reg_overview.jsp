@@ -108,7 +108,7 @@
 
 		function changeEpochPopup(){
 			var arr= $$("#changeEpoch");
-			win = new Window({ width:850, height:450 ,className :"mac_os_x" , 
+			win = new Window({ width:950, height:600 ,className :"mac_os_x" , 
 				title: "Change Epoch" , minimizable:false, maximizable:false ,
 				zIndex:100 , hideEffect:Element.hide, showEffect:Element.show}) 
 			win.setContent(arr[0]) ;
@@ -121,7 +121,7 @@
 			var arr= $$("#takeSubjectOffStudy");
 			win = new Window({className :"mac_os_x", title: "Take Subject Off Study", 
 									hideEffect:Element.hide, 
-									zIndex:100, width:450, height:250 , minimizable:false, maximizable:false,
+									zIndex:100, width:600, height:300 , minimizable:false, maximizable:false, destroyOnClose: true, recenterAuto:true,
 									showEffect:Element.show 
 									})
 			win.setContent(arr[0]) ;
@@ -463,11 +463,9 @@
 </div>
 </chrome:division>
 <chrome:division title="Informed Consents">
+	 <div class="label"><fmt:message key="registration.consent"/>:</div>
 	 <c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-				<div class="row">
-					<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
-					<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</div>
-				</div>
+					<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name}) </div>
 	</c:forEach>
 </chrome:division>
 

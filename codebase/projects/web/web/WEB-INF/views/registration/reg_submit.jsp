@@ -164,8 +164,8 @@ function redirectToTab(tabNumber){
 	            <c:choose>
 	            	<c:when test="${empty armAssignedLabel}">
 	            		<c:choose>
-	            			<c:when test="${fn:length(command.studySubject.scheduledEpoch.epoch.arms > 0)}">
-	            				<font color="red"> Arm not assigned</font> 
+	            			<c:when test="${fn:length(command.studySubject.scheduledEpoch.epoch.arms) > 0}">
+	            				<font color="red">&nbsp;	Arm not assigned</font> 
 	            				
 	            			</c:when>
 	            			<c:otherwise>
@@ -251,8 +251,18 @@ function redirectToTab(tabNumber){
 			<c:when test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions)> 0}">
 				<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
 				<div class="row">
-					<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
-					<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</div>
+					<div class="label"><b>${status.index+1}. ${studySubjectConsentVersion.consent.name}</b>:</div>
+					<div class="value">
+						<c:choose>
+							<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null 
+							&& studySubjectConsentVersion.informedConsentSignedDateStr != ''}">
+								${studySubjectConsentVersion.informedConsentSignedDateStr}
+							</c:when>
+							<c:otherwise>
+								<font color="red"><i>not signed</i></font>
+							</c:otherwise>
+						</c:choose>
+					</div>
 				</div>
 			</c:forEach>
 			</c:when>
@@ -260,8 +270,7 @@ function redirectToTab(tabNumber){
 			 The subject has not signed any consent forms.
 			</c:otherwise>
 		</c:choose>
-	
-</chrome:division>
+	</chrome:division>
 	<chrome:division id="Eligibility" title="Eligibility" link="javascript:redirectToTab('${eligibilityTab}');">
 		<div class="leftpanel">
 		<div class="row">

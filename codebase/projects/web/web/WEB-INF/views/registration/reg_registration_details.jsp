@@ -57,8 +57,10 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 									var error = document.getElementById("errorMsg1");
 									if(!atLeastOneConsentSelected){
 										if(${fn:length(command.studySubject.studySite.study.consents) > 1}){
+											flag=false;
 											error.innerHTML="<span id='sid1' style='color:#EE3324'>At least one consent needs to be signed.</span><br/>";
 										} else {
+											flag=false;
 											error.innerHTML="<span id='sid1' style='color:#EE3324'>Consent is required.</span><br/>";
 										}
 										error.style.display="";
@@ -66,6 +68,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 							} else if (${command.studySubject.studySite.study.consentRequired == 'ALL'}){
 								var error = document.getElementById("errorMsg1");
 									if(!allConsentsSelected){
+										flag=false;
 										error.innerHTML="<span id='sid1' style='color:#EE3324'>All consents need to be signed.</span><br/>";
 										error.style.display="";
 									} else {error.style.display="none";}
@@ -358,10 +361,8 @@ function setVersion(box,index){
 }
 
 checkRegistrationDate = function(cal){
-	cal.hide();
 	if($('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value != null &&
 			$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value != ''){
-		Element.show('consentSignedDate-indicator');
 		$('updateStudyVersion').value='false';
 		$('dontSave').value='false';
 		$('consentSignedDate').value=$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value;
@@ -381,13 +382,15 @@ displayStudyVersionError = function(){
 }
 
 function closePopup(){
-	win.close();
-	$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value="";
-	$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').focus();
-	ValidationManager.Error("studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate");
+	Effect.CloseDown('studyVersionDiv');
+//	win.close();
+//	$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value="";
+//	$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').focus();
+//	ValidationManager.Error("studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate");
 }
 
 function changeStudyVersion(){
+	Effect.CloseDown('studyVersionDiv');
 	$('updateStudyVersion').value="true";
 	$('consentSignedDate').value=$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value;
 	$('dontSave').remove();
@@ -439,6 +442,36 @@ function changeStudyVersion(){
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 	<div id="errorMsg1" style="display:none">
 	</div>
+	<div id="studyVersionDiv">
+	<c:if test="${not empty canEnroll && !canEnroll}">
+		<c:choose>
+		<c:when test="${empty studyVersion}">
+			<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
+				<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
+				<div style="font-size:20px; margin-bottom:5px;">Invalid</div>
+				<div>
+					Cannot register subject. Site is/was not accruing on the given consent signed date because the site is/was not having the valid IRB approval for the study version.
+				</div>
+			</div>
+		</c:when>
+		<c:otherwise>
+			<div style="padding-top: 20px">
+				<img src="<tags:imageUrl name="error.png" />" alt="Alert!" style="float:left; margin-right:30px; margin-left:30px;" />
+				<fmt:message key="REGISTRATION.STUDYVERSION.ERROR.FOUND.VALID" />
+				<ul style="padding-left:150px;">
+					<li><fmt:message key="study.versionNameNumber" /> : ${studyVersion.name}</li>
+					<li><fmt:message key="study.version.date" /> : ${studyVersion.versionDateStr}</li>
+				</ul>
+			</div>
+			<div align="right" style="padding-top: 10px">
+			<tags:button type="button" color="red" icon="Back" value="Cancel" onclick="closePopup();" />
+			<tags:button type="button" color="green" icon="Save &amp; Continue" value="Continue" onclick="changeStudyVersion()" />
+		</div>
+		</c:otherwise>
+		</c:choose>
+		<hr>
+	</c:if>
+	</div>
 
 <%--<tags:instructions code="enrollment_details" />--%>
 
@@ -477,20 +510,7 @@ function changeStudyVersion(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 			<div class="value">
-				<form:input path="studySubject.startDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
-				<a href="#" id="studySubject.startDate-calbutton">
-				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/>
-				<script type="text/javascript">
-					Calendar.setup(
-			            {
-			                inputField  : "studySubject.startDate",
-			                button      : "studySubject.startDate-calbutton",
-			                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
-			                weekNumbers : false,
-			            }
-			        );
-				</script>
+				<tags:dateInput path="studySubject.startDate" validateDate="true" cssClass='validate-notEmpty'/>
 			</div>
 		</div>
 	</c:if>
@@ -506,10 +526,6 @@ function changeStudyVersion(){
 				<a href="#" id="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton">
 				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 				</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
-				<span id="consentSignedDate-indicator">
-				<img src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator"/>
-				validating study version ...
-				</span>
 				<script type="text/javascript">
 					Calendar.setup(
 			            {
@@ -520,20 +536,19 @@ function changeStudyVersion(){
 			                onClose     : checkRegistrationDate
 			            }
 			        );
-			        Element.hide('consentSignedDate-indicator');
 				</script>
 				</div>
 		</div>
 		<div class="row">
-			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/> <em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em></div>
+			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/></div>
 			<div class="value">
 				<c:choose>
 					<c:when test="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate != null &&
 							command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate != ''}">			
-							 <font color="#254117"> yes </font> (<em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em>)
+							 <font color="#254117"> <i>signed</i> </font> (<em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em>)
 					</c:when>
 					<c:otherwise>
-							<font color="red"> no </font> (<em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em>)
+							<font color="red"><i>not signed </i></font> (<em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em>)
 					</c:otherwise>
 				</c:choose>
 				<tags:hoverHint keyProp="studySubject.informedConsentSigned"/></div>
@@ -643,10 +658,10 @@ function changeStudyVersion(){
 					<c:choose>
 						<c:when test="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].informedConsentSignedDate != null &&
 								command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].informedConsentSignedDate != ''}">			
-								 <font color="#254117"> yes </font>
+								 <font color="#254117"><i>signed</i></font>
 						</c:when>
 						<c:otherwise>
-								<font color="red"> no </font>
+								<font color="red"><i>not signed </i></font>
 						</c:otherwise>
 					</c:choose>
 				</td>

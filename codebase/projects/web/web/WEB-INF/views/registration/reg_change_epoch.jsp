@@ -83,7 +83,7 @@ input[disabled] {
 	</c:when>
 	<c:otherwise><tags:instructions code="MANAGEREGISTRATION.CHANGE_CURRENT_EPOCH"/></c:otherwise>
 </c:choose>
-<table border="0" cellspacing="5px" cellpadding="5" class="tablecontent"  width="100%">
+<table border="0" cellspacing="5px" cellpadding="5" class="tablecontent"  width="80%">
 	<tr>
 		<th width="5%">&nbsp;</th>
 		<th scope="col" width="20%"><b><fmt:message key="c3pr.common.epoch"/></b><tags:hoverHint keyProp="study.treatmentEpoch.name" /></th>
@@ -102,7 +102,7 @@ input[disabled] {
 
 <chrome:division title="Off Epoch Details">
 
-<table border="0" cellspacing="5px" cellpadding="5"  width="100%">
+<table border="0" cellspacing="5px" cellpadding="5"  width="80%">
 	<tr>
 		<td><b>Off epoch reason text:</b></td>
 		<td><textarea name="offEpochReasonText" id="offEpochReasonText" rows="2" cols="30" class="validate-notEmpty&&maxlength1024"></textarea>
