@@ -23,7 +23,7 @@
 	}
 
 	function deleteStudySite(primaryIdentifier){
-		<tags:tabMethod method="deleteStudySite" divElement="'studySites'" formName="'tabMethodForm'"  viewName="/study/asynchronous/delete_study_site_section" javaScriptParam="'_doNotSave=true&nciCode='+primaryIdentifier+'&openSections='+getOpenSectionsStr()" /> ;
+		<tags:tabMethod method="deleteStudySite" divElement="'studySites'" formName="'tabMethodForm'"  viewName="/study/asynchronous/delete_study_site_section" javaScriptParam="'_doNotSave=true&primaryIdentifier='+primaryIdentifier+'&openSections='+getOpenSectionsStr()" /> ;
 	}
 
 	function addStudySite(){
