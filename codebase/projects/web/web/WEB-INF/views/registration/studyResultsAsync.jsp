@@ -46,7 +46,8 @@ function toggleImage(id){
 						    <c:set var="singleQuote" value="'" />
 						    <c:set var="singleQuoteAlias" value="\\&#39" />
 						    <c:set var="siteName" value="${fn:replace(study.studySites[0].healthcareSite.name, singleQuote, singleQuoteAlias)}" />
-							postProcessStudySelection(${study.studySites[0].siteStudyStatus.code=='Active'},'${study.studySites[0].latestStudySiteStudyVersion.id}','${study.studySites[0].id}', '${siteName}','${study.shortTitleText}','${study.identifiers[0].value}');
+						     <c:set var="studyShortTitle" value="${fn:replace(study.shortTitleText, singleQuote, singleQuoteAlias)}" />
+								postProcessStudySelection(${study.studySites[0].siteStudyStatus.code=='Active'},'${study.studySites[0].latestStudySiteStudyVersion.id}','${study.studySites[0].id}', '${siteName}','${studyShortTitle}','${study.identifiers[0].value}');
 						</c:otherwise>
 					</c:choose>
 				">
@@ -81,7 +82,8 @@ function toggleImage(id){
 							<c:set var="singleQuote" value="'" />
                                 <c:set var="singleQuoteAlias" value="\\&#39" />
                                 <c:set var="siteName" value="${fn:replace(site.healthcareSite.name, singleQuote, singleQuoteAlias)}" />
-								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.latestStudySiteStudyVersion.id}','${site.id}','${siteName}','${study.shortTitleText}','${study.identifiers[0].value}')"/>
+                                <c:set var="studyShortTitle" value="${fn:replace(study.shortTitleText, singleQuote, singleQuoteAlias)}" />
+								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.latestStudySiteStudyVersion.id}','${site.id}','${siteName}',${studyShortTitle},'${study.identifiers[0].value}')"/>
 										<%
 											Calendar yearOld=Calendar.getInstance();
 											yearOld.add(Calendar.YEAR, -1);
