@@ -77,13 +77,13 @@ function showSiteStatusHistory(primaryIdentifier){
 		</c:if>
 		<div class="leftpanel">
 			<div class="row">
-				<div class="label"><fmt:message key="site.studyVersion" /></div>
+				<div class="label"><fmt:message key="site.studyVersion" />:</div>
 				<div class="value">
 					${site.currentStudySiteStudyVersion.studyVersion.name}
 				</div>
 			</div>
 			<div class="row">
-				<div class="label"><fmt:message key="c3pr.common.targetAccrual" /></div>
+				<div class="label"><fmt:message key="c3pr.common.targetAccrual" />:</div>
 				<div class="value">
 					<c:choose>
 						<c:when test="${isSiteManageable}">
@@ -98,10 +98,10 @@ function showSiteStatusHistory(primaryIdentifier){
 		</div>
 		<div class="rightpanel">
 			<div class="row">
-				<div class="label"><fmt:message key="site.IRBApprovalDate" /></div>
+				<div class="label"><fmt:message key="site.IRBApprovalDate" />:</div>
 				<div class="value">
 					<c:choose>
-						<c:when test="${isSiteManageable}">
+						<c:when test="${isSiteManageable && fn:length(site.siteStatusHistory)  == 1}">
 							<input type="text" name="study.studySites[${index}].irbApprovalDate" id="irbApprovalDate-${site.healthcareSite.primaryIdentifier}"
 							class="date validate-DATE" value="${site.currentStudySiteStudyVersion.irbApprovalDateStr}"/>
 			            	<a href="#" id="irbApprovalDate-${site.healthcareSite.primaryIdentifier}-calbutton">
@@ -116,7 +116,7 @@ function showSiteStatusHistory(primaryIdentifier){
 			</div>
 			<div class="row">
 				<c:if test="${isMultisite}">
-					<div class="label"><fmt:message key="site.hostedMode" /></div>
+					<div class="label"><fmt:message key="site.hostedMode" />:</div>
 					<div class="value">
 					<c:choose>
 						<c:when test="${isLocalSiteCoordinating}">
@@ -133,7 +133,7 @@ function showSiteStatusHistory(primaryIdentifier){
 		        </c:if>
 			</div>
 			<div class="row">
-				<div class="label"><fmt:message key="c3pr.common.status" /></div>
+				<div class="label"><fmt:message key="c3pr.common.status" />:</div>
 				<div class="value">${site.siteStudyStatus.code} <c:if test="${fn:length(site.siteStatusHistory) > 1}"> &nbsp;&nbsp;<a href="#" onclick="showSiteStatusHistory('${site.healthcareSite.primaryIdentifier}');">Status history</a></c:if></div>
 			</div>
 			<c:if test="${site.nextPossibleSiteStatusHistory != null}">
