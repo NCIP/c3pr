@@ -46,8 +46,11 @@ public enum OperationNameEnum implements CodedEnum<String> {
 	getSummaryForReportedResource("getSummaryForReportedResource"),
 	getStudySiteAccrualStatus("getStudySiteAccrualStatus"),
 	getStudySiteAccrualStatusByStudyParticipation("getStudySiteAccrualStatusByStudyParticipation"),
-	getCurrentStudySiteAccrualStatusByStudyParticipation("getCurrentStudySiteAccrualStatusByStudyParticipation");
+	getCurrentStudySiteAccrualStatusByStudyParticipation("getCurrentStudySiteAccrualStatusByStudyParticipation"),
 
+	//Inter-Operability
+	PROCESS("PROCESS");
+	
     private String code;
 
     private OperationNameEnum(String code) {
