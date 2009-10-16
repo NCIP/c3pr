@@ -208,7 +208,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         else if ("shortTitle".equals(type)) study.setShortTitleText(searchtext);
 
         try {
-            studies = studyDao.searchByExample(study, true);
+            studies = studyDao.searchByExample(study, true, 0);
             return build(model, studies, "", action).toString();
         }
         catch (Exception e) {

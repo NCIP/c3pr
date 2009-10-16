@@ -133,7 +133,7 @@ public class RegistrationAjaxFacade {
         orgIdentifier.setValue(text);
         Study studyObj = new LocalStudy(true);
         studyObj.addIdentifier(orgIdentifier);
-        studies = studyDao.searchByExample(studyObj, true);
+        studies = studyDao.searchByExample(studyObj, true, 0);
         List<OrganizationAssignedIdentifier> studyOrgIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
         Identifier orgIdent = new OrganizationAssignedIdentifier();
         for (Study studyIter : studies) {
@@ -151,7 +151,7 @@ public class RegistrationAjaxFacade {
         sysIdentifier.setValue(text);
         Study study = new LocalStudy(true);
         study.addIdentifier(sysIdentifier);
-        studiesSys = studyDao.searchByExample(study, true);
+        studiesSys = studyDao.searchByExample(study, true, 0);
         List<SystemAssignedIdentifier> studySysIdentifiers = new ArrayList<SystemAssignedIdentifier>();
         Identifier sysIdent = new SystemAssignedIdentifier();
         for (Study studyIter : studiesSys) {

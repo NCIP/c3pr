@@ -71,7 +71,7 @@ public class CreateStudyReportFacade extends BaseStudyAjaxFacade {
             participant = null;
             List<Study> studyResults;
             // call the studyDao if participant is null.
-            studyResults = studyDao.searchByExample(study, true);
+            studyResults = studyDao.searchByExample(study, true, 0);
             // create a list of studysub from list of studies
             Iterator iter = studyResults.iterator();
             studySubjectResults = new ArrayList<StudySubject>();
