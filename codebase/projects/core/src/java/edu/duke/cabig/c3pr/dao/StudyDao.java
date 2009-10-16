@@ -329,13 +329,19 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     }
 
 	private List<Study> getExternalStudiesByExampleFromResolver(Study exampleStudy) {
-    	Study remoteStudy = new RemoteStudy();
+		if(exampleStudy.getIdentifiers().size() > 0){
+			List<Study> localStudyList = getHibernateTemplate().find("from Study s where s.identifiers.value = ?", exampleStudy.getIdentifiers().get(0).getValue());
+			if(localStudyList.size() > 0){
+				return localStudyList;
+			}
+		} 
+		Study remoteStudy = new RemoteStudy();
     	//set the short-title/identifier/status in the example object as we support searches based on these 3 only.
 		remoteStudy.setShortTitleText(StringUtils.getBlankIfNull(exampleStudy.getShortTitleText()));
 		//NOTE: we dont support searches on long title in our UI but coppa does.
 		remoteStudy.setLongTitleText(StringUtils.getBlankIfNull(exampleStudy.getLongTitleText()));
 		remoteStudy.setCoordinatingCenterStudyStatus(exampleStudy.getCoordinatingCenterStudyStatus());
-		//Note that our tsuyd search looks for all identifiers but coppa only searches by the Coordinating center identifier.
+		//Note that our study search looks for all identifiers but coppa only searches by the Coordinating center identifier.
 		if(exampleStudy.getIdentifiers().size() > 0){
 			OrganizationAssignedIdentifier organizationAssignedIdentifier = new OrganizationAssignedIdentifier();
 			organizationAssignedIdentifier.setValue(exampleStudy.getIdentifiers().get(0).getValue());
@@ -343,12 +349,11 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 			remoteStudy.getIdentifiers().add(organizationAssignedIdentifier);
 		}
 		List<Object> objectList = remoteSession.find(remoteStudy);
-		List<Study> studyList = new ArrayList<Study>();
-
+		List<Study> remoteStudyList = new ArrayList<Study>();
 		for (Object object : objectList) {
-			studyList.add((Study) object);
+			remoteStudyList.add((Study) object);
 		}
-		return studyList;
+		return remoteStudyList;
 	}
 	
 	
