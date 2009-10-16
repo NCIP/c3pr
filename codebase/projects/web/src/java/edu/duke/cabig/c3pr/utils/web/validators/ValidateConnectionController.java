@@ -89,6 +89,7 @@ public class ValidateConnectionController extends AbstractController {
 		
 		map.put("exception", exception);
 		if (exception != null) {
+			logger.error(exception);
 			errorTrace = exception.toString();
 			if (exception.getMessage() != null) {
 				errorTrace = errorTrace + " : " + exception.getMessage();
