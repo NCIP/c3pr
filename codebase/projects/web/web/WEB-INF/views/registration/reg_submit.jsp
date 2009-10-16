@@ -295,15 +295,12 @@ function redirectToTab(tabNumber){
 			<div align="left"><span><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
 		</c:when>
 		<c:otherwise>
-			<div class="leftpanel">
 			<c:if test="${command.studySubject.scheduledEpoch.epoch.stratificationIndicator && !empty command.studySubject.scheduledEpoch.stratumGroupNumber}">
 					<div class="row">
 						<div class="label"><fmt:message key="registration.stratumGroupNumber"/>:</div>
 						<div class="value"> ${command.studySubject.scheduledEpoch.stratumGroupNumber}</div>
-				</div>
+					</div>
 			</c:if>
-			</div>
-			<div class="rightpanel">&nbsp;</div>
 			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="80%">
 				<tr>
 					<th width="35%" scope="col" align="left"><fmt:message key="study.criterion"/></th>
