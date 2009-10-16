@@ -3874,7 +3874,10 @@ Object.extend(Event, (function() {
           return false;
 
       Event.extend(event);
-      handler.call(element, event);
+      if (typeof handler != 'undefined') {
+          handler.call(element, event);
+      }
+
     };
 
     wrapper.handler = handler;
