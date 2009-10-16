@@ -30,7 +30,7 @@ public class SubjectEligibilityAnswer extends AbstractMutableDeletableDomainObje
     }
 
     @ManyToOne
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN, CascadeType.SAVE_UPDATE,
+    @Cascade(value = { CascadeType.ALL, CascadeType.SAVE_UPDATE,
             CascadeType.PERSIST })
     @JoinColumn(name = "elgct_id", nullable = false)
     public EligibilityCriteria getEligibilityCriteria() {
