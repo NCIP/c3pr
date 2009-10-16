@@ -58,10 +58,10 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 									if(!atLeastOneConsentSelected){
 										if(${fn:length(command.studySubject.studySite.study.consents) > 1}){
 											flag=false;
-											error.innerHTML="<span id='sid1' style='color:#EE3324'>At least one consent needs to be signed.</span><br/>";
+											error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; At least one consent needs to be signed.</span><br/>";
 										} else {
 											flag=false;
-											error.innerHTML="<span id='sid1' style='color:#EE3324'>Consent is required.</span><br/>";
+											error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Consent is required.</span><br/>";
 										}
 										error.style.display="";
 									}else {error.style.display= "none" ;}
@@ -69,7 +69,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 								var error = document.getElementById("errorMsg1");
 									if(!allConsentsSelected){
 										flag=false;
-										error.innerHTML="<span id='sid1' style='color:#EE3324'>All consents need to be signed.</span><br/>";
+										error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; All consents need to be signed.</span><br/>";
 										error.style.display="";
 									} else {error.style.display="none";}
 							}
@@ -88,247 +88,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 						}
 
 var CategorySelector = Class.create();
-Object.extend(CategorySelector.prototype, {
-initialize: function() {
-	this.win = null;
-    this.termList = new Array();
-},
 
-showWindow:function(wUrl, wTitle, wWidth, wHeight){
-	win = new Window({
-        className:"alphacube",
-        destroyOnClose:true,
-        title:wTitle,
-        width:wWidth,
-        height:wHeight,
-        recenterAuto:true,
-        resizable: false,
-        minimizable : false,
-        maximizable: false,
-    });
-	this.win = win;
-	win.setContent('chooseCategory');
-    win.showCenter(true);
-},
-
-finishMultiTermsSelection:function() {
-	hideDiseaseIndicator();																																
-    var selectedTerm = $('chk');
-      if (selectedTerm.checked) {
-    	  $('diseaseSite-hidden').value= selectedTerm.value;
-    	  $('diseaseSite-input').value= selectedTerm.name;
-      }
-    Windows.close(this.win.getId());
-    catSel.termList = new Array();
-    $('disease-subcategories').innerHTML = "";
-    $('disease-level3Sites').innerHTML = "";
-    $('disease-level4Sites').innerHTML = "";
-    $('disease-added-terms').innerHTML = "";
-    var selectedCategories = $$('a.disease-category-selected');
-    selectedCategories.each(function(el) {
-        el.ClassName("disease-category-selected");
-    });
-
-    var selectedCategories = $$('li.li-category-selected');
-    selectedCategories.each(function(el) {
-        el.ClassName("li-category-selected");
-    });
-    return;
-},
-
-addLevel4Site: function(ulID, termID, termText, title) {
-	$('disease-added-terms').innerHTML = "";
-	var selecedSites = $$('a.l3-site-selected');
-	selecedSites.each(function(e1){
-		e1.ClassName("l3-site-selected");
-	});
-
-	$("subcategoryli_" + termID).addClassName("l3-site-selected");
-
-	//$("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
-	
-//	$("liTerm" + termID).addClassName("term-selected");
-    ul = document.getElementById(ulID);
-
-    checkbox = document.createElement("input");
-    checkbox.type = 'checkbox';
-    checkbox.name = termText;
-    checkbox.defaultChecked = true;
-    checkbox.value = termID;
-    checkbox.id = "chkID" + termID;
-    checkbox.setAttribute("id", "chk");
-
-    a = document.createElement("a");
-    a.appendChild(document.createTextNode(termText));
-
-    a.id = "addedTerm" + termID;
-    a.setAttribute("id", "addedTerm" + termID);
-
-    a.setAttribute("title", title);
-    a.title = title;
-
-    li = document.createElement("li");
-    li.appendChild(checkbox);
-    li.appendChild(a);
-    ul.appendChild(li)
-
-    $("addedTerm" + termID).addClassName("disease-added-terms");
-    $("chk").addClassName("AddedTermXYZ");
-
-},
-
-showLevel2DiseaseSites: function(id){
-    var selectedCategories = $$('a.disease-category-selected');
-    selectedCategories.each(function(el) {
-        el.ClassName("disease-category-selected");
-    });
-
-    var selectedCategories = $$('li.li-category-selected');
-    selectedCategories.each(function(el) {
-        el.ClassName("li-category-selected");
-    });
-
-    $("category_" + id).addClassName("disease-category-selected");
-    $("li_" + id).addClassName("li-category-selected");
-    $('disease-subcategories').innerHTML = "";
-    $('disease-level3Sites').innerHTML = "";
-    $('disease-level4Sites').innerHTML = "";
-
-    catId = id;
-    anatomicDiseaseSite.getLevel2DiseaseSiteCategories(catId, function(childCategories) {
-        childCategories.each(function(childCategory) {
-          var childCategoryName = (childCategory.name.length > 18 ? childCategory.code+" " +childCategory.name.substring(0, 18) + "..." : childCategory.code+" " +childCategory.name);
-          catSel.showLevel2DiseaseSitesDetails("disease-subcategories", childCategory.id, childCategoryName, childCategory.name);
-        })
-    });
-    return;
-},
-
-showLevel2DiseaseSitesDetails: function(ulID, ilID, ilText, title){
-	ul = document.getElementById(ulID);
-    a = document.createElement("a");
-    a.appendChild(document.createTextNode(ilText));
-    a.setAttribute("onclick", "catSel.showLevel3DiseaseSites('disease-level3Sites', " + ilID + ", '" + ilText + "','" + title + "')");
-    a.onclick = function() {
-        eval("catSel.showLevel3DiseaseSites('disease-level3Sites', " + ilID + ", '" + ilText + "','" + title + "')");
-    }
-    a.setAttribute("id", "subcategory_" + ilID);
-    a.id = "subcategory_" + ilID;
-
-    a.setAttribute("title", title);
-    a.title = title;
-
-    li = document.createElement("li");
-    li.setAttribute("id", "subcategoryli_" + ilID);
-    li.appendChild(a);
-    ul.appendChild(li);
-
-},
-
-showLevel3DiseaseSites :function(ulID, ilID, ilText,title) {
-
-	var selectedSubcategories = $$('a.disease-subcategory-selected');
-    selectedSubcategories.each(function(el) {
-        el.ClassName("disease-subcategory-selected");
-    });
-
-    var selectedSubcategories = $$('li.li-subcategory-selected');
-    selectedSubcategories.each(function(el) {
-        el.ClassName("li-subcategory-selected");
-    });
-
-//	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
-    $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
-
-    $('disease-level3Sites').innerHTML = "";
-    $('disease-level4Sites').innerHTML = "";
-
-    level2Id = ilID;
-    anatomicDiseaseSite.getLevel3DiseaseSiteCategories(level2Id, function(childCategories) {
-        childCategories.each(function(childCategory) {
-        	var childCategoryName = (childCategory.name.length > 18 ? childCategory.code+" " +childCategory.name.substring(0, 18) + "..." : childCategory.code+" " +childCategory.name);
-          catSel.showLevel3DiseaseSitesDetails("disease-level3Sites", childCategory.id, childCategoryName, childCategory.name);
-        })
-    });
-    return;
- },
-
-
-
-showLevel3DiseaseSitesDetails: function(ulID, ilID, ilText, title){
-	ul = document.getElementById(ulID);
-    a = document.createElement("a");
-    a.appendChild(document.createTextNode(ilText));
-    a.setAttribute("onclick", "catSel.showLevel4DiseaseSites('disease-level4Sites', " + ilID + ", '" + ilText + "','" + title + "')");
-    a.onclick = function() {
-        eval("catSel.showLevel4DiseaseSites('disease-level4Sites', " + ilID + ", '" + ilText + "','" + title + "')");
-    }
-    a.setAttribute("id", "level3Disease_" + ilID);
-    a.id = "level3Disease_" + ilID;
-
-    a.setAttribute("title", title);
-    a.title = title;
-
-    li = document.createElement("li");
-    li.setAttribute("id", "level3Diseasel3_" + ilID);
-    li.id = "level3Diseasel3_" + ilID;
-    li.appendChild(a);
-    ul.appendChild(li);
-
-},
-
-showLevel4DiseaseSites :function(ulID, ilID, ilText,title) {
-
-	var selectedSubcategories = $$('a.disease-subcategory-selected');
-    selectedSubcategories.each(function(el) {
-        el.ClassName("disease-subcategory-selected");
-    });
-
-    var selectedLevel3DiseaseSites = $$('li.li-subcategory-selected');
-    selectedLevel3DiseaseSites.each(function(el) {
-    //    el.ClassName("li-subcategory-selected");
-    });
-
-//	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
-    $("level3Diseasel3_" + ilID).addClassName("li-subcategory-selected");
-    $('disease-level4Sites').innerHTML = "";
-
-    level3Id = ilID;
-    anatomicDiseaseSite.getLevel4DiseaseSiteCategories(level3Id, function(childCategories) {
-        childCategories.each(function(childCategory) {
-        	var childCategoryName = (childCategory.name.length > 18 ? childCategory.code+" " +childCategory.name.substring(0, 18) + "..." : childCategory.code+" " +childCategory.name);
-          catSel.addLIToUL("disease-level4Sites", childCategory.id, childCategoryName, childCategory.name);
-        })
-    });
-    return;
- },
-
-addLIToUL: function(ulID, ilID, ilText, title) {
-    ul = document.getElementById(ulID);
-    a = document.createElement("a");
-    a.appendChild(document.createTextNode(ilText));
-	a.setAttribute("onClick", "catSel.addLevel4Site('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
-       a.onclick = function() {
-           eval("catSel.addLevel4Site('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
-       }
-    a.setAttribute("id", "liTerm" + ilID);
-    a.id = "liTerm" + ilID;
-
-    a.setAttribute("title", title);
-    a.title = title;
-
-    li = document.createElement("li");
-    li.setAttribute("id", "subcategoryli_" + ilID);
-    
- //   $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
-    li.appendChild(a);
-    ul.appendChild(li);
-},
-
-showCategoryBox:function(){
-			this.showWindow('', '', 1000, 580 );
-	}
-});
 
 function initalizeCategorySelector(){
 	catSel = new CategorySelector();
@@ -383,10 +143,6 @@ displayStudyVersionError = function(){
 
 function closePopup(){
 	Effect.CloseDown('studyVersionDiv');
-//	win.close();
-//	$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value="";
-//	$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').focus();
-//	ValidationManager.Error("studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate");
 }
 
 function changeStudyVersion(){
@@ -441,13 +197,14 @@ function changeStudyVersion(){
 	<c:if test="${not empty canEnroll && !canEnroll}">
 		<c:choose>
 		<c:when test="${empty studyVersion}">
-			<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
 				<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
 				<div style="font-size:20px; margin-bottom:5px;">Invalid</div>
 				<div>
 					Cannot register subject. Site is/was not accruing on the given consent signed date because the site is/was not having the valid IRB approval for the study version.
 				</div>
-			</div>
+			<div align="right" style="padding-top: 10px">
+			<tags:button type="button" color="blue" icon="Close" value="Close" onclick="closePopup();" />
+		</div>
 		</c:when>
 		<c:otherwise>
 			<div style="padding-top: 20px">
@@ -459,7 +216,7 @@ function changeStudyVersion(){
 				</ul>
 			</div>
 			<div align="right" style="padding-top: 10px">
-			<tags:button type="button" color="red" icon="Back" value="Cancel" onclick="closePopup();" />
+			<tags:button type="button" color="red" icon="Cancel" value="Cancel" onclick="closePopup();" /> &nbsp;&nbsp;&nbsp;
 			<tags:button type="button" color="green" icon="Save &amp; Continue" value="Continue" onclick="changeStudyVersion()" />
 		</div>
 		</c:otherwise>
@@ -481,22 +238,9 @@ function changeStudyVersion(){
 	
 	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'false'}">
 		<div class="row">
-			<div class="label"><tags:requiredIndicator /><b>${command.studySubject.scheduledEpoch.epoch.name} start date</b></div>
+			<div class="label"><tags:requiredIndicator /><fmt:message key="scheduledEpoch.startDate"/></div>
 			<div class="value">
-				<form:input path="studySubject.scheduledEpoch.startDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
-				<a href="#" id="studySubject.scheduledEpoch.startDate-calbutton">
-				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.scheduledEpoch.startDate"/>
-				<script type="text/javascript">
-					Calendar.setup(
-			            {
-			                inputField  : "studySubject.scheduledEpoch.startDate",
-			                button      : "studySubject.scheduledEpoch.startDate-calbutton",
-			                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
-			                weekNumbers : false,
-			            }
-			        );
-				</script>
+				<tags:dateInput path="studySubject.scheduledEpoch.startDate" validateDate="true" cssClass='validate-notEmpty'/>
 			</div>
 		</div>
 	</c:if>
@@ -517,36 +261,8 @@ function changeStudyVersion(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 			<div class="value">
-				<form:input path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
-				<a href="#" id="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton">
-				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
-				<script type="text/javascript">
-					Calendar.setup(
-			            {
-			                inputField  : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate",
-			                button      : "studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate-calbutton",
-			                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
-			                weekNumbers : false,
-			                onClose     : checkRegistrationDate
-			            }
-			        );
-				</script>
-				</div>
-		</div>
-		<div class="row">
-			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.currentConsentVersionIs"/></div>
-			<div class="value">
-				<c:choose>
-					<c:when test="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate != null &&
-							command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate != ''}">			
-							 <font color="#254117"> <i>signed</i> </font> (<em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em>)
-					</c:when>
-					<c:otherwise>
-							<font color="red"><i>not signed </i></font> (<em>${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[0].name}</em>)
-					</c:otherwise>
-				</c:choose>
-				<tags:hoverHint keyProp="studySubject.informedConsentSigned"/></div>
+				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='validate-notEmpty'/>
+			</div>
 		</div>
 	</c:if>
 	<div class="row">
@@ -603,7 +319,6 @@ function changeStudyVersion(){
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete" style="display: none;"></div>
 			<tags:hoverHint keyProp="studySubject.diseaseSite"/>
-			<tags:button size="small" type="button" color="blue" icon="add" value="Select Disease Site" id="addSingleDiseaseBtn" onclick="$('diseaseIndicator').show();catSel.showCategoryBox();"/>
 			<img id="diseaseIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none"/>
 		</div>
 	</div>
@@ -632,10 +347,6 @@ function changeStudyVersion(){
           	<fmt:message key="registration.consentSignedDate"/>
           	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
           </th>
-           <th width="30%">
-          	Signed
-          	<tags:hoverHint keyProp="study.consent.consentVersion.name" />
-          </th>
 		</tr>
 		<c:forEach items="${command.studySubject.studySite.study.consents}" var="consent" varStatus="status">
 		
@@ -648,17 +359,6 @@ function changeStudyVersion(){
 				</td>
 				<td>
 					<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
-				</td>
-				<td>
-					<c:choose>
-						<c:when test="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].informedConsentSignedDate != null &&
-								command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[status.index].informedConsentSignedDate != ''}">			
-								 <font color="#254117"><i>signed</i></font>
-						</c:when>
-						<c:otherwise>
-								<font color="red"><i>not signed </i></font>
-						</c:otherwise>
-					</c:choose>
 				</td>
 			</tr>
 		</c:forEach>

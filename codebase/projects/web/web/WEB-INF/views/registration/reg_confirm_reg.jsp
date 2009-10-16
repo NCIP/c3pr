@@ -98,6 +98,10 @@ function createReg(studySite, participant, parentRegistrationId){
 					</c:otherwise>
 				</c:choose>
 	        </div>
+	        <div class="row">
+				<div class="label"><b><fmt:message key="study.version.name"/></b>:</div>
+				<div class="value">${command.studySubject.studySiteVersion.studyVersion.name}</div>
+			</div>
 			<div class="row">
 				<div class="label"><b><fmt:message key="study.shortTitle"/></b>:</div>
 				<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
@@ -124,12 +128,20 @@ function createReg(studySite, participant, parentRegistrationId){
 				<div class="label"><b><fmt:message key="registration.startDate"/></b>:</div>
 				<div class="value">${command.studySubject.startDateStr}</div>
 			</div>
-			<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-				<div class="row">
-					<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
-					<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</div>
-				</div>
-			</c:forEach>
+			<div class="row">
+					<div class="label"><b>Consents </b>:</div>
+					<div class="value">
+						<c:set var="size" value="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions)}"></c:set>
+						<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+							${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})
+							<c:if test="${size - status.index > 1}">
+								,&nbsp;
+							</c:if>
+						</c:forEach>
+						
+					</div>
+			</div>
+			
 			<div class="row">
 				<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
 				<c:choose>

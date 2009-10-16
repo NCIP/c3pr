@@ -207,6 +207,10 @@
             <div class="value">${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</div>
         </div>
         <div class="row">
+            <div class="label"><fmt:message key="study.version.name"/>:</div>
+            <div class="value">${command.studySubject.studySiteVersion.studyVersion.name}</div>
+        </div>
+        <div class="row">
             <div class="label"><fmt:message key="study.shortTitle"/>:</div>
             <div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
         </div>
@@ -214,15 +218,11 @@
             <div class="label"><fmt:message key="study.longTitle"/>:</div>
             <div class="value">${command.studySubject.studySite.study.longTitleText}</div>
         </div>
-        <div class="row">
-            <div class="label"><fmt:message key="study.randomized"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
-        </div>
 	</div>
 	<div class="rightpanel">
-        <div class="row">
-            <div class="label"><fmt:message key="study.multiInstitution"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.multiInstitutionIndicator?'Yes':'No'}</div>
+         <div class="row">
+            <div class="label"><fmt:message key="study.randomized"/>:</div>
+            <div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
         </div>
         <div class="row">
             <div class="label"> <fmt:message key="study.phase"/>:</div>
@@ -458,11 +458,30 @@
 </div>
 </chrome:division>
 <chrome:division title="Informed Consents">
-	 <div class="label"><fmt:message key="registration.consent"/>:</div>
-	 <c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-					<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name}) </div>
-	</c:forEach>
-</chrome:division>
+		<c:choose>
+			<c:when test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions)> 0}">
+				<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+				<div class="row">
+					<div class="label"><b>${studySubjectConsentVersion.consent.name}</b>:</div>
+					<div class="value">
+						<c:choose>
+							<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null 
+							&& studySubjectConsentVersion.informedConsentSignedDateStr != ''}">
+								${studySubjectConsentVersion.informedConsentSignedDateStr}
+							</c:when>
+							<c:otherwise>
+								<font color="red"><i>not signed</i></font>
+							</c:otherwise>
+						</c:choose>
+					</div>
+				</div>
+			</c:forEach>
+			</c:when>
+			<c:otherwise>
+			 The subject has not signed any consent forms.
+			</c:otherwise>
+		</c:choose>
+	</chrome:division>
 
 
 </div>

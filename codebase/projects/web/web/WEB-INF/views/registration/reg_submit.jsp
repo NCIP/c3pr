@@ -63,23 +63,28 @@ function redirectToTab(tabNumber){
 	<chrome:division id="Study Information" title="Study">
 			<div class="leftpanel">
 				<div class="row">
-					<div class="label"><fmt:message key="study.shortTitle"/>:</div>
-					<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
-				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="study.randomized"/>:</div>
-					<div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
-				</div>
-			</div>
-			<div class="rightpanel">
-				<div class="row">
-					<div class="label"><fmt:message key="study.multiInstitution"/>:</div>
-					<div class="value">${command.studySubject.studySite.study.multiInstitutionIndicator?'Yes':'No'}</div>
+					<div class="label"><b><fmt:message key="study.version.name"/></b>:</div>
+					<div class="value">${command.studySubject.studySiteVersion.studyVersion.name}</div>
 				</div>
 				<div class="row">
 					<div class="label"><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
 					<div class="value">${command.studySubject.studySite.study.primaryIdentifier}</div>
 				</div>
+			</div>
+			<div class="rightpanel">
+				<div class="row">
+					<div class="label"><fmt:message key="study.shortTitle"/>:</div>
+					<div class="value">${command.studySubject.studySiteVersion.studyVersion.shortTitleText}</div>
+				</div>
+				<div class="row">
+					<div class="label"><fmt:message key="study.randomized"/>:</div>
+					<div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
+				</div>
+				<div class="row">
+					<div class="label"><fmt:message key="study.stratified"/>:</div>
+					<div class="value">${command.studySubject.studySite.study.stratificationIndicator?'Yes':'No'}</div>
+				</div>
+				
 			</div>
 	</chrome:division>
 	<chrome:division id="Study Site Information" title="Study Site">
@@ -248,7 +253,7 @@ function redirectToTab(tabNumber){
 			<c:when test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions)> 0}">
 				<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
 				<div class="row">
-					<div class="label"><b>${status.index+1}. ${studySubjectConsentVersion.consent.name}</b>:</div>
+					<div class="label"><b>${studySubjectConsentVersion.consent.name}</b>:</div>
 					<div class="value">
 						<c:choose>
 							<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null 

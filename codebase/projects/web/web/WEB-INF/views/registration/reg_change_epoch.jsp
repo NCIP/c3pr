@@ -28,17 +28,17 @@ function registerSubject(transferEpochId, transferToStatus, parentStudySubject){
 	closePopup();
 	if(transferToStatus == 'flow' && (parentStudySubject == null || parentStudySubject == '')){
 		$("edit_epoch").value=transferEpochId;
-		document.getElementById("t_offEpochDate").value=document.getElementById('offEpochDate').value;
+		document.getElementById("t_offEpochDate").value=document.getElementById('command.studySubject.scheduledEpoch.offEpochDate').value;
 		document.getElementById("t_offEpochReasonText").value=document.getElementById('offEpochReasonText').value;
 		$("transferEpoch").submit();
 	}else if(transferToStatus == 'flow' && (parentStudySubject != null || parentStudySubject != '')){
 		$("edit_epoch_companion").value=transferEpochId;
-		$("tc_offEpochDate").value=document.getElementById('offEpochDate').value;
+		$("tc_offEpochDate").value=document.getElementById('command.studySubject.scheduledEpoch.offEpochDate').value;
 		$("tc_offEpochReasonText").value=document.getElementById('offEpochReasonText').value;
 		$("transferCompanionEpoch").submit();
 	}else{
 		$("m_manage_epoch").value=transferEpochId;
-		$("m_offEpochDate").value=document.getElementById('offEpochDate').value;
+		$("m_offEpochDate").value=document.getElementById('command.studySubject.scheduledEpoch.offEpochDate').value;
 		$("m_offEpochReasonText").value=document.getElementById('offEpochReasonText').value;
 		$("manageTransferEpoch").submit();
 	}
@@ -106,22 +106,14 @@ input[disabled] {
 	<tr>
 		<td><b>Off epoch reason text:</b></td>
 		<td><textarea name="offEpochReasonText" id="offEpochReasonText" rows="2" cols="30" class="validate-notEmpty&&maxlength1024"></textarea>
-	            	<tags:hoverHint keyProp="scheduledEpoch.offEpochReasonText"/></td>
+	            	<tags:hoverHint keyProp="scheduledEpoch.offEpochReasonText"/>
+	    </td>
+		
 		<td><b>Off epoch date:</b></td>
-		<td><input type="text" name="offEpochDate" id="offEpochDate" cssClass='validate-notEmpty validate-DATE' size="18"/>
-					<a href="#" id="offEpochDate-calbutton">
-					    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-					</a><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="scheduledEpoch.offEpochDate"/>
-					<script type="text/javascript">
-						Calendar.setup(
-				            {
-				                inputField  : "offEpochDate",
-				                button      : "offEpochDate-calbutton",
-				                ifFormat    : "%m/%d/%Y", // TODO: get this from the configuration
-				                weekNumbers : false,
-				            }
-				        );
-					</script></td>
+		<td>
+			<tags:dateInput path="command.studySubject.scheduledEpoch.offEpochDate" validateDate="true" cssClass='validate-Date'/>
+			<tags:hoverHint keyProp="scheduledEpoch.offEpochDate"/>
+		</td>
 	</tr>
 </table>
 </chrome:division>
