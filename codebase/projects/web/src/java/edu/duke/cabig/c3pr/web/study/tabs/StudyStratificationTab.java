@@ -84,7 +84,9 @@ public class StudyStratificationTab extends StudyTab {
 			}
 			//clear the book entries for the epoch and sort the groups
 			clearBookEntriesForEpoch(tEpoch);
-			Collections.sort(tEpoch.getStratumGroups());
+			ArrayList<StratumGroup> stratumGrps = new ArrayList<StratumGroup>();
+			stratumGrps.addAll(tEpoch.getStratumGroups());
+			Collections.sort(stratumGrps);
 		}
 		request.setAttribute("epochCountIndex", indexOfEpochNumber);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));

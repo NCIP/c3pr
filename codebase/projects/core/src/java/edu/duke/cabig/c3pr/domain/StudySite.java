@@ -531,7 +531,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	
 	@Transient
 	public List<StudySiteStudyVersion> getSortedStudySiteStudyVersions() {
-		List<StudySiteStudyVersion> sortedStudySiteStudyVersions = getStudySiteStudyVersions();
+		List<StudySiteStudyVersion> sortedStudySiteStudyVersions =  new ArrayList<StudySiteStudyVersion>();
+		sortedStudySiteStudyVersions.addAll(getStudySiteStudyVersions());
 		Collections.sort(getStudySiteStudyVersions());
 		return sortedStudySiteStudyVersions;
 	}
@@ -639,8 +640,9 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	@Transient
 	public SiteStatusHistory getSiteStatusHistory(Date date){
 		Date newDate = DateUtil.getUtilDateFromString(DateUtil.formatDate(date, "MM/dd/yyyy"), "MM/dd/yyyy");
-		List<SiteStatusHistory> siteStatusHistoryList = this.getSiteStatusHistory();
-        Collections.sort(siteStatusHistoryList);
+		List<SiteStatusHistory> siteStatusHistoryList =  new ArrayList<SiteStatusHistory>();
+		siteStatusHistoryList.addAll(this.getSiteStatusHistory());
+		Collections.sort(siteStatusHistoryList);
         for(SiteStatusHistory siteStatusHistory : siteStatusHistoryList){
         	Date startDate = siteStatusHistory.getStartDate();
         	Date endDate = siteStatusHistory.getEndDate();
@@ -699,7 +701,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	public SiteStatusHistory getNextPossibleSiteStatusHistory(){
 		SiteStatusHistory siteHistory = getSiteStatusHistory(new Date());
 		if(siteHistory.getEndDate() != null){
-			List<SiteStatusHistory> listSiteStatusHistories = getSiteStatusHistory();
+			List<SiteStatusHistory> listSiteStatusHistories = new ArrayList<SiteStatusHistory>();
+			listSiteStatusHistories.addAll(getSiteStatusHistory());
 			Collections.sort(listSiteStatusHistories);
 			int index = listSiteStatusHistories.indexOf(siteHistory);
 			if(listSiteStatusHistories.size() > index){
