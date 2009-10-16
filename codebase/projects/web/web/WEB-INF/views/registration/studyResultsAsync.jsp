@@ -33,7 +33,15 @@ function toggleImage(id){
 		</tr>
 	</c:if>
 	<%int i=0; %>
-	<c:forEach items="${studyResults}" var="study" varStatus="statusStudy">		
+	<c:forEach items="${studyResults}" var="study" varStatus="statusStudy">
+		<c:choose>
+			<c:when test="${study.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteStudy'}">
+				<c:set var="imageStr" value="&nbsp;<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='22' height='21' border='0' align='middle'/>"/>
+			</c:when>
+			<c:otherwise>
+				<c:set var="imageStr" value=""/>
+			</c:otherwise>
+		</c:choose>
 			<% String currClass=i%2==0? "odd":"even"; %>
 			<tr align="center" id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
@@ -55,7 +63,7 @@ function toggleImage(id){
 					<img id="image-open-${statusStudy.index }" src="<tags:imageUrl name="b-plus.gif"/>" border="0" alt="expand">
 					</c:if>
 				</td>
-				<td align="left">${study.primaryIdentifier}</td>
+				<td align="left">${study.primaryIdentifier}${imageStr}</td>
 				<td align="left">${study.trimmedShortTitleText}</td>
 				<td align="left">
 					<c:if test="${fn:length(study.studyFundingSponsors) > 0}">
