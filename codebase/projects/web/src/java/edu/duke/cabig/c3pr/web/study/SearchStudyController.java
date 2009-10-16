@@ -64,6 +64,7 @@ public class SearchStudyController extends SimpleFormController {
         }
 
         if (WebUtils.hasSubmitParameter(request, "fromRegistration")) {
+        	 study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
             if (request.getParameter("standaloneOnly").toString().equalsIgnoreCase("true")) {
                 study.setStandaloneIndicator(true);
             }
