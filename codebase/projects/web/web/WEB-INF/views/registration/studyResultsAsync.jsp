@@ -89,7 +89,7 @@ function toggleImage(id){
 											yearOld.add(Calendar.YEAR, -1);
 											pageContext.setAttribute("yearOld",yearOld);
 										%>
-										<c:set var="expiredIrb" value="${site.irbApprovalDate.time le yearOld.timeInMillis}"></c:set>
+										<c:set var="expiredIrb" value="${site.studySiteStudyVersion.irbApprovalDate.time le yearOld.timeInMillis}"></c:set>
 										<c:if test="${expiredIrb}">
 											<c:set var="javLink" value="alert('The IRB approval date for this site has expired. Its more than an year old');"/>
 										</c:if>
@@ -103,11 +103,11 @@ function toggleImage(id){
 										<td>${site.healthcareSite.name}</td>
 										<td>
 											<c:choose>
-												<c:when test="${empty site.irbApprovalDateStr}">
+												<c:when test="${empty site.studySiteStudyVersion.irbApprovalDateStr}">
 													<font color='Red'><i>not available</i></font>
 												</c:when>
 												<c:otherwise>
-													${site.irbApprovalDateStr}
+													${site.studySiteStudyVersion.irbApprovalDateStr}
 												</c:otherwise>
 											</c:choose>
 											<c:if test="${expiredIrb}"><font color='Red'><i>(expired)</i></font></c:if>
