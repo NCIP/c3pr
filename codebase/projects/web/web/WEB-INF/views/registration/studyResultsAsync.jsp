@@ -83,7 +83,7 @@ function toggleImage(id){
                                 <c:set var="singleQuoteAlias" value="\\&#39" />
                                 <c:set var="siteName" value="${fn:replace(site.healthcareSite.name, singleQuote, singleQuoteAlias)}" />
                                 <c:set var="studyShortTitle" value="${fn:replace(study.shortTitleText, singleQuote, singleQuoteAlias)}" />
-								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.latestStudySiteStudyVersion.id}','${site.id}','${siteName}',${studyShortTitle},'${study.identifiers[0].value}')"/>
+								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.latestStudySiteStudyVersion.id}','${site.id}','${siteName}','${studyShortTitle}','${study.identifiers[0].value}')"/>
 										<%
 											Calendar yearOld=Calendar.getInstance();
 											yearOld.add(Calendar.YEAR, -1);
