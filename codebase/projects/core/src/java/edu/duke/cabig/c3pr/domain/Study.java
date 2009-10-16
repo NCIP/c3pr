@@ -1224,7 +1224,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 
 	@Transient
 	public List<StudyVersion> getSortedStudyVersions() {
-		List<StudyVersion> studyVersions = this.getStudyVersions();
+		List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
+		studyVersions.addAll(this.getStudyVersions());
 		Collections.sort(studyVersions);
 		return studyVersions;
 	}
