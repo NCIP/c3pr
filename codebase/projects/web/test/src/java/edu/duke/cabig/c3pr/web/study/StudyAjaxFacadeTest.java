@@ -50,7 +50,7 @@ public class StudyAjaxFacadeTest extends AbstractStudyControllerTest {
         });
 
         expect(command.getStudy().getId()).andReturn(new Integer("1"));
-        expect(studyDao.searchByExample(isA(Study.class), eq(true))).andReturn(dummyList);
+        expect(studyDao.searchByExample(isA(Study.class), eq(true), eq(0))).andReturn(dummyList);
         replayMocks();
 
         assertTrue((facade.getTable(map, request)).length() > 0);
