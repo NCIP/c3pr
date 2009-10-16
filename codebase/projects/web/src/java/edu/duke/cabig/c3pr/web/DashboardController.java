@@ -25,7 +25,6 @@ import edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
-import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -70,18 +69,8 @@ public class DashboardController extends ParameterizableViewController {
     private Configuration configuration;
     
     private MailSender mailSender;
-    
-    private StudyDao studyDao;
 
-    public StudyDao getStudyDao() {
-		return studyDao;
-	}
-
-	public void setStudyDao(StudyDao studyDao) {
-		this.studyDao = studyDao;
-	}
-
-	public MailSender getMailSender() {
+    public MailSender getMailSender() {
 		return mailSender;
 	}
 
@@ -173,11 +162,8 @@ public class DashboardController extends ParameterizableViewController {
         Date startDate = new Date(cal.getTime().getTime());
 
         for (Study st : studies) {
-        	studyDao.initialize(st);
             st.setAcrrualsWithinLastWeek(studyRepository.countAcrrualsByDate(st, startDate, endDate));
         }
-        //TODO Temp fix added for BUG# 	 CPR-955, need to fix it properly in next release.
-        studyDao.clear();
         request.setAttribute("aStudies", studies);
     }
 
@@ -185,11 +171,6 @@ public class DashboardController extends ParameterizableViewController {
         Study study = new LocalStudy(true);
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
         List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending", "id");
-        for (Study st : studies) {
-        	studyDao.initialize(st);
-        }
-        //TODO Temp fix added for BUG# 	 CPR-955, need to fix it properly in next release.
-        studyDao.clear();
         log.debug("Pending studies found: " + studies.size());
         request.setAttribute("pStudies", studies);
     }
