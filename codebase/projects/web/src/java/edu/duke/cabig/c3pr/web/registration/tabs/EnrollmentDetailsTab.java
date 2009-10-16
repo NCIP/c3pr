@@ -138,7 +138,6 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     }
     
     
-    
     @Override
     public void validate(StudySubjectWrapper command, Errors errors) {
     	if(command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED && 
@@ -147,7 +146,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 		    if(date !=null){
 		    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
 					if(studySubjectConsentVersion.getInformedConsentSignedDate()!= null &&  date.before(studySubjectConsentVersion.getInformedConsentSignedDate())){
-						errors.reject("studySubject.startDate", "Registration start date cannot be prior to informed consent signed date");
+						errors.reject("studySubject.startDate", "Registration cannot be done before mandatory informed consent(s) is/are signed");
 					}
 				}
 	    	}
