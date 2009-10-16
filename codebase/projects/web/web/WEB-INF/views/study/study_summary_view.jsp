@@ -80,7 +80,7 @@
 
         function changeStudyStatus(status) {
         	if (${fn:length(errors)} > 0){
-                if(status=='open'){
+                if(status=='open' || status=='applyAmendment' ){
         			var d = $('errorsOpenDiv');
                 }else  if(status=='readyToOpen'){
                 	var d = $('errorsReadyToOpenDiv');
