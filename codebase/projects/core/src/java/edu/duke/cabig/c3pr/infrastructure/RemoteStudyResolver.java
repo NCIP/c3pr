@@ -95,9 +95,13 @@ public class RemoteStudyResolver implements RemoteResolver {
 		log.debug("Entering find() for:" + this.getClass());
 		RemoteStudy remoteStudyExample = (RemoteStudy)example;
 		String resultXml  = "";
+		String identifierValue = "";
 		//hard-coded id for PA ..... String payLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId("27633"));
 		//Get protocolSearchPayload using the search criteria specified in the example Study.
-		String payLoad = CoppaPAObjectFactory.getStudyProtocolSearchXML(remoteStudyExample.getShortTitleText(), remoteStudyExample.getCoordinatingCenterAssignedIdentifier().getValue(), null);
+		if(remoteStudyExample.getCoordinatingCenterAssignedIdentifier() != null){
+			identifierValue = remoteStudyExample.getCoordinatingCenterAssignedIdentifier().getValue();
+		}
+		String payLoad = CoppaPAObjectFactory.getStudyProtocolSearchXML(remoteStudyExample.getShortTitleText(), identifierValue, null);
 		try {
 			resultXml  = protocolAbstractionResolverUtils.broadcastStudyProtocolSearch(payLoad);
 		} catch (C3PRCodedException e) {
