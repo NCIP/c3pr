@@ -489,7 +489,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 		return org;
 	}
 	
-	  /**
+    /**
   	 * Search by example.
   	 * 
   	 * @param hcs the hcs
@@ -497,7 +497,7 @@ public class HealthcareSiteDao extends OrganizationDao {
   	 * @return the list< healthcare site>
   	 */
 	
-    public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard){
+    public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard, int maxResults){
     	
     	List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
 		remoteHealthcareSites.addAll(getExternalOrganizationsByExampleFromResolver(hcs));
@@ -526,7 +526,7 @@ public class HealthcareSiteDao extends OrganizationDao {
             
             orgCriteria.addOrder(Order.asc("name"));  
             orgCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-            orgCriteria.setMaxResults(50);
+            if(maxResults > 0) orgCriteria.setMaxResults(maxResults);
             result = orgCriteria.add(example).list();
         }
         catch (Exception e) {

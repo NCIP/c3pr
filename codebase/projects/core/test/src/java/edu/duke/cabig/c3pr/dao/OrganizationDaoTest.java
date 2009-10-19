@@ -119,7 +119,7 @@ public class OrganizationDaoTest extends DaoTestCase {
     	HealthcareSite org  = new LocalHealthcareSite();
     	org.setCtepCode("du code");
     	org.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
-    	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true);
+    	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true, 50);
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
     }
@@ -132,7 +132,7 @@ public class OrganizationDaoTest extends DaoTestCase {
     public void testSearchByExampleWithNameAndWildCardTrue(){
     	HealthcareSite org  = new LocalHealthcareSite();
     	org.setName("Duke");
-    	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true);
+    	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true, 50);
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
     }
@@ -146,7 +146,7 @@ public class OrganizationDaoTest extends DaoTestCase {
     	HealthcareSite org  = new LocalHealthcareSite();
     	org.setName("Duke");
     	org.setCtepCode("du code");
-    	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true);
+    	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, true, 50);
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
     }
@@ -162,7 +162,7 @@ public class OrganizationDaoTest extends DaoTestCase {
     	HealthcareSite org  = new LocalHealthcareSite();
     	org.setCtepCode("du code");
     	org.setName("Duke Comprehensive Cancer Center");
-    	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, false);
+    	List<HealthcareSite> hcsList = healthcareSiteDao.searchByExample(org, false, 50);
     	assertNotNull(hcsList);
     	assertEquals(1, hcsList.size());
     }

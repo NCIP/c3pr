@@ -101,7 +101,7 @@ public class SearchOrganizationAjaxFacade {
         if (!StringUtils.isEmpty(params[1])) {
             hcs.setCtepCode(params[1]);
         }
-        List<HealthcareSite> orgResults = healthcareSiteDao.searchByExample(hcs, true);
+        List<HealthcareSite> orgResults = healthcareSiteDao.searchByExample(hcs, true, -1);
 
         Context context = null;
         if (parameterMap == null) {
