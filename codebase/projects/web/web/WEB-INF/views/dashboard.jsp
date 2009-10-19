@@ -90,16 +90,6 @@ top:90px;
 				<div id="SmokeTestSerive">Authentication : ${authentication }
 				</div>
 			</c:if>
-			<div id="SMTPTestSerive">&nbsp;&nbsp;&nbsp;&nbsp;<b>SMTP Status</b> : <c:choose>
-				<c:when test="${smtpConnectionSuccess}">
-								Connected
-							</c:when>
-				<c:otherwise>
-								Connection Failed <a
-						href="javascript:showErrorTrace('${errorTrace}' )"> Error
-					Trace</a>
-				</c:otherwise>
-			</c:choose></div>
 			</div>
 			</div>
 			<br />

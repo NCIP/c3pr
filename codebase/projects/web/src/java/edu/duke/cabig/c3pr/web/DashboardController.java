@@ -25,15 +25,15 @@ import edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
-import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl;
 import edu.duke.cabig.c3pr.service.PersonnelService;
-import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.PropertyWrapper;
 import gov.nih.nci.ccts.grid.smoketest.client.SmokeTestServiceClient;
@@ -50,9 +50,9 @@ public class DashboardController extends ParameterizableViewController {
 
     //private StudyServiceImpl studyService;
     
-    private StudyRepository studyRepository;
-
-    private StudySubjectServiceImpl studySubjectService;
+    private StudyDao studyDao;
+    
+    private StudySubjectDao studySubjectDao;
 
     private ResearchStaffDao researchStaffDao;
 
@@ -80,10 +80,6 @@ public class DashboardController extends ParameterizableViewController {
 
 	public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
-    }
-
-    public void setStudySubjectService(StudySubjectServiceImpl studySubjectService) {
-        this.studySubjectService = studySubjectService;
     }
 
     public void setCsmUserRepository(CSMUserRepository csmUserRepository) {
@@ -121,7 +117,6 @@ public class DashboardController extends ParameterizableViewController {
         getMostActiveStudies(request);
         getRecentPendingStudies(request);
         getRecentPendingRegistrations(request);
-        testSmtpConnection(request);
 
         getNotifications(request);
         request.setAttribute("cctsEnv", isCCTSEnv());
@@ -149,10 +144,11 @@ public class DashboardController extends ParameterizableViewController {
     
     
     private void getMostActiveStudies(HttpServletRequest request) {
-        Study study = new LocalStudy(true);
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-        List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending",
-                        "id");
+//        Study study = new LocalStudy(true);
+        //study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+        //List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending",
+        //                "id");
+        List<Study> studies = studyDao.getStudiesByStatus(MAX_RESULTS, CoordinatingCenterStudyStatus.OPEN);
         log.debug("Open studies found: " + studies.size());
 
     	GregorianCalendar cal = new GregorianCalendar();
@@ -162,22 +158,22 @@ public class DashboardController extends ParameterizableViewController {
         Date startDate = new Date(cal.getTime().getTime());
 
         for (Study st : studies) {
-            st.setAcrrualsWithinLastWeek(studyRepository.countAcrrualsByDate(st, startDate, endDate));
+            st.setAcrrualsWithinLastWeek(studyDao.countAcrrualsByDate(st, startDate, endDate));
         }
         request.setAttribute("aStudies", studies);
     }
 
     private void getRecentPendingStudies(HttpServletRequest request) {
-        Study study = new LocalStudy(true);
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-        List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending", "id");
+        //Study study = new LocalStudy(true);
+        //study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+        //List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending", "id");
+        List<Study> studies = studyDao.getStudiesByStatus(MAX_RESULTS, CoordinatingCenterStudyStatus.PENDING);
         log.debug("Pending studies found: " + studies.size());
         request.setAttribute("pStudies", studies);
     }
 
     private void getRecentPendingRegistrations(HttpServletRequest request) {
-        StudySubject registration = new StudySubject(true);
-        List<StudySubject> registrations = studySubjectService.getIncompleteRegistrations(MAX_RESULTS);
+        List<StudySubject> registrations = studySubjectDao.getIncompleteRegistrations(MAX_RESULTS);
         log.debug("Unregistred Registrations found: " + registrations.size());
         request.setAttribute("uRegistrations", registrations);
     }
@@ -187,25 +183,6 @@ public class DashboardController extends ParameterizableViewController {
         client.ping();
     }
     
-    private void testSmtpConnection(HttpServletRequest request) {
-        boolean smtpConnectionSuccess = false ;
-        String errorTrace = "" ;
-    	try {
-        	C3PRMailSenderImpl c3prMailSender = (C3PRMailSenderImpl) mailSender ;
-            Transport transport = c3prMailSender.getSession().getTransport(c3prMailSender.getProtocol());
-            transport.connect(c3prMailSender.getHost(), c3prMailSender.getPort(), c3prMailSender.getUsername(), c3prMailSender.getPassword());
-            smtpConnectionSuccess = transport.isConnected();
-        } catch (Exception e) {
-        	errorTrace = e.toString() ; 
-        	if(e.getMessage() != null){
-        		errorTrace = errorTrace + " : " + e.getMessage();
-        	}
-            log.error(" Error in connection with smtp server, please check configuration " + e);
-        }
-        request.setAttribute("errorTrace" , errorTrace);
-        request.setAttribute("smtpConnectionSuccess", smtpConnectionSuccess);
-    }
-
     private String getURL() {
         return this.configuration.get(Configuration.SMOKE_TEST_URL);
     }
@@ -242,7 +219,11 @@ public class DashboardController extends ParameterizableViewController {
         this.delegatedCredentialProvider = delegatedCredentialProvider;
     }
 
-    public void setStudyRepository(StudyRepository studyRepository) {
-        this.studyRepository = studyRepository;
-    }
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
+
+	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
+	}
 }
