@@ -304,7 +304,7 @@
 	        	<div class="row">
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.c3pr.url"/><tags:hoverHint keyProp="configure.c3pr.webapp.url" /></div>
 	        		<div class="value">
-	        			<form:input path="conf[c3pr.webapp.url].value" id="c3pr.webapp.url" cssClass="validate-URL"/>
+	        			<form:input path="conf[c3pr.webapp.url].value" id="c3pr.webapp.url" />
 	        			<tags:button type="button" onclick="testConnectivity('c3pr.webapp.url', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
 	        			<img id="testIndicator[c3pr.webapp.url]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[c3pr.webapp.url]" ></span>
@@ -315,7 +315,7 @@
 	        	<div class="row">
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.cas.baseurl"/><tags:hoverHint keyProp="configure.cas.base_url" /></div>
 	        		<div class="value">
-	        			<form:input path="conf[cas.base_url].value" id="cas.base_url" cssClass="validate-URL"/>
+	        			<form:input path="conf[cas.base_url].value" id="cas.base_url" />
 	        			<tags:button type="button" onclick="testConnectivity('cas.base_url', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
 	        			<img id="testIndicator[cas.base_url]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[cas.base_url]" ></span>
@@ -335,7 +335,7 @@
 	        	<div class="row">
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.websso.baseurl"/><tags:hoverHint keyProp="configure.ccts.websso.base_url" /></div>
 	        		<div class="value">
-	        			<form:input path="conf[ccts.websso.base_url].value" id="ccts.websso.base_url" cssClass="validate-URL"/>
+	        			<form:input path="conf[ccts.websso.base_url].value" id="ccts.websso.base_url"/>
 	        			<tags:button type="button" onclick="testConnectivity('ccts.websso.base_url', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
 	        			<img id="testIndicator[ccts.websso.base_url]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[ccts.websso.base_url]" ></span>
