@@ -121,15 +121,6 @@ public class StudyRepositoryImpl implements StudyRepository {
         return studyDao.searchByOrgIdentifier(identifier);
     }
 
-    public int countAcrrualsByDate(Study study, Date startDate, Date endDate) {
-        return studyDao.countAcrrualsByDate(study, startDate, endDate);
-    }
-
-    public List<Study> searchByExample(Study study, boolean isWildCard, int maxResults,
-                    String order, String orderBy) {
-        return studyDao.searchByExample(study, isWildCard, maxResults, order, orderBy);
-    }
-
     @Transactional
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, String ctepCode, Date effectiveDate){
         Study study = getUniqueStudy(studyIdentifiers);

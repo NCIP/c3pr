@@ -34,11 +34,6 @@ public interface StudyRepository {
 
     public void clear();
 
-    public int countAcrrualsByDate(Study study, Date startDate, Date endDate);
-
-    public List<Study> searchByExample(Study study, boolean isWildCard, int maxResults,
-                    String order, String orderBy);
-
     public Study createStudy(Study study);
 
     public Study createStudy(List<Identifier> studyIdentifiers);
