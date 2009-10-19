@@ -411,7 +411,6 @@
 		                            <tr>
 		                                <th><b><fmt:message key="c3pr.common.name"/></b></th>
 		                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b></th>
-		                                <th/>
 		                            </tr>
 
 		                            <tr>
