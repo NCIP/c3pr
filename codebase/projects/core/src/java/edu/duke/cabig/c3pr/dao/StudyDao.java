@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.semanticbits.coppa.infrastructure.RemoteSession;
 
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
@@ -621,6 +622,15 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
                 "where so.class=StudySite and ssub.startDate between ? and ? and study.id = ? ", new Object[]{startDate, endDate, study.getId()}).size();
     }
 
+    public List<Study> getStudiesByStatus(int maxResultSize, CoordinatingCenterStudyStatus coordinatingCenterStudyStatus){
+    	int storedMaxResultValue =getHibernateTemplate().getMaxResults();
+    	getHibernateTemplate().setMaxResults(maxResultSize);
+    	List<Study> studies =  getHibernateTemplate().find(
+                "select s from Study s where s.coordinatingCenterStudyStatusInternal=? order by s.id desc", new Object[]{coordinatingCenterStudyStatus});
+    	getHibernateTemplate().setMaxResults(storedMaxResultValue);
+    	return studies;
+    }
+    
     /**
      * Returns all study objects.
      * 

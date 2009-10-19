@@ -1789,4 +1789,25 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals(0, study.getStudySites().size());
 		assertEquals(0, study.getStudyVersion().getStudySiteStudyVersions().size());
     }
+    
+    public void testGetStudiesByStatus(){
+    	List<Study> studies= dao.getStudiesByStatus(4, CoordinatingCenterStudyStatus.OPEN);
+    	assertEquals(4, studies.size());
+    	studies= dao.getStudiesByStatus(5, CoordinatingCenterStudyStatus.OPEN);
+    	assertEquals(4, studies.size());
+    	studies= dao.getStudiesByStatus(3, CoordinatingCenterStudyStatus.OPEN);
+    	assertEquals(3, studies.size());
+    	assertEquals(new Integer(1003), studies.get(0).getId());
+    	assertEquals(new Integer(1002), studies.get(1).getId());
+    	assertEquals(new Integer(1001), studies.get(2).getId());
+    	studies= dao.getStudiesByStatus(5, CoordinatingCenterStudyStatus.PENDING);
+    	assertEquals(0, studies.size());
+    }
+    
+    public void testGetStudiesByStatusMaxResult(){
+    	List<Study> studies= dao.getStudiesByStatus(1, CoordinatingCenterStudyStatus.OPEN);
+    	assertEquals(1, studies.size());
+    	studies = dao.getAll();
+    	assertEquals(4, studies.size());
+    }
 }
