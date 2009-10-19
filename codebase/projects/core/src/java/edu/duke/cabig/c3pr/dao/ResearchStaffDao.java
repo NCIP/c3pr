@@ -383,11 +383,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		identifiersAssignedToOrganizationCriteria.add(Expression.eq("value", healthcareSite.getCtepCode()));
 		identifiersAssignedToOrganizationCriteria.add(Expression.eq("primaryIndicator", Boolean.TRUE));
 		
-		if(researchStaffCriteria.list().size() > 0){
-    		return researchStaffCriteria.list();
-    	} else {
-    		return null;
-    	}  
+    	return researchStaffCriteria.list();
 	}
 
 
