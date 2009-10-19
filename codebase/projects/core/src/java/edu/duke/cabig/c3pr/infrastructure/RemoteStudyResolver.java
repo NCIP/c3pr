@@ -69,6 +69,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#getRemoteEntityByUniqueId(java.lang.String)
 	 */
 	public Object getRemoteEntityByUniqueId(String externalId) {
+		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass());
 		String paPayLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId(externalId));
 		String resultXml  = "";
 		try {
@@ -81,7 +82,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 		if(studyProtocols.size() > 0){
 			remoteStudy = getRemoteStudyFromStudyProtocol(studyProtocols.get(0));
 		}
-		
+		log.debug("Exiting getRemoteEntityByUniqueId() for:" + this.getClass());
 		return remoteStudy;
 	}
 	
