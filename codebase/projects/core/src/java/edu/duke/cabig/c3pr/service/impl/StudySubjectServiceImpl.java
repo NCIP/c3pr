@@ -44,8 +44,4 @@ public class StudySubjectServiceImpl extends WorkflowServiceImpl implements Stud
         && !studySubject.isCoOrdinatingCenter(getLocalInstanceNCICode()) && !isHostedMode();
     }
 
-    public List<StudySubject> getIncompleteRegistrations(int maxResults) {
-    	return ((StudySubjectDao)dao).getIncompleteRegistrations(maxResults) ;
-    }
-
 }

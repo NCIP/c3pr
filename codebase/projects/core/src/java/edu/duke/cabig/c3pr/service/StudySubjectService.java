@@ -26,6 +26,4 @@ public interface StudySubjectService extends CCTSWorkflowService, MultiSiteWorkf
 
     public boolean requiresExternalApprovalForRegistration(StudySubject studySubject);
 
-    public List<StudySubject> getIncompleteRegistrations(int maxResults);
-    
 }
