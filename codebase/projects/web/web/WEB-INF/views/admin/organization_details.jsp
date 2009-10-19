@@ -10,9 +10,10 @@ div.content {
 </style>
 <script>
     ValidationManager.submitPostProcess=function(formElement, flag){
+    	if(!flag) return false;
     	if(formElement.id=='command'){
     		complete=true;
-    		if($('advance').checked)
+    		if($('advance').checked){
     			if($('studyServiceURL').value==''){
     				ValidationManager.removeError($('studyServiceURL'));
     				ValidationManager.showError($('studyServiceURL'),'required');
@@ -22,8 +23,10 @@ div.content {
     				ValidationManager.showError($('registrationServiceURL'),'required');
     				complete=false;
     			}
+    		}
     		return complete;
     	}
+    	return flag;
     }
 		function displayRemoteOrgs(){
 			var contentWin = new Window({className:"alphacube", destroyOnClose:true, id:"remoteorg-popup-id", width:550,  height:200, top: 30, left: 300});
@@ -108,7 +111,7 @@ div.content {
 				</c:when>
 				<c:otherwise>
 					<div class="value"><form:input size="30" path="name"
-						cssClass="validate-notEmpty" /><tags:hoverHint
+						cssClass="validate-maxlength200" /><tags:hoverHint
 						keyProp="organization.name" /></div>
 				</c:otherwise>
 			</c:choose>
