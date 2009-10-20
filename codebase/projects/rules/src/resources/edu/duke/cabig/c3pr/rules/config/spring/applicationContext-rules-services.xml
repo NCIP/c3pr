@@ -20,8 +20,6 @@
 
     <bean id="ruleExecutionService" class="edu.duke.cabig.c3pr.rules.runtime.RuleExecutionServiceImpl"/>
     
-<!--<bean id="emailService" class="gov.nih.nci.cabig.caaers.email.EmailServiceImpl"/>  -->
-
     <bean id="ruleEngineService" autowire="byType" class="edu.duke.cabig.c3pr.rules.business.service.RulesEngineServiceImpl"/>
   
     <bean id="businessRulesExecutionService" class="edu.duke.cabig.c3pr.rules.runtime.BusinessRulesExecutionServiceImpl" autowire="byName" />
@@ -30,7 +28,7 @@
     	<constructor-arg ref="ruleDeploymentService" />
     </bean>
     
- <!-- <bean id="notificationInterceptor" class="edu.duke.cabig.c3pr.infrastructure.interceptor.NotificationInterceptor" autowire="byName"/>  -->
+    <bean id="notificationInterceptor" class="edu.duke.cabig.c3pr.infrastructure.interceptor.NotificationInterceptor" autowire="byName"/>
     
     <bean id="rulesDelegationService" class="edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl" autowire="byName"/>
 </beans>
