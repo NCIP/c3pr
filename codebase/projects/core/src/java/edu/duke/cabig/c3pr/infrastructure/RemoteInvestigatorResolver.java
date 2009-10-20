@@ -16,7 +16,6 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -153,6 +152,12 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		return remoteInvestigatorList;
 	}
 	
+	/**
+	 * Search investigator based on organization.
+	 * 
+	 * @param remoteInvestigatorExample the remote investigator example
+	 * @return the list< object>
+	 */
 	private List<Object> searchInvestigatorBasedOnOrganization(RemoteInvestigator remoteInvestigatorExample){
 		List<Object> remoteInvestigatorList = new ArrayList<Object>();
 		RemoteInvestigator tempRemoteInvestigator = null;
@@ -226,6 +231,12 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 	}
 
 	
+	/**
+	 * Search investigator based on nci id.
+	 * 
+	 * @param remoteInvestigatorExample the remote investigator example
+	 * @return the list< object>
+	 */
 	private List<Object> searchInvestigatorBasedOnNciId(RemoteInvestigator remoteInvestigatorExample) {
 		List<Object> remoteInvestigatorList = new ArrayList<Object>();
 		RemoteInvestigator tempRemoteInvestigator = null; 
@@ -251,6 +262,12 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 	}
 
 
+	/**
+	 * Search investigator based on name.
+	 * 
+	 * @param remoteInvestigator the remote investigator
+	 * @return the list< object>
+	 */
 	private List<Object> searchInvestigatorBasedOnName(RemoteInvestigator remoteInvestigator) {
 		List<Object> remoteInvestigatorList = new ArrayList<Object>();
 		//Serialize the remoteInv(used for searches based on Name(first, middle, last))
@@ -330,7 +347,6 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 	 * Load investigator for person result. This is also used from StudyResolver; hence the public scope.
 	 * 
 	 * @param personResultXml the person result xml
-	 * 
 	 * @return the remote investigator
 	 */
 	public RemoteInvestigator loadInvestigatorForPersonResult(String personResultXml) {
@@ -392,5 +408,4 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		return null;
 	}
 	
-
 }
