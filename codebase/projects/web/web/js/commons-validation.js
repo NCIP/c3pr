@@ -42,6 +42,13 @@ function validateFields(formFields) {
             continue;
          }
          
+         // html special character check *|,\":<>[]{}`\';()@&$#%
+         if (element.htmlescape && hasHTMLSpecialChars(element.value) == false) {
+            ValidationManager.showError(element,element.htmlescapeError);
+            validForm=false;
+            continue;
+         }
+         
          // pattern (credit card number, email address, zip or postal code, alphanumeric, numeric, url)
          if (element.pattern) {
             if ( ( (element.pattern.toLowerCase() == 'visa' || element.pattern.toLowerCase() == 'mastercard' || element.pattern.toLowerCase() == 'american express' || element.pattern.toLowerCase() == 'diners club' || element.pattern.toLowerCase() == 'discover' || element.pattern.toLowerCase() == 'enroute' || element.pattern.toLowerCase() == 'jcb' || element.pattern.toLowerCase() == 'credit card') && isValidCreditCard(element.value, element.pattern) == false) ||
@@ -291,6 +298,15 @@ function isNonZeroNumeric(string, ignoreWhiteSpace) {
       } 
    return true;
 }
+
+function hasHTMLSpecialChars(string) {
+	var iChars = "*|,\":<>[]{}`\';()@&$#%";
+	for (var i = 0; i < string.length; i++) {
+		if (iChars.indexOf(string.charAt(i)) != -1) return false;
+	}
+	return true;
+}
+
 // Check that a string contains only numbers
 function isCorrectDate(string) {
    DEFAULT_DATE_FORMAT="M/d/yyyy";

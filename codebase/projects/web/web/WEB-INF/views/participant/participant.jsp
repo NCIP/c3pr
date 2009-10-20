@@ -200,7 +200,7 @@ function manageIdentifierRadio(element){
 			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
 			                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 									size="30" maxlength="33"
-									value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
+									value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty&&HTML_SPECIAL_CHARS" />
 									<tags:hoverHint keyProp="subject.MRN.value"/>
 									<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
 						</div>

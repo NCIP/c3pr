@@ -34,10 +34,11 @@
 // Zip or Postal    | ZIP_POSTAL_CODE    | <[input].... type=.... class=validate-ZIP_POSTAL_CODE
 // US Phone No.     | US_PHONE_NO        | <[input].... type=.... class=validate-US_PHONE_NO
 // Alphanumeric     | ALPHANUMERIC       | <[input].... type=.... class=validate-ALPHANUMERIC
-// Non Zero Numeric | NONZERO_NUMERIC   | <[input].... type=.... class=validate-NONZERO_NUMERIC
+// Non Zero Numeric | NONZERO_NUMERIC    | <[input].... type=.... class=validate-NONZERO_NUMERIC
 // Numeric          | NUMERIC            | <[input].... type=.... class=validate-NUMERIC
 // Alphabetic       | ALPHABETIC         | <[input].... type=.... class=validate-ALPHABETIC
 // date             | DATE               | <[input].... type=.... class=validate-DATE[(<format>)]
+// HTML characters  | HTML_SPECIAL_CHARS | <[input].... type=.... class=validate-HTML_SPECIAL_CHARS
 //
 // NOTE : For Multiple validation use JAVA 'and' notation ('&&').
 // Example:
@@ -77,6 +78,7 @@ var ValidationManager = {
 	ERROR_MSG_MAXLENGTH:"too long",
 	ERROR_MSG_PHONE:"invalid phone number",
 	ERROR_MSG_NONZERO_VALUE:"enter value more then zero",
+	ERROR_MSG_HTML_SPECIAL_CHARS:"Incorrect format. (*|,\":<>[]{}`\';()@&$#%) not allowed",
 
 	validateForm: function(submit){
 		formVar=submit?Event.element(submit):this
@@ -140,6 +142,9 @@ var ValidationManager = {
 			}else if(validationType.toUpperCase().indexOf('NONZERO_NUMERIC')==0){
 				element.nonzero = true ;
 				element.nonzeroError = ValidationManager.ERROR_MSG_NONZERO_VALUE
+			}else if(validationType.toUpperCase().indexOf('HTML_SPECIAL_CHARS')==0){
+				element.htmlescape = true ;
+				element.htmlescapeError = ValidationManager.ERROR_MSG_HTML_SPECIAL_CHARS
 			}else {
 				element.pattern = validationType
 				element.patternError = ValidationManager.ERROR_MSG_PATTERN
