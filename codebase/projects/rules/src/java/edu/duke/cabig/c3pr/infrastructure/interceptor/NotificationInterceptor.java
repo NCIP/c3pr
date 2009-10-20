@@ -59,6 +59,13 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		this.applicationContext = applicationContext;
 	}
 	
+	/**
+	 * Gets the planned notifications for the list of sites that are passed in.
+	 * This method access the db using a new session from the hibernate session factory.
+	 * 
+	 * @param hcsList the hcs list
+	 * @return the planned notifications
+	 */
 	public List<PlannedNotification> getPlannedNotifications(List<HealthcareSite> hcsList){
 		List<PlannedNotification> result;
 		List<String> nciCodeList = new ArrayList<String>();
@@ -202,7 +209,13 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		return false;
 	}
 	
-	//activates rules for the NEW_REGISTRATION_EVENT & REGISTATION_STATUS_CHANGE
+	/**
+	 * Handle new study subject saved. Activates rules for the NEW_REGISTRATION_EVENT & REGISTATION_STATUS_CHANGE
+	 * 
+	 * @param previousState the previous state
+	 * @param currentState the current state
+	 * @param studySubject the study subject
+	 */
 	public void handleNewStudySubjectSaved(final Object previousState, final Object currentState, final Object studySubject){
 		RegistrationWorkFlowStatus previousRegStatus = null;
 		RegistrationWorkFlowStatus currentRegStatus = null;
@@ -258,7 +271,12 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	}
 	
 	
-	/* Actives rules for the STUDY_SITE_STATUS_CHANGED_EVENT
+	/**
+	 * Handle study site status change. Actives rules for the STUDY_SITE_STATUS_CHANGED_EVENT
+	 * 
+	 * @param previousState the previous state
+	 * @param currentState the current state
+	 * @param entity the entity
 	 */
 	public void handleStudySiteStatusChange(final Object previousState, final Object currentState, final Object entity){
 		
@@ -295,7 +313,12 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		}		
 	}
 	
-	/* Activates rules for the NEW_STUDY_SAVED_EVENT & STUDY_STATUS_CHANGED_EVENT
+	/**
+	 * Handle study status change. Activates rules for the NEW_STUDY_SAVED_EVENT & STUDY_STATUS_CHANGED_EVENT
+	 * 
+	 * @param previousState the previous state
+	 * @param currentState the current state
+	 * @param entity the entity
 	 */
 	public void handleStudyStatusChange(final Object previousState, final Object currentState, final Object entity){
 		
@@ -322,7 +345,6 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		} else {
 			//if the prev status is ready to open and current status is active then its a new study
 			//else its a study status change.
-			//removed ....(previousCoordinatingCenterStudyStatus == null || previousCoordinatingCenterStudyStatus == PENDING)
 			if(currentCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.OPEN) &&  
 			   ( previousCoordinatingCenterStudyStatus == null ||
 				 previousCoordinatingCenterStudyStatus.equals(CoordinatingCenterStudyStatus.READY_TO_OPEN) ||
@@ -347,8 +369,12 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	}
 
 	
-	/* Called for new registrations only. Checks if accrual notifications are configured.
-	 * fires rules if thresholds are met	 */
+	/**
+	 * Activate rules for accruals. Called for new registrations only. 
+	 * Checks if accrual notifications are configured. Fires rules if thresholds are met.
+	 * 
+	 * @param studySubjectObj the study subject obj
+	 */
 	private void activateRulesForAccruals(Object studySubjectObj){
 		StudySubject studySubject = null;
 		StudyOrganization studyOrg = null;
@@ -398,8 +424,11 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		}
 	}
 	
-	/*
-	 * Returns the list of sites associated with the study/studySite/studySubject(depending on the event).
+	/**
+	 * Gets the sites. Returns the list of sites associated with the study/studySite/studySubject(depending on the event).
+	 * 
+	 * @param entity the entity
+	 * @return the sites
 	 */
 	private List<HealthcareSite> getSites(Object entity){
 		
@@ -429,70 +458,45 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
 			hcsList.add(healthcareSiteDao.getByPrimaryIdentifierFromLocal(localNciCode));
 		}
-		
 		removeDuplicates(hcsList);
 		return hcsList;
 	}
 	
 	
-	/*
-     * removes multiple occurrences of any sites that may result in emails being sent out twice
-     */
-    private void removeDuplicates(List<HealthcareSite> hcsList){
+    /**
+	 * Removes the duplicate occurrences of any sites that may result in emails being sent out twice.
+	 * 
+	 * @param hcsList the hcs list
+	 */
+	private void removeDuplicates(List<HealthcareSite> hcsList){
     	Set <HealthcareSite> set = new HashSet<HealthcareSite>();
     	set.addAll(hcsList);
     	hcsList.clear();
     	hcsList.addAll(set);
     }
-    
 	
+	/**
+	 * Calculate study accrual.
+	 * 
+	 * @param studySubject the study subject
+	 * 
+	 * @return the int
+	 */
 	private int calculateStudyAccrual(StudySubject studySubject){
 		return studySubject.getStudySite().getStudy().getCurrentAccrualCount().intValue();
 	}
 	
+	/**
+	 * Calculate study site accrual.
+	 * 
+	 * @param studySubject the study subject
+	 * 
+	 * @return the int
+	 */
 	private int calculateStudySiteAccrual(StudySubject studySubject){
 		return studySubject.getStudySite().getCurrentAccrualCount();
 	}
 	
-	/* public void handleNewStudySubjectSaved(StudySubject studySubject){
-			List<Object> objects = new ArrayList<Object>();
-			objects.add(studySubject);
-			
-			for(PlannedNotification pn: getHostingOrganization()){
-				if(pn.getEventName().equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT)){
-					objects.add(pn);
-					rulesDelegationService.activateRules(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT, objects);
-					objects.remove(pn);
-				}
-			}
-		}
-		
-		public void handleNewStudySaved(Study study){
-			List<Object> objects = new ArrayList<Object>();
-			objects.add(study);
-			
-			for(PlannedNotification pn: getHostingOrganization()){
-				if(pn.getEventName().equals(NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT)){
-					objects.add(pn);
-					rulesDelegationService.activateRules(NotificationEventTypeEnum.NEW_STUDY_SAVED_EVENT, objects);
-					objects.remove(pn);
-				}
-			}
-		}
-		
-		public void handleNewStudySiteSaved(StudySite studySite){
-			List<Object> objects = new ArrayList<Object>();
-			objects.add(studySite);
-			
-			for(PlannedNotification pn: getHostingOrganization()){
-				if(pn.getEventName().equals(NotificationEventTypeEnum.NEW_STUDY_SITE_SAVED_EVENT)){
-					objects.add(pn);
-					rulesDelegationService.activateRules(NotificationEventTypeEnum.NEW_STUDY_SITE_SAVED_EVENT, objects);
-					objects.remove(pn);
-				}
-			}
-		}*/
-
 	public RulesDelegationServiceImpl getRulesDelegationService() {
 		return rulesDelegationService;
 	}
