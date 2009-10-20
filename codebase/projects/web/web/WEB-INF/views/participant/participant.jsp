@@ -100,12 +100,6 @@ function manageIdentifierRadio(element){
 		$(element.id.split("-")[0]).value="true";
 	   }
 </script>
-<style>
-#workflow-tabs {
-top:83px;
-}
-</style>
-
 </head>
 <body>
 <form:form method="post" name="participantDetailsForm" cssClass="standard">

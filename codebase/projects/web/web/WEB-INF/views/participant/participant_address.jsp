@@ -3,11 +3,6 @@
 <html>
 <head>
     <title>Address of <participanttags:htmlTitle subject="${command}" /></title>
-<style>
-#workflow-tabs {
-top:83px;
-}
-</style>
 </head>
 <body>
 <form:form id="participantAddressForm" name="participantAddressForm">   
