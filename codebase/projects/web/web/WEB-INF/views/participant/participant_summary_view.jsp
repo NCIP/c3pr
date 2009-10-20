@@ -9,11 +9,6 @@
     		document.location="editParticipant?<tags:identifierParameterString identifier='${command.organizationAssignedIdentifiers[0] }'/>";
         	}
     </script>
-<style>
-#workflow-tabs {
-top:83px;
-}
-</style>
 </head>
 <body>
 <c:if test="${flowType == 'VIEW_SUBJECT'}">
