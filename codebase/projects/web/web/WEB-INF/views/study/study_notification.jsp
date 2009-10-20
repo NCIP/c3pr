@@ -74,7 +74,7 @@
 								<c:forEach var="cmbr" varStatus="emailStatus" items="${command.study.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
 									<tr id="table1-${emailStatus.index}">
 										<td class="alt"><form:input						 
-											path="study.plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${emailStatus.index}].email"
+											path="study.plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${emailStatus.index}].contactMechanisms[0].value"
 											size="30" cssClass="validate-notEmpty&&EMAIL" /></td>
 										<td class="alt"><a
 											href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${cmbr.id==null?'HC#':'ID#'}${cmbr.id==null?cmbr.hashCode:cmbr.id}');">
@@ -176,7 +176,7 @@
 <table>
 	<tr>
 		<td class="alt"><input type="text"
-			name="study.plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[NESTED.PAGE.ROW.INDEX].email"
+			name="study.plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
 			size="30" class="validate-notEmpty&&EMAIL" /></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
