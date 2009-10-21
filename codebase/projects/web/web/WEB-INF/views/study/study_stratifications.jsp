@@ -207,7 +207,7 @@
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
-                path: "study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
+                path: "study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers"
             };
             var stratRowInserterProps_${epochCount.index} = {
                 nested_row_inserter: stratAnsRowInserterProps_${epochCount.index},
@@ -216,7 +216,7 @@
                 initialIndex: ${fn:length(command.study.epochs[epochCount.index].stratificationCriteria)},
                 softDelete: ${softDelete == 'true'},
                 isAdmin: ${isAdmin == 'true'},
-                path: "study.epochs[${epochCount.index }].stratificationCriteria",
+                path: "study.epochs[${epochCount.index }].stratificationCriteria"
             };	
             RowManager.addRowInseter(stratRowInserterProps_${epochCount.index});
             RowManager.registerRowInserters();
@@ -261,7 +261,7 @@
 										<tr><td><b><fmt:message key="study.question"/></b></td></tr>
 										<tr><td>
 											<form:textarea path="study.epochs[${epochCount.index }].stratificationCriteria[${status.index}].questionText"
-										rows="1" cols="60" cssClass="validate-notEmpty&&MAXLENGTH200" onkeyup="updateName('questionTitle-${epochCount.index }-${status.index }', 'Question: ' + this.value);"/>
+										rows="2" cols="60" cssClass="validate-notEmpty&&MAXLENGTH200" onkeyup="updateName('questionTitle-${epochCount.index }-${status.index }', 'Question: ' + this.value);"/>
 										</td></tr>
 									</table>
 								</td>
@@ -351,7 +351,7 @@
 						<table class=""  width="50%">
 							<tr><td><b><fmt:message key="study.question"/></b></td></tr>
 							<tr><td>
-								<TEXTAREA name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText" rows="1" cols="60" class="validate-notEmpty&&MAXLENGTH200" onkeyup="updateName('questionTitle-${epochCount.index }-PAGE.ROW.INDEX', 'Question: ' + this.value);" ></TEXTAREA>
+								<TEXTAREA name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText" rows="2" cols="60" class="validate-notEmpty&&MAXLENGTH200" onkeyup="updateName('questionTitle-${epochCount.index }-PAGE.ROW.INDEX', 'Question: ' + this.value);" ></TEXTAREA>
 							</td></tr>
 						</table>
 					</td>
