@@ -23,8 +23,7 @@ public class SubjectStratificationAnswer extends AbstractMutableDeletableDomainO
     private StratificationCriterionPermissibleAnswer stratificationCriterionAnswer;
 
     @ManyToOne
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN, CascadeType.SAVE_UPDATE,
-            CascadeType.PERSIST })
+    @Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "STR_CRI_ID", nullable = true)
     public StratificationCriterion getStratificationCriterion() {
         return stratificationCriterion;
@@ -35,8 +34,7 @@ public class SubjectStratificationAnswer extends AbstractMutableDeletableDomainO
     }
 
     @OneToOne
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN, CascadeType.SAVE_UPDATE,
-            CascadeType.PERSIST })
+    @Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "STRAT_ANS_ID")
     public StratificationCriterionPermissibleAnswer getStratificationCriterionAnswer() {
         return stratificationCriterionAnswer;

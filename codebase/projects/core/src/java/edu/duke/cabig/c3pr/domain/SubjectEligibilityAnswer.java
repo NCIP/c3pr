@@ -30,8 +30,7 @@ public class SubjectEligibilityAnswer extends AbstractMutableDeletableDomainObje
     }
 
     @ManyToOne
-    @Cascade(value = { CascadeType.ALL, CascadeType.SAVE_UPDATE,
-            CascadeType.PERSIST })
+    @Cascade(value = { CascadeType.LOCK })
     @JoinColumn(name = "elgct_id", nullable = false)
     public EligibilityCriteria getEligibilityCriteria() {
         return eligibilityCriteria;

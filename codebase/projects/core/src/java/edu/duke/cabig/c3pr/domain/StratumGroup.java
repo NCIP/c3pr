@@ -91,7 +91,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
      * @return the stratification criterion answer combination internal
      */
     @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+   @Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "STR_GRP_ID")
     public List<StratificationCriterionAnswerCombination> getStratificationCriterionAnswerCombinationInternal() {
         return lazyListHelper.getInternalList(StratificationCriterionAnswerCombination.class);
