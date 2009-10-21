@@ -1198,6 +1198,9 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 
     @Transient
     public StudyVersion getCurrentStudyAmendment(){
+//    	if(studyVersion != null){
+//    		return studyVersion;
+//    	}
     	List<StudyVersion> amendmentVersions = new ArrayList<StudyVersion>();
     	for(StudyVersion version : getStudyVersions()){
     		if(version.getVersionStatus() == StatusType.IN){
