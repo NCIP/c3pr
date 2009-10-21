@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +61,14 @@ public class StudyOverviewTab extends StudyTab {
                 study = studyRepository.createStudy(study.getIdentifiers());
                 request.setAttribute("studyMessage", "STUDY.CREATED_SUCCESSFULLY");
             }else if(request.getParameter("statusChange").equals("open")){
+            	/*
+            	 * TODO: Adding a temporary fix to capture open date. Need to remove this.
+            	 */
+            	Date versionDate = study.getStudyVersion().getVersionDate();
+            	study = studyDao.getById(study.getId());
+            	study.getStudyVersion().setVersionDate(versionDate);
+            	studyRepository.merge(study);
+            	
             	study = studyRepository.openStudy(study.getIdentifiers());
             	request.setAttribute("studyMessage", "STUDY.OPENED_SUCCESSFULLY");
             }else if(request.getParameter("statusChange").equals("close")){

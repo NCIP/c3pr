@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -96,6 +97,14 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         Study study = ((StudyWrapper) command).getStudy();
         if(request.getParameter("_action").equals("open")){
+        	/*
+        	 * TODO: Adding a temporary fix to capture open date. Need to remove this.
+        	 */
+        	Date versionDate = study.getStudyVersion().getVersionDate();
+        	study = studyDao.getById(study.getId());
+        	study.getStudyVersion().setVersionDate(versionDate);
+        	studyRepository.merge(study);
+        	
             study= studyRepository.openStudy(study.getIdentifiers());
         }else if(request.getParameter("_action").equals("create")){
             study=studyRepository.createStudy(study.getIdentifiers());

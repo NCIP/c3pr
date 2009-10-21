@@ -16,10 +16,17 @@ function activateAndSaveStudy(){
 		var d = $('errorsOpenDiv');
 		Dialog.alert(d.innerHTML, {className: "alphacube", width:300, okLabel: "Close" });
 	} else {
-		document.getElementById("_activate").value="true";
-		document.getElementById("_action").value="open";
-		document.getElementById("viewDetails").submit();
+		contentWin = new Window({ width:350, height:130 ,className :"alert_lite"}) 
+		contentWin.setContent('openConfirmationDiv') ;
+		contentWin.showCenter(true);
 	}
+}
+
+function openStudy(){
+	$('study.studyVersion.versionDate').value=$('studyOpenDate').value;
+	document.getElementById("_activate").value="true";
+	document.getElementById("_action").value="open";
+	document.getElementById("viewDetails").submit();
 }
 
 function closePopup() {
@@ -82,6 +89,7 @@ function updateTargetAccrual(){
 		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Target accrual has been updated.</div>
 	</div>
 <form:form id="viewDetails" name="viewDetails">
+<form:hidden path="study.studyVersion.versionDate"/>
 <div id="summary">
 <tags:tabFields tab="${tab}"/>
 <tags:instructions code="study_summary_create" />
@@ -427,7 +435,29 @@ function updateTargetAccrual(){
 	</c:forEach>
 </div>
 </form:form>
-
+<div id="openConfirmationDiv" style="display:none">
+	<div style="font-size: 10pt; padding-top: 20px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+        <b><tags:requiredIndicator />Effective date</b>
+        <input type="text" id="studyOpenDate" class="date validate-DATE&&notEmpty"  value="${command.study.studyVersion.versionDateStr }"/>
+           <a href="#" id="studyOpenDate-callButton">
+          	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+          	</a>
+        <script>
+        	Calendar.setup(
+		        {
+		            inputField  : "studyOpenDate",         // ID of the input field
+		            ifFormat    : "%m/%d/%Y",    // the date format
+		            button      : "studyOpenDate-callButton"       // ID of the button
+		        }
+		        );
+        </script>
+       	<tags:hoverHint keyProp="study.openDate"/>
+	</div>
+	<div align="right">
+		<tags:button type="button "color="blue" value="Open study" onclick="javascript:openStudy();"/>
+		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+	</div>
+</div>
 <div id="targetAccrualPage" style="display:none;">
 <div id="targetAccrual" >
 <%@ include file="update_target_accrual.jsp"%>
