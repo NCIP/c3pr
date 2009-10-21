@@ -23,7 +23,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 @Table(name = "contact_mechanisms")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "CONTACT_MECHANISMS_ID_SEQ") })
-public abstract class ContactMechanism extends AbstractMutableDeletableDomainObject {
+public class ContactMechanism extends AbstractMutableDeletableDomainObject {
 
     /** The type. */
     private ContactMechanismType type;
