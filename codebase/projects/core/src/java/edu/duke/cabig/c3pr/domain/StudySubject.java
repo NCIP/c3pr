@@ -1759,7 +1759,7 @@ public class StudySubject extends
 			.getRuntimeException(
 					getCode("C3PR.EXCEPTION.REGISTRATION.STUDYVERSION.NOTFOUND"), new String[]{new SimpleDateFormat("MM/dd/yyyy").format(date)});
 		}
-		Epoch epoch = this.getStudySite().getStudy().getEpochByName(this.getScheduledEpoch().getEpoch().getName());
+		Epoch epoch = studySiteStudyVersion.getStudyVersion().getEpochByName(this.getScheduledEpoch().getEpoch().getName());
 		if(epoch == null){
 			throw this
 			.getC3PRExceptionHelper()
@@ -1771,8 +1771,8 @@ public class StudySubject extends
 		StudySubjectStudyVersion studySubjectStudyVersion = new StudySubjectStudyVersion();
 		studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
 		studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
-		studySubjectStudyVersion.setStudySubject(this);
-		this.getStudySubjectStudyVersions().set(0, studySubjectStudyVersion);
+		this.getStudySubjectStudyVersions().remove(this.getStudySubjectStudyVersion());
+		this.addStudySubjectStudyVersion(studySubjectStudyVersion);
 		this.setStudySubjectStudyVersion(studySubjectStudyVersion);
 	}
 	
