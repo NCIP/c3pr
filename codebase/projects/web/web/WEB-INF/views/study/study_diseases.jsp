@@ -7,6 +7,7 @@
 <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 <script type="text/javascript">
 	var CategorySelector = Class.create();
+	
 	Object.extend(CategorySelector.prototype, {
 	initialize: function() {
 		this.win = null;
@@ -23,7 +24,7 @@
             recenterAuto:true,
             resizable: false,
             minimizable : false,
-            maximizable: false,
+            maximizable: false
         });
 		this.win = win;
 		win.setContent('chooseCategory');
