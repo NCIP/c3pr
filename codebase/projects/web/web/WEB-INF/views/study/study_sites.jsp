@@ -167,7 +167,16 @@
 		win.showCenter(true);
 	}
 		
-
+	function viewAmendmentSummary(studyVersionId){
+		var arr= $$("#studyVersionSummary-"+studyVersionId);
+		win = new Window({className :"mac_os_x", title: "Amendment Summary",
+								hideEffect:Element.hide,
+								zIndex:100, width:450, height:250 , minimizable:false, maximizable:false,
+								showEffect:Element.show
+								})
+		win.setContent(arr[0]) ;
+		win.showCenter(true);
+	}
 	
 	</script>
 </head>

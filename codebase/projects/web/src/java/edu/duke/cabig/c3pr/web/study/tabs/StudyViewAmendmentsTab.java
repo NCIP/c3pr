@@ -45,8 +45,6 @@ public class StudyViewAmendmentsTab extends StudyTab {
 		Study study = wrapper.getStudy();
 		study = studyRepository.applyAmendment(study.getIdentifiers());
 		Map map = new HashMap();
-		map.put("amendment", study.getLatestStudyVersion());
-		map.put("amendmentIndex", request.getParameter("statusIndex"));
 		wrapper.setStudy(study);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}

@@ -243,9 +243,13 @@ function showSiteStatusHistory(primaryIdentifier){
 	            	<c:if test="${newerVersionApplied != true}">
 	            		<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', 'APPLY_AMENDMENT', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
 	            	</c:if>
+	            	<tags:button type="button" color="blue" value="View summary" id="viewSummary-${sortedStudyVersion.id}" onclick="viewAmendmentSummary('${sortedStudyVersion.id}');" size="small"/>
 	            </td>
 	            </c:if>
 	        </tr>
+	        <div id="versionSummary-${sortedStudyVersion.id}" style="display:none;">
+				<studyTags:study_amendment_summary studyVersion="${sortedStudyVersion}"></studyTags:study_amendment_summary>
+			</div>
 	        </c:forEach>
 	    </table>
 	   <div>
