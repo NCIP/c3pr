@@ -539,7 +539,24 @@
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Manage Registration"
-                                    p:linkName="searchRegistrationController"/>
+                                    p:linkName="searchRegistrationController">
+                        		<property name="subTasks">
+			                        <list>
+			                            <bean
+			                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+			                                    autowire="byType" p:displayName="View Registration"
+			                                    p:linkName="manageRegistrationController">
+			                            	<property name="display" value="false"/>
+			                            </bean>
+										<bean
+			                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+			                                    autowire="byType" p:displayName="Edit Registration"
+			                                    p:linkName="editRegistrationController">
+			                            	<property name="display" value="false"/>
+										</bean>
+			                        </list>
+			                    </property>
+                        	</bean>
                         </list>
                     </property>
                 </bean>
@@ -558,12 +575,21 @@
 				                        <list>
 				                            <bean
 				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
-				                                    autowire="byType" p:displayName="Edit Study"
-				                                    p:linkName="viewStudyController"/>
+				                                    autowire="byType" p:displayName="View Study"
+				                                    p:linkName="viewStudyController">
+				                            	<property name="display" value="false"/>
+				                            </bean>
 											<bean
 				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
-				                                    autowire="byType" p:displayName="View Study"
+				                                    autowire="byType" p:displayName="Edit Study"
 				                                    p:linkName="editStudyController">
+				                            	<property name="display" value="false"/>
+											</bean>
+											<bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Amend Study"
+				                                    p:linkName="amendStudyController">
+				                            	<property name="display" value="false"/>
 											</bean>
 				                        </list>
 				                    </property>

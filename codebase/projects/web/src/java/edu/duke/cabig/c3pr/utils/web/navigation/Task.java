@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Required;
 
 import edu.duke.cabig.c3pr.utils.web.spring.ControllerUrlResolver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -24,7 +25,7 @@ public class Task {
 
     private ControllerUrlResolver urlResolver;
 
-    private List<Task> subTasks = new LinkedList<Task>();
+    private List<SubTask> subTasks = new LinkedList<SubTask>();
 
     // //// LOGIC
 
@@ -60,11 +61,19 @@ public class Task {
         this.urlResolver = urlResolver;
     }
 
-	public List<Task> getSubTasks() {
+	public List<SubTask> getSubTasks() {
 		return subTasks;
 	}
+	
+	public List<SubTask> getDisplayableSubTasks() {
+		List<SubTask> displayableSubTasks= new ArrayList<SubTask>();
+		for(SubTask subTask: subTasks){
+			if(subTask.getDisplay()) displayableSubTasks.add(subTask);
+		}
+		return displayableSubTasks;
+	}
 
-	public void setSubTasks(List<Task> subTasks) {
+	public void setSubTasks(List<SubTask> subTasks) {
 		this.subTasks = subTasks;
 	}
 

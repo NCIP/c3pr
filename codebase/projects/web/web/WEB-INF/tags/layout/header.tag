@@ -70,7 +70,7 @@
                 </c:forEach>
                 </span>
           </div>
-          <c:if test="${not empty currentTask.subTasks}">
+          <c:if test="${not empty currentTask.displayableSubTasks && fn:length(currentTask.displayableSubTasks)>0}">
              <div id="subTasks">
 				  <c:forEach items="${currentTask.subTasks}" var="subtask">
                     <csmauthz:accesscontrol domainObject="${subtask}" authorizationCheckName="taskAuthorizationCheck">
