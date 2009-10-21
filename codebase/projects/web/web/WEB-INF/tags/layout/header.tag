@@ -50,7 +50,7 @@
                 </csmauthz:accesscontrol>
             </c:forEach>
         </ul>
-
+		<br style="clear:both;"/>
         <div id="taskbar">
             <c:if test="${not empty currentSection.tasks}">
                	<span width="80%" style="float:left;">

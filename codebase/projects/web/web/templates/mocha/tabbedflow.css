@@ -9,6 +9,7 @@ padding:15px 15px 5px;
 position:relative;
 width:950px;
 z-index:0;
+top:-9px;
 clear:both;
 background-image:url(images/thirdlevelnav_grey_gradient.png);
 background-position:center bottom;
