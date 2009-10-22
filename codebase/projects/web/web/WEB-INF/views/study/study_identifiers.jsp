@@ -41,6 +41,9 @@ var systemIdentifierRowInserterProps = {
     initialIndex: ${fn:length(command.study.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
     softDelete: ${softDelete == 'true'},
     isAdmin: ${isAdmin == 'true'},
+    getColumnDivisionID: function(index){
+    							return "systemIdentifier-"+index;
+    						},
     path: "study.systemAssignedIdentifiers"                               /* this is the path of the collection that holds the rows  */
 };
 var organizationIdentifierRowInserterProps = {
@@ -54,12 +57,7 @@ var organizationIdentifierRowInserterProps = {
 	       clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 		   clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
 		   AutocompleterManager.registerAutoCompleter(clonedRowInserter);
-	   },
-       onLoadRowInitialize: function(object, currentRowIndex){
-			clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
-			clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
-       }
+	   }
 };
 RowManager.addRowInseter(systemIdentifierRowInserterProps);
 RowManager.addRowInseter(organizationIdentifierRowInserterProps);
