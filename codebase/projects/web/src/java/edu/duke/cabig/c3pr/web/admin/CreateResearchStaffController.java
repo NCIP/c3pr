@@ -113,7 +113,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         			}
         		}
         		if(matchingExternalResearchStaffPresent){
-        			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmail()+ " exisits in external system");
+        			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmail()+ " exists in external system");
         		}
         	}
 	}
