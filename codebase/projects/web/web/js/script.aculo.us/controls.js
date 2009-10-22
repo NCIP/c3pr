@@ -202,20 +202,16 @@ Autocompleter.Base = Class.create({
    //let go if x offset > 310     
    //or let go if y offset < 0 
   
-  if(event == undefined){
-		 //it will close the window if event is not defined.
-	 }else{
-		if (event.offsetX > 310) {     
+	  if (event.offsetX > 310) {     
 		  //good may close    
-		} else if (event.offsetY < 0) {       
-		  //good - may close     
-		} else {         
-		  //prevent autocomplete close     
-		  event.cancelBubble;         
-		  event.srcElement.focus();        
-		  return false;    
-		}
-	 }
+	 	} else if (event.offsetY < 0) {       
+			  //good - may close     
+		 		} else {         
+			  //prevent autocomplete close     
+				  event.cancelBubble;         
+				  event.srcElement.focus();        
+				  return false;    
+	}
     // needed to make click events working
     setTimeout(this.hide.bind(this), 250);
     this.hasFocus = false;
