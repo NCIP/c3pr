@@ -159,7 +159,14 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	        setTimeout(this.onObserverEvent.bind(this), this.options.frequency*1000);
 	  }
 });
-
+Autocompleter.Base.prototype.__baseInitialize = Autocompleter.Base.prototype.baseInitialize;
+Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
+	baseInitialize: function(element, update, options) {
+		options.frequency    = 2.0;
+    	options.minChars     = 3;
+		this.__baseInitialize(element, update, options);
+	}
+});
 
 
 
