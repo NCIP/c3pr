@@ -123,7 +123,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
         			}
         		}
         		if(matchingExternalInvestigatorPresent){
-        			errors.reject("REMOTE_INV_EXISTS","Investigator with email " +investigator.getEmail()+ " exisits in external system");
+        			errors.reject("REMOTE_INV_EXISTS","Investigator with email " +investigator.getEmail()+ " exists in external system");
         		}
         	}
 	}
