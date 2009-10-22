@@ -40,6 +40,7 @@
 <body>
 <tags:panelBox>
 <form:form>
+		<tags:errors path="*" />
 		<div><input type="hidden" id="_action" name="_action" value=""></div>
 		<table id="notification" width="100%">
 			<tr></tr>
