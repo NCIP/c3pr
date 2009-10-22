@@ -136,7 +136,8 @@
 
     function testConnectivity(id, type){
     	var url ;
-    	$('testIndicator['+id+']').style.display = "";
+    	Element.update('connectionTestResult['+id+']','');
+    	Element.show('testIndicator['+id+']');
 		if(id != 'testEmail'){
 			var value = $(id).value ;
 			if(value == ''){
@@ -167,18 +168,7 @@
 	}
 	
 	function showErrorTrace(errorTrace) {
-		var win = new Window( {
-			className :"mac_os_x",
-			width :250,
-			height :200,
-			zIndex :100,
-			resizable :true,
-			title :"Error Trace",
-			draggable :true,
-			wiredDrag :true
-		});
-		win.getContent().innerHTML = errorTrace ;
-		win.showCenter(true);
+		Dialog.alert(errorTrace, {className: "alphacube", width:300, okLabel: "Close" });
 	}
 	
     </script>
