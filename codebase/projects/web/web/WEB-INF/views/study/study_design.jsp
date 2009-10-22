@@ -66,7 +66,6 @@
             add_row_division_id: "arm",
             skeleton_row_division_id: "dummy-arm",
             initialIndex: ${fn:length(command.study.epochs[treatmentEpochCount.index].arms)},
-            softDelete: ${softDelete == 'true'},
             isAdmin: ${isAdmin == 'true'},
             row_index_indicator: "NESTED.PAGE.ROW.INDEX",
             deleteMsgPrefix: "Book Randomization Entries(if any) for this Epoch will be deleted.",
@@ -77,7 +76,6 @@
             add_row_division_id: "genericEpoch",
             skeleton_row_division_id: "dummy-genericEpoch",
             initialIndex: ${fn:length(command.study.epochs)},
-            softDelete: ${softDelete == 'true'},
             isAdmin: ${isAdmin == 'true'},
             path: "epochs",
             postProcessRowInsertion: function(object){
