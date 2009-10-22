@@ -157,7 +157,7 @@ public class CreateOrganizationController extends SimpleFormController {
 					errors.reject("LOCAL_ORG_EXISTS",
 							"Organization with NCI Institute Code "
 									+ healthcareSite.getPrimaryIdentifier()
-									+ " already exisits");
+									+ " already exists");
 					return;
 				}
 			}
@@ -181,7 +181,7 @@ public class CreateOrganizationController extends SimpleFormController {
 					errors.reject("REMOTE_ORG_EXISTS",
 							"Organization with NCI Institute Code "
 									+ healthcareSite.getPrimaryIdentifier()
-									+ " exisits in external system");
+									+ " exists in external system");
 				}
 			}
 		}
