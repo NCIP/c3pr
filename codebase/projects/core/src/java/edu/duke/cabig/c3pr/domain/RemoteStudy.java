@@ -8,9 +8,7 @@ import com.semanticbits.coppa.domain.annotations.RemoteEntity;
 import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 import com.semanticbits.coppa.domain.annotations.RemoteUniqueId;
 
-import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.infrastructure.RemoteStudyResolver;
-import gov.nih.nci.cabig.ccts.domain.OrganizationAssignedIdentifierType;
 
 /**
  * @author Vinay Gangoli
