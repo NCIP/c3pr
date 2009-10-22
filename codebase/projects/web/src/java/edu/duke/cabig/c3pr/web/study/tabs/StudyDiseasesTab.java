@@ -92,14 +92,30 @@ public class StudyDiseasesTab extends StudyTab {
 	public ModelAndView addStudyDiseases(HttpServletRequest request, Object obj,Errors errors) {
     	StudyWrapper wrapper = (StudyWrapper) obj;
 		Study study = wrapper.getStudy();
+		ArrayList<StudyDisease> existingDiseases = new ArrayList<StudyDisease>();
+		ArrayList<DiseaseTerm> duplicateDiseaseTerms = new ArrayList<DiseaseTerm>();
+		ArrayList<DiseaseTerm> diseaseTerms = new ArrayList<DiseaseTerm>();
+		
+		existingDiseases.addAll(study.getStudyDiseases());
+		
 		String selectedDiseaseTerms = request.getParameter("selectedDiseaseTerms");
 		StringTokenizer st = new StringTokenizer(selectedDiseaseTerms, ",");
+		
 		while (st.hasMoreTokens()) {
 			String token = st.nextToken() ;
 			DiseaseTerm diseaseTerm = diseaseTermDao.getById(Integer.parseInt(token));
+			for(StudyDisease disease : existingDiseases){
+				if(diseaseTerm.equals(disease.getDiseaseTerm())){
+					//Maintaining this list in case we want to throw error sometime down the line.
+					duplicateDiseaseTerms.add(diseaseTerm);
+				}else{
+					diseaseTerms.add(diseaseTerm);
+				}
+			}
+		}
+		for(DiseaseTerm term : diseaseTerms){
 		   	StudyDisease studyDisease = new StudyDisease();
-		   	studyDisease.setDiseaseTerm(diseaseTerm);
-//fix		   	studyDisease.setStudy(study);
+		   	studyDisease.setDiseaseTerm(term);
 			study.addStudyDisease(studyDisease);
 		}
 		Study modifiedStudy = studyDao.merge(study);
