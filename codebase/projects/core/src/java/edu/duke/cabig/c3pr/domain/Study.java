@@ -34,6 +34,8 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import com.semanticbits.coppa.domain.annotations.RemoteProperty;
+
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
@@ -390,6 +392,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		return getStudyVersion().getLongTitleText();
 	}
 
+	@RemoteProperty
 	public String getPhaseCode() {
 		return phaseCode;
 	}
@@ -408,6 +411,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		return getStudyVersion().getShortTitleText();
 	}
 
+	@RemoteProperty
 	public String getType() {
 		return type;
 	}
@@ -463,6 +467,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		return null;
 	}
 
+	@RemoteProperty
 	public Boolean getBlindedIndicator() {
 		return blindedIndicator;
 	}
@@ -471,6 +476,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		this.blindedIndicator = blindedIndicator;
 	}
 
+	@RemoteProperty
 	public Boolean getRandomizedIndicator() {
 		return randomizedIndicator;
 	}
