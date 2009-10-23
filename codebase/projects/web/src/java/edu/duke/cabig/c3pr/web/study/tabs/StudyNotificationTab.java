@@ -74,7 +74,7 @@ public class StudyNotificationTab extends StudyTab {
             		if(emailList.indexOf(email) != emailList.lastIndexOf(email)){
             			//same email entered twice
             			//errors.reject("C3PR.STUDY.DUPLICATE.NOTIFICATION.EMAIL");
-            			errors.rejectValue("study.notifications", new Integer(
+            			errors.rejectValue("study.plannedNotifications", new Integer(
         	                    getCode("C3PR.STUDY.DUPLICATE.NOTIFICATION.EMAIL")).toString(),
         	                    getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.NOTIFICATION.EMAIL"), null , null));
             			break;
@@ -88,7 +88,7 @@ public class StudyNotificationTab extends StudyTab {
             		if(roleList.indexOf(role) != roleList.lastIndexOf(role)){
             			//same role entered twice
             			//errors.reject("C3PR.STUDY.DUPLICATE.NOTIFICATION.ROLE");
-            			errors.rejectValue("study.notifications", new Integer(
+            			errors.rejectValue("study.plannedNotifications", new Integer(
         	                    getCode("C3PR.STUDY.DUPLICATE.NOTIFICATION.ROLE")).toString(),
         	                    getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.NOTIFICATION.ROLE"), null , null));
             			break;
