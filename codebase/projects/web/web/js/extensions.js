@@ -89,7 +89,7 @@ Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
 */
 Autocompleter.Base.prototype.__onBlur = Autocompleter.Base.prototype.onBlur;
 Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
-	onBlur: function(){
+	onBlur: function(event){
 		//getting the id of the elmt...replacing"-input" with "-hidden" to get the hidden var
 		//and re-setting the entered text with "" if the hidden var contains no value.
 		//the hidden value will contain a val only if something is selected
@@ -103,8 +103,19 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 					$(this.element.id).value="";
 			}
 		}
-				
-		this.__onBlur();
+		if(Prototype.Browser.IE){
+			if (event.offsetX > 310) {     
+			  //good may close    
+			} else if (event.offsetY < 0) {       
+			  //good - may close     
+			} else {         
+			  //prevent autocomplete close     
+			  event.cancelBubble;         
+			  event.srcElement.focus();        
+			  return false;    
+			}
+		 }
+		this.__onBlur(event);
 	}
 });
 
