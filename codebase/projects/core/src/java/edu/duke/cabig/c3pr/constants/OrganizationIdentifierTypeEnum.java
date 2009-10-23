@@ -11,7 +11,7 @@ public enum OrganizationIdentifierTypeEnum implements CodedEnum<String> {
 	COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER("Coordinating Center Assigned Study Subject Identifier"),
 	CLINICAL_TRIALS_GOV_IDENTIFIER("ClinicalTrials.gov Identifier"),
 	COOPERATIVE_GROUP_IDENTIFIER("Cooperative Group Identifier"),
-	LOCAL("local"),
+	LOCAL("Local"),
 	STUDY_FUNDING_SPONSOR("Study Funding Sponsor"),
 	MRN("MRN"),
 	PROTOCOL_AUTHORITY_IDENTIFIER("Protocol Authority Identifier"),
