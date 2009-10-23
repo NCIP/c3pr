@@ -48,10 +48,12 @@
 	         	   	box2=$('fundingSponsorIdentifier');
 	         	     if ((box2==null)||box2.value == '') {
 	                	$('deletedSponsorIdentifier').value="delete";
-	           	}
-          	}
-          }
-         return continueSubmission;
+	           		 } else {
+		           		 $('healthcareSite-hidden1').value=$('healthcareSite-hidden').value;
+	           		 }
+          		 }
+          	  }
+         	  return continueSubmission;
      } 
 
    function manageRandomizedIndicatorSelectBox(box) {
