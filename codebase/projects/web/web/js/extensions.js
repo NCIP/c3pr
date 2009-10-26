@@ -104,7 +104,7 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 			}
 		}
 		if(Prototype.Browser.IE){
-			if (event.offsetX > 310) {     
+			if (event.offsetX > 450) {     
 			  //good may close    
 			} else if (event.offsetY < 0) {       
 			  //good - may close     

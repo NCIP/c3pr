@@ -189,7 +189,7 @@
 	<tags:panelBox title="Sites">
 		<div class="row">
 			<div class="name">
-				<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" size="90"></tags:autocompleter>
+				<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" size="60"></tags:autocompleter>
 				<tags:button color="blue" value="Add study site" icon="add" type="button" size="small" id="addStudySite" onclick="$('siteIndicator').show();addStudySite();" disabled="true"></tags:button>
 				<img id="siteIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 			</div>
