@@ -22,6 +22,18 @@
 		return strHiddenDiv;
 	}
 
+	function showSiteStatusHistory(primaryIdentifier){
+		var arr= $$("#site_status_history-"+primaryIdentifier);
+		win = new Window({className :"mac_os_x", title: "Site Status History",
+								hideEffect:Element.hide,
+								zIndex:100, width:600, height:250 , minimizable:false, maximizable:false,
+								showEffect:Element.show
+								})
+		win.setContent(arr[0]) ;
+		win.showCenter(true);
+	}
+		
+
 	function deleteStudySite(primaryIdentifier){
 		<tags:tabMethod method="deleteStudySite" divElement="'studySites'" formName="'tabMethodForm'"  viewName="/study/asynchronous/delete_study_site_section" javaScriptParam="'_doNotSave=true&primaryIdentifier='+primaryIdentifier+'&openSections='+getOpenSectionsStr()" /> ;
 	}
