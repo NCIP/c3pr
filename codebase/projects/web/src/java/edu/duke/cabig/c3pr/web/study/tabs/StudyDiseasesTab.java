@@ -97,8 +97,8 @@ public class StudyDiseasesTab extends StudyTab {
 		String selectedDiseaseTerms = request.getParameter("selectedDiseaseTerms");
 		StringTokenizer st = new StringTokenizer(selectedDiseaseTerms, ",");
 		
-		boolean newDiseaseTerm = true ;
 		while (st.hasMoreTokens()) {
+			boolean newDiseaseTerm = true ;
 			String token = st.nextToken() ;
 			DiseaseTerm diseaseTerm = diseaseTermDao.getById(Integer.parseInt(token));
 			for(StudyDisease disease : study.getStudyDiseases()){
