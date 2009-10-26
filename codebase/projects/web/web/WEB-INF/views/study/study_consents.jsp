@@ -36,7 +36,6 @@
     	    add_row_division_id: "consent", 	        /* this id belongs to element where the row would be appended to */
     	    skeleton_row_division_id: "dummy-row-consent",
     	    initialIndex: ${fn:length(command.study.consents)},                            /* this is the initial count of the rows when the page is loaded  */
-    	    softDelete: ${softDelete == 'false'},
     	    isAdmin: ${isAdmin == 'true'},
     	    path: "study.consents"                               /* this is the path of the collection that holds the rows  */
     	};
