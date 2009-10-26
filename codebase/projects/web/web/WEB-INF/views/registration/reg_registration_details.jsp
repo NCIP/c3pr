@@ -53,25 +53,29 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 											allConsentsSelected = false;
 										}
 									}
-							if (${command.studySubject.studySite.study.consentRequired == 'ONE'}){
+
+							if(formElement.id == 'command') {
+								if (${command.studySubject.studySite.study.consentRequired == 'ONE'}){
+										var error = document.getElementById("errorMsg1");
+										if(!atLeastOneConsentSelected){
+											if(${fn:length(command.studySubject.studySite.study.consents) > 1}){
+												flag=false;
+												error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; At least one consent needs to be signed.</span><br/>";
+											} else {
+												flag=false;
+												//	error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Consent is required.</span><br/>";
+											}
+											error.style.display="";
+										}else {error.style.display= "none" ;}
+								} else if (${command.studySubject.studySite.study.consentRequired == 'ALL'}){
 									var error = document.getElementById("errorMsg1");
-									if(!atLeastOneConsentSelected){
-										if(${fn:length(command.studySubject.studySite.study.consents) > 1}){
+										if(!allConsentsSelected){
 											flag=false;
-											error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; At least one consent needs to be signed.</span><br/>";
-										} else {
-											flag=false;
-											error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Consent is required.</span><br/>";
-										}
-										error.style.display="";
-									}else {error.style.display= "none" ;}
-							} else if (${command.studySubject.studySite.study.consentRequired == 'ALL'}){
-								var error = document.getElementById("errorMsg1");
-									if(!allConsentsSelected){
-										flag=false;
-										error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; All consents need to be signed.</span><br/>";
-										error.style.display="";
-									} else {error.style.display="none";}
+											error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; All consents need to be signed.</span><br/>";
+											error.style.display="";
+										} else {error.style.display="none";}
+								}
+
 							}
 									
 							if(formElement.id!='command' || !flag)
@@ -126,7 +130,7 @@ checkRegistrationDate = function(cal){
 		$('updateStudyVersion').value='false';
 		$('dontSave').value='false';
 		$('consentSignedDate').value=$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value;
-		<tags:tabMethod method="validateRegistrationDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateDiv'" formName="'studyVersionForm'" onComplete="displayStudyVersionError"/>
+		<tags:tabMethod method="validateConsentSignedDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateDiv'" formName="'studyVersionForm'" onComplete="displayStudyVersionError"/>
 	}
 }
 
@@ -183,7 +187,7 @@ function changeStudyVersion(){
 		<div id="checkRegistrationDateDivInline">
 		</div>
 		<script>
-			<tags:tabMethod method="validateRegistrationDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateInline'" javaScriptParam="'consentSignedDate=${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate}'"  formName="'invalidSubmitForm'"/>
+			<tags:tabMethod method="validateConsentSignedDate" viewName="/registration/asynchronous/checkRegistrationDate" divElement="'checkRegistrationDateInline'" javaScriptParam="'consentSignedDate=${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate}'"  formName="'invalidSubmitForm'"/>
 		</script>
 	</form:errors>
 	<input type="hidden" id="updateStudyVersion" name="updateStudyVersion" value="false"/>
@@ -245,7 +249,7 @@ function changeStudyVersion(){
 		</div>
 	</c:if>
 	
-	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'true'}">
+	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'true' && command.studySubject.regWorkflowStatus != 'ENROLLED' }">
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 			<div class="value">
