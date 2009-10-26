@@ -16,9 +16,12 @@
            try {
                if (box.value == 'false') {
                    $('study.epochs[' + index + '].reservationIndicator').disabled = false;
+                   $('reservationIndicator-' + index).disabled = true;
                } else {
                    $('study.epochs[' + index + '].reservationIndicator').disabled = true;
                    $('study.epochs[' + index + '].reservationIndicator').value = false;
+                   $('reservationIndicator-' + index).disabled = false;
+                   $('reservationIndicator-' + index).value=$('study.epochs[' + index + '].reservationIndicator').value;
                }
            } catch(ex) {
            }
@@ -29,12 +32,26 @@
            try {
                if (box.value == 'false') {
                    $('study.epochs[' + index + '].reservationIndicator').disabled = false;
+                   $('reservationIndicator-' + index).disabled = true;
                    $('study.epochs[' + index + '].enrollmentIndicator').disabled = false;
+                   $('study.epochs[' + index + '].randomizedIndicator').disabled = true;
+                   $('study.epochs[' + index + '].randomizedIndicator').value= false;
+                   $('enrollmentIndicator-' + index).disabled=true;
+                   $('randomizedIndicator-' + index).disabled = false;
+                   $('randomizedIndicator-' + index).value = false;
+                   
                } else {
-                   $('study.epochs[' + index + '].reservationIndicator').disabled = true;
-                   $('study.epochs[' + index + '].enrollmentIndicator').disabled = true;
-                   $('study.epochs[' + index + '].enrollmentIndicator').value = true;
                    $('study.epochs[' + index + '].reservationIndicator').value = false;
+                   $('study.epochs[' + index + '].reservationIndicator').disabled = true;
+                   $('reservationIndicator-' + index).disabled = false;
+                   $('reservationIndicator-' + index).value=$('study.epochs[' + index + '].reservationIndicator').value;
+                   $('study.epochs[' + index + '].randomizedIndicator').disabled = false;
+                   $('study.epochs[' + index + '].enrollmentIndicator').value = true;
+                   $('study.epochs[' + index + '].enrollmentIndicator').disabled = true;
+                   $('enrollmentIndicator-' + index).disabled = false;
+                   $('enrollmentIndicator-' + index).value = true;
+                   $('randomizedIndicator-' + index).disabled = true;
+                   
                }
            } catch(ex) {
            }
@@ -45,11 +62,16 @@
              try {
                  if (box.value == 'false') {
                 	 Effect.OpenUp('addArm-' + index);
+                	$('armButton-'+ index).style.display="";
                      $('study.epochs[' + index + '].enrollmentIndicator').disabled = false;
                      $('study.epochs[' + index + '].treatmentIndicator').disabled = false;
                      $('study.epochs[' + index + '].randomizedIndicator').disabled = false;
+                     $('enrollmentIndicator-' + index).disabled = true;
+                     $('treatmentIndicator-' + index).disabled = true;
                       
                  } else {
+                     
+                   
                 	 Effect.CloseDown('addArm-' + index);
                      $('study.epochs[' + index + '].enrollmentIndicator').disabled = true;
                      $('study.epochs[' + index + '].enrollmentIndicator').value = false;
@@ -57,6 +79,10 @@
                      $('study.epochs[' + index + '].treatmentIndicator').value = false;
                      $('study.epochs[' + index + '].randomizedIndicator').disabled = true;
                      $('study.epochs[' + index + '].randomizedIndicator').value = false;
+                     $('enrollmentIndicator-' + index).disabled = false;
+                     $('enrollmentIndicator-' + index).value= $('study.epochs[' + index + '].enrollmentIndicator').value;
+                     $('treatmentIndicator-' + index).disabled = false;
+                     $('treatmentIndicator-' + index).value= $('study.epochs[' + index + '].treatmentIndicator').value;
                  }
              } catch(ex) {
              }
@@ -149,6 +175,10 @@ DELETED TD
 <table id="genericEpoch" width="100%" border="0">
 <tr></tr>
     <c:forEach items="${command.study.epochs}" var="treatmentEpoch"  varStatus="treatmentEpochCount">
+     <input type="hidden"  name="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator" id="enrollmentIndicator-${treatmentEpochCount.index}" disabled="disabled"/>
+     <input type="hidden"  name="study.epochs[${treatmentEpochCount.index}].reservationIndicator" id="reservationIndicator-${treatmentEpochCount.index}" disabled="disabled"/>
+     <input type="hidden"  name="study.epochs[${treatmentEpochCount.index}].treatmentIndicator" id="treatmentIndicator-${treatmentEpochCount.index}" disabled="disabled"/>
+     <input type="hidden"  name="study.epochs[${treatmentEpochCount.index}].randomizedIndicator" id="randomizedIndicator-${treatmentEpochCount.index}" disabled="disabled"/>
         <tr id="genericEpoch-${treatmentEpochCount.index}">
             <script type="text/javascript">
                 RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}).updateIndex(${fn:length(command.study.epochs[treatmentEpochCount.index].arms)});
@@ -199,7 +229,7 @@ DELETED TD
       <tr>
           <td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.enrolling"/></b> </td>
           <td align="left">
-            <form:select id="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator" disabled="${treatmentEpoch.reservationIndicator}"
+            <form:select id="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator" disabled="${treatmentEpoch.reservationIndicator||treatmentEpoch.treatmentIndicator}"
 						path="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,${treatmentEpochCount.index});"
 						cssClass="validate-notEmpty">
 	                    <option value="">Please Select</option>
@@ -353,8 +383,10 @@ DELETED TD
       </c:choose>    
       </table>
       <br>
-      <tags:button id="addArm-${treatmentEpochCount.index}" type="button" color="blue" icon="add" value="Add Arm"
+      <div id="armButton-${treatmentEpochCount.index}" style="${command.study.epochs[treatmentEpochCount.index].reservationIndicator?'display:none':''}">
+      	<tags:button id="addArm-${treatmentEpochCount.index}" type="button" color="blue" icon="add" value="Add Arm"
 					onclick="$('addArmMessage-${treatmentEpochCount.index}') != null ? $('addArmMessage-${treatmentEpochCount.index}').hide():''; javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}));" size="small"/>
+ 	  </div>
   </td>
 </tr>
 </table>
