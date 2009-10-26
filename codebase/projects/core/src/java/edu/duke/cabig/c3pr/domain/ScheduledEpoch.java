@@ -43,7 +43,7 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
     private Epoch epoch;
 
     /** The start date. */
-    private Date startDate;
+    private Date startDate = new Date();
     
     private Date offEpochDate;
     
