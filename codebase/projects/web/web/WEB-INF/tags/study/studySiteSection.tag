@@ -213,7 +213,10 @@ function showSiteStatusHistory(primaryIdentifier){
 		            	<td>${studySiteStudyVersion.startDateStr }</td>
 			            <td>${studySiteStudyVersion.endDateStr }</td>
 			            <td>${studySiteStudyVersion.irbApprovalDateStr }</td>
-			            <td></td>
+			            <c:if test="${fn:length(site.study.reverseSortedStudyVersions) != status.index + 1 }">
+			            <tags:button type="button" color="blue" value="View summary" id="viewSummary-${sortedStudyVersion.id}" onclick="viewAmendmentSummary('${sortedStudyVersion.id}');" size="small"/>
+			            </c:if>
+			            </td>
 			            <c:set var="studySiteStudyVersionPresent" value="true"></c:set>
 			            <c:set var="newerVersionApplied" value="true"></c:set>
 		            </c:if>
