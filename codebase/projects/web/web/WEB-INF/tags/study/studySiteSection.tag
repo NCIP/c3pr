@@ -32,16 +32,6 @@
 </style>
 
 <script>
-function showSiteStatusHistory(primaryIdentifier){
-	var arr= $$("#site_status_history-"+primaryIdentifier);
-	win = new Window({className :"mac_os_x", title: "Site Status History",
-							hideEffect:Element.hide,
-							zIndex:100, width:600, height:250 , minimizable:false, maximizable:false,
-							showEffect:Element.show
-							})
-	win.setContent(arr[0]) ;
-	win.showCenter(true);
-}
 
 </script>
 <div id="statusChangeConfirmation" style="display : none;padding: 15px;">
