@@ -30,10 +30,6 @@
 		width:38%;
 	}
 </style>
-
-<script>
-
-</script>
 <div id="statusChangeConfirmation" style="display : none;padding: 15px;">
 	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.SITE.STATUS_CHANGE.WARNING"/>
 	<div class="flow-buttons">
@@ -203,8 +199,9 @@
 		            	<td>${studySiteStudyVersion.startDateStr }</td>
 			            <td>${studySiteStudyVersion.endDateStr }</td>
 			            <td>${studySiteStudyVersion.irbApprovalDateStr }</td>
+			            <td>
 			            <c:if test="${fn:length(site.study.reverseSortedStudyVersions) != status.index + 1 }">
-			            <tags:button type="button" color="blue" value="View summary" id="viewSummary-${sortedStudyVersion.id}" onclick="viewAmendmentSummary('${sortedStudyVersion.id}');" size="small"/>
+			            	<tags:button type="button" color="blue" value="View summary" id="viewSummary-${sortedStudyVersion.id}" onclick="viewAmendmentSummary('${sortedStudyVersion.id}');" size="small"/>
 			            </c:if>
 			            </td>
 			            <c:set var="studySiteStudyVersionPresent" value="true"></c:set>
