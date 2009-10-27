@@ -288,3 +288,11 @@ function openInfoDialog()
 	 	elIndicator.show();
     }
 }
+
+Element.observe(window, "load", function() {
+	var elIndicator =  $('ajax-loading-indictor');
+	 if(elIndicator) {
+	 	elIndicator.hide();
+   }
+	
+});
