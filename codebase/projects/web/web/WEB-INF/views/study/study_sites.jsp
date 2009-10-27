@@ -157,7 +157,7 @@
 			submitStr+='&irbApprovalDate-'+primaryIdentifier+'='+$("irbApprovalDate-"+primaryIdentifier).value;
 		}
 		if($("targetAccrual-"+primaryIdentifier)){
-			submitStr+='&'+$("targetAccrual-"+primaryIdentifier).name+'='+$("targetAccrual-"+primaryIdentifier).value;
+			submitStr+='&'+$("targetAccrual-"+primaryIdentifier)+'='+$("targetAccrual-"+primaryIdentifier).value;
 		}
 		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/updatedStudySiteSection" divElement="'siteSection_'+primaryIdentifier" javaScriptParam="submitStr"/>
 		Element.show('sendingMessage-'+primaryIdentifier);
