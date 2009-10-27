@@ -58,7 +58,7 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
         // remove armNotAvailable request attribute if already present
     	if(request.getAttribute("armNotAvaialable")!=null){
         	request.removeAttribute("armNotAvaialable");
-        
+    	}
      // remove dummy study subject consent versions that were created because of lazy list helper
     	Iterator iterator =studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().iterator();
     	while(iterator.hasNext()){
