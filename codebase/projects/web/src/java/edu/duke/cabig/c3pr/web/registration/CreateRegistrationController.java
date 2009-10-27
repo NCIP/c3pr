@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
@@ -54,6 +55,10 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
         
+        // remove armNotAvailable request attribute if already present
+    	if(request.getAttribute("armNotAvaialable")!=null){
+        	request.removeAttribute("armNotAvaialable");
+        
      // remove dummy study subject consent versions that were created because of lazy list helper
     	Iterator iterator =studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().iterator();
     	while(iterator.hasNext()){
@@ -74,9 +79,10 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
 				studySubject=studySubjectRepository.enroll(studySubject);
 			} catch (C3PRCodedRuntimeException e) {
 				
-				// Book exhausted exception is non-recoverable so it must be thrown up
+				// Book exhausted message is non-recoverable. It displays an error on the UI
 				if(e.getExceptionCode()==234){
-					throw new RuntimeException("No Arm available for this stratum group. May be the Randomization Book is exhausted");
+					request.setAttribute("armNotAvaialable", true);
+					return showPage(request, errors, 5);
 				}
 				// TODO Handle multisite error seperately and elegantly. for now eat the error
 			}

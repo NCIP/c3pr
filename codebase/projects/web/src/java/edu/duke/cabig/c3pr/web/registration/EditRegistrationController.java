@@ -49,6 +49,8 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
         flow.addTab(new ReviewSubmitTab());
         setFlow(flow);
     }
+    
+    
 
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
@@ -56,8 +58,14 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
         
+     // remove armNotAvailable request attribute if already present
+    	if(request.getAttribute("armNotAvaialable")!=null){
+        	request.removeAttribute("armNotAvaialable");
+        }
+        
      // remove dummy study subject consent versions that were created because of lazy list helper
     	Iterator iterator =studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().iterator();
+    	
     	while(iterator.hasNext()){
     		StudySubjectConsentVersion studySubjectConsentVersion = (StudySubjectConsentVersion)iterator.next();
     		if (studySubjectConsentVersion.getInformedConsentSignedDateStr() == null || studySubjectConsentVersion.getInformedConsentSignedDateStr()== "" ){
@@ -81,14 +89,23 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
         }else if(wrapper.getShouldEnroll()){
         	try {
 				studySubject=studySubjectRepository.enroll(studySubject);
-			} catch (MultisiteException e) {
+        	} catch (MultisiteException e) {
 				//eating the multisite error. This error will be shown on the confirmation page.
 				logger.error(e);
+			}catch (C3PRCodedRuntimeException e) {
+				
+				// Book exhausted message is non-recoverable. It displays an error on the UI
+				if(e.getExceptionCode()==234){
+					request.setAttribute("armNotAvaialable", true);
+					return showPage(request, errors, 5);
+				}
+				// TODO Handle multisite error seperately and elegantly. for now eat the error
 			}
+        	
         }
         if (logger.isDebugEnabled()) {
             logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
         }
-        return new ModelAndView("redirect:confirm?"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));	
+        	return new ModelAndView("redirect:confirm?"+ControllerTools.createParameterString(studySubject.getSystemAssignedIdentifiers().get(0)));	
     }
 }
