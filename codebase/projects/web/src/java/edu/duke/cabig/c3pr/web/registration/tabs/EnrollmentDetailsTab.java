@@ -176,7 +176,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     	}
     }
     
-    public ModelAndView validateRegistrationDate(HttpServletRequest request, Object command, Errors errors) {
+    public ModelAndView validateConsentSignedDate(HttpServletRequest request, Object command, Errors errors) {
     	Map<String, Object> map = new HashMap<String, Object>();
     	Date consentSignedDate = null;
     	try {
