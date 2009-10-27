@@ -486,37 +486,6 @@
 
 </div>
 </div>
-<chrome:division id="identifiers" title="Identifiers">
-    <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-        <tr>
-            <th><fmt:message key="c3pr.common.assigningAuthority"/></th>
-            <th><fmt:message key="c3pr.common.identifierType"/></th>
-            <th><fmt:message key="c3pr.common.identifier"/></th>
-            <th><fmt:message key="c3pr.common.primaryIndicator"/></th>
-            <th></th>
-        </tr>
-        <c:forEach var="orgIdentifier" items="${command.studySubject.organizationAssignedIdentifiers}"
-                  varStatus="organizationStatus">
-            <tr>
-                <td>${orgIdentifier.healthcareSite.name}</td>
-                <td>${orgIdentifier.type.displayName}</td>
-                <td>${orgIdentifier.value}</td>
-                <td>${orgIdentifier.primaryIndicator?'Yes':'No'}</td>
-                   
-            </tr>
-        </c:forEach>
-        <c:forEach items="${command.studySubject.systemAssignedIdentifiers}" varStatus="status" var="sysIdentifier">
-            <tr>
-                <td>${sysIdentifier.systemName}</td>
-                <td>${sysIdentifier.type}</td>
-                <td>${sysIdentifier.value}</td>
-                <td>${sysIdentifier.primaryIndicator?'Yes':'No'}
-                    <%-- <form:radiobutton value="true" cssClass="identifierRadios"
-                                      path="command.studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/>--%></td>
-            </tr>
-        </c:forEach>
-    </table>
-</chrome:division>
 <chrome:division id="Eligibility" title="Eligibility">
 	<div class="leftpanel">
 		<div class="row">
