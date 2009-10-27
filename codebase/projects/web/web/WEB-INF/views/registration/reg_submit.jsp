@@ -46,19 +46,30 @@ function redirectToTab(tabNumber){
 		</c:if>
 	</c:forEach>
 	<tags:instructions code="reg_submit" />
-	<c:if test="${requiresRandomization && command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkflowStatus=='ENROLLED')}">
-	<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
-		<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
-		<div style="font-size:20px; margin-bottom:5px;">Almost done...</div>
-		<div>
-			You still need to <a href="#randomize">randomize</a>!<br/>
-			<ul style="padding-left:230px;">
-			<li>Please review the information below then randomize at the bottom of the page.</li>
-			<li>When you're done, click the Randomize & Enroll button.</li>
-			</ul>
-		</div>
-	</div>
+	<c:if test="${requiresRandomization && command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkflowStatus=='ENROLLED') && empty armNotAvaialable}">
+			<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
+				<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
+				<div style="font-size:20px; margin-bottom:5px;">Almost done...</div>
+				<div>
+					You still need to <a href="#randomize">randomize</a>!<br/>
+					<ul style="padding-left:230px;">
+					<li>Please review the information below then randomize at the bottom of the page.</li>
+					<li>When you're done, click the Randomize & Enroll button.</li>
+					</ul>
+				</div>
+			</div>
 	</c:if>
+	<c:if test="${not empty armNotAvaialable && armNotAvaialable == 'true'}">
+			<div style="border:1px solid #f00; height:50px; padding:9px; margin-bottom:10px;">
+				<img src="<tags:imageUrl name="error-red.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
+				<div style="font-size:20px; margin-bottom:5px;">Arm not available...</div>
+				<div>
+					<span id='sid1' style='color:red'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; May be the Randomization Book is exhausted. Please add more 
+					book entries for the stratum group ${command.studySubject.scheduledEpoch.stratumGroupNumber } to be able to randomize.</span><br/>
+				</div>
+			</div>
+	</c:if>
+	
 	<div id="summary">
 	<chrome:division id="Study Information" title="Study">
 			<div class="leftpanel">
@@ -357,7 +368,7 @@ function redirectToTab(tabNumber){
 	</div>
 	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${(not empty command.studySubject.parentStudySubject && command.studySubject.parentStudySubject.regWorkflowStatus != 'ENROLLED')?'Save & Done': (empty actionLabel? '' : actionLabel)}"  isSummaryPage="true">
 		<input type="hidden" name="_finish" value="true"/>
-		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkflowStatus=='ENROLLED')}">
+		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkflowStatus=='ENROLLED') }}">
 			<a name="randomize"></a>
 			<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
 		</c:if> 
