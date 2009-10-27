@@ -231,7 +231,7 @@
 	            </td>
 	            <td>
 	            	<c:if test="${newerVersionApplied != true}">
-	            		<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', 'APPLY_AMENDMENT', '${errorMessage}', '${sortedStudyVersion.name }');" size="small"/>
+	            		<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', 'APPLY_AMENDMENT',  '${sortedStudyVersion.name }');" size="small"/>
 	            	</c:if>
 	            	<tags:button type="button" color="blue" value="View summary" id="viewSummary-${sortedStudyVersion.id}" onclick="viewAmendmentSummary('${sortedStudyVersion.id}');" size="small"/>
 	            </td>

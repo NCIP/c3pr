@@ -358,7 +358,7 @@ public class StudySitesTab extends StudyTab {
 		String localNCICode = request.getParameter("localNCICode");
 		String isMultisite = request.getParameter("isMultisite");
 		String action = request.getParameter("action");
-		String errorMessage = request.getParameter("errorMessage");
+		String errorMessage = "";
 		String versionName = request.getParameter("versionName");
 
 		StudySite studySite = study.getStudySite(primaryIdentifier);
@@ -369,22 +369,22 @@ public class StudySitesTab extends StudyTab {
 	        GregorianCalendar calendar = new GregorianCalendar();
 	        calendar.setTime(currentDate);
 	        calendar.add(calendar.YEAR, -1);
+	        calendar.add(calendar.DATE,  1);
 
 	        String allowedOldDate = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
 	        String todayDate = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
 	        if (irbApprovalDate.before(calendar.getTime()) || irbApprovalDate.after(currentDate)) {
-	        	errorMessage= "IRB approval should be between" + allowedOldDate + "and "+ todayDate ;
+	        	errorMessage= "IRB approval should be between" + allowedOldDate + " and "+ todayDate ;
 	        }else{
-	        	//TODO write api in study repo to apply amendment, dont merger here.
+	        	//TODO write api in study repo to apply amendment, dont merge here.
 	        	try{
 	        		studySite.applyStudyAmendment(versionName, irbApprovalDate);
+	        		studySiteDao.merge(studySite);
+		        	studySiteDao.evict(studySite);
 	        	}catch (Exception e) {
 					errorMessage = e.getMessage();
 				}
-	        	studySiteDao.merge(studySite);
-	        	studySiteDao.evict(studySite);
 	        	studyDao.evict(study);
-	        	
 	        	study = studyDao.getById(id);
 	        	studyDao.initialize(study);
 	        	wrapper.setStudy(study);
@@ -396,7 +396,7 @@ public class StudySitesTab extends StudyTab {
 		Map map = new HashMap();
 		map.put("command", wrapper);
 		map.put("site", studySite);
-		map.put("index", index);
+		map.put("siteIndex", index);
 		map.put("isMultisite", isMultisite);
 		map.put("localNCICode", localNCICode);
 		map.put("action", action);

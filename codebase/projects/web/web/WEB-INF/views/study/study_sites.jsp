@@ -165,8 +165,8 @@
 	}
 
 
-	function applyAmendment(primaryIdentifier, versionIndex,  index, localNCICode, isMultisite, action, errorMessage , versionName){
-		<tags:tabMethod method="applyAmendment" divElement="'siteSection_'+primaryIdentifier" formName="'tabMethodForm'"  viewName="/study/asynchronous/updatedStudySiteSection" javaScriptParam="'irbApprovalDate='+$('irbApproval-'+primaryIdentifier+'-'+versionIndex).value+'&sitePrimaryId='+primaryIdentifier+'&index='+index+'&localNCICode='+localNCICode+'&isMultisite='+isMultisite+'&action='+action+'&errorMessage='+errorMessage+'&versionName='+versionName"/>
+	function applyAmendment(primaryIdentifier, versionIndex,  index, localNCICode, isMultisite, action , versionName){
+		<tags:tabMethod method="applyAmendment" divElement="'siteSection_'+primaryIdentifier" formName="'tabMethodForm'"  viewName="/study/asynchronous/updatedStudySiteSection" javaScriptParam="'irbApprovalDate='+$('irbApproval-'+primaryIdentifier+'-'+versionIndex).value+'&sitePrimaryId='+primaryIdentifier+'&index='+index+'&localNCICode='+localNCICode+'&isMultisite='+isMultisite+'&action='+action+'&versionName='+versionName"/>
 	}
 
 	function confirmTakeAction(primaryIdentifier){
