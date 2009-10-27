@@ -220,6 +220,10 @@ public class StudySitesTab extends StudyTab {
 		}
 		
 		String irbApprovalDateStr = request.getParameter("irbApprovalDate-" + nciInstituteCode);
+		String targetAccrualStr = request.getParameter("targetAccrual-" + nciInstituteCode);
+		if(StringUtils.isNotBlank(targetAccrualStr)){
+			studySite.setTargetAccrualNumber(Integer.parseInt(targetAccrualStr));
+		}
 		Date irbApprovalDate;
 		if(StringUtils.isNotBlank(irbApprovalDateStr)){
 			irbApprovalDate = DateUtil.getUtilDateFromString(irbApprovalDateStr, "MM/dd/yyyy");	
