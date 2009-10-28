@@ -102,6 +102,8 @@
             	<exclude name="cryptix*.jar"/>
                 <exclude name="bouncycastle*.jar"/>
             	 <exclude name="puretls*.jar"/>
+            	<exclude name="jce-jdk*.jar"/>
+            	<exclude name="*gss.jar"/>
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="**/*.jar"/>
