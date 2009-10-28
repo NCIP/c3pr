@@ -280,21 +280,20 @@ function redirectToTab(tabNumber){
 			</c:forEach>
 			</c:when>
 			<c:otherwise>
-			 The subject has not signed any consent forms.
+				<font color="red">&nbsp;&nbsp;The subject has not signed any consent forms</font> 
 			</c:otherwise>
 		</c:choose>
 	</chrome:division>
 	<chrome:division id="Eligibility" title="Eligibility" link="javascript:redirectToTab('${eligibilityTab}');">
 		<div class="leftpanel">
 		<div class="row">
-			<div class="label"><fmt:message key="registration.eligible"/>:</div>
 			<c:choose>
 				<c:when test="${command.studySubject.scheduledEpoch.eligibilityIndicator}">
+					<div class="label"><fmt:message key="registration.eligible"/>:</div>
 					<div class="value"><fmt:message key="c3pr.common.yes"/></div>
 				</c:when>
 				<c:otherwise>
-					<div class="value"><fmt:message key="c3pr.common.no"/></div>
-					<div style="margin-left: 144px;"><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span></div>
+					<div><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span></div>
 				</c:otherwise>
 			</c:choose>
 			</div>
