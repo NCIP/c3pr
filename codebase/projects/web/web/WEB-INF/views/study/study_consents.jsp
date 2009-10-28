@@ -2,7 +2,7 @@
 <html>
 <head>
 	<style>
-		*{zoom:1}
+		
 
 		div.row div.newlabel {
 			font-weight: normal;
@@ -16,8 +16,13 @@
 	</style>
 <!--[if lte IE 7]>
 	<style>
+	/* IE hasLayout hack for dissapearing content on this page */
+		*{zoom:1}
+		#taskbar {
+			left:-230px;
+		}
 		#workflow-tabs {
-			top:-15px;
+			top:-25px;
 		}
 		#workflow-tabs li.selected {
 			margin-top:-4px;

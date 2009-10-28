@@ -4,11 +4,15 @@
 <title><studyTags:htmlTitle study="${command.study}" /></title>
 <!--[if lte IE 7]>
 <style>
-* {zoom:1}
-#workflow-tabs {
-	top:-15px;
-}
-#workflow-tabs li.selected {
+/* IE hasLayout hack for dissapearing content on this page */
+		*{zoom:1}
+		#taskbar {
+			left:-230px;
+		}
+		#workflow-tabs {
+			top:-25px;
+		}
+		#workflow-tabs li.selected {
 			margin-top:-4px;
 			padding-top:4px;
 		}
