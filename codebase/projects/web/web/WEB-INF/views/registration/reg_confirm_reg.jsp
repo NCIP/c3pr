@@ -88,6 +88,40 @@ function createReg(studySite, participant, parentRegistrationId){
 		</chrome:division>
 		<chrome:division id="Parent Registration Information" title="${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.primaryIdentifier})">
 			<div class="row">
+				<div class="label"><b><fmt:message key="study.shortTitle"/></b>:</div>
+				<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
+			</div>
+			 <div class="row">
+				<div class="label"><b><fmt:message key="study.version.name"/></b>:</div>
+				<div class="value">${command.studySubject.studySiteVersion.studyVersion.name}</div>
+			</div>
+			<div class="row">
+				<div class="label"><b><fmt:message key="registration.registrationStatus"/></b>:</div>
+				<div class="value">${command.studySubject.regWorkflowStatus.code }</div>
+			</div>	
+			<div class="row">
+				<div class="label"><b><fmt:message key="registration.startDate"/></b>:</div>
+				<c:choose>
+					<c:when test="${!empty command.studySubject.startDateStr}">
+						<div class="value">${command.studySubject.startDateStr}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="row">
+				<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
+				<c:choose>
+					<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
+						<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="row">
 	            <div class="label"><b><fmt:message key="registration.registrationIdentifier"/></b>:</div>
 				<c:choose>
 					<c:when test="${!empty command.studySubject.coOrdinatingCenterIdentifier.value}">
@@ -98,21 +132,21 @@ function createReg(studySite, participant, parentRegistrationId){
 					</c:otherwise>
 				</c:choose>
 	        </div>
-	        <div class="row">
-				<div class="label"><b><fmt:message key="study.version.name"/></b>:</div>
-				<div class="value">${command.studySubject.studySiteVersion.studyVersion.name}</div>
-			</div>
-			<div class="row">
-				<div class="label"><b><fmt:message key="study.shortTitle"/></b>:</div>
-				<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
-			</div>
-			<div class="row">
-				<div class="label"><b><fmt:message key="registration.registrationStatus"/></b>:</div>
-				<div class="value">${command.studySubject.regWorkflowStatus.code }</div>
-			</div>		
+	        
 			<div class="row">
 				<div class="label"><b><fmt:message key="c3pr.common.epoch"/></b>:</div>
 				<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
+			</div>
+			<div class="row">
+				<div class="label"><b><fmt:message key="scheduledEpoch.startDate"/></b>:</div>
+				<c:choose>
+					<c:when test="${!empty command.studySubject.scheduledEpoch.startDateStr}">
+						<div class="value">${command.studySubject.scheduledEpoch.startDateStr}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<c:if test="${!empty armAssigned}">
 				<div class="row">
@@ -125,33 +159,15 @@ function createReg(studySite, participant, parentRegistrationId){
 				<div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
 			</div>
 			<div class="row">
-				<div class="label"><b><fmt:message key="registration.startDate"/></b>:</div>
-				<div class="value">${command.studySubject.startDateStr}</div>
-			</div>
-			<div class="row">
 					<div class="label"><b>Consents </b>:</div>
 					<div class="value">
 						<c:set var="size" value="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions)}"></c:set>
 						<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
 							${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})
-							<c:if test="${size - status.index > 1}">
-								,&nbsp;
-							</c:if>
+							<c:if test="${size - status.index > 1}">,<br></c:if>
 						</c:forEach>
 						
 					</div>
-			</div>
-			
-			<div class="row">
-				<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
-				<c:choose>
-					<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
-						<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
-					</c:when>
-					<c:otherwise>
-						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
-					</c:otherwise>
-				</c:choose>
 			</div>
 		</chrome:division>
 		<c:forEach items="${command.studySubject.childStudySubjects}" var="childStudySubject" varStatus="status">
