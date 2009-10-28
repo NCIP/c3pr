@@ -9,6 +9,7 @@
 <%@attribute name="divTitle" required="true"%>
 <%@attribute name="minimize" %>
 <%@attribute name="divIdToBeMinimized" %>
+<%@attribute name="disableDelete" %>
 
 <div class="division ${cssClass}"
 	<tags:attribute name="id" value="${id}"/>
@@ -60,8 +61,11 @@
 		</td>
 		<td>
         <div id="${id}-image-div" align="right">
-        	<a href="javascript:${onclick};"><img id="${id }-image" src="<tags:imageUrl name="checkno.gif"/>" border="1" alt="Remove">
-        </a></div>
+        	<c:if test="${!disableDelete}">
+	        	<a href="javascript:${onclick};"><img id="${id }-image" src="<tags:imageUrl name="checkno.gif"/>" border="1" alt="Remove">
+	        	</a>
+        	</c:if>
+        </div>
 	</td>
 	</tr>
 	</table></h3>

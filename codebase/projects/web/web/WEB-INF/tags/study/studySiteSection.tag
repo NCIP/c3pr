@@ -39,7 +39,7 @@
 	</span>
 	</div>
 </div>
-<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.primaryIdentifier}" onclick="deleteStudySite('${site.healthcareSite.primaryIdentifier}');" title="(${site.healthcareSite.primaryIdentifier}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.primaryIdentifier}" id="divison-${site.healthcareSite.primaryIdentifier}" cssClass="divisonClass">
+<chrome:deletableDivision divTitle="studySite-${site.healthcareSite.primaryIdentifier}" onclick="deleteStudySite('${site.healthcareSite.primaryIdentifier}');" title="(${site.healthcareSite.primaryIdentifier}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.primaryIdentifier}" id="divison-${site.healthcareSite.primaryIdentifier}" cssClass="divisonClass" disableDelete="${fn:length(site.siteStatusHistory) > 1 || (fn:length(site.siteStatusHistory) == 1 && site.siteStudyStatus.name != 'PENDING')}">
 <div id="site-${site.healthcareSite.primaryIdentifier}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
 		<c:set var="message-color" value="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}+'.COLOR'" />
