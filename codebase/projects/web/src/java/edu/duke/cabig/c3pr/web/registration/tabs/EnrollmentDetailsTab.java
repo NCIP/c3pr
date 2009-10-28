@@ -86,6 +86,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 				throw new RuntimeException("Invalid Submit. Registration Date is invalid");
 			}
     		studySubject.changeStudyVersion(consentSignedDate);
+    		getRegistrationControllerUtils().buildCommandObject(studySubject);
     		return;
     	}
     	
