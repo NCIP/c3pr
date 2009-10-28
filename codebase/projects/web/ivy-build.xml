@@ -98,9 +98,10 @@
         <copy todir="${webinf.lib.dir}" preservelastmodified="true">
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar"/>
-            	<!-- in CCTS 2.0 we need to put this jar in WEB-INF Folder , need further investigation-->
-                <!--<exclude name="cog-jglobus*.jar"/> -->
+                <exclude name="cog-jglobus*.jar"/>
+            	<exclude name="cryptix*.jar"/>
                 <exclude name="bouncycastle*.jar"/>
+            	 <exclude name="puretls*.jar"/>
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="**/*.jar"/>
