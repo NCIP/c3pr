@@ -21,6 +21,7 @@ function navRollOver(obj, state) {
 	</c:when>
 	<c:otherwise>
 	<tags:formPanelBox tab="${tab}" flow="${flow}">
+	<input type="hidden" name="_validate" id="_validate"/>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
 			<th align="left"><b><fmt:message key="study.criterion"/></b></th>
