@@ -1385,7 +1385,7 @@ table.tablecontent {
     width: 250px;
     height: 250px;
     opacity: 0.6;
-    background-color: #000000;
+    background-color: transparent;
     filter: alpha( opacity = 60);
 	-moz-border-radius:30px;
 	-webkit-border-radius:30px;
