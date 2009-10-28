@@ -292,6 +292,7 @@ function openInfoDialog()
 Event.observe(window, "load", function (){
 	var elIndicator =  $('ajax-loading-indictor');
 	 if(elIndicator) {
+	 	Element.remove("overlay_modal");
 	 	elIndicator.style.display="none";
     }
 })
