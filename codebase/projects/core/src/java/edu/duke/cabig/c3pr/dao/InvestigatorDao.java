@@ -20,6 +20,8 @@ import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
@@ -209,11 +211,13 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     		remoteInvestigator2 = (RemoteInvestigator)object;
     		investigator = updateDatabaseWithRemoteContent(remoteInvestigator2);
         	
-        	//Update the remote hcsi if any
-        	for(HealthcareSiteInvestigator healthcareSiteInvestigator: investigator.getHealthcareSiteInvestigators()){
+        	//Update the remote hcsi
+        	for(int index = 0; index < investigator.getHealthcareSiteInvestigators().size(); index++){
         		//set the saved investigator in the hcsi
+        		HealthcareSiteInvestigator healthcareSiteInvestigator = investigator.getHealthcareSiteInvestigators().get(index);
         		healthcareSiteInvestigator.setInvestigator(investigator);
-        		healthcareSiteInvestigatorDao.updateDatabaseWithRemoteContent(healthcareSiteInvestigator);
+        		healthcareSiteInvestigator = healthcareSiteInvestigatorDao.updateDatabaseWithRemoteContent(healthcareSiteInvestigator);
+        		investigator.getHealthcareSiteInvestigators().set(index, healthcareSiteInvestigator);
         	}
     	}
     }
@@ -239,13 +243,17 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 				log.debug("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
 						+ "'s email id : " + retrievedRemoteInvestigator.getEmail()	+ " is already in the database.");
 				//add the hcsi to the existing inv and return it.
-				investigatorsWithMatchingEmail.getHealthcareSiteInvestigators().addAll(retrievedRemoteInvestigator.getHealthcareSiteInvestigators());
+				updateHealthcareSites(investigatorsWithMatchingEmail, retrievedRemoteInvestigator);
+				//investigatorsWithMatchingEmail.getHealthcareSiteInvestigators().clear();
+				//investigatorsWithMatchingEmail.getHealthcareSiteInvestigators().addAll(retrievedRemoteInvestigator.getHealthcareSiteInvestigators());
 				return investigatorsWithMatchingEmail;
 			} else if(investigatorsWithMatchingNCICode != null){
 				log.debug("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
 						+ "'s NCI Identifier: " + retrievedRemoteInvestigator.getNciIdentifier() + " is already in the database.");
 				//add the hcsi to the existing inv and return it.
-				investigatorsWithMatchingNCICode.getHealthcareSiteInvestigators().addAll(retrievedRemoteInvestigator.getHealthcareSiteInvestigators());
+				updateHealthcareSites(investigatorsWithMatchingNCICode, retrievedRemoteInvestigator);
+				//investigatorsWithMatchingNCICode.getHealthcareSiteInvestigators().clear();
+				//investigatorsWithMatchingNCICode.getHealthcareSiteInvestigators().addAll(retrievedRemoteInvestigator.getHealthcareSiteInvestigators());
 				return investigatorsWithMatchingNCICode;
 			} else {
 				buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
@@ -254,14 +262,24 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 			//we have the retrieved staff's Org in our db...link up with the same and persist
 			//only update if remote investigator exists.
 			if(matchingRemoteInvestigatorFromDb instanceof RemoteInvestigator){
-				// buildAndUpdateExistingRemoteInvestigator(retrievedRemoteInvestigator,(RemoteInvestigator) matchingRemoteInvestigatorFromDb);
-				matchingRemoteInvestigatorFromDb.getHealthcareSiteInvestigators().addAll(retrievedRemoteInvestigator.getHealthcareSiteInvestigators());
+				//buildAndUpdateExistingRemoteInvestigator(retrievedRemoteInvestigator,(RemoteInvestigator) matchingRemoteInvestigatorFromDb);
+				updateHealthcareSites(matchingRemoteInvestigatorFromDb, retrievedRemoteInvestigator);
+				//matchingRemoteInvestigatorFromDb.getHealthcareSiteInvestigators().clear();
+				//matchingRemoteInvestigatorFromDb.getHealthcareSiteInvestigators().addAll(retrievedRemoteInvestigator.getHealthcareSiteInvestigators());
 				return matchingRemoteInvestigatorFromDb;
 			}
 		}
 		return retrievedRemoteInvestigator;
 	}
 
+    private void updateHealthcareSites(Investigator investigatorToBeUpdated, Investigator investigatorToBeDiscarded){
+    	for(HealthcareSiteInvestigator hcsi: investigatorToBeDiscarded.getHealthcareSiteInvestigators()){
+    		if(!investigatorToBeUpdated.getHealthcareSiteInvestigators().contains(hcsi)){
+    			investigatorToBeUpdated.getHealthcareSiteInvestigators().add(hcsi);
+    		}
+    	}
+    }
+    
     /**In this case the remoteInv does not exist in our database.
      * Hence we need to save. Before saving we also handle the related orgs andthe hcs_inv links.
      *
@@ -347,6 +365,34 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 	}
 
 
+	/**
+     * This method queries the external system to fetch all the matching ResearchStaff
+     * @param researchStaff
+     * @return
+     */
+    public List<Investigator> getRemoteInvestigators(final Investigator investigator){
+    	Investigator searchCriteria = new RemoteInvestigator();
+    	searchCriteria.setFirstName(investigator.getFirstName());
+    	searchCriteria.setLastName(investigator.getLastName());
+    	searchCriteria.setEmail(investigator.getEmail());
+    	List<Investigator> remoteInvestigators = (List)remoteSession.find(searchCriteria); 
+    	return remoteInvestigators;
+    }
+    
+	public void initialize(Investigator inv) {
+		for(HealthcareSiteInvestigator healthcareSiteInvestigator:inv.getHealthcareSiteInvestigators()){
+			getHibernateTemplate().initialize(healthcareSiteInvestigator);
+			for(SiteInvestigatorGroupAffiliation siteInvestigatorGroupAffiliation: 
+						healthcareSiteInvestigator.getSiteInvestigatorGroupAffiliations()){
+				getHibernateTemplate().initialize(siteInvestigatorGroupAffiliation);
+			}
+			for(StudyInvestigator studyInvestigator: 
+				healthcareSiteInvestigator.getStudyInvestigators()){
+				getHibernateTemplate().initialize(studyInvestigator);
+			}
+		}
+	}
+
 	public RemoteSession getRemoteSession() {
 		return remoteSession;
 	}
@@ -363,20 +409,6 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 	
-	/**
-     * This method queries the external system to fetch all the matching ResearchStaff
-     * @param researchStaff
-     * @return
-     */
-    public List<Investigator> getRemoteInvestigators(final Investigator investigator){
-    	Investigator searchCriteria = new RemoteInvestigator();
-    	searchCriteria.setFirstName(investigator.getFirstName());
-    	searchCriteria.setLastName(investigator.getLastName());
-    	searchCriteria.setEmail(investigator.getEmail());
-    	List<Investigator> remoteInvestigators = (List)remoteSession.find(searchCriteria); 
-    	return remoteInvestigators;
-    }
-
 	public HealthcareSiteInvestigatorDao getHealthcareSiteInvestigatorDao() {
 		return healthcareSiteInvestigatorDao;
 	}

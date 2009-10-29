@@ -39,7 +39,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#find(java.lang.Object)
 	 */
 	public List<Object> find(Object example) {
-
+		log.debug("Entering find() for:" + this.getClass());
 		RemoteResearchStaff remoteResearchStaff = null;
 		List<Object> remoteResearchStaffList = null;
 		
@@ -60,6 +60,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 				remoteResearchStaffList = searchStaffBasedOnName(remoteResearchStaff);
 			}
 		}
+		log.debug("Exiting find() for:" + this.getClass());
 		return remoteResearchStaffList;
 	}
 
@@ -198,6 +199,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 
 
 	public Object getRemoteEntityByUniqueId(String externalId) {
+		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass());
 		II ii = CoppaObjectFactory.getIISearchCriteriaForPerson(externalId);
 		
 		String iiXml = CoppaObjectFactory.getCoppaIIXml(ii);
@@ -217,6 +219,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		}
 		
 		ResearchStaff researchStaff = populateRemoteResearchStaff(coppaPerson, null, coppaOrganizationList);
+		log.debug("Exiting getRemoteEntityByUniqueId() for:" + this.getClass());
 		return researchStaff;
 	}
 

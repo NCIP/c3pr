@@ -133,4 +133,5 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
 		getHibernateTemplate().flush();
 	}
 
+
 }

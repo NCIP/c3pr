@@ -179,6 +179,7 @@ public abstract class Investigator extends C3PRUser {
      * 
      * @return the nci identifier
      */
+    @RemoteProperty
     public String getNciIdentifier() {
         return nciIdentifier;
     }

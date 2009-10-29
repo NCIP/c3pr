@@ -155,6 +155,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 		//Set default values in RemoteStudy
 		remoteStudy.setRandomizationType(RandomizationType.PHONE_CALL);
 		remoteStudy.setRandomizedIndicator(Boolean.TRUE);
+		remoteStudy.setBlindedIndicator(Boolean.TRUE);
 		remoteStudy.setStratificationIndicator(Boolean.FALSE);
 		remoteStudy.setCompanionIndicator(Boolean.FALSE);
 		remoteStudy.setStandaloneIndicator(Boolean.TRUE);
