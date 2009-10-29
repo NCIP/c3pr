@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
@@ -39,6 +40,8 @@ public class CreateInvestigatorController<C extends Investigator> extends
     private PersonnelService personnelService;
 
     private InvestigatorDao investigatorDao;
+    
+    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
     private String EDIT_FLOW = "EDIT_FLOW";
 
@@ -66,24 +69,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
             log.info(" Request URl  is:" + request.getRequestURL().toString());
             inv = investigatorDao.getByEmailAddress(email);
             if(inv != null){
-//            	int cmSize = inv.getContactMechanisms().size();
-//                if (cmSize == 0) {
-//                    addContacts(inv);
-//                }
-//                if (cmSize == 1) {
-//                    ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-//                    ContactMechanism contactMechanismFax = new LocalContactMechanism();
-//                    contactMechanismPhone.setType(ContactMechanismType.PHONE);
-//                    contactMechanismFax.setType(ContactMechanismType.Fax);
-//                    inv.addContactMechanism(contactMechanismPhone);
-//                    inv.addContactMechanism(contactMechanismFax);
-//                }
-//
-//                if (cmSize == 2) {
-//                    ContactMechanism contactMechanismFax = new LocalContactMechanism();
-//                    contactMechanismFax.setType(ContactMechanismType.Fax);
-//                    inv.addContactMechanism(contactMechanismFax);
-//                }
+            	investigatorDao.initialize(inv);
                 request.getSession().setAttribute(FLOW, EDIT_FLOW);
                 log.info(" Investigator's ID is:" + inv.getId());
             }
@@ -265,5 +251,14 @@ public class CreateInvestigatorController<C extends Investigator> extends
     protected C getPrimaryDomainObject(C command) {
         return command;
     }
+
+	public HealthcareSiteInvestigatorDao getHealthcareSiteInvestigatorDao() {
+		return healthcareSiteInvestigatorDao;
+	}
+
+	public void setHealthcareSiteInvestigatorDao(
+			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
+		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+	}
 
 }
