@@ -98,7 +98,11 @@
         	}else if(status=='applyAmendment') {
         		confirmChangeStudyStatus(status, "applyAmendmentMessage");
         	}else if(status=='open') {
-        		confirmChangeStudyStatus(status, "openMessage");
+        		if(${command.study.coordinatingCenterStudyStatus=='PENDING'}){
+        			confirmChangeStudyStatus(status, "openWithDateMessage");
+        		}else{
+        			confirmChangeStudyStatus(status, "openMessage");
+        		}
         	}
         }
 
@@ -694,6 +698,17 @@
 		</div>
 	</div>
 	<div id="openMessage" style="padding: 15px;">
+		<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.OPEN.WARNING"/>
+		<div id="actionButtons">
+			<div class="flow-buttons">
+		   	<span class="next">
+		   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
+				<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Open study" />
+			</span>
+			</div>
+		</div>
+	</div>
+	<div id="openWithDateMessage" style="padding: 15px;">
 		<div style="font-size: 10pt; padding-top: 20px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
 	        <b><tags:requiredIndicator />Effective date</b>
 	        <input type="text" id="tempStudyOpenDate" class="date validate-DATE&&notEmpty" value="${command.study.studyVersion.versionDateStr }"/>

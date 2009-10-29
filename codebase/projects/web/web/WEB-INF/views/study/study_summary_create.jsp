@@ -16,14 +16,20 @@ function activateAndSaveStudy(){
 		var d = $('errorsOpenDiv');
 		Dialog.alert(d.innerHTML, {className: "alphacube", width:300, okLabel: "Close" });
 	} else {
-		contentWin = new Window({ width:350, height:130 ,className :"alert_lite"}) 
-		contentWin.setContent('openConfirmationDiv') ;
+		contentWin = new Window({ width:350, height:130 ,className :"alert_lite"})
+		if(${command.study.coordinatingCenterStudyStatus=='PENDING'}){
+   			contentWin.setContent('openWithDateMessage') ;
+   		}else{
+   			contentWin.setContent('openMessage') ;
+   		}
 		contentWin.showCenter(true);
 	}
 }
 
 function openStudy(){
-	$('study.studyVersion.versionDate').value=$('studyOpenDate').value;
+	if(${command.study.coordinatingCenterStudyStatus=='PENDING'}){
+		$('study.studyVersion.versionDate').value=$('studyOpenDate').value;
+	}
 	document.getElementById("_activate").value="true";
 	document.getElementById("_action").value="open";
 	document.getElementById("viewDetails").submit();
@@ -435,7 +441,7 @@ function updateTargetAccrual(){
 	</c:forEach>
 </div>
 </form:form>
-<div id="openConfirmationDiv" style="display:none">
+<div id="openWithDateMessage" style="display:none">
 	<div style="font-size: 10pt; padding-top: 20px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
         <b><tags:requiredIndicator />Effective date</b>
         <input type="text" id="studyOpenDate" class="date validate-DATE&&notEmpty"  value="${command.study.studyVersion.versionDateStr }"/>
@@ -456,6 +462,17 @@ function updateTargetAccrual(){
 	<div align="right">
 		<tags:button type="button "color="blue" value="Open study" onclick="javascript:openStudy();"/>
 		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+	</div>
+</div>
+<div id="openMessage" style="display:none">
+	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.OPEN.WARNING"/>
+	<div id="actionButtons">
+		<div class="flow-buttons">
+	   	<span class="next">
+	   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
+			<tags:button type="button" color="green" icon="save" onclick="$('command').submit();" value="Open study" />
+		</span>
+		</div>
 	</div>
 </div>
 <div id="targetAccrualPage" style="display:none;">

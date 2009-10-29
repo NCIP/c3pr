@@ -100,10 +100,12 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
         	/*
         	 * TODO: Adding a temporary fix to capture open date. Need to remove this.
         	 */
-        	Date versionDate = study.getStudyVersion().getVersionDate();
-        	study = studyDao.getById(study.getId());
-        	study.getStudyVersion().setVersionDate(versionDate);
-        	studyRepository.merge(study);
+        	if(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING){
+	        	Date versionDate = study.getStudyVersion().getVersionDate();
+	        	study = studyDao.getById(study.getId());
+	        	study.getStudyVersion().setVersionDate(versionDate);
+	        	studyRepository.merge(study);
+        	}
         	
             study= studyRepository.openStudy(study.getIdentifiers());
         }else if(request.getParameter("_action").equals("create")){
