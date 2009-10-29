@@ -5,6 +5,7 @@ import static org.easymock.EasyMock.expect;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -99,7 +100,13 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
     	expect(studyRepository.openStudy(list)).andReturn(study);
         request.setMethod("POST");
     	expect(command.getStudy().getId()).andReturn(1);
-        //expect(studyRepository.merge(command.getStudy())).andReturn((Study) command.getStudy());
+    	expect(command.getStudy().getId()).andReturn(1);
+    	expect(study.getStudyVersion()).andReturn(studyVersion).times(2);
+    	expect(studyDao.getById(1)).andReturn(study);
+    	Date date= new Date();
+    	expect(studyVersion.getVersionDate()).andReturn(date);
+    	studyVersion.setVersionDate(date);
+        expect(studyRepository.merge(command.getStudy())).andReturn((Study) command.getStudy());
         replayMocks();
         ModelAndView mv = controller.processFinish(request, response, command, errors);
         assertNull("Command not present in model: ", mv);
