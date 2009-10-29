@@ -250,11 +250,6 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         wrapper.setStudySubject(studySubject);
         return wrapper;
     }
-    
-    @Override
-    protected boolean suppressValidation(HttpServletRequest request) {
-    	return (request.getParameter("_validate")==null);
-    }
 
     @Override
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
