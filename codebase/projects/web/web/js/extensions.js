@@ -110,8 +110,7 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 			  //good - may close     
 			} else {         
 			  //prevent autocomplete close     
-			  event.cancelBubble;         
-			  event.srcElement.focus();        
+			  event.cancelBubble = true;         
 			  return false;    
 			}
 		 }
