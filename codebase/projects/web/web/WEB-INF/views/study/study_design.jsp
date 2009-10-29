@@ -435,6 +435,10 @@ DELETED TD
 			id="genericEpochBox-PAGE.ROW.INDEX" title="Epoch: "
 			onclick="RowManager.deleteRow(genericEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
 			<!-- GENERIC START-->
+			<input type="hidden" name="study.epochs[PAGE.ROW.INDEX].enrollmentIndicator" id="enrollmentIndicator-PAGE.ROW.INDEX" disabled="disabled"/>
+ 			<input type="hidden" name="study.epochs[PAGE.ROW.INDEX].reservationIndicator" id="reservationIndicator-PAGE.ROW.INDEX" disabled="disabled"/>
+ 			<input type="hidden" name="study.epochs[PAGE.ROW.INDEX].treatmentIndicator" id="treatmentIndicator-PAGE.ROW.INDEX" disabled="disabled"/>
+ 			<input type="hidden" name="study.epochs[PAGE.ROW.INDEX].randomizedIndicator" id="randomizedIndicator-PAGE.ROW.INDEX" disabled="disabled"/>
 
 			<table style="border: 0px red dotted;" width="100%">
 				<tr>
