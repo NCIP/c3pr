@@ -14,6 +14,7 @@
         function doExportAction() {
         	C3PR.disableAjaxLoadingIndicator=true;
             $("exportForm").submit();
+            C3PR.disableAjaxLoadingIndicator=false;
         }
 
 		function confirmBroadcastStudy(){
