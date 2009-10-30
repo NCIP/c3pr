@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
@@ -111,8 +112,20 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     		}
     	}
         
-        if(wrapper.getShouldTransfer())
-        	studySubject = studySubjectRepository.transferSubject(studySubject);
+        if(wrapper.getShouldTransfer()) {
+        	try {
+        		studySubject = studySubjectRepository.transferSubject(studySubject);
+			} catch (C3PRCodedRuntimeException e) {
+				
+				// Book exhausted message is non-recoverable. It displays an error on the UI
+				if(e.getExceptionCode()==234){
+					request.setAttribute("armNotAvaialable", true);
+					return showPage(request, errors, 5);
+				}
+				// TODO Handle multisite error seperately and elegantly. for now eat the error
+			}
+        }
+        	
         else if(wrapper.getShouldEnroll()){
         	studySubject=studySubjectRepository.enroll(studySubject);
         }else if(wrapper.getShouldRegister()){
