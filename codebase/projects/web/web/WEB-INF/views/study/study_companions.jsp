@@ -7,10 +7,10 @@
 </head>
 
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studySiteForm" displayErrors="false">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" displayErrors="false">
 
 	<jsp:attribute name="singleFields">
-     <tags:instructions code="study_companions" />
+    <tags:instructions code="study_companions" />
     <script language="JavaScript" type="text/JavaScript"><!--
 
 	function addRow(action){
@@ -27,7 +27,6 @@
 	var companionStudyAssociationsAutocompleterProps = {
 	    basename: "companionStudy",
 	    populator: function(autocompleter, text) {
-	
 	        StudyAjaxFacade.matchComapanionStudies( text, function(values) {
 	            autocompleter.setChoices(values)
 	        })
@@ -43,7 +42,7 @@
 				$(companionStatus).innerHTML=selectedChoice.coordinatingCenterStudyStatus.displayName;
 			}
 	}
-var contentWin;
+	var contentWin;
 	var statusIndex;
 	
 	var instanceRowInserterProps = {
@@ -61,17 +60,6 @@ var contentWin;
 	    		contentWin.setContent(arr[0])
 	    		
 	    		contentWin.showCenter(true); 
-	    		// initializing calender in popup
-	    		inputDateElementLocal="study.companionStudyAssociations["+statusIndex+"].companionStudy.consentVersion";
-	    		inputDateElementLink="study.companionStudyAssociations["+statusIndex+"].companionStudy.consentVersion-calbutton";
-	    		Calendar.setup(
-	    		  {
-	    		      inputField  : inputDateElementLocal,         // ID of the input field
-	    		      ifFormat    : "%m/%d/%Y",    // the date format
-	    		      button      : inputDateElementLink       // ID of the button
-	    		  }
-	    		);
-	    		
 	    		myObserver = {
 	    	    	onDestroy: function(eventName, win) {
 	    		      if (win == contentWin) {
@@ -87,7 +75,6 @@ var contentWin;
 	        clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
 			clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
 			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
-			
 	    },
 	    onLoadRowInitialize: function(object, currentRowIndex){
 			clonedRowInserter=Object.clone(companionStudyAssociationsAutocompleterProps);
@@ -95,12 +82,9 @@ var contentWin;
 			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
 	    }
 	};
-	
-
 	RowManager.addRowInseter(instanceRowInserterProps);
 
 function createCompanion(shortTitle){
-	//RowManager.addRow(instanceRowInserterProps);
 	$('companionStudy' + currentRow + '-input').value = shortTitle;
 	$('companionStudy' + currentRow + '-hidden').name = "some_dummy_name";
 	$('companionStudy' + currentRow + '-input').disabled=true;
@@ -114,15 +98,9 @@ function closePopup(deleteRow) {
 	}
 	contentWin.close();
 }
-
-
 // SCRIPTS FOR COMPANION
-
-
 --></script>
-        
 <tags:errors path="study.companionStudyAssociations" />
-
 <table border="0" cellspacing="0" cellpadding="0" height="50" width="100%" border="2">
     <tr>
         <td>
@@ -137,7 +115,6 @@ function closePopup(deleteRow) {
 		                    <tags:hoverHint keyProp="study.companionstudy.mandatory" /></th>
 		                    <th></th>
 		                </tr>
-		                   
 		                   <c:forEach items="${command.study.companionStudyAssociations}" varStatus="status" var="companionStudyAssociation">
 		                    <tr id="companionTable-${status.index}">
 		                     <td>

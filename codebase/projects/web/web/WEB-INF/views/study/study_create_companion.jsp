@@ -144,16 +144,6 @@
 	             	<tags:hoverHint keyProp="study.multiInstitutionIndicator"/>
 	            </div>
 	        </div>
-	        <div class="row">
-             	<div class="label"><tags:requiredIndicator /><fmt:message key="study.consentVersionDate"/></div>
-             	<div class="value">
-             		<input type="text" id="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion" class="validate-notEmpty"/><em> (mm/dd/yyyy)</em>
-             		<a href="#" id="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.consentVersion-calbutton">
-                    	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
-                	</a>
-             		<tags:hoverHint keyProp="study.consentVersion"/>
-             	</div>
-         	</div>
         	<div class="row" style="display:none;">
 	        	<div class="label"><tags:requiredIndicator /><fmt:message key="study.standalone"/></div>
 	        	<div class="value">
