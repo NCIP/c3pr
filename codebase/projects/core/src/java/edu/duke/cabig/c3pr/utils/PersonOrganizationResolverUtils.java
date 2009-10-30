@@ -333,6 +333,14 @@ public class PersonOrganizationResolverUtils {
         return broadcastCoppaMessage(healthcareSiteXml, mData);
 	}
 	
+
+	public String broadcastIdentifiedOrganizationGetByPlayerIds(List<String> organizationIdXmlList) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByPlayerIds.getName() + "   Service -->" +ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
+        Metadata mData = new Metadata(OperationNameEnum.getByPlayerIds.getName(), "externalId", ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
+		return broadcastCoppaMessage(organizationIdXmlList, mData);
+	}
+	
 	public String broadcastClinicalResearchStaffSearch(String personXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
 		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
