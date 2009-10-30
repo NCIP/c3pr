@@ -98,6 +98,22 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
     	List list=new ArrayList();
     	expect(study.getIdentifiers()).andReturn(list);
     	expect(studyRepository.openStudy(list)).andReturn(study);
+    	expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+    	expect(command.getStudy().getId()).andReturn(1);
+        request.setMethod("POST");
+        replayMocks();
+        ModelAndView mv = controller.processFinish(request, response, command, errors);
+        assertNull("Command not present in model: ", mv);
+        verifyMocks();
+
+    }
+    
+    public void testPostProcessFinishPendingStudy() throws Exception {
+    	request.setParameter("_action", "open");
+    	List list=new ArrayList();
+    	expect(study.getIdentifiers()).andReturn(list);
+    	expect(studyRepository.openStudy(list)).andReturn(study);
+    	expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.PENDING);
         request.setMethod("POST");
     	expect(command.getStudy().getId()).andReturn(1);
     	expect(command.getStudy().getId()).andReturn(1);
