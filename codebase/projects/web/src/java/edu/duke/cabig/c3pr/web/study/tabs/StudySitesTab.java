@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.MessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
@@ -27,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;
@@ -405,17 +408,21 @@ public class StudySitesTab extends StudyTab {
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
 
-	private Map<String, Integer> isStudyVersionSetupValid(Study study){
-		Map<String, Integer> map = new HashMap<String, Integer>();
+	private Map<String, List<String>> isStudyVersionSetupValid(Study study){
+		Map<String,List<String>> map = new HashMap<String, List<String>>();
+		List<String> messages = new ArrayList<String>();
 		for(StudySite studySite : study.getStudySites()){
 			try{
 				studySite.isStudyVersionSetupValid();
 			}catch(C3PRCodedRuntimeException ex){
-				map.put(studySite.getHealthcareSite().getPrimaryIdentifier(), ex.getExceptionCode());
+				ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
+		        resourceBundleMessageSource.setBasename("error_messages_c3pr");
+		        messages.add(resourceBundleMessageSource.getMessage(Integer.toString(ex.getExceptionCode()) + ".COLOR", new String[]{}, null));
+				messages.add(ex.getCodedExceptionMesssage());
+				map.put(studySite.getHealthcareSite().getPrimaryIdentifier(), messages);
 			}
 		}
 		return map;
 	}
-	
 	
 }

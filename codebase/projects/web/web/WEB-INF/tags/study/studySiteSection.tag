@@ -42,11 +42,10 @@
 <chrome:deletableDivision divTitle="studySite-${site.healthcareSite.primaryIdentifier}" onclick="deleteStudySite('${site.healthcareSite.primaryIdentifier}');" title="(${site.healthcareSite.primaryIdentifier}) ${site.healthcareSite.name} : ${site.siteStudyStatus.code}" minimize="${keepOpen ? 'false':'true'}" divIdToBeMinimized="site-${site.healthcareSite.primaryIdentifier}" id="divison-${site.healthcareSite.primaryIdentifier}" cssClass="divisonClass" disableDelete="${fn:length(site.siteStatusHistory) > 1 || (fn:length(site.siteStatusHistory) == 1 && site.siteStudyStatus.name != 'PENDING')}">
 <div id="site-${site.healthcareSite.primaryIdentifier}" style="${keepOpen ? '':'display:none'}" class="hiddenDiv">
 	<div class="row">
-		<c:set var="message-color" value="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}+'.COLOR'" />
 		<c:if test='${not empty studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}'>
-			<div id="flash-message" class="${message-color}">
-				<img src="<tags:imageUrl name='error-${message-color}.png'/>" style="vertical-align:bottom;">&nbsp;
-				<fmt:message key="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier]}" />
+			<div id="flash-message" class="${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier][0]}">
+				<img src="<tags:imageUrl name='error-${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier][0]}.png'/>" style="vertical-align:bottom;">&nbsp;
+				${studyVersionAssociationMap[site.healthcareSite.primaryIdentifier][1]}
 			</div>
 		</c:if>
 		<c:if test="${!empty action}">
@@ -191,6 +190,7 @@
 	            <th/>
 	        </tr>
 	        <c:forEach items="${site.study.reverseSortedStudyVersions}" var="sortedStudyVersion" varStatus="status">
+	        <c:if test="${sortedStudyVersion.versionStatus.name == 'AC'}">
 	        <c:set var="studySiteStudyVersionPresent" value="false"></c:set>
 	        <tr>
 	            <td>${sortedStudyVersion.name }</td>
@@ -240,6 +240,7 @@
 	        <div id="versionSummary-${sortedStudyVersion.id}" style="display:none;">
 				<studyTags:study_amendment_summary studyVersion="${sortedStudyVersion}"></studyTags:study_amendment_summary>
 			</div>
+			</c:if>
 	        </c:forEach>
 	    </table>
 	   <div>

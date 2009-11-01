@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -478,11 +479,13 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		StudyVersion coCenterStudyVersion = getStudy().getStudyVersion(date);
 		StudySiteStudyVersion studySiteStudyVersion = getStudySiteStudyVersion(date);
 		if(coCenterStudyVersion == null){
-			throw new RuntimeException("No study version found on the date");
+			throw getC3PRExceptionHelper().getRuntimeException( getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.NO_VERSION_FOUND.CODE"));
+		}
+		if(coCenterStudyVersion.getVersionStatus() == StatusType.IN){
+			throw getC3PRExceptionHelper().getRuntimeException( getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.PENDING.CODE"));
 		}
 		if(studySiteStudyVersion == null){
-			throw getC3PRExceptionHelper().getRuntimeException(
-                    getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.IMMEDIATE.CODE"));
+			throw getC3PRExceptionHelper().getRuntimeException( getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.IMMEDIATE.CODE"));
 		}
 		if(coCenterStudyVersion == studySiteStudyVersion.getStudyVersion()){
 			return;
@@ -495,8 +498,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.GRACE.CODE"),new String[]  {Long.toString(daysLeft)});
 		}
 		if(coCenterStudyVersion.getAmendmentType() == AmendmentType.OPTIONAL){
-			throw getC3PRExceptionHelper().getRuntimeException(
-                    getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.OPTIONAL.CODE"));
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.STUDYVERSION.OPTIONAL.CODE"));
 		}
 	}
 
