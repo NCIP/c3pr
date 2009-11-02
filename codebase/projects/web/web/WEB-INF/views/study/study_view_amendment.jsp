@@ -89,8 +89,6 @@
     </table>
 </chrome:division>
 <chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${epochTab}')" condition="${not empty flowType}">
-	<c:choose>
-		<c:when test="${fn:length(command.study.epochs) >0}">
 			<table class="tablecontent" width="60%">
 		        <tr>
 		            <th width="50%"><b><fmt:message key="study.epochs"/></b></th>
@@ -103,12 +101,10 @@
 		                <c:if test="${not empty epoch.arms}">
 		                    <td>
 		                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-
 		                            <tr>
 		                                <th><b><fmt:message key="c3pr.common.name"/></b></th>
 		                                <th><b><fmt:message key="c3pr.common.targetAccrual"/></b></th>
 		                            </tr>
-
 		                            <tr>
 		                                <c:forEach items="${epoch.arms}" var="arm">
 		                                <tr>
@@ -123,13 +119,8 @@
 		            </tr>
 		        </c:forEach>
 		    </table>
-		</c:when>
-		<c:otherwise>
-			<div align="left"><span><fmt:message key="study.noEpochsAvailable"/></span></div>
-		</c:otherwise>
-	</c:choose>
 </chrome:division>
-<chrome:division title="Eligibilty Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${not empty flowType}">
+<chrome:division title="Eligibilty Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${not empty flowType}" id="eligibilityCriteriaDiv">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
 			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
@@ -147,6 +138,7 @@
 						</c:forEach>
 			   	 	</table>
 			   	 	<br>
+			   	 	<c:set var="criteriaPresent" value="true"></c:set>
 				</c:if>
 				<c:if test="${fn:length(epoch.exclusionEligibilityCriteria)> 0}">
 					<h4>Exclusion Eligibility Criteria</h4>
@@ -162,18 +154,22 @@
 						</c:forEach>
 				    </table>
 				    <br>
+				    <c:set var="criteriaPresent" value="true"></c:set>
 				</c:if>
 			</chrome:division>
 		</c:if>
     </c:forEach>
 </chrome:division>
-<div <c:if test="${!command.hasStratifiedEpoch}">style="display:none;"</c:if>>
+<c:if test="${!criteriaPresent}">
+<script>$('eligibilityCriteriaDiv').style.display="none";</script>
+</c:if>
+<div id="stratificationDiv" <c:if test="${!command.hasStratifiedEpoch}">style="display:none;"</c:if>>
 <chrome:division title="Stratum Groups"  cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${not empty flowType}" >
     <c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${epoch.stratificationIndicator}">
 			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
-				<c:choose>
-					<c:when test="${fn:length(epoch.stratumGroups)> 0}">
+					<c:if test="${fn:length(epoch.stratumGroups)> 0}">
+					<c:set var="stratificationPresent" value="true"></c:set>
 						<table class="tablecontent" width="70%">
 					        <tr>
 					            <th width="50%" scope="col" align="left"><b><fmt:message key="registration.stratumGroupNumber"/></b></th>
@@ -187,15 +183,14 @@
 							</c:forEach>
 				   	 	</table>
 				   	 	<br>
-					</c:when>
-					<c:otherwise>
-						<div align="left"><span><fmt:message key="study.noStratumGroupGenerated"/></span></div>
-					</c:otherwise>
-				</c:choose>
+					</c:if>
 			</chrome:division>
 		</c:if>
     </c:forEach>
 </chrome:division>
+<c:if test="${!stratificationPresent}">
+<script>$('stratificationDiv').style.display="none";</script>
+</c:if>
 </div>
 <c:if test="${fn:length(command.study.studyDiseases) >0}">
 <chrome:division title="Diseases" cssClass="big" link="javascript:redirectToTab('${diseaseTab}')" condition="${not empty flowType}">
