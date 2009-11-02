@@ -15,10 +15,13 @@
      var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
             populator: function(autocompleter, text) {
-            	$('healthcareSite-indicator').style.display='';
+            	if(text != '(Begin typing here)'){
+            		$('healthcareSite-indicator').style.display='';
+            	}
                 OrganizationAjaxFacade.matchHealthcareSites(text,function(values) {
                     autocompleter.setChoices(values)
-                })
+                });
+                
             },
             valueSelector: function(obj) {
             	if(obj.externalId != null){
