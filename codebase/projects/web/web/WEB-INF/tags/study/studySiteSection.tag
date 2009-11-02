@@ -130,8 +130,10 @@
 	</div>
 	<c:if test="${fn:length(site.possibleTransitions)>0 && isSiteManageable}">
 	<div class="row">
-		<c:set var="close" value="false"/>
-		<c:set var="temporary" value="false"/>
+		<c:set var="closeToAccrual" value="false"/>
+		<c:set var="closeToAccrualAndTreatment" value="false"/>
+		<c:set var="temporaryCloseToAccrual" value="false"/>
+		<c:set var="temporaryCloseToAccrualAndTreatment" value="false"/>
 		<c:forEach items="${site.possibleTransitions}" var="possibleAction">
 		<c:choose>
 			<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
@@ -139,14 +141,24 @@
 					<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
 				</c:if>
 			</c:when>
-			<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL' || possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
+			<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL'}">
 				<c:if test="${site.hostedMode || isLocalSiteCoordinating}">
-					<c:set var="close" value="true"/>
+					<c:set var="closeToAccrual" value="true"/>
 				</c:if>
 			</c:when>
-			<c:when test="${possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL' || possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
+			<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
+				<c:if test="${site.hostedMode || isLocalSiteCoordinating}">
+					<c:set var="closeToAccrualAndTreatment" value="true"/>
+				</c:if>
+			</c:when>
+			<c:when test="${possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL'}">
+				<c:if test="${site.hostedMode || isLocalSiteCoordinating}">
+					<c:set var="temporaryCloseToAccrual" value="true"/>
+				</c:if>
+			</c:when>
+			<c:when test="${possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
 				<c:if test="${isSiteManageable}">
-					<c:set var="temporary" value="true"/>
+					<c:set var="temporaryCloseToAccrualAndTreatment" value="true"/>
 				</c:if>
 			</c:when>
 			<c:otherwise>
@@ -154,20 +166,26 @@
 			</c:otherwise>
 		</c:choose>
 		</c:forEach>
-		<c:if test="${close}">
+		<c:if test="${closeToAccrual || closeToAccrualAndTreatment || temporaryCloseToAccrual || temporaryCloseToAccrualAndTreatment}">
 			<tags:button type="button" color="blue" value="Close Study Site" id="closeStudy"
 			onclick="Effect.SlideDown('close-choices-${site.healthcareSite.primaryIdentifier }')" size="small"/>
-			<div id="close-choices-${site.healthcareSite.primaryIdentifier }" class="autocomplete" style="display: none">
+				<div id="close-choices-${site.healthcareSite.primaryIdentifier }" class="autocomplete" style="display: none">
 				<ul>
+				<c:if test="${closeToAccrualAndTreatment}">
 					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Closed To Accrual And Treatment</li>
+				</c:if>
+				<c:if test="${closeToAccrual}">
 					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'CLOSE_STUDY_SITE_TO_ACCRUAL');">Closed To Accrual</li>
-					<c:if test="${temporary}">
+				</c:if>
+				<c:if test="${temporaryCloseToAccrualAndTreatment}">
 					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Temporarily Closed To Accrual And Treatment</li>
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL');">Temporarily Closed To Accrual</li>
 					</c:if>
+				<c:if test="${temporaryCloseToAccrual}">
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL');">Temporarily Closed To Accrual</li>
+				</c:if>
 				</ul>
 				<div align="right"><tags:button type="button" color="red" value="Cancel" icon="x"
-					onclick="Effect.SlideUp('close-choices')" size="small"/></div>
+					onclick="Effect.SlideUp('close-choices-${site.healthcareSite.primaryIdentifier }')" size="small"/></div>
 			</div>
 		</c:if>
 		<div id="sendingMessage-${site.healthcareSite.primaryIdentifier }" class="working" style="display: none">
