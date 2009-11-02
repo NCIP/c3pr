@@ -276,5 +276,10 @@
 	</chrome:division>
 	</c:if>
 </div>
+<div class="flow-buttons">
+	<span class="next">
+    	<tags:button type="button" color="blue" value="Close" onclick="parent.closePopup();"/>
+	</span>
+</div>
 </body>
 </html>
