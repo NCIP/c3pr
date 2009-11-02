@@ -53,7 +53,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	/** The log. */
-	private static Log log = LogFactory.getLog(InvestigatorDao.class);
+	private static Log log = LogFactory.getLog(ResearchStaffDao.class);
 
 	/** The Constant SUBSTRING_MATCH_PROPERTIES. */
 	private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays
