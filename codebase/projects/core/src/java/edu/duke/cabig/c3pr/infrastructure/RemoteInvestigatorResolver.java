@@ -270,7 +270,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			}
 			//Fetch the associated Organizations
 			Map<String, List<gov.nih.nci.coppa.po.Organization>> organizationsMap = getOrganizationsForPersonsList(personList);
-        	Map<String, IdentifiedPerson> nciIdsMap = getIdentifiedPersonsForPersonList(personList);
+        	Map<String, IdentifiedPerson> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(personList);
         	remoteInvestigatorList = new ArrayList<Object>();
         	for(Person coppaPerson : personList){
         		IdentifiedPerson identifiedPerson = nciIdsMap.get(coppaPerson.getIdentifier().getExtension());
@@ -353,44 +353,6 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 	}
 	
 	
-	/**
-	 * Gets the nci ids for person list.
-	 * Returns a map with personID as key and associated NciId as value.
-	 * 
-	 * @param coppaPersonsList the coppa persons list
-	 * 
-	 * @return the nci ids for person list
-	 */
-	private Map<String, IdentifiedPerson> getIdentifiedPersonsForPersonList(List<Person> coppaPersonsList){
-    	Map<String, IdentifiedPerson> identifiedPersonMap = new HashMap<String, IdentifiedPerson>();
-		
-    	try {
-			//Build a list of personId Xml
-			List<String> personIdXmlList = new ArrayList<String>();
-			for(Person coppaPerson:coppaPersonsList){
-				personIdXmlList.add(CoppaObjectFactory.getCoppaPersonIdXML(coppaPerson.getIdentifier().getExtension()));
-			}
-			//Coppa-call for Identifier Persons getByIds
-			String identifiedPersonsXml = personOrganizationResolverUtils.broadcastIdentifiedPersonGetByPlayerIds(personIdXmlList);
-			List<String> identifiedPersons = XMLUtils.getObjectsFromCoppaResponse(identifiedPersonsXml);
-			
-			//Build a map with personId as key and sRole as value
-			if(identifiedPersons != null && identifiedPersons.size() > 0){
-				IdentifiedPerson identifiedPerson = null;
-				for(String identifiedPersonString : identifiedPersons){
-					identifiedPerson = CoppaObjectFactory.getCoppaIdentfiedPerson(identifiedPersonString);
-					if(identifiedPerson != null){
-						identifiedPersonMap.put(identifiedPerson.getPlayerIdentifier().getExtension(), identifiedPerson);
-					}
-				}
-			}
-    	} catch(Exception e){
-    		log.error(e.getMessage());
-    	}
-    	return identifiedPersonMap;
-    }
-	
-	
 	/* 
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#getRemoteEntityByUniqueId(java.lang.String)
 	 */
@@ -425,7 +387,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
         	coppaPersonsList.add(CoppaObjectFactory.getCoppaPerson(results.get(0)));
         	
         	Map<String, List<gov.nih.nci.coppa.po.Organization>> organizationsMap = getOrganizationsForPersonsList(coppaPersonsList);
-        	Map<String, IdentifiedPerson> nciIdsMap = getIdentifiedPersonsForPersonList(coppaPersonsList);
+        	Map<String, IdentifiedPerson> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(coppaPersonsList);
         	
         	IdentifiedPerson identifiedPerson = nciIdsMap.get(coppaPersonsList.get(0).getIdentifier().getExtension());
         	String nciId = "";

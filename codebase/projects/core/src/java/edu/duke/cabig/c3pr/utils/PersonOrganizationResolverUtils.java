@@ -1,7 +1,10 @@
 package edu.duke.cabig.c3pr.utils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -218,6 +221,43 @@ public class PersonOrganizationResolverUtils {
 	}
 	
 	/**
+	 * Gets the nci ids for person list.
+	 * Returns a map with personID as key and associated NciId as value.
+	 * 
+	 * @param coppaPersonsList the coppa persons list
+	 * 
+	 * @return the nci ids for person list
+	 */
+	public Map<String, IdentifiedPerson> getIdentifiedPersonsForPersonList(List<Person> coppaPersonsList){
+    	Map<String, IdentifiedPerson> identifiedPersonMap = new HashMap<String, IdentifiedPerson>();
+		
+    	try {
+			//Build a list of personId Xml
+			List<String> personIdXmlList = new ArrayList<String>();
+			for(Person coppaPerson:coppaPersonsList){
+				personIdXmlList.add(CoppaObjectFactory.getCoppaPersonIdXML(coppaPerson.getIdentifier().getExtension()));
+			}
+			//Coppa-call for Identifier Persons getByIds
+			String identifiedPersonsXml = broadcastIdentifiedPersonGetByPlayerIds(personIdXmlList);
+			List<String> identifiedPersons = XMLUtils.getObjectsFromCoppaResponse(identifiedPersonsXml);
+			
+			//Build a map with personId as key and sRole as value
+			if(identifiedPersons != null && identifiedPersons.size() > 0){
+				IdentifiedPerson identifiedPerson = null;
+				for(String identifiedPersonString : identifiedPersons){
+					identifiedPerson = CoppaObjectFactory.getCoppaIdentfiedPerson(identifiedPersonString);
+					if(identifiedPerson != null){
+						identifiedPersonMap.put(identifiedPerson.getPlayerIdentifier().getExtension(), identifiedPerson);
+					}
+				}
+			}
+    	} catch(Exception e){
+    		log.error(e.getMessage());
+    	}
+    	return identifiedPersonMap;
+    }
+	
+	/**
 	 * Gets the remote healthcare site from coppa organization.
 	 * 
 	 * @param coppaOrganization the coppa organization
@@ -346,6 +386,14 @@ public class PersonOrganizationResolverUtils {
 		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
         Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
 		return broadcastCoppaMessage(personXml, mData);
+	}
+	
+
+	public String broadcastClinicalResearchStaffGetByPlayerIds(List<String> personIdXmlList) throws C3PRCodedException {
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByPlayerIds.getName() + "   Service -->" +ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
+        Metadata mData = new Metadata(OperationNameEnum.getByPlayerIds.getName(), "externalId", ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
+		return broadcastCoppaMessage(personIdXmlList, mData);
 	}
 	
 	
@@ -491,6 +539,6 @@ public class PersonOrganizationResolverUtils {
 			CCTSMessageBroadcaster coppaMessageBroadcaster) {
 		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
 	}
-	
+
 	
 }

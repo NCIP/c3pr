@@ -1,7 +1,9 @@
 package edu.duke.cabig.c3pr.infrastructure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -93,55 +95,38 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	private List<Object> searchStaffBasedOnOrganization(RemoteResearchStaff remoteResearchStaffExample) {
 		List<Object> remoteResearchStaffList = new ArrayList<Object>();
         RemoteResearchStaff tempRemoteResearchStaff = null;
-        
-        //get IdentifiedOrganization by ctepId(nciId)
-        IdentifiedOrganization identifiedOrganizationSearchCriteria = CoppaObjectFactory.getCoppaIdentfiedOrganizationSearchCriteriaOnCTEPId
-        			(remoteResearchStaffExample.getHealthcareSite().getPrimaryIdentifier());
-        String payload = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganizationSearchCriteria);
-        String results = "";
-		try {
-			results = personOrganizationResolverUtils.broadcastIdentifiedOrganizationSearch(payload);
-		} catch (C3PRCodedException e) {
-			log.error(e.getMessage());
-		}
+        try{
+        	//Get IdentifiedOrganization by ctepId(nciId)
+            IdentifiedOrganization identifiedOrganizationSearchCriteria = CoppaObjectFactory.getCoppaIdentfiedOrganizationSearchCriteriaOnCTEPId
+            			(remoteResearchStaffExample.getHealthcareSite().getPrimaryIdentifier());
+            String payload = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganizationSearchCriteria);
+            String results = personOrganizationResolverUtils.broadcastIdentifiedOrganizationSearch(payload);
 
-        List<String> resultObjects = XMLUtils.getObjectsFromCoppaResponse(results);
-        for (String resultObj:resultObjects) {
-            IdentifiedOrganization coppaIdOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganization(resultObj);
-            II organizationIdentifier = coppaIdOrganization.getPlayerIdentifier();
-            String iiXml = CoppaObjectFactory.getCoppaIIXml(organizationIdentifier);
-            //Get Organizations based on player id of above IdentifiedOrganizations.
-            String organizationResults = "";
-			try {
-				organizationResults = personOrganizationResolverUtils.broadcastOrganizationGetById(iiXml);
-			} catch (C3PRCodedException e) {
-				log.error(e);
-			}
-            
-            List<String> organizationResultObjects = XMLUtils.getObjectsFromCoppaResponse(organizationResults);
-            //should contain only one but looping anyway(fix later)
-            for (String organizationResultObject:organizationResultObjects) {
-                gov.nih.nci.coppa.po.Organization coppaOrganizationResult = CoppaObjectFactory.getCoppaOrganization(organizationResultObject);
-                II ii = coppaOrganizationResult.getIdentifier();
-                //Organization ii is the scoper for clinical research staff...which returns crs with staff as playerId
-                ClinicalResearchStaff clinicalResearchStaff = CoppaObjectFactory.getCoppaClinicalResearchStaffWithScoperIdAsSearchCriteria(ii);
-                String coppaClinicalResearchStaffXml = CoppaObjectFactory.getClinicalResearchStaffXml(clinicalResearchStaff);
-                String sRolesXml = "";
-                try {
-                    sRolesXml = personOrganizationResolverUtils.broadcastClinicalResearchStaffSearch(coppaClinicalResearchStaffXml);
-                } catch (C3PRCodedException e) {
-                	log.error(e);
-                }
+            List<String> resultObjects = XMLUtils.getObjectsFromCoppaResponse(results);
+            for (String resultObj:resultObjects) {
+                IdentifiedOrganization coppaIdOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganization(resultObj);
+                II organizationIdentifier = coppaIdOrganization.getPlayerIdentifier();
+                String iiXml = CoppaObjectFactory.getCoppaIIXml(organizationIdentifier);
+                //Get Organizations based on player id of above IdentifiedOrganizations.
+                String organizationResults = personOrganizationResolverUtils.broadcastOrganizationGetById(iiXml);
+                
+                List<String> organizationResultObjects = XMLUtils.getObjectsFromCoppaResponse(organizationResults);
+                //should contain only one but looping anyway(fix later)
+                for (String organizationResultObject:organizationResultObjects) {
+                    gov.nih.nci.coppa.po.Organization coppaOrganizationResult = CoppaObjectFactory.getCoppaOrganization(organizationResultObject);
+                    II ii = coppaOrganizationResult.getIdentifier();
+                    //Organization ii is the scoper for clinical research staff...which returns crs with staff as playerId
+                    ClinicalResearchStaff clinicalResearchStaff = CoppaObjectFactory.getCoppaClinicalResearchStaffWithScoperIdAsSearchCriteria(ii);
+                    String coppaClinicalResearchStaffXml = CoppaObjectFactory.getClinicalResearchStaffXml(clinicalResearchStaff);
+                    String sRolesXml = personOrganizationResolverUtils.broadcastClinicalResearchStaffSearch(coppaClinicalResearchStaffXml);
 
-                List<String> sRoles = XMLUtils.getObjectsFromCoppaResponse(sRolesXml);
-                for(String sRole: sRoles){
-                    ClinicalResearchStaff crs = CoppaObjectFactory.getCoppaClinicalResearchStaff(sRole);
-                    II pid = crs.getPlayerIdentifier();    
-                    String idXml = CoppaObjectFactory.getCoppaIIXml(pid);
-                    //above player id is the Id of a Person ... now get  the Person by Id
-                    String personResultXml = "";
-                    try {
-                        personResultXml = personOrganizationResolverUtils.broadcastPersonGetById(idXml);
+                    List<String> sRoles = XMLUtils.getObjectsFromCoppaResponse(sRolesXml);
+                    for(String sRole: sRoles){
+                        ClinicalResearchStaff crs = CoppaObjectFactory.getCoppaClinicalResearchStaff(sRole);
+                        II pid = crs.getPlayerIdentifier();    
+                        String idXml = CoppaObjectFactory.getCoppaIIXml(pid);
+                        //above player id is the Id of a Person ... now get  the Person by Id
+                        String personResultXml = personOrganizationResolverUtils.broadcastPersonGetById(idXml);
                         List<String> persons = XMLUtils.getObjectsFromCoppaResponse(personResultXml);  
                         for(String personXml: persons){
                             Person person = CoppaObjectFactory.getCoppaPerson(personXml);
@@ -155,18 +140,19 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
                             	remoteResearchStaffList.add(tempRemoteResearchStaff);
                             }
                         }
-                    } catch (C3PRCodedException e) {
-                            log.error(e);
                     }
                 }
             }
+        } catch(C3PRCodedException cce){
+        	log.error(cce.getMessage());
+        } catch(Exception e){
+        	log.error(e.getMessage());
         }
         return remoteResearchStaffList;
 	}
 
 
 	private List<Object> searchStaffBasedOnName(RemoteResearchStaff remoteResearchStaff) {
-		
 		List<Object> remoteResearchStaffList = new ArrayList<Object>();
 		String personXml = CoppaObjectFactory.getCoppaPersonXml(
 				CoppaObjectFactory.getCoppaPerson(remoteResearchStaff.getFirstName(), remoteResearchStaff.getMiddleName(), remoteResearchStaff.getLastName()));
@@ -174,30 +160,102 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		try {
 			resultXml = personOrganizationResolverUtils.broadcastPersonSearch(personXml);
 		} catch (Exception e) {
-			System.out.print(e);
+			log.error(e.getMessage());
 		}
 		
 		List<String> coppaPersons = XMLUtils.getObjectsFromCoppaResponse(resultXml);
-		RemoteResearchStaff tempRemoteResearchStaff = null;
-		Person coppaPerson = null;
+		List<Person> personList = new ArrayList<Person>();
 		if (coppaPersons != null){
+			//creating a list of persons
 			for(String coppaPersonXml: coppaPersons){
-				coppaPerson = CoppaObjectFactory.getCoppaPerson(coppaPersonXml);
-				//get all the orgs the person is associated with.
-				List<gov.nih.nci.coppa.po.Organization>  coppaOrganizationList = getOrganizationsForPerson(coppaPerson);
-				//if the person is not a staff then he/she wont have a role and hence wont have a org
-				if(coppaOrganizationList.size() > 0){
-					tempRemoteResearchStaff = populateRemoteResearchStaff(coppaPerson, null, coppaOrganizationList);
-					if(tempRemoteResearchStaff != null){
-						remoteResearchStaffList.add(tempRemoteResearchStaff);
-					}
+				personList.add(CoppaObjectFactory.getCoppaPerson(coppaPersonXml));
+			}
+			
+			Map<String, List<gov.nih.nci.coppa.po.Organization>> organizationsMap = getOrganizationsForPersonsList(personList);
+	    	Map<String, IdentifiedPerson> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(personList);
+	    	String nciId;
+			RemoteResearchStaff tempRemoteResearchStaff = null;
+			for(Person coppaPerson: personList){
+        		IdentifiedPerson identifiedPerson = nciIdsMap.get(coppaPerson.getIdentifier().getExtension());
+        		nciId = "";
+        		if(identifiedPerson != null){
+        			nciId = identifiedPerson.getAssignedId().getExtension();
+        		}            	
+            	List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
+            	tempRemoteResearchStaff = populateRemoteResearchStaff(coppaPerson, nciId, organizationsList);
+            	if(tempRemoteResearchStaff != null){
+					remoteResearchStaffList.add(tempRemoteResearchStaff);
 				}
 			}
 		}
 		return remoteResearchStaffList;
 	}
-
-
+	
+	/**
+	 * Returns a map with personID as key and associated OrganizationsList as value.
+	 * If no Organizations are associated with a person then the value for that key will be null.
+	 * 
+	 * Does so by getting the HealthcareProvider for a person. This is a Structural Role.
+	 * This role has the person as the player and the Organization as the scoper.
+	 * So get the scoper id from the role and use it to search all orgs. This gets us
+	 * all the related orgs.
+	 * 
+	 * @param coppaPersons the coppa person List
+	 * @return the organizations for person
+	 */
+	private Map<String, List<gov.nih.nci.coppa.po.Organization>> getOrganizationsForPersonsList(List<Person> coppaPersonsList) {
+		Map<String, List<gov.nih.nci.coppa.po.Organization>> organizationsMap = new HashMap<String, List<gov.nih.nci.coppa.po.Organization>>();
+		try {
+			//Build a list of personId Xml
+			List<String> personIdXmlList = new ArrayList<String>();
+			for(Person coppaPerson:coppaPersonsList){
+				personIdXmlList.add(CoppaObjectFactory.getCoppaPersonIdXML(coppaPerson.getIdentifier().getExtension()));
+			}
+			
+			//Coppa-call for Structural Role(ClinicalResearchStaff) getByIds
+			String sRolesXml = personOrganizationResolverUtils.broadcastClinicalResearchStaffGetByPlayerIds(personIdXmlList);
+			List<String> sRoles = XMLUtils.getObjectsFromCoppaResponse(sRolesXml);
+			
+			//Build a map with personId as key and sRole as value
+			Map<String, ClinicalResearchStaff> sRoleMap = new HashMap<String, ClinicalResearchStaff>();
+			if(sRoles != null && sRoles.size() > 0){
+				ClinicalResearchStaff crs = null;
+				for(String sRole: sRoles){
+					crs = CoppaObjectFactory.getCoppaClinicalResearchStaff(sRole);
+					if(crs != null){
+						sRoleMap.put(crs.getPlayerIdentifier().getExtension(), crs);
+					}
+				}
+			}
+			
+			//Iterate over the person list and build the investigators; Get Organizations only if they have roles in the sRolesmap
+			Person coppaPerson = null;
+			List<gov.nih.nci.coppa.po.Organization>  coppaOrganizationList;
+			for(int index = 0; index < coppaPersonsList.size(); index++){
+				coppaOrganizationList = null;
+				coppaPerson = coppaPersonsList.get(index);
+				//Only if the person has a HealthcareProvider role do we fetch the associated Organization.
+				if(sRoleMap.containsKey(coppaPerson.getIdentifier().getExtension())){
+					ClinicalResearchStaff crs = sRoleMap.get(coppaPerson.getIdentifier().getExtension());
+					String orgIiXml = CoppaObjectFactory.getCoppaIIXml(crs.getScoperIdentifier());
+	
+					//Coppa-call for Organization search
+					String orgResultXml = personOrganizationResolverUtils.broadcastOrganizationGetById(orgIiXml);
+					List<String> orgResults = XMLUtils.getObjectsFromCoppaResponse(orgResultXml);
+					if (orgResults.size() > 0) {
+						coppaOrganizationList = new ArrayList<gov.nih.nci.coppa.po.Organization>();
+						coppaOrganizationList.add(CoppaObjectFactory.getCoppaOrganization(orgResults.get(0)));
+					}
+				} 
+				organizationsMap.put(coppaPerson.getIdentifier().getExtension(), coppaOrganizationList);
+			}
+		} catch (C3PRCodedException e) {
+			log.error(e.getMessage());
+		}
+		return organizationsMap;
+	}
+	
+	
 	public Object getRemoteEntityByUniqueId(String externalId) {
 		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass());
 		II ii = CoppaObjectFactory.getIISearchCriteriaForPerson(externalId);
