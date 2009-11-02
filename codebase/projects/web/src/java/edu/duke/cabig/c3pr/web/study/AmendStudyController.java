@@ -118,7 +118,6 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
         	// when user tries to view a particular amendment version
         	StudyVersion studyVersion = studyVersionDao.getById(Integer.parseInt(studyVersionId));
         	study.setStudyVersion(studyVersion);
-
         }else{
         	// when user tries to amend a study
         	wrapper.setStudy(study);

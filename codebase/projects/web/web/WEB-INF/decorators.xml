@@ -10,6 +10,7 @@
         <pattern>/pages/registration/confirm</pattern>
         <pattern>/pages/registration/manageCompanionRegistration</pattern>
         <pattern>/pages/study/confirm</pattern>
+        <pattern>/pages/study/viewAmendment</pattern>
     </decorator>
     <decorator name="tabbedflow" page="tabbedflow.jsp">
         <pattern>/pages/study/createStudy</pattern>

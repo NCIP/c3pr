@@ -17,17 +17,15 @@ function confirmationPopup(message){
 }
 
 function apply(){
-	<tags:tabMethod method="applyAmendment" divElement="'studyAmendmentDiv'" formName="'tabMethodForm'"  viewName="/study/asynchronous/study_amendment_section" onComplete="closePopup"/>
+	<tags:tabMethod method="viewAmendment" divElement="'studyAmendmentDiv'" formName="'tabMethodForm'"  viewName="/study/asynchronous/study_amendment_section" onComplete="closePopup"/>
 }
 
-function viewAmendment(){   
-	if(${command.study.companionIndicator} == 'true' ){
-		$('companionStudyVersionId').value=$('versionId').value ;
-		$('viewCompanionStudyForm').submit();
-	}else{
-		$('studyVersionId').value=$('versionId').value ;
-		$('viewStudyForm').submit();
-	}
+function viewAmendment(versionId){   
+	confirmWin = new Window(
+			{title: "Amendment Detail", top:35, left:35, width:850, height:400, zIndex:100,
+			url: "<c:url value='/pages/study/viewAmendment?decorator=noheaderDecorator&studyVersionId='/>"+versionId, showEffectOptions: {duration:1.5}}
+			) 
+	confirmWin.showCenter(true);
 }
 
 function closePopup(){
@@ -48,9 +46,6 @@ function viewAmendmentSummary(studyVersionId){
 </script>
 </head>
 <body>
-<form id="viewStudyForm" action="/c3pr/pages/study/amendStudy?studyId=${command.study.id}" method="post">
-	<input type="hidden" name="studyVersionId" id="studyVersionId" />
-</form>
 <input type="hidden" name="versionId" id="versionId"/>
 <chrome:box title="Amendments">
 <div id="applyAmendmentMessage" style="padding: 15px;display:none;">
@@ -60,17 +55,6 @@ function viewAmendmentSummary(studyVersionId){
 	   	<span class="next">
 	   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
 			<tags:button type="button" color="green" icon="save" onclick="javascript:apply();" value="Apply amendment" />
-		</span>
-		</div>
-	</div>
-</div>
-<div id="viewAmendmentMessage" style="padding: 15px;display:none;">
-	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.VIEW_AMENDMENT.WARNING"/>
-	<div id="actionButtons">
-		<div class="flow-buttons">
-	   	<span class="next">
-	   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
-			<tags:button type="button" color="green" icon="save" onclick="javascript:viewAmendment();" value="View amendment" />
 		</span>
 		</div>
 	</div>
@@ -117,7 +101,7 @@ function viewAmendmentSummary(studyVersionId){
 							</c:if>
 						</c:when>
 						<c:otherwise>
-							<tags:button color="blue" icon="search" onclick="$('versionId').value=${amendment.id};javascript:confirmationPopup('viewAmendmentMessage');" size="small" value="View"></tags:button>
+							<tags:button color="blue" icon="search" onclick="viewAmendment('${amendment.id}');" size="small" value="View"></tags:button>
 						</c:otherwise>
 					</c:choose>
 					<tags:button color="blue" icon="page" onclick="viewAmendmentSummary('${amendment.id}');" size="small" value="Summary"></tags:button>

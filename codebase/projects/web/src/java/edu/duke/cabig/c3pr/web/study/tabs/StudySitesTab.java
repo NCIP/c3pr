@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import javax.persistence.Transient;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.MessageSource;
@@ -29,7 +28,6 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
-import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;

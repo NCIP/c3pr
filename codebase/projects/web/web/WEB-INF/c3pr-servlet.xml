@@ -225,6 +225,11 @@
                     p:linkName="editStudyController"/>
        	 </property>
     </bean>
+    <bean name="/study/viewAmendment" id="viewAmendmentController"
+          autowire="byName"
+          class="edu.duke.cabig.c3pr.web.study.ViewAmendmentController">
+          <property name="studyVersionDao" ref="studyVersionDao" />
+    </bean>
     <bean name="/study/editStudy" id="editStudyController"
           class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName">
           <property name="editTask">
