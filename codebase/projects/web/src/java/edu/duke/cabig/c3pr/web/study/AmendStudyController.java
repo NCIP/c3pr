@@ -78,7 +78,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
             }
         }
 
-        request.setAttribute("softDelete", "true");
+        request.setAttribute("softDelete", "false");
         request.setAttribute("editAuthorizationTask", editTask);
         request.setAttribute("isAdmin", isAdmin);
         return super.referenceData(request,command, e , page);
