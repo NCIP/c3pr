@@ -22,7 +22,7 @@ function apply(){
 
 function viewAmendment(versionId){   
 	confirmWin = new Window(
-			{title: "Amendment Detail", top:35, left:35, width:875, height:600, zIndex:100,
+			{title: "Amendment Detail", top:35, left:35, width:875, height:600, zIndex:100,minimizable:false, maximizable:false,
 			url: "<c:url value='/pages/study/viewAmendment?decorator=noheaderDecorator&studyVersionId='/>"+versionId, showEffectOptions: {duration:1.5}}
 			) 
 	confirmWin.showCenter(true);
