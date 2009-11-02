@@ -5,5 +5,6 @@
 <c:forEach items="${commandObj.study.studySites}" varStatus="status" var="site">
 	<div id="siteSection_${site.healthcareSite.primaryIdentifier }">
 		<studyTags:studySiteSection index="${status.index}" site="${site}" isMultisite="${multisiteEnv}" localNCICode="${localNCICode}" />
+		<br>
 	</div>
 </c:forEach>
