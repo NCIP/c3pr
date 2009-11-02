@@ -99,12 +99,12 @@ function viewAmendmentSummary(studyVersionId){
 							<c:if test="${applyAmendment}">
 								<tags:button color="blue" icon="apply" onclick="javascript:confirmationPopup('applyAmendmentMessage');;" size="small" value="Apply Amendment"></tags:button>
 							</c:if>
+							<tags:button color="blue" icon="page" onclick="viewAmendmentSummary('${amendment.id}');" size="small" value="Summary"></tags:button>
 						</c:when>
 						<c:otherwise>
 							<tags:button color="blue" icon="search" onclick="viewAmendment('${amendment.id}');" size="small" value="View"></tags:button>
 						</c:otherwise>
 					</c:choose>
-					<tags:button color="blue" icon="page" onclick="viewAmendmentSummary('${amendment.id}');" size="small" value="Summary"></tags:button>
 				</td>
 			</tr>
 			<div id="versionSummary-${amendment.id}" style="display:none;">
