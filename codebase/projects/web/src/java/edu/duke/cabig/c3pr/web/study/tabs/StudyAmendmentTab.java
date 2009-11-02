@@ -46,6 +46,12 @@ public class StudyAmendmentTab extends StudyTab {
 	    	StudyVersion sAmendment = (StudyVersion) wrapper.getStudy().getCurrentStudyAmendment();
 	        if (sAmendment != null) {
 	        	List<StudyPart> studyParts = sAmendment.getAmendmentReasons();
+	        	if (studyParts.contains(StudyPart.DETAIL)) {
+	                request.getSession().setAttribute(DISABLE_FORM_DETAILS, new Boolean(false));
+	            } else {
+	                request.getSession().setAttribute(DISABLE_FORM_DETAILS, new Boolean(true));
+	            }
+	        	
 	        	if (studyParts.contains(StudyPart.DESIGN)) {
 	                request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
 	            } else {
