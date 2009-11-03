@@ -54,6 +54,9 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     @Override
 	protected boolean suppressValidation(HttpServletRequest request,
 			Object command, BindException errors) {
+    	if(WebUtils.getPreviousPage(request) == -1){
+    		return true;
+    	}
 		if (WebUtils.getPreviousPage(request)== 0){
 			return !WebUtils.hasSubmitParameter(request, "_validateForm");
 		}
