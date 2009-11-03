@@ -273,9 +273,6 @@ public class RegistrationControllerUtils {
     }
 	
 	public void buildCommandObject(StudySubject studySubject) {
-//		Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
-//	    studyDao.initialize(study);
-//	    participantDao.initialize(studySubject.getParticipant());
         if (studySubject.getScheduledEpoch()!=null) {
             ScheduledEpoch scheduledEpoch = studySubject
                             .getScheduledEpoch();
@@ -315,13 +312,16 @@ public class RegistrationControllerUtils {
 	            }
             }
             scheduledEpoch.getScheduledArms().size();
-            for(Consent consent: studySubject.getStudySite().getStudy().getConsents()){
-            	StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
-            	studySubjectConsentVersion.setConsent(consent);
-            	studySubject.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
-            }
         }
     }
+	
+	public void addConsents(StudySubject studySubject){
+		 for(Consent consent: studySubject.getStudySite().getStudy().getConsents()){
+         	StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
+         	studySubjectConsentVersion.setConsent(consent);
+         	studySubject.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
+         }
+	}
 
 	public void setStudyDao(StudyDao studyDao) {
 		this.studyDao = studyDao;
