@@ -456,7 +456,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	 * @return the study version, null if no study version was active on the given date
 	 */
 	@Transient
-	public StudyVersion getStudyVersion(Date date){
+	public StudyVersion getActiveStudyVersion(Date date){
 		return getStudySiteStudyVersion(date) == null ? null : getStudySiteStudyVersion(date).getStudyVersion();
 	}
 
