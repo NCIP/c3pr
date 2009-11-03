@@ -70,6 +70,21 @@
 							javaScriptParam="'serializedString='+serializedString+ '&epochCountIndex=' + epochCountIndex" formName="'tabMethodForm'"/>
 		}
 	}
+	
+	function deleteStratumGroup(epochId, stratumGroupId){
+		alertMessage="Are you sure you want to delete this stratum group?";
+		if(${isBookRandomized}){
+			alertMessage= "Book Randomization Entries(if any) will be deleted. " + alertMessage;
+		}
+		${isBookRandomized == 'true'}? "Book Randomization Entries(if any) will be deleted." : " "
+		Dialog.confirm(alertMessage, {className: "alphacube", width:400, cancel:function(win) {win.close()}, ok:function(win) {
+																											$('stratumGroupId').value= stratumGroupId;
+																											$('epochId').value=epochId;
+																											$('_target').name="abc";
+																											$('command').submit();
+																									  	}
+																				}); 
+	}
 
 	function stratumGroupAlert(epochCountIndex, isBookRandomized){
 		var table = document.getElementById('sgCombinationsTable_'+epochCountIndex);
@@ -198,7 +213,8 @@
 		<input	type="hidden" id="_selectedStratification" name="_selectedStratification" value=""> 
 		<input type="hidden" id="_selectedAnswer" name="_selectedAnswer" value="">
 		<input type="hidden" id="generateGroups" name="generateGroups" value="false"/>
-		<input type="hidden" id="epochId" name="epochId"  />
+		<input type="hidden" id="epochId" name="epochId"/>
+		<input type="hidden" id="stratumGroupId" name="stratumGroupId"/>
 	</div>
 	<c:if test="${command.study.stratificationIndicator}">
 	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
