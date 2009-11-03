@@ -2,6 +2,11 @@
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}"/></title>
+    <style>
+    .dialog{
+    	overflow:hidden;
+    }
+    </style>
     <script language="JavaScript" type="text/JavaScript">
 
 	    function redirectToTab(tabNumber){
@@ -109,7 +114,7 @@
         function amendStudyPopup(){
         	confirmWin = new Window({className :"mac_os_x", title: "Confirm", 
 									hideEffect:Element.hide, 
-									zIndex:100, width:400, height:120 , minimizable:false, maximizable:false,
+									zIndex:100, width:400, height:180 , minimizable:false, maximizable:false,
 									showEffect:Element.show 
 									}); 
 			confirmWin.setContent($('amendMessage')) ;
@@ -129,7 +134,7 @@
         	$('statusChange').value = status
         	confirmWin = new Window({className :"mac_os_x", title: "Confirm", 
 									hideEffect:Element.hide, 
-									zIndex:100, width:400, height:120 , minimizable:false, maximizable:false,
+									zIndex:100, width:400, height:180 , minimizable:false, maximizable:false,
 									showEffect:Element.show 
 									}); 
 			confirmWin.setContent($(messageDiv)) ;
