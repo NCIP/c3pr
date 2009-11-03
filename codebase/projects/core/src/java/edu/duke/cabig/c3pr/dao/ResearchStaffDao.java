@@ -95,6 +95,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	public void initialize(ResearchStaff researchStaff){
 		if(researchStaff.getHealthcareSite() != null){
 			getHibernateTemplate().initialize(researchStaff.getHealthcareSite().getIdentifiersAssignedToOrganization());
+			getHibernateTemplate().initialize(researchStaff.getContactMechanisms());
 		}
 	}
 	/**
