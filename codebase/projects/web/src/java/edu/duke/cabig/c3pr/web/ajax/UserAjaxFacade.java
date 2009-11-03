@@ -116,16 +116,16 @@ public class UserAjaxFacade {
         List<ResearchStaff> reducedResearchStaffList = new ArrayList<ResearchStaff>(researchStaffList.size());
         for (ResearchStaff researchStaff : researchStaffList) {
         	if(researchStaff instanceof RemoteResearchStaff){
-        		reducedResearchStaffList.add(buildReduced(researchStaff, Arrays.asList("id", "firstName", "lastName", "contactMechanisms[0].value", "uniqueIdentifier")));
+        		reducedResearchStaffList.add(buildReduced(researchStaff, Arrays.asList("id", "firstName", "lastName", "email", "uniqueIdentifier")));
         	} else {
-        		reducedResearchStaffList.add(buildReduced(researchStaff, Arrays.asList("id", "firstName", "lastName", "contactMechanisms[0].value")));
+        		reducedResearchStaffList.add(buildReduced(researchStaff, Arrays.asList("id", "firstName", "lastName", "email")));
         	}
         	
         }        
         
         List<Investigator> reducedInvestigatorList = new ArrayList<Investigator>(investigatorsList.size());
         for (Investigator investigator : investigatorsList) {
-        	reducedInvestigatorList.add(buildReduced(investigator, Arrays.asList("id", "firstName", "lastName","contactMechanisms[0].value")));
+        	reducedInvestigatorList.add(buildReduced(investigator, Arrays.asList("id", "firstName", "lastName","email")));
         }     
         
         List<Person> personList = new ArrayList<Person>(reducedResearchStaffList.size() + reducedInvestigatorList.size());
