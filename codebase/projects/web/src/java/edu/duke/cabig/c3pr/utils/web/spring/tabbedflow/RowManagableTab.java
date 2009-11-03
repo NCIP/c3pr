@@ -94,7 +94,7 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C> {
     	return null;
     }
     
-    private Integer getIndexBasedOnID(List collection, int id){
+    protected Integer getIndexBasedOnID(List collection, int id){
     	Integer index=null;
     	for (int i = 0; i < collection.size(); i++) {
             AbstractMutableDomainObject amdo;
@@ -119,7 +119,7 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C> {
     	return null;
     }
     
-    private Integer getIndexBasedOnHash(List collection, int hash){
+    protected Integer getIndexBasedOnHash(List collection, int hash){
     	for (int i = 0; i < collection.size(); i++) {
             if (collection.get(i).hashCode() == hash) {
             	if(collection.get(i) instanceof AbstractMutableDeletableDomainObject && ((AbstractMutableDeletableDomainObject)collection.get(i)).getId()==null){
