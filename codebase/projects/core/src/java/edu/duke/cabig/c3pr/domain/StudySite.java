@@ -444,6 +444,12 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		}
 		return null;
 	}
+	
+	
+	@Transient
+	public StudySiteStudyVersion getLatestAccruingStudySiteStudyVersion(){
+		return getAccruingStudySiteStudyVersion(new Date());
+	}
 
 	/**
 	 * Gets the study study version for a given date.
@@ -457,7 +463,14 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	 */
 	@Transient
 	public StudyVersion getActiveStudyVersion(Date date){
-		return getStudySiteStudyVersion(date) == null ? null : getStudySiteStudyVersion(date).getStudyVersion();
+		StudySiteStudyVersion studySiteStudyVersion = getStudySiteStudyVersion(date);
+		if(studySiteStudyVersion != null){
+			SiteStudyStatus status = getSiteStudyStatus(date);
+			if(status == SiteStudyStatus.ACTIVE){
+				return studySiteStudyVersion.getStudyVersion();
+			}
+		}
+		return null;
 	}
 
 	/**
