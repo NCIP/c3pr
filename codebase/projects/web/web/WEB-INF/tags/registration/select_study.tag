@@ -45,7 +45,7 @@
 	}
 	
 	 function callbackEpochFail(t ){
-		alert("epoch Search Failed");
+	//	alert("epoch Search Failed");
 	}
 	
 	function callbackEpoch(t){
