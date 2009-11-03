@@ -18,7 +18,7 @@
 			<tbody class="tableBody">
 			<c:if test="${epochResults!=null && fn:length(epochResults)==0}">
 				<tr>
-					Sorry, no matches were found
+					Sorry, no matches were found. May be there is no active study version at the study site.
 				</tr>
 			</c:if>
 			<%int i=0; %>
