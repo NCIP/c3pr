@@ -55,6 +55,9 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
     @Override
 	protected boolean suppressValidation(HttpServletRequest request,
 			Object command, BindException errors) {
+    	if(WebUtils.getPreviousPage(request) == -1){
+    		return true;
+    	}
 		if (WebUtils.getPreviousPage(request)== 1){
 			return !WebUtils.hasSubmitParameter(request, "_validateForm");
 		}
