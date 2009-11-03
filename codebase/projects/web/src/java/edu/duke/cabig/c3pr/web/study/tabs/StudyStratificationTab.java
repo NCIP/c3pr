@@ -9,9 +9,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
@@ -155,7 +156,22 @@ public class StudyStratificationTab extends StudyTab {
 					.getParameter("generateGroups"));
 			generateStratumGroups(req, wrapper, errors, epochCountIndex);
 		}
-
+		String epochIdString= req.getParameter("epochId");
+		String stratumGroupIdString= req.getParameter("stratumGroupId");
+		if (!StringUtils.getBlankIfNull(epochIdString).equals("") &&
+				!StringUtils.getBlankIfNull(stratumGroupIdString).equals("")) {
+			int epochId = Integer.parseInt(epochIdString);
+			int stratumGroupId = Integer.parseInt(stratumGroupIdString);
+			Epoch epoch= null;
+			for(Epoch tempEpoch: wrapper.getStudy().getEpochs()){
+				if(tempEpoch.getId() == epochId){
+					epoch=tempEpoch;
+					break;
+				}
+			}
+			epoch.getStratumGroups().remove(getIndexBasedOnID(epoch.getStratumGroups(), stratumGroupId).intValue());
+			clearBookEntriesForEpoch(epoch);
+		}
 	}
 
 
