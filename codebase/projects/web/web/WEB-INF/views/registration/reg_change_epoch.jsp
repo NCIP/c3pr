@@ -3,14 +3,12 @@
 var transferEpochId = '${command.studySubject.scheduledEpoch.epoch.id}' ;
 var transferToStatus = 'flow' ;
 function manageEpochSelection(element){
-	alert(transferEpochId);
 	$$(".epochCheck").each(function(e){
 				e.checked=false;
 			}
 		);
 	element.checked=true;
 	transferToStatus = element.id ;
-	alert(element.value);
 	transferEpochId=element.value;
 	if(transferEpochId != '${command.studySubject.scheduledEpoch.epoch.id}'){
 		$$(".transferEpochButton")[0].disabled="";
