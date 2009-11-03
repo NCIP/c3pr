@@ -203,30 +203,26 @@
 <chrome:division id="Study Information" title="Study">
     <div class="leftpanel">
         <div class="row">
-            <div class="label"><fmt:message key="c3pr.common.status"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</div>
-        </div>
-        <div class="row">
-            <div class="label"><fmt:message key="study.version.name"/>:</div>
-            <div class="value">${command.studySubject.studySiteVersion.studyVersion.name}</div>
-        </div>
-        <div class="row">
             <div class="label"><fmt:message key="study.shortTitle"/>:</div>
             <div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
         </div>
         <div class="row">
-            <div class="label"><fmt:message key="study.longTitle"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.longTitleText}</div>
+            <div class="label"><fmt:message key="c3pr.common.status"/>:</div>
+            <div class="value">${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</div>
+        </div>
+         <div class="row">
+            <div class="label"><fmt:message key="study.version.name"/>:</div>
+            <div class="value">${command.studySubject.studySiteVersion.studyVersion.name}</div>
         </div>
 	</div>
 	<div class="rightpanel">
-         <div class="row">
-            <div class="label"><fmt:message key="study.randomized"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
-        </div>
         <div class="row">
             <div class="label"> <fmt:message key="study.phase"/>:</div>
             <div class="value">${command.studySubject.studySite.study.phaseCode}</div>
+        </div>
+        <div class="row">
+            <div class="label"><fmt:message key="study.randomized"/>:</div>
+            <div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
