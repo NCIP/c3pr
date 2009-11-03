@@ -3,12 +3,14 @@
 var transferEpochId = '${command.studySubject.scheduledEpoch.epoch.id}' ;
 var transferToStatus = 'flow' ;
 function manageEpochSelection(element){
+	alert(transferEpochId);
 	$$(".epochCheck").each(function(e){
 				e.checked=false;
 			}
 		);
 	element.checked=true;
 	transferToStatus = element.id ;
+	alert(element.value);
 	transferEpochId=element.value;
 	if(transferEpochId != '${command.studySubject.scheduledEpoch.epoch.id}'){
 		$$(".transferEpochButton")[0].disabled="";
@@ -17,11 +19,7 @@ function manageEpochSelection(element){
 	}
 }
 function transfer(){
-	if(transferEpochId == '${command.studySubject.scheduledEpoch.epoch.id}'){
-		alert("Already Registered");
-	}else{
 		registerSubject(transferEpochId, transferToStatus, '${command.studySubject.parentStudySubject}');
-	}
 }
 
 function registerSubject(transferEpochId, transferToStatus, parentStudySubject){
@@ -77,12 +75,6 @@ input[disabled] {
 </form>
 <chrome:box title="Change Epoch">
 <chrome:division title="Select Epoch">
-<c:choose>
-	<c:when test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus!='REGISTERED'}">
-		<tags:instructions code="MANAGEREGISTRATION.UNAPPROVED_CURRENT_EPOCH"/>
-	</c:when>
-	<c:otherwise><tags:instructions code="MANAGEREGISTRATION.CHANGE_CURRENT_EPOCH"/></c:otherwise>
-</c:choose>
 <table border="0" cellspacing="5px" cellpadding="5" class="tablecontent"  width="80%">
 	<tr>
 		<th width="5%">&nbsp;</th>
@@ -104,12 +96,12 @@ input[disabled] {
 
 <table border="0" cellspacing="5px" cellpadding="5"  width="80%">
 	<tr>
-		<td><b>Off epoch reason text:</b></td>
+		<td><b>Off ${command.studySubject.scheduledEpoch.epoch.name } reason text:</b></td>
 		<td><textarea name="offEpochReasonText" id="offEpochReasonText" rows="2" cols="30" class="validate-notEmpty&&maxlength1024"></textarea>
 	            	<tags:hoverHint keyProp="scheduledEpoch.offEpochReasonText"/>
 	    </td>
 		
-		<td><b>Off epoch date:</b></td>
+		<td><b>Off ${command.studySubject.scheduledEpoch.epoch.name } date:</b></td>
 		<td>
 			<tags:dateInput path="command.studySubject.scheduledEpoch.offEpochDate" validateDate="true" cssClass='validate-Date'/>
 			<tags:hoverHint keyProp="scheduledEpoch.offEpochDate"/>
