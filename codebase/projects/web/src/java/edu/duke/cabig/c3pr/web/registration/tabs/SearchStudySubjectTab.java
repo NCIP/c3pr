@@ -95,6 +95,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
             command.getStudySubject().getScheduledEpochs().set(0, scheduledEpoch);
         }
         registrationControllerUtils.buildCommandObject(command.getStudySubject());
+        registrationControllerUtils.addConsents(command.getStudySubject());
         studySiteDao.initialize(command.getStudySubject().getStudySite());
     }
 

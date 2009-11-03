@@ -87,6 +87,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 			}
     		studySubject.changeStudyVersion(consentSignedDate);
     		getRegistrationControllerUtils().buildCommandObject(studySubject);
+    		getRegistrationControllerUtils().addConsents(studySubject);
     		return;
     	}
     	

@@ -89,6 +89,7 @@ public class SelectStudySiteAndEpochTab extends RegistrationTab<StudySubjectWrap
             command.getStudySubject().getScheduledEpochs().set(0, scheduledEpoch);
         }
         registrationControllerUtils.buildCommandObject(command.getStudySubject());
+        registrationControllerUtils.addConsents(command.getStudySubject());
     }
 
 	public ModelAndView checkEpochAccrualCeiling(HttpServletRequest request, Object commandObj, Errors error) {
