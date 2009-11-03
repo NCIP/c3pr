@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.orm.hibernate3.HibernateSystemException;
+
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
@@ -1809,5 +1811,81 @@ public class StudyDaoTest extends DaoTestCase {
     	assertEquals(1, studies.size());
     	studies = dao.getAll();
     	assertEquals(4, studies.size());
+    }
+    
+    /**
+     * Test deleting stratum group with book randomization entries.
+     * Related to CPR-718.
+     * @throws Exception the exception
+     */
+    public void testDeleteStratumGrpWithRandomizations() throws Exception {
+        Integer savedId;
+        {
+            Study study = buildStudy();
+
+            Epoch epoch1 = new Epoch();
+            epoch1.setName("epoch1");
+            
+            Arm arm1= epoch1.getArms().get(0);
+            arm1.setName("A");
+            Arm arm2= epoch1.getArms().get(1);
+            arm2.setName("B");
+            
+            StratificationCriterion sc = new StratificationCriterion();
+            sc.setQuestionText("will I work?");
+            StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
+            scpa1.setPermissibleAnswer("lets find out");
+            StratificationCriterionPermissibleAnswer scpa2 = new StratificationCriterionPermissibleAnswer();
+            scpa2.setPermissibleAnswer("no");
+            sc.addPermissibleAnswer(scpa1);
+            sc.addPermissibleAnswer(scpa2);
+            epoch1.addStratificationCriterion(sc);
+
+            epoch1.generateStratumGroups();
+
+            BookRandomization bRandomization = new BookRandomization();
+            BookRandomizationEntry bre1 = new BookRandomizationEntry();
+            bre1.setPosition(10);
+            bre1.setArm(arm1);
+            bre1.setStratumGroup(epoch1.getStratumGroups().get(0));
+            bRandomization.addBookRandomizationEntry(bre1);
+            BookRandomizationEntry bre2 = new BookRandomizationEntry();
+            bre2.setPosition(10);
+            bre2.setArm(arm1);
+            bre2.setStratumGroup(epoch1.getStratumGroups().get(0));
+            bRandomization.addBookRandomizationEntry(bre2);
+            
+            epoch1.setRandomization(bRandomization);
+            study.addEpoch(epoch1);
+            study = dao.merge(study);
+            savedId = study.getId();
+            assertNotNull("The saved study didn't get an id", savedId);
+        }
+        interruptSession();
+        Study loaded = dao.getById(savedId);
+        dao.initialize(loaded);
+        interruptSession();
+		BookRandomization br = (BookRandomization) loaded.getEpochs().get(0).getRandomization();
+		assertEquals(2, loaded.getEpochs().get(0).getStratumGroups().size());
+		assertEquals(2, br.getBookRandomizationEntry().size());
+		
+		loaded.getEpochs().get(0).getStratumGroups().remove(0);
+		
+		((BookRandomization)loaded.getEpochs().get(0).getRandomization()).getBookRandomizationEntry().clear();
+		//for(StratumGroup stratumGroup: loaded.getEpochs().get(0).getStratumGroups()){
+		//	stratumGroup.getBookRandomizationEntry().clear();
+		//}
+		loaded = dao.merge(loaded);
+		try {
+			dao.initialize(loaded);
+		} catch (HibernateSystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		interruptSession();
+		br = (BookRandomization) loaded.getEpochs().get(0).getRandomization();
+		assertEquals(1, loaded.getEpochs().get(0).getStratumGroups().size());
+		assertEquals(0, br.getBookRandomizationEntry().size());
+		interruptSession();
     }
 }
