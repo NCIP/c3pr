@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.web.registration;
 
 import java.util.Date;
-import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,16 +8,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.CompanionRegistrationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
@@ -54,13 +52,22 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     }
     
     @Override
+	protected boolean suppressValidation(HttpServletRequest request,
+			Object command, BindException errors) {
+		if (WebUtils.getPreviousPage(request)== 0){
+			return !WebUtils.hasSubmitParameter(request, "_validateForm");
+		}
+		return super.suppressValidation(request, command, errors);
+	}
+    
+    @Override
     protected Object formBackingObject(HttpServletRequest request)
     		throws Exception {
     	StudySubjectWrapper wrapper= (StudySubjectWrapper)super.formBackingObject(request);
     	ScheduledEpoch scheduledEpoch;
     	
     	if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.offEpochDate") && 
-    			!StringUtils.isBlank(request.getParameter("studySubject.scheduledEpoch.offEpochReasonText"))){
+    			!StringUtils.isBlank(request.getParameter("studySubject.scheduledEpoch.offEpochDate"))){
     		Date offEpochDate;
     		offEpochDate = DateUtil.getUtilDateFromString(request.getParameter("studySubject.scheduledEpoch.offEpochDate"),"mm/dd/yyyy");
     		wrapper.getStudySubject().getScheduledEpoch().setOffEpochDate(offEpochDate);
@@ -103,14 +110,10 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
         
-     // remove dummy study subject consent versions that were created because of lazy list helper
-    	Iterator iterator =studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().iterator();
-    	while(iterator.hasNext()){
-    		StudySubjectConsentVersion studySubjectConsentVersion = (StudySubjectConsentVersion)iterator.next();
-    		if (studySubjectConsentVersion.getInformedConsentSignedDateStr() == null || studySubjectConsentVersion.getInformedConsentSignedDateStr()== "" ){
-    			iterator.remove();
-    		}
-    	}
+     // remove armNotAvailable request attribute if already present
+    	if(request.getAttribute("armNotAvailable")!=null){
+        	request.removeAttribute("armNotAvailable");
+        }
         
         if(wrapper.getShouldTransfer()) {
         	try {
@@ -119,7 +122,7 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
 				
 				// Book exhausted message is non-recoverable. It displays an error on the UI
 				if(e.getExceptionCode()==234){
-					request.setAttribute("armNotAvaialable", true);
+					request.setAttribute("armNotAvailable", true);
 					return showPage(request, errors, 5);
 				}
 				// TODO Handle multisite error seperately and elegantly. for now eat the error

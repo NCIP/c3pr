@@ -16,6 +16,7 @@ import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.MultisiteException;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.CompanionRegistrationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
@@ -50,6 +51,18 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
         setFlow(flow);
     }
     
+    @Override
+	protected boolean suppressValidation(HttpServletRequest request,
+			Object command, BindException errors) {
+    	if(WebUtils.getPreviousPage(request) == -1){
+    		return true;
+    	}
+		if (WebUtils.getPreviousPage(request)== 0){
+			return !WebUtils.hasSubmitParameter(request, "_validateForm");
+		}
+		return super.suppressValidation(request, command, errors);
+	}
+    
     
 
     @Override
@@ -59,19 +72,9 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
         StudySubject studySubject = wrapper.getStudySubject();
         
      // remove armNotAvailable request attribute if already present
-    	if(request.getAttribute("armNotAvaialable")!=null){
-        	request.removeAttribute("armNotAvaialable");
+    	if(request.getAttribute("armNotAvailable")!=null){
+        	request.removeAttribute("armNotAvailable");
         }
-        
-     // remove dummy study subject consent versions that were created because of lazy list helper
-    	Iterator iterator =studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().iterator();
-    	
-    	while(iterator.hasNext()){
-    		StudySubjectConsentVersion studySubjectConsentVersion = (StudySubjectConsentVersion)iterator.next();
-    		if (studySubjectConsentVersion.getInformedConsentSignedDateStr() == null || studySubjectConsentVersion.getInformedConsentSignedDateStr()== "" ){
-    			iterator.remove();
-    		}
-    	}
         
         if(wrapper.getShouldReserve()==null){
         	studySubject=studySubjectRepository.save(studySubject);
@@ -96,7 +99,7 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
 				
 				// Book exhausted message is non-recoverable. It displays an error on the UI
 				if(e.getExceptionCode()==234){
-					request.setAttribute("armNotAvaialable", true);
+					request.setAttribute("armNotAvailable", true);
 					return showPage(request, errors, 5);
 				}
 				// TODO Handle multisite error seperately and elegantly. for now eat the error
