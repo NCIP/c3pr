@@ -46,7 +46,7 @@ function redirectToTab(tabNumber){
 		</c:if>
 	</c:forEach>
 	<tags:instructions code="reg_submit" />
-	<c:if test="${requiresRandomization && command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkflowStatus=='ENROLLED') && empty armNotAvaialable}">
+	<c:if test="${requiresRandomization && command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkflowStatus=='ENROLLED') && empty armNotAvailable}">
 			<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
 				<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
 				<div style="font-size:20px; margin-bottom:5px;">Almost done...</div>
@@ -59,7 +59,7 @@ function redirectToTab(tabNumber){
 				</div>
 			</div>
 	</c:if>
-	<c:if test="${not empty armNotAvaialable && armNotAvaialable == 'true'}">
+	<c:if test="${not empty armNotAvailable && armNotAvailable == 'true'}">
 			<div style="border:1px solid #f00; height:50px; padding:9px; margin-bottom:10px;">
 				<img src="<tags:imageUrl name="error-red.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
 				<div style="font-size:20px; margin-bottom:5px;">Arm not available...</div>
