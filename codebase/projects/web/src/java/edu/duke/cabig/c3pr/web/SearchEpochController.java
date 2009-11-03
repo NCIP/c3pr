@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +15,8 @@ import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 public class SearchEpochController implements Controller {
 
@@ -27,18 +28,22 @@ public class SearchEpochController implements Controller {
     
 	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
                     throws Exception {
+		
+		List<Epoch> epochResults = new ArrayList<Epoch>();
 
     	String studySiteStudyVersionId = request.getParameter("studySiteStudyVersionId");
-        Integer id = Integer.valueOf(studySiteStudyVersionId);
-        StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(id);
-        List<Epoch> epochResults = studySiteStudyVersion.getStudyVersion().getEpochs();
-        
-        epochResults.size();
+    	
+    	if(!StringUtils.isBlank(studySiteStudyVersionId)){
+	        Integer id = Integer.valueOf(studySiteStudyVersionId);
+	        StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(id);
+	        epochResults = studySiteStudyVersion.getStudyVersion().getEpochs();
+	        epochResults.size();
+    	} 
+       
         Map<String, List<Epoch>> map = new HashMap<String, List<Epoch>>();
         map.put("epochResults", epochResults);
 
         return new ModelAndView("/registration/epochResultsAsync", map);
-
     }
 	
     public void setStudySiteStudyVersionDao(
