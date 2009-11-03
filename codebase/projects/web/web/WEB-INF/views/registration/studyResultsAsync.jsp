@@ -55,7 +55,7 @@ function toggleImage(id){
 						    <c:set var="singleQuoteAlias" value="\\&#39" />
 						    <c:set var="siteName" value="${fn:replace(study.studySites[0].healthcareSite.name, singleQuote, singleQuoteAlias)}" />
 						     <c:set var="studyShortTitle" value="${fn:replace(study.shortTitleText, singleQuote, singleQuoteAlias)}" />
-								postProcessStudySelection(${study.studySites[0].siteStudyStatus.code=='Active'},'${study.studySites[0].latestStudySiteStudyVersion.id}','${study.studySites[0].id}', '${siteName}','${studyShortTitle}','${study.identifiers[0].value}');
+								postProcessStudySelection(${study.studySites[0].siteStudyStatus.code=='Active'},'${study.studySites[0].latestAccruingStudySiteStudyVersion.id}','${study.studySites[0].id}', '${siteName}','${studyShortTitle}','${study.identifiers[0].value}');
 						</c:otherwise>
 					</c:choose>
 				">
