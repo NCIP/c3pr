@@ -499,7 +499,7 @@ DELETED TD
 							</td>
 							<td align="left">
 							<div id="reservationIndicator-PAGE.ROW.INDEX"><select
-								disabled="disabled" id="study.epochs[PAGE.ROW.INDEX].reservationIndicator"
+								id="study.epochs[PAGE.ROW.INDEX].reservationIndicator"
 								name="study.epochs[PAGE.ROW.INDEX].reservationIndicator"
 								onchange="manageReservingIndicatorSelectBox(this,PAGE.ROW.INDEX);"
 								class="validate-notEmpty">
