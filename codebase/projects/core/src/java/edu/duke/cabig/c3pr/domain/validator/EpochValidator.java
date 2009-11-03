@@ -28,6 +28,7 @@ public class EpochValidator implements Validator {
     }
 
     public void validate(Object target, Errors errors) {
+        validateIndicators(target, errors);
         validateArms(target, errors);
     }
 
@@ -57,6 +58,31 @@ public class EpochValidator implements Validator {
         catch (Exception ex) {
             log.debug("error while validating arms");
         }
+    }
+    
+    public void validateIndicators(Object target,Errors errors){
+    	Epoch epoch = (Epoch) target;
+    	if(epoch.getReservationIndicator() &&(epoch.getEnrollmentIndicator() || epoch.getTreatmentIndicator() || epoch.getRandomizedIndicator())){
+    		errors.rejectValue("reservationIndicator",new Integer(studyValidator
+                    .getCode("C3PR.STUDY.EPOCH.INVALID_RESERVATION_INDICATOR.CODE")).toString(),
+                    studyValidator.getMessageFromCode(studyValidator
+                                    .getCode("C3PR.STUDY.EPOCH.INVALID_RESERVATION_INDICATOR.CODE"), null,
+                                    null));
+    	}
+    	if(epoch.getRandomizedIndicator() && !epoch.getTreatmentIndicator()){
+    		errors.rejectValue("treatmentIndicator",new Integer(studyValidator
+                    .getCode("C3PR.STUDY.EPOCH.INVALID_TREATMENT_INDICATOR.CODE")).toString(),
+                    studyValidator.getMessageFromCode(studyValidator
+                                    .getCode("C3PR.STUDY.EPOCH.INVALID_TREATMENT_INDICATOR.CODE"), null,
+                                    null));
+    	}
+    	if(epoch.getTreatmentIndicator() && !epoch.getEnrollmentIndicator()){
+    		errors.rejectValue("enrollmentIndicator",new Integer(studyValidator
+                    .getCode("C3PR.STUDY.EPOCH.INVALID_ENROLLMENT_INDICATOR.CODE")).toString(),
+                    studyValidator.getMessageFromCode(studyValidator
+                                    .getCode("C3PR.STUDY.EPOCH.INVALID_ENROLLMENT_INDICATOR.CODE"), null,
+                                    null));
+    	}
     }
 
     public ArmValidator getArmValidator() {
