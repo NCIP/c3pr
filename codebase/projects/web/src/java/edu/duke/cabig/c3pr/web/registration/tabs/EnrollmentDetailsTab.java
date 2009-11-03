@@ -90,19 +90,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     		return;
     	}
     	
-    	// remove dummy study subject consent versions that were created because of lazy list helper
-    	Iterator iterator =studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().iterator();
-    	while(iterator.hasNext()){
-    		StudySubjectConsentVersion studySubjectConsentVersion = (StudySubjectConsentVersion)iterator.next();
-    		if (studySubjectConsentVersion.getInformedConsentSignedDateStr() == null || studySubjectConsentVersion.getInformedConsentSignedDateStr()== "" ){
-    			iterator.remove();
-    		}
-    	}
-    	
     	// set the scheduled epoch start date to registration start date for first time enrollment
-    	
-    	
-    	
     	if(command.getStudySubject().getScheduledEpoch().getEpoch().getEnrollmentIndicator() &&
     			command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
     		command.getStudySubject().getScheduledEpoch().setStartDate(command.getStudySubject().getStartDate());
@@ -129,7 +117,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 			if(studySubjectConsentVersion.getInformedConsentSignedDateStr()!=null && studySubjectConsentVersion.getInformedConsentSignedDateStr() != ""){
 				if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , studySubjectConsentVersion.getInformedConsentSignedDate())){
 					request.getSession().setAttribute("canEnroll",false);
-					StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getStudyVersion(studySubjectConsentVersion.getInformedConsentSignedDate());
+					StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getActiveStudyVersion(studySubjectConsentVersion.getInformedConsentSignedDate());
 					request.getSession().setAttribute("studyVersion",studyVersion);
 					errors.reject("tempProperty","Informed consent signed date does not correspond to the selected study version");
 					break;
@@ -175,27 +163,6 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     			errors.reject("tempProperty","All consents need to be signed.");
     		}
     	}
-    }
-    
-    public ModelAndView validateConsentSignedDate(HttpServletRequest request, Object command, Errors errors) {
-    	Map<String, Object> map = new HashMap<String, Object>();
-    	Date consentSignedDate = null;
-    	try {
-    		consentSignedDate = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("consentSignedDate"));
-		} catch (ParseException e) {
-			throw new RuntimeException(e);
-		}
-		map.put("cannotEnroll", "false");
-		StudySiteStudyVersion studySiteStudyVersion = ((StudySubjectWrapper)command).getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
-		if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , consentSignedDate)){
-			map.put("cannotEnroll", "true");
-			StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getStudyVersion(consentSignedDate);
-			map.put("studyVersion", studyVersion);
-		}else{
-			map.put(AjaxableUtils.getFreeTextModelName(), "");
-			return new ModelAndView("",map);
-		}
-		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
     }
     
 }
