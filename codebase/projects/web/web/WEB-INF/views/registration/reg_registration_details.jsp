@@ -42,42 +42,6 @@ var diseaseSiteAutocompleterProps = {
 }
 AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
 ValidationManager.submitPostProcess=function(formElement, flag){
-								var consentsNumber = ${fn:length(command.studySubject.studySite.study.consents)};
-								 atLeastOneConsentSelected = false;
-								 allConsentsSelected = true;
-									for(var i=0; i <consentsNumber; i++){
-										var informedConsentDate = document.getElementById("studySubject.studySubjectStudyVersion.studySubjectConsentVersions["+i+"].informedConsentSignedDate");
-										if (informedConsentDate.value != null && informedConsentDate.value != ''){
-											atLeastOneConsentSelected=true;
-										}else{
-											allConsentsSelected = false;
-										}
-									}
-
-							if(formElement.id == 'command') {
-								if (${command.studySubject.studySite.study.consentRequired == 'ONE'}){
-										var error = document.getElementById("errorMsg1");
-										if(!atLeastOneConsentSelected){
-											if(${fn:length(command.studySubject.studySite.study.consents) > 1}){
-												flag=false;
-												error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font size='15'>.</font> &nbsp; At least one consent needs to be signed.</span><br/>";
-											} else {
-												flag=false;
-												//	error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Consent is required.</span><br/>";
-											}
-											error.style.display="";
-										}else {error.style.display= "none" ;}
-								} else if (${command.studySubject.studySite.study.consentRequired == 'ALL'}){
-									var error = document.getElementById("errorMsg1");
-										if(!allConsentsSelected){
-											flag=false;
-											error.innerHTML="<span id='sid1' style='color:#C35617'> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font size='15'>.</font> &nbsp;All consents need to be signed.</span><br/>";
-											error.style.display="";
-										} else {error.style.display="none";}
-								}
-
-							}
-									
 							if(formElement.id!='command' || !flag)
 								return flag;
 							if(${hasInv} && $("treatingPhysician").value=="" && $("studySubject.otherTreatingPhysician").value==""){
@@ -110,27 +74,6 @@ function hideDiseaseIndicator(){
 
 function hideDiseaseIndicator(){
 	$('diseaseIndicator').hide();
-}
-
-checkInformedConsentSignedDate = function(cal){
-	if($('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value != null &&
-			$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value != ''){
-		$('updateStudyVersion').value='false';
-		$('dontSave').value='false';
-		$('consentSignedDate').value=$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value;
-		<tags:tabMethod method="validateConsentSignedDate" viewName="/registration/asynchronous/checkInformedConsentSignedDate" divElement="'checkInformedConsentSignedDateDiv'" formName="'studyVersionForm'" onComplete="displayStudyVersionError"/>
-	}
-}
-
-displayStudyVersionError = function(){
-	Element.hide('consentSignedDate-indicator');
-	if($('checkInformedConsentSignedDateDiv').innerHTML.replace(/^\s+|\s+$/g,'') != ""){	
-		win = new Window({ width:600, height:200 ,className :"mac_os_x" , 
-				title: "Message" , minimizable:false, maximizable:false ,
-				zIndex:100 , hideEffect:Element.hide, showEffect:Element.show}) 
-		win.setContent('checkInformedConsentSignedDateDiv') ;
-		win.showCenter(true);
-	}
 }
 
 function closePopup(){
@@ -174,16 +117,13 @@ function changeStudyVersion(){
 	<form:errors path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate">
 		<div id="checkInformedConsentSignedDateDivInline">
 		</div>
-		<script>
-			<tags:tabMethod method="validateConsentSignedDate" viewName="/registration/asynchronous/checkInformedConsentSignedDate" divElement="'checkInformedConsentSignedDateDivInline'" javaScriptParam="'consentSignedDate=${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate}'"  formName="'invalidSubmitForm'"/>
-		</script>
 	</form:errors>
 	<input type="hidden" id="updateStudyVersion" name="updateStudyVersion" value="false"/>
 	<input type="hidden" id="consentSignedDate" name="consentSignedDate"/>
 	<input type="hidden" id="dontSave" name="dontSave" value="true"/>
 </form:form>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
-	<input type="hidden" name="_validate" id="_validate"/>
+	<input type="hidden" name="_validateForm" id="_validateForm"/>
 	<div id="errorMsg1" style="display:none">
 	</div>
 	<div id="studyVersionDiv">
@@ -245,11 +185,13 @@ function changeStudyVersion(){
 			</div>
 		</div>
 	</c:if>
-	<c:if test="${fn:length(command.studySubject.studySite.study.consents) == 1}">
-		<input type="hidden" name="studySubject.consentVersion" id="consent" value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
-		<input type="hidden" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent" id="consentToSet" 
-			value="${command.studySubject.studySite.studySiteStudyVersion.studyVersion.consents[0].id}"/>
-			
+	<c:if test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1}">
+		<div class="row">
+			<div class="label"><fmt:message key="study.consent"/></div>
+			<div class="value">
+				${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}
+			</div>
+		</div>
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 			<div class="value">
@@ -327,7 +269,7 @@ function changeStudyVersion(){
 <!-- MAIN BODY ENDS HERE -->
 <!--  CONSENT DIV BEGINS -->
 
-<c:if test="${fn:length(command.studySubject.studySite.study.consents) > 1}">
+<c:if test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) > 1}">
 <chrome:division title="Consents">
 	<table class="tablecontent">
 		<tr>
@@ -340,14 +282,10 @@ function changeStudyVersion(){
           	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
           </th>
 		</tr>
-		<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents}" var="consent" varStatus="status">
-		
-			<input type="hidden" name="studySubject.consentVersion" id="consent-${status.index }" value="${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[status.index].id}"/>
-			<input type="hidden" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index }].consent" id="consentToSet-${status.index }" 
-			value="${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.consents[status.index].id}"/>
+		<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
 			<tr>
 				<td>
-					${consent.name}
+					${studySubjectConsentVersion.consent.name}
 				</td>
 				<td>
 					<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
