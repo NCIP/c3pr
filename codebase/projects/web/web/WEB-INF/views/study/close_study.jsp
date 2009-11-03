@@ -21,26 +21,26 @@
 	<table>
 		<tr>
 			<td>
-				<input class="studyStatus" type="radio" value="Closed_To_Accrual_And_Treatment" name="closeStatus" onclick="javascript:parent.setCloseStatus('Closed_To_Accrual_And_Treatment');"/>
+				<input class="studyStatus" type="radio" value="Closed_To_Accrual_And_Treatment" name="closeStatusRadioBtn" onclick="javascript:parent.setCloseStatus('Closed_To_Accrual_And_Treatment');"/>
 			</td>
 			<td align="left">Closed To Accrual And Treatment</td>
 		</tr>		
 		<tr>
 			<td>
-				<input class="studyStatus" type="radio" value="Closed_To_Accrual" name="closeStatus" onclick="javascript:parent.setCloseStatus('Closed_To_Accrual');"/>
+				<input class="studyStatus" type="radio" value="Closed_To_Accrual" name="closeStatusRadioBtn" onclick="javascript:parent.setCloseStatus('Closed_To_Accrual');"/>
 			</td>
 			<td align="left">Closed To Accrual</td>
 		</tr>
 		<c:if test="${closed == 'Temporarily_Close'}">
 		<tr>
 			<td>
-				<input class="studyStatus" type="radio" value="Temporarily_Closed_To_Accrual_And_Treatment" name="closeStatus" onclick="javascript:parent.setCloseStatus('Temporarily_Closed_To_Accrual_And_Treatment');"/>
+				<input class="studyStatus" type="radio" value="Temporarily_Closed_To_Accrual_And_Treatment" name="closeStatusRadioBtn" onclick="javascript:parent.setCloseStatus('Temporarily_Closed_To_Accrual_And_Treatment');"/>
 			</td>
 			<td align="left">Temporarily Closed To Accrual And Treatment</td>
 		</tr>
 		<tr>
 			<td>
-				<input class="studyStatus" type="radio" value="Temporarily_Closed_To_Accrual" name="closeStatus" onclick="javascript:parent.setCloseStatus('Temporarily_Closed_To_Accrual');"/>
+				<input class="studyStatus" type="radio" value="Temporarily_Closed_To_Accrual" name="closeStatusRadioBtn" onclick="javascript:parent.setCloseStatus('Temporarily_Closed_To_Accrual');"/>
 			</td>
 			<td align="left">Temporarily Closed To Accrual</td>
 		</tr>
