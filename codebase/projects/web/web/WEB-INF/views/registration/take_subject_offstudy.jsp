@@ -9,9 +9,8 @@
 </style>
 <script>
 function takeSubjectOffStudy(){
-	<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'offStudyStatusForm'"  viewName="/registration/enrollmentSection" />
-	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" />
-	//$('offStudyStatusForm').submit();
+	<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'offStudyStatusForm'"  viewName="/registration/enrollmentSection"/>
+	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" javaScriptParam="'dontSave'"/>
 	Element.show('flash-message-offstudy');
 	Element.hide('flash-message-reconsent');
 	Element.hide('flash-message-edit');
@@ -54,7 +53,8 @@ function cancelTakeSubjectOffStudy(){
 </chrome:box>
 <div class="flow-buttons">
 	<span class="next">
-		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
+		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" /> 
+		&nbsp;&nbsp;&nbsp;
 		<tags:button type="button" color="green" icon="save" value="Save" onclick="confirmTakeSubjectOffStudy();" />
     </span>
 </div>    
@@ -76,15 +76,10 @@ Calendar.setup(
 	<div class="info">You are about to take subject off study. This step is irreversible. Please click OK to confirm.</div>
 	<br>
 	</chrome:box>
-	<!-- <div class="flow-buttons">
-	<span class="next">
-		<tags:button markupWithTag="button" color="green" value="OK" onclick="takeSubjectOffStudy();" type="button"/>
-		<tags:button markupWithTag="button" color="red" value="Cancel" onclick="cancelTakeSubjectOffStudy();" type="button"/>
-	</span>
-	</div>-->
 	<div class="flow-buttons">
 	<span class="next">
-		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="cancelTakeSubjectOffStudy();" />
+		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="cancelTakeSubjectOffStudy();" /> 
+		&nbsp;&nbsp;&nbsp;
 		<tags:button type="button" color="green" icon="save" value="OK" onclick="takeSubjectOffStudy();" />
 	</span>
 	</div>
