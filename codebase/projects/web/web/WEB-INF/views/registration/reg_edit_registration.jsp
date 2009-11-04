@@ -146,6 +146,7 @@ function editRegistration(){
 <div class="flow-buttons">
 	<span class="next">
 		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
+		&nbsp;&nbsp;&nbsp;
 		<tags:button type="button" color="green" icon="save" value="Save" onclick="editRegistration();" />
 	</span>
 </div>
