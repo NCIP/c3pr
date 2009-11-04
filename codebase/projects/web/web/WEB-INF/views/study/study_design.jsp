@@ -108,7 +108,7 @@
 /* IE hasLayout hack for dissapearing content on this page */
 		*{zoom:1}
 		#taskbar {
-			left:-230px;
+			margin-left:-230px;
 		}
 		#workflow-tabs {
 			top:-25px;
