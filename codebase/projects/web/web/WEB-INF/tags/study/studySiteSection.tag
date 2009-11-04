@@ -296,7 +296,7 @@
     </table>
     <br>
     <div align="center">
-    	<tags:button type="button" color="green" value="Close" id="close" onclick="closePopup();"  />
+    	<tags:button type="button" color="red" value="Close" id="close" onclick="closePopup();"  />
     </div>
 </chrome:division>
  </div>
