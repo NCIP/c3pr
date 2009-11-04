@@ -47,19 +47,19 @@ function toggleImage(id){
 				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
 				onClick="
 					<c:choose>
-						<c:when test="${fn:length(study.studySites) > 1}">
+						<c:when test="${fn:length(study.accruingStudySites) > 1}">
 							new Element.toggle('studySites-table-${statusStudy.index }'); toggleImage('image-open-${statusStudy.index }');
 						</c:when>
 						<c:otherwise>
 						    <c:set var="singleQuote" value="'" />
 						    <c:set var="singleQuoteAlias" value="\\&#39" />
-						    <c:set var="siteName" value="${fn:replace(study.studySites[0].healthcareSite.name, singleQuote, singleQuoteAlias)}" />
+						    <c:set var="siteName" value="${fn:replace(study.accruingStudySites[0].healthcareSite.name, singleQuote, singleQuoteAlias)}" />
 						     <c:set var="studyShortTitle" value="${fn:replace(study.shortTitleText, singleQuote, singleQuoteAlias)}" />
-								postProcessStudySelection(${study.studySites[0].siteStudyStatus.code=='Active'},'${study.studySites[0].latestAccruingStudySiteStudyVersion.id}','${study.studySites[0].id}', '${siteName}','${studyShortTitle}','${study.identifiers[0].value}');
+								postProcessStudySelection(${study.accruingStudySites[0].siteStudyStatus.code=='Active'},'${study.accruingStudySites[0].latestAccruingStudySiteStudyVersion.id}','${study.accruingStudySites[0].id}', '${siteName}','${studyShortTitle}','${study.identifiers[0].value}');
 						</c:otherwise>
 					</c:choose>
 				">
-				<td width="2%"><c:if test="${fn:length(study.studySites) > 1}">
+				<td width="2%"><c:if test="${fn:length(study.accruingStudySites) > 1}">
 					<img id="image-open-${statusStudy.index }" src="<tags:imageUrl name="b-plus.gif"/>" border="0" alt="expand">
 					</c:if>
 				</td>
@@ -73,7 +73,7 @@ function toggleImage(id){
 				<td align="left">${study.phaseCode}</td>
 				<td align="left">${study.targetAccrualNumber}</td>
 			</tr>
-			<c:if test="${fn:length(study.studySites) > 1}">
+			<c:if test="${fn:length(study.accruingStudySites) > 1}">
 				<tr id="studySites-table-${statusStudy.index }" style="display:none;">
 					<td colspan="2">&nbsp;</td>
 					<td colspan="6" height="0" class>
@@ -86,7 +86,7 @@ function toggleImage(id){
 							</tr>
 							</thead>
 							<%int j=i*100; %>
-							<c:forEach items="${study.studySites}" var="site" varStatus="siteIndex">
+							<c:forEach items="${study.accruingStudySites}" var="site" varStatus="siteIndex">
 							<c:set var="singleQuote" value="'" />
                                 <c:set var="singleQuoteAlias" value="\\&#39" />
                                 <c:set var="siteName" value="${fn:replace(site.healthcareSite.name, singleQuote, singleQuoteAlias)}" />
