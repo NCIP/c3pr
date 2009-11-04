@@ -458,7 +458,7 @@ public class RegistrationControllerUtils {
 				imageAndMessage.add("error");
 				EndPoint endpoint= studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getLastAttemptedRegistrationEndpoint();
 				if(isTransfer){
-					if(endpoint.getApiName()==APIName.CHANGE_EPOCH && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED && endpoint.getLastAttemptError()!=null){
+					if(endpoint!=null && endpoint.getApiName()==APIName.CHANGE_EPOCH && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED && endpoint.getLastAttemptError()!=null){
 						imageAndMessage.add("site.action.error."+endpoint.getAPI());
 						imageAndMessage.add(endpoint.getLastAttemptError().getErrorMessage());
 					}else{
@@ -466,7 +466,7 @@ public class RegistrationControllerUtils {
 					}
 					return imageAndMessage ;
 				}else{
-					if(endpoint.getApiName()==APIName.ENROLL_SUBJECT && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED && endpoint.getLastAttemptError()!=null){
+					if(endpoint !=null && endpoint.getApiName()==APIName.ENROLL_SUBJECT && endpoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED && endpoint.getLastAttemptError()!=null){
 						imageAndMessage.add("site.action.error."+endpoint.getApiName());
 						imageAndMessage.add(endpoint.getLastAttemptError().getErrorMessage());
 					}else{
