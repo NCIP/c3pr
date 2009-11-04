@@ -1,0 +1,60 @@
+<decorators defaultdir="/WEB-INF/decorators">
+    <decorator name="standard" page="standard.jsp">
+        <pattern>/pages/*</pattern>
+        <pattern>/public/*</pattern>
+        <pattern>/public/user/*</pattern>
+        <pattern>/accessDenied.jsp</pattern>
+        <pattern>/pages/registration/searchRegistration</pattern>
+        <pattern>/pages/personAndOrganization/participant/searchParticipant</pattern>
+        <pattern>/pages/registration/overview</pattern>
+        <pattern>/pages/registration/confirm</pattern>
+        <pattern>/pages/registration/manageCompanionRegistration</pattern>
+        <pattern>/pages/study/confirm</pattern>
+    </decorator>
+    <decorator name="tabbedflow" page="tabbedflow.jsp">
+        <pattern>/pages/study/createStudy</pattern>
+        <pattern>/pages/study/createCompanionStudy</pattern>
+        <pattern>/pages/study/editCompanionStudy</pattern>
+        <pattern>/pages/study/amendCompanionStudy</pattern>
+        <pattern>/pages/study/editStudy</pattern>
+        <pattern>/pages/study/viewStudy</pattern>
+        <pattern>/pages/study/amendStudy</pattern>
+        <pattern>/pages/personAndOrganization/participant/createParticipant</pattern>
+        <pattern>/pages/personAndOrganization/participant/editParticipant</pattern>
+        <pattern>/pages/personAndOrganization/participant/viewParticipant</pattern>
+        <pattern>/pages/registration/manageRegistration*</pattern>
+    </decorator>
+    <decorator name="registration" page="registrationflow.jsp">
+        <pattern>/pages/registration/*</pattern>
+    </decorator>
+	<decorator name="noheaderRegistrationflow" page="noheaderRegistrationflow.jsp">
+    </decorator>
+    <decorator name="standardContent" page="standardContent.jsp">
+        <pattern>/pages/personAndOrganization/organization/createOrganization</pattern>
+		<pattern>/pages/personAndOrganization/organization/editOrganization</pattern>
+        <pattern>/pages/personAndOrganization/organization/searchOrganization</pattern> 
+        <pattern>/pages/personAndOrganization/investigator/createInvestigator</pattern>
+		<pattern>/pages/personAndOrganization/investigator/editInvestigator</pattern>
+        <pattern>/pages/personAndOrganization/investigator/searchInvestigator</pattern> 
+        <pattern>/pages/personAndOrganization/researchStaff/createResearchStaff</pattern>
+		<pattern>/pages/personAndOrganization/researchStaff/editResearchStaff</pattern>
+        <pattern>/pages/personAndOrganization/researchStaff/searchResearchStaff</pattern> 
+        <pattern>/pages/personAndOrganization/investigator/createInvestigatorGroups</pattern>
+    </decorator>
+    <decorator name="nullDecorator" page="nullDecorator.jsp"/>
+    <decorator name="noheaderDecorator" page="noheaderDecorator.jsp">
+    </decorator>
+    <excludes>
+        <pattern>/*/image/*</pattern>
+        <pattern>/*/js/*</pattern>
+        <pattern>/*/css/*</pattern>
+        <pattern>/*/decorated-error.jsp</pattern>
+        <pattern>/pages/registration/searchStudy</pattern>
+        <pattern>/pages/registration/searchParticipant</pattern>
+        <pattern>/pages/registration/searchEpoch*</pattern>
+        <pattern>/pages/admin/validateConnectivity*</pattern>
+        <pattern>/public/skin</pattern>
+        <pattern>/*/study_create_companion.jsp</pattern>
+    </excludes>
+</decorators>
+

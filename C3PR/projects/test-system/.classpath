@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="src" path="test/src/java"/>
+	<classpathentry kind="lib" path="test/lib/abbot.jar"/>
+	<classpathentry kind="lib" path="test/lib/ao-util.jar"/>
+	<classpathentry kind="lib" path="test/lib/docall.jar"/>
+	<classpathentry kind="lib" path="test/lib/gnu-regexp-110.jar"/>
+	<classpathentry kind="lib" path="test/lib/shaste-1.0.jar"/>
+	<classpathentry kind="lib" path="test/lib/uispec4j-0.15.jar"/>
+	<classpathentry kind="lib" path="/share/junit-3.8.1/junit-3.8.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

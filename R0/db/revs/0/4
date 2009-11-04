@@ -1,0 +1,133 @@
+id: 8-4.0.r4/0
+type: file
+count: 0
+text: 1 0 4 0 d41d8cd98f00b204e9800998ecf8427e da39a3ee5e6b4b0d3255bfef95601890afd80709 3-3/_b
+cpath: /trunk/File_03.java.txt
+copyroot: 0 /
+
+id: 5-4.0.r4/176
+type: file
+count: 0
+text: 1 0 4 0 d41d8cd98f00b204e9800998ecf8427e da39a3ee5e6b4b0d3255bfef95601890afd80709 3-3/_9
+cpath: /trunk/File_01.java.txt
+copyroot: 0 /
+
+id: 7-4.0.r4/354
+type: file
+count: 0
+text: 1 0 4 0 d41d8cd98f00b204e9800998ecf8427e da39a3ee5e6b4b0d3255bfef95601890afd80709 3-3/_a
+cpath: /trunk/File_02.java.txt
+copyroot: 0 /
+
+PLAIN
+K 16
+File_01.java.txt
+V 17
+file 5-4.0.r4/176
+K 16
+File_02.java.txt
+V 17
+file 7-4.0.r4/354
+K 16
+File_03.java.txt
+V 15
+file 8-4.0.r4/0
+END
+ENDREP
+id: 0-2.0.r4/682
+type: dir
+pred: 0-2.0.r2/0
+count: 1
+text: 4 532 137 137 ec822f98e016872741d263be5068f7f8
+cpath: /trunk
+copyroot: 0 /
+
+id: 4-4.0.r4/817
+type: file
+count: 0
+text: 1 0 4 0 d41d8cd98f00b204e9800998ecf8427e da39a3ee5e6b4b0d3255bfef95601890afd80709 3-3/_e
+cpath: /branch-1.1.1/File_03.java.txt
+copyroot: 0 /
+
+id: 1-4.0.r4/1002
+type: file
+count: 0
+text: 1 0 4 0 d41d8cd98f00b204e9800998ecf8427e da39a3ee5e6b4b0d3255bfef95601890afd80709 3-3/_c
+cpath: /branch-1.1.1/File_01.java.txt
+copyroot: 0 /
+
+id: 3-4.0.r4/1188
+type: file
+count: 0
+text: 1 0 4 0 d41d8cd98f00b204e9800998ecf8427e da39a3ee5e6b4b0d3255bfef95601890afd80709 3-3/_d
+cpath: /branch-1.1.1/File_02.java.txt
+copyroot: 0 /
+
+PLAIN
+K 16
+File_01.java.txt
+V 18
+file 1-4.0.r4/1002
+K 16
+File_02.java.txt
+V 18
+file 3-4.0.r4/1188
+K 16
+File_03.java.txt
+V 17
+file 4-4.0.r4/817
+END
+ENDREP
+id: 0-3.0.r4/1528
+type: dir
+pred: 0-3.0.r3/0
+count: 1
+text: 4 1374 141 141 bfc145112cfd8c63403668c889f218e8
+cpath: /branch-1.1.1
+copyroot: 0 /
+
+PLAIN
+K 16
+File_01.java.txt
+V 17
+file 0-1.0.r1/222
+K 16
+File_02.java.txt
+V 17
+file 2-1.0.r1/395
+K 16
+File_03.java.txt
+V 16
+file 3-1.0.r1/51
+K 12
+branch-1.1.1
+V 17
+dir 0-3.0.r4/1528
+K 5
+trunk
+V 16
+dir 0-2.0.r4/682
+END
+ENDREP
+id: 0.0.r4/1896
+type: dir
+pred: 0.0.r3/289
+count: 4
+text: 4 1672 211 211 352ccc8508e4f7c3fa68073288e5cb92
+cpath: /
+copyroot: 0 /
+
+_5.0.t3-3 add-file true false /trunk/File_01.java.txt
+
+_7.0.t3-3 add-file true false /trunk/File_02.java.txt
+
+_8.0.t3-3 add-file true false /trunk/File_03.java.txt
+
+_1.0.t3-3 add-file true false /branch-1.1.1/File_01.java.txt
+
+_3.0.t3-3 add-file true false /branch-1.1.1/File_02.java.txt
+
+_4.0.t3-3 add-file true false /branch-1.1.1/File_03.java.txt
+
+
+1896 2026

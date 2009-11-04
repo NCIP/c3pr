@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This is a sample xml file. This file should be modified with proper data elements -->
+<!-- before using. -->
+<studyAmendment xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+	<studyIdentifiers>
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:type="OrganizationAssignedIdentifierType">
+			<value>cocenter id</value>
+			<primaryIndicator>false</primaryIndicator>
+			<healthcareSite xsi:type="LocalHealthcareSiteType">
+				<address/>
+				<identifier xsi:type="OrganizationAssignedIdentifierType">
+					<value>site_ctep_id</value>
+					<primaryIndicator>false</primaryIndicator>
+					<type>CTEP</type>
+				</identifier>
+			</healthcareSite>
+			<type>COORDINATING_CENTER_IDENTIFIER</type>
+		</identifier>
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:type="OrganizationAssignedIdentifierType">
+			<value>funding sponsor id</value>
+			<primaryIndicator>false</primaryIndicator>
+			<healthcareSite xsi:type="LocalHealthcareSiteType">
+				<address/>
+				<identifier xsi:type="OrganizationAssignedIdentifierType">
+					<value>site_ctep_id</value>
+					<primaryIndicator>false</primaryIndicator>
+					<type>CTEP</type>
+				</identifier>
+			</healthcareSite>
+			<type>PROTOCOL_AUTHORITY_IDENTIFIER</type>
+		</identifier>
+	</studyIdentifiers>
+	<versionDate>2009-07-30</versionDate>
+	<versionName>1.1</versionName>
+	<shortTitleText>ShortTitleText1</shortTitleText>
+	<longTitleText>LongTitleText1</longTitleText>
+	<descriptionText>Description Text</descriptionText>
+	<precisText>Study with randomization</precisText>
+	<amendmentReason>COMPANION</amendmentReason>
+	<amendmentReason>CONSENT</amendmentReason>
+	<amendmentReason>DESIGN</amendmentReason>
+	<amendmentReason>DETAIL</amendmentReason>
+	<amendmentReason>DISEASE</amendmentReason>
+	<amendmentReason>ELIGIBILITY</amendmentReason>
+	<amendmentReason>RANDOMIZATION</amendmentReason>
+	<amendmentReason>STRATIFICATION</amendmentReason>
+	<epoch gridId="grid">
+		<name>epoch 1</name>
+		<epochOrder>1</epochOrder>
+		<descriptionText>DescriptionText</descriptionText>
+		<accrualCeiling>10</accrualCeiling>
+		<stratificationIndicator>true</stratificationIndicator>
+		<randomizedIndicator>true</randomizedIndicator>
+		<reservationIndicator>false</reservationIndicator>
+		<treatmentIndicator>true</treatmentIndicator>
+		<enrollmentIndicator>true</enrollmentIndicator>
+		<arm gridId="grid1">
+			<name>arm 1</name>
+			<descriptionText>DescriptionText1</descriptionText>
+			<targetAccrualNumber>20</targetAccrualNumber>
+		</arm>
+		<arm gridId="grid2">
+			<name>arm 2</name>
+			<descriptionText>DescriptionText2</descriptionText>
+			<targetAccrualNumber>30</targetAccrualNumber>
+		</arm>
+		<eligibilityCriteria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gridId="gridid"
+			xsi:type="InclusionEligibilityCriteriaType">
+			<notApplicableIndicator>true</notApplicableIndicator>
+			<questionNumber>1</questionNumber>
+			<questionText>inc1</questionText>
+		</eligibilityCriteria>
+		<eligibilityCriteria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gridId="gridid"
+			xsi:type="ExclusionEligibilityCriteriaType">
+			<questionNumber>1</questionNumber>
+			<questionText>exc1</questionText>
+		</eligibilityCriteria>
+		<stratificationCriteria>
+			<questionNumber>1</questionNumber>
+			<questionText>q1</questionText>
+			<permissibleAnswer>
+				<answerText>ans1</answerText>
+			</permissibleAnswer>
+			<permissibleAnswer>
+				<answerText>ans2</answerText>
+			</permissibleAnswer>
+			<permissibleAnswer>
+				<answerText>ans3</answerText>
+			</permissibleAnswer>
+		</stratificationCriteria>
+		<stratificationCriteria>
+			<questionNumber>0</questionNumber>
+			<questionText>q2</questionText>
+			<permissibleAnswer>
+				<answerText>ans1</answerText>
+			</permissibleAnswer>
+			<permissibleAnswer>
+				<answerText>ans2</answerText>
+			</permissibleAnswer>
+			<permissibleAnswer>
+				<answerText>ans3</answerText>
+			</permissibleAnswer>
+		</stratificationCriteria>
+		<randomization>
+			<type>BOOK</type>
+		</randomization>
+	</epoch>
+	<companionStudy>
+		<study>
+			<blindedIndicator>false</blindedIndicator>
+			<multiInstitutionIndicator>true</multiInstitutionIndicator>
+			<randomizedIndicator>true</randomizedIndicator>
+			<randomizationType>PHONE_CALL</randomizationType>
+			<stratificationIndicator>true</stratificationIndicator>
+			<standaloneIndicator>false</standaloneIndicator>
+			<companionIndicator>true</companionIndicator>
+			<shortTitleText>ShortTitleText1</shortTitleText>
+			<longTitleText>LongTitleText1</longTitleText>
+			<descriptionText>Description Text</descriptionText>
+			<precisText>Study with randomization</precisText>
+			<phaseCode>Phase I Trial</phaseCode>
+			<coordinatingCenterStudyStatus>OPEN</coordinatingCenterStudyStatus>
+			<type>Diagnostic</type>
+			<targetAccrualNumber>150</targetAccrualNumber>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="OrganizationAssignedIdentifierType">
+				<value>cocenter id</value>
+				<primaryIndicator>false</primaryIndicator>
+				<healthcareSite xsi:type="LocalHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>site_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+				<type>COORDINATING_CENTER_IDENTIFIER</type>
+			</identifier>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="OrganizationAssignedIdentifierType">
+				<value>funding sponsor id</value>
+				<primaryIndicator>false</primaryIndicator>
+				<healthcareSite xsi:type="LocalHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>site_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+				<type>PROTOCOL_AUTHORITY_IDENTIFIER</type>
+			</identifier>
+			<epoch gridId="grid">
+				<name>epoch 1</name>
+				<epochOrder>1</epochOrder>
+				<descriptionText>DescriptionText</descriptionText>
+				<accrualCeiling>10</accrualCeiling>
+				<stratificationIndicator>true</stratificationIndicator>
+				<randomizedIndicator>true</randomizedIndicator>
+				<reservationIndicator>false</reservationIndicator>
+				<treatmentIndicator>true</treatmentIndicator>
+				<enrollmentIndicator>true</enrollmentIndicator>
+				<arm gridId="grid1">
+					<name>arm 1</name>
+					<descriptionText>DescriptionText1</descriptionText>
+					<targetAccrualNumber>20</targetAccrualNumber>
+				</arm>
+				<arm gridId="grid2">
+					<name>arm 2</name>
+					<descriptionText>DescriptionText2</descriptionText>
+					<targetAccrualNumber>30</targetAccrualNumber>
+				</arm>
+				<eligibilityCriteria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					gridId="gridid" xsi:type="InclusionEligibilityCriteriaType">
+					<notApplicableIndicator>true</notApplicableIndicator>
+					<questionNumber>1</questionNumber>
+					<questionText>inc1</questionText>
+				</eligibilityCriteria>
+				<eligibilityCriteria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					gridId="gridid" xsi:type="ExclusionEligibilityCriteriaType">
+					<questionNumber>1</questionNumber>
+					<questionText>exc1</questionText>
+				</eligibilityCriteria>
+				<stratificationCriteria>
+					<questionNumber>1</questionNumber>
+					<questionText>q1</questionText>
+					<permissibleAnswer>
+						<answerText>ans1</answerText>
+					</permissibleAnswer>
+					<permissibleAnswer>
+						<answerText>ans2</answerText>
+					</permissibleAnswer>
+					<permissibleAnswer>
+						<answerText>ans3</answerText>
+					</permissibleAnswer>
+				</stratificationCriteria>
+				<stratificationCriteria>
+					<questionNumber>0</questionNumber>
+					<questionText>q2</questionText>
+					<permissibleAnswer>
+						<answerText>ans1</answerText>
+					</permissibleAnswer>
+					<permissibleAnswer>
+						<answerText>ans2</answerText>
+					</permissibleAnswer>
+					<permissibleAnswer>
+						<answerText>ans3</answerText>
+					</permissibleAnswer>
+				</stratificationCriteria>
+				<randomization>
+					<type>PHONE_CALL</type>
+					<phoneNumber>000-111-2222</phoneNumber>
+				</randomization>
+			</epoch>
+			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				gridId="co center" xsi:type="StudyCoordinatingCenterType">
+				<healthcareSite xsi:type="LocalHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>site_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+				<studyInvestigator>
+					<roleCode>Principal Investigator</roleCode>
+					<healthcareSiteInvestigator>
+						<investigator xsi:type="LocalInvestigatorType">
+							<nciIdentifier>ctep_assigned_id</nciIdentifier>
+							<fullName>first last</fullName>
+						</investigator>
+					</healthcareSiteInvestigator>
+				</studyInvestigator>
+			</studyOrganization>
+			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				gridId="funding sponsor" xsi:type="StudyFundingSponsorType">
+				<healthcareSite xsi:type="LocalHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>site_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+			</studyOrganization>
+			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="StudySiteType">
+				<healthcareSite xsi:type="LocalHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>site_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+				<studyInvestigator>
+					<roleCode>Site Investigator</roleCode>
+					<healthcareSiteInvestigator>
+						<investigator xsi:type="LocalInvestigatorType">
+							<nciIdentifier>ctep_assigned_id</nciIdentifier>
+							<fullName>first last</fullName>
+						</investigator>
+					</healthcareSiteInvestigator>
+				</studyInvestigator>
+				<studyInvestigator>
+					<roleCode>Site Investigator</roleCode>
+					<healthcareSiteInvestigator>
+						<investigator xsi:type="RemoteInvestigatorType">
+							<nciIdentifier>remote_ctep_assigned_id</nciIdentifier>
+							<fullName>first last</fullName>
+							<externalId>external_id</externalId>
+						</investigator>
+					</healthcareSiteInvestigator>
+				</studyInvestigator>
+				<irbApprovalDate>2009-07-30</irbApprovalDate>
+				<endDate>2009-07-30</endDate>
+				<siteStudyStatus>PENDING</siteStudyStatus>
+			</studyOrganization>
+			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="StudySiteType">
+				<healthcareSite xsi:type="RemoteHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>remote_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+					<externalId>external_id</externalId>
+				</healthcareSite>
+				<studyInvestigator>
+					<roleCode>Site Investigator</roleCode>
+					<healthcareSiteInvestigator>
+						<investigator xsi:type="LocalInvestigatorType">
+							<nciIdentifier>ctep_assigned_id</nciIdentifier>
+							<fullName>first last</fullName>
+						</investigator>
+					</healthcareSiteInvestigator>
+				</studyInvestigator>
+				<studyInvestigator>
+					<roleCode>Site Investigator</roleCode>
+					<healthcareSiteInvestigator>
+						<investigator xsi:type="RemoteInvestigatorType">
+							<nciIdentifier>remote_ctep_assigned_id</nciIdentifier>
+							<fullName>first last</fullName>
+							<externalId>external_id</externalId>
+						</investigator>
+					</healthcareSiteInvestigator>
+				</studyInvestigator>
+				<irbApprovalDate>2009-07-30</irbApprovalDate>
+				<endDate>2009-07-30</endDate>
+				<siteStudyStatus>PENDING</siteStudyStatus>
+			</studyOrganization>
+			<consent>
+				<name>Male</name>
+				<consentVersion>
+					<name>consent name 1</name>
+					<effectiveDate>2009-07-30</effectiveDate>
+				</consentVersion>
+				<consentVersion>
+					<name>consent name 2</name>
+					<effectiveDate>2009-07-30</effectiveDate>
+				</consentVersion>
+			</consent>
+			<consent>
+				<name>Female</name>
+				<consentVersion>
+					<name>consent name 3</name>
+					<effectiveDate>2009-07-30</effectiveDate>
+				</consentVersion>
+			</consent>
+		</study>
+		<mandatoryIndicator>true</mandatoryIndicator>
+	</companionStudy>
+	<companionStudy>
+		<study>
+			<blindedIndicator>false</blindedIndicator>
+			<multiInstitutionIndicator>true</multiInstitutionIndicator>
+			<randomizedIndicator>false</randomizedIndicator>
+			<stratificationIndicator>true</stratificationIndicator>
+			<standaloneIndicator>true</standaloneIndicator>
+			<companionIndicator>true</companionIndicator>
+			<shortTitleText>ShortTitleText1</shortTitleText>
+			<longTitleText>LongTitleText1</longTitleText>
+			<descriptionText>Description Text</descriptionText>
+			<precisText>Study with randomization</precisText>
+			<phaseCode>Phase I Trial</phaseCode>
+			<coordinatingCenterStudyStatus>OPEN</coordinatingCenterStudyStatus>
+			<type>Diagnostic</type>
+			<targetAccrualNumber>150</targetAccrualNumber>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="OrganizationAssignedIdentifierType">
+				<value>cocenter id</value>
+				<primaryIndicator>false</primaryIndicator>
+				<healthcareSite xsi:type="LocalHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>site_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+				<type>COORDINATING_CENTER_IDENTIFIER</type>
+			</identifier>
+			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="OrganizationAssignedIdentifierType">
+				<value>funding sponsor id</value>
+				<primaryIndicator>false</primaryIndicator>
+				<healthcareSite xsi:type="LocalHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>site_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+				<type>PROTOCOL_AUTHORITY_IDENTIFIER</type>
+			</identifier>
+			<epoch gridId="grid">
+				<name>epoch 1</name>
+				<epochOrder>1</epochOrder>
+				<descriptionText>DescriptionText</descriptionText>
+				<accrualCeiling>10</accrualCeiling>
+				<stratificationIndicator>true</stratificationIndicator>
+				<randomizedIndicator>true</randomizedIndicator>
+				<reservationIndicator>false</reservationIndicator>
+				<treatmentIndicator>true</treatmentIndicator>
+				<enrollmentIndicator>true</enrollmentIndicator>
+				<arm gridId="grid1">
+					<name>arm 1</name>
+					<descriptionText>DescriptionText1</descriptionText>
+					<targetAccrualNumber>20</targetAccrualNumber>
+				</arm>
+				<arm gridId="grid2">
+					<name>arm 2</name>
+					<descriptionText>DescriptionText2</descriptionText>
+					<targetAccrualNumber>30</targetAccrualNumber>
+				</arm>
+				<eligibilityCriteria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					gridId="gridid" xsi:type="InclusionEligibilityCriteriaType">
+					<notApplicableIndicator>true</notApplicableIndicator>
+					<questionNumber>1</questionNumber>
+					<questionText>inc1</questionText>
+				</eligibilityCriteria>
+				<eligibilityCriteria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					gridId="gridid" xsi:type="ExclusionEligibilityCriteriaType">
+					<questionNumber>1</questionNumber>
+					<questionText>exc1</questionText>
+				</eligibilityCriteria>
+				<stratificationCriteria>
+					<questionNumber>1</questionNumber>
+					<questionText>q1</questionText>
+					<permissibleAnswer>
+						<answerText>ans1</answerText>
+					</permissibleAnswer>
+					<permissibleAnswer>
+						<answerText>ans2</answerText>
+					</permissibleAnswer>
+					<permissibleAnswer>
+						<answerText>ans3</answerText>
+					</permissibleAnswer>
+				</stratificationCriteria>
+				<stratificationCriteria>
+					<questionNumber>0</questionNumber>
+					<questionText>q2</questionText>
+					<permissibleAnswer>
+						<answerText>ans1</answerText>
+					</permissibleAnswer>
+					<permissibleAnswer>
+						<answerText>ans2</answerText>
+					</permissibleAnswer>
+					<permissibleAnswer>
+						<answerText>ans3</answerText>
+					</permissibleAnswer>
+				</stratificationCriteria>
+			</epoch>
+			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				gridId="co center" xsi:type="StudyCoordinatingCenterType">
+				<healthcareSite xsi:type="LocalHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>site_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+				<studyInvestigator>
+					<roleCode>Principal Investigator</roleCode>
+					<healthcareSiteInvestigator>
+						<investigator xsi:type="LocalInvestigatorType">
+							<nciIdentifier>ctep_assigned_id</nciIdentifier>
+							<fullName>first last</fullName>
+						</investigator>
+					</healthcareSiteInvestigator>
+				</studyInvestigator>
+			</studyOrganization>
+			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				gridId="funding sponsor" xsi:type="StudyFundingSponsorType">
+				<healthcareSite xsi:type="LocalHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>site_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+			</studyOrganization>
+			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="StudySiteType">
+				<healthcareSite xsi:type="LocalHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>site_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+				</healthcareSite>
+				<studyInvestigator>
+					<roleCode>Site Investigator</roleCode>
+					<healthcareSiteInvestigator>
+						<investigator xsi:type="LocalInvestigatorType">
+							<nciIdentifier>ctep_assigned_id</nciIdentifier>
+							<fullName>first last</fullName>
+						</investigator>
+					</healthcareSiteInvestigator>
+				</studyInvestigator>
+				<studyInvestigator>
+					<roleCode>Site Investigator</roleCode>
+					<healthcareSiteInvestigator>
+						<investigator xsi:type="RemoteInvestigatorType">
+							<nciIdentifier>remote_ctep_assigned_id</nciIdentifier>
+							<fullName>first last</fullName>
+							<externalId>external_id</externalId>
+						</investigator>
+					</healthcareSiteInvestigator>
+				</studyInvestigator>
+				<irbApprovalDate>2009-07-30</irbApprovalDate>
+				<endDate>2009-07-30</endDate>
+				<siteStudyStatus>PENDING</siteStudyStatus>
+			</studyOrganization>
+			<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:type="StudySiteType">
+				<healthcareSite xsi:type="RemoteHealthcareSiteType">
+					<address/>
+					<identifier xsi:type="OrganizationAssignedIdentifierType">
+						<value>remote_ctep_id</value>
+						<primaryIndicator>false</primaryIndicator>
+						<type>CTEP</type>
+					</identifier>
+					<externalId>external_id</externalId>
+				</healthcareSite>
+				<studyInvestigator>
+					<roleCode>Site Investigator</roleCode>
+					<healthcareSiteInvestigator>
+						<investigator xsi:type="LocalInvestigatorType">
+							<nciIdentifier>ctep_assigned_id</nciIdentifier>
+							<fullName>first last</fullName>
+						</investigator>
+					</healthcareSiteInvestigator>
+				</studyInvestigator>
+				<studyInvestigator>
+					<roleCode>Site Investigator</roleCode>
+					<healthcareSiteInvestigator>
+						<investigator xsi:type="RemoteInvestigatorType">
+							<nciIdentifier>remote_ctep_assigned_id</nciIdentifier>
+							<fullName>first last</fullName>
+							<externalId>external_id</externalId>
+						</investigator>
+					</healthcareSiteInvestigator>
+				</studyInvestigator>
+				<irbApprovalDate>2009-07-30</irbApprovalDate>
+				<endDate>2009-07-30</endDate>
+				<siteStudyStatus>PENDING</siteStudyStatus>
+			</studyOrganization>
+			<consent>
+				<name>Male</name>
+				<consentVersion>
+					<name>consent name 1</name>
+					<effectiveDate>2009-07-30</effectiveDate>
+				</consentVersion>
+				<consentVersion>
+					<name>consent name 2</name>
+					<effectiveDate>2009-07-30</effectiveDate>
+				</consentVersion>
+			</consent>
+			<consent>
+				<name>Female</name>
+				<consentVersion>
+					<name>consent name 3</name>
+					<effectiveDate>2009-07-30</effectiveDate>
+				</consentVersion>
+			</consent>
+		</study>
+		<mandatoryIndicator>true</mandatoryIndicator>
+	</companionStudy>
+</studyAmendment>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+        "http://castor.org/mapping.dtd">
+
+<mapping>
+
+	<description>Mappings  for creating study message</description>
+
+    <class name="edu.duke.cabig.c3pr.domain.EligibilityCriteria">
+        <map-to xml="eligibilityCriteria" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="gridId" type="string">
+            <bind-xml name="gridId" node="attribute"/>
+        </field>
+        <field name="notApplicableIndicator" type="boolean">
+            <bind-xml name="notApplicableIndicator" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="questionNumber" type="int">
+            <bind-xml name="questionNumber" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="questionText" type="string">
+            <bind-xml name="questionText" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+
+    <class name="edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria"
+           extends="edu.duke.cabig.c3pr.domain.EligibilityCriteria">
+        <map-to xml="ExclusionEligibilityCriteriaType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+    </class>
+
+    <class name="edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria"
+           extends="edu.duke.cabig.c3pr.domain.EligibilityCriteria">
+        <map-to xml="InclusionEligibilityCriteriaType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+    </class>
+
+    <class name="edu.duke.cabig.c3pr.domain.Study">
+        <map-to xml="abstract-study" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="gridId" type="string">
+            <bind-xml name="gridId" node="attribute"/>
+        </field>
+        <field name="blindedIndicator" type="boolean">
+            <bind-xml name="blindedIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="multiInstitutionIndicator" type="boolean">
+            <bind-xml name="multiInstitutionIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="randomizedIndicator" type="boolean">
+            <bind-xml name="randomizedIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="randomizationType" type="string"
+               handler="edu.duke.cabig.c3pr.xml.RandomizationTypeFieldHandler">
+            <bind-xml name="randomizationType" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="stratificationIndicator" type="boolean">
+            <bind-xml name="stratificationIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="standaloneIndicator" type="boolean">
+            <bind-xml name="standaloneIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>          
+         <field name="companionIndicator" type="boolean">
+            <bind-xml name="companionIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>   
+        </field>
+        <field name="shortTitleText" type="string">
+            <bind-xml name="shortTitleText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="longTitleText" type="string">
+            <bind-xml name="longTitleText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="descriptionText" type="string">
+            <bind-xml name="descriptionText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="precisText" type="string">
+            <bind-xml name="precisText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="phaseCode" type="string">
+            <bind-xml name="phaseCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="coordinatingCenterStudyStatus" type="string"
+               handler="edu.duke.cabig.c3pr.xml.StudyCoordinatingCenterStudyStatusHandler">
+            <bind-xml name="coordinatingCenterStudyStatus" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="type" type="string">
+            <bind-xml name="type" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="targetAccrualNumber" type="integer">
+            <bind-xml name="targetAccrualNumber" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
+               collection="collection">
+            <bind-xml node="element"
+                      name="identifier"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="epochs" type="edu.duke.cabig.c3pr.domain.Epoch"
+               collection="collection" get-method="getEpochs" set-method="addEpoch">
+            <bind-xml node="element"
+                      auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="studyOrganizations" type="edu.duke.cabig.c3pr.domain.StudyOrganization"
+               collection="collection" get-method="getStudyOrganizations" set-method="addStudyOrganization">
+            <bind-xml node="element"
+                      name="studyOrganization"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+         <!-- TODO: Commented for 2.8 version release.
+           <field name="companionStudyAssociations" type="edu.duke.cabig.c3pr.domain.CompanionStudyAssociation"
+               collection="collection" get-method="getCompanionStudyAssociations" set-method="addCompanionStudyAssociation">
+            <bind-xml node="element"
+                      auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        -->
+        <field name="studyDiseases" type="edu.duke.cabig.c3pr.domain.StudyDisease"
+			collection="collection" get-method="getStudyDiseases" set-method="addStudyDisease">
+			<bind-xml auto-naming="deriveByClass" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
+		</field>
+		<field name="consents" type="edu.duke.cabig.c3pr.domain.Consent"
+			collection="collection">
+			<bind-xml auto-naming="deriveByClass" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
+		</field>
+    </class>
+    
+    <class name="edu.duke.cabig.c3pr.domain.LocalStudy"
+    		extends="edu.duke.cabig.c3pr.domain.Study">
+        <map-to xml="study" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+    </class>
+    
+    <class name="edu.duke.cabig.c3pr.domain.StudyVersion">
+        <map-to xml="studyAmendment" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="gridId" type="string">
+            <bind-xml name="gridId" node="attribute"/>
+        </field>
+        <field name="study" type="edu.duke.cabig.c3pr.xml.IdentifiersHolder" handler="edu.duke.cabig.c3pr.xml.IdentifiersHolderFieldHandler">
+            <bind-xml name="studyIdentifiers" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="versionDate" type="string"
+               handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
+            <bind-xml name="versionDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="amendmentType" type="string"
+               handler="edu.duke.cabig.c3pr.xml.AmendmentTypeStatusHandler">
+            <bind-xml name="amendmentType" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="name" type="string">
+            <bind-xml name="versionName" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="shortTitleText" type="string">
+            <bind-xml name="shortTitleText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="longTitleText" type="string">
+            <bind-xml name="longTitleText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="descriptionText" type="string">
+            <bind-xml name="descriptionText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="precisText" type="string">
+            <bind-xml name="precisText" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="randomizationType" type="string"
+               handler="edu.duke.cabig.c3pr.xml.RandomizationTypeFieldHandler">
+            <bind-xml name="randomizationType" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="amendmentReasons" type="string"
+               collection="collection" get-method="getAmendmentReasons" set-method="addAmendmentReason"
+               handler="edu.duke.cabig.c3pr.xml.StudyPartFieldHandler">
+            <bind-xml node="element"
+                      name="amendmentReason"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="epochs" type="edu.duke.cabig.c3pr.domain.Epoch"
+               collection="collection" get-method="getEpochs" set-method="addEpoch">
+            <bind-xml node="element"
+                      auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <!-- TODO: Commented for 2.8 version release.
+         <field name="companionStudyAssociations" type="edu.duke.cabig.c3pr.domain.CompanionStudyAssociation"
+               collection="collection" get-method="getCompanionStudyAssociations" set-method="addCompanionStudyAssociation">
+            <bind-xml node="element"
+                      auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>-->
+        <field name="studyDiseases" type="edu.duke.cabig.c3pr.domain.StudyDisease"
+			collection="collection" get-method="getStudyDiseases" set-method="addStudyDisease">
+			<bind-xml auto-naming="deriveByClass" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
+		</field>
+    </class>
+    
+    <!-- TODO: Commented for 2.8 version release.
+     <class name="edu.duke.cabig.c3pr.domain.CompanionStudyAssociation">
+        <map-to xml="companionStudy" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="gridId" type="string">
+            <bind-xml name="gridId" node="attribute"/>
+        </field>
+        <field name="companionStudy" type="edu.duke.cabig.c3pr.domain.Study">
+            <bind-xml name="study" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="mandatoryIndicator" type="boolean">
+            <bind-xml name="mandatoryIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>
+    -->
+
+    <class name="edu.duke.cabig.c3pr.domain.StudyFundingSponsor" extends="edu.duke.cabig.c3pr.domain.StudyOrganization">
+        <map-to xml="StudyFundingSponsorType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+    </class>
+
+    <class name="edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter"
+           extends="edu.duke.cabig.c3pr.domain.StudyOrganization">
+        <map-to xml="StudyCoordinatingCenterType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+    </class>
+
+</mapping>

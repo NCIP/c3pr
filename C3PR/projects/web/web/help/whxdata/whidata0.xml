@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<indexdata>
+<key name="Admin_configure" >
+  <topic name="admin_configure" url="admin_configure.htm" />
+</key>
+<key name="Before You Begin" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+</key>
+<key name="C3PR" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  <topic name="Welcome" url="Welcome.htm" />
+  <key name="function" >
+    <topic name="Welcome" url="Welcome.htm" />
+  </key>
+</key>
+<key name="C3PR Administrators" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="C3PR application" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  <topic name="Welcome" url="Welcome.htm" />
+  <key name="using" >
+    <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  </key>
+</key>
+<key name="CaBIG Clinical Trials Suite" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Cancer Central Clinical Participant Registry" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Cancer Central Participant Registry" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="CCTS" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Clinical workflows" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Create" >
+  <topic name="Welcome" url="Welcome.htm" />
+  <key name="Study" >
+    <topic name="Welcome" url="Welcome.htm" />
+  </key>
+</key>
+<key name="Create Subjects" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="CreateCompanionStudy" >
+  <topic name="createCompanionStudy" url="createCompanionStudy.htm" />
+</key>
+<key name="CreateInvestigator" >
+  <topic name="createInvestigator" url="createInvestigator.htm" />
+</key>
+<key name="CreateInvestigatorGroups" >
+  <topic name="createInvestigatorGroups" url="createInvestigatorGroups.htm" />
+</key>
+<key name="CreateNotification" >
+  <topic name="createNotification" url="createNotification.htm" />
+</key>
+<key name="CreateOrganization" >
+  <topic name="createOrganization" url="createOrganization.htm" />
+</key>
+<key name="CreateParticipant" >
+  <topic name="createParticipant" url="createParticipant.htm" />
+</key>
+<key name="CreateRegistration" >
+  <topic name="createRegistration" url="createRegistration.htm" />
+</key>
+<key name="CreateResearchStaff" >
+  <topic name="createResearchStaff" url="createResearchStaff.htm" />
+</key>
+<key name="CreateStudy" >
+  <topic name="createStudy" url="createStudy.htm" />
+</key>
+<key name="Function" >
+  <topic name="Welcome" url="Welcome.htm" />
+  <key name="C3PR" >
+    <topic name="Welcome" url="Welcome.htm" />
+  </key>
+</key>
+<key name="Getting" >
+  <topic name="Getting_Started" url="Getting_Started.htm" />
+  <key name="Started" >
+    <topic name="Getting_Started" url="Getting_Started.htm" />
+  </key>
+</key>
+<key name="However, Study Management" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="ImportRegistration" >
+  <topic name="importRegistration" url="importRegistration.htm" />
+</key>
+<key name="ImportStudy" >
+  <topic name="importStudy" url="importStudy.htm" />
+</key>
+<key name="Names" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  <topic name="Welcome" url="Welcome.htm" />
+  <key name="the Coordinating Center" >
+    <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+    <topic name="Welcome" url="Welcome.htm" />
+  </key>
+</key>
+<key name="Password_policy_configure" >
+  <topic name="password_policy_configure" url="password_policy_configure.htm" />
+</key>
+<key name="Patients to clinical trials" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Pre-defined Assigning Authority" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Pre-defined Disease Categories" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Pre-defined Personnel Research Staff" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Pre-defined Principal Investigators" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Pre-defined Study Organizations" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Register" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="Report_createReport" >
+  <topic name="report_createReport" url="report_createReport.htm" />
+</key>
+<key name="Report_createStudyReport" >
+  <topic name="report_createStudyReport" url="report_createStudyReport.htm" />
+</key>
+<key name="SearchInvestigator" >
+  <topic name="searchInvestigator" url="searchInvestigator.htm" />
+</key>
+<key name="SearchNotification" >
+  <topic name="searchNotification" url="searchNotification.htm" />
+</key>
+<key name="SearchOrganization" >
+  <topic name="searchOrganization" url="searchOrganization.htm" />
+</key>
+<key name="SearchParticipant" >
+  <topic name="searchParticipant" url="searchParticipant.htm" />
+</key>
+<key name="SearchRegistration" >
+  <topic name="searchRegistration" url="searchRegistration.htm" />
+</key>
+<key name="SearchResearchStaff" >
+  <topic name="searchResearchStaff" url="searchResearchStaff.htm" />
+</key>
+<key name="SearchStudy" >
+  <topic name="searchStudy" url="searchStudy.htm" />
+</key>
+<key name="Started" >
+  <topic name="Getting_Started" url="Getting_Started.htm" />
+  <key name="Getting" >
+    <topic name="Getting_Started" url="Getting_Started.htm" />
+  </key>
+</key>
+<key name="Study" >
+  <topic name="Welcome" url="Welcome.htm" />
+  <key name="Create" >
+    <topic name="Welcome" url="Welcome.htm" />
+  </key>
+</key>
+<key name="Study Management" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+<key name="The Coordinating Center" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  <topic name="Welcome" url="Welcome.htm" />
+  <key name="names" >
+    <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+    <topic name="Welcome" url="Welcome.htm" />
+  </key>
+</key>
+<key name="Using" >
+  <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  <key name="C3PR application" >
+    <topic name="Before_You_Begin" url="Before_You_Begin.htm" />
+  </key>
+</key>
+<key name="Welcome" >
+  <topic name="Welcome" url="Welcome.htm" />
+</key>
+
+</indexdata>

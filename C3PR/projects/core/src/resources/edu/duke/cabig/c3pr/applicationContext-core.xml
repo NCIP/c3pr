@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+
+    <!--Castor mapping files-->
+    <!--Todo combine all these into 1 castor mapping-->
+    <bean id="c3pr-study-xml-castorMapping" class="java.lang.String">
+        <constructor-arg value="c3pr-study-xml-castor-mapping.xml"/>
+    </bean>
+
+	<bean id="c3pr-registration-xml-castor-mapping" class="java.lang.String">
+        <constructor-arg value="c3pr-registration-xml-castor-mapping.xml"/>
+    </bean>
+
+    <!-- Report castor mapping xml -->
+
+    <bean id="summary-3-report-castor-mapping" class="java.lang.String">
+        <constructor-arg value="summary-3-report-castor-mapping.xml"/>
+    </bean>
+
+    <bean id="accrual-report-castor-mapping" class="java.lang.String">
+        <constructor-arg value="accrual-report-castor-mapping.xml"/>
+    </bean>
+
+    <!--  Summary Report Generator -->
+
+    <bean id="summary3ReportGenerator" class="edu.duke.cabig.c3pr.xml.Summary3ReportGenerator">
+
+    </bean>
+
+    <!--Transaction support-->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean class="org.springframework.transaction.aspectj.AnnotationTransactionAspect" factory-method="aspectOf"
+          dependency-check="none" lazy-init="false">
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+
+    <bean
+            class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+
+    <!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" autowire="byName">
+        <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy"/>
+        </property>
+        <!-- Must reference all OR mapping files. -->
+        <property name="annotatedClasses">
+            <list>
+                <value>edu.duke.cabig.c3pr.domain.LocalStudy</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteStudy</value>
+                <value>edu.duke.cabig.c3pr.domain.Epoch</value>
+                <value>edu.duke.cabig.c3pr.domain.Arm</value>
+                <value>edu.duke.cabig.c3pr.domain.StudySite</value>
+                <value>edu.duke.cabig.c3pr.domain.SiteStatusHistory</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyFundingSponsor</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyOrganization</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalHealthcareSite</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
+                <value>edu.duke.cabig.c3pr.domain.Organization</value>
+                <value>edu.duke.cabig.c3pr.domain.Address</value>
+                <value>edu.duke.cabig.c3pr.domain.StudySubject</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
+                <value>edu.duke.cabig.c3pr.domain.Participant</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
+                <value>edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier</value>
+                <value>edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier</value>
+                <value>edu.duke.cabig.c3pr.domain.Identifier</value>
+                <value>edu.duke.cabig.c3pr.domain.EligibilityCriteria</value>
+                <value>edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer</value>
+                <value>edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria</value>
+                <value>edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyDisease</value>
+                <value>edu.duke.cabig.c3pr.domain.DiseaseCategory</value>
+                <value>edu.duke.cabig.c3pr.domain.DiseaseTerm</value>
+                <value>edu.duke.cabig.c3pr.domain.StratificationCriterion</value>
+                <value>edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer</value>
+                <value>edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer</value>
+                <value>edu.duke.cabig.c3pr.domain.Summary3ReportDiseaseSite</value>
+                <value>edu.duke.cabig.c3pr.domain.ICD9DiseaseSite</value>
+                <value>edu.duke.cabig.c3pr.domain.DiseaseHistory</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalContactMechanism</value>
+				<value>edu.duke.cabig.c3pr.domain.RemoteContactMechanism</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledEpoch</value>
+                <value>edu.duke.cabig.c3pr.domain.StratumGroup</value>
+                <value>edu.duke.cabig.c3pr.domain.BookRandomizationEntry</value>
+                <value>edu.duke.cabig.c3pr.domain.Randomization</value>
+                <value>edu.duke.cabig.c3pr.domain.BookRandomization</value>
+                <value>edu.duke.cabig.c3pr.domain.PhoneCallRandomization</value>
+                <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
+                <value>edu.duke.cabig.c3pr.tools.C3prConfigurationEntry</value>
+                <value>edu.duke.cabig.c3pr.domain.PlannedNotification</value>
+                <value>edu.duke.cabig.c3pr.domain.Recipient</value>
+                <value>edu.duke.cabig.c3pr.domain.UserBasedRecipient</value>
+                <value>edu.duke.cabig.c3pr.domain.RoleBasedRecipient</value>
+                <value>edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient</value>
+             	<value>edu.duke.cabig.c3pr.domain.InvestigatorGroup</value>
+                <value>edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation</value>
+                <value>edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy</value>
+                <value>edu.duke.cabig.c3pr.domain.CompanionStudyAssociation</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledNotification</value>
+                <value>edu.duke.cabig.c3pr.domain.RecipientScheduledNotification</value>
+                <value>edu.duke.cabig.c3pr.domain.EndPointConnectionProperty</value>
+                <value>edu.duke.cabig.c3pr.domain.GridEndPoint</value>
+                <value>edu.duke.cabig.c3pr.domain.EndPoint</value>
+                <value>edu.duke.cabig.c3pr.domain.Error</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.CustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.StringCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.DateCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.IntegerCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudyVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.Consent</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
+            </list>
+        </property>
+        <property name="entityInterceptor">
+            <ref local="chainedInterceptor"/>
+            <!--    <bean
+           class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
+           autowire="byName"/> -->
+        </property>
+        <property name="hibernateProperties">
+            <ref bean="hibernateProperties"/>
+        </property>
+    </bean>
+
+    <bean id="configuration" parent="configurationDaoTemplate"
+      class="edu.duke.cabig.c3pr.tools.Configuration"/>
+
+
+
+    <!--  Another Session Factory for Local to Remote Entity Conversion -->
+	<!-- Start -->
+	<bean id="converterSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" autowire="byName">
+        <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy"/>
+        </property>
+        <property name="annotatedClasses">
+        	<list>
+        		<value>edu.duke.cabig.c3pr.domain.ConverterOrganization</value>
+        		<value>edu.duke.cabig.c3pr.domain.ConverterResearchStaff</value>
+        		<value>edu.duke.cabig.c3pr.domain.ConverterInvestigator</value>
+        	</list>
+        </property>
+    </bean>
+    <bean id="converterHibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="checkWriteOperations">
+            <value>false</value>
+        </property>
+        <property name="sessionFactory">
+            <ref bean="converterSessionFactory"/>
+        </property>
+    </bean>
+
+	<bean id="converterDaoTemplate" abstract="true">
+        <property name="hibernateTemplate">
+            <ref local="converterHibernateTemplate"/>
+        </property>
+    </bean>
+
+	<!-- DAOs -->
+
+	<bean id="organizationConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.OrganizationConverterDao"/>
+	<bean id="researchStaffConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffConverterDao"/>
+	<bean id="investigatorConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorConverterDao"/>
+	<!-- End -->
+
+
+	<!-- Auditing related beans definition start here-->
+
+    <bean id="auditOpenSessionInViewInterceptor"
+          class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">
+        <property name="sessionFactory">
+            <ref local="auditSessionFactory"/>
+        </property>
+        <property name="singleSession">
+            <value>true</value>
+        </property>
+        <property name="flushModeName">
+            <value>FLUSH_AUTO</value>
+        </property>
+    </bean>
+
+
+    <bean id="auditSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
+          autowire="byName">
+        <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy"/>
+        </property>
+        <property name="hibernateProperties">
+            <ref bean="auditHibernateProperties"/>
+        </property>
+
+        <property name="annotatedClasses">
+            <list>
+                <value>gov.nih.nci.cabig.ctms.audit.domain.DataAuditEventValue</value>
+                <value>gov.nih.nci.cabig.ctms.audit.domain.DataAuditEvent</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- InterceptorNotifier overrides the list of interceptors defined under chainedInterceptor
+    	See the InterceptorNotifier.java for details -->
+    <bean id="interceptorNotifier" class="edu.duke.cabig.c3pr.infrastructure.InterceptorNotifier" autowire="byName" />
+
+    <bean id="chainedInterceptor" class="gov.nih.nci.cabig.ctms.audit.ChainedInterceptor" >
+		<property name="interceptors">
+			<list>
+				<ref local="gridIdentifierInterceptor"/>
+				<ref local="auditInterceptor"/>
+				<ref local="remoteEntityInterceptor"/>
+			</list>
+		</property>
+	</bean>
+
+    <bean id="auditInterceptor" class="gov.nih.nci.cabig.ctms.audit.AuditInterceptorImpl">
+        <property name="dataAuditRepository" ref="dataAuditRepository"></property>
+         <property name="auditableEntities">
+              <list>
+	                <value>edu.duke.cabig.c3pr.domain.LocalStudy</value>
+	                <value>edu.duke.cabig.c3pr.domain.RemoteStudy</value>
+	                <value>edu.duke.cabig.c3pr.domain.Epoch</value>
+	                <value>edu.duke.cabig.c3pr.domain.Arm</value>
+	                <value>edu.duke.cabig.c3pr.domain.StudySite</value>
+	                <value>edu.duke.cabig.c3pr.domain.SiteStatusHistory</value>
+	                <value>edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter</value>
+	                <value>edu.duke.cabig.c3pr.domain.StudyFundingSponsor</value>
+	                <value>edu.duke.cabig.c3pr.domain.StudyOrganization</value>
+	                <value>edu.duke.cabig.c3pr.domain.LocalHealthcareSite</value>
+	                <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
+	                <value>edu.duke.cabig.c3pr.domain.Organization</value>
+	                <value>edu.duke.cabig.c3pr.domain.Address</value>
+	                <value>edu.duke.cabig.c3pr.domain.StudySubject</value>
+	                <value>edu.duke.cabig.c3pr.domain.StudyInvestigator</value>
+	                <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
+	                <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
+	                <value>edu.duke.cabig.c3pr.domain.Participant</value>
+	                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
+	                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+	                <value>edu.duke.cabig.c3pr.domain.Investigator</value>
+	                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
+	                <value>edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier</value>
+	                <value>edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier</value>
+	                <value>edu.duke.cabig.c3pr.domain.Identifier</value>
+	                <value>edu.duke.cabig.c3pr.domain.EligibilityCriteria</value>
+	                <value>edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer</value>
+	                <value>edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria</value>
+	                <value>edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria</value>
+	                <value>edu.duke.cabig.c3pr.domain.StudyDisease</value>
+	                <value>edu.duke.cabig.c3pr.domain.DiseaseCategory</value>
+	                <value>edu.duke.cabig.c3pr.domain.DiseaseTerm</value>
+	                <value>edu.duke.cabig.c3pr.domain.StratificationCriterion</value>
+	                <value>edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer</value>
+	                <value>edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer</value>
+	                <value>edu.duke.cabig.c3pr.domain.AnatomicSite</value>
+	                <value>edu.duke.cabig.c3pr.domain.DiseaseHistory</value>
+	                <value>edu.duke.cabig.c3pr.domain.ContactMechanism</value>
+	                <value>edu.duke.cabig.c3pr.domain.ScheduledEpoch</value>
+	                <value>edu.duke.cabig.c3pr.domain.StratumGroup</value>
+	                <value>edu.duke.cabig.c3pr.domain.BookRandomizationEntry</value>
+	                <value>edu.duke.cabig.c3pr.domain.Randomization</value>
+	                <value>edu.duke.cabig.c3pr.domain.BookRandomization</value>
+	                <value>edu.duke.cabig.c3pr.domain.PhoneCallRandomization</value>
+	                <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
+	                <value>edu.duke.cabig.c3pr.domain.PlannedNotification</value>
+	                <value>edu.duke.cabig.c3pr.domain.Recipient</value>
+	                <value>edu.duke.cabig.c3pr.domain.UserBasedRecipient</value>
+	                <value>edu.duke.cabig.c3pr.domain.RoleBasedRecipient</value>
+	                <value>edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient</value>
+	             	<value>edu.duke.cabig.c3pr.domain.InvestigatorGroup</value>
+	                <value>edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation</value>
+	                <value>edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy</value>
+	                <value>edu.duke.cabig.c3pr.domain.CompanionStudyAssociation</value>
+	                <value>edu.duke.cabig.c3pr.domain.ScheduledNotification</value>
+	                <value>edu.duke.cabig.c3pr.domain.RecipientScheduledNotification</value>
+                    <value>edu.duke.cabig.c3pr.domain.EndPointConnectionProperty</value>
+                    <value>edu.duke.cabig.c3pr.domain.GridEndPoint</value>
+                    <value>edu.duke.cabig.c3pr.domain.EndPoint</value>
+                    <value>edu.duke.cabig.c3pr.domain.Error</value>
+                    <value>edu.duke.cabig.c3pr.domain.customfield.CustomField</value>
+                    <value>edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.StringCustomField</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.DateCustomField</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.IntegerCustomField</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
+	                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
+	               <value>edu.duke.cabig.c3pr.domain.StudyVersion</value>
+				   <value>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</value>
+				   <value>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</value>
+				   <value>edu.duke.cabig.c3pr.domain.Consent</value>
+				   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
+              </list>
+        </property>
+        <!--  <property name="auditAll">
+            <value>true</value>
+        </property> -->
+    </bean>
+
+    <!-- Resolver util used by researchStaffReslver and investigatorResolver
+    <property name="exceptionHelper" ref="exceptionHelper"/>
+    	 <property name="c3prErrorMessages">
+			<ref bean="c3prErrorMessages"/>
+		</property>
+		-->
+    <bean id="personOrganizationResolverUtils" class="edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils" autowire="byName">
+    </bean>
+    <bean id="protocolAbstractionResolverUtils" class="edu.duke.cabig.c3pr.utils.ProtocolAbstractionResolverUtils" autowire="byName">
+    </bean>
+    <bean id="remoteHealthcareSiteResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver" autowire="byName">
+    </bean>
+    <bean id="remoteResearchStaffResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteResearchStaffResolver" autowire="byName">
+    </bean>
+    <bean id="remoteInvestigatorResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteInvestigatorResolver" autowire="byName">
+    </bean>
+    <bean id="remoteStudyResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteStudyResolver" autowire="byName">
+    </bean>
+
+    <bean id="remoteSession" class="com.semanticbits.coppa.infrastructure.RemoteSession" init-method="init">
+        <property name="enableCaching" value="true"/>
+        <property name="enabled" value="${coppaEnable}"/>
+
+        <property name="remoteEntities">
+            <list>
+                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteStudy</value>
+            </list>
+        </property>
+        <property name="remoteResolvers">
+            <list>
+                <ref local="remoteHealthcareSiteResolver"/>
+                <ref local="remoteResearchStaffResolver"/>
+                <ref local="remoteInvestigatorResolver"/>
+                <ref local="remoteStudyResolver"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="dataAuditRepository" class="gov.nih.nci.cabig.ctms.audit.dao.DataAuditRepository">
+        <property name="sessionFactory">
+            <ref local="auditSessionFactory"/>
+        </property>
+    </bean>
+
+    <bean name="auditHistoryRepository" class="edu.duke.cabig.c3pr.domain.repository.AuditHistoryRepository">
+        <property name="sessionFactory">
+            <ref local="auditSessionFactory"/>
+        </property>
+    </bean>
+
+
+    <!-- auditing beans definition end here -->
+
+    <bean id="gridIdentifierInterceptor" class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
+          autowire="byName"/>
+
+    <bean id="remoteEntityInterceptor" class="com.semanticbits.coppa.infrastructure.hibernate.RemoteEntityInterceptor" lazy-init="true">
+    	<property name="remoteSession" ref="remoteSession"/>
+    </bean>
+
+    <bean id="hibernateTemplate"
+          class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="checkWriteOperations" value="true"/>
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+    <bean id="daoTemplate" abstract="true"  class="edu.duke.cabig.c3pr.dao.C3PRBaseDao">
+        <property name="hibernateTemplate">
+            <ref bean="hibernateTemplate"/>
+        </property>
+        <property name="maxSearchResultsForAutocompleter" value="${maxSearchResultsForAutocompleter}"></property>
+    </bean>
+
+	<bean id="configurationDaoTemplate" abstract="true" >
+        <property name="hibernateTemplate">
+            <ref bean="hibernateTemplate"/>
+        </property>
+    </bean>
+    <bean id="openSessionInViewInterceptor"
+          class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor"
+          autowire="byName">
+        <property name="singleSession" value="true"/>
+        <property name="flushModeName" value="FLUSH_COMMIT"/>
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>
+
+    <bean id="gridIdentifierCreator" class="edu.duke.cabig.c3pr.utils.LocalGridIdentifierCreator"/>
+
+    <!--validators for domain objects   -->
+    <bean id="studyValidator" class="edu.duke.cabig.c3pr.domain.validator.StudyValidator" autowire="byName"/>
+    <bean id="studySiteValidator" class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator" autowire="byName"/>
+    <bean id="epochValidator" class="edu.duke.cabig.c3pr.domain.validator.EpochValidator" autowire="byName"/>
+    <bean id="armValidator" class="edu.duke.cabig.c3pr.domain.validator.ArmValidator"/>
+    <bean id="identifierValidator" class="edu.duke.cabig.c3pr.domain.validator.IdentifierValidator" autowire="byName"/>
+    <bean id="participantValidator" class="edu.duke.cabig.c3pr.domain.validator.ParticipantValidator"
+          autowire="byName"/>
+
+    <!--Apply transactions based on annotation-->
+    <tx:annotation-driven proxy-target-class="true"/>
+
+    <!-- Daos -->
+    <bean id="passwordPolicyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.passwordpolicy.PasswordPolicyDao" autowire="byName">
+    </bean>
+    <bean id="userDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.UserDao"/>
+    <bean id="companionStudyAssociationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.CompanionStudyAssociationDao"/>
+    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byName">
+    </bean>
+    <bean id="studySubjectDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectDao" autowire="byName"/>
+    <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byName"/>
+    <bean id="epochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EpochDao" autowire="byName"/>
+    <bean id="scheduledEpochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ScheduledEpochDao"
+          autowire="byName"/>
+    <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byName"/>
+    <bean id="endpointDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EndpointDao" autowire="byName"/>
+    <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byName"/>
+    <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byName">
+          	<property name="csmApplicationContextName" ref="csmApplicationContextName"/>
+        	<property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        	<property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
+        	<property name="siteProtectionGroupId">
+	            <!--id for site protection group-->
+	            <value>6</value>
+        	</property>
+        	<property name="siteAccessRoleId">
+            	<value>19</value>
+        	</property>
+    </bean>
+    <bean id="healthcareSiteInvestigatorDao" parent="daoTemplate"
+          class="edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao" autowire="byName"/>
+    <bean id="studyPersonnelDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyPersonnelDao"
+          autowire="byName"/>
+    <bean id="researchStaffDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffDao" autowire="byName" >
+	    <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+    </bean>
+    <bean id="investigatorGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorGroupDao" autowire="byName"/>
+    <bean id="investigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorDao" autowire="byName"/>
+    <bean id="diseaseCategoryDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseCategoryDao"
+          autowire="byName"
+            />
+    <bean id="diseaseTermDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseTermDao" autowire="byName"/>
+    <bean id="studyInvestigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyInvestigatorDao"
+          autowire="byName"
+            />
+
+    <bean id="icd9DiseaseSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao" autowire="byName"/>
+    <bean id="studyOrganizationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyOrganizationDao" autowire="byName"/>
+    <bean id="stratificationAnswerDao" parent="daoTemplate"
+          class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao" autowire="byName"/>
+    <bean id="stratumGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratumGroupDao" autowire="byName"/>
+	<bean id="plannedNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.PlannedNotificationDao" autowire="byName"/>
+	<bean id="scheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ScheduledNotificationDao" autowire="byName"/>
+	<bean id="recipientScheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao" autowire="byName"/>
+	<bean id="summary3ReportDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.Summary3ReportDao" autowire="byName"/>
+	<bean id="accrualDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.accrual.AccrualDao" autowire="byName"/>
+	<bean id="studyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyVersionDao" autowire="byName"/>
+	<bean id="studySiteStudyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao" autowire="byName"/>
+	<bean id="consentDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ConsentDao" autowire="byName"/>
+
+	<!-- Multisite Request Handlers -->
+    <!--  <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
+    	<property name="studySubjectService" ref="studySubjectService"></property>
+    	<property name="xmlUtility" ref="registrationXmlUtility"/>
+        <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
+    </bean>
+
+    <bean id="coOrdinatingCenterResponseHandler" class="edu.duke.cabig.c3pr.utils.CoOrdinatingCenterResponseHandler">
+    	<property name="studySubjectService" ref="studySubjectService">
+    	</property>
+		<property name="xmlUtility" ref="registrationXmlUtility"/>
+        <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
+    </bean>-->
+
+    <!-- Services -->
+    <bean id="workflowService" class="edu.duke.cabig.c3pr.service.impl.WorkflowServiceImpl"
+          abstract="true">
+        <property name="endpointDao" ref="endpointDao"/>
+        <property name="messageBroadcaster" ref="messageBroadcaster"/>  
+        <property name="cctsMessageWorkflowCallbackFactory" ref="cctsMessageWorkflowCallbackFactory"/>
+        <property name="configuration" ref="configuration"/>  
+        <property name="xmlTransformer" ref="xmlTransformer"/>  
+        <property name="exceptionHelper" ref="exceptionHelper"/>
+        <property name="endPointFactory" ref="endPointFactory"/>
+        <property name="c3prErrorMessages" ref="c3prErrorMessages"/>
+    </bean>
+
+    <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" parent="workflowService">
+        <property name="dao" ref="studyDao"/>
+    	<property name="cctsXmlUtility" ref="studyXmlUtility"/>
+    	<property name="cctsXSLTName" value="ccts-study-transformer.xsl"/>
+    	<!-- TODO: Added as a quick workaround for CCTS Remote Study Broadcast. -->
+    	<property name="remoteStudyXmlUtility">
+    		<!-- TODO: Added as a quick workaround for CCTS Remote Study Broadcast. -->
+		    <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+		        <constructor-arg value="c3pr-remote-study-xml-castor-mapping.xml"/>
+		    </bean>
+    	</property>
+    </bean>
+
+    <bean id="endPointFactory" class="edu.duke.cabig.c3pr.domain.factory.EndPointFactory">
+    	<!--<property name="delegatedCredentialProvider">
+    		<bean class="edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider">
+    			<property name="idpUrl"><value>${idp.url}</value></property>
+    			<property name="ifsUrl"><value>${ifs.url}</value></property>
+    		</bean>
+    	</property>-->
+    	 <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider" />
+    	 <property name="exceptionHelper" ref="exceptionHelper" />
+    	 <property name="c3prErrorMessages" ref="c3prErrorMessages" />
+    </bean>
+
+    <bean id="multisiteDelegatedCredentialProvider" class="edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider">
+		<property name="idpUrl"><value>${idp.url}</value></property>
+		<property name="ifsUrl"><value>${ifs.url}</value></property>
+	</bean>
+
+    <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
+          autowire="byName"/>
+    <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl" parent="workflowService">
+        <property name="cctsXSLTName" value="ccts-registration-transformer.xsl"/>
+        <property name="cctsXmlUtility" ref="registrationXmlUtility"/>
+        <property name="dao" ref="studySubjectDao"/>
+        <property name="hostedMode">
+	        <value type="boolean">${hostedMode}</value>
+        </property>
+    </bean>
+    <bean id="studyXMLImporterService" lazy-init="true"
+          class="edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl"
+          autowire="byName">
+          <property name="marshaller" ref="studyXmlUtility"/>
+    </bean>
+
+    <bean id="summaryReportService" lazy-init="true"
+          class="edu.duke.cabig.c3pr.service.impl.SummaryReportServiceImpl"
+          autowire="byName">
+          <property name="marshaller" ref="summaryReportXmlUtility"/>
+    </bean>
+
+    <bean id="accrualService" lazy-init="true"
+          class="edu.duke.cabig.c3pr.service.impl.AccrualServiceImpl"
+          autowire="byName">
+    </bean>
+
+    <bean id="studySubjectXMLImporterService" lazy-init="true"
+          class="edu.duke.cabig.c3pr.service.impl.StudySubjectXMLImporterServiceImpl"
+          autowire="byName">
+        <property name="marshaller" ref="registrationXmlUtility"/>
+    </bean>
+
+    <bean id="personnelService" lazy-init="true"
+          class="edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl"
+          autowire="byType">
+        <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+    </bean>
+
+    <bean id="organizationService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.OrganizationServiceImpl"
+          autowire="byType">
+        <property name="csmApplicationContextName" ref="csmApplicationContextName"/>
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="siteProtectionGroupId">
+            <!--id for site protection group-->
+            <value>6</value>
+        </property>
+        <property name="siteAccessRoleId">
+            <value>19</value>
+        </property>
+    </bean>
+
+    <bean id="passwordManagerService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordManagerServiceImpl" autowire="byName"/>
+	<bean id="passwordPolicyService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordPolicyServiceImpl" autowire="byName"/>
+
+	<bean id="scheduledNotificationService" class="edu.duke.cabig.c3pr.service.impl.ScheduledNotificationServiceImpl" autowire="byName"/>
+
+		<!-- Quartz Scheduler Service Classes-->
+	<bean id="schedulerService" class="edu.duke.cabig.c3pr.service.impl.SchedulerServiceImpl" autowire="byName">
+		<property name="scheduler">
+			<ref bean="schedulerFactory"/>
+		</property>
+	</bean>
+
+	<!-- Scheduler jobs -->
+	<bean id="scheduledNotificationJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob" autowire="byName" />
+
+
+    <!-- Repositories -->
+	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
+          autowire="byName">
+          <property name="c3PRExceptionHelper" ref="exceptionHelper"/>
+    </bean>
+
+    <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
+          autowire="byName"/>
+	<bean id="participantRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.ParticipantRepositoryImpl"
+          autowire="byName"/>
+
+	<bean id="organizationRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.OrganizationRepositoryImpl"
+          autowire="byName"/>
+
+
+	<!-- Factories -->
+	<bean id="studyFactory" lazy-init="true" class="edu.duke.cabig.c3pr.domain.factory.StudyFactory"
+          autowire="byName"/>
+
+    <bean id="summary3ReportFactory" lazy-init="true" class="edu.duke.cabig.c3pr.domain.factory.Summary3ReportFactory"
+          autowire="byName"/>
+
+
+
+
+    <bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
+          lazy-init="true" autowire="byType">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="accountCreatedTemplateMessage" ref="accountCreatedTemplateMessage"/>
+        <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="researchStaffDao" ref="researchStaffDao"/>
+    </bean>
+
+    <!-- Repositories -->
+
+	<bean id="xmlTransformer" class="edu.duke.cabig.c3pr.xml.XMLTransformer"/>
+
+    <!-- Factories -->
+    <bean id="studySubjectFactory" class="edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory" autowire="byName"/>
+
+
+    <!--Should be in appContext-security and applied thru aop-->
+     <bean id="domainObjectPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.DomainObjectPrivilegeAndObjectIdGenerator">
+        <property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
+        <property name="pathSeperator" value="."/>
+    </bean>
+
+     <bean id="sitePrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.SitePrivilegeAndObjectIdGenerator">
+    	<property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
+        <property name="pathSeperator" value="."/>
+    </bean>
+
+     <bean id="studyOrganizationPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.StudyOrganizationPrivilegeAndObjectIdGenerator">
+    	<property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
+        <property name="pathSeperator" value="."/>
+    </bean>
+
+	<bean id="studyPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.StudyPrivilegeAndObjectIdGenerator">
+    	<property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
+        <property name="pathSeperator" value="."/>
+    </bean>
+
+    <!--Utilities-->
+    <bean id="mailSender" class="edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl">
+    	<property name="configuration" ref="configuration" />
+    	<property name="host" value="${outgoingMailServer}" />
+    	<property name="port" value="${outgoingMailServerPort}" />
+    	<property name="protocol" value="${smtpProtocol}" />
+    	<property name="username" value="${outgoingMailUsername}" />
+    	<property name="password" value="${outgoingMailPassword}" />
+    	<property name="javaMailProperties">
+    	<props>
+    		<prop key="dummy">dummy</prop>
+    	</props>
+    	</property>
+    </bean>
+
+    <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"
+          autowire="byType"/>
+    <bean id="notificationEmailer" class="edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail"
+          autowire="byType"/>
+    <bean id="notificationEmailService" class="edu.duke.cabig.c3pr.utils.NotificationEmailService"
+          autowire="byType">
+          <property name="linkBack" value="${notification.link_back}" />
+    </bean>
+
+    <!-- this is a template message that we can pre-load with default state -->
+    <bean id="accountCreatedTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="${outgoingMailFromAddress}"/>
+        <property name="subject" value="Account created in c3pr"/>
+    </bean>
+
+    <bean id="studyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="c3pr-study-xml-castorMapping"/>
+    </bean>
+    
+    <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="c3pr-registration-xml-castor-mapping"/>
+    </bean>
+
+    <bean id="summaryReportXmlUtility" class="edu.duke.cabig.c3pr.xml.Summary3ReportXmlMarshaller">
+        <constructor-arg ref="summary-3-report-castor-mapping"/>
+    </bean>
+
+     <bean id="accrualReportXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="accrual-report-castor-mapping"/>
+    </bean>
+
+    <bean id="xmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
+        <constructor-arg value="c3pr-domain.xsd"/>
+    </bean>
+    <bean id="summaryReportXmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
+        <constructor-arg value="summary-report.xsd"/>
+    </bean>
+    <bean id="accrualReportXmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
+        <constructor-arg value="accrual-report.xsd"/>
+    </bean>
+    <bean id="c3prErrorMessages" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="error_messages_c3pr"/>
+        <property name="parentMessageSource" ref="multsiteErrorMessageSource"/>
+	</bean>
+	<bean id="multsiteErrorMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="error_messages_multisite"/>
+	</bean>
+
+	<bean id="exceptionHelper" class="edu.duke.cabig.c3pr.exception.C3PRExceptionHelper">
+		<property name="errorMessages">
+			<ref bean="c3prErrorMessages"/>
+		</property>
+	</bean>
+
+	<bean id="identifierGenerator" class="edu.duke.cabig.c3pr.utils.IdentifierGenerator" autowire="byName"/>
+
+</beans>

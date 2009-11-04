@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	<bean
+		class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+
+	<bean id="bookRandomizationAjaxFacade" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.ajax.BookRandomizationAjaxFacade" />
+	<bean id="studyAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.StudyAjaxFacade" />
+	<bean id="participantAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.ParticipantAjaxFacade" />
+	<bean id="investigatorAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.InvestigatorAjaxFacade" />
+	<bean id="researchStaffAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.ResearchStaffAjaxFacade" />
+	<bean id="organizationAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.OrganizationAjaxFacade" />
+	<bean id="searchOrganizationAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.SearchOrganizationAjaxFacade" />
+	<bean id="searchParticipantAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.SearchParticipantAjaxFacade" />
+	<bean id="searchInvestigatorAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.SearchInvestigatorAjaxFacade" />
+	<bean id="searchResearchStaffAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.SearchResearchStaffAjaxFacade" />
+	<bean id="registrationAjaxFacade" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.ajax.RegistrationAjaxFacade" />
+	<bean id="anatomicDiseaseSiteFacade" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.ajax.ICD9DiseaseSiteFacade" />
+	<bean id="createReportFacade" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.ajax.CreateReportFacade" />
+	<bean id="reportCommand" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.report.ReportCommand" />
+		
+	<bean id="createStudyReportFacade" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.ajax.CreateStudyReportFacade" />
+	<bean id="studyReportCommand" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.report.StudyReportCommand" />
+		
+    <bean id="studyXMLFileAjaxFacade" autowire="byType"
+            class="edu.duke.cabig.c3pr.web.ajax.StudyXMLFileImportAjaxFacade" />
+    <bean id="studySubjectXMLFileAjaxFacade" autowire="byType"
+            class="edu.duke.cabig.c3pr.web.ajax.StudySubjectXMLFileImportAjaxFacade" />
+    <bean id="userAjaxFacade" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.ajax.UserAjaxFacade" />
+
+</beans>

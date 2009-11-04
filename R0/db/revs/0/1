@@ -1,0 +1,58 @@
+DELTA
+SVNENDREP
+DELTA
+SVNENDREP
+DELTA
+SVNENDREP
+id: 3-1.0.r1/51
+type: file
+count: 0
+text: 1 0 4 0 d41d8cd98f00b204e9800998ecf8427e da39a3ee5e6b4b0d3255bfef95601890afd80709 0-0/_4
+cpath: /File_03.java.txt
+copyroot: 0 /
+
+id: 0-1.0.r1/222
+type: file
+count: 0
+text: 1 17 4 0 d41d8cd98f00b204e9800998ecf8427e da39a3ee5e6b4b0d3255bfef95601890afd80709 0-0/_5
+cpath: /File_01.java.txt
+copyroot: 0 /
+
+id: 2-1.0.r1/395
+type: file
+count: 0
+text: 1 34 4 0 d41d8cd98f00b204e9800998ecf8427e da39a3ee5e6b4b0d3255bfef95601890afd80709 0-0/_6
+cpath: /File_02.java.txt
+copyroot: 0 /
+
+PLAIN
+K 16
+File_01.java.txt
+V 17
+file 0-1.0.r1/222
+K 16
+File_02.java.txt
+V 17
+file 2-1.0.r1/395
+K 16
+File_03.java.txt
+V 16
+file 3-1.0.r1/51
+END
+ENDREP
+id: 0.0.r1/719
+type: dir
+pred: 0.0.r0/17
+count: 1
+text: 1 568 138 138 5d674f01c37d7ca71735defba2b335f6
+cpath: /
+copyroot: 0 /
+
+_0.0.t0-0 add-file true false /File_01.java.txt
+
+_2.0.t0-0 add-file true false /File_02.java.txt
+
+_3.0.t0-0 add-file true false /File_03.java.txt
+
+
+719 846

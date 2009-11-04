@@ -1,0 +1,18 @@
+<project name="c3pr-rules" default="compile">
+	<property name="parent.dir" value="${basedir}/.." />
+	<property name="antfiles.dir" location="${parent.dir}/../antfiles"/>
+	<property file="${antfiles.dir}/build.properties" />
+	<property file="${antfiles.dir}/c3pr-ivy.properties" />
+	<import file="${antfiles.dir}/common.xml"/>
+	
+	<target name="compile-jaxb"  description="--> compile the project">
+    	<echo message="Executing in ${ant.project.name}" />
+    	<copy-resources src="${generated.src.dir}" dest="${classes.dir}" filter="true"/>
+        <javac srcdir="${generated.src.dir}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.5" target="1.5"/>
+    </target>
+	
+	<target name="module-specific-flow" depends="resolve,generate-jaxb,compile-jaxb">
+		<echo>overwriting rules module flow...</echo>
+	</target>
+	
+</project>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="RegistrationServiceImpl" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property name="parent.dir" value="${basedir}/../.." />
+	<property name="antfiles.dir" location="${parent.dir}/../antfiles"/>
+	<property file="${antfiles.dir}/build.properties" />
+	<property file="${antfiles.dir}/c3pr-ivy.properties" />
+	<import file="${antfiles.dir}/common.xml"/>
+
+	<property name="globus.webapp" value="wsrf" />
+	<property name="tomcat.dir" value="${catalina.home}" />
+	<property name="webapp.deploy.dir" value="${tomcat.dir}/webapps/${globus.webapp}" />
+	<property name="webapp.deploy.lib.dir" value="${webapp.deploy.dir}/WEB-INF/lib" />
+	
+	<target name="module-specific-flow" description="Copy resources into classpath">
+
+        <!--copy the castor mapping file-->
+        <copy todir="${classes.dir}" filtering="true" overwrite="true">
+            <fileset dir="${main.src.resources}">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+        <!-- copy log4j -->
+        <pathconvert targetos="unix" property="catalina.home.unix">
+            <path location="${catalina.home}"/>
+        </pathconvert>
+		<copy file="${antfiles.dir}/c3pr-log4j.properties"
+              tofile="${webapp.deploy.dir}/WEB-INF/log4j.properties"
+              overwrite="true"
+              filtering="true">
+            <filterset>
+                <filter token="catalina.home" value="${catalina.home.unix}"/>
+                <filter token="log4j.filename" value="${log4j.filename}"/>
+            </filterset>
+        </copy>
+    </target>
+	
+	<target name="deployRegistrationServiceImpl" depends="publish-local">
+		<delete>
+			<fileset dir="${webapp.deploy.lib.dir}">
+		        <include name="c3pr-*.jar"/>
+				<include name="RegistrationServiceImpl*.jar"/>
+		    </fileset>
+		</delete>
+		<copy todir="${webapp.deploy.lib.dir}" preservelastmodified="true">
+			<fileset dir="${dist.dir}">
+		        <include name="**/*.jar"/>
+		        <exclude name="*-tests*.jar"/>
+		    </fileset>
+		</copy>
+		<copy todir="${webapp.deploy.lib.dir}" preservelastmodified="true" overwrite="false">
+			<fileset dir="${lib.dir}">
+		        <include name="**/*.jar"/>
+		        <exclude name="*addressing*" />
+        		<exclude name="axis*" />
+        		<exclude name="bootstrap*" />
+        		<exclude name="cagrid-metadata-security*" />
+        		<exclude name="cog*" />
+        		<exclude name="cagrid-Service*" />
+        		<exclude name="commonj*" />
+        		<exclude name="commons-beanutils*" />
+        		<exclude name="commons-cli*" />
+        		<exclude name="commons-collection*" />
+        		<exclude name="commons-digester*" />
+        		<exclude name="commons-discovery*" />
+        		<exclude name="concurrent*" />
+        		<exclude name="jaxrpc*" />
+        		<exclude name="saaj*" />
+        		<exclude name="wsdl*" />
+        		<exclude name="xercesImpl*" />
+        		<exclude name="xalan*" />
+				<exclude name="RegistrationService-*" />
+				<exclude name="StudyService-*" />
+		    </fileset>
+		</copy>
+
+	</target>
+	
+</project>

@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<project name="static-analysis-reports" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<import file="${basedir}/common.xml"/>
+<property name="projects.dir" value="${basedir}/../projects" />
+	
+<!-- delete later -->	
+<!-- ==================================================
+		target : download-ant-contrib 
+		It does not download if ant.contrib.available is set to true
+	====================================================== -->
+	<target name="download-ant-contrib" depends="resolve" >
+		<echo message="Downloading ant-contrib....." />
+		<ivy:resolve inline="true" organisation="ant-contrib" module="ant-contrib" revision="1.0b2" />
+		<get src="${ant-contrib.jar.location}" dest="${lib.dir}/ant-contrib-1.0b2.jar" verbose="true" usetimestamp="true"/>
+	</target>
+	
+	
+<!-- ==================================================================
+=================== CHECKSTYLE  REPORTS ===============================
+======================================================================= -->
+<!-- List of modules that need checkstyle reporting done -->
+	<property name="checkstyle-reportable.projects.list" value="core,web" />
+	
+<!-- =============================================================== -->
+<!-- generates checkstyle report for each project present in  checkstyle-reportable.projects.list -->
+<!-- =============================================================== -->
+    <target name="reports-checkstyle" depends="resolve, download-ant-contrib" description="Check the style of all the projects.">
+    	<ivy:resolve inline="true" organisation="checkstyle" module="checkstyle" revision="4.4" />
+    	<ivy:cachepath organisation="checkstyle" module="checkstyle" revision="4.4" inline="true" pathid="checkstyle.classpath"/>
+        <taskdef resource="checkstyletask.properties"  classpathref="checkstyle.classpath" />
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+            </classpath>
+        </taskdef>
+        <for list="${checkstyle-reportable.projects.list}" parallel="false" param="project.name" trim="true">
+            <sequential>
+                <echo message="Reporting checkstyle for project @{project.name}" />
+            	
+            	<delete includeemptydirs="true" dir="${projects.dir}/@{project.name}/build/checkstyle-report" />
+				<mkdir dir="${projects.dir}/@{project.name}/build/checkstyle-report" />
+            					
+    			<checkstyle config="${antfiles.dir}/c3pr_checkstyle.xml" failOnViolation="false">
+    	            <fileset dir="${projects.dir}/@{project.name}" includes="**/*.java"/>
+    	            <formatter type="plain" toFile="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.txt"/>
+    	            <formatter type="xml" toFile="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.xml"/>
+    	        </checkstyle>
+    			<xslt in="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.xml" 
+    		      out="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.html" style="${antfiles.dir}/checkstyle.xsl">
+    	            <param name="project" expression="@{project.name}"/>
+    	        </xslt>
+    			
+    			<echo>================================================================</echo>
+    	    	<echo>CheckStyle Report available at </echo>
+    	    	<echo>${projects.dir}/@{project.name}/build/checkstyle-report</echo>
+    	    	<echo>================================================================</echo>
+            </sequential>
+        </for>		
+    </target>
+	
+<!-- ==================================================================
+=================== PMD RULES REPORTS==================================
+======================================================================= -->
+<!-- List of modules that need PMD reporting done  -->
+	<property name="pmd-reportable.projects.list" value="core,web" />
+	
+<!-- =============================================================== -->
+<!-- generates PMD report for each project present in  pmd-reportable.projects.list -->
+<!-- =============================================================== -->
+    <target name="reports-pmd" depends="resolve, download-ant-contrib" description="Validate all modules againest PMD Rulesets">
+    	<ivy:resolve inline="true" organisation="pmd" module="pmd" revision="4.2.5" />
+    	<ivy:cachepath organisation="pmd" module="pmd" revision="4.2.5" inline="true" pathid="pmd.classpath"/>
+    	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath"/>
+    	<taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+            </classpath>
+        </taskdef>
+        <for list="${pmd-reportable.projects.list}" parallel="false" param="project.name" trim="true">
+            <sequential>
+                <echo message="Reporting pmd analysis for project @{project.name}" />
+            	
+            	<delete includeemptydirs="true" dir="${projects.dir}/@{project.name}/build/pmd-report" />
+				<mkdir dir="${projects.dir}/@{project.name}/build/pmd-report" />
+            	<pmd shortFilenames="false" rulesetfiles="basic">
+				    <ruleset>basic</ruleset>
+            		<formatter type="xml" toFile="${projects.dir}/@{project.name}/build/pmd-report/@{project.name}.xml"/>
+			  		<formatter type="html" toFile="${projects.dir}/@{project.name}/build/pmd-report/@{project.name}.html"/>
+            		<fileset dir="${projects.dir}/@{project.name}" includes="**/*.java"/>
+		 		</pmd>
+    				
+    			<echo>================================================================</echo>
+    	    	<echo>PMD analysis Report available at </echo>
+    	    	<echo>${projects.dir}/@{project.name}/build/pmd-report</echo>
+    	    	<echo>================================================================</echo>	
+            </sequential>
+        </for>		
+    </target>
+
+<!-- ==================================================================
+=================== SIMIAN  REPORTS ===============================
+======================================================================= -->
+<!-- List of modules that need simian reporting done -->
+	<property name="simian-reportable.projects.list" value="core,web" />
+	
+<!-- =============================================================== -->
+<!-- generates simian report for each project present in  simian-reportable.projects.list -->
+<!-- =============================================================== -->
+    <target name="reports-simian" depends="resolve, download-ant-contrib" description="Check for code duplicacy of all the projects.">
+    	<ivy:resolve inline="true" organisation="redhill" module="simian" revision="2.2.4" />
+    	<ivy:cachepath organisation="redhill" module="simian" revision="2.2.4" inline="true" pathid="simian.classpath"/>
+    	<taskdef resource="simiantask.properties" classpathref="simian.classpath"/>
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+            </classpath>
+        </taskdef>
+        <for list="${simian-reportable.projects.list}" parallel="false" param="project.name" trim="true">
+            <sequential>
+                <echo message="Reporting simian results for project @{project.name}" />
+            	
+            	<delete includeemptydirs="true" dir="${projects.dir}/@{project.name}/build/simian-report" />
+				<mkdir dir="${projects.dir}/@{project.name}/build/simian-report" />
+            					
+                <simian failOnDuplication="false" language="java">
+                	<fileset dir="${projects.dir}/@{project.name}/src" includes="**/*.java"/>
+                	<formatter type="xml" toFile="${projects.dir}/@{project.name}/build/simian-report/@{project.name}.xml"/>
+                	<formatter type="plain" toFile="${projects.dir}/@{project.name}/build/simian-report/@{project.name}.xml"/>
+                </simian>
+            	<echo>================================================================</echo>
+    	    	<echo>Simian Report available at </echo>
+    	    	<echo>${projects.dir}/@{project.name}/build/simian-report</echo>
+    	    	<echo>================================================================</echo>
+            </sequential>
+        </for>		
+    </target>
+    	
+    	
+<!-- ==================================================================
+=================== COBERTURA  REPORTS ===============================
+======================================================================= -->   	
+
+    	
+    	
+    	
+
+	<target name="static-analysis" description="Check the style of all the projects.">
+		<antcall target="reports-checkstyle"> </antcall>
+		<antcall target="reports-pmd"> </antcall>
+		<antcall target="reports-simian"> </antcall>
+	</target>
+</project>

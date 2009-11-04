@@ -1,0 +1,17 @@
+<aspectj>
+    <aspects>
+        <aspect name="edu.duke.cabig.c3pr.aspects.ajc.BroadcasterLayerAspect"/> 
+        <aspect name="edu.duke.cabig.c3pr.aspects.ajc.DaoLayerAspect"/> 
+        <aspect name="edu.duke.cabig.c3pr.aspects.ajc.InfrastructureLayerAspect"/> 
+        <exclude within="org.springframework..*"/>         
+    </aspects>
+    
+    <weaver options="-Xreweavable">
+       <include within="edu.duke.cabig.c3pr..*"/>
+
+       <!-- Do not weave types within the "ajc" pakage -->
+       <exclude within="edu.duke.cabig.c3pr.aspects..*"/>
+
+     </weaver>
+    
+</aspectj>

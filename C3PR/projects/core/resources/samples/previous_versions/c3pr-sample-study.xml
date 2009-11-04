@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<studies xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+	<study gridId="44a8720e-d514-4e92-a233-99bf93e8bd54" version="3">
+		<blindedIndicator>false</blindedIndicator>
+		<multiInstitutionIndicator>false</multiInstitutionIndicator>
+		<randomizedIndicator>false</randomizedIndicator>
+		<stratificationIndicator>true</stratificationIndicator>
+		<standaloneIndicator>true</standaloneIndicator>
+		<shortTitleText>Test import study disease</shortTitleText>
+		<longTitleText>test import study disease with disease term
+		</longTitleText>
+		<descriptionText />
+		<precisText />
+		<phaseCode>Phase I Trial</phaseCode>
+		<consentVersion>1</consentVersion>
+		<dataEntryStatus>COMPLETE</dataEntryStatus>
+		<coordinatingCenterStudyStatus>PENDING</coordinatingCenterStudyStatus>
+		<type>Diagnostic</type>
+		<targetAccrualNumber>23</targetAccrualNumber>
+		<organizationAssignedIdentifier>
+			<type>Coordinating Center Identifier</type>
+			<value>1321abc_3</value>
+			<primaryIndicator>true</primaryIndicator>
+			<healthcareSite>
+				<name>Duke University Medical Center (NC010)</name>
+				<address>
+					<city>Durham</city>
+					<stateCode>NC</stateCode>
+					<countryCode>USA</countryCode>
+				</address>
+				<nciInstituteCode>NC010</nciInstituteCode>
+			</healthcareSite>
+		</organizationAssignedIdentifier>
+		<epoch gridId="d220337a-4ecf-4e36-8bd6-b02ddcb7d092">
+			<name>epoch 2</name>
+			<descriptionText>descriptino</descriptionText>
+			<accrualCeiling>1</accrualCeiling>
+			<accrualIndicator>false</accrualIndicator>
+			<stratificationIndicator>true</stratificationIndicator>
+			<randomizedIndicator>false</randomizedIndicator>
+			<reservationIndicator>false</reservationIndicator>
+			<treatmentIndicator>false</treatmentIndicator>
+			<enrollmentIndicator>true</enrollmentIndicator>
+			<arm gridId="789d3da3-88fc-4780-aee8-d74c7b48314a">
+				<name>Arm A</name>
+				<descriptionText>description of Arm A</descriptionText>
+				<targetAccrualNumber>111</targetAccrualNumber>
+			</arm>
+			<arm gridId="44b6c91c4fc0-48e2-beab-ce4fea6be8aa">
+				<name>Arm B</name>
+				<descriptionText>desc of Arm B</descriptionText>
+				<targetAccrualNumber>122</targetAccrualNumber>
+			</arm>
+			<stratificationCriteria>
+				<questionText>strat question 1</questionText>
+				<permissibleAnswer>
+					<permissibleAnswer>ans 1</permissibleAnswer>
+				</permissibleAnswer>
+				<permissibleAnswer>
+					<permissibleAnswer>ans 2</permissibleAnswer>
+				</permissibleAnswer>
+			</stratificationCriteria>
+			<stratificationCriteria>
+				<questionText>strat question 2</questionText>
+				<permissibleAnswer>
+					<permissibleAnswer>answer 1</permissibleAnswer>
+				</permissibleAnswer>
+				<permissibleAnswer>
+					<permissibleAnswer>answer 2</permissibleAnswer>
+				</permissibleAnswer>
+				<permissibleAnswer>
+					<permissibleAnswer>answer 3</permissibleAnswer>
+				</permissibleAnswer>
+			</stratificationCriteria>
+		</epoch>
+		<studyCoordinatingCenter gridId="3a1200cd-3e3a-44e5-a661-52352920cbf9">
+			<healthcareSite>
+				<name>Duke University Medical Center (NC010)</name>
+				<address>
+					<city>Durham</city>
+					<stateCode>NC</stateCode>
+					<countryCode>USA</countryCode>
+				</address>
+				<nciInstituteCode>NC010</nciInstituteCode>
+			</healthcareSite>
+			<studyInvestigator>
+				<roleCode>Principal Investigator</roleCode>
+				<statusCode>Open</statusCode>
+				<healthcareSiteInvestigator>
+					<investigator>
+						<nciIdentifier>NCI-123232</nciIdentifier>
+						<fullName>brad Jim</fullName>
+					</investigator>
+				</healthcareSiteInvestigator>
+			</studyInvestigator>
+		</studyCoordinatingCenter>
+		<studySite gridId="7fe875bf-2f09-4cb0-a093-eac4d3aab8d8">
+			<healthcareSite>
+				<name>Duke Hematology/Oncology at Raleigh Community Hospital
+				</name>
+				<address>
+					<city>Raleigh</city>
+					<stateCode>NC</stateCode>
+					<countryCode>USA</countryCode>
+				</address>
+				<nciInstituteCode>NC138</nciInstituteCode>
+			</healthcareSite>
+			<irbApprovalDate>2008-09-24</irbApprovalDate>
+			<roleCode>Affiliate Site arbitrary</roleCode>
+			<startDate>2008-09-24</startDate>
+			<siteStudyStatus>PENDING</siteStudyStatus>
+		</studySite>
+		<studyDisease gridId="7fe875bf-2f09-4cb0-a093-eac4d3aab8dx">
+			<leadDisease>true</leadDisease>
+			<diseaseTerm>
+				<ctepTerm>Soft tissue neoplasm, NOS</ctepTerm>
+			</diseaseTerm>
+		</studyDisease>
+	</study>
+</studies>

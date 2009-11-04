@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+
+<project name="Installation Build"  basedir=".">
+
+    <!-- this is required to pick up the properties generated during the install pages -->
+    <property file="${basedir}/ant.install.properties"/>
+    <property name="installer.properties" value="installer.properties"/>
+
+    <property name="c3prv2.install.artifact" value="c3prv2-installpack.zip"/>
+	<property name="ivy2.install.artifact" value="ivy2.zip"/>
+    <property name="ext.dir" value="${basedir}/ext"/>
+
+    <!--properties from the GUI installer-->
+    <property name="base.codebase.dir" value="${basedir}/codebase"/>
+    <property name="install.codebase.dir" value="${install.dir}/codebase"/>
+
+    <!--c3pr src folders-->
+    <property name="c3pr.core.dir" value="${base.codebase.dir}/projects/core"/>
+
+    <target name="prepare">
+        <unzip src="${antinstaller.jar}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="${installer.properties}"/>
+            </patternset>
+        </unzip>
+
+        <!--source the properties-->
+        <property file="${basedir}/${installer.properties}"/>
+
+        <unzip src="${antinstaller.jar}" dest="${basedir}"
+               overwrite="true">
+        </unzip>
+
+        <!--delete previous install-->
+        <delete dir="${base.codebase.dir}" failonerror="false"/>
+
+        <unzip src="${basedir}/${c3prv2.install.artifact}"
+               dest="${base.codebase.dir}"
+               overwrite="true"/>
+    	
+    	<property file="${base.codebase.dir}/c3pr-ivy.properties" />
+
+        <!--override build.properties with installers-->
+        <copy file="${basedir}/ant.install.properties"
+              tofile="${base.codebase.dir}/build.properties"
+                />
+
+    </target>
+
+    <target name="installNewTomcat">
+        <unzip src="${antinstaller.jar}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="${tomcat.artifact}"/>
+            </patternset>
+        </unzip>
+
+        <unzip src="${basedir}/${tomcat.artifact}"
+               dest="${tomcat.home}"
+               overwrite="true"/>
+
+        <echo message="Modifying tomcat conf"/>
+
+        <!--Works for all OS-->
+        <pathconvert targetos="unix" property="tomcat.conf.dir">
+            <path location="${tomcat.home}/conf"/>
+        </pathconvert>
+
+        <!--todo refactor into core build.xml-->
+        <copy file="${tomcat.conf.dir}/catalina.properties.template"
+              tofile="${tomcat.conf.dir}/catalina.properties"
+              overwrite="true"
+              filtering="true"
+              verbose="true">
+
+            <filterset>
+                <filter token="csm.config" value="gov.nih.nci.security.configFile=${tomcat.conf.dir}/cabig/ApplicationSecurityConfig.xml"/>
+                <filter token="jaas.config" value="java.security.auth.login.config=${tomcat.conf.dir}/cabig/csm_jaas.config"/>
+            </filterset>
+        </copy>
+
+        <chmod dir="${tomcat.home}/bin" includes="**/*.sh" perm="ugo+x"/>
+
+    </target>
+
+    <target name="deploy-webapp">
+
+        <!--copy c3pr.war to $CATALINA_HOME/webapps-->
+        <copy file="${base.codebase.dir}/${war.filename}"
+              todir="${tomcat.home}/webapps" overwrite="true"/>
+        
+        <!--copy c3pr.properties to $CATALINA_HOME/conf-->
+        <copy file="${basedir}/ant.install.properties"
+              tofile="${tomcat.home}/conf/c3pr/c3pr.properties"
+                />
+    </target>
+
+    <!--will only be run if deploy-webapp has been run-->
+    <target name="tomcat.security">
+    	<echo>Configuring CSM and UPT for the Tomcat instance in ${catalina.home}</echo>
+        <property name="tomcat.security.dir" value="${tomcat.home}/conf/cabig"/>
+
+        <!-- default UPT dialect to same as SC's, if not already set -->
+        <property name="datasource.dialect.upt" value="${datasource.dialect}"/>
+        <mkdir dir="${tomcat.security.dir}"/>
+        <copy todir="${tomcat.security.dir}" overwrite="true">
+            <filterset>
+                <filter token="tomcat.security.dir" value="${tomcat.security.dir}"/>
+                <filter token="datasource.username" value="${datasource.username}"/>
+                <filter token="datasource.password" value="${datasource.password}"/>
+                <filter token="datasource.url" value='${datasource.url}'/>
+                <filter token="datasource.driver" value="${datasource.driver}"/>
+                <filter token="datasource.dialect.upt" value="${datasource.dialect}"/>
+                <filter token="csm.context.name" value="${csm.context.name}"/>
+            </filterset>
+            <fileset dir="${base.codebase.dir}">
+                <include name="csm_jaas.config"/>
+            </fileset>
+        </copy>
+
+        <echo taskname="todo">
+            ===== MANUAL STEPS =====
+            ========================
+            The automatic portion of the security setup is complete. If you have not
+            done so already, please perform the following manual actions.
+
+            * In ${catalina.home}/conf/catalina.properties, add two lines:
+            java.security.auth.login.config=${tomcat.security.dir}/csm_jaas.config
+            ========= END ==========
+            ===== MANUAL STEPS =====
+        </echo>
+    </target>
+    
+    <!--will only be run if SQL Server Database-->
+    <target name="migrate">
+        <ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="migrate">
+            <property name="env.CATALINA_HOME" value="${tomcat.home}"/>
+        </ant>
+    </target>
+
+
+    <target name="build-grid">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="build-grid">
+            <property name="basedir" value="${base.codebase.dir}"/>
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
+        </ant>
+    </target>
+
+    <target name="deployGlobus">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="deployGlobus">
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
+        </ant>
+    </target>
+
+    <target name="deploy-grid-C3PRStudyConsumer" depends="build-grid,deployGlobus">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="deploy-grid-C3PRStudyConsumer">
+            <property name="basedir" value="${base.codebase.dir}"/>
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
+        </ant>
+    </target>
+
+    <target name="deploy-grid-RegistrationConsumer" depends="build-grid,deployGlobus">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="deploy-grid-RegistrationConsumer">
+            <property name="basedir" value="${base.codebase.dir}"/>
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
+        </ant>
+    </target>
+
+
+    <target name="deploy-codebase">
+        <echo message="Installing source code"/>
+
+        <copy todir="${install.codebase.dir}">
+            <fileset dir="${base.codebase.dir}"/>
+        </copy>
+    </target>
+
+    <target name="dummyTarget">
+        <!--does nothing-->
+    </target>
+
+    <target name="installExistingTomcat">
+        <!--does nothing-->
+    </target>
+
+    <target name="cleanUp" unless="deploy.codebase">
+        <!--<delete dir="${basedir}"/>-->
+    </target>
+
+</project>

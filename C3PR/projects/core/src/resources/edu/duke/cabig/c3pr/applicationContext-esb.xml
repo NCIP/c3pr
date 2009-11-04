@@ -1,0 +1,98 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+    ">
+
+
+    <util:map id="messageTypesMapping"
+              map-class="java.util.LinkedHashMap">
+        <entry key="registration" value="REGISTER_SUBJECT"/>
+        <entry key="study" value="STUDY_CREATION"/>
+        <entry key="Person" value="PERSON"/>
+        <entry key="Organization" value="ORGANIZATION"/>
+        <entry key="ClinicalResearchStaff" value="CLINICAL_RESEARCH_STAFF"/>
+        <entry key="ClinicalResearchStaffCorrelation" value="CLINICAL_RESEARCH_STAFF_CORRELATION"/>
+		<entry key="HealthCareProvider" value="HEALTH_CARE_PROVIDER"/>                
+        <entry key="HealthCareProviderCorrelation" value="HEALTH_CARE_PROVIDER_CORRELATION"/> 
+        <entry key="HealthCareFacility" value="HEALTH_CARE_FACILITY"/>   
+    </util:map>
+
+
+	<bean id="delegatedCredentialProvider"
+          class="edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider"/>
+             
+    <bean id="testDelegatedCredentialProvider"
+          class="edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider"/>    
+
+    <bean id="c3dPatientPositionResponseHandler"
+          class="edu.duke.cabig.c3pr.utils.C3DPatientPositionResponseHandler"
+          autowire="byType">
+        <property name="marshaller" ref="registrationXmlUtility" />
+    </bean>
+    
+    <util:set id="caXchangeMessageResponseHandlerSet"
+              set-class="edu.duke.cabig.c3pr.esb.CaXchangeMessageResponseHandlerSet">
+        <ref local="c3dPatientPositionResponseHandler"/>
+    </util:set>
+
+    <!--default implementation will just track status and
+		set it appropriately for the domain object sent as ccts message-->
+    <bean id="cctsMessageWorkflowCallbackFactory"
+          class="edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory">
+        <!--  <property name="dao" ref="studySubjectDao"/> -->
+    </bean>
+    
+    <bean id="messageBroadcaster"
+          class="edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl" lazy-init="true">
+        <property name="caXchangeURL" value="${esbUrl}"/>
+        <property name="messageTypesMapping" ref="messageTypesMapping"/>
+        <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider"/>
+    	<property name="timeout" value="${esb.timeout}"/>
+    </bean>
+    
+    
+     <bean id="coppaMessageBroadcaster"
+          class="edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl" lazy-init="true">
+        <property name="caXchangeURL" value="${esbUrl}"/>
+        <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider"/>
+    </bean>
+    
+    <!-- Possible combinations of action
+    THROW_RemoteException
+	THROW_MalformedURIException
+	SHOULD_Timeout
+	SUCCESS   -   responseTime
+	FAILURE   -   responseTime   -   responseErrorApplications 
+     -->
+    <!--  <bean id="messageBroadcaster"
+          class="edu.duke.cabig.c3pr.esb.impl.MockCaXchangeMessageBroadcaster" lazy-init="true">
+    	<property name="timeout" value="${esb.timeout}"/>
+    	<property name="action" value="SUCCESS"/>
+    	<property name="responseTime" value="30"/>
+    	<property name="responseErrorApplications">
+    		<list>
+    			<value>CAXCHANGE</value>
+    			<value>CAAERS</value>
+    			<value>CTODS</value>
+    			<value>C3D</value>
+    			<value>PSC</value>
+    		</list>
+    	</property>
+    	<property name="messageResponseHandlers" ref="mockCaXchangeMessageResponseHandlerSet"/>
+    </bean>
+	
+	<bean id="mockC3dPatientPositionResponseHandler"
+          class="edu.duke.cabig.c3pr.utils.MockC3DPatientPositionResponseHandler"
+          autowire="byType">
+    	<property name="shouldProcess" value="true"/>
+    </bean>
+    
+    <util:set id="mockCaXchangeMessageResponseHandlerSet"
+              set-class="edu.duke.cabig.c3pr.esb.CaXchangeMessageResponseHandlerSet">
+        <ref local="mockC3dPatientPositionResponseHandler"/>
+    </util:set>-->
+</beans>

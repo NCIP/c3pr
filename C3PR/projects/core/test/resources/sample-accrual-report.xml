@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<siteAccrualReport xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+	<ctepId xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">RM-TST-ID2</ctepId>
+	<name xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">Montreal Childrens Hospital Remote 2</name>
+	<city xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></city>
+	<stateCode xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+	<postalCode xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+	<accrual value="4"
+		xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
+	<studyAccrualReport
+		xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<shortTitle>test study</shortTitle>
+	</studyAccrualReport>
+	<studyAccrualReport
+		xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<shortTitle>test study</shortTitle>
+	</studyAccrualReport>
+	<studyAccrualReport
+		xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<shortTitle>test study</shortTitle>
+	</studyAccrualReport>
+	<studyAccrualReport
+		xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<shortTitle>test study</shortTitle>
+	</studyAccrualReport>
+	<studyAccrualReport
+		xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<shortTitle>test create</shortTitle>
+		<diseaseSiteAccrualReport>
+			<name>Pharnyx</name>
+			<accrual value="0" />
+		</diseaseSiteAccrualReport>
+		<diseaseSiteAccrualReport>
+			<name>Sinuses</name>
+			<accrual value="0" />
+		</diseaseSiteAccrualReport>
+	</studyAccrualReport>
+	<studyAccrualReport
+		xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<shortTitle>test create 1</shortTitle>
+	</studyAccrualReport>
+	<studyAccrualReport
+		xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />
+		<shortTitle>book randomized study</shortTitle>
+		<diseaseSiteAccrualReport>
+			<name>Nose</name>
+			<accrual value="1" />
+		</diseaseSiteAccrualReport>
+		<diseaseSiteAccrualReport>
+			<name>Nasopharynx</name>
+			<accrual value="1" />
+		</diseaseSiteAccrualReport>
+		<diseaseSiteAccrualReport>
+			<name>Bladder</name>
+			<accrual value="1" />
+		</diseaseSiteAccrualReport>
+		<diseaseSiteAccrualReport>
+			<name>Cervix</name>
+			<accrual value="1" />
+		</diseaseSiteAccrualReport>
+	</studyAccrualReport>
+</siteAccrualReport>

@@ -1,0 +1,22 @@
+body {
+  /* Have to use _all_ relative units 
+     for the browser font setting to work on IE6. */
+  /*font-size: 80%; */
+}
+
+/* Force hasLayout */
+* html div.row, * html .autoclear { height: 1% }
+#workflow-tabs { height: 1%; }
+
+button.omnipotent-button {
+	margin:0 -25px;
+} 
+button.omnipotent-button.small {
+	margin:0;
+}
+#ajax-loading-indictor #spinning-logo {
+    margin: auto -9%;
+}
+#main {
+	padding:5px 18px 20px;
+}

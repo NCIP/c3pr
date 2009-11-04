@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+    <bean
+            class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+	        <list>
+		        <value>edu.duke.cabig.c3pr.messages</value>
+		        <value>edu.duke.cabig.c3pr.hints</value>
+		        <value>edu.duke.cabig.c3pr.help</value>
+				<value>edu.duke.cabig.c3pr.labels</value>
+	        </list>
+        </property>
+    </bean>
+    
+     <bean name="/admin/password_policy_configure" id="passwordPolicyConfigurationController" autowire="byName"
+					class="edu.duke.cabig.c3pr.web.admin.PasswordPolicyConfigurationController">
+	 </bean>
+	
+	
+	  
+    <bean id="noCacheTemplate" abstract="true">
+        <property name="cacheSeconds" value="0"/>
+    </bean>
+
+    <bean id="urlMappingName"
+          class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="sectionInterceptor"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="simpleUrlMapping"
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="sectionInterceptor"/>
+            </list>
+        </property>
+        <property name="mappings">
+            <props>
+                <prop key="/registration/searchStudy">
+                    searchStudyController
+                </prop>
+                <prop key="/study/searchStudy">
+                    searchStudyController
+                </prop>
+                <prop key="/registration/createParticipant">
+                    createParticipantController
+                </prop>
+                <prop key="/personAndOrganization/participant/createParticipant">
+                    createParticipantController
+                </prop>
+                <prop key="/registration/searchParticipant">
+                    searchParticipantController
+                </prop>
+                <prop key="/personAndOrganization/participant/searchParticipant">
+                    searchParticipantController
+                </prop>
+                <prop key="/registration/searchStudy">
+                    searchStudyController
+                </prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="0"/>
+    </bean>
+
+    <bean id="viewResolverSub"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="1"/>
+    </bean>
+    <bean id="urlResolver"
+          class="edu.duke.cabig.c3pr.utils.web.spring.BeanNameControllerUrlResolver">
+        <property name="servletName" value="pages"/>
+    </bean>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+        <!-- one of the properties available; the maximum file size in bytes
+         Currently set to 2MB-->
+        <property name="maxUploadSize" value="2097152"/>
+    </bean>
+
+    <bean name="/admin/downloadClasspathResource" id="downloadClasspathResource"
+            lazy-init="true" class="edu.duke.cabig.c3pr.web.ClasspathResourceDownloadController"
+            autowire="byName">
+    </bean>
+
+	<bean name="/admin/downloadC3PRResource" id="downloadC3PRResource"
+            lazy-init="true" class="edu.duke.cabig.c3pr.web.ResourceDownloadController"
+            autowire="byName">
+    </bean>
+    
+    <bean name="/registration/searchEpoch" id="searchEpochController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchEpochController"
+          autowire="byName">
+    </bean>
+
+    <!-- mapping for REPORT task -->
+    <bean name="/report/createReport" id="createReportController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.report.CreateReportController"
+          autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.ReportCommand"/>
+        <property name="formView" value="report/registration_search_report"/>
+        <property name="successView" value="report/registration_search_report"/>
+    </bean>
+    <bean name="/report/createStudyReport" id="createStudyReportController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.report.CreateStudyReportController"
+          autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.StudyReportCommand"/>
+        <property name="formView" value="report/study_search_report"/>
+        <property name="successView" value="report/study_search_report"/>
+    </bean>
+  <bean name="/report/summary3Report" id="summary3ReportController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.report.Summary3ReportController"
+          autowire="byName">
+  </bean>
+  <!--    <bean name="/report/pDFReader" id="pDFReaderController" autowire="byType"
+	class="edu.duke.cabig.c3pr.web.report.PDFReaderController"/>   -->
+    <!-- mapping for REPORT task -->
+
+	<!-- mapping for NOTIFICATIONS task  -->
+    <bean name="/admin/searchNotification" id="searchNotificationController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/notification_search"/>
+    </bean>
+    
+    <bean name="/registration/selectStudySiteAndEpoch" id="selectStudySiteAndEpoch"
+          class="edu.duke.cabig.c3pr.web.registration.SelectStudySiteAndEpochController" autowire="byName">
+    </bean>
+    
+    <bean name="/admin/createNotification" id="createNotificationController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateNotificationController" autowire="byName">
+        <property name="commandName" value="command"/>
+        <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Organization"/>
+        <property name="formView" value="admin/notification_details"/>
+        <property name="successView" value="admin/notification_confirmation"/>
+        <property name="sessionForm" value="true"/>
+        <property name="page">
+        	<bean class="edu.duke.cabig.c3pr.web.admin.NotificationTab" autowire="byType" />
+        </property>
+        <property name="scheduler">
+			<ref bean="schedulerFactory"/>
+		</property>
+    </bean>
+    <!-- mapping for NOTIFICATIONS task -->
+    
+    
+    <!-- mapping for create/search ORGANIZATION task -->
+    <bean name="/personAndOrganization/organization/searchOrganization" id="searchOrganizationController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/organization_search"/>
+    </bean>
+
+    <bean name="/personAndOrganization/organization/createOrganization" id="createOrganizationController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateOrganizationController"
+          autowire="byName">
+        <property name="commandName" value="command"/>
+        <property name="commandClass" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+        <property name="formView" value="admin/organization_details"/>
+        <property name="successView" value="admin/organization_confirmation"/>
+        <property name="sessionForm" value="true"/>
+    </bean>
+	
+	<bean name="/personAndOrganization/organization/editOrganization" id="editOrganizationController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateOrganizationController"
+          autowire="byName" parent="createOrganizationController">
+    </bean>
+
+    <!-- mapping for create ORGANIZATION task -->
+
+
+    <!--to autwire the tabs-->
+    <bean id="tabConfigurer" class="gov.nih.nci.cabig.ctms.web.tabs.DefaultTabConfigurer"/>
+
+    <bean name="/study/createStudy" id="createStudyController"
+          class="edu.duke.cabig.c3pr.web.study.CreateStudyController"
+          autowire="byName">
+          <property name="companionIndicator" value="false" />
+    </bean>
+    
+    <bean name="/study/selectStudySites" id="selectStudySitesController"
+          class="edu.duke.cabig.c3pr.web.study.SelectStudySiteController"
+          autowire="byName">
+    </bean>
+    
+    <bean name="/study/createCompanionStudy" id="createCompanionStudyController"
+          class="edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController"
+          autowire="byName">
+    	<property name="companionIndicator" value="true" />
+    </bean>
+          
+    <bean name="/study/confirm" id="confirmStudyController"
+          autowire="byName"
+          class="edu.duke.cabig.c3pr.web.study.ConfirmStudyController">
+          <property name="studyDao" ref="studyDao" />
+          <property name="editTask">
+            <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                    autowire="byType" p:displayName="Edit Study"
+                    p:linkName="editStudyController"/>
+       	 </property>
+    </bean>
+    <bean name="/study/editStudy" id="editStudyController"
+          class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName">
+          <property name="editTask">
+            <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                    autowire="byType" p:displayName="Edit Study"
+                    p:linkName="editStudyController"/>
+          </property>
+	</bean>          
+    <bean name="/study/editCompanionStudy" id="editCompanionStudyController"
+          class="edu.duke.cabig.c3pr.web.study.EditCompanionStudyController"
+          autowire="byName">
+          <property name="editTask">
+            <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                    autowire="byType" p:displayName="Edit Study"
+                    p:linkName="editStudyController"/>
+          </property>
+    </bean>
+    <bean name="/study/amendStudy" id="amendStudyController"
+          class="edu.duke.cabig.c3pr.web.study.AmendStudyController" autowire="byName">
+          <property name="editTask">
+            <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                    autowire="byType" p:displayName="Edit Study"
+                    p:linkName="editStudyController"/>
+          </property>
+    </bean>
+	<bean name="/study/amendCompanionStudy" id="amendCompanionStudyController"
+          class="edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController"
+          autowire="byName">
+          <property name="editTask">
+            <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                    autowire="byType" p:displayName="Edit Study"
+                    p:linkName="editStudyController"/>
+          </property>
+    </bean>
+    
+    <bean name="/study/viewStudy" id="viewStudyController"
+          class="edu.duke.cabig.c3pr.web.study.ViewStudyController" autowire="byName">
+         <property name="xmlUtility" ref="studyXmlUtility"/>
+        <property name="editTask">
+            <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                    autowire="byType" p:displayName="Edit Study"
+                    p:linkName="editStudyController"/>
+        </property>
+    </bean>
+
+
+    <bean name="/study/searchStudy" id="searchStudyController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.study.SearchStudyController"
+          autowire="byName">
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.web.SearchCommand"/>
+        <property name="formView" value="study/study_search"/>
+        <property name="successView" value="study/study_search"/>
+    </bean>
+    <bean name="/personAndOrganization/participant/createParticipant"
+          id="createParticipantController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.CreateParticipantController"
+          autowire="byName">
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.domain.Participant"/>
+        <property name="bindOnNewForm"
+                  value="true"/>
+        <!-- Set the pages in Controller -->
+    </bean>
+    <bean name="/personAndOrganization/participant/searchParticipant"
+          id="searchParticipantController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.SearchParticipantController"
+          autowire="byName">
+        <property name="formView"
+                  value="participant/participant_search"/>
+        <property name="successView"
+                  value="participant/participant_search"/>
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.web.SearchCommand"/>
+    </bean>
+    <bean name="/personAndOrganization/participant/editParticipant"
+          id="editParticipantController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.EditParticipantController"
+          autowire="byName">
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.domain.Participant"/>
+        <property name="commandName" value="command"/>
+    </bean>
+    <bean name="/personAndOrganization/participant/viewParticipant"
+          id="viewParticipantController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.ViewParticipantController"
+          autowire="byName">
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.domain.Participant"/>
+        <property name="commandName" value="command"/>
+    </bean>
+    <bean name="/personAndOrganization/participant/confirmCreateParticipant" id="confirmCreateParticipantController" autowire="byName"
+          class="edu.duke.cabig.c3pr.web.ConfirmCreateParticipantController">
+    </bean>
+    <bean name="/registration/searchRegistration"
+          id="searchRegistrationController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.registration.SearchRegistrationController" autowire="byName">
+        <property name="formView" value="registration/registration_search"/>
+        <property name="successView" value="registration/registration_search"/>
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchRegistrationCommand"/>
+    </bean>
+
+	<bean id="parentRegistrationController" class="edu.duke.cabig.c3pr.web.registration.RegistrationController"
+          abstract="true" autowire="byName">
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper"/>
+        <property name="commandName" value="command"/>
+        <property name="sessionForm" value="true"/>
+    </bean>
+
+    <bean name="/registration/createRegistration"
+          id="createRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.CreateRegistrationController"
+          parent="parentRegistrationController"
+          autowire="byName">
+    </bean>
+    
+     <bean name="/registration/editRegistration"
+          id="editRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.EditRegistrationController"
+          parent="parentRegistrationController"
+          autowire="byName">
+    </bean>
+    
+    <bean name="/registration/createEmbeddedCompanionRegistration"
+          id="createEmbeddedCompanionRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.CreateCompanionRegistrationController"
+          autowire="byName" parent="parentRegistrationController">
+        <property name="bindOnNewForm" value="true" />
+    </bean>
+	
+	<bean name="/registration/editCompanionRegistration"
+          id="editCompanionRegistration"
+          class="edu.duke.cabig.c3pr.web.registration.EditCompanionRegistrationController"
+          autowire="byName" parent="editRegistrationController">
+    </bean>
+    
+    <bean name="/registration/transferEpochRegistration"
+          id="transferEpochRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.TransferEpochRegistrationController"
+          parent="parentRegistrationController"
+          autowire="byName">
+    </bean>
+	<bean name="/registration/transferEpochCompanionRegistration"
+          id="transferEpochCompanionRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.TransferEpochCompanionRegistrationController"
+          parent="parentRegistrationController"
+          autowire="byName">
+    </bean>
+    
+    <bean name="/registration/manageRegistration" id="manageRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.ManageRegistrationController" autowire="byName">
+        <property name="xmlUtility" ref="registrationXmlUtility"/>
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper"/>
+        <property name="commandName" value="command"/>
+        <property name="sessionForm" value="true"/>
+        <!-- <property name="bindOnNewForm" value="true" />-->
+    </bean>
+    <bean name="/registration/confirm"
+          id="confirmRegistrationCoStudyntroller"
+          class="edu.duke.cabig.c3pr.web.registration.RegistrationConfirmAndRandomizeController" autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper"/>
+        <property name="commandName" value="command"/>
+        <property name="formView" value="/registration/reg_confirm_reg"/>
+        <property name="successView" value="/registration/reg_confirm_reg"/>
+    </bean>
+    <bean id="registrationControllerUtils"
+          class="edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils"
+          autowire="byName">
+    </bean>
+
+    <bean name="/personAndOrganization/investigator/searchInvestigator" id="searchInvestigatorController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/investigator_search"/>
+    </bean>
+    <bean name="/personAndOrganization/investigator/createInvestigator"
+          id="createInvestigatorController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorController"
+          autowire="byName">
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.domain.Investigator"/>
+        <property name="formView" value="admin/investigator_details"/>
+        <property name="successView" value="admin/investigator_confirmation"/>
+        <property name="sessionForm" value="true"/>
+        <property name="validator" ref="investigatorValidator"></property>
+        <property name="page">
+        	<bean class="edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab" autowire="byType" />
+        </property>
+    </bean>
+	<bean name="/personAndOrganization/investigator/editInvestigator"
+          id="editInvestigatorController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorController"
+          autowire="byName" parent="createInvestigatorController">
+    </bean>
+    <bean id="investigatorValidator" class="edu.duke.cabig.c3pr.domain.validator.InvestigatorValidator" autowire="byName"></bean>
+    <bean id="connectivityValidator" name="/admin/validateConnectivity" class="edu.duke.cabig.c3pr.utils.web.validators.ValidateConnectionController" autowire="byName"></bean>
+    <bean name="/personAndOrganization/investigator/getGroup"
+          id="createInvestigatorGroupsController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorGroupsController"
+          autowire="byName">
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.web.admin.InvestigatorGroupsCommand"/>
+        <property name="formView" value="admin/asynchronous/group"/>
+   		<property name="successView" value="admin/asynchronous/group"/> 
+        <property name="sessionForm" value="true"/>
+        <property name="bindOnNewForm" value="true"/>
+    </bean>
+    <bean name="/personAndOrganization/investigator/createInvestigatorGroups" id="createInvestigatorGroups" lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorGroupsController"
+    autowire="byName">
+    	<property name="commandClass"
+                  value="edu.duke.cabig.c3pr.web.admin.InvestigatorGroupsCommand"/>
+    	<property name="formView" value="admin/investigator_groups_create" />
+    	<property name="successView" value="admin/investigator_groups_create"/> 
+    	<property name="sessionForm" value="true"/>
+   		<property name="page">
+        	<bean class="edu.duke.cabig.c3pr.web.admin.InvestigatorsGroupsTab" autowire="byType" />
+        </property>
+    </bean>
+    
+     <bean id="c3PRDefaultTabConfigurer" class="edu.duke.cabig.c3pr.web.admin.C3PRDefaultTabConfigurer"
+               autowire="byName"/>
+
+    <bean name="/personAndOrganization/researchStaff/searchResearchStaff" id="searchResearchStaffController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/research_staff_search"/>
+    </bean>
+    <bean name="/personAndOrganization/researchStaff/createResearchStaff"
+          id="createResearchStaffController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
+          autowire="byName">
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.domain.ResearchStaff"/>
+        <property name="formView" value="admin/research_staff_details"/>
+        <property name="successView" value="admin/research_staff_confirmation"/>
+        <property name="sessionForm" value="true"/>
+        <property name="validator">
+            <ref bean="userDuplicateValidator"/>
+        </property>
+    </bean>
+	<bean name="/personAndOrganization/researchStaff/editResearchStaff"
+          id="editResearchStaffController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
+          autowire="byName" parent="createResearchStaffController">
+    </bean>
+    
+
+	<bean name="/admin/configure" id="configurationController" autowire="byName"
+          class="edu.duke.cabig.c3pr.web.admin.ConfigurationController"/>
+    <bean name="/personAndOrganization/investigator/viewInvestigator" id="viewInvestigatorController" autowire="byType"
+          class="edu.duke.cabig.c3pr.web.admin.ViewInvestigatorController">
+    </bean>
+    
+    <bean name="/personAndOrganization/researchStaff/viewResearchStaff" id="viewResearchStaffController" autowire="byType"
+          class="edu.duke.cabig.c3pr.web.admin.ViewResearchStaffController">
+    </bean>
+
+    <bean name="/admin/importStudy"
+          id="studyXMLFileUploadController"
+          class="edu.duke.cabig.c3pr.web.admin.StudyXMLFileUploadController"
+          autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.beans.FileBean"/>
+        <property name="formView" value="admin/upload_study"/>
+        <property name="successView" value="admin/upload_study"/>
+        <property name="validator">
+            <bean class="edu.duke.cabig.c3pr.utils.web.validators.StudyXMLFileValidator" autowire="byName"/>
+        </property>
+    </bean>
+
+    <bean name="/admin/importRegistration"
+          id="studySubjectXMLFileUploadController"
+          class="edu.duke.cabig.c3pr.web.admin.StudySubjectXMLFileUploadController"
+          autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.beans.FileBean"/>
+        <property name="formView" value="admin/upload_registrations"/>
+        <property name="successView" value="admin/upload_registrations"/>
+    </bean>
+
+	<bean name="/admin/viewInbox" id="viewInboxController"
+          class="edu.duke.cabig.c3pr.web.ViewInboxController" autowire="byName">
+        <property name="viewName" value="inbox_view"/>
+    </bean>
+    <!-- org.springframework.web.servlet.mvc.ParameterizableViewController -->
+
+    <bean id="sectionInterceptor"
+          class="edu.duke.cabig.c3pr.utils.web.navigation.SectionInterceptor" autowire="byName">
+        
+        <property name="sections">
+            <list>
+                <bean class="edu.duke.cabig.c3pr.utils.web.navigation.Section" autowire="byType" p:displayName="Dashboard" p:mainController="dashboardController">
+                    <property name="pathMapping" value="/dashboard/**"/>
+                </bean>
+                <bean class="edu.duke.cabig.c3pr.utils.web.navigation.Section" autowire="byType" p:displayName="Inbox" p:mainController="viewInboxController">
+                    <property name="pathMapping" value="/admin/viewInbox/**"/>
+                </bean>
+                <bean
+                        class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
+                        autowire="byType" p:displayName="Registrations"
+                        p:mainController="createRegistrationController">
+                    <property name="pathMapping"
+                              value="/registration/**"/>
+                    <property name="tasks">
+                        <list>
+							<bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Create Registration"
+                                    p:linkName="createRegistrationController"/>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Manage Registration"
+                                    p:linkName="searchRegistrationController"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean
+                        class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
+                        autowire="byType" p:displayName="Studies"
+                        p:mainController="searchStudyController">
+                    <property name="pathMapping" value="/study/**"/>
+                    <property name="tasks">
+                        <list>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Manage Study"
+                                    p:linkName="searchStudyController">
+                                    <property name="subTasks">
+				                        <list>
+				                            <bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Edit Study"
+				                                    p:linkName="viewStudyController"/>
+											<bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="View Study"
+				                                    p:linkName="editStudyController">
+											</bean>
+				                        </list>
+				                    </property>
+                            </bean>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Create Study"
+                                    p:linkName="createStudyController"/>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Create Companion Study"
+                                    p:linkName="createCompanionStudyController"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean
+                        class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
+                        autowire="byType" p:displayName="Person &amp; Organizations"
+                        p:mainController="searchParticipantController">
+                    <property name="pathMapping" value="/personAndOrganization/**/**"/>
+                    <property name="tasks">
+                    	 <list>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Subject"
+                                    p:linkName="searchParticipantController">
+                                    <property name="subTasks">
+				                        <list>
+											<bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Manage Subject"
+				                                    p:linkName="searchParticipantController">
+													<property name="subTasks">
+								                        <list>
+								                            <bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="View Subject"
+								                                    p:linkName="viewParticipantController"/>
+															<bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Edit Subject"
+								                                    p:linkName="editParticipantController">
+															</bean>
+								                        </list>
+								                    </property>
+											</bean>
+                							<bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Create Subject"
+				                                    p:linkName="createParticipantController">
+													<property name="subTasks">
+								                        <list>
+								                            <bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Confirm Create Subject"
+								                                    p:linkName="confirmCreateParticipantController"/>
+								                        </list>
+								                    </property>								
+    										</bean>
+				                        </list>
+				                    </property>
+				            </bean>
+				            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Investigator"
+                                    p:linkName="searchInvestigatorController">
+
+                                    <property name="subTasks">
+                                        <list>
+                                                <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                        autowire="byType"
+                                                        p:displayName="Manage Investigator"
+                                                        p:linkName="searchInvestigatorController">
+														<property name="subTasks">
+								                        <list>
+															<bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Edit Investigator"
+								                                    p:linkName="editInvestigatorController">
+															</bean>
+								                        </list>
+								                    </property>
+												</bean>
+                                                <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                        autowire="byType"
+                                                        p:displayName="Create Investigator"
+                                                        p:linkName="createInvestigatorController"/>
+                                                <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                        autowire="autodetect"
+                                                        p:displayName="Investigator Groups"
+                                                        p:linkName="createInvestigatorGroups"/>
+                                        </list>
+                                    </property>
+
+                            </bean>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Research Staff"
+                                    p:linkName="searchResearchStaffController">
+                                
+                                <property name="subTasks">
+                                    <list>
+                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                    autowire="byType"
+                                                    p:displayName="Manage Research Staff"
+                                                    p:linkName="searchResearchStaffController">
+													<property name="subTasks">
+								                        <list>
+															<bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Edit Research Staff"
+								                                    p:linkName="editResearchStaffController">
+															</bean>
+								                        </list>
+								                    </property>
+											</bean>
+                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                    autowire="byType"
+                                                    p:displayName="Create Research Staff"
+                                                    p:linkName="createResearchStaffController"/>
+                                    </list>
+                                </property>
+
+                            </bean>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Organization"
+                                    p:linkName="searchOrganizationController">
+                                <property name="subTasks">
+                                    <list>
+                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                    autowire="byType"
+                                                    p:displayName="Manage Organization"
+                                                    p:linkName="searchOrganizationController">
+													<property name="subTasks">
+								                        <list>
+															<bean
+								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+								                                    autowire="byType" p:displayName="Edit Organization"
+								                                    p:linkName="editOrganizationController">
+															</bean>
+								                        </list>
+								                    </property>
+											</bean>
+                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                    autowire="byType"
+                                                    p:displayName="Create Organization"
+                                                    p:linkName="createOrganizationController"/>
+                                    </list>
+                                </property>
+                            </bean>
+				          </list>
+                    </property>
+                </bean>
+                <bean
+                        class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
+                        autowire="byType" p:displayName="Administration"
+                        p:mainController="createNotificationController">
+                    <property name="pathMapping" value="/admin/**"/>
+                    <property name="tasks">
+                    
+                        <list>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Notifications"
+                                    p:linkName="createNotificationController"/>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Import"
+                                    p:linkName="studyXMLFileUploadController">
+                                <property name="subTasks">
+                                    <list>
+                                            <bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Import Study"
+				                                    p:linkName="studyXMLFileUploadController"/>
+				                            <bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Import Registration"
+				                                    p:linkName="studySubjectXMLFileUploadController"/>
+                                    </list>
+                                </property>
+                            </bean>                        
+							<bean 
+	                            	class="edu.duke.cabig.c3pr.utils.web.navigation.Task" autowire="byType"
+	                                p:displayName="Configure C3PR" p:linkName="configurationController"/>  
+	                       	<bean 
+	                            	class="edu.duke.cabig.c3pr.utils.web.navigation.Task" autowire="byType"
+	                                p:displayName="Configure Password Policy" p:linkName="passwordPolicyConfigurationController"/>                          
+                        </list>
+                    </property>
+                </bean>
+                <bean 
+                        class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
+                        autowire="byType" p:displayName="Reporting"
+                        p:mainController="createReportController">
+                    <property name="pathMapping" value="/report/**"/>
+                    <property name="tasks">
+                        <list>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Search Registration"
+                                    p:linkName="createReportController"/>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Search Study"
+                                    p:linkName="createStudyReportController"/>
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Summary 3 Report"
+                                    p:linkName="summary3ReportController"/> 
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- <bean id="exceptionResolver"
+          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.acegisecurity.AccessDeniedException">
+                    forward:/accessDenied.jsp
+                </prop>
+                <prop key="java.lang.Exception">
+                    forward:/error.jsp
+                </prop>
+            </props>
+        </property>
+    </bean>-->
+
+    <bean name="/dashboard" id="dashboardController" class="edu.duke.cabig.c3pr.web.DashboardController" autowire="byName">
+        <property name="viewName"><value>dashboard</value></property>
+    </bean>
+
+
+
+</beans>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <display-name>C3PR v2</display-name>
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://csm.ncicb.nci.nih.gov/authz</taglib-uri>
+            <taglib-location>/WEB-INF/csmauthz.tld</taglib-location>
+        </taglib>
+    </jsp-config>
+
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>c3pr.root</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>beringContextConfigLocation</param-name>
+        <param-value>
+            classpath*:edu/duke/cabig/c3pr/applicationContext-core-db.xml
+            classpath*:edu/duke/cabig/c3pr/applicationContext-config.xml
+        </param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath*:edu/duke/cabig/c3pr/applicationContext*.xml
+            classpath*:edu/duke/cabig/c3pr/rules/config/spring/applicationContext-rules-services.xml
+            /WEB-INF/applicationContext-acegi-security.xml
+        </param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>/WEB-INF/log4j.properties</param-value>
+    </context-param>    
+    
+    <filter>
+        <filter-name>infrared</filter-name>
+        <filter-class>net.sf.infrared.aspects.servlet.InfraREDServletFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>infrared</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <listener>
+        <listener-class>net.sf.infrared.agent.setup.InfraREDServletContextListener</listener-class>
+    </listener>
+    
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+
+    <!--will run bering migrate on startup-->
+    <listener>
+        <listener-class>edu.northwestern.bioinformatics.bering.servlet.SeparateApplicationContextBeringContextListener
+        </listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>public</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>public</servlet-name>
+        <url-pattern>/public/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>c3pr</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>c3pr</servlet-name>
+        <url-pattern>/pages/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>dwr-invoker</servlet-name>
+        <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dwr-invoker</servlet-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </servlet-mapping>
+
+<!-- JAWR config start -->
+
+    <servlet>
+        <servlet-name>JavascriptServlet</servlet-name>
+        <servlet-class>net.jawr.web.servlet.JawrServlet</servlet-class>
+
+        <init-param>
+            <param-name>configLocation</param-name>
+            <param-value>/jawr.properties</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>CSSServlet</servlet-name>
+        <servlet-class>net.jawr.web.servlet.JawrServlet</servlet-class>
+
+        <!-- Location in classpath of the config file -->
+        <init-param>
+            <param-name>configLocation</param-name>
+            <param-value>/jawr.properties</param-value>
+        </init-param>
+        <init-param>
+            <param-name>type</param-name>
+            <param-value>css</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>JavascriptServlet</servlet-name>
+        <url-pattern>*.zjs</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>CSSServlet</servlet-name>
+        <url-pattern>*.zcss</url-pattern>
+    </servlet-mapping>
+
+    <!-- JAWR config end -->
+
+    <filter>
+        <filter-name>BeansInRequestFilter</filter-name>
+        <filter-class>gov.nih.nci.cabig.ctms.web.filters.BeansInRequestFilter</filter-class>
+        <init-param>
+            <param-name>beanNames</param-name>
+            <param-value>buildInfo</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>BeansInRequestFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <filter>
+        <filter-name>Acegi Filter Chain Proxy</filter-name>
+        <filter-class>
+            org.acegisecurity.util.FilterToBeanProxy
+        </filter-class>
+        <init-param>
+            <param-name>targetClass</param-name>
+            <param-value>
+                org.acegisecurity.util.FilterChainProxy
+            </param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Acegi Filter Chain Proxy</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AuditInfoFilter</filter-name>
+        <filter-class>edu.duke.cabig.c3pr.utils.web.AuditInfoFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuditInfoFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
+        <filter-class>edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter</filter-class>
+        <init-param>
+            <param-name>interceptorBeanName</param-name>
+            <param-value>auditOpenSessionInViewInterceptor</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <filter-class>edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter</filter-class>
+        <init-param>
+            <param-name>interceptorBeanName</param-name>
+            <param-value>openSessionInViewInterceptor</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>eXtremeExport</filter-name>
+        <filter-class>org.extremecomponents.table.filter.ExportFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>eXtremeExport</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>Sitemesh</filter-name>
+        <filter-class>org.extremecomponents.table.filter.SitemeshPageFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>ERROR</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Secure URLs</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <!--  <error-page>
+        <error-code>500</error-code>
+        <location>/decorated-error.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/decorated-error.jsp</location>
+    </error-page>-->
+
+    <filter>
+        <filter-name>SkinFilter</filter-name>
+        <filter-class>edu.duke.cabig.c3pr.web.SkinFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SkinFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+</web-app>
