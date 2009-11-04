@@ -92,6 +92,16 @@
 			            	<a href="#" id="irbApprovalDate-${site.healthcareSite.primaryIdentifier}-calbutton">
 			           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
 			           		</a>
+			           		<script type="text/javascript">
+								Calendar.setup(
+						            {
+						                inputField  : "irbApprovalDate-${site.healthcareSite.primaryIdentifier}",
+						                button      : "irbApprovalDate-${site.healthcareSite.primaryIdentifier}-calbutton",
+						                ifFormat    : "%m/%d/%Y", 
+						                weekNumbers : false
+						            }
+						        );
+							</script>
 						</c:when>
 						<c:otherwise>
 							${empty site.currentStudySiteStudyVersion.irbApprovalDateStr?'NA':site.currentStudySiteStudyVersion.irbApprovalDateStr }
