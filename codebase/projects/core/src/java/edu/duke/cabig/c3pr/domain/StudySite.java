@@ -167,7 +167,12 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         if (this.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
         	 if(this.getSiteStudyStatus(effectiveDate) == SiteStudyStatus.PENDING) {
         		 StudySiteStudyVersion effectiveStudySiteStudyVersion = getStudySiteStudyVersion(effectiveDate);
-        		 effectiveStudySiteStudyVersion.apply(effectiveDate);
+        		 if(effectiveStudySiteStudyVersion != null){
+        			 effectiveStudySiteStudyVersion.apply(effectiveDate);
+        		 }else{
+        			 throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.SITE.EFFECTIVE_DATE_NO_STUDY_SITE_STUDY_VERSION_FOUND.CODE"),
+                             new String[] {CommonUtils.getDateString(effectiveDate) });
+        		 }
         	 }
  			handleStudySiteStatusChange(effectiveDate, SiteStudyStatus.ACTIVE);
  			
@@ -608,13 +613,13 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		SiteStatusHistory lastSiteStatusHistory = getLatestSiteStatusHistory();
 		if( lastSiteStatusHistory != null){
         	if(lastSiteStatusHistory.getStartDate() == null){
-        		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.NO.START_DATE.CODE"),new String[] {this.getHealthcareSite().getName() });
-        	}else if(lastSiteStatusHistory.getStartDate() != null && lastSiteStatusHistory.getStartDate().after(effectiveDate)){ 
-        		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.INVALID.EFFECTIVE_DATE.CODE"),new String[] {this.getHealthcareSite().getName() });
+        		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.NO.START_DATE.CODE"),new String[] {lastSiteStatusHistory.getSiteStudyStatus().getDisplayName(),  this.getHealthcareSite().getName() });
+        	}else if(lastSiteStatusHistory.getStartDate() != null && !lastSiteStatusHistory.getStartDate().before(effectiveDate)){ 
+        		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.INVALID.EFFECTIVE_DATE.CODE"),new String[] {CommonUtils.getDateString(lastSiteStatusHistory.getStartDate()),this.getHealthcareSite().getName() });
         	}
         	if(lastSiteStatusHistory.getEndDate() != null){
         		// last history object should not have end date
-        		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.END_DATE_PRESENT.CODE"),new String[] {this.getHealthcareSite().getName() });
+        		throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.END_DATE_PRESENT.CODE"),new String[] {lastSiteStatusHistory.getSiteStudyStatus().getDisplayName(),this.getHealthcareSite().getName() });
         	}else{
         		 Date suggestedEndDate = effectiveDate;
                  GregorianCalendar calendar = new GregorianCalendar();

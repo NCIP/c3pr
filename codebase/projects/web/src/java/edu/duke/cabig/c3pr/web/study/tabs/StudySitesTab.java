@@ -225,9 +225,8 @@ public class StudySitesTab extends StudyTab {
 		if(StringUtils.isNotBlank(targetAccrualStr)){
 			studySite.setTargetAccrualNumber(Integer.parseInt(targetAccrualStr));
 		}
-		Date irbApprovalDate;
 		if(StringUtils.isNotBlank(irbApprovalDateStr)){
-			irbApprovalDate = DateUtil.getUtilDateFromString(irbApprovalDateStr, "MM/dd/yyyy");	
+			Date irbApprovalDate = DateUtil.getUtilDateFromString(irbApprovalDateStr, "MM/dd/yyyy");	
 			studySite.setIrbApprovalDate(irbApprovalDate);
 		}
 		List<Identifier> studyIdentifiers = study.getIdentifiers();
@@ -276,9 +275,9 @@ public class StudySitesTab extends StudyTab {
 				studySite = studyRepository.temporarilyCloseStudySiteToAccrualAndTreatment(studyIdentifiers,
 							nciInstituteCode, effectiveDate);
 			}
-		} catch (RuntimeException e) {
+		} catch (C3PRCodedRuntimeException e) {
 			e.printStackTrace();
-			map.put("errorMessage", e.getMessage());
+			map.put("errorMessage", e.getCodedExceptionMesssage());
 		}
 		if(endPoint!=null && endPoint.getStatus()==WorkFlowStatusType.MESSAGE_SEND_FAILED){
 			map.put("errorMessage", endPoint.getLastAttemptError().getErrorMessage());
