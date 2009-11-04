@@ -184,7 +184,20 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		}
 		return localIdentifiers;
 	}
-
+	
+	@Transient
+	public List<StudySite> getAccruingStudySites(){
+		List<StudySite> accruingStudySites = new ArrayList<StudySite>();
+		for(StudySite studySite:this.getStudySites()){
+			if((studySite.getStudySiteStudyVersion(new Date())!= null)){
+				if(studySite.getStudySiteStudyVersion(new Date()).getIrbApprovalDate() !=null){
+					accruingStudySites.add(studySite);
+				}
+			}
+		}
+		return accruingStudySites;
+	}
+	
 	@Transient
 	public List<StudySite> getStudySites() {
 		return lazyListHelper.getLazyList(StudySite.class);
