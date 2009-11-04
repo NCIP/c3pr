@@ -56,6 +56,7 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
@@ -269,7 +270,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     	super.onBind(request, oCommand, errors);
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) oCommand;
         StudySubject studySubject = wrapper.getStudySubject();
-    	if(WebUtils.hasSubmitParameter(request, "studySiteStudyVersionId")){
+    	if(WebUtils.hasSubmitParameter(request, "studySiteStudyVersionId") && !StringUtils.isBlank(request.getParameter("studySiteStudyVersionId"))){
     		StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(Integer.parseInt(request.getParameter("studySiteStudyVersionId")));
     		if(studySiteStudyVersion == null){
     			log.debug("Study Site Study Version is not set to Study Subject Study Version");
