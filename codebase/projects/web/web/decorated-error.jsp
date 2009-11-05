@@ -79,7 +79,7 @@
     </head>
     <body>
     <div style="overflow:auto; margin-bottom:10px;">
-        <img src="<c:url value="/images/blue/error.png" />" style="float:left; margin:10px;">
+        <img src="<c:url value="/images/error.png" />" style="float:left; margin:10px;">
         <div style="float:left; padding-left:20px; padding-top:12px;">
             <div class="error">
                 Oops! We thought we squashed that bug.
@@ -156,8 +156,8 @@
                             <b>Value</b>
                         </td>
                     </tr>
-                    <%                String name  = "";
-                    String value = "";
+                    <%                	String name  = "";
+                    Object value = "";
                     java.util.Enumeration headers = request.getHeaderNames();
                     while(headers.hasMoreElements())
                     {
@@ -170,7 +170,7 @@
                             </font>
                         </td>
                         <td>
-                            <%=value %>
+                            <%= String.valueOf(value) %>
                         </td>
                     </tr>
                     <%                } %>
@@ -178,18 +178,12 @@
                 <br/>
                 <b>Attribute List:</b>
                 <table class="errortd" width="100%" cellspacing="1">
-                    <%                java.util.Enumeration attributes = request.getAttributeNames();
+                    <%                	java.util.Enumeration attributes = request.getAttributeNames();
                     while(attributes.hasMoreElements())
                     {
                     name  = (String) attributes.nextElement();
-                    if (request.getAttribute(name) == null)
-                    {
-                    value = "null";
-                    }
-                    else
-                    {
-                    value = request.getAttribute(name).toString();
-                    } %>
+                    value = request.getAttribute(name);
+                    %>
                     <tr>
                         <td>
                             <font color="blue">
@@ -197,7 +191,7 @@
                             </font>
                         </td>
                         <td>
-                            <%=value %>
+                            <%=String.valueOf(value) %>
                         </td>
                     </tr>
                     <%                } %>

@@ -813,7 +813,7 @@
         </property>
     </bean>
 
-    <!-- <bean id="exceptionResolver"
+    <!--  <bean id="exceptionResolver"
           class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>
@@ -821,7 +821,7 @@
                     forward:/accessDenied.jsp
                 </prop>
                 <prop key="java.lang.Exception">
-                    forward:/error.jsp
+                    forward:/decorated-error.jsp
                 </prop>
             </props>
         </property>
