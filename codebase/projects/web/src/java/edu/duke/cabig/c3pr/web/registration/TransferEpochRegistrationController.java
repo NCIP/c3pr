@@ -83,6 +83,13 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     		wrapper.getStudySubject().getScheduledEpoch().setOffEpochReasonText(offEpochReasonText);
     	}
     	
+    	 if (WebUtils.hasSubmitParameter(request, "studySubject.startDate") && 
+	    			!StringUtils.isBlank(request.getParameter("studySubject.startDate"))){
+	    		Date registrationStartDate;
+	    		registrationStartDate = DateUtil.getUtilDateFromString(request.getParameter("studySubject.startDate"),"mm/dd/yyyy");
+	    		wrapper.getStudySubject().setStartDate(registrationStartDate);
+	    	}
+    	
     	if(WebUtils.hasSubmitParameter(request, "epoch")){
 	        Integer id = Integer.parseInt(request.getParameter("epoch"));
 	        Epoch epoch = epochDao.getById(id);
@@ -94,6 +101,13 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
 	        else {
 	            scheduledEpoch = new ScheduledEpoch();
 	        }
+	        
+	        if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.startDate") && 
+	    			!StringUtils.isBlank(request.getParameter("studySubject.scheduledEpoch.startDate"))){
+	    		Date scheduledEpochStartDate;
+	    		scheduledEpochStartDate = DateUtil.getUtilDateFromString(request.getParameter("studySubject.scheduledEpoch.startDate"),"mm/dd/yyyy");
+	    		scheduledEpoch.setStartDate(scheduledEpochStartDate);
+	    	}
 	        scheduledEpoch.setEpoch(epoch);
 	        wrapper.getStudySubject().addScheduledEpoch(scheduledEpoch);
 	        registrationControllerUtils.buildCommandObject(wrapper.getStudySubject());
@@ -133,7 +147,17 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
         }
         	
         else if(wrapper.getShouldEnroll()){
-        	studySubject=studySubjectRepository.enroll(studySubject);
+        	try {
+        		studySubject=studySubjectRepository.enroll(studySubject);
+			} catch (C3PRCodedRuntimeException e) {
+				
+				// Book exhausted message is non-recoverable. It displays an error on the UI
+				if(e.getExceptionCode()==234){
+					request.setAttribute("armNotAvailable", true);
+					return showPage(request, errors, 5);
+				}
+				// TODO Handle multisite error seperately and elegantly. for now eat the error
+			}
         }else if(wrapper.getShouldRegister()){
         	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
         }else if(wrapper.getShouldReserve()){
