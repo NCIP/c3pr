@@ -1349,6 +1349,17 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	}
 	
 	@Transient
+	public Boolean getIfHigherOrderEpochExists(Epoch epoch){
+		Integer order = epoch.getEpochOrder();
+		for(Epoch epochInStudy : getEpochs() ){
+			 if(epochInStudy.getEpochOrder()> order){
+				 return true;
+			 }
+		}
+		return false;
+	}
+	
+	@Transient
 	public Boolean getOriginalIndicator() {
 		 return getStudyVersion().getOriginalIndicator();
 	}
@@ -1357,14 +1368,5 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		this.getStudyVersion().setOriginalIndicator(originalIndicator);
 	}
 	
-//	@Column(name="back_dated_reg_support")
-//	public boolean getBackDatedRegistrationIndicator() {
-//		return backDatedRegistrationIndicator;
-//	}
-//
-//	public void setBackDatedRegistrationIndicator(boolean backDatedRegistrationIndicator) {
-//		this.backDatedRegistrationIndicator = backDatedRegistrationIndicator;
-//	}
- 
 
 }
