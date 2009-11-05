@@ -328,7 +328,7 @@
 				<br>
 				<div class="row">
 					<tags:button type="button" color="blue" value="OK" id="changeSiteStatus-${site.healthcareSite.primaryIdentifier}" onclick="takeAction('${site.healthcareSite.primaryIdentifier}' );" size="small"/>
-					<tags:button type="button" color="blue" value="Close" id="close" onclick="closePopup();" size="small"/>
+					<tags:button type="button" color="red" value="Cancel" id="cancel" onclick="closePopup();" size="small"/>
 				</div>
 			</div>
 		</div>
