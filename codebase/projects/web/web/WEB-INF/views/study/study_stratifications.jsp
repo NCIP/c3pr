@@ -327,7 +327,7 @@
 			<br>
 			<div align="left">
 				<span id="addStratificationCriteria-${epoch.id}" <c:if test="${fn:length(epoch.stratumGroups) > 0 }"> style = "display:none" </c:if> >
-					<tags:button type="button" color="blue" icon="add" value="Add Stratification Criteria" onclick="$('stratumButton-${epoch.id}').show();RowManager.addRow(stratRowInserterProps_${epochCount.index});" size="small"/>
+					<tags:button type="button" color="blue" icon="add" value="Add Stratification Criterion" onclick="$('stratumButton-${epoch.id}').show();RowManager.addRow(stratRowInserterProps_${epochCount.index});" size="small"/>
 				</span>
 				<span id="editStratificationCriteria-${epoch.id}" <c:if test="${fn:length(epoch.stratumGroups) == 0 }"> style = "display:none" </c:if> >
 					<tags:button type="button" icon="edit" color="blue" value="Edit Stratification Criteria" onclick="editStratificationCriteria('${epochCount.index}','${isBookRandomized}', '${epoch.id}');" size="small"/>
