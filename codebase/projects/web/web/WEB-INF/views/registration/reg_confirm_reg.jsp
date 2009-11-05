@@ -164,7 +164,7 @@ function createReg(studySite, participant, parentRegistrationId){
 						<c:set var="size" value="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions)}"></c:set>
 						<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
 							${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})
-							<c:if test="${size - status.index > 1}">,<br></c:if>
+							<c:if test="${size - status.index > 1}"><br></c:if>
 						</c:forEach>
 						
 					</div>
