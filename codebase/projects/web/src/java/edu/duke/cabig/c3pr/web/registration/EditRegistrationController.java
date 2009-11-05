@@ -88,6 +88,13 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
 			} catch (MultisiteException e) {
 				//eating the multisite error. This error will be shown on the confirmation page.
 				logger.error(e);
+			}catch (C3PRCodedRuntimeException e) {
+				
+				// Book exhausted message is non-recoverable. It displays an error on the UI
+				if(e.getExceptionCode()==234){
+					request.setAttribute("armNotAvailable", true);
+					return showPage(request, errors, 5);
+				}
 			}
         }else if(wrapper.getShouldEnroll()){
         	try {
@@ -102,7 +109,6 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
 					request.setAttribute("armNotAvailable", true);
 					return showPage(request, errors, 5);
 				}
-				// TODO Handle multisite error seperately and elegantly. for now eat the error
 			}
         	
         }
