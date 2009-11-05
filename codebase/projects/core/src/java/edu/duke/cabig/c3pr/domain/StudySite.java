@@ -707,6 +707,14 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 	public List<SiteStatusHistory> getSiteStatusHistory() {
 		return lazyListHelper.getLazyList(SiteStatusHistory.class);
 	}
+	
+	@Transient
+	public List<SiteStatusHistory> getSortedSiteStatusHistory() {
+		List<SiteStatusHistory> siteStatusHistoryList = new ArrayList<SiteStatusHistory>();
+		siteStatusHistoryList.addAll(getSiteStatusHistory());
+		Collections.sort(siteStatusHistoryList);
+		return siteStatusHistoryList;
+	}
 
 	public void setSiteStatusHistory(List<SiteStatusHistory> siteStatusHistory) {
 		setSiteStatusHistoryInternal(siteStatusHistory);
