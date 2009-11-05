@@ -217,7 +217,8 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	}
 	
 	private boolean canChangeEpoch(StudySubject studySubject) {
-		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY && studySubject.getStudySite().getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
+		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY && studySubject.getStudySite().getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN &&
+				studySubject.getStudySite().getStudy().getIfHigherOrderEpochExists(studySubject.getScheduledEpoch().getEpoch())) {
 			return true;
 		}
 		return false;
@@ -277,12 +278,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	}
 
 	private boolean isNotRegisterable(StudySubject studySubject, Epoch epoch) {
-		if (epoch.getEpochOrder() == studySubject.getScheduledEpoch().getEpoch().getEpochOrder() && studySubject.getScheduledEpoch().getEpoch().getId() != epoch.getId()) {
-			return true;
-		} else if (epoch.getEpochOrder() < studySubject.getScheduledEpoch().getEpoch().getEpochOrder()) {
-			return true;
-		}
-		return false;
+		return (epoch.getEpochOrder() <= studySubject.getScheduledEpoch().getEpoch().getEpochOrder());
 	}
 
 	private boolean isCurrentScheduledEpoch(StudySubject studySubject, Epoch epoch) {
