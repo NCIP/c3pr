@@ -286,7 +286,7 @@
             <th align="center"><b><fmt:message key="study.site.enddate"/></b>
             <tags:hoverHint keyProp="study.site.enddate" /></th>
         </tr>
-        <c:forEach items="${site.siteStatusHistory}" var="siteStatusHistory">
+        <c:forEach items="${site.sortedSiteStatusHistory}" var="siteStatusHistory">
         <tr>
             <td>${siteStatusHistory.siteStudyStatus.displayName }</td>
             <td>${siteStatusHistory.siteStudyStatus == 'PENDING'? 'NA ' : siteStatusHistory.startDateStr }</td>
