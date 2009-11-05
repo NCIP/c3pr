@@ -316,7 +316,7 @@ public class RegistrationControllerUtils {
     }
 	
 	public void addConsents(StudySubject studySubject){
-		 for(Consent consent: studySubject.getStudySite().getStudy().getConsents()){
+		 for(Consent consent: studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getConsents()){
          	StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
          	studySubjectConsentVersion.setConsent(consent);
          	studySubject.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
