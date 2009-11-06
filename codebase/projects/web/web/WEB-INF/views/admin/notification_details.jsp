@@ -435,7 +435,7 @@
 					<td width="32%" align="center" colspan="1"><tags:button type="button" color="blue" icon="add" value="Add Contact" 
 								onclick="RowManager.addRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/></td>
 			     </tr>
-			     <tr><td align="center" colspan="1">
+			     <tr><td align="center" colspan="1" style="vertical-align: top;">
 		      		 <table id="table1">
 		      		 	<tr><td></td><td></td></tr>
 						<c:forEach var="email" varStatus="emailStatus" items="${command.plannedNotifications[nStatus.index].userBasedRecipient}">
@@ -458,7 +458,7 @@
 						</c:forEach>
 					</table>
 		      		</td>
-			      	<td align="center" colspan="1">
+			      	<td align="center" colspan="1" style="vertical-align: top;">
 			      		<table id="table2">
 			      			<tr><td></td><td></td></tr>
 							<c:forEach var="role" varStatus="roleStatus" items="${command.plannedNotifications[nStatus.index].roleBasedRecipient}">
@@ -476,7 +476,7 @@
 							</c:forEach>
 						</table>			
 			      	</td>  
-			      	<td align="center" colspan="1">
+			      	<td align="center" colspan="1" style="vertical-align: top;">
 			      		<table id="table3">
 			      			<tr><td></td><td></td></tr>																	  
 							<c:forEach var="cm" varStatus="cmStatus" items="${command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
@@ -613,17 +613,17 @@
 								onclick="RowManager.addRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX));" size="small"/></td>
 		    </tr>
 		    
-		    <tr><td align="center" colspan="1">
+		    <tr><td align="center" colspan="1" style="vertical-align: top;">
 					<table id="table1">
 					<tr></tr>				
 					</table>
 		      	</td>
-		      	<td align="center" colspan="1">      		
+		      	<td align="center" colspan="1" style="vertical-align: top;">      		
 					<table id="table2">
 					<tr></tr>				
 					</table>
 		      	</td> 
-		      	<td align="center" colspan="1">      		
+		      	<td align="center" colspan="1" style="vertical-align: top;">      		
 					<table id="table3">
 					<tr></tr>				
 					</table>
