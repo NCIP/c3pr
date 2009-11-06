@@ -388,7 +388,8 @@
 </c:otherwise>
 </c:choose>
 </chrome:box>
-</form:form> <tags:tabControls tab="${tab}" flow="${flow}"
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/> 
+<%-- <tags:tabControls tab="${tab}" flow="${flow}"
 	localButtons="${localButtons}" willSave="true">
 	<jsp:attribute name="submitButton">
 		<table>
@@ -406,7 +407,11 @@
 				</tr>
 		</table>
 	</jsp:attribute>
-</tags:tabControls></div>
+</tags:tabControls>
+--%>
+
+</form:form>
+</div>
 
 
 

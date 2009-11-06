@@ -112,11 +112,10 @@ function submitForm(){
 		<c:set var="imageStr" value=""/>
 	</c:otherwise>
 </c:choose>
-
-<chrome:box title="Investigator" htmlContent="${imageStr }">
 <form:form name="investigatorForm">
 		<chrome:flashMessage />
 		<tags:tabFields tab="${tab}" />
+<chrome:box title="Investigator" htmlContent="${imageStr }">
 <tags:instructions code="investigator_details" />
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
@@ -347,9 +346,10 @@ function submitForm(){
 	
 </chrome:division>
 
-</form:form> 
+
 </chrome:box>
-<tags:tabControls tab="${tab}" flow="${flow}"
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
+<%--<tags:tabControls tab="${tab}" flow="${flow}"
 	localButtons="${localButtons}" willSave="true">
 	<jsp:attribute name="submitButton">
 		<table>
@@ -367,7 +367,9 @@ function submitForm(){
 				</tr>
 		</table>
 	</jsp:attribute>
-</tags:tabControls></div>
+</tags:tabControls> --%>
+</form:form> 
+</div>
 
 
 <div id="dummy-row" style="display: none;">
