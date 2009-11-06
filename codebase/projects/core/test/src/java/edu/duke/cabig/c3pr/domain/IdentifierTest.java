@@ -50,6 +50,9 @@ public class IdentifierTest extends AbstractTestCase{
 		Identifier orgIdentifier1 = new OrganizationAssignedIdentifier();
 		Identifier orgIdentifier2 = new OrganizationAssignedIdentifier();
 		
+		orgIdentifier1.setValue("val1");
+		orgIdentifier2.setValue("val1");
+		
 		assertFalse("The 2 objects cannot be equal",orgIdentifier1.equals(null));
 		assertTrue("The 2 identifiers have to be equal",orgIdentifier1.equals(orgIdentifier1));
 		assertTrue("The 2 identifiers have to be equal",orgIdentifier1.equals(orgIdentifier2));
@@ -63,6 +66,11 @@ public class IdentifierTest extends AbstractTestCase{
 	public void testEquals2() throws Exception{
 		OrganizationAssignedIdentifier orgIdentifier1 = new OrganizationAssignedIdentifier();
 		OrganizationAssignedIdentifier orgIdentifier2 = new OrganizationAssignedIdentifier();
+		
+		orgIdentifier1.setValue("val1");
+		orgIdentifier2.setValue("val1");
+		
+		
 		orgIdentifier2.setType(OrganizationIdentifierTypeEnum.MRN);
 		
 		assertFalse("The 2 identifiers cannot be equal",orgIdentifier1.equals(orgIdentifier2));

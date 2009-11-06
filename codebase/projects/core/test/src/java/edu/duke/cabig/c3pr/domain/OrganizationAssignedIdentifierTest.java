@@ -37,6 +37,11 @@ public class OrganizationAssignedIdentifierTest extends AbstractTestCase{
 		
 		OrganizationAssignedIdentifier orgIdentifier2 = new OrganizationAssignedIdentifier();
 		orgIdentifier2.setHealthcareSite(localHealthcareSite1);
+		
+		orgIdentifier1.setValue("val1");
+		orgIdentifier2.setValue("val1");
+		
+		
 		assertEquals("The two identifiers should be same",0,orgIdentifier1.compareTo(orgIdentifier2));
 	}
 	
@@ -63,6 +68,10 @@ public class OrganizationAssignedIdentifierTest extends AbstractTestCase{
 		Identifier orgIdentifier1 = new OrganizationAssignedIdentifier();
 		Identifier orgIdentifier2 = new OrganizationAssignedIdentifier();
 		
+		orgIdentifier1.setValue("val1");
+		orgIdentifier2.setValue("val1");
+		
+		
 		assertFalse("The 2 objects cannot be equal",orgIdentifier1.equals(null));
 		assertTrue("The 2 identifiers have to be equal",orgIdentifier1.equals(orgIdentifier1));
 		assertTrue("The 2 identifiers have to be equal",orgIdentifier1.equals(orgIdentifier2));
@@ -77,6 +86,10 @@ public class OrganizationAssignedIdentifierTest extends AbstractTestCase{
 		OrganizationAssignedIdentifier orgIdentifier1 = new OrganizationAssignedIdentifier();
 		OrganizationAssignedIdentifier orgIdentifier2 = new OrganizationAssignedIdentifier();
 		orgIdentifier2.setType(OrganizationIdentifierTypeEnum.MRN);
+		
+		orgIdentifier1.setValue("val1");
+		orgIdentifier2.setValue("val1");
+		
 		
 		assertFalse("The 2 identifiers cannot be equal",orgIdentifier1.equals(orgIdentifier2));
 		
