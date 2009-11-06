@@ -128,7 +128,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
 
     			identifiersAssignedToOrganizationCriteria.add(Expression.eq("value", identifier.getHealthcareSite().getPrimaryIdentifier()));
     			identifiersAssignedToOrganizationCriteria.add(Expression.eq("primaryIndicator", Boolean.TRUE));
-    			organizationAssignedIdentifiersCriteria.add(Expression.eq("typeInternal", identifier.getType().getCode()));
+    			organizationAssignedIdentifiersCriteria.add(Expression.eq("typeInternal", identifier.getType().getName()));
     	    	organizationAssignedIdentifiersCriteria.add(Expression.eq("value", identifier.getValue()));
     		}
     		return participantCriteria.list();
