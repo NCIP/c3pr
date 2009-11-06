@@ -158,15 +158,10 @@
 			</c:otherwise>
 			</c:choose>
 		</chrome:division>
-	<br>
+	<br />
 		<div class="division"></div>
         </div>
 	</div>	
-	<!-- 
-	<c:if test="${flowType != 'VIEW_SUBJECT'}">
-		<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" isLast="true" isSummaryPage="true" />
-	</c:if>
-	 -->
 </form:form>
 </body>
 </html>
