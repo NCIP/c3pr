@@ -36,12 +36,16 @@ public class NciIdLinkDisplayCell extends AbstractCell {
     		//getting the external Id (NCI Identifier) if healthcareSite if remote.
     		if(healthcareSite instanceof RemoteHealthcareSite){
             	cellValue = column.getValueAsString();
+            } else {
+            	cellValue = "Not specified";
             }
     	} else if(model.getCurrentRowBean() instanceof ResearchStaff ){
     		ResearchStaff rStaff = (ResearchStaff)model.getCurrentRowBean();
     		//getting the external Id (NCI Identifier) if ResearchStaff if remote.
     		if(rStaff instanceof RemoteResearchStaff){
             	cellValue = column.getValueAsString();
+            } else {
+            	cellValue = "Not specified";
             }
     	} else if(model.getCurrentRowBean() instanceof Investigator ){
     		Investigator investigator = (Investigator)model.getCurrentRowBean();
@@ -49,6 +53,8 @@ public class NciIdLinkDisplayCell extends AbstractCell {
     		if(investigator instanceof RemoteInvestigator){
     			//return sthe externalId(set in the build method of the ajaxFacade)
             	cellValue = column.getValueAsString();
+            } else {
+            	cellValue = "Not specified";
             }
     	}
         
