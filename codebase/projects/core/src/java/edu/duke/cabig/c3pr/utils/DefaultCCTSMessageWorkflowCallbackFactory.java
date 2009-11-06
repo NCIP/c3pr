@@ -57,7 +57,11 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
             InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
             domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND);
             domainObject.setCctsErrorString(null);
-            dao.save(domainObject);
+            try {
+            	dao.save(domainObject);
+			} catch (RuntimeException e) {
+				log.error(e);
+			}
         }
 
         public void messageSendFailed(String objectId) {
@@ -66,7 +70,11 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
             log.debug("Recording send failed for objectId" + objectId);
             InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
             domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_FAILED);
-            dao.save(domainObject);
+            try {
+            	dao.save(domainObject);
+			} catch (RuntimeException e) {
+				log.error(e);
+			}
         }
         
         public void messageAcknowledgmentFailed(String objectId) {
@@ -75,7 +83,11 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
             log.debug("Recording acknowledgment failed for objectId" + objectId);
             InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
             domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_ACK_FAILED);
-            dao.save(domainObject);
+            try {
+            	dao.save(domainObject);
+			} catch (RuntimeException e) {
+				log.error(e);
+			}
         }
 
         /**
@@ -90,7 +102,11 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
             log.debug("Recording send confirmed for objectId" + objectId);
             InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
             domainObject.setCctsWorkflowStatus(WorkFlowStatusType.MESSAGE_SEND_CONFIRMED);
-            dao.save(domainObject);
+            try {
+				dao.merge(domainObject);
+			} catch (RuntimeException e) {
+				log.error(e);
+			}
         }
 
         public void recordError(String objectId, ResponseErrors errors) {
@@ -99,7 +115,11 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
             log.debug("Recording error for objectId" + objectId);
             InteroperableAbstractMutableDeletableDomainObject domainObject = (InteroperableAbstractMutableDeletableDomainObject) getDomainObject(objectId);
             domainObject.setCctsErrorString(buildErrorString(errors));
-            dao.save(domainObject);            
+            try {
+            	dao.save(domainObject);
+			} catch (RuntimeException e) {
+				log.error(e);
+			}            
         }
         
         public String buildErrorString(ResponseErrors errors){
