@@ -7,7 +7,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.StringTokenizer;
 
-import org.apache.commons.lang.time.DateUtils;
+import edu.nwu.bioinformatics.commons.DateUtils;
+
 
 
 public class DateUtil extends DateUtils {
