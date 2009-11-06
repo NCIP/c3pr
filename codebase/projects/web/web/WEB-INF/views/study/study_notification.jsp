@@ -119,7 +119,7 @@
 	<hr noshade size="1" width="100%" style="border-top: 1px black dotted;" align="left">
 		<div align="left">
 		<tags:button type="button" color="blue" icon="add" value="Add Notification" id="addNotification"
-		onclick="RowManager.addRow(notificationRowInserterProps);" size="small"/>
+		onclick="RowManager.addRow(notificationRowInserterProps);" />
 		</div>
 		<br />
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
