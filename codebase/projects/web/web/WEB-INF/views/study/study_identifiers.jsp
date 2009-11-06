@@ -86,7 +86,6 @@ function manageIdentifierRadio(element){
 		<th width="35%"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/><tags:hoverHint keyProp="study.healthcareSite.identifierType"/></th>
 		<th width="20%"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/><tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
 		<th width="5%"><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
-		<th>&nbsp;</th>
 	</tr>
 	<c:forEach var="orgIdentifier" items="${command.study.organizationAssignedIdentifiers}" varStatus="organizationStatus">
 		<c:choose><c:when test="${orgIdentifier.type eq 'PROTOCOL_AUTHORITY_IDENTIFIER' || orgIdentifier.type eq 'COORDINATING_CENTER_IDENTIFIER'}">
@@ -180,7 +179,7 @@ onclick="RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 	<tr>
 		<td>System</td>
 		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
-			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" size="40"
+			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" size="30"
 			class="validate-notEmpty" /></td>
 		<td><select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
