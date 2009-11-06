@@ -425,7 +425,7 @@
 		    </table>
 		    
 		    
-		    <table>     
+		    <table width="100%">     
 		        <tr><td width="32%" align="center" colspan="1"><tags:button type="button" color="blue" icon="add" value="Add Email/Name" 
 								onclick="RowManager.addRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}));" size="small"/></td>
 					<td colspan="1" width="2%" class="divider" rowspan="2"></td>
