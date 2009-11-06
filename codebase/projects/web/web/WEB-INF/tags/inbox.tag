@@ -1,11 +1,16 @@
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@taglib uri="http://jawr.net/tags" prefix="jwr" %>
+<%@taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@taglib prefix="participanttags" tagdir="/WEB-INF/tags/participant"%>
+<%@taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
+<%@taglib prefix="jwr" uri="http://jawr.net/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 
 <%@attribute name="recipientScheduledNotification" type="java.util.Collection"  required="true"%>
 <%@attribute name="url" required="true"%>
@@ -66,7 +71,7 @@
 <chrome:box title="Notifications" htmlContent='${htmlContent}'>
 	<c:choose>
 		<c:when	test="${empty recipientScheduledNotification || fn:length(recipientScheduledNotification) == 0}">
-			<br /><b>You don't have any notifications.</b>
+			<br /><b><fmt:message key="DASHBOARD.NOTIFICATION.EMPTY"/></b>
           </c:when>
 		<c:otherwise>
 			<c:set var="numOfMessagesOnPage" value="5" />

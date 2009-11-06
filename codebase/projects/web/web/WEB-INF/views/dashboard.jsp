@@ -1,10 +1,4 @@
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib uri="http://jawr.net/tags" prefix="jwr"%>
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@ include file="../tags/taglibs.jsp"%>
 <link href="themes/mac_os_x.css" rel="stylesheet" type="text/css"/>
 <%--
   User: ion
@@ -75,7 +69,7 @@
 			<a
 				href="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide"
 				target="_blank">C3PR User Guide</a></div>
-			<div id="c3pr-deployment-status">
+			<%-- <div id="c3pr-deployment-status">
 			<img src="<c:url value="/images/chrome/li_item.jpg" />">&nbsp;&nbsp;
 			<a
 				href="javascript: Effect.Combo('deployment-modules')">Check
@@ -87,12 +81,15 @@
 			</c:if>
 			</div>
 			</div>
-			<br />
+			<br />--%>
 			<div id="build-name">Build Number: ${buildInfo.buildName}</div>
 		</chrome:box></td>
 		<td valign="top"><chrome:box
 			title="Incomplete Registrations - Most Recent">
-			<c:if
+			<c:choose>
+				
+			
+			<c:when
 				test="${uRegistrations != null && fn:length(uRegistrations) > 0}">
 				<table width="100%" cellspacing="1" cellpadding="2">
 					<tr bgcolor="${bgcolorAlternate}">
@@ -151,9 +148,15 @@
 						</csmauthz:accesscontrol>
 					</c:forEach>
 				</table>
-			</c:if>
+			</c:when>
+			<c:otherwise>
+				<b><fmt:message key="DASHBOARD.INCOMPLETE_REGISTRATIONS.EMPTY"/></b>
+			</c:otherwise>
+			</c:choose>
 		</chrome:box> <chrome:box title="Pending Studies - Most Recent">
-			<c:if test="${pStudies != null && fn:length(pStudies) > 0}">
+			<c:choose>
+			
+			<c:when test="${pStudies != null && fn:length(pStudies) > 0}">
 				<%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
 				<table width="100%" cellspacing="1" cellpadding="2">
 					<tr bgcolor="${bgcolorAlternate}">
@@ -193,9 +196,14 @@
 
 					</c:forEach>
 				</table>
-			</c:if>
+			</c:when>
+			<c:otherwise>
+			<b><fmt:message key="DASHBOARD.PENDING_STUDIES.EMPTY"/></b>
+			</c:otherwise>
+			</c:choose>
 		</chrome:box> <chrome:box title="Most Active Studies">
-			<c:if test="${aStudies != null && fn:length(aStudies) > 0}">
+			<c:choose>
+			<c:when test="${aStudies != null && fn:length(aStudies) > 0}">
 				<%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
 				<table width="100%" cellspacing="1" cellpadding="2">
 					<tr bgcolor="${bgcolorAlternate}">
@@ -233,7 +241,11 @@
 
 					</c:forEach>
 				</table>
-			</c:if>
+			</c:when>
+			<c:otherwise>
+				<b><fmt:message key="DASHBOARD.ACTIVE_STUDIES.EMPTY"/></b>
+			</c:otherwise>
+			</c:choose>
 		</chrome:box></td>
 	</tr>
 </table>
