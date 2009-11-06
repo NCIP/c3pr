@@ -51,6 +51,7 @@ public class SystemAssignedIdentifier extends Identifier implements
             if (other.systemName != null) return false;
         }
         else if (!systemName.equalsIgnoreCase(other.systemName)) return false;
+        if (!this.getValue().equals(other.getValue())) return false;
         return true;
     }
 

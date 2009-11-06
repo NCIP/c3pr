@@ -150,6 +150,7 @@ public class OrganizationAssignedIdentifier extends Identifier implements
             if (other.healthcareSite != null) return false;
         }
         else if (!healthcareSite.equals(other.healthcareSite)) return false;
+        if (!this.getValue().equals(other.getValue())) return false;
         return true;
     }
 
