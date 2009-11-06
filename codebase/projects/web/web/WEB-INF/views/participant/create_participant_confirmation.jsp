@@ -29,6 +29,30 @@ function manageParticipant(){
 				     <div class="label" ><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
 				     <div class="value" >${command.primaryIdentifierValue}</div>
 				 </div>
+				 <div class="row" >
+				     <div class="label" ><fmt:message key="participant.birthDate"/>:</div>
+				     <div class="value" >${command.birthDateStr}</div>
+				 </div>
+				 <div class="row">
+				 	 <div class="label"><fmt:message key="c3pr.common.streetAddress"/>:</div>
+				 	 <tags:value value="${command.address.streetAddress}" ></tags:value>
+				 </div>
+				 <div class="row">
+					 <div class="label"><fmt:message key="c3pr.common.city"/>:</div>
+					 <tags:value value="${command.address.city}" ></tags:value>
+				 </div>
+				 <div class="row">
+					 <div class="label"><fmt:message key="c3pr.common.state"/>:</div>
+					 <tags:value value="${command.address.stateCode}" ></tags:value>
+				 </div>
+				 <div class="row">
+					 <div class="label"><fmt:message key="c3pr.common.country"/>:</div>
+					 <tags:value value="${command.address.countryCode}" ></tags:value>
+				 </div>
+				 <div class="row">
+					 <div class="label"><fmt:message key="c3pr.common.zip"/>:</div>
+					 <tags:value value="${command.address.postalCode}" ></tags:value>
+				 </div>
 		<br/>
     </chrome:box>
 </body>
