@@ -505,8 +505,8 @@
 			  	</script>
 			</c:forEach>
 			</table>
-			<tags:button type="button" color="blue" icon="add" value="Add Notification" onclick="RowManager.addRow(notificationRowInserterProps);" size="small"/>
-				
+			<tags:button type="button" color="blue" icon="add" value="Add Notification" onclick="RowManager.addRow(notificationRowInserterProps);"/>
+			
 	</tags:basicFormPanelBox>
 	</div>
 	
