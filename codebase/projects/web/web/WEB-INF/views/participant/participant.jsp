@@ -211,9 +211,8 @@ function manageIdentifierRadio(element){
 								<div class="label"><fmt:message key="c3pr.common.identifierType"/></div>
 								<div class="value">
 								<form:select
-									path="organizationAssignedIdentifiers[0].type"
-									cssClass="validate-notEmpty"> value="${command.organizationAssignedIdentifiers[0].type}"
-									<form:options items="${identifiersTypeRefData}" itemLabel="desc" itemValue="desc" />
+									path="organizationAssignedIdentifiers[0].type" cssClass="validate-notEmpty"> 
+									<form:options items="${identifiersTypeRefData}" itemLabel="desc" itemValue="code" />
 								</form:select>
 								</div>
 						</div>
@@ -259,7 +258,7 @@ function manageIdentifierRadio(element){
 								cssClass="validate-notEmpty">
 								<option value="">Please Select</option>
 								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
-									itemValue="desc" />
+									itemValue="code" />
 							</form:select></td>
 							<td class="alt"><form:input
 								path="organizationAssignedIdentifiers[${organizationStatus.index}].value"
@@ -296,7 +295,7 @@ function manageIdentifierRadio(element){
 								cssClass="validate-notEmpty">
 								<option value="">Please Select</option>
 								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
-									itemValue="desc" />
+									itemValue="code" />
 							</form:select></td>
 							<td class="alt"><form:input
 								path="systemAssignedIdentifiers[${status.index}].value"

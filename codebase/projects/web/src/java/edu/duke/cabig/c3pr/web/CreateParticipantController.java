@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
@@ -109,14 +110,11 @@ public class CreateParticipantController<C extends Participant> extends
     @Override
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
                     throws Exception {
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
-                        "MM/dd/yyyy"), true));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
-        binder.registerCustomEditor(ContactMechanismType.class, new EnumByNameEditor(
-                        ContactMechanismType.class));
-        binder.registerCustomEditor(RaceCode.class, new EnumByNameEditor(
-                RaceCode.class));
-
+        binder.registerCustomEditor(ContactMechanismType.class, new EnumByNameEditor(ContactMechanismType.class));
+        binder.registerCustomEditor(RaceCode.class, new EnumByNameEditor(RaceCode.class));
+        binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor(OrganizationIdentifierTypeEnum.class));
     }
 
     @Override
@@ -125,8 +123,6 @@ public class CreateParticipantController<C extends Participant> extends
         super.onBind(request, command, errors);
     }
     
-    
-
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object oCommand, BindException errors) throws Exception {
