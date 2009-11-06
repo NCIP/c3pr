@@ -141,11 +141,11 @@
              <c:if test="${FLOW == 'EDIT_FLOW'}">
 				<c:choose>
 				<c:when test="${command.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-					<div>	${command.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
+					<div>	&nbsp;${command.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
 							<tags:hoverHint keyProp="researchStaff.organization"/>	</div>
 				</c:when>
 				<c:otherwise>
-					<div>	${command.healthcareSite.name}<tags:hoverHint keyProp="researchStaff.organization"/> </div>
+					<div>	&nbsp;${command.healthcareSite.name}<tags:hoverHint keyProp="researchStaff.organization"/> </div>
 				</c:otherwise>
 				</c:choose>
              </c:if>

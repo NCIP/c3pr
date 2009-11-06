@@ -7,6 +7,9 @@
 div.content {
 	padding: 5px 15px;
 }
+div.row div.label {
+	width: 14em;
+}
 </style>
 <script>
     ValidationManager.submitPostProcess=function(formElement, flag){
@@ -145,7 +148,7 @@ div.content {
         		</div>
         		<div class="value">
 	        		<c:if test="${FLOW == 'EDIT_FLOW'}">
-					${command.ctepCode}
+					&nbsp;${command.ctepCode}
 	            	<tags:hoverHint keyProp="organization.nciInstituteCode"/>
 	        		</c:if>
 	        		<c:if test="${FLOW == 'SAVE_FLOW'}">
@@ -160,7 +163,6 @@ div.content {
 		<chrome:division id="multisite-config" title="Multisite Configuration"
 			minimize="true" divIdToBeMinimized="multisiteConfig">
 			<div id="multisiteConfig" style="display: none">
-			<div class="leftpanel">
 			<div class="row">
 			<div class="label"><fmt:message
 				key="organization.advancedProperty" /></div>
@@ -190,7 +192,6 @@ div.content {
 				key="organization.authenticationRequired" /></div>
 			<div class="value"><input type="checkbox"
 				id="authenticationRequired" name="authenticationRequired" /></div>
-			</div>
 			</div>
 			</div>
 		</chrome:division>
@@ -312,7 +313,8 @@ div.content {
 		</chrome:division>
 
 	</chrome:box>
-</form:form> <tags:tabControls tab="${tab}" flow="${flow}"
+	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
+</form:form> <%--<tags:tabControls tab="${tab}" flow="${flow}"
 	localButtons="${localButtons}" willSave="true">
 	<jsp:attribute name="submitButton">
 		<table>
@@ -330,7 +332,7 @@ div.content {
 				</tr>
 		</table>
 	</jsp:attribute>
-</tags:tabControls></div>
+</tags:tabControls>--%></div>
 <div id="display_remote_org" style="display: none; text-align: left">
 <chrome:box title="Please select an Organization to be saved in C3PR"
 	id="popupId">

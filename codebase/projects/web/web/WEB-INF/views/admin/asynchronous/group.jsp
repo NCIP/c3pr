@@ -61,7 +61,7 @@
 		<br>
 		<br>  
 		<br>  
-		<table width="70%" class="tablecontent" id="investigatorsTable">
+		<div style="padding-top: 50px;"><table width="70%" class="tablecontent" id="investigatorsTable">
 			<tr>
 	            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.investigator"/></th>
 	            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
@@ -117,7 +117,7 @@
 		           </c:if>
           		</tr>
            	</c:forEach>
-		</table>
+		</table></div>
 	</div>
 	<br>
     <div align="left">
