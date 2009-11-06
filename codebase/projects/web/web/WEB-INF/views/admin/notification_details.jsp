@@ -721,13 +721,17 @@
 					</td>
 				</tr>
 				<tr><td colspan="2"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="10" align="middle" class="spacer"></td></tr>
-				<tr><td colspan="2" align="right">
+				<tr><td></td>
+					<td align="right">
 						<tags:button type="button" color="blue" value="Update" 
-								onclick="updateMessage('${nStatus.index}');" size="small"/>
+								onclick="updateMessage('${nStatus.index}');" />
+						
+						<!--[if IE]>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<![endif]-->
+						
 						<tags:button type="button" color="red" icon="x" value="Cancel" 
-								onclick="win.close();" size="small"/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				</td></tr>				
+								onclick="win.close();" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					</td>
+				</tr>				
 			</table>
 	</body>
 </html>
