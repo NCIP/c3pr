@@ -7,7 +7,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.StringTokenizer;
 
-import edu.nwu.bioinformatics.commons.DateUtils;
+import org.apache.commons.lang.time.DateUtils;
+
 
 public class DateUtil extends DateUtils {
     // ========================= CLASS CONSTANTS ============================
@@ -273,7 +274,6 @@ public class DateUtil extends DateUtils {
             formatStr = DISPLAY_DATE_FORMAT;
         }
 
-        Date d = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat(formatStr);
         Date currentDate = new Date();
         return formatter.format(currentDate);
@@ -290,4 +290,24 @@ public class DateUtil extends DateUtils {
 
     private static String[] months = { "Jan", "Feb", "March", "Apr", "May", "Jun", "Jul", "Aug",
             "Sep", "Oct", "Nov", "Dec" };
+    
+    public static Date getDate(String formatStr, Date date) {
+        if ("mm/dd/yyyy".equals(formatStr)) {
+            formatStr = DISPLAY_DATE_FORMAT;
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat(formatStr);
+        String dateStr = formatter.format(date);
+        Date formattedDate = null;
+        try {
+        formattedDate = formatter.parse(dateStr);
+        } catch (ParseException e) {
+        }
+        return formattedDate;  
+    }
+    
+    public static Date getFormatterCurrentDate(String formatStr) {
+       return getDate(formatStr, new Date());  
+    }
+    
+    
 }

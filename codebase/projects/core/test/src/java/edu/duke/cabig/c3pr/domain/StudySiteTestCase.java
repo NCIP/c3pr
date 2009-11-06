@@ -594,8 +594,9 @@ public class StudySiteTestCase extends AbstractTestCase {
 	
 	public void testHandleStudySiteStatusChange(){
 		EasyMock.expect(siteStatusHistory.getStartDate()).andReturn(null);
-		EasyMock.expect(healthcareSite.getName()).andReturn("Duke");
 		siteStatusHistory.setStudySite(studySite);
+		EasyMock.expect(siteStatusHistory.getSiteStudyStatus()).andReturn(SiteStudyStatus.PENDING);
+		
 		C3PRCodedRuntimeException c3CodedException = new C3PRCodedRuntimeException(1, "test");
 		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.NO.START_DATE.CODE",null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
@@ -614,12 +615,12 @@ public class StudySiteTestCase extends AbstractTestCase {
 	}
 	
 	public void testHandleStudySiteStatusChange1(){
-		EasyMock.expect(siteStatusHistory.getStartDate()).andReturn(new Date()).times(3);
-		EasyMock.expect(healthcareSite.getName()).andReturn("Duke");
+		EasyMock.expect(siteStatusHistory.getStartDate()).andReturn(new Date()).times(4);
 		siteStatusHistory.setStudySite(studySite);
 		C3PRCodedRuntimeException c3CodedException = new C3PRCodedRuntimeException(1, "test");
 		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.INVALID.EFFECTIVE_DATE.CODE",null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
+
 		replayMocks();
 		
 		Date currentDate = new Date();
@@ -648,7 +649,8 @@ public class StudySiteTestCase extends AbstractTestCase {
         
 		EasyMock.expect(siteStatusHistory.getStartDate()).andReturn(calendar.getTime()).times(3);
 		EasyMock.expect(siteStatusHistory.getEndDate()).andReturn(calendar.getTime()).times(1);
-		EasyMock.expect(healthcareSite.getName()).andReturn("Duke");
+		EasyMock.expect(siteStatusHistory.getSiteStudyStatus()).andReturn(SiteStudyStatus.PENDING);
+
 		siteStatusHistory.setStudySite(studySite);
 		C3PRCodedRuntimeException c3CodedException = new C3PRCodedRuntimeException(1, "test");
 		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDY.STUDYSITE.STATUS_HISTORY.END_DATE_PRESENT.CODE",null, null)).andReturn("1");
