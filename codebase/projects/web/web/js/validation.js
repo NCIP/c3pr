@@ -72,12 +72,12 @@ var ValidationManager = {
 	registeredInvokes: new Array(),
 	ERROR_STRATEGY:"text",
 	ERROR_HIGHTLIGHT_COLOR:"red",
-	ERROR_MSG_REQUIRED:"required",
+	ERROR_MSG_REQUIRED:"Missing field",
 	ERROR_MSG_PATTERN:"Incorrect format",
-	ERROR_MSG_MINLENGTH:"too short",
-	ERROR_MSG_MAXLENGTH:"too long",
-	ERROR_MSG_PHONE:"invalid phone number",
-	ERROR_MSG_NONZERO_VALUE:"enter value more then zero",
+	ERROR_MSG_MINLENGTH:"Too short",
+	ERROR_MSG_MAXLENGTH:"Too long",
+	ERROR_MSG_PHONE:"Invalid phone number",
+	ERROR_MSG_NONZERO_VALUE:"Enter value more then zero",
 	ERROR_MSG_HTML_SPECIAL_CHARS:"Incorrect format. (*|,\":<>[]{}`\';()@&$#%) not allowed",
 
 	validateForm: function(submit){
@@ -156,7 +156,8 @@ var ValidationManager = {
 		for(i=0 ; i<strategies.length ; i++){
 		errorStrategy1=strategies[i]
 			if(errorStrategy1=="text"){
-				new Insertion.After(element, " <span id='"+element.name+"-msg'style='color:#EE3324'>*"+msg+"</span>")
+				//new Insertion.After(element, " <span id='"+element.name+"-msg'style='color:#EE3324'><img src='/c3pr/images/error-red.png' />"+msg+"</span>")
+				new Insertion.Bottom(element.parentNode, "<ul id='"+element.name+"-msg' class='errors'><li>"+msg+"</li></ul>")
 			}
 			if(errorStrategy1=="highlight") {
 				element.style._backgroundColor=element.style._backgroundColor?element.style._backgroundColor:element.style.backgroundColor
