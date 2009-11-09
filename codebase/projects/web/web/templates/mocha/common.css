@@ -1029,6 +1029,17 @@ p {
     color: #c03;
 }
 
+.errors {
+    color:#CC0033;
+}
+div.errors {
+    border:1px solid #CC0033;
+    color:#CC0033;
+    font-size:11pt;
+    margin:40px;
+    padding:0 0 0.2em 1em;
+}
+
 ul.errors, p.errors {
     color: #c03;
 }
@@ -1039,6 +1050,7 @@ ul.errors {
 }
 
 ul.errors li {
+    list-style-image: url(/c3pr/images/error-red.png);
     margin: 0 0.8em;
     padding: 0;
 }
