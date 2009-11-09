@@ -65,6 +65,7 @@ public class SearchParticipantAjaxFacade {
         Column races = model.getColumnInstance();
         races.setTitle("Race(s)");
         races.setProperty("raceCodes");
+        races.setCell((SubjectRaceDisplayCell.class).getName());
         model.addColumn(races);
         
         Column birthDate = model.getColumnInstance();
