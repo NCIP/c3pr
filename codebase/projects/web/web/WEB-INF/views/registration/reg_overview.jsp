@@ -38,9 +38,11 @@
         }
         
 		function accessApp(url,targetWindow){
+			C3PR.disableAjaxLoadingIndicator=true;
 			$('hotlinksForm').target=targetWindow;
 			$('hotlinksForm').action=url;
 			$('hotlinksForm').submit();
+			C3PR.disableAjaxLoadingIndicator=false;
 		}
 		function createReg(studySite, participant, parentRegistrationId){
 			$('create_studySite').value=studySite;
