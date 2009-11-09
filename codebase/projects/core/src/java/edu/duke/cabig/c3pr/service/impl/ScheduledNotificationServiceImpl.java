@@ -41,8 +41,6 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 
     private Logger log = Logger.getLogger(ScheduledNotificationServiceImpl.class);
 
-    private PlannedNotificationDao plannedNotificationDao;
-//    private ScheduledNotificationDao scheduledNotificationDao;
     ApplicationContext applicationContext;
     
     /* Study Status Changed case     */
@@ -74,18 +72,17 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	ScheduledNotification scheduledNotification = null;
     	
     	//Creating a new session to save the scheduled notifications to avoid conflicts with the
-    	//currentSession (whose flush initiated this interceptor call in the first place).
+    	//CurrentSession (whose flush initiated this interceptor call in the first place).
     	SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
     	Session session = sessionFactory.openSession();
 		session.setFlushMode(FlushMode.COMMIT);
     	try{
     		session.update(plannedNotification);
-        	//plannedNotificationDao.reassociate(plannedNotification); 
+    		session.update(plannedNotification.getHealthcareSite());
         	//generating and saving the ScheduledNotification
         	scheduledNotification = addScheduledNotification(plannedNotification, composedMessage, ssList);
         	session.saveOrUpdate(plannedNotification);
         	session.flush();
-        	//plannedNotificationDao.saveOrUpdate(plannedNotification);
     	}catch(Exception e){
     		log.error(e.getMessage());
     	}finally{
@@ -100,6 +97,15 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 		}
     }
     
+    /**
+     * Adds the scheduled notification.
+     * 
+     * @param plannedNotification the planned notification
+     * @param composedMessage the composed message
+     * @param soList the so list
+     * 
+     * @return the scheduled notification
+     */
     public ScheduledNotification addScheduledNotification(PlannedNotification plannedNotification, String composedMessage, List<StudyOrganization> soList){
     	
     	ScheduledNotification scheduledNotification = new ScheduledNotification();
@@ -165,31 +171,9 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     }
     
 
-	public PlannedNotificationDao getPlannedNotificationDao() {
-		return plannedNotificationDao;
-	}
-
-	public void setPlannedNotificationDao(
-			PlannedNotificationDao plannedNotificationDao) {
-		this.plannedNotificationDao = plannedNotificationDao;
-	}
-
-
-	/*public ScheduledNotificationDao getScheduledNotificationDao() {
-		return scheduledNotificationDao;
-	}
-
-
-	public void setScheduledNotificationDao(
-			ScheduledNotificationDao scheduledNotificationDao) {
-		this.scheduledNotificationDao = scheduledNotificationDao;
-	}*/
-
-
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
-
 
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
