@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.admin;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,12 +17,10 @@ import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
@@ -91,27 +90,34 @@ public class CreateInvestigatorController<C extends Investigator> extends
 			Object command, BindException errors) throws Exception {
 		super.onBindAndValidate(request, command, errors);
 		Investigator investigator = (Investigator) command;
-    		if(!"saveRemoteInvestigator".equals(request.getParameter("_action")) || (request.getParameter("_action").equals("syncInvestigator") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW))){
-    			if (! request.getParameter("_action").equals("syncInvestigator")) {
-					Investigator invFromDB = investigatorDao
-							.getByEmailAddressFromLocal(investigator
-									.getEmail());
-					if (invFromDB != null) {
-						return;
-					}
+		Map<String, Organization> uniqueOrganization= new HashMap<String, Organization>();
+		for(HealthcareSiteInvestigator healthcareSiteInvestigator : investigator.getHealthcareSiteInvestigators()){
+			uniqueOrganization.put(healthcareSiteInvestigator.getHealthcareSite().getPrimaryIdentifier(), healthcareSiteInvestigator.getHealthcareSite());
+		}
+		if(uniqueOrganization.size() != investigator.getHealthcareSiteInvestigators().size()){
+			errors.reject("DUPLICATIE_ORG_EXISTS","Duplicate organization.");
+		}
+		if(!"saveRemoteInvestigator".equals(request.getParameter("_action")) || (request.getParameter("_action").equals("syncInvestigator") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW))){
+			if (! request.getParameter("_action").equals("syncInvestigator")) {
+				Investigator invFromDB = investigatorDao
+						.getByEmailAddressFromLocal(investigator
+								.getEmail());
+				if (invFromDB != null) {
+					return;
 				}
-				List<Investigator> remoteInvestigators = investigatorDao.getRemoteInvestigators(investigator);
-        		boolean matchingExternalInvestigatorPresent = false;
-        		for(Investigator remoteInv : remoteInvestigators){
-        			if(remoteInv.getEmail().equals(investigator.getEmail())){
-        				investigator.addExternalInvestigator(remoteInv);
-        				matchingExternalInvestigatorPresent = true;
-        			}
-        		}
-        		if(matchingExternalInvestigatorPresent){
-        			errors.reject("REMOTE_INV_EXISTS","Investigator with email " +investigator.getEmail()+ " exists in external system");
-        		}
-        	}
+			}
+			List<Investigator> remoteInvestigators = investigatorDao.getRemoteInvestigators(investigator);
+    		boolean matchingExternalInvestigatorPresent = false;
+    		for(Investigator remoteInv : remoteInvestigators){
+    			if(remoteInv.getEmail().equals(investigator.getEmail())){
+    				investigator.addExternalInvestigator(remoteInv);
+    				matchingExternalInvestigatorPresent = true;
+    			}
+    		}
+    		if(matchingExternalInvestigatorPresent){
+    			errors.reject("REMOTE_INV_EXISTS","Investigator with email " +investigator.getEmail()+ " exists in external system");
+    		}
+    	}
 	}
     
 
