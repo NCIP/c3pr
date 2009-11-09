@@ -47,10 +47,9 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	/** The birth date. */
 	private Date birthDate;
 
-//	private String birthDateStr;
 
 	/** The administrative gender code. */
-private String administrativeGenderCode;
+	private String administrativeGenderCode;
 
 	/** The ethnic group code. */
 	private String ethnicGroupCode;
