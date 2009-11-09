@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
+import edu.duke.cabig.c3pr.domain.SiteStatusHistory;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -80,11 +81,9 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		session.setFlushMode(FlushMode.MANUAL);
 		result = new ArrayList<PlannedNotification>();
         try {
-          //Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and o.nciInstituteCode = ?");
           Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and " +
           "o.identifiersAssignedToOrganization.primaryIndicator = 'true' and " +
           "o.identifiersAssignedToOrganization.value in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
-          //"o.nciInstituteCode in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
           
           result = query.list();
         }
@@ -114,17 +113,21 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		String[] propertyNames, Type[] types) {
 		log.debug(this.getClass().getName() + ": Entering onSave()");
 		
-		//Every new registration
-		if(entity instanceof StudySubject){			
-			handleNewStudySubjectSaved(null,((StudySubject)entity).getRegWorkflowStatus(), entity);
+		//Every new registration is handled here.
+		if(entity instanceof StudySubjectStudyVersion){			
+			handleNewStudySubjectSaved(null,((StudySubjectStudyVersion)entity).getStudySubject().getRegWorkflowStatus(), entity);
 		}
+/*		if(entity instanceof StudySubject){			
+			handleNewStudySubjectSaved(null,((StudySubject)entity).getRegWorkflowStatus(), entity);
+		}*/
 		//Every new study...notification is onyl sent if new stuayd status is Active
 		if(entity instanceof Study){			
 			handleStudyStatusChange(null,((Study)entity).getCoordinatingCenterStudyStatus(), entity);
 		}
 		//New Study Site .....currently not implemented
-		if(entity instanceof StudySite){
-			handleStudySiteStatusChange(null, ((StudySite)entity).getSiteStudyStatus(), entity);
+		if(entity instanceof SiteStatusHistory){
+			StudySite studySite = ((SiteStatusHistory)entity).getStudySite();
+			handleStudySiteStatusChange(null, studySite.getSiteStudyStatus(), studySite);
 		}
 		log.debug(this.getClass().getName() + ": Exiting onSave()");
 		return false;
@@ -142,7 +145,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		log.debug(this.getClass().getName() + ": Entering onFlushDirty()");
 		
 		//Study status changes are spotted here for activating rules.
-		if(entity instanceof Study ){
+		if(entity instanceof Study){
 			if(String.valueOf(((Study)entity).getVersion()).equals(studyId)){
 				//while saving the scheduled notifications, the interceptor is fired again
 				//to prevent an infinite loop..we check to see if the study obj involved is the same
@@ -162,19 +165,20 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		}
 		
 		//StudySite status changes are spotted here for activating rules.
-		if(entity instanceof StudySite){
-			if(String.valueOf(((StudySite)entity).getVersion()).equals(studySiteId)){
+		if(entity instanceof SiteStatusHistory){
+			StudySite studySite = ((SiteStatusHistory)entity).getStudySite();
+			if(String.valueOf(studySite.getVersion()).equals(studySiteId)){
 				//while saving the scheduled notifications, the interceptor is fired again
 				//to prevent an infinite loop..we check to see if the studySite obj involved is the same
 				//if so exit the interceptor immediately else continue processing
 				log.debug("exiting to prevent looping");
 				return false;
 			}else{
-				studySiteId = String.valueOf(((StudySite)entity).getVersion());
+				studySiteId = String.valueOf(studySite.getVersion());
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (propertyNames[i].equals("siteStudyStatus")){
 						if(previousState != null && currentState != null ){
-							handleStudySiteStatusChange(previousState[i], currentState[i], entity);
+							handleStudySiteStatusChange(previousState[i], currentState[i], studySite);
 						}
 					}
 				}
@@ -199,7 +203,6 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 							} else {
 								handleNewStudySubjectSaved(null, currentState[i], entity);
 							}
-							
 						}
 					}
 				}
@@ -257,7 +260,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 					rulesDelegationService.activateRules(event, objects);
 					objects.remove(pn);
 				}
-				//activate rules if the event occured is a new Reg event and we have a stored planned notification for
+				//activate rules if the event occured is a new Registration event and we have a stored planned notification for
 				//registration status changes. In other words...new Reg event shud send out Reg status changed notification.
 				if(pn.getEventName().equals(NotificationEventTypeEnum.REGISTATION_STATUS_CHANGE) &&
 						event.equals(NotificationEventTypeEnum.NEW_REGISTRATION_EVENT)){
@@ -434,15 +437,29 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		
 		List<HealthcareSite> hcsList = new ArrayList<HealthcareSite>();
 		if(entity instanceof StudySubject){
-//			Original code, commented out for the time-being			
-//			hcsList.add(((StudySubject)entity).getStudySite().getHealthcareSite());
-//			hcsList.add(((StudySubject)entity).getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+//			Original code, commented out for the time-being.
+			/*if(((StudySubject)entity).getStudySite() != null){
+				hcsList.add(((StudySubject)entity).getStudySite().getHealthcareSite());
+				hcsList.add(((StudySubject)entity).getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+				
+			}*/
 			
-//			Try this if the above doesn't work			
-//			StudySubject studySubject = (StudySubject)entity;
-//			hcsList.add(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite().getHealthcareSite());
-//			hcsList.add(studySubject.getStudySiteVersion().getStudyVersion().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
-			
+			//Try this if the above doesn't work
+			StudySubject studySubject = (StudySubject)entity;
+			if(studySubject.getStudySubjectStudyVersion() != null && studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion() != null){
+				hcsList.add(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudySite().getHealthcareSite());
+				hcsList.add(studySubject.getStudySiteVersion().getStudyVersion().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+			}
+		}
+		if(entity instanceof StudySubjectStudyVersion){
+			StudySubjectStudyVersion studySubjectStudyVersion = (StudySubjectStudyVersion)entity;
+			hcsList.add(studySubjectStudyVersion.getStudySiteStudyVersion().getStudySite().getHealthcareSite());
+			hcsList.add(studySubjectStudyVersion.getStudySiteStudyVersion().getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+		}
+		
+		if(entity instanceof SiteStatusHistory){
+			hcsList.add(((SiteStatusHistory)entity).getStudySite().getHealthcareSite());
+			hcsList.add(((SiteStatusHistory)entity).getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
 		}
 		if(entity instanceof StudySite){
 			hcsList.add(((StudySite)entity).getHealthcareSite());
