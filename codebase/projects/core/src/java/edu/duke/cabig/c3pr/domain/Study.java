@@ -1003,7 +1003,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		if(this.getCompanionIndicator()){
 			for(CompanionStudyAssociation parentStudyAssociation : this.getParentStudyAssociations()){
 				for(StudySite studySite : parentStudyAssociation.getStudySites()){
-					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNCICode())){
+					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getCtepCode())){
 						return studySite ;
 					}
 				}
@@ -1011,7 +1011,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		}else{
 			for(CompanionStudyAssociation companionStudyAssociation : this.getStudyVersion().getCompanionStudyAssociations()){
 				for(StudySite studySite : companionStudyAssociation.getStudySites()){
-					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNCICode())){
+					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getCtepCode())){
 						return studySite ;
 					}
 				}
