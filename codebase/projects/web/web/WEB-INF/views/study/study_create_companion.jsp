@@ -132,18 +132,7 @@
 	      			<tags:hoverHint keyProp="study.blindedIndicator"/>
 	      		</div>
 	        </div>
-	        <div class="row">
-	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.multiInstitution"/></div>
-	            <div class="value">
-	            	<select id="companionStudyPAGE.ROW.INDEX-multiInstitutionIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.multiInstitutionIndicator" class="required validate-notEmpty">
-	                  	<option value="">Please Select</option>
-	                 		<c:forEach items="${yesNo}" var="status">
-	                 			<option value="${status.code}">${status.desc}</option>
-	                 		</c:forEach>
-	            	</select>
-	             	<tags:hoverHint keyProp="study.multiInstitutionIndicator"/>
-	            </div>
-	        </div>
+	        <input type="hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.multiInstitutionIndicator" value="true"/>
         	<div class="row" style="display:none;">
 	        	<div class="label"><tags:requiredIndicator /><fmt:message key="study.standalone"/></div>
 	        	<div class="value">
@@ -152,6 +141,15 @@
 	        		<tags:hoverHint keyProp="study.standaloneIndicator"/>
 	        	</div>
 	        </div>
+	        <div class="row">
+	        <div class="label">
+	        	<tags:requiredIndicator />
+	        	<fmt:message key="study.versionNameNumber"/>
+	        </div>
+	       <div class="value">
+	       		<input class="validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-versionName"  name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.versionName"/>
+            </div>
+    	</div>
 	     </div>
 	</chrome:division>
 	<chrome:division title="Stratification & Randomization">
@@ -168,7 +166,9 @@
          			<tags:hoverHint keyProp="study.stratifiedIndicator"/>
          		</div>
          	</div>
-	        <div class="row">
+    	</div>
+		<div class="rightpanel">
+			<div class="row">
 	           	<div class="label"><tags:requiredIndicator /> <fmt:message key="study.randomized"/></div>
 		        <div class="value">
 		        	<select id="companionStudyPAGE.ROW.INDEX-randomizedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizedIndicator" class="required validate-notEmpty" onchange="manageRandomizedIndicatorSelectBox(this, PAGE.ROW.INDEX)">
@@ -180,9 +180,7 @@
 		            <tags:hoverHint keyProp="study.randomizedIndicator"/>
 	            </div>
             </div>
-    	</div>
-		<div class="rightpanel">
-        	<div id="randomizationTypeDiv">
+        	<div id="randomizationTypeDiv" style="display:none">
 	            <div class="row">
     	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.type"/></div>
         	        <div class="value">
@@ -218,7 +216,7 @@
                       <div class="label"><tags:requiredIndicator /><fmt:message key="study.studyIdentifier"/></div>
                       <div class="value">
                       	<input type="text" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="required validate-notEmpty" />
-						<input type="hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].type" value="Coordinating Center Identifier"/>
+						<input type="hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].type" value="COORDINATING_CENTER_IDENTIFIER"/>
 						<input type="hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
 						<tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></div>
 		  			  </div>            
@@ -247,7 +245,7 @@
             		<div class="value">
 	            		<input type="text" name="${fn:length(dataFromParent.fundingSponsorsList) > 0 ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].value : 'qwer'}" size="30" maxlength="30" id="companionStudyPAGE.ROW.INDEX-fundingSponsorIdentifier" />
 						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="${fn:length(dataFromParent.fundingSponsorsList) > 0 ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite : 'poiuy'}"/>
-						<input type="hidden" name="${fn:length(dataFromParent.fundingSponsorsList) > 0 ?  study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].type : 'trewq'}" id="companionStudyPAGE.ROW.INDEX-fundingSponIdentifierType" value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? 'Protocol Authority Identifier' : ''}" />
+						<input type="hidden" name="${fn:length(dataFromParent.fundingSponsorsList) > 0 ?  study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].type : 'trewq'}" id="companionStudyPAGE.ROW.INDEX-fundingSponIdentifierType" value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? 'PROTOCOL_AUTHORITY_IDENTIFIER' : ''}" />
 						<tags:hoverHint keyProp="study.fundingsponsor.identifier"/>
 					</div>
         		</div>

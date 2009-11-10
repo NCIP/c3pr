@@ -17,19 +17,17 @@ import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.constants.AmendmentType;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
-import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
+import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
-import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty;
 
 /**
  * Tab for Study Overview/Summary page <p/> Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007
@@ -68,6 +66,11 @@ public class StudyOverviewTab extends StudyTab {
 	            	Date versionDate = study.getStudyVersion().getVersionDate();
 	            	study = studyDao.getById(study.getId());
 	            	study.getStudyVersion().setVersionDate(versionDate);
+	            	for(CompanionStudyAssociation compStudyAssoc : study.getCompanionStudyAssociations() ){
+	            		if(!compStudyAssoc.getCompanionStudy().getStandaloneIndicator()){
+	            			compStudyAssoc.getCompanionStudy().getStudyVersion().setVersionDate(versionDate);
+	            		}
+	            	}
 	            	studyRepository.merge(study);
             	}
             	
@@ -248,9 +251,9 @@ public class StudyOverviewTab extends StudyTab {
         this.studyService = studyService;
     }
 
-    public ModelAndView reloadCompanion(HttpServletRequest request, Object command , Errors error) {
-		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
-	}
+//    public ModelAndView reloadCompanion(HttpServletRequest request, Object command , Errors error) {
+//		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
+//	}
 
     public ModelAndView updateTargetAccrual(HttpServletRequest request, Object command , Errors error) {
     	return new ModelAndView(AjaxableUtils.getAjaxViewName(request));

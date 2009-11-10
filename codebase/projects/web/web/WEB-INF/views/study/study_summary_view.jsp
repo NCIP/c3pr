@@ -59,10 +59,10 @@
             }
         }
 
-        function reloadCompanion() {
+      /*  function reloadCompanion() {
         <tags:tabMethod method="reloadCompanion" divElement="'companionDiv'" formName="'tabMethodForm'"  viewName="/study/companionSection"/>
         }
-        
+        */
         function showCloseStudyPopup(){
 			closeWin = new Window({className :"mac_os_x", title: "Close Study", 
 									hideEffect:Element.hide, 
@@ -89,8 +89,6 @@
         	if (${fn:length(errors)} > 0){
                 if(status=='open' || status=='applyAmendment' ){
         			var d = $('errorsOpenDiv');
-                }else  if(status=='readyToOpen'){
-                	var d = $('errorsReadyToOpenDiv');
                 }
         		Dialog.alert(d.innerHTML, {className: "alphacube", width:400, okLabel: "Close" });
         	} else if(status=='close') {
@@ -199,13 +197,16 @@
 			<c:set var="companionTab" value="${status.index}"/>
 		</c:if>
 	</c:forEach>
-<div id="controlPanel">
+	<div id="pendingParentStudy" style="display:none;">
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="study.parentStudy.status.pending"/></div>
+	</div>
+	<div id="controlPanel">
 	<tags:controlPanel>
 		<c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
             <c:if test="${coCenterStatus=='READY_TO_OPEN'}">
-                <c:set var="readyToOpen" value="Create"></c:set>
+                <script>$('pendingParentStudy').style.display=''</script>
             </c:if>
-            <c:if test="${coCenterStatus=='OPEN' && !(command.study.companionIndicator && !command.study.standaloneIndicator)}">
+            <c:if test="${coCenterStatus=='OPEN' && (!(command.study.companionIndicator && !command.study.standaloneIndicator) || (command.study.companionIndicator && !command.study.standaloneIndicator && command.study.isParentStudyOpen))}">
                 <c:set var="open" value="Open"></c:set>
             </c:if>
             <c:if test="${coCenterStatus=='CLOSED_TO_ACCRUAL'}">
@@ -223,9 +224,6 @@
                 <c:if test="${!empty open}">
                 	<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('open');" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Open Study" />
                 </c:if>
-                <c:if test="${!empty readyToOpen}">
-            		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('readyToOpen')" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_readytoOpen.png" linktext="Ready to open" />
-	            </c:if>
 	            <c:if test="${applyAmendment}">
             		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('applyAmendment')" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_readytoOpen.png" linktext="Apply Amendment" />
 	            </c:if>
@@ -319,16 +317,12 @@
 		<div class="label"><fmt:message key="c3pr.common.status"/>:</div>
 		<div class="value">${command.study.coordinatingCenterStudyStatus.code}</div>
 	</div>
-	<div class="row">
-		<div class="label"><fmt:message key="c3pr.common.type"/>:</div>
-		<div class="value">${command.study.type}</div>
-	</div>
 </div>
 
 <div class="rightpanel">
 	<div class="row">
-		<div class="label"><fmt:message key="study.multiInstitution"/>:</div>
-		<div class="value">${command.study.multiInstitutionIndicator=="true"?"Yes":"No"}</div>
+		<div class="label"><fmt:message key="c3pr.common.type"/>:</div>
+		<div class="value">${command.study.type}</div>
 	</div>
 	<div class="row">
 		<div class="label"><fmt:message key="study.blinded"/>:</div>
@@ -624,23 +618,6 @@
 	<div class="value" align="left">
 		<font size="2" face="Verdana" color="red">
 			Cannot Open Study. Please review the data.
-		</font>
-	</div>
-
-	<br>
-
-	<c:forEach items="${errors}" var="error" >
-		<div class="value" align="left">
-			<font size="1" face="Verdana" color="black">
-				${error.errorMessage}
-			</font>
-		</div>
-	</c:forEach>
-</div>
-<div id="errorsReadyToOpenDiv" style="display:none">
-	<div class="value" align="left">
-		<font size="2" face="Verdana" color="red">
-			Cannot Create Study. Please review the data.
 		</font>
 	</div>
 

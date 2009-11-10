@@ -140,15 +140,11 @@ function updateTargetAccrual(){
 		<div class="label"><fmt:message key="c3pr.common.status"/>:</div>
 		<div class="value">${command.study.coordinatingCenterStudyStatus.code}</div>
 	</div>
-	<div class="row">
-		<div class="label"><fmt:message key="c3pr.common.type"/>:</div>
-		<div class="value">${command.study.type}</div>
-	</div>
 </div>
 <div class="rightpanel">
 	<div class="row">
-		<div class="label"><fmt:message key="study.multiInstitution"/>:</div>
-		<div class="value">${command.study.multiInstitutionIndicator=="true"?"Yes":"No"}</div>
+		<div class="label"><fmt:message key="c3pr.common.type"/>:</div>
+		<div class="value">${command.study.type}</div>
 	</div>
 	<div class="row">
 		<div class="label"><fmt:message key="study.blinded"/>:</div>
@@ -162,7 +158,7 @@ function updateTargetAccrual(){
 		<div class="label"><fmt:message key="study.randomized"/>:</div>
 		<div class="value">${command.study.randomizedIndicator=="true"?"Yes":"No"}</div>
 	</div>
-	<div class="row">
+	<div class="row" <c:if test="${!command.study.randomizedIndicator}">style="display:none;"</c:if>>
 		<div class="label"><fmt:message key="study.randomizationType"/>:</div>
 		<div class="value">${command.study.randomizationType.displayName}</div>
 	</div>
@@ -229,7 +225,7 @@ function updateTargetAccrual(){
         <c:forEach items="${command.study.consents}" var="consent">
             <tr>
                 <td class="alt">${consent.name}</td>
-                            </tr>
+			</tr>
         </c:forEach>
     </table>
 </chrome:division>
@@ -421,9 +417,7 @@ function updateTargetAccrual(){
 			Cannot Open Study. Please review the data.
 		</font>
 	</div>
-
 	<br>
-
 	<c:forEach items="${errors}" var="error" >
 		<div class="value" align="left">
 			<font size="1" face="Verdana" color="black">
@@ -438,10 +432,7 @@ function updateTargetAccrual(){
 			Cannot Create Study. Please review the data.
 		</font>
 	</div>
-</div>
-
 	<br>
-
 	<c:forEach items="${errors}" var="error" >
 		<div class="value" align="left">
 			<font size="1" face="Verdana" color="black">
@@ -450,8 +441,9 @@ function updateTargetAccrual(){
 		</div>
 	</c:forEach>
 </div>
+</div>
 </form:form>
-<div id="openWithDateMessage" style="padding: 15px;">
+<div id="openWithDateMessage" style="display:none; padding: 15px;">
 		<div style="font-size: 10pt; padding-top: 20px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
 	        <b><tags:requiredIndicator />Effective date</b>
 	        <input type="text" id="studyOpenDate" class="date validate-DATE&&notEmpty"  value="${command.study.studyVersion.versionDateStr }"/>

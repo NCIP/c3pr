@@ -435,24 +435,22 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     public List<Study> matchComapanionStudies(String text, HttpServletRequest request) throws Exception {
     	StudyWrapper wrapper = (StudyWrapper) getCommandOnly(request) ;
     	Study parentStudy = wrapper.getStudy();
-    	List<Study> companionStudies = studyDao.getStudiesBySubnamesWithExtraConditionsForPrimaryIdentifier(extractSubnames(text));
+    	List<Study> companionStudies = studyDao.getBySubnames(extractSubnames(text));
 
         List<Study> reducedCompanionStudies = new ArrayList<Study>(companionStudies.size());
         for (Study companionStudy : companionStudies) {
         	if(companionStudy.getCompanionIndicator() )
-	        	if(companionStudy.getStandaloneIndicator() || (!companionStudy.getStandaloneIndicator() && isCompanionForCurrentStudy(companionStudy, parentStudy))){
+	        	if((companionStudy.getStandaloneIndicator() && companionStudy.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) || (!companionStudy.getStandaloneIndicator() && !isCompanionAssociatedToAnyStudy(companionStudy))){
 	        		reducedCompanionStudies.add(buildReduced(companionStudy, Arrays.asList("id", "shortTitleText", "coordinatingCenterStudyStatus")));
 	        	}
         	}
         return reducedCompanionStudies ;
     }
     
-    private boolean isCompanionForCurrentStudy(Study companionStudy, Study parentStudy){
-    	List<CompanionStudyAssociation> companionStudyAssoc = companionStudy.getStudyVersion().getCompanionStudyAssociations();
-    	if(companionStudyAssoc.size() == 1){
-    		if(parentStudy.equals(companionStudyAssoc.get(0).getParentStudy())){
-    			return true ;
-    		}
+    private boolean isCompanionAssociatedToAnyStudy(Study companionStudy){
+    	List<CompanionStudyAssociation> parentStudyAssoc = companionStudy.getParentStudyAssociations();
+    	if(parentStudyAssoc.size() > 0){
+			return true ;
     	}
     	return false ;
     }
