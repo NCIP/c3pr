@@ -7,10 +7,10 @@
     <table>
         <tr>
             <td class="alt">
-                <input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" class="validate-notEmpty"/>
+                <input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" class="required validate-notEmpty"/>
             </td>
             <td class="alt">
-                <select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type" name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].type" class="validate-notEmpty">
+                <select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type" name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].type" class="required validate-notEmpty">
                     <option value="">Please select</option>
                     <c:forEach items="${identifiersTypes}" var="id">
                         <option value="${id.desc}">${id.desc}</option>
@@ -18,7 +18,7 @@
                 </select>
             </td>
             <td class="alt">
-                <input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text" onfocus="javascript:clearField(this)" class="validate-notEmpty"/>
+                <input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text" onfocus="javascript:clearField(this)" class="required validate-notEmpty"/>
             </td>
             <td class="alt">
                 <input type="radio" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" value="true"/>
@@ -39,7 +39,7 @@
                 </div>
             </td>
             <td class="alt">
-                <select id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type" name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].type" class="validate-notEmpty">
+                <select id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type" name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].type" class="required validate-notEmpty">
                     <option value="">Please select</option>
                     <c:forEach items="${identifiersTypes}" var="id">
                         <option value="${id.desc}">${id.desc}</option>
@@ -47,7 +47,7 @@
                 </select>
             </td>
             <td class="alt">
-                <input id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text" onfocus="javascript:clearField(this)" class="validate-notEmpty"/>
+                <input id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text" onfocus="javascript:clearField(this)" class="required validate-notEmpty"/>
             </td>
             <td class="alt">
                 <input type="radio" id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" value="true"/>

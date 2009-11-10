@@ -72,7 +72,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
 			<div class="value">
-				<input type="text" name="organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="validate-notEmpty" />
+				<input type="text" name="organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="required validate-notEmpty" />
 				<tags:hoverHint keyProp="subject.MRN.value"/>
 				<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
 			</div>
@@ -82,7 +82,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			<div class="row">
 				<div class="label"><fmt:message key="c3pr.common.identifierType"/></div>
 				<div class="value">
-					<select name="organizationAssignedIdentifiers[0].type"  class="validate-notEmpty">
+					<select name="organizationAssignedIdentifiers[0].type"  class="required validate-notEmpty">
 						<c:forEach var="identifierType" items="${identifiersTypeRefData}">
 							<option value="${identifierType.desc}">${identifierType.desc}</option>
 						</c:forEach>
