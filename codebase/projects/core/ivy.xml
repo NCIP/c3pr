@@ -54,7 +54,7 @@
 			<dependency org="checkstyle" name="checkstyle" rev="4.4" />
         	<dependency org="org.springframework" name="spring" rev="2.0.7" force="true"/>
         	<dependency org="org.springframework" name="spring-aspects" rev="2.0.7" force="true" />
-        	<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" />
+        	<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" conf="build->default"/>
         	<dependency org="org.springmodules" name="spring-modules-jcr" rev="0.6" transitive="false" />
         	
         	<dependency org="commons-collections" name="commons-collections" rev="3.2" />
@@ -137,7 +137,6 @@
 			<dependency org="dbunit" name="dbunit" rev="2.1" conf="build->default;test->default"/>
 						
 			<!-- Test only dependencies -->
-			<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" conf="test->default" />        	
         	<dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default" />
         	<dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default" />
         	<dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
@@ -189,7 +188,7 @@
 			<dependency name="jackrabbit-jcr-rmi" org="org.apache.jackrabbit" rev="1.2.1" />
 			<dependency name="jackrabbit-jcr-server" org="org.apache.jackrabbit" rev="1.2.1" />		
 			<!-- COPPA Common dependencies --> 
-			<dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="0.3.17.11" />
+			<dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="0.3.17.13" />
 			<!-- jars for PO  -->
 			<dependency org="gov.nih.nci.caxchange" name="CoreServices-common" rev="1.2" />
 			<dependency org="gov.nih.nci.caxchange" name="CoreServices-stubs" rev="1.2" />
