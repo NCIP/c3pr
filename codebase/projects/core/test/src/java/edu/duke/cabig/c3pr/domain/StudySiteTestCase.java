@@ -957,7 +957,7 @@ public class StudySiteTestCase extends AbstractTestCase {
 		studySiteStudyVersions.add(studySiteStudyVersion);
 		studySite.setStudySiteStudyVersions(studySiteStudyVersions);
 		Date date = new Date();
-		EasyMock.expect(studySiteStudyVersion.isValid(date)).andReturn(true);
+		EasyMock.expect(studySiteStudyVersion.isValid(EasyMock.isA(Date.class))).andReturn(true);
 		replayMocks();
 		assertNotNull(" study site study version present", studySite.getStudySiteStudyVersion());
 		verifyMocks();
