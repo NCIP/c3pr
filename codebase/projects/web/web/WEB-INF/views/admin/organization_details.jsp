@@ -233,7 +233,7 @@ div.row div.label {
 								</c:choose>
 							</c:when>
 							<c:otherwise>
-								<div class="value"><form:input size="20" path="address.city" />
+								<div class="value"><form:input size="20" path="address.city" cssClass="validate-ALPHABETIC"/>
 								</div>
 							</c:otherwise>
 						</c:choose></div>
@@ -254,7 +254,7 @@ div.row div.label {
 				</c:when>
 				<c:otherwise>
 					<div class="value"><form:input size="20"
-						path="address.stateCode" /></div>
+						path="address.stateCode" cssClass="validate-ALPHABETIC" /></div>
 				</c:otherwise>
 			</c:choose></div>
 
@@ -296,7 +296,7 @@ div.row div.label {
 				</c:when>
 				<c:otherwise>
 					<div class="value"><form:input size="20"
-						path="address.countryCode" /></div>
+						path="address.countryCode" cssClass="validate-ALPHABETIC" /></div>
 				</c:otherwise>
 			</c:choose>
 </div>
