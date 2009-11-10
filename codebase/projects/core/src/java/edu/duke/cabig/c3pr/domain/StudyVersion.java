@@ -28,6 +28,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.AmendmentType;
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
@@ -327,15 +328,14 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 			}
 		}
 
-//		for (CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()) {
-//			if (compStudyAssoc.getMandatoryIndicator() != null) {
-//				if (compStudyAssoc.getMandatoryIndicator() && !(compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_TO_OPEN
-//						|| compStudyAssoc.getCompanionStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN)) {
-//					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE")).getMessage()));
-//				}
-//			}
-//
-//		}
+		for (CompanionStudyAssociation compStudyAssoc : this.getCompanionStudyAssociations()) {
+			if (compStudyAssoc.getMandatoryIndicator() != null) {
+				if (compStudyAssoc.getMandatoryIndicator() && compStudyAssoc.getCompanionStudy().getDataEntryStatus() != StudyDataEntryStatus.COMPLETE) {
+					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE")).getMessage()));
+				}
+			}
+
+		}
 		evaluateEpochsDataEntryStatus(errors);
 
 		return errors.size() == 0 ? StudyDataEntryStatus.COMPLETE : StudyDataEntryStatus.INCOMPLETE;
