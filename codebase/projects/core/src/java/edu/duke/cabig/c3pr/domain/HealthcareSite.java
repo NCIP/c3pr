@@ -260,6 +260,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     			}
     		}
     		if(identifier == null){
+    			identifier= new OrganizationAssignedIdentifier();
     			identifier.setType(OrganizationIdentifierTypeEnum.NCI);
         		identifier.setPrimaryIndicator(primaryIndicator);
         		getIdentifiersAssignedToOrganization().add(identifier);
