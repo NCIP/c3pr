@@ -284,7 +284,7 @@ public class StudyTestCase extends AbstractTestCase {
 
 		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
 		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
-		EasyMock.expect(healthcareSite.getNCICode()).andReturn("NC010");
+		EasyMock.expect(healthcareSite.getCtepCode()).andReturn("NC010");
 		replayMocks();
 
 		simpleStudy.addCompanionStudyAssociation(association);
@@ -311,7 +311,7 @@ public class StudyTestCase extends AbstractTestCase {
 		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
 		EasyMock.expect(studySite.getHealthcareSite())
 				.andReturn(healthcareSite);
-		EasyMock.expect(healthcareSite.getNCICode()).andReturn("NC011");
+		EasyMock.expect(healthcareSite.getCtepCode()).andReturn("NC011");
 
 		replayMocks();
 
@@ -1572,14 +1572,11 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test get possible status transition
 	 */
 	public void testGetPossibleStatusTransition1() {
-		basicStudy
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		basicStudy.setCompanionIndicator(true);
-		List<CoordinatingCenterStudyStatus> list = basicStudy
-				.getPossibleStatusTransitions();
-		assertEquals("2 possible status found", 2, list.size());
+		List<CoordinatingCenterStudyStatus> list = basicStudy.getPossibleStatusTransitions();
+		assertEquals("1 possible status found", 1, list.size());
 		assertContains(list, CoordinatingCenterStudyStatus.OPEN);
-		assertContains(list, CoordinatingCenterStudyStatus.READY_TO_OPEN);
 	}
 
 	/**
@@ -1595,9 +1592,8 @@ public class StudyTestCase extends AbstractTestCase {
 				simpleStudy, basicStudy);
 		List<CoordinatingCenterStudyStatus> list = basicStudy
 				.getPossibleStatusTransitions();
-		assertEquals("2 possible status found", 2, list.size());
+		assertEquals("1 possible status found", 1, list.size());
 		assertContains(list, CoordinatingCenterStudyStatus.OPEN);
-		assertContains(list, CoordinatingCenterStudyStatus.READY_TO_OPEN);
 	}
 
 	/**
@@ -1614,7 +1610,7 @@ public class StudyTestCase extends AbstractTestCase {
 		List<CoordinatingCenterStudyStatus> list = basicStudy
 				.getPossibleStatusTransitions();
 		assertEquals("1 possible status found", 1, list.size());
-		assertContains(list, CoordinatingCenterStudyStatus.READY_TO_OPEN);
+		assertContains(list, CoordinatingCenterStudyStatus.OPEN);
 	}
 
 	/**
