@@ -166,8 +166,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      */
     @Transactional(readOnly = false)
     public void initialize(Study study) 	{
-
-        getHibernateTemplate().initialize(study.getStudyVersions());
+        getHibernateTemplate().initialize(study.getStudyVersionsInternal());
     	for(StudyVersion studyVersion : study.getStudyVersions()){
 			studyVersionDao.initialize(studyVersion);
 		}
@@ -178,29 +177,14 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 		for(OrganizationAssignedIdentifier organizationAssignedIdentifier: study.getOrganizationAssignedIdentifiers()){
 			getHealthcareSiteDao().initialize(organizationAssignedIdentifier.getHealthcareSite());
 		}
-		getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
+
 		getHibernateTemplate().initialize(study.getParentStudyAssociations());
-//		getHibernateTemplate().initialize(study.getCompanionStudyAssociationsInternal());
-//		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
-//			this.initialize(companionStudyAssociation.getCompanionStudy());
-//		}
 		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
 			getHibernateTemplate().initialize(parentStudyAssociation.getStudySites());
 			getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
 		}
-		
-//		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
-//			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
-//		}
-		
-//		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
-//			getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
-//		}
-		
-//		for(CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()){
-//			getHibernateTemplate().initialize(companionStudyAssociation.getCompanionStudy().getStudyOrganizations());
-//		}
-		
+
+		getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
 		for (PlannedNotification plannedNotification : study.getPlannedNotificationsInternal()) {
 			if (plannedNotification != null) {
 				getHibernateTemplate().initialize(plannedNotification.getUserBasedRecipientInternal());

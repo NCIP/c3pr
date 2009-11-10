@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.dao;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
-import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
@@ -35,7 +34,6 @@ public class StudyVersionDao extends GridIdentifiableDao<StudyVersion> implement
 				epochDao.initialize(epoch);
 			}
 		}
-
 		getHibernateTemplate().initialize(studyVersion.getStudyDiseases());
 		for(StudyDisease studyDisease : studyVersion.getStudyDiseases()){
 			getHibernateTemplate().initialize(studyDisease.getDiseaseTerm().getCategory().getTerms());
@@ -44,16 +42,13 @@ public class StudyVersionDao extends GridIdentifiableDao<StudyVersion> implement
 		}
 
 		getHibernateTemplate().initialize(studyVersion.getCompanionStudyAssociationsInternal());
-		for(CompanionStudyAssociation companionStudyAssociation : studyVersion.getCompanionStudyAssociations()){
+		for (CompanionStudyAssociation companionStudyAssociation : studyVersion.getCompanionStudyAssociations()) {
+			getHibernateTemplate().initialize(companionStudyAssociation.getCompanionStudy());
 			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
-		}
-		for(CompanionStudyAssociation companionStudyAssociation : studyVersion.getCompanionStudyAssociations()){
 			getHibernateTemplate().initialize(companionStudyAssociation.getCompanionStudy().getStudyOrganizations());
 		}
-
 		getHibernateTemplate().initialize(studyVersion.getConsentsInternal());
 		getHibernateTemplate().initialize(studyVersion.getStudySiteStudyVersionsInternal());
 
 	}
-
 }

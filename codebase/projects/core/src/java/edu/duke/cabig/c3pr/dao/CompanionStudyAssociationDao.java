@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.Study;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 public class CompanionStudyAssociationDao extends GridIdentifiableDao<CompanionStudyAssociation>
@@ -20,5 +21,9 @@ public class CompanionStudyAssociationDao extends GridIdentifiableDao<CompanionS
     @Transactional(readOnly = false)
     public void save(CompanionStudyAssociation companionStudyAssociation) {
         getHibernateTemplate().saveOrUpdate(companionStudyAssociation);
+    }
+    
+    @Transactional(readOnly = false)
+    public void initialize(CompanionStudyAssociation companionStudyAssociation){
     }
 }
