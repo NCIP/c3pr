@@ -186,12 +186,7 @@ public class PersonOrganizationResolverUtils {
 	 * @param extension
 	 */
 	public void setCtepCodeFromExtension(HealthcareSite remoteOrganization, String extension) {
-		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
-		identifier.setType(OrganizationIdentifierTypeEnum.CTEP);
-		identifier.setValue(extension);
-		identifier.setPrimaryIndicator(true);
-
-		remoteOrganization.setCtepCode(identifier);
+		remoteOrganization.setCtepCode(extension);
 	}
 	
 	/**
@@ -200,12 +195,7 @@ public class PersonOrganizationResolverUtils {
 	 * @param extension
 	 */
 	public void setNciCodeFromExtension(HealthcareSite remoteOrganization, String extension) {
-		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
-		identifier.setType(OrganizationIdentifierTypeEnum.NCI);
-		identifier.setValue(extension);
-		identifier.setPrimaryIndicator(true);
-
-		remoteOrganization.setCtepCode(identifier);
+		remoteOrganization.setNCICode(extension, true);
 	}
 	
 	/** Populate Remote Organization , given the Coppa Organization.

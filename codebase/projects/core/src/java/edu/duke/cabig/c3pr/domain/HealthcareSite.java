@@ -233,32 +233,43 @@ public abstract class HealthcareSite extends Organization implements Comparable<
 
     public void setCtepCode(String ctepCode, Boolean primaryIndicator) {
     	if(!StringUtils.isEmpty(ctepCode)){
-    		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
-    		identifier.setType(OrganizationIdentifierTypeEnum.CTEP);
+    		OrganizationAssignedIdentifier identifier = null;
+    		for(Identifier tempIdentifier : getIdentifiersAssignedToOrganization()){
+    			if(tempIdentifier instanceof OrganizationAssignedIdentifier && ((OrganizationAssignedIdentifier)tempIdentifier).getType() == OrganizationIdentifierTypeEnum.CTEP){
+    				identifier = (OrganizationAssignedIdentifier)tempIdentifier;
+    				break;
+    			}
+    		}
+    		if(identifier == null){
+    			identifier= new OrganizationAssignedIdentifier();
+    			identifier.setType(OrganizationIdentifierTypeEnum.CTEP);
+    			identifier.setPrimaryIndicator(primaryIndicator);
+        		getIdentifiersAssignedToOrganization().add(identifier);
+    		}
     		identifier.setValue(ctepCode);
-    		identifier.setPrimaryIndicator(primaryIndicator);
-    		getIdentifiersAssignedToOrganization().add(identifier);
     	}
     }
 
-    public void setNCICode(String nciCode) {
+    public void setNCICode(String nciCode, boolean primaryIndicator) {
     	if(!StringUtils.isEmpty(nciCode)){
-    		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
-    		identifier.setType(OrganizationIdentifierTypeEnum.NCI);
+    		OrganizationAssignedIdentifier identifier = null;
+    		for(Identifier tempIdentifier : getIdentifiersAssignedToOrganization()){
+    			if(tempIdentifier instanceof OrganizationAssignedIdentifier && ((OrganizationAssignedIdentifier)tempIdentifier).getType() == OrganizationIdentifierTypeEnum.CTEP){
+    				identifier = (OrganizationAssignedIdentifier)tempIdentifier;
+    				break;
+    			}
+    		}
+    		if(identifier == null){
+    			identifier.setType(OrganizationIdentifierTypeEnum.NCI);
+        		identifier.setPrimaryIndicator(primaryIndicator);
+        		getIdentifiersAssignedToOrganization().add(identifier);
+    		}
     		identifier.setValue(nciCode);
-    		identifier.setPrimaryIndicator(false);
-    		getIdentifiersAssignedToOrganization().add(identifier);
     	}
     }
-
-    /**
-     * Sets the Ctep Identifier in the IdentifiersAssignedToOrganization.
-     * Overloaded to accept an identifier instead of string
-     */
-    public void setCtepCode(OrganizationAssignedIdentifier ctepIdentifier) {
-    	if(ctepIdentifier != null){
-    		getIdentifiersAssignedToOrganization().add(ctepIdentifier);
-    	}
+    
+    public void setNCICode(String nciCode) {
+    	setNCICode(nciCode, false);
     }
 
     /* (non-Javadoc)
