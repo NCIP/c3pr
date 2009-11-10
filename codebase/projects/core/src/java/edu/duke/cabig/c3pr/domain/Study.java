@@ -916,7 +916,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
         @Transient
         public StudyOrganization getStudyOrganization(String nciCode) {
                 for (StudyOrganization studyOrganization : this.getStudyOrganizations()) {
-                    if (studyOrganization.getHealthcareSite().getNciIdentifierAsString()
+                    if (studyOrganization.getHealthcareSite().getNCICode()
                                         .equalsIgnoreCase(nciCode)) {
                                 return studyOrganization;
                         }
@@ -1005,7 +1005,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		if(this.getCompanionIndicator()){
 			for(CompanionStudyAssociation parentStudyAssociation : this.getParentStudyAssociations()){
 				for(StudySite studySite : parentStudyAssociation.getStudySites()){
-					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNciIdentifierAsString())){
+					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNCICode())){
 						return studySite ;
 					}
 				}
@@ -1013,7 +1013,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		}else{
 			for(CompanionStudyAssociation companionStudyAssociation : this.getStudyVersion().getCompanionStudyAssociations()){
 				for(StudySite studySite : companionStudyAssociation.getStudySites()){
-					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNciIdentifierAsString())){
+					if(StringUtils.equals(nciCode, studySite.getHealthcareSite().getNCICode())){
 						return studySite ;
 					}
 				}

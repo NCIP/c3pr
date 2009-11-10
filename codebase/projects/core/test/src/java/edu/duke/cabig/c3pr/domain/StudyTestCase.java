@@ -284,7 +284,7 @@ public class StudyTestCase extends AbstractTestCase {
 
 		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
 		EasyMock.expect(studySite.getHealthcareSite()).andReturn(healthcareSite);
-		EasyMock.expect(healthcareSite.getNciIdentifierAsString()).andReturn("NC010");
+		EasyMock.expect(healthcareSite.getNCICode()).andReturn("NC010");
 		replayMocks();
 
 		simpleStudy.addCompanionStudyAssociation(association);
@@ -311,7 +311,7 @@ public class StudyTestCase extends AbstractTestCase {
 		EasyMock.expect(association.getStudySites()).andReturn(listStudySite);
 		EasyMock.expect(studySite.getHealthcareSite())
 				.andReturn(healthcareSite);
-		EasyMock.expect(healthcareSite.getNciIdentifierAsString()).andReturn("NC011");
+		EasyMock.expect(healthcareSite.getNCICode()).andReturn("NC011");
 
 		replayMocks();
 
@@ -332,7 +332,7 @@ public class StudyTestCase extends AbstractTestCase {
 		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 		EasyMock.expect(organization.getHealthcareSite()).andReturn(
 				healthcareSite);
-		EasyMock.expect(healthcareSite.getNciIdentifierAsString()).andReturn("NC010");
+		EasyMock.expect(healthcareSite.getNCICode()).andReturn("NC010");
 
 		replayMocks();
 
@@ -1451,7 +1451,7 @@ public class StudyTestCase extends AbstractTestCase {
 		HealthcareSite healthcareSite = registerMockFor(HealthcareSite.class);
 		EasyMock.expect(organization.getHealthcareSite()).andReturn(
 				healthcareSite);
-		EasyMock.expect(healthcareSite.getNciIdentifierAsString()).andReturn(
+		EasyMock.expect(healthcareSite.getNCICode()).andReturn(
 				"NC010");
 
 		replayMocks();

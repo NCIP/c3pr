@@ -373,7 +373,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 
 						// check by ctepCode
 						healthcareSiteWithSameCtepCode = getByCtepCodeFromLocal(remoteHealthcareSiteTemp.getCtepCode());
-						healthcareSiteWithSameNciCode = getByNciCodeFromLocal(remoteHealthcareSiteTemp.getNciIdentifierAsString());
+						healthcareSiteWithSameNciCode = getByNciCodeFromLocal(remoteHealthcareSiteTemp.getNCICode());
 						if(healthcareSiteWithSameCtepCode != null){
 							//make the remoteHcs refer to the existing one so other associations can be saved succesfully.
 							remoteHealthcareSiteList.remove(i);
@@ -383,7 +383,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 							//make the remoteHcs refer to the existing one so other associations can be saved succesfully.
 							remoteHealthcareSiteList.remove(i);
 							remoteHealthcareSiteList.add(i, healthcareSiteWithSameNciCode);
-							log.error("Healthcare site with NCI: " + remoteHealthcareSiteTemp.getNciIdentifierAsString() + " already exists in database");
+							log.error("Healthcare site with NCI: " + remoteHealthcareSiteTemp.getNCICode() + " already exists in database");
 						} else {
 							// this site doesn't exist
 							createGroupForOrganization(remoteHealthcareSiteTemp);

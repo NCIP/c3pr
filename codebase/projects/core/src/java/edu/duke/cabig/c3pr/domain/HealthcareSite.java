@@ -207,7 +207,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
      * @return the nci code
      */
     @Transient
-    public String getNciIdentifierAsString() {
+    public String getNCICode() {
     	if(getOrganizationAssignedIdentifiers().size() > 0){
     		Iterator iter = getOrganizationAssignedIdentifiers().iterator();
     		OrganizationAssignedIdentifier identifier = null;
@@ -234,8 +234,8 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     public void setCtepCode(String ctepCode, Boolean primaryIndicator) {
     	if(!StringUtils.isEmpty(ctepCode)){
     		OrganizationAssignedIdentifier identifier = null;
-    		for(Identifier tempIdentifier : getIdentifiersAssignedToOrganization()){
-    			if(tempIdentifier instanceof OrganizationAssignedIdentifier && ((OrganizationAssignedIdentifier)tempIdentifier).getType() == OrganizationIdentifierTypeEnum.CTEP){
+    		for(OrganizationAssignedIdentifier tempIdentifier : getOrganizationAssignedIdentifiers()){
+    			if(tempIdentifier.getType() == OrganizationIdentifierTypeEnum.CTEP){
     				identifier = (OrganizationAssignedIdentifier)tempIdentifier;
     				break;
     			}
@@ -253,8 +253,8 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     public void setNCICode(String nciCode, boolean primaryIndicator) {
     	if(!StringUtils.isEmpty(nciCode)){
     		OrganizationAssignedIdentifier identifier = null;
-    		for(Identifier tempIdentifier : getIdentifiersAssignedToOrganization()){
-    			if(tempIdentifier instanceof OrganizationAssignedIdentifier && ((OrganizationAssignedIdentifier)tempIdentifier).getType() == OrganizationIdentifierTypeEnum.CTEP){
+    		for(OrganizationAssignedIdentifier tempIdentifier : getOrganizationAssignedIdentifiers()){
+    			if(tempIdentifier.getType() == OrganizationIdentifierTypeEnum.CTEP){
     				identifier = (OrganizationAssignedIdentifier)tempIdentifier;
     				break;
     			}

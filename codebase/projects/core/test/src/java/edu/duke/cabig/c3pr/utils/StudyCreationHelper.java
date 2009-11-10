@@ -289,7 +289,7 @@ public class StudyCreationHelper {
 		EligibilityCriteria criteria = new InclusionEligibilityCriteria();
 		StudySite studySite = new StudySite();
 		HealthcareSite hcs = new LocalHealthcareSite();
-		hcs.setNCICode("NCI_CODE");
+		hcs.setCtepCode("NCI_CODE");
 		studySite.setHealthcareSite(hcs);
 		study.addStudySite(studySite);
 		Epoch epoch = new Epoch();
@@ -447,7 +447,7 @@ public class StudyCreationHelper {
 
 		 StudySite site = new StudySite();
 		 HealthcareSite hcs = new LocalHealthcareSite();
-		 hcs.setNCICode("NCI_CODE");
+		 hcs.setCtepCode("NCI_CODE");
 		 hcs.getOrganizationAssignedIdentifiers().get(0).setPrimaryIndicator(true);
 		 site.setHealthcareSite(hcs);
 
