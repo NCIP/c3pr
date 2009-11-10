@@ -36,6 +36,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 
+import edu.duke.cabig.c3pr.constants.AmendmentType;
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
@@ -627,7 +628,6 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 
 	}
 
-
 	public StudyDataEntryStatus evaluateDataEntryStatus(List<Error> errors) {
 		return getStudyVersion().evaluateDataEntryStatus(errors);
 	}
@@ -658,20 +658,16 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		}
 
         if (this.getStudyVersion().getCompanionStudyAssociations().size() > 0) {
-			for (CompanionStudyAssociation compStudyAssoc : this.getStudyVersion()
-					.getCompanionStudyAssociations()) {
-				if (compStudyAssoc.getCompanionStudy()
-						.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.READY_TO_OPEN
-						|| compStudyAssoc.getCompanionStudy()
-								.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN) {
-					compStudyAssoc.getCompanionStudy()
-							.setCoordinatingCenterStudyStatus(
-									CoordinatingCenterStudyStatus.OPEN);
-					compStudyAssoc.getCompanionStudy().getStudyVersion().setVersionStatus(StatusType.AC);
-				} else if (compStudyAssoc.getMandatoryIndicator()) {
-					throw getC3PRExceptionHelper()
-							.getRuntimeException(
-									getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
+			for (CompanionStudyAssociation compStudyAssoc : this.getStudyVersion().getCompanionStudyAssociations()) {
+				Study localCompanionStudy = compStudyAssoc.getCompanionStudy();
+				// We support only open stand alone companions, so no need to open stand alone studies.
+				if(!localCompanionStudy.getStandaloneIndicator()){
+					if (localCompanionStudy.getDataEntryStatus() == StudyDataEntryStatus.COMPLETE) {
+						localCompanionStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+						localCompanionStudy.getStudyVersion().setVersionStatus(StatusType.AC);
+					} else if (compStudyAssoc.getMandatoryIndicator()) {
+						throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"));
+					}
 				}
 			}
 		}
@@ -684,12 +680,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		if (!(this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL
 				|| this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT )) {
-			throw getC3PRExceptionHelper()
-					.getRuntimeException(
-							getCode("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE"),
-							new String[] { this
-									.getCoordinatingCenterStudyStatus()
-									.getDisplayName() });
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE"),
+							new String[] { this.getCoordinatingCenterStudyStatus().getDisplayName() });
 		}
 
 		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL
@@ -948,12 +940,13 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	public List<CoordinatingCenterStudyStatus> getPossibleStatusTransitions() {
 		List<CoordinatingCenterStudyStatus> statuses = new ArrayList<CoordinatingCenterStudyStatus>();
 		if (this.coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.PENDING) {
-			if (this.companionIndicator) {
-				statuses.add(CoordinatingCenterStudyStatus.READY_TO_OPEN);
+			if (this.companionIndicator && !this.standaloneIndicator) {
 				boolean flag = true;
 				flag = isParentStudyOpen(flag);
 				if (flag){
 					statuses.add(CoordinatingCenterStudyStatus.OPEN);
+				}else{
+					statuses.add(CoordinatingCenterStudyStatus.READY_TO_OPEN);
 				}
 			} else {
 				statuses.add(CoordinatingCenterStudyStatus.OPEN);
@@ -998,6 +991,11 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 			}
 		}
 		return flag;
+	}
+	
+	@Transient
+	public boolean getIsParentStudyOpen() {
+		return isParentStudyOpen(true);
 	}
 
 	@Transient
@@ -1128,6 +1126,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
         	StudyVersion localStudyVersion= getStudyVersions().get(0);
         	localStudyVersion.setOriginalIndicator(true);
         	localStudyVersion.setVersionDate(new Date());
+        	localStudyVersion.setAmendmentType(AmendmentType.IMMEDIATE);
         	localStudyVersion.setName("Original version");
 			return localStudyVersion;
         }else{
@@ -1217,9 +1216,6 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 
     @Transient
     public StudyVersion getCurrentStudyAmendment(){
-//    	if(studyVersion != null){
-//    		return studyVersion;
-//    	}
     	List<StudyVersion> amendmentVersions = new ArrayList<StudyVersion>();
     	for(StudyVersion version : getStudyVersions()){
     		if(version.getVersionStatus() == StatusType.IN){
@@ -1368,5 +1364,14 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		this.getStudyVersion().setOriginalIndicator(originalIndicator);
 	}
 	
+//	@Column(name="back_dated_reg_support")
+//	public boolean getBackDatedRegistrationIndicator() {
+//		return backDatedRegistrationIndicator;
+//	}
+//
+//	public void setBackDatedRegistrationIndicator(boolean backDatedRegistrationIndicator) {
+//		this.backDatedRegistrationIndicator = backDatedRegistrationIndicator;
+//	}
+ 
 
 }
