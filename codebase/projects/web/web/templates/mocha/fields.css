@@ -92,6 +92,15 @@ div.autocomplete ul li {
 input.autocomplete{
 	background-color: #CCE6FF;
 }
+
+/*
+    Required field
+*/
+input.required[type="text"], input.required[type="password"], select.required, textarea.required {
+    background-color:#FEC7C7;
+    border:1px solid #F05757;
+}
+
 /*
     SELECT-equivalent groups of radio buttons
  */
