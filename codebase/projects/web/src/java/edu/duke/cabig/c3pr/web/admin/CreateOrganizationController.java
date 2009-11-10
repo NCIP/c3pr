@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.web.admin;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +28,6 @@ import edu.duke.cabig.c3pr.domain.repository.OrganizationRepository;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 /*
@@ -191,7 +189,7 @@ public class CreateOrganizationController extends SimpleFormController {
 	 * This is the method that gets called on form submission. All it does it
 	 * case the command into HealthcareSite and call the service to persist.
 	 * 
-	 * On succesful submission it sets the type attribute to confirm which is
+	 * On successful submission it sets the type attribute to confirm which is
 	 * used to show the confirmation screen.
 	 */
 	protected ModelAndView processFormSubmission(HttpServletRequest request,
