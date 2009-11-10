@@ -311,7 +311,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                              ${studyInvestigator.healthcareSiteInvestigator.investigator.firstName}&nbsp;${studyInvestigator.healthcareSiteInvestigator.investigator.lastName}
 			                            </td>
 			                            <td>
-			                            <form:select path="study.studySites[${selected_site}].studyInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">
+			                            <form:select path="study.studySites[${selected_site}].studyInvestigators[${status.index}].statusCode" cssClass="required validate-notEmpty">
 					                        <form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="code"/>
 					                    </form:select>
 			                            </td>
@@ -362,7 +362,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
             <td>
                 <select id="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
                         name="study.studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
-                        class="validate-notEmpty">
+                        class="required validate-notEmpty">
                     <option value="">Please Select</option>
                     <c:forEach items="${studyInvestigatorStatusRefData}" var="studyInvStatus">
                         <option value="${studyInvStatus.code}">${studyInvStatus.desc}</option>

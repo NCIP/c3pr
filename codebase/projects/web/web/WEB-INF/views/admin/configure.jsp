@@ -189,17 +189,17 @@
     		<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.app.localSite"/><tags:hoverHint keyProp="configure.localNciInstituteCode" /></div>
         		<div class="value">
-        			<tags:autocompleter name="conf[localNciInstituteCode].value" displayValue="${instName} (${command.conf['localNciInstituteCode'].value})" value="${command.conf['localNciInstituteCode'].value}" basename="localNCIInstituteCode" cssClass="validate-notEmpty" ></tags:autocompleter>
+        			<tags:autocompleter name="conf[localNciInstituteCode].value" displayValue="${instName} (${command.conf['localNciInstituteCode'].value})" value="${command.conf['localNciInstituteCode'].value}" basename="localNCIInstituteCode" cssClass="required validate-notEmpty" ></tags:autocompleter>
         		</div>
         	</div>
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.app.siteBanner"/><tags:hoverHint keyProp="configure.siteName" /></div>
-        		<div class="value"><form:input path="conf[siteName].value" id="siteName" cssClass="validate-notEmpty"/></div>
+        		<div class="value"><form:input path="conf[siteName].value" id="siteName" cssClass="required validate-notEmpty"/></div>
         	</div>
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.app.notificationLinkBack"/><tags:hoverHint keyProp="notification.linkBack" /></div>
         		<div class="value">
-        			<form:select path="conf[notification.link_back].value" id="notification.link_back" cssClass="validate-notEmpty">
+        			<form:select path="conf[notification.link_back].value" id="notification.link_back" cssClass="required validate-notEmpty">
         				<form:option value="">Please Select</form:option>
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
@@ -270,7 +270,7 @@
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.enable"/><tags:hoverHint keyProp="configure.authorizationSwitch"/></div>
         		<div class="value">
-        			<form:select path="conf[authorizationSwitch].value" id="authorizationSwitch" onchange="manageAuthenticationSwitch(this);" cssClass="validate-notEmpty">
+        			<form:select path="conf[authorizationSwitch].value" id="authorizationSwitch" onchange="manageAuthenticationSwitch(this);" cssClass="required validate-notEmpty">
         				<form:option value="">Please Select</form:option>
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
@@ -281,7 +281,7 @@
 	        	<div class="row">
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.mode"/><tags:hoverHint keyProp="configure.authenticationMode"/></div>
 	        		<div class="value">
-	        			<form:select path="conf[authenticationMode].value" id="authenticationMode" onchange="manageAuthenticationMode(this);" cssClass="validate-notEmpty">
+	        			<form:select path="conf[authenticationMode].value" id="authenticationMode" onchange="manageAuthenticationMode(this);" cssClass="required validate-notEmpty">
 	        				<form:option value="">Please Select</form:option>
 	        				<form:option value="local">Local</form:option>
 	        				<form:option value="cas">CAS</form:option>
@@ -364,7 +364,7 @@
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.multisite.enable"/><tags:hoverHint keyProp="configure.multisiteEnable" /></div>
         		<div class="value">
-        			<form:select path="conf[multisiteEnable].value" id="multisiteEnable" cssClass="validate-notEmpty">
+        			<form:select path="conf[multisiteEnable].value" id="multisiteEnable" cssClass="required validate-notEmpty">
         				<form:option value="">Please Select</form:option>
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
@@ -384,7 +384,7 @@
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.coppa.enable"/><tags:hoverHint keyProp="configure.coppaEnable" /></div>
         		<div class="value">
-        			<form:select path="conf[coppaEnable].value" id="coppaEnable" cssClass="validate-notEmpty">
+        			<form:select path="conf[coppaEnable].value" id="coppaEnable" cssClass="required validate-notEmpty">
         				<form:option value="">Please Select</form:option>
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
@@ -396,7 +396,7 @@
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.ccts.enable.esb"/><tags:hoverHint keyProp="configure.esbEnable" /></div>
         		<div class="value">
-        			<form:select path="conf[esbEnable].value" id="esbEnable" onchange="manageCCTSConfiguration(this);" cssClass="validate-notEmpty">
+        			<form:select path="conf[esbEnable].value" id="esbEnable" onchange="manageCCTSConfiguration(this);" cssClass="required validate-notEmpty">
         				<form:option value="">Please Select</form:option>
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>

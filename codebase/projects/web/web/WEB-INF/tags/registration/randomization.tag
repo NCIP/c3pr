@@ -40,11 +40,11 @@
 						<c:choose>
 							<c:when test="${registration.studySite.study.blindedIndicator}">
 								<td class="labelR"><tags:requiredIndicator /><fmt:message key="registration.enterKitNumber"/></td>
-								<td><input type="text" name="studySubject.scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
+								<td><input type="text" name="studySubject.scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="required validate-notEmpty"/></td>
 							</c:when>
 							<c:otherwise>
 								<td class="labelR"><tags:requiredIndicator /><fmt:message key="registration.selectArm"/></td><td>
-									<select name ="studySubject.scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
+									<select name ="studySubject.scheduledEpoch.scheduledArms[0].arm" class="required validate-notEmpty">
 										<option value="" selected>Please Select</option>
 										<c:forEach items="${registration.scheduledEpoch.epoch.arms}" var="arm">
 											<option value="${arm.id}">${arm.name }</option>
@@ -97,11 +97,11 @@
 									<c:choose>
 										<c:when test="${childStudySubject.studySite.study.blindedIndicator}">
 											<td class="labelR"><tags:requiredIndicator /><fmt:message key="registration.enterKitNumber"/></td>
-											<td><input type="text" name="studySubject.childStudySubjects[${status.index}].scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
+											<td><input type="text" name="studySubject.childStudySubjects[${status.index}].scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="required validate-notEmpty"/></td>
 										</c:when>
 										<c:otherwise>
 											<td class="labelR"><tags:requiredIndicator /><fmt:message key="registration.selectArm"/></td><td>
-												<select name ="studySubject.childStudySubjects[${status.index}].scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
+												<select name ="studySubject.childStudySubjects[${status.index}].scheduledEpoch.scheduledArms[0].arm" class="required validate-notEmpty">
 													<option value="" selected>Please Select</option>
 													<c:forEach items="${childStudySubject.scheduledEpoch.epoch.arms}" var="arm">
 														<option value="${arm.id}">${arm.name }</option>

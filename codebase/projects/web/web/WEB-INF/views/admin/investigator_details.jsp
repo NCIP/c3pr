@@ -139,7 +139,7 @@ function submitForm(){
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="25" path="firstName" cssClass="validate-notEmpty" />
+							<form:input size="25" path="firstName" cssClass="required validate-notEmpty" />
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -161,7 +161,7 @@ function submitForm(){
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="25" path="lastName" cssClass="validate-notEmpty" />
+							<form:input size="25" path="lastName" cssClass="required validate-notEmpty" />
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -222,7 +222,7 @@ function submitForm(){
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="25" path="nciIdentifier" cssClass="validate-notEmpty" />
+							<form:input size="25" path="nciIdentifier" cssClass="required validate-notEmpty" />
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -243,7 +243,7 @@ function submitForm(){
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="30" path="email" cssClass="validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
+							<form:input size="30" path="email" cssClass="required validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -325,7 +325,7 @@ function submitForm(){
 						class="autocomplete" style="display: none;"></div>
 				</td>
                 <td class="alt">
-                    <form:select path="healthcareSiteInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">
+                    <form:select path="healthcareSiteInvestigators[${status.index}].statusCode" cssClass="required validate-notEmpty">
                     <option value="">Please Select</option>
                     <form:options items="${studySiteStatusRefData}" itemLabel="desc" itemValue="code" />
                     </form:select>
@@ -382,7 +382,7 @@ function submitForm(){
             <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
     	</td>
 	
-		<td class="alt"><select id="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode" name="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode" class="validate-notEmpty">
+		<td class="alt"><select id="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode" name="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode" class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${studySiteStatusRefData}" var="siteRef">
 				<option value="${siteRef.code}">${siteRef.desc }</option>

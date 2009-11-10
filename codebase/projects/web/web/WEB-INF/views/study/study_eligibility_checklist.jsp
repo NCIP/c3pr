@@ -89,7 +89,7 @@
 									id="addInclusionRowTable-${epochCount.index}-${status.index}">
 									<td><form:textarea
 										path="study.epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].questionText"
-										rows="1" cols="80" cssClass="validate-notEmpty" /></td>
+										rows="1" cols="80" cssClass="required validate-notEmpty" /></td>
 									<td><form:checkbox
 										path="study.epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
 									</td>
@@ -132,7 +132,7 @@
 									id="addExclusionRowTable-${epochCount.index}-${status.index}">
 									<td><form:textarea
 										path="study.epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].questionText"
-										rows="1" cols="80" cssClass="validate-notEmpty" /></td>
+										rows="1" cols="80" cssClass="required validate-notEmpty" /></td>
 									<td><form:checkbox
 										path="study.epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
 									</td>
@@ -170,7 +170,7 @@
 			<td><textarea
 				id="study.epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
 				name="study.epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
-				rows="1" cols="80" class="validate-notEmpty&&MAXLENGTH1024"></textarea></td>
+				rows="1" cols="80" class="required validate-notEmpty&&MAXLENGTH1024"></textarea></td>
 			<td><input type="checkbox"
 				id="study.epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
 				name="study.epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
@@ -187,7 +187,7 @@
 			<td><textarea
 				id="study.epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
 				name="study.epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
-				rows="1" cols="80" class="validate-notEmpty&&MAXLENGTH1024"></textarea></td>
+				rows="1" cols="80" class="required validate-notEmpty&&MAXLENGTH1024"></textarea></td>
 			<td><input type="checkbox"
 				id="study.epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
 				name="study.epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />

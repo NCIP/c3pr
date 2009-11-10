@@ -17,21 +17,21 @@
 				<div class="row">
 					<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.name"/></div>
 					<div class="value">
-						<input type="text" name="study.epochs[${index}].name" class="validate-notEmpty" onkeyup="updateName('genericTitle-${index}', 'Epoch: ' + this.value);" />
+						<input type="text" name="study.epochs[${index}].name" class="required validate-notEmpty" onkeyup="updateName('genericTitle-${index}', 'Epoch: ' + this.value);" />
 		  				<tags:hoverHint id="study.treatmentEpoch.name-${index}" keyProp="study.treatmentEpoch.name" />
 					</div>
 				</div>
 				<div class="row">
 					<div class="label"><tags:requiredIndicator /><fmt:message key="study.epoch.order"/></div>
 					<div class="value">
-						<input type="text" name="study.epochs[${index}].epochOrder" size="5" maxlength="1" class="validate-notEmpty&&numeric" />
+						<input type="text" name="study.epochs[${index}].epochOrder" size="5" maxlength="1" class="required validate-notEmpty&&numeric" />
              			<tags:hoverHint id="study.treatmentEpoch.epochorder-${index}" keyProp="study.treatmentEpoch.epochOrder" />
 					</div>
 				</div>
 				<div class="row">
 					<div class="label"><tags:requiredIndicator /><fmt:message key="study.epoch.treating"/></div>
 					<div class="value">
-						<select name="study.epochs[${index}].treatmentIndicator" class="validate-notEmpty">
+						<select name="study.epochs[${index}].treatmentIndicator" class="required validate-notEmpty">
                    			<option value="">Please Select</option>
                    			<option value="true">Yes</option>
                    			<option value="false">No</option>
@@ -43,7 +43,7 @@
 					<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.enrolling"/></div>
 					<div class="value">
 						<select id="study.epochs[${index}].enrollmentIndicator" name="study.epochs[${index}].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,${index});"
-								class="validate-notEmpty">
+								class="required validate-notEmpty">
 							<option value="">Please Select</option>
                             <option value="true">Yes</option>
                    			<option value="false">No</option>
@@ -55,7 +55,7 @@
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="study.randomized"/></div>
 						<div class="value">
-							<select name="study.epochs[${index}].randomizedIndicator" class="validate-notEmpty">
+							<select name="study.epochs[${index}].randomizedIndicator" class="required validate-notEmpty">
                    				<option value="">Please Select</option>
                    				<option value="true">Yes</option>
                    				<option value="false">No</option>
@@ -84,7 +84,7 @@
     				<div class="label"><fmt:message key="study.epoch.reserving"/></div>
     				<div class="value" id="reservationIndicator-${index}">
                        <select name="study.epochs[${index}].reservationIndicator"
-							onchange="manageReservingIndicatorSelectBox(this,${index});" class="validate-notEmpty">
+							onchange="manageReservingIndicatorSelectBox(this,${index});" class="required validate-notEmpty">
 							<option value="">Please Select</option>
                 	        <option value="true">Yes</option>
                				<option value="false">No</option>
@@ -96,7 +96,7 @@
       				<div class="row">
       					<div class="label"><fmt:message key="study.stratified"/></div>
       					<div class="value">
-							<select name="study.epochs[${index}].stratificationIndicator" class="validate-notEmpty">
+							<select name="study.epochs[${index}].stratificationIndicator" class="required validate-notEmpty">
 								<option value="">Please Select</option>
                    				<option value="true">Yes</option>
                    				<option value="false">No</option>

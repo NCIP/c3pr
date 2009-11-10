@@ -84,7 +84,7 @@
             <tags:tabFields tab="${tab}"/>
              <input type="hidden" name="studySiteStudyVersionId" id="studySiteStudyVersionId"/>
             <div style="display:none">
-                <form:input path="studySubject.participant" cssClass="validate-notEmpty" /><input type="text" id="epochElement" name="epoch" value="${!empty command.studySubject.scheduledEpoch?command.studySubject.scheduledEpoch.epoch.id:''}" class="validate-notEmpty"/>
+                <form:input path="studySubject.participant" cssClass="required validate-notEmpty" /><input type="text" id="epochElement" name="epoch" value="${!empty command.studySubject.scheduledEpoch?command.studySubject.scheduledEpoch.epoch.id:''}" class="required validate-notEmpty"/>
             </div>
             <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
         </form:form>

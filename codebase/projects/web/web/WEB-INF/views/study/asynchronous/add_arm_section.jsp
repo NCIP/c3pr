@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="study.epoch.arm"/></div>
 			<div class="value">
-				<input type="text" size="43" name="study.epochs[${index}].arms[NESTED.${index}].name" class="validate-notEmpty" value="Arm A" />
+				<input type="text" size="43" name="study.epochs[${index}].arms[NESTED.${index}].name" class="required validate-notEmpty" value="Arm A" />
 				<tags:hoverHint	id="study.arm.name-${index}" keyProp="study.arm.name" />
 			</div>
 		</div>

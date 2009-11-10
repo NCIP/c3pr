@@ -344,7 +344,7 @@
 				<tr>
 					<td width="10%" align="right"><b><fmt:message key="notification.event"/></b></td>
 					<td align="left">
-						<form:select path="plannedNotifications[${nStatus.index}].eventName" cssClass="validate-notEmpty" 
+						<form:select path="plannedNotifications[${nStatus.index}].eventName" cssClass="required validate-notEmpty" 
 									 onchange="displayAccrualField('${nStatus.index}');runReportBasedLogic('${nStatus.index}');"
 									 onclick="updateName('a-${nStatus.index}', '${nStatus.index}');">
 		                    <option value="" disabled="disabled">-- Select an Event -- </option>
@@ -378,12 +378,12 @@
 		        <tr><td align="right"><b><fmt:message key="notification.frequency"/></b></td>
 		            <td>
 		            <c:if test="${notification.eventName != 'NEW_REGISTRATION_EVENT_REPORT'}">
-						<form:select path="plannedNotifications[${nStatus.index}].frequency" cssClass="validate-notEmpty" disabled="true" onchange="runReportBasedLogic('${nStatus.index}');">
+						<form:select path="plannedNotifications[${nStatus.index}].frequency" cssClass="required validate-notEmpty" disabled="true" onchange="runReportBasedLogic('${nStatus.index}');">
 		                    <form:options items="${notificationFrequencyRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
 		            </c:if>
 		            <c:if test="${notification.eventName == 'NEW_REGISTRATION_EVENT_REPORT'}">
-		            	<form:select path="plannedNotifications[${nStatus.index}].frequency" cssClass="validate-notEmpty" onchange="runReportBasedLogic('${nStatus.index}');">
+		            	<form:select path="plannedNotifications[${nStatus.index}].frequency" cssClass="required validate-notEmpty" onchange="runReportBasedLogic('${nStatus.index}');">
 		                    <form:options items="${notificationFrequencyRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
 		            </c:if>
@@ -464,7 +464,7 @@
 							<c:forEach var="role" varStatus="roleStatus" items="${command.plannedNotifications[nStatus.index].roleBasedRecipient}">
 								<tr id="table2-${roleStatus.index}">
 								<td class="alt">
-									<form:select path="plannedNotifications[${nStatus.index}].roleBasedRecipient[${roleStatus.index}].role" cssClass="validate-notEmpty">
+									<form:select path="plannedNotifications[${nStatus.index}].roleBasedRecipient[${roleStatus.index}].role" cssClass="required validate-notEmpty">
 						                <option value="">Please Select</option>
 						                <form:options items="${notificationPersonnelRoleRefData}" itemLabel="desc" itemValue="code" />
 						            </form:select></td>
@@ -483,7 +483,7 @@
 								<tr id="table3-${cmStatus.index}">
 								<td class="alt">
 									<form:input size="30" path="plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${cmStatus.index}].contactMechanisms[0].value" 
-											cssClass="validate-notEmpty&&EMAIL" /></td>
+											cssClass="required validate-notEmpty&&EMAIL" /></td>
 								<td class="alt" valign="top"><a
 									href="javascript:RowManager.deleteRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${cmStatus.index},'${cm.id==null?'HC#':'ID#'}${cm.id==null?cm.hashCode:cm.id}');">
 									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
@@ -523,7 +523,7 @@
 				<td align="left">
 	                <select id="plannedNotifications[PAGE.ROW.INDEX].eventName"  
 	                onchange="displayAccrualField('PAGE.ROW.INDEX');runReportBasedLogic('PAGE.ROW.INDEX');"
-		            		name="plannedNotifications[PAGE.ROW.INDEX].eventName" class="validate-notEmpty">
+		            		name="plannedNotifications[PAGE.ROW.INDEX].eventName" class="required validate-notEmpty">
 		            		<option value="" disabled="disabled">-- Select an Event --</option>
 	                    <c:forEach items="${notificationEventsRefData}" var="event">
 							<option value="${event.code}">${event.desc}</option>
@@ -553,7 +553,7 @@
 	        <tr><td align="right"><b><fmt:message key="notification.frequency"/></b></td>
 	            <td>
 		            <select id="plannedNotifications[PAGE.ROW.INDEX].frequency" 
-		            		name="plannedNotifications[PAGE.ROW.INDEX].frequency" class="validate-notEmpty" disabled="disabled">
+		            		name="plannedNotifications[PAGE.ROW.INDEX].frequency" class="required validate-notEmpty" disabled="disabled">
 		                    <option value="ANNUAL">Annual</option>
 							<option value="MONTHLY">Monthly</option>
 							<option value="WEEKLY">Weekly</option>
@@ -661,7 +661,7 @@
 			<tr>
 				<td class="alt">
 		            <select id="plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" 
-		            		name="plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="validate-notEmpty">
+		            		name="plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="required validate-notEmpty">
 	                    <c:forEach items="${notificationPersonnelRoleRefData}" var="role">
 							<option value="${role.code}">${role.desc}</option>
 						</c:forEach>
@@ -681,7 +681,7 @@
 				<td class="alt">
 		            <input id="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value" 
 		            	   name="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
-						   class="validate-notEmpty&&EMAIL" size="30" type="text" />
+						   class="required validate-notEmpty&&EMAIL" size="30" type="text" />
 	            </td>
 				<td class="alt" valign="top"><a
 					href="javascript:RowManager.deleteRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),TERTIARY.NESTED.PAGE.ROW.INDEX,-1);">

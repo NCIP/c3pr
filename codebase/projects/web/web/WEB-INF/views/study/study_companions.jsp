@@ -138,7 +138,7 @@ function closePopup(deleteRow) {
 								</div>								 
 							</td>
 		                     <td>
-		                		<form:select path="study.companionStudyAssociations[${status.index}].mandatoryIndicator" cssClass="validate-notEmpty">
+		                		<form:select path="study.companionStudyAssociations[${status.index}].mandatoryIndicator" cssClass="required validate-notEmpty">
 		                    			<option value="">Please Select</option>
 		                    				<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 		                		</form:select>
@@ -186,7 +186,7 @@ onclick="addRow('createCompanionStudy')" size="small" icon="add"/>
 					</div>
 				</td>
 	            <td>
-	                <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="validate-notEmpty">
+	                <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="required validate-notEmpty">
 	                    <option value="">Please Select</option>
 	                    <c:forEach items="${yesNo}" var="status">
 	                        <option value="${status.code}">${status.desc}</option>
@@ -206,7 +206,7 @@ onclick="addRow('createCompanionStudy')" size="small" icon="add"/>
 	        <tr id="companionTable-PAGE.ROW.INDEX">
 	            <td>
 	                <input type="hidden" id="companionStudyPAGE.ROW.INDEX-hidden" />
-	                <input class="validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-input" 
+	                <input class="required validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-input" 
 	                       size="40" disabled="true"
 	                       value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText}"/>
 	                   <tags:indicator id="companionStudyPAGE.ROW.INDEX-indicator"/>
@@ -217,7 +217,7 @@ onclick="addRow('createCompanionStudy')" size="small" icon="add"/>
 					</div>
 				</td>
 	            <td>
-	                <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="validate-notEmpty" >
+	                <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="required validate-notEmpty" >
 	                    <option value="">Please Select</option>
 	                    <c:forEach items="${yesNo}" var="status">
 	                        <option value="${status.code}">${status.desc}</option>

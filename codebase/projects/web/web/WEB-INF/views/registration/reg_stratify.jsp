@@ -33,7 +33,7 @@ function navRollOver(obj, state) {
 					${criteria.stratificationCriterion.questionText}
 				</td>
 				<td width="15%">
-					<form:select path="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" cssClass="validate-notEmpty">
+					<form:select path="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" cssClass="required validate-notEmpty">
 					<option value="">Please select</option>
 					<c:forEach items="${criteria.stratificationCriterion.permissibleAnswers}" var="option">
 						<option value="${option.id }" <c:if test="${option.id== command.studySubject.scheduledEpoch.subjectStratificationAnswers[status.index].stratificationCriterionAnswer.id}">selected</c:if>>${option.permissibleAnswer }</option>

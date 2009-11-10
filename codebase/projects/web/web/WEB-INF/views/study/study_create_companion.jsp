@@ -55,7 +55,7 @@
 	        <div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.shortTitle"/></div>
 	            <div class="value">
-	            	<input class="validate-notEmpty" type="text" id="_shortTitle" size="35" maxlength="30" 
+	            	<input class="required validate-notEmpty" type="text" id="_shortTitle" size="35" maxlength="30" 
 	            		name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText" value="${dataFromParent.shortTitle}"/>
 	            	<tags:hoverHint keyProp="study.shortTitleText"/>
 	            </div>
@@ -63,7 +63,7 @@
 	        <div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.longTitle"/></div>
 	            <div class="value">
-	            	<textarea class="validate-notEmpty&&maxlength1024" rows="2" cols="33" id="companionStudyPAGE.ROW.INDEX-longTitleText"
+	            	<textarea class="required validate-notEmpty&&maxlength1024" rows="2" cols="33" id="companionStudyPAGE.ROW.INDEX-longTitleText"
 		                       name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.longTitleText" >${dataFromParent.longTitle}</textarea>
 		            <tags:hoverHint keyProp="study.longTitleText"/>
 	            </div>
@@ -90,7 +90,7 @@
 	        <div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.targetAccrual"/></div>
 	            <div class="value">
-	            	<input class="validate-notEmpty&&numeric&&nonzero_numeric" type="text" id="companionStudyPAGE.ROW.INDEX-targetAccrualNumber"  name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.targetAccrualNumber"
+	            	<input class="required validate-notEmpty&&numeric&&nonzero_numeric" type="text" id="companionStudyPAGE.ROW.INDEX-targetAccrualNumber"  name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.targetAccrualNumber"
 	            			size="10" maxlength="6" value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.targetAccrualNumber}"/>
 	            	<tags:hoverHint keyProp="study.targetAccrualNumber"/>
 	            </div>
@@ -98,7 +98,7 @@
 	        <div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.type"/></div>
 	            <div class="value">
-	            	<select id="companionStudyPAGE.ROW.INDEX-type" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.type" class="validate-notEmpty">
+	            	<select id="companionStudyPAGE.ROW.INDEX-type" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.type" class="required validate-notEmpty">
 	                    <option value="">Please Select</option>
 	                    <c:forEach items="${typeRefData}" var="status">
 	                        <option value="${status.desc}">${status.desc}</option>
@@ -111,7 +111,7 @@
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.phase"/></div>
 	            <div class="value">
 	            	<select id="companionStudyPAGE.ROW.INDEX-phaseCode" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.phaseCode" 
-	            		class="validate-notEmpty">
+	            		class="required validate-notEmpty">
 	                    <option value="">Please Select</option>
 	                    <c:forEach items="${phaseCodeRefData}" var="status">
 	                        <option value="${status.desc}">${status.desc}</option>
@@ -123,7 +123,7 @@
 			<div class="row">
 	            <div class="label"><fmt:message key="study.blinded"/></div>
 	            <div class="value">
-	            	<select id="companionStudyPAGE.ROW.INDEX-blindedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.blindedIndicator" class="validate-notEmpty" onchange="blindedRandomization(PAGE.ROW.INDEX);">
+	            	<select id="companionStudyPAGE.ROW.INDEX-blindedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.blindedIndicator" class="required validate-notEmpty" onchange="blindedRandomization(PAGE.ROW.INDEX);">
 		                 <option value="">Please Select</option>
 		                 <c:forEach items="${yesNo}" var="status">
 		                     <option value="${status.code}">${status.desc}</option>
@@ -135,7 +135,7 @@
 	        <div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.multiInstitution"/></div>
 	            <div class="value">
-	            	<select id="companionStudyPAGE.ROW.INDEX-multiInstitutionIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.multiInstitutionIndicator" class="validate-notEmpty">
+	            	<select id="companionStudyPAGE.ROW.INDEX-multiInstitutionIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.multiInstitutionIndicator" class="required validate-notEmpty">
 	                  	<option value="">Please Select</option>
 	                 		<c:forEach items="${yesNo}" var="status">
 	                 			<option value="${status.code}">${status.desc}</option>
@@ -147,7 +147,7 @@
         	<div class="row" style="display:none;">
 	        	<div class="label"><tags:requiredIndicator /><fmt:message key="study.standalone"/></div>
 	        	<div class="value">
-	        		<input class="validate-notEmpty" type="hidden" id="companionStudyPAGE.ROW.INDEX-standaloneIndicator"  
+	        		<input class="required validate-notEmpty" type="hidden" id="companionStudyPAGE.ROW.INDEX-standaloneIndicator"  
 	            		name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.standaloneIndicator" value="false"/>
 	        		<tags:hoverHint keyProp="study.standaloneIndicator"/>
 	        	</div>
@@ -159,7 +159,7 @@
     		<div class="row">
          		<div class="label"><tags:requiredIndicator /><fmt:message key="study.stratified"/></div>	
          		<div class="value">
-         			<select id="companionStudyPAGE.ROW.INDEX-stratificationIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.stratificationIndicator" class="validate-notEmpty">
+         			<select id="companionStudyPAGE.ROW.INDEX-stratificationIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.stratificationIndicator" class="required validate-notEmpty">
 		                 <option value="">Please Select</option>
 		                 <c:forEach items="${yesNo}" var="status">
 		                     <option value="${status.code}">${status.desc}</option>
@@ -171,7 +171,7 @@
 	        <div class="row">
 	           	<div class="label"><tags:requiredIndicator /> <fmt:message key="study.randomized"/></div>
 		        <div class="value">
-		        	<select id="companionStudyPAGE.ROW.INDEX-randomizedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizedIndicator" class="validate-notEmpty" onchange="manageRandomizedIndicatorSelectBox(this, PAGE.ROW.INDEX)">
+		        	<select id="companionStudyPAGE.ROW.INDEX-randomizedIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizedIndicator" class="required validate-notEmpty" onchange="manageRandomizedIndicatorSelectBox(this, PAGE.ROW.INDEX)">
 		                 <option value="">Please Select</option>
 		                 <c:forEach items="${yesNo}" var="status">
 		                     <option value="${status.code}">${status.desc}</option>
@@ -186,7 +186,7 @@
 	            <div class="row">
     	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.type"/></div>
         	        <div class="value">
-	        	       	<select id="companionStudyPAGE.ROW.INDEX-randomizationType" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizationType" class="validate-notEmpty" onchange="manageRandomizationTypeSelectBox(this);">
+	        	       	<select id="companionStudyPAGE.ROW.INDEX-randomizationType" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.randomizationType" class="required validate-notEmpty" onchange="manageRandomizationTypeSelectBox(this);">
 		                    <option value="">Please Select</option>
 		                    <option value="BOOK">Book</option>
 		                    <option value="PHONE_CALL">Phone Call</option>
@@ -217,7 +217,7 @@
                   <div class="row">
                       <div class="label"><tags:requiredIndicator /><fmt:message key="study.studyIdentifier"/></div>
                       <div class="value">
-                      	<input type="text" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="validate-notEmpty" />
+                      	<input type="text" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="required validate-notEmpty" />
 						<input type="hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].type" value="Coordinating Center Identifier"/>
 						<input type="hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
 						<tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></div>

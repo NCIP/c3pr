@@ -95,8 +95,8 @@ function manageEpochSelection(element){
            </table>
 	</chrome:division>
 	<div style="display:none">
-        <input type="text" name="studySite" id="studySite" class="validate-notEmpty"/> 
-        <input type="text" name="epoch" id="create_epoch" class="validate-notEmpty"> 
+        <input type="text" name="studySite" id="studySite" class="required validate-notEmpty"/> 
+        <input type="text" name="epoch" id="create_epoch" class="required validate-notEmpty"> 
     </div>
 </tags:formPanelBox>
 <script>

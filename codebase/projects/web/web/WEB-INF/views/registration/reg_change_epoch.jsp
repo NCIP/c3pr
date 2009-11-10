@@ -95,7 +95,7 @@ input[disabled] {
 <table border="0" cellspacing="5px" cellpadding="5"  width="80%">
 	<tr>
 		<td><b>Off ${command.studySubject.scheduledEpoch.epoch.name } reason text:</b></td>
-		<td><textarea name="offEpochReasonText" id="offEpochReasonText" rows="2" cols="30" class="validate-notEmpty&&maxlength1024"></textarea>
+		<td><textarea name="offEpochReasonText" id="offEpochReasonText" rows="2" cols="30" class="required validate-notEmpty&&maxlength1024"></textarea>
 	            	<tags:hoverHint keyProp="scheduledEpoch.offEpochReasonText"/>
 	    </td>
 		

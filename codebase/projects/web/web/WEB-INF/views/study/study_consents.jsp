@@ -58,7 +58,7 @@
 		<div class="row">
 			<div class="newlabel"><tags:requiredIndicator/><fmt:message key="study.consentRequired"/></div>
 			<div class="value">
-				  <form:select path="study.consentRequired" cssClass="validate-notEmpty" >
+				  <form:select path="study.consentRequired" cssClass="required validate-notEmpty" >
 				  	<form:options items="${consentRequired}" itemLabel="desc" itemValue="code" />
 				  </form:select>
 				  <tags:hoverHint keyProp="study.consentRequired" />
@@ -95,7 +95,7 @@
 <div id="dummy-row-consent" style="display:none;">
 <table>
 	<tr>
-		<td><input id="consents[PAGE.ROW.INDEX].name" name="study.consents[PAGE.ROW.INDEX].name" type="text" size="60" class="validate-notEmpty" /></td>
+		<td><input id="consents[PAGE.ROW.INDEX].name" name="study.consents[PAGE.ROW.INDEX].name" type="text" size="60" class="required validate-notEmpty" /></td>
 		<td><a href="javascript:RowManager.deleteRow(consentRowInserterProps,PAGE.ROW.INDEX, -1);"><img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
 </table>

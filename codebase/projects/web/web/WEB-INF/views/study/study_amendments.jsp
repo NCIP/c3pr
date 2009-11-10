@@ -51,7 +51,7 @@ function validateAmendmentReasons(){
 			<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="study.amendmentType" /></div>
 			<div class="value">
-				<form:select path="study.currentStudyAmendment.amendmentType" cssClass="validate-notEmpty" onchange="amendmentTypeChanged();">
+				<form:select path="study.currentStudyAmendment.amendmentType" cssClass="required validate-notEmpty" onchange="amendmentTypeChanged();">
                 	<form:options items="${amendmentTypeOptions}" itemLabel="desc" itemValue="code" />
             	</form:select>
             	<tags:hoverHint keyProp="study.amendmentType"/>

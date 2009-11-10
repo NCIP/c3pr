@@ -108,7 +108,7 @@ function manageIdentifierRadio(element){
 			<td>
 				<form:select
 					path="study.organizationAssignedIdentifiers[${organizationStatus.index}].type"
-					cssClass="validate-notEmpty">
+					cssClass="required validate-notEmpty">
 					<option value="">Please Select</option>
 					<form:options items="${orgIdentifiersTypeRefData}" itemLabel="desc"
 						itemValue="code" />
@@ -116,7 +116,7 @@ function manageIdentifierRadio(element){
 			</td>
 			<td><form:input
 				path="study.organizationAssignedIdentifiers[${organizationStatus.index}].value"
-				onfocus="clearField(this)" cssClass="validate-notEmpty"/></td>
+				onfocus="clearField(this)" cssClass="required validate-notEmpty"/></td>
 			<td>
 				<form:hidden path="study.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" id="identifier-org-${organizationStatus.index}-hidden"/>
 				<input type="radio" class="identifierRadios" id="identifier-org-${organizationStatus.index}" onclick="manageIdentifierRadio(this);"/>
@@ -137,14 +137,14 @@ function manageIdentifierRadio(element){
 			<td>${sysIdentifier.systemName}</td>
 			<td><form:select
 				path="study.systemAssignedIdentifiers[${status.index}].type"
-				cssClass="validate-notEmpty">
+				cssClass="required validate-notEmpty">
 				<option value="">Please Select</option>
 				<form:options items="${orgIdentifiersTypeRefData}" itemLabel="desc"
 					itemValue="code" />
 			</form:select></td>
 			<td><form:input
 				path="study.systemAssignedIdentifiers[${status.index}].value"
-				onfocus="clearField(this)" cssClass="validate-notEmpty" /></td>
+				onfocus="clearField(this)" cssClass="required validate-notEmpty" /></td>
 			<td>
 				<form:hidden path="study.systemAssignedIdentifiers[${status.index}].primaryIndicator" id="identifier-sys-${status.index}-hidden"/>
 				<input type="radio" class="identifierRadios" id="identifier-sys-${status.index}" onclick="manageIdentifierRadio(this);"/>
@@ -180,10 +180,10 @@ onclick="RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 		<td>System</td>
 		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
 			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" size="30"
-			class="validate-notEmpty" /></td>
+			class="required validate-notEmpty" /></td>
 		<td><select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
-			class="validate-notEmpty">
+			class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${orgIdentifiersTypeRefData}" var="id">
 				<option value="${id.code}">${id.desc}</option>
@@ -192,7 +192,7 @@ onclick="RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			onfocus="javascript:clearField(this)" type="text"
-			class="validate-notEmpty" /></td>
+			class="required validate-notEmpty" /></td>
 		<td><input type="radio"	id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-radio"
 			value="false" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
 			<input type="hidden" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
@@ -218,7 +218,7 @@ onclick="RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 		</td>
 		<td><select id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="study.organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
-			class="validate-notEmpty">
+			class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${orgIdentifiersTypeRefData}" var="id">
 				<option value="${id.code}">${id.desc}</option>
@@ -227,7 +227,7 @@ onclick="RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 		<td><input id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="study.organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			onfocus="javascript:clearField(this)" type="text"
-			class="validate-notEmpty" /></td>
+			class="required validate-notEmpty" /></td>
 		<td><input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-radio"
 			value="false" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
 			<input type="hidden" name="study.organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>

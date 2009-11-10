@@ -38,7 +38,7 @@ function cancelTakeSubjectOffStudy(){
      <div class=row>
      	<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.reason"/></div>
      	<div class="value">
-     		<textarea rows="2" cols="30" class="validate-notEmpty" name="studySubject.offStudyReasonText"></textarea>
+     		<textarea rows="2" cols="30" class="required validate-notEmpty" name="studySubject.offStudyReasonText"></textarea>
      	</div>
      </div>
      <div class=row>

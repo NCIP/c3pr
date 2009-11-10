@@ -206,7 +206,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="c3pr.common.firstName"/>
                                             </div>
                                             <div class="value">
-                                                <input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
+                                                <input id="firstName" name="firstName" type="text" value="" class="required validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -214,7 +214,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="c3pr.common.lastName"/>
                                             </div>
                                             <div class="value">
-                                                <input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
+                                                <input id="lastName" name="lastName" type="text" value="" class="required validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -238,7 +238,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="participant.gender"/>
                                             </div>
                                             <div class="value">
-                                                <select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
+                                                <select id="administrativeGenderCode" name="administrativeGenderCode" class="required validate-notEmpty">
                                                     <option value="">Please select...</option>
                                                     <c:forEach items="${administrativeGenderCode}" var="administrativeGenderCode" varStatus="loop">
                                                         <c:if test="${!empty administrativeGenderCode.desc}">
@@ -253,7 +253,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="participant.birthDate"/>
                                             </div>
                                             <div class="value">
-                                                <input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
+                                                <input id="birthDate" name="birthDate" type="text" value="" class="required validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -263,7 +263,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="participant.ethnicity"/>
                                             </div>
                                             <div class="value">
-                                                <select id="ethnicGroupCode" name="ethnicGroupCode" class="validate-notEmpty">
+                                                <select id="ethnicGroupCode" name="ethnicGroupCode" class="required validate-notEmpty">
                                                     <option value="">Please select...</option>
                                                     <c:forEach items="${ethnicGroupCode}" var="ethnicGroupCode" varStatus="loop">
                                                         <c:if test="${!empty ethnicGroupCode.desc}">

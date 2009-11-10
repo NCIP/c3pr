@@ -65,7 +65,7 @@
 						Username &nbsp;&nbsp;
                     </div>
                     <td class="label">
-                        <form:input cssClass="validate-notEmpty" path="userName"/> <input type="submit" value="Reset"/>
+                        <form:input cssClass="required validate-notEmpty" path="userName"/> <input type="submit" value="Reset"/>
                     </td>
                 </div>
             </form:form>

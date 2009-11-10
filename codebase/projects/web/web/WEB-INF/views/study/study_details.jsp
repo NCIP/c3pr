@@ -182,14 +182,14 @@
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="study.shortTitle"/></div>
             <div class="value">
-            	<form:input path="study.shortTitleText" size="30" maxlength="30" cssClass="validate-notEmpty" id="_shortTitle"/>
+            	<form:input path="study.shortTitleText" size="30" maxlength="30" cssClass="required validate-notEmpty" id="_shortTitle"/>
             	<tags:hoverHint keyProp="study.shortTitleText"/>
             </div>
         </div>
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="study.longTitle"/></div>
             <div class="value">
-            	<form:textarea path="study.longTitleText" rows="2" cols="30" cssClass="validate-notEmpty&&maxlength1024" />
+            	<form:textarea path="study.longTitleText" rows="2" cols="30" cssClass="required validate-notEmpty&&maxlength1024" />
             	<tags:hoverHint keyProp="study.longTitleText"/>
             </div>
         </div>
@@ -213,14 +213,14 @@
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.targetAccrual"/></div>
             <div class="value">
-            	<form:input path="study.targetAccrualNumber" size="10" maxlength="6" cssClass="validate-notEmpty&&numeric&&nonzero_numeric" />
+            	<form:input path="study.targetAccrualNumber" size="10" maxlength="6" cssClass="required validate-notEmpty&&numeric&&nonzero_numeric" />
             	<tags:hoverHint keyProp="study.targetAccrualNumber"/>
             </div>
         </div>
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.type"/></div>
             <div class="value">
-            	<form:select path="study.type" cssClass="validate-notEmpty" >
+            	<form:select path="study.type" cssClass="required validate-notEmpty" >
                 	<option value="">Please Select</option>
                 	<form:options items="${typeRefData}" itemLabel="desc" itemValue="desc" />
             	</form:select>
@@ -230,7 +230,7 @@
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="study.phase"/></div>
             <div class="value">
-            	<form:select path="study.phaseCode" cssClass="validate-notEmpty" >
+            	<form:select path="study.phaseCode" cssClass="required validate-notEmpty" >
                 	<option value="">Please Select</option>
                 	<form:options items="${phaseCodeRefData}" itemLabel="desc" itemValue="desc" />
             	</form:select>
@@ -245,7 +245,7 @@
         	    </c:when>
             	<c:otherwise>
 		            <div class="value">
-		            	<form:select path="study.blindedIndicator" onchange="blindedRandomization();" cssClass="validate-notEmpty">
+		            	<form:select path="study.blindedIndicator" onchange="blindedRandomization();" cssClass="required validate-notEmpty">
 		                	<option value="">Please Select</option>
 		                	<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 		            	</form:select>
@@ -257,7 +257,7 @@
         <div class="row" <c:if test="${ (empty command.study.companionIndicator) || command.study.companionIndicator=='false' ||((!empty param.embeddedStudy) && command.study.companionIndicator=='true' && param.embeddedStudy=='true')}">style="display:none;"</c:if>>
 	        <div class="label"><tags:requiredIndicator /><fmt:message key="study.standaloneIndicator"/></div>
 	        <div class="value">
-	        	<form:select path="study.standaloneIndicator" cssClass="validate-notEmpty" >
+	        	<form:select path="study.standaloneIndicator" cssClass="required validate-notEmpty" >
 	            	<option value="">Please Select</option>
 	            	<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 	        	</form:select>
@@ -270,7 +270,7 @@
 	        	<fmt:message key="study.versionNameNumber"/>
 	        </div>
 	       <div class="value">
-            	<form:input path="study.versionName" cssClass="validate-notEmpty" ></form:input>
+            	<form:input path="study.versionName" cssClass="required validate-notEmpty" ></form:input>
             	<tags:hoverHint keyProp="study.versionNameNumber"/>
             </div>
     	</div>
@@ -281,7 +281,7 @@
     <div class="leftpanel">
     		<div class="row">
          		<div class="label"><tags:requiredIndicator /><fmt:message key="study.stratified"/></div>	
-         		<div class="value"><form:select path="study.stratificationIndicator" cssClass="validate-notEmpty">
+         		<div class="value"><form:select path="study.stratificationIndicator" cssClass="required validate-notEmpty">
          		<option value="">Please Select</option>
          		<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
          		</form:select>
@@ -295,7 +295,7 @@
 	                <fmt:message key="study.randomized"/></div>
 	            <div class="value"><form:select path="study.randomizedIndicator"
 	                                            onchange="manageRandomizedIndicatorSelectBox(this);" 
-	                                            cssClass="validate-notEmpty"
+	                                            cssClass="required validate-notEmpty"
 	                                            disabled="${command.study.blindedIndicator == 'true'}" >
 	                <option value="">Please Select</option>
 	                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
@@ -331,7 +331,7 @@
 							<c:set var="_codeCoord" value="(${command.study.studyCoordinatingCenters[0].healthcareSite.ctepCode})" />
 							<c:set var="_nameCoord" value="${command.study.studyCoordinatingCenters[0].healthcareSite.name}" />
 						</c:if>
-						<tags:autocompleter cssClass="validate-notEmpty" hintKey="study.healthcareSite.name" name="study.studyCoordinatingCenters[0].healthcareSite" displayValue="${_nameCoord} ${_codeCoord }" value="${command.study.studyCoordinatingCenters[0].healthcareSite.id }" basename="coCenter"></tags:autocompleter>
+						<tags:autocompleter cssClass="required validate-notEmpty" hintKey="study.healthcareSite.name" name="study.studyCoordinatingCenters[0].healthcareSite" displayValue="${_nameCoord} ${_codeCoord }" value="${command.study.studyCoordinatingCenters[0].healthcareSite.id }" basename="coCenter"></tags:autocompleter>
 						<input type="hidden" id="coCenter-hidden1" name="study.organizationAssignedIdentifiers[0].healthcareSite"
 														value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
 				</div>
@@ -342,7 +342,7 @@
             	<div class="label"><tags:requiredIndicator /><fmt:message key="study.studyIdentifier"/></div>
                 <div class="value">
                 	<input type="text" name="study.organizationAssignedIdentifiers[0].value" size="33" maxlength="30"
-								value="${command.study.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
+								value="${command.study.organizationAssignedIdentifiers[0].value}" class="required validate-notEmpty" />
 					<input type="hidden" name="study.organizationAssignedIdentifiers[0].type" value="COORDINATING_CENTER_IDENTIFIER"/>
 					<c:if test="${empty command.study.id}">
 						<input type="hidden" name="study.organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
@@ -405,7 +405,7 @@
 				</c:if>
                 <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
                 <div class="value">
-                	<tags:autocompleter name="piCoCenter-hidden" displayValue="${_nameOrgPI} ${_codeOrgPI}" value="${command.study.id==null?'':command.study.principalInvestigatorStudyOrganization.healthcareSite.id}" basename="piCoCenter" cssClass="validate-notEmpty" />
+                	<tags:autocompleter name="piCoCenter-hidden" displayValue="${_nameOrgPI} ${_codeOrgPI}" value="${command.study.id==null?'':command.study.principalInvestigatorStudyOrganization.healthcareSite.id}" basename="piCoCenter" cssClass="required validate-notEmpty" />
 				</div>
             </div> 
 	    </div>
@@ -419,7 +419,7 @@
 				</c:if>
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.principalInvestigator"/></div>
 	            <div class="value"> 
-	            	<tags:autocompleter name="hcsInvestigator-hidden" displayValue="${_namePI} ${_codePI}" value="${command.study.id==null?'':command.study.principalInvestigator.id}" basename="hcsInvestigator" cssClass="validate-notEmpty" hintKey="healthcareSitePI"/>
+	            	<tags:autocompleter name="hcsInvestigator-hidden" displayValue="${_namePI} ${_codePI}" value="${command.study.id==null?'':command.study.principalInvestigator.id}" basename="hcsInvestigator" cssClass="required validate-notEmpty" hintKey="healthcareSitePI"/>
                  </div>            
 		    </div>
     	</div>

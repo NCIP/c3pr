@@ -161,7 +161,7 @@ DELETED TD
 	      <tr>
 	          <td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.name"/></b></td>
 	          <td align="left" valign="top">
-	              <form:input path="study.epochs[${treatmentEpochCount.index}].name" size="43" cssClass="validate-notEmpty"
+	              <form:input path="study.epochs[${treatmentEpochCount.index}].name" size="43" cssClass="required validate-notEmpty"
 												onkeyup="updateName('genericTitle-${treatmentEpochCount.index}', 'Epoch: ' + this.value);" />
 				  <tags:hoverHint id="study.treatmentEpoch.name-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.name" />
 	          </td>
@@ -184,7 +184,7 @@ DELETED TD
 			</td>
 	        <td>
 				<form:select path="study.epochs[${treatmentEpochCount.index}].treatmentIndicator"
-												cssClass="validate-notEmpty" onchange="manageTreatmentIndicatorSelectBox(this,${treatmentEpochCount.index});">
+												cssClass="required validate-notEmpty" onchange="manageTreatmentIndicatorSelectBox(this,${treatmentEpochCount.index});">
 	                    <option value="">Please Select</option>
 	                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 				</form:select>
@@ -195,7 +195,7 @@ DELETED TD
 	          <td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.enrolling"/></b> </td>
 	          <td align="left">
 	            <form:select id="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator" path="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,${treatmentEpochCount.index});"
-							cssClass="validate-notEmpty">
+							cssClass="required validate-notEmpty">
 		                    <option value="">Please Select</option>
 		                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 				</form:select>
@@ -208,7 +208,7 @@ DELETED TD
 	              <td>
 	                  <form:select
 													path="study.epochs[${treatmentEpochCount.index}].randomizedIndicator"
-													cssClass="validate-notEmpty">
+													cssClass="required validate-notEmpty">
 	                    <option value="">Please Select</option>
 	                    <form:options items="${yesNo}" itemLabel="desc"
 														itemValue="code" />
@@ -258,7 +258,7 @@ DELETED TD
 											id="reservationIndicator-${treatmentEpochCount.index}">
                                <form:select path="study.epochs[${treatmentEpochCount.index}].reservationIndicator"
 											onchange="manageReservingIndicatorSelectBox(this,${treatmentEpochCount.index});"
-											cssClass="validate-notEmpty">
+											cssClass="required validate-notEmpty">
                                    <option value="">Please Select</option>
                                    <form:options items="${yesNo}"
 												itemLabel="desc" itemValue="code" />
@@ -276,7 +276,7 @@ DELETED TD
               <td>
                   <form:select
 												path="study.epochs[${treatmentEpochCount.index}].stratificationIndicator"
-												cssClass="validate-notEmpty">
+												cssClass="required validate-notEmpty">
                     <option value="">Please Select</option>
                     <form:options items="${yesNo}" itemLabel="desc"
 													itemValue="code" />
@@ -320,7 +320,7 @@ DELETED TD
       		<c:forEach items="${treatmentEpoch.arms}" var="arm" varStatus="statusArms">
 	            <tr id="arm-${statusArms.index}">
 	                <td valign="top">
-	                	<form:input path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name" size="43" cssClass="validate-notEmpty" />
+	                	<form:input path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name" size="43" cssClass="required validate-notEmpty" />
 	                </td>
 	                <td valign="top">
 	                	<form:textarea path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].descriptionText" rows="2" cols="40" cssClass="validate-MAXLENGTH2000"/>
@@ -372,7 +372,7 @@ DELETED TD
 	<tr>
 		<td valign="top"><input type="text" size="43"
 			name="study.epochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].name"
-			class="validate-notEmpty" value="Arm A" /></td>
+			class="required validate-notEmpty" value="Arm A" /></td>
 		<td><textarea
 			name="study.epochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].descriptionText"
 			rows="2" cols="40" class="validate-MAXLENGTH2000"></textarea></td>
@@ -403,7 +403,7 @@ DELETED TD
 							<td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.name"/></b></td>
 							<td align="left"><input type="text"
 								name="study.epochs[PAGE.ROW.INDEX].name" size="43"
-								class="validate-notEmpty"
+								class="required validate-notEmpty"
 								onkeyup="updateName('divGenericEpochBox-PAGE.ROW.INDEX', 'Epoch: ' + this.value);" /><tags:hoverHint
 								id="study.treatmentEpoch.name-PAGE.ROW.INDEX"
 								keyProp="study.treatmentEpoch.name" /></td>
@@ -428,7 +428,7 @@ DELETED TD
 								id="study.epochs[PAGE.ROW.INDEX].treatmentIndicator"
 								name="study.epochs[PAGE.ROW.INDEX].treatmentIndicator"
 								onchange="manageTreatmentIndicatorSelectBox(this,PAGE.ROW.INDEX);"
-								class="validate-notEmpty">
+								class="required validate-notEmpty">
 								<option value="">Please Select</option>
 								<option value="true">Yes</option>
 								<option value="false">No</option>
@@ -443,7 +443,7 @@ DELETED TD
 								id="study.epochs[PAGE.ROW.INDEX].enrollmentIndicator"
 								name="study.epochs[PAGE.ROW.INDEX].enrollmentIndicator"
 								onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);"
-								class="validate-notEmpty">
+								class="required validate-notEmpty">
 								<option value="">Please Select</option>
 								<option value="true" selected="selected">Yes</option>
 								<option value="false">No</option>
@@ -458,7 +458,7 @@ DELETED TD
 								<td align="left"><select
 									id="study.epochs[PAGE.ROW.INDEX].randomizedIndicator"
 									name="study.epochs[PAGE.ROW.INDEX].randomizedIndicator"
-									class="validate-notEmpty">
+									class="required validate-notEmpty">
 									<option value="">Please Select</option>
 									<option value="true" selected="selected">Yes</option>
 									<option value="false">No</option>
@@ -502,7 +502,7 @@ DELETED TD
 								id="study.epochs[PAGE.ROW.INDEX].reservationIndicator"
 								name="study.epochs[PAGE.ROW.INDEX].reservationIndicator"
 								onchange="manageReservingIndicatorSelectBox(this,PAGE.ROW.INDEX);"
-								class="validate-notEmpty">
+								class="required validate-notEmpty">
 								<option value="">Please Select</option>
 								<option value="true">Yes</option>
 								<option value="false" selected="selected">No</option>
@@ -516,7 +516,7 @@ DELETED TD
 								<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.stratified"/></b></td>
 								<td align="left"><select
 									name="study.epochs[PAGE.ROW.INDEX].stratificationIndicator"
-									class="validate-notEmpty">
+									class="required validate-notEmpty">
 									<option value="">Please Select</option>
 									<option value="true" selected="selected">Yes</option>
 									<option value="false">No</option>

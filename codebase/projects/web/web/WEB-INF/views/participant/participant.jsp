@@ -112,12 +112,12 @@ function manageIdentifierRadio(element){
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.firstName"/></div>
 						<div class="value"><form:input path="firstName"
-							cssClass="validate-notEmpty" /></div>
+							cssClass="required validate-notEmpty" /></div>
 					</div>
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.lastName"/></div>
 						<div class="value"><form:input path="lastName"
-							cssClass="validate-notEmpty" /></div>
+							cssClass="required validate-notEmpty" /></div>
 					</div>
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.middleName"/></div>
@@ -130,7 +130,7 @@ function manageIdentifierRadio(element){
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.gender"/></div>
 						<div class="value"><form:select path="administrativeGenderCode"
-							cssClass="validate-notEmpty">
+							cssClass="required validate-notEmpty">
 							<option value="">Please Select</option>
 							<form:options items="${administrativeGenderCode}"
 								itemLabel="desc" itemValue="code" />
@@ -139,14 +139,14 @@ function manageIdentifierRadio(element){
 					</div>
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.birthDate"/></div>
-						<div class="value"><form:input path="birthDate" cssClass="validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
+						<div class="value"><form:input path="birthDate" cssClass="required validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
 					</div>
 				</div>
 				<div class="rightpanel">
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.ethnicity"/></div>
 						<div class="value"><form:select path="ethnicGroupCode"
-							cssClass="validate-notEmpty">
+							cssClass="required validate-notEmpty">
 							<option value="">Please Select</option>
 							<form:options items="${ethnicGroupCode}" itemLabel="desc"
 								itemValue="code" />
@@ -200,7 +200,7 @@ function manageIdentifierRadio(element){
 			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
 			                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 									size="30" maxlength="33"
-									value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty&&HTML_SPECIAL_CHARS" />
+									value="${command.organizationAssignedIdentifiers[0].value}" class="required validate-notEmpty&&HTML_SPECIAL_CHARS" />
 									<tags:hoverHint keyProp="subject.MRN.value"/>
 									<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
 						</div>
@@ -211,7 +211,7 @@ function manageIdentifierRadio(element){
 								<div class="label"><fmt:message key="c3pr.common.identifierType"/></div>
 								<div class="value">
 								<form:select
-									path="organizationAssignedIdentifiers[0].type" cssClass="validate-notEmpty"> 
+									path="organizationAssignedIdentifiers[0].type" cssClass="required validate-notEmpty"> 
 									<form:options items="${identifiersTypeRefData}" itemLabel="desc" itemValue="code" />
 								</form:select>
 								</div>
@@ -255,14 +255,14 @@ function manageIdentifierRadio(element){
 							</td>
 							<td class="alt"><form:select
 								path="organizationAssignedIdentifiers[${organizationStatus.index}].type"
-								cssClass="validate-notEmpty">
+								cssClass="required validate-notEmpty">
 								<option value="">Please Select</option>
 								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 									itemValue="code" />
 							</form:select></td>
 							<td class="alt"><form:input
 								path="organizationAssignedIdentifiers[${organizationStatus.index}].value"
-								cssClass="validate-notEmpty" /></td>
+								cssClass="required validate-notEmpty" /></td>
 							<td class="alt"><a
 								href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgId.id==null?'HC#':'ID#'}${orgId.id==null?orgId.hashCode:orgId.id}');"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -289,17 +289,17 @@ function manageIdentifierRadio(element){
 						<tr id="systemIdentifiersTable-${status.index}">
 							<td class="alt"><form:input
 								path="systemAssignedIdentifiers[${status.index}].systemName"
-								cssClass="validate-notEmpty" /></td>
+								cssClass="required validate-notEmpty" /></td>
 							<td class="alt"><form:select
 								path="systemAssignedIdentifiers[${status.index}].type"
-								cssClass="validate-notEmpty">
+								cssClass="required validate-notEmpty">
 								<option value="">Please Select</option>
 								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 									itemValue="code" />
 							</form:select></td>
 							<td class="alt"><form:input
 								path="systemAssignedIdentifiers[${status.index}].value"
-								cssClass="validate-notEmpty" /></td>
+								cssClass="required validate-notEmpty" /></td>
 							<td class="alt"><a
 								href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},'${sysId.id==null?'HC#':'ID#'}${sysId.id==null?sysId.hashCode:sysId.id}');"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -327,11 +327,11 @@ function manageIdentifierRadio(element){
 		<td class="alt"><input
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
 			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text"
-			class="validate-notEmpty" /></td>
+			class="required validate-notEmpty" /></td>
 		<td class="alt"><select
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
-			class="validate-notEmpty">
+			class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
 				<option value="${id.desc}">${id.desc}</option>
@@ -340,7 +340,7 @@ function manageIdentifierRadio(element){
 		<td class="alt"><input
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
-			onfocus="javascript:clearField(this)" class="validate-notEmpty" /></td>
+			onfocus="javascript:clearField(this)" class="required validate-notEmpty" /></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -367,7 +367,7 @@ function manageIdentifierRadio(element){
 		<td class="alt"><select
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
-			class="validate-notEmpty">
+			class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
 				<option value="${id.desc}">${id.desc}</option>
@@ -376,7 +376,7 @@ function manageIdentifierRadio(element){
 		<td class="alt"><input
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
-			onfocus="javascript:clearField(this)" class="validate-notEmpty" /></td>
+			onfocus="javascript:clearField(this)" class="required validate-notEmpty" /></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>

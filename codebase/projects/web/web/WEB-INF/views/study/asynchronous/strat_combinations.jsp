@@ -24,7 +24,7 @@ RowManager.registerRowInserter(stratumGroupRowInserter_${epochCountIndex});
          <td class="alt">
 <!--     <input type="text" id="epochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
              name="study.epochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
-             value="${command.study.epochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" size="1" class="validate-notEmpty"/> -->
+             value="${command.study.epochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" size="1" class="required validate-notEmpty"/> -->
              
              <tags:inPlaceEdit value="${command.study.epochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}"
              				   path="${command.study.epochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" />        

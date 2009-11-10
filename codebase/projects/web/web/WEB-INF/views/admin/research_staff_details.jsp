@@ -182,7 +182,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="25" path="firstName" cssClass="validate-notEmpty" />
+							<form:input size="25" path="firstName" cssClass="required validate-notEmpty" />
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -204,7 +204,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="25" path="lastName" cssClass="validate-notEmpty" />
+							<form:input size="25" path="lastName" cssClass="required validate-notEmpty" />
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -266,7 +266,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="25" path="nciIdentifier" cssClass="validate-notEmpty" />
+							<form:input size="25" path="nciIdentifier" cssClass="required validate-notEmpty" />
 						  </div>
 					</c:otherwise>
 				</c:choose>
@@ -290,7 +290,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="30" path="email" cssClass="validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
+							<form:input size="30" path="email" cssClass="required validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
 						  </div>
 					</c:otherwise>
 				</c:choose>

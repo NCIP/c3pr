@@ -58,7 +58,7 @@
 							<table>
 								<tr><td><b><fmt:message key="c3pr.common.targetAccrual"/></b></td>
 									<td>
-										<form:input size="5" path="study.plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6" cssClass="validate-notEmpty&&NUMERIC" />
+										<form:input size="5" path="study.plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6" cssClass="required validate-notEmpty&&NUMERIC" />
 									</td>
 								</tr>
 							</table>
@@ -76,7 +76,7 @@
 									<tr id="table1-${emailStatus.index}">
 										<td class="alt"><form:input						 
 											path="study.plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${emailStatus.index}].contactMechanisms[0].value"
-											size="30" cssClass="validate-notEmpty&&EMAIL" /></td>
+											size="30" cssClass="required validate-notEmpty&&EMAIL" /></td>
 										<td class="alt"><a
 											href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${cmbr.id==null?'HC#':'ID#'}${cmbr.id==null?cmbr.hashCode:cmbr.id}');">
 										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -96,7 +96,7 @@
 								<c:forEach var="role" varStatus="roleStatus"  items="${command.study.plannedNotifications[nStatus.index].roleBasedRecipient}">
 									<tr id="table2-${roleStatus.index}">
 										<td class="alt">
-											<form:select path="study.plannedNotifications[${nStatus.index }].roleBasedRecipient[${roleStatus.index}].role" cssClass="validate-notEmpty">
+											<form:select path="study.plannedNotifications[${nStatus.index }].roleBasedRecipient[${roleStatus.index}].role" cssClass="required validate-notEmpty">
 												<option value="">Please Select</option>
 												<form:options items="${notificationPersonnelRoleRefData}" itemLabel="desc" itemValue="code" />
 											</form:select>
@@ -138,7 +138,7 @@
 						<table>
 							<tr><td><b><fmt:message key="c3pr.common.targetAccrual"/></b></td>
 								<td>
-									<input type="text" size="5" name="study.plannedNotifications[PAGE.ROW.INDEX].studyThreshold" maxlength="6" class="validate-notEmpty&&NUMERIC" />
+									<input type="text" size="5" name="study.plannedNotifications[PAGE.ROW.INDEX].studyThreshold" maxlength="6" class="required validate-notEmpty&&NUMERIC" />
 								</td>
 							</tr>
 						</table>
@@ -178,7 +178,7 @@
 	<tr>
 		<td class="alt"><input type="text"
 			name="study.plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
-			size="30" class="validate-notEmpty&&EMAIL" /></td>
+			size="30" class="required validate-notEmpty&&EMAIL" /></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
 		<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -191,7 +191,7 @@
 	<tr>
 		<td class="alt"><select
 			id="study.plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role"
-			name="study.plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="validate-notEmpty">
+			name="study.plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${notificationPersonnelRoleRefData}" var="role">
 				<option value="${role.code}">${role.desc}</option>

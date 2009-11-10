@@ -152,7 +152,7 @@ div.row div.label {
 	            	<tags:hoverHint keyProp="organization.nciInstituteCode"/>
 	        		</c:if>
 	        		<c:if test="${FLOW == 'SAVE_FLOW'}">
-                		<form:input path="ctepCode" size="20" cssClass="validate-notEmpty"/>
+                		<form:input path="ctepCode" size="20" cssClass="required validate-notEmpty"/>
                 		<tags:hoverHint keyProp="organization.nciInstituteCode"/>
 	        		</c:if>
         		</div>

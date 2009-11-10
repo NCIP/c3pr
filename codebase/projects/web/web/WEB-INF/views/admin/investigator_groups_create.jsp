@@ -210,7 +210,7 @@
  	<div class="row">
 		<div class="label"><fmt:message key="c3pr.common.organization"/></div>
 		<div class="value">
-			<tags:autocompleter name="healthcareSite" displayValue="${command.healthcareSite.name}" value="${command.healthcareSite.id}" basename="healthcareSite" cssClass="validate-notEmpty" size="50">
+			<tags:autocompleter name="healthcareSite" displayValue="${command.healthcareSite.name}" value="${command.healthcareSite.id}" basename="healthcareSite" cssClass="required validate-notEmpty" size="50">
 			</tags:autocompleter>
 		</div>
 	</div>

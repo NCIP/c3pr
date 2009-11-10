@@ -204,7 +204,7 @@ function changeStudyVersion(){
 		<div class="value">
 		<c:choose>
 		<c:when test="${hasInv}">
-			<select id ="treatingPhysician" name="studySubject.treatingPhysician" class="validate-notEmpty">
+			<select id ="treatingPhysician" name="studySubject.treatingPhysician" class="required validate-notEmpty">
 				<option value="">Please select...</option>
 				<c:forEach items="${command.studySubject.studySite.activeStudyInvestigators}" var="activeInv">
 					<option value="${activeInv.id }" ${!empty command.studySubject.treatingPhysician && command.studySubject.treatingPhysician.id==activeInv.id?'selected':''}>${activeInv.healthcareSiteInvestigator.investigator.fullName }</option>
