@@ -93,13 +93,7 @@
 		    		$('addStudySite').disabled=false ;
 		}
 	}
-
-	function changeCompanionStudySiteStatus(primaryIdentifier){
-		action=$("companionSiteAction-"+primaryIdentifier).value;
-		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/companionSites_row" divElement="'dummy-div'" javaScriptParam="'action=' + action+ '&primaryIdentifier='+primaryIdentifier+ '&studySiteType=companionSite&DO_NOT_SAVE=true'" />
-		Element.show('companionSendingMessage-'+primaryIdentifier);
-	}
-
+	
 	failedStatusChange= function (responseXML){
 										Dialog.alert(responseXML.responseText,
 							             {width:600, height:600, okLabel: "Close",
@@ -129,12 +123,6 @@
 		$('irbApprovalSites').value=irbApprovalSites;
 		$('studyAssociationId').value=studyAssociationId;
 		<tags:tabMethod method="associateParentStudySites" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection" javaScriptParam="'parentIndex='+parentIndex"/>
-	}
-
-	function deleteCompanionStudySiteAssociation(studySiteId, parentIndex){
-		$("_doNotSave").name="xyz";
-		<tags:tabMethod method="removeCompanionStudyAssociation" divElement="'parentStudySiteDiv-'+parentIndex" formName="'parentStudySiteForm'"  viewName="/study/parentStudySiteSection" javaScriptParam="'studySiteId='+studySiteId+'&parentIndex='+parentIndex"/>
-		$("_doNotSave").name="_doNotSave";
 	}
 
 	function chooseEffectiveDate(primaryIdentifier, action){

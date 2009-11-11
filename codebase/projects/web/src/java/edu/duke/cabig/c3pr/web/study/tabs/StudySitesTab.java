@@ -88,8 +88,6 @@ public class StudySitesTab extends StudyTab {
 
 	@Override
 	public void postProcessOnValidation(HttpServletRequest request,StudyWrapper wrapper, Errors errors) {
-//		Study study = studyDao.getById(wrapper.getStudy().getId());
-//		wrapper.setStudy(study);
 		Study study = wrapper.getStudy();
 		for (StudySite studySite : study.getStudySites()) {
 			setCoordinatingCenterStudyStatus(request, study, studySite);
@@ -129,45 +127,45 @@ public class StudySitesTab extends StudyTab {
 		this.studyValidator = studyValidator;
 	}
 
-	@SuppressWarnings("unchecked")
-	public ModelAndView associateParentStudySites(HttpServletRequest request,
-			Object obj, Errors errors) {
-		HashMap map = new HashMap();
-		List<StudySite> studySites = new ArrayList<StudySite>();
-		StudyWrapper wrapper = (StudyWrapper) obj;
-		Study study = wrapper.getStudy();
-
-		String parentAssociationId = request.getParameter("studyAssociationId");
-		String primaryIdentifiers = request.getParameter("primaryIdentifiers");
-		String irbApprovalSites = request.getParameter("irbApprovalSites");
-
-		List<String> primaryIdentifierList = getTokenList(primaryIdentifiers);
-		List<String> irbApprovalList = getTokenList(irbApprovalSites);
-
-		for (CompanionStudyAssociation parentStudyAssociation : study
-				.getParentStudyAssociations()) {
-			if (StringUtils.equals(parentAssociationId, parentStudyAssociation
-					.getId().toString())) {
-				for (String primaryIdentifier : primaryIdentifierList) {
-					HealthcareSite healthcareSite = (HealthcareSite) healthcareSiteDao
-							.getByPrimaryIdentifier(primaryIdentifier);
-					StudySite studySite = new StudySite();
-					studySite.setHealthcareSite(healthcareSite);
-					studySite.setStudy(study);
-					if (irbApprovalList.contains(primaryIdentifier)) {
-						studySite.setIrbApprovalDate(parentStudyAssociation
-								.getParentStudy().getStudySite(primaryIdentifier)
-								.getIrbApprovalDate());
-					}
-					parentStudyAssociation.addStudySite(studySite);
-				}
-				map.put("parentStudyAssociation", parentStudyAssociation);
-				map.put("parentIndex", request.getParameter("parentIndex"));
-				break;
-			}
-		}
-		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
-	}
+//	@SuppressWarnings("unchecked")
+//	public ModelAndView associateParentStudySites(HttpServletRequest request,
+//			Object obj, Errors errors) {
+//		HashMap map = new HashMap();
+//		List<StudySite> studySites = new ArrayList<StudySite>();
+//		StudyWrapper wrapper = (StudyWrapper) obj;
+//		Study study = wrapper.getStudy();
+//
+//		String parentAssociationId = request.getParameter("studyAssociationId");
+//		String primaryIdentifiers = request.getParameter("primaryIdentifiers");
+//		String irbApprovalSites = request.getParameter("irbApprovalSites");
+//
+//		List<String> primaryIdentifierList = getTokenList(primaryIdentifiers);
+//		List<String> irbApprovalList = getTokenList(irbApprovalSites);
+//
+//		for (CompanionStudyAssociation parentStudyAssociation : study
+//				.getParentStudyAssociations()) {
+//			if (StringUtils.equals(parentAssociationId, parentStudyAssociation
+//					.getId().toString())) {
+//				for (String primaryIdentifier : primaryIdentifierList) {
+//					HealthcareSite healthcareSite = (HealthcareSite) healthcareSiteDao
+//							.getByPrimaryIdentifier(primaryIdentifier);
+//					StudySite studySite = new StudySite();
+//					studySite.setHealthcareSite(healthcareSite);
+//					studySite.setStudy(study);
+//					if (irbApprovalList.contains(primaryIdentifier)) {
+//						studySite.setIrbApprovalDate(parentStudyAssociation
+//								.getParentStudy().getStudySite(primaryIdentifier)
+//								.getIrbApprovalDate());
+//					}
+//					parentStudyAssociation.addStudySite(studySite);
+//				}
+//				map.put("parentStudyAssociation", parentStudyAssociation);
+//				map.put("parentIndex", request.getParameter("parentIndex"));
+//				break;
+//			}
+//		}
+//		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+//	}
 
 	private static List<String> getTokenList(String string) {
 		List<String> tokenList = new ArrayList<String>();
@@ -178,27 +176,27 @@ public class StudySitesTab extends StudyTab {
 		return tokenList;
 	}
 
-	@SuppressWarnings("unchecked")
-	public ModelAndView removeCompanionStudyAssociation(
-			HttpServletRequest request, Object obj, Errors errors) {
-		StudyWrapper wrapper = (StudyWrapper) obj;
-		Study study = wrapper.getStudy();
-		HashMap map = new HashMap();
-		String studySiteId = request.getParameter("studySiteId");
-		if (!StringUtils.isBlank(studySiteId)) {
-			StudySite studySite = studySiteDao.getById(Integer
-					.parseInt(studySiteId));
-			String primaryIdentifier = studySite.getHealthcareSite()
-					.getPrimaryIdentifier();
-			CompanionStudyAssociation companionStudyAssociation = study
-					.getCompanionStudySite(primaryIdentifier)
-					.getCompanionStudyAssociation();
-			companionStudyAssociation.removeStudySite(studySite);
-			map.put("parentStudyAssociation", companionStudyAssociation);
-			map.put("parentIndex", request.getParameter("parentIndex"));
-		}
-		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
-	}
+//	@SuppressWarnings("unchecked")
+//	public ModelAndView removeCompanionStudyAssociation(
+//			HttpServletRequest request, Object obj, Errors errors) {
+//		StudyWrapper wrapper = (StudyWrapper) obj;
+//		Study study = wrapper.getStudy();
+//		HashMap map = new HashMap();
+//		String studySiteId = request.getParameter("studySiteId");
+//		if (!StringUtils.isBlank(studySiteId)) {
+//			StudySite studySite = studySiteDao.getById(Integer
+//					.parseInt(studySiteId));
+//			String primaryIdentifier = studySite.getHealthcareSite()
+//					.getPrimaryIdentifier();
+//			CompanionStudyAssociation companionStudyAssociation = study
+//					.getCompanionStudySite(primaryIdentifier)
+//					.getCompanionStudyAssociation();
+//			companionStudyAssociation.removeStudySite(studySite);
+//			map.put("parentStudyAssociation", companionStudyAssociation);
+//			map.put("parentIndex", request.getParameter("parentIndex"));
+//		}
+//		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
+//	}
 
 	@SuppressWarnings("unchecked")
 	public ModelAndView changeStatus(HttpServletRequest request, Object obj,
