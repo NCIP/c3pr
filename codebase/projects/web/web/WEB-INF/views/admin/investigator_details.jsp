@@ -315,7 +315,7 @@ function submitForm(){
 									<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
 						</c:when>
 						<c:otherwise>
-							<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${status.index}-input" size="50"
+							<input class="autocomplete required validate-notEmpty" type="text" id="healthcareSite${status.index}-input" size="50"
 								value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name}" />
 						</c:otherwise>
 					</c:choose>
