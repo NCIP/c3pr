@@ -78,7 +78,7 @@ var ValidationManager = {
 	ERROR_MSG_MAXLENGTH:"Too long",
 	ERROR_MSG_PHONE:"Invalid phone number",
 	ERROR_MSG_NONZERO_VALUE:"Enter value more then zero",
-	ERROR_MSG_HTML_SPECIAL_CHARS:"Incorrect format. (*|,\":<>[]{}`\';()@&$#%) not allowed",
+	ERROR_MSG_HTML_SPECIAL_CHARS:"Incorrect format. (*|,\":<>[]{}`\'()@&$#%) not allowed",
 
 	validateForm: function(submit){
 		formVar=submit?Event.element(submit):this
@@ -97,7 +97,7 @@ var ValidationManager = {
 						})
 		checkFields.each(ValidationManager.prepareField)
 		if(ValidationManager.afterPrepareFeilds(formVar)){
-			flag=validateFields(checkFields)
+			flag=validateFields(checkFields, true)
 			if(ValidationManager.submitPostProcess(formVar, flag)){
 				ValidationManager.invokeAll(formVar)
 				if(ValidationManager.debug){
@@ -113,7 +113,7 @@ var ValidationManager = {
 					ValidationManager.log("<input type='button' value='submit this form' onClick='ValidationManager.resumeSubmit()'/>")
 				}else
 					formVar._submit()
-					openInfoDialog();
+					openInfoDialog()
 			}
 		}
 	},
@@ -140,10 +140,10 @@ var ValidationManager = {
 				element.maxlength = parseInt(validationType.substr(9))
 				element.maxlengthError = ValidationManager.ERROR_MSG_MAXLENGTH
 			}else if(validationType.toUpperCase().indexOf('NONZERO_NUMERIC')==0){
-				element.nonzero = true ;
+				element.nonzero = true 
 				element.nonzeroError = ValidationManager.ERROR_MSG_NONZERO_VALUE
 			}else if(validationType.toUpperCase().indexOf('HTML_SPECIAL_CHARS')==0){
-				element.htmlescape = true ;
+				element.htmlescape = true 
 				element.htmlescapeError = ValidationManager.ERROR_MSG_HTML_SPECIAL_CHARS
 			}else {
 				element.pattern = validationType
@@ -203,13 +203,170 @@ var ValidationManager = {
 						document.getElementById(ValidationManager.loggerDiv)!=null?new Element.update(ValidationManager.loggerDiv,""):null
 					},
 	errorLog: function(str){
-					this.log("<br><span style='color:red;font-weight:bolder;'>----------------------<br>"+str+"<br>-------------------------</span><br>")
+					this.log("<br><span style='color:redfont-weight:bolder'>----------------------<br>"+str+"<br>-------------------------</span><br>")
 				},
 	registerForm: function(formVariable){
 					formVariable._submit= formVariable.submit
 					formVariable.submit = ValidationManager.validateForm
 					Event.observe(formVariable, "submit", ValidationManager.validateForm)
-				}
+					
+					Event.observe(formVariable, "click", ValidationManager.formClick)
+			        Event.observe(formVariable, "domfocusout", ValidationManager.formBlur)
+			        Event.observe(formVariable, "keyup", ValidationManager.formKeyup)
+			        Event.observe(formVariable, "change", ValidationManager.formChange)
+			        Event.observe(formVariable, "focus", ValidationManager.formFocus)
+				},
+	setState: function(inputField, isValid) {
+        if (isValid) {
+            ValidationManager.setValidState(inputField)
+        } else {
+            ValidationManager.setInvalidState(inputField)
+        }
+    },
+
+	setStateOnLoad: function(inputField, isValid) {
+        if (isValid) {
+            ValidationManager.setNormalState(inputField)
+        } else {
+            ValidationManager.setInvalidState(inputField)
+        }
+    },
+
+    setNormalState: function(inputField) {
+            Element.removeClassName(inputField, "required")
+            Element.removeClassName(inputField, "mandatory")
+            Element.removeClassName(inputField, "validField")
+            Element.addClassName(inputField, "valueOK")
+    },
+
+    validateField: function(inputField) {
+        if (!inputField) return
+        if (inputField.hasClassName("autocomplete")) return
+        
+        ValidationManager.prepareField(inputField)
+        return (validateFields(new Array(inputField), false) && trimWhitespace(inputField.value) != "")
+    },
+
+	doFieldValidation: function(inputField) {
+        ValidationManager.setState(inputField, ValidationManager.validateField(inputField))
+    },
+
+	doFieldValidationOnLoad: function(inputField) {
+        ValidationManager.setStateOnLoad(inputField, ValidationManager.validateField(inputField))
+    },
+
+    registerFields: function() {
+        alert('registerFields')
+        return
+        $$('input.required', 'input.mandatory', 'input.valueOK').each(function(inputField) {
+            Event.stopObserving(inputField, "keyup")
+            Event.observe(inputField, "keyup", function() {
+                ValidationManager.doFieldValidation(inputField)
+            })
+        })
+
+        $$('select.required', 'select.mandatory', 'select.valueOK').each(function(inputField) {
+            Event.observe(inputField, "change", function() {
+                ValidationManager.doFieldValidation(inputField)
+            })
+        })
+
+        $$('textarea.required', 'textarea.mandatory', 'textarea.valueOK').each(function(inputField) {
+            Event.observe(inputField, "keyup", function() {
+                ValidationManager.doFieldValidation(inputField)
+            })
+        })
+
+        $$('textarea.required', 'textarea.mandatory',  'textarea.valueOK', 'select.required', 'select.mandatory', 'select.valueOK', 'input.required', 'input.mandatory', 'input.valueOK').each(function(inputField) {
+            Event.observe(inputField, "blur", function() {
+                if (inputField.hasClassName("validField")) {
+                    Element.removeClassName(inputField, "validField")
+                    Element.removeClassName(inputField, "required")
+                    Element.removeClassName(inputField, "mandatory")
+                    Element.addClassName(inputField, "valueOK")
+                }
+            })
+        })
+
+    },
+
+    getElement: function(event) {
+        var inputField = Event.findElement(event, 'INPUT')
+        if (inputField) return inputField
+
+        var inputField = Event.findElement(event, 'TEXTAREA')
+        if (inputField) return inputField
+
+        var inputField = Event.findElement(event, 'SELECT')
+        if (inputField) return inputField
+
+        return null
+    },
+
+    formClick: function(event) {
+        // var inputField = ValidationManager.getElement(event)
+    },
+
+    clearFieldCss: function(inputField) {
+        if (Element.hasClassName(inputField, "autocomplete")) return
+        if (Element.hasClassName(inputField, "validField") || Element.hasClassName(inputField, "valueOK")) {
+            Element.removeClassName(inputField, "validField")
+            Element.removeClassName(inputField, "required")
+            Element.removeClassName(inputField, "mandatory")
+            Element.addClassName(inputField, "valueOK")
+        }
+    },
+
+    setInvalidState: function(inputField) {
+        if (Element.hasClassName(inputField, "mandatory") || Element.hasClassName(inputField, "required") || Element.hasClassName(inputField, "validField") || Element.hasClassName(inputField, "valueOK")) {
+            Element.removeClassName(inputField, "validField")
+            Element.removeClassName(inputField, "valueOK")
+            Element.removeClassName(inputField, "mandatory")
+            Element.addClassName(inputField, "required")
+        }
+    },
+
+    setValidState: function(inputField) {
+        if (Element.hasClassName(inputField, "mandatory") || Element.hasClassName(inputField, "required") || Element.hasClassName(inputField, "validField") || Element.hasClassName(inputField, "valueOK")) {
+            Element.removeClassName(inputField, "required")
+            Element.removeClassName(inputField, "mandatory")
+            Element.removeClassName(inputField, "valueOK")
+            Element.addClassName(inputField, "validField")
+        }
+    },
+
+    formChange: function(event) {
+        var inputField = ValidationManager.getElement(event)
+        if (inputField == null) return
+        if (inputField.hasClassName("required") || inputField.hasClassName("mandatory") || inputField.hasClassName("valueOK") || inputField.hasClassName("validField")) {
+            if (inputField.type == "select-one" || inputField.type == "select-multiple") {
+                if (inputField) ValidationManager.doFieldValidation(inputField)
+            }
+            inputField.onblur = function() {
+                ValidationManager.clearFieldCss(inputField)
+            }
+        }
+    },
+
+    formBlur: function(event) {
+    },
+
+    formFocus: function(event) {
+    },
+
+    formKeyup: function(event) {
+        // Insertion.Before(document.body, "<font color='white'>KeyUp.</font><br>")
+        var inputField = ValidationManager.getElement(event)
+        if (inputField == null) return
+        if (inputField.hasClassName("required") || inputField.hasClassName("mandatory") || inputField.hasClassName("valueOK") || inputField.hasClassName("validField")) {
+            if (inputField) {
+                ValidationManager.doFieldValidation(inputField)
+                inputField.onblur = function() {
+                    ValidationManager.clearFieldCss(inputField)
+                }
+            }
+        }
+    }
 }
 Event.observe(window, "load", function(){
 	$$('form').each(function(formVar){
