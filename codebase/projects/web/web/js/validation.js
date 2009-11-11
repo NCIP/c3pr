@@ -211,7 +211,7 @@ var ValidationManager = {
 					Event.observe(formVariable, "submit", ValidationManager.validateForm)
 					
 					Event.observe(formVariable, "click", ValidationManager.formClick)
-			        Event.observe(formVariable, "domfocusout", ValidationManager.formBlur)
+					Event.observe(formVariable, "domfocusout", ValidationManager.formBlur)
 			        Event.observe(formVariable, "keyup", ValidationManager.formKeyup)
 			        Event.observe(formVariable, "change", ValidationManager.formChange)
 			        Event.observe(formVariable, "focus", ValidationManager.formFocus)
