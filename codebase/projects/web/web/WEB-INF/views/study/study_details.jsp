@@ -341,7 +341,7 @@
         	<div class="row">
             	<div class="label"><tags:requiredIndicator /><fmt:message key="study.studyIdentifier"/></div>
                 <div class="value">
-                	<input type="text" name="study.organizationAssignedIdentifiers[0].value" size="33" maxlength="30"
+                	<input type="text" name="study.organizationAssignedIdentifiers[0].value" size="33" maxlength="30" id="study.organizationAssignedIdentifiers[0].value"
 								value="${command.study.organizationAssignedIdentifiers[0].value}" class="required validate-notEmpty" />
 					<input type="hidden" name="study.organizationAssignedIdentifiers[0].type" value="COORDINATING_CENTER_IDENTIFIER"/>
 					<c:if test="${empty command.study.id}">
