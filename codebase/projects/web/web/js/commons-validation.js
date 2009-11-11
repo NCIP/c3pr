@@ -11,7 +11,7 @@ function validateFields(formFields, displayError) {
    	  ValidationManager.removeError(element);
       // text and textarea types
       if (element.type == "text" || element.type == "textarea") {
-         element.value = trimWhitespace(element.value)
+         displayError?element.value = trimWhitespace(element.value):null;
          
          // required element
          if (element.required  && (element.value == '' || element.value == '(Begin typing here)')) {
