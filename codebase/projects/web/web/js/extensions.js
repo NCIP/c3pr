@@ -101,6 +101,7 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 			if($(hiddenElmtId) != null ){
 				if($(hiddenElmtId).value == null || $(hiddenElmtId).value == ''){
 					$(this.element.id).value="";
+					Element.addClassName(this.element, "pending-search");
 				}
 				else{
 					//setting the required field as valid (white background)
@@ -171,6 +172,7 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 				//Setting the state as invalid if its a required field
 				if (this.element.hasClassName("valueOK") || this.element.hasClassName("validField")){
 					ValidationManager.setState(this.element, false);
+					
 				}
 	    	}
 	    }

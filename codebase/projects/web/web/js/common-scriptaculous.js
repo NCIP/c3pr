@@ -59,6 +59,7 @@ Autocompleter.DWR.prototype = Object.extend(new Autocompleter.Base(), {
     afterUpdateElement: function(element, selectedElement) {
         this.afterUpdateCallback(element, selectedElement, this.options.array[this.index]);
         ValidationManager.setState(element, true);
+        Element.removeClassName(element, "pending-search");
     },
 
     // should be called by the populator (specified in the constructor)

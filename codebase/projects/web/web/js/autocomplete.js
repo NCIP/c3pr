@@ -119,7 +119,7 @@ function clearDefaultText(e) {
 
     if (target.value == '(Begin typing here)') {
         target.value = '';
-        target.className = (target.className).replace("pending-search"," ");
+        Element.removeClassName(target, "pending-search");
     }
 
 }
@@ -135,7 +135,6 @@ function replaceDefaultText(e2) {
     // commenting for release need to fix it
   if (trim(target.value) == '' ) {
         target.value = '(Begin typing here)';
-        target.className = target.className + ' pending-search';
     }
 }
 
