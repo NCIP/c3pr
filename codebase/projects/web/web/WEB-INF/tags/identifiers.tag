@@ -84,7 +84,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 				<div class="value">
 					<select name="organizationAssignedIdentifiers[0].type"  class="required validate-notEmpty">
 						<c:forEach var="identifierType" items="${identifiersTypeRefData}">
-							<option value="${identifierType.desc}">${identifierType.desc}</option>
+							<option value="${identifierType.code}">${identifierType.desc}</option>
 						</c:forEach>
 					</select>
 				</div>
