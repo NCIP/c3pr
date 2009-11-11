@@ -2,6 +2,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@attribute name="basename" required="true"%>
 <%@attribute name="name" required="true"%>
 <%@attribute name="value" required="true"%>
@@ -34,3 +35,11 @@
 
 <img id="${basename}-indicator" class="indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator"/>
 <div id="${basename}-choices" class="autocomplete" style="display: none;"></div>
+<c:if test="${!empty displayValue && fn:trim(displayValue) != ''}">
+	<script>
+		if($("${basename}-input").hasClassName("required")){
+			Element.removeClassName("${basename}-input", "required");
+			Element.addClassName("${basename}-input", "valueOK");
+		}
+	</script>
+</c:if>

@@ -101,6 +101,15 @@ input.required[type="text"], input.required[type="password"], select.required, t
     border:1px solid #F05757;
 }
 
+input.validField[type="text"], input.validField[type="password"], select.validField, textarea.validField {
+    background-color:#CFFBBF;
+    border:1px solid green;
+}
+
+input.valueOK[type="text"], input.valueOK[type="password"], select.valueOK, textarea.valueOK {
+}
+
+
 /*
     SELECT-equivalent groups of radio buttons
  */
