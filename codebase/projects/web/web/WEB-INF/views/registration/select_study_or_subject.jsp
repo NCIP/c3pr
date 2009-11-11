@@ -4,6 +4,7 @@
         <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 		<%--<jwr:style src="/css/subtabbedflow.css" />--%>
         <script>
+        	C3PR.disableCheckRequiredFieldOnLoad=true;
             function navRollOver(obj, state){
                 document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
             }
