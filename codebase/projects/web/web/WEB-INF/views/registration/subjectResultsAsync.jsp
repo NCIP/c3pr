@@ -30,7 +30,7 @@
 
             <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'" style="cursor:pointer"
 				onMouseOut="this.className='<%= currClass %>'" 
-				onClick="postProcessSubjectSelection('${participant.id}','${participant.lastName} ${participant.firstName}','${participant.identifiers[0].type}'+' - '+ '${participant.identifiers[0].value}')">					
+				onClick="postProcessSubjectSelection('${participant.id}','${participant.lastName} ${participant.firstName}','${participant.identifiers[0].type.code}'+' - '+ '${participant.identifiers[0].value}')">					
 					<td>${participant.lastName},${participant.firstName}</td>
 					<td>${participant.MRN.value}</a></td>
 					<td><c:if test="${! empty participant.MRN}">${participant.MRN.healthcareSite.name}</c:if></a></td>
