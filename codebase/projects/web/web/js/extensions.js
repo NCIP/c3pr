@@ -165,18 +165,42 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	    //and re-setting it to "" so that the user cannot select something from the autocompleter 
 	    //drop down and then modify it and submit the changed text with the 
 	    //previously selected id. 
-		if(this.options.isFreeTextAllowed != null && !this.options.isFreeTextAllowed){
-			var hiddenElmtId = this.element.id.substring(0, this.element.id.lastIndexOf('-input')) + "-hidden";			
-			if($(hiddenElmtId) != null ){
-				$(hiddenElmtId).value="";
-				//Setting the state as invalid if its a required field
-				if (this.element.hasClassName("valueOK") || this.element.hasClassName("validField")){
-					ValidationManager.setState(this.element, false);
-					
-				}
-	    	}
+	    switch(event.keyCode) {
+	       case Event.KEY_TAB:
+	       case Event.KEY_RETURN:
+	         this.selectEntry();
+	         Event.stop(event);
+	       case Event.KEY_ESC:
+	         this.hide();
+	         this.active = false;
+	         Event.stop(event);
+	         return;
+	       case Event.KEY_LEFT:
+	       case Event.KEY_RIGHT:
+	         return;
+	       case Event.KEY_UP:
+	         this.markPrevious();
+	         this.render();
+	         if(navigator.appVersion.indexOf('AppleWebKit')>0) Event.stop(event);
+	         return;
+	       case Event.KEY_DOWN:
+	         this.markNext();
+	         this.render();
+	         if(navigator.appVersion.indexOf('AppleWebKit')>0) Event.stop(event);
+	         return;
+	       default:
+	       	 if(this.options.isFreeTextAllowed != null && !this.options.isFreeTextAllowed){
+				var hiddenElmtId = this.element.id.substring(0, this.element.id.lastIndexOf('-input')) + "-hidden";			
+				if($(hiddenElmtId) != null ){
+					$(hiddenElmtId).value="";
+					//Setting the state as invalid if its a required field
+					if (this.element.hasClassName("valueOK") || this.element.hasClassName("validField")){
+						ValidationManager.setState(this.element, false);
+						
+					}
+		    	}
+		    }
 	    }
-	    
 	    if(this.observer) clearTimeout(this.observer);
 	      this.observer = 
 	        setTimeout(this.onObserverEvent.bind(this), this.options.frequency*1000);
