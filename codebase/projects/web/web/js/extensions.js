@@ -157,10 +157,14 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	    //and re-setting it to "" so that the user cannot select something from the autocompleter 
 	    //drop down and then modify it and submit the changed text with the 
 	    //previously selected id. 
+	    //Setting the state as invalid if its a required field
 		if(this.options.isFreeTextAllowed != null && !this.options.isFreeTextAllowed){
 			var hiddenElmtId = this.element.id.substring(0, this.element.id.lastIndexOf('-input')) + "-hidden";			
 			if($(hiddenElmtId) != null ){
 				$(hiddenElmtId).value="";
+				if (this.element.hasClassName("valueOK") || this.element.hasClassName("validField")){
+					ValidationManager.setState(this.element, false);
+				}
 	    	}
 	    }
 	    

@@ -239,20 +239,20 @@ var ValidationManager = {
             Element.addClassName(inputField, "valueOK")
     },
 
-    validateField: function(inputField) {
-        if (!inputField) return
+	doFieldValidation: function(inputField) {
+		if (!inputField) return
         if (inputField.hasClassName("autocomplete")) return
         
         ValidationManager.prepareField(inputField)
-        return (validateFields(new Array(inputField), false) && trimWhitespace(inputField.value) != "")
-    },
-
-	doFieldValidation: function(inputField) {
-        ValidationManager.setState(inputField, ValidationManager.validateField(inputField))
+        isValid = (validateFields(new Array(inputField), false) && trimWhitespace(inputField.value) != "")
+        ValidationManager.setState(inputField, isValid)
     },
 
 	doFieldValidationOnLoad: function(inputField) {
-        ValidationManager.setStateOnLoad(inputField, ValidationManager.validateField(inputField))
+		if (!inputField) return
+        ValidationManager.prepareField(inputField)
+        isValid = (validateFields(new Array(inputField), false) && trimWhitespace(inputField.value) != "")
+        ValidationManager.setStateOnLoad(inputField, isValid)
     },
 
     registerFields: function() {
