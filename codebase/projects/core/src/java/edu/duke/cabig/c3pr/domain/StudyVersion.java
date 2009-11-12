@@ -513,7 +513,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         for(Epoch epoch : this.getEpochs()){
         	Epoch cloneEpoch = new Epoch();
         	cloneEpoch.setAccrualCeiling(epoch.getAccrualCeiling());
-        	cloneEpoch.setAccrualIndicator(epoch.getAccrualIndicator());
         	cloneEpoch.setDescriptionText(epoch.getDescriptionText());
         	cloneEpoch.setEnrollmentIndicator(epoch.getEnrollmentIndicator());
         	cloneEpoch.setEpochOrder(epoch.getEpochOrder());
