@@ -74,9 +74,6 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	/** The current book randomization entry position. */
 	private Integer currentBookRandomizationEntryPosition;
 
-	/** The accrual indicator. */
-	private Boolean accrualIndicator = false;
-
 	/** The reservation indicator. */
 	private Boolean reservationIndicator = false;
 
@@ -227,24 +224,6 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	 */
 	public void setAccrualCeiling(Integer accrualCeiling) {
 		this.accrualCeiling = accrualCeiling;
-	}
-
-	/**
-	 * Gets the accrual indicator.
-	 *
-	 * @return the accrual indicator
-	 */
-	public Boolean getAccrualIndicator() {
-		return accrualIndicator;
-	}
-
-	/**
-	 * Sets the accrual indicator.
-	 *
-	 * @param accrualIndicator the new accrual indicator
-	 */
-	public void setAccrualIndicator(Boolean accrualIndicator) {
-		this.accrualIndicator = accrualIndicator;
 	}
 
 	/**
