@@ -101,22 +101,37 @@
 		if(formElement.name == 'createSubForm'){
 			//for the create subject form we make an ajax submit and return false to avoid the html submit
 			var raceCodeFlag=false;
-		for(i=1 ; i<8 ; i++){
-			if($('raceCodes'+i).checked){
-				raceCodeFlag=true;
-				break;
+			for(i=1 ; i<8 ; i++){
+				if($('raceCodes'+i).checked){
+					raceCodeFlag=true;
+					break;
+				}
 			}
-		}
-		if(!raceCodeFlag){
-			ValidationManager.removeError($("raceCodes"))
-			ValidationManager.showError($("raceCodes"), "required")	
+			if(!raceCodeFlag){
+				ValidationManager.removeError($("raceCodes"))
+				ValidationManager.showError($("raceCodes"), "required")	
+				return false;
+			}
+			if(flag){
+				new Ajax.Updater('temp','../personAndOrganization/participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
+			}
 			return false;
+		}else if(formElement.id == 'command' && !flag){
+			errorBag="";
+			if($('studySiteStudyVersionId').value==null || $('studySiteStudyVersionId').value==""){
+				errorBag = errorBag + ("<ul class='errors'><li>Missing study and/or study site</li></ul>");
+			}
+			if($('studySubject.participant').value==null || $('studySubject.participant').value==""){
+				errorBag = errorBag + ("<ul class='errors'><li>Missing subject</li></ul>");
+			}
+			if($('epochElement').value==null || $('epochElement').value==""){
+				errorBag = errorBag + ("<ul class='errors'><li>Missing epoch</li></ul>");
+			}
+			Element.update("topLevelErrorDisplay", errorBag);
+			Element.show("topLevelErrorDisplay");
+			$("topLevelErrorDisplay").focus();
 		}
-		if(flag){
-			new Ajax.Updater('temp','../personAndOrganization/participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
-		}
-		return false;
-		}else{
+		else{
 			//for all other forms(i.e. the main form on select_study_or_subject) we return true to ensure the html submit
 			return flag;
 		}		

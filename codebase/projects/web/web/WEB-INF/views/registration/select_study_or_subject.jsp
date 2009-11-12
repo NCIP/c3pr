@@ -71,6 +71,8 @@
 
     </head>
     <body>
+    	<div id="topLevelErrorDisplay" class="errors" style="display: none;">
+		</div>
         <div id="Study">
             <registrationTags:select_study/>
         </div>
