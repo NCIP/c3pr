@@ -64,7 +64,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			<div class="value">
 				<input type="hidden" id="mrnOrganization-hidden" name="organizationAssignedIdentifiers[0].healthcareSite" />
 				<input id="mrnOrganization-input" size="30" type="text" name="abcxyz"
-				 class="autocomplete validate-notEmpty" />
+				 class="autocomplete required validate-notEmpty" />
 				<tags:indicator id="mrnOrganization-indicator" />
 				<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"><tags:hoverHint keyProp="subject.MRN.organization"/></div>
 			</div>
@@ -80,9 +80,9 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 		</div>
 		<div class="rightpanel">
 			<div class="row">
-				<div class="label"><fmt:message key="c3pr.common.identifierType"/></div>
+				<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></div>
 				<div class="value">
-					<select name="organizationAssignedIdentifiers[0].type"  class="required validate-notEmpty">
+					<select name="organizationAssignedIdentifiers[0].type"  class="valueOk validate-notEmpty">
 						<c:forEach var="identifierType" items="${identifiersTypeRefData}">
 							<option value="${identifierType.code}">${identifierType.desc}</option>
 						</c:forEach>
