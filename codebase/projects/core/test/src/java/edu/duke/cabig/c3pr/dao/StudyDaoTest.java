@@ -991,7 +991,6 @@ public class StudyDaoTest extends DaoTestCase {
             Epoch newEpoch = new Epoch();
             newEpoch.setName("Test Non Treatment Epoch");
             newEpoch.setAccrualCeiling(10);
-            newEpoch.setAccrualIndicator(Boolean.TRUE);
             newEpoch.setReservationIndicator(Boolean.TRUE);
             newEpoch.setEnrollmentIndicator(Boolean.FALSE);
             newEpoch.setEpochOrder(1);
@@ -1017,8 +1016,6 @@ public class StudyDaoTest extends DaoTestCase {
                             .getName());
             assertEquals("Wrong enrollment indicator", Boolean.FALSE, (totalEpochs.get(0))
                             .getEnrollmentIndicator());
-            assertEquals("Wrong accrual indicator", Boolean.TRUE, (totalEpochs.get(0))
-                            .getAccrualIndicator());
             assertEquals("Wrong reservation indicator", Boolean.TRUE, (totalEpochs.get(0))
                             .getReservationIndicator());
             assertEquals("Wrong accrual ceiling", 10, (totalEpochs.get(0)).getAccrualCeiling()
