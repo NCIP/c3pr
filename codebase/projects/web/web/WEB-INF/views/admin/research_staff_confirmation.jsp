@@ -53,7 +53,7 @@
 </div>
 <div class="flow-buttons" <c:if test="${empty studyflow || studyflow=='false'}">style="display:none;"</c:if>>
 	<span class="next">
-		<tags:button type="button" color="red" icon="x" value="Close" onclick="parent.showDiseases(); parent.closePopup();" />
+		<tags:button type="button" color="red" icon="x" value="Close" onclick="parent.showPersonnel(); parent.closePopup();" />
 	</span>
 </div>
 </body>
