@@ -150,7 +150,6 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
                         ScheduledArm.class));
         eligibilityIndicator = false;
         setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
-        currentPosition = new Integer(0);
    }
 
     /**
@@ -311,9 +310,6 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
     /** The eligibility indicator. */
     private Boolean eligibilityIndicator;
     
-    /** The current position. */
-    private Integer currentPosition;
-
     // / LOGIC
     /**
      * Sets the eligibility waiver reason text.
@@ -599,25 +595,6 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
         return ScheduledEpochDataEntryStatus.COMPLETE;
     }
 
-	/**
-	 * Gets the current position.
-	 * 
-	 * @return the current position
-	 */
-	public Integer getCurrentPosition() {
-		return currentPosition;
-	}
-
-	/**
-	 * Sets the current position.
-	 * 
-	 * @param currentPosition the new current position
-	 */
-	public void setCurrentPosition(Integer currentPosition) {
-		this.currentPosition = currentPosition;
-	}
-    
-	
 	/**
 	 * Gets the start date str.
 	 *
