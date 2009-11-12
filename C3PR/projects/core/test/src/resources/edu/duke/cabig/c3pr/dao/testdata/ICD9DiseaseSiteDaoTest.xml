@@ -1,8 +1,0 @@
-<dataset>
-	<icd9_disease_sites id="1001" version="0" name="Neoplasm2" code="200" description_text="Neoplasm2" parent_id="1000" depth="LEVEL2" selectable="0"  />
-	<icd9_disease_sites id="1000" version="0" name="skinandmouth" code="200.1" description_text="Neoplasm1" depth="LEVEL1" selectable="0" />
-	<icd9_disease_sites id="1002" version="0" name="skin neoplasm" code="200.2" description_text="Neoplasm3" parent_id="1001" depth="LEVEL3" selectable="0" />
-	<icd9_disease_sites id="1003" version="0" name="upper body skin" code="200.32" description_text="Neoplasm4" parent_id="1002" depth="LEVEL4" selectable="1" />
-	<icd9_disease_sites id="1004" version="0" name="nose" code="200.3" description_text="nose" parent_id="1001" depth="LEVEL1" selectable="1" />
-	
-</dataset>

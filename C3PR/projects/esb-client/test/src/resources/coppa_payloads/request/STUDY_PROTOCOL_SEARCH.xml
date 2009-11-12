@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<pa:StudyProtocol xmlns:pa="http://pa.services.coppa.nci.nih.gov">
-    <pa:identifier nullFlavor="NI" />
-    <pa:assignedIdentifier extension="NCI-2009-00004"/>
-</pa:StudyProtocol>
