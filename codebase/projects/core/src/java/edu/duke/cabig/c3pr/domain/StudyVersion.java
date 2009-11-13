@@ -452,7 +452,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
 	}
 
-
     @OneToMany(mappedBy = "parentStudyVersion", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")

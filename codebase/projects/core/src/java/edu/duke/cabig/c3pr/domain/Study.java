@@ -264,6 +264,14 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	public void addStudySite(StudySite studySite) {
 		studySite.setup(this);
 		lazyListHelper.getLazyList(StudySite.class).add(studySite);
+		for(CompanionStudyAssociation compStudyAssoc : getCompanionStudyAssociations()){
+			Study compStudy = compStudyAssoc.getCompanionStudy();
+			if(compStudy.getIsEmbeddedCompanionStudy()){
+				StudySite stuSite = new StudySite();
+				stuSite.setHealthcareSite(studySite.getHealthcareSite());
+				compStudy.addStudySite(stuSite);
+			}
+		}
 	}
 
 	public void removeStudySite(StudySite studySite) {
@@ -1362,6 +1370,11 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 
 	public void setOriginalIndicator(Boolean originalIndicator) {
 		this.getStudyVersion().setOriginalIndicator(originalIndicator);
+	}
+	
+	@Transient
+	public Boolean getIsEmbeddedCompanionStudy(){
+		return companionIndicator && !standaloneIndicator ;
 	}
 	
 //	@Column(name="back_dated_reg_support")

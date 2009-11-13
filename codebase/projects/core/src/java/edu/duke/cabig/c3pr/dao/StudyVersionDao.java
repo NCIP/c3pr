@@ -44,7 +44,6 @@ public class StudyVersionDao extends GridIdentifiableDao<StudyVersion> implement
 		getHibernateTemplate().initialize(studyVersion.getCompanionStudyAssociationsInternal());
 		for (CompanionStudyAssociation companionStudyAssociation : studyVersion.getCompanionStudyAssociations()) {
 			getHibernateTemplate().initialize(companionStudyAssociation.getCompanionStudy());
-			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
 			getHibernateTemplate().initialize(companionStudyAssociation.getCompanionStudy().getStudyOrganizations());
 		}
 		getHibernateTemplate().initialize(studyVersion.getConsentsInternal());
