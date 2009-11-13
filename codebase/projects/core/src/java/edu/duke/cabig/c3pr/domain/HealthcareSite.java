@@ -254,7 +254,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     	if(!StringUtils.isEmpty(nciCode)){
     		OrganizationAssignedIdentifier identifier = null;
     		for(OrganizationAssignedIdentifier tempIdentifier : getOrganizationAssignedIdentifiers()){
-    			if(tempIdentifier.getType() == OrganizationIdentifierTypeEnum.CTEP){
+    			if(tempIdentifier.getType() == OrganizationIdentifierTypeEnum.NCI){
     				identifier = (OrganizationAssignedIdentifier)tempIdentifier;
     				break;
     			}
