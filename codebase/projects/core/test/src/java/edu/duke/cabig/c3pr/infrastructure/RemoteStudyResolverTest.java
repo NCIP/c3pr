@@ -38,7 +38,7 @@ public class RemoteStudyResolverTest extends ApplicationContextTest{
 		super.setUp();
 		remoteStudyResolver = (RemoteStudyResolver) getApplicationContext().getBean("remoteStudyResolver");
 		coppaMessageBroadcaster = (CaXchangeMessageBroadcasterImpl) getApplicationContext().getBean("coppaMessageBroadcaster");
-		personResolverUtils = (PersonOrganizationResolverUtils) getApplicationContext().getBean("personResolverUtils");
+		personResolverUtils = (PersonOrganizationResolverUtils) getApplicationContext().getBean("personOrganizationResolverUtils");
 		protocolAbstractionResolverUtils = (ProtocolAbstractionResolverUtils) getApplicationContext().getBean("protocolAbstractionResolverUtils");
 		
 		TestMultisiteDelegatedCredentialProvider testMultisiteDelegatedCredentialProvider = new TestMultisiteDelegatedCredentialProvider(username, password);
@@ -57,11 +57,11 @@ public class RemoteStudyResolverTest extends ApplicationContextTest{
 	private RemoteStudy getSampleRemoteStudy() {
 		RemoteStudy remoteStudy = new RemoteStudy();
 		OrganizationAssignedIdentifier identifier = new OrganizationAssignedIdentifier();
-		identifier.setValue("oai-value");
+		identifier.setValue("NCI-2009-00008");
     	//Set the short-title/identifier/status in the example object as we support searches based on these 3 only.
-		remoteStudy.setShortTitleText("shortTitle");
+		remoteStudy.setShortTitleText("");
 		//NOTE: we dont support searches on long title in our UI but coppa does.
-		remoteStudy.setLongTitleText("longTitle");
+		remoteStudy.setLongTitleText("");
 		remoteStudy.getIdentifiers().add(identifier);
 		remoteStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		
