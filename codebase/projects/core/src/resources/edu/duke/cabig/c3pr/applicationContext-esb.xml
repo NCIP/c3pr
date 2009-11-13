@@ -50,6 +50,7 @@
           class="edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl" lazy-init="true">
         <property name="caXchangeURL" value="${esbUrl}"/>
         <property name="messageTypesMapping" ref="messageTypesMapping"/>
+        <property name="messageResponseHandlers" ref="caXchangeMessageResponseHandlerSet"/>
         <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider"/>
     	<property name="timeout" value="${esb.timeout}"/>
     </bean>
