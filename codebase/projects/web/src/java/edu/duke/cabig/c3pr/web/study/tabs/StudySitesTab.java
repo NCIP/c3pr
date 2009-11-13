@@ -76,13 +76,13 @@ public class StudySitesTab extends StudyTab {
 	@Override
 	public Map<String, Object> referenceData(HttpServletRequest request,
 			StudyWrapper wrapper) {
+		Study study = wrapper.getStudy();
 		Map<String, Object> refdata = super.referenceData(wrapper);
 		refdata.put("multisiteEnv", new Boolean(this.configuration.get(Configuration.MULTISITE_ENABLE)));
 		refdata.put("localNCICode", this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
 		refdata.put("openSections",request.getParameter("openSections"));
 		refdata.put("studyVersionAssociationMap",isStudyVersionSetupValid(wrapper.getStudy()));
 		refdata.put("currentDate",CommonUtils.getDateString(new Date()));
-		// write code to see if each study site is on latest study version
 		return refdata;
 	}
 
@@ -334,8 +334,20 @@ public class StudySitesTab extends StudyTab {
 		String primaryIdentifier = request.getParameter("primaryIdentifier");
 		StudySite studySite = study.getStudySite(primaryIdentifier);
 		study.removeStudySite(studySite);
+		for(CompanionStudyAssociation compStudyAssoc : study.getCompanionStudyAssociations()){
+			Study compStudy = compStudyAssoc.getCompanionStudy();
+			if(compStudy.getIsEmbeddedCompanionStudy()){
+				StudySite studySiteAssociatedToCompanion = compStudy.getStudySite(primaryIdentifier);
+				compStudy.removeStudySite(studySiteAssociatedToCompanion);
+			}
+		}
+		
 		studyDao.flush();
 		studyDao.evict(study);
+		for(CompanionStudyAssociation compStudyAssoc : study.getCompanionStudyAssociations()){
+			Study compStudy = compStudyAssoc.getCompanionStudy();
+			studyDao.evict(compStudy);
+		}
 		study = studyDao.getById(id);
 		studyDao.initialize(study);
 		

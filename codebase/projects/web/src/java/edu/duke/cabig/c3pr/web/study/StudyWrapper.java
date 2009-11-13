@@ -55,6 +55,10 @@ public class StudyWrapper {
 
      public boolean canAmendStudy(){
     	Study study = this.getStudy();
+    	if(study.getIsEmbeddedCompanionStudy()){
+    		// we do not support amendment of embedded companion studies.
+    		return false ;
+    	}
     	List<CoordinatingCenterStudyStatus> permissibleStatus = new ArrayList<CoordinatingCenterStudyStatus>();
         permissibleStatus.add(CoordinatingCenterStudyStatus.OPEN);
         permissibleStatus.add(CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);

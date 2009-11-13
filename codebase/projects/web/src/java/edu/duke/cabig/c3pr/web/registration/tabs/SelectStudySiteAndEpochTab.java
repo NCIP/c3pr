@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -61,8 +60,9 @@ public class SelectStudySiteAndEpochTab extends RegistrationTab<StudySubjectWrap
 	}
 
 	private List<StudySite> getStudySites(Study study, Study companionStudy) {
-		CompanionStudyAssociation companionStudyAssociation = companionStudy.getParentStudyAssociation(study.getId());
-		return companionStudyAssociation.getStudySites();
+//		CompanionStudyAssociation companionStudyAssociation = companionStudy.getParentStudyAssociation(study.getId());
+//		return companionStudyAssociation.getStudySites();
+		return companionStudy.getStudySites();
 	}
     
     @Override

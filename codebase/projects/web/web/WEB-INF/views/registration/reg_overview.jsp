@@ -737,14 +737,12 @@
 					<div class="label"><b><fmt:message key="registration.startDate"/></b>:</div>
 					<div class="value">${childStudySubject.startDateStr}</div>
 				</div>
-				<div class="row">
-					<div class="label"><b><fmt:message key="registration.consentSignedDate"/></b>:</div>
-					<div class="value">${childStudySubject.informedConsentSignedDateStr}</div>
-				</div>
-				<div class="row">
-					<div class="label"><b><fmt:message key="registration.consentVersion"/></b>:</div>
-					<div class="value">${childStudySubject.informedConsentVersion}</div>
-				</div>
+				<c:forEach items="${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="childStudySubjectConsentVersion" varStatus="status">
+					<div class="row">
+						<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
+						<div class="value">${childStudySubjectConsentVersion.informedConsentSignedDateStr} (${childStudySubjectConsentVersion.consent.name})</div>
+					</div>
+				</c:forEach>
 				<div class="row">
 					<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
 					<c:choose>

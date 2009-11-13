@@ -177,6 +177,10 @@
 		win.setContent(arr[0]) ;
 		win.showCenter(true);
 	}
+
+	function gotoParentStudy(){
+		alert("Lo main aa gaya :P");
+	}
 	
 	</script>
 </head>
@@ -187,28 +191,36 @@
 	</form:form>
 	<div id="dummy-div" style="display: none;" ></div>
 	<tags:panelBox title="Sites">
-		<div class="row">
-			<div class="name">
-				<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" size="60"></tags:autocompleter>
-				<tags:button color="blue" value="Add study site" icon="add" type="button" size="small" id="addStudySite" onclick="$('siteIndicator').show();addStudySite();" disabled="true"></tags:button>
-				<img id="siteIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
-			</div>
-		</div>
-		<br>
-		<form:form id="studySitesForm">
-			<input type="hidden" name="submitted" value="true"/>
-			<input type="hidden" name="openSections" id="openSections"/>
-			<tags:errors path="study.studySites" />
-			<div id="studySites">
-				<studyTags:studySitesSection commandObj="${command}"></studyTags:studySitesSection>
-			</div>
-		</form:form>
-		<div id="newStudySite" style="display: none" ></div>
+		<c:choose>
+			<c:when test="${command.study.isEmbeddedCompanionStudy}">
+				This is an embedded companion study. To get information about associated study sites please look at study site associated with <a href="#" onclick="javascript:gotoParentStudy();">parent study</a>. 		
+			</c:when>
+			<c:otherwise>
+				<div class="row">
+					<div class="name">
+						<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" size="60"></tags:autocompleter>
+						<tags:button color="blue" value="Add study site" icon="add" type="button" size="small" id="addStudySite" onclick="$('siteIndicator').show();addStudySite();" disabled="true"></tags:button>
+						<img id="siteIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+					</div>
+				</div>
+				<br>
+				<form:form id="studySitesForm">
+					<input type="hidden" name="submitted" value="true"/>
+					<input type="hidden" name="openSections" id="openSections"/>
+					<tags:errors path="study.studySites" />
+					<div id="studySites">
+						<studyTags:studySitesSection commandObj="${command}"></studyTags:studySitesSection>
+					</div>
+				</form:form>
+				<div id="newStudySite" style="display: none" ></div>
+			</c:otherwise>
+		</c:choose>
 		</tags:panelBox>
-		<div class="flow-buttons">
+		<div class="flow-buttons" <c:if test="${!command.study.isEmbeddedCompanionStudy}">stye="display:none"</c:if>>
 		    <span class="next">
 				<tags:button color="green" value="Save" icon="save" id="save" type="button" onclick="updateStudy();"></tags:button>
 			</span>
 		</div>
+		
 	</body>
 </html>
