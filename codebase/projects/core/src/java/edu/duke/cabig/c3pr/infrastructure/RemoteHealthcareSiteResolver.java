@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.iso._21090.DSETII;
 import org.iso._21090.II;
 
@@ -31,7 +32,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	protected C3PRExceptionHelper exceptionHelper;
 
 	/** The log. */
-	private Logger log = Logger.getLogger(RemoteHealthcareSiteResolver.class);
+	private static Log log = LogFactory.getLog(RemoteHealthcareSiteResolver.class);
     
 	private PersonOrganizationResolverUtils personOrganizationResolverUtils = null;
 	
@@ -72,7 +73,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	 * @return RemoteHealthcareSite
 	 */
 	public RemoteHealthcareSite getRemoteEntityByUniqueId(String externalId) {
-		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass());
+		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass() + " - ExtId: " +externalId);
 		gov.nih.nci.coppa.po.Organization coppaOrganization = null;
 		DSETII dsetii = CoppaObjectFactory.getDSETIISearchCriteria(externalId);
 

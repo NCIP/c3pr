@@ -357,7 +357,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#getRemoteEntityByUniqueId(java.lang.String)
 	 */
 	public Object getRemoteEntityByUniqueId(String externalId) {
-		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass());
+		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass() + " - ExtId: " +externalId);
 		II ii = CoppaObjectFactory.getIISearchCriteriaForPerson(externalId);
 		String iiXml = CoppaObjectFactory.getCoppaIIXml(ii);
 		String resultXml = "";
@@ -367,11 +367,40 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			log.error(e.getMessage());
 		}
 		
-		RemoteInvestigator remoteInvestigator = loadInvestigatorForPersonResult(resultXml);
+		RemoteInvestigator remoteInvestigator = loadInvestigatorAttributesOnlyForPersonResult(resultXml);
 		log.debug("Exiting getRemoteEntityByUniqueId() for:" + this.getClass());
 		return remoteInvestigator;
 	}
 
+	/**
+	 * Load investigator for person result. This is a condensed version of loadInvestigatorForPersonResult.
+	 * Used by getRemoteEntityByUniqueId
+	 * 
+	 * @param personResultXml the person result xml
+	 * @return the remote investigator
+	 */
+	public RemoteInvestigator loadInvestigatorAttributesOnlyForPersonResult(String personResultXml) {
+        List<String> results = XMLUtils.getObjectsFromCoppaResponse(personResultXml);
+        List<Person> coppaPersonsList = new ArrayList<Person>();
+        RemoteInvestigator remoteInvestigator = null;
+        if (results.size() > 0) {
+        	coppaPersonsList.add(CoppaObjectFactory.getCoppaPerson(results.get(0)));
+        	
+        	Map<String, IdentifiedPerson> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(coppaPersonsList);
+        	IdentifiedPerson identifiedPerson = nciIdsMap.get(coppaPersonsList.get(0).getIdentifier().getExtension());
+        	String nciId = "";
+        	if(identifiedPerson != null){
+        		nciId = identifiedPerson.getAssignedId().getExtension();
+        	}
+        	
+        	List<gov.nih.nci.coppa.po.Organization> organizationList = null;
+        	remoteInvestigator = populateRemoteInvestigator(coppaPersonsList.get(0), nciId, organizationList);
+            return remoteInvestigator;
+        }
+        return null;            
+	}
+	
+	
 	/**
 	 * Load investigator for person result. This is also used from StudyResolver; hence the public scope.
 	 * This is for Individual persons results only, like the getRemoteEntityByUniqueId().

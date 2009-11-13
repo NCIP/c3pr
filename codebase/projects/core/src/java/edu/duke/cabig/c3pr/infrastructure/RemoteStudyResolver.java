@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.iso._21090.DSETII;
 
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
@@ -42,7 +43,7 @@ import gov.nih.nci.coppa.services.pa.StudySiteContact;
 public class RemoteStudyResolver implements RemoteResolver {
 
 	/** The log. */
-	private Logger log = Logger.getLogger(RemoteStudyResolver.class);
+	private static Log log = LogFactory.getLog(RemoteStudyResolver.class);
 	
 	/** The function codes for StudySite */
 	public static final String LEAD_ORGANIZATION = "Lead Organization";
@@ -69,20 +70,39 @@ public class RemoteStudyResolver implements RemoteResolver {
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#getRemoteEntityByUniqueId(java.lang.String)
 	 */
 	public Object getRemoteEntityByUniqueId(String externalId) {
-		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass());
-		String paPayLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId(externalId));
-		String resultXml  = "";
-		try {
-			resultXml  = protocolAbstractionResolverUtils.broadcastStudyProtocolGetById(paPayLoad);
-		} catch (C3PRCodedException e) {
-			log.error(e);
-		}
-		List<gov.nih.nci.coppa.services.pa.StudyProtocol> studyProtocols = getStudyProtocolsFromResultXml(resultXml);
+		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass() + " - ExtId: " +externalId);
 		RemoteStudy remoteStudy = null;
-		if(studyProtocols.size() > 0){
-			remoteStudy = getRemoteStudyFromStudyProtocol(studyProtocols.get(0));
+		try{
+			String paPayLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId(externalId));
+			String resultXml = protocolAbstractionResolverUtils.broadcastStudyProtocolGetById(paPayLoad);
+			
+			List<gov.nih.nci.coppa.services.pa.StudyProtocol> studyProtocols = getStudyProtocolsFromResultXml(resultXml);
+			if(studyProtocols.size() > 0){
+				remoteStudy = getRemoteAttributesOnlyFromStudyProtocol(studyProtocols.get(0));
+			}
+		} catch (C3PRCodedException e) {
+			log.error(e.getMessage());
+		} catch(Exception e){
+			log.error(e.getMessage());
 		}
 		log.debug("Exiting getRemoteEntityByUniqueId() for:" + this.getClass());
+		return remoteStudy;
+	}
+	
+	/**This method is a condensed version of getRemoteStudyFromStudyProtocol().
+	 * This is used only by getRemoteEntityByUniqueID
+	 * 
+	 * @param interventionalStudyProtocol
+	 * @return
+	 */
+	private RemoteStudy getRemoteAttributesOnlyFromStudyProtocol(StudyProtocol studyProtocol) {
+		//Set remote attributes from COPPA Object
+		RemoteStudy remoteStudy = new RemoteStudy();
+		remoteStudy.setType(protocolAbstractionResolverUtils.getStudyTypeFromCoppaStudyType(CoppaPAObjectFactory.getTypeFromStudyProtocol(studyProtocol)));
+		remoteStudy.setPhaseCode(protocolAbstractionResolverUtils.getPhaseCodeFromCoppaPhaseCode(CoppaPAObjectFactory.getPhaseCodeFromStudyProtocol(studyProtocol)));
+		remoteStudy.setExternalId(studyProtocol.getIdentifier().getExtension());
+		
+		//DONT Set NCI identifier, StudyOrganizations, PI or status for Study
 		return remoteStudy;
 	}
 	
@@ -94,31 +114,36 @@ public class RemoteStudyResolver implements RemoteResolver {
 	 */
 	public List<Object> find(Object example) {
 		log.debug("Entering find() for:" + this.getClass());
-		RemoteStudy remoteStudyExample = (RemoteStudy)example;
-		String resultXml  = "";
-		String identifierValue = "";
-		//hard-coded id for PA ..... String payLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId("27633"));
-		//Get protocolSearchPayload using the search criteria specified in the example Study.
-		if(remoteStudyExample.getCoordinatingCenterAssignedIdentifier() != null){
-			identifierValue = remoteStudyExample.getCoordinatingCenterAssignedIdentifier().getValue();
-		}
-		String payLoad = CoppaPAObjectFactory.getStudyProtocolSearchXML(remoteStudyExample.getShortTitleText(), identifierValue, null);
-		try {
-			resultXml  = protocolAbstractionResolverUtils.broadcastStudyProtocolSearch(payLoad);
-		} catch (C3PRCodedException e) {
-			log.error(e);
-		}
-		
-		List<gov.nih.nci.coppa.services.pa.StudyProtocol> studyProtocols = getStudyProtocolsFromResultXml(resultXml);
 		List<Object> remoteStudies = new ArrayList<Object>();
-		for (gov.nih.nci.coppa.services.pa.StudyProtocol studyProtocol : studyProtocols) {
-			RemoteStudy remoteStudy = getRemoteStudyFromStudyProtocol(studyProtocol);
-			if (remoteStudy != null) {
-				remoteStudies.add(remoteStudy);
+		try{
+			RemoteStudy remoteStudyExample = (RemoteStudy)example;
+			String resultXml  = "";
+			String identifierValue = "";
+			//hard-coded id for PA ..... String payLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId("27633"));
+			//Get protocolSearchPayload using the search criteria specified in the example Study.
+			if(remoteStudyExample.getCoordinatingCenterAssignedIdentifier() != null){
+				identifierValue = remoteStudyExample.getCoordinatingCenterAssignedIdentifier().getValue();
 			}
+			String payLoad = CoppaPAObjectFactory.getStudyProtocolSearchXML(remoteStudyExample.getShortTitleText(), identifierValue, null);
+			try {
+				resultXml  = protocolAbstractionResolverUtils.broadcastStudyProtocolSearch(payLoad);
+			} catch (C3PRCodedException e) {
+				log.error(e);
+			}
+			
+			List<gov.nih.nci.coppa.services.pa.StudyProtocol> studyProtocols = getStudyProtocolsFromResultXml(resultXml);
+			for (gov.nih.nci.coppa.services.pa.StudyProtocol studyProtocol : studyProtocols) {
+				RemoteStudy remoteStudy = getRemoteStudyFromStudyProtocol(studyProtocol);
+				if (remoteStudy != null) {
+					remoteStudies.add(remoteStudy);
+				}
+			}
+		} catch(Exception e){
+			log.error(e.getMessage());
 		}
 		log.debug("Exiting find() for:" + this.getClass());
 		return remoteStudies;
+		
 	}
 	
 	/**This method takes a interventionalStudyProtocol and converts it to a RemoteStudy which C3PR understands.
@@ -345,6 +370,8 @@ public class RemoteStudyResolver implements RemoteResolver {
 			return remoteHealthcareSite;
 		} catch (C3PRCodedException e) {
 			log.error(e);
+		} catch (Exception e){
+			log.error(e);
 		}
 		return null;
 	}
@@ -556,7 +583,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 	}
 
 	/**
-	 * Gets the health care provider from extension.
+	 * Gets the health care provider from extension. return null if nothing is found.
 	 * 
 	 * @param extension the extension
 	 * 

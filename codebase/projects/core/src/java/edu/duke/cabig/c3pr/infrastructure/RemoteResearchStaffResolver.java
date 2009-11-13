@@ -257,7 +257,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	
 	
 	public Object getRemoteEntityByUniqueId(String externalId) {
-		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass());
+		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass() + " - ExtId: " +externalId);
 		II ii = CoppaObjectFactory.getIISearchCriteriaForPerson(externalId);
 		
 		String iiXml = CoppaObjectFactory.getCoppaIIXml(ii);
@@ -269,13 +269,12 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		}
 		
 		List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
-		List<gov.nih.nci.coppa.po.Organization> coppaOrganizationList = null;
 		Person coppaPerson = null;
 		if (results.size() > 0) {
 			coppaPerson = CoppaObjectFactory.getCoppaPerson(results.get(0));
-			coppaOrganizationList = getOrganizationsForPerson(coppaPerson);
 		}
 		
+		List<gov.nih.nci.coppa.po.Organization> coppaOrganizationList = null;
 		ResearchStaff researchStaff = populateRemoteResearchStaff(coppaPerson, null, coppaOrganizationList);
 		log.debug("Exiting getRemoteEntityByUniqueId() for:" + this.getClass());
 		return researchStaff;

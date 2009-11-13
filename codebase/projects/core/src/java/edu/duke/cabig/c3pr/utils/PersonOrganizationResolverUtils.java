@@ -18,11 +18,9 @@ import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 import com.semanticbits.coppasimulator.util.CoppaPAObjectFactory;
 
 import edu.duke.cabig.c3pr.constants.CoppaStatusCodeEnum;
-import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
 import edu.duke.cabig.c3pr.esb.Metadata;
@@ -114,7 +112,8 @@ public class PersonOrganizationResolverUtils {
 	
 	
 	/**
-	 * Sets the c3pr user details. Returns null if person doesnt have legal email address.
+	 * Sets the c3pr user details. Returns null if person doesnt have legal email address or \
+	 * if there is some exception while processing the person.
 	 * 
 	 * @param coppaPerson the coppa person
 	 * @param c3prUser the c3pr user
@@ -122,60 +121,61 @@ public class PersonOrganizationResolverUtils {
 	 * @return the c3 pr user
 	 */
 	public C3PRUser setC3prUserDetails(Person coppaPerson, C3PRUser c3prUser) {
-		Iterator<ENXP> enxpItr = coppaPerson.getName().getPart().iterator();
-		String firstName = null;
-		String middleName = "";
-		String lastName = "";
-		
-		while(enxpItr.hasNext()){
-			ENXP enxp = enxpItr.next();
-			if(enxp.getType().equals(EntityNamePartType.GIV)){
-				if(firstName == null){
-					firstName = enxp.getValue();
-				} else {
-					middleName += enxp.getValue() + " ";
+		try{	
+			Iterator<ENXP> enxpItr = coppaPerson.getName().getPart().iterator();
+			String firstName = null;
+			String middleName = "";
+			String lastName = "";
+			
+			while(enxpItr.hasNext()){
+				ENXP enxp = enxpItr.next();
+				if(enxp.getType().equals(EntityNamePartType.GIV)){
+					if(firstName == null){
+						firstName = enxp.getValue();
+					} else {
+						middleName += enxp.getValue() + " ";
+					}
+				}
+				if(enxp.getType().equals(EntityNamePartType.FAM)){
+					lastName = enxp.getValue();
 				}
 			}
-			if(enxp.getType().equals(EntityNamePartType.FAM)){
-				lastName = enxp.getValue();
+	        
+			List<TEL> tel = coppaPerson.getTelecomAddress().getItem();
+	        Iterator<TEL> telItr = tel.iterator();
+	        
+	        String emailStr = "";
+			String phoneNumber = "";
+			String faxNumber = "";
+			while(telItr.hasNext()){
+				String  nextVal = telItr.next().getValue();
+				//remove mailto: string from email 
+				if (nextVal.startsWith("mailto:")) {
+					emailStr = nextVal.substring("mailto:".length(), nextVal.length());
+				}
+				if (nextVal.startsWith("tel:")) {
+					phoneNumber = nextVal.substring("tel:".length(), nextVal.length());
+				}
+				if (nextVal.startsWith("x-text-fax:")) {
+					faxNumber = nextVal.substring("x-text-fax:".length(), nextVal.length());
+				}
 			}
-		}
-        
-		List<TEL> tel = coppaPerson.getTelecomAddress().getItem();
-        Iterator<TEL> telItr = tel.iterator();
-        
-        String emailStr = "";
-		String phoneNumber = "";
-		String faxNumber = "";
-		while(telItr.hasNext()){
-			String  nextVal = telItr.next().getValue();
-			//remove mailto: string from email 
-			if (nextVal.startsWith("mailto:")) {
-				emailStr = nextVal.substring("mailto:".length(), nextVal.length());
-			}
-			if (nextVal.startsWith("tel:")) {
-				phoneNumber = nextVal.substring("tel:".length(), nextVal.length());
-			}
-			if (nextVal.startsWith("x-text-fax:")) {
-				faxNumber = nextVal.substring("x-text-fax:".length(), nextVal.length());
-			}
-		}
-		c3prUser.setFirstName(firstName);
-		c3prUser.setLastName(lastName);
-		c3prUser.setMiddleName(middleName);
-		try{
+			c3prUser.setFirstName(firstName);
+			c3prUser.setLastName(lastName);
+			c3prUser.setMiddleName(middleName);
 			c3prUser.setRemoteEmail(emailStr);
 			c3prUser.setRemotePhone(phoneNumber);
 			c3prUser.setRemoteFax(faxNumber);
 			
+			if(emailStr == null){
+				//return null if person doesnt have a valid email id.
+				c3prUser = null;
+			} 
 		} catch(IllegalArgumentException iae){
-			log.error("Person has invalid contact information. Proceeding with out it.");
-		}
-		
-		if(emailStr == null){
-			//Dont worry about persons who dont have a valid email id.
-			return null;
-		} else {
+			log.error("Person has invalid contact information. Proceeding with out it." + iae.getMessage());
+		} catch(Exception e){
+			log.error("Error while processing Person. Proceeding with out it." + e.getMessage());
+		} finally {
 			return c3prUser;
 		}
 	}
