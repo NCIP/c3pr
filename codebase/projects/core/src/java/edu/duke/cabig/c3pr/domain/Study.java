@@ -489,7 +489,6 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		return null;
 	}
 
-	@RemoteProperty
 	public Boolean getBlindedIndicator() {
 		return blindedIndicator;
 	}
@@ -498,7 +497,6 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		this.blindedIndicator = blindedIndicator;
 	}
 
-	@RemoteProperty
 	public Boolean getRandomizedIndicator() {
 		return randomizedIndicator;
 	}
