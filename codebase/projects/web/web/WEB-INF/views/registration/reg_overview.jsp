@@ -6,7 +6,7 @@
 	
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <script>
-    	
+    	C3PR.disableCheckRequiredFieldOnLoad=true;
     	function confirmBroadcastRegistration(){
 			contentWin = new Window({ width:400, height:200 ,className :"alert_lite"}) 
 			contentWin.setContent('confirmation-msg') ;
