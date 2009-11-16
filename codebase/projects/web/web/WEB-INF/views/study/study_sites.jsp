@@ -177,11 +177,6 @@
 		win.setContent(arr[0]) ;
 		win.showCenter(true);
 	}
-
-	function gotoParentStudy(){
-		alert("Test ");
-	}
-	
 	</script>
 </head>
 <body>
@@ -189,11 +184,14 @@
 		<input type="hidden" name="_target${tab.number}" id="_target"/>
 		<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
 	</form:form>
+	
 	<div id="dummy-div" style="display: none;" ></div>
 	<tags:panelBox title="Sites">
 		<c:choose>
 			<c:when test="${command.study.isEmbeddedCompanionStudy}">
-				This is an embedded companion study. To get information about associated study sites please look at study site associated with <a href="#" onclick="javascript:gotoParentStudy();">parent study</a>. 		
+				<div id="studySites">
+					<studyTags:studySitesSectionForCompanion commandObj="${command}"></studyTags:studySitesSectionForCompanion>
+				</div> 		
 			</c:when>
 			<c:otherwise>
 				<div class="row">
@@ -216,7 +214,7 @@
 			</c:otherwise>
 		</c:choose>
 		</tags:panelBox>
-		<div class="flow-buttons" <c:if test="${!command.study.isEmbeddedCompanionStudy}">stye="display:none"</c:if>>
+		<div class="flow-buttons" <c:if test="${command.study.isEmbeddedCompanionStudy}">style="display:none"</c:if>>
 		    <span class="next">
 				<tags:button color="green" value="Save" icon="save" id="save" type="button" onclick="updateStudy();"></tags:button>
 			</span>

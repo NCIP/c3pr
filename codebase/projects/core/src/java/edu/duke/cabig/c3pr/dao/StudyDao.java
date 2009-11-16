@@ -71,8 +71,17 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 	private RemoteSession remoteSession;
     
     private StudyVersionDao studyVersionDao ;
+    private StudySiteDao studySiteDao ;
     
-    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
+    public StudySiteDao getStudySiteDao() {
+		return studySiteDao;
+	}
+
+	public void setStudySiteDao(StudySiteDao studySiteDao) {
+		this.studySiteDao = studySiteDao;
+	}
+
+	private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
     public HealthcareSiteDao getHealthcareSiteDao() {
         return healthcareSiteDao;
@@ -186,6 +195,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 					studyVersionDao.initialize(stuVersion);
 				}
 				getHibernateTemplate().initialize(parentStudyAssociation.getStudySites());
+				for(StudySite  stuSite : parentStudyAssociation.getParentStudy().getStudySites()){
+					studySiteDao.initialize(stuSite);
+				}
 				getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
 			}
 		}else{
