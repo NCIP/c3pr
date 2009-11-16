@@ -177,12 +177,25 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 		for(OrganizationAssignedIdentifier organizationAssignedIdentifier: study.getOrganizationAssignedIdentifiers()){
 			getHealthcareSiteDao().initialize(organizationAssignedIdentifier.getHealthcareSite());
 		}
-
-		getHibernateTemplate().initialize(study.getParentStudyAssociations());
-		for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
-			getHibernateTemplate().initialize(parentStudyAssociation.getStudySites());
-			getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
+		
+		if(study.getCompanionIndicator()){
+			getHibernateTemplate().initialize(study.getParentStudyAssociations());
+			for(CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()){
+				getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyVersions());
+				for(StudyVersion stuVersion : parentStudyAssociation.getParentStudy().getStudyVersions()){
+					studyVersionDao.initialize(stuVersion);
+				}
+				getHibernateTemplate().initialize(parentStudyAssociation.getStudySites());
+				getHibernateTemplate().initialize(parentStudyAssociation.getParentStudy().getStudyOrganizations());
+			}
+		}else{
+			getHibernateTemplate().initialize(study.getCompanionStudyAssociations());
+			for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
+				this.initialize(companionStudyAssociation.getCompanionStudy());
+				getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
+			}
 		}
+		
 
 		getHibernateTemplate().initialize(study.getPlannedNotificationsInternal());
 		for (PlannedNotification plannedNotification : study.getPlannedNotificationsInternal()) {
@@ -207,25 +220,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     			getHibernateTemplate().initialize(((StudySite)studyOrganization).getSiteStatusHistoryInternal());
     		}
         }
-		initializeWithCompanion(study);
 	}
     
-    
-    /**
-     * Initializes the study.
-     * 
-     * @param study the study
-     * 
-     */
-    @Transactional(readOnly = false)
-    public void initializeWithCompanion(Study study) 	{
-        getHibernateTemplate().initialize(study.getCompanionStudyAssociations());
-		for (CompanionStudyAssociation companionStudyAssociation : study.getCompanionStudyAssociations()) {
-			this.initialize(companionStudyAssociation.getCompanionStudy());
-			getHibernateTemplate().initialize(companionStudyAssociation.getStudySites());
-		}
-		
-	}
     /**
      * Gets the study by subnames.
      * 
