@@ -179,7 +179,7 @@
 	}
 
 	function gotoParentStudy(){
-		alert("Lo main aa gaya :P");
+		alert("Test ");
 	}
 	
 	</script>
