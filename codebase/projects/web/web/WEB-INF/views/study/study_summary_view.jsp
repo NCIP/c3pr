@@ -203,7 +203,7 @@
 	<div id="controlPanel">
 	<tags:controlPanel>
 		<c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
-            <c:if test="${coCenterStatus=='READY_TO_OPEN'}">
+            <c:if test="${coCenterStatus=='READY_TO_OPEN' && not empty flowType}">
                 <script>$('pendingParentStudy').style.display=''</script>
             </c:if>
             <c:if test="${coCenterStatus=='OPEN' && (!(command.study.companionIndicator && !command.study.standaloneIndicator) || (command.study.companionIndicator && !command.study.standaloneIndicator && command.study.isParentStudyOpen))}">
