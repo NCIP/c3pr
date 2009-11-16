@@ -67,6 +67,9 @@ var RowManager = {
 					if(isAddRow){
 					    inserter.preProcessRowInsertion(inserter)
 						inserter.insertRow()
+						Element.descendants(inserter.getRowDivisionElement()).findAll(function(field){
+								return field.hasClassName("required")
+							}).each(ValidationManager.doFieldValidationOnLoad)
 						inserter.postProcessRowInsertion(inserter)
 						inserter.localIndex++						
 					}else{
