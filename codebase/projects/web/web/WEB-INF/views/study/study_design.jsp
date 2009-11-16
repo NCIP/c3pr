@@ -171,7 +171,7 @@ DELETED TD
 	          	<tags:requiredIndicator /><b><fmt:message key="study.epoch.order"/></b>
 	          </td>
 	          <td>
-	          		<form:select path="study.epochs[${treatmentEpochCount.index}].epochOrder" id="epochOrder" cssClass="epochOrder validate-notEmpty">
+	          		<form:select path="study.epochs[${treatmentEpochCount.index}].epochOrder" id="epochOrder" cssClass="epochOrder required validate-notEmpty">
 	          			<option value="">Please Select</option>
 	          			<form:options items="${epochOrders}" />
 	          		</form:select>
@@ -412,7 +412,7 @@ DELETED TD
 						<tr>
 							<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.epoch.order"/></b></td>
 							<td align="left">
-								<select name="study.epochs[PAGE.ROW.INDEX].epochOrder" class="epochOrder validate-notEmpty">
+								<select name="study.epochs[PAGE.ROW.INDEX].epochOrder" class="epochOrder required validate-notEmpty">
 									<option value="">Please Select</option>
 									<c:forEach var="epochOrder" items="${epochOrders}" varStatus="status">
 								        <option value="${epochOrder}">${epochOrder}</option>
