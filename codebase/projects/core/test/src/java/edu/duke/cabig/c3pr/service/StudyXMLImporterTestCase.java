@@ -51,7 +51,7 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 	public void testGetStudies() throws Exception {
 		for (int i = 1000; i < 1003; i++) {
 			Study study = getDao().getById(i);
-			getDao().initializeWithCompanion(study);
+			getDao().initialize(study);
 			// have to set the coordinating center identifier to something
 			// different to prevent duplicate study exception.
 			// The studies in daoTest.xml have already been inserted into
