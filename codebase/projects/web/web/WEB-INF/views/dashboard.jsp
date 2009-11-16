@@ -14,23 +14,6 @@
 <c:set var="bgcolorSelected" value="#cccccc" />
 <c:set var="bgcolorAlternate" value="#eeeeee" />
 <c:set var="bgcolor" value="#ffffff" />
-<script>
-	function showErrorTrace(errorTrace) {
-		var win = new Window( {
-			className :"mac_os_x",
-			width :250,
-			height :200,
-			zIndex :100,
-			resizable :true,
-			title :"Error Trace",
-			draggable :true,
-			wiredDrag :true
-		});
-		win.getContent().innerHTML = errorTrace ;
-
-		win.showCenter();
-	}
-</script>
 </head>
 <body>
 
