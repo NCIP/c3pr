@@ -1386,18 +1386,22 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	
 	@Transient
 	public Study getParentStudy(){
-		if(!companionIndicator){
-			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_COMPANION.CODE"));
-		}else if(!getIsEmbeddedCompanionStudy()){
-			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_EMBEDDED_COMPANION.CODE"));
-		}else{
-			if(getParentStudyAssociations().size() == 0){
-				throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_PARENT.CODE"));
-			}else{
-				return getParentStudyAssociations().get(0).getParentStudy();
-			}
+		// this method is applicable for embedded studies
+		if(getParentStudyAssociations().size() > 0){
+			return getParentStudyAssociations().get(0).getParentStudy();
 		}
-	}
+		return null ;
+//		if(!companionIndicator){
+//			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_COMPANION.CODE"));
+//		}else if(!getIsEmbeddedCompanionStudy()){
+//			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_EMBEDDED_COMPANION.CODE"));
+//		}else{
+//			if(getParentStudyAssociations().size() == 0){
+//				throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_PARENT.CODE"));
+//			}else{
+//				return getParentStudyAssociations().get(0).getParentStudy();
+//			}		
+		}
  
 
 }

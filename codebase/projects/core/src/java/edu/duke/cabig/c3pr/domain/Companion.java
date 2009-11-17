@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+
 public class Companion {
 	
 	private String companionStudyShortTitle ;
@@ -9,8 +11,16 @@ public class Companion {
 	private int registrationId ;
 	private int companionStudyId;
 	private String companionRegistrationUrl;
-	private String registrationDataEntryStatus ;;
+	private String registrationDataEntryStatus ;
+	private CoordinatingCenterStudyStatus companionStudyStatus ;
 	
+	public CoordinatingCenterStudyStatus getCompanionStudyStatus() {
+		return companionStudyStatus;
+	}
+	public void setCompanionStudyStatus(
+			CoordinatingCenterStudyStatus companionStudyStatus) {
+		this.companionStudyStatus = companionStudyStatus;
+	}
 	public String getCompanionStudyPrimaryIdentifier() {
 		return companionStudyPrimaryIdentifier;
 	}
