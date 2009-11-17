@@ -289,7 +289,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 
 	<target name="dist:tools:retrieve:tomcat" unless="tomcat.tools.exists" description="Downloads TOMCAT from binary repository and verifies checksum">
 		<get src="${tomcat.src.url}" dest="${tomcat.dest.file}" />
-		<get src="${tomcat.src.url}.md5" dest="${tomcat.dest.file}.md5"  />
+		<get src="${tomcat.src.url}.MD5" dest="${tomcat.dest.file}.MD5" />
 		<checksum file="${tomcat.dest.file}" verifyProperty="tomcat.cksum.ok"  />
 		<if>
 			<equals arg1="${tomcat.cksum.ok}" arg2="true" />
