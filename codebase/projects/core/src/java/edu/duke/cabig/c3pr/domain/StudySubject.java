@@ -113,9 +113,6 @@ public class StudySubject extends
 	/** The payment method. */
 	private String paymentMethod;
 
-	/** The disapproval reason text. */
-	private String disapprovalReasonText;
-
 	/** The child study subjects. */
 	private List<StudySubject> childStudySubjects = new ArrayList<StudySubject>();
 
@@ -365,24 +362,6 @@ public class StudySubject extends
 	@Cascade( { CascadeType.LOCK })
 	public Participant getParticipant() {
 		return participant;
-	}
-
-	/**
-	 * Gets the disapproval reason text.
-	 *
-	 * @return the disapproval reason text
-	 */
-	public String getDisapprovalReasonText() {
-		return disapprovalReasonText;
-	}
-
-	/**
-	 * Sets the disapproval reason text.
-	 *
-	 * @param disapprovalReasonText the new disapproval reason text
-	 */
-	public void setDisapprovalReasonText(String disapprovalReasonText) {
-		this.disapprovalReasonText = disapprovalReasonText;
 	}
 
 	/**
