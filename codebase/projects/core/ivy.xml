@@ -188,7 +188,7 @@
 			<dependency name="jackrabbit-jcr-rmi" org="org.apache.jackrabbit" rev="1.2.1" />
 			<dependency name="jackrabbit-jcr-server" org="org.apache.jackrabbit" rev="1.2.1" />		
 			<!-- COPPA Common dependencies --> 
-			<dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="0.3.17.13" />
+			<dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="0.4" />
 			<!-- jars for PO  -->
 			<dependency org="gov.nih.nci.caxchange" name="CoreServices-common" rev="1.2" />
 			<dependency org="gov.nih.nci.caxchange" name="CoreServices-stubs" rev="1.2" />
