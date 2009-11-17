@@ -42,7 +42,7 @@
 			<div class="row">
 				<div class="label"><fmt:message key="c3pr.common.targetAccrual" />:</div>
 				<div class="value">
-					${empty site.targetAccrualNumber?'NA':site.targetAccrualNumber}
+					${empty site.targetAccrualNumber?'Not specified':site.targetAccrualNumber}
 				</div>
 			</div>
 		</div>
@@ -50,7 +50,7 @@
 			<div class="row">
 				<div class="label"><fmt:message key="site.IRBApprovalDate" />:</div>
 				<div class="value">
-						${empty site.currentStudySiteStudyVersion.irbApprovalDateStr?'NA':site.currentStudySiteStudyVersion.irbApprovalDateStr }
+						${empty site.currentStudySiteStudyVersion.irbApprovalDateStr?'Not specified':site.currentStudySiteStudyVersion.irbApprovalDateStr }
 				</div>
 			</div>
 			<div class="row">

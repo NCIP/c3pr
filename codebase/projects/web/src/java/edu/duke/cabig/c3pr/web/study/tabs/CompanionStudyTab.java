@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 public class CompanionStudyTab extends StudyTab {
@@ -49,6 +50,13 @@ public class CompanionStudyTab extends StudyTab {
     		if(companionStudyAssociation.getId() == null ){
     			Study companionStudy = companionStudyAssociation.getCompanionStudy() ; 
     			updateBlindedRandomization(companionStudy);
+//    			for(StudySite stuSite : companionStudyAssociation.getParentStudy().getStudySites()){
+//    				if(!stuSite.getIsCoordinatingCenter()){
+//	    				StudySite newStudySite = new StudySite();
+//	    				newStudySite.setHealthcareSite(stuSite.getHealthcareSite());
+//	    				companionStudy.addStudySite(newStudySite);
+//    				}
+//    			}
     		}
     	}
     	super.postProcessOnValidation(request, wrapper, errors);

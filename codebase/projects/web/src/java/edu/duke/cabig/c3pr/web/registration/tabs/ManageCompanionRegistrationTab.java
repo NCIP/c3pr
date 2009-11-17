@@ -64,6 +64,7 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
     			Companion companion = new Companion();
     			Study companionStudy = companionStudyAssoc.getCompanionStudy();
     			companion.setCompanionStudyShortTitle(companionStudy.getShortTitleText());
+    			companion.setCompanionStudyStatus(companionStudy.getCoordinatingCenterStudyStatus());
     			companion.setCompanionStudyPrimaryIdentifier(companionStudy.getPrimaryIdentifier());
     			companion.setCompanionStudyId(companionStudy.getId());
     			companion.setMandatoryIndicator(companionStudyAssoc.getMandatoryIndicator());

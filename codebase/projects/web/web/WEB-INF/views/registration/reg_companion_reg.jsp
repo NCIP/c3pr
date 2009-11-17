@@ -74,10 +74,10 @@
 			<table class="tablecontent" width="100%"
 				title="Companions">
 				<tr>
-					<th width="40%" scope="col" align="center"><b><fmt:message key="c3pr.common.study"/></b><tags:hoverHint keyProp="study.shortTitleText" /></th>
-					<th width="10%" scope="col" align="center"><b><fmt:message key="c3pr.common.mandatory"/></b><tags:hoverHint keyProp="study.companionstudy.mandatory" /></th>
-					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.status"/></b><tags:hoverHint keyProp="registration.status" /></th>
-					<th width="18%" scope="col" align="center"><b><fmt:message key="c3pr.common.actions"/></b><tags:hoverHint keyProp="registration.action" /></th>
+					<th width="35%" scope="col" align="center"><b><fmt:message key="c3pr.common.study"/></b><tags:hoverHint keyProp="study.shortTitleText" /></th>
+					<th width="11%" scope="col" align="center"><b><fmt:message key="c3pr.common.mandatory"/></b><tags:hoverHint keyProp="study.companionstudy.mandatory" /></th>
+					<th width="19%" scope="col" align="center"><b><fmt:message key="c3pr.common.status"/></b><tags:hoverHint keyProp="registration.status" /></th>
+					<th width="21%" scope="col" align="center"><b><fmt:message key="c3pr.common.actions"/></b><tags:hoverHint keyProp="registration.action" /></th>
 				</tr>
 				<c:forEach items="${companions}" var="companion" varStatus="status">
 					<tr>
@@ -103,11 +103,18 @@
 									</csmauthz:accesscontrol>
 								</c:when>
 								<c:otherwise>
-									<csmauthz:accesscontrol domainObject="${command.studySubject}"
-										hasPrivileges="UPDATE"
-										authorizationCheckName="domainObjectAuthorizationCheck">
-										<a id="registerCompanionStudy" href="javascript:openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/add_icon_small.png" />" alt="" /> Register</a>
-									</csmauthz:accesscontrol>
+									<c:choose>
+									<c:when test="${companion.companionStudyStatus.displayName == 'OPEN'}">
+										<csmauthz:accesscontrol domainObject="${command.studySubject}"
+											hasPrivileges="UPDATE"
+											authorizationCheckName="domainObjectAuthorizationCheck">
+											<a id="registerCompanionStudy" href="javascript:openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/add_icon_small.png" />" alt="" /> Register</a>
+										</csmauthz:accesscontrol>
+									</c:when>
+									<c:otherwise>
+										Study is in '${companion.companionStudyStatus.code }' status.
+									</c:otherwise>
+									</c:choose>
 								</c:otherwise>
 							</c:choose>
 							<img id="searchCompanionInd-${status.index}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">  

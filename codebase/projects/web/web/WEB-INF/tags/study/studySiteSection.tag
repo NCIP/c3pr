@@ -75,7 +75,7 @@
 							<input type="test" id="targetAccrual-${site.healthcareSite.primaryIdentifier}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
 						</c:when>
 						<c:otherwise>
-							${empty site.targetAccrualNumber?'NA':site.targetAccrualNumber}
+							${empty site.targetAccrualNumber?'Not specified':site.targetAccrualNumber}
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -104,7 +104,7 @@
 							</script>
 						</c:when>
 						<c:otherwise>
-							${empty site.currentStudySiteStudyVersion.irbApprovalDateStr?'NA':site.currentStudySiteStudyVersion.irbApprovalDateStr }
+							${empty site.currentStudySiteStudyVersion.irbApprovalDateStr?'Not specified':site.currentStudySiteStudyVersion.irbApprovalDateStr }
 						</c:otherwise>
 					</c:choose>
 				</div>
