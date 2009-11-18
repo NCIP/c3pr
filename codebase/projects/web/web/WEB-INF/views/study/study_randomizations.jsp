@@ -103,7 +103,7 @@
 		                </c:otherwise>
 	                </c:choose>
 					<div class="value">
-						<textarea name="study.bookRandomizations-${epochCount.index}" id="bookRandomizations-${epochCount.index}" cols=25 rows=12 class="required validate-notEmpty&&maxlength500"></textarea>
+						<textarea name="study.bookRandomizations-${epochCount.index}" id="bookRandomizations-${epochCount.index}" cols=25 rows=12 class="validate-notEmpty&&maxlength500"></textarea>
 					</div>
 				</div>
 				<br>				
