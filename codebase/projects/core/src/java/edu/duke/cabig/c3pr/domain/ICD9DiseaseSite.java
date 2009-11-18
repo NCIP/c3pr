@@ -5,8 +5,8 @@ import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
@@ -26,8 +26,14 @@ public class ICD9DiseaseSite extends AbstractMutableDomainObject{
 	private ICD9DiseaseSiteCodeDepth level;
 	private boolean selectable;
 	private String name;
+	private Summary3ReportDiseaseSite summary3ReportDiseaseSite;
 	
 	
+	public void setSummary3ReportDiseaseSite(
+			Summary3ReportDiseaseSite summary3ReportDiseaseSite) {
+		this.summary3ReportDiseaseSite = summary3ReportDiseaseSite;
+	}
+
 	private ICD9DiseaseSite parentSite;
 	private List<ICD9DiseaseSite> childSites;
 
@@ -90,5 +96,11 @@ public class ICD9DiseaseSite extends AbstractMutableDomainObject{
 	public void setSelectable(boolean selectable) {
 		this.selectable = selectable;
 	}
-
+	
+	@ManyToOne(targetEntity=Summary3ReportDiseaseSite.class)
+	@JoinColumn(name = "summ3_rep_disease_site_id" )
+	public Summary3ReportDiseaseSite getSummary3ReportDiseaseSite() {
+		return summary3ReportDiseaseSite;
+	}
+	
 }
