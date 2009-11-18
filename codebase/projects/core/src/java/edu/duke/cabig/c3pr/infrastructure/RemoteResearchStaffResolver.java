@@ -180,12 +180,12 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
         		nciId = "";
         		if(identifiedPerson != null){
         			nciId = identifiedPerson.getAssignedId().getExtension();
+        			List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
+                	tempRemoteResearchStaff = populateRemoteResearchStaff(coppaPerson, nciId, organizationsList);
+                	if(tempRemoteResearchStaff != null){
+    					remoteResearchStaffList.add(tempRemoteResearchStaff);
+    				}
         		}            	
-            	List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
-            	tempRemoteResearchStaff = populateRemoteResearchStaff(coppaPerson, nciId, organizationsList);
-            	if(tempRemoteResearchStaff != null){
-					remoteResearchStaffList.add(tempRemoteResearchStaff);
-				}
 			}
 		}
 		return remoteResearchStaffList;

@@ -49,6 +49,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 	public static final String LEAD_ORGANIZATION = "Lead Organization";
 	public static final String SPONSOR = "Sponsor";
 	public static final String TREATING_SITE = "Treating Site";
+	public static final String NULLIFIED = "Nullified";
 	
 	/* List of values for studySiteContact. The studySiteContact has to have one of these to be eligible for fetching as an Investigator. */
 	public static final List<String> SITE_INVESTIGATOR_LIST = Arrays.asList("Principal Investigator", "Coordinating Investigator", "Sub Investigator");
@@ -156,9 +157,9 @@ public class RemoteStudyResolver implements RemoteResolver {
 		RemoteStudy remoteStudy = new RemoteStudy();
 		
 		//Set core attributes from COPPA Object
-		remoteStudy.setShortTitleText(CoppaPAObjectFactory.getShortTitleFromStudyProtocol(studyProtocol));
-		remoteStudy.setLongTitleText(CoppaPAObjectFactory.getLongTitleFromStudyProtocol(studyProtocol));
-		remoteStudy.setDescriptionText(CoppaPAObjectFactory.getPublicDescriptionFromStudyProtocol(studyProtocol));
+		remoteStudy.setShortTitleText(StringUtils.getTrimmedText(CoppaPAObjectFactory.getShortTitleFromStudyProtocol(studyProtocol), 190));
+		remoteStudy.setLongTitleText(StringUtils.getTrimmedText(CoppaPAObjectFactory.getLongTitleFromStudyProtocol(studyProtocol), 990));
+		remoteStudy.setDescriptionText(StringUtils.getTrimmedText(CoppaPAObjectFactory.getPublicDescriptionFromStudyProtocol(studyProtocol), 1990));
 		remoteStudy.setType(protocolAbstractionResolverUtils.getStudyTypeFromCoppaStudyType(CoppaPAObjectFactory.getTypeFromStudyProtocol(studyProtocol)));
 		remoteStudy.setPhaseCode(protocolAbstractionResolverUtils.getPhaseCodeFromCoppaPhaseCode(CoppaPAObjectFactory.getPhaseCodeFromStudyProtocol(studyProtocol)));
 		remoteStudy.setExternalId(studyProtocol.getIdentifier().getExtension());
@@ -253,36 +254,40 @@ public class RemoteStudyResolver implements RemoteResolver {
 				}
 			}
 			if(studySiteTemp.getFunctionalCode().getCode().equals(SPONSOR)){
-				//Fetch the Funding sponsor(ResearchOrganziation) and add to the list to be returned
-				StudyFundingSponsor studyFundingSponsor = getFundingSponsorFromCoppaStudySite(studySiteTemp);
-				if(studyFundingSponsor != null){
-					organizationAssignedIdentifier = getOrganizationAssignedIdentifierFromCoppaStudySite(studySiteTemp, OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER);
-					if(organizationAssignedIdentifier  != null){
-						studyFundingSponsor.getHealthcareSite().getIdentifiersAssignedToOrganization().add(organizationAssignedIdentifier);
-					}
-					studyOrganizationList.add(studyFundingSponsor);
-					
-					//Now get the assciated investigators and build the studyInv/healthcareSiteInvestigator and link them to the healthcareSite.
-					List<StudyInvestigator> studyInvestigatorList = getStudyInvestigators(studySiteTemp, studyFundingSponsor);
-					for(StudyInvestigator studyInvestigator : studyInvestigatorList){
-						studyFundingSponsor.addStudyInvestigator(studyInvestigator);
+				if(!studySiteTemp.getStatusCode().getCode().equalsIgnoreCase(NULLIFIED)){
+					//Fetch the Funding sponsor(ResearchOrganziation) and add to the list to be returned
+					StudyFundingSponsor studyFundingSponsor = getFundingSponsorFromCoppaStudySite(studySiteTemp);
+					if(studyFundingSponsor != null){
+						organizationAssignedIdentifier = getOrganizationAssignedIdentifierFromCoppaStudySite(studySiteTemp, OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER);
+						if(organizationAssignedIdentifier  != null){
+							studyFundingSponsor.getHealthcareSite().getIdentifiersAssignedToOrganization().add(organizationAssignedIdentifier);
+						}
+						studyOrganizationList.add(studyFundingSponsor);
+						
+						//Now get the assciated investigators and build the studyInv/healthcareSiteInvestigator and link them to the healthcareSite.
+						List<StudyInvestigator> studyInvestigatorList = getStudyInvestigators(studySiteTemp, studyFundingSponsor);
+						for(StudyInvestigator studyInvestigator : studyInvestigatorList){
+							studyFundingSponsor.addStudyInvestigator(studyInvestigator);
+						}
 					}
 				}
 			}
 			if(studySiteTemp.getFunctionalCode().getCode().equals(TREATING_SITE)){
-				//Fetch the Study Site(HealthcareFacility) and add to the list to be returned
-				StudySite studySite = getStudysiteFromCoppaStudySite(studySiteTemp);
-				if(studySite != null){
-					organizationAssignedIdentifier = getOrganizationAssignedIdentifierFromCoppaStudySite(studySiteTemp, OrganizationIdentifierTypeEnum.CTEP);
-					if(organizationAssignedIdentifier  != null){
-						studySite.getHealthcareSite().getIdentifiersAssignedToOrganization().add(organizationAssignedIdentifier);
-					}
-					studyOrganizationList.add(studySite);
-					
-					//Now get the assciated investigators and build the studyInv/healthcareSiteInvestigator and link them to the healthcareSite.
-					List<StudyInvestigator> studyInvestigatorList = getStudyInvestigators(studySiteTemp, studySite);
-					for(StudyInvestigator studyInvestigator : studyInvestigatorList){
-						studySite.addStudyInvestigator(studyInvestigator);
+				if(!studySiteTemp.getStatusCode().getCode().equalsIgnoreCase(NULLIFIED)){
+					//Fetch the Study Site(HealthcareFacility) and add to the list to be returned
+					StudySite studySite = getStudysiteFromCoppaStudySite(studySiteTemp);
+					if(studySite != null){
+						organizationAssignedIdentifier = getOrganizationAssignedIdentifierFromCoppaStudySite(studySiteTemp, OrganizationIdentifierTypeEnum.CTEP);
+						if(organizationAssignedIdentifier  != null){
+							studySite.getHealthcareSite().getIdentifiersAssignedToOrganization().add(organizationAssignedIdentifier);
+						}
+						studyOrganizationList.add(studySite);
+						
+						//Now get the assciated investigators and build the studyInv/healthcareSiteInvestigator and link them to the healthcareSite.
+						List<StudyInvestigator> studyInvestigatorList = getStudyInvestigators(studySiteTemp, studySite);
+						for(StudyInvestigator studyInvestigator : studyInvestigatorList){
+							studySite.addStudyInvestigator(studyInvestigator);
+						}
 					}
 				}
 			}
@@ -462,16 +467,18 @@ public class RemoteStudyResolver implements RemoteResolver {
 			List<String> results = XMLUtils.getObjectsFromCoppaResponse(studySiteContactResultXml);        
 			for(String studySiteContactXml : results){            
 				studySiteContact = CoppaPAObjectFactory.getStudySiteContact(studySiteContactXml);
-				if(studySiteContact != null && SITE_INVESTIGATOR_LIST.contains(studySiteContact.getRoleCode().getCode())){
-					HealthCareProvider healthCareProvider = getHealthCareProviderFromExtension(studySiteContact.getHealthCareProvider().getExtension());
-					if(healthCareProvider != null){ 
-						gov.nih.nci.coppa.po.Person coppaPerson = getCoppaPersonFromPersonIdExtension(healthCareProvider.getPlayerIdentifier().getExtension());
-						StudyInvestigator studyInvestigator = getPopulatedStudyInvestigator(coppaPerson, studyOrganization, StudyInvestigator.SITE_INVESTIGATOR);
-						if(studyInvestigator != null){
-							studyInvestigatorList.add(studyInvestigator);
-						}
-					}        
-				}
+				if(!studySiteContact.getStatusCode().getCode().equalsIgnoreCase(NULLIFIED)){
+					if(studySiteContact != null && SITE_INVESTIGATOR_LIST.contains(studySiteContact.getRoleCode().getCode())){
+						HealthCareProvider healthCareProvider = getHealthCareProviderFromExtension(studySiteContact.getHealthCareProvider().getExtension());
+						if(healthCareProvider != null){ 
+							gov.nih.nci.coppa.po.Person coppaPerson = getCoppaPersonFromPersonIdExtension(healthCareProvider.getPlayerIdentifier().getExtension());
+							StudyInvestigator studyInvestigator = getPopulatedStudyInvestigator(coppaPerson, studyOrganization, StudyInvestigator.SITE_INVESTIGATOR);
+							if(studyInvestigator != null){
+								studyInvestigatorList.add(studyInvestigator);
+							}
+						}        
+					}
+				}	
 			}
 		} catch (C3PRCodedException e) {
 		   log.error(e);

@@ -104,8 +104,10 @@ public class PersonOrganizationResolverUtils {
 			List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
 			if (results.size() > 0) {
 				identifiedOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganization(results.get(0));
+				return identifiedOrganization;
+			} else {
+				return null;
 			}
-			return identifiedOrganization;
 		}
 		return null;
 	}

@@ -64,20 +64,21 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			if(coppaOrganizationList != null && coppaOrganizationList.size()>0){
 				for(gov.nih.nci.coppa.po.Organization coppaOrganization: coppaOrganizationList){
 					IdentifiedOrganization identifiedOrganization = personOrganizationResolverUtils.getIdentifiedOrganization(coppaOrganization);
-
-					healthcareSite = new RemoteHealthcareSite();
-					personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
-					healthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
-					healthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
-					Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
-					healthcareSite.setAddress(address);
-					
-					HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
-					healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
-					healthcareSiteInvestigator.setInvestigator(remoteInvestigator);
-					healthcareSiteInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
-					
-					remoteInvestigator.getHealthcareSiteInvestigators().add(healthcareSiteInvestigator);
+					if(identifiedOrganization != null){
+						healthcareSite = new RemoteHealthcareSite();
+						personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
+						healthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
+						healthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
+						Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
+						healthcareSite.setAddress(address);
+						
+						HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
+						healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
+						healthcareSiteInvestigator.setInvestigator(remoteInvestigator);
+						healthcareSiteInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
+						
+						remoteInvestigator.getHealthcareSiteInvestigators().add(healthcareSiteInvestigator);
+					}
 				}
 			}
 			return remoteInvestigator;
@@ -277,11 +278,11 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
         		String nciId = "";
         		if(identifiedPerson != null){
         			nciId = identifiedPerson.getAssignedId().getExtension();
+        			List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
+                	
+                	remoteInvestigator = populateRemoteInvestigator(coppaPerson, nciId, organizationsList);	
+                	remoteInvestigatorList.add(remoteInvestigator);
         		}            	
-            	List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
-            	
-            	remoteInvestigator = populateRemoteInvestigator(coppaPerson, nciId, organizationsList);	
-            	remoteInvestigatorList.add(remoteInvestigator);
         	}
 		}
 		return remoteInvestigatorList;
