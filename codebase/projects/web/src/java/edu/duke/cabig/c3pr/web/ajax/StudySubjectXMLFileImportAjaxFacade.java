@@ -84,7 +84,7 @@ public class StudySubjectXMLFileImportAjaxFacade {
 
         Column columnMRN = model.getColumnInstance();
         columnMRN.setTitle("Subject MRN");
-        columnMRN.setProperty("participant.primaryIdentifier");
+        columnMRN.setProperty("participant.primaryIdentifierValue");
         model.addColumn(columnMRN);
 
         Column columnSite = model.getColumnInstance();
