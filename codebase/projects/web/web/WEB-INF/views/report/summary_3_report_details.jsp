@@ -32,7 +32,7 @@
             		image = '';
             	}
 
-            	return (obj.name+" ("+obj.nciInstituteCode+")" + image)
+            	return (obj.name+" ("+obj.ctepCode+")" + image)
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sourceOrganizationAutocompleterProps.basename+"-hidden"
@@ -62,7 +62,7 @@
 					<c:set var="_codeOrg" value="" />
 					<c:set var="_nameOrg" value="" />
 					<c:if test="${not empty command.reportingOrganization}">				
-							<c:set var="_codeOrg" value="(${command.reportingOrganization.nciInstituteCode})" />
+							<c:set var="_codeOrg" value="(${command.reportingOrganization.ctepCode})" />
 							<c:set var="_nameOrg" value="${command.reportingOrganization.name}" />
 							
 						</c:if>
