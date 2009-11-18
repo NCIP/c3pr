@@ -31,6 +31,20 @@ public class XMLXSDValidationTest extends AbstractTestCase {
 		System.out.println(sampleXml);
 		xmlParser.validate(sampleXml.getBytes());
 	}
+	
+	public void testRegistrationImportXML() throws Exception {
+		String sampleXmlFileName = "c3pr-sample-registration-import.xml";
+		String sampleXml= readFile(sampleXmlFileName);
+		System.out.println(sampleXml);
+		xmlParser.validate(sampleXml.getBytes());
+	}
+	
+	public void testStudyImportXML() throws Exception {
+		String sampleXmlFileName = "c3pr-sample-study-import.xml";
+		String sampleXml= readFile(sampleXmlFileName);
+		System.out.println(sampleXml);
+		xmlParser.validate(sampleXml.getBytes());
+	}
 
 	private String readFile(String filename) throws Exception {
 		java.io.BufferedReader br = new java.io.BufferedReader(
