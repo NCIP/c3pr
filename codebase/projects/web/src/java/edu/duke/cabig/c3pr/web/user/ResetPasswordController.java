@@ -8,6 +8,9 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.UserDao;
+import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
@@ -21,10 +24,12 @@ public class ResetPasswordController extends SimpleFormController {
     private PasswordManagerService passwordManagerService;
 
     private CSMUserRepository csmUserRepository;
+    
+    private UserDao userDao;
 
     private String emailPretext, emailPosttext;
 
-    public ResetPasswordController() {
+	public ResetPasswordController() {
         setBindOnNewForm(true);
         initEmailText();
     }
@@ -38,9 +43,10 @@ public class ResetPasswordController extends SimpleFormController {
     protected ModelAndView onSubmit(Object command, BindException errors) throws Exception {
     	UserName userName = (UserName) command;
     	try{
-    		String token = passwordManagerService.requestToken(userName.getUserName());
+    		User user = csmUserRepository.getUserByName(userName.getUserName());
+    		passwordManagerService.addUserToken(userName.getUserName());
     		csmUserRepository.sendUserEmail(userName.getUserName(), "Reset C3PR Password", emailPretext
-    				+ userName.getURL() + "&token=" + token + emailPosttext);
+    				+ userName.getURL() + "&token=" + user.getToken() + emailPosttext);
     		ModelAndView modelAndView = new ModelAndView("user/emailSent", errors.getModel());
     		return modelAndView;
     	}catch (C3PRBaseRuntimeException e) {
@@ -67,7 +73,6 @@ public class ResetPasswordController extends SimpleFormController {
                 + "\n"
                 + "(Note: If you did not request a new password, please disregard this message.)";
     }
-    private Configuration configuration;
     
     @Required
     public void setPasswordManagerService(PasswordManagerService passwordManagerService) {
@@ -112,4 +117,8 @@ public class ResetPasswordController extends SimpleFormController {
             return url;
         }
     }
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
 }

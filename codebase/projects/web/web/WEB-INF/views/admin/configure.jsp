@@ -63,41 +63,41 @@
             Effect.OpenUp('authenticationConfig');
             Effect.CloseDown('casAuthConfig');
     		Effect.CloseDown('webssoAuthConfig');
-    		Effect.CloseDown('c3prurl');
+    		//Effect.CloseDown('c3prurl');
     	 }else {
     		Effect.CloseDown('authenticationConfig');
     		Effect.CloseDown('casAuthConfig');
     		Effect.CloseDown('webssoAuthConfig');
-    		Effect.CloseDown('c3prurl');
+    		//Effect.CloseDown('c3prurl');
     		$('authenticationMode').value="local";
        	}
     	casAuthConfigCSSClass('');
  		webssoAuthConfigCSSClass('');
- 		c3prUrlCSSClass('');
+ 		//c3prUrlCSSClass('');
     }
 
     function manageAuthenticationMode(box){
     	if (box.value == 'local') {
     		Effect.CloseDown('casAuthConfig');
     		Effect.CloseDown('webssoAuthConfig');
-            Effect.CloseDown('c3prurl');
+            //Effect.CloseDown('c3prurl');
             casAuthConfigCSSClass('');
     		webssoAuthConfigCSSClass('');
-    		c3prUrlCSSClass('');
+    		//c3prUrlCSSClass('');
     	 }else if (box.value == 'cas') {
     		Effect.OpenUp('casAuthConfig');
      		Effect.CloseDown('webssoAuthConfig');
-            Effect.OpenUp('c3prurl');
+            //Effect.OpenUp('c3prurl');
             casAuthConfigCSSClass('validate-notEmpty');
     		webssoAuthConfigCSSClass('');
-    		c3prUrlCSSClass('validate-notEmpty');
+    		//c3prUrlCSSClass('validate-notEmpty');
        	}else if (box.value == 'webSSO') {
        		Effect.CloseDown('casAuthConfig');
     		Effect.OpenUp('webssoAuthConfig');
-            Effect.OpenUp('c3prurl');
+            //Effect.OpenUp('c3prurl');
             casAuthConfigCSSClass('');
     		webssoAuthConfigCSSClass('validate-notEmpty');
-    		c3prUrlCSSClass('validate-notEmpty');
+    		//c3prUrlCSSClass('validate-notEmpty');
        	}
     }
 
@@ -113,9 +113,9 @@
 		$('hostKey').className=cssClass;
     }
 
-    function c3prUrlCSSClass(cssClass){
-		$('c3pr.webapp.url').className=cssClass;
-    }
+    //function c3prUrlCSSClass(cssClass){
+	//	$('c3pr.webapp.url').className=cssClass;
+    //}
 
     var localNCIInstituteCodeAutocompleterProps = {
             basename: "localNCIInstituteCode",
@@ -206,6 +206,15 @@
         			</form:select>
         		</div>
         	</div>
+        	<div class="row">
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.c3pr.url"/><tags:hoverHint keyProp="configure.c3pr.webapp.url" /></div>
+        		<div class="value">
+        			<form:input path="conf[c3pr.webapp.url].value" id="c3pr.webapp.url" cssClass="required validate-notEmpty"/>
+        			<tags:button type="button" onclick="testConnectivity('c3pr.webapp.url', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+        			<img id="testIndicator[c3pr.webapp.url]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+        			<span id="connectionTestResult[c3pr.webapp.url]" ></span>
+        		</div>
+        	</div>
     	</chrome:division>
     	<chrome:division title="SMTP Configuration">
         	<div class="row">
@@ -222,7 +231,7 @@
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.password"/><tags:hoverHint keyProp="configure.outgoingMailPassword" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailPassword].value" id="outgoingMailPassword" /></div>
+        		<div class="value"><form:password path="conf[outgoingMailPassword].value" id="outgoingMailPassword" /></div>
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.protocol"/><tags:hoverHint keyProp="configure.smtpProtocol" /></div>
@@ -290,7 +299,7 @@
 	        		</div>
 	        	</div>
 	        </div>
-        	<div id="c3prurl" <c:if test="${command.conf['authenticationMode'].value == 'local'}">style="display:none;"</c:if>>
+        	<%--<div id="c3prurl" <c:if test="${command.conf['authenticationMode'].value == 'local'}">style="display:none;"</c:if>>
 	        	<div class="row">
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.c3pr.url"/><tags:hoverHint keyProp="configure.c3pr.webapp.url" /></div>
 	        		<div class="value">
@@ -300,7 +309,7 @@
 	        			<span id="connectionTestResult[c3pr.webapp.url]" ></span>
 	        		</div>
 	        	</div>
-        	</div>
+        	</div>--%>
         	<div id="casAuthConfig" <c:if test="${command.conf['authenticationMode'].value != 'cas'}">style="display:none;"</c:if>>
 	        	<div class="row">
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.cas.baseurl"/><tags:hoverHint keyProp="configure.cas.base_url" /></div>

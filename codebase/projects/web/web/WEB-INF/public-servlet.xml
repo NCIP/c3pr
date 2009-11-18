@@ -35,6 +35,7 @@
     <bean name="/user/changePassword" id="changePasswordController" autowire="byName"
 	  class="edu.duke.cabig.c3pr.web.user.ChangePasswordController">
    		<property name="formView" value="user/changePassword" />
+   		<property name="bindOnNewForm" value="true" />
     </bean>
     <bean name="/welcome" id="welcomeController"
         class="org.springframework.web.servlet.mvc.ParameterizableViewController">

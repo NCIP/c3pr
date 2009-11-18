@@ -163,7 +163,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
             			errors.reject("REMOTE_RS_ORG_NULL","There is no Organization associated with the external Research Staff");
             		}
             	}
-            		 personnelService.save(researchStaff);
+            	personnelService.save(researchStaff);
             } else if ("saveRemoteRStaff".equals(request.getParameter("_action"))) {
             	
             	researchStaffDao.evict(researchStaff);
