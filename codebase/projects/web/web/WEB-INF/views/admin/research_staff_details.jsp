@@ -154,7 +154,7 @@
 						name="healthcareSite"
 						value="${command.healthcareSite.id }" />
 						<input id="healthcareSite-input" size="33" type="text"
-						value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" />
+						value="${command.healthcareSite.name}" class="autocomplete required validate-notEmpty" />
 						<tags:hoverHint keyProp="researchStaff.organization"/>
 					<tags:indicator id="healthcareSite-indicator" />
 					<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
