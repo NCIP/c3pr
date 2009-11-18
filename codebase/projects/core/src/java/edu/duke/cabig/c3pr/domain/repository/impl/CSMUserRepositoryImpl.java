@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.mail.MailException;
@@ -174,7 +175,7 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 		user.resetToken();
 		user.setPasswordLastSet(new Timestamp(new Date().getTime()));
 		user.addPasswordToHistory(csmUser.getPassword(), maxHistorySize);
-		csmUser.setPassword(user.getSalt() + password);
+		csmUser.setPassword((StringUtils.isEmpty(user.getSalt()) ? "" : user.getSalt() ) + password);
 		userDao.save(user);
 		saveCSMUser(csmUser);
 	}

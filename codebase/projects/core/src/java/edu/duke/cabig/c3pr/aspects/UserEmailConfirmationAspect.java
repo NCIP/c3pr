@@ -3,12 +3,11 @@ package edu.duke.cabig.c3pr.aspects;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 
 /**
@@ -23,8 +22,15 @@ public class UserEmailConfirmationAspect {
     private SimpleMailMessage accountCreatedTemplateMessage;
 
     private Logger log = Logger.getLogger(UserEmailConfirmationAspect.class);
+    
+    private String changeURL;
 
-    @AfterReturning("execution(* edu.duke.cabig.c3pr.service.PersonnelService.save(..))"
+    @Required
+    public void setChangeURL(String changeURL) {
+		this.changeURL = changeURL;
+	}
+
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.service.PersonnelService.save(..))"
                     + " && args(staff)")
     public void sendEmail(ResearchStaff staff) {
 
@@ -32,14 +38,21 @@ public class UserEmailConfirmationAspect {
           SimpleMailMessage msg = new SimpleMailMessage(
                           this.accountCreatedTemplateMessage);
           msg.setTo(staff.getEmail());
-          msg.setText("An account has been created for you.\n" + " Username:"
-                          + staff.getEmail() + " Password:" + staff.getLastName() + ""
-                          + "\n -c3pr admin");
-          log.debug("Trying to send user account confirmation email");
+          msg.setText("A new C3PR account has been created for you.\n"
+                  + "Your username is follows:\n"
+                  + "Username: " + staff.getEmail()
+                  + "\n"
+                  + "You must create your password before you can login. In order to do so please visit this URL:\n"
+                  + "\n"
+                  + changeURL + "&token=" + staff.getToken() + "\n"
+                  + "\n"
+                  + "Regards\n"
+                  + "The C3PR Notification System.\n");
+          log.debug("Trying to send user account confirmation email. URL is " + changeURL + "&token=" + staff.getToken());
           this.mailSender.send(msg);
       }
       catch (MailException e) {
-          log.debug("Could not send email due to  " + e.getMessage());
+          log.error("Could not send email due to  " + e.getMessage(),e);
           // just log it for now
       }
 //        for (ContactMechanism cm : staff.getContactMechanisms()) {

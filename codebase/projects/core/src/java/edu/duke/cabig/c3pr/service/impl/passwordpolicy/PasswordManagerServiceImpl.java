@@ -5,9 +5,11 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Required;
 
+import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.passwordpolicy.Credential;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordPolicyService;
@@ -17,36 +19,45 @@ import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordPolicyService;
  */
 public class PasswordManagerServiceImpl implements PasswordManagerService {
 
-    private PasswordPolicyService passwordPolicyService;
+	private PasswordPolicyService passwordPolicyService;
 
     private CSMUserRepository csmUserRepository;
+    
+    private UserDao userDao;
+    
+    public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
 
-    public String requestToken(String userName) throws C3PRBaseException {
-        return csmUserRepository.userCreateToken(userName);
+	public void addUserToken(String userName) {
+    	User user = csmUserRepository.getUserByName(userName);
+    	UserDao.addUserToken(user);
+    	userDao.save(user);
     }
 
-    public void setPassword(String userName, String password, String token)
-            throws C3PRBaseException {
-        //validateToken(userName, token);
-        validateAndSetPassword(userName, password);
+    public void setPassword(String userName, String password, String token) throws C3PRBaseException {
+    	User user = csmUserRepository.getUserByName(userName);
+    	
+    	if(user == null){
+    		throw new C3PRBaseRuntimeException("User with login Id :" + userName + " unknowon");
+    	}
+        validateToken(user, token);
+        validateAndSetPassword(user, password);
     }
 
-    private boolean validateToken(String userName, String token) throws C3PRBaseException {
-        User user = csmUserRepository.getUserByName(userName);
-        if (user.getTokenTime().after(new Timestamp(new Date().getTime()
+    private boolean validateToken(User user, String token) {
+        if (user.getTokenTime().after(
+                new Timestamp(new Date().getTime()
                         - passwordPolicyService.getPasswordPolicy()
                         .getTokenTimeout()))
                 && token.equals(user.getToken())) return true;
-        throw new C3PRBaseException("Invalid token.");
+        throw new C3PRBaseRuntimeException("Invalid token.");
     }
 
-    private boolean validateAndSetPassword(String userName, String password)
-            throws C3PRBaseException {
-        passwordPolicyService.validatePasswordAgainstCreationPolicy(new Credential(userName,
-                password));
-        csmUserRepository.userChangePassword(userName, password, passwordPolicyService
+    private void validateAndSetPassword(User user, String password) throws C3PRBaseException{
+		passwordPolicyService.validatePasswordAgainstCreationPolicy(new Credential(user.getEmail(), password));
+        csmUserRepository.userChangePassword(user.getEmail(), password, passwordPolicyService
                 .getPasswordPolicy().getPasswordCreationPolicy().getPasswordHistorySize());
-        return true;
     }
 
     @Required

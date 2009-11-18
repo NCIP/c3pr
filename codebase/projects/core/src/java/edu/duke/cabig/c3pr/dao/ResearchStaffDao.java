@@ -1,9 +1,11 @@
 package edu.duke.cabig.c3pr.dao;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -553,7 +555,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			if (csmUser == null) {
 				csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
 				populateCSMUser(c3prUser, csmUser);
+				csmUser.setLoginName(c3prUser.getEmail().toLowerCase());
+				csmUser.setPassword(((edu.duke.cabig.c3pr.domain.User)c3prUser).generatePassword());
 				userProvisioningManager.createUser(csmUser);
+				UserDao.addUserToken((edu.duke.cabig.c3pr.domain.User) c3prUser);
 			} else {
 				populateCSMUser(c3prUser, csmUser);
 				userProvisioningManager.modifyUser(csmUser);
@@ -581,11 +586,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			gov.nih.nci.security.authorization.domainobjects.User csmUser) {
 		csmUser.setFirstName(c3prUser.getFirstName());
 		csmUser.setLastName(c3prUser.getLastName());
-		csmUser.setPassword(c3prUser.getLastName());
 		csmUser.setEmailId(c3prUser.getEmail());
-		csmUser.setLoginName(c3prUser.getEmail().toLowerCase());
 	}
-
+	
 	/*
 	 * Takes the whole list of groups instead of one ata time .Thsi was crated
 	 * so the unchecked groups could be deleted.

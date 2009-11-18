@@ -11,10 +11,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.IndexColumn;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+import gov.nih.nci.security.util.StringEncrypter;
 
 /**
  * This class represents the User domain object associated with the Adverse event report.
@@ -148,5 +150,22 @@ public abstract class User extends C3PRUser{
             name.append(getLastName());
         }
         return name.toString();
+    }
+    
+    public String generateRandomToken(){
+    	return encryptString((StringUtils.isEmpty(salt) ? "" : salt ) + tokenTime.toString()
+                + "random_string").replaceAll("\\W", "Q");
+    }
+    
+    public String generatePassword(){
+    	return encryptString((StringUtils.isEmpty(salt) ? "" : salt ) + "obscurity");
+    }
+    
+    private String encryptString(String string) {
+        try {
+            return new StringEncrypter().encrypt(string);
+        } catch (StringEncrypter.EncryptionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

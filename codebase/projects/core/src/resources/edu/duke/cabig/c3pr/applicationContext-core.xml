@@ -697,7 +697,9 @@
     </bean>
 
     <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"
-          autowire="byType"/>
+          autowire="byType">
+    	<property name="changeURL" value="${c3pr.webapp.url}/public/user/changePassword?"/>
+    </bean>
     <bean id="notificationEmailer" class="edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail"
           autowire="byType"/>
     <bean id="notificationEmailService" class="edu.duke.cabig.c3pr.utils.NotificationEmailService"
@@ -708,7 +710,7 @@
     <!-- this is a template message that we can pre-load with default state -->
     <bean id="accountCreatedTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
         <property name="from" value="${outgoingMailFromAddress}"/>
-        <property name="subject" value="Account created in c3pr"/>
+        <property name="subject" value="Account created in C3PR"/>
     </bean>
 
     <bean id="studyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">

@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -43,4 +45,9 @@ public class UserDao extends GridIdentifiableDao<User> implements MutableDomainO
         List<User> results = getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.type='EMAIL' and rs.contactMechanisms.value=?", emailAddress);
         return results.size() > 0 ? results.get(0) : null;
     }
+    
+    public static void addUserToken(edu.duke.cabig.c3pr.domain.User user){
+		user.setTokenTime(new Timestamp(new Date().getTime()));
+		user.setToken(user.generateRandomToken());
+	}
 }

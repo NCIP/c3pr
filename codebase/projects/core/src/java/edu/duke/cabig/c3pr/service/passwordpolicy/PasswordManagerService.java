@@ -12,7 +12,7 @@ public interface PasswordManagerService {
      * @throws CaaersSyystemException
      *                 if the user does not exist.
      */
-    public String requestToken(String userName) throws C3PRBaseException;
+    public void addUserToken(String userName) throws C3PRBaseException;
 
     /**
      * Set the password for the specified user.
