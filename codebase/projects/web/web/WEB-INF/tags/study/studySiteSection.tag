@@ -148,7 +148,8 @@
 		<c:choose>
 			<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
 				<c:if test="${site.hostedMode || isSiteLocal}">
-					<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
+					<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="$('siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}').style.display='';chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
+					<img id="siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 				</c:if>
 			</c:when>
 			<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL'}">
@@ -172,26 +173,28 @@
 				</c:if>
 			</c:when>
 			<c:otherwise>
-				<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
+				<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="$('siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}').style.display='';chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
+				<img id="siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 			</c:otherwise>
 		</c:choose>
 		</c:forEach>
 		<c:if test="${closeToAccrual || closeToAccrualAndTreatment || temporaryCloseToAccrual || temporaryCloseToAccrualAndTreatment}">
 			<tags:button type="button" color="blue" value="Close Study Site" id="closeStudy"
 			onclick="Effect.SlideDown('close-choices-${site.healthcareSite.primaryIdentifier }')" size="small"/>
+			<img id="siteIndicator-${site.healthcareSite.primaryIdentifier}-closeStudySite" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 				<div id="close-choices-${site.healthcareSite.primaryIdentifier }" class="autocomplete" style="display: none">
 				<ul>
 				<c:if test="${closeToAccrualAndTreatment}">
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Closed To Accrual And Treatment</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="$('siteIndicator-${site.healthcareSite.primaryIdentifier}-closeStudySite').style.display='';chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Closed To Accrual And Treatment</li>
 				</c:if>
 				<c:if test="${closeToAccrual}">
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'CLOSE_STUDY_SITE_TO_ACCRUAL');">Closed To Accrual</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="$('siteIndicator-${site.healthcareSite.primaryIdentifier}-closeStudySite').style.display='';chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'CLOSE_STUDY_SITE_TO_ACCRUAL');">Closed To Accrual</li>
 				</c:if>
 				<c:if test="${temporaryCloseToAccrualAndTreatment}">
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Temporarily Closed To Accrual And Treatment</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="$('siteIndicator-${site.healthcareSite.primaryIdentifier}-closeStudySite').style.display='';chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT');">Temporarily Closed To Accrual And Treatment</li>
 					</c:if>
 				<c:if test="${temporaryCloseToAccrual}">
-					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL');">Temporarily Closed To Accrual</li>
+					<li onmouseover="this.className='selected'" onmouseout="this.className=''" onclick="$('siteIndicator-${site.healthcareSite.primaryIdentifier}-closeStudySite').style.display='';chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL');">Temporarily Closed To Accrual</li>
 				</c:if>
 				</ul>
 				<div align="right"><tags:button type="button" color="red" value="Cancel" icon="x"
@@ -259,7 +262,8 @@
 	            </td>
 	            <td>
 	            	<c:if test="${newerVersionApplied != true}">
-	            		<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', 'APPLY_AMENDMENT',  '${sortedStudyVersion.name }');" size="small"/>
+	            		<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="$('applyIndicator-${site.healthcareSite.primaryIdentifier}-${status.index}').style.display='';applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', 'APPLY_AMENDMENT',  '${sortedStudyVersion.name }');" size="small"/>
+	            		<img id="applyIndicator-${site.healthcareSite.primaryIdentifier}-${status.index}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	            	</c:if>
 	            	<tags:button type="button" color="blue" value="View summary" id="viewSummary-${sortedStudyVersion.id}" onclick="viewAmendmentSummary('${sortedStudyVersion.id}');" size="small"/>
 	            </td>
