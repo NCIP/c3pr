@@ -37,6 +37,10 @@
          			<div class="label"><fmt:message key="study.studyStatus"/> </div>
          			<div class="value">${command.study.coordinatingCenterStudyStatus.displayName} </div>
          		</div>
+         		<div class="row" >
+         			<div class="label"><fmt:message key="study.openDate"/> </div>
+         			<div class="value">${command.study.versionDateStr} </div>
+         		</div>
 	    	</chrome:box>
 	    	<div <c:if test="${command.study.companionIndicator == 'true' || fn:length(command.study.companionStudyAssociations) == 0}">style="display:none;"</c:if>>
 	    <chrome:box title="Companion Studies" autopad="true">

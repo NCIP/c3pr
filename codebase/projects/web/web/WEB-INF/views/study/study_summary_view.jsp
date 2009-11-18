@@ -340,6 +340,17 @@
 		<div class="label"><fmt:message key="study.randomizationType"/>:</div>
 		<div class="value">${command.study.randomizationType.displayName}</div>
 	</div>
+	<div class="row" >
+		<div class="label"><fmt:message key="study.openDate"/>:</div>
+		<c:choose>
+  			<c:when test="${command.study.versionDateStr != ''}">
+  				<div class="value">${command.study.versionDateStr} </div> 
+  			</c:when>
+  			<c:otherwise>
+  				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notSpecified"/></span></div>
+  			</c:otherwise>
+  		</c:choose>
+	</div>
 </div>
 </chrome:division>
 
