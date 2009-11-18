@@ -29,7 +29,7 @@ function validateAmendmentReasons(){
 		}
 	});
 	if(!alreadyChecked){
-		Dialog.alert("Please select atleast one amendment reason", {className: "alphacube", width:240, okLabel: "Done" });
+		Dialog.alert("Please select at least one amendment reason", {className: "alphacube", width:240, okLabel: "Done" });
 		return;
 	}
 }
@@ -80,7 +80,7 @@ function validateAmendmentReasons(){
 			</div>
 		</chrome:division>
 		<chrome:division id="study-amendments"
-			title="Reasons for Amendment (Atleast One)">
+			title="Reasons for Amendment (At Least One)">
 			<table>
                       <tr>
                       	<td width="25%"><b><fmt:message key="study.basicDetails"/></b></td>
