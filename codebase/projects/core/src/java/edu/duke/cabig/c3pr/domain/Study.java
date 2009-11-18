@@ -1196,6 +1196,12 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	public void setVersionName(String name) {
 		getStudyVersion().setName(name);
 	}
+	
+	@Transient
+	public String getVersionDateStr() {
+		return getStudyVersion().getVersionDateStr();
+	}
+
 
     @Transient
 	public StudyVersion getStudyVersion() {
