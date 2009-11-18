@@ -98,7 +98,7 @@
 		                <c:otherwise>
 			               	<div class="label" style="margin-top: 6em">
 			               		<fmt:message key="study.randomizationBook"/>
-			               		<tags:hoverHint keyProp="study.bookRandomizationsWithoutStratification.text"/>
+			               		<tags:hoverHint keyProp="study.bookRandomizationsWithoutStratification"/>
 			               	</div>
 		                </c:otherwise>
 	                </c:choose>
