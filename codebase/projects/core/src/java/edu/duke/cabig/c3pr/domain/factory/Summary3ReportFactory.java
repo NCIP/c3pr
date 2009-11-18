@@ -6,12 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.Summary3ReportDao;
-import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Summary3Report;
+import edu.duke.cabig.c3pr.domain.Summary3ReportDiseaseSite;
 import edu.duke.cabig.c3pr.tools.Configuration;
 
 public class Summary3ReportFactory {
@@ -30,8 +29,6 @@ public class Summary3ReportFactory {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
-	private ICD9DiseaseSiteDao icd9DiseaseSiteDao;
-
 	public Summary3ReportDao getSummary3ReportDao() {
 		return summary3ReportDao;
 	}
@@ -40,10 +37,6 @@ public class Summary3ReportFactory {
 		this.summary3ReportDao = summary3ReportDao;
 	}
 	
-	public void setIcd9DiseaseSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
-		this.icd9DiseaseSiteDao = icd9DiseaseSiteDao;
-	}
-
 	public void buildSummary3Report(Summary3Report summary3Report){
 		
 		if(summary3Report.getReportingSource()== null){
@@ -54,21 +47,21 @@ public class Summary3ReportFactory {
 		Date reportStartDate = summary3Report.getStartDate();
 		Date reportEndDate = summary3Report.getEndDate();
 		HealthcareSite hcs = summary3Report.getReportingOrganization();
-		List<ICD9DiseaseSite> diseaseSites = new ArrayList<ICD9DiseaseSite>();
-		diseaseSites = icd9DiseaseSiteDao.getAllOrderedByName();
+		List<Summary3ReportDiseaseSite> diseaseSites = new ArrayList<Summary3ReportDiseaseSite>();
+		diseaseSites = summary3ReportDao.getAllOrderedByName();
 		
-		Integer therapeuticICD9DiseaseSiteRegistrationsCount =0;
-		Integer icdDiseaseSiteRegistrationsCount =0;
+		Integer therapeuticSummary3DiseaseSiteRegistrationsCount =0;
+		Integer summary3DiseaseSiteRegistrationsCount =0;
 		
-		for(ICD9DiseaseSite icdDiseaseSite:diseaseSites){
+		for(Summary3ReportDiseaseSite summary3ReportDiseaseSite:diseaseSites){
 			Map registrationsForDiseaseSite = new HashMap<String,Object>();
-			Integer newlyEnrolledTherapeuticPatientsForGivenDiseaseSite = summary3ReportDao.getNewlyEnrolledTherapeuticStudySubjectCountForGivenICD9DiseaseSite(icdDiseaseSite, hcs, reportStartDate, reportEndDate);
-			therapeuticICD9DiseaseSiteRegistrationsCount = therapeuticICD9DiseaseSiteRegistrationsCount+newlyEnrolledTherapeuticPatientsForGivenDiseaseSite;
-			Integer newlyRegisteredPatientsForGivenICD9DiseaseSite = summary3ReportDao.getNewlyRegisteredSubjectCountForGivenICD9DiseaseSite(icdDiseaseSite, hcs, reportStartDate, reportEndDate);
-			icdDiseaseSiteRegistrationsCount = icdDiseaseSiteRegistrationsCount + newlyRegisteredPatientsForGivenICD9DiseaseSite;
+			Integer newlyEnrolledTherapeuticPatientsForGivenDiseaseSite = summary3ReportDao.getNewlyEnrolledTherapeuticStudySubjectCountForGivenSummary3ReportDiseaseSite(summary3ReportDiseaseSite, hcs, reportStartDate, reportEndDate);
+			therapeuticSummary3DiseaseSiteRegistrationsCount = therapeuticSummary3DiseaseSiteRegistrationsCount+newlyEnrolledTherapeuticPatientsForGivenDiseaseSite;
+			Integer newlyRegisteredPatientsForGivenICD9DiseaseSite = summary3ReportDao.getNewlyRegisteredSubjectCountForGivenSummary3ReportDiseaseSite(summary3ReportDiseaseSite, hcs, reportStartDate, reportEndDate);
+			summary3DiseaseSiteRegistrationsCount = summary3DiseaseSiteRegistrationsCount + newlyRegisteredPatientsForGivenICD9DiseaseSite;
 			registrationsForDiseaseSite.put("newlyEnrolledTherapeuticPatients", newlyEnrolledTherapeuticPatientsForGivenDiseaseSite);
 			registrationsForDiseaseSite.put("newlyRegisteredPatients", " - ");
-			summary3Report.getReportData().put(icdDiseaseSite,registrationsForDiseaseSite);
+			summary3Report.getReportData().put(summary3ReportDiseaseSite,registrationsForDiseaseSite);
 		}
 		
 		// creating a dummy anatomic site which has total as name for reporting purpose.
@@ -76,28 +69,11 @@ public class Summary3ReportFactory {
 		
 		Map totalRegistrationCounts = new HashMap<String,Object>();
 	
-		ICD9DiseaseSite totalICD9DiseaseSite = new ICD9DiseaseSite();
+		Summary3ReportDiseaseSite totalICD9DiseaseSite = new Summary3ReportDiseaseSite();
 		Integer newlyEnrolledTotalTherapeuticPatients = summary3ReportDao.getNewlyEnrolledTherapeuticStudySubjectCount( hcs, reportStartDate, reportEndDate);
 		Integer newlyRegisteredTotalPatients = summary3ReportDao.getNewlyRegisteredSubjectCount(hcs, reportStartDate, reportEndDate);
 		totalRegistrationCounts.put("newlyEnrolledTherapeuticPatients", newlyEnrolledTotalTherapeuticPatients);
 		totalRegistrationCounts.put("newlyRegisteredPatients", " - ");
-		
-		// creating a dummy anatomic site which has UnknwonSites Sites as name for reporting purpose.
-		//TODO find a better way to implement this		
-	
-		Map unknownICD9DiseaseSiteSiteRegistrationCounts = new HashMap<String,Object>();
-		
-		ICD9DiseaseSite unKnownICD9DiseaseSite = new ICD9DiseaseSite();
-		Integer unKnownDiseaseSiteNewTherapeuticRegistrations = newlyEnrolledTotalTherapeuticPatients - therapeuticICD9DiseaseSiteRegistrationsCount;
-		Integer unKnownDiseaseSiteNewRegistrations = newlyRegisteredTotalPatients - icdDiseaseSiteRegistrationsCount;
-		unknownICD9DiseaseSiteSiteRegistrationCounts.put("newlyEnrolledTherapeuticPatients", unKnownDiseaseSiteNewTherapeuticRegistrations < 0 ? 0 :unKnownDiseaseSiteNewTherapeuticRegistrations);
-		unknownICD9DiseaseSiteSiteRegistrationCounts.put("newlyRegisteredPatients", " - ");
-		
-		// creating a dummy anatomic site which has UnknwonSites Sites as name for reporting purpose.
-		//TODO find a better way to implement this		
-	
-		unKnownICD9DiseaseSite.setName("Unknown Sites");
-		summary3Report.getReportData().put(unKnownICD9DiseaseSite, unknownICD9DiseaseSiteSiteRegistrationCounts);
 		
 		// creating a dummy anatomic site which has total as name for reporting purpose.
 		//TODO find a better way to implement this		
