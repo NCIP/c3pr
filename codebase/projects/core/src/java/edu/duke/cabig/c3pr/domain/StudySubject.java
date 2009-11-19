@@ -659,6 +659,21 @@ public class StudySubject extends
 		}
 		return null;
 	}
+	
+	/**
+	 * Gets the C3PR assigned identifier.
+	 *
+	 * @return the C3PR assigned identifier
+	 */
+	@Transient
+	public SystemAssignedIdentifier getC3PRAssignedIdentifier() {
+		for (SystemAssignedIdentifier systemAssignedIdentifier : getSystemAssignedIdentifiers()) {
+			if (systemAssignedIdentifier.getSystemName().equals("C3PR")) {
+				return systemAssignedIdentifier;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Sets the co ordinating center identifier.
