@@ -15,11 +15,11 @@
 <head>
 <script language="JavaScript" type="text/JavaScript">
 	  function submitPDFForm(){
-		  C3PR.disableAjaxLoadingIndicator=true;
+		  	C3PR.disableAjaxLoadingIndicator=true;
 		  	document.getElementById('_finish').value='true';
 		  	document.getElementById('format').value='PDF';
 			document.getElementById('command').submit();
-			C3PR.disableAjaxLoadingIndicator=false;
+		//  C3PR.disableAjaxLoadingIndicator=true;
 	}
 
 	  function submitExcelForm(){
@@ -27,7 +27,7 @@
 		  	document.getElementById('_finish').value='true';
 			document.getElementById('format').value='Excel';
 			document.getElementById('command').submit();
-			C3PR.disableAjaxLoadingIndicator=false;
+		//  C3PR.disableAjaxLoadingIndicator=true;
 	}
 
 </script>
