@@ -118,7 +118,7 @@
 				</identifier>
 			</healthcareSite>
 			<studyInvestigator>
-				<roleCode>Site Investigator</roleCode>
+				<roleCode>Principal Investigator</roleCode>
 				<healthcareSiteInvestigator>
 					<investigator xsi:type="LocalInvestigatorType">
 						<nciIdentifier>ctep_assigned_id</nciIdentifier>
