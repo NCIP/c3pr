@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -170,12 +171,30 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 		} else if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
-			studySubject.addIdentifier(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject));
 			
 		} else {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
 		}
 		
+		//make sure there is atleast one primaryIdentifier
+		boolean hasPromaryIdentifier = false;
+		for(Identifier identifier : studySubject.getIdentifiers()){
+			if(identifier.getPrimaryIndicator()){
+				hasPromaryIdentifier = true;
+				break;
+			}
+		}
+		if(!hasPromaryIdentifier){
+			Identifier identifier = studySubject.getCoOrdinatingCenterIdentifier();
+			if(identifier != null){
+				identifier.setPrimaryIndicator(true);
+			}else{
+				identifier = studySubject.getC3PRAssignedIdentifier();
+				if(identifier != null){
+					identifier.setPrimaryIndicator(true);
+				}
+			}
+		}
 		studySubjectDao.save(studySubject);
 		log.debug("Registration saved with grid ID" + studySubject.getGridId());
 		return studySubject;
