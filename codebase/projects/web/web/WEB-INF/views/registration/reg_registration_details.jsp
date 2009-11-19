@@ -56,7 +56,258 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 						}
 
 var CategorySelector = Class.create();
+Object.extend(CategorySelector.prototype, {
+initialize: function() {
+	this.win = null;
+    this.termList = new Array();
+},
 
+showWindow:function(wUrl, wTitle, wWidth, wHeight){
+	win = new Window({
+        className:"alphacube",
+        destroyOnClose:true,
+        title:wTitle,
+        width:wWidth,
+        height:wHeight,
+        recenterAuto:true,
+        resizable: false,
+        minimizable : false,
+        maximizable: false
+    });
+	this.win = win;
+	win.setContent('chooseCategory');
+    win.showCenter(true);
+},
+
+finishDiseaseSiteSelection:function() {
+	hideDiseaseIndicator();
+    var selectedTerm = $('chk');
+      if (selectedTerm.checked) {
+    	  $('diseaseSite-hidden').value= selectedTerm.value;
+    	  var appendedDiseaseCodeName = selectedTerm.name.split(" ");
+    	  $('diseaseSite-input').value= appendedDiseaseCodeName[1] + " (" + selectedTerm.value + ")";
+      }
+    Windows.close(this.win.getId());
+    catSel.termList = new Array();
+    $('disease-subcategories').innerHTML = "";
+    $('disease-level3Sites').innerHTML = "";
+    $('disease-level4Sites').innerHTML = "";
+    $('disease-added-terms').innerHTML = "";
+    var selectedCategories = $$('a.disease-category-selected');
+    selectedCategories.each(function(el) {
+        el.addClassName("disease-category-selected");
+    });
+
+    var selectedCategories = $$('li.li-category-selected');
+    selectedCategories.each(function(el) {
+        el.addClassName("li-category-selected");
+    });
+    return;
+},
+
+cancelDiseaseSiteSelection:function() {
+	hideDiseaseIndicator();
+    Windows.close(this.win.getId());
+    $('disease-subcategories').innerHTML = "";
+    $('disease-level3Sites').innerHTML = "";
+    $('disease-level4Sites').innerHTML = "";
+    $('disease-added-terms').innerHTML = "";
+    return;
+},
+
+addLevel4Site: function(ulID, termID, termText, title) {
+	$('disease-added-terms').innerHTML = "";
+	var selecedSites = $$('a.l3-site-selected');
+	selecedSites.each(function(e1){
+		e1.addClassName("l3-site-selected");
+	});
+
+	$("subcategoryli_" + termID).addClassName("l3-site-selected");
+
+	//$("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
+	
+//	$("liTerm" + termID).addClassName("term-selected");
+    ul = document.getElementById(ulID);
+
+    checkbox = document.createElement("input");
+    checkbox.type = 'checkbox';
+    checkbox.name = termText;
+    checkbox.defaultChecked = true;
+    checkbox.value = termID;
+    checkbox.id = "chkID" + termID;
+    checkbox.setAttribute("id", "chk");
+
+    a = document.createElement("a");
+    a.appendChild(document.createTextNode(termText));
+
+    a.id = "addedTerm" + termID;
+    a.setAttribute("id", "addedTerm" + termID);
+
+    a.setAttribute("title", title);
+    a.title = title;
+
+    li = document.createElement("li");
+    li.appendChild(checkbox);
+    li.appendChild(a);
+    ul.appendChild(li)
+
+    $("addedTerm" + termID).addClassName("disease-added-terms");
+    $("chk").addClassName("AddedTermXYZ");
+
+},
+
+showLevel2DiseaseSites: function(id){
+    var selectedCategories = $$('a.disease-category-selected');
+    selectedCategories.each(function(el) {
+        el.addClassName("disease-category-selected");
+    });
+
+    var selectedCategories = $$('li.li-category-selected');
+    selectedCategories.each(function(el) {
+        el.addClassName("li-category-selected");
+    });
+
+    $("category_" + id).addClassName("disease-category-selected");
+    $("li_" + id).addClassName("li-category-selected");
+    $('disease-subcategories').innerHTML = "";
+    $('disease-level3Sites').innerHTML = "";
+    $('disease-level4Sites').innerHTML = "";
+
+    catId = id;
+    anatomicDiseaseSite.getLevel2DiseaseSiteCategories(catId, function(childCategories) {
+        childCategories.each(function(childCategory) {
+          var childCategoryName = (childCategory.name.length > 18 ? childCategory.code+" " +childCategory.name.substring(0, 18) + "..." : childCategory.code+" " +childCategory.name);
+          catSel.showLevel2DiseaseSitesDetails("disease-subcategories", childCategory.id, childCategoryName, childCategory.name);
+        })
+    });
+    return;
+},
+
+showLevel2DiseaseSitesDetails: function(ulID, ilID, ilText, title){
+	ul = document.getElementById(ulID);
+    a = document.createElement("a");
+    a.appendChild(document.createTextNode(ilText));
+    a.setAttribute("onclick", "catSel.showLevel3DiseaseSites('disease-level3Sites', " + ilID + ", '" + ilText + "','" + title + "')");
+    a.onclick = function() {
+        eval("catSel.showLevel3DiseaseSites('disease-level3Sites', " + ilID + ", '" + ilText + "','" + title + "')");
+    }
+    a.setAttribute("id", "subcategory_" + ilID);
+    a.id = "subcategory_" + ilID;
+
+    a.setAttribute("title", title);
+    a.title = title;
+
+    li = document.createElement("li");
+    li.setAttribute("id", "subcategoryli_" + ilID);
+    li.appendChild(a);
+    ul.appendChild(li);
+
+},
+
+showLevel3DiseaseSites :function(ulID, ilID, ilText,title) {
+
+	var selectedSubcategories = $$('a.disease-subcategory-selected');
+    selectedSubcategories.each(function(el) {
+        el.addClassName("disease-subcategory-selected");
+    });
+
+    var selectedSubcategories = $$('li.li-subcategory-selected');
+    selectedSubcategories.each(function(el) {
+        el.addClassName("li-subcategory-selected");
+    });
+
+//	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
+    $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
+
+    $('disease-level3Sites').innerHTML = "";
+    $('disease-level4Sites').innerHTML = "";
+
+    level2Id = ilID;
+    anatomicDiseaseSite.getLevel3DiseaseSiteCategories(level2Id, function(childCategories) {
+        childCategories.each(function(childCategory) {
+        	var childCategoryName = (childCategory.name.length > 18 ? childCategory.code+" " +childCategory.name.substring(0, 18) + "..." : childCategory.code+" " +childCategory.name);
+          catSel.showLevel3DiseaseSitesDetails("disease-level3Sites", childCategory.id, childCategoryName, childCategory.name);
+        })
+    });
+    return;
+ },
+
+
+
+showLevel3DiseaseSitesDetails: function(ulID, ilID, ilText, title){
+	ul = document.getElementById(ulID);
+    a = document.createElement("a");
+    a.appendChild(document.createTextNode(ilText));
+    a.setAttribute("onclick", "catSel.showLevel4DiseaseSites('disease-level4Sites', " + ilID + ", '" + ilText + "','" + title + "')");
+    a.onclick = function() {
+        eval("catSel.showLevel4DiseaseSites('disease-level4Sites', " + ilID + ", '" + ilText + "','" + title + "')");
+    }
+    a.setAttribute("id", "level3Disease_" + ilID);
+    a.id = "level3Disease_" + ilID;
+
+    a.setAttribute("title", title);
+    a.title = title;
+
+    li = document.createElement("li");
+    li.setAttribute("id", "level3Diseasel3_" + ilID);
+    li.id = "level3Diseasel3_" + ilID;
+    li.appendChild(a);
+    ul.appendChild(li);
+
+},
+
+showLevel4DiseaseSites :function(ulID, ilID, ilText,title) {
+
+	var selectedSubcategories = $$('a.disease-subcategory-selected');
+    selectedSubcategories.each(function(el) {
+        el.addClassName("disease-subcategory-selected");
+    });
+
+    var selectedLevel3DiseaseSites = $$('li.li-subcategory-selected');
+    selectedLevel3DiseaseSites.each(function(el) {
+    //    el.addClassName("li-subcategory-selected");
+    });
+
+//	$("subcategory_" + ilID).addClassName("disease-subcategory-selected");
+    $("level3Diseasel3_" + ilID).addClassName("li-subcategory-selected");
+    $('disease-level4Sites').innerHTML = "";
+
+    level3Id = ilID;
+    anatomicDiseaseSite.getLevel4DiseaseSiteCategories(level3Id, function(childCategories) {
+        childCategories.each(function(childCategory) {
+        	var childCategoryName = (childCategory.name.length > 18 ? childCategory.code+" " +childCategory.name.substring(0, 18) + "..." : childCategory.code+" " +childCategory.name);
+          catSel.addLIToUL("disease-level4Sites", childCategory.id, childCategoryName, childCategory.name);
+        })
+    });
+    return;
+ },
+
+addLIToUL: function(ulID, ilID, ilText, title) {
+    ul = document.getElementById(ulID);
+    a = document.createElement("a");
+    a.appendChild(document.createTextNode(ilText));
+	a.setAttribute("onClick", "catSel.addLevel4Site('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
+       a.onclick = function() {
+           eval("catSel.addLevel4Site('disease-added-terms', " + ilID + ", '" + ilText + "', '" + title + "')");
+       }
+    a.setAttribute("id", "liTerm" + ilID);
+    a.id = "liTerm" + ilID;
+
+    a.setAttribute("title", title);
+    a.title = title;
+
+    li = document.createElement("li");
+    li.setAttribute("id", "subcategoryli_" + ilID);
+    
+ //   $("subcategoryli_" + ilID).addClassName("li-subcategory-selected");
+    li.appendChild(a);
+    ul.appendChild(li);
+},
+
+showCategoryBox:function(){
+			this.showWindow('', '', 1000, 580 );
+	}
+});
 
 function initalizeCategorySelector(){
 	catSel = new CategorySelector();
@@ -253,6 +504,7 @@ function changeStudyVersion(){
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete" style="display: none;"></div>
 			<tags:hoverHint keyProp="studySubject.diseaseSite"/>
+			<tags:button size="small" type="button" color="blue" icon="add" value="Select Disease Site" id="addSingleDiseaseBtn" onclick="$('diseaseIndicator').show();catSel.showCategoryBox();"/>
 			<img id="diseaseIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none"/>
 		</div>
 	</div>
@@ -356,9 +608,15 @@ function changeStudyVersion(){
         <tr>
             <td colspan="6" style="text-align:right;">
             </td>
-            <td colspan="3" style="text-align:center;">
+            <td colspan="1" style="text-align:center;">
                     <c:if test="${empty localButtons}">
-                        <tags:button color="green" value="Select Disease Site" icon="add" onclick="catSel.finishMultiTermsSelection()" />
+                        <tags:button color="red" value="Cancel" icon="cancel" onclick="catSel.cancelDiseaseSiteSelection()" />
+                    </c:if>
+            </td>
+            <td></td>
+            <td colspan="1" style="text-align:center;">
+                    <c:if test="${empty localButtons}">
+                        <tags:button color="green" value="Select Site" icon="continue" onclick="catSel.finishDiseaseSiteSelection()" />
                     </c:if>
             </td>
         </tr>
@@ -394,12 +652,12 @@ function changeStudyVersion(){
     }
 
     li.li-category-selected {
-        background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
+  /*   background-image:url(/c3pr/images/chrome/cat-small-arrow.png); */
 		background-repeat:no-repeat;
     }
     
     l3.l3-site-selected {
-        background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
+        /*   background-image:url(/c3pr/images/chrome/cat-small-arrow.png); */
 		background-repeat:no-repeat;
 		line-height:26px;
     }
@@ -444,7 +702,7 @@ function changeStudyVersion(){
     }
     a.term-selected {
 		line-height:26px;
-		background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
+	/*	background-image:url(/c3pr/images/chrome/cat-small-arrow.png); */
     }
 
     a.term-disabled:hover {
@@ -460,13 +718,13 @@ function changeStudyVersion(){
     }
 
     li.li-subcategory-selected {
-        background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
+     /*   background-image:url(/c3pr/images/chrome/cat-small-arrow.png); */
 		background-repeat:no-repeat;
 		line-height:26px;
     }
     
     l3.l3-site-selected {
-        background-image:url(/c3pr/images/chrome/cat-small-arrow.png);
+        /*   background-image:url(/c3pr/images/chrome/cat-small-arrow.png); */
 		background-repeat:no-repeat;
 		line-height:26px;
     }
