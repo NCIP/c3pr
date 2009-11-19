@@ -100,6 +100,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                             <property name="desc" value="Phase I/II Trial" />
                         </bean>
                          <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="II/III" />
+                            <property name="desc" value="Phase II/III Trial" />
+                        </bean>
+                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="II" />
                             <property name="desc" value="Phase II Trial" />
                         </bean>
@@ -114,7 +118,19 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                          <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="0" />
                             <property name="desc" value="Phase 0 Trial" />
-                        </bean>                      
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Pilot" />
+                            <property name="desc" value="Pilot" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="N/A" />
+                            <property name="desc" value="N/A" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Other" />
+                            <property name="desc" value="Other" />
+                        </bean>                
                     </list>
                 </entry>
                 <entry key="typeRefData">
