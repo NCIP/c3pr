@@ -183,7 +183,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	public List<HealthcareSite> getBySubnames(String[] subnames) throws C3PRBaseRuntimeException, C3PRBaseException {
 		
 		List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
-
+/*		Comment out the coppa code for auto-completers for the time-being
 		//get all by name first
 		RemoteHealthcareSite remoteHealthcareSiteName = new RemoteHealthcareSite();
 		remoteHealthcareSiteName.setName(subnames[0]);
@@ -198,7 +198,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 		
 		//save both sets to the db
 		updateDatabaseWithRemoteHealthcareSites(remoteHealthcareSites);
-
+*/
 		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
 				EXACT_MATCH_PROPERTIES);
 	}
