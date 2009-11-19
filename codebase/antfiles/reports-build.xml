@@ -14,7 +14,6 @@
 		<get src="${ant-contrib.jar.location}" dest="${lib.dir}/ant-contrib-1.0b2.jar" verbose="true" usetimestamp="true"/>
 	</target>
 	
-	
 <!-- ==================================================================
 =================== CHECKSTYLE  REPORTS ===============================
 ======================================================================= -->
@@ -37,22 +36,22 @@
             <sequential>
                 <echo message="Reporting checkstyle for project @{project.name}" />
             	
-            	<delete includeemptydirs="true" dir="${projects.dir}/@{project.name}/build/checkstyle-report" />
-				<mkdir dir="${projects.dir}/@{project.name}/build/checkstyle-report" />
+            	<delete includeemptydirs="true" dir="${reports.dir}/checkstyle-report/@{project.name}" />
+				<mkdir dir="${reports.dir}/checkstyle-report/@{project.name}" />
             					
     			<checkstyle config="${antfiles.dir}/c3pr_checkstyle.xml" failOnViolation="false">
     	            <fileset dir="${projects.dir}/@{project.name}" includes="**/*.java"/>
-    	            <formatter type="plain" toFile="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.txt"/>
-    	            <formatter type="xml" toFile="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.xml"/>
+    	            <formatter type="plain" toFile="${reports.dir}/checkstyle-report/@{project.name}/@{project.name}.txt"/>
+    	            <formatter type="xml" toFile="${reports.dir}/checkstyle-report/@{project.name}/@{project.name}.xml"/>
     	        </checkstyle>
-    			<xslt in="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.xml" 
-    		      out="${projects.dir}/@{project.name}/build/checkstyle-report/@{project.name}.html" style="${antfiles.dir}/checkstyle.xsl">
+    			<xslt in="${reports.dir}/checkstyle-report/@{project.name}/@{project.name}.xml" 
+    		      out="${reports.dir}/checkstyle-report/@{project.name}/@{project.name}.html" style="${antfiles.dir}/checkstyle.xsl">
     	            <param name="project" expression="@{project.name}"/>
     	        </xslt>
     			
     			<echo>================================================================</echo>
     	    	<echo>CheckStyle Report available at </echo>
-    	    	<echo>${projects.dir}/@{project.name}/build/checkstyle-report</echo>
+    	    	<echo>${reports.dir}/checkstyle-report/@{project.name}</echo>
     	    	<echo>================================================================</echo>
             </sequential>
         </for>		
@@ -80,18 +79,18 @@
             <sequential>
                 <echo message="Reporting pmd analysis for project @{project.name}" />
             	
-            	<delete includeemptydirs="true" dir="${projects.dir}/@{project.name}/build/pmd-report" />
-				<mkdir dir="${projects.dir}/@{project.name}/build/pmd-report" />
+            	<delete includeemptydirs="true" dir="${reports.dir}/pmd-report/@{project.name}" />
+				<mkdir dir="${reports.dir}/pmd-report/@{project.name}" />
             	<pmd shortFilenames="false" rulesetfiles="basic">
 				    <ruleset>basic</ruleset>
-            		<formatter type="xml" toFile="${projects.dir}/@{project.name}/build/pmd-report/@{project.name}.xml"/>
-			  		<formatter type="html" toFile="${projects.dir}/@{project.name}/build/pmd-report/@{project.name}.html"/>
+            		<formatter type="xml" toFile="${reports.dir}/pmd-report/@{project.name}/@{project.name}.xml"/>
+			  		<formatter type="html" toFile="${reports.dir}/pmd-report/@{project.name}/@{project.name}.html"/>
+            		<formatter type="text" toFile="${reports.dir}/pmd-report/@{project.name}/@{project.name}.txt"/>
             		<fileset dir="${projects.dir}/@{project.name}" includes="**/*.java"/>
 		 		</pmd>
-    				
     			<echo>================================================================</echo>
     	    	<echo>PMD analysis Report available at </echo>
-    	    	<echo>${projects.dir}/@{project.name}/build/pmd-report</echo>
+    	    	<echo>${reports.dir}/pmd-report/@{project.name}</echo>
     	    	<echo>================================================================</echo>	
             </sequential>
         </for>		
@@ -119,31 +118,22 @@
             <sequential>
                 <echo message="Reporting simian results for project @{project.name}" />
             	
-            	<delete includeemptydirs="true" dir="${projects.dir}/@{project.name}/build/simian-report" />
-				<mkdir dir="${projects.dir}/@{project.name}/build/simian-report" />
+            	<delete includeemptydirs="true" dir="${reports.dir}/simian-report/@{project.name}" />
+				<mkdir dir="${reports.dir}/simian-report/@{project.name}" />
             					
                 <simian failOnDuplication="false" language="java">
                 	<fileset dir="${projects.dir}/@{project.name}/src" includes="**/*.java"/>
-                	<formatter type="xml" toFile="${projects.dir}/@{project.name}/build/simian-report/@{project.name}.xml"/>
-                	<formatter type="plain" toFile="${projects.dir}/@{project.name}/build/simian-report/@{project.name}.xml"/>
+                	<formatter type="xml" toFile="${reports.dir}/simian-report/@{project.name}/@{project.name}.xml"/>
+                	<formatter type="plain" toFile="${reports.dir}/simian-report/@{project.name}/@{project.name}.txt"/>
                 </simian>
             	<echo>================================================================</echo>
     	    	<echo>Simian Report available at </echo>
-    	    	<echo>${projects.dir}/@{project.name}/build/simian-report</echo>
+    	    	<echo>${reports.dir}/simian-report/@{project.name}</echo>
     	    	<echo>================================================================</echo>
             </sequential>
         </for>		
     </target>
-    	
-    	
-<!-- ==================================================================
-=================== COBERTURA  REPORTS ===============================
-======================================================================= -->   	
-
-    	
-    	
-    	
-
+	
 	<target name="static-analysis" description="Check the style of all the projects.">
 		<antcall target="reports-checkstyle"> </antcall>
 		<antcall target="reports-pmd"> </antcall>
