@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
@@ -99,6 +100,9 @@ public class StudyFactory {
 					.getByPrimaryIdentifier(identifier.getHealthcareSite()
 							.getPrimaryIdentifier());
 			identifier.setHealthcareSite(loadedSite);
+			if(identifier.getType()==OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER){
+				identifier.setPrimaryIndicator(true);
+			}
 		}
 		
 		//build and save all study diseases
