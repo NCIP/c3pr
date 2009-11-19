@@ -157,6 +157,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		if(configuration.get(Configuration.ESB_ENABLE).equals("true")){
 			map.put("canBroadcast", "true");
         }
+		map.put("isAdmin", WebUtils.isAdmin());
 		return map;
 	}
 	

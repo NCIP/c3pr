@@ -788,11 +788,14 @@
 				<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
 					<strong><font color="green">
 						<fmt:message key="REGISTRATION.BROADCAST.SENT_SUCCESSFULLY"/>
-					</font><br></strong><br><fmt:message key="REGISTRATION.BROADCAST.SENT_SUCCESSFULLY.RESEND"/>
+					</font><br></strong><br>
 				</div>
-				<div align="center" style="padding-top: 20px">
-				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
-				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+				<div align="center">
+					<c:if test="${isAdmin}">
+						<div align="left" style="padding-left: 5px; font-size: 10pt;"><fmt:message key="REGISTRATION.BROADCAST.SENT_SUCCESSFULLY.RESEND"/></div>
+						<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
+					</c:if>
+					<tags:button type="button" color="red" icon="x" value="Close" onclick="contentWin.close();" />
 				</div>
 			</c:when>
 			<c:when test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND_FAILED'}">

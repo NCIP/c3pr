@@ -165,6 +165,7 @@ public class StudyOverviewTab extends StudyTab {
         if(configuration.get(Configuration.ESB_ENABLE).equals("true")){
         	request.setAttribute("canBroadcast", "true");
         }
+        refdata.put("isAdmin", isAdmin());
         return refdata ;
     }
 
