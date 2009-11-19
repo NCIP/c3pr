@@ -59,12 +59,12 @@ public class StudySubjectXMLFileImportAjaxFacade {
 
         Row row = model.getRowInstance();
         row.setHighlightRow(Boolean.TRUE);
+        row.setInterceptor(RegistrationImportRowInterceptor.class.getName());
         model.addRow(row);
 
         Column columnRegId = model.getColumnInstance();
         columnRegId.setTitle("Registration Id");
-        columnRegId.setProperty("id");
-        columnRegId.setCell((RegistrationLinkDisplayCell.class).getName());
+        columnRegId.setProperty("primaryIdentifier");
         model.addColumn(columnRegId);
 
         Column columnTitle = model.getColumnInstance();

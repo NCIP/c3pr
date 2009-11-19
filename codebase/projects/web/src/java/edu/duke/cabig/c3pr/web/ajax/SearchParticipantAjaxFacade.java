@@ -44,7 +44,7 @@ public class SearchParticipantAjaxFacade {
 
         Row row = model.getRowInstance();
         row.setHighlightRow(Boolean.TRUE);
-        row.setInterceptor("edu.duke.cabig.c3pr.web.ajax.ParticipantRowInterceptor");
+        row.setInterceptor(ParticipantRowInterceptor.class.getName());
         model.addRow(row);
 
         Column name = model.getColumnInstance();
