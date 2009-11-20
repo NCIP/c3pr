@@ -2,7 +2,12 @@
 
 <html>
 <head>
-<title>Organization: ${command.name}:${command.ctepCode}</title>
+<title>
+	<c:choose>
+        <c:when test="${command.id > 0}"><c:out value="Organization: ${command.name}:${command.ctepCode}" /></c:when>
+        <c:otherwise>Create Organization</c:otherwise>
+    </c:choose>
+</title>
 <style type="text/css">
 div.content {
 	padding: 5px 15px;

@@ -2,7 +2,12 @@
 
 <html>
 <head>
-    <title>Investigator: ${command.firstName} ${command.lastName}</title>
+    <title>
+    	<c:choose>
+            <c:when test="${command.id > 0}"><c:out value="Investigator: ${command.firstName} ${command.lastName} - ${command.nciIdentifier}" /></c:when>
+            <c:otherwise>Create Investigator</c:otherwise>
+        </c:choose>
+    </title>
 <tags:dwrJavascriptLink objects="InvestigatorAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
 var healthcareSiteAutocompleterProps = {
