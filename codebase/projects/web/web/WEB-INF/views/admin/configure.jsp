@@ -231,7 +231,7 @@
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.password"/><tags:hoverHint keyProp="configure.outgoingMailPassword" /></div>
-        		<div class="value"><form:password path="conf[outgoingMailPassword].value" id="outgoingMailPassword" /></div>
+        		<div class="value"><form:password path="conf[outgoingMailPassword].value" id="outgoingMailPassword" showPassword="true"/></div>
         	</div>
         	<div class="row">
         		<div class="label"><fmt:message key="configure.smtp.protocol"/><tags:hoverHint keyProp="configure.smtpProtocol" /></div>
