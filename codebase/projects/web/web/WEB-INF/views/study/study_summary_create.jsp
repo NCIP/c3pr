@@ -377,6 +377,9 @@ function updateTargetAccrual(){
 		                    <td class="alt">${companionStudyAssociation.companionStudy.dataEntryStatus.code}</td>
 		                    <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
 		                    <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
+		                    <td class="alt">
+		                    	<tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
+		                    </td>
 		                </tr>
 		            </c:forEach>
 		        </table>

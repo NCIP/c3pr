@@ -198,8 +198,11 @@
 		</c:if>
 	</c:forEach>
 	<div id="pendingParentStudy" style="display:none;">
-		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="study.parentStudy.status.pending"/></div>
+		<div id="flash-message" class="error"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="study.parentStudy.status.pending"/></div>
 	</div>
+	<c:if test="${not empty studyMessage}">
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="${studyMessage}"/></div>
+	</c:if>
 	<div id="controlPanel">
 	<tags:controlPanel>
 		<c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
@@ -282,9 +285,6 @@
 
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
-<c:if test="${not empty studyMessage}">
-<font color='<fmt:message key="${ studyMessage}.COLOR"/>'><strong><fmt:message key="${studyMessage}"/></strong></font>
-</c:if>
 <div>
     <input type="hidden" name="_finish" value="true"/>
     <input type="hidden" name="_action" value="">
@@ -605,7 +605,7 @@
 		                    <td class="alt">${parentStudyAssociation.parentStudy.shortTitleText}</td>
 		                    <td class="alt">${parentStudyAssociation.parentStudy.coordinatingCenterStudyStatus.code}</td>
 		                    <td class="alt">
-		                    	<tags:button id="manageParentStudy" type="button" color="blue" value="View"
+		                    	<tags:button id="manageParentStudy" type="button" color="blue" value="Manage"
 									onclick="javascript:document.location='viewStudy?studyId=${parentStudyAssociation.parentStudy.id}'" size="small"/>
 		                    </td>
 
