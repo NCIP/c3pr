@@ -145,7 +145,7 @@
 			submitStr+='&irbApprovalDate-'+primaryIdentifier+'='+$("irbApprovalDate-"+primaryIdentifier).value;
 		}
 		if($("targetAccrual-"+primaryIdentifier)){
-			submitStr+='&'+$("targetAccrual-"+primaryIdentifier)+'='+$("targetAccrual-"+primaryIdentifier).value;
+			submitStr+='&targetAccrual-'+primaryIdentifier+'='+$("targetAccrual-"+primaryIdentifier).value;
 		}
 		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/updatedStudySiteSection" divElement="'siteSection_'+primaryIdentifier" javaScriptParam="submitStr"/>
 		Element.show('sendingMessage-'+primaryIdentifier);
@@ -194,12 +194,22 @@
 				</div> 		
 			</c:when>
 			<c:otherwise>
-				<div class="row">
+			<div class="row">
+				<c:choose>
+				<c:when test="${command.study.coordinatingCenterStudyStatus == 'PENDING' || command.study.coordinatingCenterStudyStatus == 'OPEN'}">
+					<c:if test="${command.study.coordinatingCenterStudyStatus == 'PENDING'}">
+						<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="study.status.pending.site.action.no" /></div>
+					</c:if>
 					<div class="name">
 						<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" size="60"></tags:autocompleter>
 						<tags:button color="blue" value="Add study site" icon="add" type="button" size="small" id="addStudySite" onclick="$('siteIndicator').show();addStudySite();" disabled="true"></tags:button>
 						<img id="siteIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 					</div>
+				</c:when>
+				<c:otherwise>
+					<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="study.status.${command.study.coordinatingCenterStudyStatus}.site.add.no" /></div>
+				</c:otherwise>
+				</c:choose>
 				</div>
 				<br>
 				<form:form id="studySitesForm">

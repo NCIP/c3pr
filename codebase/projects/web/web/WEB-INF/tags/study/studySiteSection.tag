@@ -72,7 +72,7 @@
 				<div class="value">
 					<c:choose>
 						<c:when test="${isSiteManageable}">
-							<input type="test" id="targetAccrual-${site.healthcareSite.primaryIdentifier}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
+							<input type="text" id="targetAccrual-${site.healthcareSite.primaryIdentifier}" name="study.studySites[${index}].targetAccrualNumber" class="validate-NUMERIC" size="6" value="${site.targetAccrualNumber}"/>
 						</c:when>
 						<c:otherwise>
 							${empty site.targetAccrualNumber?'Not specified':site.targetAccrualNumber}
