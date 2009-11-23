@@ -11,7 +11,7 @@
 
 	<jsp:attribute name="singleFields">
     <tags:instructions code="study_companions" />
-    <script language="JavaScript" type="text/JavaScript"><!--
+    <script type="text/javascript">
 
 	function addRow(action){
     	if(action == 'createCompanionStudy'){
@@ -99,7 +99,7 @@ function closePopup(deleteRow) {
 	contentWin.close();
 }
 // SCRIPTS FOR COMPANION
---></script>
+</script>
 <tags:errors path="study.companionStudyAssociations" />
 <table border="0" cellspacing="0" cellpadding="0" height="50" width="100%" border="2">
     <tr>
