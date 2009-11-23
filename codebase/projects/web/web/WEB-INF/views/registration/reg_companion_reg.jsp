@@ -110,9 +110,7 @@
 											<a id="registerCompanionStudy" href="javascript:openPopup('${ companion.companionStudyId}','${command.studySubject.participant.id}','${command.studySubject.id}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/add_icon_small.png" />" alt="" /> Register</a>
 										</csmauthz:accesscontrol>
 									</c:when>
-									<c:otherwise>
-										Study is in '${companion.companionStudyStatus.code }' status.
-									</c:otherwise>
+									<c:otherwise></c:otherwise>
 									</c:choose>
 								</c:otherwise>
 							</c:choose>
