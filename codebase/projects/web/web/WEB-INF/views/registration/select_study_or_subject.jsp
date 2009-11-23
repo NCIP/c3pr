@@ -60,15 +60,6 @@
 				}
 				
 		</style>
-		
-            <!--[if IE]>
-			<style>
-			.fifthlevelTab img, .current img {
-				vertical-align:middle;
-			}
-			</style>
-<![endif]-->
-
     </head>
     <body>
     	<div id="topLevelErrorDisplay" class="errors" style="display: none;">

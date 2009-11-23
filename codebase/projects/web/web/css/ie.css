@@ -20,3 +20,6 @@ button.omnipotent-button.small {
 #main {
 	padding:5px 10px 20px;
 }
+.fifthlevelTab img, .fifthlevelTab-current img {
+	vertical-align:middle;
+}
