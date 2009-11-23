@@ -37,6 +37,10 @@
 								<div class="value">${command.nciIdentifier}</div>
 							</div>
 							<div class="row">
+								<div class="label"><fmt:message key="c3pr.common.organization"/>:</div>
+								<div class="value">${command.healthcareSite.name} (${command.healthcareSite.primaryIdentifier})</div>
+							</div>
+							<div class="row">
 								<div class="label"><fmt:message key="c3pr.common.email"/>:</div>
 								<div class="value">${command.email}</div>
 							</div>
