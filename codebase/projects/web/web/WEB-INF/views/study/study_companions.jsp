@@ -38,8 +38,7 @@
 		    function(inputElement, selectedElement, selectedChoice) {
 				hiddenField=inputElement.id.split("-")[0]+"-hidden";
 				$(hiddenField).value=selectedChoice.id;
-				companionStatus=inputElement.id.split("-")[0]+"-companionStudyStatus";
-				$(companionStatus).innerHTML=selectedChoice.coordinatingCenterStudyStatus.displayName;
+				
 			}
 	}
 	var contentWin;
