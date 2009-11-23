@@ -38,7 +38,7 @@ public class HealthcareSiteInvestigator extends AbstractMutableDeletableDomainOb
     private Investigator investigator;
 
     /** The status code. */
-    private InvestigatorStatusCodeEnum statusCode;
+    private InvestigatorStatusCodeEnum statusCode = InvestigatorStatusCodeEnum.AC;
 
     /** The status date. */
     private Date statusDate;
