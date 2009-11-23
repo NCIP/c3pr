@@ -89,7 +89,6 @@
 						<td class="alt">${empty companion.companionRegistrationUrl ?"Not Started": (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</td>
 						<td class="alt">
 						<c:if test="${companion.registrationStatus != 'Enrolled'}">
-							
 							<c:choose>
 								<c:when test="${not empty companion.companionRegistrationUrl}">
 									<csmauthz:accesscontrol domainObject="${command.studySubject}"
@@ -104,7 +103,7 @@
 								</c:when>
 								<c:otherwise>
 									<c:choose>
-									<c:when test="${companion.companionStudyStatus.displayName == 'OPEN'}">
+									<c:when test="${companion.companionStudyStatus == 'OPEN'}">
 										<csmauthz:accesscontrol domainObject="${command.studySubject}"
 											hasPrivileges="UPDATE"
 											authorizationCheckName="domainObjectAuthorizationCheck">
