@@ -17,7 +17,7 @@ import org.springframework.context.MessageSource;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 import com.semanticbits.coppasimulator.util.CoppaPAObjectFactory;
 
-import edu.duke.cabig.c3pr.constants.CoppaStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.RemoteSystemStatusCodeEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -286,7 +286,7 @@ public class PersonOrganizationResolverUtils {
 			//set values from CoppaOrganization
 			remoteHealthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
 			remoteHealthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
-			remoteHealthcareSite.setCoppaStatusCode(CoppaStatusCodeEnum.getByCode(coppaOrganization.getStatusCode().getCode()));
+			remoteHealthcareSite.setRemoteSystemStatusCode(RemoteSystemStatusCodeEnum.getByCode(coppaOrganization.getStatusCode().getCode()));
 			
 			Address address = getAddressFromCoppaOrganization(coppaOrganization);
 			remoteHealthcareSite.setAddress(address);
