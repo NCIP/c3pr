@@ -181,9 +181,9 @@
         <field name="externalId" type="string">
             <bind-xml name="externalId" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="coppaStatusCode" type="string"
+        <field name="remoteSystemStatusCode" type="string"
                handler="edu.duke.cabig.c3pr.xml.CoppaStatusFieldHandler">
-            <bind-xml name="coppaStatusCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="remoteSystemStatusCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
    </class>
 
