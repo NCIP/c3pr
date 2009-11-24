@@ -376,13 +376,32 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     public void testCurrentScheduledEpoch() throws Exception {
         StudySubject studySubject = new StudySubject();
+        
+        Epoch epoch1 = new Epoch();
+        epoch1.setEpochOrder(1);
+        
         ScheduledEpoch scheduledEpoch1 = new ScheduledEpoch();
         scheduledEpoch1.setStartDate((new GregorianCalendar(1990, 1, 2)).getTime());
-        ScheduledEpoch scheduledEpoch2 = new ScheduledEpoch();
+        scheduledEpoch1.setEpoch(epoch1);
         studySubject.addScheduledEpoch(scheduledEpoch1);
+        
+        
+        Epoch epoch2 = new Epoch();
+        epoch2.setEpochOrder(2);
+        ScheduledEpoch scheduledEpoch2 = new ScheduledEpoch();
+        scheduledEpoch2.setEpoch(epoch2);
+        
         studySubject.addScheduledEpoch(scheduledEpoch2);
         assertEquals("current epoch is wrong", studySubject.getScheduledEpoch(),
                         scheduledEpoch2);
+    }
+    
+    
+    public void testGetScheduledEpoch() throws Exception {
+        StudySubject studySubject = studySubjectDao.getById(1000);
+        ScheduledEpoch scheduledEpoch = scheduledEpochDao.getById(1001);
+        assertEquals("current epoch is wrong", studySubject.getScheduledEpoch(),
+        		scheduledEpoch);
     }
 
     /**
