@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -19,6 +21,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.semanticbits.coppa.domain.annotations.RemoteProperty;
+
+import edu.duke.cabig.c3pr.constants.StatusType;
 
 /**
  * The Class ResearchStaff.
@@ -40,7 +44,10 @@ public abstract class ResearchStaff extends User {
     /** The healthcare site. */
     private HealthcareSite healthcareSite;
     
-    /** The user based recipient. */
+    /** The status code. */
+    private StatusType statusCode = StatusType.AC;
+    
+	/** The user based recipient. */
     private List<UserBasedRecipient> userBasedRecipient;
     
     /** The external research staff. */
@@ -228,6 +235,15 @@ public abstract class ResearchStaff extends User {
 	 */
 	public void setUserBasedRecipient(List<UserBasedRecipient> userBasedRecipient) {
 		this.userBasedRecipient = userBasedRecipient;
+	}
+	
+	 @Enumerated(EnumType.STRING)
+	    public StatusType getStatusCode() {
+			return statusCode;
+	}
+
+	public void setStatusCode(StatusType statusCode) {
+		this.statusCode = statusCode;
 	}
 	
 }
