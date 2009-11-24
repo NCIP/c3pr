@@ -10,7 +10,7 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
  * 
  * @author Vinay Gangoli
  */
-public enum CoppaStatusCodeEnum implements CodedEnum<String> {
+public enum RemoteSystemStatusCodeEnum implements CodedEnum<String> {
     
     /** The PENDING. */
     PENDING("Pending"), 
@@ -32,7 +32,7 @@ public enum CoppaStatusCodeEnum implements CodedEnum<String> {
      * 
      * @param code the code
      */
-    private CoppaStatusCodeEnum(String code) {
+    private RemoteSystemStatusCodeEnum(String code) {
         this.code = code;
         register(this);
     }
@@ -67,7 +67,7 @@ public enum CoppaStatusCodeEnum implements CodedEnum<String> {
      * 
      * @return the by code
      */
-    public static CoppaStatusCodeEnum getByCode(String code) {
-        return getByClassAndCode(CoppaStatusCodeEnum.class, code);
+    public static RemoteSystemStatusCodeEnum getByCode(String code) {
+        return getByClassAndCode(RemoteSystemStatusCodeEnum.class, code);
     }
 }
