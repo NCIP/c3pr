@@ -77,17 +77,23 @@ public class ScheduledEpochTest extends AbstractTestCase {
 	 */
 	public void testCompareTo(){
 		ScheduledEpoch scheduledEpoch1= new ScheduledEpoch();
+		Epoch epoch1 = new Epoch();
+		epoch1.setEpochOrder(1);
+		scheduledEpoch1.setEpoch(epoch1);
 		scheduledEpoch1.setStartDate(new Date());
 		scheduledEpoch1.setId(1);
 		ScheduledEpoch scheduledEpoch2= new ScheduledEpoch();
+		Epoch epoch2 = new Epoch();
+		epoch2.setEpochOrder(2);
+		scheduledEpoch2.setEpoch(epoch2);
 		scheduledEpoch2.setStartDate((new GregorianCalendar(1990, 1, 2)).getTime());
 		scheduledEpoch2.setId(2);
-		assertEquals(1, scheduledEpoch1.compareTo(scheduledEpoch2));
+		assertEquals(-1, scheduledEpoch1.compareTo(scheduledEpoch2));
 		List<ScheduledEpoch> schList= new ArrayList<ScheduledEpoch>();
 		schList.add(scheduledEpoch1);
 		schList.add(scheduledEpoch2);
 		Collections.sort(schList);
-		assertEquals(2, schList.get(0).getId().intValue());
+		assertEquals(1, schList.get(0).getId().intValue());
 	}
 	
 	/**
