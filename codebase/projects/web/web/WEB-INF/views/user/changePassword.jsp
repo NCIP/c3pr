@@ -1,6 +1,4 @@
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+ <%@ include file="taglibs.jsp"%>
 
 <html>
 <head>
@@ -30,21 +28,21 @@
       <form:form action="${action}">
 	<p class="errors">${change_pwd_error.message}</p>
 	<div class="row">
-	<div class="label">Username &nbsp;&nbsp;</div>
+	<div class="label"><tags:requiredIndicator /><spring:message code="changepassword.username"/></div>
 	<div class="value">
-	  <form:input path="userName"/>
+	  <form:input path="userName" cssClass="required validate-notEmpty" autocomplete="off"/>
 	</div>
 	</div>
 	<div class="row">
-	  <div class="label">New Password &nbsp;&nbsp;</div>
+	  <div class="label"><tags:requiredIndicator /><spring:message code="changepassword.password"/></div>
 	  <div class="value">
-	    <form:password path="password"/>
+	    <form:password path="password" cssClass="required validate-notEmpty"autocomplete="off"/><br> <font color="red" style="font-style: italic;"><spring:message code="changepassword.password.requirement"/></font>
 	  </div>
 	</div>
 	<div class="row">
-	  <div class="label">Confirm Password &nbsp;&nbsp;</div>
+	  <div class="label"><tags:requiredIndicator /><spring:message code="changepassword.password.confirm"/></div>
 	  <div class="value">
-	    <form:password path="passwordConfirm"/>
+	    <form:password path="passwordConfirm" cssClass="required validate-notEmpty" autocomplete="off"/>
 	  </div>
 	</div>
 	<div class="row" align="center">
