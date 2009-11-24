@@ -10,7 +10,7 @@ import com.semanticbits.coppa.domain.annotations.RemoteEntity;
 import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 import com.semanticbits.coppa.domain.annotations.RemoteUniqueId;
 
-import edu.duke.cabig.c3pr.constants.CoppaStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.RemoteSystemStatusCodeEnum;
 import edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver;
 
 /**
@@ -24,7 +24,7 @@ public class RemoteHealthcareSite extends HealthcareSite {
 	
 	private String externalId;
 	
-	private CoppaStatusCodeEnum coppaStatusCode;
+	private RemoteSystemStatusCodeEnum remoteSystemStatusCode;
 	
 	@RemoteUniqueId
 	@RemoteProperty
@@ -41,15 +41,16 @@ public class RemoteHealthcareSite extends HealthcareSite {
 		return externalId;
         //return super.getNciInstituteCode();
     }
-	
+
 	@RemoteProperty
 	@Enumerated(EnumType.STRING)
-	public CoppaStatusCodeEnum getCoppaStatusCode() {
-		return coppaStatusCode;
+	public RemoteSystemStatusCodeEnum getRemoteSystemStatusCode() {
+		return remoteSystemStatusCode;
 	}
 
-	public void setCoppaStatusCode(CoppaStatusCodeEnum coppaStatusCode) {
-		this.coppaStatusCode = coppaStatusCode;
+	public void setRemoteSystemStatusCode(
+			RemoteSystemStatusCodeEnum remoteSystemStatusCode) {
+		this.remoteSystemStatusCode = remoteSystemStatusCode;
 	}
 
 }
