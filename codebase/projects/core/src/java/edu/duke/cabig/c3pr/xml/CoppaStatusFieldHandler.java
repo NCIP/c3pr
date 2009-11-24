@@ -3,7 +3,7 @@ package edu.duke.cabig.c3pr.xml;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
-import edu.duke.cabig.c3pr.constants.CoppaStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.RemoteSystemStatusCodeEnum;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
@@ -15,14 +15,14 @@ public class CoppaStatusFieldHandler implements FieldHandler {
 
     public Object getValue(Object object) throws IllegalStateException {
         RemoteHealthcareSite remoteHealthcareSite = (RemoteHealthcareSite) object;
-        return remoteHealthcareSite.getCoppaStatusCode()==null?null:remoteHealthcareSite.getCoppaStatusCode().toString();
+        return remoteHealthcareSite.getRemoteSystemStatusCode()==null?null:remoteHealthcareSite.getRemoteSystemStatusCode().toString();
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException,
                     IllegalArgumentException {
     	if(StringUtils.getBlankIfNull((String)value).equals("")) return;
     	RemoteHealthcareSite remoteHealthcareSite = (RemoteHealthcareSite) object;
-    	remoteHealthcareSite.setCoppaStatusCode(CoppaStatusCodeEnum.valueOf((String) value));
+    	remoteHealthcareSite.setRemoteSystemStatusCode(RemoteSystemStatusCodeEnum.valueOf((String) value));
 
     }
 
