@@ -131,6 +131,16 @@ public class StudySubject extends
 
 	private StudySite studySite;
 	
+	private String backDatedReasonText;
+	
+	public String getBackDatedReasonText() {
+		return backDatedReasonText;
+	}
+
+	public void setBackDatedReasonText(String backDatedReasonText) {
+		this.backDatedReasonText = backDatedReasonText;
+	}
+
 	private Logger log = Logger.getLogger(StudySubject.class);
 	/**
 	 * Instantiates a new study subject.
