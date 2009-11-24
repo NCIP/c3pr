@@ -39,7 +39,32 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 public class ScheduledEpoch extends AbstractMutableDeletableDomainObject implements
                 Comparable<ScheduledEpoch> {
 
-    /** The epoch. */
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((epoch == null) ? 0 : epoch.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ScheduledEpoch other = (ScheduledEpoch) obj;
+		if (epoch == null) {
+			if (other.epoch != null)
+				return false;
+		} else if (!epoch.equals(other.epoch))
+			return false;
+		return true;
+	}
+
+	/** The epoch. */
     private Epoch epoch;
 
     /** The start date. */
@@ -268,7 +293,7 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(ScheduledEpoch scheduledEpoch) {
-        return this.startDate.compareTo(scheduledEpoch.getStartDate());
+        return this.getEpoch().getEpochOrder().compareTo(scheduledEpoch.getEpoch().getEpochOrder());
     }
 
     /**
