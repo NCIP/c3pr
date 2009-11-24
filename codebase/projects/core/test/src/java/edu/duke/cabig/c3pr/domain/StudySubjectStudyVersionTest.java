@@ -18,9 +18,15 @@ public class StudySubjectStudyVersionTest extends AbstractTestCase {
 	
 	public void testGetCurrentScheduledEpoch() throws Exception{
 		ScheduledEpoch scheduledEpoch1= new ScheduledEpoch();
+		Epoch epoch1 = new Epoch();
+		epoch1.setEpochOrder(3);
+		scheduledEpoch1.setEpoch(epoch1);
 		scheduledEpoch1.setStartDate(new Date());
 		scheduledEpoch1.setId(1);
 		ScheduledEpoch scheduledEpoch2= new ScheduledEpoch();
+		Epoch epoch2 = new Epoch();
+		epoch2.setEpochOrder(1);
+		scheduledEpoch2.setEpoch(epoch2);
 		scheduledEpoch2.setStartDate((new GregorianCalendar(1990, 1, 2)).getTime());
 		scheduledEpoch2.setId(2);
 		studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch1);
