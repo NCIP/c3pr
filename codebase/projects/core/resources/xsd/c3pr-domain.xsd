@@ -171,7 +171,7 @@
       <xs:extension base="HealthcareSiteType">
         <xs:sequence>
           <xs:element minOccurs="1" maxOccurs="1" name="externalId" type="xs:string" />
-          <xs:element minOccurs="0" maxOccurs="1" name="coppaStatusCode" type="CoppaStatus" />
+          <xs:element minOccurs="0" maxOccurs="1" name="remoteSystemStatusCode" type="CoppaStatus" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
