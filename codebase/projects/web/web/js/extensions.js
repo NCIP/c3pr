@@ -142,6 +142,10 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	         return;
 	       case Event.KEY_LEFT:
 	       case Event.KEY_RIGHT:
+	       case 35:
+	       case 36:
+	       case 224:
+	       case 17:
 	         return;
 	       case Event.KEY_UP:
 	         this.markPrevious();
@@ -177,6 +181,10 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	         return;
 	       case Event.KEY_LEFT:
 	       case Event.KEY_RIGHT:
+	       case 35:
+	       case 36:
+	       case 224:
+	       case 17:
 	         return;
 	       case Event.KEY_UP:
 	         this.markPrevious();
