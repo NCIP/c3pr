@@ -132,8 +132,8 @@
     <body>
     </div>
 </div>
-<%--<img id="login-logo" src="../templates/mocha/images/login-logo.png" alt="C3PR - Cancer Clinical Central Participant Registry" />--%>
-<img id="login-logo" src="../images/C3PO-login-logo.png" alt="C3P0 - Human-Cyborg Relations" />
+<img id="login-logo" src="../templates/mocha/images/login-logo.png" alt="C3PR - Cancer Clinical Central Participant Registry" />
+<%--<img id="login-logo" src="../images/C3PO-login-logo.png" alt="C3P0 - Human-Cyborg Relations" />--%>
 <div id="login-form">
     <form method="POST" id="loginForm" action="<c:url value="/j_acegi_security_check"/>">
         <div class="login-header">
