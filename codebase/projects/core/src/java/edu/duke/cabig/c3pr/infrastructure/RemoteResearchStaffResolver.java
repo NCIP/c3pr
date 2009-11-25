@@ -216,38 +216,64 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 			String sRolesXml = personOrganizationResolverUtils.broadcastClinicalResearchStaffGetByPlayerIds(personIdXmlList);
 			List<String> sRoles = XMLUtils.getObjectsFromCoppaResponse(sRolesXml);
 			
-			//Build a map with personId as key and sRole as value
-			Map<String, ClinicalResearchStaff> sRoleMap = new HashMap<String, ClinicalResearchStaff>();
+			//Build a map with personId as key and List of sRole as value
+			Map<String, List<ClinicalResearchStaff>> sRoleMap = new HashMap<String, List<ClinicalResearchStaff>>();
 			if(sRoles != null && sRoles.size() > 0){
 				ClinicalResearchStaff crs = null;
 				for(String sRole: sRoles){
 					crs = CoppaObjectFactory.getCoppaClinicalResearchStaff(sRole);
 					if(crs != null){
-						sRoleMap.put(crs.getPlayerIdentifier().getExtension(), crs);
+						List<ClinicalResearchStaff> crsList = null;
+						if(sRoleMap.containsKey(crs.getPlayerIdentifier().getExtension())){
+							crsList  = sRoleMap.get(crs.getPlayerIdentifier().getExtension());
+							crsList.add(crs);
+						} else {
+							crsList = new ArrayList<ClinicalResearchStaff>();
+							crsList.add(crs);
+							sRoleMap.put(crs.getPlayerIdentifier().getExtension(), crsList);
+						}
 					}
 				}
 			}
 			
 			//Iterate over the person list and build the investigators; Get Organizations only if they have roles in the sRolesmap
 			Person coppaPerson = null;
+			List<Integer> personsToBeDeletedList = new ArrayList<Integer>();
 			List<gov.nih.nci.coppa.po.Organization>  coppaOrganizationList;
 			for(int index = 0; index < coppaPersonsList.size(); index++){
-				coppaOrganizationList = null;
+				coppaOrganizationList = new ArrayList<gov.nih.nci.coppa.po.Organization>();
 				coppaPerson = coppaPersonsList.get(index);
 				//Only if the person has a HealthcareProvider role do we fetch the associated Organization.
 				if(sRoleMap.containsKey(coppaPerson.getIdentifier().getExtension())){
-					ClinicalResearchStaff crs = sRoleMap.get(coppaPerson.getIdentifier().getExtension());
-					String orgIiXml = CoppaObjectFactory.getCoppaIIXml(crs.getScoperIdentifier());
-	
-					//Coppa-call for Organization search
-					String orgResultXml = personOrganizationResolverUtils.broadcastOrganizationGetById(orgIiXml);
-					List<String> orgResults = XMLUtils.getObjectsFromCoppaResponse(orgResultXml);
-					if (orgResults.size() > 0) {
-						coppaOrganizationList = new ArrayList<gov.nih.nci.coppa.po.Organization>();
-						coppaOrganizationList.add(CoppaObjectFactory.getCoppaOrganization(orgResults.get(0)));
+					List<ClinicalResearchStaff> crsList = sRoleMap.get(coppaPerson.getIdentifier().getExtension());
+					for(ClinicalResearchStaff crs : crsList){
+						String orgIiXml = CoppaObjectFactory.getCoppaIIXml(crs.getScoperIdentifier());
+						
+						//Coppa-call for Organization getById
+						String orgResultXml = personOrganizationResolverUtils.broadcastOrganizationGetById(orgIiXml);
+						List<String> orgResults = XMLUtils.getObjectsFromCoppaResponse(orgResultXml);
+						if (orgResults.size() > 0) {
+							coppaOrganizationList.add(CoppaObjectFactory.getCoppaOrganization(orgResults.get(0)));
+						}
 					}
-				} 
-				organizationsMap.put(coppaPerson.getIdentifier().getExtension(), coppaOrganizationList);
+					organizationsMap.put(coppaPerson.getIdentifier().getExtension(), coppaOrganizationList);
+				} else {
+					//Remove non-staff from persons list.
+					personsToBeDeletedList.add(index);
+				}
+			}
+			
+			//Create a duplicatePerson list so that we can remove the persons who dont have structuralRoles from 
+			//the orignal list that was passed in.
+			List<Person> duplicateCoppaPersonsList = new ArrayList<Person>();
+			for(int index = 0; index < coppaPersonsList.size(); index++){
+				duplicateCoppaPersonsList.add(coppaPersonsList.get(index));
+			}
+			coppaPersonsList.clear();
+			for(int i = 0; i < duplicateCoppaPersonsList.size(); i++){
+				if(!personsToBeDeletedList.contains(new Integer(i))){
+					coppaPersonsList.add(duplicateCoppaPersonsList.get(i));
+				}
 			}
 		} catch (C3PRCodedException e) {
 			log.error(e.getMessage());

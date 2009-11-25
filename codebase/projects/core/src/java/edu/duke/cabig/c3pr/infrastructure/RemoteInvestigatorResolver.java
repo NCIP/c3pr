@@ -321,37 +321,62 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			List<String> sRoles = XMLUtils.getObjectsFromCoppaResponse(sRolesXml);
 			
 			//Build a map with personId as key and sRole as value
-			Map<String, HealthCareProvider> sRoleMap = new HashMap<String, HealthCareProvider>();
+			Map<String, List<HealthCareProvider>> sRoleMap = new HashMap<String, List<HealthCareProvider>>();
 			if(sRoles != null && sRoles.size() > 0){
 				HealthCareProvider hcp = null;
 				for(String sRole: sRoles){
 					hcp = CoppaObjectFactory.getCoppaHealthCareProvider(sRole);
 					if(hcp != null){
-						sRoleMap.put(hcp.getPlayerIdentifier().getExtension(), hcp);
+						List<HealthCareProvider> hcpList = null;
+						if(sRoleMap.containsKey(hcp.getPlayerIdentifier().getExtension())){
+							hcpList  = sRoleMap.get(hcp.getPlayerIdentifier().getExtension());
+							hcpList.add(hcp);
+						} else {
+							hcpList = new ArrayList<HealthCareProvider>();
+							hcpList.add(hcp);
+							sRoleMap.put(hcp.getPlayerIdentifier().getExtension(), hcpList);
+						}
 					}
 				}
 			}
 			
 			//Iterate over the person list and build the investigators; Get Organizations only if they have roles in the sRolesmap
 			Person coppaPerson = null;
+			List<Integer> personsToBeDeletedList = new ArrayList<Integer>();
 			List<gov.nih.nci.coppa.po.Organization>  coppaOrganizationList;
 			for(int index = 0; index < coppaPersonsList.size(); index++){
-				coppaOrganizationList = null;
+				coppaOrganizationList = new ArrayList<gov.nih.nci.coppa.po.Organization>();
 				coppaPerson = coppaPersonsList.get(index);
 				//Only if the person has a HealthcareProvider role do we fetch the associated Organization.
 				if(sRoleMap.containsKey(coppaPerson.getIdentifier().getExtension())){
-					HealthCareProvider hcp = sRoleMap.get(coppaPerson.getIdentifier().getExtension());
-					String orgIiXml = CoppaObjectFactory.getCoppaIIXml(hcp.getScoperIdentifier());
-	
-					//Coppa-call for Organization search
-					String orgResultXml = personOrganizationResolverUtils.broadcastOrganizationGetById(orgIiXml);
-					List<String> orgResults = XMLUtils.getObjectsFromCoppaResponse(orgResultXml);
-					if (orgResults.size() > 0) {
-						coppaOrganizationList = new ArrayList<gov.nih.nci.coppa.po.Organization>();
-						coppaOrganizationList.add(CoppaObjectFactory.getCoppaOrganization(orgResults.get(0)));
+					List<HealthCareProvider> hcpList = sRoleMap.get(coppaPerson.getIdentifier().getExtension());
+					for(HealthCareProvider hcp : hcpList){
+						String orgIiXml = CoppaObjectFactory.getCoppaIIXml(hcp.getScoperIdentifier());
+						
+						//Coppa-call for Organization search
+						String orgResultXml = personOrganizationResolverUtils.broadcastOrganizationGetById(orgIiXml);
+						List<String> orgResults = XMLUtils.getObjectsFromCoppaResponse(orgResultXml);
+						if (orgResults.size() > 0) {
+							coppaOrganizationList.add(CoppaObjectFactory.getCoppaOrganization(orgResults.get(0)));
+						}
 					}
-				} 
-				organizationsMap.put(coppaPerson.getIdentifier().getExtension(), coppaOrganizationList);
+					organizationsMap.put(coppaPerson.getIdentifier().getExtension(), coppaOrganizationList);
+				} else {
+					//Remove non-investigator from persons list.
+					personsToBeDeletedList.add(index);
+				}
+			}
+			//Create a duplicatePerson list so that we can remove the persons who dont have structuralRoles from 
+			//the orignal list that was passed in.
+			List<Person> duplicateCoppaPersonsList = new ArrayList<Person>();
+			for(int index = 0; index < coppaPersonsList.size(); index++){
+				duplicateCoppaPersonsList.add(coppaPersonsList.get(index));
+			}
+			coppaPersonsList.clear();
+			for(int i = 0; i < duplicateCoppaPersonsList.size(); i++){
+				if(!personsToBeDeletedList.contains(new Integer(i))){
+					coppaPersonsList.add(duplicateCoppaPersonsList.get(i));
+				}
 			}
 		} catch (C3PRCodedException e) {
 			log.error(e.getMessage());
