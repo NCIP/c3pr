@@ -80,7 +80,8 @@ public class CreateStudyReportFacade extends BaseStudyAjaxFacade {
             while (iter.hasNext()) {
                 studySub = new StudySubject();
                 studySite = new StudySite();
-                studySite.setStudy((Study) (iter.next()));
+                Study iterStudy = (Study) iter.next();
+                iterStudy.addStudySite(studySite);
                 studySub.setStudySite(studySite);
                 studySubjectResults.add(studySub);
             }
