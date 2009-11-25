@@ -8,9 +8,9 @@
 <script>
 function manageField(box){
 	if(box.value=='' && box.selectedIndex!=0){
-		new Effect.Appear('otherDisease');
+		new Effect.Appear('otherDiseaseDiv');
 	}else{
-		$('otherDisease').style.display="none";
+		$('otherDiseaseDiv').style.display="none";
 	}
 }
 
@@ -432,7 +432,7 @@ function changeStudyVersion(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 			<div class="value">
-				<tags:dateInput path="studySubject.startDate" validateDate="true" cssClass='validate-notEmpty'/>
+				<tags:dateInput path="studySubject.startDate" validateDate="true" cssClass='required validate-notEmpty'/>
 			</div>
 		</div>
 	</c:if>
@@ -446,7 +446,7 @@ function changeStudyVersion(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 			<div class="value">
-				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='validate-notEmpty'/>
+				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty'/>
 			</div>
 		</div>
 	</c:if>
@@ -490,16 +490,16 @@ function changeStudyVersion(){
 			<c:if test="${empty command.studySubject.diseaseHistory.otherPrimaryDiseaseCode}">
 				<c:set var="diseaseStyle" value="display:none;"></c:set>
 			</c:if>
-			<span id="otherDisease" style="${diseaseStyle}">
+			<div id="otherDiseaseDiv" style="${diseaseStyle}" align="left">
 				<form:input id="otherDisease" path="studySubject.diseaseHistory.otherPrimaryDiseaseCode" />
 				<tags:hoverHint keyProp="studySubject.otherDisease"/>
-			</span>
+			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="label"><fmt:message key="registration.primaryDiseaseSite"/></div>
 		<div class="value">
-			<form:input id="diseaseSite-input" path="studySubject.diseaseHistory.otherPrimaryDiseaseSiteCode" cssClass="autocomplete"/>
+			<form:input id="diseaseSite-input" path="studySubject.diseaseHistory.otherPrimaryDiseaseSiteCode" size="50" cssClass="autocomplete"/>
 			<form:hidden id="diseaseSite-hidden" path="studySubject.diseaseHistory.icd9DiseaseSite"/>
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete" style="display: none;"></div>
