@@ -23,3 +23,6 @@ button.omnipotent-button.small {
 .fifthlevelTab img, .fifthlevelTab-current img {
 	vertical-align:middle;
 }
+#changeEpoch button.omnipotent-button {
+	margin: 0 -15px;
+}
