@@ -566,7 +566,7 @@
 		                    <td class="alt">
 		                        <c:choose>
 		                            <c:when test="${(companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'OPEN') || (companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'READY_TO_OPEN')}">
-		                                <tags:button id="manageCompanionStudy" type="button" color="blue" value="View"
+		                                <tags:button id="manageCompanionStudy" type="button" color="blue" value="manage"
 											onclick="javascript:document.location='viewStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
 		                            </c:when>
 		                            <c:otherwise>
