@@ -200,9 +200,6 @@
 	<div id="pendingParentStudy" style="display:none;">
 		<div id="flash-message" class="error"><img src="<tags:imageUrl name="error.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="study.parentStudy.status.pending"/></div>
 	</div>
-	<c:if test="${not empty studyMessage}">
-		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="${studyMessage}"/></div>
-	</c:if>
 	<div id="controlPanel">
 	<tags:controlPanel>
 		<c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
@@ -263,6 +260,9 @@
 		</c:if>
 	</tags:controlPanel>
 </div>
+<c:if test="${not empty studyMessage}">
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="${studyMessage}"/></div>
+	</c:if>
 <div id="flash-message-targetaccrual" style="display:none;">
 		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Target accrual has been updated.</div>
 	</div>
