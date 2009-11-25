@@ -182,7 +182,7 @@
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="study.shortTitle"/></div>
             <div class="value">
-            	<form:input path="study.shortTitleText" size="30" maxlength="30" cssClass="required validate-notEmpty" id="_shortTitle"/>
+            	<form:textarea path="study.shortTitleText" rows="2" cols="30" cssClass="required validate-notEmpty&&maxlength190" id="_shortTitle"/>
             	<tags:hoverHint keyProp="study.shortTitleText"/>
             </div>
         </div>
