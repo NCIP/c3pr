@@ -102,7 +102,7 @@ public class CreateStudyReportFacade extends BaseStudyAjaxFacade {
             }
 
             StudySite studySite = new StudySite();
-            studySite.setStudy(study);
+            study.addStudySite(studySite);
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
