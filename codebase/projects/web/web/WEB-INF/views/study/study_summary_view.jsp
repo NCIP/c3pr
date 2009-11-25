@@ -198,7 +198,7 @@
 		</c:if>
 	</c:forEach>
 	<div id="pendingParentStudy" style="display:none;">
-		<div id="flash-message" class="error"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="study.parentStudy.status.pending"/></div>
+		<div id="flash-message" class="error"><img src="<tags:imageUrl name="error.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="study.parentStudy.status.pending"/></div>
 	</div>
 	<c:if test="${not empty studyMessage}">
 		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="${studyMessage}"/></div>
