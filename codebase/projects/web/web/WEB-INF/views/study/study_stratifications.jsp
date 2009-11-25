@@ -210,7 +210,7 @@
 	<div>
 		<input type="hidden" id="_action" name="_action" value=""> 
 		<input type="hidden" id="_selectedEpoch" name="_selectedEpoch" value=""> 
-		<input	type="hidden" id="_selectedStratification" name="_selectedStratification" value=""> 
+		<input type="hidden" id="_selectedStratification" name="_selectedStratification" value=""> 
 		<input type="hidden" id="_selectedAnswer" name="_selectedAnswer" value="">
 		<input type="hidden" id="generateGroups" name="generateGroups" value="false"/>
 		<input type="hidden" id="epochId" name="epochId"/>
@@ -287,12 +287,7 @@
 								</td>
 								<td>
 									<table class="" id="table1" width="50%">
-										<tr>
-											<td>
-											<tags:button type="button" color="blue" icon="add" value="Add Answer" 
-													onclick="RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}));" size="small"/>
-											</td>
-										</tr>
+										
 										<c:forEach var="answer" varStatus="statusAns"
 											items="${command.study.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers}">
 											<c:if test="${epoch.stratificationIndicator == 'true' }">
@@ -312,7 +307,13 @@
 											</tr>
 											</c:if>
 										</c:forEach>
+										
+											
 									</table>
+									<span style="margin-left:2px">
+									<tags:button type="button" color="blue" icon="add" value="Add Answer" 
+													onclick="RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}));" size="small"/>
+											</span>
 								</td>
 							</tr>
                     		</table>											
@@ -333,7 +334,7 @@
 					<tags:button type="button" icon="edit" color="blue" value="Edit Stratification Criteria" onclick="editStratificationCriteria('${epochCount.index}','${isBookRandomized}', '${epoch.id}');" size="small"/>
 				</span>
 				<span id="stratumButton-${epoch.id}" <c:if test="${fn:length(epoch.stratificationCriteria) == 0}"> style = "display:none" </c:if> >
-					<tags:button type="submit" color="blue" value="Generate Stratum Groups" onclick="$('stratificationIndicator-${epochCount.index }').show();preProcessGenerateGroups(${epochCount.index}, ${epoch.id});" size="small"/>
+					<tags:button type="submit" color="blue" icon="check" value="Generate Stratum Groups" onclick="$('stratificationIndicator-${epochCount.index }').show();preProcessGenerateGroups(${epochCount.index}, ${epoch.id});" size="small"/>
 				</span>
 				<img id="stratificationIndicator-${epochCount.index }" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 			</div>
