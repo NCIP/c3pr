@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.iso._21090.DSETII;
 import org.iso._21090.ENXP;
 import org.iso._21090.EntityNamePartType;
 import org.iso._21090.II;
@@ -89,27 +90,43 @@ public class PersonOrganizationResolverUtils {
 	}
     
 	
-	public IdentifiedOrganization getIdentifiedOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization){
-		if(coppaOrganization != null){
-			//using coppa organization identier and previously obtained id of CTEP (hard coded in CoppaObjectFactory.getIIOfCTEP) get Identified organization 
-			IdentifiedOrganization identifiedOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganizationSearchCriteriaForCorrelation(coppaOrganization.getIdentifier());
-			String identifiedOrganizationXml = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganization);		
-			String resultXml = "";
-			try {
-				resultXml = broadcastIdentifiedOrganizationSearch(identifiedOrganizationXml);
-			} catch (C3PRCodedException e) {
-				log.error(e.getMessage());
+	/**
+	 * Gets the identifier organizations for organizations list.
+	 * 
+	 * @param coppaOrganizationsList the coppa organizations list
+	 * 
+	 * @return the identifier organizations for organizations list
+	 */
+	public Map<String, IdentifiedOrganization> getIdentifiedOrganizationsForOrganizationsList(List<gov.nih.nci.coppa.po.Organization> coppaOrganizationsList) {
+		Map<String, IdentifiedOrganization> identifiedOrganizationsMap = new HashMap<String, IdentifiedOrganization>();
+		
+		try {
+			//Build a list of orgId Xml
+			List<String> organizationIdXmlList = new ArrayList<String>();
+			DSETII dsetii = null;
+			for(gov.nih.nci.coppa.po.Organization coppaOrganization : coppaOrganizationsList){
+				dsetii = CoppaObjectFactory.getDSETIISearchCriteria(coppaOrganization.getIdentifier().getExtension());
+				organizationIdXmlList.add(CoppaObjectFactory.getCoppaIIXml(dsetii));
 			}
 			
-			List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
-			if (results.size() > 0) {
-				identifiedOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganization(results.get(0));
-				return identifiedOrganization;
-			} else {
-				return null;
+			//Coppa-call for Identifier Organizations getByIds
+			String identifiedOrganizationsXml = broadcastIdentifiedOrganizationGetByPlayerIds(organizationIdXmlList);
+			List<String> identifiedOrganizations = XMLUtils.getObjectsFromCoppaResponse(identifiedOrganizationsXml);
+			
+			//Build a map with orgId as key and identifiedOrganization as value. Only get IdOrgs that have CTEP ID
+			if(identifiedOrganizations != null && identifiedOrganizations.size() > 0){
+				IdentifiedOrganization identifiedOrganization = null;
+				for(String identifiedOrganizationString : identifiedOrganizations){
+					identifiedOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganizationString);
+					if(identifiedOrganization != null && identifiedOrganization.getAssignedId().getIdentifierName().equals(CTEP_ID)){
+						identifiedOrganizationsMap.put(identifiedOrganization.getPlayerIdentifier().getExtension(), identifiedOrganization);
+					}
+				}
 			}
-		}
-		return null;
+    	} catch(Exception e){
+    		log.error(e.getMessage());
+    	}
+    	return identifiedOrganizationsMap;
 	}
 	
 	
