@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.infrastructure;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -177,7 +176,8 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		}
 
 		//get the map of identifiedOrgs for every org.
-		Map<String, IdentifiedOrganization> identifierOrganizationsMap = getIdentifiedOrganizationsForOrganizationsList(coppaOrganizations);
+		Map<String, IdentifiedOrganization> identifierOrganizationsMap = 
+							personOrganizationResolverUtils.getIdentifiedOrganizationsForOrganizationsList(coppaOrganizations);
 		
 		RemoteHealthcareSite remoteHealthcareSite;
 		List<Object> remoteHealthcareSites = new ArrayList<Object>();
@@ -197,45 +197,6 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		return remoteHealthcareSites;
 	}
 	
-	
-	/**
-	 * Gets the identifier organizations for organizations list.
-	 * 
-	 * @param coppaOrganizationsList the coppa organizations list
-	 * 
-	 * @return the identifier organizations for organizations list
-	 */
-	private Map<String, IdentifiedOrganization> getIdentifiedOrganizationsForOrganizationsList(List<gov.nih.nci.coppa.po.Organization> coppaOrganizationsList) {
-		Map<String, IdentifiedOrganization> identifiedOrganizationsMap = new HashMap<String, IdentifiedOrganization>();
-		
-		try {
-			//Build a list of orgId Xml
-			List<String> organizationIdXmlList = new ArrayList<String>();
-			DSETII dsetii = null;
-			for(gov.nih.nci.coppa.po.Organization coppaOrganization : coppaOrganizationsList){
-				dsetii = CoppaObjectFactory.getDSETIISearchCriteria(coppaOrganization.getIdentifier().getExtension());
-				organizationIdXmlList.add(CoppaObjectFactory.getCoppaIIXml(dsetii));
-			}
-			
-			//Coppa-call for Identifier Organizations getByIds
-			String identifiedOrganizationsXml = personOrganizationResolverUtils.broadcastIdentifiedOrganizationGetByPlayerIds(organizationIdXmlList);
-			List<String> identifiedOrganizations = XMLUtils.getObjectsFromCoppaResponse(identifiedOrganizationsXml);
-			
-			//Build a map with orgId as key and identifiedOrganization as value. Only get IdOrgs that have CTEP ID
-			if(identifiedOrganizations != null && identifiedOrganizations.size() > 0){
-				IdentifiedOrganization identifiedOrganization = null;
-				for(String identifiedOrganizationString : identifiedOrganizations){
-					identifiedOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganizationString);
-					if(identifiedOrganization != null && identifiedOrganization.getAssignedId().getIdentifierName().equals(CTEP_ID)){
-						identifiedOrganizationsMap.put(identifiedOrganization.getPlayerIdentifier().getExtension(), identifiedOrganization);
-					}
-				}
-			}
-    	} catch(Exception e){
-    		log.error(e.getMessage());
-    	}
-    	return identifiedOrganizationsMap;
-	}
 
 
 	/**

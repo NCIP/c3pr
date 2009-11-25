@@ -62,8 +62,12 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			//Build HealthcareSite and HealthcareSiteInvestigator
 			RemoteHealthcareSite healthcareSite = null;
 			if(coppaOrganizationList != null && coppaOrganizationList.size()>0){
+				Map<String, IdentifiedOrganization> identifierOrganizationsMap = 
+					personOrganizationResolverUtils.getIdentifiedOrganizationsForOrganizationsList(coppaOrganizationList);
+	
+				IdentifiedOrganization identifiedOrganization = null;
 				for(gov.nih.nci.coppa.po.Organization coppaOrganization: coppaOrganizationList){
-					IdentifiedOrganization identifiedOrganization = personOrganizationResolverUtils.getIdentifiedOrganization(coppaOrganization);
+					identifiedOrganization = identifierOrganizationsMap.get(coppaOrganization.getIdentifier().getExtension());
 					if(identifiedOrganization != null){
 						healthcareSite = new RemoteHealthcareSite();
 						personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
@@ -78,6 +82,8 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 						healthcareSiteInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
 						
 						remoteInvestigator.getHealthcareSiteInvestigators().add(healthcareSiteInvestigator);
+					} else {
+						log.error("IdentifiedOrganization is null for Organization with coppaId: "+coppaOrganization.getIdentifier().getExtension());
 					}
 				}
 			}

@@ -376,8 +376,12 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 			//Build HealthcareSite
 			RemoteHealthcareSite healthcareSite = null;
 			if(coppaOrganizationList != null && coppaOrganizationList.size()>0){
+				Map<String, IdentifiedOrganization> identifierOrganizationsMap = 
+								personOrganizationResolverUtils.getIdentifiedOrganizationsForOrganizationsList(coppaOrganizationList);
+				
+				IdentifiedOrganization identifiedOrganization = null;
 				for(gov.nih.nci.coppa.po.Organization coppaOrganization: coppaOrganizationList){
-					IdentifiedOrganization identifiedOrganization = personOrganizationResolverUtils.getIdentifiedOrganization(coppaOrganization);
+					identifiedOrganization = identifierOrganizationsMap.get(coppaOrganization.getIdentifier().getExtension());
 					if(identifiedOrganization != null){
 						healthcareSite = new RemoteHealthcareSite();
 						personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite, identifiedOrganization.getAssignedId().getExtension());
