@@ -86,7 +86,7 @@ public class CreateReportFacade {
 
         Column columnParticipantPrimaryIdentifier = model.getColumnInstance();
         columnParticipantPrimaryIdentifier.setTitle("Subject Primary Identifier");
-        columnParticipantPrimaryIdentifier.setProperty("participant.primaryIdentifier");
+        columnParticipantPrimaryIdentifier.setProperty("participant.primaryIdentifier.value");
         model.addColumn(columnParticipantPrimaryIdentifier);
 
         Column columnSiteName = model.getColumnInstance();
@@ -170,8 +170,8 @@ public class CreateReportFacade {
         }
 
         StudySite studySite = new StudySite();
-        studySite.setStudy(study);
         studySite.setHealthcareSite(hcs);
+        study.addStudySite(studySite);
 
         Participant participant = new Participant();
         participant.setRaceCode(raceCode);
