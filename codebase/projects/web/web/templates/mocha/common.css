@@ -607,7 +607,8 @@ a#firstlevelnav_createReportController:active {
     position: relative;
     display: block;
     float: left;
-    background: url(../../images/C3PR_logo.png) no-repeat left;
+    /*background: url(../../images/C3PR_logo.png) no-repeat left;*/
+	background: url(../../images/C3PO-small-logo.png) no-repeat left;
     width: 230px;
     height: 100px;
     text-indent: -9999px;
