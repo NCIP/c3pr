@@ -59,13 +59,16 @@
             </div>
         </c:if>
         <div class="row">
-            <div class="label"><fmt:message key="registration.consentSignedDate"/>:</div>
-            <div class="value">${command.studySubject.informedConsentSignedDateStr }</div>
-        </div>
-        <div class="row">
-            <div class="label"><fmt:message key="registration.consentVersion"/>:</div>
-            <div class="value">${command.studySubject.informedConsentVersion}</div>
-        </div>
+					<div class="label"><b>Consents </b>:</div>
+					<div class="value">
+						<c:set var="size" value="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions)}"></c:set>
+						<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+							${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})
+							<c:if test="${size - status.index > 1}"><br></c:if>
+						</c:forEach>
+						
+					</div>
+			</div>
         <div class="row">
             <div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
             	<c:choose>
