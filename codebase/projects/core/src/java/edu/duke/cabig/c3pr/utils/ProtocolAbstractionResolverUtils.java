@@ -52,7 +52,7 @@ public class ProtocolAbstractionResolverUtils {
 		statusMap.put("In Review", CoordinatingCenterStudyStatus.PENDING);
 		statusMap.put("Disapproved", CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 		statusMap.put("Approved", CoordinatingCenterStudyStatus.PENDING);
-		statusMap.put("Active", CoordinatingCenterStudyStatus.OPEN);
+		statusMap.put("Active", CoordinatingCenterStudyStatus.PENDING);
 		statusMap.put("Closed to Accrual", CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
 		statusMap.put("Closed to Accrual and Intervention", CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 		statusMap.put("Temporarily Closed to Accrual", CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);

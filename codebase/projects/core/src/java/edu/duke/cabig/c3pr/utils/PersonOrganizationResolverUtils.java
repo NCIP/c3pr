@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import gov.nih.nci.coppa.po.ClinicalResearchStaff;
 import gov.nih.nci.coppa.po.IdentifiedOrganization;
 import gov.nih.nci.coppa.po.IdentifiedPerson;
 import gov.nih.nci.coppa.po.Person;
@@ -48,13 +49,14 @@ public class PersonOrganizationResolverUtils {
 	/** The log. */
     private static Log log = LogFactory.getLog(PersonOrganizationResolverUtils.class);
 	
-	public static final String CTEP_ROOT = "Cancer Therapy Evaluation Program Organization Identifier";
+	public static final String CTEP_ROOT = "2.16.840.1.113883.3.26.6.2";
 	public static final String CTEP_ID = "CTEP ID";
 	public static final String NCI_ID = "NCI Research Organization identifier";
 	public static final String NCI_ROOT = "2.16.840.1.113883.3.26.4.4.5";
 	
     
-	public IdentifiedPerson getIdentifiedPerson(II personIdentifier) {
+	public List<IdentifiedPerson> getIdentifiedPerson(II personIdentifier) {
+		List<IdentifiedPerson> identifiedPersonsList = new ArrayList<IdentifiedPerson>();
         IdentifiedPerson ip = CoppaObjectFactory.getCoppaIdentfiedPersonSearchCriteriaForCorrelation(personIdentifier);
         String ipPayload = CoppaObjectFactory.getCoppaIdentfiedPersonXml(ip);                
         
@@ -68,11 +70,21 @@ public class PersonOrganizationResolverUtils {
         IdentifiedPerson identifiedPerson = null;
         for(String identifiedPersonXml: identifiedPersons){
                 identifiedPerson = CoppaObjectFactory.getCoppaIdentfiedPerson(identifiedPersonXml);
+                identifiedPersonsList.add(identifiedPerson);
         }
-        return identifiedPerson;
+        return identifiedPersonsList;
 	}
-    
-	public IdentifiedPerson getIdentifiedPerson(IdentifiedPerson ip) {
+	
+	/**
+	 * Gets the identified person.
+	 * Returns a list of IdentifiedPersons.
+	 * 
+	 * @param ip the ip
+	 * 
+	 * @return the identified person
+	 */
+	public List<IdentifiedPerson> getIdentifiedPerson(IdentifiedPerson ip) {
+		List<IdentifiedPerson> identifiedPersonsList = new ArrayList<IdentifiedPerson>();
         String ipPayload = CoppaObjectFactory.getCoppaIdentfiedPersonXml(ip);              
         String result = "";
 		try {
@@ -85,11 +97,11 @@ public class PersonOrganizationResolverUtils {
         IdentifiedPerson identifiedPerson = null;
         for(String identifiedPersonXml: identifiedPersons){
                 identifiedPerson = CoppaObjectFactory.getCoppaIdentfiedPerson(identifiedPersonXml);
+                identifiedPersonsList.add(identifiedPerson);
         }
-        return identifiedPerson;
+        return identifiedPersonsList;
 	}
     
-	
 	/**
 	 * Gets the identifier organizations for organizations list.
 	 * 
@@ -229,6 +241,7 @@ public class PersonOrganizationResolverUtils {
 		return getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, true);
 	}
 	
+	
 	/**
 	 * Gets the nci ids for person list.
 	 * Returns a map with personID as key and associated NciId as value.
@@ -237,8 +250,8 @@ public class PersonOrganizationResolverUtils {
 	 * 
 	 * @return the nci ids for person list
 	 */
-	public Map<String, IdentifiedPerson> getIdentifiedPersonsForPersonList(List<Person> coppaPersonsList){
-    	Map<String, IdentifiedPerson> identifiedPersonMap = new HashMap<String, IdentifiedPerson>();
+	public Map<String, List<IdentifiedPerson>> getIdentifiedPersonsForPersonList(List<Person> coppaPersonsList){
+    	Map<String, List<IdentifiedPerson>> identifiedPersonMap = new HashMap<String, List<IdentifiedPerson>>();
 		
     	try {
 			//Build a list of personId Xml
@@ -256,7 +269,16 @@ public class PersonOrganizationResolverUtils {
 				for(String identifiedPersonString : identifiedPersons){
 					identifiedPerson = CoppaObjectFactory.getCoppaIdentfiedPerson(identifiedPersonString);
 					if(identifiedPerson != null){
-						identifiedPersonMap.put(identifiedPerson.getPlayerIdentifier().getExtension(), identifiedPerson);
+						//identifiedPersonMap.put(identifiedPerson.getPlayerIdentifier().getExtension(), identifiedPerson);
+						List<IdentifiedPerson> ipList = null;
+						if(identifiedPersonMap.containsKey(identifiedPerson.getPlayerIdentifier().getExtension())){
+							ipList  = identifiedPersonMap.get(identifiedPerson.getPlayerIdentifier().getExtension());
+							ipList.add(identifiedPerson);
+						} else {
+							ipList = new ArrayList<IdentifiedPerson>();
+							ipList.add(identifiedPerson);
+							identifiedPersonMap.put(identifiedPerson.getPlayerIdentifier().getExtension(), ipList);
+						}
 					}
 				}
 			}
