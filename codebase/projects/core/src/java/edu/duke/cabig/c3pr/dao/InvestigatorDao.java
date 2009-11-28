@@ -106,7 +106,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	remoteInvestigator.setAddress(investigator.getAddress());
     	remoteInvestigator.setContactMechanisms(investigator.getContactMechanisms());
     	remoteInvestigator.setFirstName(investigator.getFirstName());
-    	remoteInvestigator.setHealthcareSiteInvestigators(investigator.getHealthcareSiteInvestigators());
+    	remoteInvestigator.getHealthcareSiteInvestigators().addAll(investigator.getHealthcareSiteInvestigators());
     	remoteInvestigator.setLastName(investigator.getLastName());
     	remoteInvestigator.setNciIdentifier(investigator.getNciIdentifier());
     	return remoteInvestigator;
