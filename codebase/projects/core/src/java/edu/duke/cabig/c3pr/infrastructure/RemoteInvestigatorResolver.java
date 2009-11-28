@@ -38,6 +38,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
     /** The person resolver utils. */
     private PersonOrganizationResolverUtils personOrganizationResolverUtils;
     
+    public static final String CTEP_PERSON = "Cancer Therapy Evaluation Program Person Identifier";
     
 	/**
 	 * Populate remote investigator.
@@ -187,19 +188,22 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
                     String sRolesXml = personOrganizationResolverUtils.broadcastHealthcareProviderSearch(coppaHealthCareProviderXml);
 
                     List<String> sRoles = XMLUtils.getObjectsFromCoppaResponse(sRolesXml);
-                    for(String sRole: sRoles){
-                        HealthCareProvider hcp = CoppaObjectFactory.getCoppaHealthCareProvider(sRole);
+                    if(sRoles.size() > 0){
+                        HealthCareProvider hcp = CoppaObjectFactory.getCoppaHealthCareProvider(sRoles.get(0));
                         II pid = hcp.getPlayerIdentifier();    
                         String idXml = CoppaObjectFactory.getCoppaIIXml(pid);
                         //above player id is the Id of a Person ... now get the Person by Id
                         String personResultXml = personOrganizationResolverUtils.broadcastPersonGetById(idXml);
                         List<String> persons = XMLUtils.getObjectsFromCoppaResponse(personResultXml);  
-                        for(String personXml: persons){
-                            Person person = CoppaObjectFactory.getCoppaPerson(personXml);
-                            IdentifiedPerson identifiedPerson = personOrganizationResolverUtils.getIdentifiedPerson(person.getIdentifier());
+                        if(persons.size() > 0){
+                            Person person = CoppaObjectFactory.getCoppaPerson(persons.get(0));
+                            List<IdentifiedPerson> identifiedPersonsList = personOrganizationResolverUtils.getIdentifiedPerson(person.getIdentifier());
                             String nciIdentifier = null;
-                            if (identifiedPerson != null) {
-                                nciIdentifier = identifiedPerson.getAssignedId().getExtension();
+                            for(IdentifiedPerson identifiedPerson: identifiedPersonsList){
+                            	if (identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)) {
+                                    nciIdentifier = identifiedPerson.getAssignedId().getExtension();
+                                    break;
+                                }
                             }
                             tempRemoteInvestigator = populateRemoteInvestigator(person, nciIdentifier, coppaIdOrganization);
                             remoteInvestigatorList.add(tempRemoteInvestigator);
@@ -230,12 +234,12 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		if (remoteInvestigatorExample.getNciIdentifier() != null) {
              //get Identified Organization using the Identifier provided
              IdentifiedPerson identifiedPersonToSearch = CoppaObjectFactory.getCoppaIdentfiedPersonSearchCriteriaOnCTEPId(remoteInvestigatorExample.getNciIdentifier());
-             IdentifiedPerson identifiedPerson = personOrganizationResolverUtils.getIdentifiedPerson(identifiedPersonToSearch);
-             if (identifiedPerson == null) {
+             List<IdentifiedPerson> identifiedPersonsList = personOrganizationResolverUtils.getIdentifiedPerson(identifiedPersonToSearch);
+             if (identifiedPersonsList.size() == 0) {
                  return remoteInvestigatorList;
              }
-             //Build a search Person Xml using the player Id from the Identifier Person
-             II ii = identifiedPerson.getPlayerIdentifier();
+             //Build a search Person Xml using the player Id from ANY IdentifiedPerson in the IdentifiedPersonsList.
+             II ii = identifiedPersonsList.get(0).getPlayerIdentifier();
              String iiXml = CoppaObjectFactory.getCoppaIIXml(ii);
              try {
                  String resultXml = personOrganizationResolverUtils.broadcastPersonGetById(iiXml);
@@ -277,18 +281,20 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			}
 			//Fetch the associated Organizations
 			Map<String, List<gov.nih.nci.coppa.po.Organization>> organizationsMap = getOrganizationsForPersonsList(personList);
-        	Map<String, IdentifiedPerson> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(personList);
+        	Map<String, List<IdentifiedPerson>> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(personList);
         	remoteInvestigatorList = new ArrayList<Object>();
         	for(Person coppaPerson : personList){
-        		IdentifiedPerson identifiedPerson = nciIdsMap.get(coppaPerson.getIdentifier().getExtension());
+        		List<IdentifiedPerson> identifiedPersonList = nciIdsMap.get(coppaPerson.getIdentifier().getExtension());
         		String nciId = "";
-        		if(identifiedPerson != null){
-        			nciId = identifiedPerson.getAssignedId().getExtension();
-        			List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
-                	
-                	remoteInvestigator = populateRemoteInvestigator(coppaPerson, nciId, organizationsList);	
-                	remoteInvestigatorList.add(remoteInvestigator);
-        		}            	
+        		for(IdentifiedPerson identifiedPerson:identifiedPersonList){
+        			if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)){
+            			nciId = identifiedPerson.getAssignedId().getExtension();
+            			List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
+                    	
+                    	remoteInvestigator = populateRemoteInvestigator(coppaPerson, nciId, organizationsList);	
+                    	remoteInvestigatorList.add(remoteInvestigator);
+            		}
+        		}
         	}
 		}
 		return remoteInvestigatorList;
@@ -418,11 +424,13 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
         if (results.size() > 0) {
         	coppaPersonsList.add(CoppaObjectFactory.getCoppaPerson(results.get(0)));
         	
-        	Map<String, IdentifiedPerson> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(coppaPersonsList);
-        	IdentifiedPerson identifiedPerson = nciIdsMap.get(coppaPersonsList.get(0).getIdentifier().getExtension());
+        	Map<String, List<IdentifiedPerson>> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(coppaPersonsList);
+        	List<IdentifiedPerson> identifiedPersonList = nciIdsMap.get(coppaPersonsList.get(0).getIdentifier().getExtension());
         	String nciId = "";
-        	if(identifiedPerson != null){
-        		nciId = identifiedPerson.getAssignedId().getExtension();
+        	for(IdentifiedPerson identifiedPerson: identifiedPersonList){
+        		if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)){
+            		nciId = identifiedPerson.getAssignedId().getExtension();
+            	}
         	}
         	
         	List<gov.nih.nci.coppa.po.Organization> organizationList = null;
@@ -448,12 +456,14 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
         	coppaPersonsList.add(CoppaObjectFactory.getCoppaPerson(results.get(0)));
         	
         	Map<String, List<gov.nih.nci.coppa.po.Organization>> organizationsMap = getOrganizationsForPersonsList(coppaPersonsList);
-        	Map<String, IdentifiedPerson> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(coppaPersonsList);
+        	Map<String, List<IdentifiedPerson>> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(coppaPersonsList);
         	
-        	IdentifiedPerson identifiedPerson = nciIdsMap.get(coppaPersonsList.get(0).getIdentifier().getExtension());
+        	List<IdentifiedPerson> identifiedPersonList = nciIdsMap.get(coppaPersonsList.get(0).getIdentifier().getExtension());
         	String nciId = "";
-        	if(identifiedPerson != null){
-        		nciId = identifiedPerson.getAssignedId().getExtension();
+        	for(IdentifiedPerson identifiedPerson:identifiedPersonList){
+        		if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)){
+            		nciId = identifiedPerson.getAssignedId().getExtension();
+            	}
         	}
         	
         	remoteInvestigator = populateRemoteInvestigator(coppaPersonsList.get(0), nciId, organizationsMap.get(coppaPersonsList.get(0).getIdentifier().getExtension()));
