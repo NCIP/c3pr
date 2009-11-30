@@ -54,23 +54,27 @@ public class C3DPatientPositionResponseHandler extends CaXchangeMessageResponseH
                                             .getSystemAssignedIdentifiers()) {
                                 if (sId.getSystemName().toUpperCase().indexOf(
                                                 C3D_SERVICE_IDENTIFIER) > -1) {
-                                    log.debug("Found c3d identifier with value '"+sId.getValue()+"'.processing");
+                                    log.debug("Found c3d assigned identifier with value '"+sId.getValue()+"'.processing");
                                     try {
                                         studySubjectRepository.assignC3DIdentifier(c3dSubject, sId
                                                         .getValue());
+                                        return;
                                     }
                                     catch (Exception e) {
                                         log.error("Could not assign identifier." + e.getMessage());
                                     }
                                 }
                             }
+                            log.debug("system identifer assigned by c3d not found in C3D response.");
+                            return;
                         }
                         catch (XMLUtilityException e) {
                             log.error("Could not deserialize c3d response." + e.getMessage());
+                            return;
                         }
                     }
                 }
-
+                log.debug("No registration element found in C3D response.");
             }
         }
     }
