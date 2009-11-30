@@ -499,9 +499,10 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
                         messageWorkflowCallback.messageSendFailed(objectId);
                         ResponseErrors<CCTSApplicationNames> errors=new ResponseErrors<CCTSApplicationNames>();
                         log.debug("looking at caXchange error..");
-                        if(response.getResponse().getCaXchangeError()!=null && response.getResponse().getCaXchangeError().getErrorDescription()!=null)
+                        if(response.getResponse().getCaXchangeError()!=null && response.getResponse().getCaXchangeError().getErrorDescription()!=null){
+                        	log.error("Found caXchange error : " + response.getResponse().getCaXchangeError().getErrorDescription());
                             errors.addError(CCTSApplicationNames.CAXCHANGE, response.getResponse().getCaXchangeError().getErrorDescription());
-                        else
+                        }else
                             log.debug("caXchange Error is null....");
                         log.debug("looking at aplication level error..");
                         CCTSApplicationNames cApplicationName=null;
