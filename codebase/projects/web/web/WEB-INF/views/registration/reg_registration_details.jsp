@@ -32,7 +32,7 @@ var diseaseSiteAutocompleterProps = {
 																	   })
 			    },
     valueSelector: function(obj) {
-						return obj.name
+						return obj.name + " (" + obj.code + ")"
 			    	},
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=diseaseSiteAutocompleterProps.basename+"-hidden"
@@ -499,12 +499,12 @@ function changeStudyVersion(){
 	<div class="row">
 		<div class="label"><fmt:message key="registration.primaryDiseaseSite"/></div>
 		<div class="value">
-			<form:input id="diseaseSite-input" path="studySubject.diseaseHistory.otherPrimaryDiseaseSiteCode" size="50" cssClass="autocomplete"/>
+			<form:input id="diseaseSite-input" path="studySubject.diseaseHistory.otherPrimaryDiseaseSiteCode" size="45" cssClass="autocomplete"/>
 			<form:hidden id="diseaseSite-hidden" path="studySubject.diseaseHistory.icd9DiseaseSite"/>
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete" style="display: none;"></div>
 			<tags:hoverHint keyProp="studySubject.diseaseSite"/>
-			<tags:button size="small" type="button" color="blue" icon="add" value="Select Disease Site" id="addSingleDiseaseBtn" onclick="$('diseaseIndicator').show();catSel.showCategoryBox();"/>
+		<%-- <tags:button size="small" type="button" color="blue" icon="add" value="Select Disease Site" id="addSingleDiseaseBtn" onclick="$('diseaseIndicator').show();catSel.showCategoryBox();"/>--%>
 			<img id="diseaseIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none"/>
 		</div>
 	</div>
