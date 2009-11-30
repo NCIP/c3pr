@@ -58,7 +58,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 	public static final String STUDY_PRINCIPAL_INVESTIGATOR = "Study Principal Investigator";
 	
 	/* List of values for DocumentWorkflowStatus. The study has to have one of these to be eligible for fetching. */
-	public static final List<String> DOCUMENT_WORKFLOW_STATUS_LIST = Arrays.asList("Abstracted", "Abstraction Verified Response", "Abstraction Verified No Response");
+	public static final List<String> DOCUMENT_WORKFLOW_STATUS_LIST = Arrays.asList("Abstracted", "Verification Pending", "Abstraction Verified Response", "Abstraction Verified No Response");
 	
 	/** The PA utils which has all the serialize/deserialze and broadcast methods */
 	private ProtocolAbstractionResolverUtils protocolAbstractionResolverUtils = null;
@@ -172,11 +172,17 @@ public class RemoteStudyResolver implements RemoteResolver {
 		List<StudyOrganization> remoteStudyOrganizations = getStudyOrganizationsForStudyProtocol(studyProtocol);
 		remoteStudy.addStudyOrganizations(remoteStudyOrganizations);
 
+		//Set status
+		CoordinatingCenterStudyStatus coordinatingCenterStudyStatus = getStudyCoordinatingCenterStudyStatus(studyProtocol);
+		if(coordinatingCenterStudyStatus != null){
+			remoteStudy.setCoordinatingCenterStudyStatus(coordinatingCenterStudyStatus);
+		} else {
+			//return null if no status could be matched
+			return null;
+		}
+		
 		//Set PI for Study
 		setPrincipalInvestigator(remoteStudy, studyProtocol.getIdentifier().getExtension());
-		
-		//Set status
-		remoteStudy.setCoordinatingCenterStudyStatus(getStudyCoordinatingCenterStudyStatus(studyProtocol));
 		
 		//Set default values in RemoteStudy
 		remoteStudy.setRandomizationType(RandomizationType.PHONE_CALL);
@@ -426,15 +432,26 @@ public class RemoteStudyResolver implements RemoteResolver {
 	 * @return the study coordinating center study status
 	 */
 	private CoordinatingCenterStudyStatus getStudyCoordinatingCenterStudyStatus(StudyProtocol studyProtocol){
+		boolean process = false;
 		String paIdPayLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId(studyProtocol.getIdentifier().getExtension()));
 		try{
 			//Call search on DocumentWorkflowStatus using the StudyProtocol II. 
 			String documentWorkflowResultXml  = protocolAbstractionResolverUtils.broadcastDocumentWorkflowStatusGetByStudyProtocol(paIdPayLoad);
 			List<String> documentWorkflowResults = XMLUtils.getObjectsFromCoppaResponse(documentWorkflowResultXml);
-			DocumentWorkflowStatus documentWorkflowStatus = CoppaPAObjectFactory.getDocumentWorkflowStatus(documentWorkflowResults.get(0));
+			
+			List<DocumentWorkflowStatus> dwsList = new ArrayList<DocumentWorkflowStatus>();
+			for(String documentWorkflowResult:documentWorkflowResults){
+				dwsList.add(CoppaPAObjectFactory.getDocumentWorkflowStatus(documentWorkflowResult));
+			}
+			
+			for(int i=0;i<dwsList.size();i++){
+				if(DOCUMENT_WORKFLOW_STATUS_LIST.contains(dwsList.get(i).getStatusCode().getCode())){
+					process = true;
+				}
+			}
 			
 			//If the DocumentWorkflowStatus does not have ABSTRACTED keyword in it then dont bother getting the overallStatus
-			if(DOCUMENT_WORKFLOW_STATUS_LIST.contains(documentWorkflowStatus.getStatusCode().getCode())){
+			if(process){
 				//Call search on StudyOverallStatus using the StudyProtocol II. 
 				String overallStatusResultXml = protocolAbstractionResolverUtils.broadcastStudyOverallStatusGetByStudyProtocol(paIdPayLoad);
 				
@@ -442,6 +459,9 @@ public class RemoteStudyResolver implements RemoteResolver {
 				StudyOverallStatus studyOverallStatus = CoppaPAObjectFactory.getStudyOverallStatus(overallStatusResults.get(0));
 
 				return protocolAbstractionResolverUtils.getCoordinatingCenterStudyStatusFromCoppaOverallStatus(studyOverallStatus);
+			} else {
+				log.error("Rejecting study as it had invalid status.");
+				return null;
 			}
 		} catch(C3PRCodedException e){
 			log.error(e.getMessage());
