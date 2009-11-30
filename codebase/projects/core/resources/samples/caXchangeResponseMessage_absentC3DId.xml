@@ -1,0 +1,228 @@
+    <ns1:registration gridId="6115c43c-851e-425c-8312-fd78367aaef3"
+     xmlns:ns1="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+
+     <ns1:studySite gridId="9a147f4c-3a94-4883-a9b0-1926dda426be">
+
+      <ns1:healthcareSite gridId="NCI GRID ID">
+
+       <ns1:nciInstituteCode>NCI</ns1:nciInstituteCode>
+
+
+
+      </ns1:healthcareSite>
+
+
+
+      <ns1:irbApprovalDate>2008-08-25</ns1:irbApprovalDate>
+
+
+
+      <ns1:roleCode>Affiliate Site</ns1:roleCode>
+
+
+
+      <ns1:startDate>2008-08-25</ns1:startDate>
+
+
+
+     </ns1:studySite>
+
+
+
+     <ns1:studyRef gridId="51bd374c-d8b5-4759-84b3-ac6259d58648">
+
+      <ns1:shortTitleText>Smoke Test</ns1:shortTitleText>
+
+
+
+      <ns1:longTitleText>Smoke Test long title</ns1:longTitleText>
+
+
+
+      <ns1:identifier xsi:type="ns1:OrganizationAssignedIdentifierType"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+       <ns1:type>Coordinating Center Identifier</ns1:type>
+
+
+
+       <ns1:value>SMOKE_TEST</ns1:value>
+
+
+
+       <ns1:primaryIndicator>true</ns1:primaryIndicator>
+
+
+
+       <ns1:healthcareSite gridId="NCI GRID ID">
+
+        <ns1:nciInstituteCode>NCI</ns1:nciInstituteCode>
+
+
+
+       </ns1:healthcareSite>
+
+
+
+      </ns1:identifier>
+
+
+
+     </ns1:studyRef>
+
+
+
+     <ns1:participant gridId="91dd4580-801b-4874-adeb-a174361bacea">
+
+      <ns1:firstName>John</ns1:firstName>
+
+
+
+      <ns1:lastName>Smith</ns1:lastName>
+
+
+
+      <ns1:address/>
+
+
+
+      <ns1:administrativeGenderCode>Male</ns1:administrativeGenderCode>
+
+
+
+      <ns1:birthDate>1970-01-02</ns1:birthDate>
+
+
+
+      <ns1:ethnicGroupCode>Non Hispanic or Latino</ns1:ethnicGroupCode>
+
+
+
+      <ns1:raceCode>White</ns1:raceCode>
+
+
+
+      <ns1:identifier xsi:type="ns1:OrganizationAssignedIdentifierType"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+       <ns1:type>MRN</ns1:type>
+
+
+
+       <ns1:value>00-00-00-0</ns1:value>
+
+
+
+       <ns1:primaryIndicator>true</ns1:primaryIndicator>
+
+
+
+       <ns1:healthcareSite gridId="NCI GRID ID">
+
+        <ns1:nciInstituteCode>NCI</ns1:nciInstituteCode>
+
+
+
+       </ns1:healthcareSite>
+
+
+
+      </ns1:identifier>
+
+
+
+     </ns1:participant>
+
+
+
+     <ns1:startDate>2008-08-25</ns1:startDate>
+
+
+
+     <ns1:informedConsentFormSignedDate>2008-01-01</ns1:informedConsentFormSignedDate>
+
+
+
+     <ns1:informedConsentVersion>01/07/2008</ns1:informedConsentVersion>
+
+
+
+     <ns1:identifier xsi:type="ns1:SystemAssignedIdentifierType"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+      <ns1:value></ns1:value>
+
+
+
+      <ns1:systemName>C3D</ns1:systemName>
+
+
+
+     </ns1:identifier>
+
+
+
+     <ns1:regDataEntryStatus>COMPLETE</ns1:regDataEntryStatus>
+
+
+
+     <ns1:regWorkflowStatus>REGISTERED</ns1:regWorkflowStatus>
+
+
+
+     <ns1:scheduledEpoch gridId="bd77eed4-f1c6-4a58-98c8-3abe3e3c204e"
+      xsi:type="ns1:ScheduledTreatmentEpochType"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+      <ns1:startDate>2008-08-25</ns1:startDate>
+
+
+
+      <ns1:epoch gridId="73b061cf-e4cc-42ec-b7a3-9b8f39ac84ef" xsi:type="ns1:TreatmentEpochType">
+
+       <ns1:name>Treatment</ns1:name>
+
+
+
+       <ns1:descriptionText/>
+
+
+
+      </ns1:epoch>
+
+
+
+      <ns1:scheduledArm>
+
+       <ns1:arm gridId="6d3a4394-3e9e-449f-860b-039aa5e1a93e">
+
+        <ns1:name>Arm A</ns1:name>
+
+
+
+        <ns1:descriptionText/>
+
+
+
+       </ns1:arm>
+
+
+
+      </ns1:scheduledArm>
+
+
+
+      <ns1:eligibilityIndicator>true</ns1:eligibilityIndicator>
+
+
+
+     </ns1:scheduledEpoch>
+
+
+
+     <ns1:stratumGroup>0:Male</ns1:stratumGroup>
+
+
+
+    </ns1:registration>
+

@@ -1,10 +1,15 @@
 package edu.duke.cabig.c3pr.utils;
 
 import java.io.StringReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.axis.message.MessageElement;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
+import org.w3c.dom.Text;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -42,34 +47,18 @@ public class C3DPatientPositionResponseHandler extends CaXchangeMessageResponseH
 
                 MessageElement[] elems = payload.get_any();
                 for (MessageElement elem : elems) {
-                    if (REGISTRATION_MESSAGE_ELEMENT_NAME.equalsIgnoreCase(elem.getName())) {
+                    if (elem.getTagName().indexOf(REGISTRATION_MESSAGE_ELEMENT_NAME) != -1) {
 
                         log.debug("Found Registration element in c3d response. Processing....");
 
-                        StudySubject c3dSubject;
+                        StudySubject c3dSubject= new StudySubject();
+                        c3dSubject.setGridId(objectId);
                         try {
-                            c3dSubject = (StudySubject) marshaller.fromXML(new StringReader(elem
-                                            .toString()));
-                            for (SystemAssignedIdentifier sId : c3dSubject
-                                            .getSystemAssignedIdentifiers()) {
-                                if (sId.getSystemName().toUpperCase().indexOf(
-                                                C3D_SERVICE_IDENTIFIER) > -1) {
-                                    log.debug("Found c3d assigned identifier with value '"+sId.getValue()+"'.processing");
-                                    try {
-                                        studySubjectRepository.assignC3DIdentifier(c3dSubject, sId
-                                                        .getValue());
-                                        return;
-                                    }
-                                    catch (Exception e) {
-                                        log.error("Could not assign identifier." + e.getMessage());
-                                    }
-                                }
-                            }
-                            log.debug("system identifer assigned by c3d not found in C3D response.");
+                        	studySubjectRepository.assignC3DIdentifier(c3dSubject, findC3DIdentifier(elem));
                             return;
                         }
-                        catch (XMLUtilityException e) {
-                            log.error("Could not deserialize c3d response." + e.getMessage());
+                        catch (RuntimeException e) {
+                            log.error(e);
                             return;
                         }
                     }
@@ -91,5 +80,39 @@ public class C3DPatientPositionResponseHandler extends CaXchangeMessageResponseH
     public void setStudySubjectRepositoryNew(StudySubjectRepository studySubjectRepository) {
         this.studySubjectRepository = studySubjectRepository;
     }
-
+    
+    private String findC3DIdentifier(MessageElement messageElement){
+		for (MessageElement me1 : getMessageElements(messageElement)){
+			if(me1.getTagName().indexOf("identifier") != -1){
+				String systemName="";
+				String value="";
+				for (MessageElement me2 : getMessageElements(me1)) {
+					if(me2.getTagName().indexOf("value") != -1){
+						value=me2.getValue();
+					}else if(me2.getTagName().indexOf("systemName") != -1){
+						systemName=me2.getValue();
+					}
+				}
+				if(systemName.equalsIgnoreCase(C3D_SERVICE_IDENTIFIER)){
+					if(StringUtils.getBlankIfNull(value).equals("")){
+						throw new RuntimeException("Found C3D identifier in message but the value is blank------"+messageElement.toString()+"--------------------");
+					}
+					return value;
+				}
+			}
+		}
+		throw new RuntimeException("Cannot find C3D identifier in message------"+messageElement.toString()+"--------------------");
+    }
+    
+    private List<MessageElement> getMessageElements(MessageElement messageElement){
+    	Iterator it = messageElement.getChildElements();
+    	List<MessageElement> messageList = new ArrayList<MessageElement>();
+		while (it.hasNext()){
+			Object obj = it.next();
+			if (obj instanceof MessageElement) {
+				messageList.add((MessageElement)obj);
+			}
+		}
+		return messageList;
+    }
 }
