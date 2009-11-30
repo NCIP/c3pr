@@ -54,7 +54,7 @@ public class C3DPatientPositionResponseHandler extends CaXchangeMessageResponseH
                                             .getSystemAssignedIdentifiers()) {
                                 if (sId.getSystemName().toUpperCase().indexOf(
                                                 C3D_SERVICE_IDENTIFIER) > -1) {
-                                    log.debug("Found c3d identifier.processing");
+                                    log.debug("Found c3d identifier with value '"+sId.getValue()+"'.processing");
                                     try {
                                         studySubjectRepository.assignC3DIdentifier(c3dSubject, sId
                                                         .getValue());

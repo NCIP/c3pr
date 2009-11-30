@@ -73,8 +73,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     private Logger log = Logger.getLogger(StudySubjectRepositoryImpl.class.getName());
 
 	public void assignC3DIdentifier(StudySubject studySubject, String c3dIdentifierValue) {
+		log.debug("loading study subject by grid id : "+studySubject.getGridId());
         StudySubject loadedSubject = studySubjectDao.getByGridId(studySubject.getGridId());
+        log.debug("loaded study subject with database id : "+studySubject.getId());
+        log.debug("assigning c3d identifier value: "+c3dIdentifierValue);
         loadedSubject.setC3DIdentifier(c3dIdentifierValue);
+        log.debug("assigned c3d identifier: "+studySubject.getC3DIdentifier());
         studySubjectDao.save(loadedSubject);
     }
 
