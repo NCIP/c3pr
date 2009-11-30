@@ -188,8 +188,8 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
                     String sRolesXml = personOrganizationResolverUtils.broadcastHealthcareProviderSearch(coppaHealthCareProviderXml);
 
                     List<String> sRoles = XMLUtils.getObjectsFromCoppaResponse(sRolesXml);
-                    if(sRoles.size() > 0){
-                        HealthCareProvider hcp = CoppaObjectFactory.getCoppaHealthCareProvider(sRoles.get(0));
+                    for(String sRole: sRoles){
+                        HealthCareProvider hcp = CoppaObjectFactory.getCoppaHealthCareProvider(sRole);
                         II pid = hcp.getPlayerIdentifier();    
                         String idXml = CoppaObjectFactory.getCoppaIIXml(pid);
                         //above player id is the Id of a Person ... now get the Person by Id
