@@ -186,18 +186,20 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	    	String nciId;
 			RemoteResearchStaff tempRemoteResearchStaff = null;
 			for(Person coppaPerson: personList){
-				List<IdentifiedPerson> identifiedPersonList = nciIdsMap.get(coppaPerson.getIdentifier().getExtension());
-        		nciId = "";
-        		for(IdentifiedPerson identifiedPerson: identifiedPersonList){
-        			if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)){
-            			nciId = identifiedPerson.getAssignedId().getExtension();
-            			List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
-                    	tempRemoteResearchStaff = populateRemoteResearchStaff(coppaPerson, nciId, organizationsList);
-                    	if(tempRemoteResearchStaff != null && tempRemoteResearchStaff.getHealthcareSite() != null){
-        					remoteResearchStaffList.add(tempRemoteResearchStaff);
-        				}
-            		}
-        		}
+				if(nciIdsMap.get(coppaPerson.getIdentifier().getExtension()) != null){
+					List<IdentifiedPerson> identifiedPersonList = nciIdsMap.get(coppaPerson.getIdentifier().getExtension());
+	        		nciId = "";
+	        		for(IdentifiedPerson identifiedPerson: identifiedPersonList){
+	        			if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)){
+	            			nciId = identifiedPerson.getAssignedId().getExtension();
+	            			List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
+	                    	tempRemoteResearchStaff = populateRemoteResearchStaff(coppaPerson, nciId, organizationsList);
+	                    	if(tempRemoteResearchStaff != null && tempRemoteResearchStaff.getHealthcareSite() != null){
+	        					remoteResearchStaffList.add(tempRemoteResearchStaff);
+	        				}
+	            		}
+	        		}					
+				}
 			}
 		}
 		return remoteResearchStaffList;
