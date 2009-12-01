@@ -26,6 +26,7 @@ public enum OperationNameEnum implements CodedEnum<String> {
 	updateCorrelationStatus("updateCorrelationStatus"),
 	getPersonByCTEPId("getPersonByCTEPId"),
 	getByPlayerIds("getByPlayerIds"),
+	query("query"),
 	//PA
 	get("get"),
 	getByPlannedActivity("getByPlannedActivity"),
