@@ -719,7 +719,7 @@ public class StudySubject extends
 	public void setC3DIdentifier(String value) {
 		SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
 		identifier.setSystemName("C3D");
-		identifier.setType("C3D Identifier");
+		identifier.setType("C3D Patient Position");
 		identifier.setValue(value);
 		this.getSystemAssignedIdentifiers().add(identifier);
 	}
