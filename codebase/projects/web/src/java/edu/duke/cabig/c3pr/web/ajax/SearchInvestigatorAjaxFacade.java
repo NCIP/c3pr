@@ -19,7 +19,6 @@ import org.extremecomponents.table.core.TableModelImpl;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
