@@ -243,7 +243,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 				log.debug("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
 						+ "'s email id : " + retrievedRemoteInvestigator.getEmail()	+ " is already in the database.");
 				//add the hcsi to the existing inv and return it.
-				updateHealthcareSites(investigatorsWithMatchingEmail, retrievedRemoteInvestigator);
+//				updateHealthcareSites(investigatorsWithMatchingEmail, retrievedRemoteInvestigator);
 				return investigatorsWithMatchingEmail;
 			} else if(investigatorsWithMatchingNCICode != null){
 				log.debug("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
