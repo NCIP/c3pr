@@ -128,7 +128,7 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 		
 		String serviceResponsePayload = null;
         //build metadata with operation name and the external Id and pass it to the broadcast method.
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.PERSON.getName());
+        Metadata mData = new Metadata(OperationNameEnum.query.getName(), "extId", ServiceTypeEnum.PERSON.getName());
         try {
         	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(cctsDomainObjectXMLList, mData);
         	System.out.println(serviceResponsePayload);
@@ -151,6 +151,7 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
         Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.PERSON.getName());
         try {
         	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(payloadXml, mData);
+        	System.out.println(serviceResponsePayload);
 		} catch (BroadcastException e) {
 			e.printStackTrace();
 			fail();
