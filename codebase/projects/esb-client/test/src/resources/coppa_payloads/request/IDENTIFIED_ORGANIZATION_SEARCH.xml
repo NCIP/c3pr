@@ -2,6 +2,8 @@
 <identifier nullFlavor="NI"/>
 <playerIdentifier nullFlavor="NI"/>
 <scoperIdentifier nullFlavor="NI"/>
-<assignedId/>
-<status code="active"/>
+<assignedId scope="OBJ" root="2.16.840.1.113883.3.26.6.2" reliability="ISS" identifierName="NCI organization entity identifier" extension="OH015" displayable="true"/>
+<status code="ACTIVE"/>
 </IdentifiedOrganization>
+
+
