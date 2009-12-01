@@ -9,6 +9,10 @@
         }
    </style>
     <script type="text/javascript">
+    dwr.engine.setErrorHandler(handleDWRError);
+	 function handleDWRError(err){
+	 }
+	 
         function buildTable(form) {
         	params = new Array(2);
 			var parameterMap = getParameterMap(form);

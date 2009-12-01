@@ -11,7 +11,10 @@
         }
    </style>
     <script type="text/javascript">
-
+	 dwr.engine.setErrorHandler(handleDWRError);
+	 function handleDWRError(err){
+	 }
+	 
      var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
             populator: function(autocompleter, text) {
