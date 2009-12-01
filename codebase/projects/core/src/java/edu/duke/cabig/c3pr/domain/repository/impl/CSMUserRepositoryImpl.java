@@ -12,21 +12,18 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.UserDao;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.dao.GroupSearchCriteria;
-import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.util.StringEncrypter;
 
@@ -210,25 +207,12 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 	}
 	
 	private String getEmailAddress(User user){
-//		for (ContactMechanism cm : user.getContactMechanisms()) {
-//            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-//                return cm.getValue();
-//            }
-//        }
-//		return null;
 		return user.getEmail();
 	}
 	
 	private String getPhoneNumber(User user){
-//		for (ContactMechanism cm : user.getContactMechanisms()) {
-//            if (cm.getType().equals(ContactMechanismType.PHONE)) {
-//                return cm.getValue();
-//            }
-//        }
-//		return null;
 		return user.getPhone();
 	}
-	// end
 
 	@Required
 	public void setUserProvisioningManager(final UserProvisioningManager userProvisioningManager) {
