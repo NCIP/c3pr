@@ -1,9 +1,9 @@
 <HealthCareProvider xmlns="http://po.coppa.nci.nih.gov" xmlns:ISO="uri:iso.org:21090"> 
 <identifier nullFlavor="NI"/>
 <playerIdentifier nullFlavor="NI"/>
-<scoperIdentifier nullFlavor="NI"/>
-<postalAddress/>
-<telecomAddress/>
+<scoperIdentifier displayable="true" extension="4466" identifierName="NCI organization entity identifier" reliability="ISS" root="2.16.840.1.113883.3.26.4.2" scope="OBJ"/>
+<postalAddress nullFlavor="NI"/>
+<telecomAddress nullFlavor="NI"/>
 <status code="active"/>
 <certificateLicenseText nullFlavor="NI"/>
 </HealthCareProvider>
