@@ -1,7 +1,7 @@
 class AddMultisiteConfigDefaultProperty extends edu.northwestern.bioinformatics.bering.Migration {
 	void up() {
-			insert('configuration', [ prop:"outgoingMailUsername", value:"c3prproject@gmail.com" ], primaryKey: false)
-			insert('configuration', [ prop:"outgoingMailPassword", value:"semanticbits" ], primaryKey: false)
+			execute("INSERT INTO configuration(prop, value) SELECT 'outgoingMailUsername', 'c3prproject@gmail.com'  WHERE not exists (select * from configuration where prop = 'outgoingMailUsername')")
+			execute("INSERT INTO configuration(prop, value) SELECT 'outgoingMailPassword', 'semanticbits'  WHERE not exists (select * from configuration where prop = 'outgoingMailPassword')")
 	}
 
 	void down(){
