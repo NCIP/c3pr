@@ -271,6 +271,6 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
     }
     
     public static boolean isValidPhone(String phone){
-        return phone.matches("(\\d-)?(\\d{3}-)?\\d{3}-\\d{4}") || phone.matches("\\d{10}");
+        return phone.matches("((\\d[ \\-])?\\d{3}[ \\-]\\d{3}[ \\-]\\d{4}([ \\-]ext[ \\-]\\d+)?)||\\d{10}");
     }
 }
