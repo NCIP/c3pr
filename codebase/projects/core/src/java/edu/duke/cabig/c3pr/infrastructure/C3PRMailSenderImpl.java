@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.infrastructure;
 
 import java.util.Properties;
 
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
@@ -26,5 +28,10 @@ public class C3PRMailSenderImpl extends JavaMailSenderImpl {
 			javaMailProperties.put("mail.smtp.auth",  configuration.get(Configuration.OUTGOING_MAIL_AUTH));
 		}
 		super.setJavaMailProperties(javaMailProperties);
+	}
+	
+	@Override
+	public MimeMessage createMimeMessage() {
+		return super.createMimeMessage();
 	}
 }

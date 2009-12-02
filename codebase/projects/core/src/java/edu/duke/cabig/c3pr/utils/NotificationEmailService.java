@@ -37,6 +37,7 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl;
 import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
 
@@ -46,7 +47,7 @@ import edu.duke.cabig.c3pr.tools.Configuration;
 
 public class NotificationEmailService implements ApplicationContextAware {
 
-    private MailSender mailSender;
+    private C3PRMailSenderImpl mailSender;
 
     private SimpleMailMessage accountCreatedTemplateMessage;
 
@@ -93,59 +94,27 @@ public class NotificationEmailService implements ApplicationContextAware {
         log.debug(recipientScheduledNotification.getScheduledNotification().getTitle());
         log.debug("*************** Email Content ***************");
         log.debug(recipientScheduledNotification.getScheduledNotification().getMessage());
-        //logging the email details for testing purposes
-        
         
         for (String emailAddress : emailList) {
-        	
-        	//TO DO: Must move this to be read in from an external file
-        	Properties props = new Properties();
-            props.setProperty("mail.transport.protocol", "smtp");
-            props.setProperty("mail.host", "smtp.gmail.com");
-            props.setProperty("mail.port", "465");
-            props.setProperty("mail.user", "c3prproject@gmail.com");
-            props.setProperty("mail.password", "semanticbits");
-            props.setProperty("mail.smtp.debug", "true");
-            props.setProperty("mail.smtp.auth", "true");
-            props.setProperty("mail.smtp.starttls.enable", "true");
-            //TO DO: Must move this to be read in from an external file
+            MimeMessage message = mailSender.createMimeMessage();
+            message.setFrom(new InternetAddress("c3prproject@gmail.com"));
             
-            Session mailSession = Session.getDefaultInstance(props, null);
-            mailSession.setDebug(true);
-            Transport transport = mailSession.getTransport("smtp");
-
-            MimeMessage message = new MimeMessage(mailSession);
+            MimeBodyPart mimeBodyPart = new MimeBodyPart();
+            Multipart multiPart = new MimeMultipart();
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAddress));
             
             if(linkBack.equalsIgnoreCase("true")){
             	message.setSubject(LINK_BACK_SUBJECT);
-                message.setFrom(new InternetAddress("c3prproject@gmail.com"));
-                
-                MimeBodyPart mimeBodyPart = new MimeBodyPart();
                 mimeBodyPart.setContent(getLinkBackText(), "text/html");
-
-                Multipart multiPart = new MimeMultipart();
                 multiPart.addBodyPart(mimeBodyPart);
-                
-                message.setContent(multiPart);
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAddress));
             } else {
             	message.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle());
-                message.setFrom(new InternetAddress("c3prproject@gmail.com"));
-                
-                MimeBodyPart mimeBodyPart = new MimeBodyPart();
                 mimeBodyPart.setContent(recipientScheduledNotification.getScheduledNotification().getMessage(), "text/html");
-
-                Multipart multiPart = new MimeMultipart();
                 multiPart.addBodyPart(mimeBodyPart);
-                
-                message.setContent(multiPart);
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailAddress));
             }
-            
-            transport.connect("smtp.gmail.com", "c3prproject@gmail.com", "semanticbits");
+            message.setContent(multiPart);
             message.saveChanges();
-            transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
-            transport.close();
+            mailSender.send(message);
         }
     	
         log.debug(this.getClass().getName() + ": Exiting sendReportEmail()");
@@ -337,11 +306,11 @@ public class NotificationEmailService implements ApplicationContextAware {
     }
     
     
-    public MailSender getMailSender() {
+    public C3PRMailSenderImpl getMailSender() {
         return mailSender;
     }
 
-    public void setMailSender(MailSender mailSender) {
+    public void setMailSender(C3PRMailSenderImpl mailSender) {
         this.mailSender = mailSender;
     }
 
