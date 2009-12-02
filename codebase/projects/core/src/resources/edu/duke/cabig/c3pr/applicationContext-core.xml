@@ -707,6 +707,7 @@
     <bean id="notificationEmailService" class="edu.duke.cabig.c3pr.utils.NotificationEmailService"
           autowire="byType">
           <property name="linkBack" value="${notification.link_back}" />
+          <property name="c3prURL" value="${c3pr.webapp.url}"/>
     </bean>
 
     <!-- this is a template message that we can pre-load with default state -->

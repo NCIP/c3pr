@@ -17,6 +17,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.mail.MailException;
@@ -60,19 +61,23 @@ public class NotificationEmailService implements ApplicationContextAware {
     private ApplicationContext applicationContext;
     
     private String linkBack = null;
+    private String c3prURL = null;
     
     public static final String STUDY_INVESTIGATOR = "SI";
     
-    public static final String LINK_BACK_SUBJECT = "Notification from C3PR";
+    private String LINK_BACK_SUBJECT = "Notification from C3PR";
     
-    public static final String LINK_BACK_TEXT = "To view this message click on https://localhost:8443/c3pr/pages/admin/viewInbox   You may be asked to login.";
-   
     /**
      * This method is reponsible for figuring out the email address from notifications and sending
      * out the notification email using Javamail.
      * This is only used for REPORT BASED EMAILS
      * 
      */
+    
+    private String getLinkBackText(){
+    	return ("To view this message click on " +  c3prURL +"/pages/admin/viewInbox   You may be asked to login.");
+    }
+    
     public void sendReportEmail(RecipientScheduledNotification recipientScheduledNotification) throws MessagingException {
     	log.debug(this.getClass().getName() + ": Entering sendReportEmail()");
     	List<String> emailList = null;
@@ -116,7 +121,7 @@ public class NotificationEmailService implements ApplicationContextAware {
                 message.setFrom(new InternetAddress("c3prproject@gmail.com"));
                 
                 MimeBodyPart mimeBodyPart = new MimeBodyPart();
-                mimeBodyPart.setContent(LINK_BACK_TEXT, "text/html");
+                mimeBodyPart.setContent(getLinkBackText(), "text/html");
 
                 Multipart multiPart = new MimeMultipart();
                 multiPart.addBodyPart(mimeBodyPart);
@@ -145,9 +150,6 @@ public class NotificationEmailService implements ApplicationContextAware {
     	
         log.debug(this.getClass().getName() + ": Exiting sendReportEmail()");
     } 
-
-
-    
     
     /**
      * This method is reponsible for figuring out the email address from notifications and sending
@@ -177,7 +179,7 @@ public class NotificationEmailService implements ApplicationContextAware {
 	        if(linkBack.equalsIgnoreCase("true")){
 	        	msg.setSubject(LINK_BACK_SUBJECT);
                 msg.setTo(emailAddress);
-                msg.setText(LINK_BACK_TEXT);
+                msg.setText(getLinkBackText());
 	        } else {
                 msg.setSubject(recipientScheduledNotification.getScheduledNotification().getTitle()==null?"":recipientScheduledNotification.getScheduledNotification().getTitle());
                 msg.setTo(emailAddress);
@@ -383,21 +385,21 @@ public class NotificationEmailService implements ApplicationContextAware {
 		this.applicationContext = applicationContext;
 	}
 
-
-
-
 	public String getLinkBack() {
 		return linkBack;
 	}
-
-
-
 
 	public void setLinkBack(String linkBack) {
 		this.linkBack = linkBack;
 	}
 
-
-
+	@Required
+	public void setC3prURL(String c3prURL) {
+		this.c3prURL = c3prURL;
+	}
+	
+	public String getC3prURL() {
+		return c3prURL;
+	}
 
 }
