@@ -268,6 +268,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     private void updateHealthcareSites(Investigator investigatorToBeUpdated, Investigator investigatorToBeDiscarded){
     	for(HealthcareSiteInvestigator hcsi: investigatorToBeDiscarded.getHealthcareSiteInvestigators()){
     		if(!investigatorToBeUpdated.getHealthcareSiteInvestigators().contains(hcsi)){
+    			hcsi.setInvestigator(investigatorToBeUpdated);
     			investigatorToBeUpdated.getHealthcareSiteInvestigators().add(hcsi);
     		}
     	}
