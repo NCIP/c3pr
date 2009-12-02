@@ -168,7 +168,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 				CoppaObjectFactory.getCoppaPerson(remoteResearchStaff.getFirstName(), remoteResearchStaff.getMiddleName(), remoteResearchStaff.getLastName()));
 		String resultXml = "";
 		try {
-			resultXml = personOrganizationResolverUtils.broadcastPersonSearch(personXml);
+			resultXml = personOrganizationResolverUtils.broadcastPersonSearchWithLimit(personXml);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

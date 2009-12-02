@@ -267,7 +267,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		String resultXml = "";
 		try {
 			//Coppa-call for person search
-			resultXml = personOrganizationResolverUtils.broadcastPersonSearch(personXml);
+			resultXml = personOrganizationResolverUtils.broadcastPersonSearchWithLimit(personXml);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

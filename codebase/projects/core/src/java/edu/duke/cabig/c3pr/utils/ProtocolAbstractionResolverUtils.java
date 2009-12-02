@@ -35,6 +35,11 @@ public class ProtocolAbstractionResolverUtils {
 	/** The c3pr error messages. */
 	private MessageSource c3prErrorMessages;
 	
+	/**
+	 * The Limit value for PA searches
+	 */
+	private int paLimitValue;
+	
 	/** The log. */
     private static Log log = LogFactory.getLog(ProtocolAbstractionResolverUtils.class);
     
@@ -140,7 +145,7 @@ public class ProtocolAbstractionResolverUtils {
         
         List<String> cctsDomainObjectXMLList = new ArrayList<String>();
         cctsDomainObjectXMLList.add(studyProtocolXml);
-        return broadcastCoppaMessage(cctsDomainObjectXMLList, mData);
+        return broadcastCoppaMessage(cctsDomainObjectXMLList, mData, true);
 	}
 
 	/**
@@ -238,8 +243,8 @@ public class ProtocolAbstractionResolverUtils {
 	
 	/**
 	 * Broadcast coppa message. The actual call to the esb-client which takes a List of Strings.
-	 * NOTE: Users of this method do not need to specify the offset, a default value is added by this method.
-	 * It is important to note that the pauload needs to be the first element in the list and the offset needs to be
+	 * NOTE: Users of this method do not need to specify the Limit, a default value is added by this method.
+	 * It is important to note that the pauload needs to be the first element in the list and the Limit needs to be
 	 * the second element, otherwise it results in a parse exception.
 	 * 
 	 * @param healthcareSiteXml the healthcare site xml
@@ -247,11 +252,11 @@ public class ProtocolAbstractionResolverUtils {
 	 * @return the string
 	 * @throws C3PRCodedException the c3pr coded exception
 	 */
-	private String broadcastCoppaMessage(List<String> cctsDomainObjectXMLList, Metadata mData) throws C3PRCodedException {
+	private String broadcastCoppaMessage(List<String> cctsDomainObjectXMLList, Metadata mData, boolean setLimit) throws C3PRCodedException {
 		String caXchangeResponseXml = null;
 		//adding a default limit-offset setting incase its not already specified
-		if(cctsDomainObjectXMLList.size() == 1){
-			cctsDomainObjectXMLList.add(CoppaPAObjectFactory.getLimitOffsetXML(5, 0));
+		if(setLimit){
+			cctsDomainObjectXMLList.add(CoppaPAObjectFactory.getLimitOffsetXML(paLimitValue, 0));
 		}
 		
 		try {
@@ -298,6 +303,16 @@ public class ProtocolAbstractionResolverUtils {
 	public void setCoppaMessageBroadcaster(
 			CCTSMessageBroadcaster coppaMessageBroadcaster) {
 		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
+	}
+
+
+	public int getPaLimitValue() {
+		return paLimitValue;
+	}
+
+
+	public void setPaLimitValue(int paLimitValue) {
+		this.paLimitValue = paLimitValue;
 	}
 
 }

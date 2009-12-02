@@ -332,8 +332,10 @@
 		</property>
 		-->
     <bean id="personOrganizationResolverUtils" class="edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils" autowire="byName">
+    	<property name="poLimitValue" value="${poLimitValue}"/>
     </bean>
     <bean id="protocolAbstractionResolverUtils" class="edu.duke.cabig.c3pr.utils.ProtocolAbstractionResolverUtils" autowire="byName">
+    	<property name="paLimitValue" value="${paLimitValue}"/>
     </bean>
     <bean id="remoteHealthcareSiteResolver" class="edu.duke.cabig.c3pr.infrastructure.RemoteHealthcareSiteResolver" autowire="byName">
     </bean>

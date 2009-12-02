@@ -163,7 +163,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 				remoteOrgExample.getAddress().getCity(), null, null, remoteOrgExample.getAddress().getCountryCode());
 		String resultXml  = "";
 		try {
-			resultXml  = personOrganizationResolverUtils.broadcastOrganizationSearch(payLoad);
+			resultXml  = personOrganizationResolverUtils.broadcastOrganizationSearchWithLimit(payLoad);
 		} catch (C3PRCodedException e) {
 			log.error(e);
 		}

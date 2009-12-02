@@ -29,7 +29,6 @@ import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
-import gov.nih.nci.coppa.po.ClinicalResearchStaff;
 import gov.nih.nci.coppa.po.IdentifiedOrganization;
 import gov.nih.nci.coppa.po.IdentifiedPerson;
 import gov.nih.nci.coppa.po.Person;
@@ -45,6 +44,11 @@ public class PersonOrganizationResolverUtils {
 
 	/** The c3pr error messages. */
 	private MessageSource c3prErrorMessages;
+	
+	/**
+	 * The limit value for PO searches
+	 */
+	private int poLimitValue;
 	
 	/** The log. */
     private static Log log = LogFactory.getLog(PersonOrganizationResolverUtils.class);
@@ -375,6 +379,15 @@ public class PersonOrganizationResolverUtils {
         return broadcastCoppaMessage(healthcareSiteXml, mData);
 	}	
 	
+	public String broadcastOrganizationSearchWithLimit(String iiXml) throws C3PRCodedException{
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.query.getName() + "   Service -->" +ServiceTypeEnum.ORGANIZATION.getName());
+        Metadata mData = new Metadata(OperationNameEnum.query.getName(),  "externalId", ServiceTypeEnum.ORGANIZATION.getName());
+        
+        List<String> cctsDomainObjectXMLList = new ArrayList<String>();
+        cctsDomainObjectXMLList.add(iiXml);
+        return broadcastCoppaMessage(cctsDomainObjectXMLList, mData, true);
+	}
+	
 	public String broadcastIdentifiedPersonSearch(String ipXml) throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
 		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.IDENTIFIED_PERSON.getName());
@@ -387,7 +400,7 @@ public class PersonOrganizationResolverUtils {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
 		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByPlayerIds.getName() + "   Service -->" +ServiceTypeEnum.IDENTIFIED_PERSON.getName());
         Metadata mData = new Metadata(OperationNameEnum.getByPlayerIds.getName(),  "extId", ServiceTypeEnum.IDENTIFIED_PERSON.getName());
-		return broadcastCoppaMessage(personIdXmlList, mData);
+		return broadcastCoppaMessage(personIdXmlList, mData, false);
 	}
 	
 	public String broadcastOrganizationGetById(String iiXml) throws C3PRCodedException{
@@ -409,7 +422,7 @@ public class PersonOrganizationResolverUtils {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
 		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByPlayerIds.getName() + "   Service -->" +ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
         Metadata mData = new Metadata(OperationNameEnum.getByPlayerIds.getName(), "externalId", ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
-		return broadcastCoppaMessage(organizationIdXmlList, mData);
+		return broadcastCoppaMessage(organizationIdXmlList, mData, false);
 	}
 	
 	public String broadcastClinicalResearchStaffSearch(String personXml) throws C3PRCodedException {
@@ -424,7 +437,7 @@ public class PersonOrganizationResolverUtils {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
 		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByPlayerIds.getName() + "   Service -->" +ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
         Metadata mData = new Metadata(OperationNameEnum.getByPlayerIds.getName(), "externalId", ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
-		return broadcastCoppaMessage(personIdXmlList, mData);
+		return broadcastCoppaMessage(personIdXmlList, mData, false);
 	}
 	
 	
@@ -456,6 +469,15 @@ public class PersonOrganizationResolverUtils {
 		return broadcastCoppaMessage(iiXml, mData);
 	}
 	
+	public String broadcastPersonSearchWithLimit(String iiXml) throws C3PRCodedException{
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.PERSON.getName());
+        Metadata mData = new Metadata(OperationNameEnum.query.getName(),  "externalId", ServiceTypeEnum.PERSON.getName());
+        
+        List<String> cctsDomainObjectXMLList = new ArrayList<String>();
+        cctsDomainObjectXMLList.add(iiXml);
+        return broadcastCoppaMessage(cctsDomainObjectXMLList, mData, true);
+	}
+	
 	public String broadcastHealthcareProviderSearch(String personXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
 		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
@@ -467,7 +489,7 @@ public class PersonOrganizationResolverUtils {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
 		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByPlayerIds.getName() + "   Service -->" +ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
         Metadata mData = new Metadata(OperationNameEnum.getByPlayerIds.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
-		return broadcastCoppaMessage(personXml, mData);
+		return broadcastCoppaMessage(personXml, mData, false);
 	}
 	
 	public String broadcastHealthcareProviderGetById(String personXml) throws C3PRCodedException {
@@ -508,8 +530,8 @@ public class PersonOrganizationResolverUtils {
 	
 	/**
 	 * Broadcast coppa message. The actual call to the esb-client which takes a List of Strings.
-	 * NOTE: Users of this method do not need to specify the offset, a default value is added by this method.
-	 * It is important to note that the pauload needs to be the first element in the list and the offset needs to be
+	 * NOTE: Users of this method do not need to specify the limit, a default value is added by this method.
+	 * It is important to note that the pauload needs to be the first element in the list and the limit needs to be
 	 * the second element, otherwise it results in a parse exception.
 	 * 
 	 * @param healthcareSiteXml the healthcare site xml
@@ -517,11 +539,11 @@ public class PersonOrganizationResolverUtils {
 	 * @return the string
 	 * @throws C3PRCodedException the c3pr coded exception
 	 */
-	private String broadcastCoppaMessage(List<String> cctsDomainObjectXMLList, Metadata mData) throws C3PRCodedException {
+	private String broadcastCoppaMessage(List<String> cctsDomainObjectXMLList, Metadata mData, boolean setLimit) throws C3PRCodedException {
 		String caXchangeResponseXml = null;
 		//adding a default limit-offset setting incase its not already specified
-		if(cctsDomainObjectXMLList.size() == 1){
-			cctsDomainObjectXMLList.add(CoppaPAObjectFactory.getLimitOffsetXML(5, 0));
+		if(setLimit){
+			cctsDomainObjectXMLList.add(CoppaPAObjectFactory.getLimitOffsetXML(poLimitValue, 0));
 		}
 		
 		try {
@@ -569,6 +591,14 @@ public class PersonOrganizationResolverUtils {
 	public void setCoppaMessageBroadcaster(
 			CCTSMessageBroadcaster coppaMessageBroadcaster) {
 		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
+	}
+
+	public int getPoLimitValue() {
+		return poLimitValue;
+	}
+
+	public void setPoLimitValue(int poLimitValue) {
+		this.poLimitValue = poLimitValue;
 	}
 
 	
