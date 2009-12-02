@@ -38,6 +38,7 @@ public class BaseStudyAjaxFacade {
         table.setShowPagination(true);
         table.setRowsDisplayed(15);
         table.setSortable(true);
+        table.setShowExports(false);
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
         model.addTable(table);
 
