@@ -63,7 +63,7 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 		String personXml = CoppaObjectFactory.getCoppaPersonXml(CoppaObjectFactory.getCoppaPerson("David", "", "L"));
 		String resultXml = "";
 		try {
-			resultXml = personResolverUtils.broadcastPersonSearch(personXml);
+			resultXml = personResolverUtils.broadcastPersonSearchWithLimit(personXml);
 		} catch (Exception e) {
 			System.out.print(e);
 		}
