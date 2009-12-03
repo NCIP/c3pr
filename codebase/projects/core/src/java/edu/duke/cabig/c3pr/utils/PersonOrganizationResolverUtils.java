@@ -202,15 +202,15 @@ public class PersonOrganizationResolverUtils {
 			c3prUser.setRemotePhone(phoneNumber);
 			c3prUser.setRemoteFax(faxNumber);
 			
-			if(emailStr == null){
-				//return null if person doesnt have a valid email id.
-				c3prUser = null;
-			} 
 		} catch(IllegalArgumentException iae){
 			log.error("Person has invalid contact information. Proceeding with out it." + iae.getMessage());
 		} catch(Exception e){
 			log.error("Error while processing Person. Proceeding with out it." + e.getMessage());
 		} finally {
+			if(StringUtils.isBlank(c3prUser.getRemoteEmail())){
+				//return null if person doesnt have a valid email id.
+				return null;
+			} 
 			return c3prUser;
 		}
 	}
