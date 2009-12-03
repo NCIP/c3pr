@@ -31,10 +31,12 @@
 					<div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
 					<div class="value">${command.lastName}</div>
 				</div>
-				<div class="row">
-					<div class="label"><fmt:message key="c3pr.person.identifier"/>:</div>
-					<div class="value">${command.nciIdentifier}</div>
-				</div>
+				<c:if test="${not empty command.nciIdentifier }">
+					<div class="row">
+						<div class="label"><fmt:message key="c3pr.person.identifier"/>:</div>
+						<div class="value">${command.nciIdentifier}</div>
+					</div>
+				</c:if>
 				<div class="row">
 					<div class="label"><fmt:message key="c3pr.common.email"/>:</div>
 					<div class="value">${command.email}</div>
