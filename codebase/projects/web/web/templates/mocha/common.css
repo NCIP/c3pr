@@ -1207,6 +1207,7 @@ table.tablecontent {
     margin-left: 10px;
     margin-right: 7px;
     text-align: right;
+	width:73px;
 }
 
 .instructions .summaryvalue {
