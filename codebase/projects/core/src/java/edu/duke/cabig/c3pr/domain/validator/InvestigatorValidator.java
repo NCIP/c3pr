@@ -24,17 +24,6 @@ public class InvestigatorValidator implements Validator {
     	
     	Investigator inv = (Investigator)target;
     	
-    	Investigator investigatorsbyNCICode = null;
-    	investigatorsbyNCICode =  investigatorDao.getByNciIdentifierFromLocal(inv.getNciIdentifier());
-    	
-    	if(investigatorsbyNCICode != null){
-    		if(inv.getId() == null){
-    			errors.reject("tempProperty","Investigator with this NCI Identifier already exists");
-        	} else if(inv.getNciIdentifier().equals(investigatorsbyNCICode.getNciIdentifier()) && !inv.getId().equals(investigatorsbyNCICode.getId())){
-				errors.reject("tempProperty","Investigator with this NCI Identifier already exists");
-    		}
-    	}
-    	
     	Investigator investigatorsbyEmail = null;
     	//investigatorsbyEmail =  investigatorDao.getByEmailAddressFromLocal(inv.getContactMechanisms().get(0).getValue());
     	investigatorsbyEmail =  investigatorDao.getByEmailAddressFromLocal(inv.getEmail());
