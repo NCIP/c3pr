@@ -50,8 +50,8 @@ public class SearchOrganizationAjaxFacade {
         table.setItems(healthcareSites);
         table.setAction(model.getContext().getContextPath() + "/pages/admin/createOrganization");
         table.setTitle("Organizations");
-        table.setShowPagination(true);
-        table.setRowsDisplayed(15);
+        table.setShowPagination(false);
+//        table.setRowsDisplayed(15);
         table.setOnInvokeAction("buildTable('assembler')");
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
         table.setShowExports(false);
