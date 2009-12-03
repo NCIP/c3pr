@@ -267,7 +267,8 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
     }
     
     public static boolean isValidEmail(String email){
-        return email.matches(".+@.+\\.[a-z]+");
+//        return email.matches(".+@.+\\.[a-z][A-Z]+");
+    	return email.matches(".+@.+\\.[a-zA-Z]+");
     }
     
     public static boolean isValidPhone(String phone){
