@@ -38,12 +38,12 @@ public class SearchResearchStaffAjaxFacade {
         table.setItems(rStaffResults);
         table.setAction(model.getContext().getContextPath() + "/pages/admin/editResearchStaff");
         table.setTitle("Research Staff");
-        table.setShowPagination(true);
-        table.setRowsDisplayed(rStaffResults.size());
+        table.setShowPagination(false);
+//        table.setRowsDisplayed(rStaffResults.size());
         table.setOnInvokeAction("buildTable('assembler')");
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
         table.setShowExports(false);
-        table.setSortable(true);
+        table.setSortable(false);
         model.addTable(table);
 
         Row row = model.getRowInstance();
