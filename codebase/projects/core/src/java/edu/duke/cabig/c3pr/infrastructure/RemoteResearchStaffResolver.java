@@ -46,24 +46,28 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		log.debug("Entering find() for:" + this.getClass());
 		RemoteResearchStaff remoteResearchStaff = null;
 		List<Object> remoteResearchStaffList = null;
-		
-		if(example instanceof RemoteResearchStaff){
-			remoteResearchStaff = (RemoteResearchStaff) example;
-			
-			if(!StringUtils.isEmpty(remoteResearchStaff.getNciIdentifier())){
-				//search based on nci id of person
-				log.debug("Searching based on NciId");
-				remoteResearchStaffList = searchStaffBasedOnNciId(remoteResearchStaff);
-			} else if(remoteResearchStaff.getHealthcareSite() != null && remoteResearchStaff.getHealthcareSite().getPrimaryIdentifier() != null){
-				//search based on Organization
-				log.debug("Searching based on Organization");
-				remoteResearchStaffList = searchStaffBasedOnOrganization(remoteResearchStaff);
-			} else {
-				//search based on name
-				log.debug("Searching based on Name");
-				remoteResearchStaffList = searchStaffBasedOnName(remoteResearchStaff);
+		try{
+			if(example instanceof RemoteResearchStaff){
+				remoteResearchStaff = (RemoteResearchStaff) example;
+				
+				if(!StringUtils.isEmpty(remoteResearchStaff.getNciIdentifier())){
+					//search based on nci id of person
+					log.debug("Searching based on NciId");
+					remoteResearchStaffList = searchStaffBasedOnNciId(remoteResearchStaff);
+				} else if(remoteResearchStaff.getHealthcareSite() != null && remoteResearchStaff.getHealthcareSite().getPrimaryIdentifier() != null){
+					//search based on Organization
+					log.debug("Searching based on Organization");
+					remoteResearchStaffList = searchStaffBasedOnOrganization(remoteResearchStaff);
+				} else {
+					//search based on name
+					log.debug("Searching based on Name");
+					remoteResearchStaffList = searchStaffBasedOnName(remoteResearchStaff);
+				}
 			}
+		} catch (Exception e){
+			log.error(e.getMessage());
 		}
+		
 		log.debug("Exiting find() for:" + this.getClass());
 		return remoteResearchStaffList;
 	}

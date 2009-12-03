@@ -129,26 +129,30 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		log.debug("Entering find() for:" + this.getClass());
 		RemoteInvestigator remoteInvestigator = null;
 		List<Object> remoteInvestigatorList = null;
-		
-		if(example instanceof RemoteInvestigator){
-			remoteInvestigator = (RemoteInvestigator) example;
-			
-			if(!StringUtils.isEmpty(remoteInvestigator.getNciIdentifier())){
-				//search based on nci id of person
-				log.debug("Searching based on NciId");
-				remoteInvestigatorList = searchInvestigatorBasedOnNciId(remoteInvestigator);
-			} else if(remoteInvestigator.getHealthcareSiteInvestigators().size() > 0 &&
-						remoteInvestigator.getHealthcareSiteInvestigators().get(0).getHealthcareSite() != null && 
-						remoteInvestigator.getHealthcareSiteInvestigators().get(0).getHealthcareSite().getPrimaryIdentifier() != null){
-				//search based on Organization
-				log.debug("Searching based on Organization");
-				remoteInvestigatorList = searchInvestigatorBasedOnOrganization(remoteInvestigator);
-			} else {
-				//search based on name
-				log.debug("Searching based on Name");
-				remoteInvestigatorList = searchInvestigatorBasedOnName(remoteInvestigator);
+		try{
+			if(example instanceof RemoteInvestigator){
+				remoteInvestigator = (RemoteInvestigator) example;
+				
+				if(!StringUtils.isEmpty(remoteInvestigator.getNciIdentifier())){
+					//search based on nci id of person
+					log.debug("Searching based on NciId");
+					remoteInvestigatorList = searchInvestigatorBasedOnNciId(remoteInvestigator);
+				} else if(remoteInvestigator.getHealthcareSiteInvestigators().size() > 0 &&
+							remoteInvestigator.getHealthcareSiteInvestigators().get(0).getHealthcareSite() != null && 
+							remoteInvestigator.getHealthcareSiteInvestigators().get(0).getHealthcareSite().getPrimaryIdentifier() != null){
+					//search based on Organization
+					log.debug("Searching based on Organization");
+					remoteInvestigatorList = searchInvestigatorBasedOnOrganization(remoteInvestigator);
+				} else {
+					//search based on name
+					log.debug("Searching based on Name");
+					remoteInvestigatorList = searchInvestigatorBasedOnName(remoteInvestigator);
+				}
 			}
-		} 
+		} catch(Exception e){
+			log.error(e.getMessage());
+		}
+		 
 		log.debug("Exiting find() for:" + this.getClass());
 		return remoteInvestigatorList;
 	}
