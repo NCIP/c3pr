@@ -229,8 +229,8 @@ public class PersonOrganizationResolverUtils {
 	 * @param remoteOrganization
 	 * @param extension
 	 */
-	public void setNciCodeFromExtension(HealthcareSite remoteOrganization, String extension) {
-		remoteOrganization.setNCICode(extension, true);
+	public void setNciCodeFromExtension(HealthcareSite remoteOrganization, String extension, boolean isPrimary) {
+		remoteOrganization.setNCICode(extension, isPrimary);
 	}
 	
 	/** Populate Remote Organization , given the Coppa Organization.
@@ -338,12 +338,16 @@ public class PersonOrganizationResolverUtils {
 	}
 	
 	public void setCtepCodeFromStructuralRoleIIList(RemoteHealthcareSite remoteHealthcareSite, List<II> iiList){
+		boolean isPrimary = true;
 		for(II ii: iiList){
 			if(ii.getRoot().equalsIgnoreCase(CTEP_ROOT) || ii.getIdentifierName().equals(CTEP_ID) ){
 				setCtepCodeFromExtension(remoteHealthcareSite, ii.getExtension());
-			}
+				isPrimary = false;
+			}			
+		}
+		for(II ii: iiList){
 			if(ii.getRoot().equalsIgnoreCase(NCI_ROOT) || ii.getIdentifierName().equals(NCI_ID) ){
-				setNciCodeFromExtension(remoteHealthcareSite, ii.getExtension());
+				setNciCodeFromExtension(remoteHealthcareSite, ii.getExtension(), isPrimary);
 			}
 		}
 	}
