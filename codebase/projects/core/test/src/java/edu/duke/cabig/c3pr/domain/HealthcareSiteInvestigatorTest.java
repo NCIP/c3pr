@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -118,12 +119,19 @@ public class HealthcareSiteInvestigatorTest extends AbstractTestCase {
 	public void testEquals5() throws Exception{
 		 HealthcareSiteInvestigator hcsInv1= new HealthcareSiteInvestigator();
 		 LocalInvestigator investigator1 = new LocalInvestigator();
-		 investigator1.setNciIdentifier("IDENT1");
+		 ContactMechanism contactMechanism1 = new ContactMechanism();
+		 contactMechanism1.setType(ContactMechanismType.EMAIL);
+		 contactMechanism1.setValue("john.doe@gmail.com");
+		 investigator1.getContactMechanisms().add(contactMechanism1);
+			
 		 hcsInv1.setInvestigator(investigator1);
 		 
 		 HealthcareSiteInvestigator hcsInv2= new HealthcareSiteInvestigator();
 		 LocalInvestigator investigator2 = new LocalInvestigator();
-		 investigator2.setNciIdentifier("IDENT2");
+		 ContactMechanism contactMechanism2 = new ContactMechanism();
+		 contactMechanism2.setType(ContactMechanismType.EMAIL);
+		 contactMechanism2.setValue("john.doe@gmail.com");
+		 investigator1.getContactMechanisms().add(contactMechanism2);
 		 hcsInv2.setInvestigator(investigator2);
 		 
 		 assertFalse("The two healthcareSite investigators cannot be equal ",hcsInv1.equals(hcsInv2));
