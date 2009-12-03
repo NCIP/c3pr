@@ -111,6 +111,15 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
 		setContactMechanism(email, ContactMechanismType.EMAIL, false);
 	}
 	
+	@Transient
+    public String getRemoteEmail(){
+        ContactMechanism contactMechanism = getContactMechanism(ContactMechanismType.EMAIL);
+        if(contactMechanism != null){
+                return contactMechanism.getValue();
+        }
+        return null;
+    }
+
 	public void setRemotePhone(String phone){
 		setContactMechanism(phone, ContactMechanismType.PHONE, false);
 	}
