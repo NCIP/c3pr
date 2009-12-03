@@ -178,7 +178,7 @@ public abstract class ResearchStaff extends User {
         final int PRIME = 31;
         // int result = super.hashCode();
         int result = 1;
-        result = PRIME * result + ((nciIdentifier == null) ? 0 : nciIdentifier.hashCode());
+        result = PRIME * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         return result;
     }
 
@@ -190,10 +190,10 @@ public abstract class ResearchStaff extends User {
         if (this == obj) return true;
         if (getClass() != obj.getClass()) return false;
         final ResearchStaff other = (ResearchStaff) obj;
-        if (nciIdentifier == null) {
-            if (other.nciIdentifier != null) return false;
+        if (getEmail() == null) {
+            if (other.getEmail() != null) return false;
         }
-        else if (!nciIdentifier.equalsIgnoreCase(other.nciIdentifier)) return false;
+        else if (!getEmail().equalsIgnoreCase(other.getEmail())) return false;
         return true;
     }
 
