@@ -284,19 +284,21 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
         	Map<String, List<IdentifiedPerson>> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(personList);
         	remoteInvestigatorList = new ArrayList<Object>();
         	for(Person coppaPerson : personList){
-        		if(nciIdsMap.get(coppaPerson.getIdentifier().getExtension()) != null){
-            		List<IdentifiedPerson> identifiedPersonList = nciIdsMap.get(coppaPerson.getIdentifier().getExtension());
-            		String nciId = "";
+        		String nciId = null;
+        		if(nciIdsMap.containsKey(coppaPerson.getIdentifier().getExtension())){
+        			List<IdentifiedPerson> identifiedPersonList = nciIdsMap.get(coppaPerson.getIdentifier().getExtension());
             		for(IdentifiedPerson identifiedPerson:identifiedPersonList){
             			if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)){
                 			nciId = identifiedPerson.getAssignedId().getExtension();
-                			List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
-                        	
-                        	remoteInvestigator = populateRemoteInvestigator(coppaPerson, nciId, organizationsList);	
-                        	remoteInvestigatorList.add(remoteInvestigator);
                 		}
             		}
         		}
+        		
+    			List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
+            	remoteInvestigator = populateRemoteInvestigator(coppaPerson, nciId, organizationsList);	
+            	if(remoteInvestigator != null){
+            		remoteInvestigatorList.add(remoteInvestigator);
+            	}
         	}
 		}
 		return remoteInvestigatorList;
@@ -465,6 +467,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
         	for(IdentifiedPerson identifiedPerson:identifiedPersonList){
         		if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)){
             		nciId = identifiedPerson.getAssignedId().getExtension();
+            		break;
             	}
         	}
         	

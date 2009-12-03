@@ -412,6 +412,10 @@ public class RemoteStudyResolver implements RemoteResolver {
 						personOrganizationResolverUtils.getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, false);
 			//set the CTEP Id for the Org from the Structural Role(HealthcareFacility).
 			personOrganizationResolverUtils.setCtepCodeFromStructuralRoleIIList(remoteHealthcareSite, researchOrganization.getIdentifier().getItem());
+			if(StringUtils.isBlank(remoteHealthcareSite.getCtepCode())){
+				log.error("Rejecting Organization as it has not CTEP ID - " + remoteHealthcareSite.getName());
+				return null;
+			}
 			return remoteHealthcareSite;
 		} catch (C3PRCodedException e) {
 			log.error(e);
@@ -446,7 +450,10 @@ public class RemoteStudyResolver implements RemoteResolver {
 					personOrganizationResolverUtils.getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, false);
 			//set the CTEP Id for the Org from the Structural Role(HealthcareFacility).
 			personOrganizationResolverUtils.setCtepCodeFromStructuralRoleIIList(remoteHealthcareSite, healthcareFacility.getIdentifier().getItem());
-			
+			if(StringUtils.isBlank(remoteHealthcareSite.getCtepCode())){
+				log.error("Rejecting Organization as it has not CTEP ID - " + remoteHealthcareSite.getName());
+				return null;
+			}
 			studySite.setHealthcareSite(remoteHealthcareSite);
 			studySite.setTargetAccrualNumber(CoppaPAObjectFactory.getSiteTargetAccrualNumberFromCoppaStudySite(studySiteTemp));
 			return studySite;

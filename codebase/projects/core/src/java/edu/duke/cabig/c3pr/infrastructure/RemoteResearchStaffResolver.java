@@ -183,22 +183,22 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 			
 			Map<String, List<gov.nih.nci.coppa.po.Organization>> organizationsMap = getOrganizationsForPersonsList(personList);
 	    	Map<String, List<IdentifiedPerson>> nciIdsMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(personList);
-	    	String nciId;
 			RemoteResearchStaff tempRemoteResearchStaff = null;
 			for(Person coppaPerson: personList){
-				if(nciIdsMap.get(coppaPerson.getIdentifier().getExtension()) != null){
+				String nciId = null;
+				if(nciIdsMap.containsKey(coppaPerson.getIdentifier().getExtension())){
 					List<IdentifiedPerson> identifiedPersonList = nciIdsMap.get(coppaPerson.getIdentifier().getExtension());
-	        		nciId = "";
 	        		for(IdentifiedPerson identifiedPerson: identifiedPersonList){
 	        			if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)){
 	            			nciId = identifiedPerson.getAssignedId().getExtension();
-	            			List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
-	                    	tempRemoteResearchStaff = populateRemoteResearchStaff(coppaPerson, nciId, organizationsList);
-	                    	if(tempRemoteResearchStaff != null && tempRemoteResearchStaff.getHealthcareSite() != null){
-	        					remoteResearchStaffList.add(tempRemoteResearchStaff);
-	        				}
 	            		}
-	        		}					
+	        		}
+				}
+        		
+        		List<gov.nih.nci.coppa.po.Organization> organizationsList = organizationsMap.get(coppaPerson.getIdentifier().getExtension());
+            	tempRemoteResearchStaff = populateRemoteResearchStaff(coppaPerson, nciId, organizationsList);
+            	if(tempRemoteResearchStaff != null && tempRemoteResearchStaff.getHealthcareSite() != null){
+					remoteResearchStaffList.add(tempRemoteResearchStaff);
 				}
 			}
 		}

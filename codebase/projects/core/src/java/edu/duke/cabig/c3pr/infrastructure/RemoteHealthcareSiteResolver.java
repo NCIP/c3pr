@@ -188,8 +188,12 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 				remoteHealthcareSite = personOrganizationResolverUtils.getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, false);
 				if (remoteHealthcareSite != null) {
 					identifiedOrganization = identifierOrganizationsMap.get(coppaOrganization.getIdentifier().getExtension());
-					personOrganizationResolverUtils.setCtepCodeFromExtension(remoteHealthcareSite, identifiedOrganization.getAssignedId().getExtension());
-					remoteHealthcareSites.add(remoteHealthcareSite);
+					if(identifiedOrganization == null){
+						log.error("Rejecting Organization as it has no CTEP Id - " + remoteHealthcareSite.getName());
+					} else {
+						personOrganizationResolverUtils.setCtepCodeFromExtension(remoteHealthcareSite, identifiedOrganization.getAssignedId().getExtension());
+						remoteHealthcareSites.add(remoteHealthcareSite);
+					}
 				}
 			}
 		}
