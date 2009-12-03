@@ -39,7 +39,7 @@ public class SearchResearchStaffAjaxFacade {
         table.setAction(model.getContext().getContextPath() + "/pages/admin/editResearchStaff");
         table.setTitle("Research Staff");
         table.setShowPagination(true);
-        table.setRowsDisplayed(15);
+        table.setRowsDisplayed(100);
         table.setOnInvokeAction("buildTable('assembler')");
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
         table.setShowExports(false);
