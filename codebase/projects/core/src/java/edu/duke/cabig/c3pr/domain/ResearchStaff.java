@@ -202,7 +202,6 @@ public abstract class ResearchStaff extends User {
      * 
      * @return the nci identifier
      */
-    @RemoteProperty
     public String getNciIdentifier() {
         return nciIdentifier;
     }
