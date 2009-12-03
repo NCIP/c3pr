@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -60,7 +61,10 @@ public class ResearchStaffTest extends AbstractTestCase{
 		ResearchStaff researchStaff2 = new LocalResearchStaff();
 		assertEquals("The two research staff personnel should be same",0,researchStaff1.compareTo(researchStaff2));
 		
-		researchStaff1.setNciIdentifier("NCI_IDENT1");
+		ContactMechanism contactMechanism = new ContactMechanism();
+		contactMechanism.setType(ContactMechanismType.EMAIL);
+		contactMechanism.setValue("john.doe@gmail.com");
+		researchStaff1.getContactMechanisms().add(contactMechanism);
 		assertEquals("The two research staff personnel should be different",1,researchStaff1.compareTo(researchStaff2));
 	}
 	
@@ -72,9 +76,11 @@ public class ResearchStaffTest extends AbstractTestCase{
 	public void testHashCode() throws Exception{
 		ResearchStaff researchStaff1 = new LocalResearchStaff();
 		assertEquals("Wrong hash code",31,researchStaff1.hashCode());
-		String nciIdentifer = "NCI_IDENT1";
-		researchStaff1.setNciIdentifier(nciIdentifer);
-		assertEquals("Wrong hash code",31 + nciIdentifer.hashCode(),researchStaff1.hashCode());
+		ContactMechanism contactMechanism = new ContactMechanism();
+		contactMechanism.setType(ContactMechanismType.EMAIL);
+		contactMechanism.setValue("john.doe@gmail.com");
+		researchStaff1.getContactMechanisms().add(contactMechanism);
+		assertEquals("Wrong hash code",31 + researchStaff1.getEmail().hashCode(),researchStaff1.hashCode());
 	}
 	
 	/**
@@ -99,10 +105,15 @@ public class ResearchStaffTest extends AbstractTestCase{
 		ResearchStaff researchStaff1 = new LocalResearchStaff();
 		ResearchStaff researchStaff2 = new LocalResearchStaff();
 		
-		researchStaff2.setNciIdentifier("NCI_ORG2");
+		ContactMechanism contactMechanism1 = new ContactMechanism();
+		contactMechanism1.setType(ContactMechanismType.EMAIL);
+		contactMechanism1.setValue("john.doe@gmail.com");
+		researchStaff1.getContactMechanisms().add(contactMechanism1);
+		
 		assertFalse("The two ResearchStaffs cannot be equal",researchStaff1.equals(researchStaff2));
-		researchStaff1.setNciIdentifier("NCI_ORG1");
-		assertFalse("The two ResearchStaffs should be equal",researchStaff1.equals(researchStaff2));
+		
+		researchStaff2.getContactMechanisms().add(contactMechanism1);
+		assertTrue("The two ResearchStaffs should be equal",researchStaff1.equals(researchStaff2));
 	}
 	
 	/**
