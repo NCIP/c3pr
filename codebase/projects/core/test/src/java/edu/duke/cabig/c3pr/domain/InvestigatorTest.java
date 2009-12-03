@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 
 /**
  * The Class InvestigatorTest.
@@ -74,7 +75,11 @@ public class InvestigatorTest extends AbstractTestCase{
 		Investigator investigator2 = new LocalInvestigator();
 		assertEquals("The two Investigators should be same",0,investigator1.compareTo(investigator2));
 		
-		investigator1.setNciIdentifier("NCI_IDENT1");
+		ContactMechanism contactMechanism = new ContactMechanism();
+		contactMechanism.setType(ContactMechanismType.EMAIL);
+		contactMechanism.setValue("john.doe@gmail.com");
+		investigator1.getContactMechanisms().add(contactMechanism);
+		
 		assertEquals("The two Investigators should be different",1,investigator1.compareTo(investigator2));
 	}
 	
@@ -86,9 +91,11 @@ public class InvestigatorTest extends AbstractTestCase{
 	public void testHashCode() throws Exception{
 		Investigator investigator1 = new LocalInvestigator();
 		assertEquals("Wrong hash code",31,investigator1.hashCode());
-		String nciIdentifer = "NCI_IDENT1";
-		investigator1.setNciIdentifier(nciIdentifer);
-		assertEquals("Wrong hash code",31 + nciIdentifer.hashCode(),investigator1.hashCode());
+		ContactMechanism contactMechanism = new ContactMechanism();
+		contactMechanism.setType(ContactMechanismType.EMAIL);
+		contactMechanism.setValue("john.doe@gmail.com");
+		investigator1.getContactMechanisms().add(contactMechanism);
+		assertEquals("Wrong hash code",31 + investigator1.getEmail().hashCode(),investigator1.hashCode());
 	}
 	
 	/**
@@ -112,11 +119,15 @@ public class InvestigatorTest extends AbstractTestCase{
 	public void testEquals2() throws Exception{
 		Investigator investigator1 = new LocalInvestigator();
 		Investigator investigator2 = new LocalInvestigator();
+		ContactMechanism contactMechanism = new ContactMechanism();
+		contactMechanism.setType(ContactMechanismType.EMAIL);
+		contactMechanism.setValue("john.doe@gmail.com");
+		investigator1.getContactMechanisms().add(contactMechanism);
 		
-		investigator2.setNciIdentifier("NCI_ORG2");
 		assertFalse("The two Investigators cannot be equal",investigator1.equals(investigator2));
-		investigator1.setNciIdentifier("NCI_ORG1");
-		assertFalse("The two Investigators should be equal",investigator1.equals(investigator2));
+		
+		investigator2.getContactMechanisms().add(contactMechanism);
+		assertTrue("The two Investigators should be equal",investigator1.equals(investigator2));
 	}
 	
 	/**
