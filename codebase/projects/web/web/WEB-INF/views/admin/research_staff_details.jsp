@@ -258,7 +258,7 @@
     <div class="rightpanel">
     	<div class="row">
             <div class="label"><tags:requiredIndicator />
-                <fmt:message key="c3pr.common.NCIIdentifier"/></div>
+                <fmt:message key="c3pr.person.identifier"/></div>
             
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">

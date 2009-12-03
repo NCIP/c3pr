@@ -109,7 +109,7 @@
             </div>
             <div class="row">
                 <div class="label">
-                    <fmt:message key="c3pr.common.NCIIdentifier"/>
+                    <fmt:message key="c3pr.person.identifier"/>
                 </div>
                 <div class="value">
                     <input type="text" name="nciIdentifier" id="nciIdentifier"/>

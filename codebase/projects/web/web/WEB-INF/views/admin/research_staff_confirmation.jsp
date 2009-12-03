@@ -33,7 +33,7 @@
 								<div class="value">${command.lastName}</div>
 							</div>
 							<div class="row">
-								<div class="label"><fmt:message key="c3pr.common.NCIIdentifier"/>:</div>
+								<div class="label"><fmt:message key="c3pr.person.identifier"/>:</div>
 								<div class="value">${command.nciIdentifier}</div>
 							</div>
 							<div class="row">
