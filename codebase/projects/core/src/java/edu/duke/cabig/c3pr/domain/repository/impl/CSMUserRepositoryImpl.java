@@ -86,14 +86,14 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 			csmUser.setPassword(encryptString(researchStaff.getSalt() + "obscurity"));
 			createCSMUser(csmUser);
 			researchStaffDao.save(researchStaff);
-			sendUserEmail(emailId, "Your new caAERS account", "A new caAERS account has been created for you.\n"
+			sendUserEmail(emailId, "Your new C3PR account", "A new C3PR account has been created for you.\n"
 					+ "\n"
 					+ "You must change your password before you can login. In order to do so please visit this URL:\n"
 					+ "\n"
 					+ changeURL + "&token=" + userCreateToken(emailId) + "\n"
 					+ "\n"
 					+ "Regards\n"
-					+ "The caAERS Notification System.\n");
+					+ "The C3PR Notification System.\n");
 			return csmUser;
 		}
 	}
