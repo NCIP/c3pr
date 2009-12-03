@@ -338,17 +338,20 @@ public class PersonOrganizationResolverUtils {
 	}
 	
 	public void setCtepCodeFromStructuralRoleIIList(RemoteHealthcareSite remoteHealthcareSite, List<II> iiList){
-		boolean isPrimary = true;
+//		boolean isPrimary = true;
 		for(II ii: iiList){
 			if(ii.getRoot().equalsIgnoreCase(CTEP_ROOT) || ii.getIdentifierName().equals(CTEP_ID) ){
 				setCtepCodeFromExtension(remoteHealthcareSite, ii.getExtension());
-				isPrimary = false;
+//				isPrimary = false;
 			}			
-		}
-		for(II ii: iiList){
 			if(ii.getRoot().equalsIgnoreCase(NCI_ROOT) || ii.getIdentifierName().equals(NCI_ID) ){
-				setNciCodeFromExtension(remoteHealthcareSite, ii.getExtension(), isPrimary);
+				setNciCodeFromExtension(remoteHealthcareSite, ii.getExtension(), false);
 			}
+		}
+		//Set the externalID as cTEP Id if no CTEP Id is found
+		if(StringUtils.isEmpty(remoteHealthcareSite.getCtepCode())){
+			log.debug("Setting the externalId as CTEP Id for Organization -" + remoteHealthcareSite.getName());
+			remoteHealthcareSite.setCtepCode(remoteHealthcareSite.getExternalId());
 		}
 	}
 

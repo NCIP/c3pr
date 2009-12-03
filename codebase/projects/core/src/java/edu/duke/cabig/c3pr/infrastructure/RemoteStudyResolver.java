@@ -172,8 +172,21 @@ public class RemoteStudyResolver implements RemoteResolver {
 		setStudyNciIdentifier(remoteStudy, studyProtocol.getAssignedIdentifier().getExtension());
 		
 		//Set StudyOrganizations
+		boolean hasCoordinatingCenter = false;
 		List<StudyOrganization> remoteStudyOrganizations = getStudyOrganizationsForStudyProtocol(studyProtocol);
-		remoteStudy.addStudyOrganizations(remoteStudyOrganizations);
+		for(StudyOrganization studyOrganization: remoteStudyOrganizations){
+			if(studyOrganization instanceof StudyCoordinatingCenter){
+				hasCoordinatingCenter = true;
+			}
+		}
+		if(hasCoordinatingCenter){
+			remoteStudy.addStudyOrganizations(remoteStudyOrganizations);
+		} else {
+			//return null if no StudyCoordinatingCenter could be matched
+			log.error("Rejecting this study based on its missing StudyCoordinatingCenter. Short Title: " + remoteStudy.getShortTitleText());
+			return null;
+		}
+		
 
 		//Set status
 		CoordinatingCenterStudyStatus coordinatingCenterStudyStatus = getStudyCoordinatingCenterStudyStatus(studyProtocol);
@@ -186,7 +199,20 @@ public class RemoteStudyResolver implements RemoteResolver {
 		}
 		
 		//Set PI for Study
+		boolean hasPrincipalInvestigator = false;
 		setPrincipalInvestigator(remoteStudy, studyProtocol.getIdentifier().getExtension());
+		for(StudyOrganization studyOrganization: remoteStudy.getStudyOrganizations()){
+			for(StudyInvestigator studyInvestigator: studyOrganization.getStudyInvestigators()){
+				if(studyInvestigator.getRoleCode().equalsIgnoreCase(StudyInvestigator.PRINCIPAL_INVESTIGATOR)){
+					hasPrincipalInvestigator = true;
+				}
+			}
+		}
+		if(!hasPrincipalInvestigator){
+			//return null if no PI could be matched
+			log.error("Rejecting this study based on its Missing Principal Investigator. Short Title: " + remoteStudy.getShortTitleText());
+			return null;
+		}
 		
 		//Set default values in RemoteStudy
 		remoteStudy.setRandomizationType(RandomizationType.PHONE_CALL);
@@ -373,6 +399,10 @@ public class RemoteStudyResolver implements RemoteResolver {
 		try {
 			String roResultXml  = personOrganizationResolverUtils.broadcastResearchOrganizationGetById(roPayLoad);
 			List<String> roResults = XMLUtils.getObjectsFromCoppaResponse(roResultXml);
+			if(roResults.size() == 0){
+				log.error("Received a bad ResearchOrganizationId from Coppa StudySite- "+studySiteTemp.getResearchOrganization().getExtension());
+				return null;
+			}
 			gov.nih.nci.coppa.po.ResearchOrganization researchOrganization = CoppaObjectFactory.getResearchOrganization(roResults.get(0));
 
 			//Assuming here that the playerII in the RO is the Organization II
@@ -610,6 +640,8 @@ public class RemoteStudyResolver implements RemoteResolver {
 						    studyInvestigator = getPopulatedStudyInvestigator(coppaPerson, newStudyOrganization, StudyInvestigator.PRINCIPAL_INVESTIGATOR);
 						    if(studyInvestigator != null){
 						    	newStudyOrganization.getStudyInvestigators().add(studyInvestigator);
+						    } else {
+						    	return;
 						    }
 							
 							//add the studySite with the loaded PI to the remoteStudy which is passed in.
