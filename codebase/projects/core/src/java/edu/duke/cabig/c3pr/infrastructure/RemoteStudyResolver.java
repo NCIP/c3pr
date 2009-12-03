@@ -32,6 +32,7 @@ import edu.duke.cabig.c3pr.utils.ProtocolAbstractionResolverUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import gov.nih.nci.coppa.po.HealthCareProvider;
+import gov.nih.nci.coppa.po.IdentifiedPerson;
 import gov.nih.nci.coppa.po.Organization;
 import gov.nih.nci.coppa.po.Person;
 import gov.nih.nci.coppa.services.pa.DocumentWorkflowStatus;
@@ -56,6 +57,8 @@ public class RemoteStudyResolver implements RemoteResolver {
 	
 	/* Study level PI role code*/
 	public static final String STUDY_PRINCIPAL_INVESTIGATOR = "Study Principal Investigator";
+	
+	public static final String CTEP_PERSON = "Cancer Therapy Evaluation Program Person Identifier";
 	
 	/* List of values for DocumentWorkflowStatus. The study has to have one of these to be eligible for fetching. */
 	public static final List<String> DOCUMENT_WORKFLOW_STATUS_LIST = Arrays.asList("Abstracted", "Verification Pending", "Abstraction Verified Response", "Abstraction Verified No Response");
@@ -178,6 +181,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 			remoteStudy.setCoordinatingCenterStudyStatus(coordinatingCenterStudyStatus);
 		} else {
 			//return null if no status could be matched
+			log.error("Rejecting this study based on its Document Workflow Status. Short Title: " + remoteStudy.getShortTitleText());
 			return null;
 		}
 		
@@ -521,9 +525,21 @@ public class RemoteStudyResolver implements RemoteResolver {
 	    	return null;
 	    } else {
 	    	RemoteInvestigator remoteInvestigator = (RemoteInvestigator) object;
-		    remoteInvestigator.setNciIdentifier(coppaPerson.getIdentifier().getExtension());
-		    remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
-		    
+		    //remoteInvestigator.setNciIdentifier(coppaPerson.getIdentifier().getExtension());
+	    	List<IdentifiedPerson> identifiedPersonsList = personOrganizationResolverUtils.getIdentifiedPerson(coppaPerson.getIdentifier());
+            String nciIdentifier = null;
+            for(IdentifiedPerson identifiedPerson: identifiedPersonsList){
+            	if (identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)) {
+                    nciIdentifier = identifiedPerson.getAssignedId().getExtension();
+                    break;
+                }
+            }
+            /*if(nciIdentifier == null){
+            	nciIdentifier = coppaPerson.getIdentifier().getExtension();
+            }*/
+            remoteInvestigator.setNciIdentifier(nciIdentifier);
+            
+	    	remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
 		    HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
 		    healthcareSiteInvestigator.setHealthcareSite(studyOrganization.getHealthcareSite());
 		    healthcareSiteInvestigator.setInvestigator(remoteInvestigator);
@@ -622,7 +638,12 @@ public class RemoteStudyResolver implements RemoteResolver {
 		String coppaHealthCareProviderXml = CoppaObjectFactory.getHealthCareProviderIdXML(extension);
 		String healthCareProviderResult  = personOrganizationResolverUtils.broadcastHealthcareProviderGetById(coppaHealthCareProviderXml);
 		List<String> healthCareProviderResults = XMLUtils.getObjectsFromCoppaResponse(healthCareProviderResult);
-		return CoppaObjectFactory.getCoppaHealthCareProvider(healthCareProviderResults.get(0));
+		if(healthCareProviderResults.size() > 0){
+			return CoppaObjectFactory.getCoppaHealthCareProvider(healthCareProviderResults.get(0));
+		} else {
+			log.error("Rejecting HealthCareProvider as the given extension never existed" );
+			return null;
+		}
 	}
 	
 	/**
