@@ -89,7 +89,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 			log.error(e.getMessage());
 		}
 		log.debug("Exiting getRemoteEntityByUniqueId() for:" + this.getClass());
-		return personOrganizationResolverUtils.getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization);
+		return personOrganizationResolverUtils.getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, false);
 	}
 	
 	/**
