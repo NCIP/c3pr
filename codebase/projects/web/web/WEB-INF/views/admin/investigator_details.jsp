@@ -218,7 +218,7 @@ function submitForm(){
 
 	<div class="rightpanel">
     	<div class="row">
-            <div class="label"><tags:requiredIndicator />
+            <div class="label">
                 <fmt:message key="c3pr.person.identifier"/></div>
             
 				<c:choose>
@@ -227,7 +227,7 @@ function submitForm(){
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="25" path="nciIdentifier" cssClass="required validate-notEmpty" />
+							<form:input size="25" path="nciIdentifier" />
 						  </div>
 					</c:otherwise>
 				</c:choose>
