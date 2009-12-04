@@ -128,7 +128,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 	public List<Object> find(Object example) {
 		log.debug("Entering find() for:" + this.getClass());
 		RemoteInvestigator remoteInvestigator = null;
-		List<Object> remoteInvestigatorList = null;
+		List<Object> remoteInvestigatorList = new ArrayList<Object>();;
 		try{
 			if(example instanceof RemoteInvestigator){
 				remoteInvestigator = (RemoteInvestigator) example;
