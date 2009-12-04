@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
@@ -282,6 +283,25 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 						+ emailAddress + "'"));
 	}
 
+	/**Case insensitive version of getByEmailAddressFromLocal
+	 * @param emailAddress
+	 * @return
+	 */
+	public ResearchStaff getByEmailAddressLikeFromLocal(String emailAddress) {
+		Criteria staffCriteria = getHibernateTemplate().getSessionFactory()
+	    							.getCurrentSession().createCriteria(ResearchStaff.class);
+		Criteria contactMechanismsCriteria = staffCriteria.createCriteria("contactMechanisms");
+
+		contactMechanismsCriteria.add(Expression.ilike("value", "%" + emailAddress + "%"));
+		List<ResearchStaff> staffList = staffCriteria.list();
+		if(staffList.size() > 0){
+			return staffList.get(0);
+		} else {
+			return null;
+		}
+	}
+    
+
 	/**
 	 * Gets the by email address. Created for the notifications use case.
 	 *
@@ -473,7 +493,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 						// checking for the uniquness of email and NCI
 						// Identifier before saving into database
 						ResearchStaff researchStaffWithMatchingEmail = 
-								getByEmailAddressFromLocal(remoteResearchStaff.getEmail());
+								getByEmailAddressLikeFromLocal(remoteResearchStaff.getEmail());
 						ResearchStaff researchStaffWithMatchingNCIIdentifier = 
 								getByNciIdentifierFromLocal(remoteResearchStaff.getNciIdentifier());
 						if (researchStaffWithMatchingEmail == null && researchStaffWithMatchingNCIIdentifier == null) {
