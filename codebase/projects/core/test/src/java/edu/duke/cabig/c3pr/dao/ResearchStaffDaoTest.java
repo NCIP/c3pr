@@ -171,6 +171,17 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     }
     
     /**
+     * Test get by email address.
+     * 
+     * @throws Exception the exception
+     */
+    public void testGetByEmailAddressLikeFromLocal() throws Exception {
+    	ResearchStaff researchStaff = getDao().getByEmailAddressLikeFromLocal("Test@mail.com");
+    	assertNotNull(researchStaff);
+    	assertEquals("Incorrect staff retrieved", researchStaff.getFirstName(), "Research Bill");
+    }
+    
+    /**
      * Test get by nci id.
      * 
      * @throws Exception the exception
