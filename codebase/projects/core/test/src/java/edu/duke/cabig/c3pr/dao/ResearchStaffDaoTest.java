@@ -89,10 +89,11 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         try {
             getDao().save(rs2);
             interruptSessionForceNewSession();
-            fail("it should fail because of duplicate data entry");
+            assertTrue(true);
         }
         catch (Exception e) {
-            assertTrue(true);
+        	fail("it shouldn't fail because nci id is not a unique constraint anymore");
+//            assertTrue(true);
         }
     }
 
