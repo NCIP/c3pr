@@ -70,8 +70,9 @@ function manageIdentifierRadio(element){
 </script>
 </head>
 <body>
+
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
-	formName="studyIdentifiersForm">
+	formName="studySubjectIdentifiersForm">
 	<jsp:attribute name="singleFields">
 		
 	<br>
@@ -93,8 +94,8 @@ function manageIdentifierRadio(element){
 						<td>${orgIdentifier.type.displayName}</td>
 						<td>${orgIdentifier.value}</td>
 						<td>
-						<form:hidden path="studySubject.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" id="identifier-org-${organizationStatus.index}-hidden"/>
-						<form:radiobutton value="true" cssClass="identifierRadios" path="studySubject.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
+							<input type="radio" class="identifierRadios" id="identifier-org-${organizationStatus.index}" onclick="manageIdentifierRadio(this);"/>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -120,7 +121,10 @@ function manageIdentifierRadio(element){
 						<td>${sysIdentifier.systemName}</td>
 						<td>${sysIdentifier.type}</td>
 						<td>${sysIdentifier.value}</td>
-						<td><form:radiobutton value="true" cssClass="identifierRadios" path="studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
+						<td>
+							<input type="radio" name="studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator" 
+							value="studySubject.systemAssignedIdentifiers[${status.index}].primaryIndicator" class="identifierRadios" id="identifier-sys-${status.index}" onclick="manageIdentifierRadio(this);"/>
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -158,7 +162,8 @@ function manageIdentifierRadio(element){
 			class="required validate-notEmpty" /></td>
 		<td><input type="radio"
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
-			name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"/></td>
+			name="studySubject.systemAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
+		</td>
 		<td><a
 			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -192,8 +197,8 @@ function manageIdentifierRadio(element){
 			class="required validate-notEmpty" /></td>
 		<td>
 			<input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
-			name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"/>
-			<input type="hidden" name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
+			name="studySubject.organizationAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
+		</td>
 		<td><a
 			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
