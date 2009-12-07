@@ -37,6 +37,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
@@ -225,6 +226,12 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 		for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
             getHibernateTemplate().initialize(studyOrganization.getStudyInvestigatorsInternal());
             getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
+            for(StudyInvestigator studyInvestigator:studyOrganization.getStudyInvestigatorsInternal()){
+            	getHibernateTemplate().initialize(studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getContactMechanisms());
+            }
+            for(StudyPersonnel studyPersonnel:studyOrganization.getStudyPersonnelInternal()){
+            	getHibernateTemplate().initialize(studyPersonnel.getResearchStaff().getContactMechanisms());
+            }
             getHibernateTemplate().initialize(studyOrganization.getEndpoints());
             healthcareSiteDao.initialize(studyOrganization.getHealthcareSite());
             if(studyOrganization instanceof StudySite){
