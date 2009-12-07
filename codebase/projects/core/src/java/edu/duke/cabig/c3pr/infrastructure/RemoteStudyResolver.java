@@ -136,6 +136,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 			}
 			
 			List<gov.nih.nci.coppa.services.pa.StudyProtocol> studyProtocols = getStudyProtocolsFromResultXml(resultXml);
+			log.debug("Coppa Search returned " + studyProtocols.size() + "Protocols");
 			for (gov.nih.nci.coppa.services.pa.StudyProtocol studyProtocol : studyProtocols) {
 				RemoteStudy remoteStudy = getRemoteStudyFromStudyProtocol(studyProtocol);
 				if (remoteStudy != null) {
@@ -143,7 +144,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 				}
 			}
 		} catch(Exception e){
-			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 		log.debug("Exiting find() for:" + this.getClass());
 		return remoteStudies;
@@ -444,7 +445,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 			List<String> hcfResults = XMLUtils.getObjectsFromCoppaResponse(hcfResultXml);
 			gov.nih.nci.coppa.po.HealthCareFacility healthcareFacility = CoppaObjectFactory.getHealthcareFacility(hcfResults.get(0));
 			
-			//Assuming here that the payerII in the HCF is the Organization II
+			//Assuming here that the playerII in the HCF is the Organization II
 			gov.nih.nci.coppa.po.Organization coppaOrganization = getOrganizationFromExtension(healthcareFacility.getPlayerIdentifier().getExtension());
 			RemoteHealthcareSite remoteHealthcareSite = 
 					personOrganizationResolverUtils.getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, false);

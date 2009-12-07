@@ -66,6 +66,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 			}
 		} catch (Exception e){
 			log.error(e.getMessage());
+			e.printStackTrace();
 		}
 		
 		log.debug("Exiting find() for:" + this.getClass());
@@ -92,6 +93,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
                  remoteResearchStaffList.add(tempRemoteResearchStaff);
              } catch (Exception e) {
                 log.error(e.getMessage());
+                e.printStackTrace();
              }
 		}
 		return remoteResearchStaffList;
@@ -159,8 +161,10 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
             }
         } catch(C3PRCodedException cce){
         	log.error(cce.getMessage());
+        	cce.printStackTrace();
         } catch(Exception e){
         	log.error(e.getMessage());
+        	e.printStackTrace();
         }
         return remoteResearchStaffList;
 	}
