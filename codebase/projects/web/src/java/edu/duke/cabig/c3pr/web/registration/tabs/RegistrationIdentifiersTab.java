@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.web.registration.tabs;
 
 import java.util.Map;
 
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
 /**
@@ -20,6 +22,19 @@ public class RegistrationIdentifiersTab<C extends StudySubjectWrapper> extends R
         Map<String, Object> refdata = super.referenceData();
         refdata.put("orgIdentifiersTypeRefData", configurationProperty.getMap().get("orgIdentifiersTypeRefData"));
         return refdata;
+    }
+    
+    public void onBind(javax.servlet.http.HttpServletRequest request, C command, org.springframework.validation.Errors errors) {
+    	StudySubject studySubject = (StudySubject) command.getStudySubject();
+    	
+    	if(request.getParameter("setAsPrimary")!=null && request.getParameter("setAsPrimary").equals("true") ){
+    		for(Identifier identifier :studySubject.getIdentifiers()){
+    			if (identifier.getId() != null){
+    				identifier.setPrimaryIndicator(false);
+    			}
+    		}
+    	}
+    	
     }
 
 }
