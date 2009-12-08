@@ -142,7 +142,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         return (List<Study>) getHibernateTemplate()
                 .find("select S from Study S, Identifier I where I.healthcareSite.id in " + 
             		"(select h.id from HealthcareSite h, Identifier I where " +
-            		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')"  +
+            		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1')"  +
                     " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
                     new Object[] {id.getHealthcareSite().getCtepCode(), id.getValue(), id.getType().getName()});
     }

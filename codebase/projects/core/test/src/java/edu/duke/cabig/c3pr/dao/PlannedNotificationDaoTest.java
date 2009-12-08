@@ -94,7 +94,7 @@ public class PlannedNotificationDaoTest extends ContextDaoTestCase<PlannedNotifi
         nciCodeList.add("du code");
         List<PlannedNotification> result = null;
         Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and " +
-                "o.identifiersAssignedToOrganization.primaryIndicator = 'true' and " +
+                "o.identifiersAssignedToOrganization.primaryIndicator = '1' and " +
                 "o.identifiersAssignedToOrganization.value in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
         result = query.list();
         assertEquals(result.size(), 1);

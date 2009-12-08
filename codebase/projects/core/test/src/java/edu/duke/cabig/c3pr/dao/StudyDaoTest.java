@@ -1619,7 +1619,7 @@ public class StudyDaoTest extends DaoTestCase {
 
     public void testSaveStudyWithStudyVersionAndStudySite() throws Exception {
     	Study study = new LocalStudy();
-    	study.setPhaseCode("");
+    	study.setPhaseCode("PHASE I");
     	study.setShortTitleText("short title");
     	study.setType("type");
     	study.getStudyVersion().setPrecisText("");

@@ -69,7 +69,7 @@ public class ICD9DiseaseSiteDao extends GridIdentifiableDao<ICD9DiseaseSite> {
      *  * @return the list< icd9 disease sites>
      */
     public List<ICD9DiseaseSite> getSelectableSites(){
-    	return (List<ICD9DiseaseSite>)(getHibernateTemplate().find("from ICD9DiseaseSite where selectable='TRUE'"));
+    	return (List<ICD9DiseaseSite>)(getHibernateTemplate().find("from ICD9DiseaseSite where selectable='1'"));
     }
     
     /**
@@ -78,7 +78,7 @@ public class ICD9DiseaseSiteDao extends GridIdentifiableDao<ICD9DiseaseSite> {
      *  * @return the list< icd9 disease sites>
      */
     public List<ICD9DiseaseSite> getNonSelectableSites(){
-    	return (List<ICD9DiseaseSite>)(getHibernateTemplate().find("from ICD9DiseaseSite where selectable='False'"));
+    	return (List<ICD9DiseaseSite>)(getHibernateTemplate().find("from ICD9DiseaseSite where selectable='0'"));
     }
     
     /**

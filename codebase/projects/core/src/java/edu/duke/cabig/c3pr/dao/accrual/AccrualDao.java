@@ -51,13 +51,13 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
 			studies = (List<Study>) getHibernateTemplate().find(
 					"Select s from Study s, StudySite ss where ss = any elements(s.studyOrganizations) and ss.healthcareSite.id in " +
 					"(select h.id from HealthcareSite h where " +
-	    			"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
+	    			"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1')",
 					new Object[]{nciInstituteCode});
 		} else {
 			studies = (List<Study>) getHibernateTemplate().find(
 					"Select s from Study s, StudySite ss, StudyVersion sv where ss = any elements(s.studyOrganizations) and sv.shortTitleText = ? and ss.healthcareSite.id in " +
 					"(select h.id from HealthcareSite h where " +
-					"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
+					"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1')",
 					new Object[]{shortTitleText, nciInstituteCode});
 		}
 
@@ -198,14 +198,14 @@ public class AccrualDao extends GridIdentifiableDao<Accrual> implements
     				"sv.shortTitleText = ? " +
     				"and ss.diseaseHistoryInternal.icd9DiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
     				"(select h.id from HealthcareSite h where " +
-    				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
+    				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1')",
 					new Object[]{shortTitleText, diseaseSteName, nciInstituteCode}).size();
     	}else {
     		accrual = getHibernateTemplate().find(
     				"Select ss from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and " +
     				"ss.diseaseHistoryInternal.icd9DiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
     				"(select h.id from HealthcareSite h where " +
-    				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = 'TRUE')",
+    				"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1')",
     				new Object[]{diseaseSteName, nciInstituteCode}).size();
     	}
     	
