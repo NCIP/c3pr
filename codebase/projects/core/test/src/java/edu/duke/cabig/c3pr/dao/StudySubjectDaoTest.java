@@ -95,6 +95,19 @@ public class StudySubjectDaoTest extends DaoTestCase {
                         "c3pr-study-xml-castorMapping"));
         identifierGenerator = (IdentifierGenerator) getApplicationContext().getBean("identifierGenerator");
     }
+    
+    public void testDeleteStudySubjectStudyVersion() throws Exception {
+        StudySubject loadedStudySubject = studySubjectDao.getById(1000);
+        ScheduledEpoch scheduledEpoch =  scheduledEpochDao.getById(1000);
+        Epoch epoch = epochDao.getById(1000);
+        assertEquals("2 epochs should be equal",epoch,scheduledEpoch.getEpoch());
+        loadedStudySubject.getStudySubjectStudyVersion().getScheduledEpochs().remove(scheduledEpoch);
+        interruptSession();
+        epoch =  epochDao.getById(1000);
+        assertNotNull("Epoch cannot be deleted by scheduled epoch",epoch);
+        assertNotNull("Eligibility criteria cannot be deleted by scheduled epoch",epoch.getEligibilityCriteria());
+        assertEquals("Wrong number of eligibility criteria. Some may have been deleted by scheduled epoch",3,epoch.getEligibilityCriteria().size());
+    }
 
     /*
      *
@@ -1190,20 +1203,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubject.getStudySubjectStudyVersion();
     	studySubjectDao.save(studySubject);
     	System.out.println();
-    }
-
-
-    public void testDeleteStudySubjectStudyVersion() throws Exception {
-        StudySubject loadedStudySubject = studySubjectDao.getById(1000);
-        ScheduledEpoch scheduledEpoch =  loadedStudySubject.getStudySubjectStudyVersion().getScheduledEpochs().get(0);
-        Epoch epoch = epochDao.getById(1000);
-        assertEquals("2 epochs should be equal",epoch,scheduledEpoch.getEpoch());
-        loadedStudySubject.getStudySubjectStudyVersion().getScheduledEpochs().remove(scheduledEpoch);
-        interruptSession();
-        epoch =  epochDao.getById(1000);
-        assertNotNull("Epoch cannot be deleted by scheduled epoch",epoch);
-        assertNotNull("Eligibility criteria cannot be deleted by scheduled epoch",epoch.getEligibilityCriteria());
-        assertEquals("Wrong number of eligibility criteria. Some may have been deleted by scheduled epoch",3,epoch.getEligibilityCriteria().size());
     }
 
      public void testDeleteStudySiteStudyVersion() throws Exception {
