@@ -25,6 +25,7 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
       	execute("update comp_stu_associations set parent_version_id=parent_study_id");
       	dropColumn('comp_stu_associations', 'parent_study_id');
     
+    	if (databaseMatches('postgres')){
     	// migrating consent version to new table consents from studies.
     	execute('insert into "consents"("id", "retired_indicator", "version", "name", "stu_version_id") select "id", "retired_indicator", 0, "consent_version", "id" from studies') ;
     	
@@ -32,7 +33,7 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
 		
 		// migrate study site to study site study version
 		execute("insert into study_site_versions (id, retired_indicator, version, start_date, irb_approval_date, stu_version_id, sto_id) select id , retired_indicator, 0 , start_date, irb_approval_date, study_id, id from study_organizations where type='SST'	")
-		
+		}
 		// migrate study site to study site study status history
 		
     }
