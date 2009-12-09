@@ -1,33 +1,25 @@
 <?xml version="1.0"?>
 <!--
-
 This Ant script is used to package parts of the c3prvw app to create an installer
-
 run with ...
-
 ant -buildfile build-c3prv2.xml
 
 -->
 <project name="Create C3PRV2 Installer Build" default="build-installer" basedir=".">
-
     <!-- Information -->
     <property name="project.name" value="c3prv2-installer"/>
-    <property name="project.version" value="1.0"/>
+    <property name="project.version" value="2.8"/>
     <property name="ant.lib.version" value=""/>
-
 
     <property name="ext.dir" value="${basedir}/ext"/>
     <property name="ext.resources.dir" value="${ext.dir}/resources"/>
     <property name="build.dir" value="${basedir}/build"/>
     <property name="build.jar.dir" value="${build.dir}/jars"/>
 
-
     <property name="c3prv2.installer.dir" value="${basedir}/c3prv2-installer"/>
     <property name="c3prv2.installer.artifact" value="${build.jar.dir}/${project.name}-${project.version}.jar"/>
-    <property name="c3prv2.offline.installer.artifact"
-              value="${build.jar.dir}/${project.name}-offline-${project.version}.jar"/>
-    <property name="c3prv2.online.installer.artifact"
-              value="${build.jar.dir}/${project.name}-online-${project.version}.jar"/>
+    <property name="c3prv2.offline.installer.artifact" value="${build.jar.dir}/${project.name}-offline-${project.version}.jar"/>
+    <property name="c3prv2.online.installer.artifact" value="${build.jar.dir}/${project.name}-online-${project.version}.jar"/>
 
     <property name="resources.dir" value="${basedir}/resources"/>
     <property name="software.dir" value="${resources.dir}/software"/>
@@ -100,11 +92,7 @@ ant -buildfile build-c3prv2.xml
     <!-- ================================================================= -->
     <!-- Builds the offline version of installer                        -->
     <!-- ============================================================== -->
-    <target name="build-offline-installer"
-            depends="prepare"
-            description="Builds c3prv2 self extracting installer">
-
-
+    <target name="build-offline-installer" depends="prepare" description="Builds c3prv2 self extracting installer">
         <installer file="${c3prv2.offline.installer.artifact}" compress="true"
                    extractType="NonExtractor"
                    installConfig="${c3prv2.installer.dir}/${antinstall.config.filename}"
@@ -146,21 +134,15 @@ ant -buildfile build-c3prv2.xml
 
     <!--runs the installer-->
     <target name="run-installer" description="Will run a previously built installer">
-        <available property="offline.installer"
-                   file="${c3prv2.offline.installer.artifact}"/>
-
-
-        <available property="online.installer"
-                   file="${c3prv2.online.installer.artifact}"/>
+        <available property="offline.installer" file="${c3prv2.offline.installer.artifact}"/>
+        <available property="online.installer" file="${c3prv2.online.installer.artifact}"/>
 
         <echo message="${offline.installer}"/>
         <echo message="${online.installer}"/>
 
-        <antcall target="run-offline-installer">
-        </antcall>
+        <antcall target="run-offline-installer"> </antcall>
 
-        <antcall target="run-online-installer">
-        </antcall>
+        <antcall target="run-online-installer"></antcall>
 
     </target>
 
@@ -172,7 +154,6 @@ ant -buildfile build-c3prv2.xml
     <target name="run-online-installer" if="online.installer">
         <echo message="running online installer"/>
         <java jar="${c3prv2.online.installer.artifact}" fork="true"/>
-
     </target>
 
     <target name="clean">

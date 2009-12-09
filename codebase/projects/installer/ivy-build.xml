@@ -88,13 +88,11 @@
 	    <!-- ================================================================= -->
 	    <!-- Builds the offline version of installer                        -->
 	    <!-- ============================================================== -->
-	    <target name="build-offline-installer"
-	            depends="prepare"
+	    <target name="build-offline-installer" depends="prepare"
 	            description="Builds c3prv2 self extracting installer">
-	    	<taskdef
-	    		            name="installer"
-	    		            classname="org.tp23.antinstaller.taskdefs.Installer"
-	    		            classpathref="build.classpath"/>
+	    	<taskdef name="installer"
+	    		     classname="org.tp23.antinstaller.taskdefs.Installer"
+	    		     classpathref="build.classpath"/>
 
 	        <installer file="${c3prv2.offline.installer.artifact}" compress="true"
 	                   extractType="NonExtractor"
@@ -138,21 +136,14 @@
 
 	    <!--runs the installer-->
 	    <target name="run-installer" description="Will run a previously built installer">
-	        <available property="offline.installer"
-	                   file="${c3prv2.offline.installer.artifact}"/>
-
-
-	        <available property="online.installer"
-	                   file="${c3prv2.online.installer.artifact}"/>
+	        <available property="offline.installer" file="${c3prv2.offline.installer.artifact}"/>
+	        <available property="online.installer" file="${c3prv2.online.installer.artifact}"/>
 
 	        <echo message="${offline.installer}"/>
 	        <echo message="${online.installer}"/>
 
-	        <antcall target="run-offline-installer">
-	        </antcall>
-
-	        <antcall target="run-online-installer">
-	        </antcall>
+	        <antcall target="run-offline-installer"> </antcall>
+	        <antcall target="run-online-installer"> </antcall>
 
 	    </target>
 
