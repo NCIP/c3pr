@@ -70,7 +70,7 @@ This is the install config for c3pr2.8 installer
         <directory
                 property="tomcat.home"
                 displayText="Tomcat Directory"
-                defaultValue="${install.dir}/apache-tomcat-5.5.23"
+                defaultValue="${install.dir}/apache-tomcat-5.5.27"
                 checkExists="true"
                 create="true"
                 />
@@ -189,6 +189,8 @@ This is the install config for c3pr2.8 installer
             <option text="Other/none" value="none"/>
         </select>
         <hidden property="maxSearchResultsForAutocompleter" value="@maxSearchResultsForAutocompleter@"/>
+        <hidden property="paLimitValue" value="@paLimitValue@"/>
+        <hidden property="poLimitValue" value="@poLimitValue@"/>
     </page>
 
     <page
