@@ -331,25 +331,11 @@
     <!-- create target to create a release of Installer  project          -->
     <!-- =============================================================== -->
     <target name="prepareInstallerForRelease" >
-        <!--<property name="project.archive" value="c3prv2-installpack.zip"/>
+      	<property name="project.archive" value="c3prv2-installpack.zip"/>
     	<delete dir="${projects.dir}/installer/installpack"/>
         <mkdir dir="${projects.dir}/installer/installpack"/>
-        <zip destfile="${projects.dir}/installer/installpack/${project.archive}">
-            <zipfileset dir="${basedir}" prefix="antfiles"/>
-            <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
-            <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
-            <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
-			<zipfileset dir="${projects.dir}/rules" prefix="projects/rules"/>
-        	<zipfileset dir="${projects.dir}/grid/StudyService" prefix="projects/grid/StudyService"/>
-        	<zipfileset dir="${projects.dir}/grid/RegistrationService" prefix="projects/grid/RegistrationService"/>
-        </zip>
-        <zip destfile="${projects.dir}/installer/installpack/ivy2.zip">
-            <zipfileset dir="${ivy.cache}" prefix="${ivy.cache.name}"/>
-        	<zipfileset dir="${ivy.jar.dir}" prefix="ivy-jars"/>
-        </zip>-->
-    	<property name="project.archive" value="c3prv2-installpack.zip"/>
-    	<delete dir="${projects.dir}/installer/installpack"/>
-        <mkdir dir="${projects.dir}/installer/installpack"/>
+    	<delete dir="${projects.dir}/web/build/dist/war"/>
+    	<mkdir dir="${projects.dir}/web/build/dist/war"/>
     	<zip destfile="${projects.dir}/installer/installpack/${project.archive}">
     		<fileset file="${projects.dir}/web/build/dist/war/${war.filename}"/>
     		<fileset dir="${basedir}">
