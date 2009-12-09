@@ -102,7 +102,7 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
     public List<HealthcareSiteInvestigator> getBySubNameAndSubEmail(String[] subnames, String nciInstituteCode) {
     	return findBySubname(subnames, 
         		"o.healthcareSite.identifiersAssignedToOrganization.value = '"+ nciInstituteCode + "'" + 
-        		" and o.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'",
+        		" and o.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1'",
                  EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
