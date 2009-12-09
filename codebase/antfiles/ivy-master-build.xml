@@ -330,14 +330,12 @@
 	<!-- =============================================================== -->
     <!-- create target to create a release of Installer  project          -->
     <!-- =============================================================== -->
-    <target name="prepareInstallerForRelease" >
+    <target name="prepareInstallerForRelease" depends="build-war">
       	<property name="project.archive" value="c3prv2-installpack.zip"/>
     	<delete dir="${projects.dir}/installer/installpack"/>
         <mkdir dir="${projects.dir}/installer/installpack"/>
-    	<delete dir="${projects.dir}/web/build/dist/war"/>
-    	<mkdir dir="${projects.dir}/web/build/dist/war"/>
     	<zip destfile="${projects.dir}/installer/installpack/${project.archive}">
-    		<fileset file="${projects.dir}/web/build/dist/war/${war.filename}"/>
+    		<fileset file="${projects.dir}/web/build/dist/${war.filename}"/>
     		<fileset dir="${basedir}">
     			<include name="c3pr-ivy.properties"/>
     			<include name="build.properties"/>
