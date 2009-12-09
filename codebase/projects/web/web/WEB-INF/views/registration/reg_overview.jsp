@@ -603,7 +603,7 @@
 		    <li><a href="javascript:accessApp('${pscBaseUrl }','${psc_window }')">Patient Study Calendar</a></li>
 		    </c:if>
 			<c:if test="${!empty c3dBaseUrl}">
-		    <li><a href="avascript:accessApp('${c3dBaseUrl }','${c3d_window }')">Cancer Central Clinical Database</a></li>
+		    <li><a href="javascript:accessApp('${c3dBaseUrl }','${c3d_window }')">Cancer Central Clinical Database</a></li>
 		    </c:if>
 	  	</ul>
     </chrome:division>
