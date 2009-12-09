@@ -131,7 +131,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames, String ctepCode) {
 		return findBySubname(subnames,
 				"o.healthcareSite.identifiersAssignedToOrganization.value = '"+ ctepCode + "'" +
-        		" and o.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = 'TRUE'",
+        		" and o.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1'",
 				EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
 	}
 
