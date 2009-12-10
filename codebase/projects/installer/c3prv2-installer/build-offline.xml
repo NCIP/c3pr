@@ -75,7 +75,6 @@
               verbose="true">
 
             <filterset>
-                <filter token="csm.config" value="gov.nih.nci.security.configFile=${tomcat.conf.dir}/cabig/ApplicationSecurityConfig.xml"/>
                 <filter token="jaas.config" value="java.security.auth.login.config=${tomcat.conf.dir}/cabig/csm_jaas.config"/>
             </filterset>
         </copy>
