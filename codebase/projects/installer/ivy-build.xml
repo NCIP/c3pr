@@ -79,8 +79,9 @@
 	                <filter token="ctmsi.commons.version" value="${ctmsi.commons.version}"/>
 	                <filter token="csm.context.name" value="${csm.context.name}"/>
 	            	<filter token="maxSearchResultsForAutocompleter" value="${maxSearchResultsForAutocompleter}"/>
+	            	<filter token="paLimitValue" value="${paLimitValue}"/>
+	            	<filter token="poLimitValue" value="${poLimitValue}"/>
 	            </filterset>
-
 	        </copy>
 	    </target>
 
