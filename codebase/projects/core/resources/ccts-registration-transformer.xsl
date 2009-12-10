@@ -26,6 +26,11 @@
     <xsl:template match="c3pr:site">
         <studySite xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
             <healthcareSite>
+                <xsl:if test="./c3pr:externalId">
+                    <xsl:attribute name="gridId">
+                        <xsl:value-of select="./c3pr:externalId"/>
+                    </xsl:attribute>
+                </xsl:if>
                 <xsl:copy-of select="./c3pr:name"/>
                 <xsl:copy-of select="./c3pr:descriptionText"/>
                 <xsl:copy-of select="./c3pr:address"/>
