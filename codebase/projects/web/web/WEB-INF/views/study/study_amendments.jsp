@@ -100,6 +100,10 @@ function validateAmendmentReasons(){
                           <td><b><fmt:message key="study.diseases"/></b></td>
                           <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="DISEASE" cssClass="amendmentReason"/></td>
                       </tr>
+                      <tr>
+                          <td><b><fmt:message key="study.consent"/></b></td>
+                          <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="CONSENT" cssClass="amendmentReason"/></td>
+                      </tr>
                   </table>
 		</chrome:division>
 	</chrome:box>
