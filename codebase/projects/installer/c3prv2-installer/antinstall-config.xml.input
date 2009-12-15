@@ -102,20 +102,6 @@ This is the install config for c3pr2.8 installer
                 create="true"/>
     </page>
 
-    <!--Select what to install-->
-    <page type="input"
-          name="selectComponents"
-          displayText="Components to install">
-        <comment
-                displayText="Choose the components you want to install"
-                bold="true"/>
-        <target
-                displayText="C3PR2.8 Web Application"
-                target="deploy-webapp"
-                defaultValue="true"
-                />
-    </page>
-
     <page type="text"
           name="existingTomcatInstructions"
           ifTarget="installExistingTomcat"
@@ -127,58 +113,20 @@ This is the install config for c3pr2.8 installer
     <page
             type="input"
             name="inputTimeOut"
-            displayText="ESB"
-            ifTarget="deploy-webapp">
+            displayText="Enterprise Service Bus (ESB) timeout">
         <text
                 property="esb.timeout"
-                displayText="ESB Timeout (in seconds)"
+                displayText="Enterprise Service Bus (ESB) Timeout (in seconds)"
                 defaultValue="120"/>
-
-        <comment/>
-
         <comment
-                displayText="Note: This is the caXchange timeout"
+                displayText="Note: This is the caBig Integration Hub timeout"
                 bold="true"/>
     </page>
-
-    <!--CSM configure-->
-    <page
-            type="input"
-            name="configureCSM"
-            displayText="Configure CSM"
-            ifTarget="deploy-webapp">
-
-        <target
-                displayText="Configure CSM"
-                target="tomcat.security"
-                defaultValue="true"
-                />
-        <comment/>
-        <comment
-                displayText="Note: Unselect only if you know what you are doing."
-                bold="true"/>
-        <hidden property="csm.context.name" value="@csm.context.name@"/>
-    </page>
-
-
-    <page
-            type="input"
-            name="selectAuthorizationSwitch"
-            displayText="Enable/Disable Authorization"
-            ifTarget="tomcat.security">
-        <select property="authorizationSwitch" displayText="Select Option" defaultValue="true">
-            <option text="Enable Authorization" value="true"/>
-            <option text="Disable Authorization" value="false"/>
-        </select>
-    </page>
-
-
     <!--Database properties-->
     <page
             type="input"
             name="selectDatabase"
-            displayText="Select Database"
-            ifTarget="deploy-webapp">
+            displayText="Select Database">
         <select
                 property="database.type"
                 displayText="Select your Database type"
@@ -191,6 +139,7 @@ This is the install config for c3pr2.8 installer
         <hidden property="maxSearchResultsForAutocompleter" value="@maxSearchResultsForAutocompleter@"/>
         <hidden property="paLimitValue" value="@paLimitValue@"/>
         <hidden property="poLimitValue" value="@poLimitValue@"/>
+	    <hidden property="csm.context.name" value="@csm.context.name@"/>
     </page>
 
     <page

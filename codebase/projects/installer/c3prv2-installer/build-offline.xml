@@ -96,7 +96,7 @@
     </target>
 
     <!--will only be run if deploy-webapp has been run-->
-    <target name="tomcat.security">
+    <target name="tomcat.security" depends="deploy-webapp">
     	<echo>Configuring CSM and UPT for the Tomcat instance in ${catalina.home}</echo>
         <property name="tomcat.security.dir" value="${tomcat.home}/conf/cabig"/>
 
@@ -191,7 +191,7 @@
         <!--does nothing-->
     </target>
 
-    <target name="cleanUp" unless="deploy.codebase">
+    <target name="cleanUp" depends="tomcat.security">
         <!--<delete dir="${basedir}"/>-->
     </target>
 
