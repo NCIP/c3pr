@@ -147,7 +147,7 @@
 	        	<fmt:message key="study.versionNameNumber"/>
 	        </div>
 	       <div class="value">
-	       		<input class="validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-versionName"  name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.versionName"/>
+	       		<input class="required validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-versionName"  name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.versionName"/>
             </div>
     	</div>
 	     </div>
