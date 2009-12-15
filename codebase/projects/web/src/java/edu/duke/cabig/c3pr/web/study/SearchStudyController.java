@@ -1,5 +1,19 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.SimpleFormController;
+
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -11,22 +25,9 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.web.SearchCommand;
 import edu.duke.cabig.c3pr.web.ajax.StudyAjaxFacade;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
-import org.springframework.web.util.WebUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SearchStudyController extends SimpleFormController {
 
@@ -156,6 +157,7 @@ public class SearchStudyController extends SimpleFormController {
         Map<String, Object> refdata = new HashMap<String, Object>();
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
         refdata.put("searchTypeRefData", configMap.get("studySearchType"));
+        refdata.put("studyStatus", WebUtils.collectOptions(CoordinatingCenterStudyStatus.values(), "Please Select"));
         return refdata;
     }
 
