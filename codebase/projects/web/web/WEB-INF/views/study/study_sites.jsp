@@ -189,6 +189,8 @@
 	<tags:panelBox title="Sites">
 		<c:choose>
 			<c:when test="${command.study.isEmbeddedCompanionStudy}">
+				<div class="summarylabel" style="color:#990000;"><b>Notes: <fmt:message key="study.studysite.embedded.companions" /></b></div>
+				<br>
 				<div id="studySites">
 					<studyTags:studySitesSectionForCompanion commandObj="${command}"></studyTags:studySitesSectionForCompanion>
 				</div> 		
