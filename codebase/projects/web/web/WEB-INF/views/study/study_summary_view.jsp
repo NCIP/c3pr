@@ -340,7 +340,7 @@
 		<div class="label"><fmt:message key="study.randomizationType"/>:</div>
 		<div class="value">${command.study.randomizationType.displayName}</div>
 	</div>
-	<div class="row" >
+	<div class="row" <c:if test="${command.study.coordinatingCenterStudyStatus.name == 'PENDING' }">style="display:none"</c:if>>
 		<div class="label"><fmt:message key="study.openDate"/>:</div>
 		<c:choose>
   			<c:when test="${command.study.versionDateStr != ''}">
