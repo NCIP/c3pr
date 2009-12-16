@@ -15,6 +15,8 @@
 		<tr><td width="80%">
 			<table border="1" class="tablecontent" width="100%">
 			<tr>
+				<th><img src="<tags:imageUrl name="b-arrowUp.gif"/>" border="0" style="visibility:hidden"></th>
+				<th><img src="<tags:imageUrl name="b-arrowDown.gif"/>" border="0" style="visibility:hidden"></th>
 				<th width="30%">Group Number&nbsp;<tags:hoverHint id="study.stratumGroup.stratumGroupNumber-${epochCountIndex}" keyProp="study.stratumGroup.stratumGroupNumber"/></th>					
 				<th width="65%">Answer Combination&nbsp;<tags:hoverHint id="study.stratumGroup.answerCombinations-${epochCountIndex}" keyProp="study.stratumGroup.answerCombinations"/></th>
 				<th width="5%"></th>
@@ -42,7 +44,7 @@
 							<td width="30%">
 								${stratumGroup.stratumGroupNumber}
 							</td>					
-							<td width="59%">${stratumGroup.answerCombinations}</td>
+							<td width="65%">${stratumGroup.answerCombinations}</td>
 							<td width="5%">
 							<a href="javascript:deleteStratumGroup('${command.study.epochs[epochCountIndex].id}', '${stratumGroup.id}');">
 								<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
