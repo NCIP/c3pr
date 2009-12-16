@@ -136,7 +136,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 			}
 			
 			List<gov.nih.nci.coppa.services.pa.StudyProtocol> studyProtocols = getStudyProtocolsFromResultXml(resultXml);
-			log.debug("Coppa Search returned " + studyProtocols.size() + "Protocols");
+			log.debug("Coppa Search returned " + studyProtocols.size() + " Protocols");
 			for (gov.nih.nci.coppa.services.pa.StudyProtocol studyProtocol : studyProtocols) {
 				RemoteStudy remoteStudy = getRemoteStudyFromStudyProtocol(studyProtocol);
 				if (remoteStudy != null) {
