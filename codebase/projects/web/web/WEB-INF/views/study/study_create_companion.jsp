@@ -204,7 +204,7 @@
 			        <div class="value">
 						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-coCenter-hidden" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.studyCoordinatingCenters[0].healthcareSite" value="${dataFromParent.coordinatingCenterList[0].healthcareSite.id}"/>
 						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-coCenter-hidden1" name="study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[0].healthcareSite"  value="${dataFromParent.coordinatingCenterList[0].healthcareSite.id}"/>
-						<input id="companionStudyPAGE.ROW.INDEX-coCenter-input" size="38" type="text" disabled="disabled" name="abcxyz" class="autocomplete validate-notEmpty" value="${dataFromParent.coordinatingCenterList[0].healthcareSite.name}" />
+						<input id="companionStudyPAGE.ROW.INDEX-coCenter-input" size="38" type="text" disabled="disabled" name="abcxyz" class="validate-notEmpty" value="${dataFromParent.coordinatingCenterList[0].healthcareSite.name}" />
 						<tags:hoverHint keyProp="study.healthcareSite.name"/>
 						<tags:indicator id="coCenter-indicator" />
 						<div id="coCenter-choices" class="autocomplete" style="display:none;"></div>
@@ -231,7 +231,7 @@
             		<div class="label"><fmt:message key="c3pr.common.name"/></div>
 		            <div class="value">
 		            	<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden1" name="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.organizationAssignedIdentifiers[1].healthcareSite : 'abcdef' }"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.id : ''}" />
-		            	<input type="text" id="companionStudyPAGE.ROW.INDEX-healthcareSite-input" size="38" name="aaaxxx" class="autocomplete" disabled="disabled"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.name : ''}" />
+		            	<input type="text" id="companionStudyPAGE.ROW.INDEX-healthcareSite-input" size="38" name="aaaxxx"  disabled="disabled"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.name : ''}" />
 						<input type="hidden" id="companionStudyPAGE.ROW.INDEX-healthcareSite-hidden"  name="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.studyFundingSponsors[0].healthcareSite : 'qwerty' }"  value="${(fn:length(dataFromParent.fundingSponsorsList) > 0 ) ? dataFromParent.fundingSponsorsList[0].healthcareSite.id : ''}"/>            		
 						<tags:indicator id="healthcareSite-indicator" />
 						<tags:hoverHint keyProp="study.studyFundingSponsor"/>
