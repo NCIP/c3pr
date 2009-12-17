@@ -252,7 +252,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, "StudyVersion", "studyVersionsInternal");
     }
 
-    
+   
     /**
      * Gets the study by comapring subnames against short title and coordinating center identifiers.
      * 
@@ -262,15 +262,23 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      */
     public List<Study> getStudiesBySubnamesWithExtraConditionsForPrimaryIdentifier(String[] subnames) {
     	
-    	List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("identifiers.value");
+    	List<String> SUBSTRING_MATCH_PROPERTIES_FOR_IDENTIFIER = Arrays.asList("identifiers.value");
+
+    	List<Study> studiesFromIdentifier = findBySubname(subnames, "LOWER(o.identifiers.typeInternal) LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES_FOR_IDENTIFIER, EXACT_MATCH_PROPERTIES);
     	
-    	List<Study> studies = findBySubname(subnames, "LOWER(o.identifiers.typeInternal) LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
-    	for(Study study: studies){
+    	List<Study> studiesFromShortTitle = findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, "StudyVersion", "studyVersionsInternal");
+    	
+    	List<Study> studies = new ArrayList<Study>();
+    	
+    	for(Study study: studiesFromIdentifier){
+    		getHibernateTemplate().initialize(study.getIdentifiers());
+    	}
+    	for(Study study: studiesFromShortTitle){
     		getHibernateTemplate().initialize(study.getIdentifiers());
     	}
     	//remove duplicates if any
-    	Set setItems = new LinkedHashSet(studies);
-    	studies.clear();
+    	Set setItems = new LinkedHashSet(studiesFromIdentifier);
+    	setItems.addAll(studiesFromShortTitle);
     	studies.addAll(setItems); 
     	
     	return studies;

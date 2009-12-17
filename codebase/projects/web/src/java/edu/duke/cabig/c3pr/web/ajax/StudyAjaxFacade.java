@@ -435,7 +435,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     public List<Study> matchComapanionStudies(String text, HttpServletRequest request) throws Exception {
     	StudyWrapper wrapper = (StudyWrapper) getCommandOnly(request) ;
     	Study parentStudy = wrapper.getStudy();
-    	List<Study> companionStudies = studyDao.getBySubnames(extractSubnames(text));
+    	List<Study> companionStudies = studyDao.getStudiesBySubnamesWithExtraConditionsForPrimaryIdentifier(extractSubnames(text));
 
         List<Study> reducedCompanionStudies = new ArrayList<Study>(companionStudies.size());
         for (Study companionStudy : companionStudies) {
