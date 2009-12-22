@@ -1,8 +1,7 @@
 class StudySubjecVersionConstraint extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
 		execute("alter table SCHEDULED_EPOCHS drop constraint fk_sceph_ss")
-		dropColumn("scheduled_epochs","spa_id")
-		addColumn('scheduled_epochs','study_subject_ver_id','integer');
+		renameColumn("scheduled_epochs","spa_id","study_subject_ver_id");
 		execute("ALTER TABLE SCHEDULED_EPOCHS ADD CONSTRAINT FK_SCEPH_SS FOREIGN KEY (study_subject_ver_id) REFERENCES study_subject_versions (ID)");
 
 
@@ -27,6 +26,6 @@ class StudySubjecVersionConstraint extends edu.northwestern.bioinformatics.berin
     }
 
 	void down() {
-		dropColumn('scheduled_epochs','study_subject_ver_id');
+		renameColumn("scheduled_epochs","study_subject_ver_id","spa_id");
 	}
 }
