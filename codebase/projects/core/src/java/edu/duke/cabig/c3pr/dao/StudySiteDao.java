@@ -22,6 +22,8 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
     public Class<StudySite> domainClass() {
         return StudySite.class;
     }
+    
+    private HealthcareSiteDao healthcareSiteDao;
 
     /**
      * Reassociate.
@@ -33,7 +35,11 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
         getHibernateTemplate().update(ss);
     }
 
-    /**
+    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	/**
      * Gets the by nci institute code.
      *
      * @param ctepCode the nci institute code
@@ -58,6 +64,7 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
     public void initialize(StudySite studySite) throws DataAccessException {
     	getHibernateTemplate().initialize(studySite.getStudySiteStudyVersions());
     	getHibernateTemplate().initialize(studySite.getSiteStatusHistoryInternal());
+    	healthcareSiteDao.initialize(studySite.getHealthcareSite());
     }
 
     /**
