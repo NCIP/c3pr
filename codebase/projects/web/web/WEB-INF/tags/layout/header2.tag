@@ -29,7 +29,7 @@
                     <td align="right" valign="top">
                         <div id="login-action">
                             <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="loginAuthorizationCheck">
-							<c:url value="/help/Sample_project.htm" scope="request" var="_c3prHelpURL" />
+							<c:url value="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide" scope="request" var="_c3prHelpURL" />
 							<c:choose>
 								<c:when test ="${currentSubTask != null}">
 										<c:set var="roboHelpKey">ROBOHELP_${currentSubTask.linkName}</c:set>
@@ -39,7 +39,7 @@
 								</c:otherwise>
 							</c:choose>
 							<spring:message var="roboHelpLink" code="${roboHelpKey}" text="NO_${roboHelpKey}"/>
-          					<a href="${_c3prHelpURL}#${roboHelpLink}.htm" target="_blank" id="help">Help</a>  
+          					<a href="${_c3prHelpURL}#${roboHelpLink}" target="_blank" id="help">Help</a>  
 		  
 		  &nbsp;<csmauthz:accesscontrol domainObject="/pages/skin" authorizationCheckName="urlAuthorizationCheck"><a>|</a>&nbsp;<a id="changeSkin" style="cursor:pointer;">Change skin</a></csmauthz:accesscontrol>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a></csmauthz:accesscontrol>
                             <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="logoutAuthorizationCheck"><a href="<c:url value="/public/login"/>">Log in</a></csmauthz:accesscontrol>
