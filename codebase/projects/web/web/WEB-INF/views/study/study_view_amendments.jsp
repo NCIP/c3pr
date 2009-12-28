@@ -17,7 +17,7 @@ function confirmationPopup(message){
 }
 
 function apply(){
-	<tags:tabMethod method="viewAmendment" divElement="'studyAmendmentDiv'" formName="'tabMethodForm'"  viewName="/study/asynchronous/study_amendment_section" onComplete="closePopup"/>
+	<tags:tabMethod method="applyAmendment" divElement="'studyAmendmentDiv'" formName="'tabMethodForm'"  viewName="/study/asynchronous/study_amendment_section" onComplete="closePopup"/>
 }
 
 function viewAmendment(versionId){   
