@@ -80,7 +80,7 @@ public abstract class Person extends AbstractMutableDeletableDomainObject {
 		if(contactMechanismType == ContactMechanismType.EMAIL && !StringUtils.isValidEmail(value)){
 			throw new IllegalArgumentException("Invalid email address");
 		}
-		if((contactMechanismType == ContactMechanismType.PHONE || contactMechanismType == ContactMechanismType.Fax) && !StringUtils.isValidPhone(value)){
+		if((contactMechanismType == ContactMechanismType.PHONE || contactMechanismType == ContactMechanismType.Fax) && !StringUtils.isValidFax(value)){
 			throw new IllegalArgumentException("Invalid phone number");
 		}
 		if(contactMechanism == null){
