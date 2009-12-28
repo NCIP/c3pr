@@ -69,6 +69,7 @@
 	       	);
 	       	$('siteIndicator').hide();
 	       	$('divison-'+primaryIdentifier).scrollIntoView();
+	       	$('newStudySite').innerHTML =  null ;
 	}
 
 	var multisiteStudySiteAutocompleterProps = {
