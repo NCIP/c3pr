@@ -281,8 +281,25 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
     	return phone.matches("^(1\\s*[-\\/\\.]?)?(\\((\\d{3})\\)|(\\d{3}))\\s*[-\\/\\.]?\\s*(\\d{3})\\s*[-\\/\\.]?\\s*(\\d{4})\\s*");
     	
     }
-//    
+    
 //    public static void main(String args[]){
+//    	System.out.println(isValidPhone("(123)-234-2345"));
+//    	System.out.println(isValidPhone("1 123-234-2345 ext.123"));
+//    	System.out.println(isValidPhone("1-123-234-2345 ext.123"));
+//    	System.out.println(isValidPhone("123-234-2345 ext-123"));
+//    	System.out.println(isValidPhone("123 134 2345 ext-123"));
+//    	System.out.println(isValidPhone("123.123.2345 ext-123"));
+//    	System.out.println(isValidPhone("1 123.123.2345 ext-123"));
+//    	System.out.println(isValidPhone("1.123.123.2345 ext-123"));
+//    	System.out.println(isValidPhone("1 123 123 2345 ext-123"));
+//    	System.out.println(isValidPhone("123-234-2345 ext 123"));
+//    	System.out.println(isValidPhone("123-234-2345 ext123"));
+//    	System.out.println(isValidPhone("123-234-2345 ext.123"));
+//    	System.out.println(isValidPhone("123-234-2345"));
+//    }
+//    
+//
+//    public static void main1(String args[]){
 //    	System.out.println(isValidFax("(123)-234-2345"));
 //    	System.out.println(isValidFax("1 123-234-2345"));
 //    	System.out.println(isValidFax("1-123-234-2345"));
