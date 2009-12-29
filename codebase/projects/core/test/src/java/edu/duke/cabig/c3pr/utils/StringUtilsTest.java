@@ -26,7 +26,7 @@ public class StringUtilsTest extends AbstractTestCase {
 	
 	public void testIsValidPhoneWithExtValid(){
 		String phone = "111-222-3333-ext-123";
-		assertFalse(StringUtils.isValidPhone(phone));
+		assertTrue(StringUtils.isValidPhone(phone));
 	}
 	
 	public void testIsValidPhoneWithExtValid1(){
@@ -39,7 +39,7 @@ public class StringUtilsTest extends AbstractTestCase {
 		assertTrue(StringUtils.isValidPhone(phone));
 	}
 	
-	public void testIsValidPhoneInValid1(){
+	public void testIsValidPhoneValid5(){
 		String phone = "111222-3333";
 		assertTrue(StringUtils.isValidPhone(phone));
 	}
@@ -50,8 +50,13 @@ public class StringUtilsTest extends AbstractTestCase {
 	}
 	
 	
-	public void testIsValidPhoneWithExtInValid1(){
+	public void testIsValidPhoneWithExtValid1(){
 		String phone = "111-222-3333  ext-12";
+		assertTrue(StringUtils.isValidPhone(phone));
+	}
+	
+	public void testIsValidPhoneWithExtValid3(){
+		String phone = "(301)-251-1161-x-194";
 		assertTrue(StringUtils.isValidPhone(phone));
 	}
 	
