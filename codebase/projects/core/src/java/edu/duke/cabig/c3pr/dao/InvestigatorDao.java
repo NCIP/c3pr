@@ -15,6 +15,8 @@ import org.springframework.dao.DataAccessException;
 
 import com.semanticbits.coppa.infrastructure.RemoteSession;
 
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
@@ -233,24 +235,21 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 		Investigator matchingRemoteInvestigatorFromDb = this.getByUniqueIdentifier(retrievedRemoteInvestigator.getExternalId());
 		if(matchingRemoteInvestigatorFromDb == null ){
 			// check the uniqueness of email and nci identifier of new investigator in database before saving him
-			Investigator investigatorsWithMatchingEmail = null;
-			investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmail());
+			Investigator investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmail());
+			Investigator investigatorsWithMatchingNCICode = getByNciIdentifierFromLocal(retrievedRemoteInvestigator.getNciIdentifier());
 			
-			Investigator investigatorsWithMatchingNCICode = null;
-			investigatorsWithMatchingNCICode = getByNciIdentifierFromLocal(retrievedRemoteInvestigator.getNciIdentifier());
-			
-			if(investigatorsWithMatchingEmail != null){
-				log.debug("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
-						+ "'s email id : " + retrievedRemoteInvestigator.getEmail()	+ " is already in the database.");
-				//add the hcsi to the existing inv and return it.
-//				updateHealthcareSites(investigatorsWithMatchingEmail, retrievedRemoteInvestigator);
-				return investigatorsWithMatchingEmail;
-			} else if(investigatorsWithMatchingNCICode != null){
+			if(investigatorsWithMatchingNCICode != null){
 				log.debug("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
 						+ "'s NCI Identifier: " + retrievedRemoteInvestigator.getNciIdentifier() + " is already in the database.");
 				//add the hcsi to the existing inv and return it.
 				updateHealthcareSites(investigatorsWithMatchingNCICode, retrievedRemoteInvestigator);
+				updateContactMechanisms(investigatorsWithMatchingNCICode, retrievedRemoteInvestigator);
 				return investigatorsWithMatchingNCICode;
+			} else if(investigatorsWithMatchingEmail != null){
+				log.debug("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
+						+ "'s email id : " + retrievedRemoteInvestigator.getEmail()	+ " is already in the database.");
+				updateContactMechanisms(investigatorsWithMatchingEmail, retrievedRemoteInvestigator);
+				return investigatorsWithMatchingEmail;
 			} else {
 				buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
 			}
@@ -259,6 +258,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 			//only update if remote investigator exists.
 			if(matchingRemoteInvestigatorFromDb instanceof RemoteInvestigator){
 				updateHealthcareSites(matchingRemoteInvestigatorFromDb, retrievedRemoteInvestigator);
+				updateContactMechanisms(matchingRemoteInvestigatorFromDb, retrievedRemoteInvestigator);
 				return matchingRemoteInvestigatorFromDb;
 			}
 		}
@@ -270,6 +270,20 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     		if(!investigatorToBeUpdated.getHealthcareSiteInvestigators().contains(hcsi)){
     			hcsi.setInvestigator(investigatorToBeUpdated);
     			investigatorToBeUpdated.getHealthcareSiteInvestigators().add(hcsi);
+    		}
+    	}
+    }
+    
+    private void updateContactMechanisms(Investigator investigatorToBeUpdated, Investigator investigatorToBeDiscarded){
+    	for(ContactMechanism cm: investigatorToBeDiscarded.getContactMechanisms()){
+    		if(cm.getType().equals(ContactMechanismType.EMAIL)){
+    			investigatorToBeUpdated.setEmail(cm.getValue());
+    		}
+    		if(cm.getType().equals(ContactMechanismType.Fax)){
+    			investigatorToBeUpdated.setFax(cm.getValue());
+    		}
+    		if(cm.getType().equals(ContactMechanismType.PHONE)){
+    			investigatorToBeUpdated.setPhone(cm.getValue());
     		}
     	}
     }

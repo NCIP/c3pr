@@ -30,9 +30,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -485,6 +488,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 						.getExternalId());
 				if (researchStaffFromDatabase.size() > 0) {
 					// this guy already exists as remote staff...and should be up to date.
+					updateContactMechanisms(researchStaffFromDatabase.get(0), remoteResearchStaff);
 				} else {
 					// this guy doesnt exist in the db as remote...check the local staff before saving him.
 					// This if condition is temporary. once we have the logic to
@@ -517,6 +521,21 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		}
 	}
 
+	 private void updateContactMechanisms(ResearchStaff staffToBeUpdated, ResearchStaff staffToBeDiscarded){
+	    	for(ContactMechanism cm: staffToBeDiscarded.getContactMechanisms()){
+	    		if(cm.getType().equals(ContactMechanismType.EMAIL)){
+	    			staffToBeUpdated.setEmail(cm.getValue());
+	    		}
+	    		if(cm.getType().equals(ContactMechanismType.Fax)){
+	    			staffToBeUpdated.setFax(cm.getValue());
+	    		}
+	    		if(cm.getType().equals(ContactMechanismType.PHONE)){
+	    			staffToBeUpdated.setPhone(cm.getValue());
+	    		}
+	    	}
+	    }
+	    
+	 
 	/**
 	 * Merge research staff.
 	 * 
