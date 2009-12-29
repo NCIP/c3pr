@@ -50,7 +50,7 @@ public class StringUtilsTest extends AbstractTestCase {
 	}
 	
 	
-	public void testIsValidPhoneWithExtValid1(){
+	public void testIsValidPhoneWithExtValid4(){
 		String phone = "111-222-3333  ext-12";
 		assertTrue(StringUtils.isValidPhone(phone));
 	}
