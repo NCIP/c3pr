@@ -112,6 +112,25 @@ public class Summary3ReportController<C extends Summary3Report> extends  Automat
 	        flow.addTab(new Summary3ReportDetailsTab());
 	        flow.addTab(new Summary3ReportResultsTab());
 	    }
+	    
+	    @Override
+	    protected void onBindAndValidate(HttpServletRequest request,
+	    		Object command, BindException errors, int page) throws Exception {
+	    	Summary3Report summary3Report = (Summary3Report) command;
+	    	if(summary3Report.getStartDate().after(new Date())){
+	    		errors.reject("startDate","Start date cannot be a future date");
+	    	}
+	    	
+	    	if(summary3Report.getEndDate().after(new Date())){
+	    		errors.reject("endDate","End date cannot be a future date");
+	    	}
+	    	
+	    	if(summary3Report.getEndDate().before(summary3Report.getStartDate())){
+	    		errors.reject("startEndDate","End date cannot be before start date");
+	    	}
+	    	super.onBindAndValidate(request, command, errors, page);
+	    	
+	    }
 		
 		private void generateOutput(String outFile,String filePath,HttpServletResponse response) throws Exception{
 			
@@ -198,7 +217,7 @@ public class Summary3ReportController<C extends Summary3Report> extends  Automat
 			String startDateStr = DateUtil.toString(summary3Report.getStartDate(), "yyyy-MM-dd");
 			String endDateStr = DateUtil.toString(summary3Report.getEndDate(), "yyyy-MM-dd");
 			
-			pdfOutFile = "summaryReport_"+summary3Report.getReportingOrganization().getCtepCode()+"_" + startDateStr+"_" + endDateStr;
+			pdfOutFile = "summaryReport_"+summary3Report.getReportingOrganization().getPrimaryIdentifier()+"_" + startDateStr+"_" + endDateStr;
 			
 			return pdfOutFile;
 			
