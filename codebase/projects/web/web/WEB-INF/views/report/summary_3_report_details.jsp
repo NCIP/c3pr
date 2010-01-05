@@ -51,7 +51,7 @@
 <form:form name="summary3ReportForm">
 	<chrome:box title="Summary 3 Report">
 		<tags:tabFields tab="${tab}" />
-
+<tags:errors path="*" />
 <tags:instructions code="summary_3_report_details" />
 <chrome:division id="site" title="Reporting Organization">
         <div class="row">
