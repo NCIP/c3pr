@@ -224,11 +224,11 @@
 	<classpathentry kind="lib" path="build/lib/SmokeTestService-client-1.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/SmokeTestService-common-1.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/SmokeTestService-stubs-1.2.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/RemoteEntityManager"/>
 	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-client-1.3.jar"/>
 	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-common-1.3.jar"/>
 	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-stubs-1.3.jar"/>
 	<classpathentry kind="lib" path="build/lib/extremecomponents-1.0.1.jar"/>
 	<classpathentry kind="lib" path="build/testlib/dbunit-2.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/remoteentitymanager-0.4.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
