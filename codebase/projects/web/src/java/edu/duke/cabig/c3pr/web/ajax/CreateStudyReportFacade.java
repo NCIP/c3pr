@@ -91,8 +91,9 @@ public class CreateStudyReportFacade extends BaseStudyAjaxFacade {
             id = new SystemAssignedIdentifier();
             if (!StringUtils.isEmpty(params[2].toString())) {
                 id.setValue(params[2].toString());
-            }
-            participant.addIdentifier(id);
+                participant.addIdentifier(id);
+            } 
+           
             if (!StringUtils.isEmpty(params[3].toString())) {
                 participant.setFirstName(params[3].toString());
 
