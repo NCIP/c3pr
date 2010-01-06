@@ -4,15 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
@@ -25,9 +22,9 @@ import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
 /**
@@ -85,7 +82,13 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 			} catch (ParseException e) {
 				throw new RuntimeException("Invalid Submit. Registration Date is invalid");
 			}
-    		studySubject.changeStudyVersion(consentSignedDate);
+			try{
+				studySubject.changeStudyVersion(consentSignedDate);
+			} catch(C3PRCodedRuntimeException ex){
+				if(ex.getExceptionCode()==101){
+					errors.reject("tempProperty","Unable to find an epoch with same name in the study version");
+				}
+			}
     		getRegistrationControllerUtils().buildCommandObject(studySubject);
     		getRegistrationControllerUtils().addConsents(studySubject);
     		return;
@@ -133,13 +136,26 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     	if(command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED && 
     			command.getStudySubject().getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
 	    	Date date = command.getStudySubject().getStartDate();
-		    if(date !=null){
-		    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-					if(studySubjectConsentVersion.getInformedConsentSignedDate()!= null &&  date.before(studySubjectConsentVersion.getInformedConsentSignedDate())){
-						errors.reject("studySubject.startDate", "Registration cannot be done before mandatory informed consent(s) is/are signed");
+	    	if(date !=null){
+				if(date.after(new Date())){
+		    		errors.reject("tempProperty", "Registration date cannot be a future date");
+		    	}
+	    	}
+	    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
+				if (studySubjectConsentVersion
+						.getInformedConsentSignedDate() != null) {
+					if(studySubjectConsentVersion.getInformedConsentSignedDate().after(new Date())){
+						errors.reject("tempProperty", "Consent signed date cannot be a future date");
+					}
+					if(date !=null){
+						if (date.before(studySubjectConsentVersion.getInformedConsentSignedDate())) {
+							errors
+									.reject("studySubject.startDate",
+											"Registration date cannot be prior to informed consent signed date");
+						}
 					}
 				}
-	    	}
+			}
     	}
     	
     	if(command.getStudySubject().getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
@@ -150,7 +166,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     			}
     		}
     		if(!atLeastOneConsentSigned){
-    			errors.reject("tempProperty","At least one consent needs to be signed.");
+    			errors.reject("tempProperty","At least one consent signed date is required.");
     		}
     		
     	} else if (command.getStudySubject().getStudySite().getStudy().getConsentRequired() == ConsentRequired.ALL){
@@ -161,7 +177,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     			}
     		}
     		if(!allConsentsSigned){
-    			errors.reject("tempProperty","All consents need to be signed.");
+    			errors.reject("tempProperty","All consent signed dates are mandatory.");
     		}
     	}
     }
