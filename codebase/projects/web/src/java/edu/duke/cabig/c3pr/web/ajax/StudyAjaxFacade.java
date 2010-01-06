@@ -143,13 +143,13 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     public Object build(TableModel model, Collection studies, String title, String action)
                     throws Exception {
 
-        Export export = model.getExportInstance();
-        export.setView(TableConstants.VIEW_XLS);
-        export.setViewResolver(TableConstants.VIEW_XLS);
-        export.setImageName(TableConstants.VIEW_XLS);
-        export.setText(TableConstants.VIEW_XLS);
-        export.setFileName("study_report.xls");
-        model.addExport(export);
+//        Export export = model.getExportInstance();
+//        export.setView(TableConstants.VIEW_XLS);
+//        export.setViewResolver(TableConstants.VIEW_XLS);
+//        export.setImageName(TableConstants.VIEW_XLS);
+//        export.setText(TableConstants.VIEW_XLS);
+//        export.setFileName("study_report.xls");
+//        model.addExport(export);
 
         return super.build(model, studies, title, action);
     }

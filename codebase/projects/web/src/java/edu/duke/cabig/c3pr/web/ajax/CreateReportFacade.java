@@ -56,13 +56,14 @@ public class CreateReportFacade {
         table.setSortable(false);
         model.addTable(table);
 
-        Export export = model.getExportInstance();
-        export.setView(TableConstants.VIEW_XLS);
-        export.setViewResolver(TableConstants.VIEW_XLS);
-        export.setImageName(TableConstants.VIEW_XLS);
-        export.setText(TableConstants.VIEW_XLS);
-        export.setFileName("registration_report.xls");
-        model.addExport(export);
+//       We are not supporting export XLS as of now because the versions of poi jar required are different for extremet components and the one we need for summary3 report.
+//        Export export = model.getExportInstance();
+//        export.setView(TableConstants.VIEW_XLS);
+//        export.setViewResolver(TableConstants.VIEW_XLS);
+//        export.setImageName(TableConstants.VIEW_XLS);
+//        export.setText(TableConstants.VIEW_XLS);
+//        export.setFileName("registration_report.xls");
+//        model.addExport(export);
 
         Row row = model.getRowInstance();
         row.setHighlightRow(Boolean.TRUE);
