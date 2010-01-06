@@ -207,6 +207,7 @@ public class Summary3ReportController<C extends Summary3Report> extends  Automat
 					e.printStackTrace();
 					throw new RemoteException ("Error generating report ",e);
 				}
+				showPage(request, errors, 1);
 				
 			return null;
 		}
