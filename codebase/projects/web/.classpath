@@ -100,12 +100,10 @@
 	<classpathentry kind="lib" path="build/lib/ctms-commons-lang-0.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/ctms-commons-testing-uctrace-0.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/ctms-commons-web-0.8.jar"/>
-	<classpathentry kind="lib" path="build/lib/dbunit-2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/displaytag-1.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/dwr-2.0.rc2.jar"/>
 	<classpathentry kind="lib" path="build/lib/ehcache-1.2.3.jar"/>
-	<classpathentry kind="lib" path="build/lib/extremecomponents-1.0.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/freemarker-2.3.4.jar"/>
 	<classpathentry kind="lib" path="build/lib/geronimo-j2ee-management_1.0_spec-1.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/geronimo-jms_1.1_spec-1.1.jar"/>
@@ -227,8 +225,10 @@
 	<classpathentry kind="lib" path="build/lib/SmokeTestService-common-1.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/SmokeTestService-stubs-1.2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RemoteEntityManager"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-client-1.2.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-common-1.2.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-stubs-1.2.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-client-1.3.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-common-1.3.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-stubs-1.3.jar"/>
+	<classpathentry kind="lib" path="build/lib/extremecomponents-1.0.1.jar"/>
+	<classpathentry kind="lib" path="build/testlib/dbunit-2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

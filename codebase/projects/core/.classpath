@@ -4,7 +4,9 @@
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="test/src/java"/>
 	<classpathentry kind="src" path="src/resources"/>
-	<classpathentry kind="src" path="resources"/>
+	<classpathentry excluding="xsd/|samples/" kind="src" path="resources"/>
+	<classpathentry kind="src" path="resources/xsd"/>
+	<classpathentry kind="src" path="resources/samples"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.ajdt.core.ASPECTJRT_CONTAINER"/>
 	<classpathentry kind="lib" path="build/lib/acegi-csm-0.8.jar"/>
@@ -47,9 +49,7 @@
 	<classpathentry kind="lib" path="build/lib/cagrid-ServiceSecurityProvider-client-1.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/cagrid-ServiceSecurityProvider-common-1.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/cagrid-ServiceSecurityProvider-stubs-1.0.jar"/>
-	<classpathentry kind="lib" path="build/lib/castor-0.9.9.jar"/>
 	<classpathentry kind="lib" path="build/lib/cglib-nodep-2.1_3.jar"/>
-	<classpathentry kind="lib" path="build/lib/client-1.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/clm-3.2.1-ctms00.jar"/>
 	<classpathentry kind="lib" path="build/lib/cog-axis-4.0.3-globus.jar"/>
 	<classpathentry kind="lib" path="build/lib/cog-jglobus-1.2.jar"/>
@@ -79,7 +79,6 @@
 	<classpathentry kind="lib" path="build/lib/ctms-commons-core-0.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/ctms-commons-lang-0.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/ctms-commons-testing-uctrace-0.8.jar"/>
-	<classpathentry kind="lib" path="build/lib/dbunit-2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/ehcache-1.2.3.jar"/>
 	<classpathentry kind="lib" path="build/lib/freemarker-2.3.4.jar"/>
@@ -134,33 +133,44 @@
 	<classpathentry kind="lib" path="build/lib/jackrabbit-jcr-server-1.2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/jackrabbit-text-extractors-1.3.jar"/>
 	<classpathentry kind="lib" path="build/lib/jackrabbit-webdav-1.2.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-client-1.2.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-common-1.2.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/xmlsec-1.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/jaxws-api-2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/xmlParserAPIs-2.0.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/jaxb-api-2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/wsdl4j-1.5.jar"/>
-	<classpathentry kind="lib" path="build/lib/core-commons-testing-77.jar"/>
 	<classpathentry kind="lib" path="build/lib/pdfbox-0.6.4.jar"/>
 	<classpathentry kind="lib" path="build/lib/poi-3.5-beta5.jar"/>
 	<classpathentry kind="lib" path="build/lib/jxl-2.4.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/core-commons-testing-77.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/antfiles"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/esb-client"/>
 	<classpathentry kind="lib" path="build/classes"/>
-	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-stubs-1.2.2.jar"/>
-	<classpathentry kind="lib" path="build/lib/CoreServices-client-1.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/CoreServices-common-1.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/CoreServices-stubs-1.1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/StudyService"/>
 	<classpathentry kind="lib" path="build/testlib/easymock-2.2.jar"/>
 	<classpathentry kind="lib" path="build/testlib/easymockclassextension-2.2.1.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/RegistrationService"/>
 	<classpathentry kind="lib" path="build/lib/batik-util-1.6-1.jar"/>
 	<classpathentry kind="lib" path="build/lib/fop-0.93.jar"/>
-	<classpathentry kind="lib" path="build/lib/remoteentitymanager-0.3.16.jar"/>
 	<classpathentry kind="lib" path="build/lib/infrared-agent-all-servlet-2.4.1.BETA.jar"/>
 	<classpathentry kind="lib" path="build/lib/infrared-ant-2.4.1.BETA.jar"/>
 	<classpathentry kind="lib" path="build/lib/infrared-collector-all-2.4.1.BETA.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RemoteEntityManager"/>
+	<classpathentry kind="lib" path="build/lib/CoreServices-client-1.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/CoreServices-common-1.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/CoreServices-stubs-1.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/coppa-commons-1.2.3.jar"/>
+	<classpathentry kind="lib" path="build/lib/PAServices-client-1.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/PAServices-common-1.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/PAServices-stubs-1.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/client-1.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-client-1.3.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-common-1.3.jar"/>
+	<classpathentry kind="lib" path="build/lib/CaXchangeRequestProcessor-stubs-1.3.jar"/>
+	<classpathentry kind="lib" path="build/lib/castor-0.9.9.jar"/>
+	<classpathentry kind="lib" path="build/testlib/dbunit-2.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/RegistrationService-client-2.8rc6-local-20100104114004.jar"/>
+	<classpathentry kind="lib" path="build/lib/RegistrationService-common-2.8rc6-local-20100104114004.jar"/>
+	<classpathentry kind="lib" path="build/lib/RegistrationService-stubs-2.8rc6-local-20100104114004.jar"/>
+	<classpathentry kind="lib" path="build/lib/StudyService-client-2.8rc6-local-20100104113958.jar"/>
+	<classpathentry kind="lib" path="build/lib/StudyService-common-2.8rc6-local-20100104113958.jar"/>
+	<classpathentry kind="lib" path="build/lib/StudyService-stubs-2.8rc6-local-20100104113958.jar"/>
 	<classpathentry kind="output" path="bin1"/>
 </classpath>
