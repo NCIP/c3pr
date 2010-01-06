@@ -196,7 +196,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/esb-client"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/rules"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/RegistrationService"/>
-	<classpathentry kind="lib" path="build/lib/poi-3.5-beta5.jar"/>
-	<classpathentry kind="lib" path="build/lib/fop-0.93.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -67,6 +67,5 @@
 	<classpathentry kind="lib" path="build/lib/hibernate-annotations-3.2.1.ga.jar"/>
 	<classpathentry kind="lib" path="build/lib/hsqldb-1.8.0.7.jar"/>
 	<classpathentry kind="lib" path="build/lib/servlet-api-2.4.jar"/>
-	<classpathentry kind="lib" path="build/lib/poi-3.5-beta5.jar"/>
 	<classpathentry kind="output" path="bin1"/>
 </classpath>
