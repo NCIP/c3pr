@@ -152,7 +152,6 @@
 	<classpathentry kind="lib" path="build/lib/infrared-agent-all-servlet-2.4.1.BETA.jar"/>
 	<classpathentry kind="lib" path="build/lib/infrared-ant-2.4.1.BETA.jar"/>
 	<classpathentry kind="lib" path="build/lib/infrared-collector-all-2.4.1.BETA.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/RemoteEntityManager"/>
 	<classpathentry kind="lib" path="build/lib/CoreServices-client-1.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/CoreServices-common-1.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/CoreServices-stubs-1.2.jar"/>
