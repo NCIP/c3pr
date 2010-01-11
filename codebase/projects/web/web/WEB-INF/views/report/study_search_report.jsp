@@ -80,7 +80,7 @@ function showTable(table) {
             </p>
         </chrome:box>
     
-        <chrome:box title="Participant Criteria" cssClass="paired">  
+        <chrome:box title="Subject Criteria" cssClass="paired">  
         	<p>
         	<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
