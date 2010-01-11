@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
@@ -36,6 +37,8 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     private PersonnelService personnelService;
 
     private ResearchStaffDao researchStaffDao;
+    
+    private CSMUserRepository csmUserRepository;
     
     private Configuration configuration;
 
@@ -83,7 +86,14 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     	Map<String, Object> model = super.referenceData(request, command, errors);
         model.put("groups", C3PRUserGroupType.values());
         model.put("isAdmin", WebUtils.isAdmin());
-        model.put("isLoggedInUser", CommonUtils.getLoggedInUsername().equals(((ResearchStaff)command).getEmail()));
+        ResearchStaff researchStaff = (ResearchStaff)command;
+        if(!StringUtils.isBlank(researchStaff.getLoginId())){
+        	String username = csmUserRepository.getUsernameById(researchStaff.getLoginId());
+        	model.put("isLoggedInUser", CommonUtils.getLoggedInUsername().equals(username));
+            model.put("username", username);
+        }else{
+        	model.put("isLoggedInUser", false);
+        }
         model.put("coppaEnable", configuration.get(Configuration.COPPA_ENABLE));
         return model;
     }
@@ -233,6 +243,10 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
+	}
+
+	public void setCsmUserRepository(CSMUserRepository csmUserRepository) {
+		this.csmUserRepository = csmUserRepository;
 	}
 
 }

@@ -108,6 +108,35 @@
 		document.getElementById('command').submit();
 	}
 	
+	function handleUsername(){
+		if($('usernameCheckbox').checked){
+			if($('email').value==''){
+				$('usernameCheckbox').checked=false;
+				alert("Please enter a valid email first");
+				$('email').focus();
+				return;
+			}
+			$('loginId').value=$('email').value;
+			isValid = (validateFields(new Array($('loginId')), false) && trimWhitespace($('loginId').value) != "");
+        	ValidationManager.setStateOnLoad($('loginId'), isValid);
+        	if(isValid){
+        		$('loginId').disabled=true;
+        	}
+		}else{
+			$('loginId').value='';
+			ValidationManager.setInvalidState($('loginId'));
+			$('loginId').disabled=false;
+		}
+	}
+	
+	function copyUsername(){
+		if($('usernameCheckbox').checked){
+			$('loginId').value=$('email').value;
+			isValid = (validateFields(new Array($('loginId')), false) && trimWhitespace($('loginId').value) != "");
+        	ValidationManager.setStateOnLoad($('loginId'), isValid);
+		}
+	}
+	
 </script>
 </head>
 <body>
@@ -272,28 +301,11 @@
 				</c:choose>
         </div>
 		<div class="row">
-            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" /> (Username)
+            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" />
             </div>
-				<c:choose>
-					<c:when test="${isLoggedInUser }">
-						<div class="value">${command.email}</div>
-					</c:when>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
-						<c:choose>
-							<c:when test="${!empty command.email}">
-								<div class="value">${command.email}</div>
-							</c:when>
-							<c:otherwise>
-								<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></div>
-							</c:otherwise>
-						</c:choose>
-					</c:when>
-					<c:otherwise>
-						<div class="value">
-							<form:input size="30" path="email" cssClass="required validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
-						  </div>
-					</c:otherwise>
-				</c:choose>
+            <div class="value">
+				<form:input size="30" path="email" cssClass="required validate-notEmpty&&EMAIL" onkeyup="copyUsername();"/><tags:hoverHint keyProp="contactMechanism.email"/>
+			</div>
        	 </div>
         <div class="row">
             <div class="label"><fmt:message key="c3pr.common.phone" /> 
@@ -343,7 +355,13 @@
 </chrome:division>
 <c:choose>
 <c:when test="${isLoggedInUser}">
-<chrome:division id="staff-details" title="* User Role(s)">
+<chrome:division id="staff-details" title="* Account Information">
+	<div class="row">
+        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
+        <div class="value">
+        	${username }
+        </div>
+    </div>
 	<c:forEach items="${groups}" var="group" varStatus="status">
 		<c:set var="userHasGroup" value="false"></c:set>
 	    <div class="row">
@@ -370,7 +388,21 @@
 </chrome:division>
 </c:when>
 <c:otherwise>
-<chrome:division id="staff-details" title="* User Role (At least one required- Check all that apply)">
+<chrome:division id="staff-details" title="* Account Information (At least one user role required- Check all that apply)">
+	<div class="row">
+        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
+        <div class="value">
+        	<c:choose>
+        	<c:when test="${FLOW == 'SAVE_FLOW'}">
+        		<form:input size="20" path="loginId" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+        		<input id="usernameCheckbox" type="checkbox" onclick="handleUsername();"/> <i>(same as email id)</i>
+        	</c:when>
+        	<c:otherwise>
+        		${username }
+        	</c:otherwise>
+        	</c:choose>
+        </div>
+    </div>
 	<div id="errorMsg1" style="display:none">
 		<span id='sid1' style='color:#EE3324'>Please select atleast one role.</span><br/> 	
 	</div>
