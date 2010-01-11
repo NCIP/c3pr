@@ -102,7 +102,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	private MessageSource c3prErrorMessages;
 
 	@Transient
-	private int acrrualsWithinLastWeek;
+	private int accrualCount;
 	private Boolean standaloneIndicator;
 	private Integer targetAccrualNumber;
 
@@ -795,12 +795,12 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	}
 
 	@Transient
-	public int getAcrrualsWithinLastWeek() {
-		return this.acrrualsWithinLastWeek;
+	public int getAccrualCount() {
+		return this.accrualCount;
 	}
 
-	public void setAcrrualsWithinLastWeek(int acrrualsWithinLastWeek) {
-		this.acrrualsWithinLastWeek = acrrualsWithinLastWeek;
+	public void setAccrualCount(int accrualCount) {
+		this.accrualCount = accrualCount;
 	}
 
 	public Boolean getStandaloneIndicator() {

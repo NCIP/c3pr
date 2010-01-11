@@ -1061,9 +1061,9 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test set accrual within last week
 	 */
 	public void testGetAcrrualWithinLastWeek() {
-		simpleStudy.setAcrrualsWithinLastWeek(10);
+		simpleStudy.setAccrualCount(10);
 		assertEquals("accrual in last week is 10", 10, simpleStudy
-				.getAcrrualsWithinLastWeek());
+				.getAccrualCount());
 	}
 
 	/**

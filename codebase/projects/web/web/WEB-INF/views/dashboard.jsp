@@ -68,7 +68,7 @@
 			<div id="build-name">Build Number: ${buildInfo.buildName}</div>
 		</chrome:box></td>
 		<td valign="top"><chrome:box
-			title="Incomplete Registrations - Most Recent">
+			title="Incomplete Registrations*">
 			<c:choose>
 				
 			
@@ -136,7 +136,7 @@
 				<b><fmt:message key="DASHBOARD.INCOMPLETE_REGISTRATIONS.EMPTY"/></b>
 			</c:otherwise>
 			</c:choose>
-		</chrome:box> <chrome:box title="Pending Studies - Most Recent">
+		</chrome:box> <chrome:box title="Pending Studies*">
 			<c:choose>
 			
 			<c:when test="${pStudies != null && fn:length(pStudies) > 0}">
@@ -184,7 +184,7 @@
 			<b><fmt:message key="DASHBOARD.PENDING_STUDIES.EMPTY"/></b>
 			</c:otherwise>
 			</c:choose>
-		</chrome:box> <chrome:box title="Most Active Studies">
+		</chrome:box> <chrome:box title="Open Studies - Highest Enrollment Rate*">
 			<c:choose>
 			<c:when test="${aStudies != null && fn:length(aStudies) > 0}">
 				<%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
@@ -219,14 +219,14 @@
 								<c:out
 									value="${study.studyCoordinatingCenters[0].healthcareSite.name}" />
 							</chrome:td>
-							<chrome:td bgcolor="${bg}">${study.acrrualsWithinLastWeek}</chrome:td>
+							<chrome:td bgcolor="${bg}">${study.accrualCount}</chrome:td>
 						</chrome:tr>
 
 					</c:forEach>
 				</table>
 			</c:when>
 			<c:otherwise>
-				<b><fmt:message key="DASHBOARD.ACTIVE_STUDIES.EMPTY"/></b>
+				<b><fmt:message key="DASHBOARD.ENROLLMENT.EMPTY"/></b>
 			</c:otherwise>
 			</c:choose>
 		</chrome:box></td>

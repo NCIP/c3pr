@@ -6,6 +6,7 @@ package edu.duke.cabig.c3pr.dao;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +24,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -31,9 +33,9 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.utils.AccrualCountComparator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -669,5 +671,34 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	public void setStudySiteDao(StudySiteDao studySiteDao) {
 		this.studySiteDao = studySiteDao;
 	}
+	
+	public List<Study> getMostEnrolledStudies(int maxResultSize, Date startDate, Date endDate){
+    	List<Study> listStudies = new ArrayList<Study>();
+		
+		List<StudySubject> studySubjects =  getHibernateTemplate().find("select ss from StudySubject ss where ss.regWorkflowStatus=? and ss.startDate between ? and ? order by ss.id desc", new Object[]{RegistrationWorkFlowStatus.ENROLLED, startDate, endDate});
+    	for(StudySubject ss : studySubjects){
+    		Study s = ss.getStudySite().getStudy();
+    		listStudies.add(s);
+    	}
+    	
+    	Set<Study> setStudy = new HashSet<Study>();
+		setStudy.addAll(listStudies);
+    	
+    	
+    	for(Study study : setStudy){
+    		study.setAccrualCount(Collections.frequency(listStudies, study));
+    	}
+
+    	List<Study> studies = new ArrayList<Study>();
+    	
+    	studies.addAll(setStudy);
+    	Collections.sort(studies, new AccrualCountComparator());
+
+    	if(studies.size() > 0 && studies.size() > maxResultSize){
+    		return studies.subList(0, maxResultSize - 1) ;
+    	}else{
+    		return studies; 
+    	}
+    }
 
 }

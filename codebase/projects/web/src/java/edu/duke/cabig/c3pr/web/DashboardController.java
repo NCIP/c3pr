@@ -7,7 +7,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Properties;
 
-import javax.mail.Transport;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,12 +26,10 @@ import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
-import edu.duke.cabig.c3pr.infrastructure.C3PRMailSenderImpl;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.PropertyWrapper;
@@ -114,7 +111,7 @@ public class DashboardController extends ParameterizableViewController {
             log.error("Error while trying to read the property file: [" + filename + "]");
         }
 
-        getMostActiveStudies(request);
+        getMostEnrolledStudies(request);
         getRecentPendingStudies(request);
         getRecentPendingRegistrations(request);
 
@@ -143,23 +140,14 @@ public class DashboardController extends ParameterizableViewController {
     
     
     
-    private void getMostActiveStudies(HttpServletRequest request) {
-//        Study study = new LocalStudy(true);
-        //study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-        //List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending",
-        //                "id");
-        List<Study> studies = studyDao.getStudiesByStatus(MAX_RESULTS, CoordinatingCenterStudyStatus.OPEN);
-        log.debug("Open studies found: " + studies.size());
-
+    private void getMostEnrolledStudies(HttpServletRequest request) {
     	GregorianCalendar cal = new GregorianCalendar();
         Date endDate = new Date(System.currentTimeMillis());
         cal.setTime(endDate);
         cal.roll(Calendar.DATE, -6);
         Date startDate = new Date(cal.getTime().getTime());
-
-        for (Study st : studies) {
-            st.setAcrrualsWithinLastWeek(studyDao.countAcrrualsByDate(st, startDate, endDate));
-        }
+        
+        List<Study> studies = studySubjectDao.getMostEnrolledStudies(MAX_RESULTS, startDate, endDate);
         request.setAttribute("aStudies", studies);
     }
 
