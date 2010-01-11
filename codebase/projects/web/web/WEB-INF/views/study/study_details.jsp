@@ -447,12 +447,16 @@
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.principalInvestigator"/></div>
 	            <div class="value"> 
 	            	<tags:autocompleter name="hcsInvestigator-hidden" displayValue="${_namePI} ${_codePI}" value="${command.study.id==null?'':command.study.principalInvestigator.id}" basename="hcsInvestigator" cssClass="required validate-notEmpty" hintKey="healthcareSitePI"/>
-	            	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="studyAuthorizationCheck">
-	            		<tags:button id="createPrincipalInvestigator" type="button" size="small" color="blue" value="Create principal investigator"/>
-	            	</csmauthz:accesscontrol>
                  </div>            
 		    </div>
     	</div>
+    	<br>
+    	<div align="right">
+    	<br>
+    	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="studyAuthorizationCheck">
+       		<tags:button id="createPrincipalInvestigator" type="button" size="small" color="blue" value="Create principal investigator"/>
+       	</csmauthz:accesscontrol>
+       	</div>
     	<div class="division"></div>
     </div>
 </chrome:division>
