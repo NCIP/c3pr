@@ -229,7 +229,10 @@
 				<b><fmt:message key="DASHBOARD.ENROLLMENT.EMPTY"/></b>
 			</c:otherwise>
 			</c:choose>
-		</chrome:box></td>
+		</chrome:box>
+		<fmt:message key="DASHBOARD.ASTERISK.MESSAGE"/>
+		</td>
+		
 	</tr>
 </table>
 
