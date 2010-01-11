@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.service.passwordpolicy;
 
+import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 
@@ -26,6 +27,5 @@ public interface PasswordPolicyService {
      */
     public String publishPasswordPolicy(String xsltFileName);
 
-    public boolean validatePasswordAgainstCreationPolicy(Credential credential)
-                    throws C3PRBaseException;
+    public boolean validatePasswordAgainstCreationPolicy(User user, String password) throws C3PRBaseException;
 }

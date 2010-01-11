@@ -10,7 +10,6 @@ import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import edu.duke.cabig.c3pr.service.passwordpolicy.Credential;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordPolicyService;
 
@@ -55,8 +54,8 @@ public class PasswordManagerServiceImpl implements PasswordManagerService {
     }
 
     private void validateAndSetPassword(User user, String password) throws C3PRBaseException{
-		passwordPolicyService.validatePasswordAgainstCreationPolicy(new Credential(user.getEmail(), password));
-        csmUserRepository.userChangePassword(user.getEmail(), password, passwordPolicyService
+		passwordPolicyService.validatePasswordAgainstCreationPolicy(user, password);
+        csmUserRepository.userChangePassword(user, password, passwordPolicyService
                 .getPasswordPolicy().getPasswordCreationPolicy().getPasswordHistorySize());
     }
 

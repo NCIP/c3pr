@@ -3,10 +3,10 @@ package edu.duke.cabig.c3pr.service.impl.passwordpolicy;
 import org.springframework.beans.factory.annotation.Required;
 
 import edu.duke.cabig.c3pr.dao.passwordpolicy.PasswordPolicyDao;
+import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
-import edu.duke.cabig.c3pr.service.passwordpolicy.Credential;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordPolicyService;
 import edu.duke.cabig.c3pr.service.passwordpolicy.validators.LoginPolicyValidator;
 import edu.duke.cabig.c3pr.service.passwordpolicy.validators.PasswordCreationPolicyValidator;
@@ -42,9 +42,9 @@ public class PasswordPolicyServiceImpl implements PasswordPolicyService {
         return "TODO";
     }
 
-    public boolean validatePasswordAgainstCreationPolicy(Credential credential)
+    public boolean validatePasswordAgainstCreationPolicy(User user, String password)
             throws C3PRBaseException {
-        return passwordCreationPolicyValidator.validate(getPasswordPolicy(), credential);
+        return passwordCreationPolicyValidator.validate(getPasswordPolicy(), user, password);
     }
 
     /*
