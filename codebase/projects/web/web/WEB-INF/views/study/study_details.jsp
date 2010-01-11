@@ -166,7 +166,34 @@
         AutocompleterManager.addAutocompleter(piCoCenterAutocompleterProps);
 	    AutocompleterManager.addAutocompleter(principalInvestigatorAutocompleterProps);
 
-		
+	    var win;
+	    Event.observe(window, "load", function() {
+	        // Using a if loop since 'createPrincipalInvestigator' only exists if logged in user has create Inv access
+	        if($('createPrincipalInvestigator') != null){
+	        	 $('createPrincipalInvestigator').observe('click', function(event) {
+	        	win = new Window(
+	    				{title: "Create Principal Investigator", top:35, left:35, width:950, height:500, zIndex:100,
+	    				url: "<c:url value='/pages/personAndOrganization/investigator/createInvestigator?decorator=noheaderDecorator&studyflow=true&createPI=true&healthcareSiteId='/>"+$("piCoCenter-hidden").value, showEffectOptions: {duration:1.5}}
+	    				)
+	    		win.showCenter(true);
+	    		});
+	        }
+	    })
+	    
+	    function updatePrincipalInvestigatorSection(orgId, orgName, orgPrimaryIdentifier, piId, piName, piAssignedIdentifier){
+	    	$("piCoCenter-input").value=orgName+"("+orgPrimaryIdentifier+")" ; 
+    		$("piCoCenter-hidden").value=orgId;
+    		ValidationManager.setNormalState($("piCoCenter-input"));
+			$("piCoCenter-input").removeClassName("pending-search");
+
+   			$("hcsInvestigator-input").value=piName+"("+piAssignedIdentifier+")" ; 
+			$("hcsInvestigator-hidden").value=piId ;
+			ValidationManager.setNormalState($("hcsInvestigator-input"));
+	    	$("hcsInvestigator-input").removeClassName("pending-search");
+			
+		    win.close();
+	   }
+	   
     </script>
 </head>
 <body>
@@ -420,6 +447,9 @@
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.principalInvestigator"/></div>
 	            <div class="value"> 
 	            	<tags:autocompleter name="hcsInvestigator-hidden" displayValue="${_namePI} ${_codePI}" value="${command.study.id==null?'':command.study.principalInvestigator.id}" basename="hcsInvestigator" cssClass="required validate-notEmpty" hintKey="healthcareSitePI"/>
+	            	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="studyAuthorizationCheck">
+	            		<tags:button id="createPrincipalInvestigator" type="button" size="small" color="blue" value="Create principal investigator"/>
+	            	</csmauthz:accesscontrol>
                  </div>            
 		    </div>
     	</div>

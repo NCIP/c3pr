@@ -4,6 +4,16 @@
 <head>
     <title>Investigator updated: ${command.firstName} ${command.lastName}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <script type="text/javascript">
+    	function postProcess(createPI){
+        	if(createPI == 'false'){
+    			parent.showDiseases(); 
+    			parent.closePopup();
+        	}else{
+				parent.updatePrincipalInvestigatorSection('${command.healthcareSiteInvestigators[0].healthcareSite.id}','${command.healthcareSiteInvestigators[0].healthcareSite.name}','${command.healthcareSiteInvestigators[0].healthcareSite.primaryIdentifier}','${command.id}', '${command.fullName}', '${command.nciIdentifier}');
+            }
+    	}
+    </script>
 </head>
 <body>
 <div id="main">
@@ -46,7 +56,7 @@
 </div>
 <div class="flow-buttons" <c:if test="${empty studyflow || studyflow=='false'}">style="display:none;"</c:if>>
 	<span class="next">
-		<tags:button type="button" color="red" icon="x" value="Close" onclick="parent.showDiseases(); parent.closePopup();" />
+		<tags:button type="button" color="red" icon="x" value="Close" onclick="postProcess('${createPI}');" />
 	</span>
 </div>
 </body>

@@ -347,7 +347,9 @@ function submitForm(){
 		</c:forEach>
         
     </table>
-    <tags:button type="button" color="blue" value="Add Organization" icon="add" onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" size="small"/>
+    <c:if test="${empty createPI || createPI == false}">
+    	<tags:button type="button" color="blue" value="Add Organization" icon="add" onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" size="small"/>
+    </c:if>
 	
 </chrome:division>
 

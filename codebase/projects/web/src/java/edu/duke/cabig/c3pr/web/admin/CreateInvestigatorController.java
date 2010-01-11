@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
@@ -74,11 +76,26 @@ public class CreateInvestigatorController<C extends Investigator> extends
             }
         }
         else {
-            inv = createInvestigatorWithDesign();
+        	String healthcareSiteId = request.getParameter("healthcareSiteId") ;
+        	if(!StringUtils.isBlank(healthcareSiteId)){
+        		inv = createInvestigatorWithHealthcareSite(Integer.parseInt(healthcareSiteId));
+        	}else{
+        		inv = createInvestigatorWithDesign();
+        	}
             request.getSession().setAttribute(FLOW, SAVE_FLOW);
         }
         return inv;
     }
+    
+    @Override
+    protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
+    	Map<String, Object> model = super.referenceData(request, command, errors);
+        model.put("studyflow", request.getParameter("studyflow"));
+        model.put("createPI", request.getParameter("createPI"));
+        return model;
+    }
+    
+    
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, Investigator command) {
@@ -190,32 +207,33 @@ public class CreateInvestigatorController<C extends Investigator> extends
         if(!StringUtils.isBlank(studyflow)){
         	map.put("studyflow", studyflow);
         }
+        
+        String createPI = request.getParameter("createPI");
+        if(!StringUtils.isBlank(createPI)){
+        	map.put("createPI", createPI);
+        }else{
+        	map.put("createPI", "false");
+        }
         ModelAndView mv = new ModelAndView(getSuccessView(), map);
         return mv;
     }
 
     private Investigator createInvestigatorWithDesign() {
-
         LocalInvestigator investigator = new LocalInvestigator();
         HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
         investigator.addHealthcareSiteInvestigator(healthcareSiteInvestigator);
-//        addContacts(investigator);
+        return investigator;
+    }
+    
+    private Investigator createInvestigatorWithHealthcareSite(int healthcareSiteId) {
+        LocalInvestigator investigator = new LocalInvestigator();
+        HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
+        HealthcareSite healthcareSite = investigatorDao.getHealthcareSiteDao().getById(healthcareSiteId) ;
+        healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
+        investigator.addHealthcareSiteInvestigator(healthcareSiteInvestigator);
         return investigator;
     }
 
-//    private void addContacts(Investigator inv) {
-//
-//        ContactMechanism contactMechanismEmail = new LocalContactMechanism();
-//        ContactMechanism contactMechanismPhone = new LocalContactMechanism();
-//        ContactMechanism contactMechanismFax = new LocalContactMechanism();
-//        contactMechanismEmail.setType(ContactMechanismType.EMAIL);
-//        contactMechanismPhone.setType(ContactMechanismType.PHONE);
-//        contactMechanismFax.setType(ContactMechanismType.Fax);
-//        inv.addContactMechanism(contactMechanismEmail);
-//        inv.addContactMechanism(contactMechanismPhone);
-//        inv.addContactMechanism(contactMechanismFax);
-//    }
-    
     /*
      * (non-Javadoc)
      * 
