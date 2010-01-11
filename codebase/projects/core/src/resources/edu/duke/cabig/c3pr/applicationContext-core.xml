@@ -647,11 +647,8 @@
     <bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
           lazy-init="true" autowire="byType">
         <property name="mailSender" ref="mailSender"/>
-        <property name="accountCreatedTemplateMessage" ref="accountCreatedTemplateMessage"/>
         <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
-        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
         <property name="userDao" ref="userDao"/>
-        <property name="researchStaffDao" ref="researchStaffDao"/>
     </bean>
 
     <!-- Repositories -->
