@@ -594,7 +594,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			if (csmUser == null) {
 				csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
 				populateCSMUser(c3prUser, csmUser);
-				csmUser.setLoginName(c3prUser.getEmail().toLowerCase());
+				csmUser.setLoginName(c3prUser.getLoginId().toLowerCase());
 				csmUser.setPassword(((edu.duke.cabig.c3pr.domain.User)c3prUser).generatePassword());
 				userProvisioningManager.createUser(csmUser);
 				UserDao.addUserToken((edu.duke.cabig.c3pr.domain.User) c3prUser);
