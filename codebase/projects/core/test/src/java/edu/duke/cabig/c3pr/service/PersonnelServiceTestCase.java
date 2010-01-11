@@ -68,6 +68,7 @@ public class PersonnelServiceTestCase extends DaoTestCase {
 //        email.setValue("test-user@test.org");
 //        researchStaff.addContactMechanism(email);
         researchStaff.setEmail("test-user@test.org");
+        researchStaff.setLoginId("test-user@test.org");
         personnelService.save(researchStaff);
 
         // now change the staff details
