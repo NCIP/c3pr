@@ -188,7 +188,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(4, ssList.size());
+            assertEquals(5, ssList.size());
         }
         interruptSession();
         {
@@ -250,7 +250,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(4, ssList.size());
+            assertEquals(5, ssList.size());
         }
         interruptSession();
         {
