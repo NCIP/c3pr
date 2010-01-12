@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -354,7 +355,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(3, ssList.size());
+            assertEquals(4, ssList.size());
         }
         interruptSession();
     }
@@ -493,7 +494,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
      */
     public void testGetAll() throws Exception {
         List<StudySubject> actual = studySubjectDao.getAll();
-        assertEquals(4, actual.size());
+        assertEquals(5, actual.size());
         List<Integer> ids = collectIds(actual);
         assertContains("Wrong Study Subject found", ids, 1000);
         assertContains("Wrong Study Subject found", ids, 1001);
@@ -1010,7 +1011,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubjects = studySubjectDao.searchByParticipantId(1000);
     	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
     	studySubjects = studySubjectDao.searchByParticipantId(1002);
-    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",3,studySubjects.size());
     	studySubjects = studySubjectDao.searchByParticipantId(1010);
     	assertEquals("Wrong number or study subjects retrieved",0,studySubjects.size());
     }
@@ -1223,5 +1224,14 @@ public class StudySubjectDaoTest extends DaoTestCase {
          loadedStudySiteStudyVersion = studySiteStudyVersionDao.getById(1011);
           assertNotNull("Should not have been deleted",loadedStudySiteStudyVersion.getStudyVersion());
     }
+     
+     public void testGetMostEnrolledStudies() throws Exception {
+    	 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
+    	 Date startDate = simpleDateFormat.parse("01/08/2010");
+    	 Date endDate = simpleDateFormat.parse("01/18/2010");
+    	 
+    	 assertEquals("Only 1 record should be present",1,studySubjectDao.getMostEnrolledStudies(5, startDate, endDate).size());
+     }
 
 }
