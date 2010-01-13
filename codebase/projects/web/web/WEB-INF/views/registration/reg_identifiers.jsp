@@ -33,7 +33,7 @@ var systemIdentifierRowInserterProps = {
     add_row_division_id: "systemIdentifier", 	        /* this id belongs to element where the row would be appended to */
     skeleton_row_division_id: "dummy-row-systemIdentifier",
     initialIndex: ${fn:length(command.studySubject.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
-    softDelete: true,
+    softDelete: false,
     path: "studySubject.systemAssignedIdentifiers"                               /* this is the path of the collection that holds the rows  */
 };
 var organizationIdentifierRowInserterProps = {
@@ -41,7 +41,7 @@ var organizationIdentifierRowInserterProps = {
        skeleton_row_division_id: "dummy-row-organizationIdentifier",
        initialIndex: ${fn:length(command.studySubject.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
        path: "studySubject.organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
-       softDelete: ${flowType!='CREATE_STUDY'},
+       softDelete: false,
        postProcessRowInsertion: function(object){
 	       clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 		   clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
@@ -68,7 +68,6 @@ function manageIdentifierRadio(element){
 									);
 	element.checked=true;
 	$(element.id+"-hidden").value="true";
-	document.getElementById("setAsPrimary").value="true";
 }
 </script>
 </head>
@@ -77,7 +76,6 @@ function manageIdentifierRadio(element){
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
 	formName="studySubjectIdentifiersForm">
 	<jsp:attribute name="singleFields">
-	<input type="hidden" name="setAsPrimary" id="setAsPrimary" value=""/>
 	<br>
 	<table width="100%"><tr><td>
 		<chrome:division title="Organization Assigned Identifiers">
