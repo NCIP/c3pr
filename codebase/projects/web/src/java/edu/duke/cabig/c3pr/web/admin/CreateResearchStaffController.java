@@ -103,29 +103,32 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 			Object command, BindException errors) throws Exception {
 		super.onBindAndValidate(request, command, errors);
 		ResearchStaff researchStaff = (ResearchStaff) command;
-    		if(!request.getParameter("_action").equals("saveRemoteRStaff") || request.getParameter("_action").equals("syncResearchStaff") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW)){
-    			if (! request.getParameter("_action").equals("syncResearchStaff")) {
-					ResearchStaff rStaffFromDB = researchStaffDao
-							.getByEmailAddressFromLocal(researchStaff
-									.getEmail());
-					if (rStaffFromDB != null) {
-						// This check is already being done in the UsernameDuplicate Validator.
-						//errors.reject("RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " already exists");
-						return;
-					}
+		if(WebUtils.hasSubmitParameter(request, "copyEmailAdress")){
+			researchStaff.setLoginId(researchStaff.getEmail());
+		}
+		if(!request.getParameter("_action").equals("saveRemoteRStaff") || request.getParameter("_action").equals("syncResearchStaff") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW)){
+			if (! request.getParameter("_action").equals("syncResearchStaff")) {
+				ResearchStaff rStaffFromDB = researchStaffDao
+						.getByEmailAddressFromLocal(researchStaff
+								.getEmail());
+				if (rStaffFromDB != null) {
+					// This check is already being done in the UsernameDuplicate Validator.
+					//errors.reject("RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " already exists");
+					return;
 				}
-				List<ResearchStaff> remoteResearchStaff = researchStaffDao.getRemoteResearchStaff(researchStaff);
-        		boolean matchingExternalResearchStaffPresent = false;
-        		for(ResearchStaff remoteRStaff : remoteResearchStaff){
-        			if(remoteRStaff.getEmail().equals(researchStaff.getEmail())){
-        				researchStaff.addExternalResearchStaff(remoteRStaff);
-        				matchingExternalResearchStaffPresent = true;
-        			}
-        		}
-        		if(matchingExternalResearchStaffPresent){
-        			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmail()+ " exists in external system");
-        		}
-        	}
+			}
+			List<ResearchStaff> remoteResearchStaff = researchStaffDao.getRemoteResearchStaff(researchStaff);
+    		boolean matchingExternalResearchStaffPresent = false;
+    		for(ResearchStaff remoteRStaff : remoteResearchStaff){
+    			if(remoteRStaff.getEmail().equals(researchStaff.getEmail())){
+    				researchStaff.addExternalResearchStaff(remoteRStaff);
+    				matchingExternalResearchStaffPresent = true;
+    			}
+    		}
+    		if(matchingExternalResearchStaffPresent){
+    			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmail()+ " exists in external system");
+    		}
+    	}
 	}
     
     

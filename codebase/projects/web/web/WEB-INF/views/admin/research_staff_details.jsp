@@ -395,7 +395,7 @@
         	<c:choose>
         	<c:when test="${FLOW == 'SAVE_FLOW'}">
         		<form:input size="20" path="loginId" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
-        		<input id="usernameCheckbox" type="checkbox" onclick="handleUsername();"/> <i>(same as email id)</i>
+        		<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i>(same as email id)</i>
         	</c:when>
         	<c:otherwise>
         		${username }
