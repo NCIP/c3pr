@@ -73,40 +73,66 @@ public class StudyXMLImporterServiceImpl implements
         List<Study> studyList = null;
         org.jdom.Document document = null;
         try {
-            studyList = new ArrayList<Study>();
-          
-            document = new SAXBuilder().build(xmlStream);
-            
-            List<Element> studies = document.getRootElement().getChildren("study",Namespace.getNamespace("gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"));
+        	studyList = new ArrayList<Study>();
+        	document = new SAXBuilder().build(xmlStream);
+        	Element rootElement = document.getRootElement();
 
-            for (int i = 0; i < studies.size(); i++) {
-            	Element studyNode = studies.get(i);
-            	
-                    Study study = null;
-                    try {
-                        study = (Study) marshaller.fromXML(new StringReader(new XMLOutputter().outputString(studyNode)));
-                        studyRepository.validate(study);
-                        // do any custom processing after validation
-                        study = processStudy(study);
-                      
-                        log.debug("Saving study with grid ID" + study.getGridId());
+        	if(rootElement.getName().equalsIgnoreCase("studies")){
+        		List<Element> studies = rootElement.getChildren("study",Namespace.getNamespace("gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"));
 
-                        studyRepository.buildAndSave(study);
-                        // once saved retrieve persisted study
-                        studyList.add(studyDao.getById(study.getId()));
-                        studyNode.addContent(new Comment("Successfull Import"));
-                    }
-                  
-                    catch (Exception e) {
-                        // ignore any other problem and continue to import
-                    	e.printStackTrace();                        
-                        log.error(e.getMessage());
-                        studyNode.addContent(new Comment("Error while importing: " + e.getMessage()));
-                        
-                    }
-            }
-            new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
-                    importXMLResult));
+        		for (int i = 0; i < studies.size(); i++) {
+        			Element studyNode = studies.get(i);
+        			Study study = null;
+        			try {
+        				study = (Study) marshaller.fromXML(new StringReader(new XMLOutputter().outputString(studyNode)));
+        				studyRepository.validate(study);
+        				// do any custom processing after validation
+        				study = processStudy(study);                     
+        				log.debug("Saving study with grid ID" + study.getGridId());
+        				studyRepository.buildAndSave(study);
+        				// once saved retrieve persisted study
+        				studyList.add(studyDao.getById(study.getId()));
+        				studyNode.addContent(new Comment("Successfull Import"));
+        			}                
+        			catch (Exception e) {
+        				// ignore any other problem and continue to import
+        				e.printStackTrace();                        
+        				log.error(e.getMessage());
+        				studyNode.addContent(new Comment("Error while importing: " + e.getMessage()));
+        			}
+        		}
+        		new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
+        				importXMLResult));
+        	}
+        	else if(rootElement.getName().equalsIgnoreCase("study")){
+        		Study study = null;
+        		try {
+        			study = (Study) marshaller.fromXML(new StringReader(new XMLOutputter().outputString(rootElement)));
+        			studyRepository.validate(study);
+        			// do any custom processing after validation
+        			study = processStudy(study);               
+        			log.debug("Saving study with grid ID" + study.getGridId());
+        			studyRepository.buildAndSave(study);
+        			// once saved retrieve persisted study
+        			studyList.add(studyDao.getById(study.getId()));
+        			rootElement.addContent(new Comment("Successfull Import"));
+        		}           
+        		catch (Exception e) {
+        			// ignore any other problem and continue to import
+        			e.printStackTrace();                        
+        			log.error(e.getMessage());
+        			rootElement.addContent(new Comment("Error while importing: " + e.getMessage()));
+
+        		}
+        		new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
+        				importXMLResult));
+        	}else{
+        		document.addContent(new Comment("Error while importing: Missing root element tag 'studies' or 'study'. " +
+        		"Make sure the top level xml tag is 'studies' or 'study'"));
+        		new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
+        				importXMLResult));
+        		return studyList;
+        	}
         }
         catch (Exception e) {
         	 throw this.exceptionHelper.getException(
