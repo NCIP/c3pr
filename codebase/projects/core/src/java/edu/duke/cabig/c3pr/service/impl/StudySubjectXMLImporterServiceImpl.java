@@ -59,46 +59,66 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
     @Transactional
     public List<StudySubject> importStudySubjects(InputStream xmlStream, File importXMLResult)
                     throws C3PRCodedException {
-        List<StudySubject> studySubjectList = null;
-        org.jdom.Document document = null;
-        try {
-            studySubjectList = new ArrayList<StudySubject>();
-            document = new SAXBuilder().build(xmlStream);
-            if(!document.getRootElement().getName().equalsIgnoreCase("registrations")){
-                document.addContent(new Comment("Error while importing: Missing root element tag 'registrations'. Make sure the top level xml tg is 'registrations'"));
-                new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
-                                importXMLResult));
-                return studySubjectList;
-            }
-            List<Element> elements = document
-                            .getRootElement()
-                            .getChildren(
-                                            "registration",
-                                            Namespace
-                                                            .getNamespace("gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"));
-            StudySubject studySubject = null;
-            for (int i = 0; i < elements.size(); i++) {
-                Element element = elements.get(i);
-                try {
-                    studySubject = importStudySubject(new XMLOutputter().outputString(element));
-                    // once saved retreive persisted study
-                    studySubjectList.add(studySubject);
-                    element.addContent(new Comment("Successfull Import"));
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                    log.debug(e.getMessage());
-                    element.addContent(new Comment("Error while importing: " + e.getMessage()));
-                }
-                new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
-                                importXMLResult));
-            }
-        }
-        catch (Exception e) {
-            throw this.exceptionHelper.getException(
-                            getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_UNMARSHALLING"), e);
-        }
-        return studySubjectList;
+    	List<StudySubject> studySubjectList = null;
+    	org.jdom.Document document = null;
+    	try {
+    		studySubjectList = new ArrayList<StudySubject>();
+    		document = new SAXBuilder().build(xmlStream);          
+    		Element rootElement = document.getRootElement();
+    		
+
+    		if(rootElement.getName().equalsIgnoreCase("registrations")){
+    			List<Element> elements = document.getRootElement().getChildren(
+    					"registration", Namespace.getNamespace("gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"));
+
+    			for (int i = 0; i < elements.size(); i++) {
+    				Element element = elements.get(i);
+    				StudySubject studySubject = null;
+    				try {
+    					studySubject = importStudySubject(new XMLOutputter().outputString(element));
+    					// once saved retrieve persisted study
+    					studySubjectList.add(studySubject);
+    					element.addContent(new Comment("Successfull Import"));
+    				}
+    				catch (Exception e) {
+    					e.printStackTrace();
+    					log.debug(e.getMessage());
+    					element.addContent(new Comment("Error while importing: " + e.getMessage()));
+    				}
+    				new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
+    						importXMLResult));
+    			}
+    		}
+    		else if(rootElement.getName().equalsIgnoreCase("registration")){
+    			try {
+    				StudySubject studySubject = null;
+    				studySubject = importStudySubject(new XMLOutputter().outputString(rootElement));
+    				// once saved retrieve persisted study
+    				studySubjectList.add(studySubject);
+    				rootElement.addContent(new Comment("Successfull Import"));
+    			}
+    			catch (Exception e) {
+    				e.printStackTrace();
+    				log.debug(e.getMessage());
+    				rootElement.addContent(new Comment("Error while importing: " + e.getMessage()));
+    			}
+    			new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
+    					importXMLResult));
+    		}
+    		else{
+    			document.addContent(new Comment("Error while importing: Missing root element tag 'registrations' or 'registration'. " +
+    			"Make sure the top level xml tag is 'registrations' or 'registration'"));
+    			new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
+    					importXMLResult));
+    			return studySubjectList;
+    		}
+
+    	}
+    	catch (Exception e) {
+    		throw this.exceptionHelper.getException(
+    				getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_UNMARSHALLING"), e);
+    	}
+    	return studySubjectList;
     }
 
     public StudySubject importStudySubject(String registrationXml) throws C3PRCodedException {
