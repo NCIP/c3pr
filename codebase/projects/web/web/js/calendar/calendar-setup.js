@@ -112,6 +112,8 @@ Calendar.setup = function (params) {
 		var update = (cal.dateClicked || p.electric);
 		if (update && p.inputField) {
 			p.inputField.value = cal.date.print(p.ifFormat);
+			// Temporary fix
+			ValidationManager.setNormalState(p.inputField);
 			if (typeof p.inputField.onchange == "function")
 				p.inputField.onchange();
 		}
