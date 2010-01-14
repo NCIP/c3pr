@@ -84,7 +84,7 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 	public void sendUserEmail(String userName, String subject, String text) {
 		try {
 			SimpleMailMessage message = new SimpleMailMessage();
-			message.setTo(getEmailAddress(getUserByName(userName)));
+			message.setTo(getUserByName(userName).getEmail());
 			message.setSubject(subject);
 			message.setText(text);
 			mailSender.send(message);
@@ -99,10 +99,6 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 		} catch (StringEncrypter.EncryptionException e) {
 			throw new C3PRBaseRuntimeException("not able to encrypt string");
 		}
-	}
-	
-	private String getEmailAddress(User user){
-		return user.getEmail();
 	}
 	
 	@Required
