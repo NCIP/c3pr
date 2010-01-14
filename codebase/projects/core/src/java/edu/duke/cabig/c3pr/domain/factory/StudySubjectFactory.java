@@ -92,7 +92,7 @@ public class StudySubjectFactory {
             }
         }
         else {
-            if (participant.validateParticipant()) participantDao.save(participant);
+            if (participant.validateParticipant()){ }//participantDao.save(participant);
             else {
                 throw this.exceptionHelper
                                 .getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
@@ -144,7 +144,7 @@ public class StudySubjectFactory {
         }
         for (OrganizationAssignedIdentifier organizationAssignedIdentifier : participant
                         .getOrganizationAssignedIdentifiers()) {
-            if (organizationAssignedIdentifier.getType().equals(this.prtIdentifierTypeValueStr)) {
+            if (organizationAssignedIdentifier.getType().getName().equals(this.prtIdentifierTypeValueStr)) {
                 List<Participant> paList = participantService
                                 .searchByMRN(organizationAssignedIdentifier);
                 if (paList.size() > 1) {
