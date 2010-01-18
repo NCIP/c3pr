@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This is a sample xml file. This file should be modified with proper data elements -->
-<!-- before using. -->
+	<!--
+		This is a sample xml file. This file should be modified with proper
+		data elements
+	-->
+	<!-- before using. -->
 <registrations xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
 	<registration>
 		<studyIdentifiers>
@@ -9,7 +12,7 @@
 				<value>cocenter id</value>
 				<primaryIndicator>false</primaryIndicator>
 				<healthcareSite xsi:type="LocalHealthcareSiteType">
-					<address/>
+					<address />
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
 						<primaryIndicator>true</primaryIndicator>
@@ -23,7 +26,7 @@
 				<value>funding sponsor id</value>
 				<primaryIndicator>false</primaryIndicator>
 				<healthcareSite xsi:type="LocalHealthcareSiteType">
-					<address/>
+					<address />
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
 						<value>site_ctep_id</value>
 						<primaryIndicator>true</primaryIndicator>
@@ -37,7 +40,13 @@
 		<subject>
 			<firstName>First</firstName>
 			<lastName>Last</lastName>
-			<address><streetAddress>1391 Park Center Rd, Ste#420</streetAddress><city>Herndon</city><stateCode>VA</stateCode><postalCode>20170</postalCode><countryCode>US</countryCode></address>
+			<address>
+				<streetAddress>1391 Park Center Rd, Ste#420</streetAddress>
+				<city>Herndon</city>
+				<stateCode>VA</stateCode>
+				<postalCode>20170</postalCode>
+				<countryCode>US</countryCode>
+			</address>
 			<administrativeGenderCode>Male</administrativeGenderCode>
 			<birthDate>2009-09-17</birthDate>
 			<ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>
@@ -46,17 +55,18 @@
 				xsi:type="OrganizationAssignedIdentifierType">
 				<value>org id value</value>
 				<primaryIndicator>false</primaryIndicator>
-				<type>MRN</type>
-			</identifier>
-			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				xsi:type="OrganizationAssignedIdentifierType">
-				<value>org id value</value>
-				<primaryIndicator>false</primaryIndicator>
 				<healthcareSite xsi:type="LocalHealthcareSiteType">
-					<address/>
 					<identifier xsi:type="OrganizationAssignedIdentifierType">
-						<value>site_ctep_id</value>
+						<value>org id value</value>
 						<primaryIndicator>true</primaryIndicator>
+						<healthcareSite xsi:type="LocalHealthcareSiteType">
+							<name>Cancer Therapy Evaluation Program</name>
+							<identifier xsi:type="OrganizationAssignedIdentifierType">
+								<value>CTEP</value>
+								<primaryIndicator>true</primaryIndicator>
+								<type>CTEP</type>
+							</identifier>
+						</healthcareSite>
 						<type>CTEP</type>
 					</identifier>
 				</healthcareSite>
@@ -72,7 +82,7 @@
 		</subject>
 		<site xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xsi:type="LocalHealthcareSiteType">
-			<address/>
+			<address />
 			<identifier xsi:type="OrganizationAssignedIdentifierType">
 				<value>site_ctep_id</value>
 				<primaryIndicator>true</primaryIndicator>
@@ -84,20 +94,22 @@
 			<consent>
 				<name>Male</name>
 			</consent>
-			<informedConsentFormSignedDate>2009-09-17</informedConsentFormSignedDate>
+			<informedConsentFormSignedDate>2009-09-17
+			</informedConsentFormSignedDate>
 		</informedConsent>
 		<informedConsent>
 			<consent>
 				<name>Female</name>
 			</consent>
-			<informedConsentFormSignedDate>2009-09-17</informedConsentFormSignedDate>
+			<informedConsentFormSignedDate>2009-09-17
+			</informedConsentFormSignedDate>
 		</informedConsent>
 		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			xsi:type="OrganizationAssignedIdentifierType">
 			<value>SSID</value>
 			<primaryIndicator>false</primaryIndicator>
 			<healthcareSite xsi:type="LocalHealthcareSiteType">
-				<address/>
+				<address />
 				<identifier xsi:type="OrganizationAssignedIdentifierType">
 					<value>site_ctep_id</value>
 					<primaryIndicator>true</primaryIndicator>
@@ -157,12 +169,15 @@
 				</investigator>
 			</healthcareSiteInvestigator>
 		</enrollingPhysician>
-		<otherEnrollingPhysician>Some other treating physician</otherEnrollingPhysician>
+		<otherEnrollingPhysician>Some other treating physician
+		</otherEnrollingPhysician>
 		<offStudyReasonText>Some reason</offStudyReasonText>
 		<offStudyDate>2009-09-17</offStudyDate>
 		<diseaseHistory>
-			<otherPrimaryDiseaseCode>some other disease code</otherPrimaryDiseaseCode>
-			<otherPrimaryDiseaseSiteCode>some other disease site code</otherPrimaryDiseaseSiteCode>
+			<otherPrimaryDiseaseCode>some other disease code
+			</otherPrimaryDiseaseCode>
+			<otherPrimaryDiseaseSiteCode>some other disease site code
+			</otherPrimaryDiseaseSiteCode>
 			<studyDisease>
 				<leadDisease>true</leadDisease>
 				<diseaseTerm>
