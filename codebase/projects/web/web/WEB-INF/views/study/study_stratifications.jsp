@@ -204,9 +204,25 @@
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_STRATIFICATION"/></div><br><br>
 			</tags:formPanelBox>
 	</c:when>
-<c:otherwise>
+	<c:when test="${!command.hasStratifiedEpoch}">
+		<tags:formPanelBox tab="${tab}" flow="${flow}">
+			<br />
+			<br>
+			<div align="center">
+			<div id="flash-message" class="error"><img
+				src="<tags:imageUrl name="error-red.png" />" alt=""
+				style="vertical-align: top;" /> <fmt:message
+				key="STUDY.NO_STRATIFICATION_FOR_EPOCH" /></div>
+			<br>
+			<br>
+			</div>
+
+		</tags:formPanelBox>
+	</c:when>
+	<c:otherwise>
 <form:form method="post" name="form">
 	<tags:tabFields tab="${tab}" />
+	
 	<div>
 		<input type="hidden" id="_action" name="_action" value=""> 
 		<input type="hidden" id="_selectedEpoch" name="_selectedEpoch" value=""> 
@@ -216,9 +232,12 @@
 		<input type="hidden" id="epochId" name="epochId"/>
 		<input type="hidden" id="stratumGroupId" name="stratumGroupId"/>
 	</div>
+	
 	<c:if test="${command.study.stratificationIndicator}">
+	
 	<c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 		<c:if test="${epoch.stratificationIndicator == 'true' }">
+		
 		<script>
             var stratAnsRowInserterProps_${epochCount.index}= {
                 add_row_division_id: "table1",
@@ -353,7 +372,7 @@
 		</c:if>
 	</c:forEach>
 	</c:if>
-
+    
 	<input type="hidden" name="flowType" value="${flowType}">
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" />
 </form:form>
