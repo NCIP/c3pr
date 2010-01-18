@@ -445,7 +445,12 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	 *             the data access exception
 	 */
     public List<StudySubject> getAll() throws DataAccessException {
-        return getHibernateTemplate().find("from StudySubject");
+    	int storedMaxResults = getHibernateTemplate().getMaxResults();
+    	getHibernateTemplate().setMaxResults(0);
+        List<StudySubject> studySubjects =  getHibernateTemplate().find("from StudySubject");
+        getHibernateTemplate().setMaxResults(storedMaxResults);
+        
+        return studySubjects;
     }
 
     /**
