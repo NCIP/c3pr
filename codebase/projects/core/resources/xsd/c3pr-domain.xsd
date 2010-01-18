@@ -144,7 +144,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="IdentifierType">
         <xs:sequence>
-          <xs:element minOccurs="1" maxOccurs="1" name="healthcareSite" type="HealthcareSiteType" />
+          <xs:element minOccurs="0" name="healthcareSite" type="HealthcareSiteType" />
           <xs:element minOccurs="1" maxOccurs="1" name="type" type="OrganizationAssignedIdentifierTypeValue" />
         </xs:sequence>
       </xs:extension>
