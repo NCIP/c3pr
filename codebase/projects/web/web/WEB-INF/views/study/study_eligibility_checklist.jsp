@@ -74,8 +74,7 @@
 						<table border="0" cellspacing="0"  cellpadding="0"
 							id="addInclusionRowTable-${epochCount.index}"
 							class="tablecontent">
-							<tr id="hInclusionEligibility--${epochCount.index}"
-								<c:if test="${fn:length(epoch.inclusionEligibilityCriteria) == 0}">style="display:none;"</c:if>>
+							<tr id="hInclusionEligibility--${epochCount.index}">
 								<th width="80%"><span class="label"><tags:requiredIndicator /><fmt:message key="study.question"/></span>&nbsp;<tags:hoverHint
 									id="study.inclusionEligibilityCriteria.questionText-${epochCount.index}"
 									keyProp="study.inclusionEligibilityCriteria.questionText" /></th>
@@ -83,6 +82,16 @@
 									id="NA" keyProp="NA" /></th>
 								<th width="5%"></th>
 							</tr>
+							<c:choose>
+								<c:when
+									test="${fn:length(epoch.inclusionEligibilityCriteria) == 0}">
+									<tr>
+										<td align="left"
+											id="addInclusionEligibilityCriteria-${epochCount.index}"><fmt:message
+											key="epoch.addInclusionCriteria" /></td>
+									</tr>
+								</c:when>
+								<c:otherwise>
 							<c:forEach varStatus="status" var="ieCrit"
 								items="${command.study.epochs[epochCount.index].inclusionEligibilityCriteria}">
 								<tr
@@ -98,6 +107,8 @@
 										src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 								</tr>
 							</c:forEach>
+									</c:otherwise>
+							</c:choose>
 						</table>
 						</td>
 					</tr>
@@ -105,7 +116,8 @@
 				</div>
 				<br>
 				<tags:button type="button" color="blue" icon="add" value="Add Inclusion Criterion"
-								onclick="$('inclusionCriteria-${epochCount.index}').show();RowManager.addRow(instanceInclusionRow_${epochCount.index});" size="small"/>
+								onclick="$('inclusionCriteria-${epochCount.index}').show();RowManager.addRow(instanceInclusionRow_${epochCount.index});
+								$('addInclusionEligibilityCriteria-${epochCount.index}') != null ? $('addInclusionEligibilityCriteria-${epochCount.index}').hide():'';" size="small"/>
 				<br>				
 			</chrome:division>
 			<chrome:division title="Exclusion Criteria" minimize="${(not empty epochIndex &&  epochIndex == epochCount.index)?'false':'true'}"
@@ -117,8 +129,7 @@
 						<table border="0"  cellspacing="0" cellpadding="0"
 							class="tablecontent"
 							id="addExclusionRowTable-${epochCount.index}">
-							<tr id="hExclusionEligibility-${epochCount.index}"
-								<c:if test="${fn:length(epoch.exclusionEligibilityCriteria) == 0}">style="display:none;"</c:if>>
+							<tr id="hExclusionEligibility-${epochCount.index}">
 								<th width="80%"><span class="label"><tags:requiredIndicator /><fmt:message key="study.question"/></span>&nbsp;<tags:hoverHint
 									id="study.exclusionEligibilityCriteria.questionText-${epochCount.index}"
 									keyProp="study.exclusionEligibilityCriteria.questionText" /></th>
@@ -126,6 +137,17 @@
 									id="NA" keyProp="NA" /></th>
 								<th width="5%"></th>
 							</tr>
+							
+							<c:choose>
+								<c:when
+									test="${fn:length(epoch.exclusionEligibilityCriteria) == 0}">
+									<tr>
+										<td align="left"
+											id="addExclusionEligibilityCriteria-${epochCount.index}"><fmt:message
+											key="epoch.addExclusionCriteria" /></td>
+									</tr>
+								</c:when>
+								<c:otherwise>
 							<c:forEach varStatus="status" var="eeCrit"
 								items="${command.study.epochs[epochCount.index].exclusionEligibilityCriteria}">
 								<tr
@@ -141,6 +163,8 @@
 									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 								</tr>
 							</c:forEach>
+							</c:otherwise>
+							</c:choose>
 						</table>
 						</td>
 					</tr>
@@ -149,7 +173,8 @@
 				</div>
 				<br>
 				<tags:button type="button" color="blue" icon="add" value="Add Exclusion Criterion"
-								onclick="$('exclusionCriteria-${epochCount.index}').show();RowManager.addRow(instanceExclusionRow_${epochCount.index});" size="small"/>
+								onclick="$('exclusionCriteria-${epochCount.index}').show();RowManager.addRow(instanceExclusionRow_${epochCount.index});
+								$('addExclusionEligibilityCriteria-${epochCount.index}') != null ? $('addExclusionEligibilityCriteria-${epochCount.index}').hide():'';" size="small"/>
 								<br>
 			</chrome:division>
 			</td>
