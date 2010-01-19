@@ -413,6 +413,9 @@
             <tr><td class="alt">${consent.name}</td></tr>
         </c:forEach>
     </table>
+    <c:if test="${fn:length(command.study.consents) == 0}">
+    	<div align="left"><span><fmt:message key="study.noConsents"/></span></div>
+    </c:if>
 </chrome:division>
 
 <chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${epochTab}')" condition="${not empty flowType}">
@@ -493,6 +496,9 @@
 			</chrome:division>
 		</c:if>
     </c:forEach>
+    <c:if test="${!command.hasEligibilityCritiria}">
+    	<div align="left"><span><fmt:message key="study.noEligibilityAvailable"/></span></div>
+    </c:if>
 </chrome:division>
 <div <c:if test="${!command.hasStratifiedEpoch}">style="display:none;"</c:if>>
 <chrome:division title="Stratum Groups"  cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${not empty flowType}" >
