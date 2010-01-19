@@ -22,7 +22,7 @@ var healthcareSiteAutocompleterProps = {
     		image = '';
     	}
 
-    	return (obj.name+" ("+obj.ctepCode+")" + image)
+    	return (obj.name+" ("+obj.primaryIdentifier+")" + image)
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -91,7 +91,7 @@ function manageIdentifierRadio(element){
 		<c:choose><c:when test="${orgIdentifier.type eq 'PROTOCOL_AUTHORITY_IDENTIFIER' || orgIdentifier.type eq 'COORDINATING_CENTER_IDENTIFIER'}">
 		<tr id="organizationIdentifier-${organizationStatus.index}">
 			<td><fmt:message key="c3pr.common.organization" /></td>
-			<td>${orgIdentifier.healthcareSite.name} (${orgIdentifier.healthcareSite.ctepCode})</td>
+			<td>${orgIdentifier.healthcareSite.name} (${orgIdentifier.healthcareSite.primaryIdentifier})</td>
 			<td>${orgIdentifier.type.code}</td>
 			<td>${orgIdentifier.value}</td>
 			<td>
@@ -104,7 +104,7 @@ function manageIdentifierRadio(element){
 		<c:otherwise>
 		<tr id="organizationIdentifier-${organizationStatus.index}">
 			<td><fmt:message key="c3pr.common.organization" /></td>
-			<td> ${orgIdentifier.healthcareSite.name} (${orgIdentifier.healthcareSite.ctepCode}) </td>
+			<td> ${orgIdentifier.healthcareSite.name} (${orgIdentifier.healthcareSite.primaryIdentifier}) </td>
 			<td>
 				<form:select
 					path="study.organizationAssignedIdentifiers[${organizationStatus.index}].type"

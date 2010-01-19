@@ -21,7 +21,7 @@
                 })
             },
             valueSelector: function(obj) {
-                return (obj.name+" ("+obj.ctepCode+")")
+                return (obj.name+" ("+obj.primaryIdentifier+")")
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=healthcareSiteAutocompleterProps.basename+"-hidden"

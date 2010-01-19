@@ -77,6 +77,10 @@
         <convert converter="bean" match="edu.duke.cabig.c3pr.domain.*">
         	<param name="exclude" value="isCoordinatingCenter"/>
         </convert>
+        <convert converter="bean" match="edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier">
+        	<param name="exclude" value="healthcareSite"/>
+        </convert>
+        
     </allow>
 
     <signatures>

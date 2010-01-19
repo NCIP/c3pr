@@ -61,10 +61,10 @@ public class ParticipantAjaxFacade {
         for (HealthcareSite healthcareSite : healthcareSites) {
         	if(healthcareSite instanceof RemoteHealthcareSite){
         		reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
-                "ctepCode","externalId")));
+                "identifiersAssignedToOrganization","externalId")));
         	}
         	else {reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
-                            "ctepCode")));
+                            "identifiersAssignedToOrganization")));
         	}
         }
         return reducedHealthcareSites;

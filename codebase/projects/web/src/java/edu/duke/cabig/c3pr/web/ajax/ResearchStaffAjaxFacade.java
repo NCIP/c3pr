@@ -58,10 +58,10 @@ public class ResearchStaffAjaxFacade {
         for (HealthcareSite healthcareSite : healthcareSites) {
         	if(healthcareSite instanceof RemoteHealthcareSite){
         		reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
-                "ctepCode","externalId")));
+        				"identifiers", "primaryIdentifier", "externalId")));
         	}
         	else {reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
-                            "ctepCode")));
+        			"identifiers", "primaryIdentifier")));
         	}
         }
         return reducedHealthcareSites;

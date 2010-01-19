@@ -29,7 +29,13 @@ var healthcareSiteAutocompleterProps = {
         })
     },
     valueSelector: function(obj) {
-        return obj.name
+    	if(obj.externalId != null){
+    		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
+    	} else {
+    		image = '';
+    	}
+
+    	return (obj.name+" ("+obj.primaryIdentifier+")" + image)
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";

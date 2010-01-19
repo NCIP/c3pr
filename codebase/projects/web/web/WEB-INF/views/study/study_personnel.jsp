@@ -195,7 +195,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		                        <csmauthz:accesscontrol domainObject="${studySite}" hasPrivileges="ACCESS"  
 			                                                authorizationCheckName="studySiteAuthorizationCheck">
 			                        <c:if test="${selected_site == status.index }">
-			                            <option selected="selected" value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name} (${studySite.healthcareSite.ctepCode})
+			                            <option selected="selected" value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name} (${studySite.healthcareSite.primaryIdentifier})
 			                            </option>			                            
 			                        </c:if>
 			                        <c:if test="${selected_site != status.index }">

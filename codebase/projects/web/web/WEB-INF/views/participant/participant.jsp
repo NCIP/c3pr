@@ -14,7 +14,7 @@ var healthcareSiteAutocompleterProps = {
         })
     },
     valueSelector: function(obj) {
-    	return (obj.name+" ("+obj.ctepCode+")")
+    	return (obj.name+" ("+obj.primaryIdentifier+")")
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -55,7 +55,7 @@ function clearField(field) {
                 })
             },
             valueSelector: function(obj) {
-            	return (obj.name+" ("+obj.ctepCode+")")
+            	return (obj.name+" ("+obj.primaryIdentifier+")")
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";

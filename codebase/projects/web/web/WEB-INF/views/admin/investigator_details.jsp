@@ -24,7 +24,7 @@ var healthcareSiteAutocompleterProps = {
     		image = '';
     	}
 
-    	return (obj.name+" ("+obj.ctepCode+")" + image)
+    	return (obj.name+" ("+obj.primaryIdentifier+")" + image)
     },
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";

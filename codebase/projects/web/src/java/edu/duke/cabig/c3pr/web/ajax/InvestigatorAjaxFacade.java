@@ -50,18 +50,17 @@ public class InvestigatorAjaxFacade {
 
     public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {
 
-        List<HealthcareSite> healthcareSites = healthcareSiteDao
-                        .getBySubnames(extractSubnames(text));
-
+        List<HealthcareSite> healthcareSites = healthcareSiteDao.getBySubnames(extractSubnames(text));
         List<HealthcareSite> reducedHealthcareSites = new ArrayList<HealthcareSite>(healthcareSites
                         .size());
+        
         for (HealthcareSite healthcareSite : healthcareSites) {
         	if(healthcareSite instanceof RemoteHealthcareSite){
         		reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
-                "ctepCode","externalId")));
+        				"identifiersAssignedToOrganization", "externalId")));
         	}
         	else {reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
-                            "ctepCode")));
+        				"identifiersAssignedToOrganization")));
         	}
         }
         return reducedHealthcareSites;

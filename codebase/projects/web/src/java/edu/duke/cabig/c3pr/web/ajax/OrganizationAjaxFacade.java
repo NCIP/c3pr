@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 
@@ -68,11 +69,10 @@ public class OrganizationAjaxFacade {
                         .size());
         for (HealthcareSite healthcareSite : healthcareSites) {
         	if(healthcareSite instanceof RemoteHealthcareSite){
-        		reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
-                "ctepCode","externalId")));
+        		reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name", "identifiersAssignedToOrganization",
+                "externalId")));
         	}
-        	else {reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
-                            "ctepCode")));
+        	else {reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name", "identifiersAssignedToOrganization")));
         	}
         }
         return reducedHealthcareSites;

@@ -412,18 +412,16 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
     public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {
 
-        List<HealthcareSite> healthcareSites = healthcareSiteDao
-                        .getBySubnames(extractSubnames(text));
-
+        List<HealthcareSite> healthcareSites = healthcareSiteDao.getBySubnames(extractSubnames(text));
         List<HealthcareSite> reducedHealthcareSites = new ArrayList<HealthcareSite>(healthcareSites
                         .size());
+        
         for (HealthcareSite healthcareSite : healthcareSites) {
         	if(healthcareSite instanceof RemoteHealthcareSite){
-        		reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
-                "ctepCode","externalId")));
+        		reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name", "externalId", "identifiersAssignedToOrganization")));
         	}
-        	else {reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
-                            "ctepCode")));
+        	else {
+        	reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name", "identifiersAssignedToOrganization")));
         	}
         }
         return reducedHealthcareSites;
