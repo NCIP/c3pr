@@ -510,11 +510,11 @@ public class HealthcareSiteDao extends OrganizationDao {
             .getCurrentSession().createCriteria(HealthcareSite.class);
             Criteria identifiersAssignedToOrganizationCriteria = orgCriteria.createCriteria("identifiersAssignedToOrganization");
            
-            if(hcs.getPrimaryIdentifier() != null && hcs.getPrimaryIdentifier() != ""){
+            if(StringUtils.isNotBlank(hcs.getPrimaryIdentifier())){
             	identifiersAssignedToOrganizationCriteria.add(Expression.ilike("value", "%" + hcs.getPrimaryIdentifier() + "%"));
             	identifiersAssignedToOrganizationCriteria.add(Expression.eq("typeInternal", OrganizationIdentifierTypeEnum.CTEP.getName()));
             }
-            if(hcs.getName() != null && hcs.getName() != ""){
+            if(StringUtils.isNotBlank(hcs.getName())){
             	orgCriteria.add(Expression.ilike("name", "%" + hcs.getName() + "%"));
             }
             

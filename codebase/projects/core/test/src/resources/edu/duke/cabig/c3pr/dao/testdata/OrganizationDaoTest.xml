@@ -44,7 +44,8 @@
 
     <IDENTIFIERS id="1001" version="1" value="nci" type="local" system_name="nci" dtype="SAI"  retired_indicator = "false"  org_id="1000" primary_indicator="0"/>
     <IDENTIFIERS id="1002" version="1" value="grid" type="local" system_name="nci" dtype="SAI"  retired_indicator = "false"  org_id="1000"/>    
-    <IDENTIFIERS id="1003" version="1" value="du code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"  primary_indicator="1"/>
+    <IDENTIFIERS id="1003" version="1" value="du code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"  primary_indicator="0"/>
+    <IDENTIFIERS id="1006" version="1" value="pri du code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"  primary_indicator="1"/>
     <IDENTIFIERS id="1004" version="1" value="wf code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"  primary_indicator="1"/>
     <IDENTIFIERS id="1005" version="1" value="RM-TST-ID" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002"  primary_indicator="1"/>
     

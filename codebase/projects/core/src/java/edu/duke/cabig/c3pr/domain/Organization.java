@@ -209,7 +209,7 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
 	 * 
 	 * @param identifiers the new identifiers
 	 */
-	private void setIdentifiersAssignedToOrganization(List<Identifier> identifiers) {
+	public void setIdentifiersAssignedToOrganization(List<Identifier> identifiers) {
 		this.identifiersAssignedToOrganization = identifiers;
 		// initialize projected list for OrganizationAssigned and
 		// SystemAssignedIdentifier
@@ -241,6 +241,27 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
 	@Transient
 	public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
 		return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
+	}
+	
+
+	/**
+	 * Gets the system assigned identifiers assigned TO the organization.
+	 * 
+	 * @return the system assigned identifiers
+	 */
+	@Transient
+	public void setSystemAssignedIdentifiers(List<SystemAssignedIdentifier> list) {
+		 lazyListHelper.getLazyList(SystemAssignedIdentifier.class).addAll(list);
+	}
+
+	/**
+	 * Gets the organization assigned identifiers assigned TO the organization.
+	 * 
+	 * @return the organization assigned identifiers
+	 */
+	@Transient
+	public void setOrganizationAssignedIdentifiers(List<OrganizationAssignedIdentifier> list) {
+		lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class).addAll(list);
 	}
     
 

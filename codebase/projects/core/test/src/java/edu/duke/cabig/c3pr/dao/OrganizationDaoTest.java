@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
 import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
@@ -105,11 +106,25 @@ public class OrganizationDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testGetByPrimaryIdentifierFromLocal() throws Exception {
-        HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifierFromLocal("du code");
+        HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifierFromLocal("pri du code");
         assertNotNull(hcs);
         assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
     }
 
+    /**
+     * Test get by nci identifier.
+     *
+     * @throws Exception the exception
+     */
+    public void testGetIdentifiersAssignedToOrganization() throws Exception {
+        HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifierFromLocal("pri du code");
+        assertNotNull(hcs);
+        List<Identifier> idList = hcs.getIdentifiersAssignedToOrganization();
+        assertEquals(4, idList.size());
+        assertEquals("pri du code", hcs.getPrimaryIdentifier());
+        assertEquals("Duke Comprehensive Cancer Center", hcs.getName());
+    }
+    
     /**
      * Test search by example with wild card true.
      *

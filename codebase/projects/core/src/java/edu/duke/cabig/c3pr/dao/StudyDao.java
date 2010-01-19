@@ -144,7 +144,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
             		"(select h.id from HealthcareSite h, Identifier I where " +
             		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1')"  +
                     " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
-                    new Object[] {id.getHealthcareSite().getCtepCode(), id.getValue(), id.getType().getName()});
+                    new Object[] {id.getHealthcareSite().getPrimaryIdentifier(), id.getValue(), id.getType().getName()});
     }
 
     /**

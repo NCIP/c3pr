@@ -898,17 +898,17 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	}
 
 	@Transient
-	public StudySite getStudySite(String ctepCode) {
+	public StudySite getStudySite(String primaryIdentifier) {
 		for (StudySite studySite : this.getStudySites()) {
-			if (studySite.getHealthcareSite().getCtepCode()
-					.equalsIgnoreCase(ctepCode)) {
+			if (studySite.getHealthcareSite().getPrimaryIdentifier()
+					.equalsIgnoreCase(primaryIdentifier)) {
 				return studySite;
 			}
 		}
 		throw this.c3PRExceptionHelper
 				.getRuntimeException(
 						getCode("C3PR.EXCEPTION.STUDY.STUDYSITE_NOT_FOUND_INVALID_NCICODE.CODE"),
-						new String[] { ctepCode });
+						new String[] { primaryIdentifier });
 	}
 
         @Transient
