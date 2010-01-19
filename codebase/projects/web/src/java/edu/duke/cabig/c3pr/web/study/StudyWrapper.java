@@ -14,6 +14,23 @@ public class StudyWrapper {
 	private Study study ;
 	private String file;
 	private boolean hasStratifiedEpoch ;
+	private boolean hasEligibilityCritiria;
+	
+	public boolean getHasEligibilityCritiria(){
+		hasEligibilityCritiria= false;
+		if (this.study != null){
+			for (Epoch epoch : this.study.getEpochs()) {
+				if(epoch.getEligibilityCriteria().size() > 0){
+					return true;
+				}
+			}
+		}
+		return hasEligibilityCritiria;
+	}
+
+	public void setHasEligibilityCritiria(boolean hasEligibilityCritiria) {
+		this.hasEligibilityCritiria = hasEligibilityCritiria;
+	}
 
 	public boolean getHasStratifiedEpoch() {
 		hasStratifiedEpoch = false;
