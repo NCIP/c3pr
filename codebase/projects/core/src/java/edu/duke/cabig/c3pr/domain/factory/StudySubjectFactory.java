@@ -62,7 +62,11 @@ public class StudySubjectFactory {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
-	public void setAnatomicSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
+	public ICD9DiseaseSiteDao getIcd9DiseaseSiteDao() {
+		return icd9DiseaseSiteDao;
+	}
+
+	public void setIcd9DiseaseSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
 		this.icd9DiseaseSiteDao = icd9DiseaseSiteDao;
 	}
 
