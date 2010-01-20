@@ -179,7 +179,7 @@ function manageIdentifierRadio(element){
 									<c:set var="_code" value="" />
 									<c:set var="_name" value="" />
 									<c:if test="${fn:length(command.organizationAssignedIdentifiers)>0}">				
-									<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.ctepCode})" />
+									<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.primaryIdentifier})" />
 									<c:set var="_name" value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" />
 									</c:if>
 			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
