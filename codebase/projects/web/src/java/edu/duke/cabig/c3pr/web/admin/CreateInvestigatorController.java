@@ -115,7 +115,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
 			errors.reject("DUPLICATIE_ORG_EXISTS","Duplicate organization.");
 		}
 		if(!"saveRemoteInvestigator".equals(request.getParameter("_action")) || (request.getParameter("_action").equals("syncInvestigator") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW))){
-			if (! request.getParameter("_action").equals("syncInvestigator")) {
+			if ((request.getParameter("_action") != null) && !request.getParameter("_action").equals("syncInvestigator")) {
 				Investigator invFromDB = investigatorDao
 						.getByEmailAddressFromLocal(investigator
 								.getEmail());
