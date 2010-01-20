@@ -122,7 +122,7 @@ function submitForm(){
 		<tags:tabFields tab="${tab}" />
 <chrome:box title="Investigator" htmlContent="${imageStr }">
 <tags:instructions code="investigator_details" />
-	<input type="hidden" name="_action" value="">
+	<input type="hidden" name="_action" value=" ">
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
 <tags:errors path="*"/>
@@ -316,12 +316,12 @@ function submitForm(){
 					value="${command.healthcareSiteInvestigators[status.index].healthcareSite.id}" />
 					<c:choose>
 						<c:when test="${command.healthcareSiteInvestigators[status.index].healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-							${command.healthcareSiteInvestigators[status.index].healthcareSite.name} &nbsp;
+							${command.healthcareSiteInvestigators[status.index].healthcareSite.name} (${command.healthcareSiteInvestigators[status.index].healthcareSite.primaryIdentifier}) &nbsp;
 									<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
 						</c:when>
 						<c:otherwise>
 							<input class="autocomplete required validate-notEmpty" type="text" id="healthcareSite${status.index}-input" size="50"
-								value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name}" />
+								value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name} (${command.healthcareSiteInvestigators[status.index].healthcareSite.primaryIdentifier})" />
 						</c:otherwise>
 					</c:choose>
 					<tags:indicator
