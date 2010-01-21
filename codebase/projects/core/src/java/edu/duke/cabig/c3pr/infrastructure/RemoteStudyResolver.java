@@ -16,6 +16,8 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
@@ -215,6 +217,9 @@ public class RemoteStudyResolver implements RemoteResolver {
 			return null;
 		}
 		
+		//Set the Epoch and Arms
+		setEpochAndArms(remoteStudy);
+		
 		//Set default values in RemoteStudy
 		remoteStudy.setRandomizationType(RandomizationType.PHONE_CALL);
 		remoteStudy.setRandomizedIndicator(Boolean.TRUE);
@@ -225,6 +230,48 @@ public class RemoteStudyResolver implements RemoteResolver {
 		
 		return remoteStudy;
 	}
+	
+	
+	/**
+	* This method will fetch all the Arms from PA. Set them in the default treatment epoch with order 1.
+	* For each Arm a TreatmentAssignment object is created and added to the Study in caAERS.
+	*
+	* @param remoteStudy
+	*/
+	public void setEpochAndArms(RemoteStudy remoteStudy){
+		String armsPayLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId(remoteStudy.getExternalId()));
+		
+		String armsResultXml  = "";
+		try {
+			armsResultXml  = protocolAbstractionResolverUtils.broadcastArmGetByStudyProtocol(armsPayLoad);
+		} catch (C3PRCodedException e) {
+			log.error("Error during fetching Arms." +e.getMessage());
+		}
+		
+		Epoch epoch = new Epoch();
+		//setting default values in epoch
+		epoch.setTreatmentIndicator(true);
+		epoch.setName("Epoch 1");
+		epoch.setEpochOrder(1);
+		
+	    gov.nih.nci.coppa.services.pa.Arm remoteArm = null;
+	    Arm localArm = null;
+		List<String> results = XMLUtils.getObjectsFromCoppaResponse(armsResultXml);
+		for (String result:results) {
+			remoteArm = CoppaPAObjectFactory.getArm(result);
+			if(remoteArm != null){
+				localArm = new Arm();
+				localArm.setName(remoteArm.getName().getValue());
+				if(remoteArm.getDescriptionText() != null){
+					localArm.setDescriptionText(remoteArm.getDescriptionText().getValue());
+				}
+				epoch.getArms().add(localArm);
+			}
+		}
+		
+		remoteStudy.getEpochs().add(epoch);
+	}
+
 
 	
 	/**
