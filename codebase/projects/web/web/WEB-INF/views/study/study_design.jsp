@@ -356,7 +356,7 @@ DELETED TD
 </table>
 <!-- BIG TABLE END -->
 	<div align="left">
-	<tags:button type="button" color="blue" icon="add" value="Add Epoch"
+	<tags:button type="button" color="blue" icon="add" value="Add Epoch" size="small"
 	onclick="$('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps)" />
     <br></div>
 </jsp:attribute>
