@@ -412,7 +412,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		Criteria healthcareSiteCriteria = researchStaffCriteria.createCriteria("healthcareSite");
 		Criteria identifiersAssignedToOrganizationCriteria = healthcareSiteCriteria.createCriteria("identifiersAssignedToOrganization");
 		
-		identifiersAssignedToOrganizationCriteria.add(Expression.eq("value", healthcareSite.getCtepCode()));
+		identifiersAssignedToOrganizationCriteria.add(Expression.eq("value", healthcareSite.getPrimaryIdentifier()));
 		identifiersAssignedToOrganizationCriteria.add(Expression.eq("primaryIndicator", Boolean.TRUE));
 		
     	return researchStaffCriteria.list();
