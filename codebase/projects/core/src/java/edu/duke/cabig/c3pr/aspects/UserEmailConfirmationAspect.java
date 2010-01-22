@@ -9,6 +9,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Oct 2, 2007 Time: 4:46:46 PM To change this template
@@ -20,6 +21,8 @@ public class UserEmailConfirmationAspect {
     private MailSender mailSender;
 
     private SimpleMailMessage accountCreatedTemplateMessage;
+    
+    private CSMUserRepository csmRepository;
 
     private Logger log = Logger.getLogger(UserEmailConfirmationAspect.class);
     
@@ -40,7 +43,7 @@ public class UserEmailConfirmationAspect {
           msg.setTo(staff.getEmail());
           msg.setText("A new C3PR account has been created for you.\n"
                   + "Your username is follows:\n"
-                  + "Username: " + staff.getEmail()
+                  + "Username: " + csmRepository.getUsernameById(staff.getLoginId())
                   + "\n"
                   + "You must create your password before you can login. In order to do so please visit this URL:\n"
                   + "\n"
@@ -55,40 +58,20 @@ public class UserEmailConfirmationAspect {
           log.error("Could not send email due to  " + e.getMessage(),e);
           // just log it for now
       }
-//        for (ContactMechanism cm : staff.getContactMechanisms()) {
-//            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-//                try {
-//                    SimpleMailMessage msg = new SimpleMailMessage(
-//                                    this.accountCreatedTemplateMessage);
-//                    msg.setTo(cm.getValue());
-//                    msg.setText("An account has been created for you.\n" + " Username:"
-//                                    + cm.getValue() + " Password:" + staff.getLastName() + ""
-//                                    + "\n -c3pr admin");
-//                    log.debug("Trying to send user account confirmation email");
-//                    this.mailSender.send(msg);
-//                }
-//                catch (MailException e) {
-//                    log.debug("Could not send email due to  " + e.getMessage());
-//                    // just log it for now
-//                }
-//
-//            }
-//        }
     }
 
-    public MailSender getMailSender() {
-        return mailSender;
-    }
-
+	@Required
     public void setMailSender(MailSender mailSender) {
         this.mailSender = mailSender;
     }
 
-    public SimpleMailMessage getAccountCreatedTemplateMessage() {
-        return accountCreatedTemplateMessage;
-    }
-
+	@Required
     public void setAccountCreatedTemplateMessage(SimpleMailMessage accountCreatedTemplateMessage) {
         this.accountCreatedTemplateMessage = accountCreatedTemplateMessage;
     }
+
+	@Required
+	public void setCsmRepository(CSMUserRepository csmRepository) {
+		this.csmRepository = csmRepository;
+	}
 }
