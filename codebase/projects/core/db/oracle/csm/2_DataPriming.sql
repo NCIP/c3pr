@@ -18,10 +18,6 @@ insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAM
 values(2, 'c3pr','UPT Admin Application','c3pr',2,sysdate);
 select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
 
-insert into csm_user_pe(USER_PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_ID,USER_ID,UPDATE_DATE)
-values(2,2,1,sysdate);
-select CSM_USER_PE_USER_PROTECTIO_SEQ.nextval from dual;
-
 
 INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
 VALUES(1,'CREATE','This privilege grants permission to a user to create an entity. This entity can be an object, a database entry, or a resource such as a network connection', sysdate);
