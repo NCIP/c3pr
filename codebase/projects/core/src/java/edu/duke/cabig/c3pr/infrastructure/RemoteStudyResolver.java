@@ -251,7 +251,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 		Epoch epoch = new Epoch();
 		//setting default values in epoch
 		epoch.setTreatmentIndicator(true);
-		epoch.setName("Epoch 1");
+		epoch.setName("Treatmet Epoch");
 		epoch.setEpochOrder(1);
 		
 	    gov.nih.nci.coppa.services.pa.Arm remoteArm = null;
