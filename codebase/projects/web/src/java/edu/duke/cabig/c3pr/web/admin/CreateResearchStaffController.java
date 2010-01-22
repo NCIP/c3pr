@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,7 +37,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 
     private PersonnelService personnelService;
 
-    private ResearchStaffDao researchStaffDao;
+    protected ResearchStaffDao researchStaffDao;
     
     private CSMUserRepository csmUserRepository;
     
@@ -45,8 +46,10 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
     private String EDIT_FLOW = "EDIT_FLOW";
 
     private String SAVE_FLOW = "SAVE_FLOW";
+    
+    protected String SETUP_FLOW = "SETUP_FLOW";
 
-    private String FLOW = "FLOW";
+    protected String FLOW = "FLOW";
 
     private Logger log = Logger.getLogger(CreateResearchStaffController.class);
     
@@ -156,7 +159,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         boolean saveExternalResearchStaff = false;
 
         try {
-            if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
+            if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW) || request.getSession().getAttribute(FLOW).equals(SETUP_FLOW)) {
             	
             	if("saveRemoteRStaff".equals(request.getParameter("_action"))){
             		saveExternalResearchStaff = true;
@@ -217,18 +220,12 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         return mv;
     }
 
-    public PersonnelService getPersonnelService() {
-        return personnelService;
-    }
-
+	@Required
     public void setPersonnelService(PersonnelService personnelService) {
         this.personnelService = personnelService;
     }
 
-    public ResearchStaffDao getResearchStaffDao() {
-        return researchStaffDao;
-    }
-
+	@Required
     public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
         this.researchStaffDao = researchStaffDao;
     }
@@ -244,10 +241,12 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         return command;
     }
 
+    @Required
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
 	}
 
+    @Required
 	public void setCsmUserRepository(CSMUserRepository csmUserRepository) {
 		this.csmUserRepository = csmUserRepository;
 	}
