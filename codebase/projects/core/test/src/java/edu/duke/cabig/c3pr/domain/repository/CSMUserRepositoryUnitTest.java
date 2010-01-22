@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.domain.repository;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import org.easymock.classextension.EasyMock;
@@ -11,12 +13,15 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.dao.GroupSearchCriteria;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.util.StringEncrypter;
@@ -301,5 +306,57 @@ public class CSMUserRepositoryUnitTest extends AbstractTestCase {
 		}finally{
 			verifyMocks();
 		}
+	}
+	
+	public void testGetCSMUsersByGroupException1(){
+		try {
+			csmUserRepository.getCSMUsersByGroup(null);
+			fail();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void testGetCSMUsersByGroupException2(){
+		EasyMock.expect(userProvisioningManager.getObjects(EasyMock.isA(GroupSearchCriteria.class))).andReturn(null);
+		replayMocks();
+		try {
+			csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN);
+			fail();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}finally{
+			verifyMocks();
+		}
+	}
+	
+	public void testGetCSMUsersByGroupNoUsersFound(){
+		Group group = new Group();
+		group.setGroupId(Long.parseLong("1"));
+		EasyMock.expect(userProvisioningManager.getObjects(EasyMock.isA(GroupSearchCriteria.class))).andReturn(Arrays.asList(new Group[]{group}));
+		try {
+			EasyMock.expect(userProvisioningManager.getUsers("1")).andThrow(new CSObjectNotFoundException());
+		} catch (CSObjectNotFoundException e1) {
+			e1.printStackTrace();
+			fail();
+		}
+		replayMocks();
+		assertEquals(0, csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN).size());
+		verifyMocks();
+	}
+	
+	public void testGetCSMUsersByGroupUsersFound(){
+		Group group = new Group();
+		group.setGroupId(Long.parseLong("1"));
+		EasyMock.expect(userProvisioningManager.getObjects(EasyMock.isA(GroupSearchCriteria.class))).andReturn(Arrays.asList(new Group[]{group}));
+		try {
+			EasyMock.expect(userProvisioningManager.getUsers("1")).andReturn(new HashSet<User>(Arrays.asList(new User[]{csmUser})));
+		} catch (CSObjectNotFoundException e1) {
+			e1.printStackTrace();
+			fail();
+		}
+		replayMocks();
+		assertEquals(1, csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN).size());
+		verifyMocks();
 	}
 }

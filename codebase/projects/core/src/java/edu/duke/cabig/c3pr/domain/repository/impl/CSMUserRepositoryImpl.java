@@ -39,8 +39,9 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 	}
 	
 	public Set<gov.nih.nci.security.authorization.domainobjects.User> getCSMUsersByGroup(C3PRUserGroupType group) {
+		String groupName = getGroupIdByName(group.getCode());
 		try {
-			return userProvisioningManager.getUsers(getGroupIdByName(group.getCode()));
+			return userProvisioningManager.getUsers(groupName);
 		} catch (CSObjectNotFoundException e) {
 			return new HashSet<gov.nih.nci.security.authorization.domainobjects.User>();
 		}
