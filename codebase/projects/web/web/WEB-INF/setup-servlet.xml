@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+    
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+	        <list>
+		        <value>edu.duke.cabig.c3pr.messages</value>
+		        <value>edu.duke.cabig.c3pr.hints</value>
+		        <value>edu.duke.cabig.c3pr.help</value>
+				<value>edu.duke.cabig.c3pr.labels</value>
+	        </list>
+        </property>
+    </bean>
+    
+    <bean id="setupViewResolver"
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass"
+            value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="0"/>
+    </bean>
+
+    <bean id="setupUrlMappingName"
+        class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="setupSectionInterceptor"/>
+            </list>
+        </property>
+    </bean>     
+    
+    <bean id="setupUrlResolver"
+        class="edu.duke.cabig.c3pr.utils.web.spring.BeanNameControllerUrlResolver">
+        <property name="servletName" value="setup"/>
+    </bean>
+   
+    <bean name="/preAuthenticationSetup" id="preAuthenticationController" lazy-init="true"
+        class="edu.duke.cabig.c3pr.utils.web.setup.PreAuthenticationController" autowire="byName">
+        <property name="commandClass"
+            value="edu.duke.cabig.c3pr.domain.ResearchStaff"/>
+        <property name="formView" value="admin/research_staff_details"/>
+        <property name="successView" value="configureC3PR"/>
+        <property name="sessionForm" value="true"/>
+        <property name="validator">
+            <ref bean="userDuplicateValidator"/>
+        </property>
+    </bean>
+    
+    <bean name="/configureC3PR" id="postAuthenticationController" autowire="byName"
+        class="edu.duke.cabig.c3pr.utils.web.setup.PostAuthenticationController"/>
+	
+    <bean name="/css/*"
+          class="org.springframework.web.servlet.mvc.UrlFilenameViewController">
+        <property name="prefix"><value>css/</value></property>
+        <property name="suffix"><value>.css</value></property>
+    </bean>
+    
+    <bean id="setupSectionInterceptor"
+        class="edu.duke.cabig.c3pr.utils.web.navigation.SectionInterceptor" autowire="byName">
+        
+        <property name="sections">
+            <list>
+                <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
+                    autowire="byType" p:displayName="Administration"
+                    p:mainController="preAuthenticationController">
+                    <property name="pathMapping" value="/**"/>
+                    <property name="tasks">
+                        <list>
+                            <bean
+                                class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                autowire="byType" p:displayName="Setup"
+                                p:linkName="preAuthenticationController"/>
+                            <bean
+                                class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                autowire="byType" p:displayName="Setup"
+                                p:linkName="postAuthenticationController"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>
