@@ -189,7 +189,11 @@
     		<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.app.localSite"/><tags:hoverHint keyProp="configure.localNciInstituteCode" /></div>
         		<div class="value">
-        			<tags:autocompleter name="conf[localNciInstituteCode].value" displayValue="${instName} (${command.conf['localNciInstituteCode'].value})" value="${command.conf['localNciInstituteCode'].value}" basename="localNCIInstituteCode" cssClass="required validate-notEmpty" ></tags:autocompleter>
+        			<c:set var="siteDisplayValue" value=""></c:set>
+       				<c:if test="${!empty instName}">
+       					<c:set var="siteDisplayValue" value="${instName} (${command.conf['localNciInstituteCode'].value})"></c:set>
+       				</c:if>
+        			<tags:autocompleter name="conf[localNciInstituteCode].value" displayValue="${siteDisplayValue}" value="${command.conf['localNciInstituteCode'].value}" basename="localNCIInstituteCode" cssClass="required validate-notEmpty" ></tags:autocompleter>
         		</div>
         	</div>
         	<div class="row">
@@ -218,25 +222,25 @@
     	</chrome:division>
     	<chrome:division title="SMTP Configuration">
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.server"/><tags:hoverHint keyProp="configure.outgoingMailServer" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailServer].value" id="outgoingMailServer" /></div>
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.smtp.server"/><tags:hoverHint keyProp="configure.outgoingMailServer" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailServer].value" id="outgoingMailServer" cssClass="required validate-notEmpty"/></div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.port"/><tags:hoverHint keyProp="configure.outgoingMailServerPort" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailServerPort].value" id="outgoingMailServerPort" cssClass="validate-NUMERIC" /></div>
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.smtp.port"/><tags:hoverHint keyProp="configure.outgoingMailServerPort" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailServerPort].value" id="outgoingMailServerPort" cssClass="required validate-NUMERIC" /></div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.username"/><tags:hoverHint keyProp="configure.outgoingMailUsername" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailUsername].value" id="outgoingMailUsername" cssClass="validate-EMAIL"/></div>
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.smtp.username"/><tags:hoverHint keyProp="configure.outgoingMailUsername" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailUsername].value" id="outgoingMailUsername" cssClass="required validate-EMAIL"/></div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.password"/><tags:hoverHint keyProp="configure.outgoingMailPassword" /></div>
-        		<div class="value"><form:password path="conf[outgoingMailPassword].value" id="outgoingMailPassword" showPassword="true"/></div>
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.smtp.password"/><tags:hoverHint keyProp="configure.outgoingMailPassword" /></div>
+        		<div class="value"><form:password path="conf[outgoingMailPassword].value" id="outgoingMailPassword" showPassword="true" cssClass="required validate-notEmpty"/></div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.protocol"/><tags:hoverHint keyProp="configure.smtpProtocol" /></div>
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.smtp.protocol"/><tags:hoverHint keyProp="configure.smtpProtocol" /></div>
         		<div class="value">
-        			<form:select path="conf[smtpProtocol].value" id="smtpProtocol" >
+        			<form:select path="conf[smtpProtocol].value" id="smtpProtocol" cssClass="required validate-notEmpty">
         				<form:option value="">Please Select</form:option>
         				<form:option value="smtps">SMTPS</form:option>
         				<form:option value="smtp">SMTP</form:option>
@@ -244,9 +248,9 @@
         		</div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.auth"/><tags:hoverHint keyProp="configure.outgoingMailAuth" /></div>
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.smtp.auth"/><tags:hoverHint keyProp="configure.outgoingMailAuth" /></div>
         		<div class="value">
-        			<form:select path="conf[outgoingMailAuth].value" id="outgoingMailAuth" >
+        			<form:select path="conf[outgoingMailAuth].value" id="outgoingMailAuth" cssClass="required validate-notEmpty">
         				<form:option value="">Please Select</form:option>
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
@@ -254,9 +258,9 @@
 				</div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.sslAuth"/><tags:hoverHint keyProp="configure.smtpSSLAuth" /></div>
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.smtp.sslAuth"/><tags:hoverHint keyProp="configure.smtpSSLAuth" /></div>
         		<div class="value">
-        			<form:select path="conf[smtpSSLAuth].value" id="smtpSSLAuth" >
+        			<form:select path="conf[smtpSSLAuth].value" id="smtpSSLAuth" cssClass="required validate-notEmpty">
         				<form:option value="">Please Select</form:option>
         				<form:option value="true">Yes</form:option>
         				<form:option value="false">No</form:option>
@@ -264,8 +268,8 @@
         		</div>
         	</div>
         	<div class="row">
-        		<div class="label"><fmt:message key="configure.smtp.address"/><tags:hoverHint keyProp="configure.outgoingMailFromAddress" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailFromAddress].value" id="outgoingMailFromAddress" cssClass="validate-EMAIL" /></div>
+        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.smtp.address"/><tags:hoverHint keyProp="configure.outgoingMailFromAddress" /></div>
+        		<div class="value"><form:input path="conf[outgoingMailFromAddress].value" id="outgoingMailFromAddress" cssClass="required validate-EMAIL" /></div>
         	</div>
         	<br>
         	<div class="row" id="testEmail">
@@ -476,18 +480,18 @@
         </chrome:division>
 	   <chrome:division title="System Memory Usage">
 	   	<div class="row">
-	   		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.system.totalMemory"/><tags:hoverHint keyProp="configure.system.totalMemory" /></div>
+	   		<div class="label"><fmt:message key="configure.system.totalMemory"/><tags:hoverHint keyProp="configure.system.totalMemory" /></div>
 	   		<div class="value">
 	   			${totalMemory } MB
 	   		</div>
 	   	</div><div class="row">
-	   		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.system.freeMemory"/><tags:hoverHint keyProp="configure.system.freeMemory" /></div>
+	   		<div class="label"><fmt:message key="configure.system.freeMemory"/><tags:hoverHint keyProp="configure.system.freeMemory" /></div>
 	   		<div class="value">
 	   			${freeMemory } MB
 	   		</div>
 	   	</div>
 	   	<div class="row">
-	   		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.system.maxMemory"/><tags:hoverHint keyProp="configure.system.maxMemory" /></div>
+	   		<div class="label"><fmt:message key="configure.system.maxMemory"/><tags:hoverHint keyProp="configure.system.maxMemory" /></div>
 	   		<div class="value">
 	   			${maxMemory } MB
 	   		</div>

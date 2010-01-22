@@ -4,14 +4,18 @@
 <head>
     <title>
         <c:choose>
-            <c:when test="${command.id > 0}"><c:out value="Research Staff: ${command.firstName} ${command.lastName} - ${command.nciIdentifier}@${command.healthcareSite.name}" /></c:when>
+            <c:when test="${command.id > 0}"><c:out value="Research Staff: ${command.firstName} ${command.lastName} - ${command.nciIdentifier}@${command.healthcareSite.name}" />
+            </c:when>
+            <c:when test="${FLOW == 'SETUP_FLOW'}">
+            	Setup User
+            </c:when>
             <c:otherwise>Create Research Staff</c:otherwise>
         </c:choose>
     </title>
 
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
-	<c:if test="${!isLoggedInUser}">
+	<c:if test="${!isLoggedInUser && FLOW != 'SETUP_FLOW'}">
 	ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		var error = document.getElementById("errorMsg1");
 		
@@ -151,7 +155,7 @@
 </c:choose>
 
 <form:form name="researchStaffForm">
-	<chrome:box title="Research Staff" htmlContent="${imageStr }">
+	<chrome:box title="${FLOW == 'SETUP_FLOW'?'Create Research Staff as Administrator':'Research Staff'}" htmlContent="${imageStr }">
 		<chrome:flashMessage />
 		<tags:tabFields tab="${tab}" />
 
@@ -166,8 +170,8 @@
                <fmt:message key="c3pr.common.organization"/>
             </div>
             <div class="value">
-            
-             <c:if test="${FLOW == 'EDIT_FLOW'}">
+            <c:choose>
+             <c:when test="${FLOW == 'EDIT_FLOW'}">
 				<c:choose>
 				<c:when test="${command.healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
 					<div>	&nbsp;${command.healthcareSite.name} &nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
@@ -177,8 +181,8 @@
 					<div>	&nbsp;${command.healthcareSite.name}<tags:hoverHint keyProp="researchStaff.organization"/> </div>
 				</c:otherwise>
 				</c:choose>
-             </c:if>
-             <c:if test="${FLOW == 'SAVE_FLOW'}">
+             </c:when>
+             <c:otherwise>
                		<input type="hidden" id="healthcareSite-hidden"
 						name="healthcareSite"
 						value="${command.healthcareSite.id }" />
@@ -187,7 +191,8 @@
 						<tags:hoverHint keyProp="researchStaff.organization"/>
 					<tags:indicator id="healthcareSite-indicator" />
 					<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
-              </c:if>
+              </c:otherwise>
+              </c:choose>
             </div>
         </div>
 </chrome:division>
@@ -354,6 +359,52 @@
     </div>
 </chrome:division>
 <c:choose>
+<c:when test="${FLOW=='SETUP_FLOW'}">
+<chrome:division id="staff-details" title="* Account Information">
+    <div class="row">
+        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
+        <div class="value">
+        	<c:choose>
+        		<c:when test="${!empty errorPassword}">
+        			${username }
+        		</c:when>
+        		<c:otherwise>
+        			<form:input size="20" path="loginId" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+        			<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i>(same as email id)</i>
+        		</c:otherwise>	
+        	</c:choose>
+        </div>
+    </div>
+    <div class="row">
+	  <div class="label"><tags:requiredIndicator /><spring:message code="changepassword.password"/></div>
+	  <div class="value">
+	    <input type="password" name="password" class="required validate-notEmpty" autocomplete="off"/><br> <font color="red" style="font-style: italic;"><spring:message code="changepassword.password.requirement"/></font>
+	  </div>
+	</div>
+	<div class="row">
+	  <div class="label"><tags:requiredIndicator /><spring:message code="changepassword.password.confirm"/></div>
+	  <div class="value">
+	    <input type="password" name="confirmPassword" class="required validate-notEmpty" autocomplete="off"/>
+	  </div>
+	</div>
+	<c:forEach items="${groups}" var="group" varStatus="status">
+	    <div class="row">
+	        <div class="label">
+	                ${group.displayName}
+	        </div>
+	        <div class="value">
+	        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
+        		<input type="hidden" name="groups" value="${group}" />
+        		<input type="hidden" name="_groups" value="on" />
+	        </div>
+	    </div>
+	</c:forEach>
+	<c:if test="${!empty errorPassword}">
+		<input type="hidden" name="errorPassword" value="true"/>
+		<input type="hidden" name="username" value="${username }"/>
+	</c:if>
+</chrome:division>
+</c:when>
 <c:when test="${isLoggedInUser}">
 <chrome:division id="staff-details" title="* Account Information">
 	<div class="row">
@@ -421,27 +472,6 @@
 </c:choose>
 </chrome:box>
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/> 
-<%-- <tags:tabControls tab="${tab}" flow="${flow}"
-	localButtons="${localButtons}" willSave="true">
-	<jsp:attribute name="submitButton">
-		<table>
-				<tr>
-					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalResearchStaff' && coppaEnable}">
-						<td valign="bottom">
-									<tags:button type="submit" value="Sync" color="blue"
-									id="sync-org" onclick="javascript:syncResearchStaff();" />	
-						</td>
-					</c:if>
-						<td>
-							    	<tags:button type="submit" color="green" id="flow-update"
-									value="Save" icon="save" onclick="javascript:submitForm();" />
-						</td>
-				</tr>
-		</table>
-	</jsp:attribute>
-</tags:tabControls>
---%>
-
 </form:form>
 </div>
 
