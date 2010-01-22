@@ -754,4 +754,6 @@
 
 	<bean id="identifierGenerator" class="edu.duke.cabig.c3pr.utils.IdentifierGenerator" autowire="byName"/>
 
+    <bean id="setupStatus" class="edu.duke.cabig.c3pr.setup.SetupStatus" autowire="byName"/>
+
 </beans>
