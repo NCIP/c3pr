@@ -310,10 +310,10 @@ public class CSMUserRepositoryUnitTest extends AbstractTestCase {
 	
 	public void testGetCSMUsersByGroupException1(){
 		try {
-			csmUserRepository.getCSMUsersByGroup(null);
-			fail();
+			assertEquals(0, csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN).size());
 		} catch (NullPointerException e) {
 			e.printStackTrace();
+			fail();
 		}
 	}
 	
@@ -321,10 +321,10 @@ public class CSMUserRepositoryUnitTest extends AbstractTestCase {
 		EasyMock.expect(userProvisioningManager.getObjects(EasyMock.isA(GroupSearchCriteria.class))).andReturn(null);
 		replayMocks();
 		try {
-			csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN);
-			fail();
-		} catch (NullPointerException e) {
+			assertEquals(0, csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN).size());
+		} catch (Exception e) {
 			e.printStackTrace();
+			fail();
 		}finally{
 			verifyMocks();
 		}
