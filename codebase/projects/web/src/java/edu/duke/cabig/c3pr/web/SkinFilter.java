@@ -71,7 +71,11 @@ public class SkinFilter implements Filter, ApplicationContextAware {
 
         if (StringUtils.getBlankIfNull((String)filterConfig.getServletContext().getAttribute("siteName")).equalsIgnoreCase("")) {
             Configuration configuration = (Configuration)WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).getBean("configuration");
-            filterConfig.getServletContext().setAttribute("siteName", configuration.getMap().get("siteName").toString());            
+            try {
+            	filterConfig.getServletContext().setAttribute("siteName", configuration.getMap().get("siteName").toString());
+            } catch (Exception e) {
+                log.warn("The site banner url could not be retrieved. Check its DB value.");
+            }
         }
 
         if (StringUtils.getBlankIfNull((String)filterConfig.getServletContext().getAttribute("instName")).equalsIgnoreCase("")) {
