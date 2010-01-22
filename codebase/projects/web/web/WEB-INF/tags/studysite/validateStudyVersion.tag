@@ -14,9 +14,9 @@
 <%@attribute name="action" type="edu.duke.cabig.c3pr.constants.APIName"%>
 <%@attribute name="errorMessage"%>
 <%@attribute name="isNewStudySite"%>
-<c:set var="keepOpen" value="${(!empty maximized && maximized) || fn:contains(openSections, site.healthcareSite.ctepCode)}"/>
+<c:set var="keepOpen" value="${(!empty maximized && maximized) || fn:contains(openSections, site.healthcareSite.primaryIdentifier)}"/>
 <c:set var="isActionSuccess" value="${empty errorMessage?true:false}" />
-<c:set var="isLocalSiteCoordinating" value="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode}"/>
-<c:set var="isSiteLocal" value="${localNCICode==site.healthcareSite.ctepCode}"></c:set>
+<c:set var="isLocalSiteCoordinating" value="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier}"/>
+<c:set var="isSiteLocal" value="${localNCICode==site.healthcareSite.primaryIdentifier}"></c:set>
 <c:set var="isSiteManageable" value="${site.hostedMode || isLocalSiteCoordinating || isSiteLocal}"/>
 <c:set var="showActionButtons" value="${empty isNewStudySite || !isNewStudySite}"/>

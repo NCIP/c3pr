@@ -239,7 +239,7 @@ function manageIdentifierRadio(element){
 							id="organizationIdentifiersTable-${organizationStatus.index}">
 							<c:set var="_code" value="" />
 							<c:set var="_name" value="" />
-							<c:set var="_code" value="(${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.ctepCode})" />
+							<c:set var="_code" value="(${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.primaryIdentifier})" />
 							<c:set var="_name" value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
 							<td class="alt"><input type="hidden"
 								id="healthcareSite${organizationStatus.index}-hidden"

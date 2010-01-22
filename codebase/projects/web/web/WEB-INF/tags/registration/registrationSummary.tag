@@ -19,7 +19,7 @@
 			<table>
 				<tags:tdNameValue name="Subject MRN" value="${studySubject.studySubject.participant.primaryIdentifierValue }" columnAttrName="width='50%' class='labelR'"/>
 				<tags:tdNameValue name="Study version" value="${studySubject.studySubject.studySiteVersion.studyVersion.name}" columnAttrName="class='labelR'"/>
-				<tags:tdNameValue name="Enrolling site" value="(${studySubject.studySubject.studySite.healthcareSite.ctepCode}) ${studySubject.studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>
+				<tags:tdNameValue name="Enrolling site" value="(${studySubject.studySubject.studySite.healthcareSite.primaryIdentifier}) ${studySubject.studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>
 				<c:if test="${!empty studySubject.studySubject.parentStudySubject.studySite.study.primaryIdentifier}">
 					<tags:tdNameValue name="Parent study" value="(${studySubject.studySubject.parentStudySubject.studySite.study.primaryIdentifier}) ${ studySubject.studySubject.parentStudySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.shortTitleText}" columnAttrName="class='labelR'"/>
 				</c:if>
