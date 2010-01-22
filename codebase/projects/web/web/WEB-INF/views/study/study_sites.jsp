@@ -201,7 +201,10 @@
 				<c:choose>
 				<c:when test="${command.study.coordinatingCenterStudyStatus == 'PENDING' || command.study.coordinatingCenterStudyStatus == 'OPEN'}">
 					<c:if test="${command.study.coordinatingCenterStudyStatus == 'PENDING'}">
-						<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="study.status.pending.site.action.no" /></div>
+						<div id="flash-message" class="error"><img
+							src="<tags:imageUrl name="error-red.png" />" alt=""
+							style="vertical-align: middle;" /><fmt:message
+							key="study.status.pending.site.action.no" /></div>
 					</c:if>
 					<div class="name">
 						<tags:autocompleter name="axxxxyyy" displayValue="" value="" basename="studysite" size="60"></tags:autocompleter>
@@ -210,7 +213,10 @@
 					</div>
 				</c:when>
 				<c:otherwise>
-					<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="study.status.${command.study.coordinatingCenterStudyStatus}.site.add.no" /></div>
+					<div id="flash-message" class="info"><img
+						src="<tags:imageUrl name="error-red.png" />" alt=""
+						style="vertical-align: middle;" /><fmt:message
+						key="study.status.${command.study.coordinatingCenterStudyStatus}.site.add.no" /></div>
 				</c:otherwise>
 				</c:choose>
 				</div>
