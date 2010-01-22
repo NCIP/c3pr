@@ -129,7 +129,7 @@
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=localNCIInstituteCodeAutocompleterProps.basename+"-hidden"
-	    							$(hiddenField).value=selectedChoice.ctepCode;
+	    							$(hiddenField).value=selectedChoice.primaryIdentifier;
 			}
 		}
     AutocompleterManager.addAutocompleter(localNCIInstituteCodeAutocompleterProps);
