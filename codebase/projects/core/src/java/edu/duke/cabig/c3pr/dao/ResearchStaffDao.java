@@ -104,6 +104,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			getHibernateTemplate().initialize(researchStaff.getContactMechanisms());
 		}
 	}
+	
+	@Transactional(readOnly = false)
+    public void flush() {
+		getHibernateTemplate().flush();
+	}
+	
 	/**
 	 * Gets the by subnames.
 	 *
