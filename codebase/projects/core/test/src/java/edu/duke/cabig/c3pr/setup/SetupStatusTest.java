@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.setup;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
