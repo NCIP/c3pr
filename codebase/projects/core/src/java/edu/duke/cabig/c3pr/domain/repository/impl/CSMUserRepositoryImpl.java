@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.domain.repository.impl;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -11,11 +13,14 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.authorization.domainobjects.Group;
+import gov.nih.nci.security.dao.GroupSearchCriteria;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import gov.nih.nci.security.util.StringEncrypter;
@@ -31,6 +36,26 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = userProvisioningManager.getUser(userName);
 		if (csmUser == null) throw new C3PRNoSuchUserException("No such CSM user.");
 		return csmUser;
+	}
+	
+	public Set<gov.nih.nci.security.authorization.domainobjects.User> getCSMUsersByGroup(C3PRUserGroupType group) {
+		try {
+			return userProvisioningManager.getUsers(getGroupIdByName(group.getCode()));
+		} catch (CSObjectNotFoundException e) {
+			return new HashSet<gov.nih.nci.security.authorization.domainobjects.User>();
+		}
+	}
+	
+	/**
+	 * @param groupName
+	 * @return
+	 */
+	private String getGroupIdByName(String groupName) {
+		Group search = new Group();
+		search.setGroupName(groupName);
+		GroupSearchCriteria sc = new GroupSearchCriteria(search);
+		Group returnGroup = (Group) userProvisioningManager.getObjects(sc).get(0);
+		return returnGroup.getGroupId().toString();
 	}
 
 	public User getUserByName(String userName) {

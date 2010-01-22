@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.domain.repository;
 
+import java.util.Set;
+
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.User;
 
 /**
@@ -18,5 +21,7 @@ public interface CSMUserRepository {
 	public void sendUserEmail(String userName, String subject, String text) ;
 	
 	public String getUsernameById(String loginId);
+	
+	public Set<gov.nih.nci.security.authorization.domainobjects.User> getCSMUsersByGroup(C3PRUserGroupType group);
 }
 
