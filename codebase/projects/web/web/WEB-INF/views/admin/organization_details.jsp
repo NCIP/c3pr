@@ -4,7 +4,7 @@
 <head>
 <title>
 	<c:choose>
-        <c:when test="${command.id > 0}"><c:out value="Organization: ${command.name}:${command.ctepCode}" /></c:when>
+        <c:when test="${command.id > 0}"><c:out value="Organization: ${command.name}:${command.primaryIdentifier}" /></c:when>
         <c:otherwise>Create Organization</c:otherwise>
     </c:choose>
 </title>
@@ -153,7 +153,7 @@ div.row div.label {
         		</div>
         		<div class="value">
 	        		<c:if test="${FLOW == 'EDIT_FLOW'}">
-					&nbsp;${command.ctepCode}
+					&nbsp;${command.primaryIdentifier}
 	            	<tags:hoverHint keyProp="organization.nciInstituteCode"/>
 	        		</c:if>
 	        		<c:if test="${FLOW == 'SAVE_FLOW'}">
