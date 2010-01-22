@@ -65,30 +65,6 @@ public class SetupStatus implements InitializingBean {
         return !prepared[InitialSetupElement.SITE.ordinal()];
     }
 
-    public InitialSetupElement preAuthenticationSetup(){
-        recheck();
-        if (isAdministratorMissing())
-            return InitialSetupElement.ADMINISTRATOR;
-        return null;
-    }
-
-    public InitialSetupElement postAuthenticationSetup(){
-        recheck();
-        if (isSiteMissing())
-            return InitialSetupElement.SITE;
-        return null;
-    }
-
-    ////// PROPERTY ACCESSORS
-
-    public boolean isSiteMissing() {
-        return !prepared[InitialSetupElement.SITE.ordinal()];
-    }
-
-    public boolean isAdministratorMissing() {
-        return !prepared[InitialSetupElement.ADMINISTRATOR.ordinal()];
-    }
-
     ////// INNER CLASSES
 
     private interface SetupChecker {
