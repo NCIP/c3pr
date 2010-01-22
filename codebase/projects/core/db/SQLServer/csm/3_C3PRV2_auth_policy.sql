@@ -1,12 +1,3 @@
-SET IDENTITY_INSERT csm_user ON
-insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values (2, 'c3pr_registrar','c3pr','registrar','rlEhHNNKK8LZtouIzqBCw==',GETDATE());
-
-
-insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values (3, 'c3pr_study_coordinator','c3pr','study_coordinator','nH4FjhM3deAxZDF13ogiENcBWB1ntZ2',GETDATE());
-SET IDENTITY_INSERT csm_user OFF
-
 SET IDENTITY_INSERT csm_group ON
 insert into csm_group(GROUP_ID,GROUP_NAME,GROUP_DESC,APPLICATION_ID,UPDATE_DATE)
 values(2,'registrar','study coordinator group',1,GETDATE());
@@ -14,14 +5,6 @@ values(2,'registrar','study coordinator group',1,GETDATE());
 insert into csm_group(GROUP_ID,GROUP_NAME,GROUP_DESC,APPLICATION_ID,UPDATE_DATE)
 values(3,'study_coordinator','study coordinator group',1,GETDATE());
 SET IDENTITY_INSERT csm_group OFF
-
-SET IDENTITY_INSERT CSM_USER_GROUP ON
-insert into CSM_USER_GROUP(USER_GROUP_ID, USER_ID,GROUP_ID)
-values(2,2,2);
-
-insert into CSM_USER_GROUP(USER_GROUP_ID, USER_ID,GROUP_ID)
-values(3,3,3);
-SET IDENTITY_INSERT CSM_USER_GROUP OFF
 
 SET IDENTITY_INSERT CSM_PROTECTION_GROUP ON
 insert into CSM_PROTECTION_GROUP(PROTECTION_GROUP_ID,

@@ -8,23 +8,10 @@
                      PROTECTION_ELEMENT_NAME, PROTECTION_ELEMENT_DESCRIPTION, OBJECT_ID, APPLICATION_ID,UPDATE_DATE)
             VALUES ( 'c3pr','c3pr Admin Application Protection Element','c3pr',1,GETDATE());
 
-            INSERT INTO CSM_USER(
-                     LOGIN_NAME, FIRST_NAME, LAST_NAME, PASSWORD,UPDATE_DATE)
-            VALUES ( 'c3pr_admin', 'admin', 'admin','Ie0InPvp8oOgmHldOE8ejA==',GETDATE());
-
-            INSERT INTO CSM_USER_PE(
-                     PROTECTION_ELEMENT_ID, USER_ID, UPDATE_DATE)
-            VALUES ( 1,1,GETDATE());
-
 			SET IDENTITY_INSERT csm_group ON
             insert into csm_group(GROUP_ID,GROUP_NAME,GROUP_DESC,APPLICATION_ID,UPDATE_DATE)
             values(1,'c3pr_admin','c3pr admin group',1,GETDATE());
 			SET IDENTITY_INSERT csm_group OFF   
-
-			SET IDENTITY_INSERT CSM_USER_GROUP ON
-            insert into CSM_USER_GROUP(USER_GROUP_ID, USER_ID,GROUP_ID)
-            values(1,1,1);
-			SET IDENTITY_INSERT CSM_USER_GROUP OFF
 
             COMMIT;
 
@@ -39,10 +26,6 @@
             INSERT INTO CSM_PROTECTION_ELEMENT(
                      PROTECTION_ELEMENT_NAME, PROTECTION_ELEMENT_DESCRIPTION, OBJECT_ID, APPLICATION_ID,UPDATE_DATE)
             VALUES ( 'csmupt','CSM UPT Super Admin Application Protection Element','csmupt',2,GETDATE());
-
-            INSERT INTO CSM_USER_PE(
-                     PROTECTION_ELEMENT_ID, USER_ID, UPDATE_DATE)
-            VALUES ( 2,1,GETDATE());
 
         COMMIT;
          

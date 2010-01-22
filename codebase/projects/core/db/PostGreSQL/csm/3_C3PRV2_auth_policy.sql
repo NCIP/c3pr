@@ -1,25 +1,9 @@
 
-insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values (2, 'c3pr_registrar','c3pr','registrar','r+lEhHNNKK8LZtouIzqBCw==','now');
-
-
-insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values (3, 'c3pr_study_coordinator','c3pr','study_coordinator','nH4FjhM3deAxZD+F13ogiENcBWB1ntZ2','now');
-
-
 insert into csm_group(GROUP_ID,GROUP_NAME,GROUP_DESC,APPLICATION_ID,UPDATE_DATE)
 values(2,'registrar','study coordinator group',1,'now');
 
 insert into csm_group(GROUP_ID,GROUP_NAME,GROUP_DESC,APPLICATION_ID,UPDATE_DATE)
 values(3,'study_coordinator','study coordinator group',1,'now');
-
-
-insert into CSM_USER_GROUP(USER_GROUP_ID, USER_ID,GROUP_ID)
-values(2,2,2);
-
-insert into CSM_USER_GROUP(USER_GROUP_ID, USER_ID,GROUP_ID)
-values(3,3,3);
-
 
 
 insert into CSM_PROTECTION_GROUP(PROTECTION_GROUP_ID,

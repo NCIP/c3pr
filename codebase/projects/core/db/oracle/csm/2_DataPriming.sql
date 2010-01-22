@@ -7,20 +7,8 @@ insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAM
 values(1, 'c3pr','c3pr Admin Application','c3pr',1,sysdate);
 select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
 
-insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values (1, 'c3pr_admin','admin','admin','Ie0InPvp8oOgmHldOE8ejA==',sysdate);
-select CSM_USER_USER_ID_SEQ.nextval from dual;
-
-insert into csm_user_pe(USER_PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_ID,USER_ID,UPDATE_DATE)
-values(1,1,1,sysdate);
-select CSM_USER_PE_USER_PROTECTIO_SEQ.nextval from dual;
-
 insert into csm_group(GROUP_ID,GROUP_NAME,APPLICATION_ID,UPDATE_DATE)
 values(1,'c3pr_admin',1,sysdate);
-
-insert into CSM_USER_GROUP(USER_GROUP_ID, USER_ID,GROUP_ID)
-values(1,1,1);
-
 
 INSERT INTO csm_application(APPLICATION_ID,APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
 VALUES (2,'csmupt','CSM UPT Super Admin Application',0,0,sysdate);
