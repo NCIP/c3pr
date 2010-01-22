@@ -293,7 +293,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             			<td>
             			<c:if test="${command.study.multiInstitutionIndicator && multisiteEnv}">
             			<form:checkbox path="study.studySites[${status.index}].hostedMode"/>
-            				<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.ctepCode}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
+            				<input type="hidden" name="${command.study.studySites[status.index].healthcareSite.primaryIdentifier}-wasHosted" value="${command.study.studySites[status.index].hostedMode}"/>
             			</td> 
             			</c:if>
                         <td><a

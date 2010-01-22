@@ -62,7 +62,7 @@
 					<c:set var="_codeOrg" value="" />
 					<c:set var="_nameOrg" value="" />
 					<c:if test="${not empty command.reportingOrganization}">				
-							<c:set var="_codeOrg" value="(${command.reportingOrganization.ctepCode})" />
+							<c:set var="_codeOrg" value="(${command.reportingOrganization.primaryIdentifier})" />
 							<c:set var="_nameOrg" value="${command.reportingOrganization.name}" />
 							
 						</c:if>

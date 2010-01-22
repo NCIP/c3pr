@@ -70,7 +70,7 @@
 <div class="leftpanel">
 	<div class="row">
 		<div class="label"><fmt:message key="c3pr.common.organization"/>:</div>
-		<div class="value">${command.study.principalInvestigatorStudyOrganization.healthcareSite.name} (${command.study.principalInvestigatorStudyOrganization.healthcareSite.ctepCode})</div>
+		<div class="value">${command.study.principalInvestigatorStudyOrganization.healthcareSite.name} (${command.study.principalInvestigatorStudyOrganization.healthcareSite.primaryIdentifier})</div>
 	</div>
 </div>
 <div class="rightpanel">

@@ -54,23 +54,23 @@ failedStatusChange= function (responseXML){
 	    </tr>
 	    <c:forEach items="${command.study.studySites}" varStatus="status" var="site">
 		    <c:set var="siteEndpoint" value="${site}"/>
-			<c:if test="${localNCICode==site.healthcareSite.ctepCode}"><c:set var="siteEndpoint" value="${site.study.studyCoordinatingCenters[0]}"/></c:if>
-	        <tr id="siteTable-${site.healthcareSite.ctepCode }">
+			<c:if test="${localNCICode==site.healthcareSite.primaryIdentifier}"><c:set var="siteEndpoint" value="${site.study.studyCoordinatingCenters[0]}"/></c:if>
+	        <tr id="siteTable-${site.healthcareSite.primaryIdentifier }">
 	        	<td>${site.healthcareSite.name }</td>
-	        	<td><div id="siteStatus-${site.healthcareSite.ctepCode }">${site.siteStudyStatus.code}</div></td>
-	            <td><div id="siteIRB-${site.healthcareSite.ctepCode }"><tags:formatDate value="${site.irbApprovalDate}"></tags:formatDate></div></td>
+	        	<td><div id="siteStatus-${site.healthcareSite.primaryIdentifier }">${site.siteStudyStatus.code}</div></td>
+	            <td><div id="siteIRB-${site.healthcareSite.primaryIdentifier }"><tags:formatDate value="${site.irbApprovalDate}"></tags:formatDate></div></td>
 				<td>
-					<div id="Messages-${site.healthcareSite.ctepCode }">
+					<div id="Messages-${site.healthcareSite.primaryIdentifier }">
 					<c:choose>
 						<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(siteEndpoint.endpoints)>0}">
 							<c:choose>
 								<c:when test="${siteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
 									<font color="red">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-									Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.ctepCode }','${site.healthcareSite.ctepCode }');">here</a> to see the error messages
+									Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.primaryIdentifier }','${site.healthcareSite.primaryIdentifier }');">here</a> to see the error messages
 								</c:when>
 								<c:otherwise>
 									<font color="green">${siteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-									Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.ctepCode }','${site.healthcareSite.ctepCode }');">here</a> to see the messages
+									Click <a href="javascript:showEndpointError('${siteEndpoint.healthcareSite.primaryIdentifier }','${site.healthcareSite.primaryIdentifier }');">here</a> to see the messages
 								</c:otherwise>
 							</c:choose>
 						</c:when>
@@ -83,29 +83,29 @@ failedStatusChange= function (responseXML){
 	            <td>
 	            <%-- ${fn:length(site.possibleTransitions)}
 	            	[${site.possibleTransitions}]--%>
-	            <div id="actions-${site.healthcareSite.ctepCode }">
-	            	<%-- %>1.[${siteEndpoint.healthcareSite.ctepCode}]<br>
-	            	2.${site.hostedMode || (!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode)}<br>
+	            <div id="actions-${site.healthcareSite.primaryIdentifier }">
+	            	<%-- %>1.[${siteEndpoint.healthcareSite.primaryIdentifier}]<br>
+	            	2.${site.hostedMode || (!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier)}<br>
 	            	3.${site.hostedMode}<br>
-	            	4.${(!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode)}<br>
-	            	5.${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode}<br>
+	            	4.${(!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier)}<br>
+	            	5.${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier}<br>
 	            	6.${empty siteEndpoint.lastAttemptedEndpoint || (siteEndpoint.lastAttemptedEndpoint.status!='MESSAGE_SEND_FAILED' && fn:length(siteEndpoint.possibleEndpoints)==0)}<br>
 	            	7.${empty siteEndpoint.lastAttemptedEndpoint}<br>
 	            	8.${siteEndpoint.lastAttemptedEndpoint.status!='MESSAGE_SEND_FAILED'}<br>
 	            	9.${fn:length(siteEndpoint.possibleEndpoints)==0}<br>--%>
 	            	<c:set var="noAction" value="true"/>
-	            	<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode || localNCICode==site.healthcareSite.ctepCode)}">
-	            	<select id="siteAction-${site.healthcareSite.ctepCode }">
+	            	<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier || localNCICode==site.healthcareSite.primaryIdentifier)}">
+	            	<select id="siteAction-${site.healthcareSite.primaryIdentifier }">
 	            		<c:forEach items="${site.possibleTransitions}" var="possibleAction">
 	            		<c:choose>
 	   					<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
-	   						<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.ctepCode && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode))}">
+	   						<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.primaryIdentifier && (site.siteStudyStatus=='APPROVED_FOR_ACTIVTION' || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier))}">
 	   						<option value="${possibleAction}">${possibleAction.displayName }</option>
 	   						<c:set var="noAction" value="false"/>
 	   						</c:if>
 	   					</c:when>
 	   					<c:when test="${possibleAction=='APPROVE_STUDY_SITE_FOR_ACTIVATION'}">
-	   						<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode}">
+	   						<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier}">
 	   						<option value="${possibleAction}">${possibleAction.displayName }</option>
 	   						<c:set var="noAction" value="false"/>
 	   						</c:if>
@@ -117,15 +117,15 @@ failedStatusChange= function (responseXML){
 						</c:choose>
 	            		</c:forEach>
 	            	</select>
-	            	<tags:button type="button" color="blue" value="Go" id="go" onclick="takeAction('${site.healthcareSite.ctepCode }');" size="small"/>
+	            	<tags:button type="button" color="blue" value="Go" id="go" onclick="takeAction('${site.healthcareSite.primaryIdentifier }');" size="small"/>
 					</c:if>
-					<div id="sendingMessage-${site.healthcareSite.ctepCode }" class="working" style="display: none">
+					<div id="sendingMessage-${site.healthcareSite.primaryIdentifier }" class="working" style="display: none">
 						Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
 					</div>
 					</div>
 					<c:if test="${noAction}">
 					<script>
-						Element.hide("actions-${site.healthcareSite.ctepCode }");
+						Element.hide("actions-${site.healthcareSite.primaryIdentifier }");
 					</script>
 					</c:if>
 	            </td>
@@ -148,23 +148,23 @@ failedStatusChange= function (responseXML){
 			    </tr>
 			    <c:forEach items="${parentStudyAssociation.studySites}" varStatus="status" var="site">
 				    <c:set var="companionSiteEndpoint" value="${site}"/>
-					<c:if test="${localNCICode==site.healthcareSite.ctepCode}"><c:set var="companionSiteEndpoint" value="${site.study.studyCoordinatingCenters[0]}"/></c:if>
-			        <tr id="siteTable-${site.healthcareSite.ctepCode }">
+					<c:if test="${localNCICode==site.healthcareSite.primaryIdentifier}"><c:set var="companionSiteEndpoint" value="${site.study.studyCoordinatingCenters[0]}"/></c:if>
+			        <tr id="siteTable-${site.healthcareSite.primaryIdentifier }">
 			        	<td>${site.healthcareSite.name }</td>
-			        	<td><div id="companionSiteStatus-${site.healthcareSite.ctepCode }">${site.siteStudyStatus.code}</div></td>
-			            <td><div id="companionSiteIRB-${site.healthcareSite.ctepCode }"><tags:formatDate value="${site.irbApprovalDate}"></tags:formatDate></div></td>
+			        	<td><div id="companionSiteStatus-${site.healthcareSite.primaryIdentifier }">${site.siteStudyStatus.code}</div></td>
+			            <td><div id="companionSiteIRB-${site.healthcareSite.primaryIdentifier }"><tags:formatDate value="${site.irbApprovalDate}"></tags:formatDate></div></td>
 						<td>
-							<div id="companionMessages-${site.healthcareSite.ctepCode }">
+							<div id="companionMessages-${site.healthcareSite.primaryIdentifier }">
 							<c:choose>
 								<c:when test="${!site.hostedMode && !site.isCoordinatingCenter && fn:length(companionSiteEndpoint.endpoints)>0}">
 									<c:choose>
 										<c:when test="${companionSiteEndpoint.lastAttemptedEndpoint.status=='MESSAGE_SEND_FAILED'}">
 											<font color="red">${companionSiteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-											Click <a href="javascript:showEndpointError('${companionSiteEndpoint.healthcareSite.ctepCode }','${site.healthcareSite.ctepCode }');">here</a> to see the error messages
+											Click <a href="javascript:showEndpointError('${companionSiteEndpoint.healthcareSite.primaryIdentifier }','${site.healthcareSite.primaryIdentifier }');">here</a> to see the error messages
 										</c:when>
 										<c:otherwise>
 											<font color="green">${companionSiteEndpoint.lastAttemptedEndpoint.status.code}</font><br>
-											Click <a href="javascript:showEndpointError('${companionSiteEndpoint.healthcareSite.ctepCode }','${site.healthcareSite.ctepCode }');">here</a> to see the messages
+											Click <a href="javascript:showEndpointError('${companionSiteEndpoint.healthcareSite.primaryIdentifier }','${site.healthcareSite.primaryIdentifier }');">here</a> to see the messages
 										</c:otherwise>
 									</c:choose>
 								</c:when>
@@ -175,29 +175,29 @@ failedStatusChange= function (responseXML){
 							</div>
 						</td>
 			            <td>
-			            <div id="companionActions-${site.healthcareSite.ctepCode }">
-			            	<%-- 1.[${siteEndpoint.healthcareSite.ctepCode}]<br>
-			            	2.${site.hostedMode || (!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode)}<br>
+			            <div id="companionActions-${site.healthcareSite.primaryIdentifier }">
+			            	<%-- 1.[${siteEndpoint.healthcareSite.primaryIdentifier}]<br>
+			            	2.${site.hostedMode || (!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier)}<br>
 			            	3.${site.hostedMode}<br>
-			            	4.${(!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode)}<br>
-			            	5.${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode}<br>
+			            	4.${(!site.hostedMode && localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier)}<br>
+			            	5.${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier}<br>
 			            	6.${empty siteEndpoint.lastAttemptedEndpoint || (siteEndpoint.lastAttemptedEndpoint.status!='MESSAGE_SEND_FAILED' && fn:length(siteEndpoint.possibleEndpoints)==0)}<br>
 			            	7.${empty siteEndpoint.lastAttemptedEndpoint}<br>
 			            	8.${siteEndpoint.lastAttemptedEndpoint.status!='MESSAGE_SEND_FAILED'}<br>
 			            	9.${fn:length(siteEndpoint.possibleEndpoints)==0}<br>--%>
 			            	<c:set var="noAction" value="true"/>
-			            	<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode || localNCICode==site.healthcareSite.ctepCode)}">
-			            	<select id="companionSiteAction-${site.healthcareSite.ctepCode }">
+			            	<c:if test="${fn:length(site.possibleTransitions)>0 && (site.hostedMode || localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier || localNCICode==site.healthcareSite.primaryIdentifier)}">
+			            	<select id="companionSiteAction-${site.healthcareSite.primaryIdentifier }">
 			            		<c:forEach items="${site.possibleTransitions}" var="possibleAction">
 			            		<c:choose>
 			   					<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
-			   						<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.ctepCode && site.siteStudyStatus=='APPROVED_FOR_ACTIVTION')}">
+			   						<c:if test="${site.hostedMode || (localNCICode==site.healthcareSite.primaryIdentifier && site.siteStudyStatus=='APPROVED_FOR_ACTIVTION')}">
 			   						<option value="${possibleAction}">${possibleAction.displayName }</option>
 			   						<c:set var="noAction" value="false"/>
 			   						</c:if>
 			   					</c:when>
 			   					<c:when test="${possibleAction=='APPROVE_STUDY_SITE_FOR_ACTIVATION'}">
-			   						<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.ctepCode}">
+			   						<c:if test="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier}">
 			   						<option value="${possibleAction}">${possibleAction.displayName }</option>
 			   						<c:set var="noAction" value="false"/>
 			   						</c:if>
@@ -209,15 +209,15 @@ failedStatusChange= function (responseXML){
 								</c:choose>
 			            		</c:forEach>
 			            	</select>
-			            	<tags:button type="button" color="blue" value="Go" id="go" onclick="changeCompanionStudySiteStatus('${site.healthcareSite.ctepCode}');" size="small"/>
+			            	<tags:button type="button" color="blue" value="Go" id="go" onclick="changeCompanionStudySiteStatus('${site.healthcareSite.primaryIdentifier}');" size="small"/>
 							</c:if>
-							<div id="companionSendingMessage-${site.healthcareSite.ctepCode }" class="working" style="display: none">
+							<div id="companionSendingMessage-${site.healthcareSite.primaryIdentifier }" class="working" style="display: none">
 								Working...<img src="<tags:imageUrl name='indicator.white.gif'/>" border="0" alt="sending.."/>
 							</div>
 							</div>
 							<c:if test="${noAction}">
 							<script>
-								Element.hide("companionActions-${site.healthcareSite.ctepCode }");
+								Element.hide("companionActions-${site.healthcareSite.primaryIdentifier }");
 							</script>
 							</c:if>
 			            </td>

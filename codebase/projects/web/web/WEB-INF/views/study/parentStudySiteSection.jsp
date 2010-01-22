@@ -11,7 +11,7 @@
               <c:forEach items="${parentStudyAssociation.studySites}" var="companionStudySite" varStatus="status">
 		  	<tr>
 		  		<td>
-            		<input size="40"  type="text" value="${companionStudySite.healthcareSite.name} (${companionStudySite.healthcareSite.ctepCode})" disabled="disabled" />
+            		<input size="40"  type="text" value="${companionStudySite.healthcareSite.name} (${companionStudySite.healthcareSite.primaryIdentifier})" disabled="disabled" />
    				</td>
                	<td>
                		<input size="12"  type="text" name="study.parentStudyAssociations[${parentIndex}].studySites[${status.index}].startDate" id="companionStudySites[${status.index}].startDate" class="date validate-DATE" value="${companionStudySite.startDateStr}" />
