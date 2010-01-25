@@ -81,9 +81,9 @@
 <chrome:division id="grantNumber" title="Grant Number">
     <div class="leftpanel">
         <div class="row">
-			<div class="label"><b>Grant Number</b></div>
+			<div class="label"><tags:requiredIndicator /><b>Grant Number</b></div>
 				<div class="value">
-					<form:input path="grantNumber" size="15" maxlength="20" id="_grant_number"/>
+					<form:input path="grantNumber" size="15" maxlength="20" id="_grant_number" cssClass="required validate-notEmpty"/>
 				</div>
 		</div>
 	</div>
@@ -96,7 +96,7 @@
         <div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate" /></div>
 				<div class="value">
-					<tags:dateInput path="startDate"/>
+					<tags:dateInput path="startDate" validateDate="true" cssClass='validate-notEmpty'/>
 				</div>
 		</div>
 	</div>
@@ -105,7 +105,7 @@
     	<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.endDate" /></div>
 				<div class="value">
-					<tags:dateInput path="endDate"/> 
+					<tags:dateInput path="endDate" validateDate="true" cssClass='validate-notEmpty'/> 
 				</div>
 		</div>
     </div>
