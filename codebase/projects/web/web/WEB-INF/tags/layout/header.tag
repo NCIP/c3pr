@@ -12,7 +12,7 @@
             <c:if test="${userObject != null}">
 					<div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /> | ${userRole}</b></div>
 					</c:if>
-                    <c:if test="${siteName ne '<SITE_NAME>'}">
+                    <c:if test="${siteName ne ''}">
                       <div id="instName">
                         <img src="${siteName}" height="35px" />
                         <c:out value="${instName}" />
