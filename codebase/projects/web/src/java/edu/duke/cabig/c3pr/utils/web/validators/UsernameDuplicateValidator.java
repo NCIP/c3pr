@@ -1,17 +1,13 @@
 package edu.duke.cabig.c3pr.utils.web.validators;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import gov.nih.nci.security.UserProvisioningManager;
+import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Oct 19, 2007 Time: 10:46:54 AM To change this
@@ -19,10 +15,8 @@ import gov.nih.nci.security.UserProvisioningManager;
  */
 public class UsernameDuplicateValidator implements Validator {
 
-    ResearchStaffDao dao;
-
-    private UserProvisioningManager userProvisioningManager;
-
+	private CSMUserRepository csmUserRepository;
+	
     public boolean supports(Class aClass) {
         //return aClass.isAssignableFrom(ResearchStaff.class);
     	return ResearchStaff.class.isAssignableFrom(aClass);
@@ -36,27 +30,15 @@ public class UsernameDuplicateValidator implements Validator {
         
         	if(object instanceof RemoteResearchStaff){ } else {
         		ResearchStaff researchStaffByEmail = null;
-            	researchStaffByEmail = dao.getByEmailAddressFromLocal(user.getEmail());
-            	if (researchStaffByEmail != null){
-            		if(user.getId()== null){
-            			errors.reject("duplicate.username.error");
-            		} else if (!user.getId().equals(researchStaffByEmail.getId())) {
+            	try {
+            		//using login id. Since the username check should only happen in create flow and not in module flow
+            		//the login id check will work.
+					if(csmUserRepository.getUserByName(user.getLoginId()) != null){
 						errors.reject("duplicate.username.error");
 					}
-            	}
-//				for (ContactMechanism cm : user.getContactMechanisms()) {
-//                    if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-//                    	ResearchStaff researchStaffByEmail = null;
-//                    	researchStaffByEmail = dao.getByEmailAddressFromLocal(cm.getValue());
-//                    	if (researchStaffByEmail != null){
-//                    		if(user.getId()== null){
-//                    			errors.reject("duplicate.username.error");
-//                    		} else if (!user.getId().equals(researchStaffByEmail.getId())) {
-//        						errors.reject("duplicate.username.error");
-//        					}
-//                    	}
-//                    }
-//                }
+				} catch (RuntimeException e) {
+					// this means user does not exist
+				}
         	}
 
         if (user.getGroups() != null && user.getGroups().size() < 1) {
@@ -64,19 +46,8 @@ public class UsernameDuplicateValidator implements Validator {
         }
     }
 
-    public UserProvisioningManager getUserProvisioningManager() {
-        return userProvisioningManager;
-    }
-
-    public void setUserProvisioningManager(UserProvisioningManager userProvisioningManager) {
-        this.userProvisioningManager = userProvisioningManager;
-    }
-
-    public ResearchStaffDao getDao() {
-        return dao;
-    }
-
-    public void setDao(ResearchStaffDao dao) {
-        this.dao = dao;
-    }
+    @Required
+	public void setCsmUserRepository(CSMUserRepository csmUserRepository) {
+		this.csmUserRepository = csmUserRepository;
+	}
 }
