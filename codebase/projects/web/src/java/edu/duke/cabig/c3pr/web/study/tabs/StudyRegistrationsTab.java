@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 import java.util.Map;
@@ -20,6 +21,11 @@ public class StudyRegistrationsTab extends StudyTab {
     @Override
     public Map<String, Object> referenceData(StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
+        Boolean isOnlyStudyCoordinator = false;
+        if(WebUtils.isStudyCoordinator()&& !WebUtils.isSiteCoordinator() && !WebUtils.isAdmin() && !WebUtils.isRegistrar()){
+        	isOnlyStudyCoordinator = true;
+        }
+        refdata.put("isOnlyStudyCoordinator", isOnlyStudyCoordinator);
         refdata.put("participantAssignments", this.getStudyDao().getStudySubjectsForStudy(wrapper.getStudy().getId()));
 
         return refdata;
