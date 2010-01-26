@@ -163,6 +163,10 @@
         <filter-name>GzipFilter</filter-name>
         <url-pattern>/dwr/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>GzipFilter</filter-name>
+        <url-pattern>/**/images/*</url-pattern>
+    </filter-mapping>
     
     <filter>
         <filter-name>AnonymousAuditInfoFilter</filter-name>
