@@ -17,10 +17,11 @@ function submitLocalForm(formName, regId ,schEphId){
 	$(registrationElement).value=regId;
 	$(formName).submit();
 }
-function createReg(studySite, participant, parentRegistrationId){
-	$('create_studySite').value=studySite;
-	$('create_participant').value=participant;
-	$('create_parent_id').value=parentRegistrationId;
+function createReg(studyId,studySiteName, studySiteVersionId){
+	$('from_reg_confirmation').value=true;
+	$('create_studyId').value=studyId;
+	$('create_studySiteName').value= studySiteName;
+	$('create_studySiteStudyVersionId').value=studySiteVersionId;
 	$('create').submit();
 }
 
@@ -32,6 +33,7 @@ function createReg(studySite, participant, parentRegistrationId){
  <c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' }">
 	<form id="manage" name="manage" action="../registration/manageRegistration" method="get" style="display:inline;">
 		<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
+		<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Register another subject" linkhref="javascript:doManage('create',paramString)"/>
 		<c:if test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED'}">
 			<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit registration" linkhref="javascript:doManage('edit',paramString)"/>
 		</c:if>
@@ -46,12 +48,12 @@ function createReg(studySite, participant, parentRegistrationId){
 	<input type="hidden" name="_page1" id="_page" value="1"/>
 	<input type="hidden" name="_target1" id="_target" value="1"/>
 </form>
-<form action="../registration/createRegistration" method="post" id="create">
-	<input type="hidden" name="_page" id="_page0" value="0"/>
-	<input type="hidden" name="_target1" id="_target1" value="1"/>
-	<input type="hidden" name="studySite" id="create_studySite" value=""/>
-	<input type="hidden" name="participant" id="create_participant" value=""/>
-	<input type="hidden" name=parentRegistrationId id="create_parent_id" value=""/>
+<form action="../registration/createRegistration" method="get" id="create">
+	<input type="hidden" name="_target0" id="_target" value="0"/>
+	<input type="hidden" name="from_reg_confirmation" id="from_reg_confirmation" value="false"/>
+	<input type="hidden" name="create_studySiteName" id="create_studySiteName" value=""/>
+	<input type="hidden" name="create_studyId" id="create_studyId" value=""/>
+	<input type="hidden" name=create_studySiteStudyVersionId id="create_studySiteStudyVersionId" value=""/>
 	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
 </form>
 <c:choose>
@@ -238,7 +240,12 @@ function createReg(studySite, participant, parentRegistrationId){
 	</div>
 	<script>
 		function doManage(formName, idParamStr){
-			if(formName=='manage'){
+			if(formName=='create'){
+				var studyId = ${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.study.id};
+				var studySiteName = ''+ '${command.studySubject.studySite.healthcareSite.name}' + '';
+				var studySiteStudyVersionId = ${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.id};
+				createReg(studyId,studySiteName,studySiteStudyVersionId);
+			}else if(formName=='manage'){
 				document.location="../registration/manageRegistration?"+idParamStr;
 			}else if(formName=='edit'){
 				document.location="../registration/editRegistration?"+idParamStr;
