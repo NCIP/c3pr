@@ -32,18 +32,6 @@ public class UserDaoTest extends ContextDaoTestCase<UserDao> {
     
     
     /**
-     * Test get by email address.
-     * 
-     * @throws Exception the exception
-     */
-    public void testGetByEmailAddress() throws Exception {
-    	User user = getDao().getByEmailAddress("test@mail.com");
-    	assertNotNull(user);
-    	assertEquals("Incorrect staff retrieved", user.getFirstName(), "Research Bill");
-    }
-    
-    
-    /**
      * Test save.
      * 
      * @throws Exception the exception

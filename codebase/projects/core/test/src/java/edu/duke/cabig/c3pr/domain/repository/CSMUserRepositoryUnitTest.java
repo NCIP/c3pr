@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.easymock.classextension.EasyMock;
 import org.springframework.mail.MailAuthenticationException;
-import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -76,8 +75,8 @@ public class CSMUserRepositoryUnitTest extends AbstractTestCase {
 	
 	public void testGetUserByNameValidUsernameInvalidResearchStaff(){
 		EasyMock.expect(userProvisioningManager.getUser(validUsername)).andReturn(csmUser);
-		EasyMock.expect(csmUser.getEmailId()).andReturn(invalidEmail);
-		EasyMock.expect(userDao.getByEmailAddress(invalidEmail)).andReturn(null);
+		EasyMock.expect(csmUser.getUserId()).andReturn(new Long(1));
+		EasyMock.expect(userDao.getByLoginId(1)).andReturn(null);
 		replayMocks();
 		try {
 			csmUserRepository.getUserByName(validUsername);
@@ -93,8 +92,8 @@ public class CSMUserRepositoryUnitTest extends AbstractTestCase {
 	
 	public void testGetUserByName(){
 		EasyMock.expect(userProvisioningManager.getUser(validUsername)).andReturn(csmUser);
-		EasyMock.expect(csmUser.getEmailId()).andReturn(validEmail);
-		EasyMock.expect(userDao.getByEmailAddress(validEmail)).andReturn(c3prUser);
+		EasyMock.expect(csmUser.getUserId()).andReturn(new Long(1));
+		EasyMock.expect(userDao.getByLoginId(1)).andReturn(c3prUser);
 		replayMocks();
 		try {
 			csmUserRepository.getUserByName(validUsername);
@@ -271,8 +270,8 @@ public class CSMUserRepositoryUnitTest extends AbstractTestCase {
 	
 	public void testSendUserMailException(){
 		EasyMock.expect(userProvisioningManager.getUser(validUsername)).andReturn(csmUser);
-		EasyMock.expect(csmUser.getEmailId()).andReturn(validEmail);
-		EasyMock.expect(userDao.getByEmailAddress(validEmail)).andReturn(c3prUser);
+		EasyMock.expect(csmUser.getUserId()).andReturn(new Long(1));
+		EasyMock.expect(userDao.getByLoginId(1)).andReturn(c3prUser);
 		EasyMock.expect(c3prUser.getEmail()).andReturn(validEmail);
 		mailSender.send(EasyMock.isA(SimpleMailMessage.class));
 		EasyMock.expectLastCall().andThrow(new MailAuthenticationException(""));
@@ -293,8 +292,8 @@ public class CSMUserRepositoryUnitTest extends AbstractTestCase {
 	
 	public void testSendUserMail(){
 		EasyMock.expect(userProvisioningManager.getUser(validUsername)).andReturn(csmUser);
-		EasyMock.expect(csmUser.getEmailId()).andReturn(validEmail);
-		EasyMock.expect(userDao.getByEmailAddress(validEmail)).andReturn(c3prUser);
+		EasyMock.expect(csmUser.getUserId()).andReturn(new Long(1));
+		EasyMock.expect(userDao.getByLoginId(1)).andReturn(c3prUser);
 		mailSender.send(EasyMock.isA(SimpleMailMessage.class));
 		EasyMock.expect(c3prUser.getEmail()).andReturn(validEmail);
 		replayMocks();

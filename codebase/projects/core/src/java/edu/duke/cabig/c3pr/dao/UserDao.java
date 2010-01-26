@@ -36,24 +36,13 @@ public class UserDao extends GridIdentifiableDao<User> implements MutableDomainO
     }
 
     /**
-     * Get the user who has specified email address.
+     * Get the user who has specified csm user id.
      * 
-     * @param emailAddress  The email address of the user.
+     * @param loginId  The login id of the user.
      * @return The user.
      */
-    public User getByEmailAddress(String emailAddress) {
-        List<User> results = getHibernateTemplate().find("from ResearchStaff rs where rs.contactMechanisms.type='EMAIL' and rs.contactMechanisms.value=?", emailAddress);
-        return results.size() > 0 ? results.get(0) : null;
-    }
-    
-    /**
-     * Get the user who has specified email address.
-     * 
-     * @param emailAddress  The email address of the user.
-     * @return The user.
-     */
-    public User getByLoginId(Long loginId) {
-        List<User> results = getHibernateTemplate().find("from ResearchStaff rs where rs.loginId=?", loginId.toString());
+    public User getByLoginId(long loginId) {
+        List<User> results = getHibernateTemplate().find("from ResearchStaff rs where rs.loginId=?", Long.toString(loginId));
         return results.size() > 0 ? results.get(0) : null;
     }
     
