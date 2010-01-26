@@ -172,6 +172,10 @@
         <filter-name>AnonymousAuditInfoFilter</filter-name>
         <url-pattern>/setup/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>AnonymousAuditInfoFilter</filter-name>
+        <url-pattern>/public/user/*</url-pattern>
+    </filter-mapping>
     
     <filter>
         <filter-name>pre-authentication-setup-filter</filter-name>
