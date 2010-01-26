@@ -85,11 +85,9 @@ public class StudySubjectFactory {
                         buildStudy(deserializedStudySubject.getStudySite().getStudy()));
         Participant participant = buildParticipant(deserializedStudySubject.getParticipant());
         if (participant.getId() != null) {
-            StudySubject exampleSS = new StudySubject(true);
-            exampleSS.setParticipant(participant);
-            exampleSS.setStudySite(studySite);
             List<StudySubject> registrations = studySubjectDao
-                            .searchBySubjectAndStudySite(exampleSS);
+                            .searchBySubjectAndStudyIdentifiers(participant.getPrimaryIdentifier(),
+                            		studySite.getStudy().getCoordinatingCenterAssignedIdentifier());
             if (registrations.size() > 0) {
                 throw this.exceptionHelper
                                 .getException(getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
