@@ -91,9 +91,13 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         model.put("isAdmin", WebUtils.isAdmin());
         ResearchStaff researchStaff = (ResearchStaff)command;
         if(!StringUtils.isBlank(researchStaff.getLoginId())){
-        	String username = csmUserRepository.getUsernameById(researchStaff.getLoginId());
-        	model.put("isLoggedInUser", CommonUtils.getLoggedInUsername().equals(username));
-            model.put("username", username);
+        	try {
+				String username = csmUserRepository.getUsernameById(researchStaff.getLoginId());
+				model.put("isLoggedInUser", CommonUtils.getLoggedInUsername().equals(username));
+				model.put("username", username);
+			} catch (RuntimeException e) {
+				model.put("isLoggedInUser", false);
+			}
         }else{
         	model.put("isLoggedInUser", false);
         }
@@ -194,13 +198,6 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 				}
 			}  else {
                 personnelService.merge(researchStaff);
-            }
-        }
-        catch (C3PRBaseException e) {
-            logger.error(e);
-            // TODO should be in validator
-            if (e.getLocalizedMessage().contains("uq_login_name")) {
-                errors.reject("Username already exists");
             }
         }
         catch (C3PRBaseRuntimeException e) {
