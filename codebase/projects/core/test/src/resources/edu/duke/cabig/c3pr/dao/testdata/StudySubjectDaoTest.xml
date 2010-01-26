@@ -122,13 +122,13 @@
     <DISEASE_HISTORY id="1000" version="1" icd9_disease_site_id="1000" retired_indicator = "false" />
 
     <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="01-01-2000" prt_id="1000" sti_id="1000" retired_indicator = "false" grid_id="1000"/>
-    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="01-01-2000" prt_id="1001" sti_id="1001" retired_indicator = "false" grid_id="1001"/>
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="01-01-2000" prt_id="1000" sti_id="1001" retired_indicator = "false" grid_id="1001"/>
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1002" version="1" start_date="01-01-2000" prt_id="1002" sti_id="1001" retired_indicator = "false" grid_id="1002"/>
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1003" version="1" start_date="01-01-2000" prt_id="1002" sti_id="1001" retired_indicator = "false" grid_id="1003"/>
     <STUDY_SUBJECTS reg_workflow_status="ENROLLED" reg_data_entry_status="COMPLETE" id="1004" version="1" start_date="2010-01-11" prt_id="1002" sti_id="1001" retired_indicator = "false" grid_id="1003"/>
 	
 	<study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
-    <study_subject_versions id="1001" version="1" study_site_ver_id="1000" spa_id="1001" retired_indicator = "false" />
+    <study_subject_versions id="1001" version="1" study_site_ver_id="1001" spa_id="1001" retired_indicator = "false" />
     <study_subject_versions id="1002" version="1" study_site_ver_id="1002" spa_id="1002" retired_indicator = "false" />
     <study_subject_versions id="1003" version="1" study_site_ver_id="1011" spa_id="1003" retired_indicator = "false" />
     <study_subject_versions id="1004" version="1" study_site_ver_id="1011" spa_id="1004" retired_indicator = "false" />
@@ -152,13 +152,15 @@
     <STRAT_CRI_ANS_CMB id="1001" version="1" sc_id="1000" scpa_id="1000" retired_indicator = "false" />
     
     <IDENTIFIERS id="1001" version="1" value="nci" type="local" system_name="nci" dtype="SAI" prt_id="1000" stu_id="1002" org_id="1000" hcs_id="1003" retired_indicator="false" spa_id="1000" primary_indicator="0"/>
-    <IDENTIFIERS id="1002" version="1" value="grid" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator="false"  spa_id="1001"/>    
+    <IDENTIFIERS id="1002" version="1" value="grid" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator="false"  spa_id="1001"/>
     <IDENTIFIERS id="1000" version="1" value="nci1" type="local" system_name="nci" dtype="SAI" stu_id="1000" retired_indicator="false"/>
     <IDENTIFIERS id="1007" version="1" value="nci2" type="CTEP" dtype="OAI" retired_indicator="false" stu_id="1001"  hcs_id="1003" primary_indicator="1"/>    
     <IDENTIFIERS id="1003" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1004" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1005" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1006" version="1" value="mrn" type="MRN" dtype="OAI" retired_indicator="false" prt_id="1000"  hcs_id="1003" primary_indicator="1"/>
+    <IDENTIFIERS id="1008" version="1" value="coperative" type="local" system_name="c3pr" dtype="SAI" prt_id="1002" retired_indicator="false"/>
+    <IDENTIFIERS id="1009" version="1" value="abc123" type="local" system_name="c3pr" dtype="SAI" stu_id="1001" retired_indicator="false"/>   
       
     <CONTACT_MECHANISMS/>
 </dataset>
