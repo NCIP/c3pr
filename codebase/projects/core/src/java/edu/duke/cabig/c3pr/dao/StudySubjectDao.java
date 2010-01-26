@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.utils.AccrualCountComparator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -413,6 +414,33 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         return registrationCriteria.list();
 
     }
+     
+    @SuppressWarnings(value="unchecked")
+    public List<StudySubject> searchBySubjectAndStudyIdentifiers(Identifier subjectPrimaryIdentifier,Identifier coordinatingCenterAssignedIdentifier) {
+    	
+    	List<Identifier> subjectIdentifiers = Arrays.asList(subjectPrimaryIdentifier);
+    	List<Participant> subjects = participantDao.getByIdentifiers(subjectIdentifiers);
+    	if(subjects.size() == 0){
+    		return new ArrayList<StudySubject>();
+    	}
+    	else if(subjects.size()> 1){
+    		throw new C3PRBaseRuntimeException("Found more than 1 subject with the same identifier");
+    	}
+    	
+    	List<Identifier> studyIdentifiers = Arrays.asList(coordinatingCenterAssignedIdentifier);
+    	List<Study> studies = studyDao.getByIdentifiers(studyIdentifiers);
+    	
+    	if(studies.size() == 0){
+    		return new ArrayList<StudySubject>();
+    	}
+    	else if(studies.size()> 1){
+    		throw new C3PRBaseRuntimeException("Found more than 1 study with the same coordinating center identifier");
+    	}
+
+        return (List<StudySubject>)getHibernateTemplate().find("select distinct ss from StudySubject ss,StudySubjectStudyVersion sssv where ss.participant.id = ? " +
+        		"and sssv.studySiteStudyVersion.studyVersion.study.id=? and sssv = any elements (ss.studySubjectStudyVersions) ",new Object[]{subjects.get(0).getId(),studies.get(0).getId()});
+
+    }
 
     /**
 	 * Search by scheduled epoch.
@@ -444,7 +472,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	 * @throws DataAccessException
 	 *             the data access exception
 	 */
-    public List<StudySubject> getAll() throws DataAccessException {
+    @SuppressWarnings("unchecked")
+	public List<StudySubject> getAll() throws DataAccessException {
     	int storedMaxResults = getHibernateTemplate().getMaxResults();
     	getHibernateTemplate().setMaxResults(0);
         List<StudySubject> studySubjects =  getHibernateTemplate().find("from StudySubject");
