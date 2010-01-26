@@ -56,12 +56,20 @@
     function callbackStudyFail(t ){
 		alert("Oops! The search failed. Please refresh and try again.");
 	}
+
+	function expandMultiSiteStudy(){
+		new Element.toggle('studySites-table-0'); 
+		toggleImage('image-open-0');
+	}
 	
 	function callbackStudy(t){
 		new Element.hide('searchStudyInd');
 		var resultDiv = document.getElementById("studySearchResults");
 		resultDiv.innerHTML = t.responseText;
-		new Effect.SlideDown(resultDiv);;
+		new Effect.SlideDown(resultDiv);
+		<c:if test="${!empty fromStudyRegistrations && fromStudyRegistrations==true}">
+			setTimeout("expandMultiSiteStudy()",1000);
+		</c:if>
 	}
 	
 	function postProcessStudySelection(isActive, studySiteStudyVersionId,studySiteId, siteName, studyName, identifier){
