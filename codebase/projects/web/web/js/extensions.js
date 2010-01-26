@@ -107,6 +107,7 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 					//setting the required field as valid (white background)
 					if (this.element.hasClassName("required") || this.element.hasClassName("validField")){
 						ValidationManager.setNormalState(this.element);
+						ValidationManager.removeError(this.element);
 					}
 				}
 			}
