@@ -70,11 +70,18 @@ public class SearchStudyController extends SimpleFormController {
                 study.setStandaloneIndicator(true);
             }
         }
-        List<Study> exampleStudies = null;
+        
+        
+        List<Study> exampleStudies = new ArrayList<Study>();
         List<Study> studies = new ArrayList<Study>();
         if ("status".equals(type)) {
         	exampleStudies = studyDao.searchByStatus(study, searchtext, true);
-        } else {
+        } else if (WebUtils.hasSubmitParameter(request, "fromStudyRegistrations")) {
+        	if (WebUtils.hasSubmitParameter(request, "studyId")){
+        		Integer studyId = Integer.parseInt((request.getParameter("studyId")));
+        		exampleStudies.add(studyDao.getById(studyId));
+            }
+        }else {
         	exampleStudies = studyDao.searchByExample(study, true);
         }
         
