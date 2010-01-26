@@ -125,10 +125,9 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
                     getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
 		if (studySubject.getParticipant().getId() != null) {
-		    StudySubject exampleSS = new StudySubject(true);
-		    exampleSS.setParticipant(studySubject.getParticipant());
-		    exampleSS.setStudySite(studySubject.getStudySite());
-		    List<StudySubject> registrations = studySubjectDao.searchBySubjectAndStudySite(exampleSS);
+		    List<StudySubject> registrations = studySubjectDao.searchBySubjectAndStudyIdentifiers(studySubject.
+		    		getParticipant().getPrimaryIdentifier(),studySubject.getStudySite().getStudy().
+		    		getCoordinatingCenterAssignedIdentifier());
 		    if (registrations.size() > 0) {
 		        throw this.exceptionHelper
 		        .getException(getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
@@ -268,10 +267,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     }
 
     public List<StudySubject> findRegistrations(StudySubject exampleStudySubject) {
-        StudySubject exampleSS = new StudySubject(true);
-        exampleSS.setParticipant(exampleStudySubject.getParticipant());
-        exampleSS.setStudySite(exampleStudySubject.getStudySite());
-        return studySubjectDao.searchBySubjectAndStudySite(exampleSS);
+        return studySubjectDao.searchBySubjectAndStudyIdentifiers(exampleStudySubject.getParticipant().
+        		getPrimaryIdentifier(), exampleStudySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier());
     }
 
 	public StudySubject enroll(List<Identifier> studySubjectIdentifiers) throws C3PRCodedException {
