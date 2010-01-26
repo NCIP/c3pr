@@ -12,8 +12,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
@@ -26,8 +28,14 @@ import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> {
 
     private static final Logger logger = Logger.getLogger(SearchStudySubjectTab.class);
+    
+    private StudyDao studyDao;
 
-    public SearchStudySubjectTab() {
+    public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
+
+	public SearchStudySubjectTab() {
         super("Subject & Study", "Subject & Study",
                         "registration/select_study_or_subject");
         setShowSummary("false");
@@ -48,7 +56,34 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
         if (command.getStudySubject().getSystemAssignedIdentifiers()!= null && command.getStudySubject().getSystemAssignedIdentifiers().size()>0) {
             refdata.put("disableForm", new Boolean(true));
         }
-        refdata.put("mandatory", "true");
+        refdata.put("mandatory", "true"); 
+        
+        if(request.getParameter("from_reg_confirmation")!=null && request.getParameter("from_reg_confirmation").equals("true")){
+        	Study study = null;
+        	
+        	refdata.put("from_reg_confirmation", request.getParameter("from_reg_confirmation"));
+        	
+	        if(request.getParameter("create_studyId")!= null){
+	        	study = studyDao.getById(Integer.parseInt(request.getParameter("create_studyId")));
+	        	refdata.put("create_studyId", request.getParameter("create_studyId"));
+	        	refdata.put("create_study_name", study.getShortTitleText());
+	        	refdata.put("create_study_identifier", study.getPrimaryIdentifier());
+	        }
+	        if(request.getParameter("create_studySiteName")!= null){
+	        	refdata.put("create_studySiteName", request.getParameter("create_studySiteName"));
+	        }
+	        if(request.getParameter("create_studySiteStudyVersionId")!= null){
+	        	refdata.put("create_studySiteStudyVersionId", request.getParameter("create_studySiteStudyVersionId"));
+	        }
+        }
+        
+        if(request.getParameter("fromStudyRegistrations")!=null && request.getParameter("fromStudyRegistrations").equals("true")){
+        	refdata.put("fromStudyRegistrations", request.getParameter("fromStudyRegistrations"));
+	        if(request.getParameter("createRegistration_studyId")!= null){
+	        	refdata.put("createRegistration_studyId", request.getParameter("createRegistration_studyId"));
+	        }
+	        
+        }
     	return refdata;
     }
     
@@ -62,10 +97,9 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
             return;
         }
         
-        StudySubject exampleSS = new StudySubject(true);
-        exampleSS.setParticipant(command.getStudySubject().getParticipant());
-        exampleSS.setStudySite(command.getStudySubject().getStudySite());
-        List registrations = studySubjectDao.searchBySubjectAndStudySite(exampleSS);
+        List registrations = studySubjectDao.searchBySubjectAndStudyIdentifiers(command.getStudySubject().
+        		getParticipant().getPrimaryIdentifier(), command.getStudySubject().getStudySite().
+        		getStudy().getCoordinatingCenterAssignedIdentifier());
         if (registrations.size() > 0) {
             request.setAttribute("alreadyRegistered", new Boolean(true));
             return;
