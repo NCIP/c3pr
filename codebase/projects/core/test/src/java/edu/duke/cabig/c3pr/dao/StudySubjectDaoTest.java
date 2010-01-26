@@ -1033,6 +1033,31 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubjects = studySubjectDao.searchBySubjectAndStudySite(studySubject);
     	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
     }
+    
+    public void testSearchBySubjectAndStudy() throws Exception{
+    	Participant subject = dao.getById(1000);
+    	Study study = studyDao.getById(1000);
+    	
+    	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	studySubjects = studySubjectDao.searchBySubjectAndStudyIdentifiers(subject.getIdentifiers().get(0),study.getIdentifiers().get(0));
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    	
+    	StudySite studySite1 = studySiteDao.getById(1000);
+    	StudySubject studySubject1 = new StudySubject(true);
+    	studySubject1.setStudySite(studySite1);
+    	studySubject1.setParticipant(subject);
+    	List<StudySubject> studySubjects1 = new ArrayList<StudySubject>();
+    	studySubjects1 = studySubjectDao.searchBySubjectAndStudySite(studySubject1);
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects1.size());
+    	
+    	StudySite studySite2 = studySiteDao.getById(1001);
+    	StudySubject studySubject2 = new StudySubject(true);
+    	studySubject2.setStudySite(studySite2);
+    	studySubject2.setParticipant(subject);
+    	List<StudySubject> studySubjects2 = new ArrayList<StudySubject>();
+    	studySubjects2 = studySubjectDao.searchBySubjectAndStudySite(studySubject2);
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects2.size());
+    }
 
     public void testSearchByExample() throws Exception{
     	SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
