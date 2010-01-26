@@ -3,8 +3,6 @@ package edu.duke.cabig.c3pr.service;
 import java.util.Date;
 import java.util.List;
 
-import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.accrual.DiseaseSiteAccrualReport;
 import edu.duke.cabig.c3pr.domain.accrual.SiteAccrualReport;
 import edu.duke.cabig.c3pr.domain.accrual.StudyAccrualReport;
