@@ -44,7 +44,7 @@ public class PreAuthenticationController<C extends ResearchStaff> extends
 			ModelAndView mv = super.onSynchronousSubmit(request, response, command, errors);
 			researchStaffDao.flush();
 			if(errors.hasErrors()){
-	        	return mv;
+				return showForm(request, response, errors);
 	        }
 			researchStaff = (ResearchStaff)mv.getModel().get("command");
 		}
@@ -54,13 +54,15 @@ public class PreAuthenticationController<C extends ResearchStaff> extends
             passwordManagerService.setPassword(userName, confirmedPassword, researchStaff.getToken());
             setupStatus.recheck();
         } catch (C3PRBaseRuntimeException e) {
-            errors.reject(e.getMessage());
+            errors.reject("password",e.getMessage());
             request.setAttribute("errorPassword", "true");
             request.setAttribute("username", userName);
+            return showForm(request, response, errors);
         }catch(C3PRBaseException e){
-        	errors.reject(e.getMessage());;
+        	errors.reject("password",e.getMessage());
         	request.setAttribute("errorPassword", "true");
         	request.setAttribute("username", userName);
+        	return showForm(request, response, errors);
         }
 		return new ModelAndView("redirect:"+getSuccessView());
     }
