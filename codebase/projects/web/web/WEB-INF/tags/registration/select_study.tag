@@ -7,7 +7,36 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript">
+	<c:if test="${!empty from_reg_confirmation && from_reg_confirmation==true}">
+		window.onload = delayFromConfirmRegistration();
+		function delayFromConfirmRegistration(){
+			setTimeout("fromConfirmRegistration(true,'${create_studySiteStudyVersionId}','${create_study_name}','${create_study_identifier}','${create_studySiteName}')", 1000);
+		}
+		function fromConfirmRegistration(isActive, studySiteStudyVersionId, studyName,studyPrimaryIdentifier,siteName){
+			var url = "../registration/searchEpoch?studySiteStudyVersionId="+studySiteStudyVersionId;
+			new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
+			var message = "Selected Study: " +studyName+ " (" +studyPrimaryIdentifier+ ") "  + " at " +siteName;
+			minimizeStudyBox(message);
+		}
+	</c:if>
 
+	<c:if test="${!empty fromStudyRegistrations && fromStudyRegistrations==true}">
+	window.onload = delayFromStudyRegistrations();
+	function delayFromStudyRegistrations(){
+		setTimeout("searchStudyFromStudyRegistrations('${createRegistration_studyId}')", 1000);
+	}
+	function searchStudyFromStudyRegistrations(studyId) {
+        new Element.show('searchStudyInd');
+        new Ajax.Updater('studySearchResults','../registration/searchStudy?fromStudyRegistrations=true&decorator=nullDecorator&studyId='+studyId,
+        {
+            method:'post',
+            postBody:Form.serialize('searchstudyFromRegistrationForm'), 
+            onSuccess:callbackStudy,
+            onFailure:callbackStudyFail
+        });
+    }
+</c:if>
+	
 	function minimizeStudyBox(msg){
 		PanelCombo('Studybox');
 		displayStudyMessage(msg,true);
@@ -71,6 +100,16 @@
 <!--tags:minimizablePanelBox title="${epoch.name} : ${epoch.descriptionText }"	boxId="${epoch.name}"-->
 <tags:minimizablePanelBox	title="Select Study" boxId="Studybox">
 <tags:instructions code="select_study" />
+		<form id="searchstudyFromRegistrationForm" action="" method="post">
+            <input type="hidden" name="_selected" id="_selected" value="">
+            <input type="hidden" name="_action" id="_action" value=""> 
+            <input type="hidden" name="async" id="async" value="async"> 
+            <input type="hidden" id="nonPending" name="nonPending" value="true"/>
+            <input type="hidden" id="standaloneOnly" name="standaloneOnly" value="true"/>
+            <input type="hidden" id="searchType" name="searchType" type="text" value="" size="25"/>
+            <input type="hidden" id="searchText" name="searchText" type="text" value="" size="25"/>
+		</form>
+
         <form id="searchstudyForm" action="" method="post">
             <input type="hidden" name="_selected" id="_selected" value="">
             <input type="hidden" name="_action" id="_action" value=""> 
