@@ -125,7 +125,7 @@
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="01-01-2000" prt_id="1000" sti_id="1001" retired_indicator = "false" grid_id="1001"/>
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1002" version="1" start_date="01-01-2000" prt_id="1002" sti_id="1001" retired_indicator = "false" grid_id="1002"/>
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1003" version="1" start_date="01-01-2000" prt_id="1002" sti_id="1001" retired_indicator = "false" grid_id="1003"/>
-    <STUDY_SUBJECTS reg_workflow_status="ENROLLED" reg_data_entry_status="COMPLETE" id="1004" version="1" start_date="2010-01-11" prt_id="1002" sti_id="1001" retired_indicator = "false" grid_id="1003"/>
+    <STUDY_SUBJECTS reg_workflow_status="ENROLLED" reg_data_entry_status="COMPLETE" id="1004" version="1" start_date="2010-01-11" prt_id="1002" sti_id="1001" retired_indicator = "false" grid_id="1004"/>
 	
 	<study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
     <study_subject_versions id="1001" version="1" study_site_ver_id="1001" spa_id="1001" retired_indicator = "false" />
