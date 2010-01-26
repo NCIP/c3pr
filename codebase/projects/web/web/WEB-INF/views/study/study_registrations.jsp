@@ -44,9 +44,11 @@ function createReg(studyId){
             
     </chrome:box>
 <div align="right">
-	<c:if test="${isOnlyStudyCoordinator=='false'}">
-		<tags:button type="button" color="blue" icon="add" value="Register another subject" 
-		onclick="javascript:sendLinkToCreateRegistration();" size="small"/>
+	<c:if test="${command.study.coordinatingCenterStudyStatus=='OPEN'}">
+		<c:if test="${isOnlyStudyCoordinator=='false'}">
+			<tags:button type="button" color="blue" icon="add" value="Register another subject" 
+			onclick="javascript:sendLinkToCreateRegistration();" size="small"/>
+		</c:if>
 	</c:if>
 </div>
 </body>
