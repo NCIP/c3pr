@@ -46,6 +46,17 @@ public class UserDao extends GridIdentifiableDao<User> implements MutableDomainO
         return results.size() > 0 ? results.get(0) : null;
     }
     
+    /**
+     * Get the user who has specified email address.
+     * 
+     * @param emailAddress  The email address of the user.
+     * @return The user.
+     */
+    public User getByLoginId(Long loginId) {
+        List<User> results = getHibernateTemplate().find("from ResearchStaff rs where rs.loginId=?", loginId.toString());
+        return results.size() > 0 ? results.get(0) : null;
+    }
+    
     public static void addUserToken(edu.duke.cabig.c3pr.domain.User user){
 		user.setTokenTime(new Timestamp(new Date().getTime()));
 		user.setToken(user.generateRandomToken());

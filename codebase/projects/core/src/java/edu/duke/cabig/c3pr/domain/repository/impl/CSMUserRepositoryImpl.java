@@ -60,7 +60,7 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 
 	public User getUserByName(String userName) {
 		gov.nih.nci.security.authorization.domainobjects.User csmUser= getCSMUserByName(userName);
-		User user = userDao.getByEmailAddress(csmUser.getEmailId());
+		User user = userDao.getByLoginId(csmUser.getUserId());
 		if (user == null) throw new C3PRNoSuchUserException("No such user.");
 		return user;
 	}
