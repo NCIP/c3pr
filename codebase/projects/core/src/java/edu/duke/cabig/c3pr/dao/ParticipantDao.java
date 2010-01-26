@@ -351,7 +351,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     public List<Participant> searchBySysIdentifier(SystemAssignedIdentifier id) {
         return (List<Participant>) getHibernateTemplate()
                         .find("select S from Participant S, SystemAssignedIdentifier I where I.systemName=?"
-                               + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
-                                   new Object[] { id.getSystemName(), id.getValue(), id.getType() });
+                               + " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
+                                   new Object[] { id.getSystemName(), id.getValue(), id.getTypeInternal() });
     }
 }
