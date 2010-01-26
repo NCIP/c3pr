@@ -49,6 +49,48 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
 		}
 		return new Boolean(false);
 	}
+	
+	public static Boolean isStudyCoordinator() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		if (auth != null) {
+			GrantedAuthority[] groups = auth.getAuthorities();
+			for (GrantedAuthority ga : groups) {
+				if (ga.getAuthority().endsWith("study_coordinator")) {
+					return new Boolean(true);
+				}
+			}
+		}
+		return new Boolean(false);
+	}
+	
+	public static Boolean isSiteCoordinator() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		if (auth != null) {
+			GrantedAuthority[] groups = auth.getAuthorities();
+			for (GrantedAuthority ga : groups) {
+				if (ga.getAuthority().endsWith("site_coordinator")) {
+					return new Boolean(true);
+				}
+			}
+		}
+		return new Boolean(false);
+	}
+	
+	public static Boolean isRegistrar() {
+		SecurityContext context = SecurityContextHolder.getContext();
+		Authentication auth = context.getAuthentication();
+		if (auth != null) {
+			GrantedAuthority[] groups = auth.getAuthorities();
+			for (GrantedAuthority ga : groups) {
+				if (ga.getAuthority().endsWith("registrar")) {
+					return new Boolean(true);
+				}
+			}
+		}
+		return new Boolean(false);
+	}
 
 	/**
 	 * Returns the previous page, based on the request parameter _page
