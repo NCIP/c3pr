@@ -118,7 +118,7 @@ div.row div.label {
 						keyProp="organization.name" /></div>
 				</c:when>
 				<c:otherwise>
-					<div class="value"><form:input size="30" path="name"
+					<div class="value"><form:input size="40" path="name"
 						cssClass="validate-maxlength200" /><tags:hoverHint
 						keyProp="organization.name" /></div>
 				</c:otherwise>
@@ -142,7 +142,7 @@ div.row div.label {
 					</c:choose>
 				</c:when>
 				<c:otherwise>
-					<div class="value"><form:textarea rows="3" cols="35"
+					<div class="value"><form:textarea rows="3" cols="37"
 						path="descriptionText" /></div>
 				</c:otherwise>
 			</c:choose></div>
@@ -154,11 +154,11 @@ div.row div.label {
         		<div class="value">
 	        		<c:if test="${FLOW == 'EDIT_FLOW'}">
 					&nbsp;${command.primaryIdentifier}
-	            	<tags:hoverHint keyProp="organization.nciInstituteCode"/>
+	            	<tags:hoverHint keyProp="organization.ctepCode"/>
 	        		</c:if>
 	        		<c:if test="${FLOW == 'SAVE_FLOW'}">
                 		<form:input path="ctepCode" size="20" cssClass="required validate-notEmpty"/>
-                		<tags:hoverHint keyProp="organization.nciInstituteCode"/>
+                		<tags:hoverHint keyProp="organization.ctepCode"/>
 	        		</c:if>
         		</div>
     		</div>

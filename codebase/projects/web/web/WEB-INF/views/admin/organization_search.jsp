@@ -69,16 +69,16 @@
                     <fmt:message key="c3pr.common.name"/>
                 </div>
                 <div class="value">
-                    <input type="text" name="name" id="name"/>
+                    <input type="text" name="name" id="name" size="35"/>
                 </div>
             </div>
             <div class="row">
                 <div class="label">
-                    <fmt:message key="c3pr.common.NCIIdentifier"/>
+                    <fmt:message key="c3pr.common.CTEPIdentifier"/>
                 </div>
                 <div class="value">
                     <input type="text" name="nciIdentifier" id="nciIdentifier"/>
-                    <tags:hoverHint keyProp="organization.nciInstituteCode"/>
+                    <tags:hoverHint keyProp="organization.ctepCode"/>
                 </div>
             </div>
 
