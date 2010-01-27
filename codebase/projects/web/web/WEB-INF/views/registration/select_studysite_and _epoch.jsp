@@ -37,7 +37,7 @@ function manageEpochSelection(element){
                <tr>
                		<th></th>
                    <th><b><fmt:message key="c3pr.common.organization"/></b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-                   <th><b><fmt:message key="c3pr.common.NCIIdentifier"/></b>&nbsp;<tags:hoverHint keyProp="organization.nciInstituteCode"/></th>
+                   <th><b><fmt:message key="c3pr.common.CTEPIdentifier"/></b>&nbsp;<tags:hoverHint keyProp="organization.ctepCode"/></th>
                </tr>
                <c:choose>
 	               <c:when test="${fn:length(studySites) > 0}">
