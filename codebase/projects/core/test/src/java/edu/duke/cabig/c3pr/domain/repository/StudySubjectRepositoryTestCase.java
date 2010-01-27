@@ -146,7 +146,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        orgIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);
 	        studySubject.getParticipant().addIdentifier(orgIdentifier);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
-	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        replayMocks();
 	        studySubjectRepository.create(studySubject);
 	        assertSame("The study subject should have only 1 system assigned Identifier",1, studySubject.getSystemAssignedIdentifiers().size());
@@ -168,7 +168,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 			sysIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + "_" +studySubject.getParticipant().getPrimaryIdentifierValue());
 			studySubject.addIdentifier(sysIdentifier);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
-	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        replayMocks();
 	        studySubjectRepository.create(studySubject);
 	        assertSame("The study subject should have only 1 system assigned Identifier",1, studySubject.getSystemAssignedIdentifiers().size());
@@ -191,7 +191,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        studySubjectDao.initialize(studySubject);
-	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
@@ -219,7 +219,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        studySubjectDao.initialize(studySubject);
-	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
@@ -246,7 +246,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.getStudySite().getStudy().setId(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        studySubjectDao.initialize(studySubject);
-	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
@@ -268,7 +268,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        studySubjectDao.initialize(studySubject);
 	        EasyMock.expect(epochDao.merge(studySubject.getScheduledEpoch().getEpoch())).andReturn(studySubject.getScheduledEpoch().getEpoch());
-	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
@@ -291,7 +291,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        EasyMock.expect(exceptionHelper.getRuntimeException(1)).andReturn(new C3PRCodedRuntimeException(1,"Cannot find a registration with the given identifier(s)"));
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        studySubjectDao.initialize(studySubject);
-	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        EasyMock.expect(epochDao.merge(studySubject.getScheduledEpoch().getEpoch())).andReturn(studySubject.getScheduledEpoch().getEpoch());
 	        studySubjectService.broadcastMessage(studySubject);
@@ -321,7 +321,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject).times(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        studySubjectDao.initialize(studySubject);
-	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	        studySubjects.add(studySubject);
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(studySubjects);
@@ -354,7 +354,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject).times(1);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        studySubjectDao.initialize(studySubject);
-	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	        studySubjects.add(studySubject);
 	        EasyMock.expect(studySubjectDao.getByIdentifiers((List<Identifier>)EasyMock.anyObject())).andReturn(studySubjects);
@@ -387,7 +387,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubject.getStudySite().getStudy().setId(1);
 	        
 	        studySubjectDao.initialize(studySubject);
-	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite((StudySubject)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
+	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 
 	        replayMocks();
 	        try {
