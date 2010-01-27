@@ -28,7 +28,7 @@ function closePopup(){
                  <tr>
                  	 <th></th>
                     <th><b><fmt:message key="c3pr.common.organization"/></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-                    <th><b><fmt:message key="c3pr.common.NCIIdentifier"/></b>&nbsp;<tags:hoverHint keyProp="organization.nciInstituteCode"/></th>
+                    <th><b><fmt:message key="c3pr.common.CTEPIdentifier"/></b>&nbsp;<tags:hoverHint keyProp="organization.ctepCode"/></th>
                     <th><b><fmt:message key="site.copyIRBApproval"/></b>&nbsp;<tags:hoverHint keyProp="study.irbApprovalFlag"/></th>
                    
                 </tr>
