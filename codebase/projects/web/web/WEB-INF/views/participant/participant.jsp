@@ -90,15 +90,17 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 	}
 }
 function manageIdentifierRadio(element){
-		$$("form .identifierRadios").each(function(e)
-											{
-												e.checked=false;
-												$(e.id.split("-")[0]).value="false"
-											}
-										);
-		element.checked=true;
-		$(element.id.split("-")[0]).value="true";
-	   }
+	$$("form .identifierRadios").each(function(e)
+										{
+											e.checked=false;
+											var indicatorValue = $(e.id+"-hidden").value;
+											$(e.id+"-hidden").value="false"
+										}
+									);
+	$('organizationAssignedIdentifiers[0].primaryIndicator').value = false;
+	element.checked=true;
+	$(element.id+"-hidden").value="true";
+}
 </script>
 </head>
 <body>
@@ -187,7 +189,7 @@ function manageIdentifierRadio(element){
 									<input type="hidden" id="mrnOrganization-hidden"
 										name="organizationAssignedIdentifiers[0].healthcareSite"
 										value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-									<input id="mrnOrganization-input" size="28" type="text"
+									<input id="mrnOrganization-input" size="32" type="text"
 									name="xyz"
 									value='<c:out value="${_name} ${_code}" />'
 									class="autocomplete validate-notEmpty" />
@@ -202,7 +204,8 @@ function manageIdentifierRadio(element){
 									size="30" maxlength="33"
 									value="${command.organizationAssignedIdentifiers[0].value}" class="required validate-notEmpty&&HTML_SPECIAL_CHARS" />
 									<tags:hoverHint keyProp="subject.MRN.value"/>
-									<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
+									<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" 
+										id="organizationAssignedIdentifiers[0].primaryIndicator"value="true"/></div>
 						</div>
 					</div>
 
@@ -231,6 +234,7 @@ function manageIdentifierRadio(element){
 						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/>
 						</span><tags:hoverHint keyProp="identifier.type"/></th>
 						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></span><tags:hoverHint keyProp="identifier.value"/></th>
+						<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
 						<th ></th>
 					</tr>
 					<c:forEach items="${command.organizationAssignedIdentifiers}" begin="1"
@@ -263,6 +267,11 @@ function manageIdentifierRadio(element){
 							<td class="alt"><form:input
 								path="organizationAssignedIdentifiers[${organizationStatus.index}].value"
 								cssClass="required validate-notEmpty" /></td>
+							<td>
+								<form:hidden path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" id="identifier-org-${organizationStatus.index}-hidden"/>
+								<input type="radio" class="identifierRadios" id="identifier-org-${organizationStatus.index}" onclick="manageIdentifierRadio(this);"
+								<c:if test="${orgId.primaryIndicator}"> checked </c:if>/>
+							</td>
 							<td class="alt"><a
 								href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgId.id==null?'HC#':'ID#'}${orgId.id==null?orgId.hashCode:orgId.id}');"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -282,6 +291,7 @@ function manageIdentifierRadio(element){
 							class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.systemName"/></span><tags:hoverHint keyProp="identifier.systemName"/></th>
 						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></span><tags:hoverHint id="1" keyProp="identifier.type"/></th>
 						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></span><tags:hoverHint id="2" keyProp="identifier.value"/></th>
+						<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.systemAssignedIdentifier.primaryIndicator"/></th>
 						<th></th>
 					</tr>
 					<c:forEach items="${command.systemAssignedIdentifiers}"
@@ -300,6 +310,11 @@ function manageIdentifierRadio(element){
 							<td class="alt"><form:input
 								path="systemAssignedIdentifiers[${status.index}].value"
 								cssClass="required validate-notEmpty" /></td>
+							<td>
+								<form:hidden path="systemAssignedIdentifiers[${status.index}].primaryIndicator" id="identifier-sys-${status.index}-hidden"/>
+								<input type="radio" class="identifierRadios" id="identifier-sys-${status.index}" onclick="manageIdentifierRadio(this);"
+								<c:if test="${sysId.primaryIndicator}"> checked </c:if>/>
+							</td>
 							<td class="alt"><a
 								href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},'${sysId.id==null?'HC#':'ID#'}${sysId.id==null?sysId.hashCode:sysId.id}');"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -334,13 +349,18 @@ function manageIdentifierRadio(element){
 			class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
-				<option value="${id.desc}">${id.desc}</option>
+				<option value="${id.code}">${id.desc}</option>
 			</c:forEach>
 		</select></td>
 		<td class="alt"><input
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
 			onfocus="javascript:clearField(this)" class="required validate-notEmpty" /></td>
+		<td>
+			<input type="hidden" name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-hidden"/>
+			<input type="radio" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
+			name="systemAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
+		</td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -370,13 +390,19 @@ function manageIdentifierRadio(element){
 			class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
-				<option value="${id.desc}">${id.desc}</option>
+				<option value="${id.code}">${id.desc}</option>
 			</c:forEach>
 		</select></td>
 		<td class="alt"><input
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
 			onfocus="javascript:clearField(this)" class="required validate-notEmpty" /></td>
+		<td>
+			<input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
+			name="organizationAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
+			<input type="hidden" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" 
+			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-hidden"/>
+		</td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
