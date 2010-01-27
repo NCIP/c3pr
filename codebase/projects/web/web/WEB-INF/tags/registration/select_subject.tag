@@ -4,6 +4,8 @@
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<tags:dwrJavascriptLink objects="ParticipantAjaxFacade" />
+<tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 <script type="text/javascript">
 		function minimizeSubjectBox(msg){
 		PanelCombo('SubjectBox');
@@ -38,6 +40,70 @@
   		<!--coz the command isnt instantiated. Workaround is to send a dummy request in advance and get-->
   		<!--it to instantiate it in advance so the createSubject wont fail the first time-->
   		new Ajax.Request('../participant/createParticipant', {method:'get', asynchronous:true});
+  	}
+  	var healthcareSiteAutocompleterProps = {
+  		    basename: "healthcareSite",
+  		    populator: function(autocompleter, text) {
+
+  		        StudyAjaxFacade.matchHealthcareSites( text,function(values) {
+  		            autocompleter.setChoices(values)
+  		        })
+  		    },
+  		    valueSelector: function(obj) {
+  		        return (obj.name + " (" + obj.primaryIdentifier + ")")
+  		    },
+  		    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+  		    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
+  			    							$(hiddenField).value=selectedChoice.id;
+  											}
+  		}
+    var mrnAutocompleterProps = {
+        basename: "mrnOrganization",
+        populator: function(autocompleter, text){
+            ParticipantAjaxFacade.matchHealthcareSites(text, function(values){
+                autocompleter.setChoices(values)
+            })
+        },
+        valueSelector: function(obj){
+            return (obj.name + " (" + obj.primaryIdentifier + ")")
+        },
+        afterUpdateElement: function(inputElement, selectedElement, selectedChoice){
+            hiddenField = inputElement.id.split("-")[0] + "-hidden";
+            $(hiddenField).value = selectedChoice.id;
+        }
+    };
+    AutocompleterManager.addAutocompleter(mrnAutocompleterProps);
+
+  	 var organizationIdentifierRowInserterProps = {
+             add_row_division_id: "organizationIdentifiersTable", 	        /* this id belongs to element where the row would be appended to */
+             skeleton_row_division_id: "dummy-organizationIdentifierRow",
+             initialIndex: ${command.studySubject.participant.MRN!=null?fn:length(command.studySubject.participant.organizationAssignedIdentifiers):fn:length(command.studySubject.participant.organizationAssignedIdentifiers)+1},                            /* this is the initial count of the rows when the page is loaded  */
+             path: "studySubject.participant.organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
+             postProcessRowInsertion: function(object){
+ 				        clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+ 						clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+ 						AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+ 				    },
+ 		    onLoadRowInitialize: function(object, currentRowIndex){
+ 				clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+ 				clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+ 				AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+ 		    }
+         };
+
+  	RowManager.addRowInseter(organizationIdentifierRowInserterProps);
+
+  	function manageIdentifierRadio(element){
+  		$$("form .identifierRadios").each(function(e)
+  											{
+  												e.checked=false;
+  												var indicatorValue = $(e.id+"-hidden").value;
+  												$(e.id+"-hidden").value="false"
+  											}
+  										);
+  		$('organizationAssignedIdentifiers[0].primaryIndicator').value = false;
+  		element.checked=true;
+  		$(element.id+"-hidden").value="true";
   	}
   	
  	
@@ -189,24 +255,6 @@
         </div>
     </div>
     <!-- end of search subject div-->
-    <script>
-        var mrnAutocompleterProps = {
-            basename: "mrnOrganization",
-            populator: function(autocompleter, text){
-                ParticipantAjaxFacade.matchHealthcareSites(text, function(values){
-                    autocompleter.setChoices(values)
-                })
-            },
-            valueSelector: function(obj){
-                return (obj.name + " (" + obj.primaryIdentifier + ")")
-            },
-            afterUpdateElement: function(inputElement, selectedElement, selectedChoice){
-                hiddenField = inputElement.id.split("-")[0] + "-hidden";
-                $(hiddenField).value = selectedChoice.id;
-            }
-        };
-        AutocompleterManager.addAutocompleter(mrnAutocompleterProps);
-    </script>
     <!--start of create subject div-->
     <div id="createSubjectDiv" style="">
         <div style="border:2px solid #AC8139; padding-top:10px; padding-bottom:10px; margin-top:4px; background-color:Beige;">
@@ -312,8 +360,101 @@
                                     </div>
 									<!--start of adding identifiers-->
                             <br>
-                            <tags:identifiers identifiersTypes="${identifiersTypeRefData}" displaySys="false" /><!--end of adding identifiers--><!--start of address section
-                            <p id="instructions"><a href="#" onclick="toggleAddressSection()">Address & Contact Info</a></p>-->
+         <chrome:division title="Primary Identifier">
+		<div class="leftpanel">
+		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
+			<div class="value">
+				<input type="hidden" id="mrnOrganization-hidden" name="organizationAssignedIdentifiers[0].healthcareSite" />
+				<input id="mrnOrganization-input" size="36" type="text" name="abcxyz"
+				 class="autocomplete required validate-notEmpty" />
+				<tags:indicator id="mrnOrganization-indicator" />
+				<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"><tags:hoverHint keyProp="subject.MRN.organization"/></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
+			<div class="value">
+				<input type="text" name="organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="required validate-notEmpty" />
+				<tags:hoverHint keyProp="subject.MRN.value"/>
+				<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" id="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
+			</div>
+		</div>
+		</div>
+		<div class="rightpanel">
+			<div class="row">
+				<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></div>
+				<div class="value">
+					<select name="organizationAssignedIdentifiers[0].type"  class="valueOk validate-notEmpty">
+						<c:forEach var="identifierType" items="${identifiersTypeRefData}">
+							<option value="${identifierType.code}">${identifierType.desc}</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+		</div>
+	 		
+</chrome:division>
+         <chrome:division title="Organization Assigned Identifiers" minimize="true" divIdToBeMinimized="idSection">
+			<div id="idSection" style="display:none;">		
+				<table id="organizationIdentifiersTable" border="0"
+					cellspacing="0" cellpadding="0" class="tablecontent">
+					<tr id="hOrganizationAssignedIdentifier" <c:if test="${fn:length(command.studySubject.participant.organizationAssignedIdentifiers) < 2}">style="display:none;"</c:if>>
+						<th><span
+							class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.assigningAuthority"/></span><tags:hoverHint keyProp="identifier.organization"/></th>
+						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/>
+						</span><tags:hoverHint keyProp="identifier.type"/></th>
+						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></span><tags:hoverHint keyProp="identifier.value"/></th>
+						<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
+						<th ></th>
+					</tr>
+					<c:forEach items="${command.studySubject.participant.organizationAssignedIdentifiers}" begin="1"
+						varStatus="organizationStatus" var="orgId">
+						<tr
+							id="organizationIdentifiersTable-${organizationStatus.index}">
+							<c:set var="_code" value="" />
+							<c:set var="_name" value="" />
+							<c:set var="_code" value="(${command.studySubject.participant.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.primaryIdentifier})" />
+							<c:set var="_name" value="${command.studySubject.participant.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
+							<td class="alt"><input type="hidden"
+								id="healthcareSite${organizationStatus.index}-hidden"
+								name="studySubject.participant.organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
+								value="${command.studySubject.participant.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.id}" />
+							<input class="autocomplete validate-notEmpty" type="text"
+								id="healthcareSite${organizationStatus.index}-input" size="50"
+								value='<c:out value="${_name} ${_code}" />'/>
+							<tags:indicator
+								id="healthcareSite${organizationStatus.index}-indicator" /> 
+							<div id="healthcareSite${organizationStatus.index}-choices"
+								class="autocomplete"  style="display: none;"></div>
+							</td>
+							<td class="alt"><form:select
+								path="studySubject.participant.organizationAssignedIdentifiers[${organizationStatus.index}].type"
+								cssClass="required validate-notEmpty">
+								<option value="">Please Select</option>
+								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
+									itemValue="code" />
+							</form:select></td>
+							<td class="alt"><form:input
+								path="studySubject.participant.organizationAssignedIdentifiers[${organizationStatus.index}].value"
+								cssClass="required validate-notEmpty" /></td>
+							<td>
+								<form:hidden path="studySubject.participant.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" id="identifier-org-${organizationStatus.index}-hidden"/>
+								<input type="radio" class="identifierRadios" id="identifier-org-${organizationStatus.index}" onclick="manageIdentifierRadio(this);"
+								<c:if test="${orgId.primaryIndicator}"> checked </c:if>/>
+							</td>
+							<td class="alt"><a
+								href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgId.id==null?'HC#':'ID#'}${orgId.id==null?orgId.hashCode:orgId.id}');"><img
+								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+						</tr>
+					</c:forEach>
+				</table>
+				<br>
+				<tags:button type="button" color="blue" icon="add" value="Add Identifier" onclick="$('hOrganizationAssignedIdentifier').show();javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
+			</div>
+		</chrome:division>
+
+                            <p id="instructions"><a href="#" onclick="toggleAddressSection()">
                             <chrome:division title="Address & Contact Info" minimize="true" divIdToBeMinimized="addressSection">
                                 <div id="addressSection" style="display:none;">
                                     <div class="division " id="single-fields">
@@ -419,5 +560,44 @@
 		
 		<br>
 	</div>
+	<div id="dummy-organizationIdentifierRow" style="display:none;">
+<table>
+	<tr>
+		<td class="alt"><input type="hidden"
+			id="healthcareSitePAGE.ROW.INDEX-hidden"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
+		<input class="autocomplete validate-notEmpty" type="text"
+			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
+			value="${command.studySubject.participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
+		 <tags:indicator
+			id="healthcareSitePAGE.ROW.INDEX-indicator" />
+		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"  style="display: none;"></div>
+		</td>
+
+		<td class="alt"><select
+			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			class="required validate-notEmpty">
+			<option value="">Please Select</option>
+			<c:forEach items="${identifiersTypeRefData}" var="id">
+				<option value="${id.code}">${id.desc}</option>
+			</c:forEach>
+		</select></td>
+		<td class="alt"><input
+			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
+			onfocus="javascript:clearField(this)" class="required validate-notEmpty" /></td>
+		<td>
+			<input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
+			name="organizationAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
+			<input type="hidden" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" 
+			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-hidden"/>
+		</td>
+		<td class="alt"><a
+			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
+			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+	</tr>
+</table>
+</div>
     <!--end of create subject div-->
 </tags:minimizablePanelBox>
