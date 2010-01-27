@@ -33,7 +33,7 @@ public class SearchParticipantAjaxFacade {
         table.setTableId("assembler");
         table.setItems(participants);
         table.setAction(model.getContext().getContextPath() + "/pages/personAndOrganization/participant/createParticipant");
-        table.setTitle("Participants");
+        table.setTitle("Subjects");
         table.setShowPagination(true);
         table.setRowsDisplayed(15);
         table.setOnInvokeAction("buildTable('assembler')");
