@@ -102,7 +102,7 @@ function clearScreen() {
 	            </div>
 		        </td>
 		        <td align="left">
-		        <div class="row" name="inputs"><b><fmt:message key="c3pr.common.NCIIdentifier"/></b>
+		        <div class="row" name="inputs"><b><fmt:message key="c3pr.common.CTEPIdentifier"/></b>
 	            	<form:input path="siteNciId" size="25"/>
 	            </div>
 		        </td>
