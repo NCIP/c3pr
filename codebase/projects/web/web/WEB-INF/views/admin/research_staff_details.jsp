@@ -387,18 +387,16 @@
 	    <input type="password" name="confirmPassword" class="required validate-notEmpty" autocomplete="off"/>
 	  </div>
 	</div>
-	<c:forEach items="${groups}" var="group" varStatus="status">
-	    <div class="row">
-	        <div class="label">
-	                ${group.displayName}
-	        </div>
-	        <div class="value">
-	        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-        		<input type="hidden" name="groups" value="${group}" />
-        		<input type="hidden" name="_groups" value="on" />
-	        </div>
-	    </div>
-	</c:forEach>
+    <div class="row">
+        <div class="label">
+                C3PR admin
+        </div>
+        <div class="value">
+        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
+       		<input type="hidden" name="groups" value="C3PR_ADMIN" />
+       		<input type="hidden" name="_groups" value="on" />
+        </div>
+    </div>
 	<c:if test="${!empty errorPassword}">
 		<input type="hidden" name="errorPassword" value="true"/>
 		<input type="hidden" name="username" value="${username }"/>
