@@ -14,8 +14,18 @@ public class Section {
     private List<String> pathMappings = new LinkedList<String>();
 
     private String displayName;
+    
+    private String displayId;
 
-    private String mainController;
+    public String getDisplayId() {
+		return displayId;
+	}
+
+	public void setDisplayId(String displayId) {
+		this.displayId = displayId;
+	}
+
+	private String mainController;
 
     private List<Task> tasks = new LinkedList<Task>();
 

@@ -531,7 +531,7 @@
                 </bean>
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Registrations"
+                        autowire="byType" p:displayName="Registrations" p:displayId="registrations"
                         p:mainController="createRegistrationController">
                     <property name="pathMapping"
                               value="/registration/**"/>
@@ -539,7 +539,7 @@
                         <list>
 							<bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Create Registration"
+                                    autowire="byType" p:displayName="Create Registration" 
                                     p:linkName="createRegistrationController"/>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
@@ -567,7 +567,7 @@
                 </bean>
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Studies"
+                        autowire="byType" p:displayName="Studies" p:displayId="studies"
                         p:mainController="searchStudyController">
                     <property name="pathMapping" value="/study/**"/>
                     <property name="tasks">
@@ -612,7 +612,7 @@
                 </bean>
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Person &amp; Organizations"
+                        autowire="byType" p:displayName="Person &amp; Organizations" p:displayId="personOrganizations"
                         p:mainController="searchParticipantController">
                     <property name="pathMapping" value="/personAndOrganization/**/**"/>
                     <property name="tasks">
@@ -751,7 +751,7 @@
                 </bean>
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Administration"
+                        autowire="byType" p:displayName="Administration" p:displayId="administration"
                         p:mainController="createNotificationController">
                     <property name="pathMapping" value="/admin/**"/>
                     <property name="tasks">
@@ -789,7 +789,7 @@
                 </bean>
                 <bean 
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
-                        autowire="byType" p:displayName="Reporting"
+                        autowire="byType" p:displayName="Reports" p:displayId="reports"
                         p:mainController="createReportController">
                     <property name="pathMapping" value="/report/**"/>
                     <property name="tasks">

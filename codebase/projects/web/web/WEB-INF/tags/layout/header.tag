@@ -42,12 +42,22 @@
 
         <ul id="sections" class="tabs">
             <c:forEach items="${sections}" var="section">
-                <csmauthz:accesscontrol authorizationCheckName="sectionAuthorizationCheck"
-                                        domainObject="${section}">
-                    <li class="${section == currentSection ? 'selected' : ''}"><div>
-                        <a id="firstlevelnav_${section.mainController}" href="<c:url value="${section.mainUrl}"/>">${section.displayName}</a>
+                    <c:set var="foundDefaultTask" value="false" />
+					<c:forEach items="${section.tasks}" var="task">
+		                <csmauthz:accesscontrol domainObject="${task}" authorizationCheckName="taskAuthorizationCheck">
+							<c:if test="${!foundDefaultTask}">
+								<c:set var="defaultTask" value="${task}" />
+								<c:set var="foundDefaultTask" value="true" />				                
+		                	</c:if>
+		                </csmauthz:accesscontrol>
+		            </c:forEach>
+			        <c:if test="${!empty defaultTask}">
+			        <li class="${section == currentSection ? 'selected' : ''}">
+                    <div>
+                        <a id="firstlevelnav_${section.displayId}" href="<c:url value="${defaultTask.url}"/>">${section.displayName}</a>
                     </div></li>
-                </csmauthz:accesscontrol>
+                    </c:if>
+                    <c:set var="defaultTask" value="" />
             </c:forEach>
         </ul>
 		<br style="clear:both;"/>

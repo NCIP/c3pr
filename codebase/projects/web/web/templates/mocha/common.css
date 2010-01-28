@@ -97,7 +97,7 @@ h2 {
 }
 
 /* top-level tabs */
-a#firstlevelnav_createRegistrationController {
+a#firstlevelnav_registrations {
     background-image: url(images/registration_btn.png);
     height: 0px;
     padding: 45px 0px 0px 0px;
@@ -106,23 +106,23 @@ a#firstlevelnav_createRegistrationController {
     margin-right: 0px;
 }
 
-a#firstlevelnav_createRegistrationController:link {
+a#firstlevelnav_registrations:link {
     background-position: 0px 0px;
 }
 
-a#firstlevelnav_createRegistrationController:hover {
+a#firstlevelnav_registrations:hover {
     background-position: 0px -45px;
 }
 
-a#firstlevelnav_createRegistrationController:active {
+a#firstlevelnav_registrations:active {
     background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_createRegistrationController {
+.selected a#firstlevelnav_registrations {
     background-image: url(images/registration_btn_selected.png);
 }
 
-a#firstlevelnav_searchStudyController {
+a#firstlevelnav_studies {
     background-image: url(images/studies_btn.png);
     height: 0px;
     padding: 45px 0px 0px 0px;
@@ -131,23 +131,23 @@ a#firstlevelnav_searchStudyController {
     margin-right: 0px;
 }
 
-a#firstlevelnav_searchStudyController:link {
+a#firstlevelnav_studies:link {
     background-position: 0px 0px;
 }
 
-a#firstlevelnav_searchStudyController:hover {
+a#firstlevelnav_studies:hover {
     background-position: 0px -45px;
 }
 
-a#firstlevelnav_searchStudyController:active {
+a#firstlevelnav_studies:active {
     background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_searchStudyController {
+.selected a#firstlevelnav_studies {
     background-image: url(images/studies_btn_selected.png);
 }
 
-a#firstlevelnav_searchParticipantController {
+a#firstlevelnav_personOrganizations {
     background-image: url(images/personOrganization_btn.png);
     height: 0px;
     padding: 45px 0px 0px 0px;
@@ -156,23 +156,23 @@ a#firstlevelnav_searchParticipantController {
     margin-right: 0px;
 }
 
-a#firstlevelnav_searchParticipantController:link {
+a#firstlevelnav_personOrganizations:link {
     background-position: 0px 0px;
 }
 
-a#firstlevelnav_searchParticipantController:hover {
+a#firstlevelnav_personOrganizations:hover {
     background-position: 0px -45px;
 }
 
-a#firstlevelnav_searchParticipantController:active {
+a#firstlevelnav_personOrganizations:active {
     background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_searchParticipantController {
+.selected a#firstlevelnav_personOrganizations {
     background-image: url(images/personOrganization_btn_selected.png);
 }
 
-a#firstlevelnav_createNotificationController {
+a#firstlevelnav_administration {
     background-image: url(images/administration_btn.png);
     height: 0px;
     padding: 45px 0px 0px 0px;
@@ -181,23 +181,23 @@ a#firstlevelnav_createNotificationController {
     margin-right: 0px;
 }
 
-a#firstlevelnav_createNotificationController:link {
+a#firstlevelnav_administration:link {
     background-position: 0px 0px;
 }
 
-a#firstlevelnav_createNotificationController:hover {
+a#firstlevelnav_administration:hover {
     background-position: 0px -45px;
 }
 
-a#firstlevelnav_createNotificationController:active {
+a#firstlevelnav_administration:active {
     background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_createNotificationController {
+.selected a#firstlevelnav_administration {
     background-image: url(images/administration_btn_selected.png);
 }
 
-a#firstlevelnav_createReportController {
+a#firstlevelnav_reports {
     background-image: url(images/reports_btn.png);
     height: 0px;
     padding: 45px 0px 0px 0px;
@@ -206,19 +206,19 @@ a#firstlevelnav_createReportController {
     margin-right: 0px;
 }
 
-a#firstlevelnav_createReportController:link {
+a#firstlevelnav_reports:link {
     background-position: 0px 0px;
 }
 
-a#firstlevelnav_createReportController:hover {
+a#firstlevelnav_reports:hover {
     background-position: 0px -45px;
 }
 
-a#firstlevelnav_createReportController:active {
+a#firstlevelnav_reports:active {
     background-position: 0px -90px;
 }
 
-.selected a#firstlevelnav_createReportController {
+.selected a#firstlevelnav_reports {
     background-image: url(images/reports_btn_selected.png);
 }
 
