@@ -320,8 +320,12 @@ function submitForm(){
 									<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
 						</c:when>
 						<c:otherwise>
+							<c:set var="siteDisplayText" value=""/>
+							<c:if test="${!empty command.healthcareSiteInvestigators[status.index].id}">
+								<c:set var="siteDisplayText" value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name} (${command.healthcareSiteInvestigators[status.index].healthcareSite.primaryIdentifier})"/>
+							</c:if>
 							<input class="autocomplete required validate-notEmpty" type="text" id="healthcareSite${status.index}-input" size="50"
-								value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name} (${command.healthcareSiteInvestigators[status.index].healthcareSite.primaryIdentifier})" />
+								value="${siteDisplayText }" />
 						</c:otherwise>
 					</c:choose>
 					<tags:indicator
