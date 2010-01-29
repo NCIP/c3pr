@@ -10,7 +10,7 @@
     			parent.showDiseases(); 
     			parent.closePopup();
         	}else{
-				parent.updatePrincipalInvestigatorSection('${command.healthcareSiteInvestigators[0].healthcareSite.id}','${command.healthcareSiteInvestigators[0].healthcareSite.name}','${command.healthcareSiteInvestigators[0].healthcareSite.primaryIdentifier}','${command.id}', '${command.fullName}', '${command.nciIdentifier}');
+				parent.updatePrincipalInvestigatorSection('${command.healthcareSiteInvestigators[0].healthcareSite.id}','${command.healthcareSiteInvestigators[0].healthcareSite.name}','${command.healthcareSiteInvestigators[0].healthcareSite.primaryIdentifier}','${command.healthcareSiteInvestigators[0].id}', '${command.fullName}', '${command.nciIdentifier}');
             }
     	}
     </script>
