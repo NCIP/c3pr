@@ -106,7 +106,7 @@ public class SearchStudyController extends SimpleFormController {
         	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
 					.getSession().getAttribute("userObject");
 			ResearchStaff rStaff = researchStaffDao.getByEmailAddress(user.getEmailId());
-			if (rStaff != null) {
+			if (rStaff != null && !WebUtils.isAdmin()) {
 				String nciCodeOfUserOrg = rStaff.getHealthcareSite()
 						.getPrimaryIdentifier();
 				Boolean shouldDelete;
