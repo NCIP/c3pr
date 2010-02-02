@@ -622,7 +622,7 @@ public class RemoteStudyResolver implements RemoteResolver {
             /*if(nciIdentifier == null){
             	nciIdentifier = coppaPerson.getIdentifier().getExtension();
             }*/
-            remoteInvestigator.setNciIdentifier(nciIdentifier);
+            remoteInvestigator.setAssignedIdentifier(nciIdentifier);
             
 	    	remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
 		    HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
