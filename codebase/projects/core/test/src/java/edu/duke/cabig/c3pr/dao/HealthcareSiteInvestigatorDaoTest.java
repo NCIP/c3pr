@@ -112,13 +112,13 @@ public class HealthcareSiteInvestigatorDaoTest extends
         inv1.setFirstName("Brad");
         inv1.setLastName("Johnson");
         inv1.setMaidenName("Bradster");
-        inv1.setNciIdentifier("NCI-123");
+        inv1.setAssignedIdentifier("NCI-123");
 
         Investigator inv2 = new LocalInvestigator();
         inv2.setFirstName("Brad");
         inv2.setLastName("Johnson");
         inv2.setMaidenName("Bradster");
-        inv2.setNciIdentifier("NCI-123");
+        inv2.setAssignedIdentifier("NCI-123");
 
         HealthcareSiteInvestigator hcsInv1 = new HealthcareSiteInvestigator();
         hcsInv1.setInvestigator(inv1);
