@@ -36,7 +36,7 @@
 
     <RESEARCH_STAFF id="1100" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1100" dtype="Local" />
 
-    <INVESTIGATORS id="1100" version="1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" />
+    <INVESTIGATORS id="1100" version="1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" assigned_identifier="x1"/>
 
     <HC_SITE_INVESTIGATORS id="1100" version="1" status_code="AC" status_date="01-01-2000" inv_id="1100" hcs_id="1100"/>
 

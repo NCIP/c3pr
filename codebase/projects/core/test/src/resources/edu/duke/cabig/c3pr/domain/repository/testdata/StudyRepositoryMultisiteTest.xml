@@ -115,13 +115,13 @@
            retired_indicator="false"/>
 
     <RESEARCH_STAFF id="1000" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1000"
-           dtype="Local" retired_indicator="false"/>
+            dtype="Local" retired_indicator="false" assigned_identifier="x1"/>
     <RESEARCH_STAFF id="1001" version="1" first_name="Research George" last_name="Staff2" hcs_id="1000"
-            dtype="Local" retired_indicator="false"/>
+            dtype="Local" retired_indicator="false" assigned_identifier="x2"/>
     <RESEARCH_STAFF id="1002" version="1" first_name="Research Benjamin" last_name="Staff3" hcs_id="1001"
-            dtype="Local" retired_indicator="false"/>
+            dtype="Local" retired_indicator="false" assigned_identifier="x3"/>
     <RESEARCH_STAFF id="1003" version="1" first_name="Research JFK" last_name="Staff4" hcs_id="1001"
-            dtype="Local" retired_indicator="false"/>
+            dtype="Local" retired_indicator="false" assigned_identifier="x4"/>
 
         <INVESTIGATORS id="1000" version="1" assigned_identifier="bill" first_name="Investigator Bill" last_name="Staff1"
             dtype="Local" retired_indicator="false"/>

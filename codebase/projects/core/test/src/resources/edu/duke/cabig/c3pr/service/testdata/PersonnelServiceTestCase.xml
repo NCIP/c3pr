@@ -11,7 +11,7 @@
     
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1100" dtype="Local" retired_indicator="false" />
     
-    <INVESTIGATORS id="1100" version="1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" />
+    <INVESTIGATORS id="1100" version="1" assigned_identifier="x1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" />
     
     <RESEARCH_STAFF id="1004" version="1" first_name="" last_name="remote_research_staff_last_name" dtype="Local" hcs_id="1000"  assignedIdentifier="abc" retired_indicator = "false" />
    
