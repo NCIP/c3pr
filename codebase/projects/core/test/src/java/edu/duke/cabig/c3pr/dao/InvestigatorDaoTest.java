@@ -121,13 +121,6 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     	assertEquals("Wrong number of study investigators",1, investigator.getHealthcareSiteInvestigators().get(0).getStudyInvestigators().size());
     }
     
-    public void testGetByEmail() throws Exception{
-    	ContactMechanism contactMechanism = new LocalContactMechanism();
-    	contactMechanism.setType(ContactMechanismType.EMAIL);
-    	Investigator investigator = getDao().getByEmailAddress("test@mail.com");
-    	assertNotNull("Wrong number of investigators", investigator);
-    }
-    
     /**
      * Test get by name for remote.
      * 
@@ -174,14 +167,14 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     
     public void testGetBySubNames() throws Exception{
     	Investigator investigator = new LocalInvestigator();
-    	investigator.setNciIdentifier("NCIID_1232");
+    	investigator.setAssignedIdentifier("NCIID_1232");
     	List<Investigator> investigators = getDao().searchByExample(investigator,false);
     	assertEquals("Wrong numbers of investigators retrieved",1, investigators.size());
     }
     
     public void testGetByNCIIdentifier() throws Exception{
     	Investigator investigator = new LocalInvestigator();
-    	investigator.setNciIdentifier("NCIID_1232");
+    	investigator.setAssignedIdentifier("NCIID_1232");
     	List<Investigator> investigators = getDao().searchByExample(investigator,false);
     	assertEquals("Wrong numbers of investigators retrieved",1, investigators.size());
     }

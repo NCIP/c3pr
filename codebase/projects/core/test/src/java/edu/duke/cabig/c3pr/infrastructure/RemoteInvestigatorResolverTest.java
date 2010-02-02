@@ -211,7 +211,7 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 		address.setCity("");
 		address.setCountryCode("");
 		remoteInvestigator.setAddress(address);
-		remoteInvestigator.setNciIdentifier("54128");
+		remoteInvestigator.setAssignedIdentifier("54128");
 		return remoteInvestigator;
 	}
 	
