@@ -4,11 +4,8 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 
 import java.util.List;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
