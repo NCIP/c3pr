@@ -116,35 +116,35 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 
     
     /**Only looks in the database
-     * @param nciIdentifier
+     * @param assignedIdentifier
      * @return
      */
-    public Investigator getByAssignedIdentifierFromLocal(String nciIdentifier) {
-    	if(nciIdentifier!= null){
+    public Investigator getByAssignedIdentifierFromLocal(String assignedIdentifier) {
+    	if(assignedIdentifier!= null){
     		return CollectionUtils.firstElement((List<Investigator>) getHibernateTemplate().find(
-                        "from Investigator i where i.assignedIdentifier = ?", nciIdentifier));
+                        "from Investigator i where i.assignedIdentifier = ?", assignedIdentifier));
     	}
     	return null;
     }
     
     /**Looks in Coppa and then the database
-     * @param nciIdentifier
+     * @param assignedIdentifier
      * @return
      */
-    public Investigator getByAssignedIdentifier(String nciIdentifier) {
+    public Investigator getByAssignedIdentifier(String assignedIdentifier) {
     	
-    	Investigator investigator = getByAssignedIdentifierFromLocal(nciIdentifier);
+    	Investigator investigator = getByAssignedIdentifierFromLocal(assignedIdentifier);
     	if(investigator != null){
     		return investigator;
     	} else {
         	//First fetch the remote Inv's
         	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
-        	remoteInvestigator.setAssignedIdentifier(nciIdentifier);
+        	remoteInvestigator.setAssignedIdentifier(assignedIdentifier);
         	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
         	
         	//Now that the remote inv's are in the db. Search the db.
             return CollectionUtils.firstElement((List<Investigator>) getHibernateTemplate().find(
-                            "from Investigator i where i.assignedIdentifier = ?", nciIdentifier));
+                            "from Investigator i where i.assignedIdentifier = ?", assignedIdentifier));
     	}
     	
     }

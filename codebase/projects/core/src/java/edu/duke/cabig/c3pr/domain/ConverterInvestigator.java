@@ -59,16 +59,16 @@ public class ConverterInvestigator extends AbstractMutableDeletableDomainObject{
 	private String middleName;
 	private String lastName;
 	private String maidenName;
-	private String nciIdentifier;
+	private String assignedIdentifier;
 	private String uniqueIdentifier;
 	private String dtype;
 	
 
-	public String getNciIdentifier() {
-		return nciIdentifier;
+	public String getAssignedIdentifier() {
+		return assignedIdentifier;
 	}
-	public void setNciIdentifier(String nciIdentifier) {
-		this.nciIdentifier = nciIdentifier;
+	public void setAssignedIdentifier(String assignedIdentifier) {
+		this.assignedIdentifier = assignedIdentifier;
 	}
 	
 }

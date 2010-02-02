@@ -23,7 +23,7 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
     private static Log log = LogFactory.getLog(HealthcareSiteInvestigatorDao.class);
 
     /** The Constant SUBSTRING_MATCH_PROPERTIES. */
-    private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("investigator.firstName", "investigator.lastName", "investigator.nciIdentifier");
+    private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("investigator.firstName", "investigator.lastName", "investigator.assignedIdentifier");
 
     /** The Constant EXACT_MATCH_PROPERTIES. */
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();

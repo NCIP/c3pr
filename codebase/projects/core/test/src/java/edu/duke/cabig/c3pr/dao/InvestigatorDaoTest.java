@@ -172,7 +172,7 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     	assertEquals("Wrong numbers of investigators retrieved",1, investigators.size());
     }
     
-    public void testGetByNCIIdentifier() throws Exception{
+    public void testGetByAssignedIdentifier() throws Exception{
     	Investigator investigator = new LocalInvestigator();
     	investigator.setAssignedIdentifier("NCIID_1232");
     	List<Investigator> investigators = getDao().searchByExample(investigator,false);
