@@ -32,8 +32,8 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "investigators_id_seq") })
 public abstract class Investigator extends C3PRUser {
     
-    /** The nci identifier. */
-    private String nciIdentifier;
+    /** The assigned identifier. */
+    private String assignedIdentifier;
 
     /** The lazy list helper. */
     private LazyListHelper lazyListHelper;
@@ -175,21 +175,21 @@ public abstract class Investigator extends C3PRUser {
     }
 
     /**
-     * Gets the nci identifier.
+     * Gets the assigned identifier.
      * 
-     * @return the nci identifier
+     * @return the assigned identifier
      */
-    public String getNciIdentifier() {
-        return nciIdentifier;
+    public String getAssignedIdentifier() {
+        return assignedIdentifier;
     }
 
     /**
-     * Sets the nci identifier.
+     * Sets the assigned identifier.
      * 
-     * @param nciIdentifier the new nci identifier
+     * @param assignedIdentifier the new assigned identifier
      */
-    public void setNciIdentifier(String nciIdentifier) {
-        this.nciIdentifier = nciIdentifier;
+    public void setAssignedIdentifier(String assignedIdentifier) {
+        this.assignedIdentifier = assignedIdentifier;
     }
 
     /* (non-Javadoc)

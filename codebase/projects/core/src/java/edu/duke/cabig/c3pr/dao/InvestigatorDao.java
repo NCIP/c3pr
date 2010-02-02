@@ -82,7 +82,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
                 Criteria healthcareSiteCriteria = healthcareSiteInvestigatorCriteria.createCriteria("healthcareSite");
             	healthcareSiteCriteria.add(Expression.eq("id", inv.getHealthcareSiteInvestigators().get(0).getHealthcareSite().getId() ));
             }
-            orgCriteria.addOrder(Order.asc("nciIdentifier"));
+            orgCriteria.addOrder(Order.asc("assignedIdentifier"));
             orgCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
             if (isWildCard) {
@@ -110,50 +110,19 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     	remoteInvestigator.setFirstName(investigator.getFirstName());
     	remoteInvestigator.getHealthcareSiteInvestigators().addAll(investigator.getHealthcareSiteInvestigators());
     	remoteInvestigator.setLastName(investigator.getLastName());
-    	remoteInvestigator.setNciIdentifier(investigator.getNciIdentifier());
+    	remoteInvestigator.setAssignedIdentifier(investigator.getAssignedIdentifier());
     	return remoteInvestigator;
     }
 
-    /*
-     * Gets from the database only.
-     */
-    public Investigator getByEmailAddressFromLocal(String emailAddress) {
-    	//Now that the remote inv's are in the db. Search the db.
-        return CollectionUtils.firstElement((List<Investigator>) 
-        		getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'"));
-    }
-    
-    
-    /* Gets from COPPA and the database
-     * Created for the notifications use case.
-     */
-    public Investigator getByEmailAddress(String emailAddress) {
-    	
-    	Investigator investigator = getByEmailAddressFromLocal(emailAddress);
-    	if(investigator != null){
-    		//if a inv with this email is in our db then no need to check with coppa...as  it will be ignored eventually
-    		//(as the email address is already in our db)
-    		return investigator;
-    	} else {
-    		//First fetch the remote Inv's
-        	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
-        	remoteInvestigator.setEmail(emailAddress);
-        	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
-        	
-        	//Now that the remote inv's are in the db. Search the db.
-            return CollectionUtils.firstElement((List<Investigator>) 
-            		getHibernateTemplate().find("from Investigator i where i.contactMechanisms.value = '" +emailAddress+ "'"));
-    	}
-    }
     
     /**Only looks in the database
      * @param nciIdentifier
      * @return
      */
-    public Investigator getByNciIdentifierFromLocal(String nciIdentifier) {
+    public Investigator getByAssignedIdentifierFromLocal(String nciIdentifier) {
     	if(nciIdentifier!= null){
     		return CollectionUtils.firstElement((List<Investigator>) getHibernateTemplate().find(
-                        "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
+                        "from Investigator i where i.assignedIdentifier = ?", nciIdentifier));
     	}
     	return null;
     }
@@ -162,20 +131,20 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      * @param nciIdentifier
      * @return
      */
-    public Investigator getByNciIdentifier(String nciIdentifier) {
+    public Investigator getByAssignedIdentifier(String nciIdentifier) {
     	
-    	Investigator investigator = getByNciIdentifierFromLocal(nciIdentifier);
+    	Investigator investigator = getByAssignedIdentifierFromLocal(nciIdentifier);
     	if(investigator != null){
     		return investigator;
     	} else {
         	//First fetch the remote Inv's
         	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
-        	remoteInvestigator.setNciIdentifier(nciIdentifier);
+        	remoteInvestigator.setAssignedIdentifier(nciIdentifier);
         	getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
         	
         	//Now that the remote inv's are in the db. Search the db.
             return CollectionUtils.firstElement((List<Investigator>) getHibernateTemplate().find(
-                            "from Investigator i where i.nciIdentifier = ?", nciIdentifier));
+                            "from Investigator i where i.assignedIdentifier = ?", nciIdentifier));
     	}
     	
     }
@@ -235,21 +204,15 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 		Investigator matchingRemoteInvestigatorFromDb = this.getByUniqueIdentifier(retrievedRemoteInvestigator.getExternalId());
 		if(matchingRemoteInvestigatorFromDb == null ){
 			// check the uniqueness of email and nci identifier of new investigator in database before saving him
-			Investigator investigatorsWithMatchingEmail = getByEmailAddressFromLocal(retrievedRemoteInvestigator.getEmail());
-			Investigator investigatorsWithMatchingNCICode = getByNciIdentifierFromLocal(retrievedRemoteInvestigator.getNciIdentifier());
+			Investigator investigatorsWithMatchingNCICode = getByAssignedIdentifierFromLocal(retrievedRemoteInvestigator.getAssignedIdentifier());
 			
 			if(investigatorsWithMatchingNCICode != null){
 				log.debug("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
-						+ "'s NCI Identifier: " + retrievedRemoteInvestigator.getNciIdentifier() + " is already in the database.");
+						+ "'s Assigned Identifier: " + retrievedRemoteInvestigator.getAssignedIdentifier() + " is already in the database.");
 				//add the hcsi to the existing inv and return it.
 				updateHealthcareSites(investigatorsWithMatchingNCICode, retrievedRemoteInvestigator);
 				updateContactMechanisms(investigatorsWithMatchingNCICode, retrievedRemoteInvestigator);
 				return investigatorsWithMatchingNCICode;
-			} else if(investigatorsWithMatchingEmail != null){
-				log.debug("This remote investigator : "	+ retrievedRemoteInvestigator.getFullName()
-						+ "'s email id : " + retrievedRemoteInvestigator.getEmail()	+ " is already in the database.");
-				updateContactMechanisms(investigatorsWithMatchingEmail, retrievedRemoteInvestigator);
-				return investigatorsWithMatchingEmail;
 			} else {
 				buildAndSaveNewRemoteInvestigator(retrievedRemoteInvestigator);
 			}
@@ -409,18 +372,10 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 		this.remoteSession = remoteSession;
 	}
 
-	public HealthcareSiteDao getHealthcareSiteDao() {
-		return healthcareSiteDao;
-	}
-
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 	
-	public HealthcareSiteInvestigatorDao getHealthcareSiteInvestigatorDao() {
-		return healthcareSiteInvestigatorDao;
-	}
-
 	public void setHealthcareSiteInvestigatorDao(
 			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
 		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;

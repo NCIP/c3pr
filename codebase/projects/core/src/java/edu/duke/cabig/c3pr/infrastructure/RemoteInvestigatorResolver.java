@@ -57,7 +57,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
 			
 			if(!StringUtils.isEmpty(staffNciIdentifier)){
-				remoteInvestigator.setNciIdentifier(staffNciIdentifier);
+				remoteInvestigator.setAssignedIdentifier(staffNciIdentifier);
 			}
 			
 			//Build HealthcareSite and HealthcareSiteInvestigator
@@ -107,7 +107,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			return null;
 		} else {
 			RemoteInvestigator remoteInvestigator = (RemoteInvestigator)object;
-			remoteInvestigator.setNciIdentifier(staffNciIdentifier);
+			remoteInvestigator.setAssignedIdentifier(staffNciIdentifier);
 			remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
 			
 			//Build HealthcareSite
@@ -133,7 +133,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			if(example instanceof RemoteInvestigator){
 				remoteInvestigator = (RemoteInvestigator) example;
 				
-				if(!StringUtils.isEmpty(remoteInvestigator.getNciIdentifier())){
+				if(!StringUtils.isEmpty(remoteInvestigator.getAssignedIdentifier())){
 					//search based on nci id of person
 					log.debug("Searching based on NciId");
 					remoteInvestigatorList = searchInvestigatorBasedOnNciId(remoteInvestigator);
@@ -235,9 +235,9 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		List<Object> remoteInvestigatorList = new ArrayList<Object>();
 		RemoteInvestigator tempRemoteInvestigator = null; 
 		
-		if (remoteInvestigatorExample.getNciIdentifier() != null) {
+		if (remoteInvestigatorExample.getAssignedIdentifier() != null) {
              //get Identified Organization using the Identifier provided
-             IdentifiedPerson identifiedPersonToSearch = CoppaObjectFactory.getCoppaIdentfiedPersonSearchCriteriaOnCTEPId(remoteInvestigatorExample.getNciIdentifier());
+             IdentifiedPerson identifiedPersonToSearch = CoppaObjectFactory.getCoppaIdentfiedPersonSearchCriteriaOnCTEPId(remoteInvestigatorExample.getAssignedIdentifier());
              List<IdentifiedPerson> identifiedPersonsList = personOrganizationResolverUtils.getIdentifiedPerson(identifiedPersonToSearch);
              if (identifiedPersonsList.size() == 0) {
                  return remoteInvestigatorList;

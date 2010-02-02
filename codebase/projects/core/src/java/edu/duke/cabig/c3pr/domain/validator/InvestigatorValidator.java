@@ -26,7 +26,7 @@ public class InvestigatorValidator implements Validator {
     	
     	Investigator investigatorsbyEmail = null;
     	//investigatorsbyEmail =  investigatorDao.getByEmailAddressFromLocal(inv.getContactMechanisms().get(0).getValue());
-    	investigatorsbyEmail =  investigatorDao.getByEmailAddressFromLocal(inv.getEmail());
+    	investigatorsbyEmail =  investigatorDao.getByAssignedIdentifierFromLocal(inv.getAssignedIdentifier());
     	
     	if(investigatorsbyEmail != null){
     		if(inv.getId()==null){
