@@ -17,12 +17,16 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
@@ -40,6 +44,8 @@ public class SearchStudyController extends SimpleFormController {
     private StudyAjaxFacade studyAjaxFacade;
     
     private ResearchStaffDao researchStaffDao;
+    
+    private UserDao userDao;
 
     @Override
     protected boolean isFormSubmission(HttpServletRequest request) {
@@ -103,42 +109,49 @@ public class SearchStudyController extends SimpleFormController {
             		studies.add(exampleStudies.get(i));
             	}
             }
-        	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
-					.getSession().getAttribute("userObject");
-			ResearchStaff rStaff = researchStaffDao.getByEmailAddress(user.getEmailId());
-			if (rStaff != null && !WebUtils.isAdmin()) {
-				String nciCodeOfUserOrg = rStaff.getHealthcareSite()
-						.getPrimaryIdentifier();
-				Boolean shouldDelete;
-				for (Study filteredStudy : studies) {
-					shouldDelete = Boolean.TRUE;
-					for (StudyCoordinatingCenter scc : filteredStudy
-							.getStudyCoordinatingCenters()) {
-						if (scc.getHealthcareSite().getPrimaryIdentifier()
-								.equals(nciCodeOfUserOrg)) {
-							//if users Org is coordinating center dont delete study
-							shouldDelete = Boolean.FALSE;
+        	if(WebUtils.isAdmin()){
+        		studiesViewableFromRegFlow = studies;
+        	}else{
+	        	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
+						.getSession().getAttribute("userObject");
+				ResearchStaff rStaff = null;
+		    	try {
+		    		//get the logged in users site.
+		    		rStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
+		    		String nciCodeOfUserOrg = rStaff.getHealthcareSite()
+					.getPrimaryIdentifier();
+					Boolean shouldDelete;
+					for (Study filteredStudy : studies) {
+						shouldDelete = Boolean.TRUE;
+						for (StudyCoordinatingCenter scc : filteredStudy
+								.getStudyCoordinatingCenters()) {
+							if (scc.getHealthcareSite().getPrimaryIdentifier()
+									.equals(nciCodeOfUserOrg)) {
+								//if users Org is coordinating center dont delete study
+								shouldDelete = Boolean.FALSE;
+							}
+						}
+			
+						for (StudySite ss : filteredStudy.getStudySites()) {
+							if (ss.getHealthcareSite().getPrimaryIdentifier()
+									.equals(nciCodeOfUserOrg)) {
+								//if users Org is one of the  study sites dont delete study
+								shouldDelete = Boolean.FALSE;
+							}
+						}
+			
+						// if users org is either scc or ss then add study to the list to be displayed
+						if(!shouldDelete){
+							studiesViewableFromRegFlow.add(filteredStudy);
 						}
 					}
-
-					for (StudySite ss : filteredStudy.getStudySites()) {
-						if (ss.getHealthcareSite().getPrimaryIdentifier()
-								.equals(nciCodeOfUserOrg)) {
-							//if users Org is one of the  study sites dont delete study
-							shouldDelete = Boolean.FALSE;
-						}
-					}
-
-					// if users org is either scc or ss then add study to the list to be displayed
-					if(!shouldDelete){
-						studiesViewableFromRegFlow.add(filteredStudy);
-					}
+				} catch (C3PRNoSuchUserException e) {
+					log.debug(e.getMessage());
+					//super admin case.
+					//copy the list as is
+		        	studiesViewableFromRegFlow = studies;
 				}
-			} else {
-				//super admin case.
-				//copy the list as is
-	        	studiesViewableFromRegFlow = studies;
-			}
+        	}
         } else {
         	//copy the list as is
         	studiesViewableFromRegFlow = exampleStudies;
@@ -198,5 +211,9 @@ public class SearchStudyController extends SimpleFormController {
 
 	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
 		this.researchStaffDao = researchStaffDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
 	}
 }
