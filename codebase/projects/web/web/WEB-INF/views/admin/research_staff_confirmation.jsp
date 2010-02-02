@@ -3,14 +3,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <title>Research Staff: ${command.firstName} ${command.lastName} - ${command.nciIdentifier}@${command.healthcareSite.name}</title>
+    <title>Research Staff: ${command.firstName} ${command.lastName} - ${command.assignedIdentifier}@${command.healthcareSite.name}</title>
 </head>
 <body>
 
 <div id="main">
 <div id="controlPanel">
 			<tags:controlPanel>
-				<tags:oneControlPanelItem linkhref="javascript:document.location='editResearchStaff?emailId=${command.email}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				<tags:oneControlPanelItem linkhref="javascript:document.location='editResearchStaff?assignedIdentifier=${command.assignedIdentifier}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 				<tags:oneControlPanelItem linkhref="javascript:document.location='createResearchStaff';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchResearchStaffController.png" linktext="Create research staff" />
 			</tags:controlPanel>
 		</div>
@@ -32,10 +32,10 @@
 								<div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
 								<div class="value">${command.lastName}</div>
 							</div>
-							<c:if test="${not empty command.nciIdentifier }">
+							<c:if test="${not empty command.assignedIdentifier }">
 								<div class="row">
 									<div class="label"><fmt:message key="c3pr.person.identifier"/>:</div>
-									<div class="value">${command.nciIdentifier}</div>
+									<div class="value">${command.assignedIdentifier}</div>
 								</div>
 							</c:if>
 							<div class="row">

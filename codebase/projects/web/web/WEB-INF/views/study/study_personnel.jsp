@@ -69,8 +69,8 @@ function showPersonnel() {
             var catId = siteSelect
 	        StudyAjaxFacade.getSitePersonnel(catId, function(diseases) {
 	              diseases.each(function(cat) {
-		            var ctepCode = cat.nciIdentifier == null ? "":cat.nciIdentifier
-	               	var name = cat.firstName + " " + cat.lastName+ " (" +  ctepCode+ ")";
+		            var assignedIdentifier = cat.assignedIdentifier == null ? "":cat.assignedIdentifier
+	               	var name = cat.firstName + " " + cat.lastName+ " (" +  assignedIdentifier+ ")";
 	                var opt = new Option(name, cat.id)
 	                diseaseTermSelect.options.add(opt)
 	            })

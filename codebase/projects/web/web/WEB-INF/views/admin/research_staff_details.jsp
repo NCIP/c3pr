@@ -4,7 +4,7 @@
 <head>
     <title>
         <c:choose>
-            <c:when test="${command.id > 0}"><c:out value="Research Staff: ${command.firstName} ${command.lastName} - ${command.nciIdentifier}@${command.healthcareSite.name}" />
+            <c:when test="${command.id > 0}"><c:out value="Research Staff: ${command.firstName} ${command.lastName} - ${command.assignedIdentifier}@${command.healthcareSite.name}" />
             </c:when>
             <c:when test="${FLOW == 'SETUP_FLOW'}">
             	Setup User
@@ -292,15 +292,15 @@
     <div class="rightpanel">
     	<div class="row">
             <div class="label">
-                <fmt:message key="c3pr.person.identifier"/></div>
+                <tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
             
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
-						<div class="value">${command.nciIdentifier}</div>
+						<div class="value">${command.assignedIdentifier}</div>
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="25" path="nciIdentifier" />
+							<form:input size="25" path="assignedIdentifier" cssClass="required validate-notEmpty"/>
 						  </div>
 					</c:otherwise>
 				</c:choose>

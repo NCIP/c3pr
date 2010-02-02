@@ -44,7 +44,7 @@
 
             params[0] = document.getElementById("firstName").value;
             params[1] = document.getElementById("lastName").value;
-            params[2] = document.getElementById("nciIdentifier").value;
+            params[2] = document.getElementById("assignedIdentifier").value;
             params[3] = document.getElementById("healthcareSite-hidden").value;
             
             SearchResearchStaffAjaxFacade.getTable(parameterMap, params, showTable);
@@ -66,7 +66,7 @@
                 	}else{
                 		idElement = evt.target.id
                 	}
-                    if ( idElement == "nciIdentifier" || idElement == "firstName" || idElement == "lastName" ){
+                    if ( idElement == "assignedIdentifier" || idElement == "firstName" || idElement == "lastName" ){
                     	$('search-indicator').style.display=''
                     	buildTable('searchForm');
                     }
@@ -112,8 +112,8 @@
                     <fmt:message key="c3pr.person.identifier"/>
                 </div>
                 <div class="value">
-                    <input type="text" name="nciIdentifier" id="nciIdentifier"/>
-                    <tags:hoverHint keyProp="researchStaff.nciIdentifier"/>
+                    <input type="text" name="assignedIdentifier" id="assignedIdentifier"/>
+                    <tags:hoverHint keyProp="researchStaff.assignedIdentifier"/>
                 </div>
             </div>
             <div class="row">
