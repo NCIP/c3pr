@@ -71,12 +71,12 @@ public class StudyFactory {
 				Investigator inv = sInv.getHealthcareSiteInvestigator()
 						.getInvestigator();
 				Investigator loadedInvestigator = investigatorDao
-											.getByNciIdentifier(inv.getNciIdentifier());
+											.getByAssignedIdentifier(inv.getAssignedIdentifier());
 				if (loadedInvestigator == null) {
 					throw exceptionHelper
 							.getException(
 									getCode("C3PR.EXCEPTION.STUDY.INVALID.NCI_IDENTIFIER.CODE"),
-									new String[] { inv.getNciIdentifier() });
+									new String[] { inv.getAssignedIdentifier() });
 				}
 				HealthcareSiteInvestigator loadedSiteInv = healthcareSiteInvestigatorDao
 						.getSiteInvestigator(loadedSite, loadedInvestigator);
