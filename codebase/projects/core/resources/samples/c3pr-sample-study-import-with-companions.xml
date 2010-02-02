@@ -121,7 +121,7 @@
 				<roleCode>Site Investigator</roleCode>
 				<healthcareSiteInvestigator>
 					<investigator xsi:type="LocalInvestigatorType">
-						<nciIdentifier>ctep_assigned_id</nciIdentifier>
+						<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 						<fullName>first last</fullName>
 					</investigator>
 				</healthcareSiteInvestigator>
@@ -130,7 +130,7 @@
 				<roleCode>Site Investigator</roleCode>
 				<healthcareSiteInvestigator>
 					<investigator xsi:type="RemoteInvestigatorType">
-						<nciIdentifier>remote_ctep_assigned_id</nciIdentifier>
+						<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
 						<fullName>first last</fullName>
 						<externalId>external_id</externalId>
 					</investigator>
@@ -298,7 +298,7 @@
 						<roleCode>Principal Investigator</roleCode>
 						<healthcareSiteInvestigator>
 							<investigator xsi:type="LocalInvestigatorType">
-								<nciIdentifier>ctep_assigned_id</nciIdentifier>
+								<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 								<fullName>first last</fullName>
 							</investigator>
 						</healthcareSiteInvestigator>
@@ -329,7 +329,7 @@
 						<roleCode>Site Investigator</roleCode>
 						<healthcareSiteInvestigator>
 							<investigator xsi:type="LocalInvestigatorType">
-								<nciIdentifier>ctep_assigned_id</nciIdentifier>
+								<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 								<fullName>first last</fullName>
 							</investigator>
 						</healthcareSiteInvestigator>
@@ -338,7 +338,7 @@
 						<roleCode>Site Investigator</roleCode>
 						<healthcareSiteInvestigator>
 							<investigator xsi:type="RemoteInvestigatorType">
-								<nciIdentifier>remote_ctep_assigned_id</nciIdentifier>
+								<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
 								<fullName>first last</fullName>
 								<externalId>external_id</externalId>
 							</investigator>
@@ -363,7 +363,7 @@
 						<roleCode>Site Investigator</roleCode>
 						<healthcareSiteInvestigator>
 							<investigator xsi:type="LocalInvestigatorType">
-								<nciIdentifier>ctep_assigned_id</nciIdentifier>
+								<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 								<fullName>first last</fullName>
 							</investigator>
 						</healthcareSiteInvestigator>
@@ -372,7 +372,7 @@
 						<roleCode>Site Investigator</roleCode>
 						<healthcareSiteInvestigator>
 							<investigator xsi:type="RemoteInvestigatorType">
-								<nciIdentifier>remote_ctep_assigned_id</nciIdentifier>
+								<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
 								<fullName>first last</fullName>
 								<externalId>external_id</externalId>
 							</investigator>
@@ -519,7 +519,7 @@
 						<roleCode>Principal Investigator</roleCode>
 						<healthcareSiteInvestigator>
 							<investigator xsi:type="LocalInvestigatorType">
-								<nciIdentifier>ctep_assigned_id</nciIdentifier>
+								<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 								<fullName>first last</fullName>
 							</investigator>
 						</healthcareSiteInvestigator>
@@ -550,7 +550,7 @@
 						<roleCode>Site Investigator</roleCode>
 						<healthcareSiteInvestigator>
 							<investigator xsi:type="LocalInvestigatorType">
-								<nciIdentifier>ctep_assigned_id</nciIdentifier>
+								<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 								<fullName>first last</fullName>
 							</investigator>
 						</healthcareSiteInvestigator>
@@ -559,7 +559,7 @@
 						<roleCode>Site Investigator</roleCode>
 						<healthcareSiteInvestigator>
 							<investigator xsi:type="RemoteInvestigatorType">
-								<nciIdentifier>remote_ctep_assigned_id</nciIdentifier>
+								<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
 								<fullName>first last</fullName>
 								<externalId>external_id</externalId>
 							</investigator>
@@ -584,7 +584,7 @@
 						<roleCode>Site Investigator</roleCode>
 						<healthcareSiteInvestigator>
 							<investigator xsi:type="LocalInvestigatorType">
-								<nciIdentifier>ctep_assigned_id</nciIdentifier>
+								<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 								<fullName>first last</fullName>
 							</investigator>
 						</healthcareSiteInvestigator>
@@ -593,7 +593,7 @@
 						<roleCode>Site Investigator</roleCode>
 						<healthcareSiteInvestigator>
 							<investigator xsi:type="RemoteInvestigatorType">
-								<nciIdentifier>remote_ctep_assigned_id</nciIdentifier>
+								<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
 								<fullName>first last</fullName>
 								<externalId>external_id</externalId>
 							</investigator>

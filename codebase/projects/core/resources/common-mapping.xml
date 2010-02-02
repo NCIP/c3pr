@@ -196,8 +196,8 @@
 
     <class name="edu.duke.cabig.c3pr.domain.Investigator">
         <map-to xml="investigator" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="nciIdentifier" type="string">
-            <bind-xml name="nciIdentifier" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="assignedIdentifier" type="string">
+            <bind-xml name="assignedIdentifier" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="fullName" type="string">
             <bind-xml name="fullName" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>

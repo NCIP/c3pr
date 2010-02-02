@@ -150,7 +150,7 @@
 		<healthcareSiteInvestigator>
 			<investigator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				xsi:type="LocalInvestigatorType">
-				<nciIdentifier>ctep_assigned_id</nciIdentifier>
+				<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 				<fullName>first last</fullName>
 			</investigator>
 		</healthcareSiteInvestigator>

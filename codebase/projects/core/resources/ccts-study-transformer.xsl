@@ -119,7 +119,9 @@
     </xsl:template>
     <xsl:template match="c3pr:investigator">
         <investigator xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
-            <xsl:copy-of select="./c3pr:nciIdentifier"/>
+        	<nciIdentifier>
+            	<xsl:value-of select="./c3pr:assignedIdentifier"/>
+            </nciIdentifier>
             <xsl:copy-of select="./c3pr:fullName"/>
         </investigator>
     </xsl:template>
