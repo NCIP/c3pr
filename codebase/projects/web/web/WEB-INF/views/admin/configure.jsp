@@ -155,14 +155,13 @@
 			var auth = $('outgoingMailAuth').value  ;
 			var protocol = $('smtpProtocol').value  ;
 			var sslAuth = $('smtpSSLAuth').value  ;
-			var fromAddress = $('outgoingMailFromAddress').value  ;
 
-			if(server == '' || port == '' || auth == '' || protocol =='' || sslAuth == '' || fromAddress == ''){
+			if(server == '' || port == '' || auth == '' || protocol =='' || sslAuth == ''){
 				alert("Enter Data");
 				Element.hide('testIndicator['+id+']');
 				return;	
 			}
-			url = "../admin/validateConnectivity?type="+type+"&id="+escape(id)+"&host="+escape(server)+"&port="+port+"&username="+escape(username)+"&passwd="+escape(passwd)+"&protocol="+protocol+"&auth="+auth+"&sslAuth="+sslAuth+"&fromAddress="+escape(fromAddress);
+			url = "../admin/validateConnectivity?type="+type+"&id="+escape(id)+"&host="+escape(server)+"&port="+port+"&username="+escape(username)+"&passwd="+escape(passwd)+"&protocol="+protocol+"&auth="+auth+"&sslAuth="+sslAuth;
 			new Ajax.Updater('connectionTestResult['+id+']',url, {evalScripts: true, method: 'post'});	
 		}
 	}
@@ -266,10 +265,6 @@
         				<form:option value="false">No</form:option>
         			</form:select>
         		</div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.smtp.address"/><tags:hoverHint keyProp="configure.outgoingMailFromAddress" /></div>
-        		<div class="value"><form:input path="conf[outgoingMailFromAddress].value" id="outgoingMailFromAddress" cssClass="required validate-EMAIL" /></div>
         	</div>
         	<br>
         	<div class="row" id="testEmail">

@@ -130,9 +130,7 @@ public class ValidateConnectionController extends AbstractController {
 			}
 			mailSender.setJavaMailProperties(properties);
 			MimeMessage message = mailSender.createMimeMessage();
-			message.setFrom(new InternetAddress(request.getParameter("fromAddress")));
 			message.setText("Test Email");
-			message.setReplyTo(new InternetAddress[] { new InternetAddress(request.getParameter("fromAddress")) });
 			message.setRecipient(RecipientType.TO, new InternetAddress(userEmailId));
 			message.setSubject("Test Email from C3PR");
 			message.setDescription("Test Email");
