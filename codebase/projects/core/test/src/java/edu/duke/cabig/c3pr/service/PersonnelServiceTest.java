@@ -31,6 +31,7 @@ public class PersonnelServiceTest extends DaoTestCase {
         inv = new LocalInvestigator();
         inv.setFirstName("Dummy");
         inv.setLastName("User");
+        inv.setAssignedIdentifier("x"+Math.ceil((Math.random()*1000)));
 
 //        ContactMechanism cm = new LocalContactMechanism();
 //        cm.setType(ContactMechanismType.EMAIL);
