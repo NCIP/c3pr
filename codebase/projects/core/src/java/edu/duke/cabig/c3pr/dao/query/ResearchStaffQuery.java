@@ -16,7 +16,7 @@ public class ResearchStaffQuery extends AbstractQuery {
 
     private static String EMAIL_ADDRESS = "emailAddress";
 
-    private static String NCI_IDENTIFIER = "nciIdentifier";
+    private static String ASSIGNED_IDENTIFIER = "assignedIdentifier";
     
     public ResearchStaffQuery() {
 
@@ -47,9 +47,9 @@ public class ResearchStaffQuery extends AbstractQuery {
         setParameter(EMAIL_ADDRESS, searchString);
     }
 
-    public void filterByNciIdentifier(final String nciIdentifier) {
-        String searchString = "%" + nciIdentifier.toLowerCase() + "%";
-        andWhere("lower(rs.nciIdentifier) LIKE :" + NCI_IDENTIFIER);
-        setParameter(NCI_IDENTIFIER, searchString);
+    public void filterByAssignedIdentifier(final String assignedIdentifier) {
+        String searchString = "%" + assignedIdentifier.toLowerCase() + "%";
+        andWhere("lower(rs.assignedIdentifier) LIKE :" + ASSIGNED_IDENTIFIER);
+        setParameter(ASSIGNED_IDENTIFIER, searchString);
     }
 }

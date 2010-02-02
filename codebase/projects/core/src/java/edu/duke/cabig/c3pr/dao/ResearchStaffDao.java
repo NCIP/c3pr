@@ -445,9 +445,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					if (remoteResearchStaff.getHealthcareSite() != null) {
 						// checking for the uniquness of NCI
 						// Identifier before saving into database
-						ResearchStaff researchStaffWithMatchingNCIIdentifier = 
+						ResearchStaff researchStaffWithMatchingAssignedIdentifier = 
 								getByAssignedIdentifierFromLocal(remoteResearchStaff.getAssignedIdentifier());
-						if (researchStaffWithMatchingNCIIdentifier == null) {
+						if (researchStaffWithMatchingAssignedIdentifier == null) {
 								saveResearchStaff(remoteResearchStaff);
 						} else {
 							log.debug("This remote research person : "	+ remoteResearchStaff.getFullName()
