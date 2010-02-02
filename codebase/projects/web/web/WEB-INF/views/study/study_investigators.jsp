@@ -94,7 +94,7 @@ function showDiseases() {
             var catId = siteSelect
 	        StudyAjaxFacade.getActiveSiteInvestigators(catId, function(diseases) {
 	              diseases.each(function(cat) {
-	            	var ctepCode = cat.investigator.nciIdentifier == null ? "":cat.investigator.nciIdentifier
+	            	var ctepCode = cat.investigator.assignedIdentifier == null ? "":cat.investigator.assignedIdentifier
 	               	var name = cat.investigator.firstName + " " +  cat.investigator.lastName + " (" +  ctepCode + ")";
 	                var opt = new Option(name, cat.id)
 	                diseaseTermSelect.options.add(opt)
@@ -110,7 +110,7 @@ function showDiseases() {
             sel.options.add(new Option("All", ""))
             sel.options[0].selected = true;
             diseases.each(function(cat) {
-            	var name = cat.investigator.firstName + " " +  cat.investigator.lastName + " (" +  cat.nciIdentifier + ")";
+            	var name = cat.investigator.firstName + " " +  cat.investigator.lastName + " (" +  cat.assignedIdentifier + ")";
                 var opt = new Option(name, cat.id)
                 sel.options.add(opt)
             })

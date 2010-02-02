@@ -10,7 +10,7 @@
     			parent.showDiseases(); 
     			parent.closePopup();
         	}else{
-				parent.updatePrincipalInvestigatorSection('${command.healthcareSiteInvestigators[0].healthcareSite.id}','${command.healthcareSiteInvestigators[0].healthcareSite.name}','${command.healthcareSiteInvestigators[0].healthcareSite.primaryIdentifier}','${command.healthcareSiteInvestigators[0].id}', '${command.fullName}', '${command.nciIdentifier}');
+				parent.updatePrincipalInvestigatorSection('${command.healthcareSiteInvestigators[0].healthcareSite.id}','${command.healthcareSiteInvestigators[0].healthcareSite.name}','${command.healthcareSiteInvestigators[0].healthcareSite.primaryIdentifier}','${command.healthcareSiteInvestigators[0].id}', '${command.fullName}', '${command.assignedIdentifier}');
             }
     	}
     </script>
@@ -19,7 +19,7 @@
 <div id="main">
 		<div id="controlPanel" <c:if test="${studyflow=='true'}">style="display:none;"</c:if>>
 			<tags:controlPanel>
-				<tags:oneControlPanelItem linkhref="javascript:document.location='editInvestigator?emailId=${command.email}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				<tags:oneControlPanelItem linkhref="javascript:document.location='editInvestigator?assignedIdentifier=${command.assignedIdentifier}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 				<tags:oneControlPanelItem linkhref="javascript:document.location='createInvestigator';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchInvestigatorController.png" linktext="Create investigator" />
 			</tags:controlPanel>
 		</div>
@@ -41,10 +41,10 @@
 					<div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
 					<div class="value">${command.lastName}</div>
 				</div>
-				<c:if test="${not empty command.nciIdentifier }">
+				<c:if test="${not empty command.assignedIdentifier }">
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.person.identifier"/>:</div>
-						<div class="value">${command.nciIdentifier}</div>
+						<div class="value">${command.assignedIdentifier}</div>
 					</div>
 				</c:if>
 				<div class="row">
