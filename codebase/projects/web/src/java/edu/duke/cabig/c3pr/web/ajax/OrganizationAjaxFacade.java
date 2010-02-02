@@ -90,7 +90,7 @@ public class OrganizationAjaxFacade {
                 HealthcareSiteInvestigator temp;
                 temp = buildReduced(hcInv, Arrays.asList("id"));
                 temp.setInvestigator(buildReduced(hcInv.getInvestigator(), Arrays.asList(
-                                "firstName", "lastName", "maidenName", "nciIdentifier")));
+                                "firstName", "lastName", "maidenName", "assignedIdentifier")));
                 reducedInv.add(temp);
             }
 
