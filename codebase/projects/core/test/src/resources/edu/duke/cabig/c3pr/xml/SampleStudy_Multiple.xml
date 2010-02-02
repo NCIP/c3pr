@@ -151,7 +151,7 @@
             <roleCode>Coordinating Site</roleCode>
             <healthcareSiteInvestigator>
                 <investigator>
-                    <nciIdentifier>1000001</nciIdentifier>
+                    <assignedIdentifier>1000001</assignedIdentifier>
                 </investigator>
             </healthcareSiteInvestigator>
         </studyInvestigator>
@@ -306,7 +306,7 @@
             <roleCode>Coordinating Site</roleCode>
             <healthcareSiteInvestigator>
                 <investigator>
-                    <nciIdentifier>li-00990</nciIdentifier>
+                    <assignedIdentifier>li-00990</assignedIdentifier>
                 </investigator>
             </healthcareSiteInvestigator>
         </studyInvestigator>

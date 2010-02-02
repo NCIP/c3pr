@@ -104,7 +104,7 @@
 		<endDate>0006-06-23</endDate>
 		<healthcareSiteInvestigator>
 			<investigator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LocalInvestigatorType">
-				<nciIdentifier>bill</nciIdentifier>
+				<assignedIdentifier>bill</assignedIdentifier>
 				<fullName>Investigator Bill Staff1</fullName>
 			</investigator>
 		</healthcareSiteInvestigator>
