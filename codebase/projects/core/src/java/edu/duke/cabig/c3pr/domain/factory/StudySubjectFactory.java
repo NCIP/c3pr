@@ -327,7 +327,7 @@ public class StudySubjectFactory {
         }
         if(source.getTreatingPhysician()!=null){
         	for(StudyInvestigator studyInvestigator:studySubject.getStudySite().getStudyInvestigators()){
-        		if(studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getNciIdentifier().equals(source.getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator().getNciIdentifier())){
+        		if(studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getAssignedIdentifier().equals(source.getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator().getAssignedIdentifier())){
         			studySubject.setTreatingPhysician(studyInvestigator);
         			break;
         		}
