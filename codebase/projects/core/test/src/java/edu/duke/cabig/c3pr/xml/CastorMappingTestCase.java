@@ -478,7 +478,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	}
 	
 	public void assertHealthcareSiteInvestigator(HealthcareSiteInvestigator expected, HealthcareSiteInvestigator actual){
-		assertEquals(expected.getInvestigator().getNciIdentifier(), actual.getInvestigator().getNciIdentifier());
+		assertEquals(expected.getInvestigator().getAssignedIdentifier(), actual.getInvestigator().getAssignedIdentifier());
 	}
 	
 }
