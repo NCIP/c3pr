@@ -20,8 +20,6 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.semanticbits.coppa.domain.annotations.RemoteProperty;
-
 import edu.duke.cabig.c3pr.constants.StatusType;
 
 /**
@@ -39,7 +37,7 @@ public abstract class ResearchStaff extends User {
     private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
 
     /** The nci identifier. */
-    private String nciIdentifier;
+    private String assignedIdentifier;
     
     /** The healthcare site. */
     private HealthcareSite healthcareSite;
@@ -198,24 +196,6 @@ public abstract class ResearchStaff extends User {
     }
 
     /**
-     * Gets the nci identifier.
-     * 
-     * @return the nci identifier
-     */
-    public String getNciIdentifier() {
-        return nciIdentifier;
-    }
-
-    /**
-     * Sets the nci identifier.
-     * 
-     * @param nciIdentifier the new nci identifier
-     */
-    public void setNciIdentifier(String nciIdentifier) {
-        this.nciIdentifier = nciIdentifier;
-    }
-
-    /**
      * Gets the user based recipient.
      * 
      * @return the user based recipient
@@ -243,6 +223,14 @@ public abstract class ResearchStaff extends User {
 
 	public void setStatusCode(StatusType statusCode) {
 		this.statusCode = statusCode;
+	}
+
+	public String getAssignedIdentifier() {
+		return assignedIdentifier;
+	}
+
+	public void setAssignedIdentifier(String assignedIdentifier) {
+		this.assignedIdentifier = assignedIdentifier;
 	}
 	
 }

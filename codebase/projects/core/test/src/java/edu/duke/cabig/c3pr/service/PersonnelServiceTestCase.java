@@ -60,7 +60,7 @@ public class PersonnelServiceTestCase extends DaoTestCase {
         // now save the research staff
         researchStaff = new LocalResearchStaff();
         researchStaff.setHealthcareSite(site);
-        researchStaff.setNciIdentifier("test-user");
+        researchStaff.setAssignedIdentifier("test-user");
         researchStaff.setFirstName("test");
         researchStaff.setLastName("user");
 //        email = new LocalContactMechanism();
@@ -77,7 +77,7 @@ public class PersonnelServiceTestCase extends DaoTestCase {
 //        email.setValue("changed");
 //        researchStaff.addContactMechanism(email);
         researchStaff.setEmail("test-user-changed@test.org");
-        researchStaff.setNciIdentifier("changed");
+        researchStaff.setAssignedIdentifier("changed");
         personnelService.merge(researchStaff);
 
         assertNotNull(personnelService.getGroups(researchStaff));

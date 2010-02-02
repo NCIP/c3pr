@@ -16,6 +16,7 @@ import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffConverterDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.ConverterInvestigator;
 import edu.duke.cabig.c3pr.domain.ConverterResearchStaff;
@@ -31,6 +32,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
+import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.utils.RecipientScheduledNotificationComparator;
@@ -63,7 +65,10 @@ public class PersonnelServiceImpl implements PersonnelService {
     
     private InvestigatorConverterDao investigatorConverterDao;
     
-
+    private UserDao userDao;
+    
+    private Logger log = Logger.getLogger(PersonnelServiceImpl.class);
+    
     public InvestigatorConverterDao getInvestigatorConverterDao() {
 		return investigatorConverterDao;
 	}
@@ -81,8 +86,6 @@ public class PersonnelServiceImpl implements PersonnelService {
 			ResearchStaffConverterDao researchStaffConverterDao) {
 		this.researchStaffConverterDao = researchStaffConverterDao;
 	}
-
-	private Logger log = Logger.getLogger(PersonnelServiceImpl.class);
 
     public void save(Investigator inv) throws C3PRBaseException {
         log.debug("Saving Investigator");
@@ -146,11 +149,12 @@ public class PersonnelServiceImpl implements PersonnelService {
     public List<RecipientScheduledNotification> getRecentNotifications(HttpServletRequest request) {
         gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
                         .getSession().getAttribute("userObject");
-        ResearchStaff researchStaff = researchStaffDao.getByEmailAddressFromLocal(user.getEmailId());
         List<RecipientScheduledNotification> recipientScheduledNotificationsList = new ArrayList<RecipientScheduledNotification>();
         List<ScheduledNotification> scheduledNotificationsList = new ArrayList<ScheduledNotification>();
-        if (researchStaff != null) {
-            // getting notifications set up as userBasedNotifications
+        ResearchStaff researchStaff = null;
+    	try {
+			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
+			// getting notifications set up as userBasedNotifications
             for (UserBasedRecipient ubr : researchStaff.getUserBasedRecipient()) {
                 recipientScheduledNotificationsList.addAll(ubr.getRecipientScheduledNotifications());
             }
@@ -176,14 +180,13 @@ public class PersonnelServiceImpl implements PersonnelService {
                     }
                 }
             }
-        }
-        else {
-            // for the admin case
+		} catch (C3PRNoSuchUserException e) {
+			log.debug(e.getMessage());
+			// for the admin case
             for (PlannedNotification pn : plannedNotificationDao.getAll()) {
                 scheduledNotificationsList.addAll(pn.getScheduledNotifications());
             }
-        }
-        
+		}
         Collections.sort(recipientScheduledNotificationsList, new RecipientScheduledNotificationComparator());
         return recipientScheduledNotificationsList;
     }
@@ -192,11 +195,15 @@ public class PersonnelServiceImpl implements PersonnelService {
     public HealthcareSite getLoggedInUsersOrganization(HttpServletRequest request){
     	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
         																					.getSession().getAttribute("userObject");
-    	ResearchStaff researchStaff = researchStaffDao.getByEmailAddress(user.getEmailId());
-    	if(researchStaff != null){
-    		return researchStaff.getHealthcareSite();
-    	}
-    	return null;
+    	
+    	ResearchStaff researchStaff = null;
+    	try {
+			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
+		} catch (C3PRNoSuchUserException e) {
+			log.debug(e.getMessage());
+			return null;
+		}
+    	return researchStaff.getHealthcareSite();
     }
 
     // spring settters
@@ -267,6 +274,10 @@ public class PersonnelServiceImpl implements PersonnelService {
 		converterInvestigator.setUniqueIdentifier(remoteInvestigator.getExternalId());
 		investigatorConverterDao.save(converterInvestigator);
 		return converterInvestigator;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
 	}
 	
 }

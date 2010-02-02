@@ -169,7 +169,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		try {
 			Criteria criteria = getSession()
 					.createCriteria(ResearchStaff.class);
-			criteria.addOrder(Order.asc("nciIdentifier"));
+			criteria.addOrder(Order.asc("assignedIdentifier"));
 			criteria
 					.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
@@ -226,111 +226,54 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 
 	/**
-	 * Gets the by nci identifier. Looks for local and remote
+	 * Gets the by assigned identifier. Looks for local and remote
 	 *
-	 * @param nciIdentifier
-	 *            the nci identifier
+	 * @param assignedIdentifier
+	 *            the assigned identifier
 	 *
-	 * @return the by nci identifier
+	 * @return the research staff
 	 */
-	public ResearchStaff getByNciIdentifierFromLocal(String nciIdentifier) {
+	public ResearchStaff getByAssignedIdentifierFromLocal(String assignedIdentifier) {
 		ResearchStaff result = null;
 		try {
 			result = (ResearchStaff) (getHibernateTemplate().find(
-					"from ResearchStaff rs where rs.nciIdentifier = '"
-							+ nciIdentifier + "'").get(0));
+					"from ResearchStaff rs where rs.assignedIdentifier = '"
+							+ assignedIdentifier + "'").get(0));
 		} catch (Exception e) {
-			log.debug("User with nciIdentifier " + nciIdentifier
+			log.debug("User with assignedIdentifier " + assignedIdentifier
 					+ " does not exist. Returning null");
 		}
 		return result;
 	}
 
 	/**
-	 * Gets the by nci identifier. If we find a match in local db dont go to COPPA.
+	 * Gets the by assigned identifier. If we find a match in local db dont go to COPPA.
 	 * Goto Copa if no match is found in local db.
 	 * We always defer to local db in cases of queries where only one result is expected.
 	 *
-	 * @param nciIdentifier - the nci identifier
-	 * @return the by nci identifier
+	 * @param assignedIdentifier - the assigned identifier
+	 * @return the research staff
 	 */
-	public ResearchStaff getByNciIdentifier(String nciIdentifier) {
+	public ResearchStaff getByAssignedIdentifier(String assignedIdentifier) {
 
-		ResearchStaff researchStaff = getByNciIdentifierFromLocal(nciIdentifier);
+		ResearchStaff researchStaff = getByAssignedIdentifierFromLocal(assignedIdentifier);
 		if(researchStaff == null){
 			//get the remote staff and update the database
 			RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
-			remoteResearchStaff.setNciIdentifier(nciIdentifier);
+			remoteResearchStaff.setAssignedIdentifier(assignedIdentifier);
 
 			getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
 			//now run the query against the db after saving the retrieved data
 			ResearchStaff result = null;
 			try {
 				result = (ResearchStaff) (getHibernateTemplate().find(
-						"from ResearchStaff rs where rs.nciIdentifier = '"
-								+ nciIdentifier + "'").get(0));
+						"from ResearchStaff rs where rs.assignedIdentifier = '"
+								+ assignedIdentifier + "'").get(0));
 			} catch (Exception e) {
-				log.debug("User with nciIdentifier " + nciIdentifier
+				log.debug("User with assignedIdentifier " + assignedIdentifier
 						+ " does not exist. Returning null");
 			}
 			return result;
-		}
-		return researchStaff;
-	}
-
-	/**
-	 * Gets the by email address from the database only. Created for the
-	 * notifications use case.
-	 *
-	 * @param emailAddress
-	 *            the email address
-	 * @return the ResearchStaff List
-	 */
-	public ResearchStaff getByEmailAddressFromLocal(String emailAddress) {
-		return CollectionUtils.firstElement((List<ResearchStaff>) getHibernateTemplate().find(
-				"from ResearchStaff rs where rs.contactMechanisms.value = '"
-						+ emailAddress + "'"));
-	}
-
-	/**Case insensitive version of getByEmailAddressFromLocal
-	 * @param emailAddress
-	 * @return
-	 */
-	public ResearchStaff getByEmailAddressLikeFromLocal(String emailAddress) {
-		Criteria staffCriteria = getHibernateTemplate().getSessionFactory()
-	    							.getCurrentSession().createCriteria(ResearchStaff.class);
-		Criteria contactMechanismsCriteria = staffCriteria.createCriteria("contactMechanisms");
-
-		contactMechanismsCriteria.add(Expression.ilike("value", "%" + emailAddress + "%"));
-		List<ResearchStaff> staffList = staffCriteria.list();
-		if(staffList.size() > 0){
-			return staffList.get(0);
-		} else {
-			return null;
-		}
-	}
-    
-
-	/**
-	 * Gets the by email address. Created for the notifications use case.
-	 *
-	 * @param emailAddress
-	 *            the email address
-	 *
-	 * @return the ResearchStaff List
-	 */
-	public ResearchStaff getByEmailAddress(String emailAddress) {
-
-		ResearchStaff researchStaff = getByEmailAddressFromLocal(emailAddress);
-		if(researchStaff == null){
-			//Get the remote staff and update the database first
-			RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
-			remoteResearchStaff.setExternalId(emailAddress);
-			getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
-
-			return CollectionUtils.firstElement((List<ResearchStaff>) getHibernateTemplate().find(
-					"from ResearchStaff rs where rs.contactMechanisms.value = '"
-							+ emailAddress + "'"));
 		}
 		return researchStaff;
 	}
@@ -374,7 +317,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		remoteResearchStaff.setLastName(researchStaff.getLastName());
 		remoteResearchStaff
 				.setHealthcareSite(researchStaff.getHealthcareSite());
-		remoteResearchStaff.setNciIdentifier(researchStaff.getNciIdentifier());
+		remoteResearchStaff.setAssignedIdentifier(researchStaff.getAssignedIdentifier());
 		return remoteResearchStaff;
 	}
 
@@ -500,18 +443,16 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					// This if condition is temporary. once we have the logic to
 					// fetch the org of the retrieved staff then we can remove this.
 					if (remoteResearchStaff.getHealthcareSite() != null) {
-						// checking for the uniquness of email and NCI
+						// checking for the uniquness of NCI
 						// Identifier before saving into database
-						ResearchStaff researchStaffWithMatchingEmail = 
-								getByEmailAddressLikeFromLocal(remoteResearchStaff.getEmail());
 						ResearchStaff researchStaffWithMatchingNCIIdentifier = 
-								getByNciIdentifierFromLocal(remoteResearchStaff.getNciIdentifier());
-						if (researchStaffWithMatchingEmail == null && researchStaffWithMatchingNCIIdentifier == null) {
+								getByAssignedIdentifierFromLocal(remoteResearchStaff.getAssignedIdentifier());
+						if (researchStaffWithMatchingNCIIdentifier == null) {
 								saveResearchStaff(remoteResearchStaff);
 						} else {
 							log.debug("This remote research person : "	+ remoteResearchStaff.getFullName()
 										+ "'s email id : " + remoteResearchStaff.getEmail()
-										+ "and/or NCI Identifier: "+ remoteResearchStaff.getNciIdentifier()
+										+ "and/or NCI Identifier: "+ remoteResearchStaff.getAssignedIdentifier()
 										+ " is already in the database. Deferring to the local. :");
 						}
 					} else {

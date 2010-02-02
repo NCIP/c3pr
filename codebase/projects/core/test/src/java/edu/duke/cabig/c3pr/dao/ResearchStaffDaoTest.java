@@ -58,7 +58,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception
      */
     public void testGetByIdForException() throws Exception {
-        ResearchStaff staff = getDao().getByNciIdentifier("9999");
+        ResearchStaff staff = getDao().getByAssignedIdentifier("9999");
         assertNull(staff);
     }
 
@@ -69,7 +69,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         rs1.setFirstName("Brad");
         rs1.setLastName("Johnson");
         rs1.setMaidenName("Bradster");
-        rs1.setNciIdentifier("NCI-123");
+        rs1.setAssignedIdentifier("NCI-123");
         rs1.setHealthcareSite(site);
         getDao().save(rs1);
 
@@ -83,7 +83,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         rs2.setFirstName("Brad");
         rs2.setLastName("Johnson");
         rs2.setMaidenName("Bradster");
-        rs2.setNciIdentifier("NCI-123");
+        rs2.setAssignedIdentifier("NCI-123");
         rs2.setHealthcareSite(site);
 
         try {
@@ -160,28 +160,6 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     }
     
     /**
-     * Test get by email address.
-     * 
-     * @throws Exception the exception
-     */
-    public void testGetByEmailAddress() throws Exception {
-    	ResearchStaff researchStaff = getDao().getByEmailAddress("test@mail.com");
-    	assertNotNull(researchStaff);
-    	assertEquals("Incorrect staff retrieved", researchStaff.getFirstName(), "Research Bill");
-    }
-    
-    /**
-     * Test get by email address.
-     * 
-     * @throws Exception the exception
-     */
-    public void testGetByEmailAddressLikeFromLocal() throws Exception {
-    	ResearchStaff researchStaff = getDao().getByEmailAddressLikeFromLocal("Test@mail.com");
-    	assertNotNull(researchStaff);
-    	assertEquals("Incorrect staff retrieved", researchStaff.getFirstName(), "Research Bill");
-    }
-    
-    /**
      * Test get by nci id.
      * 
      * @throws Exception the exception
@@ -191,10 +169,10 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
 		remoteResearchStaff.setFirstName("LArry");
 		remoteResearchStaff.setLastName("Page");
-		remoteResearchStaff.setNciIdentifier("NCI_101");
+		remoteResearchStaff.setAssignedIdentifier("NCI_101");
 		remoteResearchStaff.setHealthcareSite(healthcareSite);
 		getDao().save(remoteResearchStaff);
-		ResearchStaff staff = getDao().getByNciIdentifier("NCI_101");
+		ResearchStaff staff = getDao().getByAssignedIdentifier("NCI_101");
         assertNotNull(remoteResearchStaff);
 		//assertEquals("Research Bill", staff.getFirstName());
     }

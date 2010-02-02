@@ -203,7 +203,7 @@ public class RemoteResearchStaffResolverTest extends ApplicationContextTest{
 		address.setCity("");
 		address.setCountryCode("");
 		remoteResearchStaff.setAddress(address);
-		remoteResearchStaff.setNciIdentifier("176477");
+		remoteResearchStaff.setAssignedIdentifier("176477");
 		return remoteResearchStaff;
 	}
 }
