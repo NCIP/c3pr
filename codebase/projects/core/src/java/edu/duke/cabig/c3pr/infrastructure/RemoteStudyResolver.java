@@ -612,17 +612,17 @@ public class RemoteStudyResolver implements RemoteResolver {
 	    	RemoteInvestigator remoteInvestigator = (RemoteInvestigator) object;
 		    //remoteInvestigator.setNciIdentifier(coppaPerson.getIdentifier().getExtension());
 	    	List<IdentifiedPerson> identifiedPersonsList = personOrganizationResolverUtils.getIdentifiedPerson(coppaPerson.getIdentifier());
-            String nciIdentifier = null;
+            String assignedIdentifier = null;
             for(IdentifiedPerson identifiedPerson: identifiedPersonsList){
             	if (identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)) {
-                    nciIdentifier = identifiedPerson.getAssignedId().getExtension();
+                    assignedIdentifier = identifiedPerson.getAssignedId().getExtension();
                     break;
                 }
             }
             /*if(nciIdentifier == null){
             	nciIdentifier = coppaPerson.getIdentifier().getExtension();
             }*/
-            remoteInvestigator.setAssignedIdentifier(nciIdentifier);
+            remoteInvestigator.setAssignedIdentifier(assignedIdentifier);
             
 	    	remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
 		    HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
