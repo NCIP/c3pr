@@ -304,6 +304,7 @@ public class StudyRepositoryMultisiteTest extends MockableDaoTestCase {
             // Investigators
             Investigator invSave = new LocalInvestigator();
             invSave.setFirstName("Investigator first name");
+            invSave.setAssignedIdentifier("x"+Math.ceil((Math.random()*1000)));
             investigatorDao.save(invSave);
 
             // healthcare site

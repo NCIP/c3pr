@@ -644,6 +644,7 @@ public class StudyDaoTest extends DaoTestCase {
             // Investigators
             Investigator inv = new LocalInvestigator();
             inv.setFirstName("Investigator first name");
+            inv.setAssignedIdentifier("x"+Math.ceil((Math.random()*1000)));
             investigatorDao.save(inv);
             Investigator invloaded = investigatorDao.getById(inv.getId());
 
@@ -830,6 +831,7 @@ public class StudyDaoTest extends DaoTestCase {
             // Investigators
             Investigator invSave = new LocalInvestigator();
             invSave.setFirstName("Investigator first name");
+            invSave.setAssignedIdentifier("x"+Math.ceil((Math.random()*1000)));
             investigatorDao.save(invSave);
 
             // healthcare site
