@@ -93,7 +93,7 @@ public abstract class StudyDaoTestCaseTemplate extends DaoTestCase {
             Investigator invSave = new LocalInvestigator();
             invSave.setFirstName("Investigator first name");
             invSave.setLastName("last name");
-            invSave.setNciIdentifier("nci-identifier-inv");
+            invSave.setAssignedIdentifier("nci-identifier-inv");
             investigatorDao.save(invSave);
 
             // healthcare site
