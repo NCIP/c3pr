@@ -96,7 +96,7 @@ public class DomainObjectCreationHelper {
 		LocalInvestigator localInvestigator= new LocalInvestigator();
 		localInvestigator.setFirstName("first");
 		localInvestigator.setLastName("last");
-		localInvestigator.setNciIdentifier("ctep_assigned_id");
+		localInvestigator.setAssignedIdentifier("ctep_assigned_id");
 		healthcareSiteInvestigator1.setInvestigator(localInvestigator);
 		studyInvestigator1.setSiteInvestigator(healthcareSiteInvestigator1);
 	}
@@ -206,7 +206,7 @@ public class DomainObjectCreationHelper {
 		LocalInvestigator localInvestigator= new LocalInvestigator();
 		localInvestigator.setFirstName("first");
 		localInvestigator.setLastName("last");
-		localInvestigator.setNciIdentifier("ctep_assigned_id");
+		localInvestigator.setAssignedIdentifier("ctep_assigned_id");
 		healthcareSiteInvestigator1.setInvestigator(localInvestigator);
 		studyInvestigator1.setSiteInvestigator(healthcareSiteInvestigator1);
 		
@@ -216,7 +216,7 @@ public class DomainObjectCreationHelper {
 		RemoteInvestigator remoteInvestigator= new RemoteInvestigator();
 		remoteInvestigator.setFirstName("first");
 		remoteInvestigator.setLastName("last");
-		remoteInvestigator.setNciIdentifier("remote_ctep_assigned_id");
+		remoteInvestigator.setAssignedIdentifier("remote_ctep_assigned_id");
 		remoteInvestigator.setExternalId("external_id");
 		healthcareSiteInvestigator2.setInvestigator(remoteInvestigator);
 		studyInvestigator2.setSiteInvestigator(healthcareSiteInvestigator2);
