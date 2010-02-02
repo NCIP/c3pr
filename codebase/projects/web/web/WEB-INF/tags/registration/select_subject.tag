@@ -375,7 +375,7 @@
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
 			<div class="value">
-				<input type="text" name="organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="required validate-notEmpty" />
+				<input type="text" id="organizationAssignedIdentifiers[0].value" name="organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="required validate-notEmpty" />
 				<tags:hoverHint keyProp="subject.MRN.value"/>
 				<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" id="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
 			</div>
