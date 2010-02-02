@@ -439,7 +439,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         Investigator investigator = new LocalInvestigator();
         investigator.setFirstName("Frank");
         investigator.setLastName("Hardy");
-        investigator.setNciIdentifier("inv-001");
+        investigator.setAssignedIdentifier("inv-001");
         return investigator;
     }
 
