@@ -707,9 +707,7 @@
           <property name="c3prURL" value="${c3pr.webapp.url}"/>
     </bean>
 
-    <!-- this is a template message that we can pre-load with default state -->
     <bean id="accountCreatedTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
-        <property name="from" value="${outgoingMailFromAddress}"/>
         <property name="subject" value="Account created in C3PR"/>
     </bean>
 

@@ -74,9 +74,6 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> OUTGOING_MAIL_PASSWORD = PROPERTIES
                     .add(new ConfigurationProperty.Text("outgoingMailPassword"));
 
-    public static final ConfigurationProperty<String> OUTGOING_MAIL_FROM_ADDRESS = PROPERTIES
-                    .add(new ConfigurationProperty.Text("outgoingMailFromAddress"));
-
     public static final ConfigurationProperty<String> OUTGOING_MAIL_AUTH = PROPERTIES
                     .add(new ConfigurationProperty.Text("outgoingMailAuth"));
 
