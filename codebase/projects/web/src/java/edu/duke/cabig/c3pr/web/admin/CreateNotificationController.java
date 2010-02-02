@@ -30,6 +30,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -38,6 +39,7 @@ import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
+import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
 import edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -68,6 +70,8 @@ public class CreateNotificationController extends SimpleFormController {
     
     private Configuration configuration;
     
+    private UserDao userDao;
+    
     private InPlaceEditableTab<Organization> page;
     
     //constants for the Cron Triggers
@@ -86,15 +90,18 @@ public class CreateNotificationController extends SimpleFormController {
     	    	
     	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
         																					.getSession().getAttribute("userObject");
-    	ResearchStaff researchStaff = researchStaffDao.getByEmailAddress(user.getEmailId());
-    	//get the logged in users site....if logged in user has no site(e.g: c3pr_admin) get the hosting site. 
-    	if(researchStaff != null ){
-    		return researchStaff.getHealthcareSite();
-    	} else {
-    		String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
+    	ResearchStaff researchStaff = null;
+    	try {
+    		//get the logged in users site.
+			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
+			return researchStaff.getHealthcareSite();
+		} catch (C3PRNoSuchUserException e) {
+			log.debug(e.getMessage());
+			//if logged in user has no site(e.g: c3pr_admin) get the hosting site.
+			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
     		Organization org = healthcareSiteDao.getByPrimaryIdentifier(localNciCode);
             return org;
-    	}
+		}
     }
 
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
@@ -107,6 +114,10 @@ public class CreateNotificationController extends SimpleFormController {
         refdata.put("notificationStudyAccrualRefData", configMap.get("notificationStudyAccrualRefData"));
         refdata.put("notificationStudySiteAccrualRefData", configMap.get("notificationStudySiteAccrualRefData"));
         refdata.put("notificationReportEventsRefData", configMap.get("notificationReportEventsRefData"));
+        gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
+		.getSession().getAttribute("userObject");
+        ResearchStaff researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
+        refdata.put("assignedIdentifier", researchStaff.getAssignedIdentifier());
         return refdata;
     }
     
@@ -131,15 +142,18 @@ public class CreateNotificationController extends SimpleFormController {
     	
     	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
 																		.getSession().getAttribute("userObject");
-    	ResearchStaff researchStaff = researchStaffDao.getByEmailAddressFromLocal(user.getEmailId());
+    	ResearchStaff researchStaff = null;
     	HealthcareSite hcs = null;
-    	//Get the logged in users site....if logged in user has no site(e.g: c3pr_admin) get the hosting site. 
-    	if(researchStaff != null){
-    		hcs = researchStaff.getHealthcareSite();
-    	} else {
-    		String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
+    	try {
+			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
+			//Get the logged in users site....
+			hcs = researchStaff.getHealthcareSite();
+		} catch (C3PRNoSuchUserException e) {
+			log.debug(e.getMessage());
+			//if logged in user has no site(e.g: c3pr_admin) get the hosting site.
+			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
     		hcs = healthcareSiteDao.getByPrimaryIdentifier(localNciCode);
-    	}
+		}
     	
     	if (isAjaxRequest(request)) {
 			request.getParameter("_asynchronous");
@@ -197,8 +211,11 @@ public class CreateNotificationController extends SimpleFormController {
 	        	
 	        	for(UserBasedRecipient ubr: pn.getUserBasedRecipient()){
 	        		if(ubr.getEmailAddress() != null && ubr.getEmailAddress() != ""){
-	        			rs = researchStaffDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
-	        			investigator = investigatorDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
+	        			//TODO: This method is removed from researchstaff dao. Check CPR-1570.
+	        			//rs = researchStaffDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
+	        			
+	        			//TODO: This method is removed from investigator dao. Check CPR-1568. 
+	        			//investigator = investigatorDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
 	        		}
 	        		if(rs != null){
 	        			ubr.setResearchStaff(rs);
@@ -429,6 +446,10 @@ public class CreateNotificationController extends SimpleFormController {
 
 	public void setScheduler(Scheduler scheduler) {
 		this.scheduler = scheduler;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
 	}
 
 }
