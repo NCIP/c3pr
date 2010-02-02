@@ -7,11 +7,11 @@
 	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1000" />
     <CSM_PROTECTION_ELEMENT protection_element_id="1000" protection_element_name="dbunit" application_id="1" object_id="temp" attribute="" />
 
-	<INVESTIGATORS id="1005" version="1" first_name="Investigator Brady" last_name="Bunch" nci_identifier="NCIID_1255" dtype="Remote" retired_indicator = "false" external_id="brady@bunch.com"/>
-    <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1" nci_identifier="NCIID_1232" dtype="Local" retired_indicator = "false" />
-    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2" nci_identifier="NCIID_1232a" dtype="Local" retired_indicator = "false" />
-    <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3" nci_identifier="NCIID_c45a" dtype="Local" retired_indicator = "false" />
-    <INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4" nci_identifier="NCIID_c238" dtype="Local" retired_indicator = "false" />
+	<INVESTIGATORS id="1005" version="1" first_name="Investigator Brady" last_name="Bunch" assignedIdentifier="NCIID_1255" dtype="Remote" retired_indicator = "false" external_id="brady@bunch.com"/>
+    <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1" assignedIdentifier="NCIID_1232" dtype="Local" retired_indicator = "false" />
+    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2" assignedIdentifier="NCIID_1232a" dtype="Local" retired_indicator = "false" />
+    <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3" assignedIdentifier="NCIID_c45a" dtype="Local" retired_indicator = "false" />
+    <INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4" assignedIdentifier="NCIID_c238" dtype="Local" retired_indicator = "false" />
 
     <CONTACT_MECHANISMS id="1000" inv_id ="1000" version="1" type="EMAIL" value="test@mail.com" retired_indicator = "false" dtype="Local"/>
 
