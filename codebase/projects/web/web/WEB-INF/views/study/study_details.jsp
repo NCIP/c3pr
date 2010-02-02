@@ -153,7 +153,7 @@
                 })
             },
             valueSelector: function(obj) {
-                return obj.investigator.fullName + ' (' +obj.investigator.nciIdentifier +')' ;
+                return obj.investigator.fullName + ' (' +obj.investigator.assignedIdentifier +')' ;
             },
              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=principalInvestigatorAutocompleterProps.basename+"-hidden"
@@ -441,7 +441,7 @@
 				<c:set var="_codePI" value="" />
 				<c:set var="_namePI" value="" />
 				<c:if test="${command.study.principalInvestigatorStudyOrganization != null}">				
-					<c:set var="_codePI" value="(${command.study.principalInvestigator.investigator.nciIdentifier})" />
+					<c:set var="_codePI" value="(${command.study.principalInvestigator.investigator.assignedIdentifier})" />
 					<c:set var="_namePI" value="${command.study.principalInvestigatorFullName}" />
 				</c:if>
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="study.principalInvestigator"/></div>
