@@ -265,7 +265,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
                 HealthcareSiteInvestigator temp;
                 temp = buildReduced(hcInv, Arrays.asList("id"));
                 temp.setInvestigator(buildReduced(hcInv.getInvestigator(), Arrays.asList(
-                                "firstName", "lastName", "maidenName","nciIdentifier")));
+                                "firstName", "lastName", "maidenName","assignedIdentifier")));
                 reducedInv.add(temp);
             }
 
@@ -371,7 +371,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
             if (siga.getEndDate() == null || siga.getEndDate().after(new Date())) {
                 inv = siga.getHealthcareSiteInvestigator();
                 reducedInvList.add(buildReduced(inv, Arrays.asList("id", "investigator.firstName",
-                                "investigator.lastName", "investigator.nciIdentifier")));
+                                "investigator.lastName", "investigator.assignedIdentifier")));
             }
         }
         return reducedInvList;
@@ -386,7 +386,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         for (HealthcareSiteInvestigator inv : hcsInvList) {
             if (inv.getStatusCode() != null && inv.getStatusCode().equals(InvestigatorStatusCodeEnum.AC)) {
                 reducedHcsInvList.add(buildReduced(inv, Arrays.asList("id",
-                                "investigator.firstName", "investigator.lastName", "investigator.nciIdentifier")));
+                                "investigator.firstName", "investigator.lastName", "investigator.assignedIdentifier")));
             }
         }
         return reducedHcsInvList;
@@ -405,7 +405,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
 		for (ResearchStaff rs : hcsRSList) {
 		reducedHcsRsList.add(buildReduced(rs, Arrays.asList("id",
-		                "firstName","lastName","nciIdentifier")));
+		                "firstName","lastName","assignedIdentifier")));
 		}
 		return reducedHcsRsList;
 	}
