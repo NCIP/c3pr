@@ -65,10 +65,10 @@ public class CreateInvestigatorController<C extends Investigator> extends
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         Investigator inv;
-        String email = request.getParameter("emailId") ;
-        if (!StringUtils.isBlank(email)) {
+        String assignedIdentifier = request.getParameter("assignedIdentifier") ;
+        if (!StringUtils.isBlank(assignedIdentifier)) {
             log.info(" Request URl  is:" + request.getRequestURL().toString());
-            inv = investigatorDao.getByEmailAddress(email);
+            inv = investigatorDao.getByAssignedIdentifierFromLocal(assignedIdentifier);
             if(inv != null){
             	investigatorDao.initialize(inv);
                 request.getSession().setAttribute(FLOW, EDIT_FLOW);
@@ -117,8 +117,8 @@ public class CreateInvestigatorController<C extends Investigator> extends
 		if(!"saveRemoteInvestigator".equals(request.getParameter("_action")) || (request.getParameter("_action").equals("syncInvestigator") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW))){
 			if ((request.getParameter("_action") != null) && !request.getParameter("_action").equals("syncInvestigator")) {
 				Investigator invFromDB = investigatorDao
-						.getByEmailAddressFromLocal(investigator
-								.getEmail());
+						.getByAssignedIdentifierFromLocal(investigator
+								.getAssignedIdentifier());
 				if (invFromDB != null) {
 					return;
 				}
@@ -228,7 +228,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
     private Investigator createInvestigatorWithHealthcareSite(int healthcareSiteId) {
         LocalInvestigator investigator = new LocalInvestigator();
         HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
-        HealthcareSite healthcareSite = investigatorDao.getHealthcareSiteDao().getById(healthcareSiteId) ;
+        HealthcareSite healthcareSite = healthcareSiteDao.getById(healthcareSiteId) ;
         healthcareSiteInvestigator.setHealthcareSite(healthcareSite);
         investigator.addHealthcareSiteInvestigator(healthcareSiteInvestigator);
         return investigator;

@@ -9,7 +9,7 @@ import edu.duke.cabig.c3pr.domain.Investigator;
 
 public class HealthcareSiteInvestigatorLinkDisplayCell extends AbstractCell {
 
-	public static final String VIEW_INVESTIGATOR_URL= "editInvestigator?emailId=";
+	public static final String VIEW_INVESTIGATOR_URL= "editInvestigator?assignedIdentifier=";
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
         Investigator inv = (Investigator) model.getCurrentRowBean();
@@ -23,13 +23,9 @@ public class HealthcareSiteInvestigatorLinkDisplayCell extends AbstractCell {
     }
 
     public void setRowOnClick(TableModel tableModel, Investigator inv){    	
-    	String url = "document.location='" + VIEW_INVESTIGATOR_URL + getEmailId(inv) + "'";
+    	String url = "document.location='" + VIEW_INVESTIGATOR_URL + inv.getAssignedIdentifier() + "'";
     	tableModel.getRowHandler().getRow().setOnclick(url);
     	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
     }
     
-    private String getEmailId(Investigator inv){
-    	return inv.getEmail();
-    }
-
 }

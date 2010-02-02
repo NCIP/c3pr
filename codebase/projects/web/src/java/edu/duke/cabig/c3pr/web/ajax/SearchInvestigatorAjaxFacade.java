@@ -69,8 +69,8 @@ public class SearchInvestigatorAjaxFacade {
         model.addColumn(organizations);
 
         Column columnCtep = model.getColumnInstance();
-        columnCtep.setTitle("CTEP identifier");
-        columnCtep.setProperty("nciIdentifier");
+        columnCtep.setTitle("Assigned identifier");
+        columnCtep.setProperty("assignedIdentifier");
         model.addColumn(columnCtep);
         
         Column columnNci = model.getColumnInstance();
@@ -93,7 +93,7 @@ public class SearchInvestigatorAjaxFacade {
             inv.setLastName(params[1]);
         }
         if (!StringUtils.isBlank(params[2])) {
-            inv.setNciIdentifier(params[2]);
+            inv.setAssignedIdentifier(params[2]);
         }
         if (!StringUtils.isBlank(params[3])) {
             HealthcareSite healthcareSite = healthcareSiteDao.getById(Integer.parseInt(params[3]));

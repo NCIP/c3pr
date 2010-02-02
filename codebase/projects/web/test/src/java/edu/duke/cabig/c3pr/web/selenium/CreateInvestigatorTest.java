@@ -12,7 +12,7 @@ public class CreateInvestigatorTest extends AbstractSeleniumTestCase {
 		selenium.select("healthcareSiteInvestigators[0].statusCode", "label=Active");
 		selenium.type("firstName", "Duke");
 		selenium.type("lastName", "Invest");
-		selenium.type("nciIdentifier", "nci4r53");
+		selenium.type("assignedIdentifier", "nci4r53");
 		selenium.type("contactMechanisms[0].value", "Duke@inv.com");
 		ajaxWidgets.clickNext("flow-next");
 		

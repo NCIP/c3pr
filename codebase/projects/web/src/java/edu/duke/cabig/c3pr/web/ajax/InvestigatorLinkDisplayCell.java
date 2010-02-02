@@ -13,7 +13,7 @@ import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 
 public class InvestigatorLinkDisplayCell extends AbstractCell {
 
-	public static final String VIEW_INVESTIGATOR_URL= "editInvestigator?emailId=";
+	public static final String VIEW_INVESTIGATOR_URL= "editInvestigator?assignedIdentifier=";
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
         Investigator inv = (Investigator) model.getCurrentRowBean();
@@ -28,20 +28,9 @@ public class InvestigatorLinkDisplayCell extends AbstractCell {
     }
 
     public void setRowOnClick(TableModel tableModel, Investigator inv){    	
-    	String url = "document.location='" + VIEW_INVESTIGATOR_URL + getEmailId(inv) + "'";
+    	String url = "document.location='" + VIEW_INVESTIGATOR_URL + inv.getAssignedIdentifier() + "'";
     	tableModel.getRowHandler().getRow().setOnclick(url);
     	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
     }
     
-    private String getEmailId(Investigator inv){
-//    	List<ContactMechanism> contactMechanisms = inv.getContactMechanisms();
-//    	for(ContactMechanism contactMechanism : contactMechanisms){
-//    		if(contactMechanism.getType() == ContactMechanismType.EMAIL){
-//    			return contactMechanism.getValue();
-//    		}
-//    	}
-//    	return "" ;
-    	return inv.getEmail();
-    }
-
 }
