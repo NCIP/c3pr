@@ -24,7 +24,7 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SimpleFormAjaxableControl
 public abstract class AbstractCreateC3PRUserController<X extends C3PRUser, D extends C3PRBaseDao<X>>
                 extends SimpleFormAjaxableController<X, X, D> {
 
-    private HealthcareSiteDao healthcareSiteDao;
+    protected HealthcareSiteDao healthcareSiteDao;
 
     private ConfigurationProperty configurationProperty;
 

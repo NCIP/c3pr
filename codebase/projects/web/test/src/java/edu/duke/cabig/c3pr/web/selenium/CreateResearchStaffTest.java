@@ -23,7 +23,7 @@ public class CreateResearchStaffTest extends AbstractSeleniumTestCase {
 		selenium.click("healthcareSite-input");
 		selenium.type("firstName", "duke");
 		selenium.type("lastName", "admin");
-		selenium.type("nciIdentifier", "nco#44");
+		selenium.type("assignedIdentifier", "nco#44");
 		selenium.type("contactMechanisms[0].value", "duke@admin.com");
 		selenium.click("groups_0");
 		selenium.click("flow-next");

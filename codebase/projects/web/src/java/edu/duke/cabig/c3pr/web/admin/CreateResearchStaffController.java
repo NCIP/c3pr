@@ -65,9 +65,9 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
      */
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         ResearchStaff researchStaff;
-        String email = request.getParameter("emailId") ;
-        if (!StringUtils.isBlank(email)) {
-            researchStaff = researchStaffDao.getByEmailAddress(email);
+        String assignedIdentifier = request.getParameter("assignedIdentifier") ;
+        if (!StringUtils.isBlank(assignedIdentifier)) {
+            researchStaff = researchStaffDao.getByAssignedIdentifier(assignedIdentifier);
             researchStaff.setGroups(personnelService.getGroups(researchStaff));
             researchStaffDao.initialize(researchStaff);
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
@@ -116,8 +116,8 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 		if(!request.getParameter("_action").equals("saveRemoteRStaff") || request.getParameter("_action").equals("syncResearchStaff") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW)){
 			if (! request.getParameter("_action").equals("syncResearchStaff")) {
 				ResearchStaff rStaffFromDB = researchStaffDao
-						.getByEmailAddressFromLocal(researchStaff
-								.getEmail());
+						.getByAssignedIdentifierFromLocal(researchStaff
+								.getAssignedIdentifier());
 				if (rStaffFromDB != null) {
 					// This check is already being done in the UsernameDuplicate Validator.
 					//errors.reject("RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmailAsString()+ " already exists");
