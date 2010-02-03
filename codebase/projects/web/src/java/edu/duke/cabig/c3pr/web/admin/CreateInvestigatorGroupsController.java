@@ -108,8 +108,8 @@ public class CreateInvestigatorGroupsController extends SimpleFormController {
 	protected ModelAndView processFormSubmission(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 	throws Exception {
-
-		if (isAjaxRequest(request)) {
+	
+	    	if (isAjaxRequest(request)) {
 			request.getParameter("_asynchronous");
 			ModelAndView modelAndView = page.postProcessAsynchronous(request,
 					(InvestigatorGroupsCommand) command, errors);
@@ -127,6 +127,7 @@ public class CreateInvestigatorGroupsController extends SimpleFormController {
 
 		if (errors.hasErrors()) {
 			healthcareSiteDao.clear();
+			response.getWriter().append(request.getParameter("groupId"));
 			response.getWriter().append("/*");
 			response.getWriter().append("yes");
 			response.getWriter().append("/*");
@@ -138,6 +139,7 @@ public class CreateInvestigatorGroupsController extends SimpleFormController {
 		else {
 			InvestigatorGroupsCommand investigatorGroupsCommand = (InvestigatorGroupsCommand) command;
 			healthcareSiteDao.save(investigatorGroupsCommand.getHealthcareSite());
+			response.getWriter().append(request.getParameter("groupId"));
 			response.getWriter().append("/*");
 			response.getWriter().append("no");
 			response.getWriter().close();
