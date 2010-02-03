@@ -67,7 +67,7 @@
 	            <th><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
 	            <th><fmt:message key="c3pr.common.endDate"/><tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
        		</tr>
-			<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" varStatus="status" var="affiliation">
+			<c:forEach items="${newGroup?null:command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" varStatus="status" var="affiliation">
 	            <tr id="investigatorsTable-${status.index}">
                      <c:if test="${affiliation.healthcareSiteInvestigator.statusCode eq 'AC'}">
                      <td>
