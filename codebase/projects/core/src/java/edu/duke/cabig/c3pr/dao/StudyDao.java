@@ -346,14 +346,6 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 			for (Study remoteStudy : remoteStudies) {
 				if(remoteStudy != null){
 					RemoteStudy remoteStudyTemp = (RemoteStudy)remoteStudy;
-					for(OrganizationAssignedIdentifier organizationAssignedIdentifier: remoteStudyTemp.getOrganizationAssignedIdentifiers()){
-						if(organizationAssignedIdentifier.getType().equals(OrganizationIdentifierTypeEnum.NCI)){
-							organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getNCIOrganization());
-						}
-						if(organizationAssignedIdentifier.getType().equals(OrganizationIdentifierTypeEnum.CTEP)){
-							organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getCTEPOrganization());
-						}
-					}
 					
 					Study studyFromDatabase = getByExternalIdentifier(remoteStudyTemp.getExternalId());
 					//If studyFromDatabase is null then save else it already exists as a remoteStudy.
@@ -397,6 +389,27 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 										}
 									}
 								}
+							}
+						}
+						
+						for(OrganizationAssignedIdentifier organizationAssignedIdentifier: remoteStudyTemp.getOrganizationAssignedIdentifiers()){
+							if(organizationAssignedIdentifier.getHealthcareSite() == null || organizationAssignedIdentifier.getHealthcareSite().getId() == null){
+								if(organizationAssignedIdentifier.getType().equals(OrganizationIdentifierTypeEnum.NCI)){
+									organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getNCIOrganization());
+								} else if (organizationAssignedIdentifier.getType().equals(OrganizationIdentifierTypeEnum.CTEP)){
+									organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getCTEPOrganization());
+								} else if(organizationAssignedIdentifier.getHealthcareSite() instanceof RemoteHealthcareSite){
+									HealthcareSite remoteHealthcareSite = healthcareSiteDao.getByUniqueIdentifier
+														(((RemoteHealthcareSite)organizationAssignedIdentifier.getHealthcareSite()).getExternalId());
+									if(remoteHealthcareSite != null){
+										organizationAssignedIdentifier.setHealthcareSite(remoteHealthcareSite);
+									}
+								}
+							}
+						}
+						for(int i = 0 ; i < remoteStudyTemp.getOrganizationAssignedIdentifiers().size() ; i++){
+							if(remoteStudyTemp.getOrganizationAssignedIdentifiers().get(i).getHealthcareSite().getId() == null){
+								remoteStudyTemp.getOrganizationAssignedIdentifiers().remove(i);
 							}
 						}
 						

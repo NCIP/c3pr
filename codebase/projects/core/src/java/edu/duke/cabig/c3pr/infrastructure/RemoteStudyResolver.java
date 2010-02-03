@@ -18,7 +18,9 @@ import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
@@ -171,15 +173,13 @@ public class RemoteStudyResolver implements RemoteResolver {
 		remoteStudy.setExternalId(studyProtocol.getIdentifier().getExtension());
 		remoteStudy.setTargetAccrualNumber(CoppaPAObjectFactory.getStudyTargetAccrualNumberFromStudyProtocol(studyProtocol));
 		
-		//Set NCI identifier for Study
-		setStudyNciIdentifier(remoteStudy, studyProtocol.getAssignedIdentifier().getExtension());
-		
 		//Set StudyOrganizations
 		boolean hasCoordinatingCenter = false;
-		List<StudyOrganization> remoteStudyOrganizations = getStudyOrganizationsForStudyProtocol(studyProtocol);
+		List<StudyOrganization> remoteStudyOrganizations = getStudyOrganizationsForStudyProtocol(remoteStudy);
 		for(StudyOrganization studyOrganization: remoteStudyOrganizations){
 			if(studyOrganization instanceof StudyCoordinatingCenter){
 				hasCoordinatingCenter = true;
+				break;
 			}
 		}
 		if(hasCoordinatingCenter){
@@ -217,8 +217,14 @@ public class RemoteStudyResolver implements RemoteResolver {
 			return null;
 		}
 		
+		//Set NCI identifier for Study
+		setStudyNciIdentifier(remoteStudy, studyProtocol.getAssignedIdentifier().getExtension());
+		
 		//Set the Epoch and Arms
 		setEpochAndArms(remoteStudy);
+		
+		//Set Eligibility criteria
+		setEligibilityCriteria(remoteStudy);
 		
 		//Set default values in RemoteStudy
 		remoteStudy.setRandomizationType(RandomizationType.PHONE_CALL);
@@ -231,10 +237,62 @@ public class RemoteStudyResolver implements RemoteResolver {
 		return remoteStudy;
 	}
 	
-	
+	/**
+	* This method will fetch the Eligibility from PA. Set them in the existing epoch.
+	* If no epoch is found then eligibility is ignored.
+	*
+	* @param remoteStudy
+	*/
+	private void setEligibilityCriteria(RemoteStudy remoteStudy) {
+		
+		if(remoteStudy.getEpochs().size() == 0){
+			log.error("Not attaching eligibility as No epochs were created for this study."+remoteStudy.getShortTitleText());
+		} else {
+			String eligibilityPayLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId(remoteStudy.getExternalId()));
+			
+			String eligibilityResultXml  = "";
+			try {
+				eligibilityResultXml  = protocolAbstractionResolverUtils.broadcastEligibilityGetByStudyProtocol(eligibilityPayLoad);
+			} catch (C3PRCodedException e) {
+				log.error("Error during fetching Eligibility." +e.getMessage());
+			}
+			
+			List<String> results = XMLUtils.getObjectsFromCoppaResponse(eligibilityResultXml);
+			gov.nih.nci.coppa.services.pa.PlannedEligibilityCriterion plannedEligibility = null;
+			InclusionEligibilityCriteria inclusionEligibilityCriteria = null;
+			ExclusionEligibilityCriteria exclusionEligibilityCriteria = null;
+			for (String result:results) {
+				plannedEligibility = CoppaPAObjectFactory.getPlannedEligibilityCriterion(result);
+				if(plannedEligibility != null){
+					if(plannedEligibility.getInclusionIndicator().isValue()){
+						//its an inclusion criteria
+						inclusionEligibilityCriteria = new InclusionEligibilityCriteria();
+						if(plannedEligibility.getDisplayOrder() != null){
+							inclusionEligibilityCriteria.setQuestionNumber(plannedEligibility.getDisplayOrder().getValue());
+						}
+						if(plannedEligibility.getTextDescription() != null && !StringUtils.isBlank(plannedEligibility.getTextDescription().getValue())){
+							inclusionEligibilityCriteria.setQuestionText(StringUtils.getBlankIfNull(plannedEligibility.getTextDescription().getValue()));
+							remoteStudy.getEpochs().get(0).getInclusionEligibilityCriteria().add(inclusionEligibilityCriteria);
+						}
+					} else {
+						//its an exclusion criteria
+						exclusionEligibilityCriteria = new ExclusionEligibilityCriteria();
+						if(plannedEligibility.getDisplayOrder() != null){
+							exclusionEligibilityCriteria.setQuestionNumber(plannedEligibility.getDisplayOrder().getValue());
+						}	
+						if(plannedEligibility.getTextDescription() != null && !StringUtils.isBlank(plannedEligibility.getTextDescription().getValue())){
+							exclusionEligibilityCriteria.setQuestionText(StringUtils.getBlankIfNull(plannedEligibility.getTextDescription().getValue()));
+							remoteStudy.getEpochs().get(0).getExclusionEligibilityCriteria().add(exclusionEligibilityCriteria);
+						}
+					}
+				}
+			}
+		}
+	}
+
 	/**
 	* This method will fetch all the Arms from PA. Set them in the default treatment epoch with order 1.
-	* For each Arm a TreatmentAssignment object is created and added to the Study in caAERS.
+	* For each Arm a TreatmentAssignment object is created and added to the Study.
 	*
 	* @param remoteStudy
 	*/
@@ -298,9 +356,9 @@ public class RemoteStudyResolver implements RemoteResolver {
 	 * 
 	 * @return the study organizations for interventional study protocol
 	 */
-	private List<StudyOrganization> getStudyOrganizationsForStudyProtocol(StudyProtocol studyProtocol) {
+	private List<StudyOrganization> getStudyOrganizationsForStudyProtocol(RemoteStudy remoteStudy) {
 		//call search on StudySite using the interventionalStudyProtocol II. use the returned list
-		String payLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId(studyProtocol.getIdentifier().getExtension()));
+		String payLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId(remoteStudy.getExternalId()));
 		String resultXml  = "";
 		try {
 			resultXml  = protocolAbstractionResolverUtils.broadcastStudySiteGetByStudyProtocol(payLoad);
@@ -326,11 +384,13 @@ public class RemoteStudyResolver implements RemoteResolver {
 				if(studyCoordinatingCenter != null){
 					organizationAssignedIdentifier = getOrganizationAssignedIdentifierFromCoppaStudySite(studySiteTemp, OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
 					if(organizationAssignedIdentifier  != null){
-						studyCoordinatingCenter.getHealthcareSite().getIdentifiersAssignedToOrganization().add(organizationAssignedIdentifier);
+						//studyCoordinatingCenter.getHealthcareSite().getIdentifiersAssignedToOrganization().add(organizationAssignedIdentifier);
+						organizationAssignedIdentifier.setHealthcareSite(studyCoordinatingCenter.getHealthcareSite());
+						remoteStudy.getIdentifiers().add(organizationAssignedIdentifier);
 					}
 					studyOrganizationList.add(studyCoordinatingCenter);
 					
-					//Now get the assciated investigators and build the studyInv/healthcareSiteInvestigator and link them to the healthcareSite.
+					//Now get the assGciated investigators and build the studyInv/healthcareSiteInvestigator and link them to the healthcareSite.
 					List<StudyInvestigator> studyInvestigatorList = getStudyInvestigators(studySiteTemp, studyCoordinatingCenter);
 					for(StudyInvestigator studyInvestigator : studyInvestigatorList){
 						studyCoordinatingCenter.addStudyInvestigator(studyInvestigator);
@@ -344,11 +404,13 @@ public class RemoteStudyResolver implements RemoteResolver {
 					if(studyFundingSponsor != null){
 						organizationAssignedIdentifier = getOrganizationAssignedIdentifierFromCoppaStudySite(studySiteTemp, OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER);
 						if(organizationAssignedIdentifier  != null){
-							studyFundingSponsor.getHealthcareSite().getIdentifiersAssignedToOrganization().add(organizationAssignedIdentifier);
+							//studyFundingSponsor.getHealthcareSite().getIdentifiersAssignedToOrganization().add(organizationAssignedIdentifier);
+							organizationAssignedIdentifier.setHealthcareSite(studyFundingSponsor.getHealthcareSite());
+							remoteStudy.getIdentifiers().add(organizationAssignedIdentifier);
 						}
 						studyOrganizationList.add(studyFundingSponsor);
 						
-						//Now get the assciated investigators and build the studyInv/healthcareSiteInvestigator and link them to the healthcareSite.
+						//Now get the associated investigators and build the studyInv/healthcareSiteInvestigator and link them to the healthcareSite.
 						List<StudyInvestigator> studyInvestigatorList = getStudyInvestigators(studySiteTemp, studyFundingSponsor);
 						for(StudyInvestigator studyInvestigator : studyInvestigatorList){
 							studyFundingSponsor.addStudyInvestigator(studyInvestigator);
@@ -363,7 +425,9 @@ public class RemoteStudyResolver implements RemoteResolver {
 					if(studySite != null){
 						organizationAssignedIdentifier = getOrganizationAssignedIdentifierFromCoppaStudySite(studySiteTemp, OrganizationIdentifierTypeEnum.CTEP);
 						if(organizationAssignedIdentifier  != null){
-							studySite.getHealthcareSite().getIdentifiersAssignedToOrganization().add(organizationAssignedIdentifier);
+							//studySite.getHealthcareSite().getIdentifiersAssignedToOrganization().add(organizationAssignedIdentifier);
+							organizationAssignedIdentifier.setHealthcareSite(studySite.getHealthcareSite());
+							remoteStudy.getIdentifiers().add(organizationAssignedIdentifier);
 						}
 						studyOrganizationList.add(studySite);
 						

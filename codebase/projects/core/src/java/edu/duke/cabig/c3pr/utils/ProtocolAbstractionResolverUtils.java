@@ -227,6 +227,13 @@ public class ProtocolAbstractionResolverUtils {
         return broadcastCoppaMessage(payLoad, mData);
 	}
 	
+	public String broadcastEligibilityGetByStudyProtocol(String payLoad) throws C3PRCodedException{
+		//build metadata with operation name and the external Id and pass it to the broadcast method.
+		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getPlannedEligibilityCriterionByStudyProtocol.getName() + "   Service -->" +ServiceTypeEnum.PLANNED_ACTIVITY.getName());
+		Metadata mData = new Metadata(OperationNameEnum.getPlannedEligibilityCriterionByStudyProtocol.getName(), "extId", ServiceTypeEnum.PLANNED_ACTIVITY.getName());
+        return broadcastCoppaMessage(payLoad, mData);
+	}
+	
 	/**
 	 * Broadcast coppa message. The actual call to the esb-client which takes String.
 	 * 
