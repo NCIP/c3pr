@@ -94,7 +94,7 @@
 		
 	if($('healthcareSite-hidden').value != ""){
 		new Ajax.Updater('groupDisplay', 'getGroup', {method:"get", asynchronous:true, evalScripts:true, onComplete:function(){ new Effect.Highlight('groupDisplay');}, 
-		    												parameters: { decorator:"nullDecorator", healthcareSite: $(healthcareSiteAutocompleterProps.basename+"-hidden").value}
+		    												parameters: { decorator:"nullDecorator", healthcareSite: $(healthcareSiteAutocompleterProps.basename+"-hidden").value,_doNotSave:"true"}
 		    											});
 		  e1 = document.getElementById("errorsDiv");
 	    	if(e1!=null){
@@ -153,7 +153,7 @@
 		new Ajax.Request($('groupForm').action, {method:'post', asynchronous:true, parameters:Form.serialize('groupForm'),  evalScripts:true,
 																	onSuccess:function(t)
 																		{ 	updateGroups($(healthcareSiteAutocompleterProps.basename+'-hidden').value, t.responseText.split("/*")[0], true);
-																					new Element.show("savedIndicator");
+																			new Element.show("savedIndicator");
 																			new Element.hide("savingIndicator")
 																			if(t.responseText.split("/*")[1] == 'no'){
 																			e1 = document.getElementById("errorsDiv");
