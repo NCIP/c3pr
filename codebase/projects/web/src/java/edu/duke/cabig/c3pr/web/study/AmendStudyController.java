@@ -49,7 +49,6 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
 
     public AmendStudyController(String s) {
         super(s);
-        setBindOnNewForm(true);
     }
 
     private Task editTask;
@@ -127,6 +126,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
             }
         }
         wrapper.setStudy(study);
+        studyDao.evict(study);
         return wrapper;
     }
 
