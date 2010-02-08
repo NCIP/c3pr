@@ -1,7 +1,7 @@
 class UpdateNCIIdentidifierInvestigators extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
     	if (databaseMatches('postgres')){
-    	  execute("update investigators set nci_identifier = (select chr(mod(CAST(ceil(random()*100) as Integer),26)+65) || chr(mod(CAST(ceil(random()*100) as Integer),26)+65) || chr(mod(CAST(ceil(random()*100) as Integer),26)+65) || '-' || ceil(random()*1000) || chr(mod(CAST(ceil(random()*100) as Integer),26)+65) || chr(mod(CAST(ceil(random()*100) as Integer),26)+65) || '-' || ceil(random()*1000) from investigators inv where inv.id=investigators.id ) where nci_identifier is null or nci_identifier=''");
+    	  execute("update investigators set nci_identifier = (select chr(mod(CAST(ceil(random()*100) as Integer),26)+65) || chr(mod(CAST(ceil(random()*100) as Integer),26)+65) || chr(mod(CAST(ceil(random()*100) as Integer),26)+65) || '-' || ceil(random()*1000) || chr(mod(CAST(ceil(random()*100) as Integer),26)+65) || chr(mod(CAST(ceil(random()*100) as Integer),26)+65) || '-' || ceil(random()*1000) from investigators inv where inv.id=investigators.id ) where nci_identifier is null or nci_identifier = ''or nci_identifier in (select nci_identifier from investigators where nci_identifier in (select nci_identifier from investigators group by nci_identifier having count(*)>1))");
     	  execute("ALTER TABLE investigators ALTER COLUMN nci_identifier SET NOT NULL");
 		}
 		if (databaseMatches('oracle')){
