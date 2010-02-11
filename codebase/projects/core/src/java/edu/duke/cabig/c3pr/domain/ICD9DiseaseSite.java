@@ -24,8 +24,17 @@ public class ICD9DiseaseSite extends AbstractMutableDomainObject{
 	private String code;
 	private String descriptionText;
 	private ICD9DiseaseSiteCodeDepth level;
-	private boolean selectable;
+	private Boolean selectable;
 	private String name;
+	
+	public Boolean getSelectable() {
+		return selectable;
+	}
+
+	public void setSelectable(Boolean selectable) {
+		this.selectable = selectable;
+	}
+
 	private Summary3ReportDiseaseSite summary3ReportDiseaseSite;
 	
 	
@@ -89,14 +98,6 @@ public class ICD9DiseaseSite extends AbstractMutableDomainObject{
 		this.level = level;
 	}
 
-	public boolean isSelectable() {
-		return selectable;
-	}
-
-	public void setSelectable(boolean selectable) {
-		this.selectable = selectable;
-	}
-	
 	@ManyToOne(targetEntity=Summary3ReportDiseaseSite.class)
 	@JoinColumn(name = "summ3_rep_disease_site_id" )
 	public Summary3ReportDiseaseSite getSummary3ReportDiseaseSite() {
