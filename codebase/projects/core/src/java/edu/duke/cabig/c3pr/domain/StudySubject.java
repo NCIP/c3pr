@@ -127,6 +127,14 @@ public class StudySubject extends
 	
 	private String backDatedReasonText;
 	
+	public static final String C3D_SYSTME_NAME="C3D";
+	
+	public static final String C3D_IDENTIFIER_TYPE="C3D Patient Position";
+	
+	public static final String MEDIDATA_SYSTME_NAME="Medidata";
+	
+	public static final String MEDIDATA_IDENTIFIER_TYPE="Medidata Patient Position";
+	
 	public String getBackDatedReasonText() {
 		return backDatedReasonText;
 	}
@@ -694,26 +702,59 @@ public class StudySubject extends
 	}
 
 	/**
-	 * Gets the c3 d identifier.
+	 * Gets the C3D identifier.
 	 *
-	 * @return the c3 d identifier
+	 * @return the C3D identifier
 	 */
 	@Transient
 	public String getC3DIdentifier() {
 		if (getSystemAssignedIdentifiers().size() == 0)
 			return null;
-		return getSystemAssignedIdentifiers().get(0).getValue();
+		for(SystemAssignedIdentifier systemAssignedIdentifier : getSystemAssignedIdentifiers()){
+			if (systemAssignedIdentifier.getSystemName().equals(C3D_SYSTME_NAME))
+				return systemAssignedIdentifier.getValue();
+		}
+		return null;
 	}
 
 	/**
-	 * Sets the c3 d identifier.
+	 * Sets the C3D identifier.
 	 *
 	 * @param value the new c3 d identifier
 	 */
 	public void setC3DIdentifier(String value) {
 		SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
-		identifier.setSystemName("C3D");
-		identifier.setType("C3D Patient Position");
+		identifier.setSystemName(C3D_SYSTME_NAME);
+		identifier.setType(C3D_IDENTIFIER_TYPE);
+		identifier.setValue(value);
+		this.getSystemAssignedIdentifiers().add(identifier);
+	}
+	
+	/**
+	 * Gets the medidata identifier.
+	 *
+	 * @return the medidata identifier
+	 */
+	@Transient
+	public String getMedidataIdentifier() {
+		if (getSystemAssignedIdentifiers().size() == 0)
+			return null;
+		for(SystemAssignedIdentifier systemAssignedIdentifier : getSystemAssignedIdentifiers()){
+			if (systemAssignedIdentifier.getSystemName().equals(MEDIDATA_SYSTME_NAME))
+				return systemAssignedIdentifier.getValue();
+		}
+		return null;
+	}
+	
+	/**
+	 * Sets the Medidata identifier.
+	 *
+	 * @param value the new medidata identifier
+	 */
+	public void setMedidataIdentifier(String value) {
+		SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
+		identifier.setSystemName(MEDIDATA_SYSTME_NAME);
+		identifier.setType(MEDIDATA_IDENTIFIER_TYPE);
 		identifier.setValue(value);
 		this.getSystemAssignedIdentifiers().add(identifier);
 	}

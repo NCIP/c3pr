@@ -81,6 +81,16 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         log.debug("assigned c3d identifier: "+loadedSubject.getC3DIdentifier());
         studySubjectDao.save(loadedSubject);
     }
+	
+	public void assignMedidataIdentifier(StudySubject studySubject, String medidataIdentifierValue) {
+		log.debug("loading study subject by grid id : "+studySubject.getGridId());
+        StudySubject loadedSubject = studySubjectDao.getByGridId(studySubject.getGridId());
+        log.debug("loaded study subject with database id : "+loadedSubject.getId());
+        log.debug("assigning medidata identifier value: "+medidataIdentifierValue);
+        loadedSubject.setMedidataIdentifier(medidataIdentifierValue);
+        log.debug("assigned medidata identifier: "+loadedSubject.getC3DIdentifier());
+        studySubjectDao.save(loadedSubject);
+    }
 
 	public void assignCoOrdinatingCenterIdentifier(StudySubject studySubject, String identifierValue) {
         StudySubject loadedSubject = studySubjectDao.getByGridId(studySubject.getGridId());

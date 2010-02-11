@@ -11,6 +11,8 @@ import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 public interface StudySubjectRepository {
     
     public void assignC3DIdentifier(StudySubject studySubject, String c3dIdentifierValue);
+    
+    public void assignMedidataIdentifier(StudySubject studySubject, String c3dIdentifierValue);
 
     public void assignCoOrdinatingCenterIdentifier(StudySubject studySubject, String identifierValue);
 

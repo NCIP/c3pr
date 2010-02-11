@@ -36,6 +36,14 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         assertEquals("Wrong C3D Identifier", "test c3d identifier", studySubject.getC3DIdentifier());
     }
     
+    public void testAssignMedidataIdentifier(){
+        studySubject=studySubjectDao.getById(1100);
+        studySubjectRepository.assignMedidataIdentifier(studySubject, "test medidata identifier");
+        interruptSession();
+        studySubject=studySubjectDao.getById(1100);
+        assertEquals("Wrong Medidata Identifier", "test medidata identifier", studySubject.getMedidataIdentifier());
+    }
+    
     public void testAssignCoOrdinatingCenterIdentifier(){
         studySubject=studySubjectDao.getById(1100);
         studySubjectRepository.assignCoOrdinatingCenterIdentifier(studySubject, "test co-ordinating center identifier");

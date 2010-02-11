@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +22,6 @@ import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
-import edu.duke.cabig.c3pr.exception.C3PRInvalidDataEntryException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;

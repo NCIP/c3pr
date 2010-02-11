@@ -19,37 +19,37 @@ import gov.nih.nci.caxchange.TargetResponseMessage;
  * Handles c3d patient position <p/> Created by IntelliJ IDEA. User: kherm Date: Nov 27, 2007 Time:
  * 10:11:56 AM To change this template use File | Settings | File Templates.
  */
-public class C3DPatientPositionResponseHandler extends CaXchangeMessageResponseHandlerImpl {
+public class MedidataPatientPositionResponseHandler extends CaXchangeMessageResponseHandlerImpl {
 
-    public static final String C3D_SERVICE_IDENTIFIER = "C3D";
+    public static final String MEDIDATA_SERVICE_IDENTIFIER = "MEDIDATA_RAVE";
 
     public static final String REGISTRATION_MESSAGE_ELEMENT_NAME = "registration";
 
-    Logger log = Logger.getLogger(C3DPatientPositionResponseHandler.class);
+    Logger log = Logger.getLogger(MedidataPatientPositionResponseHandler.class);
 
     private XmlMarshaller marshaller;
 
     private StudySubjectRepository studySubjectRepository;
 
     public void processResponse(String objectId, Response response) {
-        log.debug("Will look for c3d identifier in response message");
+        log.debug("Will look for medidata identifier in response message");
 
         for (TargetResponseMessage tResponse : response.getTargetResponse()) {
 
-            if (tResponse.getTargetServiceIdentifier().indexOf(C3D_SERVICE_IDENTIFIER) > -1) {
-                log.debug("Found c3d response. Processing...");
+            if (tResponse.getTargetServiceIdentifier().indexOf(MEDIDATA_SERVICE_IDENTIFIER) > -1) {
+                log.debug("Found medidata response. Processing...");
                 MessagePayload payload = tResponse.getTargetBusinessMessage();
 
                 MessageElement[] elems = payload.get_any();
                 for (MessageElement elem : elems) {
                     if (elem.getTagName().indexOf(REGISTRATION_MESSAGE_ELEMENT_NAME) != -1) {
 
-                        log.debug("Found Registration element in c3d response. Processing....");
+                        log.debug("Found Registration element in medidata response. Processing....");
 
-                        StudySubject c3dSubject= new StudySubject();
-                        c3dSubject.setGridId(objectId);
+                        StudySubject medidataSubject= new StudySubject();
+                        medidataSubject.setGridId(objectId);
                         try {
-                        	studySubjectRepository.assignC3DIdentifier(c3dSubject, findC3DIdentifier(elem));
+                        	studySubjectRepository.assignC3DIdentifier(medidataSubject, findMedidataIdentifier(elem));
                             return;
                         }
                         catch (RuntimeException e) {
@@ -76,7 +76,7 @@ public class C3DPatientPositionResponseHandler extends CaXchangeMessageResponseH
         this.studySubjectRepository = studySubjectRepository;
     }
     
-    private String findC3DIdentifier(MessageElement messageElement){
+    private String findMedidataIdentifier(MessageElement messageElement){
 		for (MessageElement me1 : getMessageElements(messageElement)){
 			if(me1.getTagName().indexOf("identifier") != -1){
 				String systemName="";
@@ -88,9 +88,9 @@ public class C3DPatientPositionResponseHandler extends CaXchangeMessageResponseH
 						systemName=me2.getValue();
 					}
 				}
-				if(systemName.equalsIgnoreCase(C3D_SERVICE_IDENTIFIER)){
+				if(systemName.equalsIgnoreCase(MEDIDATA_SERVICE_IDENTIFIER)){
 					if(StringUtils.getBlankIfNull(value).equals("")){
-						throw new RuntimeException("Found C3D identifier in message but the value is blank------"+messageElement.toString()+"--------------------");
+						throw new RuntimeException("Found Medidata identifier in message but the value is blank------"+messageElement.toString()+"--------------------");
 					}
 					return value;
 				}

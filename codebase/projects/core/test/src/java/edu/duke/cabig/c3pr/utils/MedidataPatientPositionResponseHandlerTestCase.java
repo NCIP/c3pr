@@ -15,42 +15,42 @@ import gov.nih.nci.caxchange.MessagePayload;
 import gov.nih.nci.caxchange.Response;
 import gov.nih.nci.caxchange.TargetResponseMessage;
 
-public class C3DPatientPositionResponseHandlerTestCase extends AbstractTestCase{
+public class MedidataPatientPositionResponseHandlerTestCase extends AbstractTestCase{
 
 	private StudySubjectRepository studySubjectRepository;
 	
-	private C3DPatientPositionResponseHandler c3dPatientPositionResponseHandler;
+	private MedidataPatientPositionResponseHandler medidataPatientPositionResponseHandler;
 	
-	public C3DPatientPositionResponseHandlerTestCase() {
+	public MedidataPatientPositionResponseHandlerTestCase() {
 		studySubjectRepository = registerMockFor(StudySubjectRepository.class);
-		c3dPatientPositionResponseHandler = new C3DPatientPositionResponseHandler();
-		c3dPatientPositionResponseHandler.setStudySubjectRepositoryNew(studySubjectRepository);
+		medidataPatientPositionResponseHandler = new MedidataPatientPositionResponseHandler();
+		medidataPatientPositionResponseHandler.setStudySubjectRepositoryNew(studySubjectRepository);
 	}
 	
 	public void testCaXchangeResponseUnMarshalling(){
 		Response response = new Response();
 		TargetResponseMessage targetResponseMessage = new TargetResponseMessage();
 		response.setTargetResponse(new TargetResponseMessage[]{targetResponseMessage});
-		targetResponseMessage.setTargetServiceIdentifier(C3DPatientPositionResponseHandler.C3D_SERVICE_IDENTIFIER);
+		targetResponseMessage.setTargetServiceIdentifier(MedidataPatientPositionResponseHandler.MEDIDATA_SERVICE_IDENTIFIER);
 		MessagePayload messagePayload = new MessagePayload();
 		messagePayload.set_any(createMessageElementsFromXML("caXchangeResponseMessage.xml"));
 		targetResponseMessage.setTargetBusinessMessage(messagePayload);
-		studySubjectRepository.assignC3DIdentifier(EasyMock.isA(StudySubject.class), EasyMock.isA(String.class));
+		studySubjectRepository.assignMedidataIdentifier(EasyMock.isA(StudySubject.class), EasyMock.isA(String.class));
 		replayMocks();
-		c3dPatientPositionResponseHandler.processResponse("some grid id", response);
+		medidataPatientPositionResponseHandler.processResponse("some grid id", response);
 		verifyMocks();
 	}
 	
-	public void testCaXchangeResponseUnMarshallingC3DIdenifierAbsent(){
+	public void testCaXchangeResponseUnMarshallingMedidataIdenifierAbsent(){
 		Response response = new Response();
 		TargetResponseMessage targetResponseMessage = new TargetResponseMessage();
 		response.setTargetResponse(new TargetResponseMessage[]{targetResponseMessage});
-		targetResponseMessage.setTargetServiceIdentifier(C3DPatientPositionResponseHandler.C3D_SERVICE_IDENTIFIER);
+		targetResponseMessage.setTargetServiceIdentifier(MedidataPatientPositionResponseHandler.MEDIDATA_SERVICE_IDENTIFIER);
 		MessagePayload messagePayload = new MessagePayload();
 		messagePayload.set_any(createMessageElementsFromXML("caXchangeResponseMessage_absentpatientpositions.xml"));
 		targetResponseMessage.setTargetBusinessMessage(messagePayload);
 		replayMocks();
-		c3dPatientPositionResponseHandler.processResponse("some grid id", response);
+		medidataPatientPositionResponseHandler.processResponse("some grid id", response);
 		verifyMocks();
 	}
 	
