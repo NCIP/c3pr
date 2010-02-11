@@ -45,7 +45,7 @@ public class ICD9DiseaseSiteFacade {
         // cut down objects for serialization
         List<ICD9DiseaseSite> reducedAnatomicSites = new ArrayList<ICD9DiseaseSite>();
         for (ICD9DiseaseSite anatomicSite : anatomicSites) {
-        	if(anatomicSite.isSelectable()){
+        	if(anatomicSite.getSelectable()){
         		reducedAnatomicSites.add(buildReduced(anatomicSite, Arrays.asList("id", "name","code","selectable")));
         	}
         }
