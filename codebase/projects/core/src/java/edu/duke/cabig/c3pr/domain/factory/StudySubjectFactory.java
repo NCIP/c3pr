@@ -102,6 +102,7 @@ public class StudySubjectFactory {
         }
         buildAndAddStudySubjectConsentVersions(built, studySite);
         built.setStudySite(studySite);
+    	studySite.getStudySiteStudyVersion().addStudySubjectStudyVersion(built.getStudySubjectStudyVersion());
         built.setParticipant(participant);
         Epoch epoch = buildEpoch(studySite.getStudy().getEpochs(), deserializedStudySubject
                         .getScheduledEpoch());
@@ -113,12 +114,10 @@ public class StudySubjectFactory {
     }
     
     public void buildAndAddStudySubjectConsentVersions(StudySubject built,StudySite studySite){
-    	for (Consent consent :studySite.getStudy().getStudyVersion().getConsents()){
+    	for (Consent consent :studySite.getStudySiteStudyVersion().getStudyVersion().getConsents()){
     		StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
     		studySubjectConsentVersion.setConsent(consent);
     		built.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
-    		built.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySite.getStudySiteStudyVersion());
-    		studySite.getStudySiteStudyVersion().addStudySubjectStudyVersion(built.getStudySubjectStudyVersion());
     	}
     }
 
@@ -314,9 +313,11 @@ public class StudySubjectFactory {
     }
 
     private void fillStudySubjectDetails(StudySubject studySubject, StudySubject source){
-        studySubject.getStudySubjectStudyVersion()
-		.getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(source.getStudySubjectStudyVersion()
-        		.getStudySubjectConsentVersions().get(0).getInformedConsentSignedDate());
+    	
+    	for (int i=0;i<source.getStudySubjectConsentVersions().size();i++){
+    		studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(i).
+    		setInformedConsentSignedDate(source.getStudySubjectConsentVersions().get(i).getInformedConsentSignedDate());
+    	}
         studySubject.setStartDate(source.getStartDate());
         studySubject.setPaymentMethod(source.getPaymentMethod());
         studySubject.getIdentifiers().addAll(source.getIdentifiers());
