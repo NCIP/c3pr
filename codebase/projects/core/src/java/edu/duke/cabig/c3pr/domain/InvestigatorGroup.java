@@ -47,12 +47,6 @@ public class InvestigatorGroup extends AbstractMutableDeletableDomainObject impl
     /** The lazy list helper. */
     private LazyListHelper lazyListHelper;
 
-    /** The start date str. */
-    private String startDateStr;
-
-    /** The end date str. */
-    private String endDateStr;
-
     /**
      * Instantiates a new investigator group.
      */
