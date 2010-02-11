@@ -74,9 +74,6 @@ public class StudySubject extends
 	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 
-	/** The name. */
-	private String name;
-
 	/** The off study reason text. */
 	private String offStudyReasonText;
 
@@ -88,9 +85,6 @@ public class StudySubject extends
 
 	/** The start date. */
 	private Date startDate;
-
-	/** The primary identifier. */
-	private String primaryIdentifier;
 
 	/** The treating physician. */
 	private StudyInvestigator treatingPhysician;
@@ -536,7 +530,7 @@ public class StudySubject extends
 			}
 		}
 
-		return primaryIdentifier;
+		return null;
 	}
 
 	/**
