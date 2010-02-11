@@ -35,12 +35,6 @@ public class SiteInvestigatorGroupAffiliation extends AbstractMutableDeletableDo
     /** The investigator group. */
     private InvestigatorGroup investigatorGroup;
 
-    /** The start date str. */
-    private String startDateStr;
-
-    /** The end date str. */
-    private String endDateStr;
-
     /**
      * Gets the investigator group.
      * 
