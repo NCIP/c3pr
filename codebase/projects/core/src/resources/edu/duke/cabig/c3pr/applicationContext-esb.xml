@@ -33,10 +33,17 @@
           autowire="byType">
         <property name="marshaller" ref="registrationXmlUtility" />
     </bean>
+      
+      <bean id="medidataPatientPositionResponseHandler"
+            class="edu.duke.cabig.c3pr.utils.MedidataPatientPositionResponseHandler"
+            autowire="byType">
+            <property name="marshaller" ref="registrationXmlUtility" />
+      </bean>
     
     <util:set id="caXchangeMessageResponseHandlerSet"
               set-class="edu.duke.cabig.c3pr.esb.CaXchangeMessageResponseHandlerSet">
         <ref local="c3dPatientPositionResponseHandler"/>
+          <ref local="medidataPatientPositionResponseHandler"/>
     </util:set>
 
     <!--default implementation will just track status and
