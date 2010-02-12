@@ -125,7 +125,10 @@
   <xs:complexType name="InvestigatorType" abstract="true">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="assignedIdentifier" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="fullName" type="xs:string" />
+      <xs:element name="firstName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="lastName" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="phoneNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="faxNumber" type="xs:string" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="InclusionEligibilityCriteriaType">

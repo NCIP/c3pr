@@ -122,7 +122,13 @@
         	<nciIdentifier>
             	<xsl:value-of select="./c3pr:assignedIdentifier"/>
             </nciIdentifier>
-            <xsl:copy-of select="./c3pr:fullName"/>
+            <xsl:copy-of select="./c3pr:firstName"/>
+            <xsl:copy-of select="./c3pr:lastName"/>
+            <xsl:if test="./c3pr:externalId">
+                <xsl:copy-of select="./c3pr:externalId"/>
+            </xsl:if>
+            <xsl:copy-of select="./c3pr:phoneNumber"/>
+            <xsl:copy-of select="./c3pr:faxNumber"/>
         </investigator>
     </xsl:template>
 </xsl:stylesheet>
