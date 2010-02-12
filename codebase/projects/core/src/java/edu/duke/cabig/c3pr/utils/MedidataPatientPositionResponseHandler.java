@@ -49,7 +49,7 @@ public class MedidataPatientPositionResponseHandler extends CaXchangeMessageResp
                         StudySubject medidataSubject= new StudySubject();
                         medidataSubject.setGridId(objectId);
                         try {
-                        	studySubjectRepository.assignC3DIdentifier(medidataSubject, findMedidataIdentifier(elem));
+                        	studySubjectRepository.assignMedidataIdentifier(medidataSubject, findMedidataIdentifier(elem));
                             return;
                         }
                         catch (RuntimeException e) {
