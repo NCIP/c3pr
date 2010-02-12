@@ -4,19 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.acegisecurity.AccessDeniedException;
 import org.apache.log4j.Logger;
 import org.jdom.Comment;
-import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
@@ -24,18 +16,14 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
-import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * Utility class to import XML extracts of study <p/> Created by IntelliJ IDEA. User: kherm
