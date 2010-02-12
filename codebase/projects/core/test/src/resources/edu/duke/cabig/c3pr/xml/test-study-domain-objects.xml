@@ -105,7 +105,10 @@
 		<healthcareSiteInvestigator>
 			<investigator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="LocalInvestigatorType">
 				<assignedIdentifier>bill</assignedIdentifier>
-				<fullName>Investigator Bill Staff1</fullName>
+				<firstName>first</firstName>
+				<lastName>last</lastName>
+				<phoneNumber>1112223333</phoneNumber>
+				<faxNumber>1112223333</faxNumber>
 			</investigator>
 		</healthcareSiteInvestigator>
 	</studyInvestigator>

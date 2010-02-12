@@ -229,7 +229,10 @@
 					<healthcareSiteInvestigator>
 						<investigator xsi:type="LocalInvestigatorType">
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
-							<fullName>first last</fullName>
+							<firstName>first</firstName>
+							<lastName>last</lastName>
+							<phoneNumber>1112223333</phoneNumber>
+							<faxNumber>1112223333</faxNumber>
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
@@ -260,7 +263,10 @@
 					<healthcareSiteInvestigator>
 						<investigator xsi:type="LocalInvestigatorType">
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
-							<fullName>first last</fullName>
+							<firstName>first</firstName>
+							<lastName>last</lastName>
+							<phoneNumber>1112223333</phoneNumber>
+							<faxNumber>1112223333</faxNumber>
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
@@ -269,7 +275,10 @@
 					<healthcareSiteInvestigator>
 						<investigator xsi:type="RemoteInvestigatorType">
 							<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
-							<fullName>first last</fullName>
+							<firstName>first</firstName>
+							<lastName>last</lastName>
+							<phoneNumber>1112223333</phoneNumber>
+							<faxNumber>1112223333</faxNumber>
 							<externalId>external_id</externalId>
 						</investigator>
 					</healthcareSiteInvestigator>
@@ -294,7 +303,10 @@
 					<healthcareSiteInvestigator>
 						<investigator xsi:type="LocalInvestigatorType">
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
-							<fullName>first last</fullName>
+							<firstName>first</firstName>
+							<lastName>last</lastName>
+							<phoneNumber>1112223333</phoneNumber>
+							<faxNumber>1112223333</faxNumber>
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
@@ -303,7 +315,10 @@
 					<healthcareSiteInvestigator>
 						<investigator xsi:type="RemoteInvestigatorType">
 							<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
-							<fullName>first last</fullName>
+							<firstName>first</firstName>
+							<lastName>last</lastName>
+							<phoneNumber>1112223333</phoneNumber>
+							<faxNumber>1112223333</faxNumber>
 							<externalId>external_id</externalId>
 						</investigator>
 					</healthcareSiteInvestigator>
@@ -450,7 +465,10 @@
 					<healthcareSiteInvestigator>
 						<investigator xsi:type="LocalInvestigatorType">
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
-							<fullName>first last</fullName>
+							<firstName>first</firstName>
+							<lastName>last</lastName>
+							<phoneNumber>1112223333</phoneNumber>
+							<faxNumber>1112223333</faxNumber>
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
@@ -481,7 +499,10 @@
 					<healthcareSiteInvestigator>
 						<investigator xsi:type="LocalInvestigatorType">
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
-							<fullName>first last</fullName>
+							<firstName>first</firstName>
+							<lastName>last</lastName>
+							<phoneNumber>1112223333</phoneNumber>
+							<faxNumber>1112223333</faxNumber>
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
@@ -490,7 +511,10 @@
 					<healthcareSiteInvestigator>
 						<investigator xsi:type="RemoteInvestigatorType">
 							<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
-							<fullName>first last</fullName>
+							<firstName>first</firstName>
+							<lastName>last</lastName>
+							<phoneNumber>1112223333</phoneNumber>
+							<faxNumber>1112223333</faxNumber>
 							<externalId>external_id</externalId>
 						</investigator>
 					</healthcareSiteInvestigator>
@@ -515,7 +539,10 @@
 					<healthcareSiteInvestigator>
 						<investigator xsi:type="LocalInvestigatorType">
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
-							<fullName>first last</fullName>
+							<firstName>first</firstName>
+							<lastName>last</lastName>
+							<phoneNumber>1112223333</phoneNumber>
+							<faxNumber>1112223333</faxNumber>
 						</investigator>
 					</healthcareSiteInvestigator>
 				</studyInvestigator>
@@ -524,7 +551,10 @@
 					<healthcareSiteInvestigator>
 						<investigator xsi:type="RemoteInvestigatorType">
 							<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
-							<fullName>first last</fullName>
+							<firstName>first</firstName>
+							<lastName>last</lastName>
+							<phoneNumber>1112223333</phoneNumber>
+							<faxNumber>1112223333</faxNumber>
 							<externalId>external_id</externalId>
 						</investigator>
 					</healthcareSiteInvestigator>
