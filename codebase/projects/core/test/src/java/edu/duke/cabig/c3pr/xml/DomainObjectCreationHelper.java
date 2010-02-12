@@ -207,6 +207,8 @@ public class DomainObjectCreationHelper {
 		localInvestigator.setFirstName("first");
 		localInvestigator.setLastName("last");
 		localInvestigator.setAssignedIdentifier("ctep_assigned_id");
+		localInvestigator.setPhone("1112223333");
+		localInvestigator.setFax("1112223333");
 		healthcareSiteInvestigator1.setInvestigator(localInvestigator);
 		studyInvestigator1.setSiteInvestigator(healthcareSiteInvestigator1);
 		
@@ -218,6 +220,8 @@ public class DomainObjectCreationHelper {
 		remoteInvestigator.setLastName("last");
 		remoteInvestigator.setAssignedIdentifier("remote_ctep_assigned_id");
 		remoteInvestigator.setExternalId("external_id");
+		remoteInvestigator.setPhone("1112223333");
+		remoteInvestigator.setFax("1112223333");
 		healthcareSiteInvestigator2.setInvestigator(remoteInvestigator);
 		studyInvestigator2.setSiteInvestigator(healthcareSiteInvestigator2);
 	}
