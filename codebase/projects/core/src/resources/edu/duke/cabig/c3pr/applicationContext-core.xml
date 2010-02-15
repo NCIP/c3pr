@@ -263,7 +263,8 @@
 	                <value>edu.duke.cabig.c3pr.domain.Participant</value>
 	                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
 	                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
-	                <value>edu.duke.cabig.c3pr.domain.Investigator</value>
+	                <value>edu.duke.cabig.c3pr.domain.LocalInvestigator</value>
+	                <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
 	                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
 	                <value>edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier</value>
 	                <value>edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier</value>

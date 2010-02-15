@@ -100,7 +100,7 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 							coppaOrganizationList.add(CoppaObjectFactory.getCoppaOrganization(orgResults.get(0)));
 						}
 					}
-					tempRemoteInvestigator = remoteInvestigatorResolver.populateRemoteInvestigator(coppaPerson, null, coppaOrganizationList);
+//					tempRemoteInvestigator = remoteInvestigatorResolver.populateRemoteInvestigator(coppaPerson, null, coppaOrganizationList);
 					remoteInvestigatorList.add(tempRemoteInvestigator);
 				}
 			}

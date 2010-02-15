@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import gov.nih.nci.coppa.po.Bl;
 import gov.nih.nci.coppa.po.IdentifiedOrganization;
 import gov.nih.nci.coppa.po.IdentifiedPerson;
 import gov.nih.nci.coppa.po.Person;
@@ -508,10 +509,37 @@ public class PersonOrganizationResolverUtils {
 	
 	public String broadcastOrganizationCreate(String healhtcareSiteXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
-		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.create.getName() + "   Service -->" +ServiceTypeEnum.ORGANIZATION.getName());
+		log.debug("Broadcasting: Operation --> "+ OperationNameEnum.create.getName() + "  Service -->" +ServiceTypeEnum.ORGANIZATION.getName());
         Metadata mData = new Metadata(OperationNameEnum.create.getName(), "externalId", ServiceTypeEnum.ORGANIZATION.getName());
 		return broadcastCoppaMessage(healhtcareSiteXml, mData);
 	}
+	
+	/**  PO3.1 */
+	
+	public String broadcastSearchCorrelationsWithEntities(String correlationNodeXml, boolean player, boolean scoper) throws C3PRCodedException{
+		log.debug("Broadcasting: Operation --> "+ OperationNameEnum.searchCorrelationsWithEntities.getName() + "  Service -->" +ServiceTypeEnum.PO_BUSINESS.getName());
+        Metadata mData = new Metadata(OperationNameEnum.searchCorrelationsWithEntities.getName(),  "externalId", ServiceTypeEnum.PO_BUSINESS.getName());
+        
+        List<String> cctsDomainObjectXMLList = new ArrayList<String>();
+        cctsDomainObjectXMLList.add(correlationNodeXml);
+        
+        Bl playerBoolean = new Bl();
+        playerBoolean.setValue(player);
+        Bl scoperBoolean = new Bl();
+        scoperBoolean.setValue(scoper);
+        
+        String playerBooleanXml = CoppaObjectFactory.getBooleanPayload(playerBoolean);
+        String scoperBooleanXml = CoppaObjectFactory.getBooleanPayload(scoperBoolean);
+        
+        cctsDomainObjectXMLList.add(playerBooleanXml);
+        cctsDomainObjectXMLList.add(scoperBooleanXml);
+        
+        return broadcastCoppaMessage(cctsDomainObjectXMLList, mData, true);
+	}
+	
+	/**  PO3.1*/
+	
+	
 	
 	/**
 	 * Broadcast coppa message. The actual call to the esb-client.
