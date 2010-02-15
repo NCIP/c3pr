@@ -34,9 +34,6 @@
                 </property>
             </bean>
         </property>
-        <property name="username">
-            <value>@username@</value>
-        </property>
     </bean>
 
 

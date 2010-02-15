@@ -50,7 +50,6 @@
                 <filter token="iteration_number" value="${iteration_number}"/>
                 <filter token="application_name" value="${application_name}"/>
                 <filter token="timestamp" value="${build.timestamp}"/>
-                <filter token="username" value="${user.name}"/>
             </filterset>
             <fileset dir="${main.src.resources}">
                 <include name="**/*.*"/>
