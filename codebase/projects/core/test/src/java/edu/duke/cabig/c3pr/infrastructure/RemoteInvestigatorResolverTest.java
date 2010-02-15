@@ -1,9 +1,6 @@
 package edu.duke.cabig.c3pr.infrastructure;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -12,12 +9,8 @@ import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
 import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.ApplicationContextTest;
 import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
-import edu.duke.cabig.c3pr.utils.XMLUtils;
-import gov.nih.nci.coppa.po.HealthCareProvider;
-import gov.nih.nci.coppa.po.Person;
 
 /**
  * The Class RemoteInvestigatorResolverTest.
@@ -57,64 +50,12 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 	}
 	
 	
-	public void testGetInvestigatorByName(){
-		List<Object> remoteInvestigatorList = new ArrayList<Object>();
-		
-		String personXml = CoppaObjectFactory.getCoppaPersonXml(CoppaObjectFactory.getCoppaPerson("David", "", "L"));
-		String resultXml = "";
-		try {
-			resultXml = personResolverUtils.broadcastPersonSearchWithLimit(personXml);
-		} catch (Exception e) {
-			System.out.print(e);
-		}
-		
-		List<String> coppaPersons = XMLUtils.getObjectsFromCoppaResponse(resultXml);
-		RemoteInvestigator tempRemoteInvestigator = null;
-		Person coppaPerson = null;
-		if (coppaPersons != null){
-			for(String coppaPersonXml: coppaPersons){
-				coppaPerson = CoppaObjectFactory.getCoppaPerson(coppaPersonXml);
-				
-				HealthCareProvider healthCareProvider = CoppaObjectFactory.getCoppaHealthCareProvider(coppaPerson.getIdentifier());
-				String coppaHealthCareProviderXml = CoppaObjectFactory.getCoppaHealthCareProviderXml(healthCareProvider);
-				String sRolesXml = "";
-				try {
-					sRolesXml = personResolverUtils.broadcastHealthcareProviderSearch(coppaHealthCareProviderXml);
-				} catch (C3PRCodedException e) {
-					System.out.print(e);
-				}
-				List<String> sRoles = XMLUtils.getObjectsFromCoppaResponse(sRolesXml);
-				List<gov.nih.nci.coppa.po.Organization>  coppaOrganizationList = new ArrayList<gov.nih.nci.coppa.po.Organization>();
-				if(sRoles != null && sRoles.size() > 0){
-					for(String sRole: sRoles){
-						String orgResultXml = "";
-						HealthCareProvider hcp = CoppaObjectFactory.getCoppaHealthCareProvider(sRole);
-						String orgIiXml = CoppaObjectFactory.getCoppaIIXml(hcp.getScoperIdentifier());
-						try {
-							orgResultXml = personResolverUtils.broadcastOrganizationGetById(orgIiXml);
-						} catch (Exception e) {
-							System.out.print(e);
-						}
-						List<String> orgResults = XMLUtils.getObjectsFromCoppaResponse(orgResultXml);
-						if (orgResults.size() > 0) {
-							coppaOrganizationList.add(CoppaObjectFactory.getCoppaOrganization(orgResults.get(0)));
-						}
-					}
-//					tempRemoteInvestigator = remoteInvestigatorResolver.populateRemoteInvestigator(coppaPerson, null, coppaOrganizationList);
-					remoteInvestigatorList.add(tempRemoteInvestigator);
-				}
-			}
-		}
-		assertTrue(remoteInvestigatorList.size() > 0);
-	}
-	
-	
 	/**
 	 * Test find by name.
 	 */
 	public void testFindByName(){
 		RemoteInvestigator remoteInvestigator = getSampleRemoteInvestigatorWithName();
-		List objList = remoteInvestigatorResolver.find(remoteInvestigator);
+		List<Object> objList = remoteInvestigatorResolver.find(remoteInvestigator);
 		
 		assertNotNull(objList);
 		assertTrue(objList.size() > 0);
@@ -125,7 +66,7 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 	 */
 	public void testFindByNciId(){
 		RemoteInvestigator remoteInvestigator = getSampleRemoteInvestigatorWithNciId();
-		List objList = remoteInvestigatorResolver.find(remoteInvestigator);
+		List<Object> objList = remoteInvestigatorResolver.find(remoteInvestigator);
 		
 		assertNotNull(objList);
 		assertTrue(objList.size() > 0);
@@ -136,7 +77,7 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 	 */
 	public void testFindByOrganization(){
 		RemoteInvestigator remoteInvestigator = getSampleRemoteInvestigatorWithOrganization();
-		List objList = remoteInvestigatorResolver.find(remoteInvestigator);
+		List<Object> objList = remoteInvestigatorResolver.find(remoteInvestigator);
 		
 		assertNotNull(objList);
 		assertTrue(objList.size() > 0);
@@ -153,8 +94,6 @@ public class RemoteInvestigatorResolverTest extends ApplicationContextTest{
 		
 	
 	public void testHCSIDaoGetBySubnames(){
-		String[] names= {"lucas"};
-		
     	RemoteInvestigator remoteInvestigator = new RemoteInvestigator();
     	HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
     	
