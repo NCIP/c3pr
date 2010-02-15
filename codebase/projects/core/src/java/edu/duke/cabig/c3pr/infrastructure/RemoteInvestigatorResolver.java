@@ -57,9 +57,6 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			return null;
 		} else {
 			RemoteInvestigator remoteInvestigator = (RemoteInvestigator) object;
-			if(remoteInvestigator.getVersion() == null){
-				remoteInvestigator.setVersion(0);
-			}
 			remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
 			
 			if(!StringUtils.isEmpty(staffAssignedIdentifier)){
@@ -111,9 +108,6 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			return null;
 		} else {
 			RemoteInvestigator remoteInvestigator = (RemoteInvestigator)object;
-			if(remoteInvestigator.getVersion() == null){
-				remoteInvestigator.setVersion(0);
-			}
 			remoteInvestigator.setAssignedIdentifier(staffAssignedIdentifier);
 			remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
 			
