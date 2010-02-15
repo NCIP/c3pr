@@ -249,6 +249,10 @@
         <filter-name>AuditInfoFilter</filter-name>
         <url-pattern>/pages/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuditInfoFilter</filter-name>
+        <url-pattern>/dwr/*</url-pattern>
+    </filter-mapping>
     
     <filter>
         <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
