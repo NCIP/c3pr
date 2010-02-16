@@ -49,6 +49,13 @@ public enum OperationNameEnum implements CodedEnum<String> {
 	getStudySiteAccrualStatusByStudyParticipation("getStudySiteAccrualStatusByStudyParticipation"),
 	getCurrentStudySiteAccrualStatusByStudyParticipation("getCurrentStudySiteAccrualStatusByStudyParticipation"),
 
+	getCorrelationByIdWithEntities("getCorrelationByIdWithEntities"),
+	getCorrelationsByIdsWithEntities("getCorrelationsByIdsWithEntities"),
+	getCorrelationsByPlayerIdsWithEntities("getCorrelationsByPlayerIdsWithEntities"),
+	getEntityByIdWithCorrelations("getEntityByIdWithCorrelations"),
+	searchCorrelationsWithEntities("searchCorrelationsWithEntities"),
+	searchEntitiesWithCorrelations("searchEntitiesWithCorrelations"),
+	
 	//Inter-Operability
 	PROCESS("PROCESS");
 	

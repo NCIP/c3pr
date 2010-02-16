@@ -35,7 +35,9 @@ public enum ServiceTypeEnum implements CodedEnum<String> {
 	STUDY_REGULATORY_AUTHORITY("Study Regulatory Authority"),
 	STUDY_RELATIONSHIP("Study Relationship"),
 	STUDY_RESOURCING("Study Resourcing"),
-	STUDY_SITE_ACCRUAL_STATUS("Study Site Accrual Status");
+	STUDY_SITE_ACCRUAL_STATUS("Study Site Accrual Status"),
+	//PO3.1
+	PO_BUSINESS("PO Business");
 
     private String code;
 
