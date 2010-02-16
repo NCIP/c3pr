@@ -30,8 +30,10 @@ import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import gov.nih.nci.coppa.po.Bl;
+import gov.nih.nci.coppa.po.CorrelationNode;
 import gov.nih.nci.coppa.po.IdentifiedOrganization;
 import gov.nih.nci.coppa.po.IdentifiedPerson;
+import gov.nih.nci.coppa.po.Organization;
 import gov.nih.nci.coppa.po.Person;
 
 
@@ -58,7 +60,8 @@ public class PersonOrganizationResolverUtils {
 	public static final String CTEP_ID = "CTEP ID";
 	public static final String NCI_ID = "NCI Research Organization identifier";
 	public static final String NCI_ROOT = "2.16.840.1.113883.3.26.4.4.5";
-	
+	public static final String CTEP_PERSON = "Cancer Therapy Evaluation Program Person Identifier";
+    
     
 	public List<IdentifiedPerson> getIdentifiedPerson(II personIdentifier) {
 		List<IdentifiedPerson> identifiedPersonsList = new ArrayList<IdentifiedPerson>();
@@ -305,7 +308,7 @@ public class PersonOrganizationResolverUtils {
 		RemoteHealthcareSite remoteHealthcareSite = null;
 		if(coppaOrganization != null){
 			remoteHealthcareSite = new RemoteHealthcareSite();
-			//using coppa organization identier and previously obtained id of CTEP (hard coded in CoppaObjectFactory.getIIOfCTEP) get Identified organization
+			//using coppa organization identifier and previously obtained id of CTEP (hard coded in CoppaObjectFactory.getIIOfCTEP) get Identified organization
 			if(getCtepFromIdentifiedOrganization){
 				IdentifiedOrganization identifiedOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganizationSearchCriteriaForCorrelation(coppaOrganization.getIdentifier());
 				String identifiedOrganizationXml = CoppaObjectFactory.getCoppaIdentfiedOrganization(identifiedOrganization);		
@@ -339,11 +342,9 @@ public class PersonOrganizationResolverUtils {
 	}
 	
 	public void setCtepCodeFromStructuralRoleIIList(RemoteHealthcareSite remoteHealthcareSite, List<II> iiList){
-//		boolean isPrimary = true;
 		for(II ii: iiList){
 			if(ii.getRoot().equalsIgnoreCase(CTEP_ROOT) || ii.getIdentifierName().equals(CTEP_ID) ){
 				setCtepCodeFromExtension(remoteHealthcareSite, ii.getExtension());
-//				isPrimary = false;
 			}			
 			if(ii.getRoot().equalsIgnoreCase(NCI_ROOT) || ii.getIdentifierName().equals(NCI_ID) ){
 				setNciCodeFromExtension(remoteHealthcareSite, ii.getExtension(), false);
@@ -433,22 +434,6 @@ public class PersonOrganizationResolverUtils {
 		return broadcastCoppaMessage(organizationIdXmlList, mData, false);
 	}
 	
-	public String broadcastClinicalResearchStaffSearch(String personXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
-		return broadcastCoppaMessage(personXml, mData);
-	}
-	
-
-	public String broadcastClinicalResearchStaffGetByPlayerIds(List<String> personIdXmlList) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByPlayerIds.getName() + "   Service -->" +ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
-        Metadata mData = new Metadata(OperationNameEnum.getByPlayerIds.getName(), "externalId", ServiceTypeEnum.CLINICAL_RESEARCH_STAFF.getName());
-		return broadcastCoppaMessage(personIdXmlList, mData, false);
-	}
-	
-	
 	public String broadcastResearchOrganizationGetById(String roXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
 		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getById.getName() + "   Service -->" +ServiceTypeEnum.RESEARCH_ORGANIZATION.getName());
@@ -470,35 +455,6 @@ public class PersonOrganizationResolverUtils {
 		return broadcastCoppaMessage(iiXml, mData);
 	}
 	
-	public String broadcastPersonSearch(String iiXml) throws C3PRCodedException{
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.PERSON.getName());
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(),  "externalId", ServiceTypeEnum.PERSON.getName());
-		return broadcastCoppaMessage(iiXml, mData);
-	}
-	
-	public String broadcastPersonSearchWithLimit(String iiXml) throws C3PRCodedException{
-		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.PERSON.getName());
-        Metadata mData = new Metadata(OperationNameEnum.query.getName(),  "externalId", ServiceTypeEnum.PERSON.getName());
-        
-        List<String> cctsDomainObjectXMLList = new ArrayList<String>();
-        cctsDomainObjectXMLList.add(iiXml);
-        return broadcastCoppaMessage(cctsDomainObjectXMLList, mData, true);
-	}
-	
-	public String broadcastHealthcareProviderSearch(String personXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
-		return broadcastCoppaMessage(personXml, mData);
-	}
-	
-	public String broadcastHealthcareProviderGetByPlayerIds(List<String> personXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByPlayerIds.getName() + "   Service -->" +ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
-        Metadata mData = new Metadata(OperationNameEnum.getByPlayerIds.getName(), "externalId", ServiceTypeEnum.HEALTH_CARE_PROVIDER.getName());
-		return broadcastCoppaMessage(personXml, mData, false);
-	}
 	
 	public String broadcastHealthcareProviderGetById(String personXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
@@ -514,8 +470,97 @@ public class PersonOrganizationResolverUtils {
 		return broadcastCoppaMessage(healhtcareSiteXml, mData);
 	}
 	
-	/**  PO3.1 */
+
+	/**
+	 * PO3.1
+	*/
+	/**
+	 * Gets the correlation nodes from payload xml.
+	 * 
+	 * @param correlationNodeXmlPayload the correlation node xml payload
+	 * @return the correlation nodes from payload xml
+	 */
+	public List<CorrelationNode> getCorrelationNodesFromPayloadXml(String correlationNodeXmlPayload) {
+		String correlationNodeArrayXml = "";
+		try{
+			correlationNodeArrayXml = broadcastSearchCorrelationsWithEntities(correlationNodeXmlPayload, true, true);
+		} catch(C3PRCodedException e){
+			log.error(e.getStackTrace());
+		}
+		List<String> correlationNodes = XMLUtils.getObjectsFromCoppaResponse(correlationNodeArrayXml);
+		List<CorrelationNode> correlationNodeList = new ArrayList<CorrelationNode>();
+		//creating a list of correlationNodes
+		for(String correlationNode: correlationNodes){
+			correlationNodeList.add(CoppaObjectFactory.getCorrelationNodeObjectFromXml(correlationNode));
+		}
+		return correlationNodeList;
+	}
 	
+	/**
+	 * Gets the coppa organization associated to investigator from correlation node.
+	 * 
+	 * @param cNode the correlation node
+	 * @return the coppa organization associated to investigator from correlation node
+	 */
+	public Organization getCoppaOrganizationFromCorrelationNode(CorrelationNode cNode) {
+		Organization coppaOrganization = null;
+		for(int i = 0; i < cNode.getScoper().getContent().size(); i++){
+			Object object = cNode.getScoper().getContent().get(i);
+			if(object instanceof Organization){
+				coppaOrganization = (Organization)object;
+				break;
+			}
+		}
+		return coppaOrganization;
+	}
+	
+	/**
+	 * Gets the assigned identifier from correlation node.
+	 * 
+	 * @param coppaPerson the coppa person
+	 * @param personIdToIdentifiedPersonMap the person id to identified person map
+	 * @return the assigned identifier from correlation node
+	 */
+	public String getAssignedIdentifierFromCorrelationNode(Person coppaPerson, Map<String, List<IdentifiedPerson>> personIdToIdentifiedPersonMap) {
+		String assignedIdentifier = null;
+		if(personIdToIdentifiedPersonMap.containsKey(coppaPerson.getIdentifier().getExtension())){
+			List<IdentifiedPerson> identifiedPersonList = personIdToIdentifiedPersonMap.get(coppaPerson.getIdentifier().getExtension());
+    		for(IdentifiedPerson identifiedPerson: identifiedPersonList){
+    			if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(CTEP_PERSON)){
+    				assignedIdentifier = identifiedPerson.getAssignedId().getExtension();
+        		}
+    		}
+		}
+		return assignedIdentifier;
+	}
+
+	/**
+	 * Gets the coppa person from correlation node.
+	 * 
+	 * @param cNode the correlation node
+	 * @return the coppa person from correlation node
+	 */
+	public Person getCoppaPersonFromCorrelationNode(CorrelationNode cNode) {
+		Person person = null;
+		for(int i = 0; i < cNode.getPlayer().getContent().size(); i++){
+			Object object = cNode.getPlayer().getContent().get(i);
+			if(object instanceof Person){
+				person = (Person) object;
+				break;
+			}
+		}
+		return person;
+	}
+
+	
+	/**
+	 * 
+	 * @param correlationNodeXml the correlation node xml
+	 * @param player the player boolean which determines whether to fetch the players associated with the correlation entity
+	 * @param scoper the scoper boolean which determines whether to fetch the scopers associated with the correlation entity
+	 * @return the string response payload
+	 * @throws C3PRCodedException the c3pr coded exception
+	 */
 	public String broadcastSearchCorrelationsWithEntities(String correlationNodeXml, boolean player, boolean scoper) throws C3PRCodedException{
 		log.debug("Broadcasting: Operation --> "+ OperationNameEnum.searchCorrelationsWithEntities.getName() + "  Service -->" +ServiceTypeEnum.PO_BUSINESS.getName());
         Metadata mData = new Metadata(OperationNameEnum.searchCorrelationsWithEntities.getName(),  "externalId", ServiceTypeEnum.PO_BUSINESS.getName());

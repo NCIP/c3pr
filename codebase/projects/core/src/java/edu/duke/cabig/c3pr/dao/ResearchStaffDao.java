@@ -1,11 +1,9 @@
 package edu.duke.cabig.c3pr.dao;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -35,13 +33,10 @@ import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 import gov.nih.nci.security.authorization.domainobjects.Group;
@@ -248,7 +243,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	/**
 	 * Gets the by assigned identifier. If we find a match in local db dont go to COPPA.
-	 * Goto Copa if no match is found in local db.
+	 * Goto Coppa if no match is found in local db.
 	 * We always defer to local db in cases of queries where only one result is expected.
 	 *
 	 * @param assignedIdentifier - the assigned identifier
@@ -378,23 +373,14 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		RemoteResearchStaff retrievedRemoteResearchStaff;
 		for (Object object : objectList) {
 			retrievedRemoteResearchStaff = (RemoteResearchStaff) object;
-			if (retrievedRemoteResearchStaff.getHealthcareSite() == null
-					&& remoteResearchStaff.getHealthcareSite() != null) {
-				// if the resolver hasnt set the hcs then set it if it has been
-				// passed in...this shudnt happen going fwd
-				// retrievedRemoteResearchStaff.setHealthcareSite(
-				// remoteResearchStaff.getHealthcareSite());
-				log.error("RemoteResearchStaffResolver returned staff without organization!");
-			} else if (retrievedRemoteResearchStaff.getHealthcareSite() != null) {
-				// get the corresponding hcs from the dto object and save that
-				// organization and then save this staff
+			if (retrievedRemoteResearchStaff.getHealthcareSite() != null) {
+				// If the organization attached to the staff is in the db use it. Else create it.
 				HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao
 						.getByPrimaryIdentifierFromLocal(retrievedRemoteResearchStaff
 								.getHealthcareSite().getPrimaryIdentifier());
 				if (matchingHealthcareSiteFromDb == null) {
 					log.error("No Organization exists for the CTEP Code:"
 							+ retrievedRemoteResearchStaff.getHealthcareSite().getPrimaryIdentifier());
-
 					try {
 						healthcareSiteDao.createGroupForOrganization(retrievedRemoteResearchStaff.getHealthcareSite());
 						healthcareSiteDao.save(retrievedRemoteResearchStaff.getHealthcareSite());
@@ -404,21 +390,17 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 						log.error(e.getMessage());
 					}
 				} else {
-					// we have the retrieved staff's Org in our db...link up
-					// with the same and persist
+					// we have the retrieved staff's Org in our db...link up with the same
 					retrievedRemoteResearchStaff
 							.setHealthcareSite(matchingHealthcareSiteFromDb);
 				}
 			} else {
-				// if the resolver hasnt set the hcs and if it hasn't been
-				// passed in then.. I'm lost!
+				//If the resolver hasn't set the hcs, it can't be saved. We don't save staff without organization.
 				log.error("RemoteResearchStaffResolver returned staff without organization!");
 			}
 			researchStaffList.add(retrievedRemoteResearchStaff);
 		}
-		// update the database with the remote content
 		updateDatabaseWithRemoteContent(researchStaffList);
-
 		return researchStaffList;
 	}
 
@@ -439,12 +421,18 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					// this guy already exists as remote staff...and should be up to date.
 					updateContactMechanisms(researchStaffFromDatabase.get(0), remoteResearchStaff);
 				} else {
-					// this guy doesnt exist in the db as remote...check the local staff before saving him.
-					// This if condition is temporary. once we have the logic to
-					// fetch the org of the retrieved staff then we can remove this.
+					//This staff doesn't exist in the db.
+					//First set up the login id for this new user
+					if(userProvisioningManager.getUser(remoteResearchStaff.getEmail()) != null){
+						//this email is already being used as login so use the externalId
+						remoteResearchStaff.setLoginId(remoteResearchStaff.getExternalId());
+					} else {
+						//this email is not being used as login so use it as the loginId
+						remoteResearchStaff.setLoginId(remoteResearchStaff.getEmail());
+					}
+					
+					// Ensure the staff has an organization and that its assignedId is unique.
 					if (remoteResearchStaff.getHealthcareSite() != null) {
-						// checking for the uniquness of NCI
-						// Identifier before saving into database
 						ResearchStaff researchStaffWithMatchingAssignedIdentifier = 
 								getByAssignedIdentifierFromLocal(remoteResearchStaff.getAssignedIdentifier());
 						if (researchStaffWithMatchingAssignedIdentifier == null) {
@@ -453,7 +441,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 							log.debug("This remote research person : "	+ remoteResearchStaff.getFullName()
 										+ "'s email id : " + remoteResearchStaff.getEmail()
 										+ "and/or NCI Identifier: "+ remoteResearchStaff.getAssignedIdentifier()
-										+ " is already in the database. Deferring to the local. :");
+										+ " is already in the database. Deferring to the local.");
 						}
 					} else {
 						log.error("Remote Staff does not have a healthcareSite associated with it!");
@@ -500,6 +488,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @param staff
 	 * @throws C3PRBaseException
 	 */
+	@Transactional
 	public void saveResearchStaff(ResearchStaff staff) throws C3PRBaseException {
 		save(staff, null);
 
