@@ -61,10 +61,7 @@ public class ResearchStaffTest extends AbstractTestCase{
 		ResearchStaff researchStaff2 = new LocalResearchStaff();
 		assertEquals("The two research staff personnel should be same",0,researchStaff1.compareTo(researchStaff2));
 		
-		ContactMechanism contactMechanism = new ContactMechanism();
-		contactMechanism.setType(ContactMechanismType.EMAIL);
-		contactMechanism.setValue("john.doe@gmail.com");
-		researchStaff1.getContactMechanisms().add(contactMechanism);
+		researchStaff1.setAssignedIdentifier("testAssignedId");
 		assertEquals("The two research staff personnel should be different",1,researchStaff1.compareTo(researchStaff2));
 	}
 	
@@ -105,14 +102,11 @@ public class ResearchStaffTest extends AbstractTestCase{
 		ResearchStaff researchStaff1 = new LocalResearchStaff();
 		ResearchStaff researchStaff2 = new LocalResearchStaff();
 		
-		ContactMechanism contactMechanism1 = new ContactMechanism();
-		contactMechanism1.setType(ContactMechanismType.EMAIL);
-		contactMechanism1.setValue("john.doe@gmail.com");
-		researchStaff1.getContactMechanisms().add(contactMechanism1);
+		researchStaff1.setAssignedIdentifier("testAssignedId");
 		
 		assertFalse("The two ResearchStaffs cannot be equal",researchStaff1.equals(researchStaff2));
 		
-		researchStaff2.getContactMechanisms().add(contactMechanism1);
+		researchStaff2.setAssignedIdentifier("testAssignedId");
 		assertTrue("The two ResearchStaffs should be equal",researchStaff1.equals(researchStaff2));
 	}
 	
