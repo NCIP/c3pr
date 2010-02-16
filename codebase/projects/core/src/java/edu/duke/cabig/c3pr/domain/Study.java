@@ -1407,7 +1407,19 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 //			}else{
 //				return getParentStudyAssociations().get(0).getParentStudy();
 //			}		
+	}
+	
+	public boolean isAssignedAndActivePersonnel(ResearchStaff researchStaff){
+		List<StudyPersonnel> studyPersonnelList = new ArrayList<StudyPersonnel>();
+		for(StudyOrganization studyOrganization : getStudyOrganizations()){
+			studyPersonnelList.addAll(studyOrganization.getActiveStudyPersonnel());
 		}
- 
+		for(StudyPersonnel studyPersonnel : studyPersonnelList){
+			if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

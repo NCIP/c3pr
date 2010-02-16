@@ -182,6 +182,21 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     }
 
     /**
+     * Gets the active study personnel.
+     * 
+     * @return the active study personnel
+     */
+    @Transient
+    public List<StudyPersonnel> getActiveStudyPersonnel() {
+        List<StudyPersonnel> list = getStudyPersonnel();
+        List<StudyPersonnel> retList = new ArrayList<StudyPersonnel>();
+        for (StudyPersonnel s : list) {
+            if (s.getStatusCode().equals("Active")) retList.add(s);
+        }
+        return retList;
+    }
+    
+    /**
      * Sets the study personnel internal.
      * 
      * @param studyPersonnel the new study personnel internal
