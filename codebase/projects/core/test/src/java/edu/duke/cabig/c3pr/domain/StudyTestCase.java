@@ -1997,7 +1997,92 @@ public class StudyTestCase extends AbstractTestCase {
 		assertNull("no amendment present", amendment);
 	}
 
-
-
+	public void testIsAssignedAndActivePersonnel(){
+		StudyOrganization studyOrganization = new StudySite();
+		StudyPersonnel studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
+		ResearchStaff researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test1");
+		studyPersonnel.setStatusCode("Active");
+		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test2");
+		studyPersonnel.setStatusCode("Inactive");
+		studyPersonnel.setResearchStaff(researchStaff);
+		simpleStudy.addStudyOrganization(studyOrganization);
+		
+		studyOrganization = new StudySite();
+		studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test3");
+		studyPersonnel.setStatusCode("Inactive");
+		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test4");
+		studyPersonnel.setStatusCode("Inactive");
+		studyPersonnel.setResearchStaff(researchStaff);
+		simpleStudy.addStudyOrganization(studyOrganization);
+		
+		studyOrganization = new StudySite();
+		studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test5");
+		studyPersonnel.setStatusCode("Active");
+		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test6");
+		studyPersonnel.setStatusCode("Active");
+		studyPersonnel.setResearchStaff(researchStaff);
+		simpleStudy.addStudyOrganization(studyOrganization);
+		
+		studyOrganization = new StudySite();
+		studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test7");
+		studyPersonnel.setStatusCode("Inactive");
+		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test8");
+		studyPersonnel.setStatusCode("Active");
+		studyPersonnel.setResearchStaff(researchStaff);
+		simpleStudy.addStudyOrganization(studyOrganization);
+		
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test1");
+		assertTrue(simpleStudy.isAssignedAndActivePersonnel(researchStaff));
+		
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test2");
+		assertFalse(simpleStudy.isAssignedAndActivePersonnel(researchStaff));
+		
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test3");
+		assertFalse(simpleStudy.isAssignedAndActivePersonnel(researchStaff));
+		
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test4");
+		assertFalse(simpleStudy.isAssignedAndActivePersonnel(researchStaff));
+		
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test5");
+		assertTrue(simpleStudy.isAssignedAndActivePersonnel(researchStaff));
+		
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test6");
+		assertTrue(simpleStudy.isAssignedAndActivePersonnel(researchStaff));
+		
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test7");
+		assertFalse(simpleStudy.isAssignedAndActivePersonnel(researchStaff));
+		
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test8");
+		assertTrue(simpleStudy.isAssignedAndActivePersonnel(researchStaff));
+		
+	}
+	
 
 }

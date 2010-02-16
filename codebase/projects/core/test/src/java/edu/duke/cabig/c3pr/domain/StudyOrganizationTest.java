@@ -1,13 +1,16 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.EndPointType;
+import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
 import edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition;
@@ -249,6 +252,20 @@ public class StudyOrganizationTest extends AbstractTestCase{
 		assertTrue(studyOrganization.getCustomFieldDefinitions().get(0) instanceof StudyCustomFieldDefinition);
 	}
 
+	
+	public void testGetActiveStudyPersonnel(){
+		StudyOrganization studyOrganization = new StudySite();
+		StudyPersonnel studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
+		ResearchStaff researchStaff = new LocalResearchStaff();
+		studyPersonnel.setStatusCode("Active");
+		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
+		researchStaff = new LocalResearchStaff();
+		studyPersonnel.setStatusCode("Inactive");
+		studyPersonnel.setResearchStaff(researchStaff);
+		assertEquals(2, studyOrganization.getStudyPersonnel().size());
+		assertEquals(1, studyOrganization.getActiveStudyPersonnel().size());
+	}
 
 }
 
