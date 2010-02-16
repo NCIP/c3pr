@@ -242,10 +242,10 @@ public abstract class Investigator extends C3PRUser {
         if (this == obj) return true;
         if (getClass() != obj.getClass()) return false;
         final Investigator other = (Investigator) obj;
-        if (getEmail() == null) {
-            if (other.getEmail() != null) return false;
+        if (getAssignedIdentifier() == null) {
+            if (other.getAssignedIdentifier() != null) return false;
         }
-        else if (!getEmail().equalsIgnoreCase(other.getEmail())) return false;
+        else if (!getAssignedIdentifier().equalsIgnoreCase(other.getAssignedIdentifier())) return false;
         return true;
     }
 

@@ -75,12 +75,11 @@ public class InvestigatorTest extends AbstractTestCase{
 		Investigator investigator2 = new LocalInvestigator();
 		assertEquals("The two Investigators should be same",0,investigator1.compareTo(investigator2));
 		
-		ContactMechanism contactMechanism = new ContactMechanism();
-		contactMechanism.setType(ContactMechanismType.EMAIL);
-		contactMechanism.setValue("john.doe@gmail.com");
-		investigator1.getContactMechanisms().add(contactMechanism);
-		
+		investigator1.setAssignedIdentifier("assignedIdentifier");
 		assertEquals("The two Investigators should be different",1,investigator1.compareTo(investigator2));
+		
+		investigator2.setAssignedIdentifier("assignedIdentifier");
+		assertEquals("The two Investigators should be same",0,investigator1.compareTo(investigator2));
 	}
 	
 	/**
@@ -119,14 +118,11 @@ public class InvestigatorTest extends AbstractTestCase{
 	public void testEquals2() throws Exception{
 		Investigator investigator1 = new LocalInvestigator();
 		Investigator investigator2 = new LocalInvestigator();
-		ContactMechanism contactMechanism = new ContactMechanism();
-		contactMechanism.setType(ContactMechanismType.EMAIL);
-		contactMechanism.setValue("john.doe@gmail.com");
-		investigator1.getContactMechanisms().add(contactMechanism);
+		investigator1.setAssignedIdentifier("testAssignedId");
 		
 		assertFalse("The two Investigators cannot be equal",investigator1.equals(investigator2));
 		
-		investigator2.getContactMechanisms().add(contactMechanism);
+		investigator2.setAssignedIdentifier("testAssignedId");
 		assertTrue("The two Investigators should be equal",investigator1.equals(investigator2));
 	}
 	
