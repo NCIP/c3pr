@@ -119,19 +119,13 @@ public class HealthcareSiteInvestigatorTest extends AbstractTestCase {
 	public void testEquals5() throws Exception{
 		 HealthcareSiteInvestigator hcsInv1= new HealthcareSiteInvestigator();
 		 LocalInvestigator investigator1 = new LocalInvestigator();
-		 ContactMechanism contactMechanism1 = new ContactMechanism();
-		 contactMechanism1.setType(ContactMechanismType.EMAIL);
-		 contactMechanism1.setValue("john.doe@gmail.com");
-		 investigator1.getContactMechanisms().add(contactMechanism1);
+		 investigator1.setAssignedIdentifier("assignedId1");
 			
 		 hcsInv1.setInvestigator(investigator1);
 		 
 		 HealthcareSiteInvestigator hcsInv2= new HealthcareSiteInvestigator();
 		 LocalInvestigator investigator2 = new LocalInvestigator();
-		 ContactMechanism contactMechanism2 = new ContactMechanism();
-		 contactMechanism2.setType(ContactMechanismType.EMAIL);
-		 contactMechanism2.setValue("john.doe@gmail.com");
-		 investigator1.getContactMechanisms().add(contactMechanism2);
+		 investigator2.setAssignedIdentifier("assignedId2");
 		 hcsInv2.setInvestigator(investigator2);
 		 
 		 assertFalse("The two healthcareSite investigators cannot be equal ",hcsInv1.equals(hcsInv2));
