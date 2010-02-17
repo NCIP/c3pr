@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
+import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
@@ -481,8 +482,12 @@ public class CastorMappingTestCase extends AbstractTestCase{
 		assertEquals(expected.getInvestigator().getAssignedIdentifier(), actual.getInvestigator().getAssignedIdentifier());
 		assertEquals(expected.getInvestigator().getFirstName(), actual.getInvestigator().getFirstName());
 		assertEquals(expected.getInvestigator().getLastName(), actual.getInvestigator().getLastName());
+		assertEquals(expected.getInvestigator().getEmail(), actual.getInvestigator().getEmail());
 		assertEquals(expected.getInvestigator().getPhone(), actual.getInvestigator().getPhone());
 		assertEquals(expected.getInvestigator().getFax(), actual.getInvestigator().getFax());
+		if(expected.getInvestigator() instanceof RemoteInvestigator){
+			assertEquals(((RemoteInvestigator)expected.getInvestigator()).getExternalId(), ((RemoteInvestigator)actual.getInvestigator()).getExternalId());
+		}
 	}
 	
 }

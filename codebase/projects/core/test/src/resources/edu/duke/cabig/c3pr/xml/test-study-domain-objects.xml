@@ -107,6 +107,7 @@
 				<assignedIdentifier>bill</assignedIdentifier>
 				<firstName>first</firstName>
 				<lastName>last</lastName>
+				<email>abc@xyz.com</email>
 				<phoneNumber>1112223333</phoneNumber>
 				<faxNumber>1112223333</faxNumber>
 			</investigator>
