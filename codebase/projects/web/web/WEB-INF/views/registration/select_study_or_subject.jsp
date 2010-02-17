@@ -76,7 +76,7 @@
         <form:form method="post">
 		<tags:errors path="*"/>
             <tags:tabFields tab="${tab}"/>
-             <input type="hidden" name="studySiteStudyVersionId" id="studySiteStudyVersionId"/>
+             <input type="hidden" name="studySiteStudyVersionId" id="studySiteStudyVersionId" value="${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.id }"/>
             <div style="display:none">
                 <form:input path="studySubject.participant" cssClass="required validate-notEmpty" /><input type="text" id="epochElement" name="epoch" value="${!empty command.studySubject.scheduledEpoch?command.studySubject.scheduledEpoch.epoch.id:''}" class="required validate-notEmpty"/>
             </div>
@@ -85,13 +85,13 @@
         <c:if test="${command.studySubject.studySite.id!=null && command.studySubject.participant.id!=null}">
             <script>
                                 		<c:choose> 
-                                			<c:when test="${!empty command.studySubject.scheduledEpoch}"> 
+                                			<c:when test="${!empty command.studySubject.studySubjectStudyVersions[0].scheduledEpochs[0]}"> 
                                 				new Element.show('Epoch'); 
                                 				minimizeEpochBox(); 
                                 				displayEpochMessage("Selected Epoch: ${command.studySubject.scheduledEpoch.epoch.name}",true); 
                                 			</c:when> 
                                 			<c:otherwise> 
-                                				var url1 = "../registration/searchEpoch?studySiteId="+${command.studySubject.studySite.id}; 
+                                				var url1 = "../registration/searchEpoch?studySiteStudyVersionId="+${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.id}; 
                                 				new Ajax.Updater('epochResults',url1, {onSuccess:callbackEpoch, onFailure:callbackEpochFail}); 
                                 			</c:otherwise> 
                                 		</c:choose> 
