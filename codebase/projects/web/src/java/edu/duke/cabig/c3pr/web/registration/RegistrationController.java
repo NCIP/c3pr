@@ -13,7 +13,6 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
@@ -58,6 +57,7 @@ import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
@@ -270,6 +270,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     	super.onBind(request, oCommand, errors);
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) oCommand;
         StudySubject studySubject = wrapper.getStudySubject();
+        
     	if(WebUtils.hasSubmitParameter(request, "studySiteStudyVersionId") && !StringUtils.isBlank(request.getParameter("studySiteStudyVersionId"))){
     		StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(Integer.parseInt(request.getParameter("studySiteStudyVersionId")));
     		if(studySiteStudyVersion == null){
@@ -279,9 +280,15 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     		studySubject.setStudySite(studySiteStudyVersion.getStudySite());
     	}else{
     		log.debug("Study Site Study Version is not set to Study Subject Study Version");
-    	}
+    	} 
+    	if(studySubject.getScheduledEpoch()== null && WebUtils.hasSubmitParameter(request, "epoch") && !StringUtils.isBlank(request.getParameter("epoch"))){
+        	Epoch epoch = epochDao.getById(Integer.parseInt(request.getParameter("epoch")));
+        	ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
+        	scheduledEpoch.setEpoch(epoch);
+        	studySubject.addScheduledEpoch(scheduledEpoch);
+        }
     }
-
+    
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
                     throws Exception {
