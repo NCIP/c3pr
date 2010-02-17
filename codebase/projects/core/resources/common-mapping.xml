@@ -205,6 +205,9 @@
         <field name="lastName" type="string">
             <bind-xml name="lastName" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="email" type="string">
+            <bind-xml name="email" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
         <field name="phone" type="string">
             <bind-xml name="phoneNumber" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>

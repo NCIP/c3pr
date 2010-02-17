@@ -231,6 +231,7 @@
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 							<firstName>first</firstName>
 							<lastName>last</lastName>
+							<email>abc@xyz.com</email>
 							<phoneNumber>1112223333</phoneNumber>
 							<faxNumber>1112223333</faxNumber>
 						</investigator>
@@ -265,6 +266,7 @@
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 							<firstName>first</firstName>
 							<lastName>last</lastName>
+							<email>abc@xyz.com</email>
 							<phoneNumber>1112223333</phoneNumber>
 							<faxNumber>1112223333</faxNumber>
 						</investigator>
@@ -277,6 +279,7 @@
 							<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
 							<firstName>first</firstName>
 							<lastName>last</lastName>
+							<email>abc@xyz.com</email>
 							<phoneNumber>1112223333</phoneNumber>
 							<faxNumber>1112223333</faxNumber>
 							<externalId>external_id</externalId>
@@ -305,6 +308,7 @@
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 							<firstName>first</firstName>
 							<lastName>last</lastName>
+							<email>abc@xyz.com</email>
 							<phoneNumber>1112223333</phoneNumber>
 							<faxNumber>1112223333</faxNumber>
 						</investigator>
@@ -317,6 +321,7 @@
 							<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
 							<firstName>first</firstName>
 							<lastName>last</lastName>
+							<email>abc@xyz.com</email>
 							<phoneNumber>1112223333</phoneNumber>
 							<faxNumber>1112223333</faxNumber>
 							<externalId>external_id</externalId>
@@ -467,6 +472,7 @@
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 							<firstName>first</firstName>
 							<lastName>last</lastName>
+							<email>abc@xyz.com</email>
 							<phoneNumber>1112223333</phoneNumber>
 							<faxNumber>1112223333</faxNumber>
 						</investigator>
@@ -501,6 +507,7 @@
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 							<firstName>first</firstName>
 							<lastName>last</lastName>
+							<email>abc@xyz.com</email>
 							<phoneNumber>1112223333</phoneNumber>
 							<faxNumber>1112223333</faxNumber>
 						</investigator>
@@ -513,6 +520,7 @@
 							<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
 							<firstName>first</firstName>
 							<lastName>last</lastName>
+							<email>abc@xyz.com</email>
 							<phoneNumber>1112223333</phoneNumber>
 							<faxNumber>1112223333</faxNumber>
 							<externalId>external_id</externalId>
@@ -541,6 +549,7 @@
 							<assignedIdentifier>ctep_assigned_id</assignedIdentifier>
 							<firstName>first</firstName>
 							<lastName>last</lastName>
+							<email>abc@xyz.com</email>
 							<phoneNumber>1112223333</phoneNumber>
 							<faxNumber>1112223333</faxNumber>
 						</investigator>
@@ -553,6 +562,7 @@
 							<assignedIdentifier>remote_ctep_assigned_id</assignedIdentifier>
 							<firstName>first</firstName>
 							<lastName>last</lastName>
+							<email>abc@xyz.com</email>
 							<phoneNumber>1112223333</phoneNumber>
 							<faxNumber>1112223333</faxNumber>
 							<externalId>external_id</externalId>

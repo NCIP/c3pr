@@ -127,6 +127,7 @@
             <xsl:if test="./c3pr:externalId">
                 <xsl:copy-of select="./c3pr:externalId"/>
             </xsl:if>
+            <xsl:copy-of select="./c3pr:email"/>
             <xsl:copy-of select="./c3pr:phoneNumber"/>
             <xsl:copy-of select="./c3pr:faxNumber"/>
         </investigator>
