@@ -56,7 +56,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		List<Object> remoteInvestigatorList = new ArrayList<Object>();
 		RemoteInvestigator populatedRemoteInvestigator = null;
 		for(CorrelationNode cNode: correlationNodeList){
-			Person coppaPerson = personOrganizationResolverUtils.getCoppaPersonFromCorrelationNode(cNode);
+			Person coppaPerson = personOrganizationResolverUtils.getCoppaPersonFromPlayerInCorrelationNode(cNode);
 			
 			populatedRemoteInvestigator = populateRemoteInvestigator(coppaPerson, "", null);	
 	    	if(populatedRemoteInvestigator != null){
@@ -139,36 +139,8 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		String correlationNodeXmlPayload = CoppaObjectFactory.getCorrelationNodePayload(new HealthCareProvider(), null, organization);
 		
 		List<CorrelationNode> correlationNodeList = personOrganizationResolverUtils.getCorrelationNodesFromPayloadXml(correlationNodeXmlPayload);
-		List<Person> listOfAllPersons = new ArrayList<Person>();
-		Person person = null;
-		for(CorrelationNode cNode: correlationNodeList){
-			person = personOrganizationResolverUtils.getCoppaPersonFromCorrelationNode(cNode);
-			if(person != null){
-				listOfAllPersons.add(person);
-			}
-		}
-		//Use the list of all persons to build a map of identified persons using the getByPlayerIds operation.
-		Map<String, List<IdentifiedPerson>> personIdToIdentifiedPersonMap = 
-							personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(listOfAllPersons);
+		List<Object> remoteInvestigatorList = getRemoteInvestigatorsFromCorrelationNodesList(correlationNodeList, coppaIdOrganization, null);
 		
-		List<Object> remoteInvestigatorList = new ArrayList<Object>();
-		RemoteInvestigator populatedRemoteInvestigator = null;
-		Person coppaPerson = null;
-		String assignedIdentifier;
-		for(CorrelationNode cNode: correlationNodeList){
-			assignedIdentifier = null;
-			coppaPerson = personOrganizationResolverUtils.getCoppaPersonFromCorrelationNode(cNode);
-			assignedIdentifier = personOrganizationResolverUtils.getAssignedIdentifierFromCorrelationNode(coppaPerson, personIdToIdentifiedPersonMap);
-			if(assignedIdentifier == null){
-				assignedIdentifier = coppaPerson.getIdentifier().getExtension();
-			}
-			
-			populatedRemoteInvestigator = populateRemoteInvestigator(coppaPerson, 
-																	assignedIdentifier, coppaIdOrganization);	
-	    	if(populatedRemoteInvestigator != null){
-	    		remoteInvestigatorList.add(populatedRemoteInvestigator);
-	    	}
-		}
 		return remoteInvestigatorList;
 	}
 
@@ -194,10 +166,21 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		Person person = null;
 		String correlationNodeXmlPayload = null;
 		List<CorrelationNode> correlationNodeList = null;
-		//Get the investigator corresponding to every Identified Person fetched. Because the identifiedPerson search by CTEP code is a 
-		//like match not exact match and can return more than one result.
-		for(int i=0; i<identifiedPersonsList.size(); i++ ){
-			personIiExtension = identifiedPersonsList.get(i).getPlayerIdentifier().getExtension();
+
+		//The identifiedPerson search by CTEP code is a like match & not exact match and returns more than one result.
+		//So Iterate thru the IdentifiedPersons fetched and isolate the one whose extension exactly matches the search criteria. 
+		IdentifiedPerson identifiedPersonWithExactCtepIdMatch = null;
+		for(IdentifiedPerson identifiedPerson: identifiedPersonsList){
+			if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(PersonOrganizationResolverUtils.CTEP_PERSON)){
+				if(identifiedPerson.getAssignedId().getExtension().equalsIgnoreCase(remoteInvestigatorExample.getAssignedIdentifier())){
+					identifiedPersonWithExactCtepIdMatch = identifiedPerson;
+					break;
+				}
+			}
+		}
+		
+		if(identifiedPersonWithExactCtepIdMatch != null){
+			personIiExtension = identifiedPersonWithExactCtepIdMatch.getPlayerIdentifier().getExtension();
 			if(personIiExtension == null){
 				return remoteInvestigatorList;
 			}
@@ -205,7 +188,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			correlationNodeXmlPayload = CoppaObjectFactory.getCorrelationNodePayload(new HealthCareProvider(), person, null);
 			
 			correlationNodeList = personOrganizationResolverUtils.getCorrelationNodesFromPayloadXml(correlationNodeXmlPayload);
-			remoteInvestigatorList.addAll(getRemoteInvestigatorsFromCorrelationNodesList(correlationNodeList));
+			remoteInvestigatorList.addAll(getRemoteInvestigatorsFromCorrelationNodesList(correlationNodeList, null, remoteInvestigatorExample.getAssignedIdentifier()));
 		}
 		return remoteInvestigatorList;
 	}
@@ -222,7 +205,7 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		String correlationNodeXmlPayload = CoppaObjectFactory.getCorrelationNodePayload(new HealthCareProvider(), person, null);
 		
 		List<CorrelationNode> correlationNodeList = personOrganizationResolverUtils.getCorrelationNodesFromPayloadXml(correlationNodeXmlPayload);
-		List<Object> remoteInvestigatorList = getRemoteInvestigatorsFromCorrelationNodesList(correlationNodeList);
+		List<Object> remoteInvestigatorList = getRemoteInvestigatorsFromCorrelationNodesList(correlationNodeList, null, null);
 		return remoteInvestigatorList;
 	}
 
@@ -231,10 +214,12 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 	 * Gets the remote investigators from correlation nodes list.
 	 * 
 	 * @param correlationNodeList the correlation node list
+	 * @param organizationCtepCode the organizations CTEP Code. null value indicates that this method needs to call identified_organization
+	 * @param investigatorAssignedIdentifier the investigators assigned identifier. null value indicates that this method needs to call identified_person
 	 * @return the remote investigators from correlation nodes list
 	 */
 	private List<Object> getRemoteInvestigatorsFromCorrelationNodesList(
-									List<CorrelationNode> correlationNodeList) {
+									List<CorrelationNode> correlationNodeList, IdentifiedOrganization identifiedOrganization, String investigatorAssignedIdentifier) {
 		List<Object> remoteInvestigatorList = new ArrayList<Object>();
 		HashMap<String, List<Organization>> personIdToCoppaOrganizationsHashMap = new HashMap<String, List<Organization>>();
 		List<Organization> listOfAllOrganizations = new ArrayList<Organization>();
@@ -242,8 +227,8 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		Person tempPerson = null;
 		Organization tempOrganization  = null;
 		for(CorrelationNode cNode: correlationNodeList){
-			tempPerson = personOrganizationResolverUtils.getCoppaPersonFromCorrelationNode(cNode);
-			tempOrganization = personOrganizationResolverUtils.getCoppaOrganizationFromCorrelationNode(cNode);
+			tempPerson = personOrganizationResolverUtils.getCoppaPersonFromPlayerInCorrelationNode(cNode);
+			tempOrganization = personOrganizationResolverUtils.getCoppaOrganizationFromScoperInCorrelationNode(cNode);
 			
 			//building a list of all organizations
 			listOfAllOrganizations.add(tempOrganization);
@@ -262,22 +247,39 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 			}
 		}
 		
-		Map<String, IdentifiedOrganization> organizationIdToIdentifiedOrganizationsMap = 
-									personOrganizationResolverUtils.getIdentifiedOrganizationsForOrganizationsList(listOfAllOrganizations);
-		Map<String, List<IdentifiedPerson>> personIdToIdentifiedPersonMap = 
-									personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(listOfAllPersons);
+		Map<String, IdentifiedOrganization> organizationIdToIdentifiedOrganizationsMap = null;
+		Map<String, List<IdentifiedPerson>> personIdToIdentifiedPersonMap = null;
+		if(identifiedOrganization == null){
+			organizationIdToIdentifiedOrganizationsMap = 
+				personOrganizationResolverUtils.getIdentifiedOrganizationsForOrganizationsList(listOfAllOrganizations);
+		}
+		if(investigatorAssignedIdentifier == null){
+			personIdToIdentifiedPersonMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(listOfAllPersons);
+		}
 		
 		RemoteInvestigator populatedRemoteInvestigator  = null;
+		Person coppaPerson = null;
+		String assignedIdentifier = null;
 		for(CorrelationNode cNode: correlationNodeList){
-			Person coppaPerson = personOrganizationResolverUtils.getCoppaPersonFromCorrelationNode(cNode);
-			String assignedIdentifier = personOrganizationResolverUtils.getAssignedIdentifierFromCorrelationNode(coppaPerson, personIdToIdentifiedPersonMap);
-			if(assignedIdentifier == null){
-				assignedIdentifier = coppaPerson.getIdentifier().getExtension();
+			coppaPerson = personOrganizationResolverUtils.getCoppaPersonFromPlayerInCorrelationNode(cNode);
+			//Only get the AssignedIdentifier if its passed in as null
+			if(investigatorAssignedIdentifier == null){
+				assignedIdentifier = personOrganizationResolverUtils.getAssignedIdentifierFromPersonIdToIdentifiedPersonMap(coppaPerson, personIdToIdentifiedPersonMap);
+				if(assignedIdentifier == null){
+					assignedIdentifier = coppaPerson.getIdentifier().getExtension();
+				}
+			} else {
+				assignedIdentifier = investigatorAssignedIdentifier;
 			}
-			
-			populatedRemoteInvestigator = populateRemoteInvestigator(coppaPerson, assignedIdentifier, 
-										personIdToCoppaOrganizationsHashMap.get(coppaPerson.getIdentifier().getExtension()), organizationIdToIdentifiedOrganizationsMap);	
-	    	if(populatedRemoteInvestigator != null){
+			//Call the right populate method based on whether identifiedOrganization is already available or not
+			if(identifiedOrganization == null){
+				populatedRemoteInvestigator = populateRemoteInvestigator(coppaPerson, assignedIdentifier, 
+						personIdToCoppaOrganizationsHashMap.get(coppaPerson.getIdentifier().getExtension()), organizationIdToIdentifiedOrganizationsMap);	
+			} else {
+				populatedRemoteInvestigator = populateRemoteInvestigator(coppaPerson, assignedIdentifier, identifiedOrganization);
+			}
+
+			if(populatedRemoteInvestigator != null){
 	    		remoteInvestigatorList.add(populatedRemoteInvestigator);
 	    	}
 		}

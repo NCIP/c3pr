@@ -151,13 +151,13 @@ public class PersonOrganizationResolverUtils {
 	
 	
 	/**
-	 * Sets the c3pr user details. Returns null if person doesnt have legal email address or \
+	 * Sets the c3pr user details. Returns null if person doesn't have legal email address or \
 	 * if there is some exception while processing the person.
 	 * 
 	 * @param coppaPerson the coppa person
 	 * @param c3prUser the c3pr user
 	 * 
-	 * @return the c3 pr user
+	 * @return the c3pr user
 	 */
 	public C3PRUser setC3prUserDetails(Person coppaPerson, C3PRUser c3prUser) {
 		try{	
@@ -235,18 +235,6 @@ public class PersonOrganizationResolverUtils {
 	 */
 	public void setNciCodeFromExtension(HealthcareSite remoteOrganization, String extension, boolean isPrimary) {
 		remoteOrganization.setNCICode(extension, isPrimary);
-	}
-	
-	/** Populate Remote Organization , given the Coppa Organization.
-	 *  Populate the ctepCode   from  IdentifiedOrganization.assignedId.extension by calling the IdentifiedOrganization search.
-	 *  Get ctep only if the "getCtepFromIdentifiedOrganization" boolean is true. Else assume CTEP code is already available.
-	 *  Populate the externalId from  IdentifiedOrganization.identifier.extension by calling the IdentifiedOrganization search.
-	 * 
-	 * @param coppaOrganization
-	 * @return RemoteHealthcareSite
-	 */
-	public RemoteHealthcareSite getRemoteHealthcareSiteFromCoppaOrganization(gov.nih.nci.coppa.po.Organization coppaOrganization){
-		return getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, true);
 	}
 	
 	
@@ -334,9 +322,7 @@ public class PersonOrganizationResolverUtils {
 			remoteHealthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
 			remoteHealthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
 			remoteHealthcareSite.setRemoteSystemStatusCode(RemoteSystemStatusCodeEnum.getByCode(coppaOrganization.getStatusCode().getCode()));
-			
-			Address address = getAddressFromCoppaOrganization(coppaOrganization);
-			remoteHealthcareSite.setAddress(address);
+			remoteHealthcareSite.setAddress(getAddressFromCoppaOrganization(coppaOrganization));
 		}
 		return remoteHealthcareSite;
 	}
@@ -373,29 +359,7 @@ public class PersonOrganizationResolverUtils {
 		
 		return address;
 	}
-	
-	/**
-	 * Broadcast organization search.
-	 * 
-	 * @param gov.nih.nci.coppa.po.Organization coppa organization example to search by.
-	 * @return the List<Object> list of coppa organizations
-	 * @throws C3PRCodedException the c3 pr coded exception
-	 */
-	public String broadcastOrganizationSearch(String healthcareSiteXml) throws C3PRCodedException {
-		//build metadata with operation name and the external Id and pass it to the broadcast method.
-		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.search.getName() + "   Service -->" +ServiceTypeEnum.ORGANIZATION.getName());
-        Metadata mData = new Metadata(OperationNameEnum.search.getName(), "extId", ServiceTypeEnum.ORGANIZATION.getName());
-        return broadcastCoppaMessage(healthcareSiteXml, mData);
-	}	
-	
-	public String broadcastOrganizationSearchWithLimit(String iiXml) throws C3PRCodedException{
-		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.query.getName() + "   Service -->" +ServiceTypeEnum.ORGANIZATION.getName());
-        Metadata mData = new Metadata(OperationNameEnum.query.getName(),  "externalId", ServiceTypeEnum.ORGANIZATION.getName());
-        
-        List<String> cctsDomainObjectXMLList = new ArrayList<String>();
-        cctsDomainObjectXMLList.add(iiXml);
-        return broadcastCoppaMessage(cctsDomainObjectXMLList, mData, true);
-	}
+
 	
 	public String broadcastIdentifiedPersonSearch(String ipXml) throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
@@ -404,7 +368,6 @@ public class PersonOrganizationResolverUtils {
 		return broadcastCoppaMessage(ipXml, mData);
 	}
 	
-
 	public String broadcastIdentifiedPersonGetByPlayerIds(List<String> personIdXmlList) throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
 		log.debug("Broadcasting : Operation --> "+ OperationNameEnum.getByPlayerIds.getName() + "   Service -->" +ServiceTypeEnum.IDENTIFIED_PERSON.getName());
@@ -425,7 +388,6 @@ public class PersonOrganizationResolverUtils {
         Metadata mData = new Metadata(OperationNameEnum.search.getName(), "externalId", ServiceTypeEnum.IDENTIFIED_ORGANIZATION.getName());
         return broadcastCoppaMessage(healthcareSiteXml, mData);
 	}
-	
 
 	public String broadcastIdentifiedOrganizationGetByPlayerIds(List<String> organizationIdXmlList) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
@@ -502,7 +464,7 @@ public class PersonOrganizationResolverUtils {
 	 * @param cNode the correlation node
 	 * @return the coppa organization associated to investigator from correlation node
 	 */
-	public Organization getCoppaOrganizationFromCorrelationNode(CorrelationNode cNode) {
+	public Organization getCoppaOrganizationFromScoperInCorrelationNode(CorrelationNode cNode) {
 		Organization coppaOrganization = null;
 		for(int i = 0; i < cNode.getScoper().getContent().size(); i++){
 			Object object = cNode.getScoper().getContent().get(i);
@@ -514,6 +476,7 @@ public class PersonOrganizationResolverUtils {
 		return coppaOrganization;
 	}
 	
+	
 	/**
 	 * Gets the assigned identifier from correlation node.
 	 * 
@@ -521,7 +484,7 @@ public class PersonOrganizationResolverUtils {
 	 * @param personIdToIdentifiedPersonMap the person id to identified person map
 	 * @return the assigned identifier from correlation node
 	 */
-	public String getAssignedIdentifierFromCorrelationNode(Person coppaPerson, Map<String, List<IdentifiedPerson>> personIdToIdentifiedPersonMap) {
+	public String getAssignedIdentifierFromPersonIdToIdentifiedPersonMap(Person coppaPerson, Map<String, List<IdentifiedPerson>> personIdToIdentifiedPersonMap) {
 		String assignedIdentifier = null;
 		if(personIdToIdentifiedPersonMap.containsKey(coppaPerson.getIdentifier().getExtension())){
 			List<IdentifiedPerson> identifiedPersonList = personIdToIdentifiedPersonMap.get(coppaPerson.getIdentifier().getExtension());
@@ -540,7 +503,7 @@ public class PersonOrganizationResolverUtils {
 	 * @param cNode the correlation node
 	 * @return the coppa person from correlation node
 	 */
-	public Person getCoppaPersonFromCorrelationNode(CorrelationNode cNode) {
+	public Person getCoppaPersonFromPlayerInCorrelationNode(CorrelationNode cNode) {
 		Person person = null;
 		for(int i = 0; i < cNode.getPlayer().getContent().size(); i++){
 			Object object = cNode.getPlayer().getContent().get(i);

@@ -90,27 +90,6 @@ public class RemoteHealthcareSiteResolverTest extends ApplicationContextTest{
 		return remoteHealthcareSite;
 	}
 
-
-	/**
-	 * Test broadcast organization search.
-	 */
-	public void testBroadcastOrganizationSearch(){
-
-		String resultXml = null;
-		RemoteHealthcareSite remoteHealthcareSite = getSampleRemoteHealthcareSite();
-		String payLoad = 
-			CoppaObjectFactory.getCoppaOrganizationXml(remoteHealthcareSite.getName(), null, remoteHealthcareSite.getAddress().getCity(),
-					remoteHealthcareSite.getAddress().getStateCode(), remoteHealthcareSite.getAddress().getPostalCode(), remoteHealthcareSite.getAddress().getCountryCode());
-		try {
-			resultXml = personResolverUtils.broadcastOrganizationSearch(payLoad);
-		} catch (C3PRCodedException e) {
-			e.printStackTrace();
-			fail("Caxchange broadcast Failed");
-		}
-		
-		assertNotNull(resultXml);
-		assertTrue(resultXml.contains("SUCCESS"));
-	}
 	
 	/**
 	 * Test broadcast organization search.

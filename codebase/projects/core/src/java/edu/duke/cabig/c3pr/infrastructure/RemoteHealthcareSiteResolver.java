@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.infrastructure;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,14 +11,12 @@ import org.iso._21090.II;
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
-import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
-import gov.nih.nci.coppa.po.IdentifiedOrganization;
 
 /**
  * The Class RemoteHealthcareSiteResolver.
@@ -36,32 +33,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	private PersonOrganizationResolverUtils personOrganizationResolverUtils = null;
 	
 	public static final String CTEP_ID = "CTEP ID";
-	/**
-	 * Populate remote organization including the ctepCode given the IdentifiedOrganization.
-	 * No calls need to be invoked as the IdentifiedOrg is already provided
-	 * 
-	 * @param coppaOrganization the coppa organization
-	 * @param identifiedOrganization the identified organization
-	 * 
-	 * @return the organization
-	 */
-	private Organization getRemoteHealthcareSite(gov.nih.nci.coppa.po.Organization coppaOrganization,IdentifiedOrganization identifiedOrganization){
-		
-		RemoteHealthcareSite remoteHealthcareSite = null;
-		if (identifiedOrganization.getAssignedId() != null && identifiedOrganization.getAssignedId().getIdentifierName().equals(CTEP_ID)) {
-			remoteHealthcareSite = new RemoteHealthcareSite();
-			//Setting the CTEP ID 
-			personOrganizationResolverUtils.setCtepCodeFromExtension(remoteHealthcareSite, identifiedOrganization.getAssignedId().getExtension());
-			
-			Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
-			remoteHealthcareSite.setAddress(address);
-			remoteHealthcareSite.setName(CoppaObjectFactory.getName(coppaOrganization.getName()));
-			remoteHealthcareSite.setExternalId(coppaOrganization.getIdentifier().getExtension());
-		} else {
-			log.error(CoppaObjectFactory.getName(coppaOrganization.getName()) +" does not have valid CTEP ID. Skipping it.");
-		}
-		return remoteHealthcareSite;
-	}
+	private String ORGANIZATION_ROOT = "2.16.840.1.113883.3.26.4.2";
 
 
 	/**This is called by the interceptor when the object is loaded. 
@@ -92,53 +64,9 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		return personOrganizationResolverUtils.getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, false);
 	}
 	
-	/**
-	 * Gets the remote organization by nci identifier.
-	 * 
-	 * First calls the IdentifiedOrganization.search with the nciId set in the payload.
-	 * Then calls the Organization.getById for every organizationId returned by the previous call.
-	 * 
-	 * @param nciInstituteCode the nci institute code
-	 * @return the remote organization by nci identifier
-	 */
-	private List<Organization> getRemoteOrganizationsByNciIdentifier(String nciInstituteCode){
-		// get by nci-id
-		List <Organization> remoteOrganizationList = new ArrayList<Organization>();
-		IdentifiedOrganization idOrg = CoppaObjectFactory.getCoppaIdentfiedOrganizationSearchCriteriaOnCTEPId(nciInstituteCode);
-		String idOrgPayLoad = CoppaObjectFactory.getCoppaIdentfiedOrganization(idOrg);
-		String idOrgResult = "";
-		try {
-			idOrgResult = personOrganizationResolverUtils.broadcastIdentifiedOrganizationSearch(idOrgPayLoad);
-		} catch (C3PRCodedException e) {
-			throw new RuntimeException();
-		}
-		List<String> idOrgResults = XMLUtils.getObjectsFromCoppaResponse(idOrgResult);
-		for(int i = 0; i < idOrgResults.size(); i++){
-			IdentifiedOrganization coppaIdOrganization = CoppaObjectFactory.getCoppaIdentfiedOrganization(idOrgResults.get(i));
-			II orgId = coppaIdOrganization.getPlayerIdentifier();
-			String iiXml = CoppaObjectFactory.getCoppaIIXml(orgId);
-			//Get Organization based on player id of above.
-			String resultOrg  = "";
-			try {
-				resultOrg = personOrganizationResolverUtils.broadcastOrganizationGetById(iiXml);
-			} catch (Exception e) {
-				log.error(e.getMessage());
-			}
-			 
-			List<String> orgResult = XMLUtils.getObjectsFromCoppaResponse(resultOrg);
-			if (orgResult.size() > 0) {
-				gov.nih.nci.coppa.po.Organization coppaOrganizationResult = CoppaObjectFactory.getCoppaOrganization(orgResult.get(0));
-				Organization remoteOrganization = getRemoteHealthcareSite(coppaOrganizationResult,coppaIdOrganization); 
-				if(remoteOrganization != null){
-					remoteOrganizationList.add(remoteOrganization);
-				}
-			}
-		}
-		return remoteOrganizationList;
-	}
 	
 	/**
-	 * Searches Coppa database for orgs simliar to the example RemoteHelathcareSite that is passed into it.
+	 * Searches Coppa database for orgs similar to the example RemoteHelathcareSite that is passed into it.
 	 * 
 	 * @param Object the remote HealthcareSite
 	 * @return the object list; list of remoteHealthcareSites
@@ -146,66 +74,107 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 	@SuppressWarnings("unchecked")
 	public List<Object> find(Object example) {	
 		log.debug("Entering find() for:" + this.getClass());
-		RemoteHealthcareSite remoteOrgExample = (RemoteHealthcareSite)example;
-		
-		//get by nci-id
-		if (remoteOrgExample.getPrimaryIdentifier() != null) {
-			List<Object> remoteOrganizations = new ArrayList<Object>();
-			List<Organization> remoteOrganizationsList = getRemoteOrganizationsByNciIdentifier(remoteOrgExample.getPrimaryIdentifier());
-			if (remoteOrganizationsList != null) {
-				remoteOrganizations.addAll(remoteOrganizationsList);
-			}
-			return remoteOrganizations;
-		}
-		
-		//get by all other criteria
-		String payLoad = CoppaObjectFactory.getCoppaOrganizationXml(remoteOrgExample.getName(), null, 
-				remoteOrgExample.getAddress().getCity(), null, null, remoteOrgExample.getAddress().getCountryCode());
-		String resultXml  = "";
-		try {
-			resultXml  = personOrganizationResolverUtils.broadcastOrganizationSearchWithLimit(payLoad);
-		} catch (C3PRCodedException e) {
-			log.error(e);
-		}
-		
-		List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
-		List<gov.nih.nci.coppa.po.Organization> coppaOrganizations = new ArrayList<gov.nih.nci.coppa.po.Organization>();
-		for (String result:results) {
-			gov.nih.nci.coppa.po.Organization coppaOrganization = CoppaObjectFactory.getCoppaOrganization(result);
-			coppaOrganizations.add(coppaOrganization);
-		}
-
-		//get the map of identifiedOrgs for every org.
-		Map<String, IdentifiedOrganization> identifierOrganizationsMap = 
-							personOrganizationResolverUtils.getIdentifiedOrganizationsForOrganizationsList(coppaOrganizations);
-		
-		RemoteHealthcareSite remoteHealthcareSite;
-		List<Object> remoteHealthcareSites = new ArrayList<Object>();
-		IdentifiedOrganization identifiedOrganization;
-		for (gov.nih.nci.coppa.po.Organization coppaOrganization:coppaOrganizations) {
-			remoteHealthcareSite = null;
-			if(identifierOrganizationsMap.get(coppaOrganization.getIdentifier().getExtension()) != null){
-				remoteHealthcareSite = personOrganizationResolverUtils.getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, false);
-				if (remoteHealthcareSite != null) {
-					identifiedOrganization = identifierOrganizationsMap.get(coppaOrganization.getIdentifier().getExtension());
-					if(identifiedOrganization == null){
-						log.error("Rejecting Organization as it has no CTEP Id - " + remoteHealthcareSite.getName());
-					} else {
-						personOrganizationResolverUtils.setCtepCodeFromExtension(remoteHealthcareSite, identifiedOrganization.getAssignedId().getExtension());
-						remoteHealthcareSites.add(remoteHealthcareSite);
-					}
-				}
-			}
-		}
+		List<Object> remoteOrganizations;
+		remoteOrganizations = getRemoteOrganizationsByExample((RemoteHealthcareSite)example);
 		log.debug("Exiting find() for:" + this.getClass());
-		return remoteHealthcareSites;
+		return remoteOrganizations;
 	}
 	
+	/**
+	 * Gets the remote organization by nci identifier/name.
+	 * 
+	 * First calls the SearchCorrelationsWithEntities with IdentifiedOrganization as the correlationEntity.
+	 * 
+	 * @param RemoteHealthcareSite the example remoteHealthcareSite
+	 * @return the remote organization
+	 */
+	private List<Object> getRemoteOrganizationsByExample(RemoteHealthcareSite remoteHealthcareSite){
+		 List<Object> remoteOrganizations = new ArrayList<Object>();
+		// List<gov.nih.nci.coppa.po.CorrelationNode> correlationNodes = new ArrayList<gov.nih.nci.coppa.po.CorrelationNode>();
+		// get by name
+		gov.nih.nci.coppa.po.Organization coppaOrganization = CoppaObjectFactory.getCoppaOrganization(remoteHealthcareSite.getName(), null, 
+								remoteHealthcareSite.getAddress().getCity(), null, null, remoteHealthcareSite.getAddress().getCountryCode(), null);
+		if (remoteHealthcareSite.getExternalId() != null) {
+			II ii = new II();
+			ii.setExtension(remoteHealthcareSite.getExternalId());
+			ii.setRoot(ORGANIZATION_ROOT);
+			coppaOrganization.setIdentifier(ii);
+		}
+		gov.nih.nci.coppa.po.IdentifiedOrganization identifiedOrganization = new gov.nih.nci.coppa.po.IdentifiedOrganization();
+		if (remoteHealthcareSite.getPrimaryIdentifier() != null) {
+			II ii = new II();
+			ii.setExtension(remoteHealthcareSite.getPrimaryIdentifier());
+			identifiedOrganization.setAssignedId(ii);
+		}
+		String correlationNodeXmlPayload = CoppaObjectFactory.getCorrelationNodePayload(identifiedOrganization, coppaOrganization, null);
 
+		String resultXml = null;
+		try {
+			resultXml = personOrganizationResolverUtils.broadcastSearchCorrelationsWithEntities(correlationNodeXmlPayload, true, false);
+		} catch (C3PRCodedException e) {
+			log.error(e.getStackTrace());
+		}
+		remoteOrganizations = buildOrganizationsFromResults(resultXml);
+		return remoteOrganizations;
+	}
+	
+	/**
+	 * Builds the organizations from results.
+	 * 
+	 * @param resultXml the result xml
+	 * @return the list
+	 */
+	private List<Object> buildOrganizationsFromResults(String resultXml) {
+		List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
+		List<Object> remoteOrganizations = new ArrayList<Object>();
 
+		Organization remoteOrganization = null;
+		for (String result:results) {
+			gov.nih.nci.coppa.po.CorrelationNode correlationNode = CoppaObjectFactory.getCorrelationNodeObjectFromXml(result);
+			remoteOrganization = populateRemoteOrganization(correlationNode);
+			remoteOrganizations.add(remoteOrganization);
+		}
+		return remoteOrganizations;
+	}
+
+	 /**
+	* Populate c3pr organization with COPPA organization . 
+	* @param correlationNode
+	* @return
+	*/
+	private Organization populateRemoteOrganization(gov.nih.nci.coppa.po.CorrelationNode correlationNode){
+		gov.nih.nci.coppa.po.Organization coppaOrganization = null;
+		for(int i = 0; i < correlationNode.getPlayer().getContent().size(); i++){
+			Object object = correlationNode.getPlayer().getContent().get(i);
+			if(object instanceof gov.nih.nci.coppa.po.Organization){
+				coppaOrganization = (gov.nih.nci.coppa.po.Organization) object;
+				break;
+			}
+		}
+		 
+		gov.nih.nci.coppa.po.IdentifiedOrganization identifiedOrganization = null;
+		for(int i = 0; i < correlationNode.getCorrelation().getContent().size(); i++){
+			Object object = correlationNode.getCorrelation().getContent().get(i);
+			if(object instanceof gov.nih.nci.coppa.po.IdentifiedOrganization){
+				identifiedOrganization = (gov.nih.nci.coppa.po.IdentifiedOrganization) object;
+				break;
+			}
+		}
+		
+		RemoteHealthcareSite remoteHealthcareSite = personOrganizationResolverUtils.getRemoteHealthcareSiteFromCoppaOrganization(coppaOrganization, false);
+		//Setting the CTEP ID 
+		if (identifiedOrganization != null && identifiedOrganization.getAssignedId() != null && identifiedOrganization.getAssignedId().getIdentifierName().equals(CTEP_ID)) {
+			personOrganizationResolverUtils.setCtepCodeFromExtension(remoteHealthcareSite, identifiedOrganization.getAssignedId().getExtension());
+		} else {
+			return null;
+		}
+		return remoteHealthcareSite;
+	}
+
+	
 	/**
 	 * Saves orUpdates the remoteOrganization to Coppa.
-	 * This is utilized by the write/pdate flow and is currently not in use.
+	 * This is utilized by the write/update flow and is currently not in use.
 	 * 
 	 * @see com.semanticbits.coppa.infrastructure.service.RemoteResolver#saveOrUpdate(java.lang.Object)
 	 */
@@ -223,7 +192,7 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		}
 		
 		Object savedRemoteHealthcareSite = null;
-		//If save was succesfull then get the saved entity by externalID and return it to the calling method.
+		//If save was successful then get the saved entity by externalID and return it to the calling method.
 		if(resultXml.contains("SUCCESS")){
 			List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
 			
@@ -241,12 +210,8 @@ public class RemoteHealthcareSiteResolver implements RemoteResolver{
 		return personOrganizationResolverUtils;
 	}
 
-
 	public void setPersonOrganizationResolverUtils(PersonOrganizationResolverUtils personResolverUtils) {
 		this.personOrganizationResolverUtils = personResolverUtils;
 	}
 	
 }
-
-
-

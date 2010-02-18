@@ -120,10 +120,21 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		Person person = null;
 		String correlationNodeXmlPayload = null;
 		List<CorrelationNode> correlationNodeList = null;
-		//Get the staff corresponding to every Identified Person fetched. Because the identifiedPerson search by CTEP code is a 
-		//like match not exact match and can return more than one result.
-		for(int i=0; i<identifiedPersonsList.size(); i++ ){
-			personIiExtension = identifiedPersonsList.get(i).getPlayerIdentifier().getExtension();
+		
+		//The identifiedPerson search by CTEP code is a like match & not exact match and returns more than one result.
+		//So Iterate thru the IdentifiedPersons fetched and isolate the one whose extension exactly matches the search criteria. 
+		IdentifiedPerson identifiedPersonWithExactCtepIdMatch = null;
+		for(IdentifiedPerson identifiedPerson: identifiedPersonsList){
+			if(identifiedPerson != null && identifiedPerson.getAssignedId().getRoot().equalsIgnoreCase(PersonOrganizationResolverUtils.CTEP_PERSON)){
+				if(identifiedPerson.getAssignedId().getExtension().equalsIgnoreCase(remoteResearchStaffExample.getAssignedIdentifier())){
+					identifiedPersonWithExactCtepIdMatch = identifiedPerson;
+					break;
+				}
+			}
+		}
+		
+		if(identifiedPersonWithExactCtepIdMatch != null){
+			personIiExtension = identifiedPersonWithExactCtepIdMatch.getPlayerIdentifier().getExtension();
 			if(personIiExtension == null){
 				return remoteResearchStaffList;
 			}
@@ -131,8 +142,9 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 			correlationNodeXmlPayload = CoppaObjectFactory.getCorrelationNodePayload(new ClinicalResearchStaff(), person, null);
 			
 			correlationNodeList = personOrganizationResolverUtils.getCorrelationNodesFromPayloadXml(correlationNodeXmlPayload);
-			remoteResearchStaffList.addAll(getRemoteStaffFromCorrelationNodesList(correlationNodeList));
+			remoteResearchStaffList.addAll(getRemoteStaffFromCorrelationNodesList(correlationNodeList, null, remoteResearchStaffExample.getAssignedIdentifier()));
 		}
+	
 		return remoteResearchStaffList;
 	}
 
@@ -171,36 +183,8 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		String correlationNodeXmlPayload = CoppaObjectFactory.getCorrelationNodePayload(new ClinicalResearchStaff(), null, organization);
 		
 		List<CorrelationNode> correlationNodeList = personOrganizationResolverUtils.getCorrelationNodesFromPayloadXml(correlationNodeXmlPayload);
-		List<Person> listOfAllPersons = new ArrayList<Person>();
-		Person person = null;
-		for(CorrelationNode cNode: correlationNodeList){
-			person = personOrganizationResolverUtils.getCoppaPersonFromCorrelationNode(cNode);
-			if(person != null){
-				listOfAllPersons.add(person);
-			}
-		}
-		//Use the list of all persons to build a map of identified persons using the getByPlayerIds operation.
-		Map<String, List<IdentifiedPerson>> personIdToIdentifiedPersonMap = 
-							personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(listOfAllPersons);
+		List<Object> remoteStaffList = getRemoteStaffFromCorrelationNodesList(correlationNodeList, coppaIdOrganization, null);
 		
-		List<Object> remoteStaffList = new ArrayList<Object>();
-		RemoteResearchStaff populatedRemoteStaff = null;
-		Person coppaPerson = null;
-		String assignedIdentifier;
-		for(CorrelationNode cNode: correlationNodeList){
-			assignedIdentifier = null;
-			coppaPerson = personOrganizationResolverUtils.getCoppaPersonFromCorrelationNode(cNode);
-			assignedIdentifier = personOrganizationResolverUtils.getAssignedIdentifierFromCorrelationNode(coppaPerson, personIdToIdentifiedPersonMap);
-			if(assignedIdentifier == null){
-				assignedIdentifier = coppaPerson.getIdentifier().getExtension();
-			}
-			
-			populatedRemoteStaff = populateRemoteResearchStaff(coppaPerson, 
-														assignedIdentifier, coppaIdOrganization);	
-	    	if(populatedRemoteStaff != null){
-	    		remoteStaffList.add(populatedRemoteStaff);
-	    	}
-		}
 		return remoteStaffList;
 	}
 
@@ -216,7 +200,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		String correlationNodeXmlPayload = CoppaObjectFactory.getCorrelationNodePayload(new ClinicalResearchStaff(), person, null);
 		
 		List<CorrelationNode> correlationNodeList = personOrganizationResolverUtils.getCorrelationNodesFromPayloadXml(correlationNodeXmlPayload);
-		List<Object> remoteResearchStaffList = getRemoteStaffFromCorrelationNodesList(correlationNodeList);
+		List<Object> remoteResearchStaffList = getRemoteStaffFromCorrelationNodesList(correlationNodeList, null, null);
 		return remoteResearchStaffList;
 	}
 	
@@ -226,7 +210,7 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	 * @param correlationNodeList the correlation node list
 	 * @return the remote staff from correlation nodes list
 	 */
-	private List<Object> getRemoteStaffFromCorrelationNodesList(List<CorrelationNode> correlationNodeList) {
+	private List<Object> getRemoteStaffFromCorrelationNodesList(List<CorrelationNode> correlationNodeList, IdentifiedOrganization identifiedOrganization, String staffAssignedIdentifier) {
 		List<Object> researchStaffList = new ArrayList<Object>();
 		HashMap<String, List<Organization>> personIdToCoppaOrganizationsHashMap = new HashMap<String, List<Organization>>();
 		List<Organization> listOfAllOrganizations = new ArrayList<Organization>();
@@ -234,8 +218,8 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		Person tempPerson = null;
 		Organization tempOrganization  = null;
 		for(CorrelationNode cNode: correlationNodeList){
-			tempPerson = personOrganizationResolverUtils.getCoppaPersonFromCorrelationNode(cNode);
-			tempOrganization = personOrganizationResolverUtils.getCoppaOrganizationFromCorrelationNode(cNode);
+			tempPerson = personOrganizationResolverUtils.getCoppaPersonFromPlayerInCorrelationNode(cNode);
+			tempOrganization = personOrganizationResolverUtils.getCoppaOrganizationFromScoperInCorrelationNode(cNode);
 			
 			//building a list of all organizations
 			listOfAllOrganizations.add(tempOrganization);
@@ -254,21 +238,40 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 			}
 		}
 		
-		Map<String, IdentifiedOrganization> organizationIdToIdentifiedOrganizationsMap = 
-									personOrganizationResolverUtils.getIdentifiedOrganizationsForOrganizationsList(listOfAllOrganizations);
-		Map<String, List<IdentifiedPerson>> personIdToIdentifiedPersonMap = 
-									personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(listOfAllPersons);
+		Map<String, IdentifiedOrganization> organizationIdToIdentifiedOrganizationsMap = null;
+		Map<String, List<IdentifiedPerson>> personIdToIdentifiedPersonMap = null;
+		if(identifiedOrganization == null){
+			organizationIdToIdentifiedOrganizationsMap = 
+				personOrganizationResolverUtils.getIdentifiedOrganizationsForOrganizationsList(listOfAllOrganizations);
+
+		}
+		if(staffAssignedIdentifier == null){
+			personIdToIdentifiedPersonMap = personOrganizationResolverUtils.getIdentifiedPersonsForPersonList(listOfAllPersons);
+		}
 		
 		RemoteResearchStaff populatedRemoteStaff  = null;
+		Person coppaPerson = null;
+		String assignedIdentifier = null;
 		for(CorrelationNode cNode: correlationNodeList){
-			Person coppaPerson = personOrganizationResolverUtils.getCoppaPersonFromCorrelationNode(cNode);
-			String assignedIdentifier = personOrganizationResolverUtils.getAssignedIdentifierFromCorrelationNode(coppaPerson, personIdToIdentifiedPersonMap);
-			if(assignedIdentifier == null){
-				assignedIdentifier = coppaPerson.getIdentifier().getExtension();
+			coppaPerson = personOrganizationResolverUtils.getCoppaPersonFromPlayerInCorrelationNode(cNode);
+			//Only get the AssignedIdentifier if its passed in as null
+			if(staffAssignedIdentifier == null){
+				assignedIdentifier = personOrganizationResolverUtils.getAssignedIdentifierFromPersonIdToIdentifiedPersonMap(coppaPerson, personIdToIdentifiedPersonMap);
+				if(assignedIdentifier == null){
+					assignedIdentifier = coppaPerson.getIdentifier().getExtension();
+				}
+			} else {
+				assignedIdentifier = staffAssignedIdentifier;
 			}
 			
-			populatedRemoteStaff = populateRemoteResearchStaff(coppaPerson, assignedIdentifier, 
-										personIdToCoppaOrganizationsHashMap.get(coppaPerson.getIdentifier().getExtension()), organizationIdToIdentifiedOrganizationsMap);	
+			//Call the right populate method based on whether identifiedOrganization is already available or not
+			if(identifiedOrganization == null){
+				populatedRemoteStaff = populateRemoteResearchStaff(coppaPerson, assignedIdentifier, 
+						personIdToCoppaOrganizationsHashMap.get(coppaPerson.getIdentifier().getExtension()), organizationIdToIdentifiedOrganizationsMap);	
+			} else {
+				populateRemoteResearchStaff(coppaPerson, assignedIdentifier, identifiedOrganization);
+			}
+			
 	    	if(populatedRemoteStaff != null){
 	    		researchStaffList.add(populatedRemoteStaff);
 	    	}
