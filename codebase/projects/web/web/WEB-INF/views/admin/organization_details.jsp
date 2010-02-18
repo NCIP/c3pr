@@ -112,7 +112,7 @@ div.row div.label {
 			<c:choose>
 				<c:when
 					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
-					<div class="value">${command.name} &nbsp;<img
+					<div class="value">&nbsp;${command.name} &nbsp;<img
 						src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar"
 						width="17" height="16" border="0" align="middle" /> <tags:hoverHint
 						keyProp="organization.name" /></div>
@@ -133,10 +133,10 @@ div.row div.label {
 					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
 					<c:choose>
 						<c:when test="${!empty command.descriptionText}">
-							<div class="value">${command.descriptionText}</div>
+							<div class="value">&nbsp;${command.descriptionText}</div>
 						</c:when>
 						<c:otherwise>
-							<div class="value"><span class="no-selection"><fmt:message
+							<div class="value"><span class="no-selection">&nbsp;<fmt:message
 								key="c3pr.common.noDataAvailable" /></span></div>
 						</c:otherwise>
 					</c:choose>
@@ -209,7 +209,7 @@ div.row div.label {
 								test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
 								<c:choose>
 									<c:when test="${!empty command.address.streetAddress}">
-										<div class="value">${command.address.streetAddress}</div>
+										<div class="value">&nbsp;${command.address.streetAddress}</div>
 									</c:when>
 									<c:otherwise>
 										<div class="value"><span class="no-selection"><fmt:message
@@ -229,7 +229,7 @@ div.row div.label {
 								test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
 								<c:choose>
 									<c:when test="${!empty command.address.city}">
-										<div class="value">${command.address.city}</div>
+										<div class="value">&nbsp;${command.address.city}</div>
 									</c:when>
 									<c:otherwise>
 										<div class="value"><span class="no-selection"><fmt:message
@@ -249,10 +249,10 @@ div.row div.label {
 					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
 					<c:choose>
 						<c:when test="${!empty command.address.stateCode}">
-							<div class="value">${command.address.stateCode}</div>
+							<div class="value">&nbsp;${command.address.stateCode}</div>
 						</c:when>
 						<c:otherwise>
-							<div class="value"><span class="no-selection"><fmt:message
+							<div class="value"><span class="no-selection">&nbsp;<fmt:message
 								key="c3pr.common.noDataAvailable" /></span></div>
 						</c:otherwise>
 					</c:choose>
@@ -270,10 +270,10 @@ div.row div.label {
 					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
 					<c:choose>
 						<c:when test="${!empty command.address.postalCode}">
-							<div class="value">${command.address.postalCode}</div>
+							<div class="value">&nbsp;${command.address.postalCode}</div>
 						</c:when>
 						<c:otherwise>
-							<div class="value"><span class="no-selection"><fmt:message
+							<div class="value"><span class="no-selection">&nbsp;<fmt:message
 								key="c3pr.common.noDataAvailable" /></span></div>
 						</c:otherwise>
 					</c:choose>
@@ -291,7 +291,7 @@ div.row div.label {
 					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
 					<c:choose>
 						<c:when test="${!empty command.address.countryCode}">
-							<div class="value">${command.address.countryCode}</div>
+							<div class="value">&nbsp;${command.address.countryCode}</div>
 						</c:when>
 						<c:otherwise>
 							<div class="value"><span class="no-selection"><fmt:message
