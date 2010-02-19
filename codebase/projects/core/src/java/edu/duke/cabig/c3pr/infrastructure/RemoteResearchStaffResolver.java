@@ -39,8 +39,6 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 	
     private PersonOrganizationResolverUtils personOrganizationResolverUtils;
     
-    public static final String CTEP_PERSON = "Cancer Therapy Evaluation Program Person Identifier";
-	
 	
 	public Object getRemoteEntityByUniqueId(String externalId) {
 		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass() + " - ExtId: " +externalId);
@@ -55,11 +53,12 @@ public class RemoteResearchStaffResolver implements RemoteResolver{
 		
 		List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
 		Person coppaPerson = null;
+		ResearchStaff researchStaff = null;
 		if (results.size() > 0) {
 			coppaPerson = CoppaObjectFactory.getCoppaPerson(results.get(0));
+			researchStaff = populateRemoteResearchStaff(coppaPerson, "", null);
 		}
 		
-		ResearchStaff researchStaff = populateRemoteResearchStaff(coppaPerson, "", null);
 		log.debug("Exiting getRemoteEntityByUniqueId() for:" + this.getClass());
 		return researchStaff;
 	}

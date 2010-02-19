@@ -55,9 +55,9 @@ public class RemoteInvestigatorResolver implements RemoteResolver{
 		
 		List<Object> remoteInvestigatorList = new ArrayList<Object>();
 		RemoteInvestigator populatedRemoteInvestigator = null;
+		Person coppaPerson = null;
 		for(CorrelationNode cNode: correlationNodeList){
-			Person coppaPerson = personOrganizationResolverUtils.getCoppaPersonFromPlayerInCorrelationNode(cNode);
-			
+			coppaPerson = personOrganizationResolverUtils.getCoppaPersonFromPlayerInCorrelationNode(cNode);
 			populatedRemoteInvestigator = populateRemoteInvestigator(coppaPerson, "", null);	
 	    	if(populatedRemoteInvestigator != null){
 	    		remoteInvestigatorList.add(populatedRemoteInvestigator);

@@ -61,7 +61,8 @@ public class PersonOrganizationResolverUtils {
 	public static final String NCI_ID = "NCI Research Organization identifier";
 	public static final String NCI_ROOT = "2.16.840.1.113883.3.26.4.4.5";
 	public static final String CTEP_PERSON = "Cancer Therapy Evaluation Program Person Identifier";
-    
+	public static final String ORGANIZATION_ROOT = "2.16.840.1.113883.3.26.4.2";
+
     
 	public List<IdentifiedPerson> getIdentifiedPerson(II personIdentifier) {
 		List<IdentifiedPerson> identifiedPersonsList = new ArrayList<IdentifiedPerson>();
