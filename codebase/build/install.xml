@@ -492,7 +492,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	</target>
 
 	<target name="install:tomcat:c3pr-webapp" description="Deploy c3pr-webapp and common libraries to tomcat installation" unless="exclude.tomcat" depends="common:init,common:tomcat:init">
-		<delete dir="${tomcat.home}/temp"/>
+		<!--<delete dir="${tomcat.home}/temp"/> -->
 		<delete dir="${tomcat.home}/work"/>
 		<delete dir="${tomcat.home}/webapps/${application.context.name}"/>
 		<copy file="${c3pr-webapp.dir.dist}/${c3pr-webapp.war.file}" todir="${tomcat.home}/webapps" overwrite="true" />
