@@ -163,7 +163,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="accessDeniedHandler">
             <bean
                     class="org.acegisecurity.ui.AccessDeniedHandlerImpl">
-                <property name="errorPage" value="/accessDenied.jsp"/>
+                <!-- removed the errorPage property. This delegates the access denied page rendering to 
+                    web.xml -->
             </bean>
         </property>
     </bean>
