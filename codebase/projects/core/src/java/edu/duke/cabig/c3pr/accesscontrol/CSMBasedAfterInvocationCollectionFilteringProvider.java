@@ -20,19 +20,19 @@ import org.apache.log4j.Logger;
  * IntelliJ IDEA. User: kherm Date: Sep 9, 2007 Time: 5:46:31 PM To change this template use File |
  * Settings | File Templates.
  */
-public class SiteSecurityAfterInvocationCollectionFilteringProvider implements
+public class CSMBasedAfterInvocationCollectionFilteringProvider implements
                 AfterInvocationProvider {
 
     private String accessPrivilege = Constants.CSM_ACCESS_PRIVILEGE;
 
     private String processConfigAttribute;
 
-    private LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
+    private LinkedHashMap domainObjectCSMAuhthorizationCheckProvidersMap;
 
     private Class processDomainObjectClass = MutableDomainObject.class;
 
     private Logger log = Logger
-                    .getLogger(SiteSecurityAfterInvocationCollectionFilteringProvider.class);
+                    .getLogger(CSMBasedAfterInvocationCollectionFilteringProvider.class);
 
     public Object decide(Authentication authentication, Object object,
                     ConfigAttributeDefinition configAttributeDefinition, Object returnedObject)
@@ -80,7 +80,7 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements
             }
             else {
 
-                if (!domainObjectSiteSecurityAuhthorizationCheckProvidersMap
+                if (!domainObjectCSMAuhthorizationCheckProvidersMap
                                 .containsKey(domainObject.getClass().getName())) {
                     log
                                     .warn("Skipping Authorization. No appropriate CSMAuthorizationCheck object found for object type: "
@@ -88,7 +88,7 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements
                     hasPermission = true;
                 }
                 else {
-                    CSMAuthorizationCheck auth = (CSMAuthorizationCheck) domainObjectSiteSecurityAuhthorizationCheckProvidersMap
+                    CSMAuthorizationCheck auth = (CSMAuthorizationCheck) domainObjectCSMAuhthorizationCheckProvidersMap
                                     .get(domainObject.getClass().getName());
                     hasPermission = auth.checkAuthorization(authentication, accessPrivilege,
                                     domainObject);
@@ -135,12 +135,9 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements
         this.processConfigAttribute = processConfigAttribute;
     }
 
-    public LinkedHashMap getDomainObjectSiteSecurityAuhthorizationCheckProvidersMap() {
-        return domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
-    }
+	public void setDomainObjectCSMAuhthorizationCheckProvidersMap(
+			LinkedHashMap domainObjectCSMAuhthorizationCheckProvidersMap) {
+		this.domainObjectCSMAuhthorizationCheckProvidersMap = domainObjectCSMAuhthorizationCheckProvidersMap;
+	}
 
-    public void setDomainObjectSiteSecurityAuhthorizationCheckProvidersMap(
-                    LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap) {
-        this.domainObjectSiteSecurityAuhthorizationCheckProvidersMap = domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
-    }
 }

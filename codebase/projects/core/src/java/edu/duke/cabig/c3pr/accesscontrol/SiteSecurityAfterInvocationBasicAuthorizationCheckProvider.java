@@ -24,12 +24,12 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
 
     private String processConfigAttribute;
 
-    private LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
+    private LinkedHashMap domainObjectCSMAuhthorizationCheckProvidersMap;
 
     private Class processDomainObjectClass = AbstractMutableDomainObject.class;
 
     private Logger log = Logger
-                    .getLogger(SiteSecurityAfterInvocationCollectionFilteringProvider.class);
+                    .getLogger(CSMBasedAfterInvocationCollectionFilteringProvider.class);
 
     public Object decide(Authentication authentication, Object object,
                     ConfigAttributeDefinition configAttributeDefinition, Object returnedObject)
@@ -53,7 +53,7 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
             return returnedObject;
         }
 
-        if (!domainObjectSiteSecurityAuhthorizationCheckProvidersMap.containsKey(returnedObject
+        if (!domainObjectCSMAuhthorizationCheckProvidersMap.containsKey(returnedObject
                         .getClass().getName())) {
             log
                             .warn("Slipping Authorization. No appropriate CSMAuthorizationCheck object found for object type: "
@@ -61,7 +61,7 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
             return returnedObject;
         }
 
-        CSMAuthorizationCheck auth = (CSMAuthorizationCheck) domainObjectSiteSecurityAuhthorizationCheckProvidersMap
+        CSMAuthorizationCheck auth = (CSMAuthorizationCheck) domainObjectCSMAuhthorizationCheckProvidersMap
                         .get(returnedObject.getClass().getName());
         boolean hasPermission = auth.checkAuthorization(authentication, accessPrivilege,
                         returnedObject);
@@ -107,12 +107,9 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
         this.processConfigAttribute = processConfigAttribute;
     }
 
-    public LinkedHashMap getDomainObjectSiteSecurityAuhthorizationCheckProvidersMap() {
-        return domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
-    }
+	public void setDomainObjectCSMAuhthorizationCheckProvidersMap(
+			LinkedHashMap domainObjectCSMAuhthorizationCheckProvidersMap) {
+		this.domainObjectCSMAuhthorizationCheckProvidersMap = domainObjectCSMAuhthorizationCheckProvidersMap;
+	}
 
-    public void setDomainObjectSiteSecurityAuhthorizationCheckProvidersMap(
-                    LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap) {
-        this.domainObjectSiteSecurityAuhthorizationCheckProvidersMap = domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
-    }
 }

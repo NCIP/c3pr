@@ -1,0 +1,98 @@
+<dataset>
+
+	<CSM_USER user_id="1000" login_name="admin" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1001" login_name="site_coordinator" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1002" login_name="hcs_study_co1" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1003" login_name="hcs_study_co2" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1004" login_name="hcs_registrar1" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1005" login_name="hcs_registrar2" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1006" login_name="hcs_study_co3" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1007" login_name="hcs_registrar3" first_name="c3pr_etc" last_name="admin_etc" />
+                     
+    <STUDIES id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" dtype="Local"/>
+    <STUDIES id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" dtype="Local"/>
+    <STUDIES id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty" status="OPEN" retired_indicator = "false" dtype="Local"/>
+   
+
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1000" study_id="1000" long_title_text="long_title_text" name="1.0" version_date="01-01-2001" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1001" study_id="1001" long_title_text="long_title_text2" name="1.0" version_date="01-01-2001" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1002" study_id="1002" long_title_text="long_title_text" name="1.0" version_date="01-01-2001" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+
+    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA"
+               postal_code="20191" country_code="USA" retired_indicator="false"/>
+    <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171"
+               country_code="USA" retired_indicator="false"/>
+
+
+    <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000"
+                   retired_indicator="false"/>
+    <ORGANIZATIONS id="1001" version="1" name="National Cancer Institute" description_text="National Cancer Institute" dtype="Local"
+                   address_id="1001" retired_indicator="false"/>
+
+
+    <STUDY_ORGANIZATIONS id="1000" version="1"
+                          study_id="1000"
+                         hcs_id="1000" type="SST"   retired_indicator="false"/>
+    <STUDY_ORGANIZATIONS id="1004" version="1"
+                         study_id="1000"
+                         hcs_id="1000" type="SCC" retired_indicator="false"/>
+    <STUDY_ORGANIZATIONS id="1002" version="1"
+                          study_id="1001"
+                         hcs_id="1000" type="SST"   retired_indicator="false"/>
+    <STUDY_ORGANIZATIONS id="1005" version="1"
+                         study_id="1001"
+                         hcs_id="1000" type="SCC" retired_indicator="false"/>
+    <STUDY_ORGANIZATIONS id="1006" version="1"
+                     study_id="1002"
+                     hcs_id="1000" type="SST"   retired_indicator="false"/>
+    <STUDY_ORGANIZATIONS id="1007" version="1"
+                     study_id="1002"
+                     hcs_id="1000" type="SCC" retired_indicator="false"/>
+                         
+	<STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="01-01-2000" />
+	<STU_SITE_STATUS_HISTORY id="1002" version="1" sto_id="1002" site_study_status="ACTIVE"  start_date="01-01-2000" />
+	<STU_SITE_STATUS_HISTORY id="1006" version="1" sto_id="1006" site_study_status="ACTIVE"  start_date="01-01-2000" />
+    
+    <study_site_versions id="1000" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1000" sto_id="1000" retired_indicator="false"/>
+    <study_site_versions id="1002" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1001" sto_id="1002" retired_indicator="false"/>
+    <study_site_versions id="1006" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    stu_version_id="1002" sto_id="1006" retired_indicator="false"/>
+
+    <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" hcs_id="1001" org_id="1001"
+                 retired_indicator="false" primary_indicator="0"/>
+	<IDENTIFIERS id="0909" version="1" value="nci1" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1000" dtype="OAI" stu_id="1000"
+                 retired_indicator="false"/>
+    <IDENTIFIERS id="1002" version="1" value="nci2" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1000" dtype="OAI" stu_id="1001"
+    			retired_indicator="false"/>
+    <IDENTIFIERS id="1003" version="1" value="nci4" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1000" dtype="OAI" stu_id="1002"
+    			retired_indicator="false"/>
+    <IDENTIFIERS id="1006" version="1" value="Duke" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="1"/>
+
+    <RESEARCH_STAFF id="1000" version="1" dtype="Local" first_name="Duke" last_name="admin" hcs_id="1000"
+                         retired_indicator="false"  assigned_identifier="x1" login_id="1000"/>
+    <RESEARCH_STAFF id="1001" version="1" dtype="Local" first_name="Duke" last_name="SiteCo" hcs_id="1000"
+     retired_indicator="false"  assigned_identifier="x2" login_id="1001"/>
+    <RESEARCH_STAFF id="1002" version="1" dtype="Local" first_name="Duke" last_name="StudyCo1" hcs_id="1000"
+     retired_indicator="false"  assigned_identifier="x3" login_id="1002"/>
+    <RESEARCH_STAFF id="1003" version="1" dtype="Local" first_name="Duke" last_name="StudyCo2" hcs_id="1000"
+    retired_indicator="false"  assigned_identifier="x4" login_id="1003"/>
+    <RESEARCH_STAFF id="1004" version="1" dtype="Local" first_name="Duke" last_name="Reg1" hcs_id="1000"
+    retired_indicator="false"  assigned_identifier="x5" login_id="1004"/>
+    <RESEARCH_STAFF id="1005" version="1" dtype="Local" first_name="Duke" last_name="Reg2" hcs_id="1000"
+    retired_indicator="false"  assigned_identifier="x6" login_id="1005"/>
+    <RESEARCH_STAFF id="1006" version="1" dtype="Local" first_name="Duke" last_name="Reg1" hcs_id="1000"
+                      retired_indicator="false"  assigned_identifier="x7" login_id="1006"/>
+    <RESEARCH_STAFF id="1007" version="1" dtype="Local" first_name="Duke" last_name="Reg2" hcs_id="1000"
+                      retired_indicator="false"  assigned_identifier="x8" login_id="1007"/>
+                     
+                     <STUDY_PERSONNEL id="1000" version="1" research_staff_id="1002" sto_id="1000" status_code="Active" retired_indicator="false"/>
+                     <STUDY_PERSONNEL id="1001" version="1" research_staff_id="1005" sto_id="1000" status_code="Active" retired_indicator="false"/>
+                     <STUDY_PERSONNEL id="1002" version="1" research_staff_id="1003" sto_id="1002" status_code="Active" retired_indicator="false"/>
+                     <STUDY_PERSONNEL id="1003" version="1" research_staff_id="1004" sto_id="1002" status_code="Active" retired_indicator="false"/>
+                     <STUDY_PERSONNEL id="1004" version="1" research_staff_id="1005" sto_id="1002" status_code="Active" retired_indicator="false"/>
+                     <STUDY_PERSONNEL id="1005" version="1" research_staff_id="1002" sto_id="1006" status_code="Active" retired_indicator="false"/>
+                     <STUDY_PERSONNEL id="1006" version="1" research_staff_id="1003" sto_id="1006" status_code="Active" retired_indicator="false"/>
+                     <STUDY_PERSONNEL id="1007" version="1" research_staff_id="1004" sto_id="1006" status_code="Active" retired_indicator="false"/>
+</dataset>

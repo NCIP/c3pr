@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.acegisecurity.AccessDeniedException;
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.userdetails.User;
@@ -20,14 +21,15 @@ public class StudySecurityFilterUnitTest extends AbstractTestCase {
 	
 	private StudySecurityFilter studySecurityFilter;
 	private CSMUserRepository csmUserRepository;
-	List<RoleTypes> rolesToExclude;
-	List<Study> studies;
-	CollectionFilterer collectionFilterer;
-	Authentication authentication;
-	StudyCreationHelper studyCreationHelper;
-	ResearchStaff researchStaff;
-	Study study1;
-	Study study2;
+	private List<RoleTypes> rolesToExclude;
+	private List<Study> studies;
+	private CollectionFilterer collectionFilterer;
+	private AbstractMutableDomainObjectFilterer abstractMutableDomainObjectFilterer;
+	private Authentication authentication;
+	private StudyCreationHelper studyCreationHelper;
+	private ResearchStaff researchStaff;
+	private Study study1;
+	private Study study2;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -112,6 +114,40 @@ public class StudySecurityFilterUnitTest extends AbstractTestCase {
 		assertTrue(studiesRet.toArray()[0]==study1);
 		assertTrue(studiesRet.toArray()[1]==study2);
 		verifyMocks();
+	}
+	
+	public void testFilterStudyCoordinator4(){
+		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
+		expectSecurityUtilsIsSuperAdmin(false);
+		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR);
+		expectSecurityUtilsGetUsername();
+		EasyMock.expect(csmUserRepository.getUserByName("username")).andReturn(researchStaff);
+		EasyMock.expect(study1.isAssignedAndActivePersonnel(researchStaff)).andReturn(true);
+		replayMocks();
+		Study study = (Study)studySecurityFilter.filter(authentication, "", new AbstractMutableDomainObjectFilterer(study1));
+		assertTrue(study==study1);
+		verifyMocks();
+	}
+	
+	public void testFilterStudyCoordinator5(){
+		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
+		expectSecurityUtilsIsSuperAdmin(false);
+		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR);
+		expectSecurityUtilsGetUsername();
+		EasyMock.expect(csmUserRepository.getUserByName("username")).andReturn(researchStaff);
+		EasyMock.expect(study2.isAssignedAndActivePersonnel(researchStaff)).andReturn(false);
+		replayMocks();
+		try {
+			studySecurityFilter.filter(authentication, "", new AbstractMutableDomainObjectFilterer(study2));
+			fail("Should have thrown exception");
+		} catch (AccessDeniedException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Wrong Exception.");
+		}finally{
+			verifyMocks();
+		}
 	}
 	
 	private void expectSecurityUtilsIsSuperAdmin(boolean isAdmin){
