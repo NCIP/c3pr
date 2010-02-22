@@ -1,34 +1,61 @@
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@include file="/WEB-INF/tags/taglibs.jsp" %>
+<%@taglib uri="http://www.opensymphony.com/sitemesh/page" prefix="page" %>
+<page:applyDecorator name="standard">
+    <html>
+    <head>
+        <style>
+            div.error {
+                font-size: 26px;
+                text-align: left;
+                color: #333366;
+				margin-left:-2px;
+				padding-bottom:16px;
+            }
 
+            div.errorMessage {
+                font-size: 12px;
+                text-align: left;
+            }
 
-<html>
-<head>
+            table.errortd {
+                border: 0px gray dotted;
+                font-size: 11px;
+            }
 
-</head>
-<body>
+            table.errortd td {
+                border: 1px gray dotted;
+                font-size: 11px;
+				background-color:white;
+            }
+        </style>
+        
+        <title>Access Denied</title>
 
-<chrome:box title="Access Denied" autopad="true">
-
-    <div class="row">
-        <div class="label">
-             <ul class="errors">
-            Access Denied:
-                 </ul>
+    </head>
+    <body>
+    <div style="overflow:auto; margin-bottom:10px;">
+        <img src="<c:url value="/images/error.png" />" style="float:left; margin:10px;">
+        <div style="float:left; padding-left:20px; padding-top:12px;">
+            <div class="error">
+                Access Denied!
             </div>
-        <div class="value">
-                You do not have sufficient privileges to access this resource.
+            <div class="errorMessage">
+                 You do not have sufficient privileges to access this resource.
+            </div>
+            <br>
+            <div class="errorMessage">
+                <!--[if IE]>
+                    &nbsp;&nbsp;
+                <![endif]-->
+                <c:set var="homeHref">
+                    <c:url value='/'/>
+                </c:set>
+                <!--[if IE]>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <![endif]--><tags:button color="blue" onclick="javascript:location.href='${homeHref}'" value="Go Home" />
+            </div>
         </div>
-    </div>
-     <div class="row">
-    <div class="value">
-        <a href="<c:url value="/"/>">Return Home</a>
-    </div>
-         </div>
-
-</chrome:box>
-
-</body>
-
-</html>
+    </body>
+    </html>
+</page:applyDecorator>
+<!-- END decorated-error.jsp -->
