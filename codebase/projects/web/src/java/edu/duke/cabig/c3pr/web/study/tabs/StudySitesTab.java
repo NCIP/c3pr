@@ -92,12 +92,11 @@ public class StudySitesTab extends StudyTab {
 		for (StudySite studySite : study.getStudySites()) {
 			setCoordinatingCenterStudyStatus(request, study, studySite);
 		}
-		for (CompanionStudyAssociation parentStudyAssociation : study
-				.getParentStudyAssociations()) {
-			for (StudySite studySite : parentStudyAssociation.getStudySites()) {
-				setCoordinatingCenterStudyStatus(request, study, studySite);
-			}
-		}
+//		for (CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()) {
+//			for (StudySite studySite : parentStudyAssociation.getStudySites()) {
+//				setCoordinatingCenterStudyStatus(request, study, studySite);
+//			}
+//		}
 	}
 
 	private void setCoordinatingCenterStudyStatus(HttpServletRequest request,
