@@ -98,7 +98,7 @@ public class StudyPersonnelTab extends StudyTab {
 
         if (!errors.hasErrors()) {
             if (StringUtils.equals("siteChange", action)) {
-                request.getSession().setAttribute("_selectedSite", selectedSite);
+                request.setAttribute("_selectedSite", selectedSite);
             }else if (StringUtils.equals("addStudyPerson", action) && studySite != null) {
                 String[] rsIds = studySite.getStudyPersonnelIds();
                 if (rsIds.length > 0) {
