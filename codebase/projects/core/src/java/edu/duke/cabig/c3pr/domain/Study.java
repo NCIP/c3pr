@@ -820,7 +820,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	}
 
 	@OneToMany(mappedBy = "companionStudy")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.LOCK})
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<CompanionStudyAssociation> getParentStudyAssociations() {
 		return parentStudyAssociations;
@@ -896,7 +896,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	public StudyOrganization getStudyCoordinatingCenter() {
 		return this.getStudyCoordinatingCenters().get(0);
 	}
-
+	
 	@Transient
 	public StudySite getStudySite(String primaryIdentifier) {
 		for (StudySite studySite : this.getStudySites()) {
