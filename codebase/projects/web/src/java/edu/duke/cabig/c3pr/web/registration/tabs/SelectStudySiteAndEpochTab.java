@@ -60,8 +60,6 @@ public class SelectStudySiteAndEpochTab extends RegistrationTab<StudySubjectWrap
 	}
 
 	private List<StudySite> getStudySites(Study study, Study companionStudy) {
-//		CompanionStudyAssociation companionStudyAssociation = companionStudy.getParentStudyAssociation(study.getId());
-//		return companionStudyAssociation.getStudySites();
 		List<StudySite> studySites = new ArrayList<StudySite>();
 		for(StudySite studySite : companionStudy.getStudySites()){
 			for(StudySite parentStudySite : study.getAccruingStudySites()){
