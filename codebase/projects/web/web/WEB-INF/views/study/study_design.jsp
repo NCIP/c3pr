@@ -360,6 +360,23 @@ DELETED TD
 	onclick="$('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps)" />
     <br></div>
 </jsp:attribute>
+
+		<jsp:attribute name="localButtons">
+			<c:if test="${!empty param.parentStudyFlow}">
+			<script>
+			function returnToParentUsingButton(parentStudyFlow, parentStudyId){
+				if(parentStudyFlow == 'Amend Study'){
+					$('parentStudyFormButton').action = "/c3pr/pages/study/amendStudy?studyId="+parentStudyId ;
+				}else{
+					$('parentStudyFormButton').action = "/c3pr/pages/study/editStudy?studyId="+parentStudyId ;
+				}
+				$('parentStudyFormButton').submit();
+			}
+			</script>
+			<tags:button type="button" color="blue" icon="back" value="Return to parent" onclick="returnToParentUsingButton('${param.parentStudyFlow}', '${command.study.parentStudyAssociations[0].parentStudy.id}')" />
+			</c:if>
+		</jsp:attribute>
+
 </tags:tabForm>
 
 

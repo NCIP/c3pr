@@ -34,6 +34,7 @@ public class StudyDetailsTab extends StudyTab {
 
 	public StudyDetailsTab() {
         super("Details", "Details", "study/study_details");
+        setShowSummary("false");
     }
 
     /*
@@ -145,7 +146,6 @@ public class StudyDetailsTab extends StudyTab {
         			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
 						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
 					}
-//        			studySite.addStudySiteStudyVersion(new StudySiteStudyVersion());
         			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
 	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
 	        		studySite.addStudyInvestigator(studyInvestigator);

@@ -8,20 +8,35 @@
 
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" displayErrors="false">
-
 	<jsp:attribute name="singleFields">
     <tags:instructions code="study_companions" />
     <script type="text/javascript">
 
 	function addRow(action){
     	if(action == 'createCompanionStudy'){
-    		$('dummy-row').innerHTML=$('dummy-row-create').innerHTML;
+    		confirmationPopup();
     	}else{
     		$('dummy-row').innerHTML=$('dummy-row-add').innerHTML;
+    		javascript:RowManager.addRow(instanceRowInserterProps);
         }
-    	 javascript:RowManager.addRow(instanceRowInserterProps);
     }
-    
+
+	var confirmWin ;
+	
+    function confirmationPopup(){
+    	confirmWin = new Window({className :"mac_os_x", title: "Confirm", 
+			hideEffect:Element.hide, 
+			zIndex:100, width:400, height:180 , minimizable:false, maximizable:false,
+			showEffect:Element.show 
+			}); 
+		confirmWin.setContent($('confirmationMessage')) ;
+		confirmWin.showCenter(true);
+    }
+
+    function createNewCompanion(){
+    	<tags:tabMethod method="createEmbeddedCompanionStudy" viewName="/study/asynchronous/redirect_companion"   divElement="'dummy-div'" formName="'tabMethodForm'"/>
+    }
+
     var currentRow = -1;
     
 	var companionStudyAssociationsAutocompleterProps = {
@@ -100,6 +115,7 @@ function closePopup(deleteRow) {
 // SCRIPTS FOR COMPANION
 </script>
 <tags:errors path="study.companionStudyAssociations" />
+<div id="dummy-div" style="display: none"></div>
 <table border="0" cellspacing="0" cellpadding="0" height="50" width="100%" border="2">
     <tr>
         <td>
@@ -207,7 +223,19 @@ onclick="$('addCompanionMessage') != null ? $('addCompanionMessage').hide():'';a
 	        </tr>
 	    </table>
 </div>
-
+<div id="HiddenPage" style="display:none;">
+<div id="confirmationMessage" style="padding: 15px;">
+	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.CREATE.COMPANION.WARNING"/>
+	<div id="actionButtons">
+		<div class="flow-buttons">
+	   	<span class="next">
+	   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
+			<tags:button type="button" color="green" icon="save" onclick="createNewCompanion();" value="Continue" />
+		</span>
+		</div>
+	</div>
+</div>
+</div>
 <div id="dummy-row-create" style="display:none;">
 	 	<table>
 	        <tr id="companionTable-PAGE.ROW.INDEX">

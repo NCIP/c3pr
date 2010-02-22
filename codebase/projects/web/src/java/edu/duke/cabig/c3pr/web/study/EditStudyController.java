@@ -138,5 +138,18 @@ public class EditStudyController extends StudyController<StudyWrapper> {
         ModelAndView modelAndView = new ModelAndView(new RedirectView("searchStudy"));
         return modelAndView;
     }
+    
+    @Override
+    protected boolean isFormSubmission(HttpServletRequest request) {
+    	boolean isFormSumission = super.isFormSubmission(request); 
+    	if(isFormSumission && WebUtils.hasSubmitParameter(request, "refreshCommandObject")){
+    		try {
+				request.getSession().setAttribute(getFormSessionAttributeName(),formBackingObject(request));
+			} catch (ServletException e) {
+				e.printStackTrace();
+			}
+    	}
+    	return isFormSumission; 
+    }
 
 }

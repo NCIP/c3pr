@@ -198,7 +198,7 @@
 </head>
 <body>
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
-<form:form id="${!empty param.embeddedStudy?'embedStudyForm':'command'}" method="post" name="studyDetails" cssClass="standard">
+<form:form method="post" name="studyDetails" cssClass="standard" >
 <tags:tabFields tab="${tab}" />
 <input type="hidden" name="deletedSponsor" id="deletedSponsor" value=""/>
 <input type="hidden" name="deletedSponsorIdentifier" id="deletedSponsorIdentifier" value=""/>
@@ -267,7 +267,7 @@
 		<div class="row">
               <div class="label"><tags:requiredIndicator /><fmt:message key="study.blinded"/></div>
 			<c:choose>
-    	        <c:when test="${not empty command.study.id}">
+    	        <c:when test="${not empty command.study.id && empty param.parentStudyFlow}">
                     <div class="value">${command.study.blindedIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.blindedIndicator"/></div>
         	    </c:when>
             	<c:otherwise>
@@ -461,7 +461,23 @@
     </div>
 </chrome:division>
 </chrome:box>
-	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" >
+		<jsp:attribute name="localButtons">
+			<c:if test="${!empty param.parentStudyFlow}">
+			<script>
+			function returnToParentUsingButton(parentStudyFlow, parentStudyId){
+				if(parentStudyFlow == 'Amend Study'){
+					$('parentStudyFormButton').action = "/c3pr/pages/study/amendStudy?studyId="+parentStudyId ;
+				}else{
+					$('parentStudyFormButton').action = "/c3pr/pages/study/editStudy?studyId="+parentStudyId ;
+				}
+				$('parentStudyFormButton').submit();
+			}
+			</script>
+			<tags:button type="button" color="blue" icon="back" value="Return to parent" onclick="returnToParentUsingButton('${param.parentStudyFlow}', '${command.study.parentStudyAssociations[0].parentStudy.id}')" />
+			</c:if>
+		</jsp:attribute>
+</tags:tabControls>
 </form:form>
 </body>
 </html>

@@ -28,6 +28,7 @@ public class StudyAmendmentTab extends StudyTab {
 
 	public StudyAmendmentTab() {
         super("Amendment details", "Amendments", "study/study_amendments");
+        setShowSummary("false");
     }
 
     @Override

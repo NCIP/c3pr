@@ -19,6 +19,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
@@ -165,5 +166,17 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
 	public StudyRepository getStudyRepository() {
 		return studyRepository;
 	}
-
+	
+	@Override
+    protected boolean isFormSubmission(HttpServletRequest request) {
+    	boolean isFormSumission = super.isFormSubmission(request); 
+    	if(isFormSumission && WebUtils.hasSubmitParameter(request, "refreshCommandObject")){
+    		try {
+				request.getSession().setAttribute(getFormSessionAttributeName(),formBackingObject(request));
+			} catch (ServletException e) {
+				e.printStackTrace();
+			}
+    	}
+    	return isFormSumission; 
+    }
 }

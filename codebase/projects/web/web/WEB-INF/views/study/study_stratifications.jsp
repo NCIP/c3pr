@@ -374,7 +374,24 @@
 	</c:if>
     
 	<input type="hidden" name="flowType" value="${flowType}">
-	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" />
+	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
+			<jsp:attribute name="localButtons">
+			<c:if test="${!empty param.parentStudyFlow}">
+			<script>
+			function returnToParentUsingButton(parentStudyFlow, parentStudyId){
+				if(parentStudyFlow == 'Amend Study'){
+					$('parentStudyFormButton').action = "/c3pr/pages/study/amendStudy?studyId="+parentStudyId ;
+				}else{
+					$('parentStudyFormButton').action = "/c3pr/pages/study/editStudy?studyId="+parentStudyId ;
+				}
+				$('parentStudyFormButton').submit();
+			}
+			</script>
+			<tags:button type="button" color="blue" icon="back" value="Return to parent" onclick="returnToParentUsingButton('${param.parentStudyFlow}', '${command.study.parentStudyAssociations[0].parentStudy.id}')" />
+			</c:if>
+		</jsp:attribute>
+</tags:tabControls>
+	
 </form:form>
 <c:forEach items="${command.study.epochs}" var="epoch" varStatus="epochCount">
 	<c:if test="${epoch.stratificationIndicator == 'true' }">

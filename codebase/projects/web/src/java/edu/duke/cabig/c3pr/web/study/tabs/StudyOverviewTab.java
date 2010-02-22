@@ -44,10 +44,12 @@ public class StudyOverviewTab extends StudyTab {
 
     public StudyOverviewTab(String longTitle, String shortTitle, String viewName) {
         super(longTitle, shortTitle, viewName);
+        setShowSummary("false");
     }
     
     public StudyOverviewTab(String longTitle, String shortTitle, String viewName, Boolean willSave) {
         super(longTitle, shortTitle, viewName,willSave);
+        setShowSummary("false");
     }
 
     @Override
