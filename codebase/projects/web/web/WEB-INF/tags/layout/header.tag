@@ -5,10 +5,12 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@attribute name="ignoreTopRightQuickLinks"%>
 <div id="header">
 	<a id="skipnav" href="#skipnav">Skip Navigation</a>
 	<a id="logo" href="<c:url value='/pages/dashboard' />">C3PR Dashboard</a>
     <div class="background-R">
+    	<c:if test="${empty ignoreTopRightQuickLinks || !ignoreTopRightQuickLinks}">
             <c:if test="${userObject != null}">
 					<div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /> | ${userRole}</b></div>
 					</c:if>
@@ -39,7 +41,7 @@
                             &nbsp;<csmauthz:accesscontrol domainObject="/pages/skin" authorizationCheckName="urlAuthorizationCheck"><a>|</a>&nbsp;<a id="changeSkin" style="cursor:pointer;">Change skin</a></csmauthz:accesscontrol></div>
                         </div>
 
-
+			</c:if>
         <ul id="sections" class="tabs">
             <c:forEach items="${sections}" var="section">
                     <c:set var="foundDefaultTask" value="false" />
