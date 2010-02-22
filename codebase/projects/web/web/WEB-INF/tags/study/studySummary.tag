@@ -47,7 +47,7 @@
 							<a href="#" onclick="javascript:returnToParent('${param.parentStudyFlow}', '${studyCommand.study.parentStudyAssociations[0].parentStudy.id}')">Return to parent study</a>
 						</c:when>
 						<c:otherwise>
-							<a href="#" onclick="javascript:returnToParent('${studyCommand.study.parentStudy.id}')">Return to parent study</a>
+							<a href="#" onclick="javascript:viewParent('${studyCommand.study.parentStudyAssociations[0].parentStudy.id}')">Return to parent study</a>
 						</c:otherwise>
 					</c:choose>
 				</c:if>
