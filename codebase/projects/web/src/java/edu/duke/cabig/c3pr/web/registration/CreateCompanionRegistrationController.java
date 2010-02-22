@@ -82,12 +82,7 @@ public class CreateCompanionRegistrationController<C extends StudySubjectWrapper
     		
     		studySubject.setParticipant(participant);
     		studySubject.setParentStudySubject(parentStudySubject);
-//    		studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).setInformedConsentSignedDate(parentStudySubject
-//    				.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0).getInformedConsentSignedDate());
     		studySubject.setStartDate(parentStudySubject.getStartDate());
-//    		studySubject.setTreatingPhysician(parentStudySubject.getTreatingPhysician());
-//    		studySubject.setOtherTreatingPhysician(parentStudySubject.getOtherTreatingPhysician());
-//    		studySubject.setDiseaseHistory(parentStudySubject.getDiseaseHistory());	
     		studySubject.setPaymentMethod(parentStudySubject.getPaymentMethod());
     		return  wrapper;	
     }
