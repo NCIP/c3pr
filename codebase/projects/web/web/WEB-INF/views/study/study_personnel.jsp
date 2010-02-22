@@ -4,10 +4,6 @@
 <html>
 <title><studyTags:htmlTitle study="${command.study}" /></title>
 
-<c:set var="selected_site" value="0"/>
-<c:if test="${not empty selectedSite}">
-	<c:set var="selected_site" value="${selectedSite}"/>
-</c:if>
 <head>
 <%--<tags:includeScriptaculous/>--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
