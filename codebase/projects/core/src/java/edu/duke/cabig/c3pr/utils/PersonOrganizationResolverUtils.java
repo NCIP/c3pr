@@ -62,6 +62,7 @@ public class PersonOrganizationResolverUtils {
 	public static final String NCI_ROOT = "2.16.840.1.113883.3.26.4.4.5";
 	public static final String CTEP_PERSON = "Cancer Therapy Evaluation Program Person Identifier";
 	public static final String ORGANIZATION_ROOT = "2.16.840.1.113883.3.26.4.2";
+	public static final String PERSON_ROOT = "2.16.840.1.113883.3.26.4.1";
 
     
 	public List<IdentifiedPerson> getIdentifiedPerson(II personIdentifier) {
@@ -417,7 +418,6 @@ public class PersonOrganizationResolverUtils {
         Metadata mData = new Metadata(OperationNameEnum.getById.getName(), "externalId", ServiceTypeEnum.PERSON.getName());
 		return broadcastCoppaMessage(iiXml, mData);
 	}
-	
 	
 	public String broadcastHealthcareProviderGetById(String personXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
