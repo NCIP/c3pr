@@ -1699,4 +1699,48 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  assertFalse("Wrong result in evaluating if study subject has mandatory companins", studySubject.hasMandatoryCompanions());
 	  verifyMocks();
   }
+  
+  public void testIsAssignedAndActivePersonnel1(){
+	  	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+		StudySite studyOrganization = new StudySite();
+		StudyPersonnel studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
+		ResearchStaff researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test1");
+		studyPersonnel.setStatusCode("Active");
+		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test2");
+		studyPersonnel.setStatusCode("Inactive");
+		studyPersonnel.setResearchStaff(researchStaff);
+		EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studyOrganization);
+	  	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	  	replayMocks();
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test1");
+		assertTrue(studySubject.isAssignedAndActivePersonnel(researchStaff));
+		verifyMocks();
+	}
+  
+  public void testIsAssignedAndActivePersonnel2(){
+	  	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+		StudySite studyOrganization = new StudySite();
+		StudyPersonnel studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
+		ResearchStaff researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test1");
+		studyPersonnel.setStatusCode("Active");
+		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test2");
+		studyPersonnel.setStatusCode("Inactive");
+		studyPersonnel.setResearchStaff(researchStaff);
+		EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studyOrganization);
+	  	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	  	replayMocks();
+		researchStaff = new LocalResearchStaff();
+		researchStaff.setAssignedIdentifier("test2");
+		assertFalse(studySubject.isAssignedAndActivePersonnel(researchStaff));
+		verifyMocks();
+  }
 }

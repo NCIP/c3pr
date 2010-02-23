@@ -1816,6 +1816,16 @@ public class StudySubject extends
 	}
 	
 	@Transient
+	public boolean isAssignedAndActivePersonnel(ResearchStaff researchStaff){
+		for(StudyPersonnel studyPersonnel : getStudySite().getActiveStudyPersonnel()){
+			if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Transient
 	public List<StudySubjectConsentVersion> getStudySubjectConsentVersions() {
 		return getStudySubjectStudyVersion().getStudySubjectConsentVersions();
 	}
