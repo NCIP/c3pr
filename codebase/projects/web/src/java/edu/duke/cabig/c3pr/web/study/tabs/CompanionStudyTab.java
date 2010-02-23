@@ -51,7 +51,9 @@ public class CompanionStudyTab extends StudyTab {
     	CompanionStudyAssociation companionStudyAssociation = study.getCompanionStudyAssociations().get(index);
     	companionStudyAssociation.setCompanionStudy(companionStudy);
     	companionStudyAssociation.setMandatoryIndicator(Boolean.FALSE);
-    	study = studyDao.merge(study);
+    	studyDao.save(study);
+    	
+    	study = studyDao.getById(study.getId());
     	
     	wrapper.setStudy(study);
     	Map<String, Object> map = new HashMap<String, Object>();
@@ -99,6 +101,7 @@ public class CompanionStudyTab extends StudyTab {
 			identifier.setHealthcareSite(studyCoordinatingCenter.getHealthcareSite());
 			identifier.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
 			identifier.setValue(parentStudy.getCoordinatingCenterAssignedIdentifier().getValue() + "-companion");
+			identifier.setPrimaryIndicator(Boolean.TRUE);
 			
 			for (StudyInvestigator studyInvestigator : studyCoordinatingCenter.getStudyInvestigators()) {
 				StudyInvestigator siteInvestigator = scc.getStudyInvestigators().get(0);
@@ -115,13 +118,14 @@ public class CompanionStudyTab extends StudyTab {
 		for (StudySite studySite : parentStudySites) {
 			StudySite ss = new StudySite();
 			ss.setHealthcareSite(studySite.getHealthcareSite());
+			
 			for (StudyInvestigator studyInvestigator : studySite.getStudyInvestigators()) {
-				StudyInvestigator siteInvestigator = ss.getStudyInvestigators().get(0);
-				siteInvestigator.setHealthcareSiteInvestigator(studyInvestigator.getHealthcareSiteInvestigator());
-				siteInvestigator.setRoleCode(studyInvestigator.getRoleCode());
-				ss.addStudyInvestigator(siteInvestigator);
-
+				StudyInvestigator sInvestigator = new StudyInvestigator();
+				sInvestigator.setHealthcareSiteInvestigator(studyInvestigator.getHealthcareSiteInvestigator());
+				sInvestigator.setRoleCode(studyInvestigator.getRoleCode());
+				ss.addStudyInvestigator(sInvestigator);
 			}
+			
 			companionStudy.addStudySite(ss);
 			siteIndex++;
 		}
