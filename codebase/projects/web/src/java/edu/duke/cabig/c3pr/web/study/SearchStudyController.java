@@ -92,77 +92,11 @@ public class SearchStudyController extends SimpleFormController {
         }
         
         
-        //This will get me all the studies that have the logged in user's organization as a studyOrganization.
-        //However in the REG flow we should only show studies that have the logged in user's organization as
-        //the coordinating center of the study site. 
-        //In other words a funding sponsor org which would otherwise be able to see the study in the other flows 
-        //should not be able to see the study in the REG flow unless its a studySite
-        String fromRegistration = "";
-        List<Study> studiesViewableFromRegFlow = new ArrayList<Study>();
-        if (WebUtils.hasSubmitParameter(request, "fromRegistration")) {
-        	fromRegistration = request.getParameter("fromRegistration").toString();
-        }
-        if(fromRegistration.equalsIgnoreCase("true")){
-        	for(int i=0 ; i<exampleStudies.size() ; i++){
-            	if(exampleStudies.get(i).getStudySites().size()!=0 && 
-            			exampleStudies.get(i).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING){
-            		studies.add(exampleStudies.get(i));
-            	}
-            }
-        	if(WebUtils.isAdmin()){
-        		studiesViewableFromRegFlow = studies;
-        	}else{
-	        	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
-						.getSession().getAttribute("userObject");
-				ResearchStaff rStaff = null;
-		    	try {
-		    		//get the logged in users site.
-		    		rStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
-		    		String nciCodeOfUserOrg = rStaff.getHealthcareSite()
-					.getPrimaryIdentifier();
-					Boolean shouldDelete;
-					for (Study filteredStudy : studies) {
-						shouldDelete = Boolean.TRUE;
-						for (StudyCoordinatingCenter scc : filteredStudy
-								.getStudyCoordinatingCenters()) {
-							if (scc.getHealthcareSite().getPrimaryIdentifier()
-									.equals(nciCodeOfUserOrg)) {
-								//if users Org is coordinating center dont delete study
-								shouldDelete = Boolean.FALSE;
-							}
-						}
-			
-						for (StudySite ss : filteredStudy.getStudySites()) {
-							if (ss.getHealthcareSite().getPrimaryIdentifier()
-									.equals(nciCodeOfUserOrg)) {
-								//if users Org is one of the  study sites dont delete study
-								shouldDelete = Boolean.FALSE;
-							}
-						}
-			
-						// if users org is either scc or ss then add study to the list to be displayed
-						if(!shouldDelete){
-							studiesViewableFromRegFlow.add(filteredStudy);
-						}
-					}
-				} catch (C3PRNoSuchUserException e) {
-					log.debug(e.getMessage());
-					//super admin case.
-					//copy the list as is
-		        	studiesViewableFromRegFlow = studies;
-				}
-        	}
-        } else {
-        	//copy the list as is
-        	studiesViewableFromRegFlow = exampleStudies;
-        }
-        
-
         log.debug("Search results size " + studies.size());
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
 
         Map map = errors.getModel();
-        map.put("studyResults", studiesViewableFromRegFlow);
+        map.put("studyResults", exampleStudies);
         map.put("searchTypeRefData", configMap.get("studySearchType"));
         Object viewData = studyAjaxFacade.getTableForExport(map, request);
         request.setAttribute("studies", viewData);
