@@ -70,10 +70,15 @@ public class CompanionStudyTab extends StudyTab {
 		companionStudy.setMultiInstitutionIndicator(parentStudy.getMultiInstitutionIndicator());
 		companionStudy.setPhaseCode(parentStudy.getPhaseCode());
 		companionStudy.setType(parentStudy.getType());
-		// since it is embedded companion hence setting standalone indicator as false
-		companionStudy.setCompanionIndicator(true);
-		companionStudy.setStandaloneIndicator(false);
 
+		// since it is embedded companion hence setting standalone indicator as false
+		companionStudy.setCompanionIndicator(Boolean.TRUE);
+		companionStudy.setStandaloneIndicator(Boolean.FALSE);
+		
+		//defaulting startification and randomization indicator to false since companion studies are usually non startified and non randomized CPR-1339
+		companionStudy.setStratificationIndicator(Boolean.FALSE);
+		companionStudy.setRandomizedIndicator(Boolean.FALSE);
+		
 		// Adding funding sponsor from parent study
 		List<StudyFundingSponsor> parentSFS = parentStudy.getStudyFundingSponsors();
 		int studyFSIndex = 0;
