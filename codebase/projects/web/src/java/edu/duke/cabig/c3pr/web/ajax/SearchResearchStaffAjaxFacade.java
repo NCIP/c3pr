@@ -109,8 +109,7 @@ public class SearchResearchStaffAjaxFacade {
             return build(model, rStaffResults).toString();
         }
         catch (Exception e) {
-            log.error("Exception caught in SearchresearchStaffAjaxFacade");
-            e.printStackTrace();
+            log.error("Exception caught in SearchresearchStaffAjaxFacade", e);
         }
 
         return "";
