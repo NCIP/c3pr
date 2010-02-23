@@ -98,7 +98,6 @@ public class ProtocolAbstractionResolverUtils {
 		} else{
 			return CoordinatingCenterStudyStatus.PENDING;
 		}
-		
 	}
 	
 	/**
@@ -136,7 +135,7 @@ public class ProtocolAbstractionResolverUtils {
 	 * 
 	 * @param gov.nih.nci.coppa.po.Organization coppa organization example to search by.
 	 * @return the List<Object> list of coppa organizations
-	 * @throws C3PRCodedException the c3 pr coded exception
+	 * @throws C3PRCodedException the c3pr coded exception
 	 */
 	public String broadcastStudyProtocolSearch(String studyProtocolXml) throws C3PRCodedException {
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
@@ -183,7 +182,6 @@ public class ProtocolAbstractionResolverUtils {
         Metadata mData = new Metadata(OperationNameEnum.getByStudyProtocol.getName(), "extId", ServiceTypeEnum.STUDY_SITE.getName());
         return broadcastCoppaMessage(studySiteXml, mData);
 	}
-	
 	
 	public String broadcastStudyOverallStatusGetByStudyProtocol(String studySiteXml) throws C3PRCodedException{
 		//build metadata with operation name and the external Id and pass it to the broadcast method.
@@ -319,11 +317,9 @@ public class ProtocolAbstractionResolverUtils {
 		this.coppaMessageBroadcaster = coppaMessageBroadcaster;
 	}
 
-
 	public int getPaLimitValue() {
 		return paLimitValue;
 	}
-
 
 	public void setPaLimitValue(int paLimitValue) {
 		this.paLimitValue = paLimitValue;
