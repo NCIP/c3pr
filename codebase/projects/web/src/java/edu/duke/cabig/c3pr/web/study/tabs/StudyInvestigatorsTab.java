@@ -1,21 +1,21 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
-import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
@@ -54,58 +54,64 @@ public class StudyInvestigatorsTab extends StudyTab {
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
                                         Errors errors) {
+    	if(errors.hasErrors() || !WebUtils.hasSubmitParameter(request, "_actionx")){
+    		return;
+    	}
+    	Integer selectedStudyOrganizationId = Integer.parseInt(request.getParameter("_selectedStudyOrganization"));
+    	StudyOrganization selectedStudyOrganization = null;
+    	Integer selectedSiteIndex=null;
+    	for(int i=0 ; i<wrapper.getStudy().getStudyOrganizations().size() ; i++ ){
+    		StudyOrganization studyOrganization = wrapper.getStudy().getStudyOrganizations().get(i);
+    		if(studyOrganization.getId().equals(selectedStudyOrganizationId)){
+    			selectedStudyOrganization = studyOrganization;
+    			selectedSiteIndex = i;
+    			break;
+    		}
+    	}
+    	if(selectedStudyOrganization == null){
+    		throw new C3PRBaseRuntimeException("Invalid submit.");
+    	}
+    	String action = request.getParameter("_actionx");
+    	if(action.equals("addStudyInvestigators")){
+    		String[] studyInvestigatorIds = wrapper.getStudyInvestigatorIds();
+            if (studyInvestigatorIds.length > 0) {
+                HealthcareSiteInvestigator healthcareSiteInvestigator = null;
+                log.debug("Study InvestigatorIds Size : " + studyInvestigatorIds.length);
+                for (String studyInvestigatorId : studyInvestigatorIds) {
+                    log.debug(" Study Investigator Id : " + studyInvestigatorId);
+                    StudyInvestigator studyInvestigator = new StudyInvestigator();
+                    healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(Integer.parseInt(studyInvestigatorId));
+                    if (healthcareSiteInvestigator != null) {
+                        healthcareSiteInvestigator.getStudyInvestigators().add(studyInvestigator);
+                        studyInvestigator.setHealthcareSiteInvestigator(healthcareSiteInvestigator);
+                        studyInvestigator.setRoleCode("Site Investigator");
+                        studyInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
+                        studyInvestigator.setStudyOrganization(selectedStudyOrganization);
 
-        String selected = request.getParameter("_selected");
-        String action = request.getParameter("_actionx");
-        String selectedSite = request.getParameter("_selectedSite");
-        StudySite studyOrg = null;
-
-        // get the StudySite to which we will add/remove investigator.
-        List<StudySite> studyOrgList = wrapper.getStudy().getStudySites();
-        if (!StringUtils.isBlank(selectedSite)) {
-            studyOrg = studyOrgList.get(Integer.parseInt(selectedSite));
-        }
-
-        if (!errors.hasErrors()) {
-
-            if (StringUtils.equals("siteChange", action)) {
-                request.getSession().setAttribute("_selectedSite", selectedSite);
-            }else if (StringUtils.equals("addStudyInvestigator", action)&& studyOrg != null) {
-                String[] studyInvestigatorIds = studyOrg.getStudyInvestigatorIds();
-                if (studyInvestigatorIds.length > 0) {
-                    HealthcareSiteInvestigator healthcareSiteInvestigator = null;
-                    log.debug("Study InvestigatorIds Size : " + studyOrg.getStudyInvestigatorIds().length);
-                    for (String studyInvestigatorId : studyInvestigatorIds) {
-                        log.debug(" Study Investigator Id : " + studyInvestigatorId);
-                        StudyInvestigator studyInvestigator = new StudyInvestigator();
-                        healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(Integer.parseInt(studyInvestigatorId));
-                        if (healthcareSiteInvestigator != null) {
-                            healthcareSiteInvestigator.getStudyInvestigators().add(studyInvestigator);
-                            studyInvestigator.setHealthcareSiteInvestigator(healthcareSiteInvestigator);
-                            studyInvestigator.setRoleCode("Site Investigator");
-                            studyInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
-                            studyInvestigator.setStudyOrganization(studyOrg);
-
-                            HashSet<StudyInvestigator> sStudyInvestigator = new HashSet<StudyInvestigator>();
-                            sStudyInvestigator.addAll(studyOrg.getStudyInvestigators());
-                            if (sStudyInvestigator.add(studyInvestigator)) {
-                                studyOrg.getStudyInvestigators().add(studyInvestigator);
-                            } else {
-                                errors.rejectValue("study.studySites[0].studyInvestigators", new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(), studyValidator.getMessageFromCode(
-                                        studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),
-                                        null, null));
-                            }
+                        HashSet<StudyInvestigator> sStudyInvestigator = new HashSet<StudyInvestigator>();
+                        sStudyInvestigator.addAll(selectedStudyOrganization.getStudyInvestigators());
+                        if (sStudyInvestigator.add(studyInvestigator)) {
+                        	selectedStudyOrganization.getStudyInvestigators().add(studyInvestigator);
                         } else {
-                            log.error("StudyInvestigatorTab - postProcessOnValidation(): healthcareSiteInvestigatorDao.getById() returned null");
+                            errors.rejectValue("study.studySites[0].studyInvestigators", new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(), studyValidator.getMessageFromCode(
+                                    studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),
+                                    null, null));
                         }
+                    } else {
+                        log.error("StudyInvestigatorTab - postProcessOnValidation(): healthcareSiteInvestigatorDao.getById() returned null");
                     }
                 }
             }
+    	}else if (action.equals("removeStudyInvestigator")) {
+    		for(StudyInvestigator studyInvestigator : selectedStudyOrganization.getStudyInvestigators()){
+    			if(studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getAssignedIdentifier().equals(request.getParameter("_selectedInvAssignedId"))){
+    				selectedStudyOrganization.getStudyInvestigators().remove(studyInvestigator);
+    				break;
+    			}
+    		}
         }
-
-        if (StringUtils.equals("removeStudyInvestigator", action) && studyOrg != null) {
-            studyOrg.getStudyInvestigators().remove(Integer.parseInt(selected));
-        }
+    	request.setAttribute("selectedStudyOrganization", selectedStudyOrganization);
+    	request.setAttribute("selected_site_index", selectedSiteIndex);
     }
 
     public StudyValidator getStudyValidator() {
