@@ -43,7 +43,24 @@ Element.addMethods( {
           var element = $(arguments[i]);
           element.style.visibility = 'visible';
         }
-    }
+    },
+    
+    getOffsetParent: function(element) {
+	    if (element.offsetParent) return $(element.offsetParent);
+	    if (element == document.body) return $(element);
+	    
+	    if(Prototype.Browser.IE){
+	    	while ((element = element.parentNode) && element != document.body && element != document)
+	  	      if (Element.getStyle(element, 'position') != 'static')
+	  	        return $(element);
+	    }else{
+	    	while ((element = element.parentNode) && element != document.body )
+	  	      if (Element.getStyle(element, 'position') != 'static')
+	  	        return $(element);
+	    }
+	
+	    return $(document.body);
+  	}
 } );
 
 ////// CALENDAR POPUP HANDLERS
