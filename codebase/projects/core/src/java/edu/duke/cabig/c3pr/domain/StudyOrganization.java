@@ -51,13 +51,6 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     /** The lazy list helper. */
     protected LazyListHelper lazyListHelper;
 
-    // TODO move into Command Object
-    /** The study investigator ids. */
-    private String[] studyInvestigatorIds;
-    
-    /** The study personnel ids. */
-    private String[] studyPersonnelIds;
-    
     /** The hosted mode. */
     private Boolean hostedMode=true;
 
@@ -307,44 +300,6 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     	this.study = study;
     }
 
-    /**
-     * Gets the study investigator ids.
-     * 
-     * @return the study investigator ids
-     */
-    @Transient
-    public String[] getStudyInvestigatorIds() {
-        return studyInvestigatorIds;
-    }
-    
-    /**
-     * Gets the study personnel ids.
-     * 
-     * @return the study personnel ids
-     */
-    @Transient
-    public String[] getStudyPersonnelIds() {
-        return studyPersonnelIds;
-    }
-    
-    /**
-     * Sets the study personnel ids.
-     * 
-     * @param studyPersonnelIds the new study personnel ids
-     */
-    public void setStudyPersonnelIds(String[] studyPersonnelIds) {
-        this.studyPersonnelIds = studyPersonnelIds;
-    }
-
-    /**
-     * Sets the study investigator ids.
-     * 
-     * @param studyInvestigatorIds the new study investigator ids
-     */
-    public void setStudyInvestigatorIds(String[] studyInvestigatorIds) {
-        this.studyInvestigatorIds = studyInvestigatorIds;
-    }
-    
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject#getEndpoints()
      */
