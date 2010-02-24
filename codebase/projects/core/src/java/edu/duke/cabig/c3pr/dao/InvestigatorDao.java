@@ -223,6 +223,8 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 				updateHealthcareSites(matchingRemoteInvestigatorFromDb, retrievedRemoteInvestigator);
 				updateContactMechanisms(matchingRemoteInvestigatorFromDb, retrievedRemoteInvestigator);
 				return matchingRemoteInvestigatorFromDb;
+			} else {
+				log.error("Unable to save. This persons's assigned identifier exists locally as: "+matchingRemoteInvestigatorFromDb.getFullName());
 			}
 		}
 		return retrievedRemoteInvestigator;
