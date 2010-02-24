@@ -133,6 +133,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 				identifierValue = remoteStudyExample.getCoordinatingCenterAssignedIdentifier().getValue();
 			}
 			String payLoad = CoppaPAObjectFactory.getStudyProtocolSearchXML(remoteStudyExample.getShortTitleText(), identifierValue, null);
+			
 			try {
 				resultXml  = protocolAbstractionResolverUtils.broadcastStudyProtocolSearch(payLoad);
 			} catch (C3PRCodedException e) {
@@ -148,7 +149,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 				}
 			}
 		} catch(Exception e){
-			e.printStackTrace();
+			log.error(e);
 		}
 		log.debug("Exiting find() for:" + this.getClass());
 		return remoteStudies;
@@ -684,9 +685,9 @@ public class RemoteStudyResolver implements RemoteResolver {
                     break;
                 }
             }
-            /*if(nciIdentifier == null){
-            	nciIdentifier = coppaPerson.getIdentifier().getExtension();
-            }*/
+            if(assignedIdentifier == null){
+            	assignedIdentifier = coppaPerson.getIdentifier().getExtension();
+            }
             remoteInvestigator.setAssignedIdentifier(assignedIdentifier);
             
 	    	remoteInvestigator.setExternalId(coppaPerson.getIdentifier().getExtension());
