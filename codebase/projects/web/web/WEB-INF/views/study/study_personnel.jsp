@@ -161,7 +161,13 @@ changed before submit in javascripts. The parameters need proper default values,
 		                    		</c:when>
 		                    		<c:when test="${studyOrganization.class.name == 'edu.duke.cabig.c3pr.domain.StudySite'}">
 		                    			<c:set var="canDisplay" value="true"/>
-		                    			<c:set var="orgType" value="Study Site"/>																										
+		                    			<c:set var="orgType" value="Study Site"/>
+		                    			<c:if test="${studyOrganization.healthcareSite.primaryIdentifier == command.study.studyCoordinatingCenter.healthcareSite.primaryIdentifier}">
+		                    				<c:set var="orgType" value="${orgType}, Coordinating Center"/>
+		                    			</c:if>
+		                    			<c:if test="${fn:length(command.study.studyFundingSponsors)>0 && studyOrganization.healthcareSite.primaryIdentifier == command.study.studyFundingSponsors[0].healthcareSite.primaryIdentifier}">
+		                    				<c:set var="orgType" value="${orgType}, Funding Sponsor"/>
+		                    			</c:if>
 		                    		</c:when>
 		                    	</c:choose>
 		                    	<c:if test="${canDisplay}">
