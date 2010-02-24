@@ -325,4 +325,10 @@ Event.observe(window, "load", function (){
 	 	Element.remove("overlay_modal");
 	 	elIndicator.style.display="none";
     }
+	 if(C3PR.removeQueryStringFromForm){
+	 $$('form').each(function(formVar){
+		 removeQueryStringFromForm(formVar);
+		})
+	 }
+	 
 })
