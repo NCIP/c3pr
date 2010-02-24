@@ -233,7 +233,7 @@ function submitForm(){
 				</c:choose>
         </div>
 		<div class="row">
-            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" /> (Username)
+            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" />
             </div>
 				<c:choose>
 					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
