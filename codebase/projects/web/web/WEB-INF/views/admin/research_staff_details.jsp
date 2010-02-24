@@ -15,6 +15,8 @@
 
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
+	// this variable is set to true to strip off query parameters in action bug cpr-1602
+	C3PR.removeQueryStringFromForm=true;
 	<c:if test="${!isLoggedInUser && FLOW != 'SETUP_FLOW'}">
 	ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		var error = document.getElementById("errorMsg1");
@@ -469,7 +471,25 @@
 </c:otherwise>
 </c:choose>
 </chrome:box>
-<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/> 
+<tags:tabControls tab="${tab}" flow="${flow}"
+	localButtons="${localButtons}" willSave="true"> 
+	<jsp:attribute name="submitButton">
+		<table>
+				<tr>
+					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalResearchStaff' && coppaEnable}">
+						<td valign="bottom">
+									<tags:button type="submit" value="Sync" color="blue"
+									id="sync-org" onclick="javascript:syncResearchStaff();" />	
+						</td>
+					</c:if>
+						<td>
+							    	<tags:button type="submit" color="green" id="flow-update"
+									value="Save" icon="save" onclick="javascript:submitForm();" />
+						</td>
+				</tr>
+		</table>
+	</jsp:attribute>
+</tags:tabControls>
 </form:form>
 </div>
 
