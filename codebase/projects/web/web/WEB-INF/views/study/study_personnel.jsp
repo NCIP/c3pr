@@ -34,10 +34,6 @@ function addStudyPersonnel(){
 	$('command').submit();
 }
 
-function closePopup() {
-	win.close();
-}
-
 function showPersonnel() {
     <%--If all is selected--%>
     var studyPersonnelSelect = $("study-personnel")
@@ -110,16 +106,19 @@ Event.observe(window, "load", function() {
     $('study-personnel-sel-hidden').style.display = 'none';
 
   	showPersonnel();
-
-    $('createPersonnel').observe('click', function(event) {
-    	win = new Window(
-				{title: "Create Research Staff", top:35, left:35, width:900, height:400, zIndex:100,
-				url: "<c:url value='/pages/personAndOrganization/researchStaff/createResearchStaff?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
-				) 
-		win.showCenter(true);
-
-	});
 })
+
+function showCreateResearchStaffPopup(){
+	win = new Window(
+			{title: "Create Research Staff", top:35, left:35, width:900, height:400, zIndex:100,
+			url: "<c:url value='/pages/personAndOrganization/researchStaff/createResearchStaff?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
+			) 
+	win.showCenter(true);
+}
+function closePopup() {
+	win.close();
+}
+
 </script>
 </head>
 
@@ -148,7 +147,6 @@ changed before submit in javascripts. The parameters need proper default values,
 				<chrome:box title="${tab.shortTitle}">
 					<div>
 			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnStudySite"/></b><br>
-			            <input:hidden id="disease"/>
 			            <select id="studyOrganizationSelect" onchange="changeStudyOrganization();" style="width: 400px">   
 		                    <c:forEach items="${command.study.studyOrganizations}" var="studyOrganization" varStatus="status">
 		                    	<c:set var="canDisplay" value="false"/>
@@ -185,7 +183,6 @@ changed before submit in javascripts. The parameters need proper default values,
 		                        </c:if>
 		                    </c:forEach>
 		                </select>
-			            <tags:indicator id="study-personnel-indicator"/>
 			            
 			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.participatingSitePersonnel"/></b><br>
 			            <select multiple size="1" style="width:400px" id="study-personnel">
@@ -203,7 +200,7 @@ changed before submit in javascripts. The parameters need proper default values,
 			<tags:button type="button" icon="continue" size="small" color="blue" value="Add" onclick="addStudyPersonnel();"/>
 	        </td>
 			<td valign="top" width="45%">
-			    <chrome:box title="${selectedStudyOrganization.healthcareSite.name}" id="diseases">
+			    <chrome:box title="${selectedStudyOrganization.healthcareSite.name}" id="selectedStudyOrgDiv">
 			        <br/>
 			        <c:choose>
 			            <c:when test="${fn:length(selectedStudyOrganization.studyPersonnel) == 0}">
@@ -213,7 +210,6 @@ changed before submit in javascripts. The parameters need proper default values,
 			                <table border="1" class="tablecontent" >
 			                    <tr>
 			                        <th scope="col"><fmt:message key="c3pr.common.name"/></th>
-									<%-- <th width="20%"><fmt:message key="c3pr.common.role"/><tags:hoverHint keyProp="study.personnel.role"/></th>  --%>
 			                        <th width="20%"><fmt:message key="c3pr.common.status"/><tags:hoverHint keyProp="study.personnel.status"/></th>
 			                        <th width="5%"></th>
 			                    </tr>
@@ -250,7 +246,7 @@ changed before submit in javascripts. The parameters need proper default values,
 <div align="right">
 	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE"
                             authorizationCheckName="studyAuthorizationCheck">
-		<tags:button id="createPersonnel" type="button" size="small" color="blue" value="Create Research Staff"/>
+		<tags:button id="createPersonnel" type="button" size="small" color="blue" value="Create Research Staff" onclick="showCreateResearchStaffPopup();"/>
 	</csmauthz:accesscontrol>
 </div>
 <br/>

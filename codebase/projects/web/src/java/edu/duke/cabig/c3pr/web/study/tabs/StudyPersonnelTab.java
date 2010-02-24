@@ -18,8 +18,8 @@ import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
@@ -100,7 +100,9 @@ public class StudyPersonnelTab extends StudyTab {
     			break;
     		}
     	}
-    	
+    	if(selectedStudyOrganization == null){
+    		throw new C3PRBaseRuntimeException("Invalid submit.");
+    	}
     	String action = request.getParameter("_actionx");
     	if(action.equals("addStudyPersonnel")){
     		String[] rsIds = wrapper.getStudyPersonnelIds();
