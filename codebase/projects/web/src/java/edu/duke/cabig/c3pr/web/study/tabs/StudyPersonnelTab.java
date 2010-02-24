@@ -7,11 +7,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
@@ -84,51 +86,55 @@ public class StudyPersonnelTab extends StudyTab {
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
                                         Errors errors) {
-
-        String selected = request.getParameter("_selected");
-        String action = request.getParameter("_actionx");
-        String selectedSite = request.getParameter("_selectedSite");
-        StudySite studySite = null;
-
-        // get the StudySite to which we will add/remove research staff.
-        List<StudySite> studySitesList = wrapper.getStudy().getStudySites();
-        if (!StringUtils.isBlank(selectedSite)) {
-            studySite = studySitesList.get(Integer.parseInt(selectedSite));
-        }
-
-        if (!errors.hasErrors()) {
-            if (StringUtils.equals("siteChange", action)) {
-                request.setAttribute("_selectedSite", selectedSite);
-            }else if (StringUtils.equals("addStudyPerson", action) && studySite != null) {
-                String[] rsIds = studySite.getStudyPersonnelIds();
-                if (rsIds.length > 0) {
-                    ResearchStaff researchStaff = null;
-                    log.debug("Study PersonnelIds Size : "+ studySite.getStudyPersonnelIds().length);
-                    for (String rsId : rsIds) {
-                        log.debug("Research Staff Id : " + rsId);
-                        StudyPersonnel sPersonnel = new StudyPersonnel();
-                        researchStaff = researchStaffDao.getById(new Integer(rsId).intValue());
-                        if (researchStaff != null) {
-                            sPersonnel.setResearchStaff(researchStaff);
-//                            sPersonnel.setRoleCode(getGroups(researchStaff).get(0).getDisplayName());
-                            sPersonnel.setStatusCode("Active");
-                            sPersonnel.setStudyOrganization(studySite);
-                            studySite.getStudyPersonnel().add(sPersonnel);
-                            studyValidator.validateStudyPersonnel(wrapper.getStudy(), errors);
-                            if (errors.hasErrors()) {
-                                studySite.getStudyPersonnel().remove(sPersonnel);
-                            }
-                        } else {
-                            log.error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
+    	if(!WebUtils.hasSubmitParameter(request, "_actionx")){
+    		return;
+    	}
+    	Integer selectedStudyOrganizationId = Integer.parseInt(request.getParameter("_selectedStudyOrganization"));
+    	StudyOrganization selectedStudyOrganization = null;
+    	Integer selectedSiteIndex=null;
+    	for(int i=0 ; i<wrapper.getStudy().getStudyOrganizations().size() ; i++ ){
+    		StudyOrganization studyOrganization = wrapper.getStudy().getStudyOrganizations().get(i);
+    		if(studyOrganization.getId().equals(selectedStudyOrganizationId)){
+    			selectedStudyOrganization = studyOrganization;
+    			selectedSiteIndex = i;
+    			break;
+    		}
+    	}
+    	
+    	String action = request.getParameter("_actionx");
+    	if(action.equals("addStudyPersonnel")){
+    		String[] rsIds = wrapper.getStudyPersonnelIds();
+            if (rsIds.length > 0) {
+                ResearchStaff researchStaff = null;
+                log.debug("Study PersonnelIds Size : "+ rsIds.length);
+                for (String rsId : rsIds) {
+                    log.debug("Research Staff Id : " + rsId);
+                    StudyPersonnel sPersonnel = new StudyPersonnel();
+                    researchStaff = researchStaffDao.getById(new Integer(rsId).intValue());
+                    if (researchStaff != null) {
+                        sPersonnel.setResearchStaff(researchStaff);
+                        sPersonnel.setStatusCode("Active");
+                        sPersonnel.setStudyOrganization(selectedStudyOrganization);
+                        selectedStudyOrganization.getStudyPersonnel().add(sPersonnel);
+                        studyValidator.validateStudyPersonnel(wrapper.getStudy(), errors);
+                        if (errors.hasErrors()) {
+                        	selectedStudyOrganization.getStudyPersonnel().remove(sPersonnel);
                         }
+                    } else {
+                        log.error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
                     }
                 }
             }
+    	}else if (action.equals("removeStudyPersonnel")) {
+    		for(StudyPersonnel studyPersonnel : selectedStudyOrganization.getStudyPersonnel()){
+    			if(studyPersonnel.getResearchStaff().getAssignedIdentifier().equals(request.getParameter("_selectedPersonnelAssignedId"))){
+    				selectedStudyOrganization.getStudyPersonnel().remove(studyPersonnel);
+    				break;
+    			}
+    		}
         }
-
-        if (StringUtils.equals("removeStudyPerson", action) && studySite != null) {
-            studySite.getStudyPersonnel().remove(Integer.parseInt(selected));
-        }
+    	request.setAttribute("selectedStudyOrganization", selectedStudyOrganization);
+    	request.setAttribute("selected_site_index", selectedSiteIndex);
     }
 
     public StudyValidator getStudyValidator() {

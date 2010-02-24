@@ -8,6 +8,8 @@ import javax.persistence.Transient;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 
 public class StudyWrapper {
 
@@ -15,6 +17,12 @@ public class StudyWrapper {
 	private String file;
 	private boolean hasStratifiedEpoch ;
 	private boolean hasEligibilityCritiria;
+	
+    /** The study investigator ids. */
+    private String[] studyInvestigatorIds;
+    
+    /** The study personnel ids. */
+    private String[] studyPersonnelIds;
 	
 	public boolean getHasEligibilityCritiria(){
 		hasEligibilityCritiria= false;
@@ -95,5 +103,42 @@ public class StudyWrapper {
      public boolean applyAmendment(){
      	return resumeAmendment();
      }
+     
+     public boolean getHasCoordinatingCenterAsStudySite(){
+    	 try {
+			study.getStudySite(study.getStudyCoordinatingCenter().getHealthcareSite().getPrimaryIdentifier());
+		} catch (C3PRCodedRuntimeException e) {
+			return false;
+		}
+    	return true;
+     }
+     
+     public boolean getHasFundingSponsorAsStudySite(){
+    	 if(study.getStudyFundingSponsors().size()!=1){
+    		 return false;
+    	 }
+    	 try {
+    		 study.getStudySite(study.getStudyFundingSponsors().get(0).getHealthcareSite().getPrimaryIdentifier());
+ 		} catch (C3PRCodedRuntimeException e) {
+ 			return false;
+ 		}
+     	return true;
+     }
+
+	public String[] getStudyInvestigatorIds() {
+		return studyInvestigatorIds;
+	}
+
+	public void setStudyInvestigatorIds(String[] studyInvestigatorIds) {
+		this.studyInvestigatorIds = studyInvestigatorIds;
+	}
+
+	public String[] getStudyPersonnelIds() {
+		return studyPersonnelIds;
+	}
+
+	public void setStudyPersonnelIds(String[] studyPersonnelIds) {
+		this.studyPersonnelIds = studyPersonnelIds;
+	}
 
 }

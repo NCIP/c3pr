@@ -5,72 +5,56 @@
 <title><studyTags:htmlTitle study="${command.study}" /></title>
 
 <head>
-<%--<tags:includeScriptaculous/>--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 
 <title>${tab.longTitle}</title>
 
 <script type="text/javascript">
 
-function fireAction(action, selected) {
-        addPersonnelToCart()
-         $('_doNotSave').value = true;
-        $('_actionx').value = action;
-        $('_selectedSite').value = document.getElementById('site').selectedIndex;
-        $('_selected').value = selected;
-        document.myform.submit();
-    }
+function removeStudyPersonnel(selectedStudyPersonnelAssignedId) {
+	$('_doNotSave').value = true;
+	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-")[0];
+    $('_actionx').value = "removeStudyPersonnel";
+    $('_selectedPersonnelAssignedId').value=selectedStudyPersonnelAssignedId;
+	$('command').submit();
+}
+
+function changeStudyOrganization(){
+	$('_doNotSave').value = true;
+	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-")[0];
+	$('_actionx').value = "changeStudyOrganization";
+	$('command').submit();
+}
+
+function addStudyPersonnel(){
+	addPersonnelToCart();
+	$('_doNotSave').value = true;
+	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-")[0];
+	$('_actionx').value = "addStudyPersonnel";
+	$('command').submit();
+}
 
 function closePopup() {
 	win.close();
 }
 
-function acPostSelect(mode, selectedChoice) {
-    showPersonnel();
-}
-
-function updateSelectedDisplay(mode) {
-    if ($(mode.basename).value) {
-        Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
-        $(mode.basename + '-selected').show()
-    }
-}
-
-function acCreate(mode) {
-    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-            mode.populator, {
-        valueSelector: mode.valueSelector,
-        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-            acPostSelect(mode, selectedChoice)
-        },
-        indicator: mode.basename + "-indicator"
-    })
-    Event.observe(mode.basename + "-clear", "click", function() {
-        $(mode.basename + "-selected").hide()
-        $(mode.basename).value = ""
-        $(mode.basename + "-input").value = ""
-    })
-}
-
-
 function showPersonnel() {
-    var siteSelect = $("site").value;
-    // If all is selected
-        var diseaseTermSelect = $("disease-term")
-        diseaseTermSelect.options.length = 0
-        diseaseTermSelect.size = 10
-        diseaseTermSelect.options.add(new Option("All", ""))
-        diseaseTermSelect.options[0].selected = true;
-        //call the getAll method for the selected organization instead of calling getInvestigatorsById() for every group.
-            var catId = siteSelect
-	        StudyAjaxFacade.getSitePersonnel(catId, function(diseases) {
-	              diseases.each(function(cat) {
-		            var assignedIdentifier = cat.assignedIdentifier == null ? "":cat.assignedIdentifier
-	               	var name = cat.firstName + " " + cat.lastName+ " (" +  assignedIdentifier+ ")";
-	                var opt = new Option(name, cat.id)
-	                diseaseTermSelect.options.add(opt)
-	            })
-	        })
+    <%--If all is selected--%>
+    var studyPersonnelSelect = $("study-personnel")
+    studyPersonnelSelect.options.length = 0
+    studyPersonnelSelect.size = 10
+    studyPersonnelSelect.options.add(new Option("All", ""))
+    studyPersonnelSelect.options[0].selected = true;
+    <%--call the getAll method for the selected organization instead of calling getInvestigatorsById() for every group.--%>
+    var catId = $('studyOrganizationSelect').value.split("-")[1]
+    StudyAjaxFacade.getSitePersonnel(catId, function(diseases) {
+          diseases.each(function(cat) {
+         var assignedIdentifier = cat.assignedIdentifier == null ? "":cat.assignedIdentifier
+           	var name = cat.firstName + " " + cat.lastName+ " (" +  assignedIdentifier+ ")";
+            var opt = new Option(name, cat.id)
+            studyPersonnelSelect.options.add(opt)
+        })
+    })
 }
 
 /**
@@ -79,35 +63,34 @@ function showPersonnel() {
  *
  */
 function addPersonnelToCart() {
-    var diseaseTerm = $("disease-term");
-    var diseaseSelected = $("disease-sel");
-    var diseaseSelectedHidden = $("disease-sel-hidden");
-    if (diseaseSelected.options[0].value == "") {
-        diseaseSelected.options.length = 0
+    var studyPersonnel = $("study-personnel");
+    var studyPersonnelSelected = $("study-personnel-sel");
+    var studyPersonnelSelectedHidden = $("study-personnel-sel-hidden");
+    if (studyPersonnelSelected.options[0].value == "") {
+        studyPersonnelSelected.options.length = 0
     }
     // If all is selected  in the [Diseases MultiSelect]
-    if (diseaseTerm.options[0].selected) {
-        for (i = 1; i < diseaseTerm.length; i++)
+    if (studyPersonnel.options[0].selected) {
+        for (i = 1; i < studyPersonnel.length; i++)
         {
-            var opt = new Option(diseaseTerm.options[i].text, diseaseTerm.options[i].value)
-            var opt1 = new Option(diseaseTerm.options[i].text, diseaseTerm.options[i].value)
-            diseaseSelected.options.add(opt)
-            diseaseSelectedHidden.options.add(opt1)
+            var opt = new Option(studyPersonnel.options[i].text, studyPersonnel.options[i].value)
+            var opt1 = new Option(studyPersonnel.options[i].text, studyPersonnel.options[i].value)
+            studyPersonnelSelected.options.add(opt)
+            studyPersonnelSelectedHidden.options.add(opt1)
         }
     }
     // If anything other than all is selected
     else {
-        for (i = 1; i < diseaseTerm.length; i++)
+        for (i = 1; i < studyPersonnel.length; i++)
         {
-            if (diseaseTerm.options[i].selected) {
-                var opt = new Option(diseaseTerm.options[i].text, diseaseTerm.options[i].value)
-                diseaseSelected.options.add(opt)
+            if (studyPersonnel.options[i].selected) {
+                var opt = new Option(studyPersonnel.options[i].text, studyPersonnel.options[i].value)
+                studyPersonnelSelected.options.add(opt)
             }
         }
     }
     // Copy over [Selected Diseases MultiSelect] to [Hidden Selected Diseases MultiSelect]
-    //selectAll(diseaseSelectedHidden)
-    synchronizeSelects(diseaseSelected, diseaseSelectedHidden);
+    synchronizeSelects(studyPersonnelSelected, studyPersonnelSelectedHidden);
 }
 
 function synchronizeSelects(selectFrom, selectTo)
@@ -121,24 +104,10 @@ function synchronizeSelects(selectFrom, selectTo)
         selectTo.options[i].selected = true;
     }
 }
-
-function removePersonnelFromCart()
-{
-    var diseaseSelected = $("disease-sel");
-    var diseaseSelectedHidden = $("disease-sel-hidden");
-
-    for (i = 0; i < diseaseSelected.length; i++)
-    {
-        if (diseaseSelected.options[i].selected) {
-            diseaseSelected.options[i] = null
-        }
-    }
-    synchronizeSelects(diseaseSelected, diseaseSelectedHidden)
-}
 var win;
 Event.observe(window, "load", function() {
-    $('disease-sel').style.display = 'none';
-    $('disease-sel-hidden').style.display = 'none';
+    $('study-personnel-sel').style.display = 'none';
+    $('study-personnel-sel-hidden').style.display = 'none';
 
   	showPersonnel();
 
@@ -149,30 +118,24 @@ Event.observe(window, "load", function() {
 				) 
 		win.showCenter(true);
 
-});
+	});
 })
 </script>
 </head>
 
 <body>
-<!-- selected_site is a c:set var which is request attrubute. 
-it has the value that is set in the _selectedSite by the controller.
-and the controller gets the selected index via the hidden variable _selectedSite.
-(Look at the fireAction() method in the js on top.) -->
-<c:set var="selected_site" value="0"/>
-<c:if test="${not empty _selectedSite}">
-	<c:set var="selected_site" value="${_selectedSite}"/>
-</c:if>
+<form:form cssClass="standard">
+<%--For actions like adding personnel, removing personnel and changing site selection from dropdown, the hidden parameter values are
+changed before submit in javascripts. The parameters need proper default values, for click on save.--%>
+<input type="hidden" id="_doNotSave" name="_doNotSave" value="false">
+<input type="hidden" id="_actionx" name="_actionx" value="save">
+<input type="hidden" id="_selectedPersonnelAssignedId" name="_selectedPersonnelAssignedId" value="">
+<input type="hidden" id="_selectedStudyOrganization" name="_selectedStudyOrganization" value="${!empty selectedStudyOrganization?selectedStudyOrganization.id:''}">
 
-<form:form method="post" name="myform" cssClass="standard">
 
-<input type="hidden" id="_doNotSave" name="_doNotSave" value="">
-<input type="hidden" id="_actionx" name="_actionx" value="">
-<input type="hidden" id="_selected" name="_selected" value="">
-<input type="hidden" id="_selectedSite" name="_selectedSite" value="">
 
 <c:choose>
-	<c:when test="${fn:length(command.study.studySites) == 0}">
+	<c:when test="${fn:length(command.study.studyOrganizations) == 0}">
         <tr>
 			<td>Choose a study organization before adding personnel</td>
 		</tr>
@@ -186,43 +149,64 @@ and the controller gets the selected index via the hidden variable _selectedSite
 					<div>
 			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnStudySite"/></b><br>
 			            <input:hidden id="disease"/>
-			            <select id="site" name="study.site" onchange="fireAction('siteChange','0');" style="width: 400px">   
-		                    <c:forEach items="${command.study.studySites}" var="studySite" varStatus="status">
-		                        <csmauthz:accesscontrol domainObject="${studySite}" hasPrivileges="ACCESS"  
-			                                                authorizationCheckName="studySiteAuthorizationCheck">
-			                        <c:if test="${selected_site == status.index }">
-			                            <option selected="selected" value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name} (${studySite.healthcareSite.primaryIdentifier})
-			                            </option>			                            
-			                        </c:if>
-			                        <c:if test="${selected_site != status.index }">
-			                            <option value=${studySite.healthcareSite.id}>${studySite.healthcareSite.name} 
-			                            </option>
-			                        </c:if>
-		                        </csmauthz:accesscontrol>
+			            <select id="studyOrganizationSelect" onchange="changeStudyOrganization();" style="width: 400px">   
+		                    <c:forEach items="${command.study.studyOrganizations}" var="studyOrganization" varStatus="status">
+		                    	<c:set var="canDisplay" value="false"/>
+		                    	<c:choose>
+		                    		<c:when test="${studyOrganization.class.name == 'edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' && !command.hasCoordinatingCenterAsStudySite}">
+		                    			<c:set var="canDisplay" value="true"/>
+		                    			<c:set var="orgType" value="Coordinating Center"/>
+		                    		</c:when>
+		                    		<c:when test="${studyOrganization.class.name == 'edu.duke.cabig.c3pr.domain.StudyFundingSponsor' && !command.hasFundingSponsorAsStudySite}">
+		                    			<c:set var="canDisplay" value="true"/>				
+		                    			<c:set var="orgType" value="Funding Sponsor"/>																										
+		                    		</c:when>
+		                    		<c:when test="${studyOrganization.class.name == 'edu.duke.cabig.c3pr.domain.StudySite'}">
+		                    			<c:set var="canDisplay" value="true"/>
+		                    			<c:set var="orgType" value="Study Site"/>																										
+		                    		</c:when>
+		                    	</c:choose>
+		                    	<c:if test="${canDisplay}">
+			                        <csmauthz:accesscontrol domainObject="${studyOrganization}" hasPrivileges="ACCESS"  
+				                                                authorizationCheckName="studySiteAuthorizationCheck">
+				                        <c:if test="${empty selectedStudyOrganization}">
+				                        	<c:set var="selectedStudyOrganization" value="${studyOrganization}"/>
+				                        	<c:set var="selected_site_index" value="${status.index}"/>
+				                        </c:if>
+				                        <c:choose>
+				                        <c:when test="${selectedStudyOrganization.healthcareSite.primaryIdentifier == studyOrganization.healthcareSite.primaryIdentifier }">
+				                            <option selected value="${studyOrganization.id}-${studyOrganization.healthcareSite.id}">${studyOrganization.healthcareSite.name} (${studyOrganization.healthcareSite.primaryIdentifier}) -${orgType }</option>
+				                        </c:when>
+				                        <c:otherwise>
+				                        	<option value="${studyOrganization.id}-${studyOrganization.healthcareSite.id}">${studyOrganization.healthcareSite.name} (${studyOrganization.healthcareSite.primaryIdentifier}) -${orgType }</option>
+				                        </c:otherwise>
+				                        </c:choose>
+			                        </csmauthz:accesscontrol>
+		                        </c:if>
 		                    </c:forEach>
 		                </select>
-			            <tags:indicator id="disease-indicator"/>
+			            <tags:indicator id="study-personnel-indicator"/>
 			            
 			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.participatingSitePersonnel"/></b><br>
-			            <select multiple size="1" style="width:400px" id="disease-term">
-			            </select> <span id="disease-selected-name"></span>
-			            <select multiple size="10" id="disease-sel">
+			            <select multiple size="1" style="width:400px" id="study-personnel">
+			            </select> <span id="study-personnel-selected-name"></span>
+			            <select multiple size="10" id="study-personnel-sel">
 			                <option value="">No participating study personnel for this study site.</option>
 			            </select>
 			            
-			            <form:select id="disease-sel-hidden" size="1" path="study.studySites[${selected_site}].studyPersonnelIds" />
+			            <form:select id="study-personnel-sel-hidden" size="1" path="studyPersonnelIds" />
 			        <br/>
 	               </div>	        
 			    </chrome:box>
 			</td>
 			<td valign="middle">
-			<tags:button type="button" icon="continue" size="small" color="blue" value="Add" onclick="fireAction('addStudyPerson','0');"/>
+			<tags:button type="button" icon="continue" size="small" color="blue" value="Add" onclick="addStudyPersonnel();"/>
 	        </td>
 			<td valign="top" width="45%">
-			    <chrome:box title="${command.study.studySites[selected_site].healthcareSite.name}" id="diseases">
+			    <chrome:box title="${selectedStudyOrganization.healthcareSite.name}" id="diseases">
 			        <br/>
 			        <c:choose>
-			            <c:when test="${fn:length(command.study.studySites[selected_site].studyPersonnel) == 0}">
+			            <c:when test="${fn:length(selectedStudyOrganization.studyPersonnel) == 0}">
 			                <fmt:message key="c3pr.common.noPersonnels" />
 			            </c:when>			
 			            <c:otherwise>
@@ -233,8 +217,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                        <th width="20%"><fmt:message key="c3pr.common.status"/><tags:hoverHint keyProp="study.personnel.status"/></th>
 			                        <th width="5%"></th>
 			                    </tr>
-			                    <c:forEach items="${command.study.studySites[selected_site].studyPersonnel}" var="studyPersonnel"
-			                               varStatus="status">
+			                    <c:forEach items="${selectedStudyOrganization.studyPersonnel}" var="studyPersonnel" varStatus="status">
 		                        <tr>
 		                            <td>
 		                              ${studyPersonnel.researchStaff.lastName}&nbsp;${studyPersonnel.researchStaff.firstName}
@@ -242,18 +225,13 @@ and the controller gets the selected index via the hidden variable _selectedSite
 						            		<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="NCI data" width="17" height="16" border="0" align="middle"/>
 						            	</c:if>
 		                            </td>
-									<%--  <td>
-		                            <form:select path="study.studySites[${selected_site}].studyPersonnel[${status.index}].roleCode" cssClass="required validate-notEmpty">
-				                       <form:options items="${studyPersonnel.researchStaff.groups}" itemLabel="displayName" itemValue="code"/>
-				                    </form:select>
-		                            </td> --%>
 		                            <td>
-		                            <form:select path="study.studySites[${selected_site}].studyPersonnel[${status.index}].statusCode" cssClass="required validate-notEmpty">
+		                            <form:select path="study.studyOrganizations[${selected_site_index}].studyPersonnel[${status.index}].statusCode" cssClass="required validate-notEmpty">
 				                        <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
 				                    </form:select>
 		                            </td>
 		                            <td class="alt">
-			                            <a href="javascript:fireAction('removeStudyPerson',${status.index});">
+			                            <a href="javascript:removeStudyPersonnel('${studyPersonnel.researchStaff.assignedIdentifier }');">
 			                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove">
 			                            </a>&nbsp;
 			                        </td>
@@ -278,6 +256,5 @@ and the controller gets the selected index via the hidden variable _selectedSite
 <br/>
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
 </form:form>
-
 </body>
 </html>
