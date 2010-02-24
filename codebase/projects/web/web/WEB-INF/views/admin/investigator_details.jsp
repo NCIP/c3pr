@@ -10,6 +10,8 @@
     </title>
 <tags:dwrJavascriptLink objects="InvestigatorAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
+//this variable is set to true to strip off query parameters in action bug cpr-1602
+C3PR.removeQueryStringFromForm=true;
 var healthcareSiteAutocompleterProps = {
     basename: "healthcareSite",
     populator: function(autocompleter, text) {
@@ -359,9 +361,8 @@ function submitForm(){
 
 
 </chrome:box>
-<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
-<%--<tags:tabControls tab="${tab}" flow="${flow}"
-	localButtons="${localButtons}" willSave="true">
+<tags:tabControls tab="${tab}" flow="${flow}"
+	localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
 		<table>
 				<tr>
@@ -378,7 +379,7 @@ function submitForm(){
 				</tr>
 		</table>
 	</jsp:attribute>
-</tags:tabControls> --%>
+</tags:tabControls>
 </form:form> 
 </div>
 
