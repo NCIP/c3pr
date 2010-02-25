@@ -40,6 +40,7 @@ import gov.nih.nci.coppa.po.IdentifiedPerson;
 import gov.nih.nci.coppa.po.Organization;
 import gov.nih.nci.coppa.po.Person;
 import gov.nih.nci.coppa.services.pa.DocumentWorkflowStatus;
+import gov.nih.nci.coppa.services.pa.InterventionalStudyProtocol;
 import gov.nih.nci.coppa.services.pa.StudyContact;
 import gov.nih.nci.coppa.services.pa.StudyOverallStatus;
 import gov.nih.nci.coppa.services.pa.StudyProtocol;
@@ -66,6 +67,9 @@ public class RemoteStudyResolver implements RemoteResolver {
 	
 	/* List of values for DocumentWorkflowStatus. The study has to have one of these to be eligible for fetching. */
 	public static final List<String> DOCUMENT_WORKFLOW_STATUS_LIST = Arrays.asList("Abstracted", "Verification Pending", "Abstraction Verified Response", "Abstraction Verified No Response");
+
+	public static final String RANDOMIZED_CONTROLLED_TRIAL = "Randomized Controlled Trial";
+	
 	
 	/** The PA utils which has all the serialize/deserialze and broadcast methods */
 	private ProtocolAbstractionResolverUtils protocolAbstractionResolverUtils = null;
@@ -173,6 +177,15 @@ public class RemoteStudyResolver implements RemoteResolver {
 		remoteStudy.setPhaseCode(protocolAbstractionResolverUtils.getPhaseCodeFromCoppaPhaseCode(CoppaPAObjectFactory.getPhaseCodeFromStudyProtocol(studyProtocol)));
 		remoteStudy.setExternalId(studyProtocol.getIdentifier().getExtension());
 		remoteStudy.setTargetAccrualNumber(CoppaPAObjectFactory.getStudyTargetAccrualNumberFromStudyProtocol(studyProtocol));
+		if(isRandomized(studyProtocol)){
+			remoteStudy.setRandomizationType(RandomizationType.PHONE_CALL);
+			remoteStudy.setRandomizedIndicator(Boolean.TRUE);
+			remoteStudy.setBlindedIndicator(Boolean.TRUE);
+		} else {
+			remoteStudy.setRandomizedIndicator(Boolean.FALSE);
+			remoteStudy.setBlindedIndicator(Boolean.FALSE);
+		}
+		
 		
 		//Set StudyOrganizations
 		boolean hasCoordinatingCenter = false;
@@ -228,9 +241,6 @@ public class RemoteStudyResolver implements RemoteResolver {
 		setEligibilityCriteria(remoteStudy);
 		
 		//Set default values in RemoteStudy
-		remoteStudy.setRandomizationType(RandomizationType.PHONE_CALL);
-		remoteStudy.setRandomizedIndicator(Boolean.TRUE);
-		remoteStudy.setBlindedIndicator(Boolean.TRUE);
 		remoteStudy.setStratificationIndicator(Boolean.FALSE);
 		remoteStudy.setCompanionIndicator(Boolean.FALSE);
 		remoteStudy.setStandaloneIndicator(Boolean.TRUE);
@@ -238,6 +248,33 @@ public class RemoteStudyResolver implements RemoteResolver {
 		return remoteStudy;
 	}
 	
+	/**
+	 * Checks if study is randomized.
+	 * 
+	 * @param studyProtocol the study protocol
+	 * @return true, if is randomized
+	 */
+	private boolean isRandomized(StudyProtocol studyProtocol) {
+		String paIdPayLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId(studyProtocol.getIdentifier().getExtension()));
+		String interventionalProtocolXml  = null;
+		try {
+			interventionalProtocolXml  = protocolAbstractionResolverUtils.broadcastInterventionalStudyProtocolSearch(paIdPayLoad);
+			
+			List<String> results = XMLUtils.getObjectsFromCoppaResponse(interventionalProtocolXml);
+			InterventionalStudyProtocol interventionalStudyProtocol;
+			if (results.size() > 0) {
+				interventionalStudyProtocol = CoppaPAObjectFactory.getInterventionalStudyProtocol(results.get(0));
+				if(interventionalStudyProtocol.getAllocationCode().getCode().equalsIgnoreCase(RANDOMIZED_CONTROLLED_TRIAL)){
+					return Boolean.TRUE;
+				}
+			}
+		} catch (C3PRCodedException e) {
+			log.error(e);
+		}
+		return Boolean.FALSE;
+		
+	}
+
 	/**
 	* This method will fetch the Eligibility from PA. Set them in the existing epoch.
 	* If no epoch is found then eligibility is ignored.
@@ -313,6 +350,12 @@ public class RemoteStudyResolver implements RemoteResolver {
 		epoch.setEnrollmentIndicator(true);
 		epoch.setName("Treatment Epoch");
 		epoch.setEpochOrder(1);
+		
+		if(remoteStudy.getRandomizedIndicator()){
+			epoch.setRandomizedIndicator(Boolean.TRUE);
+		} else {
+			epoch.setRandomizedIndicator(Boolean.FALSE);
+		}
 		
 	    gov.nih.nci.coppa.services.pa.Arm remoteArm = null;
 	    Arm localArm = null;
@@ -676,7 +719,6 @@ public class RemoteStudyResolver implements RemoteResolver {
 	    	return null;
 	    } else {
 	    	RemoteInvestigator remoteInvestigator = (RemoteInvestigator) object;
-		    //remoteInvestigator.setNciIdentifier(coppaPerson.getIdentifier().getExtension());
 	    	List<IdentifiedPerson> identifiedPersonsList = personOrganizationResolverUtils.getIdentifiedPerson(coppaPerson.getIdentifier());
             String assignedIdentifier = null;
             for(IdentifiedPerson identifiedPerson: identifiedPersonsList){
