@@ -14,7 +14,7 @@
 }
 #summary div.row div.value {
 	font-weight:normal;
-	margin-left:8.3em;
+	margin-left:12.2em;
 }
 </style>
 <c:choose>
