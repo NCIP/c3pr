@@ -349,7 +349,8 @@ public class StudySitesTab extends StudyTab {
 		}
 		study = studyDao.getById(id);
 		studyDao.initialize(study);
-		
+		//CPR-1595 Hack to initialize parent study association.
+		study.getParentStudyAssociations().size();
 		wrapper.setStudy(study);
 		Map map = new HashMap();
 		map.put("command", wrapper);
