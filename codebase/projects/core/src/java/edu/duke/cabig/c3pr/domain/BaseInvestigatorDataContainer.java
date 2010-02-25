@@ -1,12 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
-
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -16,14 +12,8 @@ import org.hibernate.annotations.Parameter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "investigators")
 @GenericGenerator(name = "id-generator", strategy = "sequence", parameters = { @Parameter(name = "sequence", value = "investigators_id_seq") })
-public class ConverterInvestigator extends AbstractMutableDeletableDomainObject{
+public class BaseInvestigatorDataContainer extends AbstractMutableDeletableDomainObject{
 
-	public String getUniqueIdentifier() {
-		return uniqueIdentifier;
-	}
-	public void setUniqueIdentifier(String uniqueIdentifier) {
-		this.uniqueIdentifier = uniqueIdentifier;
-	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -60,7 +50,6 @@ public class ConverterInvestigator extends AbstractMutableDeletableDomainObject{
 	private String lastName;
 	private String maidenName;
 	private String assignedIdentifier;
-	private String uniqueIdentifier;
 	private String dtype;
 	
 

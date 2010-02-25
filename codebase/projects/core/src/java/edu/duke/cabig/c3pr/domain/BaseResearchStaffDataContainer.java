@@ -14,14 +14,8 @@ import org.hibernate.annotations.Parameter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "research_staff")
 @GenericGenerator(name = "id-generator", strategy = "sequence", parameters = { @Parameter(name = "sequence", value = "research_staff_id_seq") })
-public class ConverterResearchStaff extends AbstractMutableDeletableDomainObject{
+public class BaseResearchStaffDataContainer extends AbstractMutableDeletableDomainObject{
 
-	public String getUniqueIdentifier() {
-		return uniqueIdentifier;
-	}
-	public void setUniqueIdentifier(String uniqueIdentifier) {
-		this.uniqueIdentifier = uniqueIdentifier;
-	}
 	public String getDtype() {
 		return dtype;
 	}
@@ -59,9 +53,8 @@ public class ConverterResearchStaff extends AbstractMutableDeletableDomainObject
 	private String lastName;
 	private String maidenName;
 	private String assignedIdentifier;
-	private String uniqueIdentifier;
 	private String dtype;
-	private ConverterOrganization converterOrganization;
+	private BaseOrganizationDataContainer baseOrganizationDataContainer;
 	
 
 	public String getAssignedIdentifier() {
@@ -73,10 +66,10 @@ public class ConverterResearchStaff extends AbstractMutableDeletableDomainObject
 	
 	@ManyToOne
     @JoinColumn(name = "HCS_ID")
-	public ConverterOrganization getConverterOrganization() {
-		return converterOrganization;
+	public BaseOrganizationDataContainer getBaseOrganizationDataContainer() {
+		return baseOrganizationDataContainer;
 	}
-	public void setConverterOrganization(ConverterOrganization converterOrganization) {
-		this.converterOrganization = converterOrganization;
+	public void setBaseOrganizationDataContainer(BaseOrganizationDataContainer baseOrganizationDataContainer) {
+		this.baseOrganizationDataContainer = baseOrganizationDataContainer;
 	}
 }

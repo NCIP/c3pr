@@ -15,14 +15,12 @@ import org.hibernate.annotations.Parameter;
 @Table(name = "organizations")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "organizations_id_seq") })
-public class ConverterOrganization extends AbstractMutableDomainObject{
+public class BaseOrganizationDataContainer extends AbstractMutableDomainObject{
 	
 	private String name;
-	private String nciInstituteCode;
 	private String descriptionText;
 	private String externalId;
 	private String dtype;
-	
 	@Column(name = "name")
 	public String getName() {
 		return name;
@@ -30,12 +28,7 @@ public class ConverterOrganization extends AbstractMutableDomainObject{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getNciInstituteCode() {
-		return nciInstituteCode;
-	}
-	public void setNciInstituteCode(String nciInstituteCode) {
-		this.nciInstituteCode = nciInstituteCode;
-	}
+	
 	public String getDescriptionText() {
 		return descriptionText;
 	}
