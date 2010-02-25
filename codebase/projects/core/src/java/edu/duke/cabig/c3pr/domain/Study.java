@@ -88,7 +88,6 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	private String type;
 	private ConsentRequired consentRequired;
     private StudyVersion studyVersion;
-//    private boolean backDatedRegistrationIndicator;
 	
 	// This is for the CADSR exclusion/inclusion criteria file
 	/** The criteria file. */
@@ -105,6 +104,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	private int accrualCount;
 	private Boolean standaloneIndicator;
 	private Integer targetAccrualNumber;
+	
+	private Boolean summary3Reportable;
 
 	/** The parent study associations. */
 	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
@@ -495,6 +496,15 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 
 	public void setBlindedIndicator(Boolean blindedIndicator) {
 		this.blindedIndicator = blindedIndicator;
+	}
+
+	@Column(name = "summary_3_reportable")
+	public Boolean getSummary3Reportable() {
+		return summary3Reportable;
+	}
+
+	public void setSummary3Reportable(Boolean summary3Reportable) {
+		this.summary3Reportable = summary3Reportable;
 	}
 
 	public Boolean getRandomizedIndicator() {
@@ -1381,15 +1391,6 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		return companionIndicator && !standaloneIndicator ;
 	}
 	
-//	@Column(name="back_dated_reg_support")
-//	public boolean getBackDatedRegistrationIndicator() {
-//		return backDatedRegistrationIndicator;
-//	}
-//
-//	public void setBackDatedRegistrationIndicator(boolean backDatedRegistrationIndicator) {
-//		this.backDatedRegistrationIndicator = backDatedRegistrationIndicator;
-//	}
-	
 	@Transient
 	public Study getParentStudy(){
 		// this method is applicable for embedded studies
@@ -1397,16 +1398,6 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 			return getParentStudyAssociations().get(0).getParentStudy();
 		}
 		return null ;
-//		if(!companionIndicator){
-//			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_COMPANION.CODE"));
-//		}else if(!getIsEmbeddedCompanionStudy()){
-//			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_EMBEDDED_COMPANION.CODE"));
-//		}else{
-//			if(getParentStudyAssociations().size() == 0){
-//				throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STUDY_NOT_PARENT.CODE"));
-//			}else{
-//				return getParentStudyAssociations().get(0).getParentStudy();
-//			}		
 	}
 	
 	public boolean isAssignedAndActivePersonnel(ResearchStaff researchStaff){
@@ -1421,5 +1412,4 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		}
 		return false;
 	}
-
 }

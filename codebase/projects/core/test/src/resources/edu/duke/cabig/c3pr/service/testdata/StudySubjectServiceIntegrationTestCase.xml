@@ -1,6 +1,6 @@
 <dataset>
       
-    <STUDIES id="1100" version="1" blinded_indicator="true" long_title_text="long_title_text" multi_institution_indicator="true" phase_code="Ph" 
+    <STUDIES summary_3_reportable="0" id="1100" version="1" blinded_indicator="true" long_title_text="long_title_text" multi_institution_indicator="true" phase_code="Ph" 
    	randomized_indicator="true" short_title_text="short_title_text" target_accrual_number="123" type="ty" description_text="description" precis_text="precis_text" 
     status="ACTIVE" data_entry_status="COMPLETE" standalone_indicator="true" companion_indicator="false" stratification_indicator="false" dtype="Local"/>
    
