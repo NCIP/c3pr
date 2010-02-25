@@ -305,8 +305,6 @@ div.row div.label {
 				</c:otherwise>
 			</c:choose>
 </div>
-
-
 			<script>
 				<c:if test="${command.hasEndpointProperty}">
 			       $('advance').checked=true;
@@ -318,9 +316,9 @@ div.row div.label {
 		</chrome:division>
 
 	</chrome:box>
-	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
-</form:form> <%--<tags:tabControls tab="${tab}" flow="${flow}"
-	localButtons="${localButtons}" willSave="true">
+</form:form> 
+<tags:tabControls tab="${tab}" flow="${flow}"
+	localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
 		<table>
 				<tr>
@@ -330,14 +328,14 @@ div.row div.label {
 									id="sync-org" onclick="javascript:syncOrganization();" />	
 						</td>
 					</c:if>
-						<td>
-							    	<tags:button type="submit" color="green" id="flow-update"
-									value="Save" icon="save" onclick="javascript:submitForm();" />
-						</td>
+					<td>
+						    	<tags:button type="submit" color="green" id="flow-update"
+								value="Save" icon="save" onclick="javascript:submitForm();" />
+					</td>
 				</tr>
 		</table>
 	</jsp:attribute>
-</tags:tabControls>--%></div>
+</tags:tabControls></div>
 <div id="display_remote_org" style="display: none; text-align: left">
 <chrome:box title="Please select an Organization to be saved in C3PR"
 	id="popupId">
