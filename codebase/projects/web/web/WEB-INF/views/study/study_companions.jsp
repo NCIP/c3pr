@@ -236,41 +236,5 @@ onclick="$('addCompanionMessage') != null ? $('addCompanionMessage').hide():'';a
 	</div>
 </div>
 </div>
-<div id="dummy-row-create" style="display:none;">
-	 	<table>
-	        <tr id="companionTable-PAGE.ROW.INDEX">
-	            <td>
-	                <input type="hidden" id="companionStudyPAGE.ROW.INDEX-hidden" />
-	                <input class="required validate-notEmpty" type="text" id="companionStudyPAGE.ROW.INDEX-input" 
-	                       size="40" disabled="true"
-	                       value="${command.study.companionStudyAssociations[PAGE.ROW.INDEX].companionStudy.shortTitleText}"/>
-	                   <tags:indicator id="companionStudyPAGE.ROW.INDEX-indicator"/>
-	                  <div id="companionStudyPAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
-	            </td>
-				<td >
-					<div id="companionStudyPAGE.ROW.INDEX-companionStudyStatus" >
-					</div>
-				</td>
-	            <td>
-	                <select id="companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" name="study.companionStudyAssociations[PAGE.ROW.INDEX].mandatoryIndicator" class="required validate-notEmpty" >
-	                    <option value="">Please Select</option>
-	                    <c:forEach items="${yesNo}" var="status">
-	                        <option value="${status.code}">${status.desc}</option>
-	                    </c:forEach>
-	                </select>
-	            </td>
-	            <td>
-	                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
-                    src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-                    <div id="container" style="display:none;">
-	                    <div id="dummy-row-createStudy" class="dummy-row-createStudy">
-					    	<%@ include file="study_create_companion.jsp"%>
-					    	
-					    </div>
-				    </div>
-                </td>
-	        </tr>
-	    </table>
-</div>
 </body>
 </html>
