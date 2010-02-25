@@ -1,33 +1,33 @@
 package edu.duke.cabig.c3pr.domain.repository.impl;
 
-import edu.duke.cabig.c3pr.dao.OrganizationConverterDao;
-import edu.duke.cabig.c3pr.domain.ConverterOrganization;
+import edu.duke.cabig.c3pr.dao.BaseOrganizationDataContainerDao;
+import edu.duke.cabig.c3pr.domain.BaseOrganizationDataContainer;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.repository.OrganizationRepository;
 
 public class OrganizationRepositoryImpl implements OrganizationRepository{
 	
-	private OrganizationConverterDao organizationConverterDao;
+	private BaseOrganizationDataContainerDao baseOrganizationDataContainerDao;
 
-	public OrganizationConverterDao getOrganizationConverterDao() {
-		return organizationConverterDao;
+	public BaseOrganizationDataContainerDao getBaseOrganizationDataContainerDao() {
+		return baseOrganizationDataContainerDao;
 	}
 
-	public void setOrganizationConverterDao(
-			OrganizationConverterDao organizationConverterDao) {
-		this.organizationConverterDao = organizationConverterDao;
+	public void setBaseOrganizationDataContainerDao(
+			BaseOrganizationDataContainerDao baseOrganizationDataContainerDao) {
+		this.baseOrganizationDataContainerDao = baseOrganizationDataContainerDao;
 	}
 
-	public ConverterOrganization convertLocalToRemote(
+	public BaseOrganizationDataContainer convertLocalToRemote(
 			LocalHealthcareSite localHealthcareSite,RemoteHealthcareSite remoteHealthcareSite) {
-		ConverterOrganization converterOganization = organizationConverterDao.getById(localHealthcareSite.getId());
-		converterOganization.setDtype("Remote");
-		converterOganization.setName(remoteHealthcareSite.getName());
-		converterOganization.setDescriptionText(remoteHealthcareSite.getDescriptionText());
-		converterOganization.setExternalId(remoteHealthcareSite.getExternalId());
-		organizationConverterDao.save(converterOganization);
-		return converterOganization;
+		BaseOrganizationDataContainer baseOrganizationDataContainer = baseOrganizationDataContainerDao.getById(localHealthcareSite.getId());
+		baseOrganizationDataContainer.setDtype("Remote");
+		baseOrganizationDataContainer.setName(remoteHealthcareSite.getName());
+		baseOrganizationDataContainer.setDescriptionText(remoteHealthcareSite.getDescriptionText());
+		baseOrganizationDataContainer.setExternalId(remoteHealthcareSite.getExternalId());
+		baseOrganizationDataContainerDao.save(baseOrganizationDataContainer);
+		return baseOrganizationDataContainer;
 	}
 
 }
