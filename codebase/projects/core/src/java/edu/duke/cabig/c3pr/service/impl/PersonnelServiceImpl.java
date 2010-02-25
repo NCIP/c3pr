@@ -11,15 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.dao.InvestigatorConverterDao;
+import edu.duke.cabig.c3pr.dao.BaseResearchStaffDataContainerDao;
+import edu.duke.cabig.c3pr.dao.BaseInvestigatorDataContainerDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffConverterDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.UserDao;
+import edu.duke.cabig.c3pr.domain.BaseInvestigatorDataContainer;
+import edu.duke.cabig.c3pr.domain.BaseResearchStaffDataContainer;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
-import edu.duke.cabig.c3pr.domain.ConverterInvestigator;
-import edu.duke.cabig.c3pr.domain.ConverterResearchStaff;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
@@ -61,33 +61,26 @@ public class PersonnelServiceImpl implements PersonnelService {
     
     private PlannedNotificationDao plannedNotificationDao;
     
-    private ResearchStaffConverterDao researchStaffConverterDao;
+    private BaseResearchStaffDataContainerDao baseResearchStaffDataContainerDao;
     
-    private InvestigatorConverterDao investigatorConverterDao;
+    private BaseInvestigatorDataContainerDao baseInvestigatorDataContainerDao;
     
     private UserDao userDao;
     
     private Logger log = Logger.getLogger(PersonnelServiceImpl.class);
     
-    public InvestigatorConverterDao getInvestigatorConverterDao() {
-		return investigatorConverterDao;
+
+    public void setBaseResearchStaffDataContainerDao(
+			BaseResearchStaffDataContainerDao baseResearchStaffDataContainerDao) {
+		this.baseResearchStaffDataContainerDao = baseResearchStaffDataContainerDao;
 	}
 
-	public void setInvestigatorConverterDao(
-			InvestigatorConverterDao investigatorConverterDao) {
-		this.investigatorConverterDao = investigatorConverterDao;
+	public void setBaseInvestigatorDataContainerDao(
+			BaseInvestigatorDataContainerDao baseInvestigatorDataContainerDao) {
+		this.baseInvestigatorDataContainerDao = baseInvestigatorDataContainerDao;
 	}
 
-	public ResearchStaffConverterDao getResearchStaffConverterDao() {
-		return researchStaffConverterDao;
-	}
-
-	public void setResearchStaffConverterDao(
-			ResearchStaffConverterDao researchStaffConverterDao) {
-		this.researchStaffConverterDao = researchStaffConverterDao;
-	}
-
-    public void save(Investigator inv) throws C3PRBaseException {
+	public void save(Investigator inv) throws C3PRBaseException {
         log.debug("Saving Investigator");
         investigatorDao.save(inv);
     }
@@ -248,32 +241,30 @@ public class PersonnelServiceImpl implements PersonnelService {
 		this.plannedNotificationDao = plannedNotificationDao;
 	}
 
-	public ConverterResearchStaff convertLocalResearchStaffToRemoteResearchStaff(
+	public BaseResearchStaffDataContainer convertLocalResearchStaffToRemoteResearchStaff(
 			LocalResearchStaff localResearchStaff,
 			RemoteResearchStaff remoteResearchStaff) {
-		ConverterResearchStaff converterResearchStaff = researchStaffConverterDao.getById(localResearchStaff.getId());
-		converterResearchStaff.setDtype("Remote");
-		converterResearchStaff.setFirstName(remoteResearchStaff.getFirstName());
-		converterResearchStaff.setLastName(remoteResearchStaff.getLastName());
-		converterResearchStaff.setMiddleName(remoteResearchStaff.getMiddleName());
-		converterResearchStaff.setMaidenName(remoteResearchStaff.getMaidenName());
-		converterResearchStaff.setUniqueIdentifier(remoteResearchStaff.getExternalId());
-		researchStaffConverterDao.save(converterResearchStaff);
-		return converterResearchStaff;
+		BaseResearchStaffDataContainer baseResearchStaffDataContainer = baseResearchStaffDataContainerDao.getById(localResearchStaff.getId());
+		baseResearchStaffDataContainer.setDtype("Remote");
+		baseResearchStaffDataContainer.setFirstName(remoteResearchStaff.getFirstName());
+		baseResearchStaffDataContainer.setLastName(remoteResearchStaff.getLastName());
+		baseResearchStaffDataContainer.setMiddleName(remoteResearchStaff.getMiddleName());
+		baseResearchStaffDataContainer.setMaidenName(remoteResearchStaff.getMaidenName());
+		baseResearchStaffDataContainerDao.save(baseResearchStaffDataContainer);
+		return baseResearchStaffDataContainer;
 	}
 	
-	public ConverterInvestigator convertLocalInvestigatorToRemoteInvestigator(
+	public BaseInvestigatorDataContainer convertLocalInvestigatorToRemoteInvestigator(
 			LocalInvestigator localInvestigator,
 			RemoteInvestigator remoteInvestigator) {
-		ConverterInvestigator converterInvestigator = investigatorConverterDao.getById(localInvestigator.getId());
-		converterInvestigator.setDtype("Remote");
-		converterInvestigator.setFirstName(remoteInvestigator.getFirstName());
-		converterInvestigator.setLastName(remoteInvestigator.getLastName());
-		converterInvestigator.setMiddleName(remoteInvestigator.getMiddleName());
-		converterInvestigator.setMaidenName(remoteInvestigator.getMaidenName());
-		converterInvestigator.setUniqueIdentifier(remoteInvestigator.getExternalId());
-		investigatorConverterDao.save(converterInvestigator);
-		return converterInvestigator;
+		BaseInvestigatorDataContainer baseInvestigatorDataContainer = baseInvestigatorDataContainerDao.getById(localInvestigator.getId());
+		baseInvestigatorDataContainer.setDtype("Remote");
+		baseInvestigatorDataContainer.setFirstName(remoteInvestigator.getFirstName());
+		baseInvestigatorDataContainer.setLastName(remoteInvestigator.getLastName());
+		baseInvestigatorDataContainer.setMiddleName(remoteInvestigator.getMiddleName());
+		baseInvestigatorDataContainer.setMaidenName(remoteInvestigator.getMaidenName());
+		baseInvestigatorDataContainerDao.save(baseInvestigatorDataContainer);
+		return baseInvestigatorDataContainer;
 	}
 
 	public void setUserDao(UserDao userDao) {
