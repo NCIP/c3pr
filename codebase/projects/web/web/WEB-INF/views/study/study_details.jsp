@@ -247,13 +247,22 @@
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.type"/></div>
             <div class="value">
-            	<form:select path="study.type" cssClass="required validate-notEmpty" >
+            	<form:select path="study.type" cssClass="required validate-notEmpty">
                 	<option value="">Please Select</option>
                 	<form:options items="${typeRefData}" itemLabel="desc" itemValue="desc" />
             	</form:select>
             	<tags:hoverHint keyProp="study.type"/>
             </div>
         </div>
+        <div class="row">
+	        <div class="label"><tags:requiredIndicator /><fmt:message key="study.summary3Reportable"/></div>
+	        <div class="value">
+	        	<form:select path="study.summary3Reportable" cssClass="required validate-notEmpty">
+	            	<option value="">Please Select</option>
+	            	<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+	        	</form:select>
+	        	<tags:hoverHint keyProp="study.summary3Reportable"/></div>
+	        </div>
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="study.phase"/></div>
             <div class="value">
