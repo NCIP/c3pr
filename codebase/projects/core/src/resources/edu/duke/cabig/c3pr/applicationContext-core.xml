@@ -163,9 +163,9 @@
         </property>
         <property name="annotatedClasses">
         	<list>
-        		<value>edu.duke.cabig.c3pr.domain.ConverterOrganization</value>
-        		<value>edu.duke.cabig.c3pr.domain.ConverterResearchStaff</value>
-        		<value>edu.duke.cabig.c3pr.domain.ConverterInvestigator</value>
+        		<value>edu.duke.cabig.c3pr.domain.BaseOrganizationDataContainer</value>
+        		<value>edu.duke.cabig.c3pr.domain.BaseResearchStaffDataContainer</value>
+        		<value>edu.duke.cabig.c3pr.domain.BaseInvestigatorDataContainer</value>
         	</list>
         </property>
     </bean>
@@ -186,9 +186,9 @@
 
 	<!-- DAOs -->
 
-	<bean id="organizationConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.OrganizationConverterDao"/>
-	<bean id="researchStaffConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffConverterDao"/>
-	<bean id="investigatorConverterDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorConverterDao"/>
+	<bean id="baseOrganizationDataContainerDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.BaseOrganizationDataContainerDao"/>
+	<bean id="baseResearchStaffDataContainerDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.BaseResearchStaffDataContainerDao"/>
+	<bean id="baseInvestigatorDataContainerDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.BaseInvestigatorDataContainerDao"/>
 	<!-- End -->
 
 
