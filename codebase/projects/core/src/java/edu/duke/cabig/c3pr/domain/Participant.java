@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
