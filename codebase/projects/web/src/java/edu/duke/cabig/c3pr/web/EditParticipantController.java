@@ -63,7 +63,6 @@ public class EditParticipantController<C extends Participant> extends
     protected void layoutTabs(Flow flow) {
         flow.addTab(new ParticipantDetailsTab());
         flow.addTab(new ParticipantAddressAndContactInfoTab());
-        flow.addTab(new ParticipantSummaryTab());
     }
 
     @Override
