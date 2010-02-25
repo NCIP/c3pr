@@ -77,8 +77,8 @@ public interface PersonnelService {
 
     public User getCSMUserByUsername(String userName);
     
-    public ConverterResearchStaff convertLocalResearchStaffToRemoteResearchStaff(LocalResearchStaff localResearchStaff,RemoteResearchStaff remoteResearchStaff);
+    public BaseResearchStaffDataContainer convertLocalResearchStaffToRemoteResearchStaff(LocalResearchStaff localResearchStaff,RemoteResearchStaff remoteResearchStaff);
     
-    public ConverterInvestigator convertLocalInvestigatorToRemoteInvestigator(LocalInvestigator localInvestigator,RemoteInvestigator remoteInvestigator);
+    public BaseInvestigatorDataContainer convertLocalInvestigatorToRemoteInvestigator(LocalInvestigator localInvestigator,RemoteInvestigator remoteInvestigator);
 
 }
