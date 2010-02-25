@@ -122,8 +122,8 @@ public class EditParticipantController<C extends Participant> extends
                     Object oCommand, BindException errors) throws Exception {
         Participant participant = (Participant) oCommand;
         participantDao.merge(participant);
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("searchparticipant.do"));
-        return modelAndView;
+        response.sendRedirect("viewParticipant?"+ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0)));
+        return null;
     }
 
     public HealthcareSiteDao getHealthcareSiteDao() {
