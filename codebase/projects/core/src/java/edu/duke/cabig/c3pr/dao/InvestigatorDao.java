@@ -345,9 +345,7 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
      */
     public List<Investigator> getRemoteInvestigators(final Investigator investigator){
     	Investigator searchCriteria = new RemoteInvestigator();
-    	searchCriteria.setFirstName(investigator.getFirstName());
-    	searchCriteria.setLastName(investigator.getLastName());
-    	searchCriteria.setEmail(investigator.getEmail());
+    	searchCriteria.setAssignedIdentifier(investigator.getAssignedIdentifier());
     	List<Investigator> remoteInvestigators = (List)remoteSession.find(searchCriteria); 
     	return remoteInvestigators;
     }

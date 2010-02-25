@@ -686,10 +686,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	public List<ResearchStaff> getRemoteResearchStaff(
 			final ResearchStaff researchStaff) {
 		ResearchStaff searchCriteria = new RemoteResearchStaff();
-		// searchCriteria.setHealthcareSite(researchStaff.getHealthcareSite());
-		searchCriteria.setFirstName(researchStaff.getFirstName());
-		searchCriteria.setLastName(researchStaff.getLastName());
-		searchCriteria.setEmail(researchStaff.getEmail());
+		searchCriteria.setAssignedIdentifier(researchStaff.getAssignedIdentifier());
 		List<ResearchStaff> remoteResearchStaffs = (List)remoteSession.find(searchCriteria);
 		return remoteResearchStaffs;
 	}
