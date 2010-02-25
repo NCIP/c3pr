@@ -237,6 +237,9 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         	identifiers.add(identifier);
         	studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
             studySubjectDao.initialize(studySubject);
+            if(studySubject.getParentStudySubject()!=null){
+            	studySubjectDao.initialize(studySubject.getParentStudySubject());
+            }
             Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
     	    studyDao.initialize(study);
     	    for(CompanionStudyAssociation companionStudyAssoc : study.getStudyVersion().getCompanionStudyAssociations()){
@@ -257,7 +260,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
                     int page) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if (studySubject.getScheduledEpoch() != null) {
+        if (studySubject.getScheduledEpoch() != null && studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion()!=null) {
             studySubject.updateDataEntryStatus();
             studySubject.getScheduledEpoch().setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(studySubject));
         }
