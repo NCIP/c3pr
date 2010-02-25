@@ -4,13 +4,7 @@
 <head>
 <title><studyTags:htmlTitle study="${command.study}" /></title>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
-<style type="text/css">
-.label {
-	width: 12em;
-	text-align: right;
-	padding: 4px;
-}
-</style>
+
 <script language="JavaScript" type="text/JavaScript">
 	function uploadFile(index, name, epochs){
 		$('uploadIndicator-'+index).style.display=''
