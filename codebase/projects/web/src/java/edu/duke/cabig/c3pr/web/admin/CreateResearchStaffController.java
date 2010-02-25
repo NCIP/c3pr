@@ -127,13 +127,13 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 			List<ResearchStaff> remoteResearchStaff = researchStaffDao.getRemoteResearchStaff(researchStaff);
     		boolean matchingExternalResearchStaffPresent = false;
     		for(ResearchStaff remoteRStaff : remoteResearchStaff){
-    			if(remoteRStaff.getEmail().equals(researchStaff.getEmail())){
+    			if(remoteRStaff.getAssignedIdentifier().equals(researchStaff.getAssignedIdentifier())){
     				researchStaff.addExternalResearchStaff(remoteRStaff);
     				matchingExternalResearchStaffPresent = true;
     			}
     		}
     		if(matchingExternalResearchStaffPresent){
-    			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with Email " +researchStaff.getEmail()+ " exists in external system");
+    			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with assigned identifier " +researchStaff.getAssignedIdentifier()+ " exists in external system");
     		}
     	}
 	}
