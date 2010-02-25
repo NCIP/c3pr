@@ -17,10 +17,12 @@
     </decorator>
     <decorator name="tabbedflow" page="tabbedflow.jsp">
     	<pattern>/pages/study/viewStudy</pattern>
-        <pattern>/pages/personAndOrganization/participant/createParticipant</pattern>
-        <pattern>/pages/personAndOrganization/participant/editParticipant</pattern>
         <pattern>/pages/personAndOrganization/participant/viewParticipant</pattern>
         <pattern>/pages/registration/manageRegistration*</pattern>
+    </decorator>
+    <decorator name="participant" page="participantflow.jsp">
+        <pattern>/pages/personAndOrganization/participant/createParticipant</pattern>
+        <pattern>/pages/personAndOrganization/participant/editParticipant</pattern>
     </decorator>
     <decorator name="study" page="studyflow.jsp">
         <pattern>/pages/study/createStudy</pattern>

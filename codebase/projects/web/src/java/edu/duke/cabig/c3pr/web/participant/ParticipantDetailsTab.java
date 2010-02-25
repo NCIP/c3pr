@@ -16,6 +16,7 @@ public class ParticipantDetailsTab extends ParticipantTab {
 
     public ParticipantDetailsTab() {
         super("Details", "Details", "participant/participant");
+        setShowSummary("false");
     }
 
     public Map<String, Object> referenceData() {
