@@ -14,6 +14,7 @@
 		}
 		function fromConfirmRegistration(isActive, studySiteStudyVersionId, studyName,studyPrimaryIdentifier,siteName){
 			var url = "../registration/searchEpoch?studySiteStudyVersionId="+studySiteStudyVersionId;
+			document.getElementById("studySiteStudyVersionId").value = studySiteStudyVersionId;
 			new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
 			var message = "Selected Study: " +studyName+ " (" +studyPrimaryIdentifier+ ") "  + " at " +siteName;
 			minimizeStudyBox(message);
