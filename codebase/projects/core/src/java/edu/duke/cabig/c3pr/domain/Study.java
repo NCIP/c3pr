@@ -123,7 +123,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		standaloneIndicator = true;
 		companionIndicator = false;
 		consentRequired = ConsentRequired.ONE;
-//		backDatedRegistrationIndicator = false ;
+		summary3Reportable = false;
 
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(StudySite.class,new StudySiteBiDirectionalInstantiateFactory(StudySite.class, this, "Study", Study.class));
