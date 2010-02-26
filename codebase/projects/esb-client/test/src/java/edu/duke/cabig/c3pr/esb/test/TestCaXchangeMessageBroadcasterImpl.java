@@ -112,6 +112,29 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 		}
 	}
 	
+
+	/**
+	 * Test broadcast for Coppa Message - search person using PO3.1.
+	 */
+	public void testBroadcastCoppaMessageForGetCorrelationsByPlayerIdsWithEntities(){
+
+		String payloadXml = getPayloadForFile("PERSON_SEARCH.xml");
+		List<String> cctsDomainObjectXMLList = new ArrayList<String>();
+		cctsDomainObjectXMLList.add(payloadXml);
+		
+		String serviceResponsePayload = null;
+        //build metadata with operation name and the external Id and pass it to the broadcast method.
+        Metadata mData = new Metadata(OperationNameEnum.getCorrelationsByPlayerIdsWithEntities.getName(), "extId", ServiceTypeEnum.PO_BUSINESS.getName());
+        try {
+        	serviceResponsePayload = messageBroadcaster.broadcastCoppaMessage(cctsDomainObjectXMLList, mData);
+        	System.out.println(serviceResponsePayload);
+		} catch (BroadcastException e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertNotNull(serviceResponsePayload);
+		assertEquals(true, serviceResponsePayload.contains("SUCCESS"));
+	}
 	
 	/**
 	 * Test broadcast for COppa Message - search person with offset.

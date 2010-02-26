@@ -256,6 +256,9 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
 
     		log.debug("Sending message to caXchange ");                        
     		responseMessage = caXchangeClient.processRequestSynchronously(xchangeMessage);  
+    		if(responseMessage.getResponse().getCaXchangeError() != null){
+    			log.error("Int hub returned error: "+responseMessage.getResponse().getCaXchangeError().getErrorDescription());
+    		}
     		InputStream serializeStream = CaXchangeRequestProcessorClient.class.getResourceAsStream("client-config.wsdd");            
     		StringWriter writer = new StringWriter();            
     		Utils.serializeObject(responseMessage, new QName(namespaceURI,localPart),writer, serializeStream);            
