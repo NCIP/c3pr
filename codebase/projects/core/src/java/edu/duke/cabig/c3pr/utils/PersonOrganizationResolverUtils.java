@@ -433,10 +433,6 @@ public class PersonOrganizationResolverUtils {
 		return broadcastCoppaMessage(healhtcareSiteXml, mData);
 	}
 	
-
-	/**
-	 * PO3.1
-	*/
 	/**
 	 * Gets the correlation nodes from payload xml.
 	 * 
@@ -545,9 +541,6 @@ public class PersonOrganizationResolverUtils {
         
         return broadcastCoppaMessage(cctsDomainObjectXMLList, mData, true);
 	}
-	
-	/**  PO3.1*/
-	
 	
 	
 	/**
