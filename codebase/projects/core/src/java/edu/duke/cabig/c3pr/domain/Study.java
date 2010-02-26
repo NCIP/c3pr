@@ -105,7 +105,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	private Boolean standaloneIndicator;
 	private Integer targetAccrualNumber;
 	
-	private Boolean summary3Reportable;
+	private Boolean therapeuticIntentIndicator;
 
 	/** The parent study associations. */
 	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
@@ -123,7 +123,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		standaloneIndicator = true;
 		companionIndicator = false;
 		consentRequired = ConsentRequired.ONE;
-		summary3Reportable = false;
+		therapeuticIntentIndicator = false;
 
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(StudySite.class,new StudySiteBiDirectionalInstantiateFactory(StudySite.class, this, "Study", Study.class));
@@ -498,13 +498,12 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		this.blindedIndicator = blindedIndicator;
 	}
 
-	@Column(name = "summary_3_reportable")
-	public Boolean getSummary3Reportable() {
-		return summary3Reportable;
+	public Boolean getTherapeuticIntentIndicator() {
+		return therapeuticIntentIndicator;
 	}
 
-	public void setSummary3Reportable(Boolean summary3Reportable) {
-		this.summary3Reportable = summary3Reportable;
+	public void setTherapeuticIntentIndicator(Boolean therapeuticIntentIndicator) {
+		this.therapeuticIntentIndicator = therapeuticIntentIndicator;
 	}
 
 	public Boolean getRandomizedIndicator() {
