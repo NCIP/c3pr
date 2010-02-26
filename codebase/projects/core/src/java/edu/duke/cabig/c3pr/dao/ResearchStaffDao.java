@@ -421,30 +421,26 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					// this guy already exists as remote staff...and should be up to date.
 					updateContactMechanisms(researchStaffFromDatabase.get(0), remoteResearchStaff);
 				} else {
-					//This staff doesn't exist in the db.
-					//First set up the login id for this new user
-					if(userProvisioningManager.getUser(remoteResearchStaff.getEmail()) != null){
-						//this email is already being used as login so use the externalId
-						remoteResearchStaff.setLoginId(remoteResearchStaff.getExternalId());
-					} else {
-						//this email is not being used as login so use it as the loginId
-						remoteResearchStaff.setLoginId(remoteResearchStaff.getEmail());
-					}
-					
 					// Ensure the staff has an organization and that its assignedId is unique.
 					if (remoteResearchStaff.getHealthcareSite() != null) {
 						ResearchStaff researchStaffWithMatchingAssignedIdentifier = 
 								getByAssignedIdentifierFromLocal(remoteResearchStaff.getAssignedIdentifier());
 						if (researchStaffWithMatchingAssignedIdentifier == null) {
-								saveResearchStaff(remoteResearchStaff);
+							//First set up the login id for this new user before saving
+							if(userProvisioningManager.getUser(remoteResearchStaff.getEmail()) != null){
+								//this email is already being used as login so use the externalId
+								remoteResearchStaff.setLoginId(remoteResearchStaff.getExternalId());
+							} else {
+								//this email is not being used as login so use it as the loginId
+								remoteResearchStaff.setLoginId(remoteResearchStaff.getEmail());
+							}
+							saveResearchStaff(remoteResearchStaff);
 						} else {
-							log.debug("This remote research person : "	+ remoteResearchStaff.getFullName()
-										+ "'s email id : " + remoteResearchStaff.getEmail()
-										+ "and/or NCI Identifier: "+ remoteResearchStaff.getAssignedIdentifier()
-										+ " is already in the database. Deferring to the local.");
+							log.error("Unable to save Remote Staff: "	+ remoteResearchStaff.getFullName()
+									+ " as it's NCI Identifier: "+ remoteResearchStaff.getAssignedIdentifier() + " is already in the database.");
 						}
 					} else {
-						log.error("Remote Staff does not have a healthcareSite associated with it!");
+						log.error("Unable to save this Remote Staff as it doesn't have a healthcareSite associated with it." + remoteResearchStaff.getFullName());
 					}
 				}
 			}
@@ -456,19 +452,25 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		}
 	}
 
-	 private void updateContactMechanisms(ResearchStaff staffToBeUpdated, ResearchStaff staffToBeDiscarded){
-	    	for(ContactMechanism cm: staffToBeDiscarded.getContactMechanisms()){
-	    		if(cm.getType().equals(ContactMechanismType.EMAIL)){
-	    			staffToBeUpdated.setEmail(cm.getValue());
-	    		}
-	    		if(cm.getType().equals(ContactMechanismType.Fax)){
-	    			staffToBeUpdated.setFax(cm.getValue());
-	    		}
-	    		if(cm.getType().equals(ContactMechanismType.PHONE)){
-	    			staffToBeUpdated.setPhone(cm.getValue());
-	    		}
-	    	}
-	    }
+	 /**
+ 	 * Update contact mechanisms.
+ 	 * 
+ 	 * @param staffToBeUpdated the staff to be updated
+ 	 * @param staffToBeDiscarded the staff to be discarded
+ 	 */
+ 	private void updateContactMechanisms(ResearchStaff staffToBeUpdated, ResearchStaff staffToBeDiscarded){
+    	for(ContactMechanism cm: staffToBeDiscarded.getContactMechanisms()){
+    		if(cm.getType().equals(ContactMechanismType.EMAIL)){
+    			staffToBeUpdated.setEmail(cm.getValue());
+    		}
+    		if(cm.getType().equals(ContactMechanismType.Fax)){
+    			staffToBeUpdated.setFax(cm.getValue());
+    		}
+    		if(cm.getType().equals(ContactMechanismType.PHONE)){
+    			staffToBeUpdated.setPhone(cm.getValue());
+    		}
+    	}
+    }
 	    
 	 
 	/**
@@ -565,7 +567,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 	
 	/*
-	 * Takes the whole list of groups instead of one ata time .Thsi was crated
+	 * Takes the whole list of groups instead of one at a time .This was created
 	 * so the unchecked groups could be deleted.
 	 */
 	private void assignUsersToGroup(User csmUser,
