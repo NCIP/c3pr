@@ -79,8 +79,24 @@ public class ProtocolAbstractionResolverUtils {
 		phaseCodeMap.put("Other", "Other");
 		
 		//studyTypeMap mappings
-		studyTypeMap.put("InterventionalStudyProtocol", "Interventional");
-		studyTypeMap.put("ObservationalStudyProtocol", "Observational");
+		studyTypeMap.put("Treatment", "Treatment");
+		studyTypeMap.put("Prevention", "Prevention");
+		studyTypeMap.put("Diagnostic", "Diagnostic");
+		studyTypeMap.put("Early Detection", "Early Detection");
+		studyTypeMap.put("Supportive Care", "Supportive Care");
+		studyTypeMap.put("Screening", "Screening");
+		studyTypeMap.put("Epidemiologic", "Epidemiologic");
+		studyTypeMap.put("Observational", "Observational");
+		studyTypeMap.put("Outcome", "Outcome");
+		studyTypeMap.put("Ancillary", "Ancillary");
+		studyTypeMap.put("Correlative", "Correlative");
+		studyTypeMap.put("Health Services Research", "Health Services Research");
+		studyTypeMap.put("Basic Science", "Basic Science");
+		studyTypeMap.put("Other", "Other");
+		studyTypeMap.put("Genetic Therapeutic", "Genetic Therapeutic");
+		studyTypeMap.put("Interventional", "Interventional");
+		studyTypeMap.put("Primary Treatment", "Primary Treatment");
+		studyTypeMap.put("Genetic Non-therapeutic", "Genetic Non-therapeutic");
 		studyTypeMap.put("AE", "AE");
 	}
 

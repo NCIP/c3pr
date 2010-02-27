@@ -70,6 +70,10 @@ public class RemoteStudyResolver implements RemoteResolver {
 
 	public static final String RANDOMIZED_CONTROLLED_TRIAL = "Randomized Controlled Trial";
 	
+	public static final int SHORT_TITLE_LENGTH = 190;
+	public static final int LONG_TITLE_LENGTH = 990;
+	public static final int DESCRIPTION_TEXT_LENGTH = 1990;
+	
 	
 	/** The PA utils which has all the serialize/deserialze and broadcast methods */
 	private ProtocolAbstractionResolverUtils protocolAbstractionResolverUtils = null;
@@ -110,7 +114,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 	private RemoteStudy getRemoteAttributesOnlyFromStudyProtocol(StudyProtocol studyProtocol) {
 		//Set remote attributes from COPPA Object
 		RemoteStudy remoteStudy = new RemoteStudy();
-		remoteStudy.setType(protocolAbstractionResolverUtils.getStudyTypeFromCoppaStudyType(CoppaPAObjectFactory.getTypeFromStudyProtocol(studyProtocol)));
+		remoteStudy.setType(protocolAbstractionResolverUtils.getStudyTypeFromCoppaStudyType(CoppaPAObjectFactory.getPrimaryPurposeFromStudyProtocol(studyProtocol)));
 		remoteStudy.setPhaseCode(protocolAbstractionResolverUtils.getPhaseCodeFromCoppaPhaseCode(CoppaPAObjectFactory.getPhaseCodeFromStudyProtocol(studyProtocol)));
 		remoteStudy.setExternalId(studyProtocol.getIdentifier().getExtension());
 		
@@ -170,13 +174,15 @@ public class RemoteStudyResolver implements RemoteResolver {
 		RemoteStudy remoteStudy = new RemoteStudy();
 		
 		//Set core attributes from COPPA Object
-		remoteStudy.setShortTitleText(StringUtils.getTrimmedText(CoppaPAObjectFactory.getShortTitleFromStudyProtocol(studyProtocol), 190));
-		remoteStudy.setLongTitleText(StringUtils.getTrimmedText(CoppaPAObjectFactory.getLongTitleFromStudyProtocol(studyProtocol), 990));
-		remoteStudy.setDescriptionText(StringUtils.getTrimmedText(CoppaPAObjectFactory.getPublicDescriptionFromStudyProtocol(studyProtocol), 1990));
-		remoteStudy.setType(protocolAbstractionResolverUtils.getStudyTypeFromCoppaStudyType(CoppaPAObjectFactory.getTypeFromStudyProtocol(studyProtocol)));
+		remoteStudy.setShortTitleText(StringUtils.getTrimmedText(CoppaPAObjectFactory.getShortTitleFromStudyProtocol(studyProtocol), SHORT_TITLE_LENGTH));
+		remoteStudy.setLongTitleText(StringUtils.getTrimmedText(CoppaPAObjectFactory.getLongTitleFromStudyProtocol(studyProtocol), LONG_TITLE_LENGTH));
+		remoteStudy.setDescriptionText(StringUtils.getTrimmedText(CoppaPAObjectFactory.getPublicDescriptionFromStudyProtocol(studyProtocol), DESCRIPTION_TEXT_LENGTH));
+		//Using the primary purpose code to set the study type. TODO: get the type and save it in a separate field in the c3pr study.
+		remoteStudy.setType(protocolAbstractionResolverUtils.getStudyTypeFromCoppaStudyType(CoppaPAObjectFactory.getPrimaryPurposeFromStudyProtocol(studyProtocol)));
 		remoteStudy.setPhaseCode(protocolAbstractionResolverUtils.getPhaseCodeFromCoppaPhaseCode(CoppaPAObjectFactory.getPhaseCodeFromStudyProtocol(studyProtocol)));
 		remoteStudy.setExternalId(studyProtocol.getIdentifier().getExtension());
 		remoteStudy.setTargetAccrualNumber(CoppaPAObjectFactory.getStudyTargetAccrualNumberFromStudyProtocol(studyProtocol));
+		//If study is randomized, default to blinded and phone call type.
 		if(isRandomized(studyProtocol)){
 			remoteStudy.setRandomizationType(RandomizationType.PHONE_CALL);
 			remoteStudy.setRandomizedIndicator(Boolean.TRUE);
@@ -264,7 +270,8 @@ public class RemoteStudyResolver implements RemoteResolver {
 			InterventionalStudyProtocol interventionalStudyProtocol;
 			if (results.size() > 0) {
 				interventionalStudyProtocol = CoppaPAObjectFactory.getInterventionalStudyProtocol(results.get(0));
-				if(interventionalStudyProtocol.getAllocationCode().getCode().equalsIgnoreCase(RANDOMIZED_CONTROLLED_TRIAL)){
+				if(interventionalStudyProtocol.getAllocationCode() != null && interventionalStudyProtocol.getAllocationCode().getCode() != null
+						&& interventionalStudyProtocol.getAllocationCode().getCode().equalsIgnoreCase(RANDOMIZED_CONTROLLED_TRIAL)){
 					return Boolean.TRUE;
 				}
 			}
