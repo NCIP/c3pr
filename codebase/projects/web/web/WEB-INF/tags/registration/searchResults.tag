@@ -11,37 +11,13 @@
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
-//function submitLocalForm(formName, regId ,schEphId){
-//	registrationElement=formName+'_registrationId';
-//	$(registrationElement).value=regId;
-//	$(formName).submit();
-//}
 
-function submitLocalForm(formName, idParamStr, companion){
-	if(formName=='manage'){
-		document.location="<c:url value='/pages/registration/manageRegistration'/>?"+idParamStr;
-	}else if(formName=='edit' && companion == 'false'){
-		document.location="<c:url value='/pages/registration/editRegistration'/>?"+idParamStr;
-	}else if(formName=='edit' && companion == 'true'){
-		document.location="<c:url value='/pages/registration/editCompanionRegistration'/>?"+idParamStr;
-	}else if(formName=='confirm'){
-		document.location="<c:url value='/pages/registration/confirm'/>?"+idParamStr;
-	}
+function submitLocalForm(idParamStr){
+	document.location="<c:url value='/pages/registration/manageRegistration'/>?"+idParamStr;
 }
 
 </script>
 <!-- REGISTRATION SEARCH RESULTS START HERE -->
-<%--<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
-	<input type="hidden" name="registrationId" id="manage_registrationId" value=""/>
-	<!-- <input type="hidden" name="scheduledEpoch" id="manage_scheduledEpoch" value=""/>-->
-</form>
-<form action="../registration/createRegistration" method="post" id="create">
-	<input type="hidden" name="_page" id="_page0" value="0"/>
-	<input type="hidden" name="_target1" id="_target1" value="1"/>
-	<input type="hidden" name="registrationId" id="create_registrationId" value=""/>
-	<input type="hidden" name="goToTab" id="goToTab" value="true"/>
-	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
-</form>--%>
 <div class="eXtremeTable" >
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
@@ -70,20 +46,9 @@ function submitLocalForm(formName, idParamStr, companion){
             	<script>
 					paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
 				</script>
-				<c:choose>
-					<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
-						<c:set var="formType" value="edit" />
-					</c:when>
-					<c:when test="${registration.dataEntryStatusString=='Complete' && registration.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED'}">
-						<c:set var="formType" value="edit" />
-					</c:when>
-					<c:otherwise>
-						<c:set var="formType" value="manage" />	
-					</c:otherwise>
-				</c:choose>
 				<tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
-					onClick='submitLocalForm("${formType}",paramString_${status.index }, "${not empty registration.parentStudySubject}")'>
+					onClick='submitLocalForm(paramString_${status.index })'>
 					<td>${registration.participant.lastName}</td>
 					<td>${registration.participant.primaryIdentifierValue}</td>
 					<td>${registration.studySite.study.trimmedShortTitleText}</td>

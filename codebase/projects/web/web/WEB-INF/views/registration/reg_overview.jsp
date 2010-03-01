@@ -153,9 +153,25 @@
 	<div id="controlPanel">
 	<tags:controlPanel>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-			<c:if test="${canEdit}">
-				<tags:oneControlPanelItem linkhref="javascript:editRegistrationPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
-			</c:if>
+			<c:choose>
+				<c:when test="${command.studySubject.regWorkflowStatus =='PENDING'}">
+					<c:choose>
+						<c:when test="${not empty command.studySubject.parentStudySubject}">
+							<c:set var="editRegURL"><c:url value='/pages/registration/editCompanionRegistration'/></c:set>
+						</c:when>
+						<c:otherwise>
+							<c:set var="editRegURL"><c:url value='/pages/registration/editRegistration'/></c:set>
+						</c:otherwise>
+					</c:choose>
+					<c:set var="editRegURL">
+						${editRegURL }?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>
+					</c:set>
+					<tags:oneControlPanelItem linkhref="${editRegURL}" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				</c:when>
+				<c:when test="${canEdit}">
+					<tags:oneControlPanelItem linkhref="javascript:editRegistrationPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				</c:when>
+			</c:choose>
 			<c:if test="${canChangeEpoch}">
 				<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
 			</c:if>

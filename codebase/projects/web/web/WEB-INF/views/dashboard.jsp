@@ -88,30 +88,13 @@
 						<script>
 							paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
 						</script>
-						<c:choose>
-							<c:when test="${registration.dataEntryStatusString=='Incomplete' && empty registration.parentStudySubject}">
-								<c:set var="reg_url" value="../pages/registration/editRegistration" />
-							</c:when>
-							<c:when test="${registration.dataEntryStatusString=='Incomplete' && not empty registration.parentStudySubject}">
-								<c:set var="reg_url" value="../pages/registration/editCompanionRegistration" />
-							</c:when>
-							<c:when test="${registration.dataEntryStatusString=='Complete' && registration.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED' && empty registration.parentStudySubject}">
-								<c:set var="reg_url" value="../pages/registration/editRegistration" />
-							</c:when>
-							<c:when test="${registration.dataEntryStatusString=='Complete' && registration.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED' && not empty registration.parentStudySubject}">
-								<c:set var="reg_url" value="../pages/registration/editCompanionRegistration" />
-							</c:when>
-							<c:otherwise>
-								<c:set var="reg_url" value="../pages/registration/manageRegistration" />	
-							</c:otherwise>
-						</c:choose>
+						<c:set var="reg_url" value="../pages/registration/manageRegistration" />	
 						<c:if test="${status.count % 2 == 1}">
 							<c:set var="bg" value="${bgcolor}" />
 						</c:if>
 						<c:if test="${status.count % 2 == 0}">
 							<c:set var="bg" value="${bgcolorAlternate}" />
 						</c:if>
-				
 						<chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}"
 							rowNumber="${status.count}" _onclick="document.location='${reg_url}?'+paramString_${status.index };" >
 							<chrome:td bgcolor="${bg}">
