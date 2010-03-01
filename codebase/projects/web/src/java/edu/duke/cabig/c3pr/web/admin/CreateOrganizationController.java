@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,8 +27,10 @@ import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.repository.OrganizationRepository;
 import edu.duke.cabig.c3pr.service.OrganizationService;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 /*
@@ -44,7 +47,7 @@ public class CreateOrganizationController extends SimpleFormController {
 
 	private OrganizationRepository organizationRepository;
 
-	// private OrganizationDao organizationDao;
+	private Configuration configuration;
 
 	private HealthcareSiteDao healthcareSiteDao;
 
@@ -55,6 +58,11 @@ public class CreateOrganizationController extends SimpleFormController {
 
 	public HealthcareSiteDao getHealthcareSiteDao() {
 		return healthcareSiteDao;
+	}
+
+	@Required
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
 	}
 
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
@@ -77,6 +85,7 @@ public class CreateOrganizationController extends SimpleFormController {
     	Map<String, List<Lov>> configMap = configurationProperty.getMap();
     	
     	refdata.put("orgIdentifiersTypeRefData",  configMap.get("orgIdentifiersTypeRefData"));
+    	refdata.put("coppaEnable", configuration.get(Configuration.COPPA_ENABLE));
         return refdata;
     }
     
@@ -143,7 +152,7 @@ public class CreateOrganizationController extends SimpleFormController {
 			Object command, BindException errors) throws Exception {
 		super.onBindAndValidate(request, command, errors);
 		HealthcareSite healthcareSite = (HealthcareSite) command;
-		if (!request.getParameter("_action").equals("saveRemoteOrg")
+		if ((!StringUtils.isBlank(request.getParameter("_action")) && !request.getParameter("_action").equals("saveRemoteOrg"))
 				|| (request.getParameter("_action").equals("syncOrganization") && request
 						.getSession().getAttribute(FLOW).equals(EDIT_FLOW))) {
 			if (!request.getParameter("_action").equals("syncOrganization")) {
