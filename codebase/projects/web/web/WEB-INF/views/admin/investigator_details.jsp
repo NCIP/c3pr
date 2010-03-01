@@ -124,7 +124,7 @@ function submitForm(){
 		<tags:tabFields tab="${tab}" />
 <chrome:box title="Investigator" htmlContent="${imageStr }">
 <tags:instructions code="investigator_details" />
-	<input type="hidden" name="_action" value=" ">
+	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
 <tags:errors path="*"/>
@@ -366,7 +366,7 @@ function submitForm(){
 	<jsp:attribute name="submitButton">
 		<table>
 				<tr>
-					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalInvestigator'}">
+					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalInvestigator' && coppaEnable}">
 						<td valign="bottom">
 									<tags:button type="submit" value="Sync" color="blue"
 									id="sync-org" onclick="javascript:syncInvestigator();" />	
