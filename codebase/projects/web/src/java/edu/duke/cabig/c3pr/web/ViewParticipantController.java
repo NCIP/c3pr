@@ -36,7 +36,6 @@ import edu.duke.cabig.c3pr.web.participant.ParticipantRegistrationsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantSummaryTab;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 /**
  * @author Ramakrishna
@@ -79,10 +78,9 @@ public class ViewParticipantController<C extends Participant> extends
         return command;
     }
 
-    protected boolean shouldSave(HttpServletRequest request, Participant command,
-                    Tab<Participant> tab) {
-        return false;
-
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, C command, gov.nih.nci.cabig.ctms.web.tabs.Tab<C> tab) {
+    	return false;
     }
 
     /**

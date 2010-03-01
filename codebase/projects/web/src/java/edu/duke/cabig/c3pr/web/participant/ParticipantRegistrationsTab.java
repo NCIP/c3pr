@@ -15,14 +15,10 @@ public class ParticipantRegistrationsTab extends ParticipantTab {
     @Override
     public Map<String, Object> referenceData(Participant participant) {
         Map<String, Object> refdata = super.referenceData(participant);
-        refdata.put("participantAssignments", this.getParticipantDao().getById(participant.getId())
-                        .getStudySubjects());
+        participant = participantDao.getById(participant.getId());
         participantDao.initializeStudySubjects(participant);
+        refdata.put("participantAssignments",participant.getStudySubjects());
         return refdata;
-    }
-
-    public ParticipantDao getParticipantDao() {
-        return participantDao;
     }
 
     public void setParticipantDao(ParticipantDao participantDao) {
