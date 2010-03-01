@@ -7,7 +7,7 @@
     <script type="text/javascript">
     	function postProcess(createPI){
         	if(createPI == 'false'){
-    			parent.showDiseases(); 
+    			parent.showStudyInvestigators(); 
     			parent.closePopup();
         	}else{
 				parent.updatePrincipalInvestigatorSection('${command.healthcareSiteInvestigators[0].healthcareSite.id}','${command.healthcareSiteInvestigators[0].healthcareSite.name}','${command.healthcareSiteInvestigators[0].healthcareSite.primaryIdentifier}','${command.healthcareSiteInvestigators[0].id}', '${command.fullName}', '${command.assignedIdentifier}');
