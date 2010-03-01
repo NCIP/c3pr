@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.utils.web.validators;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -7,7 +8,7 @@ import org.springframework.validation.Validator;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
-import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Oct 19, 2007 Time: 10:46:54 AM To change this
@@ -16,6 +17,8 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 public class UsernameDuplicateValidator implements Validator {
 
 	private CSMUserRepository csmUserRepository;
+	
+	private Logger log = Logger.getLogger(UsernameDuplicateValidator.class);
 	
     public boolean supports(Class aClass) {
         //return aClass.isAssignableFrom(ResearchStaff.class);
@@ -29,15 +32,14 @@ public class UsernameDuplicateValidator implements Validator {
         //for now the search is against the db only as searching remote causes stale object exception on ORacle. see CPR-578
         
         	if(object instanceof RemoteResearchStaff){ } else {
-        		ResearchStaff researchStaffByEmail = null;
             	try {
-            		//using login id. Since the username check should only happen in create flow and not in module flow
+            		//using login id. Since the user name check should only happen in create flow and not in module flow
             		//the login id check will work.
 					if(csmUserRepository.getUserByName(user.getLoginId()) != null){
 						errors.reject("duplicate.username.error");
 					}
-				} catch (RuntimeException e) {
-					// this means user does not exist
+				} catch (C3PRNoSuchUserException e) {
+					e.printStackTrace();
 				}
         	}
 
