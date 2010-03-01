@@ -634,7 +634,6 @@
 					<exclude name="edu/duke/cabig/**/*TestObject*.class"/>
 					<exclude name="edu/duke/cabig/**/ApplicationTestCase*.class"/>
 					<exclude name="edu/duke/cabig/**/*DaoTestCase*.class"/>
-					<exclude name="edu/duke/cabig/**/DaoSecuredTestCase.class"/>
 					<exclude name="edu/duke/cabig/**/SecurityContextTestUtils.class"/>
 					<exclude name="edu/duke/cabig/**/CCTSCaXchangeBroadcasterTester.class"/>
 					<exclude name="edu/duke/cabig/**/CCTSCaXchangeBroadcasterTester.class"/>
@@ -647,7 +646,6 @@
 					<exclude name="edu/duke/cabig/**/TestCaXchangeMessageBroadcasterImpl.class"/>
 					<exclude name="edu/duke/cabig/**/StudyServiceAuthorization*.class"/>
 					<exclude name="edu/duke/cabig/**/RegistrationServiceAuthorization*.class"/>
-					<exclude name="edu/duke/cabig/**/Summary3ReportServiceTest.class"/>
 					<exclude name="edu/duke/cabig/**/C3PRStudyServiceImplTest.class"/>
 					<exclude name="edu/duke/cabig/**/C3PRRegistrationServiceImplTest.class"/>
 					<exclude name="edu/duke/cabig/**/SmokeTestGridService.class"/>
