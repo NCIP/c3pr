@@ -172,7 +172,7 @@ public class CreateOrganizationController extends SimpleFormController {
 					.getRemoteOrganizations(healthcareSite);
 			boolean matchingExternalHealthcareSitePresent = false;
 			for (HealthcareSite remoteOrg : remoteOrgs) {
-				if (remoteOrg.getPrimaryIdentifier().equals(
+				if (remoteOrg.getPrimaryIdentifier().equalsIgnoreCase(
 						healthcareSite.getPrimaryIdentifier())) {
 					healthcareSite.addExternalOrganization(remoteOrg);
 					matchingExternalHealthcareSitePresent = true;
