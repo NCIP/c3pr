@@ -28,7 +28,7 @@ public class InvestigatorValidator implements Validator {
     		
     		if(inv.getId()==null){
     			errors.reject("tempProperty","Investigator with this assigned identifier already exists");
-        	} else if(inv.getEmail().equals(investigatorsbyAssignedIdentifier.getEmail()) && !inv.getId().equals(investigatorsbyAssignedIdentifier.getId())){
+        	} else if(inv.getAssignedIdentifier().equals(investigatorsbyAssignedIdentifier.getAssignedIdentifier()) && !inv.getId().equals(investigatorsbyAssignedIdentifier.getId())){
 				errors.reject("tempProperty","Investigator with this assigned identifier already exists");
     		}
     	}
