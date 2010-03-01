@@ -308,27 +308,30 @@ function openInfoDialog()
     }
 }
 
-//updates the forms action, by chopping off the query string in action.
-function removeQueryStringFromForm(frm){
-    var frmObj = $(frm)
-    var _action = frmObj.action;
-    var queryIndex = _action.indexOf('?');
-    if(queryIndex > 0){
-        var _newAction = _action.substring(0, queryIndex);
-        frmObj.action = _newAction;
-    }
-}
-
 Event.observe(window, "load", function (){
 	var elIndicator =  $('ajax-loading-indictor');
 	 if(elIndicator) {
 	 	Element.remove("overlay_modal");
 	 	elIndicator.style.display="none";
     }
-	 if(C3PR.removeQueryStringFromForm){
-	 $$('form').each(function(formVar){
-		 removeQueryStringFromForm(formVar);
-		})
-	 }
-	 
 })
+
+//updates the forms action, by chopping off the query string in action.
+var FormQueryStringUtils = Class.create({
+	initialize: function(frm) {
+		this.form = frm;
+	    this.urlString = frm.action;
+	    queryIndex = this.urlString.indexOf('?');
+	    if(queryIndex > 0){
+	        this.actionURL = this.urlString.substring(0, queryIndex);
+	    }else{
+	    	this.actionURL = this.urlString;
+	    }
+	},
+	stripAllQueryString: function(){
+		this.form.action = this.actionURL;
+	},
+	stripQueryString: function(paramString){
+		this.form.action = this.urlString.replace(paramString,"");
+	}
+});

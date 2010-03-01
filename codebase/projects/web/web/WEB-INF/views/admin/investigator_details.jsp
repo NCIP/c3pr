@@ -11,7 +11,6 @@
 <tags:dwrJavascriptLink objects="InvestigatorAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
 //this variable is set to true to strip off query parameters in action bug cpr-1602
-C3PR.removeQueryStringFromForm=true;
 var healthcareSiteAutocompleterProps = {
     basename: "healthcareSite",
     populator: function(autocompleter, text) {
@@ -444,9 +443,9 @@ function submitForm(){
    		</table>
 	</chrome:box>
 </div>
-
-
 </div>
-
+<script>
+	new FormQueryStringUtils($('command')).stripQueryString('assignedIdentifier');
+</script>
 </body>
 </html>

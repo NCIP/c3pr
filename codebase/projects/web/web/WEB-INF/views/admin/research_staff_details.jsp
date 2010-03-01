@@ -16,7 +16,6 @@
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
 	// this variable is set to true to strip off query parameters in action bug cpr-1602
-	C3PR.removeQueryStringFromForm=true;
 	<c:if test="${!isLoggedInUser && FLOW != 'SETUP_FLOW'}">
 	ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		var error = document.getElementById("errorMsg1");
@@ -530,9 +529,9 @@
    		</table>
 	</chrome:box>
 </div>
-
-
-
 </div>
+<script>
+	new FormQueryStringUtils($('command')).stripQueryString('assignedIdentifier');
+</script>
 </body>
 </html>
