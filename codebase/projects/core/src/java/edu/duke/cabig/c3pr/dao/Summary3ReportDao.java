@@ -46,7 +46,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 		
 		 return  getHibernateTemplate().find("from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and " +
 		 		"ss.startDate >= ? and ss.startDate <= ? and " +
-		 		"ss.diseaseHistoryInternal.icd9DiseaseSite.summary3ReportDiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.studyInternal.summary3Reportable = '1' " +
+		 		"ss.diseaseHistoryInternal.icd9DiseaseSite.summary3ReportDiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.studyInternal.therapeuticIntentIndicator = '1' " +
 		 		"and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 		 		"(select h.id from HealthcareSite h where " +
   			    "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1')",
@@ -90,7 +90,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 		
 		 return  getHibernateTemplate().find("from StudySubject ss, StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions)and " +
 		 		"ss.startDate >= ? and ss.startDate <= ? and " +
-		 		"ssv.studySiteStudyVersion.studySite.studyInternal.summary3Reportable = '1' and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
+		 		"ssv.studySiteStudyVersion.studySite.studyInternal.therapeuticIntentIndicator = '1' and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 		 		"(select h.id from HealthcareSite h where " +
 		 		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1'))",
                 new Object[] {startDate, endDate, hcs.getCtepCode()}).size();
