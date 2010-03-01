@@ -322,7 +322,7 @@ div.row div.label {
 	<jsp:attribute name="submitButton">
 		<table>
 				<tr>
-					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalHealthcareSite'}">
+					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalHealthcareSite' && coppaEnable}">
 						<td valign="bottom">
 									<tags:button type="submit" value="Sync" color="blue"
 									id="sync-org" onclick="javascript:syncOrganization();" />	
