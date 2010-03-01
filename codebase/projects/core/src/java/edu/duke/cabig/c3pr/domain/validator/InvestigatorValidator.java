@@ -1,8 +1,5 @@
 package edu.duke.cabig.c3pr.domain.validator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
