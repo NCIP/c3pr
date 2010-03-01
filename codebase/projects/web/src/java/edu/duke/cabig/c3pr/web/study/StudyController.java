@@ -90,6 +90,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     public static final String CREATE_COMPANION_STUDY = "CREATE_COMPANION_STUDY";
     public static final String EDIT_COMPANION_STUDY = "EDIT_COMPANION_STUDY";
     public static final String AMEND_COMPANION_STUDY = "AMEND_COMPANION_STUDY";
+    public static final String VIEW_STUDY = "VIEW_STUDY";
 
     public StudyController(String title) { setCommandClass(StudyWrapper.class);
         Flow<C> flow = new Flow<C>(title);

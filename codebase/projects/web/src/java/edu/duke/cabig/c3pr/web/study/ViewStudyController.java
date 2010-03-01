@@ -110,6 +110,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
 //        request.setAttribute("softDelete", softDelete);
 //        request.setAttribute("isAdmin", isAdmin);
         refdata.put("isRegistrar", isRegistrarOnly);
+        refdata.put(FLOW_TYPE, VIEW_STUDY);
         refdata.put("editAuthorizationTask", editTask);
         return refdata;
     }

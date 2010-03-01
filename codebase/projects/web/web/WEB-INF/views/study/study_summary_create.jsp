@@ -230,7 +230,7 @@ function updateTargetAccrual(){
     </table>
 </chrome:division>
 
-<chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${epochTab}')" condition="${not empty flowType}">
+<chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${epochTab}')" condition="${flowType != 'VIEW_STUDY'}">
 	<c:choose>
 		<c:when test="${fn:length(command.study.epochs) >0}">
 			<table class="tablecontent" width="60%">
@@ -272,7 +272,7 @@ function updateTargetAccrual(){
 		</c:otherwise>
 	</c:choose>
 </chrome:division>
-<chrome:division title="Eligibilty Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${not empty flowType}">
+<chrome:division title="Eligibilty Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${flowType != 'VIEW_STUDY'}">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
 			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
@@ -310,7 +310,7 @@ function updateTargetAccrual(){
 		</c:if>
     </c:forEach>
 </chrome:division>
-<chrome:division title="Stratum Groups" cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${not empty flowType}">
+<chrome:division title="Stratum Groups" cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${flowType != 'VIEW_STUDY'}">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${epoch.stratificationIndicator}">
 			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
@@ -338,7 +338,7 @@ function updateTargetAccrual(){
 		</c:if>
     </c:forEach>
 </chrome:division>
-<chrome:division title="Diseases" cssClass="big" link="javascript:redirectToTab('${diseaseTab}')" condition="${not empty flowType}">
+<chrome:division title="Diseases" cssClass="big" link="javascript:redirectToTab('${diseaseTab}')" condition="${flowType != 'VIEW_STUDY'}">
 	<c:choose>
 		<c:when test="${fn:length(command.study.studyDiseases) >0}">
 		    <table class="tablecontent" width="60%">
@@ -361,7 +361,7 @@ function updateTargetAccrual(){
 </chrome:division>
 <div id="companionDiv">
 <div id="companionAssociationsDiv" <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
-    	<chrome:division title="Companion Studies" cssClass="big" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
+    	<chrome:division title="Companion Studies" cssClass="big" link="javascript:redirectToTab('${companionTab}')" condition="${flowType != 'VIEW_STUDY'}">
         <c:choose>
 	        <c:when test="${fn:length(command.study.companionStudyAssociations)>0}">
 	        	<table class="tablecontent" width="60%">
@@ -378,7 +378,7 @@ function updateTargetAccrual(){
 		                    <td class="alt">${companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.code}</td>
 		                    <td class="alt">${companionStudyAssociation.mandatoryIndicator=="true"?"Yes":"No"}</td>
 		                    <td class="alt">
-		                    	<tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
+		                    	<tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}&parentStudyFlow=${flowType}'" size="small"/>
 		                    </td>
 		                </tr>
 		            </c:forEach>

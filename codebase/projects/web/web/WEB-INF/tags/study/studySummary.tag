@@ -46,9 +46,9 @@
 						<c:when test="${!empty param.parentStudyFlow}">
 							<a href="#" onclick="javascript:returnToParent('${param.parentStudyFlow}', '${studyCommand.study.parentStudyAssociations[0].parentStudy.id}')">Return to parent study</a>
 						</c:when>
-						<c:otherwise>
+						<c:when test="${flowType != 'VIEW_STUDY'}">
 							<a href="#" onclick="javascript:viewParent('${studyCommand.study.parentStudyAssociations[0].parentStudy.id}')">Return to parent study</a>
-						</c:otherwise>
+						</c:when>
 					</c:choose>
 				</c:if>
 				

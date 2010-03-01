@@ -203,7 +203,7 @@
 	<div id="controlPanel">
 	<tags:controlPanel>
 		<c:forEach items="${command.study.possibleStatusTransitions}" var="coCenterStatus">
-            <c:if test="${coCenterStatus=='READY_TO_OPEN' && not empty flowType}">
+            <c:if test="${coCenterStatus=='READY_TO_OPEN' && flowType != 'VIEW_STUDY'}">
                 <script>$('pendingParentStudy').style.display=''</script>
             </c:if>
             <c:if test="${coCenterStatus=='OPEN' && (!(command.study.companionIndicator && !command.study.standaloneIndicator) || (command.study.companionIndicator && !command.study.standaloneIndicator && command.study.isParentStudyOpen))}">
@@ -228,10 +228,10 @@
             		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('applyAmendment')" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_readytoOpen.png" linktext="Apply Amendment" />
 	            </c:if>
             </csmauthz:accesscontrol>
-			<c:if test="${not empty flowType}">
+			<c:if test="${flowType != 'VIEW_STUDY'}">
 				<tags:oneControlPanelItem linkhref="javascript:document.location='../study/viewStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Manage Study" />
 			</c:if>
-			<c:if test="${empty flowType}">
+			<c:if test="${flowType == 'VIEW_STUDY'}">
 				<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
                 	<c:if test="${command.study.coordinatingCenterStudyStatus != 'CLOSED_TO_ACCRUAL' && command.study.coordinatingCenterStudyStatus != 'CLOSED_TO_ACCRUAL_AND_TREATMENT'}">
                 	<c:choose>
@@ -418,7 +418,7 @@
     </c:if>
 </chrome:division>
 
-<chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${epochTab}')" condition="${not empty flowType}">
+<chrome:division title="Epochs &amp; Arms" cssClass="big" link="javascript:redirectToTab('${epochTab}')" condition="${flowType != 'VIEW_STUDY'}">
 	<c:choose>
 		<c:when test="${fn:length(command.study.epochs) >0}">
 			<table class="tablecontent" width="60%">
@@ -459,7 +459,7 @@
 		</c:otherwise>
 	</c:choose>
 </chrome:division>
-<chrome:division title="Eligibilty Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${not empty flowType}">
+<chrome:division title="Eligibilty Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${flowType != 'VIEW_STUDY'}">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
 			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
@@ -501,7 +501,7 @@
     </c:if>
 </chrome:division>
 <div <c:if test="${!command.hasStratifiedEpoch}">style="display:none;"</c:if>>
-<chrome:division title="Stratum Groups"  cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${not empty flowType}" >
+<chrome:division title="Stratum Groups"  cssClass="big" link="javascript:redirectToTab('${stratificationTab}')" condition="${flowType != 'VIEW_STUDY'}" >
     <c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${epoch.stratificationIndicator}">
 			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
@@ -530,7 +530,7 @@
     </c:forEach>
 </chrome:division>
 </div>
-<chrome:division title="Diseases" cssClass="big" link="javascript:redirectToTab('${diseaseTab}')" condition="${not empty flowType}">
+<chrome:division title="Diseases" cssClass="big" link="javascript:redirectToTab('${diseaseTab}')" condition="${flowType != 'VIEW_STUDY'}">
 	<c:choose>
 		<c:when test="${fn:length(command.study.studyDiseases) >0}">
 		    <table class="tablecontent" width="60%">
@@ -553,7 +553,7 @@
 </chrome:division>
 <div id="companionDiv">
 <div id="companionAssociationsDiv" <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>>
-    	<chrome:division title="Companion Studies" cssClass="big" link="javascript:redirectToTab('${companionTab}')" condition="${not empty flowType}">
+    	<chrome:division title="Companion Studies" cssClass="big" link="javascript:redirectToTab('${companionTab}')" condition="${flowType != 'VIEW_STUDY'}">
         <c:choose>
 	        <c:when test="${fn:length(command.study.companionStudyAssociations)>0}">
 	        	<table class="tablecontent" width="60%">
@@ -650,7 +650,7 @@
 </div>
 </div>
 <div align="right">
-	<c:if test="${!empty flowType && applyAmendment}">
+	<c:if test="${flowType != 'VIEW_STUDY' && applyAmendment}">
 	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="studyAuthorizationCheck">
 		<tags:button color="blue" value="Apply Amendment" icon="applyAmendment" onclick="javascript:changeStudyStatus('applyAmendment')"/>
 	</csmauthz:accesscontrol>

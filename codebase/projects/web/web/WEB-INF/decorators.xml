@@ -16,7 +16,6 @@
         <pattern>/pages/study/viewAmendment</pattern>
     </decorator>
     <decorator name="tabbedflow" page="tabbedflow.jsp">
-    	<pattern>/pages/study/viewStudy</pattern>
         <pattern>/pages/personAndOrganization/participant/viewParticipant</pattern>
         <pattern>/pages/registration/manageRegistration*</pattern>
     </decorator>
@@ -25,6 +24,7 @@
         <pattern>/pages/personAndOrganization/participant/editParticipant</pattern>
     </decorator>
     <decorator name="study" page="studyflow.jsp">
+		<pattern>/pages/study/viewStudy</pattern>
         <pattern>/pages/study/createStudy</pattern>
         <pattern>/pages/study/editStudy</pattern>
         <pattern>/pages/study/amendStudy</pattern>
