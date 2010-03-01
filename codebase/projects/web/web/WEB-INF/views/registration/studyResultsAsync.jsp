@@ -50,12 +50,15 @@ function toggleImage(id){
 						<c:when test="${fn:length(study.accruingStudySites) > 1}">
 							new Element.toggle('studySites-table-${statusStudy.index }'); toggleImage('image-open-${statusStudy.index }');
 						</c:when>
-						<c:otherwise>
-						    <c:set var="singleQuote" value="'" />
+						<c:when test="${fn:length(study.accruingStudySites) == 1}">
+							<c:set var="singleQuote" value="'" />
 						    <c:set var="singleQuoteAlias" value="\\&#39" />
 						    <c:set var="siteName" value="${fn:replace(study.accruingStudySites[0].healthcareSite.name, singleQuote, singleQuoteAlias)}" />
 						     <c:set var="studyShortTitle" value="${fn:replace(study.shortTitleText, singleQuote, singleQuoteAlias)}" />
 								postProcessStudySelection(${study.accruingStudySites[0].siteStudyStatus.code=='Active'},'${study.accruingStudySites[0].latestAccruingStudySiteStudyVersion.id}','${study.accruingStudySites[0].id}', '${siteName}','${studyShortTitle}','${study.identifiers[0].value}');
+						</c:when>
+						<c:otherwise>
+						    alert('Study has no active study sites.');
 						</c:otherwise>
 					</c:choose>
 				">
