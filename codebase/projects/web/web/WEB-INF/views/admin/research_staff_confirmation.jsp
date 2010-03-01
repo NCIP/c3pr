@@ -8,7 +8,7 @@
 <body>
 
 <div id="main">
-<div id="controlPanel">
+<div id="controlPanel" <c:if test="${studyflow=='true'}">style="display:none;"</c:if>>
 			<tags:controlPanel>
 				<tags:oneControlPanelItem linkhref="javascript:document.location='editResearchStaff?assignedIdentifier=${command.assignedIdentifier}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 				<tags:oneControlPanelItem linkhref="javascript:document.location='createResearchStaff';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchResearchStaffController.png" linktext="Create research staff" />
