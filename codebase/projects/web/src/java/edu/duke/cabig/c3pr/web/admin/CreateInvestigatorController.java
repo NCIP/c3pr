@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,6 +30,7 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
@@ -49,8 +51,15 @@ public class CreateInvestigatorController<C extends Investigator> extends
     private String SAVE_FLOW = "SAVE_FLOW";
 
     private String FLOW = "FLOW";
+    
+    private Configuration configuration;
 
-    private Logger log = Logger.getLogger(CreateInvestigatorController.class);
+    @Required
+    public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
+
+	private Logger log = Logger.getLogger(CreateInvestigatorController.class);
 
     public CreateInvestigatorController() {
     }
@@ -92,11 +101,10 @@ public class CreateInvestigatorController<C extends Investigator> extends
     	Map<String, Object> model = super.referenceData(request, command, errors);
         model.put("studyflow", request.getParameter("studyflow"));
         model.put("createPI", request.getParameter("createPI"));
+        model.put("coppaEnable", configuration.get(Configuration.COPPA_ENABLE));
         return model;
     }
     
-    
-
     @Override
     protected boolean shouldSave(HttpServletRequest request, Investigator command) {
         return true;
@@ -114,7 +122,7 @@ public class CreateInvestigatorController<C extends Investigator> extends
 		if(uniqueOrganization.size() != investigator.getHealthcareSiteInvestigators().size()){
 			errors.reject("DUPLICATIE_ORG_EXISTS","Duplicate organization.");
 		}
-		if(!"saveRemoteInvestigator".equals(request.getParameter("_action")) || (request.getParameter("_action").equals("syncInvestigator") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW))){
+		if((!StringUtils.isBlank(request.getParameter("_action")) && !"saveRemoteInvestigator".equals(request.getParameter("_action"))) || (request.getParameter("_action").equals("syncInvestigator") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW))){
 			if ((request.getParameter("_action") != null) && !request.getParameter("_action").equals("syncInvestigator")) {
 				Investigator invFromDB = investigatorDao
 						.getByAssignedIdentifierFromLocal(investigator
