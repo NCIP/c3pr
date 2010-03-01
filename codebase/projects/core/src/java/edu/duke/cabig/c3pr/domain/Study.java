@@ -671,6 +671,18 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 				}
 			}
 		}
+		
+		// Updating study site start date to study open date. This is to fix issue when study site is added while study is in pending status and current date becomes study site start date while study open date is something different.
+        // TODO Test for companion study also.
+		if(coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.READY_TO_OPEN){
+			for(StudySite studySite: this.getStudySites()){
+				if(studySite.getStudySiteStudyVersions().size() > 0){
+					for(StudySiteStudyVersion studySiteStudyVersion : studySite.getStudySiteStudyVersions()){
+						studySiteStudyVersion.setStartDate(this.getVersionDate());
+					}
+				}
+			}
+		}
 
         if (this.getStudyVersion().getCompanionStudyAssociations().size() > 0) {
 			for (CompanionStudyAssociation compStudyAssoc : this.getStudyVersion().getCompanionStudyAssociations()) {
@@ -686,10 +698,11 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 				}
 			}
 		}
+        
 		this.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         this.getStudyVersion().setVersionStatus(StatusType.AC);
 	}
-
+	
 	public void readyToOpen() throws C3PRInvalidDataEntryException {
 
 		if (!(this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING
@@ -1210,7 +1223,11 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	public String getVersionDateStr() {
 		return getStudyVersion().getVersionDateStr();
 	}
-
+	
+	@Transient
+	public Date getVersionDate() {
+		return getStudyVersion().getVersionDate();
+	}
 
     @Transient
 	public StudyVersion getStudyVersion() {
