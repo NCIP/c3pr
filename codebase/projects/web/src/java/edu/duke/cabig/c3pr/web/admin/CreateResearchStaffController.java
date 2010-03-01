@@ -21,7 +21,6 @@ import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -113,7 +112,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 		if(WebUtils.hasSubmitParameter(request, "copyEmailAdress")){
 			researchStaff.setLoginId(researchStaff.getEmail());
 		}
-		if(!request.getParameter("_action").equals("saveRemoteRStaff") || request.getParameter("_action").equals("syncResearchStaff") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW)){
+		if((!StringUtils.isBlank(request.getParameter("_action")) && !request.getParameter("_action").equals("saveRemoteRStaff")) || request.getParameter("_action").equals("syncResearchStaff") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW)){
 			if (! request.getParameter("_action").equals("syncResearchStaff")) {
 				ResearchStaff rStaffFromDB = researchStaffDao
 						.getByAssignedIdentifierFromLocal(researchStaff
