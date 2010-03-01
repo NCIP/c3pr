@@ -634,6 +634,7 @@
 					<exclude name="edu/duke/cabig/**/*TestObject*.class"/>
 					<exclude name="edu/duke/cabig/**/ApplicationTestCase*.class"/>
 					<exclude name="edu/duke/cabig/**/*DaoTestCase*.class"/>
+					<exclude name="edu/duke/cabig/**/DaoSecuredTestCase.class"/>
 					<exclude name="edu/duke/cabig/**/SecurityContextTestUtils.class"/>
 					<exclude name="edu/duke/cabig/**/CCTSCaXchangeBroadcasterTester.class"/>
 					<exclude name="edu/duke/cabig/**/CCTSCaXchangeBroadcasterTester.class"/>
