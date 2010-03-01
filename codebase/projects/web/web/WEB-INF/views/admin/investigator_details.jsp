@@ -10,7 +10,6 @@
     </title>
 <tags:dwrJavascriptLink objects="InvestigatorAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
-//this variable is set to true to strip off query parameters in action bug cpr-1602
 var healthcareSiteAutocompleterProps = {
     basename: "healthcareSite",
     populator: function(autocompleter, text) {
