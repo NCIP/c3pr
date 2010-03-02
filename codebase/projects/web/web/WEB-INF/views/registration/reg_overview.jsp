@@ -270,7 +270,7 @@
         </div>
         <div class="row">
             <div class="label"><fmt:message key="site.IRBApprovalDate"/>:</div>
-            <div class="value">${command.studySubject.studySite.irbApprovalDateStr}</div>
+            <div class="value">${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.irbApprovalDateStr}</div>
         </div>
   </div>
 </chrome:division>
