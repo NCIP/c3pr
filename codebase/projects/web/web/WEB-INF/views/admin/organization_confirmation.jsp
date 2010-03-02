@@ -10,7 +10,7 @@
 	<div id="main">
 		<div id="controlPanel">
 			<tags:controlPanel>
-				<tags:oneControlPanelItem linkhref="javascript:document.location='editOrganization?nciIdentifier=${command.primaryIdentifier}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				<tags:oneControlPanelItem linkhref="javascript:document.location='editOrganization?primaryIdentifier=${command.primaryIdentifier}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 				<tags:oneControlPanelItem linkhref="javascript:document.location='createOrganization';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchOrganizationController.png" linktext="Create organization" />
 			</tags:controlPanel>
 		</div>
@@ -29,8 +29,9 @@
 					<div class="value">${command.name}</div>
 				</div>
 				<div class="row" >
-					<div class="label"><fmt:message key="organization.NCIInstitueCode"/>:</div>
+					<div class="label"><fmt:message key="c3pr.common.CTEPIdentifier"/>&nbsp;(Primary):</div>
 					<div class="value">${command.primaryIdentifier}</div>
+				</div>
 				</div>
 		<br/>
 		</chrome:box>

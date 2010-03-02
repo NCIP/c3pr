@@ -42,8 +42,7 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
  */
 public class CreateOrganizationController extends SimpleFormController {
 
-	private static Log log = LogFactory
-			.getLog(CreateOrganizationController.class);
+	private static Log log = LogFactory.getLog(CreateOrganizationController.class);
 
 	private OrganizationRepository organizationRepository;
 
@@ -51,30 +50,10 @@ public class CreateOrganizationController extends SimpleFormController {
 
 	private HealthcareSiteDao healthcareSiteDao;
 
-	public void setOrganizationRepository(
-			OrganizationRepository organizationRepository) {
-		this.organizationRepository = organizationRepository;
-	}
-
-	public HealthcareSiteDao getHealthcareSiteDao() {
-		return healthcareSiteDao;
-	}
-
-	@Required
-	public void setConfiguration(Configuration configuration) {
-		this.configuration = configuration;
-	}
-
-	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-		this.healthcareSiteDao = healthcareSiteDao;
-	}
-
 	private OrganizationService organizationService;
 
 	private String EDIT_FLOW = "EDIT_FLOW";
-
 	private String SAVE_FLOW = "SAVE_FLOW";
-
 	private String FLOW = "FLOW";
 	
 	private ConfigurationProperty configurationProperty;
@@ -102,9 +81,9 @@ public class CreateOrganizationController extends SimpleFormController {
 			throws Exception {
 		HealthcareSite hcs = null;
 
-		if (request.getParameter("nciIdentifier") != null) {
+		if (request.getParameter("primaryIdentifier") != null) {
 			log.info(" Request URl  is:" + request.getRequestURL().toString());
-			hcs = healthcareSiteDao.getByPrimaryIdentifier(request.getParameter("nciIdentifier"));
+			hcs = healthcareSiteDao.getByPrimaryIdentifier(request.getParameter("primaryIdentifier"));
 			request.getSession().setAttribute(FLOW, EDIT_FLOW);
 			log.info(" HCS's ID is:" + hcs.getId());
 		} else {
@@ -129,7 +108,6 @@ public class CreateOrganizationController extends SimpleFormController {
             contactMechanismFax.setType(ContactMechanismType.Fax);
             hcs.addContactMechanism(contactMechanismFax);
         }
-
 		return hcs;
 	}
 
@@ -274,9 +252,23 @@ public class CreateOrganizationController extends SimpleFormController {
 		}
 
 		return super.processFormSubmission(request, response, command, errors);
-
 	}
 
+
+	@Required
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public void setOrganizationRepository(
+			OrganizationRepository organizationRepository) {
+		this.organizationRepository = organizationRepository;
+	}
+	
 	public OrganizationService getOrganizationService() {
 		return organizationService;
 	}

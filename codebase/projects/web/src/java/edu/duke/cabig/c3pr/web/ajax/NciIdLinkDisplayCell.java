@@ -23,7 +23,7 @@ public class NciIdLinkDisplayCell extends AbstractCell {
 
     
     /**
-     * Confirms the instance of the bean(whether staff or inveatigator or org) and then
+     * Confirms the instance of the bean(whether staff or investigator or org) and then
      * returns the externalId if its remote.
      */
     @Override
@@ -51,7 +51,7 @@ public class NciIdLinkDisplayCell extends AbstractCell {
     		Investigator investigator = (Investigator)model.getCurrentRowBean();
     		//getting the external Id (NCI Identifier) if investigator if remote.
     		if(investigator instanceof RemoteInvestigator){
-    			//return sthe externalId(set in the build method of the ajaxFacade)
+    			//returns the externalId(set in the build method of the ajaxFacade)
             	cellValue = column.getValueAsString();
             } else {
             	cellValue = "Not specified";

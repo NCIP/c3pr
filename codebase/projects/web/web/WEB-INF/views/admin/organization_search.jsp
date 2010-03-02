@@ -18,7 +18,7 @@
 			var parameterMap = getParameterMap(form);
 
             params[0] = document.getElementById("name").value;
-            params[1] = document.getElementById("nciIdentifier").value;
+            params[1] = document.getElementById("primaryIdentifier").value;
             
             SearchOrganizationAjaxFacade.getTable(parameterMap, params, showTable);
         }
@@ -39,7 +39,7 @@
                 	}else{
                 		idElement = evt.target.id
                 	}
-                    if ( idElement == "nciIdentifier" || idElement == "name") {
+                    if ( idElement == "primaryIdentifier" || idElement == "name") {
                     	$('search-indicator').style.display=''
                     	buildTable('searchForm');
                     }
@@ -74,10 +74,10 @@
             </div>
             <div class="row">
                 <div class="label">
-                    <fmt:message key="c3pr.common.CTEPIdentifier"/>
+                    <fmt:message key="c3pr.common.CTEPIdentifier"/>&nbsp;(Primary)
                 </div>
                 <div class="value">
-                    <input type="text" name="nciIdentifier" id="nciIdentifier"/>
+                    <input type="text" name="primaryIdentifier" id="primaryIdentifier"/>
                     <tags:hoverHint keyProp="organization.ctepCode"/>
                 </div>
             </div>

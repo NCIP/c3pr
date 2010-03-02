@@ -147,13 +147,14 @@ div.row div.label {
 				</c:otherwise>
 			</c:choose></div>
 
-			  <div class="row">
+			<%--Note that for now CTEP is treated as Primary --%>
+		    <div class="row">
         		<div class="label"><tags:requiredIndicator />
-            		<fmt:message key="organization.NCIInstitueCode"/>
+            		<fmt:message key="c3pr.common.CTEPIdentifier"/>&nbsp;(Primary)
         		</div>
         		<div class="value">
 	        		<c:if test="${FLOW == 'EDIT_FLOW'}">
-					&nbsp;${command.primaryIdentifier}
+					&nbsp;${command.ctepCode}
 	            	<tags:hoverHint keyProp="organization.ctepCode"/>
 	        		</c:if>
 	        		<c:if test="${FLOW == 'SAVE_FLOW'}">
@@ -162,9 +163,20 @@ div.row div.label {
 	        		</c:if>
         		</div>
     		</div>
-
+    		
+    		<c:if test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' && FLOW == 'EDIT_FLOW'}">
+				<div class="row">
+	        		<div class="label">
+	            		<fmt:message key="organization.NCIInstituteCode"/>
+	        		</div>
+	        		<div class="value">
+						&nbsp;${command.externalId}
+	            		<tags:hoverHint keyProp="organization.nciCode"/>
+	        		</div>
+	    		</div>
+			</c:if>
 		</chrome:division>
-
+		<br/>
 		<chrome:division id="multisite-config" title="Multisite Configuration"
 			minimize="true" divIdToBeMinimized="multisiteConfig">
 			<div id="multisiteConfig" style="display: none">
@@ -200,7 +212,7 @@ div.row div.label {
 			</div>
 			</div>
 		</chrome:division>
-
+		<br/>
 		<chrome:division id="address" title="Address">
 				<div class="row">
 					<div class="label"><fmt:message key="c3pr.common.streetAddress" /></div>

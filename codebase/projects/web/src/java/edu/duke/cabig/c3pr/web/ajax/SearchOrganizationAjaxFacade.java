@@ -42,7 +42,7 @@ public class SearchOrganizationAjaxFacade {
      * 
      * @throws Exception the exception
      */
-    public Object build(TableModel model, Collection healthcareSites) throws Exception {
+    public Object build(TableModel model, Collection<HealthcareSite> healthcareSites) throws Exception {
 
         Table table = model.getTableInstance();
         table.setAutoIncludeParameters(false);
@@ -69,8 +69,8 @@ public class SearchOrganizationAjaxFacade {
 		model.addColumn(columnName);
 
         Column columnCtep = model.getColumnInstance();
-        columnCtep.setTitle("CTEP identifier");
-        columnCtep.setProperty("ctepCode");
+        columnCtep.setTitle("Prmary identifier (CTEP)");
+        columnCtep.setProperty("primaryIdentifier");
         model.addColumn(columnCtep);
 
         Column columnNci = model.getColumnInstance();
@@ -91,7 +91,7 @@ public class SearchOrganizationAjaxFacade {
      * 
      * @return the table
      */
-    public String getTable(Map<String, List> parameterMap, String[] params,
+    public String getTable(Map<String, List<String>> parameterMap, String[] params,
                     HttpServletRequest request) {
 
         HealthcareSite hcs = new LocalHealthcareSite();
@@ -116,21 +116,12 @@ public class SearchOrganizationAjaxFacade {
             return build(model, orgResults).toString();
         }
         catch (Exception e) {
-            log.error("Exception caught in SearchOrganizationFacade");
-            log.error(e.getMessage()); 
+            log.error("Exception caught in SearchOrganizationFacade", e);
         }
 
         return "";
     }
 
-	/**
-	 * Gets the healthcare site dao.
-	 * 
-	 * @return the healthcare site dao
-	 */
-	public HealthcareSiteDao getHealthcareSiteDao() {
-		return healthcareSiteDao;
-	}
 
 	/**
 	 * Sets the healthcare site dao.
@@ -140,6 +131,5 @@ public class SearchOrganizationAjaxFacade {
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
-
 
 }
