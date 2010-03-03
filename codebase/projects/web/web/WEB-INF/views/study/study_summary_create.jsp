@@ -218,9 +218,7 @@ function updateTargetAccrual(){
 <chrome:division title="Consents &amp; Consent Versions">
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%"><b><fmt:message key="study.consents"/></b></th>
-            <th><b><fmt:message key="study.consent.consentVersions"/></b>
-            </th>
+            <th><b><fmt:message key="study.consents"/></b></th>
         </tr>
         <c:forEach items="${command.study.consents}" var="consent">
             <tr>
