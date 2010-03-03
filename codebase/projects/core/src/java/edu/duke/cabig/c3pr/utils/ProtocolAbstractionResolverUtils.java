@@ -83,6 +83,7 @@ public class ProtocolAbstractionResolverUtils {
 		studyTypeMap.put("Prevention", "Prevention");
 		studyTypeMap.put("Diagnostic", "Diagnostic");
 		studyTypeMap.put("Early Detection", "Early Detection");
+		studyTypeMap.put("Supportive", "Supportive");
 		studyTypeMap.put("Supportive Care", "Supportive Care");
 		studyTypeMap.put("Screening", "Screening");
 		studyTypeMap.put("Epidemiologic", "Epidemiologic");
