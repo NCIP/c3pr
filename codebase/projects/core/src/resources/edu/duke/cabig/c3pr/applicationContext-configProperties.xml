@@ -136,9 +136,33 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                 <entry key="typeRefData">
                     <list>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="AE" />
+                            <property name="desc" value="AE" />  
+                        </bean>                    
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="AN" />
+                            <property name="desc" value="Ancillary" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="B" />
+                            <property name="desc" value="Basic Science" />  
+                        </bean>    
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Correlative" />
+                            <property name="desc" value="Correlative" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="D" />
                             <property name="desc" value="Diagnostic" />
                          </bean>
+                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="ED" />
+                            <property name="desc" value="Early Detection" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="EP" />
+                            <property name="desc" value="Epidemiologic" />  
+                        </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="GN" />
                             <property name="desc" value="Genetic Non-therapeutic" />
@@ -147,71 +171,50 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                             <property name="code" value="GT" />
                             <property name="desc" value="Genetic Therapeutic" />  
                         </bean>
-                        
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="TR" />
-                            <property name="desc" value="Treatment" />  
+                            <property name="code" value="H" />
+                            <property name="desc" value="Health Services Research" />  
+                        </bean>                         
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Interventional" />
+                            <property name="desc" value="Interventional" />  
+                        </bean>             
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Observational" />
+                            <property name="desc" value="Observational" />  
                         </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="O" />
+                            <property name="desc" value="Outcome" />  
+                        </bean>        
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Other" />
+                            <property name="desc" value="Other" />  
+                        </bean>                                        
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="P" />
                             <property name="desc" value="Primary Treatment" />  
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="ED" />
-                            <property name="desc" value="Early Detection" />  
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="S" />
+                            <property name="code" value="SC" />
                             <property name="desc" value="Supportive Care" />  
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="T" />
-                            <property name="desc" value="Preventive" />  
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="Interventional" />
-                            <property name="desc" value="Interventional" />  
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="Observational" />
-                            <property name="desc" value="Observational" />  
+                            <property name="code" value="S" />
+                            <property name="desc" value="Supportive" />  
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="SC" />
                             <property name="desc" value="Screening" />  
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="EP" />
-                            <property name="desc" value="Epidemiologic" />  
+                            <property name="code" value="T" />
+                            <property name="desc" value="Preventive" />  
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="O" />
-                            <property name="desc" value="Outcome" />  
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="AN" />
-                            <property name="desc" value="Ancillary" />  
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="H" />
-                            <property name="desc" value="Health Services Research" />  
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="B" />
-                            <property name="desc" value="Basic Science" />  
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="AE" />
-                            <property name="desc" value="AE" />  
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="Correlative" />
-                            <property name="desc" value="Correlative" />  
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="Other" />
-                            <property name="desc" value="Other" />  
-                        </bean>
+                            <property name="code" value="TR" />
+                            <property name="desc" value="Treatment" />  
+                        </bean> 
                     </list>
                 </entry>
                 <entry key="sponsorCodeRefData">
