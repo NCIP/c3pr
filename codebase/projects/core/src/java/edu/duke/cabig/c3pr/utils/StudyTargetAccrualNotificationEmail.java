@@ -44,8 +44,8 @@ public class StudyTargetAccrualNotificationEmail {
 
     public static final String STUDY_INVESTIGATOR = "SI";
     /**
-     * This method is reponsible for figuring out the email address from notifications and sending
-     * out the notificatino email using Javamail.
+     * This method is responsible for figuring out the email address from notifications and sending
+     * out the notification email using Javamail.
      *
      * @param studySubject
      */
@@ -60,15 +60,17 @@ public class StudyTargetAccrualNotificationEmail {
                 emailList = generateEmailList(study, nf);
                 for (String emailAddress : emailList) {
                     try {
-                        SimpleMailMessage msg = new SimpleMailMessage(
-                                        this.accountCreatedTemplateMessage);
-                        msg.setSubject("Study Threshold Notification.");
-                        msg.setTo(emailAddress);
-                        msg.setText("This is to notify you that the study accrual for "
-									+ study.getShortTitleText() + " has now reached " + totalAccrual + ".");
-						log.debug("Trying to send study target accrual notification email to "+emailAddress);
-
-                        this.mailSender.send(msg);
+                    	if(emailAddress != null){
+                    		SimpleMailMessage msg = new SimpleMailMessage(
+                                    this.accountCreatedTemplateMessage);
+		                    msg.setSubject("Study Threshold Notification.");
+		                    msg.setTo(emailAddress);
+		                    msg.setText("This is to notify you that the study accrual for "
+										+ study.getShortTitleText() + " has now reached " + totalAccrual + ".");
+							log.debug("Trying to send study target accrual notification email to "+emailAddress);
+		
+		                    this.mailSender.send(msg);
+                    	}
                     }
                     catch (MailException e) {
                         log.error("Could not send email due to  " + e.getMessage());
