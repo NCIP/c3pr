@@ -172,20 +172,20 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
     public ModelAndView sendMessageToESB(HttpServletRequest request, Object commandObj, Errors error) {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj;
 		StudySubject command = wrapper.getStudySubject();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isAdmin", WebUtils.isAdmin());
     	try {
             log.debug("Sending message to CCTS esb");
             studySubjectService.broadcastMessage(command);
-            return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
+            return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
         }
         catch (C3PRCodedException e) {
         	log.error(e);
-            Map<String, Object> map = new HashMap<String, Object>();
             map.put("codedError", e);
             return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
         }
         catch (Exception e) {
         	log.error(e);
-            Map<String, Object> map = new HashMap<String, Object>();
             map.put("generalError", e);
             return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
         }finally{

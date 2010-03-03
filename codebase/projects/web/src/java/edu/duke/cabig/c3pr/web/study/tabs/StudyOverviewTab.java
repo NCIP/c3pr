@@ -128,20 +128,20 @@ public class StudyOverviewTab extends StudyTab {
 
     public ModelAndView sendMessageToESB(HttpServletRequest request, Object commandObj, Errors error) {
     	Study study = ((StudyWrapper) commandObj).getStudy();
+    	Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isAdmin", edu.duke.cabig.c3pr.utils.web.WebUtils.isAdmin());
     	try {
             log.debug("Sending message to CCTS esb");
             studyService.broadcastMessage(study);
-            return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
+            return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
         }
         catch (C3PRCodedException e) {
         	log.error(e);
-            Map<String, Object> map = new HashMap<String, Object>();
             map.put("codedError", e);
             return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
         }
         catch (Exception e) {
         	log.error(e);
-            Map<String, Object> map = new HashMap<String, Object>();
             map.put("generalError", e);
             return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
         }finally{
