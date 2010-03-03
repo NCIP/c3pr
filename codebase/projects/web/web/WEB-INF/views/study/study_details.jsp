@@ -240,7 +240,7 @@
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.targetAccrual"/></div>
             <div class="value">
-            	<form:input path="study.targetAccrualNumber" size="10" maxlength="6" cssClass="required validate-notEmpty&&numeric&&nonzero_numeric" />
+            	<form:input path="study.targetAccrualNumber" size="10" maxlength="6" cssClass="required validate-notEmpty&&numeric" />
             	<tags:hoverHint keyProp="study.targetAccrualNumber"/>
             </div>
         </div>
