@@ -143,7 +143,7 @@ changed before submit in javascripts. The parameters need proper default values,
 		<table border="0" id="table1" cellspacing="10" width="100%">
 			<tr>
 			<td valign="top" width="45%">
-			<tags:errors path="study.studySites[0].studyPersonnel"/> 
+				<tags:errors path="*"/> 
 				<chrome:box title="${tab.shortTitle}">
 					<div>
 			            <br/>&nbsp;<b><fmt:message key="c3pr.common.selectAnStudySite"/></b><br>
