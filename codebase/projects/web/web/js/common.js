@@ -278,7 +278,9 @@ var BrowserDetect = {
 };
 BrowserDetect.init();
 function updateHelpLink(baseUrl, linkName){
-	$('help').href= baseUrl + "#" + linkName;
+	if($('help') != null){
+		$('help').href= baseUrl + "#" + linkName;
+	}
 }
 C3PR.handleAjaxError= function(xmlResponse){
 									Dialog.alert(xmlResponse.responseText, 
