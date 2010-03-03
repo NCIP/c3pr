@@ -406,7 +406,7 @@
 
     </table>
 </chrome:division>
-<chrome:division title="Consents">
+<chrome:division title="Consents" cssClass="big">
     <table class="tablecontent" width="60%">
         <tr><th><b><fmt:message key="study.consents"/></b></th></tr>
         <c:forEach items="${command.study.consents}" var="consent">
