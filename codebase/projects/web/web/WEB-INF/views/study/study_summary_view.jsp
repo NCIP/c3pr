@@ -464,11 +464,9 @@
 		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
 			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
 				<c:if test="${fn:length(epoch.inclusionEligibilityCriteria)> 0}">
-					<h4>Inclusion Eligibility Criteria</h4>
-					<br>
 					<table class="tablecontent" width="70%"}">
 				        <tr>
-				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
+				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.inclusionCriterion"/></b></th>
 				        </tr>
 				        <c:forEach items="${epoch.inclusionEligibilityCriteria}" var="inclusionCriteria">
 					        <tr>
@@ -479,11 +477,9 @@
 			   	 	<br>
 				</c:if>
 				<c:if test="${fn:length(epoch.exclusionEligibilityCriteria)> 0}">
-					<h4>Exclusion Eligibility Criteria</h4>
-					<br>
 					<table class="tablecontent" width="70%"}">
 				        <tr>
-				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.criterion"/></b></th>
+				            <th width="70%" scope="col" align="left"><b><fmt:message key="study.exclusionCriterion"/></b></th>
 				        </tr>
 				        <c:forEach items="${epoch.exclusionEligibilityCriteria}" var="exclusionCriteria">
 					        <tr>
