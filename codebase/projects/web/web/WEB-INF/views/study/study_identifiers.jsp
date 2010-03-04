@@ -86,6 +86,7 @@ function manageIdentifierRadio(element){
 		<th width="35%"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/><tags:hoverHint keyProp="study.healthcareSite.identifierType"/></th>
 		<th width="20%"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/><tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
 		<th width="5%"><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
+		<th></th>
 	</tr>
 	<c:forEach var="orgIdentifier" items="${command.study.organizationAssignedIdentifiers}" varStatus="organizationStatus">
 		<c:choose><c:when test="${orgIdentifier.type eq 'PROTOCOL_AUTHORITY_IDENTIFIER' || orgIdentifier.type eq 'COORDINATING_CENTER_IDENTIFIER'}">
@@ -98,7 +99,12 @@ function manageIdentifierRadio(element){
 				<form:hidden path="study.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" id="identifier-org-${organizationStatus.index}-hidden"/>
 				<input type="radio" class="identifierRadios" id="identifier-org-${organizationStatus.index}" onclick="manageIdentifierRadio(this);"/>
 			</td>
-	         <td>&nbsp;</td>
+	         <td>
+	         <c:if test="${orgIdentifier.id == null}"><a
+				href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgIdentifier.id==null?'HC#':'ID#'}${orgIdentifier.id==null?orgIdentifier.hashCode:orgIdentifier.id}');"><img
+				src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+				</c:if>
+	         </td>
 	    </tr>
 		</c:when>
 		<c:otherwise>
@@ -121,7 +127,7 @@ function manageIdentifierRadio(element){
 				<form:hidden path="study.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" id="identifier-org-${organizationStatus.index}-hidden"/>
 				<input type="radio" class="identifierRadios" id="identifier-org-${organizationStatus.index}" onclick="manageIdentifierRadio(this);"/>
 			</td>
-			<td>
+			<td>			
 				<c:if test="${!orgIdentifier.primaryIndicator}"><a
 				href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgIdentifier.id==null?'HC#':'ID#'}${orgIdentifier.id==null?orgIdentifier.hashCode:orgIdentifier.id}');"><img
 				src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
@@ -168,11 +174,11 @@ onclick="RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 
 	<script>
 		$$("form .identifierRadios").each(function(e)
-										{
-											if($(e.id+"-hidden").value=="true")
-												e.checked=true;
-										}
-									);
+								{
+									if($(e.id+"-hidden").value=="true")
+										e.checked=true;
+								}
+							);
 	</script>
 <div id="dummy-row-systemIdentifier" style="display:none;">
 <table>
