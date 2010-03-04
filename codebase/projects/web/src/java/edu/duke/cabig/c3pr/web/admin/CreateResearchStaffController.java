@@ -109,9 +109,6 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
 			Object command, BindException errors) throws Exception {
 		super.onBindAndValidate(request, command, errors);
 		ResearchStaff researchStaff = (ResearchStaff) command;
-		if(WebUtils.hasSubmitParameter(request, "copyEmailAdress")){
-			researchStaff.setLoginId(researchStaff.getEmail());
-		}
 		if((!StringUtils.isBlank(request.getParameter("_action")) && !request.getParameter("_action").equals("saveRemoteRStaff")) || request.getParameter("_action").equals("syncResearchStaff") && request.getSession().getAttribute(FLOW).equals(EDIT_FLOW)){
 			if (! request.getParameter("_action").equals("syncResearchStaff")) {
 				ResearchStaff rStaffFromDB = researchStaffDao

@@ -9,6 +9,7 @@ import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Oct 19, 2007 Time: 10:46:54 AM To change this
@@ -27,7 +28,9 @@ public class UsernameDuplicateValidator implements Validator {
 
     public void validate(Object object, Errors errors) {
         ResearchStaff user = (ResearchStaff) object;
-
+        if(StringUtils.getBlankIfNull(user.getLoginId()).equals("")){
+        	errors.reject("submision.errors");
+        }
         // do it for old and new users. The search should be against remote research staff too
         //for now the search is against the db only as searching remote causes stale object exception on ORacle. see CPR-578
         
@@ -39,7 +42,7 @@ public class UsernameDuplicateValidator implements Validator {
 						errors.reject("duplicate.username.error");
 					}
 				} catch (C3PRNoSuchUserException e) {
-					e.printStackTrace();
+					//user not found in CSM, no action needed.
 				}
         	}
 
