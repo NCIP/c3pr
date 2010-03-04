@@ -1137,7 +1137,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     }
 
     public void testIncompleteRegistrations() throws Exception{
-    	 List<StudySubject> studySubjects = studySubjectDao.getIncompleteRegistrations( 15);
+    	 List<StudySubject> studySubjects = studySubjectDao.getIncompleteRegistrations();
     	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
     }
 
@@ -1256,7 +1256,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	 Date startDate = simpleDateFormat.parse("01/08/2010");
     	 Date endDate = simpleDateFormat.parse("01/18/2010");
     	 
-    	 assertEquals("Only 1 record should be present",1,studySubjectDao.getMostEnrolledStudies(5, startDate, endDate).size());
+    	 assertEquals("Only 1 record should be present",1,studySubjectDao.getMostEnrolledStudies(startDate, endDate).size());
      }
 
 }

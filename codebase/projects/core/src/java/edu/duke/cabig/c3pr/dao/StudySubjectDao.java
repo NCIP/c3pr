@@ -507,15 +507,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	 *
 	 * @return the incomplete registrations
 	 */
-    public List<StudySubject> getIncompleteRegistrations(int maxResults){
-    	HibernateTemplate template = getHibernateTemplate() ;
-    	if(maxResults > 0){
-    		template.setMaxResults(maxResults);
-    	}
-    	List<StudySubject> studySubjects = (List<StudySubject>) template.find( "select distinct ss from StudySubject ss join ss.studySubjectStudyVersions sssv join sssv.scheduledEpochs se where  (se.scEpochWorkflowStatus = 'PENDING' OR se.scEpochWorkflowStatus = 'REGISTERED_BUT_NOT_RANDOMIZED')");
-    	for(StudySubject studySubject : studySubjects){
-    		initialize(studySubject);
-    	}
+    public List<StudySubject> getIncompleteRegistrations(){
+    	List<StudySubject> studySubjects = (List<StudySubject>) getHibernateTemplate().find( "select distinct ss from StudySubject ss join ss.studySubjectStudyVersions sssv join sssv.scheduledEpochs se where  (se.scEpochWorkflowStatus = 'PENDING' OR se.scEpochWorkflowStatus = 'REGISTERED_BUT_NOT_RANDOMIZED')");
     	return studySubjects ;
     }
 
@@ -706,7 +699,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 		this.studySiteDao = studySiteDao;
 	}
 	
-	public List<Study> getMostEnrolledStudies(int maxResultSize, Date startDate, Date endDate){
+	public List<Study> getMostEnrolledStudies(Date startDate, Date endDate){
     	List<Study> listStudies = new ArrayList<Study>();
 		
 		List<StudySubject> studySubjects =  getHibernateTemplate().find("select ss from StudySubject ss where ss.regWorkflowStatus=? and ss.startDate between ? and ? order by ss.id desc", new Object[]{RegistrationWorkFlowStatus.ENROLLED, startDate, endDate});
@@ -728,11 +721,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     	studies.addAll(setStudy);
     	Collections.sort(studies, new AccrualCountComparator());
 
-    	if(studies.size() > 0 && studies.size() > maxResultSize){
-    		return studies.subList(0, maxResultSize - 1) ;
-    	}else{
-    		return studies; 
-    	}
+    	return studies; 
     }
 
 }

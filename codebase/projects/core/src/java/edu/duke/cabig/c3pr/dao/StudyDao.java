@@ -618,12 +618,9 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
                 "where so.class=StudySite and ssub.startDate between ? and ? and study.id = ? ", new Object[]{startDate, endDate, study.getId()}).size();
     }
 
-    public List<Study> getStudiesByStatus(int maxResultSize, CoordinatingCenterStudyStatus coordinatingCenterStudyStatus){
-    	int storedMaxResultValue =getHibernateTemplate().getMaxResults();
-    	getHibernateTemplate().setMaxResults(maxResultSize);
+    public List<Study> getStudiesByStatus(CoordinatingCenterStudyStatus coordinatingCenterStudyStatus){
     	List<Study> studies =  getHibernateTemplate().find(
                 "select s from Study s where s.coordinatingCenterStudyStatusInternal=? order by s.id desc", new Object[]{coordinatingCenterStudyStatus});
-    	getHibernateTemplate().setMaxResults(storedMaxResultValue);
     	return studies;
     }
     

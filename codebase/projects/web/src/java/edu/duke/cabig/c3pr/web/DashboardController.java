@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -147,21 +148,31 @@ public class DashboardController extends ParameterizableViewController {
         cal.roll(Calendar.DATE, -6);
         Date startDate = new Date(cal.getTime().getTime());
         
-        List<Study> studies = studySubjectDao.getMostEnrolledStudies(MAX_RESULTS, startDate, endDate);
+        List<Study> studiesFound = studySubjectDao.getMostEnrolledStudies(startDate, endDate);
+        List<Study> studies = new ArrayList<Study>();
+        for(int i = 0 ; i<studiesFound.size() && i<MAX_RESULTS ; i++){
+        	studies.add(studiesFound.get(i));
+        }
+        log.debug("Most enrolled studies found: " + studies.size());
         request.setAttribute("aStudies", studies);
     }
 
     private void getRecentPendingStudies(HttpServletRequest request) {
-        //Study study = new LocalStudy(true);
-        //study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-        //List<Study> studies = studyRepository.searchByExample(study, false, MAX_RESULTS, "descending", "id");
-        List<Study> studies = studyDao.getStudiesByStatus(MAX_RESULTS, CoordinatingCenterStudyStatus.PENDING);
+        List<Study> studiesFound = studyDao.getStudiesByStatus(CoordinatingCenterStudyStatus.PENDING);
+        List<Study> studies = new ArrayList<Study>();
+        for(int i = 0 ; i<studiesFound.size() && i<MAX_RESULTS ; i++){
+        	studies.add(studiesFound.get(i));
+        }
         log.debug("Pending studies found: " + studies.size());
         request.setAttribute("pStudies", studies);
     }
 
     private void getRecentPendingRegistrations(HttpServletRequest request) {
-        List<StudySubject> registrations = studySubjectDao.getIncompleteRegistrations(MAX_RESULTS);
+        List<StudySubject> registrationsFound = studySubjectDao.getIncompleteRegistrations();
+        List<StudySubject> registrations = new ArrayList<StudySubject>();
+        for(int i = 0 ; i<registrationsFound.size() && i<MAX_RESULTS ; i++){
+        	registrations.add(registrationsFound.get(i));
+        }
         log.debug("Unregistred Registrations found: " + registrations.size());
         request.setAttribute("uRegistrations", registrations);
     }
