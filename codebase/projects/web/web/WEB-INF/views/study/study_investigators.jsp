@@ -264,7 +264,7 @@ changed before submit in javascripts. The parameters need proper default values,
 			                    <c:forEach items="${selectedStudyOrganization.studyInvestigators}" var="studyInvestigator" varStatus="status">
 		                        <tr>
 			                    	<td>
-		                              ${studyInvestigator.healthcareSiteInvestigator.investigator.firstName}&nbsp;${studyInvestigator.healthcareSiteInvestigator.investigator.lastName}
+		                              ${studyInvestigator.healthcareSiteInvestigator.investigator.firstName} ${studyInvestigator.healthcareSiteInvestigator.investigator.lastName} (<i>${studyInvestigator.healthcareSiteInvestigator.investigator.assignedIdentifier}</i>)
 		                            </td>
 		                            <td>
 		                            <form:select path="study.studyOrganizations[${selected_site_index}].studyInvestigators[${status.index}].statusCode" cssClass="required validate-notEmpty">

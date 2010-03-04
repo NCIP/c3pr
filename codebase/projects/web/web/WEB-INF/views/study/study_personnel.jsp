@@ -222,7 +222,7 @@ changed before submit in javascripts. The parameters need proper default values,
 			                    <c:forEach items="${selectedStudyOrganization.studyPersonnel}" var="studyPersonnel" varStatus="status">
 		                        <tr>
 		                            <td>
-		                              ${studyPersonnel.researchStaff.lastName}&nbsp;${studyPersonnel.researchStaff.firstName}
+		                             ${studyPersonnel.researchStaff.firstName} ${studyPersonnel.researchStaff.lastName} (<i>${studyPersonnel.researchStaff.assignedIdentifier}</i>)
 		                                <c:if test="${studyPersonnel.researchStaff.class.name=='edu.duke.cabig.c3pr.domain.RemoteResearchStaff' && studyPersonnel.researchStaff.externalId != null}">
 						            		<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="NCI data" width="17" height="16" border="0" align="middle"/>
 						            	</c:if>
