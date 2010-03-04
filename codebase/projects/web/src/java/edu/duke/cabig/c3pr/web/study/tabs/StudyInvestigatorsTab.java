@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,15 +47,9 @@ public class StudyInvestigatorsTab extends StudyTab {
     }
 
     @Override
-    public void validate(StudyWrapper wrapper, Errors errors) {
-        super.validate(wrapper, errors);
-        this.studyValidator.validateStudyInvestigators(wrapper.getStudy(), errors);
-    }
-
-    @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
                                         Errors errors) {
-    	if(errors.hasErrors() || !WebUtils.hasSubmitParameter(request, "_actionx")){
+    	if(!WebUtils.hasSubmitParameter(request, "_actionx")){
     		return;
     	}
     	Integer selectedStudyOrganizationId = Integer.parseInt(request.getParameter("_selectedStudyOrganization"));
@@ -79,24 +74,19 @@ public class StudyInvestigatorsTab extends StudyTab {
                 log.debug("Study InvestigatorIds Size : " + studyInvestigatorIds.length);
                 for (String studyInvestigatorId : studyInvestigatorIds) {
                     log.debug(" Study Investigator Id : " + studyInvestigatorId);
+                    int healthcareSiteInvestigatorId = Integer.parseInt(studyInvestigatorId);
+                    if(exists(healthcareSiteInvestigatorId, selectedStudyOrganization.getStudyInvestigators())){
+                    	continue;
+                    }
                     StudyInvestigator studyInvestigator = new StudyInvestigator();
-                    healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(Integer.parseInt(studyInvestigatorId));
+                    healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(healthcareSiteInvestigatorId);
                     if (healthcareSiteInvestigator != null) {
                         healthcareSiteInvestigator.getStudyInvestigators().add(studyInvestigator);
                         studyInvestigator.setHealthcareSiteInvestigator(healthcareSiteInvestigator);
                         studyInvestigator.setRoleCode("Site Investigator");
                         studyInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
                         studyInvestigator.setStudyOrganization(selectedStudyOrganization);
-
-                        HashSet<StudyInvestigator> sStudyInvestigator = new HashSet<StudyInvestigator>();
-                        sStudyInvestigator.addAll(selectedStudyOrganization.getStudyInvestigators());
-                        if (sStudyInvestigator.add(studyInvestigator)) {
-                        	selectedStudyOrganization.getStudyInvestigators().add(studyInvestigator);
-                        } else {
-                            errors.rejectValue("study.studySites[0].studyInvestigators", new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(), studyValidator.getMessageFromCode(
-                                    studyValidator.getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),
-                                    null, null));
-                        }
+                        selectedStudyOrganization.getStudyInvestigators().add(studyInvestigator);
                     } else {
                         log.error("StudyInvestigatorTab - postProcessOnValidation(): healthcareSiteInvestigatorDao.getById() returned null");
                     }
@@ -114,6 +104,14 @@ public class StudyInvestigatorsTab extends StudyTab {
     	request.setAttribute("selected_site_index", selectedSiteIndex);
     }
 
+    private boolean exists(int id , List<StudyInvestigator> studyInvestigators){
+    	for(StudyInvestigator studyInvestigator : studyInvestigators){
+    		if(studyInvestigator.getHealthcareSiteInvestigator().getId().equals(id))
+    			return true;
+    	}
+    	return false;
+    }
+    
     public StudyValidator getStudyValidator() {
         return studyValidator;
     }
