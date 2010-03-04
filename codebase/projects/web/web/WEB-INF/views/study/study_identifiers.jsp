@@ -195,7 +195,7 @@ onclick="RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 			class="required validate-notEmpty" /></td>
 		<td><input type="radio"	id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-radio"
 			value="false" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
-			<input type="hidden" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
+			<input type="hidden" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-radio-hidden" name="study.systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
 		<td><a
 			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX, -1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -230,7 +230,7 @@ onclick="RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 			class="required validate-notEmpty" /></td>
 		<td><input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-radio"
 			value="false" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
-			<input type="hidden" name="study.organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
+			<input type="hidden" name="study.organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-radio-hidden"/></td>
 		<td><a
 			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
