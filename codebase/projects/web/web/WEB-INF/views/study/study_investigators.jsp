@@ -249,7 +249,7 @@ changed before submit in javascripts. The parameters need proper default values,
 	        </td>
 			<td valign="top" width="45%">
 				<chrome:box title="${selectedStudyOrganization.healthcareSite.name}" id="selectedStudyOrgDiv">
-			        <br/>
+			        &nbsp;<b><fmt:message key="c3pr.common.selectedInv" /></b><br>
 			        <c:choose>
 			            <c:when test="${fn:length(selectedStudyOrganization.studyInvestigators) == 0}">
 			                <fmt:message key="c3pr.common.noInvestigators" />
