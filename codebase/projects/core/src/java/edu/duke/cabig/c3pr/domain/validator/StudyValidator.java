@@ -192,40 +192,6 @@ public class StudyValidator implements Validator {
         }
     }
 
-    public void validateStudyPersonnel(Object target, Errors errors) {
-        Study study = (Study) target;
-        List<StudyPersonnel> allStudyPersonnel = new ArrayList<StudyPersonnel>();
-
-        try {
-            for (StudySite studySite : study.getStudySites()) {
-                allStudyPersonnel.addAll(studySite.getStudyPersonnel());
-            }
-            Set<StudyPersonnel> uniqueStudyPersonnel = new HashSet<StudyPersonnel>();
-            List<StudyPersonnel> notNullPersonnelList = new ArrayList<StudyPersonnel>();
-            if (notNullPersonnelList.contains(null)) {
-                notNullPersonnelList.remove(null);
-            }
-            for (StudyPersonnel studyPerson : allStudyPersonnel) {
-                if (studyPerson != null) notNullPersonnelList.add(studyPerson);
-            }
-            uniqueStudyPersonnel.addAll(notNullPersonnelList);
-            if (notNullPersonnelList.size() > uniqueStudyPersonnel.size()) {
-                errors
-                                .rejectValue(
-                                                "study.studySites[0].studyPersonnel",
-                                                new Integer(
-                                                                getCode("C3PR.STUDY.DUPLICATE.STUDY.PERSON.ROLE.ERROR"))
-                                                                .toString(),
-                                                getMessageFromCode(
-                                                                getCode("C3PR.STUDY.DUPLICATE.STUDY.PERSON.ROLE.ERROR"),
-                                                                null, null));
-            }
-        }
-        catch (Exception ex) {
-            log.debug(ex.getMessage());
-        }
-    }
-
     public void validateStudyDesign(Object target, Errors errors) {
         Study study = (Study) target;
         List<Epoch> allEpochs = study.getEpochs();
