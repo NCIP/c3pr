@@ -69,7 +69,7 @@ public class SearchOrganizationAjaxFacade {
 		model.addColumn(columnName);
 
         Column columnCtep = model.getColumnInstance();
-        columnCtep.setTitle("Prmary identifier (CTEP)");
+        columnCtep.setTitle("Primary identifier (CTEP)");
         columnCtep.setProperty("primaryIdentifier");
         model.addColumn(columnCtep);
 

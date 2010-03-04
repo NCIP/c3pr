@@ -155,7 +155,7 @@ div.row div.label {
         		<div class="value">
 	        		<c:if test="${FLOW == 'EDIT_FLOW'}">
 					&nbsp;${command.ctepCode}
-	            	<tags:hoverHint keyProp="organization.ctepCode"/>
+	            	<tags:hoverHint keyProp="organization.primaryIdentifier"/>
 	        		</c:if>
 	        		<c:if test="${FLOW == 'SAVE_FLOW'}">
                 		<form:input path="ctepCode" size="20" cssClass="required validate-notEmpty"/>
