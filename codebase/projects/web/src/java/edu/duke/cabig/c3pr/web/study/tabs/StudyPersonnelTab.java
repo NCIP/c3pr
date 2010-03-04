@@ -77,12 +77,6 @@ public class StudyPersonnelTab extends StudyTab {
 		return list ; 
 	}
 
-	@Override
-    public void validate(StudyWrapper wrapper, Errors errors) {
-        super.validate(wrapper, errors);
-        this.studyValidator.validateStudyPersonnel(wrapper.getStudy(), errors);
-    }
-
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,
                                         Errors errors) {
@@ -111,17 +105,17 @@ public class StudyPersonnelTab extends StudyTab {
                 log.debug("Study PersonnelIds Size : "+ rsIds.length);
                 for (String rsId : rsIds) {
                     log.debug("Research Staff Id : " + rsId);
+                    int researchStaffId = Integer.parseInt(rsId);
+                    if(exists(researchStaffId, selectedStudyOrganization.getStudyPersonnel())){
+                    	continue;
+                    }
                     StudyPersonnel sPersonnel = new StudyPersonnel();
-                    researchStaff = researchStaffDao.getById(new Integer(rsId).intValue());
+                    researchStaff = researchStaffDao.getById(researchStaffId);
                     if (researchStaff != null) {
                         sPersonnel.setResearchStaff(researchStaff);
                         sPersonnel.setStatusCode("Active");
                         sPersonnel.setStudyOrganization(selectedStudyOrganization);
                         selectedStudyOrganization.getStudyPersonnel().add(sPersonnel);
-                        studyValidator.validateStudyPersonnel(wrapper.getStudy(), errors);
-                        if (errors.hasErrors()) {
-                        	selectedStudyOrganization.getStudyPersonnel().remove(sPersonnel);
-                        }
                     } else {
                         log.error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
                     }
@@ -139,6 +133,14 @@ public class StudyPersonnelTab extends StudyTab {
     	request.setAttribute("selected_site_index", selectedSiteIndex);
     }
 
+    private boolean exists(int id , List<StudyPersonnel> studyPersonnel){
+    	for(StudyPersonnel studyPerson : studyPersonnel){
+    		if(studyPerson.getResearchStaff().getId().equals(id))
+    			return true;
+    	}
+    	return false;
+    }
+    
     public StudyValidator getStudyValidator() {
         return studyValidator;
     }
