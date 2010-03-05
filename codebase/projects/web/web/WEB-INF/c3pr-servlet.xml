@@ -391,6 +391,12 @@
         <property name="commandClass" value="edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper"/>
         <property name="commandName" value="command"/>
         <property name="sessionForm" value="true"/>
+        <property name="editTask">
+            <bean
+                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                    autowire="byType" p:displayName="Create Registration"
+                    p:linkName="createRegistrationController"/>
+        </property>
         <!-- <property name="bindOnNewForm" value="true" />-->
     </bean>
     <bean name="/registration/confirm"

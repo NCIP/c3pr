@@ -2,10 +2,15 @@ package edu.duke.cabig.c3pr.web.registration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acegisecurity.Authentication;
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,6 +30,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 public class ManageRegistrationController<C extends StudySubjectWrapper> extends RegistrationController<C> {
+	private edu.duke.cabig.c3pr.utils.web.navigation.Task editTask;
 
     private XmlMarshaller xmlUtility;
 
@@ -39,6 +45,14 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     public ManageRegistrationController() {
         super("Manage Registration");
     }
+    
+    protected Map referenceData(HttpServletRequest request, Object o, Errors errors,
+            int i) throws Exception {
+		Map<String, Object> refdata = super.referenceData(request, o, errors, i);
+		refdata.put("editAuthorizationTask", editTask);
+		return refdata;
+	}
+
     
     @Override
     protected void intializeFlows(Flow flow) {
@@ -120,5 +134,13 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     protected boolean isNextPageSavable(HttpServletRequest request, C command, Tab<C> tab) {
     	return false;
     }
+
+	public edu.duke.cabig.c3pr.utils.web.navigation.Task getEditTask() {
+		return editTask;
+	}
+
+	public void setEditTask(edu.duke.cabig.c3pr.utils.web.navigation.Task editTask) {
+		this.editTask = editTask;
+	}
     
 }
