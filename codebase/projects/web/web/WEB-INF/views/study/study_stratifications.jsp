@@ -198,7 +198,20 @@
 </head>
 
 <body>
-<tags:instructions code="study_stratifications" />
+<c:choose>
+	<c:when test="${!command.study.stratificationIndicator}">
+		<!--  No instruction necessary -->
+	</c:when>
+		<c:when test="${fn:length(command.study.epochs) == 0}">
+		<tags:instructions code="study_no_epoch_stratification" />
+	</c:when>
+	<c:when test="${command.study.hasStratifiedEpoch}">
+		<tags:instructions code="study_stratifications" />
+	</c:when>
+	<c:otherwise>
+		<tags:instructions code="study_no_stratified_epoch" />
+	</c:otherwise>
+</c:choose>
 <c:choose>
 <c:when test="${command.study.stratificationIndicator =='false' }">
 			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_STRATIFICATION"/></div><br><br>

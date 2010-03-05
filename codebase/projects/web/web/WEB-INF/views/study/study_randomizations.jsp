@@ -64,7 +64,20 @@
 </script>
 </head>
 <body>
-<tags:instructions code="study_randomizations" />
+<c:choose>
+	<c:when test="${!command.study.randomizedIndicator}">
+		<!--  No instruction necessary -->
+	</c:when>
+		<c:when test="${fn:length(command.study.epochs) == 0}">
+		<tags:instructions code="study_no_epoch_randomization" />
+	</c:when>
+	<c:when test="${command.study.hasRandomizedEpoch}">
+		<tags:instructions code="study_randomizations" />
+	</c:when>
+	<c:otherwise>
+		<tags:instructions code="study_no_randomized_epoch" />
+	</c:otherwise>
+</c:choose>
 <c:choose>
 <c:when test="${command.study.randomizedIndicator =='false' }">
 	<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_RANDOMIZATION"/></div><br><br>

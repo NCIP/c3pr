@@ -21,7 +21,15 @@
 </script>
 </head>
 <body>
-<tags:instructions code="study_eligibility_checklist" />
+<c:choose>
+	<c:when test="${fn:length(command.study.epochs) > 0}">
+		<tags:instructions code="study_eligibility_checklist" />
+	</c:when>
+	<c:otherwise>
+		<tags:instructions code="study_no_epoch_eligibility" />
+	</c:otherwise>
+</c:choose>
+
 <form:form method="post" enctype="multipart/form-data">
 	<input type="hidden" name="name" id="name">
 	<input type="hidden" name="epochIndex" id="epochIndex">

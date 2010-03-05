@@ -1428,4 +1428,14 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		}
 		return false;
 	}
+	
+	@Transient
+	public boolean getHasStratifiedEpoch(){
+		return this.getStudyVersion().hasStratifiedEpoch();
+	}
+	
+	@Transient
+	public boolean getHasRandomizedEpoch(){
+		return this.getStudyVersion().hasRandomizedEpoch();
+	}
 }
