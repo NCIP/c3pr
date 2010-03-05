@@ -13,8 +13,8 @@
     	<c:if test="${empty ignoreTopRightQuickLinks || !ignoreTopRightQuickLinks}">
             <c:if test="${userObject != null}">
 					<div id="welcome-user">
-						<div style="float:left">Welcome |</div>
-						<div style="float:right;"><b>
+						<div style="float:left;width:60px">Welcome |</div>
+						<div style="float:right;width:220px"><b>
 							<div style="padding:0px 2px 0px 2px">
 								<c:set var="userNameStr" value="${userObject.firstName} ${userObject.lastName}"/>
 								<c:choose>
