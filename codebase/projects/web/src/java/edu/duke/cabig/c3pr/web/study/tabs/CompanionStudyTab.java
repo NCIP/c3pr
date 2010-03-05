@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
@@ -30,8 +31,7 @@ public class CompanionStudyTab extends StudyTab {
     @SuppressWarnings("unchecked")
 	@Override
     public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        request.getSession().setAttribute("studyObj", wrapper.getStudy());
-        
+//        request.getSession().setAttribute("studyObj", wrapper.getStudy());
         Map<String, Object> refdata = super.referenceData(wrapper);
         addConfigMapToRefdata(refdata, "phaseCodeRefData");
         addConfigMapToRefdata(refdata, "statusRefData");
@@ -119,11 +119,21 @@ public class CompanionStudyTab extends StudyTab {
 			StudySite ss = new StudySite();
 			ss.setHealthcareSite(studySite.getHealthcareSite());
 			
+			//copying study investigators and personnels for all studysites
 			for (StudyInvestigator studyInvestigator : studySite.getStudyInvestigators()) {
 				StudyInvestigator sInvestigator = new StudyInvestigator();
 				sInvestigator.setHealthcareSiteInvestigator(studyInvestigator.getHealthcareSiteInvestigator());
 				sInvestigator.setRoleCode(studyInvestigator.getRoleCode());
 				ss.addStudyInvestigator(sInvestigator);
+			}
+			
+			for (StudyPersonnel studyPersonnel : studySite.getStudyPersonnel()) {
+				StudyPersonnel sPersonnel = new StudyPersonnel();
+				sPersonnel.setResearchStaff(studyPersonnel.getResearchStaff());
+				sPersonnel.setRoleCode(studyPersonnel.getRoleCode());
+				sPersonnel.setStartDate(studyPersonnel.getStartDate());
+				sPersonnel.setStatusCode(studyPersonnel.getStatusCode());
+				ss.addStudyPersonnel(sPersonnel);
 			}
 			
 			companionStudy.addStudySite(ss);
@@ -132,7 +142,5 @@ public class CompanionStudyTab extends StudyTab {
 		return companionStudy;
 
 	}
-
-
 
 }
