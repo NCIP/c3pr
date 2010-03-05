@@ -12,7 +12,24 @@
     <div class="background-R">
     	<c:if test="${empty ignoreTopRightQuickLinks || !ignoreTopRightQuickLinks}">
             <c:if test="${userObject != null}">
-					<div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /> | ${userRole}</b></div>
+					<div id="welcome-user">
+						<div style="float:left">Welcome |</div>
+						<div style="float:right;"><b>
+							<div style="padding:0px 2px 0px 2px">
+								<c:set var="userNameStr" value="${userObject.firstName} ${userObject.lastName}"/>
+								<c:choose>
+								<c:when test="${fn:length(userNameStr)>34 }">
+									${fn:substring(userNameStr,0,32) }..
+								</c:when>
+								<c:otherwise>
+									${userNameStr }
+								</c:otherwise>
+								</c:choose>
+							</div>
+							<div style="padding:0px 2px 0px 2px">${userRole}</div>
+						</b>
+						</div>
+					</div>
 					</c:if>
                     <c:if test="${siteName ne ''}">
                       <div id="instName">

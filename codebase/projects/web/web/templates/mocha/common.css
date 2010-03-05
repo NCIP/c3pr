@@ -87,7 +87,7 @@ h2 {
     left: 245px;
     color: white;
     font-size: 9pt;
-    width: 370px;
+    width: 330px;
     line-height: 12px;
 }
 
@@ -642,11 +642,11 @@ a#firstlevelnav_reports:active {
 #welcome-user {
     color: #FFFFFF;
     font-size: 9pt;
-    left: 610px;
+    left: 580px;
     position: absolute;
-    text-align: right;
+    text-align: left;
     top: 1px;
-    width: 250px;
+    width: 280px;
 }
 
 /**** COMMON TAB STYLES (shared across all three levels) */
