@@ -1,17 +1,15 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
-import org.apache.log4j.Logger;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
@@ -21,19 +19,16 @@ import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
-import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
-import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To
@@ -140,9 +135,8 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		map.put("newRegistration", newRegistration);
 		map.put("armAssigned", armAssigned);
 		map.put("armAssignedLabel", armAssignedLabel);
-		map.put("takeSubjectOffStudy", canTakeSubjectOffStudy(studySubject));
-		map.put("canEdit", canEditRegistration(studySubject));
-//		map.put("reconsentRequired", reconsentRequired(studySubject));
+		map.put("takeSubjectOffStudy", studySubject.canTakeSubjectOffStudy());
+		map.put("isCompleteRegistration", studySubject.isComplete());
 		map.put("registerableWithCompanions", registrationControllerUtils
 				.registerableAsorWithCompanion(studySubject));
 		map.put("requiresMultiSite", studySubjectService
@@ -152,7 +146,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 				.getRegistrationEndpoints().size() > 0));
 		registrationControllerUtils.addAppUrls(map);
     	map.put("paymentMethods", configMap.get("paymentMethods"));
-    	map.put("canChangeEpoch", canChangeEpoch(studySubject));
+    	map.put("canChangeEpoch", studySubject.canChangeEpoch());
 		map.put("companions", registrationControllerUtils.getCompanionStudySubject(studySubject.getSystemAssignedIdentifiers().get(0), studySubject));
 		if(configuration.get(Configuration.ESB_ENABLE).equals("true")){
 			map.put("canBroadcast", "true");
@@ -208,39 +202,6 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	public ModelAndView refreshEnrollmentSection(HttpServletRequest request,
 			Object obj, Errors errors) {
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
-	}
-
-	private boolean canEditRegistration(StudySubject studySubject) {
-		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY && WebUtils.isAdmin()) {
-			return true;
-		}
-		return false;
-	}
-	
-	private boolean canChangeEpoch(StudySubject studySubject) {
-		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY && studySubject.getStudySite().getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN &&
-				studySubject.getStudySite().getStudy().getIfHigherOrderEpochExists(studySubject.getScheduledEpoch().getEpoch())) {
-			return true;
-		}
-		return false;
-	}
-	
-
-//	private boolean reconsentRequired(StudySubject studySubject) {
-//		if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.OFF_STUDY
-//				&& !(studySubject.getInformedConsentVersion()).equals(studySubject
-//						.getStudySite().getStudy().getLatestConsentVersion())) {
-//			return true;
-//		}
-//		return false;
-//	}
-
-	private boolean canTakeSubjectOffStudy(StudySubject studySubject) {
-		if (studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED
-				&& studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) {
-			return true;
-		}
-		return false;
 	}
 
 	public ModelAndView getEpochSection(HttpServletRequest request,

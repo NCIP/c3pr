@@ -154,7 +154,10 @@
 	<tags:controlPanel>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
 			<c:choose>
-				<c:when test="${command.studySubject.regWorkflowStatus =='PENDING'}">
+				<c:when test="${isCompleteRegistration && isAdmin}">
+					<tags:oneControlPanelItem linkhref="javascript:editRegistrationPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+				</c:when>
+				<c:otherwise>
 					<c:choose>
 						<c:when test="${not empty command.studySubject.parentStudySubject}">
 							<c:set var="editRegURL"><c:url value='/pages/registration/editCompanionRegistration'/></c:set>
@@ -166,18 +169,15 @@
 					<c:set var="editRegURL">
 						${editRegURL }?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>
 					</c:set>
-					<tags:oneControlPanelItem linkhref="${editRegURL}" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
-				</c:when>
-				<c:when test="${canEdit}">
-					<tags:oneControlPanelItem linkhref="javascript:editRegistrationPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
-				</c:when>
+					<tags:oneControlPanelItem linkhref="${editRegURL}" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Resume Registration" />
+				</c:otherwise>
 			</c:choose>
 			<c:if test="${canChangeEpoch}">
 				<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
 			</c:if>
-			<c:if test="${reconsentRequired}">	
+			<%--<c:if test="${reconsentRequired}">	
 				<tags:oneControlPanelItem linkhref="javascript:reconsentPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
-			</c:if>
+			</c:if>--%>
 	    	<c:if test="${takeSubjectOffStudy}">
 				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
 			</c:if>

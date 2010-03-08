@@ -33,6 +33,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
@@ -1821,6 +1822,25 @@ public class StudySubject extends
 			if(studyPersonnel.getResearchStaff().equals(researchStaff)){
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	@Transient
+	public boolean isComplete(){
+		return getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED;
+	}
+	
+	@Transient
+	public boolean canChangeEpoch(){
+		return isComplete() && getStudySite().getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN &&
+		getStudySite().getStudy().getIfHigherOrderEpochExists(getScheduledEpoch().getEpoch());
+	}
+	
+	@Transient
+	public boolean canTakeSubjectOffStudy() {
+		if (regWorkflowStatus == RegistrationWorkFlowStatus.ENROLLED && isComplete() && regWorkflowStatus != RegistrationWorkFlowStatus.OFF_STUDY) {
+			return true;
 		}
 		return false;
 	}
