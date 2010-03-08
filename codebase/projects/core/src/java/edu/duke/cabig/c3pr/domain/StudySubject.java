@@ -1839,7 +1839,7 @@ public class StudySubject extends
 	
 	@Transient
 	public boolean canTakeSubjectOffStudy() {
-		if (regWorkflowStatus == RegistrationWorkFlowStatus.ENROLLED && isComplete() && regWorkflowStatus != RegistrationWorkFlowStatus.OFF_STUDY) {
+		if (isComplete() && regWorkflowStatus != RegistrationWorkFlowStatus.OFF_STUDY) {
 			return true;
 		}
 		return false;

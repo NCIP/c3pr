@@ -9,6 +9,7 @@ import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
@@ -1742,5 +1743,114 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		researchStaff.setAssignedIdentifier("test2");
 		assertFalse(studySubject.isAssignedAndActivePersonnel(researchStaff));
 		verifyMocks();
+  }
+  
+  public void testIsCompleteTrue(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  replayMocks();
+	  assertTrue(studySubject.isComplete());
+	  verifyMocks();
+  }
+  
+  public void testIsCompleteFalse1(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED);
+	  replayMocks();
+	  assertFalse(studySubject.isComplete());
+	  verifyMocks();
+  }
+  
+  public void testIsCompleteFalse2(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  replayMocks();
+	  assertFalse(studySubject.isComplete());
+	  verifyMocks();
+  }
+  
+  public void testCanChangeEpochTrue(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(2);
+	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+	  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+	  EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(study.getIfHigherOrderEpochExists(epoch)).andReturn(true);
+	  replayMocks();
+	  assertTrue(studySubject.canChangeEpoch());
+	  verifyMocks();
+  }
+  
+  public void testCanChangeEpochFalse1(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  replayMocks();
+	  assertFalse(studySubject.canChangeEpoch());
+	  verifyMocks();
+  }
+  
+  public void testCanChangeEpochFalse2(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+	  EasyMock.expect(studySite.getStudy()).andReturn(study);
+	  EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.PENDING);
+	  replayMocks();
+	  assertFalse(studySubject.canChangeEpoch());
+	  verifyMocks();
+  }
+  
+  public void testCanChangeEpochFalse3(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(2);
+	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+	  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+	  EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(study.getIfHigherOrderEpochExists(epoch)).andReturn(false);
+	  replayMocks();
+	  assertFalse(studySubject.canChangeEpoch());
+	  verifyMocks();
+  }
+  
+  public void testCanTakeSubjectOffStudyTrue(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+	  replayMocks();
+	  assertTrue(studySubject.canTakeSubjectOffStudy());
+	  verifyMocks();
+  }
+  
+  public void testCanTakeSubjectOffStudyFalse1(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
+	  replayMocks();
+	  assertFalse(studySubject.canTakeSubjectOffStudy());
+	  verifyMocks();
+  }
+  
+  public void testCanTakeSubjectOffStudyFalse2(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
+	  replayMocks();
+	  assertFalse(studySubject.canTakeSubjectOffStudy());
+	  verifyMocks();
   }
 }
