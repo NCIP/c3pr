@@ -103,6 +103,9 @@ function validateAmendmentReasons(){
                       <tr>
                           <td><b><fmt:message key="study.consent"/></b></td>
                           <td width="25%"><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="CONSENT" cssClass="amendmentReason"/></td>
+                          <!-- <td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><b><fmt:message key="study.companionStudy"/></b></td>
+                          <td <c:if test="${command.study.companionIndicator=='true'}">style="display:none;"</c:if>><form:checkbox path="study.currentStudyAmendment.amendmentReasons" value="COMPANION" cssClass="amendmentReason"/></td>
+                      		 -->
                       </tr>
                   </table>
 		</chrome:division>
