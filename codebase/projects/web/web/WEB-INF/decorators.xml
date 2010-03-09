@@ -61,7 +61,6 @@
         <pattern>/pages/registration/searchEpoch*</pattern>
         <pattern>/pages/admin/validateConnectivity*</pattern>
         <pattern>/public/skin</pattern>
-        <pattern>/*/study_create_companion.jsp</pattern>
     </excludes>
 </decorators>
 
