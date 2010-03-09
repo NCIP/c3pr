@@ -1648,11 +1648,11 @@ public class StudySubject extends
 		StudySiteStudyVersion studySiteStudyVersion = this.getStudySubjectStudyVersion().getStudySiteStudyVersion();
 		
 		for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-			if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , studySubjectConsentVersion.getInformedConsentSignedDate())){
+			if (studySubjectConsentVersion.getInformedConsentSignedDate()!=null &&!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , studySubjectConsentVersion.getInformedConsentSignedDate())){
 				errors.add(new Error("The informed consent signed date does not correspond to the current study site study version. This seems to be a back dated registration"));
 			}
 			
-			if(this.getStartDate()!=null && this.getStartDate().before(studySubjectConsentVersion.getInformedConsentSignedDate())){
+			if(this.getStartDate()!=null && studySubjectConsentVersion.getInformedConsentSignedDate()!=null && this.getStartDate().before(studySubjectConsentVersion.getInformedConsentSignedDate())){
 				errors.add(new Error("Enrollment cannot start before the subject signed the informed consent :" + studySubjectConsentVersion.getConsent().getName()));
 			}
 		}
