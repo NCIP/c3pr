@@ -3,6 +3,12 @@
 	<div>
 <chrome:box title="Update Target Accrual" id="updateTargetAccrualClass">
 	<div class="row">
+		<div class="label"><fmt:message key="c3pr.common.currentTargetAccrual"/></div>
+		<div class="value">
+			${command.study.targetAccrualNumber }
+		</div>
+	</div>
+	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.targetAccrual"/></div>
 		<div class="value">
 			<input type="text" name="study.targetAccrualNumber" id="targetAccrualNumber" class="validate-NUMERIC&&notEmpty" />
