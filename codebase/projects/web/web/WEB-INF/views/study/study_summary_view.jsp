@@ -59,10 +59,6 @@
             }
         }
 
-      /*  function reloadCompanion() {
-        <tags:tabMethod method="reloadCompanion" divElement="'companionDiv'" formName="'tabMethodForm'"  viewName="/study/companionSection"/>
-        }
-        */
         function showCloseStudyPopup(){
 			closeWin = new Window({className :"mac_os_x", title: "Close Study", 
 									hideEffect:Element.hide, 
@@ -169,6 +165,16 @@
    			win.setContent(arr[0]) ;
    			win.showCenter(true);
         }
+
+    	function returnToParent(parentStudyFlow, parentStudyId){
+    		if(parentStudyFlow == 'AMEND_STUDY'){
+    			$('parentStudyForm').action = "/c3pr/pages/study/amendStudy?studyId="+parentStudyId ;
+    		}else{
+    			$('parentStudyForm').action = "/c3pr/pages/study/editStudy?studyId="+parentStudyId ;
+    		}
+    		$('parentStudyForm').submit();
+    	}
+
     </script>
 	<!--[if lte IE 7]>
 	<style>
@@ -230,6 +236,16 @@
             </csmauthz:accesscontrol>
 			<c:if test="${flowType != 'VIEW_STUDY'}">
 				<tags:oneControlPanelItem linkhref="javascript:document.location='../study/viewStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Manage Study" />
+				<c:if test="${!studyCommand.study.standaloneIndicator && fn:length(command.study.parentStudyAssociations) == 1}">
+					<c:choose>
+						<c:when test="${!empty param.parentStudyFlow}">
+							<tags:oneControlPanelItem linkhref="javascript:returnToParent('${param.parentStudyFlow}', '${command.study.parentStudyAssociations[0].parentStudy.id}')" imgsrc="/c3pr/images/icons/button_icons/small/back_icon_small.png" linktext="Return to Parent" />
+						</c:when>
+						<c:otherwise>
+							<tags:oneControlPanelItem linkhref="javascript:document.location='../study/viewStudy?studyId=${command.study.parentStudyAssociations[0].parentStudy.id}'" imgsrc="/c3pr/images/icons/button_icons/small/back_icon_small.png" linktext="Return to Parent" />
+						</c:otherwise>
+					</c:choose>
+				</c:if>
 			</c:if>
 			<c:if test="${flowType == 'VIEW_STUDY'}">
 				<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
@@ -820,5 +836,22 @@
 	<div id="broadcastResponse">
 	</div>	
 </div>
+<c:choose>
+	<c:when test="${param.parentStudyFlow == 'EDIT_STUDY' || param.parentStudyFlow == 'CREATE_STUDY'}">
+		<form id="parentStudyForm" action="" method="post">
+			<input type="hidden" name="_page" id="_page7" value="7"/>
+			<input type="hidden" name="_target7" id="_target7" value="7"/>
+			<input type="hidden" name="refreshCommandObject" id="refreshCommandObject" value="true"/>
+		</form>
+	</c:when>
+	<c:when test="${param.parentStudyFlow == 'AMEND_STUDY'}">
+		<form id="parentStudyForm" action="" method="post">
+			<input type="hidden" name="_page" id="_page8" value="8"/>
+			<input type="hidden" name="_target8" id="_target8" value="8"/>
+			<input type="hidden" name="refreshCommandObject" id="refreshCommandObject" value="true"/>
+		</form>
+	</c:when>
+</c:choose>
+
 </body>
 </html>

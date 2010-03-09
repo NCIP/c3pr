@@ -213,24 +213,39 @@
 	</c:otherwise>
 </c:choose>
 <c:choose>
-<c:when test="${command.study.stratificationIndicator =='false' }">
-			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="STUDY.NO_STRATIFICATION"/></div><br><br>
-			</tags:formPanelBox>
+	<c:when test="${command.study.stratificationIndicator =='false' }">
+		<form:form method="post" name="studyDetails" cssClass="standard" >
+			<tags:tabFields tab="${tab}" />
+			<chrome:box title="${tab.shortTitle}">
+					<br/><br><div align="center"><fmt:message key="STUDY.NO_STRATIFICATION"/></div><br><br>
+			</chrome:box>
+			<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
+				<jsp:attribute name="localButtons">
+					<c:if test="${!empty param.parentStudyFlow}">
+					<tags:button type="button" color="blue" icon="back" value="Return to parent" onclick="returnToParentUsingButton('${param.parentStudyFlow}', '${command.study.parentStudyAssociations[0].parentStudy.id}')" />
+					</c:if>
+				</jsp:attribute>
+			</tags:tabControls>
+		</form:form>
 	</c:when>
 	<c:when test="${!command.hasStratifiedEpoch}">
-		<tags:formPanelBox tab="${tab}" flow="${flow}">
-			<br />
-			<br>
-			<div align="center">
-			<div id="flash-message" class="error"><img
-				src="<tags:imageUrl name="error-red.png" />" alt=""
-				style="vertical-align: top;" /> <fmt:message
-				key="STUDY.NO_STRATIFICATION_FOR_EPOCH" /></div>
-			<br>
-			<br>
-			</div>
-
-		</tags:formPanelBox>
+		<form:form method="post" name="studyDetails" cssClass="standard" >
+			<tags:tabFields tab="${tab}" />
+				<chrome:box title="${tab.shortTitle}">
+				<br/><br><div align="center">
+				<div id="flash-message" class="error"><img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align: top;" /> 
+					<fmt:message key="STUDY.NO_STRATIFICATION_FOR_EPOCH" />
+				</div>
+				<br><br></div>
+				</chrome:box>
+			<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
+				<jsp:attribute name="localButtons">
+					<c:if test="${!empty param.parentStudyFlow}">
+					<tags:button type="button" color="blue" icon="back" value="Return to parent" onclick="returnToParentUsingButton('${param.parentStudyFlow}', '${command.study.parentStudyAssociations[0].parentStudy.id}')" />
+					</c:if>
+				</jsp:attribute>
+			</tags:tabControls>
+		</form:form>
 	</c:when>
 	<c:otherwise>
 <form:form method="post" name="form">
@@ -386,20 +401,9 @@
 	</c:forEach>
 	</c:if>
     
-	<input type="hidden" name="flowType" value="${flowType}">
 	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
 			<jsp:attribute name="localButtons">
 			<c:if test="${!empty param.parentStudyFlow}">
-			<script>
-			function returnToParentUsingButton(parentStudyFlow, parentStudyId){
-				if(parentStudyFlow == 'Amend Study'){
-					$('parentStudyFormButton').action = "/c3pr/pages/study/amendStudy?studyId="+parentStudyId ;
-				}else{
-					$('parentStudyFormButton').action = "/c3pr/pages/study/editStudy?studyId="+parentStudyId ;
-				}
-				$('parentStudyFormButton').submit();
-			}
-			</script>
 			<tags:button type="button" color="blue" icon="back" value="Return to parent" onclick="returnToParentUsingButton('${param.parentStudyFlow}', '${command.study.parentStudyAssociations[0].parentStudy.id}')" />
 			</c:if>
 		</jsp:attribute>

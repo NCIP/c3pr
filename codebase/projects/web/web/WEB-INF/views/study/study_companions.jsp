@@ -34,7 +34,7 @@
     }
 
     function createNewCompanion(){
-    	<tags:tabMethod method="createEmbeddedCompanionStudy" viewName="/study/asynchronous/redirect_companion"   divElement="'dummy-div'" formName="'tabMethodForm'"/>
+    	<tags:tabMethod method="createEmbeddedCompanionStudy" viewName="/study/asynchronous/redirect_companion"   divElement="'dummy-div'" formName="'tabMethodForm'" javaScriptParam="'flowType=${flowType}'"/>
     }
 
     var currentRow = -1;
@@ -165,10 +165,13 @@ function closePopup(deleteRow) {
 				                    				<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 				                		</form:select>
 				            		 </td>
-				                     <td><a
-				                                href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${companionStudyAssociation.id==null?'HC#':'ID#'}${companionStudyAssociation.id==null?companionStudyAssociation.hashCode:companionStudyAssociation.id}');"><img
-				                                src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-				
+				                     <td>
+				                     <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
+	                     	            	<c:if test="${!companionStudyAssociation.companionStudy.standaloneIndicator && companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'PENDING'}">
+	                     	            		<tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}&parentStudyFlow=${flowType}';" size="small"/>
+	                     	            	</c:if>
+	                     	            	<tags:button id="deleteCompanionStudy" type="button" color="red" value="Delete" onclick="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${companionStudyAssociation.id==null?'HC#':'ID#'}${companionStudyAssociation.id==null?companionStudyAssociation.hashCode:companionStudyAssociation.id}');" size="small"/>
+				                     </csmauthz:accesscontrol>	            	
 				                    </tr>
 				                </c:forEach>
 		               		</c:otherwise>
@@ -217,9 +220,8 @@ onclick="$('addCompanionMessage') != null ? $('addCompanionMessage').hide():'';a
 	                </select>
 	            </td>
 	            <td>
-	                <a
-                    href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
-                    src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+            		<tags:button id="deleteCompanionStudy" type="button" color="red" value="Delete" onclick="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);" size="small"/>
+                </td>
 	        </tr>
 	    </table>
 </div>

@@ -58,7 +58,7 @@ public class CompanionStudyTab extends StudyTab {
     	wrapper.setStudy(study);
     	Map<String, Object> map = new HashMap<String, Object>();
         map.put("companionStudyId", study.getCompanionStudyAssociations().get(index).getCompanionStudy().getId());
-        map.put("parentStudyFlow", getFlow().getName());
+        map.put("parentStudyFlow", request.getParameter("flowType"));
     	return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
     	
     	

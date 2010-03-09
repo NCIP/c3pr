@@ -7,7 +7,10 @@ import javax.persistence.Transient;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 
 public class StudyWrapper {
@@ -138,6 +141,21 @@ public class StudyWrapper {
 
 	public void setStudyPersonnelIds(String[] studyPersonnelIds) {
 		this.studyPersonnelIds = studyPersonnelIds;
+	}
+	
+	public String getPrimaryIdentifierAssigningAuthority() {
+		for (Identifier identifier : study.getIdentifiers()) {
+			if (identifier.getPrimaryIndicator().booleanValue() == true) {
+				if(identifier instanceof OrganizationAssignedIdentifier){
+					return ((OrganizationAssignedIdentifier)identifier).getHealthcareSite().getName();
+				}else if(identifier instanceof SystemAssignedIdentifier){
+					return ((SystemAssignedIdentifier)identifier).getSystemName();
+				}else{
+					return null ;
+				}
+			}
+		}
+		return null;
 	}
 
 }

@@ -24,6 +24,33 @@
     <style type="text/css">
         .label { width: 20em; text-align: right;}
 	</style>
+	<script type="text/javascript">
+	// This function redirect to parent study flow in case of embedded companion study
+	function returnToParent(parentStudyFlow, parentStudyId){
+		if(parentStudyFlow == 'AMEND_STUDY'){
+			$('parentStudyForm').action = "/c3pr/pages/study/amendStudy?studyId="+parentStudyId ;
+		}else{
+			$('parentStudyForm').action = "/c3pr/pages/study/editStudy?studyId="+parentStudyId ;
+		}
+		$('parentStudyForm').submit();
+	}
+
+	// This function redirect to parent study manage flow
+	function viewParent(parentStudyId){
+		$('parentStudyViewForm').action = "/c3pr/pages/study/viewStudy?studyId="+parentStudyId ;
+		$('parentStudyViewForm').submit();
+	}
+
+	function returnToParentUsingButton(parentStudyFlow, parentStudyId){
+		if(parentStudyFlow == 'AMEND_STUDY'){
+			$('parentStudyFormButton').action = "/c3pr/pages/study/amendStudy?studyId="+parentStudyId ;
+		}else{
+			$('parentStudyFormButton').action = "/c3pr/pages/study/editStudy?studyId="+parentStudyId ;
+		}
+		$('parentStudyFormButton').submit();
+	}
+		
+	</script>
 </head>
 
 <body>
@@ -71,18 +98,40 @@
         <decorator:body/>
     </c:otherwise>
 </c:choose>
-<form id="parentStudyFormButton" action="" method="post">
-	<input type="hidden" name="_page" id="_page7" value="7"/>
-	<input type="hidden" name="_target7" id="_target7" value="7"/>
-	<input type="hidden" name="refreshCommandObject" id="refreshCommandObject" value="true"/>
-</form>
 
 
-    <form:form id="flowredirect">
-        <input type="hidden" name="_target${tab.targetNumber}" id="flowredirect-target"/>
-        <input type="hidden" name="_page${tab.number}"/>
-    </form:form>
+<c:choose>
+	<c:when test="${param.parentStudyFlow == 'EDIT_STUDY' || param.parentStudyFlow == 'CREATE_STUDY'}">
+		<form id="parentStudyFormButton" action="" method="post">
+			<input type="hidden" name="_page" id="_page7" value="7"/>
+			<input type="hidden" name="_target7" id="_target7" value="7"/>
+			<input type="hidden" name="refreshCommandObject" id="refreshCommandObject" value="true"/>
+		</form>
+		<form id="parentStudyForm" action="" method="post">
+			<input type="hidden" name="_page" id="_page7" value="7"/>
+			<input type="hidden" name="_target7" id="_target7" value="7"/>
+			<input type="hidden" name="refreshCommandObject" id="refreshCommandObject" value="true"/>
+		</form>
+	</c:when>
+	<c:when test="${param.parentStudyFlow == 'AMEND_STUDY'}">
+		<form id="parentStudyFormButton" action="" method="post">
+			<input type="hidden" name="_page" id="_page8" value="8"/>
+			<input type="hidden" name="_target8" id="_target8" value="8"/>
+			<input type="hidden" name="refreshCommandObject" id="refreshCommandObject" value="true"/>
+		</form>
+		<form id="parentStudyForm" action="" method="post">
+			<input type="hidden" name="_page" id="_page8" value="8"/>
+			<input type="hidden" name="_target8" id="_target8" value="8"/>
+			<input type="hidden" name="refreshCommandObject" id="refreshCommandObject" value="true"/>
+		</form>
+	</c:when>
+</c:choose>
+<form id="parentStudyViewForm" action="" method="post"></form>
 
+<form:form id="flowredirect">
+    <input type="hidden" name="_target${tab.targetNumber}" id="flowredirect-target"/>
+    <input type="hidden" name="_page${tab.number}"/>
+</form:form>
 </div>
 <tags:jsLogs debug="false"/>
 <tags:enableRowDeletion/>
