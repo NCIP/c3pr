@@ -133,8 +133,6 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     
     @Override
     public void validate(StudySubjectWrapper command, Errors errors) {
-    	if(command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED && 
-    			command.getStudySubject().getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
 	    	Date date = command.getStudySubject().getStartDate();
 	    	if(date !=null){
 				if(date.after(new Date())){
@@ -156,7 +154,6 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 					}
 				}
 			}
-    	}
     	
     	if(command.getStudySubject().getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
     		boolean atLeastOneConsentSigned = false;
