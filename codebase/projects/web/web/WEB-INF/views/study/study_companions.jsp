@@ -183,8 +183,10 @@ function closePopup(deleteRow) {
 </table>
 <div align="right">
 <tags:button type="button" color="blue" icon="add" value="Add Existing Companion" onclick="$('addCompanionMessage') != null ? $('addCompanionMessage').hide():'';addRow('addExistingCompanionStudy')" size="small"/>
-<tags:button type="button" color="blue" value="Create New Companion" 
-onclick="$('addCompanionMessage') != null ? $('addCompanionMessage').hide():'';addRow('createCompanionStudy')" size="small" icon="add"/>
+<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="studyAuthorizationCheck">
+	<tags:button type="button" color="blue" value="Create New Companion" 
+	onclick="$('addCompanionMessage') != null ? $('addCompanionMessage').hide():'';addRow('createCompanionStudy')" size="small" icon="add"/>
+</csmauthz:accesscontrol>
 </div>
 
 </jsp:attribute>
