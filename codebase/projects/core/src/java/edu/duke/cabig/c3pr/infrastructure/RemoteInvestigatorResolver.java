@@ -16,6 +16,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.coppa.po.CorrelationNode;
 import gov.nih.nci.coppa.po.HealthCareProvider;
@@ -37,8 +38,7 @@ public class RemoteInvestigatorResolver extends BaseResolver implements RemoteRe
 	public Object getRemoteEntityByUniqueId(String externalId) {
 		log.debug("Entering getRemoteEntityByUniqueId() for:" + this.getClass() + " - ExtId: " +externalId);
 		
-		Person person = CoppaObjectFactory.getCoppaPerson(null, null, null);
-		person.getIdentifier().setExtension(externalId);
+		Person person = CoppaObjectFactory.getCoppaPersonForExtension(externalId);
 		
 		String correlationNodeXmlPayload = CoppaObjectFactory.getCorrelationNodePayload(new HealthCareProvider(), person, null);
 		List<CorrelationNode> correlationNodeList = personOrganizationResolverUtils.getCorrelationNodesFromPayloadXml(correlationNodeXmlPayload);
