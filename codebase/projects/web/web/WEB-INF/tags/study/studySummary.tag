@@ -29,7 +29,7 @@
 	<tr>
 		<td valign="top" width="40%">
 			<table>
-				<tags:tdNameValue name="Short title" value="${studyCommand.study.trimmedShortTitleText}" columnAttrName="class='labelR'"/>
+				<tags:tdNameValue name="Short title" value="${studyCommand.study.shortTitleText}" columnAttrName="class='labelR'"/>
 				<tags:tdNameValue name="Primary identifier" value="${studyCommand.study.primaryIdentifier} (${studyCommand.primaryIdentifierAssigningAuthority})" columnAttrName="class='labelR'"/>
 				<tags:tdNameValue name="Study status" value="${studyCommand.study.coordinatingCenterStudyStatus.code}" columnAttrName="class='labelR'"/>
 			</table>
@@ -39,7 +39,7 @@
 				<tags:tdNameValue name="Coordinating center" value="${studyCommand.study.coordinatingCenterAssignedIdentifier.healthcareSite.name}" columnAttrName="class='labelR'"/>				
 				<tags:tdNameValue name="Principal investigator" value="${studyCommand.study.principalInvestigatorFullName} (${studyCommand.study.principalInvestigatorStudyOrganization.healthcareSite.name })" columnAttrName="width='50%' class='labelR'"/>
 				<c:if test="${fn:length(studyCommand.study.parentStudyAssociations) == 1}">
-					<tags:tdNameValue name="Parent study" value="${studyCommand.study.parentStudy.trimmedShortTitleText}" columnAttrName="class='labelR'" link="${link}"/>
+					<tags:tdNameValue name="Parent study" value="${studyCommand.study.parentStudy.shortTitleText} (${studyCommand.study.parentStudy.primaryIdentifier})" columnAttrName="class='labelR'" link="${link}"/>
 				</c:if>
 			</table>
 		</td>
