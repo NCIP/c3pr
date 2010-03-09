@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -18,7 +19,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
-import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
@@ -44,6 +44,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 	@JoinColumn(name = "study_subject_ver_id")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
+	@OrderBy("id")
 	public List<StudySubjectConsentVersion> getStudySubjectConsentVersionsInternal() {
 		return lazyListHelper.getInternalList(StudySubjectConsentVersion.class);
 	}
