@@ -655,7 +655,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 				}
 			}
 			
-			//If the DocumentWorkflowStatus does not have ABSTRACTED keyword in it then dont bother getting the overallStatus
+			//If the DocumentWorkflowStatus doesn't map to our list, reject study immediately.
 			if(process){
 				//Call search on StudyOverallStatus using the StudyProtocol II. 
 				String overallStatusResultXml = protocolAbstractionResolverUtils.broadcastStudyOverallStatusGetByStudyProtocol(paIdPayLoad);
@@ -671,7 +671,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 		} catch(C3PRCodedException e){
 			log.error(e.getMessage());
 		}
-		//Default to Pending if something doesnt click.
+		//Default to Pending if something doesn't click.
 		return CoordinatingCenterStudyStatus.PENDING;
 	}
 	
