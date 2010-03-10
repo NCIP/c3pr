@@ -424,7 +424,7 @@
 </chrome:division>
 <chrome:division title="Consents" cssClass="big">
     <table class="tablecontent" width="60%">
-        <tr><th><b><fmt:message key="study.consents"/></b></th></tr>
+        <tr><th><b><fmt:message key="study.consents"/> (${command.study.consentRequired.code} required)</b></th></tr>
         <c:forEach items="${command.study.consents}" var="consent">
             <tr><td class="alt">${consent.name}</td></tr>
         </c:forEach>
