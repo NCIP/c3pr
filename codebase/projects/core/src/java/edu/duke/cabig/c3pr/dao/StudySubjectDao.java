@@ -200,16 +200,16 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         			"join ssisv.studyVersion sv ";
         if (!StringUtils.getBlankIfNull(study.getShortTitleText()).equals("")) {
         	selectClause += studyClause;
-        	whereClause += "sv.shortTitleText like ? ";
-        	params.add(study.getShortTitleText());
+        	whereClause += "sv.shortTitleText ilike ? ";
+        	params.add("%" + study.getShortTitleText() + "%");
         	addStudySelectClause = false;
         }
         if (study.getIdentifiers().size() > 0){
         	if(addStudySelectClause)
         		selectClause += studyClause;
         	selectClause += "join sv.study study join study.identifiers sid ";
-        	whereClause += "and sid.value like ? ";
-        	params.add(study.getIdentifiers().get(0).getValue());
+        	whereClause += "and sid.value ilike ? ";
+        	params.add("%" + study.getIdentifiers().get(0).getValue() + "%");
         }
 
         Participant participant= studySubject.getParticipant();
@@ -217,16 +217,16 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         String participantClause = "join ssub.participant prt ";
         if(!StringUtils.getBlankIfNull(participant.getFirstName()).equals("")){
         	selectClause += participantClause;
-        	whereClause += "and prt.firstName like ? ";
-        	params.add(participant.getFirstName());
+        	whereClause += "and prt.firstName ilike ? ";
+        	params.add("%" + participant.getFirstName() + "%");
         	addParticipantSelectClause = false;
         }
 
         if(!StringUtils.getBlankIfNull(participant.getLastName()).equals("")){
         	if(addParticipantSelectClause)
         		selectClause += participantClause;
-        	whereClause += "and prt.lastName like ? ";
-        	params.add(participant.getLastName());
+        	whereClause += "and prt.lastName ilike ? ";
+        	params.add("%" + participant.getLastName() + "%");
         	addParticipantSelectClause = false;
         }
 
@@ -234,8 +234,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         	if(addParticipantSelectClause)
         		selectClause += participantClause;
         	selectClause += "join prt.identifiers pid ";
-        	whereClause += "and pid.value like ?";
-        	params.add(participant.getIdentifiers().get(0).getValue());
+        	whereClause += "and pid.value ilike ?";
+        	params.add("%" + participant.getIdentifiers().get(0).getValue() + "%");
         }
         whereClause = "where " + (whereClause.startsWith("and")?whereClause.replaceFirst("and", ""):whereClause);
         String advanceQuery = selectClause + whereClause;
@@ -723,5 +723,5 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     	return studies; 
     }
-
+	
 }
