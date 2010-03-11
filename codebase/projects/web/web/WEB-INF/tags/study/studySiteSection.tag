@@ -220,60 +220,69 @@
 	            <tags:hoverHint keyProp="study.site.siteversion.irbApprovalDate" /></th>
 	            <th/>
 	        </tr>
-	        <c:forEach items="${site.study.reverseSortedStudyVersions}" var="sortedStudyVersion" varStatus="status">
-	        <c:if test="${sortedStudyVersion.versionStatus.name == 'AC'}">
-	        <c:set var="studySiteStudyVersionPresent" value="false"></c:set>
-	        <tr>
-	            <td>${sortedStudyVersion.name }</td>
-            	<c:forEach items="${sortedStudyVersion.studySiteStudyVersions}" var="studySiteStudyVersion">
-		            <c:if test="${studySiteStudyVersion.studySite.id == site.id}">
-		            	<td>${studySiteStudyVersion.startDateStr }</td>
-			            <td>${studySiteStudyVersion.endDateStr }</td>
-			            <td>${studySiteStudyVersion.irbApprovalDateStr }</td>
-			            <td>
-			            <c:if test="${fn:length(site.study.reverseSortedStudyVersions) != status.index + 1 }">
-			            	<tags:button type="button" color="blue" value="View summary" id="viewSummary-${sortedStudyVersion.id}" onclick="viewAmendmentSummary('${sortedStudyVersion.id}');" size="small"/>
-			            </c:if>
-			            </td>
-			            <c:set var="studySiteStudyVersionPresent" value="true"></c:set>
-			            <c:set var="newerVersionApplied" value="true"></c:set>
-		            </c:if>
-	            </c:forEach>
-	            <c:if test="${studySiteStudyVersionPresent != true}">
-            	<td></td>
-	            <td></td>
-	            <td>
-	            	<c:if test="${newerVersionApplied != true}">
-	            	<input type="text" name="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}" id="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}"/>
-		           	<a href="#" id="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}-calbutton">
-		      	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
-		        	</a>
-		        	<script type="text/javascript">
-						Calendar.setup(
-				            {
-				                inputField  : "irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}",
-				                button      : "irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}-calbutton",
-				                ifFormat    : "%m/%d/%Y", 
-				                weekNumbers : false
-				            }
-				        );
-					</script>
-					</c:if>
-	            </td>
-	            <td>
-	            	<c:if test="${newerVersionApplied != true}">
-	            		<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="$('applyIndicator-${site.healthcareSite.primaryIdentifier}-${status.index}').style.display='';applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', 'APPLY_AMENDMENT',  '${sortedStudyVersion.name }');" size="small"/>
-	            		<img id="applyIndicator-${site.healthcareSite.primaryIdentifier}-${status.index}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
-	            	</c:if>
-	            	<tags:button type="button" color="blue" value="View summary" id="viewSummary-${sortedStudyVersion.id}" onclick="viewAmendmentSummary('${sortedStudyVersion.id}');" size="small"/>
-	            </td>
-	            </c:if>
-	        </tr>
-	        <div id="versionSummary-${sortedStudyVersion.id}" style="display:none;">
-				<studyTags:study_amendment_summary studyVersion="${sortedStudyVersion}"></studyTags:study_amendment_summary>
-			</div>
-			</c:if>
-	        </c:forEach>
+	        <c:choose>
+	        	<c:when test="${fn:length(site.study.reverseSortedStudyVersions) == 0 || site.study.reverseSortedStudyVersions[0].versionStatus.name != 'AC'}">
+	        		<tr>
+	        			<td colspan="4"><fmt:message key="study.studysiteversion.noVersion" /></td>
+	        		</tr>
+	        	</c:when>
+	        	<c:otherwise>
+			        <c:forEach items="${site.study.reverseSortedStudyVersions}" var="sortedStudyVersion" varStatus="status">
+						<c:if test="${sortedStudyVersion.versionStatus.name == 'AC'}">
+					        <c:set var="studySiteStudyVersionPresent" value="false"></c:set>
+					        <tr>
+					            <td>${sortedStudyVersion.name }</td>
+				            	<c:forEach items="${sortedStudyVersion.studySiteStudyVersions}" var="studySiteStudyVersion">
+						            <c:if test="${studySiteStudyVersion.studySite.id == site.id}">
+						            	<td>${studySiteStudyVersion.startDateStr }</td>
+							            <td>${studySiteStudyVersion.endDateStr }</td>
+							            <td>${studySiteStudyVersion.irbApprovalDateStr }</td>
+							            <td>
+							            <c:if test="${fn:length(site.study.reverseSortedStudyVersions) != status.index + 1 }">
+							            	<tags:button type="button" color="blue" value="View summary" id="viewSummary-${sortedStudyVersion.id}" onclick="viewAmendmentSummary('${sortedStudyVersion.id}');" size="small"/>
+							            </c:if>
+							            </td>
+							            <c:set var="studySiteStudyVersionPresent" value="true"></c:set>
+							            <c:set var="newerVersionApplied" value="true"></c:set>
+						            </c:if>
+					            </c:forEach>
+					            <c:if test="${studySiteStudyVersionPresent != true}">
+					            	<td></td>
+						            <td></td>
+						            <td>
+						            	<c:if test="${newerVersionApplied != true}">
+							            	<input type="text" name="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}" id="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}"/>
+								           	<a href="#" id="irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}-calbutton">
+								      	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+								        	</a>
+								        	<script type="text/javascript">
+												Calendar.setup(
+										            {
+										                inputField  : "irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}",
+										                button      : "irbApproval-${site.healthcareSite.primaryIdentifier}-${status.index}-calbutton",
+										                ifFormat    : "%m/%d/%Y", 
+										                weekNumbers : false
+										            }
+										        );
+											</script>
+										</c:if>
+						            </td>
+						            <td>
+						            	<c:if test="${newerVersionApplied != true}">
+					            		<tags:button type="button" color="blue" value="Apply amendment" id="applyAmendment-${site.healthcareSite.primaryIdentifier}-${status.index}" onclick="$('applyIndicator-${site.healthcareSite.primaryIdentifier}-${status.index}').style.display='';applyAmendment('${site.healthcareSite.primaryIdentifier}', ${status.index}, '${index}', '${localNCICode}', '${isMultisite}', 'APPLY_AMENDMENT',  '${sortedStudyVersion.name }');" size="small"/>
+						            		<img id="applyIndicator-${site.healthcareSite.primaryIdentifier}-${status.index}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+						            	</c:if>
+						            	<tags:button type="button" color="blue" value="View summary" id="viewSummary-${sortedStudyVersion.id}" onclick="viewAmendmentSummary('${sortedStudyVersion.id}');" size="small"/>
+						            </td>
+					            </c:if>
+					        </tr>
+					        <div id="versionSummary-${sortedStudyVersion.id}" style="display:none;">
+								<studyTags:study_amendment_summary studyVersion="${sortedStudyVersion}"></studyTags:study_amendment_summary>
+							</div>
+						</c:if>
+			        </c:forEach>
+	        	</c:otherwise>
+	        </c:choose>
 	    </table>
 	   <div>
 	</div>
@@ -336,8 +345,8 @@
 				</div>
 			</div>
 		</div>
-	</chrome:division>
-	<div id="effectiveDateDiv-${site.healthcareSite.primaryIdentifier}" style="display: none;"></div>
+		</chrome:division>
+		<div id="effectiveDateDiv-${site.healthcareSite.primaryIdentifier}" style="display: none;"></div>
 	<div id="effectiveDateError-${site.healthcareSite.primaryIdentifier}"></div>
 </div>
 </div>
