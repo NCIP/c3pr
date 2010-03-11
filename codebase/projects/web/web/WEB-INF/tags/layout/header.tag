@@ -55,7 +55,7 @@
                             <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="logoutAuthorizationCheck"><a href="<c:url value="/public/login"/>">Log in</a></csmauthz:accesscontrol>
                             <br />
                             <div><a href="<c:url value='/pages/dashboard' />">Dashboard</a>
-                            &nbsp;<csmauthz:accesscontrol domainObject="/pages/skin" authorizationCheckName="urlAuthorizationCheck"><a>|</a>&nbsp;<a id="changeSkin" style="cursor:pointer;">Change skin</a></csmauthz:accesscontrol></div>
+                            &nbsp;</div>
                         </div>
 
 			</c:if>
