@@ -19,7 +19,7 @@
 
 <script>
 function buildTable(form) {		
-    
+	document.getElementById("formSubmit-indicator").style.display="";
     params = new Array(8);
 	var parameterMap = getParameterMap(form);
 	var studyShortTitle = document.getElementById("studyShortTitle").value;
@@ -46,6 +46,7 @@ function buildTable(form) {
 
 function showTable(table) {
 	document.getElementById('tableDiv').innerHTML=table;
+	document.getElementById("formSubmit-indicator").style.display="none";
 }
 
 function clearScreen() {		
@@ -163,8 +164,13 @@ function clearScreen() {
 	</table>
 
 	<div class="row" align="center">
-	<tags:button type="button" icon="search" size="small" color="blue" value="Search Registration" onclick="buildTable('searchForm');"/>
-	<tags:button type="button" size="small" color="blue" value="Clear" onclick="clearScreen();"/>
+		<div>
+			<tags:button type="button" icon="search" size="small" color="blue" value="Search Registration" onclick="buildTable('searchForm');"/>
+			<tags:button type="button" size="small" color="blue" value="Clear" onclick="clearScreen();"/>
+		</div>
+		<div>
+			<img id="formSubmit-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
+		</div>
 	</div>
 <br />
 </form:form>

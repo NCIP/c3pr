@@ -20,7 +20,7 @@
 
 <script>
 function buildTable(form) {		
-    
+	document.getElementById("formSubmit-indicator").style.display="";	
     params = new Array(5);
 	var parameterMap = getParameterMap(form);
 	
@@ -36,8 +36,9 @@ function buildTable(form) {
 	params[3] = fName;		
 	params[4] = lName;		
 
-	studyReportCommand.setParams(params);			
-	createStudyReport.getTable(parameterMap, params, showTable);		
+	studyReportCommand.setParams(params);		
+	createStudyReport.getTable(parameterMap, params, showTable);	
+	
 }
 
 function clearScreen() {		
@@ -50,6 +51,7 @@ function clearScreen() {
 
 function showTable(table) {
 	document.getElementById('tableDiv').innerHTML=table;
+	document.getElementById("formSubmit-indicator").style.display="none";	
 }
   
 </script>
@@ -115,10 +117,15 @@ function showTable(table) {
 	</table>
 
 	<div class="row" align="center">
-	<tags:button type="button" icon="search" size="small" color="blue" value="Search Study" onclick="buildTable('searchForm');"/>
-	<tags:button type="button" size="small" color="blue" value="Clear" onclick="clearScreen();"/>
+		<div>
+			<tags:button type="button" icon="search" size="small" color="blue" value="Search Study" onclick="buildTable('searchForm');"/>
+			<tags:button type="button" size="small" color="blue" value="Clear" onclick="clearScreen();"/>
+		</div>
+		<div>
+			<img id="formSubmit-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
+		</div>
 	</div>
-<br />
+<br/>
 </form:form>
 
 <chrome:box title="Results">
