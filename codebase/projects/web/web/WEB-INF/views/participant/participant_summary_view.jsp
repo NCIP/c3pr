@@ -81,7 +81,6 @@
 	            <th><fmt:message key="c3pr.common.assigningAuthority"/></th>
 	            <th><fmt:message key="c3pr.common.identifierType"/></th>
 	            <th><fmt:message key="c3pr.common.identifier"/></th>
-	            <th></th>
 	        </tr>
 	        <c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
 	                  varStatus="organizationStatus">
