@@ -423,7 +423,7 @@ function changeStudyVersion(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="scheduledEpoch.startDate"/></div>
 			<div class="value">
-				<tags:dateInput path="studySubject.scheduledEpoch.startDate" validateDate="true" cssClass='validate-notEmpty'/>
+				<tags:dateInput path="studySubject.scheduledEpoch.startDate" validateDate="true" cssClass='validate-notEmpty&&DATE'/>
 			</div>
 		</div>
 	</c:if>
@@ -432,7 +432,7 @@ function changeStudyVersion(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 			<div class="value">
-				<tags:dateInput path="studySubject.startDate" validateDate="true" cssClass='required validate-notEmpty'/>
+				<tags:dateInput path="studySubject.startDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
 			</div>
 		</div>
 	</c:if>
@@ -446,7 +446,7 @@ function changeStudyVersion(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 			<div class="value">
-				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty'/>
+				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
 			</div>
 		</div>
 	</c:if>
