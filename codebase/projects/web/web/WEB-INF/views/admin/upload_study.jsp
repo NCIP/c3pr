@@ -90,7 +90,7 @@
 </chrome:box>
 
 
-<chrome:box id="resultsDiv" title="Uploaded Studies" style="display:none">
+<chrome:box id="resultsDiv" title="Uploaded Studies" >
 
     <chrome:division id="single-fields">
         <div id="tableDiv">
