@@ -80,7 +80,7 @@ public class StudyXMLImporterServiceImpl implements
         				studyRepository.buildAndSave(study);
         				// once saved retrieve persisted study
         				studyList.add(studyDao.getById(study.getId()));
-        				studyNode.addContent(new Comment("Successfull Import"));
+        				studyNode.addContent(new Comment("Successful Import"));
         			}                
         			catch (Exception e) {
         				// ignore any other problem and continue to import
