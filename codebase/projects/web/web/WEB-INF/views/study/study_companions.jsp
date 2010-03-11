@@ -133,7 +133,7 @@ function closePopup(deleteRow) {
 		               	<c:choose>
 		               		<c:when test="${fn:length(command.study.companionStudyAssociations) == 0 }">
 		               			<tr>
-					      			<td align="left" id="addCompanionMessage" colspan="3"><fmt:message key="study.companion.addCompanion"/></td>
+					      			<td align="left" id="addCompanionMessage" colspan="4"><fmt:message key="study.companion.addCompanion"/></td>
 					      		</tr>
 		               		</c:when>
 		               		<c:otherwise>
