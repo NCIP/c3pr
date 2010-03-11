@@ -454,6 +454,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
     @OneToMany(mappedBy = "parentStudyVersion", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
+	@OrderBy("id")
 	public List<CompanionStudyAssociation> getCompanionStudyAssociationsInternal() {
 		return lazyListHelper.getInternalList(CompanionStudyAssociation.class);
 	}
