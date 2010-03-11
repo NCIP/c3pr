@@ -213,7 +213,7 @@
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.c3pr.url"/><tags:hoverHint keyProp="configure.c3pr.webapp.url" /></div>
         		<div class="value">
         			<form:input path="conf[c3pr.webapp.url].value" id="c3pr.webapp.url" cssClass="required validate-notEmpty"/>
-        			<tags:button type="button" onclick="testConnectivity('c3pr.webapp.url', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+        			<tags:button type="button" onclick="testConnectivity('c3pr.webapp.url', 'testURL');" color="blue" value="Test Connection" icon="check" size="small"/>
         			<img id="testIndicator[c3pr.webapp.url]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
         			<span id="connectionTestResult[c3pr.webapp.url]" ></span>
         		</div>
@@ -314,7 +314,7 @@
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.cas.baseurl"/><tags:hoverHint keyProp="configure.cas.base_url" /></div>
 	        		<div class="value">
 	        			<form:input path="conf[cas.base_url].value" id="cas.base_url" />
-	        			<tags:button type="button" onclick="testConnectivity('cas.base_url', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('cas.base_url', 'testURL');" color="blue" value="Test Connection" icon="check" size="small"/>
 	        			<img id="testIndicator[cas.base_url]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[cas.base_url]" ></span>
 	        		</div>
@@ -323,7 +323,7 @@
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.cas.certfile"/><tags:hoverHint keyProp="configure.cas.cert_file" /></div>
 	        		<div class="value">
 	        			<form:input path="conf[cas.cert_file].value" id="cas.cert_file" />
-	        			<tags:button type="button" onclick="testConnectivity('cas.cert_file', 'testFileLocation');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('cas.cert_file', 'testFileLocation');" color="blue" value="Test File Path" icon="check" size="small"/>
 	        			<img id="testIndicator[cas.cert_file]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[cas.cert_file]" ></span>
 	        		</div>
@@ -334,7 +334,7 @@
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.websso.baseurl"/><tags:hoverHint keyProp="configure.ccts.websso.base_url" /></div>
 	        		<div class="value">
 	        			<form:input path="conf[ccts.websso.base_url].value" id="ccts.websso.base_url"/>
-	        			<tags:button type="button" onclick="testConnectivity('ccts.websso.base_url', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('ccts.websso.base_url', 'testURL');" color="blue" value="Test Connection" icon="check" size="small"/>
 	        			<img id="testIndicator[ccts.websso.base_url]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[ccts.websso.base_url]" ></span>
 	        		</div>
@@ -343,7 +343,7 @@
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.auth.websso.certfile"/><tags:hoverHint keyProp="configure.ccts.websso.cert_file" /></div>
 	        		<div class="value">
 	        			<form:input path="conf[ccts.websso.cert_file].value" id="ccts.websso.cert_file" />
-	        			<tags:button type="button" onclick="testConnectivity('ccts.websso.cert_file', 'testFileLocation');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('ccts.websso.cert_file', 'testFileLocation');" color="blue" value="Test File Path" icon="check" size="small"/>
 	        			<img id="testIndicator[ccts.websso.cert_file]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[ccts.websso.cert_file]" ></span>
 	        		</div>
@@ -352,7 +352,7 @@
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.ccts.host.certfile"/><tags:hoverHint keyProp="configure.hostCertificate" /></div>
 	        		<div class="value">
 	        			<form:input path="conf[hostCertificate].value" id="hostCertificate"/>
-	        			<tags:button type="button" onclick="testConnectivity('hostCertificate', 'testFileLocation');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('hostCertificate', 'testFileLocation');" color="blue" value="Test File Path" icon="check" size="small"/>
 	        			<img id="testIndicator[hostCertificate]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[hostCertificate]" ></span>
 	        		</div>
@@ -361,7 +361,7 @@
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.ccts.host.key"/><tags:hoverHint keyProp="configure.hostKey" /></div>
 	        		<div class="value">
 	        			<form:input path="conf[hostKey].value" id="hostKey" />
-	        			<tags:button type="button" onclick="testConnectivity('hostKey', 'testFileLocation');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('hostKey', 'testFileLocation');" color="blue" value="Test File Path" icon="check" size="small"/>
 	        			<img id="testIndicator[hostKey]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[hostKey]" ></span>
 	        		</div>
@@ -416,7 +416,7 @@
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.ccts.smoketest.serviceurl"/><tags:hoverHint keyProp="configure.smokeTestURL" /></div>
 	        		<div class="value">
 	        			<form:input path="conf[smokeTestURL].value" id="smokeTestURL" />
-	        			<tags:button type="button" onclick="testConnectivity('smokeTestURL', 'testSmokeTestURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('smokeTestURL', 'testSmokeTestURL');" color="blue" value="Test Connection" icon="check" size="small"/>
 	        			<img id="testIndicator[smokeTestURL]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[smokeTestURL]" ></span>
 	        		</div>
@@ -425,7 +425,7 @@
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.ccts.c3d.hotlinkurl"/><tags:hoverHint keyProp="configure.c3dViewerBaseUrl"/></div>
 	        		<div class="value">
 	        			<form:input path="conf[c3dViewerBaseUrl].value" id="c3dViewerBaseUrl" />
-	        			<tags:button type="button" onclick="testConnectivity('c3dViewerBaseUrl', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('c3dViewerBaseUrl', 'testURL');" color="blue" value="Test Connection" icon="check" size="small"/>
 	        			<img id="testIndicator[c3dViewerBaseUrl]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[c3dViewerBaseUrl]" ></span>
 	        		</div>
@@ -437,7 +437,7 @@
 	        	<div class="row">
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.ccts.caaers.hotlinkurl"/><tags:hoverHint keyProp="configure.caaersBaseUrl" /></div>
 	        		<div class="value"><form:input path="conf[caaersBaseUrl].value" id="caaersBaseUrl"/>
-	        			<tags:button type="button" onclick="testConnectivity('caaersBaseUrl', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('caaersBaseUrl', 'testURL');" color="blue" value="Test Connection" icon="check" size="small"/>
 	        			<img id="testIndicator[caaersBaseUrl]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[caaersBaseUrl]" ></span>
 	        		</div>
@@ -449,7 +449,7 @@
 	        	<div class="row">
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.ccts.psc.hotlinkurl"/><tags:hoverHint keyProp="configure.pscBaseUrl" /></div>
 	        		<div class="value"><form:input path="conf[pscBaseUrl].value" id="pscBaseUrl" />
-	        			<tags:button type="button" onclick="testConnectivity('pscBaseUrl', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('pscBaseUrl', 'testURL');" color="blue" value="Test Connection" icon="check" size="small"/>
 	        			<img id="testIndicator[pscViewerBaseUrl]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[pscBaseUrl]" ></span>
 	        		</div>
@@ -462,7 +462,7 @@
 	        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.ccts.esb.url"/><tags:hoverHint keyProp="configure.esbUrl" /></div>
 	        		<div class="value">
 	        			<form:input path="conf[esbUrl].value" id="esbUrl"/>
-	        			<tags:button type="button" onclick="testConnectivity('esbUrl', 'testURL');" color="blue" value="Test" icon="check" size="small"/>
+	        			<tags:button type="button" onclick="testConnectivity('esbUrl', 'testURL');" color="blue" value="Test Connection" icon="check" size="small"/>
 	        			<img id="testIndicator[esbUrl]" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
 	        			<span id="connectionTestResult[esbUrl]" ></span>
 	        		</div>
