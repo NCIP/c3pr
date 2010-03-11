@@ -16,7 +16,6 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
-import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.coppa.po.CorrelationNode;
 import gov.nih.nci.coppa.po.HealthCareProvider;
