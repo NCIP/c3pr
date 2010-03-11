@@ -63,28 +63,16 @@ public class CreateStudyReportFacade extends BaseStudyAjaxFacade {
             id.setValue(params[1].toString());
             study.addIdentifier(id);
         }
+        
+        List<Study> studyList = new ArrayList<Study>();
 
         // this if -else ensures that participant is null if no data relevant to participant is
         // entered and the studyDao is called.
         if (StringUtils.isEmpty(params[2].toString()) && StringUtils.isEmpty(params[3].toString())
                         && StringUtils.isEmpty(params[4].toString())) {
             participant = null;
-            List<Study> studyResults;
             // call the studyDao if participant is null.
-            studyResults = studyDao.searchByExample(study, true, 0);
-            // create a list of studysub from list of studies
-            Iterator iter = studyResults.iterator();
-            studySubjectResults = new ArrayList<StudySubject>();
-            StudySubject studySub;
-            StudySite studySite;
-            while (iter.hasNext()) {
-                studySub = new StudySubject();
-                studySite = new StudySite();
-                Study iterStudy = (Study) iter.next();
-                iterStudy.addStudySite(studySite);
-                studySub.setStudySite(studySite);
-                studySubjectResults.add(studySub);
-            }
+            studyList = studyDao.searchByExample(study, true, 0);
         }
         else {
             participant = new Participant();
@@ -111,16 +99,13 @@ public class CreateStudyReportFacade extends BaseStudyAjaxFacade {
 
             // else call the studySubjectDao
             studySubjectResults = studySubjectDao.advancedStudySearch(studySubject);
+            Iterator iter = studySubjectResults.iterator();
+            while (iter.hasNext()) {
+                studyList.add(((StudySubject) iter.next()).getStudySite().getStudy());
+            }
         }
 
         Context context = new HttpServletRequestContext(request, parameterMap);
-        StudySubject ss;
-        List<Study> studyList = new ArrayList<Study>();
-        Iterator iter = studySubjectResults.iterator();
-        while (iter.hasNext()) {
-            ss = (StudySubject) iter.next();
-            studyList.add(ss.getStudySite().getStudy());
-        }
 
         TableModel model = new TableModelImpl(context);
         try {
