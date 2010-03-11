@@ -275,24 +275,29 @@
 				<th width="32%">Disease</th>
 				<th width="4%"></th>
 			</tr>
-			<c:forEach items="${command.study.studyDiseases}" var="studyDisease" varStatus="status">
-				<tr>
-					<td>${studyDisease.diseaseTerm.category.parentCategory.name}</td>
-					<td>${studyDisease.diseaseTerm.category.name}</td>
-					<td>${studyDisease.diseaseTerm.ctepTerm}</td>
-					<td valign="top" align="left">
-	                    <a href="javascript:deleteStudyDiseases('${studyDisease.diseaseTerm.id}');">
-	                    	<img src="<tags:imageUrl name="checkno.gif"/>" border="0">
-	                    </a>
-	                </td>
-				</tr>
-			</c:forEach>
+			<c:choose>
+				<c:when test="${fn:length(command.study.studyDiseases) == 0}">
+					<tr>
+						<td colspan="4"><fmt:message key="study.disease.noDisease" /></td>
+					<tr>
+				</c:when>
+				<c:otherwise>
+					<c:forEach items="${command.study.studyDiseases}" var="studyDisease" varStatus="status">
+						<tr>
+							<td>${studyDisease.diseaseTerm.category.parentCategory.name}</td>
+							<td>${studyDisease.diseaseTerm.category.name}</td>
+							<td>${studyDisease.diseaseTerm.ctepTerm}</td>
+							<td valign="top" align="left">
+			                    <a href="javascript:deleteStudyDiseases('${studyDisease.diseaseTerm.id}');">
+			                    	<img src="<tags:imageUrl name="checkno.gif"/>" border="0">
+			                    </a>
+			                </td>
+						</tr>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			
 		</table>
-		<br>
-		<c:if test="${fn:length(command.study.studyDiseases) == 0}">
-			<fmt:message key="study.disease.noDisease" />
-		</c:if>
-		<br>
 		</div>	
 	</chrome:box>
 	<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" >
