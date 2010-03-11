@@ -72,16 +72,25 @@
 		<th><tags:requiredIndicator/><fmt:message key="registration.consentVersion"/></th>
 		<th></th>
 	</tr>
-    <c:forEach items="${command.study.consents}" var="consent"  varStatus="status" >
-    	<tr id="consent-${status.index}">
-			<td>${consent.name}</td>
-			<td width="10%">
-				<a href="javascript:RowManager.deleteRow(consentRowInserterProps,${status.index},'${consent.id==null?'HC#':'ID#'}${consent.id==null?consent.hashCode:consent.id}');">
-					<img src="<tags:imageUrl name="checkno.gif"/>" border="0">
-				</a>
-			</td>
-		</tr>
-    </c:forEach>
+	<c:choose>
+		<c:when test="${fn:length(command.study.consents) == 0}">
+			<tr>
+				<td colspan="4"><fmt:message key="study.noConsents" /></td>
+			<tr>
+		</c:when>
+		<c:otherwise>
+		    <c:forEach items="${command.study.consents}" var="consent"  varStatus="status" >
+		    	<tr id="consent-${status.index}">
+					<td>${consent.name}</td>
+					<td width="10%">
+						<a href="javascript:RowManager.deleteRow(consentRowInserterProps,${status.index},'${consent.id==null?'HC#':'ID#'}${consent.id==null?consent.hashCode:consent.id}');">
+							<img src="<tags:imageUrl name="checkno.gif"/>" border="0">
+						</a>
+					</td>
+				</tr>
+		    </c:forEach>
+		</c:otherwise>
+	</c:choose>
 </table>
 <br>
 <div align="left">
