@@ -95,7 +95,7 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
     				studySubject = importStudySubject(new XMLOutputter().outputString(rootElement));
     				// once saved retrieve persisted study
     				studySubjectList.add(studySubject);
-    				rootElement.addContent(new Comment("Successfull Import"));
+    				rootElement.addContent(new Comment("Successful Import"));
     			}
     			catch (Exception e) {
     				e.printStackTrace();
