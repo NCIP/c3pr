@@ -65,7 +65,7 @@
 			</div>
 			</div>
 			<br />--%>
-			<div id="build-name">Build Number: ${buildInfo.buildName}</div>
+			<div id="build-name">version: ${buildInfo.buildName}</div>
 		</chrome:box></td>
 		<td valign="top"><chrome:box
 			title="Incomplete Registrations*">

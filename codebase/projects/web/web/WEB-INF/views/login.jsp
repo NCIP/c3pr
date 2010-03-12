@@ -43,6 +43,14 @@
                 top: 470px;
                 width: 850px;
             }
+            #login-version {
+            	color: #E4C48F;
+            	font-size: 10pt;
+            	position:absolute;
+                left: 76px;
+                top: 490px;
+                width: 850px;
+            }
             div.row {
                 font-size: 16px;
                 color: white;
@@ -173,5 +181,8 @@
 <div id="login-instName">
     <img src="${siteName}" height="35px">&nbsp;<c:out value="${instName}" />
 </div>
+<br>
+<div id="login-version">version: ${buildInfo.buildName}</div>
+
 </body>
 </html>
