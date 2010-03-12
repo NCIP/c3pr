@@ -90,16 +90,16 @@ input[disabled] {
 </table>
 </chrome:division>
 
-<chrome:division title="Off Epoch Details">
+<chrome:division title="Off ${command.studySubject.scheduledEpoch.epoch.name} Reason">
 
 <table border="0" cellspacing="5px" cellpadding="5"  width="80%">
 	<tr>
-		<td><b>Off ${command.studySubject.scheduledEpoch.epoch.name } reason text:</b></td>
+		<td><b><tags:requiredIndicator /><fmt:message key="c3pr.registration.reasonText"/>:</b></td>
 		<td><textarea name="offEpochReasonText" id="offEpochReasonText" rows="2" cols="30" class="required validate-notEmpty&&maxlength1024"></textarea>
 	            	<tags:hoverHint keyProp="scheduledEpoch.offEpochReasonText"/>
 	    </td>
 		
-		<td><b>Off ${command.studySubject.scheduledEpoch.epoch.name } date:</b></td>
+		<td><b><fmt:message key="c3pr.common.date"/>:</b></td>
 		<td>
 			<tags:dateInput path="command.studySubject.scheduledEpoch.offEpochDate" validateDate="true" cssClass='validate-Date'/>
 			<tags:hoverHint keyProp="scheduledEpoch.offEpochDate"/>
@@ -109,9 +109,6 @@ input[disabled] {
 </chrome:division>
 
 </chrome:box>
-
-
-
 <div class="flow-buttons">
 	<span class="next">
 		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" />
