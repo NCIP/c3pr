@@ -314,7 +314,7 @@
 <chrome:division title="Identifiers">
     <table class="tablecontent" width="100%">
         <tr>
-        	<th width="10%"><fmt:message key="c3pr.common.class"/><tags:hoverHint keyProp="study.identifier.type"/></th>
+        	<th width="10%"><fmt:message key="c3pr.common.class"/></th>
             <th width="30%" scope="col" align="left"><fmt:message key="c3pr.common.assigningAuthority"/></th>
             <th width="30%" scope="col" align="left"><fmt:message key="c3pr.common.identifierType"/></th>
             <th scope="col" align="left"><fmt:message key="c3pr.common.identifier"/></th>
