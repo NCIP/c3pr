@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
@@ -311,7 +312,13 @@ public class RegistrationControllerUtils {
 	                stratumGroup.getBookRandomizationEntry().size();
 	            }
             }
+            if(scheduledEpoch.getEpoch().getArms().size() == 1){
+            	ScheduledArm scheduledArm = new ScheduledArm();
+            	scheduledArm.setArm(scheduledEpoch.getEpoch().getArms().get(0));
+            	scheduledEpoch.addScheduledArm(scheduledArm);
+            }
             scheduledEpoch.getScheduledArms().size();
+            
         }
     }
 	
