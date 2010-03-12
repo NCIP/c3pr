@@ -3,7 +3,6 @@
 <head>
     <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <style>
 	#single-fields-interior div.row div.label {
 		width:22em;
