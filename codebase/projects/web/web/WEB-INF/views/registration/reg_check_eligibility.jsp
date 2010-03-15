@@ -11,6 +11,7 @@ function navRollOver(obj, state) {
 </script>
 </head>
 <body>
+<tags:instructions code="reg_check_eligibility" />
 <c:choose>
 	<c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectEligibilityAnswers) == 0}">
 			<tags:formPanelBox tab="${tab}" flow="${flow}" boxClass="grayed-out">
@@ -32,7 +33,6 @@ function navRollOver(obj, state) {
 						</c:when>
 						<c:otherwise>
 							<tags:minimizablePanelBox boxId="Inclusion" title="Inclusion Criteria (<i>Expected answer 'yes'</i>)">
-								<tags:instructions code="reg_check_eligibility" />
 								<table width="100%" border="0" class="tablecontent">
 									<tr>
 										<th align="left"><b><fmt:message key="study.criterion"/></b></th>
