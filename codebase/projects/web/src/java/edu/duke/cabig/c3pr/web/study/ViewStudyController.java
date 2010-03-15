@@ -88,8 +88,6 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
     protected Map referenceData(HttpServletRequest request, Object o, Errors errors,
                                 int i) throws Exception {
         Map<String, Object> refdata = super.referenceData(request, o, errors, i);
-//        String softDelete = "false";
-//        String isAdmin = "false";
 
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
@@ -99,16 +97,8 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
             if (ga.getAuthority().endsWith("admin") || ga.getAuthority().endsWith("ordinator")) {
                 isRegistrarOnly = false;
             }
-//            if (ga.getAuthority().endsWith("admin")) {
-//                isAdmin = "true";
-//            }
         }
 
-//        if (((StudyWrapper) o).getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING) {
-//            softDelete = "true";
-//        }
-//        request.setAttribute("softDelete", softDelete);
-//        request.setAttribute("isAdmin", isAdmin);
         refdata.put("isRegistrar", isRegistrarOnly);
         refdata.put(FLOW_TYPE, VIEW_STUDY);
         refdata.put("editAuthorizationTask", editTask);
