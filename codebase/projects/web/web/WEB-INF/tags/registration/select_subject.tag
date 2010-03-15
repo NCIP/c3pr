@@ -175,7 +175,7 @@
 			}
 			if(!raceCodeFlag){
 				ValidationManager.removeError($("raceCodes"))
-				ValidationManager.showError($("raceCodes"), "required")	
+				ValidationManager.showError($("raceCodes"), "Missing Field")	
 				return false;
 			}
 			if(flag){
@@ -355,6 +355,7 @@
                                                 <input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/> Not reported
                                                 <br>
                                                 <input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/> Unknown
+                                                <br/><span id="raceCodes" style="display:inline"></span>
                                             </div>
                                         </div>
                                     </div>
