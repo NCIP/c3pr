@@ -53,45 +53,42 @@
 		<tags:tabFields tab="${tab}" />
 <tags:errors path="*" />
 <tags:instructions code="summary_3_report_details" />
-<chrome:division id="site" title="Reporting Organization">
-        <div class="row">
-            <div class="label"><tags:requiredIndicator />
-               <fmt:message key="c3pr.common.organization"/>
-            </div>
-            <div class="value">
-					<c:set var="_codeOrg" value="" />
-					<c:set var="_nameOrg" value="" />
-					<c:if test="${not empty command.reportingOrganization}">				
-							<c:set var="_codeOrg" value="(${command.reportingOrganization.primaryIdentifier})" />
-							<c:set var="_nameOrg" value="${command.reportingOrganization.name}" />
-							
-						</c:if>
-               		<input type="hidden" id="healthcareSite-hidden"
-						name="reportingOrganization"
-						value="${command.reportingOrganization.id }" />
-						<input id="healthcareSite-input" size="50" type="text"  value='<c:out value="${_nameOrg} ${_codeOrg}" />'
-						class="autocomplete validate-notEmpty" />
-						<tags:hoverHint keyProp="summary3Report.organization"/>
-					<tags:indicator id="healthcareSite-indicator" />
-					<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
-            </div>
-        </div>
-</chrome:division>
+		<chrome:division id="reportingOrganization" title="Reporting Organization">
+			<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message
+				key="c3pr.common.organization" /></div>
+			<div class="value"><c:set var="_codeOrg" value="" /> <c:set
+				var="_nameOrg" value="" /> <c:if
+				test="${not empty command.reportingOrganization}">
+				<c:set var="_codeOrg"
+					value="(${command.reportingOrganization.primaryIdentifier})" />
+				<c:set var="_nameOrg" value="${command.reportingOrganization.name}" />
 
-<chrome:division id="grantNumber" title="Grant Number">
-    <div class="leftpanel">
-        <div class="row">
-			<div class="label"><tags:requiredIndicator /><b>Grant Number</b></div>
-				<div class="value">
-					<form:input path="grantNumber" size="15" maxlength="20" id="_grant_number" cssClass="required validate-notEmpty"/>
-				</div>
-		</div>
-	</div>
-	<div class="clear"></div>
+			</c:if> <input type="hidden" id="healthcareSite-hidden"
+				name="reportingOrganization"
+				value="${command.reportingOrganization.id }" /> <input
+				id="healthcareSite-input" size="50" type="text"
+				value='<c:out value="${_nameOrg} ${_codeOrg}" />'
+				class="autocomplete validate-notEmpty" /> <tags:hoverHint
+				keyProp="summary3Report.organization" /> <tags:indicator
+				id="healthcareSite-indicator" />
+			<div id="healthcareSite-choices" class="autocomplete"
+				style="display: none;"></div>
+			</div>
+			</div>
 
-</chrome:division>
+			<div class="row">
+			<div class="label"><tags:requiredIndicator /> <b>Grant
+			Number</b></div>
+			<div class="value"><form:input path="grantNumber" size="15"
+				maxlength="20" id="_grant_number"
+				cssClass="required validate-notEmpty" /></div>
+			</div>
+			<div class="clear"></div>
+		</chrome:division>
 
-<chrome:division id="reportingPeriod" title="Reporting Period">
+
+		<chrome:division id="reportingPeriod" title="Reporting Period">
     <div class="leftpanel">
         <div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate" /></div>
@@ -113,7 +110,7 @@
 	<div class="clear"></div>
 
 </chrome:division>
-
+</chrome:box>
 <tags:tabControls tab="${tab}" flow="${flow}"
 	localButtons="${localButtons}" willSave="true">
 	<jsp:attribute name="submitButton">
@@ -126,9 +123,7 @@
 			</tr>
 		</table>
 	</jsp:attribute>
-</tags:tabControls></div>
-
-</chrome:box>
+</tags:tabControls>
 </form:form> 
 
 </body>
