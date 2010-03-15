@@ -90,9 +90,16 @@ function createReg(studyId,studySiteName, studySiteVersionId){
 		</chrome:division>
 		<chrome:division id="Parent Registration Information" title="${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.primaryIdentifier})">
 			<div class="row">
-				<div class="label"><b><fmt:message key="study.shortTitle"/></b>:</div>
-				<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
-			</div>
+	            <div class="label"><b><fmt:message key="registration.registrationIdentifier"/></b>:</div>
+				<c:choose>
+					<c:when test="${!empty command.studySubject.coOrdinatingCenterIdentifier.value}">
+						<div class="value">${command.studySubject.coOrdinatingCenterIdentifier.value}</div>
+					</c:when>
+					<c:otherwise>
+						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notGenerated"/></span></div>
+					</c:otherwise>
+				</c:choose>
+	        </div>
 			 <div class="row">
 				<div class="label"><b><fmt:message key="study.version.name"/></b>:</div>
 				<div class="value">${command.studySubject.studySiteVersion.studyVersion.name}</div>
@@ -123,18 +130,6 @@ function createReg(studyId,studySiteName, studySiteVersionId){
 					</c:otherwise>
 				</c:choose>
 			</div>
-			<div class="row">
-	            <div class="label"><b><fmt:message key="registration.registrationIdentifier"/></b>:</div>
-				<c:choose>
-					<c:when test="${!empty command.studySubject.coOrdinatingCenterIdentifier.value}">
-						<div class="value">${command.studySubject.coOrdinatingCenterIdentifier.value}</div>
-					</c:when>
-					<c:otherwise>
-						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notGenerated"/></span></div>
-					</c:otherwise>
-				</c:choose>
-	        </div>
-	        
 			<div class="row">
 				<div class="label"><b><fmt:message key="c3pr.common.epoch"/></b>:</div>
 				<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
@@ -186,10 +181,6 @@ function createReg(studyId,studySiteName, studySiteVersionId){
 						</c:otherwise>
 					</c:choose>
 		        </div>
-				<div class="row">
-					<div class="label"><b><fmt:message key="study.shortTitle"/></b>:</div>
-					<div class="value">${childStudySubject.studySite.study.shortTitleText}</div>
-				</div>
 				<div class="row">
 					<div class="label"><b><fmt:message key="registration.registrationStatus"/></b>:</div>
 					<div class="value">${childStudySubject.regWorkflowStatus.code }</div>
