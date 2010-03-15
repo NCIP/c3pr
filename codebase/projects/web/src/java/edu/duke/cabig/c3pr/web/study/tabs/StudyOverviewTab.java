@@ -150,12 +150,8 @@ public class StudyOverviewTab extends StudyTab {
         }
     }
 
-    private void checkResponse(Study study){
-    	
-    }
     @Override
     public Map referenceData(HttpServletRequest request, StudyWrapper command) {
-
         request.setAttribute("isCCTSEnv", isCCTSEnv());
         List<Error> dataEntryErrors = new ArrayList<Error>();
         command.getStudy().setDataEntryStatus(command.getStudy().evaluateDataEntryStatus(dataEntryErrors));
@@ -169,33 +165,6 @@ public class StudyOverviewTab extends StudyTab {
         }
         refdata.put("isAdmin", isAdmin());
         return refdata ;
-    }
-
-    private String handleInPlaceEditing(HttpServletRequest request, StudyWrapper command,
-                    String property, String value) throws Exception{
-    	if (property.contains("changedTargetAccrualNumber")) {
-            command.getStudy().setTargetAccrualNumber(new Integer(value));
-            return command.getStudy().getTargetAccrualNumber().toString();
-        } else {
-            return command.getStudy().getCoordinatingCenterStudyStatus().getCode();
-        }
-    }
-
-    @SuppressWarnings("finally")
-    @Override
-    protected ModelAndView postProcessInPlaceEditing(HttpServletRequest request, StudyWrapper command,
-                                                     String property, String value) {
-
-        Map<String, String> map = new HashMap<String, String>();
-        String retValue = "";
-        try {
-            retValue=handleInPlaceEditing(request, command, property, value);
-        }
-        catch (Exception e) {
-            retValue = "<script>alert('" + e.getMessage() + "')</script>";
-        }
-        map.put(AjaxableUtils.getFreeTextModelName(), retValue);
-        return new ModelAndView("", map);
     }
 
     public ModelAndView adminOverride(HttpServletRequest request, Object commandObj, Errors error) {
@@ -253,10 +222,6 @@ public class StudyOverviewTab extends StudyTab {
     public void setStudyService(StudyService studyService) {
         this.studyService = studyService;
     }
-
-//    public ModelAndView reloadCompanion(HttpServletRequest request, Object command , Errors error) {
-//		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
-//	}
 
     public ModelAndView updateTargetAccrual(HttpServletRequest request, Object command , Errors error) {
     	return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
