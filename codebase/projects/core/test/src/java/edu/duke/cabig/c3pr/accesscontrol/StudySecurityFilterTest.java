@@ -12,6 +12,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * JUnit Tests for StudyDao.
@@ -63,8 +64,9 @@ public class StudySecurityFilterTest extends DaoTestCase {
 		
 		List<Study> filteredStudies = (List<Study>)studySecurityFilter.filter(authentication, "", new CollectionFilterer(studies));
 		assertEquals(2, filteredStudies.size());
-		assertEquals(1000, filteredStudies.get(0).getId().intValue());
-		assertEquals(1002, filteredStudies.get(1).getId().intValue());
+		
+		assertTrue(containsElementWithId(filteredStudies, 1000));
+		assertTrue(containsElementWithId(filteredStudies, 1002));
 		
 		Study study = studyDao.getById(1000);
 		assertNotNull(studySecurityFilter.filter(authentication, "", new AbstractMutableDomainObjectFilterer(study)));
@@ -90,8 +92,8 @@ public class StudySecurityFilterTest extends DaoTestCase {
 		
 		List<Study> filteredStudies = (List<Study>)studySecurityFilter.filter(authentication, "", new CollectionFilterer(studies));
 		assertEquals(2, filteredStudies.size());
-		assertEquals(1002, filteredStudies.get(0).getId().intValue());
-		assertEquals(1001, filteredStudies.get(1).getId().intValue());
+		assertTrue(containsElementWithId(filteredStudies, 1001));
+		assertTrue(containsElementWithId(filteredStudies, 1002));
 		
 		Study study = studyDao.getById(1001);
 		assertNotNull(studySecurityFilter.filter(authentication, "", new AbstractMutableDomainObjectFilterer(study)));
@@ -158,8 +160,8 @@ public class StudySecurityFilterTest extends DaoTestCase {
 		
 		List<Study> filteredStudies = (List<Study>)studySecurityFilter.filter(authentication, "", new CollectionFilterer(studies));
 		assertEquals(2, filteredStudies.size());
-		assertEquals(1002, filteredStudies.get(0).getId().intValue());
-		assertEquals(1001, filteredStudies.get(1).getId().intValue());
+		assertTrue(containsElementWithId(filteredStudies, 1001));
+		assertTrue(containsElementWithId(filteredStudies, 1002));
 		
 		Study study = studyDao.getById(1001);
 		assertNotNull(studySecurityFilter.filter(authentication, "", new AbstractMutableDomainObjectFilterer(study)));
@@ -185,8 +187,8 @@ public class StudySecurityFilterTest extends DaoTestCase {
 		
 		List<Study> filteredStudies = (List<Study>)studySecurityFilter.filter(authentication, "", new CollectionFilterer(studies));
 		assertEquals(2, filteredStudies.size());
-		assertEquals(1000, filteredStudies.get(0).getId().intValue());
-		assertEquals(1001, filteredStudies.get(1).getId().intValue());
+		assertTrue(containsElementWithId(filteredStudies, 1000));
+		assertTrue(containsElementWithId(filteredStudies, 1001));
 		
 		Study study = studyDao.getById(1000);
 		assertNotNull(studySecurityFilter.filter(authentication, "", new AbstractMutableDomainObjectFilterer(study)));
@@ -245,5 +247,14 @@ public class StudySecurityFilterTest extends DaoTestCase {
 			e.printStackTrace();
 			fail("Wrong Exception.");
 		}
+	}
+	
+	private boolean containsElementWithId(List<? extends AbstractMutableDomainObject> domainObjects, int id){
+		for(AbstractMutableDomainObject domainObject : domainObjects){
+			if(domainObject.getId().equals(id)){
+				return true;
+			}
+		}
+		return false;
 	}
 }
