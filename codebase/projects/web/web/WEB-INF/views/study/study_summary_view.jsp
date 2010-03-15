@@ -263,13 +263,13 @@
 		                <tags:oneControlPanelItem linkhref="javascript:amendStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
                      </c:if>
                      </c:if>
+                     <c:if test="${canBroadcast}">
+						<tags:oneControlPanelItem linkhref="javascript:confirmBroadcastStudy();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_broadcast.png" linktext="Broadcast Study" />
+					</c:if>	
                 </csmauthz:accesscontrol>
                 <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
 					<tags:oneControlPanelItem linkhref="javascript:updateTargetAccrual();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Edit Accrual" />
 				</csmauthz:accesscontrol>
-				<c:if test="${canBroadcast}">
-					<tags:oneControlPanelItem linkhref="javascript:confirmBroadcastStudy();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_broadcast.png" linktext="Broadcast Study" />
-				</c:if>	
 				<tags:oneControlPanelItem linkhref="javascript:doExportAction();;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 				<tags:oneControlPanelItem linkhref="javascript:launchPrint();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 			</c:if>
