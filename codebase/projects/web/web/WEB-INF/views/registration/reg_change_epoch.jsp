@@ -94,8 +94,8 @@ input[disabled] {
 
 <table border="0" cellspacing="5px" cellpadding="5"  width="80%">
 	<tr>
-		<td><b><tags:requiredIndicator /><fmt:message key="c3pr.registration.reasonText"/>:</b></td>
-		<td><textarea name="offEpochReasonText" id="offEpochReasonText" rows="2" cols="30" class="required validate-notEmpty&&maxlength1024"></textarea>
+		<td><b><fmt:message key="c3pr.registration.reasonText"/>:</b></td>
+		<td><textarea name="offEpochReasonText" id="offEpochReasonText" rows="2" cols="30" class="maxlength1024"></textarea>
 	            	<tags:hoverHint keyProp="scheduledEpoch.offEpochReasonText"/>
 	    </td>
 		
