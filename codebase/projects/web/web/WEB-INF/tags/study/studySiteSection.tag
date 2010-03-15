@@ -34,7 +34,7 @@
 	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.SITE.STATUS_CHANGE.WARNING"/>
 	<div class="flow-buttons">
    	<span class="next">
-   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopup();" size="small"/>
+   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="closePopupOnly();" size="small"/>
 		<tags:button type="button" color="green" icon="save" onclick="takeAction(${site.healthcareSite.primaryIdentifier});" value="Continue" size="small"/>
 	</span>
 	</div>
@@ -292,7 +292,7 @@
 <chrome:division title="Site Status History" >
 	<table id="siteStatusHistoryTable-${site.healthcareSite.primaryIdentifier}" class="tablecontent" border="0" cellspacing="0" cellpadding="0" width="95%" align="center">
         <tr>
-            <th align="center"><b><tags:requiredIndicator /><fmt:message key="study.site.status"/></b>
+            <th align="center"><b><fmt:message key="study.site.status"/></b>
             <tags:hoverHint keyProp="study.site.status" /></th>
             <th align="center"><b><fmt:message key="study.site.startdate"/></b>
             <tags:hoverHint keyProp="study.site.startdate" /></th>
@@ -309,15 +309,16 @@
     </table>
     <br>
     <div align="center">
-    	<tags:button type="button" color="red" value="Close" id="close" onclick="closePopup();"  />
+    	<tags:button type="button" color="red" value="Close" id="close" onclick="closePopupOnly();"  />
     </div>
 </chrome:division>
  </div>
 </div>
 </chrome:deletableDivision>
 <div style="display:none">
-<input type="hidden" name="_actionToTake" id="_actionToTake"/>
 <div id="effectiveDate-${site.healthcareSite.primaryIdentifier}">
+<input type="hidden" name="_actionToTake" id="_actionToTake" />
+
 	<chrome:division title="Choose Effective Date">
 		<div class="row">
 			<div class="label">
@@ -341,7 +342,7 @@
 				<br>
 				<div class="row">
 					<tags:button type="button" color="blue" value="OK" id="changeSiteStatus-${site.healthcareSite.primaryIdentifier}" onclick="takeAction('${site.healthcareSite.primaryIdentifier}' );" size="small"/>
-					<tags:button type="button" color="red" value="Cancel" id="cancel" onclick="closePopup();" size="small"/>
+					<tags:button type="button" color="red" value="Cancel" id="cancel" onclick="closePopup('${site.healthcareSite.primaryIdentifier}', '_actionToTake');" size="small"/>
 				</div>
 			</div>
 		</div>

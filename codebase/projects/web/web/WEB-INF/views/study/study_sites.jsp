@@ -115,7 +115,18 @@
 		win.showCenter(true)
 	}
 
-	function closePopup() {
+	function closePopupOnly() {
+		win.close();
+	}
+
+	function closePopup(primaryIdentifier, actionToTake) {
+		var action = $(actionToTake).value
+		if(action == 'CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT' || action == 'CLOSE_STUDY_SITE_TO_ACCRUAL' || action == 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT' || action == 'TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL'){
+			Effect.SlideUp('close-choices-'+primaryIdentifier);
+			$('siteIndicator-' + primaryIdentifier +'-closeStudySite').style.display='none';
+		} else {
+			$('siteIndicator-' + primaryIdentifier +'-'+ action).style.display='none';
+		}
 		win.close();
 	}
 
@@ -128,13 +139,13 @@
 
 	function chooseEffectiveDate(primaryIdentifier, action){
 		var arr= $$("#effectiveDate-"+primaryIdentifier);
-		$('_actionToTake').value = action ;
 		win = new Window({className :"mac_os_x", title: "Choose Effective Date",
 								hideEffect:Element.hide,
 								zIndex:100, width:450, height:100 , minimizable:false, maximizable:false,
 								showEffect:Element.show
 								})
 		win.setContent(arr[0]) ;
+		$('_actionToTake').value = action ;
 		win.showCenter(true);
 	}
 
@@ -150,7 +161,7 @@
 		}
 		<tags:tabMethod method="changeStatus" formName="'tabMethodForm'" onFailure='failedStatusChange' viewName="/study/asynchronous/updatedStudySiteSection" divElement="'siteSection_'+primaryIdentifier" javaScriptParam="submitStr"/>
 		Element.show('sendingMessage-'+primaryIdentifier);
-		closePopup();
+		closePopup(primaryIdentifier, '_actionToTake');
 	}
 
 
