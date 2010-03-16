@@ -52,6 +52,7 @@ function clearScreen() {
 function showTable(table) {
 	document.getElementById('tableDiv').innerHTML=table;
 	document.getElementById("formSubmit-indicator").style.display="none";	
+	Element.show("superResults");
 }
   
 </script>
@@ -68,12 +69,12 @@ function showTable(table) {
             <table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            	<div class="row" name="inputs"><b><fmt:message key="study.shortTitle"/></b>
+	            	<div class="row"><b><fmt:message key="study.shortTitle"/></b>
 	            		<form:input path="studyShortTitle" size="20"/>
 		            </div>
 		        </td>
 		        <td align="left">
-		        	<div class="row" name="inputs"><b><fmt:message key="c3pr.common.identifier"/></b>
+		        	<div class="row"><b><fmt:message key="c3pr.common.identifier"/></b>
 	            		<form:input path="studyIdentifier" size="20"/>
 		            </div>
 		        </td>
@@ -87,24 +88,24 @@ function showTable(table) {
         	<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
             <tr>
 	            <td align="left">
-	            <div class="row" name="inputs"><b><fmt:message key="c3pr.common.identifier"/></b>
+	            <div class="row"><b><fmt:message key="c3pr.common.identifier"/></b>
 	            	<form:input path="participantIdentifier" size="20"/>
 	            </div>
 		        </td>
 		        <td align="left">
-		        <div class="row" name="inputs"><b><fmt:message key="c3pr.common.firstName"/></b>
+		        <div class="row"><b><fmt:message key="c3pr.common.firstName"/></b>
 	            	<form:input path="firstName" size="20"/>
 	            </div>
 		        </td>
 	        </tr>
 	        <tr>
 	            <td align="left">
-	            <div class="row" name="inputs"><b><fmt:message key="c3pr.common.lastName"/></b>
+	            <div class="row"><b><fmt:message key="c3pr.common.lastName"/></b>
 	            	<form:input path="lastName" size="20"/>
 	            </div>
 		        </td>
 		        <td align="left">
-		        <div class="row" name="inputs">	            	
+		        <div class="row">	            	
 	            </div>
 		        </td>
 		    </tr>    
@@ -128,6 +129,7 @@ function showTable(table) {
 <br/>
 </form:form>
 
+<div id="superResults">
 <chrome:box title="Results">
     <chrome:division id="single-fields">
         <div id="tableDiv">
@@ -135,6 +137,13 @@ function showTable(table) {
 		</div>
 	</chrome:division>
 </chrome:box>
+</div>
+
+<script>
+if($('studies_table').rows.length <= 3){
+	Element.hide("superResults");
+}
+</script>
 
 </body>
 </html>

@@ -47,6 +47,7 @@ function buildTable(form) {
 function showTable(table) {
 	document.getElementById('tableDiv').innerHTML=table;
 	document.getElementById("formSubmit-indicator").style.display="none";
+	Element.show("superResults");
 }
 
 function clearScreen() {		
@@ -175,13 +176,22 @@ function clearScreen() {
 <br />
 </form:form>
 
-<chrome:box title="Results">
+
+<div id="superResults">
+<chrome:box title="Results" >
     <chrome:division id="single-fields">
         <div id="tableDiv">
    			<c:out value="${assembler}" escapeXml="false" /> 
 		</div>
 	</chrome:division>
 </chrome:box>
+</div>
+
+<script>
+if($('assembler_table').rows.length <= 3){
+	Element.hide("superResults");
+}
+</script>
 
 </body>
 </html>
