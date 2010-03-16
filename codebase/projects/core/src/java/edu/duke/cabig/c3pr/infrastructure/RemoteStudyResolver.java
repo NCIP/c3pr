@@ -133,29 +133,35 @@ public class RemoteStudyResolver implements RemoteResolver {
 		List<Object> remoteStudies = new ArrayList<Object>();
 		try{
 			RemoteStudy remoteStudyExample = (RemoteStudy)example;
-			String resultXml  = "";
 			String identifierValue = "";
-			//hard-coded id for PA ..... String payLoad = CoppaPAObjectFactory.getPAIdXML(CoppaPAObjectFactory.getPAId("27633"));
+			String shortTitle = "";
+			
 			//Get protocolSearchPayload using the search criteria specified in the example Study.
-			if(remoteStudyExample.getCoordinatingCenterAssignedIdentifier() != null){
+			if(remoteStudyExample.getCoordinatingCenterAssignedIdentifier() != null && 
+					!remoteStudyExample.getCoordinatingCenterAssignedIdentifier().getValue().matches("%+")){
+				//Get identifier if its not just '%'s.
 				identifierValue = remoteStudyExample.getCoordinatingCenterAssignedIdentifier().getValue();
 			}
-			String payLoad = CoppaPAObjectFactory.getStudyProtocolSearchXML(remoteStudyExample.getShortTitleText(), identifierValue, null);
-			
-			try {
-				resultXml  = protocolAbstractionResolverUtils.broadcastStudyProtocolSearch(payLoad);
-			} catch (C3PRCodedException e) {
-				log.error(e);
+			if(!remoteStudyExample.getShortTitleText().matches("%+")){
+				//Get short Title if its not just '%'s.
+				shortTitle = remoteStudyExample.getShortTitleText();
 			}
 			
-			List<gov.nih.nci.coppa.services.pa.StudyProtocol> studyProtocols = getStudyProtocolsFromResultXml(resultXml);
-			log.debug("Coppa Search returned " + studyProtocols.size() + " Protocols");
-			for (gov.nih.nci.coppa.services.pa.StudyProtocol studyProtocol : studyProtocols) {
-				RemoteStudy remoteStudy = getRemoteStudyFromStudyProtocol(studyProtocol);
-				if (remoteStudy != null) {
-					remoteStudies.add(remoteStudy);
+			if(!StringUtils.isBlank(shortTitle) || !StringUtils.isBlank(identifierValue)){
+				String payLoad = CoppaPAObjectFactory.getStudyProtocolSearchXML(shortTitle, identifierValue, null);
+				String resultXml  = protocolAbstractionResolverUtils.broadcastStudyProtocolSearch(payLoad);
+				
+				List<gov.nih.nci.coppa.services.pa.StudyProtocol> studyProtocols = getStudyProtocolsFromResultXml(resultXml);
+				log.debug("Coppa Search returned " + studyProtocols.size() + " Protocols");
+				for (gov.nih.nci.coppa.services.pa.StudyProtocol studyProtocol : studyProtocols) {
+					RemoteStudy remoteStudy = getRemoteStudyFromStudyProtocol(studyProtocol);
+					if (remoteStudy != null) {
+						remoteStudies.add(remoteStudy);
+					}
 				}
 			}
+		} catch (C3PRCodedException e) {
+				log.error(e);
 		} catch(Exception e){
 			log.error(e);
 		}
