@@ -78,11 +78,11 @@
 			</div>
 
 			<div class="row">
-			<div class="label"><tags:requiredIndicator /> <b>Grant
-			Number</b></div>
-			<div class="value"><form:input path="grantNumber" size="15"
-				maxlength="20" id="_grant_number"
-				cssClass="required validate-notEmpty" /></div>
+			<div class="label"><fmt:message
+				key="summary3Report.grantNumber" /></div>
+			<div class="value"><form:input path="grantNumber" size="20"
+				maxlength="20" id="_grant_number"/><tags:hoverHint
+				keyProp="summary3Report.grantNumber" /></div>
 			</div>
 			<div class="clear"></div>
 		</chrome:division>
