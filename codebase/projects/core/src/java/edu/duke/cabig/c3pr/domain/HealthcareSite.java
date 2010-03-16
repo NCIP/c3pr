@@ -187,8 +187,6 @@ public abstract class HealthcareSite extends Organization implements Comparable<
      */
     @Transient
     public String getPrimaryIdentifier() {
-    	if(getOrganizationAssignedIdentifiers().size() > 0 ||
-    			getSystemAssignedIdentifiers().size() > 0){
     		Iterator iter = getIdentifiersAssignedToOrganization().iterator();
     		Identifier identifier = null;
     		while(iter.hasNext()){
@@ -197,7 +195,6 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     				return identifier.getValue();
     			}
     		}
-    	}
 		return null;
     }
 
