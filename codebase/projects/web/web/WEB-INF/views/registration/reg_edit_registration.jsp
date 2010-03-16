@@ -45,16 +45,18 @@ function editRegistration(){
 <form:form id="editRegistrationForm">
 <chrome:box title="Edit Registration" cssClass="editRegistrationClass">
 	<tags:tabFields tab="${tab}"/>
-	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
-		<div class="value">
-			<input type="text" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" value="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr}" id="consentSignedDate" class="date validate-DATE&&notEmpty" />
-            <a href="#" id="consentSignedDate-calbutton">
-           	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
-           	</a>
-				<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
+	<c:if test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1}">
+		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
+			<div class="value">
+				<input type="text" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" value="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDateStr}" id="consentSignedDate" class="date validate-DATE&&notEmpty" />
+	            <a href="#" id="consentSignedDate-calbutton">
+	           	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+	           	</a>
+					<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/>
+			</div>
 		</div>
-	</div>
+	</c:if>
 	<c:if test="${command.studySubject.isDirectArmAssigment}">
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="study.epoch.arm"/></div>
@@ -142,6 +144,35 @@ function editRegistration(){
 			<tags:hoverHint keyProp="studySubject.primaryDisease"/>
 		</div>
 	</div>
+	
+<!-- MAIN BODY ENDS HERE -->
+<!--  CONSENT DIV BEGINS -->
+<c:if test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) > 1}">
+<chrome:division title="Consents">
+	<table class="tablecontent">
+		<tr>
+		  <th>
+          	<fmt:message key="c3pr.common.name"/>
+          	<tags:hoverHint keyProp="study.consent.name" />
+          </th>
+          <th>
+          	<fmt:message key="registration.consentSignedDate"/>
+          	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
+          </th>
+		</tr>
+		<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+			<tr>
+				<td>
+					${studySubjectConsentVersion.consent.name}
+				</td>
+				<td>
+					<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+</chrome:division>
+</c:if>
 </chrome:box>
 <div class="flow-buttons">
 	<span class="next">
