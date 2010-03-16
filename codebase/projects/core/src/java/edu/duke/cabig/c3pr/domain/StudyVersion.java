@@ -692,6 +692,15 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((study == null) ? 0 : study.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -708,7 +717,6 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 			return false;
 		}
 	}
-
 	@Transient
 	public MessageSource getC3prErrorMessages() {
 		return c3prErrorMessages;
