@@ -25,10 +25,6 @@
         <constructor-arg value="summary-3-report-castor-mapping.xml"/>
     </bean>
 
-    <bean id="accrual-report-castor-mapping" class="java.lang.String">
-        <constructor-arg value="accrual-report-castor-mapping.xml"/>
-    </bean>
-
     <!--  Summary Report Generator -->
 
     <bean id="summary3ReportGenerator" class="edu.duke.cabig.c3pr.xml.Summary3ReportGenerator">
@@ -488,7 +484,6 @@
 	<bean id="scheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ScheduledNotificationDao" autowire="byName"/>
 	<bean id="recipientScheduledNotificationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao" autowire="byName"/>
 	<bean id="summary3ReportDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.Summary3ReportDao" autowire="byName"/>
-	<bean id="accrualDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.accrual.AccrualDao" autowire="byName"/>
 	<bean id="studyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyVersionDao" autowire="byName"/>
 	<bean id="studySiteStudyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao" autowire="byName"/>
     <bean id="studySubjectStudyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectStudyVersionDao" autowire="byName"/>
@@ -571,11 +566,6 @@
           class="edu.duke.cabig.c3pr.service.impl.SummaryReportServiceImpl"
           autowire="byName">
           <property name="marshaller" ref="summaryReportXmlUtility"/>
-    </bean>
-
-    <bean id="accrualService" lazy-init="true"
-          class="edu.duke.cabig.c3pr.service.impl.AccrualServiceImpl"
-          autowire="byName">
     </bean>
 
     <bean id="studySubjectXMLImporterService" lazy-init="true"
@@ -724,18 +714,11 @@
         <constructor-arg ref="summary-3-report-castor-mapping"/>
     </bean>
 
-     <bean id="accrualReportXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-        <constructor-arg ref="accrual-report-castor-mapping"/>
-    </bean>
-
     <bean id="xmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
         <constructor-arg value="c3pr-domain.xsd"/>
     </bean>
     <bean id="summaryReportXmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
         <constructor-arg value="summary-report.xsd"/>
-    </bean>
-    <bean id="accrualReportXmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
-        <constructor-arg value="accrual-report.xsd"/>
     </bean>
     <bean id="c3prErrorMessages" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="error_messages_c3pr"/>
