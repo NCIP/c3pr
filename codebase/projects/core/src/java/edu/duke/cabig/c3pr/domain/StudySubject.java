@@ -76,7 +76,7 @@ public class StudySubject extends
 	private LazyListHelper lazyListHelper;
 
 	/** The off study reason text. */
-	private String offStudyReasonText;
+	private String reasonText;
 
 	/** The off study date. */
 	private Date offStudyDate;
@@ -538,7 +538,6 @@ public class StudySubject extends
 				return identifier.getValue();
 			}
 		}
-
 		return null;
 	}
 
@@ -779,24 +778,23 @@ public class StudySubject extends
 	}
 
 	/**
-	 * Gets the off study reason text.
+	 * Gets the reason text.
 	 *
-	 * @return the off study reason text
+	 * @return the reason text
 	 */
-	public String getOffStudyReasonText() {
-		return offStudyReasonText;
+	public String getReasonText() {
+		return reasonText;
 	}
 
 	/**
-	 * Sets the off study reason text.
+	 * Sets the reason text.
 	 *
-	 * @param offStudyReasonText the new off study reason text
+	 * @param reasonText the new reason text
 	 */
-	public void setOffStudyReasonText(String offStudyReasonText) {
-		this.offStudyReasonText = offStudyReasonText;
+	public void setReasonText(String reasonText) {
+		this.reasonText = reasonText;
 	}
 
-	// Adding refactored code
 	/**
 	 * Evaluate registration data entry status.
 	 *
@@ -1321,15 +1319,15 @@ public class StudySubject extends
 	/**
 	 * Take subject off study.
 	 *
-	 * @param offStudyReasonText the off study reason text
+	 * @param reasonText the off study reason text
 	 * @param offStudyDate the off study date
 	 */
-	public void takeSubjectOffStudy(String offStudyReasonText, Date offStudyDate) {
+	public void takeSubjectOffStudy(String reasonText, Date offStudyDate) {
 		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
 			throw new C3PRBaseRuntimeException(
 					"The subject has to be enrolled before being taken off study");
 		}
-		this.setOffStudyReasonText(offStudyReasonText);
+		this.setReasonText(reasonText);
 		this.setOffStudyDate(offStudyDate);
 		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
 	}

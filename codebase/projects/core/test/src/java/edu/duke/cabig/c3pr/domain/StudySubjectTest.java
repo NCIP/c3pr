@@ -1243,7 +1243,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  }
 
 	  assertTrue("Unable to take study subject off study",studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.OFF_STUDY);
-	  assertEquals("Wrong offStudy reason",offStudyReasonText,studySubject.getOffStudyReasonText());
+	  assertEquals("Wrong offStudy reason",offStudyReasonText,studySubject.getReasonText());
 	  assertEquals("Wrong offStudy date",offStudyDate,studySubject.getOffStudyDate());
   }
 

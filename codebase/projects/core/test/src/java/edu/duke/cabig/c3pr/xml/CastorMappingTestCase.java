@@ -216,7 +216,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	
 	public void assertStudySubject(StudySubject expected, StudySubject actual) {
 		assertEquals(expected.getOffStudyDateStr(), actual.getOffStudyDateStr());
-		assertEquals(expected.getOffStudyReasonText(), actual.getOffStudyReasonText());
+		assertEquals(expected.getReasonText(), actual.getReasonText());
 		assertEquals(expected.getOtherTreatingPhysician(), actual.getOtherTreatingPhysician());
 		assertEquals(expected.getPaymentMethod(), actual.getPaymentMethod());
 		assertEquals(expected.getStartDateStr(), actual.getStartDateStr());
