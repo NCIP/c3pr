@@ -13,6 +13,7 @@ import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import gov.nih.nci.coppa.po.CorrelationNode;
 import gov.nih.nci.coppa.po.IdentifiedOrganization;
@@ -129,15 +130,33 @@ public abstract class BaseResolver {
 	 * @return
 	 */
     protected List<Object> searchRoleBasedOnName(String firstName,String middleName, String lastName, gov.nih.nci.coppa.po.Correlation role) {
-        Person person = CoppaObjectFactory.getCoppaPerson(firstName, middleName, lastName);
-        String correlationNodeXmlPayload = CoppaObjectFactory.getCorrelationNodePayload(role, person, null);
+    	if(isDataValid(firstName, middleName, lastName)){
+    		Person person = CoppaObjectFactory.getCoppaPerson(firstName, middleName, lastName);
+            String correlationNodeXmlPayload = CoppaObjectFactory.getCorrelationNodePayload(role, person, null);
 
-        List<CorrelationNode> correlationNodeList = getCorrelationNodesFromPayloadXml(correlationNodeXmlPayload);
-        List<Object> remoteRoleList = getRemoteRolesFromCorrelationNodesList(correlationNodeList, null, null);
-        return remoteRoleList;
+            List<CorrelationNode> correlationNodeList = getCorrelationNodesFromPayloadXml(correlationNodeXmlPayload);
+            List<Object> remoteRoleList = getRemoteRolesFromCorrelationNodesList(correlationNodeList, null, null);
+            return remoteRoleList;
+    	}
+        return null;
     }
     
-    /**
+    /** returns false if input values are %'s or blanks
+     * @param firstName
+     * @param middleName
+     * @param lastName
+     * @return boolean
+     */
+    private boolean isDataValid(String firstName,String middleName, String lastName) {
+    	if((firstName.matches("%+") || StringUtils.isBlank(firstName)) &&
+    		(middleName.matches("%+") || StringUtils.isBlank(middleName)) &&
+    			(lastName.matches("%+") || StringUtils.isBlank(lastName))){
+    		return false;
+    	}
+		return true;
+	}
+
+	/**
      * Gets the remote investigators/rs from correlation nodes list.
      * 
      * @param correlationNodeList the correlation node list

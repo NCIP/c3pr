@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.infrastructure;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -62,7 +63,7 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 	public List<Object> find(Object example) {
 		log.debug("Entering find() for:" + this.getClass());
 		RemoteResearchStaff remoteResearchStaff = null;
-		List<Object> remoteResearchStaffList = null;
+		List<Object> remoteResearchStaffList = new ArrayList<Object>();
 		try{
 			if(example instanceof RemoteResearchStaff){
 				remoteResearchStaff = (RemoteResearchStaff) example;
