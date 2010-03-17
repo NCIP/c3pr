@@ -76,7 +76,7 @@ public class StudySubject extends
 	private LazyListHelper lazyListHelper;
 
 	/** The off study reason text. */
-	private String reasonText;
+	private String offStudyReasonText;
 
 	/** The off study date. */
 	private Date offStudyDate;
@@ -128,6 +128,16 @@ public class StudySubject extends
 	
 	private String backDatedReasonText;
 	
+	private String invalidationReasonText;
+	
+	public String getInvalidationReasonText() {
+		return invalidationReasonText;
+	}
+
+	public void setInvalidationReasonText(String invalidationReasonText) {
+		this.invalidationReasonText = invalidationReasonText;
+	}
+
 	public static final String C3D_SYSTME_NAME="C3D";
 	
 	public static final String C3D_IDENTIFIER_TYPE="C3D Patient Position";
@@ -778,21 +788,21 @@ public class StudySubject extends
 	}
 
 	/**
-	 * Gets the reason text.
+	 * Gets the of study reason text.
 	 *
-	 * @return the reason text
+	 * @return the off study reason text
 	 */
-	public String getReasonText() {
-		return reasonText;
+	public String getOffStudyReasonText() {
+		return offStudyReasonText;
 	}
 
 	/**
-	 * Sets the reason text.
+	 * Sets the off study reason text.
 	 *
-	 * @param reasonText the new reason text
+	 * @param offStudyReasonText the new reason text
 	 */
-	public void setReasonText(String reasonText) {
-		this.reasonText = reasonText;
+	public void setOffStudyReasonText(String offStudyReasonText) {
+		this.offStudyReasonText = offStudyReasonText;
 	}
 
 	/**
@@ -1327,7 +1337,7 @@ public class StudySubject extends
 			throw new C3PRBaseRuntimeException(
 					"The subject has to be enrolled before being taken off study");
 		}
-		this.setReasonText(reasonText);
+		this.setOffStudyReasonText(reasonText);
 		this.setOffStudyDate(offStudyDate);
 		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
 	}

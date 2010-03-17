@@ -327,7 +327,7 @@ public class DomainObjectCreationHelper {
 	public static StudySubject getSubjectSubject(){
 		StudySubject studySubject = new StudySubject();
 		studySubject.setOffStudyDate(new Date());
-		studySubject.setReasonText("Some reason");
+		studySubject.setOffStudyReasonText("Some reason");
 		studySubject.setPaymentMethod("Medicare");
 		studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
 		studySubject.setStartDate(new Date());
