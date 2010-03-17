@@ -91,15 +91,16 @@ Autocompleter.Base.prototype.__onBlur = Autocompleter.Base.prototype.onBlur;
 Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	onBlur: function(event){
 		//getting the id of the elmt...replacing"-input" with "-hidden" to get the hidden var
-		//and re-setting the entered text with "" if the hidden var contains no value.
-		//the hidden value will contain a val only if something is selected
-		//from the auto-completer drop-down.
+		//and re-setting the entered text with "" if the hidden var and the input var's default value contains no value.
+		//the hidden value will contain a val only if something is selected from the auto-completer drop-down.
+		//and the input vars defaultValue will only contain a value if the auto-completer was displaying an existing value(CPR-1708)
 		//so when the user enters junk literals in the auto-completer
-		//and tries to submit or clicks elsewhere the onblur clears the textbox.
+		//and tries to submit or clicks elsewhere the onblur clears the entered text.
 		if(!this.options.isFreeTextAllowed){
 			var hiddenElmtId = this.element.id.substring(0, this.element.id.lastIndexOf('-input')) + "-hidden";	
 			if($(hiddenElmtId) != null ){
 				if($(hiddenElmtId).value == null || $(hiddenElmtId).value == ''){
+				    this.hide();
 					$(this.element.id).value="";
 					Element.addClassName(this.element, "pending-search");
 				}
@@ -159,8 +160,9 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	         if(navigator.appVersion.indexOf('AppleWebKit')>0) Event.stop(event);
 	         return;
 	      }
-	     else 
-	       if(event.keyCode==Event.KEY_TAB || event.keyCode==Event.KEY_RETURN || 
+	     else
+	       if(event.keyCode==Event.KEY_TAB || event.keyCode==Event.KEY_RETURN ||
+	       	 event.ctrlKey==true || event.metaKey==true || event.altKey==true ||
 	         (navigator.appVersion.indexOf('AppleWebKit') > 0 && event.keyCode == 0)) return;
 	
 	    this.changed = true;
