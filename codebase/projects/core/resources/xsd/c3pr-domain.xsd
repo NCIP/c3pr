@@ -401,9 +401,9 @@
       <xs:element minOccurs="1" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="epoch" type="EpochType"/>
       <xs:element minOccurs="1" maxOccurs="unbounded" name="studyOrganization" type="StudyOrganizationType"/>
-      <!-- TODO: Commented for 2.8 version release.
+      
       <xs:element minOccurs="0" maxOccurs="unbounded" name="companionStudy" type="CompanionStudyAssignmentType"/>
-      -->
+      
       <xs:element minOccurs="0" maxOccurs="unbounded" name="studyDisease" type="StudyDiseaseType"/>
       <xs:element minOccurs="1" maxOccurs="unbounded" name="consent" type="Consent"/>
     </xs:sequence>
@@ -430,9 +430,9 @@
       <xs:element minOccurs="0" maxOccurs="1" name="randomizationType" type="RandomizationType" />
       <xs:element minOccurs="1" maxOccurs="unbounded" name="amendmentReason" type="AmendmentReasonType"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="epoch" type="EpochType"/>
-      <!-- TODO: Commented for 2.8 version release.
+      
       <xs:element minOccurs="0" maxOccurs="unbounded" name="companionStudy" type="CompanionStudyAssignmentType"/>
-      -->
+      
       <xs:element minOccurs="0" maxOccurs="unbounded" name="studyDisease" type="StudyDiseaseType"/>
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
@@ -462,7 +462,7 @@
       <xs:enumeration value="Inactive" />
     </xs:restriction>
   </xs:simpleType>
-  <!-- TODO: Commented for 2.8 version release.
+  
   <xs:complexType name="CompanionStudyAssignmentType">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="study" type="Study" />
@@ -470,7 +470,7 @@
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
-  -->
+  
   <xs:complexType name="IdentifiersType">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
