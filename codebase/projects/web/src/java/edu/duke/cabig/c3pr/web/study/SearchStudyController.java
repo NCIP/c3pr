@@ -15,18 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
-import edu.duke.cabig.c3pr.domain.Organization;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
-import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
@@ -43,10 +35,6 @@ public class SearchStudyController extends SimpleFormController {
 
     private StudyAjaxFacade studyAjaxFacade;
     
-    private ResearchStaffDao researchStaffDao;
-    
-    private UserDao userDao;
-
     @Override
     protected boolean isFormSubmission(HttpServletRequest request) {
         if (request.getParameter("test") != null) return true;
@@ -59,9 +47,8 @@ public class SearchStudyController extends SimpleFormController {
         Study study = new LocalStudy(true);
         String type = searchStudyCommand.getSearchType();
         String searchtext = searchStudyCommand.getSearchText().trim();
-
+        
         log.debug("search string = " + searchtext + "; type = " + type);
-
         if ("id".equals(type)) {
             SystemAssignedIdentifier id = new SystemAssignedIdentifier();
             id.setValue(searchtext);
@@ -77,7 +64,6 @@ public class SearchStudyController extends SimpleFormController {
             }
         }
         
-        
         List<Study> exampleStudies = new ArrayList<Study>();
         List<Study> studies = new ArrayList<Study>();
         if ("status".equals(type)) {
@@ -90,7 +76,6 @@ public class SearchStudyController extends SimpleFormController {
         }else {
         	exampleStudies = studyDao.searchByExample(study, true);
         }
-        
         
         log.debug("Search results size " + studies.size());
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
@@ -139,15 +124,4 @@ public class SearchStudyController extends SimpleFormController {
         this.studyAjaxFacade = studyAjaxFacade;
     }
 
-	public ResearchStaffDao getResearchStaffDao() {
-		return researchStaffDao;
-	}
-
-	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-		this.researchStaffDao = researchStaffDao;
-	}
-
-	public void setUserDao(UserDao userDao) {
-		this.userDao = userDao;
-	}
 }
