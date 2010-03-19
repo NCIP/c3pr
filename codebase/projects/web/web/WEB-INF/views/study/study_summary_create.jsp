@@ -270,7 +270,7 @@ function updateTargetAccrual(){
 		</c:otherwise>
 	</c:choose>
 </chrome:division>
-<chrome:division title="Eligibilty Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${flowType != 'VIEW_STUDY'}">
+<chrome:division title="Eligibility Criteria" cssClass="big" link="javascript:redirectToTab('${eligibilityTab}')" condition="${flowType != 'VIEW_STUDY'}">
 	<c:forEach items="${command.study.epochs}" var="epoch">
 		<c:if test="${fn:length(epoch.eligibilityCriteria)> 0}">
 			<chrome:division title="Epoch: ${epoch.name}" cssClass="indented">
