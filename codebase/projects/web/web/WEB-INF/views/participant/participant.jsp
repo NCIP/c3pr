@@ -308,18 +308,15 @@ function manageIdentifierRadio(element){
 				</table>
 				<br>
 				
-						<br>
-		<div align="left">
+		<div align="right">
 			<tags:button type="button" color="blue" icon="add" value="Add Organization Assigned Identifier" 
 			onclick="$('hOrganizationAssignedIdentifier').show();javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
 		</div>
 		<div align="right">
-
 			<tags:button type="button" color="blue" icon="add" value="Add System Assigned Identifier" 
 				onclick="$('hOrganizationAssignedIdentifier').show();javascript:RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 		</div>
-				<tags:button type="button" color="blue" icon="add" value="Add Identifier" onclick="$('hSystemAssignedIdentifier').show();javascript:RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
-			</chrome:division></td>
+	</chrome:division>
 </chrome:box>
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 </form:form>
