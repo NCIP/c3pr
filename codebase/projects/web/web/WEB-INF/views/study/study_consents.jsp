@@ -46,6 +46,12 @@
     	};
 
     RowManager.addRowInseter(consentRowInserterProps);
+    function addConsent(){
+    	if(${fn:length(command.study.consents) == 0}){
+    		$('addconsents-msg').hide();
+    	}
+    	RowManager.addRow(consentRowInserterProps);
+    }
 	</script>
 </head>
 <body>
@@ -75,7 +81,7 @@
 	<c:choose>
 		<c:when test="${fn:length(command.study.consents) == 0}">
 			<tr>
-				<td colspan="4"><fmt:message key="study.noConsents" /></td>
+				<td colspan="4" id="addconsents-msg"><fmt:message key="study.noConsents" /></td>
 			<tr>
 		</c:when>
 		<c:otherwise>
@@ -94,7 +100,7 @@
 </table>
 <br>
 <div align="left">
-	<tags:button type="button" color="blue" icon="add" value="Add Consent" onclick="RowManager.addRow(consentRowInserterProps);" size="small"/>
+	<tags:button type="button" color="blue" icon="add" value="Add Consent" onclick="addConsent();" size="small"/>
     <br>
 </div>
 </chrome:box>
