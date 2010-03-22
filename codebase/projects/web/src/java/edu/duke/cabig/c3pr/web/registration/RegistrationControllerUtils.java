@@ -323,11 +323,10 @@ public class RegistrationControllerUtils {
     }
 	
 	public void addConsents(StudySubject studySubject){
-		 for(Consent consent: studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getConsents()){
-         	StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
-         	studySubjectConsentVersion.setConsent(consent);
-         	studySubject.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
-         }
+		 for(int i=0; i< studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getConsents().size();i++){
+			 studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(i).
+			 setConsent(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getConsents().get(i));
+	         }
 	}
 
 	public void setStudyDao(StudyDao studyDao) {
