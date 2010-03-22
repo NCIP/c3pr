@@ -56,6 +56,8 @@ public interface StudySubjectRepository {
     
     public StudySubject getUniqueStudySubjects(List<Identifier> studySubjectIdentifiers);
     
-    public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) ; 
+    public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) ;
+
+	public StudySubject invalidateRegistration(StudySubject studySubject); 
     
 }

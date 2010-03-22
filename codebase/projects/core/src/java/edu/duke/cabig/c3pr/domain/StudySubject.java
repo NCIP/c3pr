@@ -69,6 +69,7 @@ import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 @Entity
 @Table(name = "STUDY_SUBJECTS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SUBJECTS_ID_SEQ") })
+@Where(clause = "reg_workflow_status  != 'INVALID'")
 public class StudySubject extends
 		InteroperableAbstractMutableDeletableDomainObject implements Customizable{
 

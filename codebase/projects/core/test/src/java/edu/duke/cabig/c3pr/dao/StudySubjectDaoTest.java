@@ -7,14 +7,12 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.ASSIGN_REGISTERED_PARTICIPANT;
 import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_INCOMPLETE_REGISTERATION;
 import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_LOCAL_REGISTERATION;
 import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_REGISTERATION_STATUS;
-import edu.duke.cabig.c3pr.domain.*;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +30,27 @@ import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.ScheduledArm;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
@@ -188,7 +207,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(5, ssList.size());
+            assertEquals(2, ssList.size());
         }
         interruptSession();
         {
@@ -205,7 +224,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(1, ssList.size());
+            assertEquals(0, ssList.size());
         }
         interruptSession();
 
@@ -223,7 +242,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(2, ssList.size());
+            assertEquals(1, ssList.size());
         }
         interruptSession();
     }
@@ -250,7 +269,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(5, ssList.size());
+            assertEquals(2, ssList.size());
         }
         interruptSession();
         {
@@ -270,7 +289,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(2, ssList.size());
+            assertEquals(1, ssList.size());
         }
         interruptSession();
         {
@@ -290,7 +309,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(1, ssList.size());
+            assertEquals(0, ssList.size());
         }
         interruptSession();
     }
@@ -316,7 +335,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(2, ssList.size());
+            assertEquals(1, ssList.size());
         }
         interruptSession();
         {
@@ -335,7 +354,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(3, ssList.size());
+            assertEquals(1, ssList.size());
         }
         interruptSession();
         {
@@ -355,7 +374,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(3, ssList.size());
+            assertEquals(1, ssList.size());
         }
         interruptSession();
     }
@@ -383,7 +402,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(2, ssList.size());
+            assertEquals(1, ssList.size());
         }
         interruptSession();
     }
@@ -494,11 +513,10 @@ public class StudySubjectDaoTest extends DaoTestCase {
      */
     public void testGetAll() throws Exception {
         List<StudySubject> actual = studySubjectDao.getAll();
-        assertEquals(5, actual.size());
+        assertEquals(2, actual.size());
         List<Integer> ids = collectIds(actual);
         assertContains("Wrong Study Subject found", ids, 1000);
-        assertContains("Wrong Study Subject found", ids, 1001);
-        assertContains("Wrong Study Subject found", ids, 1002);
+        assertContains("Wrong Study Subject found", ids, 1004);
     }
 
     /**
@@ -524,7 +542,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubjectSysIdentifiers.add(sysIdentifier);
 
         List<StudySubject> studyPartsBySys = studySubjectDao.getByIdentifiers(studySubjectSysIdentifiers);
-        assertSame("Wrong number of Study Participants", 1, studyPartsBySys.size());
+        assertSame("Wrong number of Study Participants", 0, studyPartsBySys.size());
 
     	StudySubject studySubject = studySubjectDao.getById(1000);
 
@@ -1040,7 +1058,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
     	studySubjects = studySubjectDao.searchBySubjectAndStudyIdentifiers(subject.getIdentifiers().get(0),study.getIdentifiers().get(0));
-    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
     	
     	StudySite studySite1 = studySiteDao.getById(1000);
     	StudySubject studySubject1 = new StudySubject(true);
@@ -1056,7 +1074,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubject2.setParticipant(subject);
     	List<StudySubject> studySubjects2 = new ArrayList<StudySubject>();
     	studySubjects2 = studySubjectDao.searchBySubjectAndStudySite(studySubject2);
-    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects2.size());
+    	assertEquals("Wrong number or study subjects retrieved",0,studySubjects2.size());
     }
 
     public void testSearchByExample() throws Exception{
@@ -1133,12 +1151,12 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 
     	studySubjects = studySubjectDao.advancedStudySearch(studySubject);
-    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
     }
 
     public void testIncompleteRegistrations() throws Exception{
     	 List<StudySubject> studySubjects = studySubjectDao.getIncompleteRegistrations();
-    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
     }
 
     public void testSearchByIdentifier() throws Exception{

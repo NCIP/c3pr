@@ -334,5 +334,13 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
     public ModelAndView editRegistration(HttpServletRequest request, Object command , Errors error) {
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
+    
+    public ModelAndView invalidateRegistration(HttpServletRequest request, Object obj, Errors errors) {
+		StudySubjectWrapper wrapper = ((StudySubjectWrapper) obj);
+		StudySubject studySubject = wrapper.getStudySubject();
+		studySubject = studySubjectRepository.invalidateRegistration(studySubject);
+		wrapper.setStudySubject(studySubject);
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
+	}
 
 }

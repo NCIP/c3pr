@@ -1,17 +1,13 @@
 package edu.duke.cabig.c3pr.web.registration;
 
-import java.util.Iterator;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;

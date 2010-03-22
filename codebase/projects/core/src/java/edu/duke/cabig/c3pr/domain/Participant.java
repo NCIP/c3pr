@@ -185,6 +185,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	 */
 	@OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Where(clause = "reg_workflow_status  != 'INVALID'")
 	public List<StudySubject> getStudySubjects() {
 		return studySubjects;
 	}

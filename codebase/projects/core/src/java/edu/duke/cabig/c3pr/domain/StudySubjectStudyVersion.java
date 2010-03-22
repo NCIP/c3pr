@@ -69,6 +69,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 	@ManyToOne
     @JoinColumn(name = "spa_id", nullable=false)
     @Cascade( { CascadeType.SAVE_UPDATE, CascadeType.MERGE})
+    @Where(clause = "reg_workflow_status  != 'INVALID'")
 	public StudySubject getStudySubject() {
 		return studySubject;
 	}

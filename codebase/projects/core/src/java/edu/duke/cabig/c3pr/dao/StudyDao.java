@@ -619,7 +619,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
         return getHibernateTemplate().find(
                 "select ssub from Study study join study.studyOrganizations so join so.studySiteStudyVersions ssisv " +
                 "join ssisv.studySubjectStudyVersions ssbsv join ssbsv.studySubject ssub " +
-                "where so.class=StudySite and ssub.startDate between ? and ? and study.id = ? ", new Object[]{startDate, endDate, study.getId()}).size();
+                "where so.class=StudySite and ssub.regWorkflowStatus != 'INVALID' and ssub.startDate between ? and ? and study.id = ? ", new Object[]{startDate, endDate, study.getId()}).size();
     }
 
     public List<Study> getStudiesByStatus(CoordinatingCenterStudyStatus coordinatingCenterStudyStatus){
@@ -647,7 +647,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public List<StudySubject> getStudySubjectsForStudy(Integer studyId) {
         return getHibernateTemplate().find(
                         "select ssub from Study study join study.studyOrganizations so join so.studySiteStudyVersions ssisv " +
-                        "join ssisv.studySubjectStudyVersions ssbsv join ssbsv.studySubject ssub where so.class=StudySite and study.id = ? ", studyId);
+                        "join ssisv.studySubjectStudyVersions ssbsv join ssbsv.studySubject ssub where so.class=StudySite and ssub.regWorkflowStatus != 'INVALID' and study.id = ? ", studyId);
     }
 
     /*

@@ -2,8 +2,6 @@
 <html>
 <head>
     <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
-    </style>
-	
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <script>
     	C3PR.disableCheckRequiredFieldOnLoad=true;
@@ -65,7 +63,6 @@
 				<tags:tabMethod method="editRegistration" divElement="'editRegistrationSection'" formName="'editRegistrationForm'"  viewName="/registration/edit_registration_section" /> ;
 		    	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" /> ;
 		    	Element.hide('flash-message-offstudy');
-		    	Element.hide('flash-message-reconsent');
 		    	Element.show('flash-message-edit');
 		    	closePopup();
 				return false;
@@ -74,7 +71,6 @@
 				<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'consentVersionForm'"  viewName="/registration/enrollmentSection" />
 				<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" />
 				Element.hide('flash-message-offstudy');
-				Element.show('flash-message-reconsent');
 				Element.hide('flash-message-edit');
 				closePopup();
 				return false;
@@ -134,18 +130,17 @@
 			);
 		}
 
-		
-
-		function reconsentPopup(){
-			var arr= $$("#reconsent");
-			win = new Window({className :"mac_os_x", title: "Reconsent", 
+		function invalidateRegistrationRecord(){
+			var arr= $$("#invalidateRecord");
+			win = new Window({className :"mac_os_x", title: "Invalidate Registration Record", 
 									hideEffect:Element.hide, 
-									zIndex:100, width:500, height:180 , minimizable:false, maximizable:false,
+									zIndex:100, width:550, height:300 , minimizable:false, maximizable:false,
 									showEffect:Element.show 
 									}) 
 			win.setContent(arr[0]) ;
 			win.showCenter(true);
-	 	}
+		}
+	 	
 		
     </script>
 </head>
@@ -153,6 +148,9 @@
 	<div id="controlPanel">
 	<tags:controlPanel>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+			<c:if test="${isAdmin}">
+				<tags:oneControlPanelItem linkhref="javascript:invalidateRegistrationRecord();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_closeStudy.jpg" linktext="Invalidate Record" />
+			</c:if>
 			<c:choose>
 				<c:when test="${isCompleteRegistration && isAdmin}">
 					<tags:oneControlPanelItem linkhref="javascript:editRegistrationPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
@@ -175,9 +173,6 @@
 			<c:if test="${canChangeEpoch}">
 				<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
 			</c:if>
-			<%--<c:if test="${reconsentRequired}">	
-				<tags:oneControlPanelItem linkhref="javascript:reconsentPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Reconsent" />
-			</c:if>--%>
 	    	<c:if test="${takeSubjectOffStudy}">
 				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
 			</c:if>
@@ -208,13 +203,10 @@
     <tags:tabFields tab="${tab}"/>
 </form:form>
 	<div id="flash-message-offstudy" style="display:none;">
-		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Subject has been taken off study.</div>
-	</div>
-	<div id="flash-message-reconsent" style="display:none;">
-		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Consent version has been updated.</div>
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="c3pr.registration.subjectOffStudy"/>Subject has been taken off study.</div>
 	</div>
 	<div id="flash-message-edit" style="display:none;">
-		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" />Registration has been updated.</div>
+		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="c3pr.registration.registrationUpdated"/>Registration has been updated.</div>
 	</div>  
 <div id="summary">
 <br/>
@@ -632,9 +624,9 @@
 	<%@ include file="take_subject_offstudy.jsp"%>
 </div>
 </div>
-<div id="reconsentPage" style="display:none;">
-<div id="reconsent" >
-	<%@ include file="update_consent_version.jsp"%>
+<div id="invalidateRecordPage" style="display:none;">
+<div id="invalidateRecord" >
+	<%@ include file="invalidate_registration_record.jsp"%>
 </div>
 </div>
 <div id="printable" style="display:none;">

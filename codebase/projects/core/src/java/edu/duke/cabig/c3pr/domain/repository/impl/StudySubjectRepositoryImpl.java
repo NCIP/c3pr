@@ -551,4 +551,9 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		return identifierGenerator;
 	}
 
+	public StudySubject invalidateRegistration(StudySubject studySubject) {
+		studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.INVALID);
+		return studySubjectDao.merge(studySubject);
+	}
+
 }
