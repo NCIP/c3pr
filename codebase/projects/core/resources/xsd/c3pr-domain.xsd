@@ -231,12 +231,16 @@
   </xs:simpleType>
   <xs:simpleType name="PhaseCodeType">
     <xs:restriction base="xs:string">
+      <xs:enumeration value="Pilot" />
       <xs:enumeration value="Phase 0 Trial" />
       <xs:enumeration value="Phase I Trial" />
       <xs:enumeration value="Phase I/II Trial" />
       <xs:enumeration value="Phase II Trial" />
+      <xs:enumeration value="Phase II/III Trial" />
       <xs:enumeration value="Phase III Trial" />
       <xs:enumeration value="Phase IV Trial" />
+      <xs:enumeration value="N/A" />
+      <xs:enumeration value="Other" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="GenderCodeType">
@@ -485,12 +489,26 @@
   </xs:simpleType>
   <xs:simpleType name="studyType">
     <xs:restriction base="xs:string">
+      <xs:enumeration value="AE" />
+      <xs:enumeration value="Ancillary" />
+      <xs:enumeration value="Basic Science" />
+      <xs:enumeration value="Correlative" />
       <xs:enumeration value="Diagnostic" />
+      <xs:enumeration value="Early Detection" />
+      <xs:enumeration value="Epidemiologic" />
       <xs:enumeration value="Genetic Non-therapeutic" />
       <xs:enumeration value="Genetic Therapeutic" />
+      <xs:enumeration value="Health Services Research" />
+      <xs:enumeration value="Interventional" />
+      <xs:enumeration value="Observational" />
+      <xs:enumeration value="Outcome" />
+      <xs:enumeration value="Other" />
       <xs:enumeration value="Primary Treatment" />
+      <xs:enumeration value="Supportive Care" />
       <xs:enumeration value="Supportive" />
+      <xs:enumeration value="Screening" />
       <xs:enumeration value="Preventive" />
+      <xs:enumeration value="Treatment" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="CoordinatingCenterStudyStatusType">
