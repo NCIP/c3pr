@@ -388,7 +388,7 @@
         		<div class="value"><form:input path="conf[idp.url].value" id="idp.url" cssClass="validate-URL"/></div>
         	</div>
         </chrome:division>
-		<chrome:division title="COPPA Configuration">
+		<chrome:division title="NCI Enterprise Services (NES) Configuration">
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.coppa.enable"/><tags:hoverHint keyProp="configure.coppaEnable" /></div>
         		<div class="value">
@@ -400,7 +400,7 @@
         		</div>
         	</div>
         </chrome:division>
-        <chrome:division title="CCTS Configuration" >
+        <chrome:division title="caBIG Clinical Trials Suite Configuration" >
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.ccts.enable.esb"/><tags:hoverHint keyProp="configure.esbEnable" /></div>
         		<div class="value">
