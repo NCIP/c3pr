@@ -148,9 +148,9 @@ public abstract class BaseResolver {
      * @return boolean
      */
     private boolean isDataValid(String firstName,String middleName, String lastName) {
-    	if((firstName.matches("%+") || StringUtils.isBlank(firstName)) &&
-    		(middleName.matches("%+") || StringUtils.isBlank(middleName)) &&
-    			(lastName.matches("%+") || StringUtils.isBlank(lastName))){
+    	if((StringUtils.isBlank(firstName) || firstName.matches("%+")) &&
+    		(StringUtils.isBlank(middleName) || middleName.matches("%+")) &&
+    			(StringUtils.isBlank(lastName) || lastName.matches("%+"))){
     		return false;
     	}
 		return true;
