@@ -104,8 +104,8 @@
     <IDENTIFIERS id="1010" version="1" value="3583138" type="NCI" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1004" primary_indicator="1"/>
     <IDENTIFIERS id="1011" version="1" value="3583155" type="NCI" dtype="OAI" retired_indicator="false" org_id="1004" primary_indicator="1"/>
 
-    <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" prt_id="1000" sti_id="1000" retired_indicator="false"/>
-    <STUDY_SUBJECTS id="1001" version="1" start_date="2001-01-01" prt_id="1000" sti_id="1001" retired_indicator="false"/>
+    <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" prt_id="1000" sti_id="1000" retired_indicator="false" reg_workflow_status="PENDING"/>
+    <STUDY_SUBJECTS id="1001" version="1" start_date="2001-01-01" prt_id="1000" sti_id="1001" retired_indicator="false" reg_workflow_status="PENDING"/>
                     
     <study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
     <study_subject_versions id="1001" version="1" study_site_ver_id="1000" spa_id="1001" retired_indicator = "false" />
