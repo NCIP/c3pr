@@ -280,6 +280,11 @@ public abstract class BaseResolver {
 	}
 	
 	
+	/**
+	 * Sets the person organization resolver utils.
+	 * 
+	 * @param personResolverUtils the new person organization resolver utils
+	 */
 	public void setPersonOrganizationResolverUtils(PersonOrganizationResolverUtils personResolverUtils) {
 		this.personOrganizationResolverUtils = personResolverUtils;
 	}
