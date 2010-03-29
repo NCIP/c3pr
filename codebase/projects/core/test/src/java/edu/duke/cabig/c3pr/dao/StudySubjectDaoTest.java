@@ -207,7 +207,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(2, ssList.size());
+            assertEquals(4, ssList.size());
         }
         interruptSession();
         {
@@ -224,7 +224,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(0, ssList.size());
+            assertEquals(1, ssList.size());
         }
         interruptSession();
 
@@ -242,7 +242,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(1, ssList.size());
+            assertEquals(2, ssList.size());
         }
         interruptSession();
     }
@@ -269,7 +269,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(2, ssList.size());
+            assertEquals(4, ssList.size());
         }
         interruptSession();
         {
@@ -289,7 +289,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(1, ssList.size());
+            assertEquals(2, ssList.size());
         }
         interruptSession();
         {
@@ -309,7 +309,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(0, ssList.size());
+            assertEquals(1, ssList.size());
         }
         interruptSession();
     }
@@ -335,7 +335,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(1, ssList.size());
+            assertEquals(2, ssList.size());
         }
         interruptSession();
         {
@@ -354,7 +354,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(1, ssList.size());
+            assertEquals(2, ssList.size());
         }
         interruptSession();
         {
@@ -374,7 +374,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(1, ssList.size());
+            assertEquals(2, ssList.size());
         }
         interruptSession();
     }
@@ -402,7 +402,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setParticipant(participant);
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(1, ssList.size());
+            assertEquals(2, ssList.size());
         }
         interruptSession();
     }
@@ -513,7 +513,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
      */
     public void testGetAll() throws Exception {
         List<StudySubject> actual = studySubjectDao.getAll();
-        assertEquals(2, actual.size());
+        assertEquals(4, actual.size());
         List<Integer> ids = collectIds(actual);
         assertContains("Wrong Study Subject found", ids, 1000);
         assertContains("Wrong Study Subject found", ids, 1004);
@@ -527,7 +527,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     public void testGetStudySubjects() throws Exception {
         Participant participant = dao.getById(1000);
         List<StudySubject> studyPartIds = participant.getStudySubjects();
-        assertEquals("Wrong number of Study Participant Identifiers", 1, studyPartIds.size());
+        assertEquals("Wrong number of Study Participant Identifiers", 2, studyPartIds.size());
         List<Integer> ids = collectIds(studyPartIds);
 
         assertContains("Missing expected Study Participant Identifier", ids, 1000);
@@ -542,7 +542,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubjectSysIdentifiers.add(sysIdentifier);
 
         List<StudySubject> studyPartsBySys = studySubjectDao.getByIdentifiers(studySubjectSysIdentifiers);
-        assertSame("Wrong number of Study Participants", 0, studyPartsBySys.size());
+        assertSame("Wrong number of Study Participants", 1, studyPartsBySys.size());
 
     	StudySubject studySubject = studySubjectDao.getById(1000);
 
@@ -1027,9 +1027,9 @@ public class StudySubjectDaoTest extends DaoTestCase {
     public void testSearchBySubjectId() throws Exception{
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
     	studySubjects = studySubjectDao.searchByParticipantId(1000);
-    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
     	studySubjects = studySubjectDao.searchByParticipantId(1002);
-    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
     	studySubjects = studySubjectDao.searchByParticipantId(1010);
     	assertEquals("Wrong number or study subjects retrieved",0,studySubjects.size());
     }
@@ -1058,7 +1058,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
     	studySubjects = studySubjectDao.searchBySubjectAndStudyIdentifiers(subject.getIdentifiers().get(0),study.getIdentifiers().get(0));
-    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
     	
     	StudySite studySite1 = studySiteDao.getById(1000);
     	StudySubject studySubject1 = new StudySubject(true);
@@ -1074,7 +1074,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubject2.setParticipant(subject);
     	List<StudySubject> studySubjects2 = new ArrayList<StudySubject>();
     	studySubjects2 = studySubjectDao.searchBySubjectAndStudySite(studySubject2);
-    	assertEquals("Wrong number or study subjects retrieved",0,studySubjects2.size());
+    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects2.size());
     }
 
     public void testSearchByExample() throws Exception{
@@ -1151,7 +1151,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 
     	studySubjects = studySubjectDao.advancedStudySearch(studySubject);
-    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
     }
 
     public void testIncompleteRegistrations() throws Exception{
