@@ -31,11 +31,7 @@ public class CompanionStudyTab extends StudyTab {
     @SuppressWarnings("unchecked")
 	@Override
     public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-//        request.getSession().setAttribute("studyObj", wrapper.getStudy());
         Map<String, Object> refdata = super.referenceData(wrapper);
-        addConfigMapToRefdata(refdata, "phaseCodeRefData");
-        addConfigMapToRefdata(refdata, "statusRefData");
-        addConfigMapToRefdata(refdata, "typeRefData");
         addConfigMapToRefdata(refdata, "yesNo");
         refdata = canDisableTab(request, refdata, DISABLE_FORM_COMPANION);
         return refdata;
@@ -77,7 +73,7 @@ public class CompanionStudyTab extends StudyTab {
 		companionStudy.setCompanionIndicator(Boolean.TRUE);
 		companionStudy.setStandaloneIndicator(Boolean.FALSE);
 		
-		//defaulting startification and randomization indicator to false since companion studies are usually non startified and non randomized CPR-1339
+		//defaulting stratification and randomization indicator to false since companion studies are usually non stratified and non randomized CPR-1339
 		companionStudy.setStratificationIndicator(Boolean.FALSE);
 		companionStudy.setRandomizedIndicator(Boolean.FALSE);
 		

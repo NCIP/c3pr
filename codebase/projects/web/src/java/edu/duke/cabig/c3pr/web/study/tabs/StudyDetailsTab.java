@@ -50,12 +50,10 @@ public class StudyDetailsTab extends StudyTab {
     public Map<String, Object> referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData();
         addConfigMapToRefdata(refdata, "phaseCodeRefData");
-        addConfigMapToRefdata(refdata, "statusRefData");
         addConfigMapToRefdata(refdata, "typeRefData");
         addConfigMapToRefdata(refdata, "yesNo");
 
         boolean isAdmin = isAdmin();
-
         if (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equalsIgnoreCase("true")) {
             // amend-flow: set the disableForm refData for the amend flow.
             if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null && !isAdmin) {

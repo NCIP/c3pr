@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.web.SearchCommand;
 import edu.duke.cabig.c3pr.web.ajax.StudyAjaxFacade;
@@ -46,7 +47,15 @@ public class SearchStudyController extends SimpleFormController {
         SearchCommand searchStudyCommand = (SearchCommand) oCommand;
         Study study = new LocalStudy(true);
         String type = searchStudyCommand.getSearchType();
-        String searchtext = searchStudyCommand.getSearchText().trim();
+        
+        String searchtext = null;
+        String statusSearchText = null;
+        if(!StringUtils.isBlank(searchStudyCommand.getSearchText())){
+        	searchtext = searchStudyCommand.getSearchText().trim();
+        }
+        if(!StringUtils.isBlank(searchStudyCommand.getStatusSearchText())){
+        	statusSearchText = searchStudyCommand.getStatusSearchText().trim();
+        }
         
         log.debug("search string = " + searchtext + "; type = " + type);
         if ("id".equals(type)) {
@@ -66,8 +75,8 @@ public class SearchStudyController extends SimpleFormController {
         
         List<Study> exampleStudies = new ArrayList<Study>();
         List<Study> studies = new ArrayList<Study>();
-        if ("status".equals(type)) {
-        	exampleStudies = studyDao.searchByStatus(study, searchtext, true);
+        if ("status".equalsIgnoreCase(type)) {
+        	exampleStudies = studyDao.searchByStatus(study, statusSearchText, true);
         } else if (WebUtils.hasSubmitParameter(request, "fromStudyRegistrations")) {
         	if (WebUtils.hasSubmitParameter(request, "studyId")){
         		Integer studyId = Integer.parseInt((request.getParameter("studyId")));
@@ -83,6 +92,7 @@ public class SearchStudyController extends SimpleFormController {
         Map map = errors.getModel();
         map.put("studyResults", exampleStudies);
         map.put("searchTypeRefData", configMap.get("studySearchType"));
+        map.put("studyStatus", configMap.get("statusRefData"));
         Object viewData = studyAjaxFacade.getTableForExport(map, request);
         request.setAttribute("studies", viewData);
         if (WebUtils.hasSubmitParameter(request, "async")) {
@@ -96,7 +106,7 @@ public class SearchStudyController extends SimpleFormController {
         Map<String, Object> refdata = new HashMap<String, Object>();
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
         refdata.put("searchTypeRefData", configMap.get("studySearchType"));
-        refdata.put("studyStatus", WebUtils.collectOptions(CoordinatingCenterStudyStatus.values(), "Please Select"));
+        refdata.put("studyStatus", configMap.get("statusRefData"));
         return refdata;
     }
 

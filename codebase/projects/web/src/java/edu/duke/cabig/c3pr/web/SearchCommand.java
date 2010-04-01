@@ -9,6 +9,8 @@ public class SearchCommand {
     private String searchText;
 
     private String searchType;
+    
+    private String statusSearchText;
 
     public String getSearchText() {
         return searchText;
@@ -25,5 +27,13 @@ public class SearchCommand {
     public void setSearchType(String searchType) {
         this.searchType = searchType;
     }
+
+	public String getStatusSearchText() {
+		return statusSearchText;
+	}
+
+	public void setStatusSearchText(String statusSearchText) {
+		this.statusSearchText = statusSearchText;
+	}
 
 }

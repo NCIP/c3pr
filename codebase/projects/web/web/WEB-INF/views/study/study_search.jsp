@@ -3,6 +3,17 @@
 <html>
 <head>
     <title>[Study Search]</title>
+    <script type="text/javascript">
+	    function toggleStatus(){
+	    	if($('searchType').value == 'status'){
+	    		$('searchTextMsg').style.display = "none";
+	    		$('statusSearchTextMsg').style.display = "";
+	    	} else {
+	    		$('searchTextMsg').style.display = "";
+	    		$('statusSearchTextMsg').style.display = "none";
+	    	}
+	    }
+    </script>
 </head>
 <!-- MAIN BODY STARTS HERE -->
 <body>
@@ -16,7 +27,7 @@
                     <fmt:message key="c3pr.common.searchBy"/>
                 </div>
                 <div class="value">
-                    <form:select path="searchType">
+                    <form:select path="searchType" onchange="toggleStatus();">
                         <form:options items="${searchTypeRefData}" itemLabel="desc" itemValue="code"/>
                     </form:select>
                 </div>
@@ -26,8 +37,15 @@
                     <fmt:message key="c3pr.common.searchCriteria"/>
                 </div>
                 <div class="value">
-                    <form:input path="searchText" cssClass="value"/>
-                    <span id="searchTextMsg" style="display:inline"> </span>
+                    <span id="searchTextMsg" style="${command.searchType=='status'?'display:none':'display:inline'}">
+                    	<form:input path="searchText" cssClass="value"/>
+                    </span>
+                    
+                    <span id="statusSearchTextMsg" style="${command.searchType=='status'?'display:':'display:none'}"> 
+	                    <form:select path="statusSearchText">
+	                        <form:options items="${studyStatus}" itemLabel="desc" itemValue="code"/>
+	                    </form:select>
+                    </span>
                 </div>
             </div>
 
@@ -44,10 +62,10 @@
 <c:if test="${studies!=null}">
 <chrome:box title="Search Results">
     <chrome:division id="single-fields">
-            <div id="tableDiv">
-                <c:out value="${studies}" escapeXml="false"/>
-            </div>
-        </chrome:division>
+        <div id="tableDiv">
+            <c:out value="${studies}" escapeXml="false"/>
+        </div>
+    </chrome:division>
 </chrome:box>
 </c:if>
 </body>
