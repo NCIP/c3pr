@@ -59,32 +59,32 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                 </entry>                 
                 <entry key="statusRefData">
                     <list>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="AC" />
-                            <property name="desc" value="Active - Trial is open to accrual" />
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="AD" />
-                            <property name="desc" value="Administratively Complete" />
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="AP" />
-                            <property name="desc" value="Approved - Trial has official CTEP approval" />
- 			           </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="CB" />
+						<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="CLOSED_TO_ACCRUAL_AND_TREATMENT" />
                             <property name="desc" value="Closed to Accrual &amp; Treatment" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                         	 <property name="code" value="CL" />
+                         	 <property name="code" value="CLOSED_TO_ACCRUAL" />
                              <property name="desc" value="Closed to Accrual" />
                          </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                         	<property name="code" value="TB" />
+                            <property name="code" value="OPEN" />
+                            <property name="desc" value="Open" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="PENDING" />
+                            <property name="desc" value="Pending" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="READY_TO_OPEN" />
+                            <property name="desc" value="Ready to open" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                         	<property name="code" value="TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT" />
                             <property name="desc" value="Temporarily Closed to Accrual &amp; Treatment" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                         	<property name="code" value="TC" />
+                         	<property name="code" value="TEMPORARILY_CLOSED_TO_ACCRUAL" />
                             <property name="desc" value="Temporarily Closed to Accrual" />
                         </bean>
                     </list>
