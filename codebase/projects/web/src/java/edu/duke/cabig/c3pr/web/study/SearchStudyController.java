@@ -48,8 +48,8 @@ public class SearchStudyController extends SimpleFormController {
         Study study = new LocalStudy(true);
         String type = searchStudyCommand.getSearchType();
         
-        String searchtext = null;
-        String statusSearchText = null;
+        String searchtext = "";
+        String statusSearchText = "";
         if(!StringUtils.isBlank(searchStudyCommand.getSearchText())){
         	searchtext = searchStudyCommand.getSearchText().trim();
         }
@@ -60,7 +60,7 @@ public class SearchStudyController extends SimpleFormController {
         log.debug("search string = " + searchtext + "; type = " + type);
         if ("id".equals(type)) {
             SystemAssignedIdentifier id = new SystemAssignedIdentifier();
-            id.setValue(searchtext);
+            id.setValue(searchtext.trim());
             study.addIdentifier(id);
         } else if ("shortTitle".equals(type)) {
             study.setShortTitleText(searchtext);
