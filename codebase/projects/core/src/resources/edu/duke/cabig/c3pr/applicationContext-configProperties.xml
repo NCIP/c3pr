@@ -76,10 +76,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                             <property name="desc" value="Pending" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="READY_TO_OPEN" />
-                            <property name="desc" value="Ready to open" />
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
                          	<property name="code" value="TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT" />
                             <property name="desc" value="Temporarily Closed to Accrual &amp; Treatment" />
                         </bean>
