@@ -174,47 +174,6 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         return "";
     }
 
-    /**
-     * Get the Search Table
-     * 
-     * @param parameterMap
-     * @param request
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    public String getTable(Map parameterMap, HttpServletRequest request) {
-        Context context = new HttpServletRequestContext(request, parameterMap);
-        String action = "/pages/study/searchStudy";
-
-        TableModel model = new TableModelImpl(context);
-        Collection<Study> studies = null;
-
-        // do a new search
-        Study study = new LocalStudy(true);
-        String type = ((List) parameterMap.get("searchType")).get(0).toString();
-        String searchtext = ((List) parameterMap.get("searchText")).get(0).toString();
-
-        log.debug("search string = " + searchtext + "; type = " + type);
-
-        if ("status".equals(type)) study
-                        .setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-        else if ("id".equals(type)) {
-            SystemAssignedIdentifier id = new SystemAssignedIdentifier();
-            id.setValue(searchtext);
-            study.addIdentifier(id);
-        }
-        else if ("shortTitle".equals(type)) study.setShortTitleText(searchtext);
-
-        try {
-            studies = studyDao.searchByExample(study, true, 0);
-            return build(model, studies, "", action).toString();
-        }
-        catch (Exception e) {
-            log.debug(e.getMessage());
-        }
-
-        return "";
-    }
 
     public List<DiseaseTerm> matchDiseaseTerms(String text) {
         List<DiseaseTerm> diseaseTerms = diseaseTermDao.getBySubnames(extractSubnames(text));
