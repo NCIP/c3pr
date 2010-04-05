@@ -33,30 +33,4 @@ public class StudyAjaxFacadeTest extends AbstractStudyControllerTest {
 
     }
 
-    public void testTableTest() {
-        List<Study> dummyList = new ArrayList<Study>();
-        dummyList.add(command.getStudy());
-
-        Map map = errors.getModel();
-        map.put("searchType", new ArrayList<String>() {
-            {
-                add("id");
-            }
-        });
-        map.put("searchText", new ArrayList<String>() {
-            {
-                add("0");
-            }
-        });
-
-        expect(command.getStudy().getId()).andReturn(new Integer("1"));
-        expect(studyDao.searchByExample(isA(Study.class), eq(true), eq(0))).andReturn(dummyList);
-        replayMocks();
-
-        assertTrue((facade.getTable(map, request)).length() > 0);
-
-        verifyMocks();
-
-    }
-
 }
