@@ -15,7 +15,6 @@ function invalidateRecord(){
 }
 
 function redirectToDashboard(){
-	alert("I am here");
 	setTimeout("javascript:document.location='../dashboard';", 30)	
 }
 </script>
