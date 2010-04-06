@@ -131,7 +131,7 @@
         <entry key="execution(* save(edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy))"
                value="edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy:CREATE"/>
                
-        <entry key="execution(* edu.duke.cabig.c3pr.dao.passwordpolicy.PasswordPolicyDao.*(..))"
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.PasswordPolicyDao.*(..))"
                value="edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy:CREATE"/>
 
 		

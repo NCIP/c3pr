@@ -1,6 +1,5 @@
-package edu.duke.cabig.c3pr.dao.passwordpolicy;
+package edu.duke.cabig.c3pr.dao;
 
-import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
 import edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import org.springframework.transaction.annotation.Transactional;

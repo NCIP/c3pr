@@ -431,7 +431,7 @@
     <tx:annotation-driven proxy-target-class="true"/>
 
     <!-- Daos -->
-    <bean id="passwordPolicyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.passwordpolicy.PasswordPolicyDao" autowire="byName">
+    <bean id="passwordPolicyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.PasswordPolicyDao" autowire="byName">
     </bean>
     <bean id="userDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.UserDao"/>
     <bean id="companionStudyAssociationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.CompanionStudyAssociationDao"/>

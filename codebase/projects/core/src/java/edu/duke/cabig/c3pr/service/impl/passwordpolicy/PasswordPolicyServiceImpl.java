@@ -2,7 +2,7 @@ package edu.duke.cabig.c3pr.service.impl.passwordpolicy;
 
 import org.springframework.beans.factory.annotation.Required;
 
-import edu.duke.cabig.c3pr.dao.passwordpolicy.PasswordPolicyDao;
+import edu.duke.cabig.c3pr.dao.PasswordPolicyDao;
 import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
