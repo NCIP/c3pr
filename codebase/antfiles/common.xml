@@ -592,8 +592,18 @@
 					<exclude name="**/ConverterOrganization.class" />
 					<exclude name="**/ConverterInvestigator.class" />
 					<exclude name="**/ConverterResearchStaff.class" />
+					<exclude name="**/AbstractRequestHandler.class" />
+					
+					
+					
+					
+					
+					
 					<exclude name="edu/duke/cabig/**/web/**/*.class"/>
 					<exclude name="gov/nih/nci/cabig/**/*.class"/>
+					<exclude name="org/apache/jackrabbit/**/*.class"/>
+					
+					
 				</fileset>
 			</cobertura-instrument>
 		</target>
