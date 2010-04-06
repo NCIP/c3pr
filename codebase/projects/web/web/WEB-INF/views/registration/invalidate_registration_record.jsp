@@ -33,7 +33,7 @@ function redirectToDashboard(){
 	<fmt:message key="c3pr.registration.invalidationWarning"/>
 </div>	
 <div class="row">
-	<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.registration.reasonText"/></div>
+	<div class="label"><fmt:message key="c3pr.registration.reasonText"/></div>
 	<div class="value">
 		<textarea rows="5" cols="32" name="studySubject.invalidationReasonText" id="reasonText" ></textarea>
 		<tags:hoverHint keyProp="studySubject.reasonText"/>
