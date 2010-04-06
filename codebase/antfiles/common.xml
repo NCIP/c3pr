@@ -593,11 +593,13 @@
 					<exclude name="**/ConverterInvestigator.class" />
 					<exclude name="**/ConverterResearchStaff.class" />
 					<exclude name="**/AbstractRequestHandler.class" />
+					<exclude name="**/CaBigGridIdentifierCreator.class" />
+					<exclude name="**/ConfigurationProperty.class" />
+					<exclude name="**/ContextTools.class" />
+					<exclude name="**/StringBean.class" />					
 					
 					
-					
-					
-					
+							
 					
 					<exclude name="edu/duke/cabig/**/web/**/*.class"/>
 					<exclude name="gov/nih/nci/cabig/**/*.class"/>
