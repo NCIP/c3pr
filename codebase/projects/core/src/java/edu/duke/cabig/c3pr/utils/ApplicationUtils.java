@@ -14,28 +14,4 @@ public class ApplicationUtils {
         }
         return test;
     }
-
-    public static String convertToString(String[] i_strArray, String i_delimiter) {
-        String strValue = "";
-        for (int i = 0; i < i_strArray.length; i++) {
-            if (i != 0) {
-                strValue = strValue + i_delimiter;
-            }
-            strValue = strValue + i_strArray[i];
-        }
-        return strValue;
-    }
-
-    public static boolean isNullorBlank(String str) {
-        boolean retVal = false;
-        if (str == null) {
-            retVal = true;
-        }
-        else {
-            if (str.equals("")) {
-                retVal = true;
-            }
-        }
-        return retVal;
-    }
 }
