@@ -593,6 +593,7 @@
 					<exclude name="**/ConverterInvestigator.class" />
 					<exclude name="**/ConverterResearchStaff.class" />
 					<exclude name="edu/duke/cabig/**/web/**/*.class"/>
+					<exclude name="gov/nih/nci/cabig/**/*.class"/>
 				</fileset>
 			</cobertura-instrument>
 		</target>
