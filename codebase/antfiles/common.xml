@@ -592,6 +592,7 @@
 					<exclude name="**/ConverterOrganization.class" />
 					<exclude name="**/ConverterInvestigator.class" />
 					<exclude name="**/ConverterResearchStaff.class" />
+					<exclude name="edu/duke/cabig/**/web/**/*.class"/>
 				</fileset>
 			</cobertura-instrument>
 		</target>
@@ -651,9 +652,6 @@
 					<exclude name="edu/duke/cabig/**/C3PRRegistrationServiceImplTest.class"/>
 					<exclude name="edu/duke/cabig/**/SmokeTestGridService.class"/>
 					<exclude name="edu/duke/cabig/**/XMLTransformerTest.class"/>
-					<exclude name="edu/duke/cabig/**/web/**/**/*Test.class"/>
-					<exclude name="edu/duke/cabig/**/web/**/**/*Test*.class"/>
-					
 					
 					<!--commented until xsd for CCTS support is finalized -->
 
