@@ -156,7 +156,6 @@ var ValidationManager = {
 		for(i=0 ; i<strategies.length ; i++){
 		errorStrategy1=strategies[i]
 			if(errorStrategy1=="text"){
-				//new Insertion.After(element, " <span id='"+element.name+"-msg'style='color:#EE3324'><img src='/c3pr/images/error-red.png' />"+msg+"</span>")
 				new Insertion.Bottom(element.parentNode, "<ul id='"+element.id+"-msg' class='errors'><li>"+msg+"</li></ul>")
 			}
 			if(errorStrategy1=="highlight") {
