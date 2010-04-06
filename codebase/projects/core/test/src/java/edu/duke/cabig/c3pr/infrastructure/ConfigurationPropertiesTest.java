@@ -22,4 +22,10 @@ public class ConfigurationPropertiesTest extends TestCase {
     	assertNotNull("Missing the property 'COPPA_ENABLE'",coppaEnable);
       //  assertTrue("COPPA_ENABLE should have been true", Boolean.parseBoolean(coppaEnable.getDefault().toString()));
     }
+    
+    public void testGetProperties() throws Exception {
+    	Configuration conf = new Configuration();
+    	assertEquals("Property count should be 35", 35, conf.getProperties().size());
+    }
+    
 }
