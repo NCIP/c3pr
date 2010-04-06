@@ -18,11 +18,5 @@ public class RulesVersioningOracleDBFileSystem extends OracleFileSystem {
         this.schemaObjectPrefix = "rep_ver_";
         this.url = props.getProperty("datasource.url");
         
-        /*this.driver = "oracle.jdbc.OracleDriver";
-        this.password = "oracle";
-        this.user = "oracle";
-        this.schema = "oracle";
-        this.schemaObjectPrefix = "rep_";
-        this.url = "jdbc:postgresql://localhost:5432/c3pr_svn";*/
     }
 }

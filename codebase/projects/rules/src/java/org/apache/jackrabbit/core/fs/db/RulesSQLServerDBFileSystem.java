@@ -19,11 +19,5 @@ public class RulesSQLServerDBFileSystem extends DbFileSystem {
         this.schemaObjectPrefix = "rep_";
         this.url = props.getProperty("datasource.url");
         
-        /*this.driver = "org.postgresql.Driver";
-        this.password = "postgres";
-        this.user = "postgres";
-        this.schema = "postgresql";
-        this.schemaObjectPrefix = "rep_";
-        this.url = "jdbc:postgresql://localhost:5432/c3pr_svn";*/
     }
 }
