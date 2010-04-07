@@ -596,11 +596,12 @@
 					<exclude name="**/CaBigGridIdentifierCreator.class" />
 					<exclude name="**/ConfigurationProperty.class" />
 					<exclude name="**/ContextTools.class" />
-					<exclude name="**/StringBean.class" />					
+					<exclude name="**/StringBean.class" />
+					
 					
 					
 							
-					
+					<exclude name="edu/duke/cabig/c3pr/rules/**/*.class" />
 					<exclude name="edu/duke/cabig/**/web/**/*.class"/>
 					<exclude name="gov/nih/nci/cabig/**/*.class"/>
 					<exclude name="org/apache/jackrabbit/**/*.class"/>
