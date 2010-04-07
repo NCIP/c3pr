@@ -152,9 +152,14 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 			map.put("canBroadcast", "true");
         }
 		map.put("isAdmin", WebUtils.isAdmin());
+		map.put("canEditRegistrationRecord", canEditRegistrationRecord(studySubject));
 		return map;
 	}
 	
+	private Boolean canEditRegistrationRecord(StudySubject studySubject) {
+		return WebUtils.isAdmin() && (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) ;
+	}
+
 	public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj,
             Errors error) {
 		StudySubject command = ((StudySubjectWrapper) commandObj).getStudySubject();
