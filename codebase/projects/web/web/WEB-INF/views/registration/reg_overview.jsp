@@ -140,7 +140,44 @@
 			win.setContent(arr[0]) ;
 			win.showCenter(true);
 		}
-	 	
+        
+        Event.observe(window, "load", function() {
+    		Event.observe("editInPlaceForArm", "click", activateInPlaceEditingForArm);
+    		Event.observe("editInPlaceForEnrollmentDetail", "click", activateInPlaceEditingForEnrollmentDetail);
+    		Event.observe("editInPlaceForInformedConsent", "click", activateInPlaceEditingForInformedConsent);
+    		Event.observe("editInPlaceForEligibilityCriteria", "click", activateInPlaceEditingForEligibilityCriteria);
+    		Event.observe("editInPlaceForStratificationCriteria", "click", activateInPlaceEditingForStratificationCriteria);
+    	})
+    	
+    	function activateInPlaceEditingForArm(localEditEvent) {
+            for (aE = 0; aE < armArray.length; aE++) {
+            	armArray[aE].enterEditMode(localEditEvent);
+            }
+        }
+
+        function activateInPlaceEditingForEnrollmentDetail(localEditEvent) {
+            for (aE = 0; aE < enrollmentDetailArray.length; aE++) {
+            	enrollmentDetailArray[aE].enterEditMode(localEditEvent);
+            }
+        }
+
+        function activateInPlaceEditingForInformedConsent(localEditEvent) {
+            for (aE = 0; aE < informedConsentArray.length; aE++) {
+            	informedConsentArray[aE].enterEditMode(localEditEvent);
+            }
+        }
+
+        function activateInPlaceEditingForEligibilityCriteria(localEditEvent) {
+            for (aE = 0; aE < eligibilityCriteriaArray.length; aE++) {
+            	eligibilityCriteriaArray[aE].enterEditMode(localEditEvent);
+            }
+        }
+
+        function activateInPlaceEditingForStratificationCriteria(localEditEvent) {
+            for (aE = 0; aE < stratificationCriteriaArray.length; aE++) {
+            	stratificationCriteriaArray[aE].enterEditMode(localEditEvent);
+            }
+        }
 		
     </script>
 </head>
@@ -479,14 +516,12 @@
 			</c:otherwise>
 		</c:choose>
 	</chrome:division>
-
-
 </div>
 </div>
 <chrome:division id="Eligibility" title="Eligibility">
 	<div class="leftpanel">
 		<div class="row">
-    		<div class="label"><fmt:message key="registration.eligible"/>:</div>
+    		<div class="label" ><fmt:message key="registration.eligible"/>:</div>
         	<c:choose>
 				<c:when test="${command.studySubject.scheduledEpoch.eligibilityIndicator}">
 					<div class="value"><fmt:message key="c3pr.common.yes"/></div>
@@ -497,7 +532,41 @@
 				</c:otherwise>
 			</c:choose>
          </div>
-		 </div>
+      </div>
+      <div class="rightpanel">&nbsp;</div> 
+      <br>  
+      <div class="row">
+         <c:if test="${fn:length(command.studySubject.scheduledEpoch.inclusionEligibilityAnswers) > 0}">
+				<table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="80%">
+	                  <tr>
+	                      <th width="35%" scope="col" align="left"><fmt:message key="study.inclusionCriterion"/></th>
+	                      <th scope="col" align="left"><b><fmt:message key="study.answers"/></b></th>
+	                  </tr>
+	                  <c:forEach items="${command.studySubject.scheduledEpoch.inclusionEligibilityAnswers}" var="eligibilityAnswer">
+	                      <tr class="results">
+	                          <td class="alt" align="left">${eligibilityAnswer.eligibilityCriteria.questionText}</td>
+	                          <td class="alt" align="left">${eligibilityAnswer.answerText}</td>
+	                      </tr>
+	                  </c:forEach>
+	              </table>
+              </c:if>
+              <br>
+              <c:if test="${fn:length(command.studySubject.scheduledEpoch.exclusionEligibilityAnswers) > 0}">
+				<table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="80%">
+	                  <tr>
+	                      <th width="35%" scope="col" align="left"><fmt:message key="study.exclusionCriterion"/></th>
+	                      <th scope="col" align="left"><b><fmt:message key="study.answers"/></b></th>
+	                  </tr>
+	                  <c:forEach items="${command.studySubject.scheduledEpoch.exclusionEligibilityAnswers}" var="eligibilityAnswer">
+	                      <tr class="results">
+	                          <td class="alt" align="left">${eligibilityAnswer.eligibilityCriteria.questionText}</td>
+	                          <td class="alt" align="left">${eligibilityAnswer.answerText}</td>
+	                      </tr>
+	                  </c:forEach>
+	              </table>
+              </c:if>
+         </div>
+	 
     </chrome:division>
     <chrome:division id="stratification" title="Stratification">
         <c:choose>
