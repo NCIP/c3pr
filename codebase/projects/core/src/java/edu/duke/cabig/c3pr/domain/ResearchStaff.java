@@ -46,7 +46,7 @@ public abstract class ResearchStaff extends User {
     private StatusType statusCode = StatusType.AC;
     
 	/** The user based recipient. */
-    private List<UserBasedRecipient> userBasedRecipient;
+    private List<UserBasedRecipient> userBasedRecipients;
     
     /** The external research staff. */
     protected List<ResearchStaff> externalResearchStaff = new ArrayList<ResearchStaff>();
@@ -203,17 +203,17 @@ public abstract class ResearchStaff extends User {
     @OneToMany
     @Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "research_staff_id")
-	public List<UserBasedRecipient> getUserBasedRecipient() {
-		return userBasedRecipient;
+	public List<UserBasedRecipient> getUserBasedRecipients() {
+		return userBasedRecipients;
 	}
 
 	/**
 	 * Sets the user based recipient.
 	 * 
-	 * @param userBasedRecipient the new user based recipient
+	 * @param userBasedRecipients the new user based recipient
 	 */
-	public void setUserBasedRecipient(List<UserBasedRecipient> userBasedRecipient) {
-		this.userBasedRecipient = userBasedRecipient;
+	public void setUserBasedRecipients(List<UserBasedRecipient> userBasedRecipients) {
+		this.userBasedRecipients = userBasedRecipients;
 	}
 	
 	 @Enumerated(EnumType.STRING)

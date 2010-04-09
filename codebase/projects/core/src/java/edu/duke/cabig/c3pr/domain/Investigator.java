@@ -38,16 +38,11 @@ public abstract class Investigator extends C3PRUser {
     /** The lazy list helper. */
     private LazyListHelper lazyListHelper;
 
-    /** The full name. */
-//    private String fullName;
-    
     /** The user based recipient. */
-    private List<UserBasedRecipient> userBasedRecipient;
+    private List<UserBasedRecipient> userBasedRecipients;
     
     /** The external investigators. */
     protected List<Investigator> externalInvestigators = new ArrayList<Investigator>();
-
-    // business methods
 
     /**
      * Gets the external investigators.
@@ -257,17 +252,17 @@ public abstract class Investigator extends C3PRUser {
     @OneToMany
     @Cascade(value = { CascadeType.LOCK})
     @JoinColumn(name = "investigators_id")
-	public List<UserBasedRecipient> getUserBasedRecipient() {
-		return userBasedRecipient;
+	public List<UserBasedRecipient> getUserBasedRecipients() {
+		return userBasedRecipients;
 	}
 
 	/**
 	 * Sets the user based recipient.
 	 * 
-	 * @param userBasedRecipient the new user based recipient
+	 * @param userBasedRecipients the new user based recipient
 	 */
-	public void setUserBasedRecipient(List<UserBasedRecipient> userBasedRecipient) {
-		this.userBasedRecipient = userBasedRecipient;
+	public void setUserBasedRecipients(List<UserBasedRecipient> userBasedRecipients) {
+		this.userBasedRecipients = userBasedRecipients;
 	}
 
 }
