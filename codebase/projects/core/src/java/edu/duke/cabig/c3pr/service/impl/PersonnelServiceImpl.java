@@ -148,7 +148,7 @@ public class PersonnelServiceImpl implements PersonnelService {
     	try {
 			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
 			// getting notifications set up as userBasedNotifications
-            for (UserBasedRecipient ubr : researchStaff.getUserBasedRecipient()) {
+            for (UserBasedRecipient ubr : researchStaff.getUserBasedRecipients()) {
                 recipientScheduledNotificationsList.addAll(ubr.getRecipientScheduledNotifications());
             }
 
