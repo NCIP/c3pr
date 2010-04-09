@@ -46,8 +46,7 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 public class HealthcareSiteDao extends OrganizationDao {
 
 	/** The SUBSTRING_ match_ properties. */
-	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name",
-			"identifiersAssignedToOrganization.value");
+	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name");
 
 	/** The EXACT_ match_ properties. */
 	private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
@@ -173,7 +172,8 @@ public class HealthcareSiteDao extends OrganizationDao {
 	}
 
 	/**
-	 * Gets by subnames.
+	 * Gets by subnames. Match the strings against the name of organization and 
+	 * value of identifierAssignedToOrganization
 	 * 
 	 * @param subnames the subnames
 	 * @return the subnames
@@ -182,25 +182,52 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 */
 	public List<HealthcareSite> getBySubnames(String[] subnames) throws C3PRBaseRuntimeException, C3PRBaseException {
 		
-		List<HealthcareSite> remoteHealthcareSites = new ArrayList<HealthcareSite>();
-/*		Comment out the coppa code for auto-completers for the time-being
-		//get all by name first
-		RemoteHealthcareSite remoteHealthcareSiteName = new RemoteHealthcareSite();
-		remoteHealthcareSiteName.setName(subnames[0]);
-		remoteHealthcareSites
-				.addAll(getExternalOrganizationsByExampleFromResolver(remoteHealthcareSiteName));
-
-		//get all by nciId next
-		RemoteHealthcareSite remoteHealthcareSiteNciID = new RemoteHealthcareSite();
-		remoteHealthcareSiteNciID.setCtepCode(subnames[0]);
-		remoteHealthcareSites
-				.addAll(getExternalOrganizationsByExampleFromResolver(remoteHealthcareSiteNciID));
+		//get all orgs having a matching identifier if subnames length is 1. So more than one words will not invoke this.
+		List<HealthcareSite> healthcareSitesByIdentifier = new ArrayList<HealthcareSite>();
+		if(subnames.length == 1){
+			healthcareSitesByIdentifier= getBySubIdentifier(subnames);
+		}
 		
-		//save both sets to the db
-		updateDatabaseWithRemoteHealthcareSites(remoteHealthcareSites);
-*/
-		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
+		//get all orgs having matching name
+		List<HealthcareSite> healthcareSitesByName =  findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
 				EXACT_MATCH_PROPERTIES);
+		//merge both into a set
+		Set<HealthcareSite> siteSet = new HashSet<HealthcareSite>();
+		siteSet.addAll(healthcareSitesByIdentifier);
+		siteSet.addAll(healthcareSitesByName);
+		//limit the size based on the maxLimit defined in baseDao. This max limit is also enforced by the findBySubname(), but we re-enforce
+		//it after merging with healthcareSitesByIdentifier. Need a cleaner way to do this.
+		if(siteSet.size() > getMaxSearchResultsForAutocompleter()){
+			List<HealthcareSite> finalList =  new ArrayList<HealthcareSite>(siteSet);
+			finalList.subList(getMaxSearchResultsForAutocompleter(), siteSet.size()).clear();
+			return finalList;
+		} else {
+			return new ArrayList<HealthcareSite>(siteSet);
+		}
+		
+	}
+
+    /**Runs a like search against the identifier value for all the strings in the array that is passed in.
+     * Used by auto-completer. Can be changed to use hql.
+     * 
+     * @param subnames
+     * @return List<HealthcareSite> which have an identifier matching to one of the strings in subnames array
+     */
+	private List<HealthcareSite> getBySubIdentifier(String[] subnames) {
+		List<HealthcareSite> healthcareSitesByIdentifier = new ArrayList<HealthcareSite>();
+		for(String subname: subnames){
+			if(!StringUtils.isEmpty(subname)){
+				Criteria orgCriteria = getHibernateTemplate().getSessionFactory()
+												.getCurrentSession().createCriteria(HealthcareSite.class);
+				Criteria identifiersAssignedToOrganizationCriteria = orgCriteria.createCriteria("identifiersAssignedToOrganization");
+				identifiersAssignedToOrganizationCriteria.add(Expression.ilike("value", "%"+subname+"%"));
+				
+				if(orgCriteria.list().size() > 0){
+					healthcareSitesByIdentifier.addAll(orgCriteria.list());
+				}    
+			}
+		}
+		return healthcareSitesByIdentifier;
 	}
 
 	/**
@@ -378,12 +405,12 @@ public class HealthcareSiteDao extends OrganizationDao {
 							//make the remoteHcs refer to the existing one so other associations can be saved succesfully.
 							remoteHealthcareSiteList.remove(i);
 							remoteHealthcareSiteList.add(i, healthcareSiteWithSameCtepCode);
-							log.error("Healthcare site with CTEP: " + remoteHealthcareSiteTemp.getCtepCode() + " already exists in database");
+							log.warn("Healthcare site with CTEP: " + remoteHealthcareSiteTemp.getCtepCode() + " already exists in database");
 						} else if(healthcareSiteWithSameNciCode != null){
 							//make the remoteHcs refer to the existing one so other associations can be saved succesfully.
 							remoteHealthcareSiteList.remove(i);
 							remoteHealthcareSiteList.add(i, healthcareSiteWithSameNciCode);
-							log.error("Healthcare site with NCI: " + remoteHealthcareSiteTemp.getNCICode() + " already exists in database");
+							log.warn("Healthcare site with NCI: " + remoteHealthcareSiteTemp.getNCICode() + " already exists in database");
 						} else {
 							// this site doesn't exist
 							createGroupForOrganization(remoteHealthcareSiteTemp);
