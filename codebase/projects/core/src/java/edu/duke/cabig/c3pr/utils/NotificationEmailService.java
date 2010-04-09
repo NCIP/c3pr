@@ -3,14 +3,11 @@ package edu.duke.cabig.c3pr.utils;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -21,7 +18,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
@@ -69,7 +65,7 @@ public class NotificationEmailService implements ApplicationContextAware {
     private String LINK_BACK_SUBJECT = "Notification from C3PR";
     
     /**
-     * This method is reponsible for figuring out the email address from notifications and sending
+     * This method is responsible for figuring out the email address from notifications and sending
      * out the notification email using Javamail.
      * This is only used for REPORT BASED EMAILS
      * 
@@ -121,7 +117,7 @@ public class NotificationEmailService implements ApplicationContextAware {
     } 
     
     /**
-     * This method is reponsible for figuring out the email address from notifications and sending
+     * This method is responsible for figuring out the email address from notifications and sending
      * out the notification email using Javamail.
      * 
      * @param study
@@ -161,10 +157,10 @@ public class NotificationEmailService implements ApplicationContextAware {
     }
 
     /**
-     * This method generates a list of emails by getting the emailaddresses from all the email based
-     * Recepients and Role based Recepients for a given Notification. The role based recepient only
+     * This method generates a list of emails by getting the email addresses from all the email based
+     * Recipients and Role based Recipients for a given Notification. The role based recipient only
      * has the role String...the corresponding personnel in that role for that study have to be
-     * retrieved and their email addresses have to be addded to the finalList.
+     * retrieved and their email addresses have to be added to the finalList.
      */
     public List<String> generateEmailList(RecipientScheduledNotification recipientScheduledNotification) {
     	log.debug(this.getClass().getName() + ": Entering generateEmailList()");
