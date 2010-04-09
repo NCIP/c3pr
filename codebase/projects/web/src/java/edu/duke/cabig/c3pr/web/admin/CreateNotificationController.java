@@ -210,7 +210,7 @@ public class CreateNotificationController extends SimpleFormController {
 	        	}
 	        	
 	        	for(UserBasedRecipient ubr: pn.getUserBasedRecipient()){
-	        		if(ubr.getEmailAddress() != null && ubr.getEmailAddress() != ""){
+	        		if(!StringUtils.isBlank(ubr.getEmailAddress())){
 	        			//TODO: This method is removed from researchstaff dao. Check CPR-1570.
 	        			//rs = researchStaffDao.getByEmailAddressFromLocal(ubr.getEmailAddress());
 	        			
