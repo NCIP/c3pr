@@ -308,7 +308,7 @@ public class RegistrationControllerUtils {
 	                            .getStratumGroups().iterator();
 	            while (iter.hasNext()) {
 	                StratumGroup stratumGroup = iter.next();
-	                stratumGroup.getStratificationCriterionAnswerCombination().size();
+	                stratumGroup.getStratificationCriterionAnswerCombinations().size();
 	                stratumGroup.getBookRandomizationEntry().size();
 	            }
             }
