@@ -76,7 +76,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     public void setRetiredIndicatorAsTrue() {
         super.setRetiredIndicatorAsTrue();
         List<StratificationCriterionAnswerCombination> scacList = this
-                        .getStratificationCriterionAnswerCombination();
+                        .getStratificationCriterionAnswerCombinations();
         StratificationCriterionAnswerCombination scac;
         Iterator scacIter = scacList.iterator();
         while (scacIter.hasNext()) {
@@ -98,7 +98,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     }
     
     public void addStratificationCriterionAnswerCombination(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination){
-    	getStratificationCriterionAnswerCombination().add(stratificationCriterionAnswerCombination);
+    	getStratificationCriterionAnswerCombinations().add(stratificationCriterionAnswerCombination);
     }
 
     /**
@@ -118,7 +118,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
      * @return the stratification criterion answer combination
      */
     @Transient
-    public List<StratificationCriterionAnswerCombination> getStratificationCriterionAnswerCombination() {
+    public List<StratificationCriterionAnswerCombination> getStratificationCriterionAnswerCombinations() {
         return lazyListHelper.getLazyList(StratificationCriterionAnswerCombination.class);
     }
 
@@ -204,7 +204,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     @Transient
     public String getAnswerCombinations() {
         String result = "";
-        for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : this.getStratificationCriterionAnswerCombination()){
+        for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : this.getStratificationCriterionAnswerCombinations()){
         	result = result + ", " + stratificationCriterionAnswerCombination.getStratificationCriterionPermissibleAnswer().getPermissibleAnswer() ; 
         }
         //removes the extra leading comma sign.
@@ -222,7 +222,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         final int PRIME = 31;
         int result = super.hashCode();
         int computedSum = 0;
-        for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : this.getStratificationCriterionAnswerCombination()){
+        for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : this.getStratificationCriterionAnswerCombinations()){
         	 computedSum += stratificationCriterionAnswerCombination.hashCode(); 
         }
         result = PRIME * result + computedSum;
@@ -243,11 +243,11 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
             List<StratificationCriterionAnswerCombination> scacList;
             StratificationCriterionAnswerCombination scac;
 
-            scacList = sg.getStratificationCriterionAnswerCombination();
+            scacList = sg.getStratificationCriterionAnswerCombinations();
             Iterator iter = scacList.iterator();
             while (iter.hasNext()) {
                 scac = (StratificationCriterionAnswerCombination) iter.next();
-                if (this.getStratificationCriterionAnswerCombination().contains(scac)) {
+                if (this.getStratificationCriterionAnswerCombinations().contains(scac)) {
                     continue;
                 }
                 else {
@@ -267,9 +267,6 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
         return this.getStratumGroupNumber() + ":" + this.getAnswerCombinations();
     }
 
-    /*
-     * 
-     */
     /**
      * Gets the next arm.
      * 
@@ -303,8 +300,8 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     @Transient
     public StratumGroup clone() {
         StratumGroup sgClone = new StratumGroup();
-        sgClone.getStratificationCriterionAnswerCombination().addAll(
-                        this.getStratificationCriterionAnswerCombination());
+        sgClone.getStratificationCriterionAnswerCombinations().addAll(
+                        this.getStratificationCriterionAnswerCombinations());
         sgClone.setStratumGroupNumber(this.getStratumGroupNumber());
         return sgClone;
     }
@@ -319,9 +316,9 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
     }
     
     /**
-     * Gets the c3 pr exception helper.
+     * Gets the c3pr exception helper.
      * 
-     * @return the c3 pr exception helper
+     * @return the c3pr exception helper
      */
     @Transient
 	public C3PRExceptionHelper getC3PRExceptionHelper() {

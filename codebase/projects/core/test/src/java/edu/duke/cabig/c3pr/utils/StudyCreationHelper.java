@@ -143,7 +143,7 @@ public class StudyCreationHelper {
         scacList.add(scac);
 
         StratumGroup stratumGroup = new StratumGroup();
-        stratumGroup.getStratificationCriterionAnswerCombination().addAll(scacList);
+        stratumGroup.getStratificationCriterionAnswerCombinations().addAll(scacList);
         stratumGroup.setCurrentPosition(1);
         stratumGroup.setStratumGroupNumber(2);
         ArrayList<StratumGroup> sgList = new ArrayList<StratumGroup>();
@@ -176,7 +176,7 @@ public class StudyCreationHelper {
         scacList.add(scac1);
 
         StratumGroup stratumGroup = new StratumGroup();
-        stratumGroup.getStratificationCriterionAnswerCombination().addAll(scacList);
+        stratumGroup.getStratificationCriterionAnswerCombinations().addAll(scacList);
         stratumGroup.setCurrentPosition(0);
         stratumGroup.setStratumGroupNumber(0);
         ArrayList<StratumGroup> sgList = new ArrayList<StratumGroup>();

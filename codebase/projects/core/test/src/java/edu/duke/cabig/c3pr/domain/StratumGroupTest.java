@@ -29,10 +29,10 @@ public class StratumGroupTest extends AbstractTestCase{
 		StratificationCriterionAnswerCombination scac2 = getScac2();
 		
 		StratumGroup stratumGroup1 = new StratumGroup();
-		stratumGroup1.getStratificationCriterionAnswerCombination().add(scac1);
+		stratumGroup1.getStratificationCriterionAnswerCombinations().add(scac1);
 		
 		StratumGroup stratumGroup2 = new StratumGroup();
-		stratumGroup2.getStratificationCriterionAnswerCombination().add(scac2);
+		stratumGroup2.getStratificationCriterionAnswerCombinations().add(scac2);
 		
 		assertTrue(stratumGroup1.equals(stratumGroup2));
 	}
@@ -46,10 +46,10 @@ public class StratumGroupTest extends AbstractTestCase{
 		StratificationCriterionAnswerCombination scac2 = getScac2();
 		
 		StratumGroup stratumGroup1 = new StratumGroup();
-		stratumGroup1.getStratificationCriterionAnswerCombination().add(scac1);
+		stratumGroup1.getStratificationCriterionAnswerCombinations().add(scac1);
 		
 		StratumGroup stratumGroup2 = new StratumGroup();
-		stratumGroup2.getStratificationCriterionAnswerCombination().add(scac2);
+		stratumGroup2.getStratificationCriterionAnswerCombinations().add(scac2);
 		
 		assertTrue(stratumGroup1.hashCode() == stratumGroup2.hashCode());
 	}
@@ -106,10 +106,10 @@ public class StratumGroupTest extends AbstractTestCase{
 		StratumGroup stratumGroup = new StratumGroup();
 		StratificationCriterionAnswerCombination scac = new StratificationCriterionAnswerCombination();
 		
-		stratumGroup.getStratificationCriterionAnswerCombination().add(scac);
+		stratumGroup.getStratificationCriterionAnswerCombinations().add(scac);
 		
 		stratumGroup.setRetiredIndicatorAsTrue();
-		assertEquals("true", stratumGroup.getStratificationCriterionAnswerCombination().get(0).getRetiredIndicator());
+		assertEquals("true", stratumGroup.getStratificationCriterionAnswerCombinations().get(0).getRetiredIndicator());
 	}
 	
 	
@@ -120,7 +120,7 @@ public class StratumGroupTest extends AbstractTestCase{
 		StratificationCriterionAnswerCombination scac1 = getScac1();
 		
 		StratumGroup stratumGroup = new StratumGroup();
-		stratumGroup.getStratificationCriterionAnswerCombination().add(scac1);
+		stratumGroup.getStratificationCriterionAnswerCombinations().add(scac1);
 		
 		assertTrue(stratumGroup.getAnswerCombinations().contains(ANSWER_1));
 	}
@@ -181,13 +181,13 @@ public class StratumGroupTest extends AbstractTestCase{
 		scac.setStratificationCriterionPermissibleAnswer(scpa);
 		
 		StratumGroup stratumGroup = new StratumGroup();
-		stratumGroup.getStratificationCriterionAnswerCombination().add(scac);
+		stratumGroup.getStratificationCriterionAnswerCombinations().add(scac);
 		stratumGroup.setStratumGroupNumber(0);
 		
 		StratumGroup stratumGroupClone = stratumGroup.clone();
 		
 		assertEquals(ANSWER_1, 
-				stratumGroupClone.getStratificationCriterionAnswerCombination().get(0).getStratificationCriterionPermissibleAnswer().getPermissibleAnswer());
+				stratumGroupClone.getStratificationCriterionAnswerCombinations().get(0).getStratificationCriterionPermissibleAnswer().getPermissibleAnswer());
 		assertEquals(0, stratumGroupClone.getStratumGroupNumber().intValue());
 	}
 

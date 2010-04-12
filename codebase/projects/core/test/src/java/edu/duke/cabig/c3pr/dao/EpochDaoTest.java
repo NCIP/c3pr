@@ -129,7 +129,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         scacList.add(scac);
 
         StratumGroup stratumGroup = new StratumGroup();
-        stratumGroup.getStratificationCriterionAnswerCombination().addAll(scacList);
+        stratumGroup.getStratificationCriterionAnswerCombinations().addAll(scacList);
         stratumGroup.setCurrentPosition(1);
         stratumGroup.setStratumGroupNumber(2);
         ArrayList<StratumGroup> sgList = new ArrayList<StratumGroup>();

@@ -570,7 +570,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         		cloneGroup.setStratumGroupNumber(group.getStratumGroupNumber());
         		cloneGroup.setCurrentPosition(group.getCurrentPosition());
         		
-        		for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : group.getStratificationCriterionAnswerCombination()){
+        		for(StratificationCriterionAnswerCombination stratificationCriterionAnswerCombination : group.getStratificationCriterionAnswerCombinations()){
         			StratificationCriterionAnswerCombination cloneStratificationCriterionAnswerCombination = new StratificationCriterionAnswerCombination();
         			
         			StratificationCriterion sCriteria = stratificationCriterionAnswerCombination.getStratificationCriterion();

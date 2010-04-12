@@ -220,7 +220,7 @@ public class StudyDaoTest extends DaoTestCase {
         scacList.add(scac);
 
         StratumGroup stratumGroup = new StratumGroup();
-        stratumGroup.getStratificationCriterionAnswerCombination().addAll(scacList);
+        stratumGroup.getStratificationCriterionAnswerCombinations().addAll(scacList);
         stratumGroup.setCurrentPosition(1);
         stratumGroup.setStratumGroupNumber(2);
         ArrayList<StratumGroup> sgList = new ArrayList<StratumGroup>();
@@ -329,9 +329,9 @@ public class StudyDaoTest extends DaoTestCase {
             scac2List.add(scac5);
 
             StratumGroup sg1 = new StratumGroup();
-            sg1.getStratificationCriterionAnswerCombination().addAll(cloneScac(scac1List));
+            sg1.getStratificationCriterionAnswerCombinations().addAll(cloneScac(scac1List));
             StratumGroup sg2 = new StratumGroup();
-            sg2.getStratificationCriterionAnswerCombination().addAll(cloneScac(scac2List));
+            sg2.getStratificationCriterionAnswerCombinations().addAll(cloneScac(scac2List));
 
             epoch1.getStratumGroups().add(sg1);
             epoch1.getStratumGroups().add(sg2);
@@ -346,11 +346,11 @@ public class StudyDaoTest extends DaoTestCase {
             StratumGroup sg2 = (loaded.getEpochs().get(0)).getStratumGroups().get(1);
 
             assertEquals((loaded.getEpochs().get(0)).getStratumGroups().size(), 2);
-            assertNotNull(sg1.getStratificationCriterionAnswerCombination());
-            assertEquals(2, sg1.getStratificationCriterionAnswerCombination().size());
+            assertNotNull(sg1.getStratificationCriterionAnswerCombinations());
+            assertEquals(2, sg1.getStratificationCriterionAnswerCombinations().size());
 
-            assertNotNull(sg2.getStratificationCriterionAnswerCombination());
-            assertEquals(2, sg2.getStratificationCriterionAnswerCombination().size());
+            assertNotNull(sg2.getStratificationCriterionAnswerCombinations());
+            assertEquals(2, sg2.getStratificationCriterionAnswerCombinations().size());
         }
     }
 
@@ -512,7 +512,7 @@ public class StudyDaoTest extends DaoTestCase {
             }
             else {
                 StratumGroup sg = new StratumGroup();
-                sg.getStratificationCriterionAnswerCombination().addAll(strMyLine);
+                sg.getStratificationCriterionAnswerCombinations().addAll(strMyLine);
                 sgList.add(sg);
             }
         }

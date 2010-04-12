@@ -678,7 +678,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	public StratumGroup getStratumGroupForAnsCombination(
 			List<StratificationCriterionAnswerCombination> scacList) {
 		StratumGroup sg = new StratumGroup();
-		sg.getStratificationCriterionAnswerCombination().addAll(scacList);
+		sg.getStratificationCriterionAnswerCombinations().addAll(scacList);
 
 		List<StratumGroup> sgList;
 		sgList = this.getStratumGroups();
@@ -971,7 +971,7 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 				numberOfStratumGroups = stratumGroupList.size();
 				stratumGroupList.add(numberOfStratumGroups, new StratumGroup());
 				stratumGroupList.get(numberOfStratumGroups)
-						.getStratificationCriterionAnswerCombination().addAll(
+						.getStratificationCriterionAnswerCombinations().addAll(
 								cloneStratificationCriterionAnswerCombination(stratificationCriterionAnswerCombinationList));
 				stratumGroupList.get(numberOfStratumGroups).setStratumGroupNumber(numberOfStratumGroups);
 			}
