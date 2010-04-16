@@ -5,6 +5,22 @@ Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
     createEditField: function() {
         if (this.options.callback) { var callbackSet = this.options.callback };
         this.__createEditField();
+        if(this.options.autocompleter){
+        	this._controls.editor.id=this.options.autocompleter.basename-"input";
+        	//create hidden feild for autocompleter
+        	var inputfld = document.createElement('input');
+		    inputfld.type = 'hidden';
+		    inputfld.name=this._controls.editor.name;
+		    this._controls.editor.name="";
+		    var size = this.options.size || this.options.cols || 0;
+		    if (0 < size) inputfld.size = size;
+		    inputfld.className = 'autocomplete';
+		    inputfld.id=this.options.autocompleter.basename-"hidden";
+		    this._form.appendChild(inputfld);
+		    //register autocompleter
+        	AutocompleterManager.registerAutoCompleter(this.options.autocompleter);
+        	
+    	}
         if (callbackSet) { this.options.callback = callbackSet;    };
     },
     buildOptionList: function() {
@@ -55,38 +71,97 @@ Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
     }
 });
 
-/*//InPlaceCollectionEditor extension that adds a cancel button .
-Ajax.InPlaceCollectionEditor.prototype.__createForm = Ajax.InPlaceCollectionEditor.prototype.createForm;
-Ajax.InPlaceCollectionEditor.prototype = Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
-    createForm: function(){
-		this.__createForm();
-		if (this.options.cancelButton) {
-          cancelButton = document.createElement("input");
-	      cancelButton.type = "button";
-   	      cancelButton.onclick = this.onclickCancel.bind(this);
-	      cancelButton.value = this.options.cancelText;
-	      cancelButton.className = 'editor_ok_button';
-	      this.form.appendChild(cancelButton);
-        }
-    }
-});
+Ajax.InPlaceAutocompleter = Class.create(Ajax.InPlaceEditor, {
 
-//InPlaceEditor extension that adds a cancel button .
-Ajax.InPlaceEditor.prototype.__createForm = Ajax.InPlaceEditor.prototype.createForm;
-Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
-    createForm: function(){
-		this.__createForm();
-		if (this.options.cancelButton) {
-          cancelButton = document.createElement("input");
-	      cancelButton.type = "button";
-   	      cancelButton.onclick = this.onclickCancel.bind(this);
-	      cancelButton.value = this.options.cancelText;
-	      cancelButton.className = 'editor_ok_button';
-	      this.form.appendChild(cancelButton);
-        }
+  createEditField: function() {
+    var list = document.createElement('select');
+    list.name = this.options.paramName;
+    list.size = 1;
+    this._controls.editor = list;
+    this._collection = this.options.collection || [];
+    if (this.options.loadCollectionURL)
+      this.loadCollection();
+    else
+      this.checkForExternalText();
+    this._form.appendChild(this._controls.editor);
+  },
+
+  loadCollection: function() {
+    this._form.addClassName(this.options.loadingClassName);
+    this.showLoadingText(this.options.loadingCollectionText);
+    var options = Object.extend({ method: 'get' }, this.options.ajaxOptions);
+    Object.extend(options, {
+      parameters: 'editorId=' + encodeURIComponent(this.element.id),
+      onComplete: Prototype.emptyFunction,
+      onSuccess: function(transport) {
+        var js = transport.responseText.strip();
+        if (!/^\[.*\]$/.test(js)) // TODO: improve sanity check
+          throw 'Server returned an invalid collection representation.';
+        this._collection = eval(js);
+        this.checkForExternalText();
+      }.bind(this),
+      onFailure: this.onFailure
+    });
+    new Ajax.Request(this.options.loadCollectionURL, options);
+  },
+
+  showLoadingText: function(text) {
+    this._controls.editor.disabled = true;
+    var tempOption = this._controls.editor.firstChild;
+    if (!tempOption) {
+      tempOption = document.createElement('option');
+      tempOption.value = '';
+      this._controls.editor.appendChild(tempOption);
+      tempOption.selected = true;
     }
+    tempOption.update((text || '').stripScripts().stripTags());
+  },
+
+  checkForExternalText: function() {
+    this._text = this.getText();
+    if (this.options.loadTextURL)
+      this.loadExternalText();
+    else
+      this.buildOptionList();
+  },
+
+  loadExternalText: function() {
+    this.showLoadingText(this.options.loadingText);
+    var options = Object.extend({ method: 'get' }, this.options.ajaxOptions);
+    Object.extend(options, {
+      parameters: 'editorId=' + encodeURIComponent(this.element.id),
+      onComplete: Prototype.emptyFunction,
+      onSuccess: function(transport) {
+        this._text = transport.responseText.strip();
+        this.buildOptionList();
+      }.bind(this),
+      onFailure: this.onFailure
+    });
+    new Ajax.Request(this.options.loadTextURL, options);
+  },
+
+  buildOptionList: function() {
+    this._form.removeClassName(this.options.loadingClassName);
+    this._collection = this._collection.map(function(entry) {
+      return 2 === entry.length ? entry : [entry, entry].flatten();
+    });
+    var marker = ('value' in this.options) ? this.options.value : this._text;
+    var textFound = this._collection.any(function(entry) {
+      return entry[0] == marker;
+    }.bind(this));
+    this._controls.editor.update('');
+    var option;
+    this._collection.each(function(entry, index) {
+      option = document.createElement('option');
+      option.value = entry[0];
+      option.selected = textFound ? entry[0] == marker : 0 == index;
+      option.appendChild(document.createTextNode(entry[1]));
+      this._controls.editor.appendChild(option);
+    }.bind(this));
+    this._controls.editor.disabled = false;
+    Field.scrollFreeActivate(this._controls.editor);
+  }
 });
-*/
 Autocompleter.Base.prototype.__onBlur = Autocompleter.Base.prototype.onBlur;
 Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	onBlur: function(event){
