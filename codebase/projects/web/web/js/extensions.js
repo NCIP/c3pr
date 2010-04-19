@@ -5,22 +5,6 @@ Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
     createEditField: function() {
         if (this.options.callback) { var callbackSet = this.options.callback };
         this.__createEditField();
-        if(this.options.autocompleter){
-        	this._controls.editor.id=this.options.autocompleter.basename-"input";
-        	//create hidden feild for autocompleter
-        	var inputfld = document.createElement('input');
-		    inputfld.type = 'hidden';
-		    inputfld.name=this._controls.editor.name;
-		    this._controls.editor.name="";
-		    var size = this.options.size || this.options.cols || 0;
-		    if (0 < size) inputfld.size = size;
-		    inputfld.className = 'autocomplete';
-		    inputfld.id=this.options.autocompleter.basename-"hidden";
-		    this._form.appendChild(inputfld);
-		    //register autocompleter
-        	AutocompleterManager.registerAutoCompleter(this.options.autocompleter);
-        	
-    	}
         if (callbackSet) { this.options.callback = callbackSet;    };
     },
     buildOptionList: function() {
@@ -51,7 +35,36 @@ Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
 //InPlaceEditor extension that adds a 'click to edit' text when the field is 
 //empty.
 Ajax.InPlaceEditor.prototype.__onSubmit = Ajax.InPlaceEditor.prototype.onSubmit;
+Ajax.InPlaceEditor.prototype.__createEditField = Ajax.InPlaceEditor.prototype.createEditField;
+Ajax.InPlaceEditor.prototype.__postProcessEditField = Ajax.InPlaceEditor.prototype.postProcessEditField;
 Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
+	createEditField: function() {
+	    this.__createEditField();
+	    if(this.options.autocompleter){
+	    	this._controls.editor.id=this.options.autocompleter.basename+"-hidden";
+//	    	//create hidden field for autocompleter
+	    	var inputfld = document.createElement('input');
+		    inputfld.type = 'text';
+		    var size = this.options.size || this.options.cols || 0;
+		    if (0 < size) inputfld.size = size;
+		    inputfld.className = 'autocomplete';
+		    inputfld.id=this.options.autocompleter.basename+"-input";
+		    this._form.appendChild(inputfld);
+		    var divElement = document.createElement('div');
+		    divElement.id=this.options.autocompleter.basename+"-choices";
+		    divElement.className = 'autocomplete';
+		    this._form.appendChild(divElement);
+		    //register autocompleter
+	    	//AutocompleterManager.registerAutoCompleter(this.options.autocompleter);
+		}
+	},
+	postProcessEditField: function() {
+	    this.__postProcessEditField();
+	    if(this.options.autocompleter){
+	    	Element.hide(this._controls.editor);
+	    	AutocompleterManager.registerAutoCompleter(this.options.autocompleter);
+		}
+	},
     onSubmit: function(){
 		if(this.options.validations!=null && this.options.validations!=''){
 			this.editField.className=this.editField.className + " "+this.options.validations;
@@ -71,97 +84,6 @@ Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
     }
 });
 
-Ajax.InPlaceAutocompleter = Class.create(Ajax.InPlaceEditor, {
-
-  createEditField: function() {
-    var list = document.createElement('select');
-    list.name = this.options.paramName;
-    list.size = 1;
-    this._controls.editor = list;
-    this._collection = this.options.collection || [];
-    if (this.options.loadCollectionURL)
-      this.loadCollection();
-    else
-      this.checkForExternalText();
-    this._form.appendChild(this._controls.editor);
-  },
-
-  loadCollection: function() {
-    this._form.addClassName(this.options.loadingClassName);
-    this.showLoadingText(this.options.loadingCollectionText);
-    var options = Object.extend({ method: 'get' }, this.options.ajaxOptions);
-    Object.extend(options, {
-      parameters: 'editorId=' + encodeURIComponent(this.element.id),
-      onComplete: Prototype.emptyFunction,
-      onSuccess: function(transport) {
-        var js = transport.responseText.strip();
-        if (!/^\[.*\]$/.test(js)) // TODO: improve sanity check
-          throw 'Server returned an invalid collection representation.';
-        this._collection = eval(js);
-        this.checkForExternalText();
-      }.bind(this),
-      onFailure: this.onFailure
-    });
-    new Ajax.Request(this.options.loadCollectionURL, options);
-  },
-
-  showLoadingText: function(text) {
-    this._controls.editor.disabled = true;
-    var tempOption = this._controls.editor.firstChild;
-    if (!tempOption) {
-      tempOption = document.createElement('option');
-      tempOption.value = '';
-      this._controls.editor.appendChild(tempOption);
-      tempOption.selected = true;
-    }
-    tempOption.update((text || '').stripScripts().stripTags());
-  },
-
-  checkForExternalText: function() {
-    this._text = this.getText();
-    if (this.options.loadTextURL)
-      this.loadExternalText();
-    else
-      this.buildOptionList();
-  },
-
-  loadExternalText: function() {
-    this.showLoadingText(this.options.loadingText);
-    var options = Object.extend({ method: 'get' }, this.options.ajaxOptions);
-    Object.extend(options, {
-      parameters: 'editorId=' + encodeURIComponent(this.element.id),
-      onComplete: Prototype.emptyFunction,
-      onSuccess: function(transport) {
-        this._text = transport.responseText.strip();
-        this.buildOptionList();
-      }.bind(this),
-      onFailure: this.onFailure
-    });
-    new Ajax.Request(this.options.loadTextURL, options);
-  },
-
-  buildOptionList: function() {
-    this._form.removeClassName(this.options.loadingClassName);
-    this._collection = this._collection.map(function(entry) {
-      return 2 === entry.length ? entry : [entry, entry].flatten();
-    });
-    var marker = ('value' in this.options) ? this.options.value : this._text;
-    var textFound = this._collection.any(function(entry) {
-      return entry[0] == marker;
-    }.bind(this));
-    this._controls.editor.update('');
-    var option;
-    this._collection.each(function(entry, index) {
-      option = document.createElement('option');
-      option.value = entry[0];
-      option.selected = textFound ? entry[0] == marker : 0 == index;
-      option.appendChild(document.createTextNode(entry[1]));
-      this._controls.editor.appendChild(option);
-    }.bind(this));
-    this._controls.editor.disabled = false;
-    Field.scrollFreeActivate(this._controls.editor);
-  }
-});
 Autocompleter.Base.prototype.__onBlur = Autocompleter.Base.prototype.onBlur;
 Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	onBlur: function(event){

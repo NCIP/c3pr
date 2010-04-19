@@ -5,11 +5,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 
 /**
  * @author Rhett Sutphin
@@ -48,8 +48,7 @@ public class InPlaceEditableTab<C> extends WorkFlowTab<C> {
         Map<String, String> map = new HashMap<String, String>();
         String pathToGet = request.getParameter(PATH_TO_GET);
         if (!StringUtils.getBlankIfNull(pathToGet).equals("")) {
-            value = (String) new DefaultObjectPropertyReader(command, pathToGet)
-                            .getPropertyValueFromPath();
+        	value = (String) new BeanWrapperImpl(command).getPropertyValue(pathToGet);
         }
         map.put(AjaxableUtils.getFreeTextModelName(), value);
         return new ModelAndView("", map);

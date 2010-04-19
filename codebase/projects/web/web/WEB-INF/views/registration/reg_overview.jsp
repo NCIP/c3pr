@@ -3,6 +3,7 @@
 <head>
     <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <tags:dwrJavascriptLink objects="anatomicDiseaseSite" />
     <script>
     	C3PR.disableCheckRequiredFieldOnLoad=true;
     	function confirmBroadcastRegistration(){
@@ -140,7 +141,27 @@
 			win.setContent(arr[0]) ;
 			win.showCenter(true);
 		}
-        
+
+		function activateInPlaceEditingForArm(localEditEvent) {
+			showWarning(localEditEvent, armArray);
+        }
+
+        function activateInPlaceEditingForEnrollmentDetail(localEditEvent) {
+			showWarning(localEditEvent, enrollmentDetailArray);
+        }
+
+        function activateInPlaceEditingForInformedConsent(localEditEvent) {
+        	showWarning(localEditEvent, informedConsentArray);
+        }
+
+        function activateInPlaceEditingForEligibilityCriteria(localEditEvent) {
+        	showWarning(localEditEvent, eligibilityCriteriaArray);
+        }
+
+        function activateInPlaceEditingForStratificationCriteria(localEditEvent) {
+        	showWarning(localEditEvent, stratificationCriteriaArray);
+        }
+
         Event.observe(window, "load", function() {
     		Event.observe("editInPlaceForArm", "click", activateInPlaceEditingForArm);
     		Event.observe("editInPlaceForEnrollmentDetail", "click", activateInPlaceEditingForEnrollmentDetail);
@@ -149,36 +170,43 @@
     		Event.observe("editInPlaceForStratificationCriteria", "click", activateInPlaceEditingForStratificationCriteria);
     	})
     	
-    	function activateInPlaceEditingForArm(localEditEvent) {
-            for (aE = 0; aE < armArray.length; aE++) {
-            	armArray[aE].enterEditMode(localEditEvent);
+    	
+        function activateInPlaceEditing(localEditEvent, array) {
+            for (var aE = 0; aE < array.length; aE++) {
+            	array[aE].enterEditMode(localEditEvent);
             }
         }
 
-        function activateInPlaceEditingForEnrollmentDetail(localEditEvent) {
-            for (aE = 0; aE < enrollmentDetailArray.length; aE++) {
-            	enrollmentDetailArray[aE].enterEditMode(localEditEvent);
-            }
+		function showWarning(localEditEvent, array){
+			Dialog.confirm("This step might corrupt registration record. Are you sure you want to continue?", 
+                	{width:400,height:125, okLabel: "Continue", buttonClass: "button", id: "myDialogId", 
+            		cancel:function(win) {
+        			}, 
+            		ok:function(win) {
+        				activateInPlaceEditing(localEditEvent, array); 
+                		return true;
+                		} 
+            		}); 
         }
-
-        function activateInPlaceEditingForInformedConsent(localEditEvent) {
-            for (aE = 0; aE < informedConsentArray.length; aE++) {
-            	informedConsentArray[aE].enterEditMode(localEditEvent);
-            }
-        }
-
-        function activateInPlaceEditingForEligibilityCriteria(localEditEvent) {
-            for (aE = 0; aE < eligibilityCriteriaArray.length; aE++) {
-            	eligibilityCriteriaArray[aE].enterEditMode(localEditEvent);
-            }
-        }
-
-        function activateInPlaceEditingForStratificationCriteria(localEditEvent) {
-            for (aE = 0; aE < stratificationCriteriaArray.length; aE++) {
-            	stratificationCriteriaArray[aE].enterEditMode(localEditEvent);
-            }
-        }
+        
+        var diseaseSiteAutocompleterProps = {
+        		basename: "diseaseSite",
+        	    populator: function(autocompleter, text) {
+ 				        anatomicDiseaseSite.matchDiseaseSites(text, function(values) {
+							autocompleter.setChoices(values)
+ 						})
+				},
+        	    valueSelector: function(obj) {
+        			return obj.name + " (" + obj.code + ")"
+        		},
+        	    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+        		    							testHimanshu(inputElement, selectedElement, selectedChoice) ;
+        									}
+        	}
 		
+    		function testHimanshu(inputElement, selectedElement, selectedChoice) {
+        	$("diseaseSite-hidden").value=selectedChoice.id;
+        }
     </script>
 </head>
 <body>
@@ -374,7 +402,7 @@
   	</table>
 </chrome:division>
 <div id="editRegistrationSection">
-<chrome:division id="Current Epoch Information" title="Epoch & Arm">
+<chrome:division id="Current Epoch Information" title="Epoch & Arm" inPlaceLinkId="editInPlaceForArm" condition="${canEditRegistrationRecord}">
     <div class="leftpanel">
         <div class="row">
             <div class="label"><fmt:message key="c3pr.common.epoch"/>:</div>
@@ -394,7 +422,23 @@
             		<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notApplicable"/></span></div>
             	</c:when>
             	<c:otherwise>
-            		<div class="value">${armAssigned}</div>
+            		<div class="value">
+            		<c:if test="${armAssignedLabel == 'Kit'}">
+            			<tags:inPlaceEdit value="${command.studySubject.scheduledEpoch.scheduledArm.kitNumber}" path="studySubject.scheduledEpoch.scheduledArm.kitNumber" id="armAssigned" validations="validate-notEmpty"/>
+            		</c:if>
+            		<c:if test="${armAssignedLabel == 'Arm'}">
+            			<c:set var="commanSepOptValArm" value="["></c:set>
+           				<c:forEach items="${command.studySubject.scheduledEpoch.epoch.arms}" var="arm" varStatus="temp">
+               				<c:set var="commanSepOptValArm" value="${commanSepOptValArm}[${arm.id},'${arm.name}']"></c:set>
+               				<c:if test="${!temp.last}">
+                   				<c:set var="commanSepOptValArm" value="${commanSepOptValArm},"></c:set>
+               				</c:if>
+           				</c:forEach>
+           				<c:set var="commanSepOptValArm" value="${commanSepOptValArm}]"></c:set>
+               			<tags:inPlaceSelect value="${command.studySubject.scheduledEpoch.scheduledArm.arm.name}" path="studySubject.scheduledEpoch.scheduledArm.arm" id="armAssigned"
+                                   commanSepOptVal="${commanSepOptValArm}" pathToGet="studySubject.scheduledEpoch.scheduledArm.arm.name"/>
+            		</c:if>
+            		</div>
             	</c:otherwise>
             </c:choose>
         </div>
@@ -409,13 +453,20 @@
             <div class="value">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}</div>
         </div>
     </div>
+    
+     <script>
+    var armArray = new Array();
+    armArray.push(editor_armAssigned);
+    </script>
 </chrome:division>
 <div id="enrollmentSection">
-<chrome:division id="enrollment" title="Enrollment Details">
+<chrome:division id="enrollment" title="Enrollment Details" inPlaceLinkId="editInPlaceForEnrollmentDetail" condition="${canEditRegistrationRecord}">
 <div class="leftpanel">
         <div class="row">
             <div class="label"><fmt:message key="registration.startDate"/>:</div>
-            <div class="value">${command.studySubject.startDateStr}</div>
+            <div class="value">
+           		<tags:inPlaceEdit value="${command.studySubject.startDateStr}" path="studySubject.startDate" id="startDate" validations="validate-notEmpty&&DATE"/>
+            </div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="registration.registrationStatus"/>:</div>
@@ -425,18 +476,33 @@
         <c:if test="${command.studySubject.regWorkflowStatus=='OFF_STUDY'}">
             <div class="row">
                 <div class="label"><fmt:message key="registration.offStudyReason"/>:</div>
-                <div class="value">${command.studySubject.offStudyReasonText }</div>
+                <div class="value">
+   		             <tags:inPlaceEdit value="${command.studySubject.offStudyReasonText}" path="studySubject.offStudyReasonText" id="offStudyReasonText" validations="validate-notEmpty"/>
+                </div>
             </div>
             <div class="row">
                 <div class="label"><fmt:message key="registration.offStudyDate"/>:</div>
-                <div class="value">${command.studySubject.offStudyDateStr }</div>
+                <div class="value">
+                <tags:inPlaceEdit value="${command.studySubject.offStudyDateStr}" path="studySubject.offStudyDate" id="offStudyDate" validations="validate-notEmpty&&DATE"/>
+                </div>
             </div>
         </c:if>
         <div class="row">
             <div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
             	<c:choose>
 					<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
-						<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
+						<div class="value">
+							<c:set var="commanSepOptValPI" value="["></c:set>
+            				<c:forEach items="${command.studySubject.studySite.activeStudyInvestigators}" var="physician" varStatus="temp">
+                				<c:set var="commanSepOptValPI" value="${commanSepOptValPI}[${physician.id},'${physician.healthcareSiteInvestigator.investigator.fullName}']"></c:set>
+                				<c:if test="${!temp.last}">
+                    				<c:set var="commanSepOptValPI" value="${commanSepOptValPI},"></c:set>
+                				</c:if>
+            				</c:forEach>
+            				<c:set var="commanSepOptValPI" value="${commanSepOptValPI}]"></c:set>
+                			<tags:inPlaceSelect value="${command.studySubject.treatingPhysicianFullName}" path="studySubject.treatingPhysician" id="treatingPhysician"
+                                    commanSepOptVal="${commanSepOptValPI}" pathToGet="treatingPhysicianFullName"/>
+						</div>
 					</c:when>
 					<c:otherwise>
 						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
@@ -460,7 +526,18 @@
             <div class="label"><fmt:message key="registration.primaryDisease"/>:</div>
             	<c:choose>
 						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseStr}">
-							<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseStr}</div>
+							<div class="value">
+								<c:set var="commanSepOptValDisease" value="["></c:set>
+	            				<c:forEach items="${command.studySubject.studySite.study.studyDiseases}" var="disease" varStatus="temp">
+	                				<c:set var="commanSepOptValDisease" value="${commanSepOptValDisease}[${disease.id},'${disease.diseaseTerm.term}']"></c:set>
+	                				<c:if test="${!temp.last}">
+	                    				<c:set var="commanSepOptValDisease" value="${commanSepOptValDisease},"></c:set>
+	                				</c:if>
+	            				</c:forEach>
+	            				<c:set var="commanSepOptValDisease" value="${commanSepOptValDisease}]"></c:set>
+	                			<tags:inPlaceSelect value="${command.studySubject.diseaseHistory.primaryDiseaseStr}" path="studySubject.diseaseHistory.studyDisease" id="primaryDisease"
+	                                    commanSepOptVal="${commanSepOptValDisease}" pathToGet="studySubject.diseaseHistory.studyDisease.diseaseTerm.term"/>
+							</div>
 						</c:when>
 						<c:otherwise>
 							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
@@ -471,7 +548,15 @@
             <div class="label"><fmt:message key="registration.primaryDiseaseSite"/>:</div>
             <c:choose>
 						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseSiteStr }">
-							<div class="value">${command.studySubject.diseaseHistory.primaryDiseaseSiteStr }</div>
+							<div class="value">
+							    <tags:inPlaceEdit value="${command.studySubject.diseaseHistory.primaryDiseaseSiteStr}" path="studySubject.diseaseHistory.icd9DiseaseSite" id="icd9DiseaseSite" validations="validate-notEmpty" autocompleterJSVar="diseaseSiteAutocompleterProps"
+							    pathToGet="studySubject.diseaseHistory.icd9DiseaseSite.name"
+							    />
+							    <%-- <input type="hidden" name="value" class="editor_field" id="diseaseSite-hidden">
+<input type="text" class="autocomplete" id="diseaseSite-input">
+<tags:indicator id="diseaseSite-indicator" />
+<div id="diseaseSite-choices" class="autocomplete"></div>--%>
+							</div>
 						</c:when>
 						<c:otherwise>
 							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
@@ -480,9 +565,28 @@
         </div>
         <div class="row">
         <div class="label"><fmt:message key="registration.paymentMethod"/>:</div>
-            <c:choose>
+        	  <c:set var="options" value=""></c:set>
+		      <c:set var="values" value=""></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="["></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Private Insurance', 'Private Insurance'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Medicare', 'Medicare'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Medicare And Private Insurance', 'Medicare And Private Insurance'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Medicaid', 'Medicaid'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Medicaid And Medicare', 'Medicaid And Medicare'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Self Pay (No Insurance)', 'Self Pay (No Insurance)'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'No Means Of Payment (No Insurance)', 'No Means Of Payment (No Insurance)'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Military Sponsored', 'Military Sponsored'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Veterans Sponsored', 'Veterans Sponsored'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Military Or Veterans Sponsored Nos', 'Military Or Veterans Sponsored Nos'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Other', 'Other'],"></c:set>
+		      <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}[ 'Unknown', 'Unknown']"></c:set>
+			  <c:set var="commanSepOptValPaymentMethod" value="${commanSepOptValPaymentMethod}]"></c:set>
+              <c:choose>
 						<c:when test="${!empty command.studySubject.paymentMethod}">
-							<div class="value">${command.studySubject.paymentMethod}</div>
+							<div class="value">
+								<tags:inPlaceSelect value="${command.studySubject.paymentMethod}" path="studySubject.paymentMethod" id="paymentMethod"
+                                    commanSepOptVal="${commanSepOptValPaymentMethod}" />
+							</div>
 						</c:when>
 						<c:otherwise>
 							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
@@ -490,35 +594,52 @@
 					</c:choose>
         </div>
 </div>
+    <script>
+    var enrollmentDetailArray = new Array();
+    enrollmentDetailArray.push(editor_startDate);
+    enrollmentDetailArray.push(editor_paymentMethod);
+    enrollmentDetailArray.push(editor_primaryDisease);
+    enrollmentDetailArray.push(editor_offStudyDate);
+    enrollmentDetailArray.push(editor_offStudyReasonText);
+    enrollmentDetailArray.push(editor_treatingPhysician);
+    </script>
+    
 </chrome:division>
-<chrome:division title="Informed Consents">
-		<c:choose>
-			<c:when test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions)> 0}">
-				<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-				<div class="row">
-					<div class="label"><b>${studySubjectConsentVersion.consent.name}</b>:</div>
-					<div class="value">
-						<c:choose>
-							<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null 
-							&& studySubjectConsentVersion.informedConsentSignedDateStr != ''}">
-								${studySubjectConsentVersion.informedConsentSignedDateStr}
-							</c:when>
-							<c:otherwise>
-								<font color="red"><i>not signed</i></font>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</div>
-			</c:forEach>
-			</c:when>
-			<c:otherwise>
-			 The subject has not signed any consent forms.
-			</c:otherwise>
-		</c:choose>
-	</chrome:division>
+<chrome:division title="Informed Consents" inPlaceLinkId="editInPlaceForInformedConsent" condition="${canEditRegistrationRecord}">
+	<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+		<div class="row">
+			<div class="label"><b>${studySubjectConsentVersion.consent.name}</b>:</div>
+			<div class="value">
+				<c:choose>
+					<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null && studySubjectConsentVersion.informedConsentSignedDateStr != ''}"> 
+						<tags:inPlaceEdit value="${studySubjectConsentVersion.informedConsentSignedDateStr}" path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" 
+								id="informedConsentSignedDate_${status.index}" validations="validate-notEmpty&&DATE"/>
+					</c:when>
+					<c:otherwise>
+						<font color="red"><i>not signed</i></font>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
+	</c:forEach>
+    <script>
+    var informedConsentArray = new Array();
+    <c:forEach var="informedConsent" items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" varStatus="informedConsentStatus">
+    	informedConsentArray.push(editor_informedConsentSignedDate_${informedConsentStatus.index});	
+    </c:forEach>
+    </script>
+			
+</chrome:division>
 </div>
 </div>
-<chrome:division id="Eligibility" title="Eligibility">
+<chrome:division id="Eligibility" title="Eligibility" inPlaceLinkId="editInPlaceForEligibilityCriteria" condition="${canEditRegistrationRecord}">
+    <c:set var="options" value=""></c:set>
+    <c:set var="values" value=""></c:set>
+    <c:set var="commanSepOptVal" value="["></c:set>
+    <c:set var="commanSepOptVal" value="${commanSepOptVal}[ 'Yes'],"></c:set>
+    <c:set var="commanSepOptVal" value="${commanSepOptVal}[ 'No'],"></c:set>
+    <c:set var="commanSepOptVal" value="${commanSepOptVal}[ 'Not Applicable']"></c:set>
+	<c:set var="commanSepOptVal" value="${commanSepOptVal}]"></c:set>
 	<div class="leftpanel">
 		<div class="row">
     		<div class="label" ><fmt:message key="registration.eligible"/>:</div>
@@ -542,10 +663,13 @@
 	                      <th width="35%" scope="col" align="left"><fmt:message key="study.inclusionCriterion"/></th>
 	                      <th scope="col" align="left"><b><fmt:message key="study.answers"/></b></th>
 	                  </tr>
-	                  <c:forEach items="${command.studySubject.scheduledEpoch.inclusionEligibilityAnswers}" var="eligibilityAnswer">
+	                  <c:forEach items="${command.studySubject.scheduledEpoch.inclusionEligibilityAnswers}" var="eligibilityAnswer" varStatus="status">
 	                      <tr class="results">
 	                          <td class="alt" align="left">${eligibilityAnswer.eligibilityCriteria.questionText}</td>
-	                          <td class="alt" align="left">${eligibilityAnswer.answerText}</td>
+	                          <td class="alt" align="left">
+	                          	<tags:inPlaceSelect value="${eligibilityAnswer.answerText}" path="studySubject.scheduledEpoch.inclusionEligibilityAnswers[${status.index}].answerText" id="inclusionAnswerText_${status.index}"
+                                    commanSepOptVal="${commanSepOptVal}" />
+	                          </td>
 	                      </tr>
 	                  </c:forEach>
 	              </table>
@@ -557,18 +681,29 @@
 	                      <th width="35%" scope="col" align="left"><fmt:message key="study.exclusionCriterion"/></th>
 	                      <th scope="col" align="left"><b><fmt:message key="study.answers"/></b></th>
 	                  </tr>
-	                  <c:forEach items="${command.studySubject.scheduledEpoch.exclusionEligibilityAnswers}" var="eligibilityAnswer">
+	                  <c:forEach items="${command.studySubject.scheduledEpoch.exclusionEligibilityAnswers}" var="eligibilityAnswer" varStatus="exclusionStatus">
 	                      <tr class="results">
 	                          <td class="alt" align="left">${eligibilityAnswer.eligibilityCriteria.questionText}</td>
-	                          <td class="alt" align="left">${eligibilityAnswer.answerText}</td>
+	                          <td class="alt" align="left">
+	                          	<tags:inPlaceSelect value="${eligibilityAnswer.answerText}" path="studySubject.scheduledEpoch.exclusionEligibilityAnswers[${exclusionStatus.index}].answerText" id="exclusionAnswerText_${exclusionStatus.index}"
+                                    commanSepOptVal="${commanSepOptVal}" />
+	                          </td>
 	                      </tr>
 	                  </c:forEach>
 	              </table>
               </c:if>
          </div>
-	 
+    <script>
+    var eligibilityCriteriaArray = new Array();
+    <c:forEach var="inclusionEligibility" items="${command.studySubject.scheduledEpoch.inclusionEligibilityAnswers}" varStatus="inclusionEligibilityStatus">
+	    eligibilityCriteriaArray.push(editor_inclusionAnswerText_${inclusionEligibilityStatus.index});	
+    </c:forEach>
+    <c:forEach var="exclusionEligibility" items="${command.studySubject.scheduledEpoch.exclusionEligibilityAnswers}" varStatus="exclusionEligibilityStatus">
+    	eligibilityCriteriaArray.push(editor_exclusionAnswerText_${exclusionEligibilityStatus.index});	
+	</c:forEach>
+    </script>
     </chrome:division>
-    <chrome:division id="stratification" title="Stratification">
+    <chrome:division id="stratification" title="Stratification" inPlaceLinkId="editInPlaceForStratificationCriteria" condition="${canEditRegistrationRecord}">
         <c:choose>
             <c:when test="${fn:length(command.studySubject.scheduledEpoch.subjectStratificationAnswers) == 0}">
                 <div align="left"><span class="no-selection"><fmt:message key="registartion.stratificationNotAvailable"/></span></div>
@@ -588,18 +723,34 @@
                     <tr>
                         <th width="35%" scope="col" align="left"><fmt:message key="study.criterion"/></th>
                         <th scope="col" align="left"><b><fmt:message key="study.answers"/></b></th>
-                    </tr>
-                    <c:forEach items="${command.studySubject.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
+                    </tr>	
+                    <c:forEach items="${command.studySubject.scheduledEpoch.subjectStratificationAnswers}" var="criteria" varStatus="status">
                         <tr class="results">
                             <td class="alt" align="left">${criteria.stratificationCriterion.questionText}</td>
-                            <td class="alt"
-                                align="left">${criteria.stratificationCriterionAnswer.permissibleAnswer==''?'<span class="red"><b>Unanswered</b></span>':criteria.stratificationCriterionAnswer.permissibleAnswer }</td>
+                            <td class="alt" align="left">
+                            	<c:set var="commanSepOptValStratification" value="["></c:set>
+			       				<c:forEach items="${criteria.stratificationCriterion.permissibleAnswers}" var="answer" varStatus="temp">
+			           				<c:set var="commanSepOptValStratification" value="${commanSepOptValStratification}[${answer.id},'${answer.permissibleAnswer}']"></c:set>
+			           				<c:if test="${!temp.last}">
+			               				<c:set var="commanSepOptValStratification" value="${commanSepOptValStratification},"></c:set>
+			           				</c:if>
+			       				</c:forEach>
+			       				<c:set var="commanSepOptValStratification" value="${commanSepOptValStratification}]"></c:set>			
+                            	<tags:inPlaceSelect value="${criteria.stratificationCriterionAnswer.permissibleAnswer}" path="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" id="permissibleAnswer_${status.index}"
+                                    commanSepOptVal="${commanSepOptValStratification}"  pathToGet="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer.permissibleAnswer"/>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
                 </div>
             </c:otherwise>
         </c:choose>
+         <script>
+		    var stratificationCriteriaArray = new Array();
+		    <c:forEach var="stratificationAnswer" items="${command.studySubject.scheduledEpoch.subjectStratificationAnswers}" varStatus="stratificationStatus">
+		    stratificationCriteriaArray.push(editor_permissibleAnswer_${stratificationStatus.index});	
+		    </c:forEach>
+    </script>
     </chrome:division>
     
 <div <c:if test="${empty command.studySubject.parentStudySubject}">style="display:none;"</c:if>>
@@ -757,7 +908,9 @@
 				<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
 				<c:choose>
 					<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
-						<div class="value">${command.studySubject.treatingPhysicianFullName}</div>
+						<div class="value">
+            				${command.studySubject.treatingPhysicianFullName} 
+						</div>
 					</c:when>
 					<c:otherwise>
 						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>

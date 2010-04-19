@@ -5,7 +5,7 @@
 <%@attribute name="pathToGet"%>
 <%@attribute name="validations"%>
 <%@attribute name="autocompleterJSVar"%>
-<<c:if test="${!empty autocompleterJSVar}">
+<c:if test="${!empty autocompleterJSVar}">
 	<c:set var="autocompleterJS" value="autocompleter:${autocompleterJSVar}"/>
 </c:if>
 <c:set var="required" value="${! empty required?required:'false'}"></c:set>

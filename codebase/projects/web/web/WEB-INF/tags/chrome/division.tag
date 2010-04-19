@@ -9,6 +9,7 @@
 <%@attribute name="style" %>
 <%@attribute name="link" %>
 <%@attribute name="condition"%>
+<%@attribute name="inPlaceLinkId"%>
 <c:set var="condition" value="${empty condition ? true : condition}"/>
 
 <div class="division ${cssClass}"<tags:attribute name="id" value="${id}"/><tags:attribute name="style" value="${style}"/>>
@@ -76,8 +77,11 @@
             		${title} 
             	</c:otherwise>
             </c:choose>
-           	 <c:if test="${!empty link && condition}">
+           	<c:if test="${!empty link && condition}">
             	<a href="${link}"> <img src="<chrome:imageUrl name="../../templates/mocha/images/controlPanel/controlPanel_pencil.png" />"></a>
+            </c:if>
+            <c:if test="${empty link &&  !empty inPlaceLinkId && condition}">
+            	<a href="#"> <img  id="${inPlaceLinkId}" src="<chrome:imageUrl name="../../templates/mocha/images/controlPanel/controlPanel_pencil.png" />"></a>
             </c:if>
             </h3>
             
