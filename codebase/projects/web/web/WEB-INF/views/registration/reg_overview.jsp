@@ -188,6 +188,14 @@
                 		} 
             		}); 
         }
+
+        updateEligibility = function(){
+        	<tags:tabMethod method="updateEligibility" divElement="'eligibility'"  viewName="/registration/asynchronous/eligibilityIndicator"/>
+        }
+
+        updateStratification = function(){
+            <tags:tabMethod method="updateStratumGroupNumber" divElement="'stratumGroupNumber'" />
+        }
         
         var diseaseSiteAutocompleterProps = {
         		basename: "diseaseSite",
@@ -200,13 +208,10 @@
         			return obj.name + " (" + obj.code + ")"
         		},
         	    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-        		    							testHimanshu(inputElement, selectedElement, selectedChoice) ;
+        										$("diseaseSite-hidden").value=selectedChoice.id;
         									}
         	}
 		
-    		function testHimanshu(inputElement, selectedElement, selectedChoice) {
-        	$("diseaseSite-hidden").value=selectedChoice.id;
-        }
     </script>
 </head>
 <body>
@@ -643,15 +648,17 @@
 	<div class="leftpanel">
 		<div class="row">
     		<div class="label" ><fmt:message key="registration.eligible"/>:</div>
-        	<c:choose>
-				<c:when test="${command.studySubject.scheduledEpoch.eligibilityIndicator}">
-					<div class="value"><fmt:message key="c3pr.common.yes"/></div>
-				</c:when>
-				<c:otherwise>
-					<div class="value"><fmt:message key="c3pr.common.no"/></div>
-					<div align="left"><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span></div>
-				</c:otherwise>
-			</c:choose>
+    		<div id="eligibility">
+        		<c:choose>
+					<c:when test="${command.studySubject.scheduledEpoch.eligibilityIndicator}">
+						<div class="value"><fmt:message key="c3pr.common.yes"/></div>
+					</c:when>
+					<c:otherwise>
+						<div class="value"><fmt:message key="c3pr.common.no"/></div>
+						<div align="left"><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span></div>
+					</c:otherwise>
+				</c:choose>
+			</div>
          </div>
       </div>
       <div class="rightpanel">&nbsp;</div> 
@@ -668,7 +675,7 @@
 	                          <td class="alt" align="left">${eligibilityAnswer.eligibilityCriteria.questionText}</td>
 	                          <td class="alt" align="left">
 	                          	<tags:inPlaceSelect value="${eligibilityAnswer.answerText}" path="studySubject.scheduledEpoch.inclusionEligibilityAnswers[${status.index}].answerText" id="inclusionAnswerText_${status.index}"
-                                    commanSepOptVal="${commanSepOptVal}" />
+                                    commanSepOptVal="${commanSepOptVal}" onComplete="updateEligibility"/>
 	                          </td>
 	                      </tr>
 	                  </c:forEach>
@@ -713,7 +720,7 @@
 	          		<div class="leftpanel">
 					<div class="row">
 						<div class="label"><fmt:message key="registration.stratumGroupNumber"/>:</div>
-						<div class="value"> ${command.studySubject.scheduledEpoch.stratumGroupNumber}</div>
+						<div class="value" id="stratumGroupNumber"> ${command.studySubject.scheduledEpoch.stratumGroupNumber}</div>
 					</div>
 					</div>
 				</c:if>
@@ -737,7 +744,7 @@
 			       				</c:forEach>
 			       				<c:set var="commanSepOptValStratification" value="${commanSepOptValStratification}]"></c:set>			
                             	<tags:inPlaceSelect value="${criteria.stratificationCriterionAnswer.permissibleAnswer}" path="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" id="permissibleAnswer_${status.index}"
-                                    commanSepOptVal="${commanSepOptValStratification}"  pathToGet="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer.permissibleAnswer"/>
+                                    commanSepOptVal="${commanSepOptValStratification}"  pathToGet="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer.permissibleAnswer" onComplete="updateStratification"/>
                             </td>
                         </tr>
                     </c:forEach>

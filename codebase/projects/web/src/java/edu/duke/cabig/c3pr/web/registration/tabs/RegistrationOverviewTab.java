@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -347,5 +348,28 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		wrapper.setStudySubject(studySubject);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
 	}
-
+    
+    public ModelAndView updateEligibility(HttpServletRequest request, Object obj, Errors errors) {
+		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));
+	}
+    
+    public ModelAndView updateStratumGroupNumber(HttpServletRequest request, Object obj, Errors errors) {
+		StudySubjectWrapper wrapper = ((StudySubjectWrapper) obj);
+		StudySubject studySubject = wrapper.getStudySubject();
+		Integer stratumGroupNumber;
+		try {
+			stratumGroupNumber = studySubject.getScheduledEpoch().getStratumGroup().getStratumGroupNumber();
+			studySubject.getScheduledEpoch().setStratumGroupNumber(stratumGroupNumber);
+			Map<String, String> map = new HashMap<String, String>();
+			if(stratumGroupNumber != null){
+				map.put(AjaxableUtils.getFreeTextModelName(), stratumGroupNumber.toString());
+			}
+		    return new ModelAndView("", map);
+		} catch (C3PRBaseException e) {
+			e.printStackTrace();
+		} 
+		return null;
+		
+	}
+    
 }

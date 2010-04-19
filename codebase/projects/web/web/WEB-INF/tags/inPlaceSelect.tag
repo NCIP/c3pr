@@ -6,6 +6,17 @@
 <%@attribute name="value" required="true"%>
 <%@attribute name="pathToGet"%>
 <%@attribute name="validations"%>
+<%@attribute name="onComplete"%>
+<c:set var="callbackOpts" value=""></c:set>
+<c:if test="${! empty onComplete}">
+	<c:set var="callbackOpts" value="${callbackOpts}onComplete:${onComplete },"></c:set>
+</c:if>
+<%@attribute name="onLeaveEditMode"%>
+<c:if test="${! empty onLeaveEditMode}">
+	<c:set var="callbackOpts" value="${callbackOpts}onLeaveEditMode:${onLeaveEditMode },"></c:set>
+</c:if>
+
+
 
 <c:set var="required" value="${! empty required?required:'false'}"></c:set>
 
@@ -17,6 +28,7 @@
 													document.URL, {collection: ${commanSepOptVal}, 
 													validations:'${validations}', 
 													ajaxOptions:{evalScripts:true}, 
+													${callbackOpts}
 													cancelLink:false, cancelButton:true, okText:'ok', cancelText:'cancel',
 													externalControlsOnly:true, externalControl:'img-${id}',
 													callback: function(form, value) {
