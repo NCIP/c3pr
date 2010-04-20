@@ -369,7 +369,7 @@
             	<c:otherwise>
             		<div class="value">
             		<c:if test="${armAssignedLabel == 'Kit'}">
-            			<tags:inPlaceEdit value="${command.studySubject.scheduledEpoch.scheduledArm.kitNumber}" path="studySubject.scheduledEpoch.scheduledArm.kitNumber" id="armAssigned" validations="validate-notEmpty"/>
+            			<tags:inPlaceEdit value="${command.studySubject.scheduledEpoch.scheduledArm.kitNumber}" path="studySubject.scheduledEpoch.scheduledArm.kitNumber" id="armAssigned" validations="validate-notEmpty" disable="${!canEditRegistrationRecord}"/>
             		</c:if>
             		<c:if test="${armAssignedLabel == 'Arm'}">
             			<c:set var="commanSepOptValArm" value="["></c:set>
@@ -380,7 +380,7 @@
                				</c:if>
            				</c:forEach>
            				<c:set var="commanSepOptValArm" value="${commanSepOptValArm}]"></c:set>
-               			<tags:inPlaceSelect value="${command.studySubject.scheduledEpoch.scheduledArm.arm.name}" path="studySubject.scheduledEpoch.scheduledArm.arm" id="armAssigned"
+               			<tags:inPlaceSelect value="${command.studySubject.scheduledEpoch.scheduledArm.arm.name}" path="studySubject.scheduledEpoch.scheduledArm.arm" id="armAssigned" disable="${!canEditRegistrationRecord}"
                                    commanSepOptVal="${commanSepOptValArm}" pathToGet="studySubject.scheduledEpoch.scheduledArm.arm.name"/>
             		</c:if>
             		</div>
@@ -410,7 +410,7 @@
         <div class="row">
             <div class="label"><fmt:message key="registration.startDate"/>:</div>
             <div class="value">
-           		<tags:inPlaceEdit value="${command.studySubject.startDateStr}" path="studySubject.startDate" id="startDate" validations="validate-notEmpty&&DATE"/>
+           		<tags:inPlaceEdit value="${command.studySubject.startDateStr}" path="studySubject.startDate" id="startDate" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
             </div>
         </div>
         <div class="row">
@@ -422,13 +422,13 @@
             <div class="row">
                 <div class="label"><fmt:message key="registration.offStudyReason"/>:</div>
                 <div class="value">
-   		             <tags:inPlaceEdit value="${command.studySubject.offStudyReasonText}" path="studySubject.offStudyReasonText" id="offStudyReasonText" validations="validate-notEmpty"/>
+   		             <tags:inPlaceEdit value="${command.studySubject.offStudyReasonText}" path="studySubject.offStudyReasonText" id="offStudyReasonText" validations="validate-notEmpty" disable="${!canEditRegistrationRecord}"/>
                 </div>
             </div>
             <div class="row">
                 <div class="label"><fmt:message key="registration.offStudyDate"/>:</div>
                 <div class="value">
-                <tags:inPlaceEdit value="${command.studySubject.offStudyDateStr}" path="studySubject.offStudyDate" id="offStudyDate" validations="validate-notEmpty&&DATE"/>
+                <tags:inPlaceEdit value="${command.studySubject.offStudyDateStr}" path="studySubject.offStudyDate" id="offStudyDate" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
                 </div>
             </div>
         </c:if>
@@ -446,7 +446,7 @@
             				</c:forEach>
             				<c:set var="commanSepOptValPI" value="${commanSepOptValPI}]"></c:set>
                 			<tags:inPlaceSelect value="${command.studySubject.treatingPhysicianFullName}" path="studySubject.treatingPhysician" id="treatingPhysician"
-                                    commanSepOptVal="${commanSepOptValPI}" pathToGet="treatingPhysicianFullName"/>
+                                    commanSepOptVal="${commanSepOptValPI}" pathToGet="treatingPhysicianFullName" disable="${!canEditRegistrationRecord}"/>
 						</div>
 					</c:when>
 					<c:otherwise>
@@ -481,7 +481,7 @@
 	            				</c:forEach>
 	            				<c:set var="commanSepOptValDisease" value="${commanSepOptValDisease}]"></c:set>
 	                			<tags:inPlaceSelect value="${command.studySubject.diseaseHistory.primaryDiseaseStr}" path="studySubject.diseaseHistory.studyDisease" id="primaryDisease"
-	                                    commanSepOptVal="${commanSepOptValDisease}" pathToGet="studySubject.diseaseHistory.studyDisease.diseaseTerm.term"/>
+	                                    commanSepOptVal="${commanSepOptValDisease}" pathToGet="studySubject.diseaseHistory.studyDisease.diseaseTerm.term" disable="${!canEditRegistrationRecord}"/>
 							</div>
 						</c:when>
 						<c:otherwise>
@@ -495,7 +495,7 @@
 						<c:when test="${!empty command.studySubject.diseaseHistory.primaryDiseaseSiteStr }">
 							<div class="value">
 							    <tags:inPlaceEdit value="${command.studySubject.diseaseHistory.primaryDiseaseSiteStr}" path="studySubject.diseaseHistory.icd9DiseaseSite" id="icd9DiseaseSite" validations="validate-notEmpty" autocompleterJSVar="diseaseSiteAutocompleterProps"
-							    pathToGet="studySubject.diseaseHistory.icd9DiseaseSite.name"
+							    pathToGet="studySubject.diseaseHistory.icd9DiseaseSite.name" disable="${!canEditRegistrationRecord}"
 							    />
 							    <%-- <input type="hidden" name="value" class="editor_field" id="diseaseSite-hidden">
 <input type="text" class="autocomplete" id="diseaseSite-input">
@@ -530,7 +530,7 @@
 						<c:when test="${!empty command.studySubject.paymentMethod}">
 							<div class="value">
 								<tags:inPlaceSelect value="${command.studySubject.paymentMethod}" path="studySubject.paymentMethod" id="paymentMethod"
-                                    commanSepOptVal="${commanSepOptValPaymentMethod}" />
+                                    commanSepOptVal="${commanSepOptValPaymentMethod}" disable="${!canEditRegistrationRecord}"/>
 							</div>
 						</c:when>
 						<c:otherwise>
@@ -558,7 +558,7 @@
 				<c:choose>
 					<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null && studySubjectConsentVersion.informedConsentSignedDateStr != ''}"> 
 						<tags:inPlaceEdit value="${studySubjectConsentVersion.informedConsentSignedDateStr}" path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" 
-								id="informedConsentSignedDate_${status.index}" validations="validate-notEmpty&&DATE"/>
+								id="informedConsentSignedDate_${status.index}" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
 					</c:when>
 					<c:otherwise>
 						<font color="red"><i>not signed</i></font>
@@ -606,7 +606,7 @@
 	                          <td class="alt" align="left">${eligibilityAnswer.eligibilityCriteria.questionText}</td>
 	                          <td class="alt" align="left">
 	                          	<tags:inPlaceSelect value="${eligibilityAnswer.answerText}" path="studySubject.scheduledEpoch.inclusionEligibilityAnswers[${status.index}].answerText" id="inclusionAnswerText_${status.index}"
-                                    commanSepOptVal="${commanSepOptVal}" onComplete="updateEligibility"/>
+                                    commanSepOptVal="${commanSepOptVal}" onComplete="updateEligibility" disable="${!canEditRegistrationRecord}"/>
 	                          </td>
 	                      </tr>
 	                  </c:forEach>
@@ -624,7 +624,7 @@
 	                          <td class="alt" align="left">${eligibilityAnswer.eligibilityCriteria.questionText}</td>
 	                          <td class="alt" align="left">
 	                          	<tags:inPlaceSelect value="${eligibilityAnswer.answerText}" path="studySubject.scheduledEpoch.exclusionEligibilityAnswers[${exclusionStatus.index}].answerText" id="exclusionAnswerText_${exclusionStatus.index}"
-                                    commanSepOptVal="${commanSepOptVal}" />
+                                    commanSepOptVal="${commanSepOptVal}" disable="${!canEditRegistrationRecord}"/>
 	                          </td>
 	                      </tr>
 	                  </c:forEach>
@@ -675,7 +675,7 @@
 			       				</c:forEach>
 			       				<c:set var="commanSepOptValStratification" value="${commanSepOptValStratification}]"></c:set>			
                             	<tags:inPlaceSelect value="${criteria.stratificationCriterionAnswer.permissibleAnswer}" path="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" id="permissibleAnswer_${status.index}"
-                                    commanSepOptVal="${commanSepOptValStratification}"  pathToGet="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer.permissibleAnswer" onComplete="updateStratification"/>
+                                    commanSepOptVal="${commanSepOptValStratification}"  pathToGet="studySubject.scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer.permissibleAnswer" onComplete="updateStratification" disable="${!canEditRegistrationRecord}"/>
                             </td>
                         </tr>
                     </c:forEach>

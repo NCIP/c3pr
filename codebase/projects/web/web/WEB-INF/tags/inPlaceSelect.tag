@@ -11,17 +11,13 @@
 <c:if test="${! empty onComplete}">
 	<c:set var="callbackOpts" value="${callbackOpts}onComplete:${onComplete },"></c:set>
 </c:if>
-<%@attribute name="onLeaveEditMode"%>
-<c:if test="${! empty onLeaveEditMode}">
-	<c:set var="callbackOpts" value="${callbackOpts}onLeaveEditMode:${onLeaveEditMode },"></c:set>
-</c:if>
-
+<%@attribute name="disable" type="java.lang.Boolean"%>
 
 
 <c:set var="required" value="${! empty required?required:'false'}"></c:set>
 
 <span id="${path}-id">${value}</span>
-<a href="#"> <img  id="img-${id}" src="<chrome:imageUrl name='../../templates/mocha/images/controlPanel/controlPanel_pencil.png' />"></a>
+<a href="#" style="${disable?'display:none':''}"> <img  id="img-${id}" src="<chrome:imageUrl name='../../templates/mocha/images/controlPanel/controlPanel_pencil.png' />"></a>
 <script type="text/javascript">
 	var cheatVar;
 	var editor_${id}=new Ajax.InPlaceCollectionEditor('${path}-id', 
@@ -30,7 +26,7 @@
 													ajaxOptions:{evalScripts:true}, 
 													${callbackOpts}
 													cancelLink:false, cancelButton:true, okText:'ok', cancelText:'cancel',
-													externalControlsOnly:true, externalControl:'img-${id}',
+													externalControlOnly:true, externalControl:'img-${id}',
 													callback: function(form, value) {
 			  											cheatVar = value;
 												 		return '_asynchronous=true&_asyncMethodName=doInPlaceEdit&_ajaxInPlaceEditParam=${path}&_pathToGet=${pathToGet}&${path}=' + escape(value);
