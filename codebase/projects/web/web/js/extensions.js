@@ -54,8 +54,13 @@ Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
 		    divElement.id=this.options.autocompleter.basename+"-choices";
 		    divElement.className = 'autocomplete';
 		    this._form.appendChild(divElement);
-		    //register autocompleter
-	    	//AutocompleterManager.registerAutoCompleter(this.options.autocompleter);
+		    
+		    var imgElement = document.createElement('img');
+		    imgElement.alt= 'activity indicator';
+		    imgElement.src='/c3pr/images/indicator.white.gif';
+		    imgElement.className = 'indicator';
+		    imgElement.id=this.options.autocompleter.basename+"-indicator";
+		    this._form.appendChild(imgElement);
 		}
 	},
 	postProcessEditField: function() {
