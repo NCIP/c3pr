@@ -182,7 +182,7 @@ public class StudyOrganizationTest extends AbstractTestCase{
 		studyInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
 		studyOrganization.getStudyInvestigators().add(studyInvestigator);
 
-		assertTrue(studyOrganization.ifStudyInvestigatorExists(healthcareSiteInvestigator));
+		assertTrue(studyOrganization.ifStudyInvestigatorExistsAsPrincipalInvestigator(healthcareSiteInvestigator));
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class StudyOrganizationTest extends AbstractTestCase{
 		healthcareSiteInvestigator.setInvestigator(investigator);
 		healthcareSiteInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
 
-		assertFalse(studyOrganization.ifStudyInvestigatorExists(healthcareSiteInvestigator));
+		assertFalse(studyOrganization.ifStudyInvestigatorExistsAsPrincipalInvestigator(healthcareSiteInvestigator));
 	}
 
 
