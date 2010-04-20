@@ -216,44 +216,8 @@
 </head>
 <body>
 	<div id="controlPanel">
-	<tags:controlPanel>
-		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-			<c:if test="${isAdmin}">
-				<tags:oneControlPanelItem linkhref="javascript:invalidateRegistrationRecord();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_closeStudy.jpg" linktext="Invalidate Record" />
-			</c:if>
-			<c:choose>
-				<c:when test="${isCompleteRegistration && isAdmin}">
-					<tags:oneControlPanelItem linkhref="javascript:editRegistrationPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
-				</c:when>
-				<c:otherwise>
-					<c:choose>
-						<c:when test="${not empty command.studySubject.parentStudySubject}">
-							<c:set var="editRegURL"><c:url value='/pages/registration/editCompanionRegistration'/></c:set>
-						</c:when>
-						<c:otherwise>
-							<c:set var="editRegURL"><c:url value='/pages/registration/editRegistration'/></c:set>
-						</c:otherwise>
-					</c:choose>
-					<c:set var="editRegURL">
-						${editRegURL }?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>
-					</c:set>
-					<tags:oneControlPanelItem linkhref="${editRegURL}" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Resume Registration" />
-				</c:otherwise>
-			</c:choose>
-			<c:if test="${canChangeEpoch}">
-				<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
-			</c:if>
-	    	<c:if test="${takeSubjectOffStudy}">
-				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
-			</c:if>
-			<c:if test="${canBroadcast}">
-				<tags:oneControlPanelItem linkhref="javascript:confirmBroadcastRegistration();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_broadcast.png" linktext="Broadcast Registration" />
-			</c:if>
-    	</csmauthz:accesscontrol>
-		<tags:oneControlPanelItem linkhref="javascript:C3PR.disableAjaxLoadingIndicator=true;$('exportForm')._target.name='xxxx';$('exportForm').submit();C3PR.disableAjaxLoadingIndicator=false;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
-		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
-	</tags:controlPanel>
-</div>
+		<registrationTags:registrationControlPanel command="${command}"></registrationTags:registrationControlPanel>
+	</div>
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
@@ -649,15 +613,7 @@
 		<div class="row">
     		<div class="label" ><fmt:message key="registration.eligible"/>:</div>
     		<div id="eligibility">
-        		<c:choose>
-					<c:when test="${command.studySubject.scheduledEpoch.eligibilityIndicator}">
-						<div class="value"><fmt:message key="c3pr.common.yes"/></div>
-					</c:when>
-					<c:otherwise>
-						<div class="value"><fmt:message key="c3pr.common.no"/></div>
-						<div align="left"><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span></div>
-					</c:otherwise>
-				</c:choose>
+        		<registrationTags:eligibilityIndicator command="${command}"></registrationTags:eligibilityIndicator>
 			</div>
          </div>
       </div>
