@@ -60,19 +60,10 @@
 				Element.hide('OffStudyStatus');
 				return false;
 			}
-			if(formElement.id =='editRegistrationForm' && flag ){
-				<tags:tabMethod method="editRegistration" divElement="'editRegistrationSection'" formName="'editRegistrationForm'"  viewName="/registration/edit_registration_section" /> ;
-		    	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" /> ;
-		    	Element.hide('flash-message-offstudy');
-		    	Element.show('flash-message-edit');
-		    	closePopup();
-				return false;
-			}
 			if(formElement.id =='consentVersionForm' && flag ){
 				<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'consentVersionForm'"  viewName="/registration/enrollmentSection" />
 				<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" />
 				Element.hide('flash-message-offstudy');
-				Element.hide('flash-message-edit');
 				closePopup();
 				return false;
 			}
@@ -88,17 +79,6 @@
 		function manageParentRegistration(){
 			document.location="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.parentStudySubject.systemAssignedIdentifiers[0] }'/>" 
 		}
-
-		function editRegistrationPopup(){
-			var arr= $$("#editRegistration");
-			win = new Window({className :"mac_os_x", title: "Edit Registration", 
-									hideEffect:Element.hide, 
-									zIndex:100, width:550, height:400 , minimizable:false, maximizable:false,
-									showEffect:Element.show 
-									}) 
-			win.setContent(arr[0]) ;
-			win.showCenter(true);
-	 	}
 
 		function changeEpochPopup(){
 			var arr= $$("#changeEpoch");
@@ -239,9 +219,6 @@
 	<div id="flash-message-offstudy" style="display:none;">
 		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="c3pr.registration.subjectOffStudy"/>Subject has been taken off study.</div>
 	</div>
-	<div id="flash-message-edit" style="display:none;">
-		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="c3pr.registration.registrationUpdated"/>Registration has been updated.</div>
-	</div>  
 <div id="summary">
 <br/>
 <chrome:division id="Study Information" title="Study">
@@ -370,7 +347,6 @@
 		</c:forEach>
   	</table>
 </chrome:division>
-<div id="editRegistrationSection">
 <chrome:division id="Current Epoch Information" title="Epoch & Arm" inPlaceLinkId="editInPlaceForArm" condition="${canEditRegistrationRecord}">
     <div class="leftpanel">
         <div class="row">
@@ -600,7 +576,6 @@
 			
 </chrome:division>
 </div>
-</div>
 <chrome:division id="Eligibility" title="Eligibility" inPlaceLinkId="editInPlaceForEligibilityCriteria" condition="${canEditRegistrationRecord}">
     <c:set var="options" value=""></c:set>
     <c:set var="values" value=""></c:set>
@@ -795,11 +770,6 @@
 <div id="epochSelection" style="display:none;">
 <div id="changeEpoch" >
 	<%@ include file="reg_change_epoch.jsp"%>
-</div>
-</div>
-<div id="editRegistrationPage" style="display:none;">
-<div id="editRegistration" >
-	<%@ include file="reg_edit_registration.jsp"%>
 </div>
 </div>
 <div id="takeSubjectOffStudyPage" style="display:none;">

@@ -25,7 +25,7 @@
 			</c:if>
 			<c:choose>
 				<c:when test="${isCompleteRegistration && isAdmin}">
-					<tags:oneControlPanelItem linkhref="javascript:editRegistrationPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
+					
 				</c:when>
 				<c:otherwise>
 					<c:choose>

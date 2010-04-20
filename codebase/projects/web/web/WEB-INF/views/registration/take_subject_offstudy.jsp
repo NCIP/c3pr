@@ -12,7 +12,6 @@ function takeSubjectOffStudy(){
 	<tags:tabMethod method="refreshEnrollmentSection" divElement="'enrollmentSection'" formName="'offStudyStatusForm'"  viewName="/registration/enrollmentSection"/>
 	<tags:tabMethod method="refreshEnrollmentSection" divElement="'controlPanel'" formName="'command'"  viewName="/registration/control_panel_section" javaScriptParam="'dontSave'"/>
 	Element.show('flash-message-offstudy');
-	Element.hide('flash-message-edit');
 	closePopup();
 }
 
