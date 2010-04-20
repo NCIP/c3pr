@@ -21,13 +21,14 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
-import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.APIName;
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldAuthorable;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
@@ -359,15 +360,18 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
      * 
      * @return true, if successful
      */
+ // CPR-1771 Start
     @Transient
-    public boolean ifStudyInvestigatorExists(HealthcareSiteInvestigator healthcareInvestigator){
+    public boolean ifStudyInvestigatorExistsAsPrincipalInvestigator(HealthcareSiteInvestigator healthcareInvestigator){
     	for (StudyInvestigator studyInvestigator:getStudyInvestigators()){
-    		if (studyInvestigator.getHealthcareSiteInvestigator().equals(healthcareInvestigator)){
+    		if (studyInvestigator.getHealthcareSiteInvestigator().equals(healthcareInvestigator) && StringUtils.equals("Principal Investigator", studyInvestigator.getRoleCode())){
     			return true;
     		}
     	}
     	return false;
     }
+ // CPR-1771 End
+
     
     /**
      * Checks if is successfull send.

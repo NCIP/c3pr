@@ -106,52 +106,54 @@ public class StudyDetailsTab extends StudyTab {
             }
 
         }
-        if(!StringUtils.isBlank(request.getParameter("piCoCenter-hidden")) && !StringUtils.isBlank(request.getParameter("hcsInvestigator-hidden")))  {
-
-        	HealthcareSiteInvestigator healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(Integer.parseInt(request.getParameter("hcsInvestigator-hidden")));
-			boolean invExists = false;
-
-        	if (study.getStudyCoordinatingCenters().get(0).getHealthcareSite().getId().equals(Integer.parseInt(request.getParameter("piCoCenter-hidden")))){
-        		if(!study.getStudyCoordinatingCenters().get(0).ifStudyInvestigatorExists(healthcareSiteInvestigator)){
-        			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
-						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigatorsInternal().remove(study.getPrincipalStudyInvestigator());
-					}
-        			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
-	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
-					study.getStudyCoordinatingCenters().get(0).addStudyInvestigator(studyInvestigator);
-        		}
-        	} else {
-        		boolean siteExists=false;
-        		for(StudySite studySite:study.getStudySites()){
-        			if(studySite.getHealthcareSite().getId().equals(Integer.parseInt(request.getParameter("piCoCenter-hidden")))){
-        				if (!studySite.ifStudyInvestigatorExists(healthcareSiteInvestigator)) {
-        					if(study.getPrincipalInvestigatorStudyOrganization()!=null){
-        						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
-        					}
-        					StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
-							healthcareSiteInvestigator
-									.addStudyInvestigator(studyInvestigator);
-							studySite.addStudyInvestigator(studyInvestigator);
-							study.addStudySite(studySite);
-						}
-						siteExists=true;
-        			}
-        		}
-
-        		if(!siteExists){
-        			StudySite studySite = new StudySite();
-        			studySite.setHealthcareSite(healthcareSiteInvestigator.getHealthcareSite());
-        			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
-						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
-					}
-        			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
-	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
-	        		studySite.addStudyInvestigator(studyInvestigator);
-
-					study.addStudySite(studySite);
-        		}
-        	}
-        }
+        // CPR-1771 Start
+        if(!StringUtils.isBlank(request.getParameter("piCoCenter-hidden")) && !StringUtils.isBlank(request.getParameter("hcsInvestigator-hidden")))  {	
+         	
+         	HealthcareSiteInvestigator healthcareSiteInvestigator = healthcareSiteInvestigatorDao.getById(Integer.parseInt(request.getParameter("hcsInvestigator-hidden")));
+ 			boolean invExists = false;
+         	
+         	if (study.getStudyCoordinatingCenters().get(0).getHealthcareSite().getId().equals(Integer.parseInt(request.getParameter("piCoCenter-hidden")))){
+         		if(!study.getStudyCoordinatingCenters().get(0).ifStudyInvestigatorExistsAsPrincipalInvestigator(healthcareSiteInvestigator)){
+         			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
+     					study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigatorsInternal().remove(study.getPrincipalStudyInvestigator());
+     				}
+         			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
+ 	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
+ 					study.getStudyCoordinatingCenters().get(0).addStudyInvestigator(studyInvestigator);
+         		}
+         	} else { 
+         		boolean siteExists=false;
+         		for(StudySite studySite:study.getStudySites()){
+         			if(studySite.getHealthcareSite().getId().equals(Integer.parseInt(request.getParameter("piCoCenter-hidden")))){
+         				// Same logic as coordinating center
+         				if (!studySite.ifStudyInvestigatorExistsAsPrincipalInvestigator(healthcareSiteInvestigator)) {
+         					if(study.getPrincipalInvestigatorStudyOrganization()!=null){
+         						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
+         					}
+         					StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
+ 							healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
+ 							studySite.addStudyInvestigator(studyInvestigator);
+ 							study.addStudySite(studySite);
+ 						}
+ 						siteExists=true;
+         			} 
+         		}
+         		
+         		if(!siteExists){
+         			StudySite studySite = new StudySite();
+         			studySite.setHealthcareSite(healthcareSiteInvestigator.getHealthcareSite());
+         			if(study.getPrincipalInvestigatorStudyOrganization()!=null){
+ 						study.getPrincipalInvestigatorStudyOrganization().getStudyInvestigators().remove(study.getPrincipalStudyInvestigator());
+ 					}
+         			StudyInvestigator studyInvestigator = buildPrincipalInvestigator();
+ 	        		healthcareSiteInvestigator.addStudyInvestigator(studyInvestigator);
+ 	        		studySite.addStudyInvestigator(studyInvestigator);
+ 	        		
+ 					study.addStudySite(studySite);
+         		} 
+         	} 
+         }
+     // CPR-1771 End
         updateRandomization(study);
         updateStratification(study);
         wrapper.setStudy(study);
