@@ -342,7 +342,7 @@ div.row div.label {
 					</c:if>
 					<td>
 						    	<tags:button type="submit" color="green" id="flow-update"
-								value="Save" icon="save" onclick="javascript:submitForm();" />
+								value="Save" icon="save" />
 					</td>
 				</tr>
 		</table>
