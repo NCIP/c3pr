@@ -15,6 +15,8 @@
 	<c:set var="autocompleterJS" value="autocompleter:${autocompleterJSVar}"/>
 </c:if>
 <%@attribute name="disable" type="java.lang.Boolean"%>
+<%@attribute name="displayValueIfSuccessful"%>
+
 <c:set var="required" value="${! empty required?required:'false'}"></c:set>
 <span id="${path}-id">${value}</span>
 <a href="#" style="${disable?'display:none':''}"> <img  id="img-${id}" src="<chrome:imageUrl name='../../templates/mocha/images/controlPanel/controlPanel_pencil.png' />"></a>
@@ -27,8 +29,8 @@ var editor_${id}=new Ajax.InPlaceEditor('${path}-id',
 														externalControlOnly:true, externalControl:'img-${id}',
 														cancelLink:false, cancelButton:true, okText:'ok', cancelText:'cancel',
  														callback: function(form, value) {
-													 		return '_asynchronous=true&_asyncMethodName=doInPlaceEdit&_ajaxInPlaceEditParam=${path}&_pathToGet=${pathToGet}&${path}=' + escape(value);
-													  	},
+													 		return '_asynchronous=true&_asyncMethodName=doInPlaceEdit&_ajaxInPlaceEditParam=${path}&_pathToGet=${pathToGet}&_displayValue=${displayValueIfSuccessful}&${path}=' + escape(value);
+													  	}
 										  });
 </script>
 
