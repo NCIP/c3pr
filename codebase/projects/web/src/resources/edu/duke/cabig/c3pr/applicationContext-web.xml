@@ -10,6 +10,9 @@
 
     <bean id="userDuplicateValidator" class="edu.duke.cabig.c3pr.utils.web.validators.UsernameDuplicateValidator"
           autowire="byType"/>
+          
+    <bean id="assignedIdentifierDuplicateValidator" class="edu.duke.cabig.c3pr.utils.web.validators.AssignedIdentifierDuplicateValidator"
+          autowire="byType"/>
 
 
     <bean id="buildInfo" class="gov.nih.nci.cabig.ctms.tools.BuildInfo">

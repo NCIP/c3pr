@@ -476,9 +476,13 @@
         <property name="formView" value="admin/research_staff_details"/>
         <property name="successView" value="admin/research_staff_confirmation"/>
         <property name="sessionForm" value="true"/>
-        <property name="validator">
-            <ref bean="userDuplicateValidator"/>
+        <property name="validators">
+            <list>
+                <ref bean="userDuplicateValidator"/>
+                <ref bean="assignedIdentifierDuplicateValidator"/>
+            </list>
         </property>
+        
     </bean>
 	<bean name="/personAndOrganization/researchStaff/editResearchStaff"
           id="editResearchStaffController" lazy-init="true"
