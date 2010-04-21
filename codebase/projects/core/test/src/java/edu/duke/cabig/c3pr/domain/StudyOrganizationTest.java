@@ -1,16 +1,13 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
-import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
-import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.EndPointType;
-import edu.duke.cabig.c3pr.constants.StatusType;
+import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
 import edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition;
@@ -180,6 +177,7 @@ public class StudyOrganizationTest extends AbstractTestCase{
 		healthcareSiteInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
 		studyInvestigator.setHealthcareSiteInvestigator(healthcareSiteInvestigator);
 		studyInvestigator.setStatusCode(InvestigatorStatusCodeEnum.AC);
+		studyInvestigator.setRoleCode("Principal Investigator");
 		studyOrganization.getStudyInvestigators().add(studyInvestigator);
 
 		assertTrue(studyOrganization.ifStudyInvestigatorExistsAsPrincipalInvestigator(healthcareSiteInvestigator));
