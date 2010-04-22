@@ -1825,11 +1825,38 @@ public class StudySubject extends
 		this.setStudySubjectStudyVersion(studySubjectStudyVersion);
 	}
 	
+	/**
+	 * Checks if passed in staff is assigned and active personnel on the site associated to the studySub or the coordinating center associated to the studySub.
+	 * Called by the StudySubjectSecurityFilter to enforce site level security on StudySubjects.
+	 *
+	 * @param researchStaff the research staff
+	 * @return true, if is assigned and active personnel
+	 */
 	@Transient
 	public boolean isAssignedAndActivePersonnel(ResearchStaff researchStaff){
+		//Checking if staff belongs to the site of registration
 		for(StudyPersonnel studyPersonnel : getStudySite().getActiveStudyPersonnel()){
 			if(studyPersonnel.getResearchStaff().equals(researchStaff)){
 				return true;
+			}
+		}
+		
+		//If the site of registration is not the coordinating center then checking if staff belongs to the coordinating center of the studySubject.
+		if(!getStudySite().getIsCoordinatingCenter()){
+			StudySite coordinatingCenterStudySite = null;
+			for(StudySite studySite : getStudySite().getStudy().getStudySites()){
+				if(studySite.getIsCoordinatingCenter()){
+					coordinatingCenterStudySite = studySite;
+					break;
+				}
+			}
+			
+			if(coordinatingCenterStudySite != null){
+				for(StudyPersonnel studyPersonnel : coordinatingCenterStudySite.getActiveStudyPersonnel()){
+					if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+						return true;
+					}
+				}
 			}
 		}
 		return false;
