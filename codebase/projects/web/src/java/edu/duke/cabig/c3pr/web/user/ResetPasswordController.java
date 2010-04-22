@@ -57,11 +57,11 @@ public class ResetPasswordController extends SimpleFormController {
     
     private void initEmailText() {
         emailPretext = ""
-                + "Did you forgot your password?\n"
+                + "Did you forget your password?\n"
                 + "Do you want to select a new password?\n"
                 + "\n"
                 + "We cannot send you your password, because we don't know what it is. However, we can help you change your password to something new.\n"
-                + "\n" + "\n" + "To change your password go to the Change Password page:\n"
+                + "\n" + "\n" + "To change your password, go to the Change Password page:\n"
                 + "\n";
         emailPosttext = "\n"
                 + "\n"
