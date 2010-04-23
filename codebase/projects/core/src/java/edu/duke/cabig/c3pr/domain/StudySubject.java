@@ -1841,8 +1841,14 @@ public class StudySubject extends
 			}
 		}
 		
-		//If the site of registration is not the coordinating center then checking if staff belongs to the coordinating center of the studySubject.
+		//If the site of registration is not the coordinating center then checking if staff belongs to the coordinating center(CC) of the studySubject.
 		if(!getStudySite().getIsCoordinatingCenter()){
+			//Note: The CC can just be a studyOrg or can be added to the study as a studySite 
+			//and the user can add study personnel from either the CC as a studyOrg or the CC as a studySite.
+			//Hence, we need to check for studyPersonnel under both the studySite and the studyOrg
+			
+			
+			//Checking for CC under studySite
 			StudySite coordinatingCenterStudySite = null;
 			for(StudySite studySite : getStudySite().getStudy().getStudySites()){
 				if(studySite.getIsCoordinatingCenter()){
@@ -1850,9 +1856,18 @@ public class StudySubject extends
 					break;
 				}
 			}
-			
 			if(coordinatingCenterStudySite != null){
 				for(StudyPersonnel studyPersonnel : coordinatingCenterStudySite.getActiveStudyPersonnel()){
+					if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+						return true;
+					}
+				}
+			}
+			
+			//Checking for CC under studyOrg
+			StudyOrganization studyOrganizationCoordinatingCenter = getStudySite().getStudy().getStudyCoordinatingCenter();
+			if(studyOrganizationCoordinatingCenter != null){
+				for(StudyPersonnel studyPersonnel : studyOrganizationCoordinatingCenter.getActiveStudyPersonnel()){
 					if(studyPersonnel.getResearchStaff().equals(researchStaff)){
 						return true;
 					}
