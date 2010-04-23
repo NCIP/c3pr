@@ -250,9 +250,9 @@ public class ScheduledNotificationJob extends ScheduledJob {
     	while(iter.hasNext()){
     		ss = (StudySubject)iter.next();
     		msgBody.append("<tr>");
-    		msgBody.append("<td>" + ss.getParticipant().getMRN().getValue()+ "</td>");
+    		msgBody.append("<td>" + ss.getStudySubjectDemographics().getMasterSubject().getMRN().getValue()+ "</td>");
     		msgBody.append("<td>" + ss.getRegWorkflowStatus().getDisplayName()+ "</td>");
-    		msgBody.append("<td>" + ss.getParticipant().getFirstName() + " " + ss.getParticipant().getLastName() + "</td>");
+    		msgBody.append("<td>" + ss.getStudySubjectDemographics().getMasterSubject().getFirstName() + " " + ss.getStudySubjectDemographics().getMasterSubject().getLastName() + "</td>");
     		msgBody.append("</tr>");
     	}
     	msgBody.append("</table>");

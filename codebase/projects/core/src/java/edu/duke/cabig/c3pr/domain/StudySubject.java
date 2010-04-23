@@ -83,7 +83,10 @@ public class StudySubject extends
 	private Date offStudyDate;
 
 	/** The participant. */
-	private Participant participant;
+//	private Participant participant;
+	
+	/** The participant. */
+	private StudySubjectDemographics studySubjectDemographics;
 
 	/** The start date. */
 	private Date startDate;
@@ -372,20 +375,42 @@ public class StudySubject extends
 	 *
 	 * @param participant the new participant
 	 */
-	public void setParticipant(Participant participant) {
+/*	public void setParticipant(Participant participant) {
 		this.participant = participant;
-	}
+	}*/
 
 	/**
 	 * Gets the participant.
 	 *
 	 * @return the participant
 	 */
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name = "PRT_ID", nullable = false)
 	@Cascade( { CascadeType.LOCK })
 	public Participant getParticipant() {
 		return participant;
+	}*/
+	
+	@ManyToOne
+	@JoinColumn(name = "stu_sub_dmgphcs_id", nullable = false)
+	@Cascade( { CascadeType.ALL })
+	public StudySubjectDemographics getStudySubjectDemographics() {
+		return studySubjectDemographics;
+	}
+
+	public void setStudySubjectDemographics(
+			StudySubjectDemographics studySubjectDemographics) {
+		this.studySubjectDemographics = studySubjectDemographics;
+	}
+	
+	@Transient
+	public Participant getParticipant(){
+		return studySubjectDemographics != null ? studySubjectDemographics.getMasterSubject():null;
+	}
+	
+	@Transient
+	public void setParticipant (Participant participant){
+		this.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 	}
 
 	/**
@@ -422,7 +447,7 @@ public class StudySubject extends
 				: that.getStudySite() != null)
 			return false;
 		// Participant#equals calls this method, so we can't use it here
-		if (!DomainObjectTools.equalById(participant, that.participant))
+		if (!DomainObjectTools.equalById(studySubjectDemographics.getMasterSubject(), that.getStudySubjectDemographics().getMasterSubject()))
 			return false;
 
 		return true;
@@ -436,7 +461,7 @@ public class StudySubject extends
 		int result =1;
 		result = 29*result + (getStudySite() != null ? getStudySite().hashCode() : 0);
 		result = 29 * result
-				+ (participant != null ? participant.hashCode() : 0);
+				+ (studySubjectDemographics.getMasterSubject() != null ? studySubjectDemographics.getMasterSubject().hashCode() : 0);
 		return result;
 	}
 
@@ -1066,7 +1091,7 @@ public class StudySubject extends
 		Study study = studySite.getStudy();
 
 		Map<Object, Object> map = new HashMap<Object, Object>();
-		map.put(NotificationEmailSubstitutionVariablesEnum.PARTICIPANT_MRN.toString(), getParticipant().getMRN().getValue() == null ? "MRN" : getParticipant().getMRN().getValue());
+		map.put(NotificationEmailSubstitutionVariablesEnum.PARTICIPANT_MRN.toString(), studySubjectDemographics.getMRN().getValue() == null ? "MRN" : studySubjectDemographics.getMRN().getValue());
 		map.put(NotificationEmailSubstitutionVariablesEnum.REGISTRATION_STATUS.toString(), getRegWorkflowStatus().getDisplayName() == null ? "site name" : getRegWorkflowStatus().getDisplayName());
 
 		map.put(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString(), study.getShortTitleText() == null ? "Short Title" : study.getShortTitleText());

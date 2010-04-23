@@ -104,7 +104,7 @@ public class ParticipantTest extends TestCase{
 		assertEquals("Unexpected study subject for participant",0,participant.getStudySubjects().size());
 		
 		StudySubject studySubject = new StudySubject();
-		participant.addStudySubject(studySubject);
+		participant.createStudySubjectDemographics().addRegistration(studySubject);
 		
 		assertEquals("Study Subject not found for participant",1,participant.getStudySubjects().size());
 		
@@ -115,21 +115,23 @@ public class ParticipantTest extends TestCase{
 	 * 
 	 * @throws Exception the exception
 	 */
-	public void testRemoveStudySubject() throws Exception{
+	
+	// This test case is irrelevant now as there is no direct relation between participant and study subject
+	/*public void testRemoveStudySubject() throws Exception{
 		Participant participant = new Participant();
 		
 		StudySubject studySubject1 = new StudySubject();
-		participant.addStudySubject(studySubject1);
+		participant.createStudySubjectDemographics().addRegistration(studySubject1);
 		
 		StudySubject studySubject2 = new StudySubject();
-		participant.addStudySubject(studySubject2);
+		participant.createStudySubjectDemographics().addRegistration(studySubject2);
 		
 		assertEquals("Wrong number of Study Subjects for participant",2,participant.getStudySubjects().size());
 		
 		participant.removeStudySubject(studySubject1);
 		
 		assertEquals("Wrong number of Study Subjects for participant",1,participant.getStudySubjects().size());
-	}
+	}*/
 	
 	/**
 	 * Test compare to.

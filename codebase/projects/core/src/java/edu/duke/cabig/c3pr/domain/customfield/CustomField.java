@@ -12,6 +12,7 @@ import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
@@ -23,6 +24,8 @@ public abstract class CustomField extends AbstractMutableDeletableDomainObject {
 	private Study study ;
 	private StudySubject studySubject;
 	private Participant participant ;
+	private StudySubjectDemographics studySubjectDemographics;
+
 	private CustomFieldDefinition customFieldDefinition ;
 	
 	@ManyToOne
@@ -56,6 +59,17 @@ public abstract class CustomField extends AbstractMutableDeletableDomainObject {
 	}
 	
 	@ManyToOne
+    @JoinColumn(name = "stu_sub_dmgphcs_id")	
+	public StudySubjectDemographics getStudySubjectDemographics() {
+		return studySubjectDemographics;
+	}
+
+	public void setStudySubjectDemographics(
+			StudySubjectDemographics studySubjectDemographics) {
+		this.studySubjectDemographics = studySubjectDemographics;
+	}
+
+	@ManyToOne
     @JoinColumn(name = "cust_field_def_id")
 	public CustomFieldDefinition getCustomFieldDefinition() {
 		return customFieldDefinition;
@@ -65,3 +79,5 @@ public abstract class CustomField extends AbstractMutableDeletableDomainObject {
 		this.customFieldDefinition = customFieldDefinition;
 	}
 }
+
+

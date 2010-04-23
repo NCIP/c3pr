@@ -35,9 +35,13 @@ public class StudySubjectTest extends AbstractTestCase {
 
 	/** The study site. */
 	StudySite studySite;
+	
+	StudySubjectDemographics studySubjectDemographics;
 
 	/** The participant. */
 	Participant participant;
+	
+	
 
 	/** The study subject. */
 	StudySubject studySubject;
@@ -76,7 +80,9 @@ public class StudySubjectTest extends AbstractTestCase {
 		scheduledEpoch = registerMockFor(ScheduledEpoch.class);
 		studySubject = new StudySubject();
 		participant = registerMockFor(Participant.class);
-		studySubject.setParticipant(participant);
+		studySubjectDemographics = registerMockFor(StudySubjectDemographics.class);
+		studySubject.setStudySubjectDemographics(studySubjectDemographics);
+	//	studySubjectDemographics.setMasterSubject(participant);
 		c3prExceptionHelper = registerMockFor(C3PRExceptionHelper.class);
 		studySiteStudyVersion = registerMockFor(StudySiteStudyVersion.class);
 		studySubjectStudyVersion = registerMockFor(StudySubjectStudyVersion.class);
@@ -361,8 +367,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 
     	Participant participant1 = new Participant();
     	participant1.setId(1);
-    	studySubject1.setParticipant(participant1);
-    	studySubject2.setParticipant(participant1);
+    	studySubject1.setStudySubjectDemographics(participant1.createStudySubjectDemographics());
+    	studySubject2.setStudySubjectDemographics(participant1.createStudySubjectDemographics());
     	Date startDate = new Date();
     	studySubject1.setStartDate(startDate);
     	studySubject2.setStartDate(startDate);
@@ -372,7 +378,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	// Creating a new Participant with different Id and setting the second study subject to this participant
     	Participant participant2 = new Participant();
     	participant2.setId(2);
-    	studySubject2.setParticipant(participant2);
+    	studySubject2.setStudySubjectDemographics(participant2.createStudySubjectDemographics());
     	assertFalse("The two study subjects should not have been equal",studySubject1.equals(studySubject2));
     }
 
@@ -382,10 +388,15 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testEquals2() throws Exception{
+    	Participant participant = new Participant();
     	StudySubject studySubject1 = new StudySubject();
+    	studySubject1.setStudySubjectDemographics(participant.createStudySubjectDemographics());
     	assertFalse("Should not have been equal",studySubject1.equals(new StudySite()));
+    	
+    	
     	StudySubject studySubject2 = new StudySubject();
-
+    	studySubject2.setStudySubjectDemographics(participant.createStudySubjectDemographics());
+  
     	Study study1 = new LocalStudy();
     	StudySite studySite1 = new StudySite();
     	
@@ -397,9 +408,14 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	Date startDate = new Date();
     	studySubject1.setStartDate(null);
     	studySubject2.setStartDate(startDate);
-    	assertFalse("The two study subjects should not have been equal",studySubject1.equals(null));
+    	
+    	
+    	assertFalse("Study subject should not be equal to null",studySubject1.equals(null));
 
     	studySubject1.setStartDate(startDate);
+    	
+    	
+    	
     	assertTrue("The two study subjects should have been equal",studySubject1.equals(studySubject2));
 
     }
@@ -442,8 +458,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     public void testHashCode1() throws Exception{
     	int prime = 29;
     	StudySubject studySubject1 = new StudySubject();
+    	Participant participant = new Participant();
+    	studySubject1.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
-    	assertEquals("Wrong hash code",prime*prime, studySubject1.hashCode());
+    	assertEquals("Wrong hash code",prime*prime + participant.hashCode(), studySubject1.hashCode());
 
     	Study study1 = new LocalStudy();
     	StudySite studySite1 = new StudySite();
@@ -451,7 +469,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	study1.addStudySite(studySite1);
 
     	studySubject1.setStudySite(studySite1);
-    	assertEquals("Wrong hash code",prime*(prime+studySite1.hashCode()), studySubject1.hashCode());
+    	assertEquals("Wrong hash code",(prime*(prime+studySite1.hashCode())) + participant.hashCode(), studySubject1.hashCode());
     }
 
     /**
@@ -803,7 +821,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testBuildMapForNotification() throws Exception{
     	OrganizationAssignedIdentifier mrn = registerMockFor(OrganizationAssignedIdentifier.class);
-    	EasyMock.expect(participant.getMRN()).andReturn(mrn).times(2);
+    	EasyMock.expect(studySubjectDemographics.getMRN()).andReturn(mrn).times(2);
     	EasyMock.expect(mrn.getValue()).andReturn("mrnValue").times(2);
     	EasyMock.expect(studySite.getStudy()).andReturn(study).times(1);
     	EasyMock.expect(study.getShortTitleText()).andReturn("Short_title_text").times(2);

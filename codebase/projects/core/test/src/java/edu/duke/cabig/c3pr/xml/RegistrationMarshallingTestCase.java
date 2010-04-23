@@ -75,7 +75,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
 
         ScheduledEpoch epoch = new ScheduledEpoch();
         registration.addScheduledEpoch(epoch);
-        registration.setParticipant(patient);
+        registration.setStudySubjectDemographics(patient.createStudySubjectDemographics());
 
 
         try {
@@ -115,7 +115,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
                             messageReader);
             assertNotNull(unmarshalledRegistration);
 
-            assertNotNull(unmarshalledRegistration.getParticipant());
+            assertNotNull(unmarshalledRegistration.getStudySubjectDemographics().getMasterSubject());
 
             assertEquals(unmarshalledRegistration.getStudySite().getHealthcareSite().getGridId(),
                             siteGridId);

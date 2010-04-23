@@ -23,8 +23,12 @@ import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
+import edu.duke.cabig.c3pr.domain.customfield.DateCustomField;
+import edu.duke.cabig.c3pr.domain.customfield.IntegerCustomField;
+import edu.duke.cabig.c3pr.domain.customfield.StringCustomField;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedInstantiateFactory;
 import edu.duke.cabig.c3pr.utils.DateUtil;
@@ -64,13 +68,15 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	private String maritalStatusCode;
 
 	/** The study subjects. */
-	private List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+//	private List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 
 	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 
 	/** The identifiers. */
 	private List<Identifier> identifiers;
+	
+	private List<StudySubjectDemographics> studySubjectDemographics = new ArrayList<StudySubjectDemographics>();
 	
 	/**
 	 * Instantiates a new participant.
@@ -88,6 +94,25 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		raceCodes =  new ArrayList<RaceCode>();
 		healthcareSites = new ArrayList<HealthcareSite>();
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+	}
+
+	
+	@OneToMany(mappedBy = "masterSubject")
+	@Cascade(value = {CascadeType.LOCK})
+	@OrderBy("id")
+	public List<StudySubjectDemographics> getStudySubjectDemographics() {
+		return studySubjectDemographics;
+	}
+
+	public void setStudySubjectDemographics(
+			List<StudySubjectDemographics> studySubjectDemographics) {
+		this.studySubjectDemographics = studySubjectDemographics;
+	}
+	
+	
+	public void addStudySubjectDemographics(StudySubjectDemographics studySubjectDemographics){
+		this.getStudySubjectDemographics().add(studySubjectDemographics);
+		studySubjectDemographics.setMasterSubject(this);
 	}
 
 	/**
@@ -183,13 +208,22 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	 * 
 	 * @return the study subjects
 	 */
-	@OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
+	/*@OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "reg_workflow_status  != 'INVALID'")
 	public List<StudySubject> getStudySubjects() {
 		return studySubjects;
 	}
-
+*/
+	@Transient
+	public List<StudySubject> getStudySubjects(){
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    	
+    	for(StudySubjectDemographics studySubjectDemographic : this.getStudySubjectDemographics()){
+    		studySubjects.addAll(studySubjectDemographic.getRegistrations());
+    	}
+		return studySubjects;
+	}
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
 	 */
@@ -207,7 +241,11 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
 		this.contactMechanisms = contactMechanisms;
 	}
-
+	
+	public void addContactMechanism(ContactMechanism contactMechanism){
+		getContactMechanisms().add(contactMechanism);
+	}
+	
 	/**
 	 * Gets the birth date.
 	 * 
@@ -369,27 +407,27 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	 * 
 	 * @param studySubjects the new study subjects
 	 */
-	public void setStudySubjects(List<StudySubject> studySubjects) {
+	/*public void setStudySubjects(List<StudySubject> studySubjects) {
 		this.studySubjects = studySubjects;
-	}
+	}*/
 
 	/**
 	 * Adds the study subject.
 	 * 
 	 * @param studySubject the study subject
 	 */
-	public void addStudySubject(StudySubject studySubject) {
+	/*public void addStudySubject(StudySubject studySubject) {
 		studySubjects.add(studySubject);
-	}
+	}*/
 
 	/**
 	 * Removes the study subject.
 	 * 
 	 * @param studySubject the study subject
 	 */
-	public void removeStudySubject(StudySubject studySubject) {
+	/*public void removeStudySubject(StudySubject studySubject) {
 		studySubjects.remove(studySubject);
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -538,6 +576,158 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	public void addCustomField(CustomField customField) {
 		this.getCustomFields().add(customField);
 		customField.setParticipant(this);
+	}
+	
+	public StudySubjectDemographics createStudySubjectDemographics(){
+		StudySubjectDemographics studySubjectDemographics = new StudySubjectDemographics();
+		
+		// copy basic details
+		studySubjectDemographics.setFirstName(this.getFirstName());
+		studySubjectDemographics.setLastName(this.getLastName());
+		studySubjectDemographics.setMiddleName(this.getMiddleName());
+		studySubjectDemographics.setMaidenName(this.getMaidenName());
+		studySubjectDemographics.setAdministrativeGenderCode(this.getAdministrativeGenderCode());
+		studySubjectDemographics.setEthnicGroupCode(this.getEthnicGroupCode());
+		studySubjectDemographics.setRaceCode(this.getRaceCode());
+		studySubjectDemographics.setBirthDate(this.getBirthDate());
+		
+		// copy address
+		
+		Address addressCopy = new Address();
+		addressCopy.setStreetAddress(this.getAddress().getStreetAddress());
+		addressCopy.setCity(this.getAddress().getCity());
+		addressCopy.setStateCode(this.getAddress().getStateCode());
+		addressCopy.setCountryCode(this.getAddress().getCountryCode());
+		addressCopy.setPostalCode(this.getAddress().getPostalCode());
+		
+		studySubjectDemographics.setAddress(addressCopy);
+		
+		// copy contact mechanisms
+		
+		for(ContactMechanism contactMechanism : this.getContactMechanisms()){
+			ContactMechanism contactMechanismCopy = new ContactMechanism();
+			contactMechanismCopy.setType(contactMechanism.getType());
+			contactMechanismCopy.setValue(contactMechanism.getValue());
+			
+			studySubjectDemographics.addContactMechanism(contactMechanismCopy);
+		}
+		
+		// copy identifiers
+		
+		for(Identifier identifier : this.getIdentifiers()){
+			if(identifier instanceof OrganizationAssignedIdentifier){
+				OrganizationAssignedIdentifier orgIdentifier = (OrganizationAssignedIdentifier) identifier;
+				OrganizationAssignedIdentifier orgIdentifierCopy = new OrganizationAssignedIdentifier();
+				orgIdentifierCopy.setHealthcareSite(orgIdentifier.getHealthcareSite());
+				orgIdentifierCopy.setType(orgIdentifier.getType());
+				orgIdentifierCopy.setValue(orgIdentifier.getValue());
+				orgIdentifierCopy.setPrimaryIndicator(orgIdentifier.getPrimaryIndicator());
+				
+				studySubjectDemographics.addIdentifier(orgIdentifierCopy);
+				
+			}else if (identifier instanceof SystemAssignedIdentifier){
+				SystemAssignedIdentifier sysIdentifier = (SystemAssignedIdentifier) identifier;
+				SystemAssignedIdentifier sysIdentifierCopy = new SystemAssignedIdentifier();
+				sysIdentifierCopy.setSystemName(sysIdentifier.getSystemName());
+				sysIdentifierCopy.setType(sysIdentifier.getType());
+				sysIdentifierCopy.setValue(sysIdentifier.getValue());
+				sysIdentifierCopy.setPrimaryIndicator(sysIdentifier.getPrimaryIndicator());
+				
+				studySubjectDemographics.addIdentifier(sysIdentifierCopy);
+			}
+		}
+		
+		// copy custom fields
+		
+		for(CustomField customField:this.getCustomFields()){
+			if(customField instanceof BooleanCustomField){
+				BooleanCustomField booleanCustomField = (BooleanCustomField) customField;
+				BooleanCustomField booleanCustomFieldCopy = new BooleanCustomField();
+				booleanCustomFieldCopy.setCustomFieldDefinition(booleanCustomField.getCustomFieldDefinition());
+				booleanCustomFieldCopy.setValue(booleanCustomField.getValue());
+				studySubjectDemographics.addCustomField(booleanCustomFieldCopy);
+			}else if(customField instanceof DateCustomField){
+				DateCustomField dateCustomField = (DateCustomField) customField;
+				DateCustomField dateCustomFieldCopy = new DateCustomField();
+				dateCustomFieldCopy.setCustomFieldDefinition(dateCustomField.getCustomFieldDefinition());
+				dateCustomFieldCopy.setValue(dateCustomField.getValue());
+				studySubjectDemographics.addCustomField(dateCustomFieldCopy);
+			} else if(customField instanceof IntegerCustomField){
+				IntegerCustomField integerCustomField = (IntegerCustomField) customField;
+				IntegerCustomField integerCustomFieldCopy = new IntegerCustomField();
+				integerCustomFieldCopy.setCustomFieldDefinition(integerCustomField.getCustomFieldDefinition());
+				integerCustomFieldCopy.setValue(integerCustomField.getValue());
+				studySubjectDemographics.addCustomField(integerCustomFieldCopy);
+			}else if(customField instanceof StringCustomField){
+				StringCustomField stringCustomField = (StringCustomField) customField;
+				StringCustomField stringCustomFieldCopy = new StringCustomField();
+				stringCustomField.setCustomFieldDefinition(stringCustomField.getCustomFieldDefinition());
+				stringCustomField.setValue(stringCustomField.getValue());
+				studySubjectDemographics.addCustomField(stringCustomFieldCopy);
+			}
+		}
+		
+		// add to Participant and set association both ways
+		
+		this.addStudySubjectDemographics(studySubjectDemographics);
+		
+		return studySubjectDemographics;
+	}
+	
+	
+	public void synchronizeWithStudySubjectDemographics(StudySubjectDemographics studySubjectDemographics){
+		// copy basic details
+		this.setFirstName(studySubjectDemographics.getFirstName());
+		this.setLastName(studySubjectDemographics.getLastName());
+		this.setMiddleName(studySubjectDemographics.getMiddleName());
+		this.setMaidenName(studySubjectDemographics.getMaidenName());
+		this.setAdministrativeGenderCode(studySubjectDemographics.getAdministrativeGenderCode());
+		this.setEthnicGroupCode(studySubjectDemographics.getEthnicGroupCode());
+		this.setRaceCode(studySubjectDemographics.getRaceCode());
+		this.setBirthDate(studySubjectDemographics.getBirthDate());
+		
+		// copy address
+		Address addressCopy = new Address();
+		addressCopy.setStreetAddress(studySubjectDemographics.getAddress().getStreetAddress());
+		addressCopy.setCity(studySubjectDemographics.getAddress().getCity());
+		addressCopy.setStateCode(studySubjectDemographics.getAddress().getStateCode());
+		addressCopy.setCountryCode(studySubjectDemographics.getAddress().getCountryCode());
+		addressCopy.setPostalCode(studySubjectDemographics.getAddress().getPostalCode());
+		
+		this.setAddress(addressCopy);
+		
+		// copy the contact mechanisms 
+		this.setEmail(studySubjectDemographics.getEmail());
+		this.setPhone(studySubjectDemographics.getPhone());
+		this.setFax(studySubjectDemographics.getFax());
+		
+		// reset the existing identifiers of the participant by setting it to an empty list
+		this.identifiers = new ArrayList<Identifier>();
+		
+		// copy identifiers from passed in demographics
+		
+		for(Identifier identifier : studySubjectDemographics.getIdentifiers()){
+			if(identifier instanceof OrganizationAssignedIdentifier){
+				OrganizationAssignedIdentifier orgIdentifier = (OrganizationAssignedIdentifier) identifier;
+				OrganizationAssignedIdentifier orgIdentifierCopy = new OrganizationAssignedIdentifier();
+				orgIdentifierCopy.setHealthcareSite(orgIdentifier.getHealthcareSite());
+				orgIdentifierCopy.setType(orgIdentifier.getType());
+				orgIdentifierCopy.setValue(orgIdentifier.getValue());
+				orgIdentifierCopy.setPrimaryIndicator(orgIdentifier.getPrimaryIndicator());
+				
+				this.addIdentifier(orgIdentifierCopy);
+				
+			}else if (identifier instanceof SystemAssignedIdentifier){
+				SystemAssignedIdentifier sysIdentifier = (SystemAssignedIdentifier) identifier;
+				SystemAssignedIdentifier sysIdentifierCopy = new SystemAssignedIdentifier();
+				sysIdentifierCopy.setSystemName(sysIdentifier.getSystemName());
+				sysIdentifierCopy.setType(sysIdentifier.getType());
+				sysIdentifierCopy.setValue(sysIdentifier.getValue());
+				sysIdentifierCopy.setPrimaryIndicator(sysIdentifier.getPrimaryIndicator());
+				
+				this.addIdentifier(sysIdentifierCopy);
+			}
+		}
 	}
 	
 }

@@ -90,7 +90,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectRepository=studySubjectRepositoryImpl;
         studySubject=new StudySubject();
         studySubjectCreatorHelper=new StudySubjectCreatorHelper();
-        studySubject.setParticipant(studySubjectCreatorHelper.createNewParticipant());
+        studySubject.setStudySubjectDemographics(studySubjectCreatorHelper.createNewParticipant().createStudySubjectDemographics());
         identifierGenerator = (IdentifierGenerator) ApplicationTestCase.getDeployedCoreApplicationContext().getBean("identifierGenerator");
     }
 
@@ -144,7 +144,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        orgIdentifier.setHealthcareSite(studySubject.getStudySite().getHealthcareSite());
 	        orgIdentifier.setValue("MRN Value");
 	        orgIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);
-	        studySubject.getParticipant().addIdentifier(orgIdentifier);
+	        studySubject.getStudySubjectDemographics().getMasterSubject().addIdentifier(orgIdentifier);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());
 	        replayMocks();
@@ -165,7 +165,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
 			sysIdentifier.setSystemName("C3PR");
 			sysIdentifier.setType("Study Subject Identifier1");
-			sysIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + "_" +studySubject.getParticipant().getPrimaryIdentifierValue());
+			sysIdentifier.setValue(studySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier().getValue() + "_" +studySubject.getStudySubjectDemographics().getMasterSubject().getPrimaryIdentifierValue());
 			studySubject.addIdentifier(sysIdentifier);
 	        EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
 	        EasyMock.expect(studySubjectDao.searchBySubjectAndStudyIdentifiers((Identifier)EasyMock.anyObject(),(Identifier)EasyMock.anyObject())).andReturn(new ArrayList<StudySubject>());

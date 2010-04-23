@@ -6,18 +6,21 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_SUBJECT;
 import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
@@ -418,5 +421,154 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         Participant savedParticipant = participantDao.getById(participant.getId());
         assertEquals("mani", savedParticipant.getMaidenName());
 	}
+    
+    public void testSynchronizeWithLatestStudySubjectDemographics1() throws Exception {
+    	Participant participant = new Participant();
+    	
+    	StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
+    	
+    	OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+    	orgIdentifier.setHealthcareSite(new LocalHealthcareSite());
+    	orgIdentifier.setType(OrganizationIdentifierTypeEnum.C3PR);
+    	orgIdentifier.setValue("identifier1");
+    	
+    	participant.addIdentifier(orgIdentifier);
+    	
+    	assertEquals("Unexpected identifier(s)",0,studySubjectDemographics.getIdentifiers().size());
+    	assertEquals("Expected 1 identifier",1,participant.getIdentifiers().size());
+    	
+    	participant.synchronizeWithStudySubjectDemographics(studySubjectDemographics);
+    	
+    	assertEquals("Unexpected identifier(s)",0,participant.getIdentifiers().size());
+    	
+    }
+    
+    public void testSynchronizeWithLatestStudySubjectDemographicsIdentifiers() throws Exception {
+    	Participant participant = new Participant();
+    	
+    	StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
+    	
+    	OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+    	
+    	LocalHealthcareSite localHealthcareSite = new LocalHealthcareSite();
+    	localHealthcareSite.setName("NCCTG");
+    	orgIdentifier.setHealthcareSite(localHealthcareSite);
+    	orgIdentifier.setType(OrganizationIdentifierTypeEnum.C3PR);
+    	orgIdentifier.setValue("identifier1");
+    	
+    	studySubjectDemographics.addIdentifier(orgIdentifier);
+    	
+    	assertEquals("Unexpected identifier(s)", 0, participant.getIdentifiers().size());
+    	assertEquals("Expected 1 identifier", 1, studySubjectDemographics.getIdentifiers().size());
+    	
+    	participant.synchronizeWithStudySubjectDemographics(studySubjectDemographics);
+    	
+    	assertEquals("Expected 1 identifier",1, participant.getIdentifiers().size());
+    	assertEquals("Name of healthcare site assigning the identifier is different", "NCCTG",
+    			((OrganizationAssignedIdentifier)participant.getIdentifiers().get(0)).getHealthcareSite().getName());
+    	assertEquals("Type of identifier is different", OrganizationIdentifierTypeEnum.C3PR, 
+    			((OrganizationAssignedIdentifier)participant.getIdentifiers().get(0)).getType());
+    	assertEquals("Value of identifier is different", "identifier1",
+    			((OrganizationAssignedIdentifier)participant.getIdentifiers().get(0)).getValue());
+    	
+    }
+    
+    public void testSynchronizeWithLatestStudySubjectDemographicsContactMechanisms() throws Exception {
+    	Participant participant = new Participant();
+    	
+    	StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
+    	studySubjectDemographics.setEmail("mail1@duke.edu");
+    	
+    	assertNull("Unexpected email",participant.getEmail());
+    	participant.synchronizeWithStudySubjectDemographics(studySubjectDemographics);
+    	
+    	assertEquals("Expected email","mail1@duke.edu", participant.getEmail());
+    	
+    }
+    
+    public void testSynchronizeWithLatestStudySubjectDemographicsBasicDetails() throws Exception {
+    	Participant participant = new Participant();
+    	
+    	StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
+    	
+    	studySubjectDemographics.setFirstName("John");
+    	studySubjectDemographics.setLastName("Doe");
+    	studySubjectDemographics.setMiddleName("JD");
+    	studySubjectDemographics.setMaidenName("Gerber");
+    	studySubjectDemographics.setEthnicGroupCode("Non Hispanic");
+    	studySubjectDemographics.setAdministrativeGenderCode("Not Reported");
+    	studySubjectDemographics.setRaceCode(RaceCode.Not_Reported + ":" + RaceCode.Unknown);
+    	Date date = new Date("03/11/1890");
+    	studySubjectDemographics.setBirthDate(date);
+    	Address address = new Address();
+    	address.setCountryCode("USA");
+    	address.setCity("Allen Town");
+    	address.setStreetAddress("650 mountain drive");
+    	address.setPostalCode("12321");
+    	address.setStateCode("Montana");
+    	
+    	studySubjectDemographics.setAddress(address);
+    	
+    	    	
+    	assertNull("Unexpected state code in participant address",participant.getAddress().getStateCode());
+    	assertNull("Unexpected last name",participant.getLastName());
+    	
+    	participant.synchronizeWithStudySubjectDemographics(studySubjectDemographics);
+    	
+    	assertEquals("Wrong first name","John",participant.getFirstName());
+    	assertEquals("Wrong last name","Doe",participant.getLastName());
+    	assertEquals("Wrong middle name","JD",participant.getMiddleName());
+    	assertEquals("Wrong maiden name","Gerber",participant.getMaidenName());
+    	assertEquals("Wrong gener","Not Reported",participant.getAdministrativeGenderCode());
+    	assertEquals("Wrong birth date","03/11/1890",participant.getBirthDateStr());
+    	assertEquals("Wrong ethnicity","Non Hispanic",participant.getEthnicGroupCode());
+    	assertEquals("Wrong race code","Not_Reported : Unknown",participant.getRaceCode());
+    	assertEquals("Wrong city code","Allen Town",participant.getAddress().getCity());
+    	assertEquals("Wrong country code","USA",participant.getAddress().getCountryCode());
+    	assertEquals("Wrong state code","Montana",participant.getAddress().getStateCode());
+    	assertEquals("Wrong street address","650 mountain drive",participant.getAddress().getStreetAddress());
+    	assertEquals("Wrong postal code","12321",participant.getAddress().getPostalCode());
+    	
+    }
+    
+    public void testCreateStudySubjectDemographicsBasicDetails() throws Exception {
+    	Participant participant = new Participant();
+    	
+    	participant.setFirstName("John");
+    	participant.setLastName("Doe");
+    	participant.setMiddleName("JD");
+    	participant.setMaidenName("Gerber");
+    	participant.setEthnicGroupCode("Non Hispanic");
+    	participant.setAdministrativeGenderCode("Not Reported");
+    	participant.setRaceCode(RaceCode.Not_Reported + ":" + RaceCode.Unknown);
+    	Date date = new Date("03/11/1890");
+    	participant.setBirthDate(date);
+    	Address address = new Address();
+    	address.setCountryCode("USA");
+    	address.setCity("Allen Town");
+    	address.setStreetAddress("650 mountain drive");
+    	address.setPostalCode("12321");
+    	address.setStateCode("Montana");
+    	
+    	participant.setAddress(address);
+    	
+    	StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
+    	
+    	assertEquals("Wrong first name","John",studySubjectDemographics.getFirstName());
+    	assertEquals("Wrong last name","Doe",studySubjectDemographics.getLastName());
+    	assertEquals("Wrong middle name","JD",studySubjectDemographics.getMiddleName());
+    	assertEquals("Wrong maiden name","Gerber",studySubjectDemographics.getMaidenName());
+    	assertEquals("Wrong gener","Not Reported",studySubjectDemographics.getAdministrativeGenderCode());
+    	assertEquals("Wrong birth date","03/11/1890",studySubjectDemographics.getBirthDateStr());
+    	assertEquals("Wrong ethnicity","Non Hispanic",studySubjectDemographics.getEthnicGroupCode());
+    	assertEquals("Wrong race code","Not_Reported : Unknown",studySubjectDemographics.getRaceCode());
+    	assertEquals("Wrong city code","Allen Town",studySubjectDemographics.getAddress().getCity());
+    	assertEquals("Wrong country code","USA",studySubjectDemographics.getAddress().getCountryCode());
+    	assertEquals("Wrong state code","Montana",studySubjectDemographics.getAddress().getStateCode());
+    	assertEquals("Wrong street address","650 mountain drive",studySubjectDemographics.getAddress().getStreetAddress());
+    	assertEquals("Wrong postal code","12321",studySubjectDemographics.getAddress().getPostalCode());
+    	
+    }
+
 
 }

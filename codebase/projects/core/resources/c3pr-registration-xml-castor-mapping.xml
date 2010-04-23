@@ -54,7 +54,7 @@
         <field name="studyVersion" type="string" handler="edu.duke.cabig.c3pr.xml.RegistrationStudyVersionFieldHandler">
             <bind-xml name="studyVersion" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="participant" type="edu.duke.cabig.c3pr.domain.Participant">
+        <field name="studySubjectDemographics" type="edu.duke.cabig.c3pr.domain.StudySubjectDemographics">
             <bind-xml name="subject" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>

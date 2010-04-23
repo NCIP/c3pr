@@ -134,17 +134,17 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         	throw exceptionHelper.getException(
                     getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
-		if (studySubject.getParticipant().getId() != null) {
+		if (studySubject.getStudySubjectDemographics().getMasterSubject().getId() != null) {
 		    List<StudySubject> registrations = studySubjectDao.searchBySubjectAndStudyIdentifiers(studySubject.
-		    		getParticipant().getPrimaryIdentifier(),studySubject.getStudySite().getStudy().
+		    		getStudySubjectDemographics().getMasterSubject().getPrimaryIdentifier(),studySubject.getStudySite().getStudy().
 		    		getCoordinatingCenterAssignedIdentifier());
 		    if (registrations.size() > 0) {
 		        throw this.exceptionHelper
 		        .getException(getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
 		    }
 		} else {
-		    if (studySubject.getParticipant().validateParticipant())
-		        participantDao.save(studySubject.getParticipant());
+		    if (studySubject.getStudySubjectDemographics().getMasterSubject().validateParticipant())
+		        participantDao.save(studySubject.getStudySubjectDemographics().getMasterSubject());
 		    else {
 		        throw this.exceptionHelper
 		        .getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
@@ -277,22 +277,13 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     }
 
     public List<StudySubject> findRegistrations(StudySubject exampleStudySubject) {
-        return studySubjectDao.searchBySubjectAndStudyIdentifiers(exampleStudySubject.getParticipant().
+        return studySubjectDao.searchBySubjectAndStudyIdentifiers(exampleStudySubject.getStudySubjectDemographics().getMasterSubject().
         		getPrimaryIdentifier(), exampleStudySubject.getStudySite().getStudy().getCoordinatingCenterAssignedIdentifier());
     }
 
 	public StudySubject enroll(List<Identifier> studySubjectIdentifiers) throws C3PRCodedException {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
-		studySubjectDao.initialize(studySubject);
-		this.continueEnrollment(studySubject);
-		this.saveStratumGroup(studySubject);
-		this.updateEpoch(studySubject);
-		studySubject = studySubjectDao.merge(studySubject);
-		
-		sendStudyAccrualNotification(studySubject);
-		broadcastMessage(studySubject);
-        
-		return studySubject;
+		return enroll(studySubject);
 	}
 	
 	//Send out the CCTS broadcast Message
@@ -334,6 +325,11 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		
 		this.saveStratumGroup(studySubject);
 		this.updateEpoch(studySubject);
+		
+		// check for the validity of the demographics snap shot and update participant if invalid
+		if (!studySubject.getStudySubjectDemographics().getValid()){
+			validateStudySubjectDemographics(studySubject);
+		}
 		studySubject = studySubjectDao.merge(studySubject);
 		
 		sendStudyAccrualNotification(studySubject);
@@ -378,14 +374,17 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		if (studySubjects.size() > 1) {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
+		// check for the validity of the demographics snap shot and update participant if invalid
+		if (!studySubject.getStudySubjectDemographics().getValid()){
+			validateStudySubjectDemographics(studySubject);
+		}
 		studySubject.register();
 		return save(studySubject);
 	}
 
 	public StudySubject register(List<Identifier> studySubjectIdentifiers) {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
-		studySubject.register();
-		return save(studySubject);
+		return register(studySubject);
 	}
 
 	public void takeSubjectOffStudy(List<Identifier> studySubjectIdentifiers, String offStudyReasonText,
@@ -471,13 +470,16 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
 		studySubject.reserve();
+		// check for the validity of the demographics snap shot and update participant if invalid
+		if (!studySubject.getStudySubjectDemographics().getValid()){
+			validateStudySubjectDemographics(studySubject);
+		}
 		return studySubject;
 	}
 
 	public StudySubject reserve(List<Identifier> studySubjectIdentifiers) {
 		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
-		studySubject.reserve();
-		return save(studySubject);
+		return reserve(studySubject);
 	}
 	
 	 public StudySubject getUniqueStudySubjects(List<Identifier> studySubjectIdentifiers) {
@@ -554,6 +556,10 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public StudySubject invalidateRegistration(StudySubject studySubject) {
 		studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.INVALID);
 		return studySubjectDao.merge(studySubject);
+	}
+	
+	public void validateStudySubjectDemographics(StudySubject studySubject){
+		studySubject.getStudySubjectDemographics().setValid(true);
 	}
 
 }

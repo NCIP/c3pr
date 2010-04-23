@@ -47,6 +47,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
@@ -204,7 +205,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
             assertEquals(4, ssList.size());
@@ -221,7 +222,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
             assertEquals(1, ssList.size());
@@ -239,7 +240,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
             assertEquals(2, ssList.size());
@@ -266,7 +267,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
             assertEquals(4, ssList.size());
@@ -286,7 +287,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
             assertEquals(2, ssList.size());
@@ -306,7 +307,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
             assertEquals(1, ssList.size());
@@ -332,7 +333,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
             assertEquals(2, ssList.size());
@@ -351,7 +352,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
             assertEquals(2, ssList.size());
@@ -371,7 +372,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
             assertEquals(2, ssList.size());
@@ -390,6 +391,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             Participant participant = new Participant();
             OrganizationAssignedIdentifier id2 = new OrganizationAssignedIdentifier();
+            id2.setType(OrganizationIdentifierTypeEnum.MRN);
             id2.setValue("mrn");
             participant.addIdentifier(id2);
 
@@ -399,7 +401,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             StudySubject studySubject = new StudySubject();
             studySubject.setStudySite(studySite);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
             assertEquals(2, ssList.size());
@@ -503,7 +505,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     public void testGetById() throws Exception {
         StudySubject studySubject = studySubjectDao.getById(1000);
         assertNotNull("Study Subject 1 not found");
-        assertEquals("Wrong last name", "Clooney", studySubject.getParticipant().getLastName());
+        assertEquals("Wrong last name", "Clooney", studySubject.getStudySubjectDemographics().getLastName());
     }
 
     /**
@@ -552,6 +554,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         orgIdentifier.setValue("nci1");
 
     	studySubject.addIdentifier(orgIdentifier);
+    	
     	studySubjectDao.save(studySubject);
 
     	List<Identifier> iList = new ArrayList<Identifier>();
@@ -567,8 +570,10 @@ public class StudySubjectDaoTest extends DaoTestCase {
         {
             StudySubject studySubject = new StudySubject();
             Participant participant = dao.getById(1001);
+            StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
+            studySubject.setStudySubjectDemographics(studySubjectDemographics);
             StudySite studySite = studySubjectDao.getStudySiteDao().getById(1001);
-            studySubject.setParticipant(participant);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
             studySubject.setStudySite(studySite);
             ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
             scheduledEpochFirst.setEpoch(epochDao.getById(1000));
@@ -669,7 +674,10 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     private Object bind(Object command) {
         StudySubject studySubject = (StudySubject) command;
-        studySubject.setParticipant(dao.getById(1010));
+        Participant participant = dao.getById(1010);
+        studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
+        StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
+    	studySubject.setStudySubjectDemographics(studySubjectDemographics);
         studySubject.setStudySite(studySiteDao.getById(1010));
         return studySubject;
     }
@@ -1029,7 +1037,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubjects = studySubjectDao.searchByParticipantId(1000);
     	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
     	studySubjects = studySubjectDao.searchByParticipantId(1002);
-    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",3,studySubjects.size());
     	studySubjects = studySubjectDao.searchByParticipantId(1010);
     	assertEquals("Wrong number or study subjects retrieved",0,studySubjects.size());
     }
@@ -1046,7 +1054,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	StudySite studySite = studySiteDao.getById(1000);
     	StudySubject studySubject = new StudySubject(true);
     	studySubject.setStudySite(studySite);
-    	studySubject.setParticipant(subject);
+    	studySubject.setStudySubjectDemographics(subject.createStudySubjectDemographics());
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
     	studySubjects = studySubjectDao.searchBySubjectAndStudySite(studySubject);
     	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
@@ -1063,7 +1071,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	StudySite studySite1 = studySiteDao.getById(1000);
     	StudySubject studySubject1 = new StudySubject(true);
     	studySubject1.setStudySite(studySite1);
-    	studySubject1.setParticipant(subject);
+    	studySubject1.setStudySubjectDemographics(subject.createStudySubjectDemographics());
     	List<StudySubject> studySubjects1 = new ArrayList<StudySubject>();
     	studySubjects1 = studySubjectDao.searchBySubjectAndStudySite(studySubject1);
     	assertEquals("Wrong number or study subjects retrieved",1,studySubjects1.size());
@@ -1071,7 +1079,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	StudySite studySite2 = studySiteDao.getById(1001);
     	StudySubject studySubject2 = new StudySubject(true);
     	studySubject2.setStudySite(studySite2);
-    	studySubject2.setParticipant(subject);
+    	studySubject2.setStudySubjectDemographics(subject.createStudySubjectDemographics());
     	List<StudySubject> studySubjects2 = new ArrayList<StudySubject>();
     	studySubjects2 = studySubjectDao.searchBySubjectAndStudySite(studySubject2);
     	assertEquals("Wrong number or study subjects retrieved",1,studySubjects2.size());
@@ -1133,7 +1141,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySite.setHealthcareSite(site);
     	study.addStudySite(studySite);
     	studySubject.setStudySite(studySite);
-    	studySubject.setParticipant(participant);
+    	studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 
     	studySubjects = studySubjectDao.advancedSearch(studySubject,simpleDateFormat.parse("01/01/1999"),simpleDateFormat.parse("01/01/2001"),"nci");
@@ -1147,7 +1155,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	Participant participant = dao.getById(1000);
     	StudySite studySite = studySiteDao.getById(1000);
     	studySubject.setStudySite(studySite);
-    	studySubject.setParticipant(participant);
+    	studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 
     	studySubjects = studySubjectDao.advancedStudySearch(studySubject);
@@ -1198,9 +1206,12 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	StudySite studySite = studySiteDao.getById(1000);
         Participant participant = dao.getById(1000);
         studySubject.setStudySite(studySite);
-        studySubject.setParticipant(participant);
+        studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
+        StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
+    	studySubject.setStudySubjectDemographics(studySubjectDemographics);
         // Have to explicitly set start date to null because it may be initialized
         studySubject.setStartDate(null);
+        
 
         try{
         	studySubjectDao.save(studySubject);
@@ -1243,10 +1254,12 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(1000);
     	studySubject.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySiteStudyVersion);
     	Participant participant = dao.getById(1000);
-    	studySubject.setParticipant(participant);
+    	studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
     	studySubject.getStudySubjectStudyVersion();
+    	StudySubjectDemographics studySubjectDemographics = new StudySubjectDemographics();
+    	studySubjectDemographics = participant.createStudySubjectDemographics();
+    	studySubject.setStudySubjectDemographics(studySubjectDemographics);
     	studySubjectDao.save(studySubject);
-    	System.out.println();
     }
 
      public void testDeleteStudySiteStudyVersion() throws Exception {
@@ -1275,6 +1288,28 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	 Date endDate = simpleDateFormat.parse("01/18/2010");
     	 
     	 assertEquals("Only 1 record should be present",1,studySubjectDao.getMostEnrolledStudies(startDate, endDate).size());
+     }
+     
+     public void testSaveStudySubjectWithStudySubjectDemographics() throws Exception{
+    	 StudySubject studySubject = new StudySubject();
+    	 
+    	 Participant participant1 = dao.getById(1000);
+    	 StudySubjectDemographics studySubjectDemographics = participant1.createStudySubjectDemographics();
+    	 StudySubjectStudyVersion studySubjectStudyVersion= new StudySubjectStudyVersion();
+    	 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersionDao.getById(1000));
+    	 studySubject.addStudySubjectStudyVersion(studySubjectStudyVersion);
+    	 
+    	 studySubject.setStudySubjectDemographics(studySubjectDemographics);
+    	 studySubject.setStudySubjectDemographics(participant1.createStudySubjectDemographics());
+    	 studySubjectDao.save(studySubject);
+    	 int savedId = studySubject.getId();
+    	 
+    	 interruptSession();
+    	 
+    	 StudySubjectDemographics savedStudySubjectDemographics = studySubjectDao.getById(savedId).getStudySubjectDemographics();
+    	 
+    	 assertNotNull("Study subject demographics not saved", savedStudySubjectDemographics.getId());
+    	 
      }
 
 }

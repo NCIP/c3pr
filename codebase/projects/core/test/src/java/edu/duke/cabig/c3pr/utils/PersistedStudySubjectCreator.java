@@ -87,9 +87,9 @@ public class PersistedStudySubjectCreator extends StudySubjectCreatorHelper {
         consent.setName("new consent");
         studySubject.getStudySite().getStudy().getStudyVersion().addConsent(consent);
         studyDao.save(studySubject.getStudySite().getStudy());
-        studySubject.setParticipant(createNewParticipant());
-        addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
-        participantDao.save(studySubject.getParticipant());
+        studySubject.setStudySubjectDemographics(createNewParticipant().createStudySubjectDemographics());
+        addMRNIdentifierToSubject(studySubject.getStudySubjectDemographics().getMasterSubject(), studySubject.getStudySite().getHealthcareSite());
+        participantDao.save(studySubject.getStudySubjectDemographics().getMasterSubject());
     }
     
     public StudySubject getLocalNonRandomizedStudySubject(Boolean reserving, Boolean enrolling,

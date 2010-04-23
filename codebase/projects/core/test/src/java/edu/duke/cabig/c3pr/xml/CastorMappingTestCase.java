@@ -100,7 +100,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	public StudySubject buildStudySubject(){
 		StudySubject studySubject = DomainObjectCreationHelper.getSubjectSubject();
 		DomainObjectCreationHelper.addStudySite(studySubject);
-		studySubject.setParticipant(DomainObjectCreationHelper.getParticipantWithAddress());
+		studySubject.setStudySubjectDemographics(DomainObjectCreationHelper.getParticipantWithAddress().createStudySubjectDemographics());
 		DomainObjectCreationHelper.addInformedConsent(studySubject);
 		DomainObjectCreationHelper.addIdentifiers(studySubject);
 		DomainObjectCreationHelper.addScheduledEpoch(studySubject);
@@ -223,7 +223,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 		assertEquals(expected.getRegWorkflowStatus(), actual.getRegWorkflowStatus());
 		assertHealthcareSite(expected.getStudySite().getHealthcareSite(), actual.getStudySite().getHealthcareSite());
 		assertIdentifiers(expected.getStudySite().getStudy().getIdentifiers(), actual.getStudySite().getStudy().getIdentifiers());
-		assertParticipant(actual.getParticipant());
+		assertParticipant(actual.getStudySubjectDemographics().getMasterSubject());
 		assertInformedConsents(expected.getStudySubjectConsentVersions(), actual.getStudySubjectConsentVersions());
 		assertIdentifiers(expected.getIdentifiers(), actual.getIdentifiers());
 		assertScheduledEpochs(expected.getScheduledEpochs(), actual.getScheduledEpochs());

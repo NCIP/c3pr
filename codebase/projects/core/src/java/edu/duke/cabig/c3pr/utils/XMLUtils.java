@@ -73,7 +73,7 @@ public class XMLUtils {
                             .setText(StringUtils.getBlankIfNull(scheduledTreatmentEpoch
                                             .getEligibilityIndicator())));
         }
-        Participant stPart = studySubject.getParticipant();
+        Participant stPart = studySubject.getStudySubjectDemographics().getMasterSubject();
         Element participant = new Element("participant", "p1", ns);
         participant.setAttribute("participantGridId", StringUtils
                         .getBlankIfNull(stPart.getGridId()));

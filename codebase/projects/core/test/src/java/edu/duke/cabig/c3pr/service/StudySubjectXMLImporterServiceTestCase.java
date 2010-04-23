@@ -9,6 +9,7 @@ import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -53,8 +54,10 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
     public void testImportRegistrationCase0() throws Exception {
         StudySubject studySubject = persistedStudySubjectCreator
                         .getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
-        studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+        Participant participant = persistedStudySubjectCreator.createNewParticipant();
+        studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
+        studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getStudySubjectDemographics().getMasterSubject(),
                         studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
@@ -108,8 +111,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator
                         .getMultiSiteRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
         interruptSession();
-        studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+        studySubject.setStudySubjectDemographics(persistedStudySubjectCreator.createNewParticipant().createStudySubjectDemographics());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getStudySubjectDemographics().getMasterSubject(),
                         studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
@@ -143,8 +146,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
     public void testImportRegistrationCase2() throws Exception {
         StudySubject studySubject = persistedStudySubjectCreator
                         .getMultiSiteNonRandomizedStudySubject(false, false, false);
-        studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+        studySubject.setStudySubjectDemographics(persistedStudySubjectCreator.createNewParticipant().createStudySubjectDemographics());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getStudySubjectDemographics().getMasterSubject(),
                         studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
@@ -193,8 +196,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
     public void testImportRegistrationCase3() throws Exception {
         StudySubject studySubject = persistedStudySubjectCreator.getLocalRandomizedStudySubject(
                         RandomizationType.BOOK, false);
-        studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+        studySubject.setStudySubjectDemographics(persistedStudySubjectCreator.createNewParticipant().createStudySubjectDemographics());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getStudySubjectDemographics().getMasterSubject(),
                         studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
@@ -248,8 +251,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
         StudySubject studySubject = persistedStudySubjectCreator
                         .getLocalNonRandomizedTrestmentWithArmStudySubject(false);
         interruptSession();
-        studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+        studySubject.setStudySubjectDemographics(persistedStudySubjectCreator.createNewParticipant().createStudySubjectDemographics());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getStudySubjectDemographics().getMasterSubject(),
                         studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
@@ -281,8 +284,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
     public void testImportRegistrationCase5() throws Exception {
         StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(
                         true, false, false);
-        studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+        studySubject.setStudySubjectDemographics(persistedStudySubjectCreator.createNewParticipant().createStudySubjectDemographics());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getStudySubjectDemographics().getMasterSubject(),
                         studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
@@ -332,8 +335,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
     public void testImportRegistrationCase6() throws Exception {
         StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(
                         false, true, false);
-        studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+        studySubject.setStudySubjectDemographics(persistedStudySubjectCreator.createNewParticipant().createStudySubjectDemographics());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getStudySubjectDemographics().getMasterSubject(),
                         studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
@@ -384,8 +387,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
     public void testImportRegistrationCase7() throws Exception {
         StudySubject studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(
                         false, false, false);
-        studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+        studySubject.setStudySubjectDemographics(persistedStudySubjectCreator.createNewParticipant().createStudySubjectDemographics());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getStudySubjectDemographics().getMasterSubject(),
                         studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
@@ -434,8 +437,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
     public void testImportRegistrationCase8() throws Exception {
         StudySubject studySubject = persistedStudySubjectCreator
                         .getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, true);
-        studySubject.setParticipant(persistedStudySubjectCreator.createNewParticipant());
-        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getParticipant(),
+        studySubject.setStudySubjectDemographics(persistedStudySubjectCreator.createNewParticipant().createStudySubjectDemographics());
+        persistedStudySubjectCreator.addMRNIdentifierToSubject(studySubject.getStudySubjectDemographics().getMasterSubject(),
                         studySubject.getStudySite().getHealthcareSite());
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);

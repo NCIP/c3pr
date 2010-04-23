@@ -32,6 +32,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -116,7 +117,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         Criteria studySubjectStudyVersionCriteria = registrationCriteria.createCriteria("studySubjectStudyVersions");
         Criteria studySubjectConsentVersionCriteria = studySubjectStudyVersionCriteria.createCriteria("studySubjectConsentVersionsInternal");
         Criteria studySiteCriteria = studySubjectStudyVersionCriteria.createCriteria("studySiteStudyVersion").createCriteria("studySite");
-        Criteria participantCriteria = registrationCriteria.createCriteria("participant");
+        Criteria studySubjectDemographicsCriteria = registrationCriteria.createCriteria("studySubjectDemographics");
+        Criteria participantCriteria = studySubjectDemographicsCriteria.createCriteria("masterSubject");
         Criteria studyCriteria = studySiteCriteria.createCriteria("studyInternal");
         Criteria studyVersionCriteria = studyCriteria.createCriteria("studyVersionsInternal");
         Criteria siteCriteria = studySiteCriteria.createCriteria("healthcareSite");
@@ -155,13 +157,13 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         
 
         // participant/subject criteria
-        if (registration.getParticipant().getBirthDate() != null) {
-            participantCriteria.add(Expression.eq("birthDate", registration.getParticipant()
+        if (registration.getStudySubjectDemographics().getMasterSubject().getBirthDate() != null) {
+            participantCriteria.add(Expression.eq("birthDate", registration.getStudySubjectDemographics().getMasterSubject()
                             .getBirthDate()));
         }
-        if (registration.getParticipant().getRaceCode() != null
-                        && !registration.getParticipant().getRaceCode().equals("")) {
-            participantCriteria.add(Expression.ilike("raceCode", "%" + registration.getParticipant()
+        if (registration.getStudySubjectDemographics().getMasterSubject().getRaceCode() != null
+                        && !registration.getStudySubjectDemographics().getMasterSubject().getRaceCode().equals("")) {
+            participantCriteria.add(Expression.ilike("raceCode", "%" + registration.getStudySubjectDemographics().getMasterSubject()
                             .getRaceCode() + "%" )  );
         }
 
@@ -211,9 +213,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         	params.add("%" + study.getIdentifiers().get(0).getValue().toLowerCase() + "%");
         }
 
-        Participant participant= studySubject.getParticipant();
+        Participant participant= studySubject.getStudySubjectDemographics().getMasterSubject();
         boolean addParticipantSelectClause = true;
-        String participantClause = "join ssub.participant prt ";
+        String participantClause = "join ssub.studySubjectDemographics.masterSubject prt ";
         if(!StringUtils.getBlankIfNull(participant.getFirstName()).equals("")){
         	selectClause += participantClause;
         	whereClause += "and lower(prt.firstName) like ? ";
@@ -304,7 +306,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	 * @return the list< study subject>
 	 */
     public List<StudySubject> searchByParticipantId(Integer participantId) {
-		return participantDao.getById(participantId).getStudySubjects();
+    	return participantDao.getById(participantId).getStudySubjects();
 	}
 
 
@@ -406,8 +408,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         Criteria registrationCriteria = getHibernateTemplate().getSessionFactory()
                         .getCurrentSession().createCriteria(StudySubject.class);
         registrationCriteria.add(example);
-        registrationCriteria.createCriteria("participant").add(
-                        Restrictions.like("id", registration.getParticipant().getId()));
+        Criteria studySubjectDemographicsCriteria = registrationCriteria.createCriteria("studySubjectDemographics");
+        studySubjectDemographicsCriteria.createCriteria("masterSubject").add(
+                        Restrictions.like("id", registration.getStudySubjectDemographics().getMasterSubject().getId()));
         registrationCriteria.createCriteria("studySubjectStudyVersions").createCriteria("studySiteStudyVersion").createCriteria("studySite").add(
                         Restrictions.like("id", registration.getStudySite().getId()));
         return registrationCriteria.list();
@@ -436,7 +439,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     		throw new C3PRBaseRuntimeException("Found more than 1 study with the same coordinating center identifier");
     	}
 
-        return (List<StudySubject>)getHibernateTemplate().find("select distinct ss from StudySubject ss,StudySubjectStudyVersion sssv where ss.participant.id = ? " +
+        return (List<StudySubject>)getHibernateTemplate().find("select distinct ss from StudySubject ss,StudySubjectStudyVersion sssv where ss.studySubjectDemographics.masterSubject.id = ? " +
         		"and sssv.studySiteStudyVersion.studyVersion.study.id=? and sssv = any elements (ss.studySubjectStudyVersions) ",new Object[]{subjects.get(0).getId(),studies.get(0).getId()});
 
     }
@@ -524,7 +527,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     public void initialize(StudySubject studySubject) throws DataAccessException {
         studyDao.initialize(studySubject.getStudySite().getStudy());
         studySiteDao.initialize(studySubject.getStudySite());
-        participantDao.initialize(studySubject.getParticipant());
+        participantDao.initialize(studySubject.getStudySubjectDemographics().getMasterSubject());
 
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyInvestigatorsInternal());
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyPersonnelInternal());
@@ -536,7 +539,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         	getHibernateTemplate().initialize(studySubjectStudyVersion.getStudySubjectConsentVersionsInternal());
         }
 
-        participantDao.initialize(studySubject.getParticipant());
+        participantDao.initialize(studySubject.getStudySubjectDemographics().getMasterSubject());
 
         getHibernateTemplate().initialize(studySubject.getScheduledEpochs());
         getHibernateTemplate().initialize(studySubject.getIdentifiers());

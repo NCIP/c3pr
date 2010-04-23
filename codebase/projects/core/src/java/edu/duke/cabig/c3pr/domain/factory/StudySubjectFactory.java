@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
@@ -15,11 +14,9 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Consent;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
-import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -29,6 +26,7 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -83,8 +81,8 @@ public class StudySubjectFactory {
         StudySubject built = new StudySubject();
         StudySite studySite = buildStudySite(deserializedStudySubject.getStudySite(),
                         buildStudy(deserializedStudySubject.getStudySite().getStudy()));
-        Participant participant = buildParticipant(deserializedStudySubject.getParticipant());
-        if (participant.getId() != null) {
+        Participant participant = buildParticipant(deserializedStudySubject.getStudySubjectDemographics().getMasterSubject());
+        if (participant.getId() != null) {	
             List<StudySubject> registrations = studySubjectDao
                             .searchBySubjectAndStudyIdentifiers(participant.getPrimaryIdentifier(),
                             		studySite.getStudy().getCoordinatingCenterAssignedIdentifier());
@@ -103,7 +101,7 @@ public class StudySubjectFactory {
         buildAndAddStudySubjectConsentVersions(built, studySite);
         built.setStudySite(studySite);
     	studySite.getStudySiteStudyVersion().addStudySubjectStudyVersion(built.getStudySubjectStudyVersion());
-        built.setParticipant(participant);
+        built.setStudySubjectDemographics(participant.createStudySubjectDemographics());
         Epoch epoch = buildEpoch(studySite.getStudy().getEpochs(), deserializedStudySubject
                         .getScheduledEpoch());
         ScheduledEpoch scheduledEpoch = buildScheduledEpoch(deserializedStudySubject
@@ -126,9 +124,9 @@ public class StudySubjectFactory {
         StudySubject built = new StudySubject();
         StudySite studySite = buildStudySite(deserializedStudySubject.getStudySite(),
                         buildStudy(deserializedStudySubject.getStudySite().getStudy()));
-        Participant participant = buildParticipant(deserializedStudySubject.getParticipant());
+        Participant participant = buildParticipant(deserializedStudySubject.getStudySubjectDemographics().getMasterSubject());
         built.setStudySite(studySite);
-        built.setParticipant(participant);
+        built.setStudySubjectDemographics(participant.createStudySubjectDemographics());
         Epoch epoch = buildEpoch(studySite.getStudy().getEpochs(), deserializedStudySubject
                         .getScheduledEpoch());
         ScheduledEpoch scheduledEpoch = buildScheduledEpoch(deserializedStudySubject
