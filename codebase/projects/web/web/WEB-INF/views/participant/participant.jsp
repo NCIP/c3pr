@@ -101,9 +101,16 @@ function manageIdentifierRadio(element){
 	element.checked=true;
 	$(element.id+"-hidden").value="true";
 }
+function returnToRegistration(participantId){
+	$('participantId').value=participantId;
+	$('createRegistration').submit();
+}
 </script>
 </head>
 <body>
+<form action="../../registration/createRegistration" method="get" id="createRegistration">
+	<input type="hidden" name="participantId" id="participantId" value=""/>
+</form>
 <form:form method="post" name="participantDetailsForm" cssClass="standard">
 <tags:tabFields tab="${tab}" />
 
@@ -310,15 +317,20 @@ function manageIdentifierRadio(element){
 				
 		<div align="right">
 			<tags:button type="button" color="blue" icon="add" value="Add Organization Assigned Identifier" 
-			onclick="$('hOrganizationAssignedIdentifier').show();javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
-		</div>
-		<div align="right">
+				onclick="$('hOrganizationAssignedIdentifier').show();javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" size="small"/>
 			<tags:button type="button" color="blue" icon="add" value="Add System Assigned Identifier" 
 				onclick="$('hOrganizationAssignedIdentifier').show();javascript:RowManager.addRow(systemIdentifierRowInserterProps);" size="small"/>
 		</div>
 	</chrome:division>
 </chrome:box>
-<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
+
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
+	<jsp:attribute name="localButtons">
+			<c:if test="${!empty fromCreateRegistration}">
+			<tags:button type="button" color="blue" icon="back" value="Return to registration" onclick="returnToRegistration(${command.id})" />
+			</c:if>
+	</jsp:attribute>
+</tags:tabControls>
 </form:form>
 <script>
 		$$("form .identifierRadios").each(function(e)

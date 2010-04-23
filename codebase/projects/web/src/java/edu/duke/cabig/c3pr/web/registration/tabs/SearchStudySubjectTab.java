@@ -12,12 +12,17 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
@@ -30,8 +35,21 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
     private static final Logger logger = Logger.getLogger(SearchStudySubjectTab.class);
     
     private StudyDao studyDao;
+    
+    private ParticipantDao participantDao;
+    
+    public void setParticipantDao(ParticipantDao participantDao) {
+		this.participantDao = participantDao;
+	}
 
-    public void setStudyDao(StudyDao studyDao) {
+	private StudySiteStudyVersionDao studySiteStudyVersionDao;
+
+    public void setStudySiteStudyVersionDao(
+			StudySiteStudyVersionDao studySiteStudyVersionDao) {
+		this.studySiteStudyVersionDao = studySiteStudyVersionDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
 		this.studyDao = studyDao;
 	}
 
@@ -84,11 +102,37 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
 	        }
 	        
         }
+        
+        if(request.getSession().getAttribute("fromCreateRegistration")!=null ){
+        	refdata.put("fromUpdateParticipant", request.getSession().getAttribute("fromCreateRegistration"));
+        	request.getSession().removeAttribute("fromCreateRegistration");
+        }
+        if(request.getSession().getAttribute("studySiteStudyVersionIdFromCreateReg")!=null && !request.getSession().getAttribute("studySiteStudyVersionIdFromCreateReg").equals("")){
+        	String StudySiteStudyVersionId = (String)request.getSession().getAttribute("studySiteStudyVersionIdFromCreateReg");
+        	StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(Integer.parseInt(StudySiteStudyVersionId));
+        	refdata.put("studyName", studySiteStudyVersion.getStudyVersion().getShortTitleText());
+        	refdata.put("siteName", studySiteStudyVersion.getStudySite().getHealthcareSite().getName());
+        	refdata.put("studyPrimaryIdentifier", studySiteStudyVersion.getStudyVersion().getStudy().getPrimaryIdentifier());
+        	refdata.put("studySiteStudyVersionIdFromUpdateParticipant", StudySiteStudyVersionId);
+        	request.getSession().removeAttribute("studySiteStudyVersionIdFromCreateReg");
+        }
+       
+        if(request.getParameter("participantId")!=null){
+        	refdata.put("participantId", request.getParameter("participantId"));
+        	Participant participant = participantDao.getById(Integer.parseInt(request.getParameter("participantId")));
+        	refdata.put("participantName", participant.getLastName() + "" + participant.getFirstName());
+        	refdata.put("participantIdentifier", participant.getOrganizationAssignedIdentifiers().get(0).getType().getCode()+ " - " + participant.getOrganizationAssignedIdentifiers().get(0).getValue());
+        	
+        }
+        
+        
     	return refdata;
     }
     
     @Override
     public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors error) {
+    	
+    	command.setParticipant(command.getStudySubject().getParticipant());
     	if (WebUtils.hasSubmitParameter(request, "epochId")) {
             return;
         }

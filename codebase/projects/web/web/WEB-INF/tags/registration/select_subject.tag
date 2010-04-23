@@ -7,17 +7,7 @@
 <tags:dwrJavascriptLink objects="ParticipantAjaxFacade" />
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 <script type="text/javascript">
-		function minimizeSubjectBox(msg){
-		PanelCombo('SubjectBox');
-		displaySubjectMessage(msg,true);
-	}
-	
-	function displaySubjectMessage(message,pulsateFlag){
-		element=$$("#Subject .header h2")[0];
-		new Element.update(element,message);
-		pulsateFlag?(!is_ie?new Effect.Pulsate(element):null):null;
-	}
-	
+		
   	function clearField(field) {
     	field.value = "";
     }
@@ -155,12 +145,7 @@
 		alert("subject search failed");
 	}
 	
-	/* handlers for searchSubject flwo */
-	  	
-	function postProcessSubjectSelection(id, name, identifier){
-		$('studySubject.participant').value = id;
-		minimizeSubjectBox("Selected Subject: " +name+ " (" + identifier + ")");	
-	}  	
+	
 	
 	ValidationManager.submitPostProcess= function(formElement, flag){
 		
@@ -207,7 +192,20 @@
 			new Element.show('searchSubjectInd');
 			new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});	
 	}
+
+	function updateParticipant(idParamString){
+		$('fromCreateRegistration').value="true";
+		$('studySiteStudyVersionIdFromCreateReg').value = $('studySiteStudyVersionId').value ;
+		$('updateParticipantForm').action= "../personAndOrganization/participant/editParticipant?" + idParamString;
+		$('updateParticipantForm').submit();
+    	}
 </script>
+
+<form action="../personAndOrganization/participant/editParticipant" method="post" id="updateParticipantForm" name="updateParticipantForm">
+	 <input type="hidden" id="fromCreateRegistration" name="fromCreateRegistration" value="true"/>
+	 <input type="hidden" id="studySiteStudyVersionIdFromCreateReg" name="studySiteStudyVersionIdFromCreateReg" value=""/>
+</form>
+
 <tags:minimizablePanelBox title="Select Subject" boxId="SubjectBox">
     <!-- subTabbedflow-->
     	<a href="javascript:moveToCreateSubject()" id="createSubject_btn" class="fifthlevelTab-current">

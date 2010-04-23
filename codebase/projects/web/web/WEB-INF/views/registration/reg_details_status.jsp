@@ -33,7 +33,7 @@ field.value="";
 <!-- MAIN BODY STARTS HERE -->
 
 <tabs:body
-	title="Edit Registration: ${command.studySubject.participant.firstName}  ${command.studySubject.participant.lastName}">
+	title="Edit Registration: ${command.participant.firstName}  ${command.participant.lastName}">
 	<form:form method="post" name="form" id="form">
 		<div><input type="hidden" name="_page" id="_page" value="5"> <input
 			type="hidden" name="_action" id="_action" value=""> <input

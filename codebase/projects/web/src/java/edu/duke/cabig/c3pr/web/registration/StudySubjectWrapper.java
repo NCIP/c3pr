@@ -14,6 +14,17 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 public class StudySubjectWrapper {
 	
 	private StudySubject studySubject ;
+	
+	// used for displaying participant data in UI
+	private Object participant;
+
+	public Object getParticipant() {
+		return participant;
+	}
+
+	public void setParticipant(Object participant) {
+		this.participant = participant;
+	}
 
 	public StudySubject getStudySubject() {
 		return studySubject;

@@ -22,21 +22,58 @@
 	</c:if>
 
 	<c:if test="${!empty fromStudyRegistrations && fromStudyRegistrations==true}">
-	window.onload = delayFromStudyRegistrations();
-	function delayFromStudyRegistrations(){
-		setTimeout("searchStudyFromStudyRegistrations('${createRegistration_studyId}')", 1000);
-	}
-	function searchStudyFromStudyRegistrations(studyId) {
-        new Element.show('searchStudyInd');
-        new Ajax.Updater('studySearchResults','../registration/searchStudy?fromStudyRegistrations=true&decorator=nullDecorator&studyId='+studyId,
-        {
-            method:'post',
-            postBody:Form.serialize('searchstudyFromRegistrationForm'), 
-            onSuccess:callbackStudy,
-            onFailure:callbackStudyFail
-        });
-    }
-</c:if>
+		window.onload = delayFromStudyRegistrations();
+		function delayFromStudyRegistrations(){
+			setTimeout("searchStudyFromStudyRegistrations('${createRegistration_studyId}')", 1000);
+		}
+		function searchStudyFromStudyRegistrations(studyId) {
+	        new Element.show('searchStudyInd');
+	        new Ajax.Updater('studySearchResults','../registration/searchStudy?fromStudyRegistrations=true&decorator=nullDecorator&studyId='+studyId,
+	        {
+	            method:'post',
+	            postBody:Form.serialize('searchstudyFromRegistrationForm'), 
+	            onSuccess:callbackStudy,
+	            onFailure:callbackStudyFail
+	        });
+	    }
+	</c:if>
+	
+	<c:if test="${!empty fromUpdateParticipant}">
+		<c:choose>
+			<c:when test="${!empty studySiteStudyVersionIdFromUpdateParticipant}">
+				window.onload = delayFromUpdateParticipant();
+				function delayFromUpdateParticipant(){
+					setTimeout("searchStudySiteVersionfromUpdateParticipant(true,'${studySiteStudyVersionIdFromUpdateParticipant}','${studyName}','${studyPrimaryIdentifier}','${siteName}')", 3000);
+				}
+		
+				function searchStudySiteVersionfromUpdateParticipant(isActive, studySiteStudyVersionId,studyName,studyPrimaryIdentifier,siteName){
+					var url = "../registration/searchEpoch?studySiteStudyVersionId="+studySiteStudyVersionId;
+					document.getElementById("studySiteStudyVersionId").value = studySiteStudyVersionId;
+					new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
+					var message = "Selected Study: " +studyName+ " (" +studyPrimaryIdentifier+ ") "  + " at " +siteName;
+					minimizeStudyBox(message);
+				}
+				//	function searchStudyFromUpdateParticipant(studyId) {
+			  	//      new Element.show('searchStudyInd');
+			   //     new Ajax.Updater('studySearchResults','../registration/searchStudy?fromStudyRegistrations=true&decorator=nullDecorator&studyId='+studyId,
+			   //     {
+			    //        method:'post',
+			      //      postBody:Form.serialize('searchstudyFromRegistrationForm'), 
+			     //       onSuccess:callbackStudy,
+			      //      onFailure:callbackStudyFail
+			      //  });
+			  //  }
+			  	setTimeout("postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}')", 3000);
+				postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}');
+			</c:when>
+			<c:otherwise>
+			//	setTimeout("postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}')", 3000);
+			//	postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}');
+			</c:otherwise>
+		</c:choose>
+	
+	</c:if>
+	  
 	
 	function minimizeStudyBox(msg){
 		PanelCombo('Studybox');
@@ -109,7 +146,7 @@
 <!--tags:minimizablePanelBox title="${epoch.name} : ${epoch.descriptionText }"	boxId="${epoch.name}"-->
 <tags:minimizablePanelBox	title="Select Study" boxId="Studybox">
 <tags:instructions code="select_study" />
-		<form id="searchstudyFromRegistrationForm" action="" method="post">
+		<form id="searchstudyFromRegistrationForm" name="searchstudyFromRegistrationForm" action="" method="post">
             <input type="hidden" name="_selected" id="_selected" value="">
             <input type="hidden" name="_action" id="_action" value=""> 
             <input type="hidden" name="async" id="async" value="async"> 

@@ -74,13 +74,13 @@ public class CreateCompanionRegistrationController<C extends StudySubjectWrapper
     		StudySubjectWrapper wrapper = (StudySubjectWrapper) super.formBackingObject(request);
     		StudySubject studySubject = wrapper.getStudySubject();
     		
-    		String participantId = request.getParameter("participant");
+    		// for companion registrations, setting the study subject demographics same as the parent 
+    		
     		String parentRegistrationId = request.getParameter("parentRegistrationId");
     		
-    		Participant participant = participantDao.getById(Integer.parseInt(participantId));
     		StudySubject parentStudySubject = studySubjectDao.getById(Integer.parseInt(parentRegistrationId));
     		
-    		studySubject.setParticipant(participant);
+    		studySubject.setStudySubjectDemographics(parentStudySubject.getStudySubjectDemographics());
     		studySubject.setParentStudySubject(parentStudySubject);
     		studySubject.setStartDate(parentStudySubject.getStartDate());
     		studySubject.setPaymentMethod(parentStudySubject.getPaymentMethod());

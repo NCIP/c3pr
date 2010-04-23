@@ -97,6 +97,14 @@ public class RegistrationConfirmAndRandomizeController extends
 	        	List<Identifier> identifiers=new ArrayList<Identifier>();
 	        	identifiers.add(identifier);
 	        	studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+	        	// setting the participant in StudySubjectWrapper. Using studySubject.participant until 
+	        	// studySubject.studySubjectDemographics is valid, using studySubject.studySubjectDemographics once 
+	        	// it becomes valid
+	        	if (!studySubject.getStudySubjectDemographics().getValid()){
+	        		wrapper.setParticipant(studySubject.getParticipant());
+	        	}else{
+	        		wrapper.setParticipant(studySubject.getStudySubjectDemographics());
+	        	}
 	            studySubjectDao.initialize(studySubject);
 	            Study study = studyDao.getById(studySubject.getStudySite().getStudy().getId());
 	    	    studyDao.initialize(study);

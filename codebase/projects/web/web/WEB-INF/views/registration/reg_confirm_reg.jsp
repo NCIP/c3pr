@@ -81,11 +81,11 @@ function createReg(studyId,studySiteName, studySiteVersionId){
 		<chrome:division id="Subject Information" title="Subject">
 			<div class="row">
 				<div class="label"><fmt:message key="participant.fullName"/>:</div>
-				<div class="value">${command.studySubject.participant.fullName}</div>
+				<div class="value">${command.participant.fullName}</div>
 			</div>
 			<div class="row">
 				<div class="label"><fmt:message key="participant.MRN"/>:</div>
-				<div class="value">${command.studySubject.participant.MRN.value }</div>
+				<div class="value">${command.participant.MRN.value }</div>
 			</div>
 		</chrome:division>
 		<chrome:division id="Parent Registration Information" title="${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.primaryIdentifier})">

@@ -236,6 +236,15 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         	List<Identifier> identifiers=new ArrayList<Identifier>();
         	identifiers.add(identifier);
         	studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+        	// setting the participant in StudySubjectWrapper. Using studySubject.participant until 
+        	// studySubject.studySubjectDemographics is valid, using studySubject.studySubjectDemographics once 
+        	// it becomes valid
+        	if (!studySubject.getStudySubjectDemographics().getValid()){
+        		wrapper.setParticipant(studySubject.getParticipant());
+        	}else{
+        		wrapper.setParticipant(studySubject.getStudySubjectDemographics());
+        	}
+        	
             studySubjectDao.initialize(studySubject);
             if(studySubject.getParentStudySubject()!=null){
             	studySubjectDao.initialize(studySubject.getParentStudySubject());

@@ -5,6 +5,25 @@
 		<%--<jwr:style src="/css/subtabbedflow.css" />--%>
         <script>
         	C3PR.disableCheckRequiredFieldOnLoad=true;
+
+        	/* handlers for searchSubject flwo */
+    	  	
+        	function postProcessSubjectSelection(id, name, identifier){
+        		$('studySubject.participant').value = id;
+        	//	${command.studySubject.participant} = id;
+        		minimizeSubjectBox("Selected Subject: " +name+ " (" + identifier + ")");	
+        	}  	
+        	function minimizeSubjectBox(msg){
+        		PanelCombo('SubjectBox');
+        		displaySubjectMessage(msg,true);
+        	}
+        	
+        	function displaySubjectMessage(message,pulsateFlag){
+        		element=$$("#Subject .header h2")[0];
+        		new Element.update(element,message);
+        		pulsateFlag?(!is_ie?new Effect.Pulsate(element):null):null;
+        	}
+
             function navRollOver(obj, state){
                 document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
             }

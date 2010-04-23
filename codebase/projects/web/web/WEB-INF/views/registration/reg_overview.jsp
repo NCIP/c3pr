@@ -281,33 +281,33 @@
     <div class="leftpanel">
         <div class="row">
             <div class="label"><fmt:message key="c3pr.common.firstName"/>:</div>
-            <div class="value">${command.studySubject.participant.firstName}</div>
+            <div class="value">${command.participant.firstName}</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
-            <div class="value">${command.studySubject.participant.lastName}</div>
+            <div class="value">${command.participant.lastName}</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="participant.gender"/>:</div>
-            <div class="value">${command.studySubject.participant.administrativeGenderCode}</div>
+            <div class="value">${command.participant.administrativeGenderCode}</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="participant.medicalRecordNumber"/>:</div>
-            <div class="value">${command.studySubject.participant.MRN.value }</div>
+            <div class="value">${command.participant.MRN.value }</div>
         </div>
 	</div>
 	<div class="rightpanel">
         <div class="row">
             <div class="label"><fmt:message key="participant.birthDate"/>:</div>
-            <div class="value">${command.studySubject.participant.birthDateStr}</div>
+            <div class="value">${command.participant.birthDateStr}</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="participant.ethnicity"/>:</div>
-            <div class="value">${command.studySubject.participant.ethnicGroupCode}</div>
+            <div class="value">${command.participant.ethnicGroupCode}</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="participant.race"/>:</div>
-            	<c:forEach items="${command.studySubject.participant.raceCodes}" var="raceCode">
+            	<c:forEach items="${command.participant.raceCodes}" var="raceCode">
 		                <div class="value">${raceCode.displayName}</div>
 		        </c:forEach>
 
@@ -786,11 +786,11 @@
 	<chrome:division id="Subject Information" title="Subject">
 			<div class="row">
 				<div class="label"><fmt:message key="participant.fullName"/>:</div>
-				<div class="value">${command.studySubject.participant.fullName}</div>
+				<div class="value">${command.participant.fullName}</div>
 			</div>
 			<div class="row">
 				<div class="label"><fmt:message key="participant.MRN"/>:</div>
-				<div class="value">${command.studySubject.participant.MRN.value }</div>
+				<div class="value">${command.participant.MRN.value }</div>
 			</div>
 		</chrome:division>
 		<chrome:division id="Parent Registration Information" title="${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.primaryIdentifier})">
