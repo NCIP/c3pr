@@ -45,12 +45,12 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 			Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and " +
-		 		"ss.startDate >= ? and ss.startDate <= ? and " +
+		 		"ss.startDate >= ? and ss.startDate <= ? and ss.regWorkflowStatus != 'PENDING' and " +
 		 		"ss.diseaseHistoryInternal.icd9DiseaseSite.summary3ReportDiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.studyInternal.therapeuticIntentIndicator = '1' " +
 		 		"and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 		 		"(select h.id from HealthcareSite h where " +
   			    "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1')",
-                new Object[] {startDate, endDate, summary3ReportDiseaseSite.getName(), hcs.getCtepCode()}).size();
+                new Object[] {startDate, endDate,summary3ReportDiseaseSite.getName(), hcs.getCtepCode()}).size();
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 			HealthcareSite hcs, Date startDate, Date endDate) {
 		//commented out because C3PR is not the source of truth for newly registered patients.
 		 /*return  getHibernateTemplate().find("from StudySubject ss,StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions) and" +
-		 		" ss.startDate >= ? and ss.startDate <= ? and " +
+		 		" ss.startDate >= ? and ss.startDate <= ? and ss.regWorkflowStatus != 'PENDING' and " +
 		 		"ss.diseaseHistoryInternal.icd9DiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 		 		"(select h.id from HealthcareSite h where " +
 		 		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1'))",
@@ -89,7 +89,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 			Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss, StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions)and " +
-		 		"ss.startDate >= ? and ss.startDate <= ? and " +
+		 		"ss.startDate >= ? and ss.startDate <= ? and ss.regWorkflowStatus != 'PENDING' and " +
 		 		"ssv.studySiteStudyVersion.studySite.studyInternal.therapeuticIntentIndicator = '1' and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 		 		"(select h.id from HealthcareSite h where " +
 		 		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1'))",
@@ -108,7 +108,7 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 	public int getNewlyRegisteredSubjectCount(HealthcareSite hcs, Date startDate, Date endDate) {
 		
 		 return  getHibernateTemplate().find("from StudySubject ss, StudySubjectStudyVersion ssv where ssv=any elements(ss.studySubjectStudyVersions)and" +
-		 		" ss.startDate >= ? and ss.startDate <= ? and " +
+		 		" ss.startDate >= ? and ss.regWorkflowStatus != 'PENDING' and ss.startDate <= ? and " +
 			 		"ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
 			 		"(select h.id from HealthcareSite h, Identifier I where " +
 			 		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1'))",
