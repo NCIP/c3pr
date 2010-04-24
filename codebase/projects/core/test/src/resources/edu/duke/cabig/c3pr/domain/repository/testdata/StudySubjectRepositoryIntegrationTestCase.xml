@@ -56,8 +56,10 @@
     <ICD9_DISEASE_SITES id="1100" version="0" name="Skin" code="200" description_text="skin" depth="LEVEL2" selectable="0"  />    
 
     <DISEASE_HISTORY id="1100" version="1" icd9_disease_site_id="1100" retired_indicator = "false" />
+    
+    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" ethnic_group_code="Not Reported" prt_id="1100" add_id="1100"  retired_indicator="false" />
 
-    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" prt_id="1100" sti_id="1100" grid_id="1100"/>
+    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" stu_sub_dmgphcs_id="1000" sti_id="1100" grid_id="1100"/>
     
     <STUDY_SUBJECT_VERSIONS id="1100" version="1" spa_id="1100" study_site_ver_id="1100" retired_indicator="false"/>
 
