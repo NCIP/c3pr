@@ -39,6 +39,7 @@ import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
@@ -292,7 +293,7 @@ public class DomainObjectCreationHelper {
 		study.addCompanionStudyAssociation(companionStudyAssociation2);
 	}
 	
-	public static Participant getParticipantWithAddress(){
+	public static StudySubjectDemographics getStudySubjectDemographicsWithAddress(){
 		Participant participant= new Participant();
 		participant.setFirstName("First");
 		participant.setLastName("Last");
@@ -321,7 +322,7 @@ public class DomainObjectCreationHelper {
 		address.setStateCode("VA");
 		address.setStreetAddress("1391 Park Center Rd, Ste#420");
 		participant.setAddress(address);
-		return participant;
+		return participant.createStudySubjectDemographics();
 	}
 	
 	public static StudySubject getSubjectSubject(){

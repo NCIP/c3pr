@@ -33,6 +33,7 @@ import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.DateUtil;
@@ -100,7 +101,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	public StudySubject buildStudySubject(){
 		StudySubject studySubject = DomainObjectCreationHelper.getSubjectSubject();
 		DomainObjectCreationHelper.addStudySite(studySubject);
-		studySubject.setStudySubjectDemographics(DomainObjectCreationHelper.getParticipantWithAddress().createStudySubjectDemographics());
+		studySubject.setStudySubjectDemographics(DomainObjectCreationHelper.getStudySubjectDemographicsWithAddress());
 		DomainObjectCreationHelper.addInformedConsent(studySubject);
 		DomainObjectCreationHelper.addIdentifiers(studySubject);
 		DomainObjectCreationHelper.addScheduledEpoch(studySubject);
@@ -142,8 +143,8 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	}
 	
 	public void testParticipantMarshalling() throws Exception{
-		Participant participant= DomainObjectCreationHelper.getParticipantWithAddress();
-		String xml= studyMarshaller.toXML(participant);
+		StudySubjectDemographics studySubjectDemographics= DomainObjectCreationHelper.getStudySubjectDemographicsWithAddress();
+		String xml= studyMarshaller.toXML(studySubjectDemographics);
 		System.out.println(xml);
 		xmlParser.validate(xml.getBytes());
 		assertNotNull(xml);
@@ -185,16 +186,16 @@ public class CastorMappingTestCase extends AbstractTestCase{
 	}
 	
 	public void testParticipantUnMarshalling() throws Exception{
-		Participant expected= DomainObjectCreationHelper.getParticipantWithAddress();
+		StudySubjectDemographics expected= DomainObjectCreationHelper.getStudySubjectDemographicsWithAddress();
 		String xml= studyMarshaller.toXML(expected);
 		System.out.println(xml);
-		Participant actual=(Participant)studyMarshaller.fromXML(new StringReader(xml));
+		StudySubjectDemographics actual=(StudySubjectDemographics)studyMarshaller.fromXML(new StringReader(xml));
 		assertNotNull(actual);
-		assertParticipant(actual);
+		assertStudySubjectDemographics(actual);
 	}
 	
-	public void assertParticipant(Participant actual){
-		Participant expected= DomainObjectCreationHelper.getParticipantWithAddress();
+	public void assertStudySubjectDemographics(StudySubjectDemographics actual){
+		StudySubjectDemographics expected= DomainObjectCreationHelper.getStudySubjectDemographicsWithAddress();
 		assertEquals(expected.getFullName(), actual.getFullName());
 		assertEquals(expected.getAdministrativeGenderCode(), actual.getAdministrativeGenderCode());
 		assertEquals(expected.getBirthDateStr(), actual.getBirthDateStr());
@@ -223,7 +224,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 		assertEquals(expected.getRegWorkflowStatus(), actual.getRegWorkflowStatus());
 		assertHealthcareSite(expected.getStudySite().getHealthcareSite(), actual.getStudySite().getHealthcareSite());
 		assertIdentifiers(expected.getStudySite().getStudy().getIdentifiers(), actual.getStudySite().getStudy().getIdentifiers());
-		assertParticipant(actual.getStudySubjectDemographics().getMasterSubject());
+		assertStudySubjectDemographics(actual.getStudySubjectDemographics());
 		assertInformedConsents(expected.getStudySubjectConsentVersions(), actual.getStudySubjectConsentVersions());
 		assertIdentifiers(expected.getIdentifiers(), actual.getIdentifiers());
 		assertScheduledEpochs(expected.getScheduledEpochs(), actual.getScheduledEpochs());
