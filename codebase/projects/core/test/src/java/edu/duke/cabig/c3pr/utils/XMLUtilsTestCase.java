@@ -10,13 +10,12 @@ import org.w3c.dom.Document;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
@@ -28,7 +27,7 @@ public class XMLUtilsTestCase extends TestCase {
         List<? extends AbstractMutableDomainObject> domainObjects=xmUtils.extractDomainObjectsFromXML(xml);
         assertEquals("Wrong size of list", domainObjects.size(),4);
         assertEquals("Wrong deserialized domain object", StudySubject.class, domainObjects.get(0).getClass());
-        assertEquals("Wrong deserialized domain object", Participant.class, domainObjects.get(1).getClass());
+        assertEquals("Wrong deserialized domain object", StudySubjectDemographics.class, domainObjects.get(1).getClass());
         assertEquals("Wrong deserialized domain object", ScheduledArm.class, domainObjects.get(2).getClass());
         assertEquals("Wrong deserialized domain object", ScheduledEpoch.class, domainObjects.get(3).getClass());
     }
