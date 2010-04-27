@@ -197,6 +197,9 @@
 		$('fromCreateRegistration').value="true";
 		$('studySiteStudyVersionIdFromCreateReg').value = $('studySiteStudyVersionId').value ;
 		$('updateParticipantForm').action= "../personAndOrganization/participant/editParticipant?" + idParamString;
+		$('studySearchType').value = $('searchType').value ;
+		$('studySearchText').value = $('searchText').value ;
+		$('searchedForStudy').value = $('searchedStudy').value ;
 		$('updateParticipantForm').submit();
     	}
 </script>
@@ -204,6 +207,9 @@
 <form action="../personAndOrganization/participant/editParticipant" method="post" id="updateParticipantForm" name="updateParticipantForm">
 	 <input type="hidden" id="fromCreateRegistration" name="fromCreateRegistration" value="true"/>
 	 <input type="hidden" id="studySiteStudyVersionIdFromCreateReg" name="studySiteStudyVersionIdFromCreateReg" value=""/>
+	 <input type="hidden" id="studySearchType" name="studySearchType" value=""/>
+	 <input type="hidden" id="studySearchText" name="studySearchText" value=""/>
+	 <input type="hidden" name="searchedForStudy" id="searchedForStudy" value="false">
 </form>
 
 <tags:minimizablePanelBox title="Select Subject" boxId="SubjectBox">

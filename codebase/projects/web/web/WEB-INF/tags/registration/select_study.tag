@@ -7,72 +7,57 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script type="text/javascript">
-	<c:if test="${!empty from_reg_confirmation && from_reg_confirmation==true}">
-		window.onload = delayFromConfirmRegistration();
-		function delayFromConfirmRegistration(){
-			setTimeout("fromConfirmRegistration(true,'${create_studySiteStudyVersionId}','${create_study_name}','${create_study_identifier}','${create_studySiteName}')", 1000);
-		}
-		function fromConfirmRegistration(isActive, studySiteStudyVersionId, studyName,studyPrimaryIdentifier,siteName){
-			var url = "../registration/searchEpoch?studySiteStudyVersionId="+studySiteStudyVersionId;
-			document.getElementById("studySiteStudyVersionId").value = studySiteStudyVersionId;
-			new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
-			var message = "Selected Study: " +studyName+ " (" +studyPrimaryIdentifier+ ") "  + " at " +siteName;
-			minimizeStudyBox(message);
-		}
-	</c:if>
 
-	<c:if test="${!empty fromStudyRegistrations && fromStudyRegistrations==true}">
-		window.onload = delayFromStudyRegistrations();
-		function delayFromStudyRegistrations(){
-			setTimeout("searchStudyFromStudyRegistrations('${createRegistration_studyId}')", 1000);
-		}
-		function searchStudyFromStudyRegistrations(studyId) {
-	        new Element.show('searchStudyInd');
-	        new Ajax.Updater('studySearchResults','../registration/searchStudy?fromStudyRegistrations=true&decorator=nullDecorator&studyId='+studyId,
-	        {
-	            method:'post',
-	            postBody:Form.serialize('searchstudyFromRegistrationForm'), 
-	            onSuccess:callbackStudy,
-	            onFailure:callbackStudyFail
-	        });
-	    }
-	</c:if>
-	
-	<c:if test="${!empty fromUpdateParticipant}">
-		<c:choose>
-			<c:when test="${!empty studySiteStudyVersionIdFromUpdateParticipant}">
-				window.onload = delayFromUpdateParticipant();
-				function delayFromUpdateParticipant(){
-					setTimeout("searchStudySiteVersionfromUpdateParticipant(true,'${studySiteStudyVersionIdFromUpdateParticipant}','${studyName}','${studyPrimaryIdentifier}','${siteName}')", 3000);
-				}
-		
-				function searchStudySiteVersionfromUpdateParticipant(isActive, studySiteStudyVersionId,studyName,studyPrimaryIdentifier,siteName){
+document.observe("dom:loaded", function() {
+		<c:if test="${!empty from_reg_confirmation && from_reg_confirmation==true}">
+			fromConfirmRegistration(true,'${create_studySiteStudyVersionId}','${create_study_name}','${create_study_identifier}','${create_studySiteName}');
+			function fromConfirmRegistration(isActive, studySiteStudyVersionId, studyName,studyPrimaryIdentifier,siteName){
 					var url = "../registration/searchEpoch?studySiteStudyVersionId="+studySiteStudyVersionId;
 					document.getElementById("studySiteStudyVersionId").value = studySiteStudyVersionId;
 					new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
 					var message = "Selected Study: " +studyName+ " (" +studyPrimaryIdentifier+ ") "  + " at " +siteName;
 					minimizeStudyBox(message);
 				}
-				//	function searchStudyFromUpdateParticipant(studyId) {
-			  	//      new Element.show('searchStudyInd');
-			   //     new Ajax.Updater('studySearchResults','../registration/searchStudy?fromStudyRegistrations=true&decorator=nullDecorator&studyId='+studyId,
-			   //     {
-			    //        method:'post',
-			      //      postBody:Form.serialize('searchstudyFromRegistrationForm'), 
-			     //       onSuccess:callbackStudy,
-			      //      onFailure:callbackStudyFail
-			      //  });
-			  //  }
-			  	setTimeout("postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}')", 3000);
-				postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}');
-			</c:when>
-			<c:otherwise>
-			//	setTimeout("postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}')", 3000);
-			//	postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}');
-			</c:otherwise>
-		</c:choose>
+		</c:if>
+			
+		<c:if test="${!empty fromStudyRegistrations && fromStudyRegistrations==true}">
+				searchStudyFromStudyRegistrations('${createRegistration_studyId}');
+				function searchStudyFromStudyRegistrations(studyId) {
+			        new Element.show('searchStudyInd');
+			        new Ajax.Updater('studySearchResults','../registration/searchStudy?fromStudyRegistrations=true&decorator=nullDecorator&studyId='+studyId,
+			        {
+			            method:'post',
+			            postBody:Form.serialize('searchstudyFromRegistrationForm'), 
+			            onSuccess:callbackStudy,
+			            onFailure:callbackStudyFail
+			        });
+			    }
+		</c:if>
+			
+		<c:if test="${!empty fromUpdateParticipant}">
+				<c:choose>
+					<c:when test="${!empty studySiteStudyVersionIdFromUpdateParticipant}">
+						searchStudySiteVersionfromUpdateParticipant(true,'${studySiteStudyVersionIdFromUpdateParticipant}','${studyName}','${studyPrimaryIdentifier}','${siteName}');
+						function searchStudySiteVersionfromUpdateParticipant(isActive, studySiteStudyVersionId,studyName,studyPrimaryIdentifier,siteName){
+							var url = "../registration/searchEpoch?studySiteStudyVersionId="+studySiteStudyVersionId;
+							document.getElementById("studySiteStudyVersionId").value = studySiteStudyVersionId;
+							new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
+							var message = "Selected Study: " +studyName+ " (" +studyPrimaryIdentifier+ ") "  + " at " +siteName;
+							minimizeStudyBox(message);
+						}
+						postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}');
+					</c:when>
+					<c:otherwise>
+						   document.searchstudyForm.searchText.value='${studySearchText}';
+						   document.searchstudyForm.searchType.value='${studySearchType}';
+						   searchStudy();
+						postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}');
+					</c:otherwise>
+				</c:choose>
+			</c:if>
+	});
+		
 	
-	</c:if>
 	  
 	
 	function minimizeStudyBox(msg){
@@ -131,6 +116,9 @@
 	}
 
     function searchStudy() {
+    	$('searchText').value = document.searchstudyForm.searchText.value ;
+    	$('searchType').value = document.searchstudyForm.searchType.value ;
+    	$('searchedStudy').value = "true";
         new Element.show('searchStudyInd');
         new Ajax.Updater('studySearchResults','../registration/searchStudy?fromRegistration=true&decorator=nullDecorator',
         {
@@ -154,12 +142,14 @@
             <input type="hidden" id="standaloneOnly" name="standaloneOnly" value="true"/>
             <input type="hidden" id="searchType" name="searchType" type="text" value="" size="25"/>
             <input type="hidden" id="searchText" name="searchText" type="text" value="" size="25"/>
+            <input type="hidden" name="searchedStudy" id="searchedStudy" value="false">
 		</form>
 
-        <form id="searchstudyForm" action="" method="post">
+        <form id="searchstudyForm" name="searchstudyForm" action="" method="post">
             <input type="hidden" name="_selected" id="_selected" value="">
             <input type="hidden" name="_action" id="_action" value=""> 
             <input type="hidden" name="async" id="async" value="async"> 
+             
         <div class="content">
             <div class="row">
                 <div class="label">
