@@ -18,7 +18,7 @@
      var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
             populator: function(autocompleter, text) {
-            	if(text != '(Begin typing here)'){
+            	if(text != '(Begin typing here for suggestion)'){
             		$('healthcareSite-indicator').style.display='';
             	}
                 OrganizationAjaxFacade.matchHealthcareSites(text,function(values) {
