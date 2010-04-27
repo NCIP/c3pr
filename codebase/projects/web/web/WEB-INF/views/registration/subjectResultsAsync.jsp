@@ -10,13 +10,13 @@
 		<thead>
 			<c:if test="${participants!=null}">
 				<tr>
-					<td class="tableHeader"></td>
 					<td class="tableHeader"><fmt:message key="c3pr.common.lastName"/>, <fmt:message key="c3pr.common.firstName"/></td>
 					<td class="tableHeader"><fmt:message key="participant.medicalRecordNumber"/></td>
 					<td class="tableHeader"><fmt:message key="c3pr.common.assigningAuthority"/></td>
 					<td class="tableHeader"><fmt:message key="participant.gender"/></td>
 					<td class="tableHeader"><fmt:message key="participant.race"/></td>
 					<td class="tableHeader"><fmt:message key="participant.birthDate"/></td>
+					<td class="tableHeader"></td>
 					<td class="tableHeader"></td>
     			</tr>
 			</c:if>
@@ -33,9 +33,6 @@
 
             <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'" style="cursor:pointer"
 				onMouseOut="this.className='<%= currClass %>'" >					
-					<td width="2%" onclick="new Element.toggle('participants-table-${participantResultsStatus.index }'); toggleImage('image-open-${participantResultsStatus.index }');">
-						<img id="image-open-${participantResultsStatus.index}" src="<tags:imageUrl name="b-plus.gif"/>" border="0" alt="expand">
-					</td>
 					<td>${participant.lastName},${participant.firstName}</td>
 					<td>${participant.MRN.value}</td>
 					<td><c:if test="${! empty participant.MRN}">${participant.MRN.healthcareSite.name}</c:if></td>
@@ -48,6 +45,39 @@
 			        	</c:forEach>
 		        	</td>
 					<td>${participant.birthDateStr}</td>
+					<td>
+									 <script>
+									    function toggleCriteria(divToBeMinimized }, id){
+									        var el = document.getElementById(divToBeMinimized);
+											var elimg =document.getElementById(id);
+									        if (el == null) {
+									            alert("division.tag - Could not find div Element to minimize.");
+									        }
+									        if (el.style.display != 'none') {
+									            new Effect.BlindUp(el);
+									            elimg.src = '<chrome:imageUrl name="../../templates/mocha/images/maximize.png" />';
+												elimg.alt = 'Maximize';
+									            
+									        }
+									        else {
+									            new Effect.BlindDown(el);
+									            elimg.src = '<chrome:imageUrl name="../../templates/mocha/images/minimize.png" />';
+												elimg.alt = 'Minimize';
+									            
+									        }
+									    }
+									</script>
+										<c:set var="minimize" value="true" />
+										<c:choose>
+											<c:when test="${minimize}">
+												<c:set var="imageVar" value="maximize"></c:set>
+											</c:when>
+											<c:otherwise>
+												<c:set var="imageVar" value="minimize"></c:set>				
+											</c:otherwise>
+										</c:choose>
+										<a style='cursor:pointer' onclick='toggleCriteria("participants-table-${participantResultsStatus.index }", "minmax_participants-table-${participantResultsStatus.index }")'><img id="minmax_participants-table-${participantResultsStatus.index }" src="<chrome:imageUrl name="../../templates/mocha/images/${imageVar}.png" />" alt="${imageVar}" style="vertical-align:middle" /></a>
+					</td>
 					<td><tags:button type="button" color="blue" icon="Select" value="Select" 
 					onclick="postProcessSubjectSelection('${participant.id}','${participant.lastName} ${participant.firstName}','${participant.identifiers[0].type.code}'+' - '+ '${participant.identifiers[0].value}')" size="small"/></td>
 				</tr>
