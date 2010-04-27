@@ -497,10 +497,6 @@
 							    <tags:inPlaceEdit value="${command.studySubject.diseaseHistory.primaryDiseaseSiteStr}" path="studySubject.diseaseHistory.icd9DiseaseSite" id="icd9DiseaseSite" validations="validate-notEmpty" autocompleterJSVar="diseaseSiteAutocompleterProps"
 							    pathToGet="studySubject.diseaseHistory.icd9DiseaseSite.name" disable="${!canEditRegistrationRecord}"
 							    />
-							    <%-- <input type="hidden" name="value" class="editor_field" id="diseaseSite-hidden">
-<input type="text" class="autocomplete" id="diseaseSite-input">
-<tags:indicator id="diseaseSite-indicator" />
-<div id="diseaseSite-choices" class="autocomplete"></div>--%>
 							</div>
 						</c:when>
 						<c:otherwise>
@@ -547,6 +543,7 @@
     enrollmentDetailArray.push(editor_offStudyDate);
     enrollmentDetailArray.push(editor_offStudyReasonText);
     enrollmentDetailArray.push(editor_treatingPhysician);
+    enrollmentDetailArray.push(editor_icd9DiseaseSite);
     </script>
     
 </chrome:division>
@@ -580,9 +577,9 @@
     <c:set var="options" value=""></c:set>
     <c:set var="values" value=""></c:set>
     <c:set var="commanSepOptVal" value="["></c:set>
-    <c:set var="commanSepOptVal" value="${commanSepOptVal}[ 'Yes'],"></c:set>
-    <c:set var="commanSepOptVal" value="${commanSepOptVal}[ 'No'],"></c:set>
-    <c:set var="commanSepOptVal" value="${commanSepOptVal}[ 'Not Applicable']"></c:set>
+    <c:set var="commanSepOptVal" value="${commanSepOptVal}[ 'Yes', 'Yes'],"></c:set>
+    <c:set var="commanSepOptVal" value="${commanSepOptVal}[ 'No', 'No'],"></c:set>
+    <c:set var="commanSepOptVal" value="${commanSepOptVal}[ 'NA', 'Not Applicable']"></c:set>
 	<c:set var="commanSepOptVal" value="${commanSepOptVal}]"></c:set>
 	<div class="leftpanel">
 		<div class="row">
@@ -606,7 +603,7 @@
 	                          <td class="alt" align="left">${eligibilityAnswer.eligibilityCriteria.questionText}</td>
 	                          <td class="alt" align="left">
 	                          	<tags:inPlaceSelect value="${eligibilityAnswer.answerText}" path="studySubject.scheduledEpoch.inclusionEligibilityAnswers[${status.index}].answerText" id="inclusionAnswerText_${status.index}"
-                                    commanSepOptVal="${commanSepOptVal}" onComplete="updateEligibility" disable="${!canEditRegistrationRecord}"/>
+                                    commanSepOptVal="${commanSepOptVal}" onComplete="updateEligibility" disable="${!canEditRegistrationRecord}" />
 	                          </td>
 	                      </tr>
 	                  </c:forEach>
