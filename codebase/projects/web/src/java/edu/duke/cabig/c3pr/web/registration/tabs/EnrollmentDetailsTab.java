@@ -110,7 +110,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
         }
 
         if(command.getStudySubject().getDiseaseHistory() != null){
-        	if(StringUtils.equals(command.getStudySubject().getDiseaseHistory().getOtherPrimaryDiseaseSiteCode(), "(Begin typing here)")){
+        	if(StringUtils.equals(command.getStudySubject().getDiseaseHistory().getOtherPrimaryDiseaseSiteCode(), "(Begin typing here for suggestion)")){
         		command.getStudySubject().getDiseaseHistory().setOtherPrimaryDiseaseSiteCode("");
         	}
         }
