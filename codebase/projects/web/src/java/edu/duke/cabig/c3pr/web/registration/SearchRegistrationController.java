@@ -57,7 +57,7 @@ public class SearchRegistrationController extends SimpleFormController {
         SearchRegistrationCommand searchRegistrationCommand = (SearchRegistrationCommand) oCommand;
         StudySubject registration = new StudySubject(true);
         String text = searchRegistrationCommand.getSearchText();
-        if(StringUtils.equals(text, "(Begin typing here)")){
+        if(StringUtils.equals(text, "(Begin typing here for suggestion)")){
         	text = "" ;
         }
         String type = searchRegistrationCommand.getSearchType();
