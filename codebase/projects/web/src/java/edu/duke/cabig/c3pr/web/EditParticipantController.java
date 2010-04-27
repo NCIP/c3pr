@@ -116,6 +116,25 @@ public class EditParticipantController<C extends Participant> extends
         binder.registerCustomEditor(ContactMechanismType.class, new EnumByNameEditor(
                         ContactMechanismType.class));
     }
+    
+    @Override
+    protected Object currentFormObject(HttpServletRequest request,
+    		Object oCommand) throws Exception {
+    	 Participant participant = null;
+
+         if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
+         	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
+         	List<Identifier> identifiers=new ArrayList<Identifier>();
+         	identifiers.add(identifier);
+         	participant=participantRepository.getUniqueParticipant(identifiers);
+             participantDao.initialize(participant);
+             log.debug(" Participant's ID is:" + participant.getId());
+         }else{
+         	participant =  new Participant();
+         }
+
+         return participant;
+    }
 
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
@@ -125,7 +144,7 @@ public class EditParticipantController<C extends Participant> extends
         response.sendRedirect("viewParticipant?"+ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0)));
         return null;
     }
-
+    
     public HealthcareSiteDao getHealthcareSiteDao() {
         return healthcareSiteDao;
     }
