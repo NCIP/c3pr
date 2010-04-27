@@ -816,7 +816,7 @@
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Summary 3 Report"
                                     p:linkName="summary3ReportController"/>
-                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                          <!--  <bean class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Advanced Search"
                                     p:linkName="registrationAdvancedSearchController">
                                     <property name="subTasks">
@@ -833,8 +833,8 @@
 											<bean
 				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
 				                                    autowire="byType" p:displayName="Subject"
-				                                    p:linkName="subjectAdvancedSearchController">
-											</bean>
+				                                    p:linkName="subjectAdvancedSearchController"> 
+											</bean>-->
 				                        </list>
 				                    </property>
                              </bean> 
