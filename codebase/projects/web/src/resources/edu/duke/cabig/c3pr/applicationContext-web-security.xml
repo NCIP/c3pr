@@ -90,6 +90,16 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
 		<entry key="/pages/report/createStudyReport"
 			value="edu.duke.cabig.c3pr.domain.Study:READ" />
+			
+		<!-- Entries related to advance search  -->
+         <entry key="/pages/report/advancedSearch/registrationAdvancedSearch"
+               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
+        <entry key="/pages/report/advancedSearch/studyAdvancedSearch"
+               value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+        <entry key="/pages/report/advancedSearch/subjectAdvancedSearch"
+               value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
+               
+               	
 		<entry key="/pages/report/summary3Report"  
 			value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
 	<!-- 	<entry key="/pages/report/pDFReader"  
@@ -152,6 +162,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
 		<entry key="/pages/report/createStudyReport"
 			value="edu.duke.cabig.c3pr.domain.Study:READ" />
+		<entry key="/pages/report/createParticipantReport"
+			value="edu.duke.cabig.c3pr.domain.Participant:READ" />
 		<entry key="/pages/report/summary3Report"  
 			value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
 		<!-- 	<entry key="/pages/report/pDFReader"  

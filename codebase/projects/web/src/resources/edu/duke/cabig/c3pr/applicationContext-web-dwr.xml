@@ -47,5 +47,16 @@
             class="edu.duke.cabig.c3pr.web.ajax.StudySubjectXMLFileImportAjaxFacade" />
     <bean id="userAjaxFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.UserAjaxFacade" />
-
+	
+	<!-- Entries related to advance search -->
+	
+	<bean id="registrationAdvancedSearchCommand" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.report.RegistrationAdvancedSearchCommand" />
+		
+	<bean id="studyAdvancedSearchCommand" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.report.StudyAdvancedSearchCommand" />
+		
+	<bean id="subjectAdvancedSearchCommand" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.report.SubjectAdvancedSearchCommand" />
+	
 </beans>
