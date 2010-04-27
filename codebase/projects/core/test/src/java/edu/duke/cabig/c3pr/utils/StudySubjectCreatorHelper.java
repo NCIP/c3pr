@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 
@@ -422,6 +423,15 @@ public class StudySubjectCreatorHelper {
     
     public void addMRNIdentifierToSubject(Participant participant, HealthcareSite healthcareSite){
         List<OrganizationAssignedIdentifier> prtIdentifiers=participant.getOrganizationAssignedIdentifiers();
+        OrganizationAssignedIdentifier identifier=prtIdentifiers.get(prtIdentifiers.size());
+        identifier.setHealthcareSite(healthcareSite);
+        identifier.setValue("test id"+Math.random());
+        identifier.setType(OrganizationIdentifierTypeEnum.MRN);
+        identifier.setPrimaryIndicator(true);
+    } 
+    
+    public void addMRNIdentifierToStudySubjectDemographics(StudySubjectDemographics studySubjectDemographics, HealthcareSite healthcareSite){
+        List<OrganizationAssignedIdentifier> prtIdentifiers=studySubjectDemographics.getOrganizationAssignedIdentifiers();
         OrganizationAssignedIdentifier identifier=prtIdentifiers.get(prtIdentifiers.size());
         identifier.setHealthcareSite(healthcareSite);
         identifier.setValue("test id"+Math.random());
