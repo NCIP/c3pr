@@ -834,10 +834,10 @@
 				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
 				                                    autowire="byType" p:displayName="Subject"
 				                                    p:linkName="subjectAdvancedSearchController"> 
-											</bean>-->
+											</bean>
 				                        </list>
 				                    </property>
-                             </bean> 
+				            </bean>-->
                         </list>
                     </property>
                 </bean>
