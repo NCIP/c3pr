@@ -1754,7 +1754,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		researchStaff.setAssignedIdentifier("test2");
 		studyPersonnel.setStatusCode("Inactive");
 		studyPersonnel.setResearchStaff(researchStaff);
-		EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studyOrganization);
+		EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studyOrganization).times(2);
 	  	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
 	  	replayMocks();
 		researchStaff = new LocalResearchStaff();
