@@ -36,6 +36,8 @@ public class StudySubjectTest extends AbstractTestCase {
 	/** The study site. */
 	StudySite studySite;
 	
+	StudyOrganization studyOrganization;
+	
 	StudySubjectDemographics studySubjectDemographics;
 
 	/** The participant. */
@@ -77,6 +79,7 @@ public class StudySubjectTest extends AbstractTestCase {
 		study = registerMockFor(Study.class);
 		epoch = registerMockFor(Epoch.class);
 		studySite = registerMockFor(StudySite.class);
+		studyOrganization = registerMockFor(StudyOrganization.class);
 		scheduledEpoch = registerMockFor(ScheduledEpoch.class);
 		studySubject = new StudySubject();
 		participant = registerMockFor(Participant.class);
@@ -1741,21 +1744,62 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		verifyMocks();
 	}
   
+  /**
+   * for(StudyPersonnel studyPersonnel : getStudySite().getActiveStudyPersonnel()){
+			if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+				return true;
+			}
+		}
+		if(!getStudySite().getIsCoordinatingCenter()){
+			StudySite coordinatingCenterStudySite = null;
+			for(StudySite studySite : getStudySite().getStudy().getStudySites()){
+				if(studySite.getIsCoordinatingCenter()){
+					coordinatingCenterStudySite = studySite;
+					break;
+				}
+			}
+			if(coordinatingCenterStudySite != null){
+				for(StudyPersonnel studyPersonnel : coordinatingCenterStudySite.getActiveStudyPersonnel()){
+					if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+						return true;
+					}
+				}
+			}
+			StudyOrganization studyOrganizationCoordinatingCenter = getStudySite().getStudy().getStudyCoordinatingCenter();
+			if(studyOrganizationCoordinatingCenter != null){
+				for(StudyPersonnel studyPersonnel : studyOrganizationCoordinatingCenter.getActiveStudyPersonnel()){
+					if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+						return true;
+					}
+				}
+			}
+		}
+   */
   public void testIsAssignedAndActivePersonnel2(){
 	  	studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-		StudySite studyOrganization = new StudySite();
-		StudyPersonnel studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
+	  	
+		StudySite dummyStudySite = new StudySite();
+		StudyPersonnel studyPersonnel = dummyStudySite.getStudyPersonnel().get(0);
 		ResearchStaff researchStaff = new LocalResearchStaff();
 		researchStaff.setAssignedIdentifier("test1");
 		studyPersonnel.setStatusCode("Active");
 		studyPersonnel.setResearchStaff(researchStaff);
-		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
+		
+		studyPersonnel = dummyStudySite.getStudyPersonnel().get(1);
 		researchStaff = new LocalResearchStaff();
 		researchStaff.setAssignedIdentifier("test2");
 		studyPersonnel.setStatusCode("Inactive");
 		studyPersonnel.setResearchStaff(researchStaff);
-		EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studyOrganization).times(2);
-	  	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		
+//		EasyMock.expect(study.isCoOrdinatingCenter("")).andReturn(false);
+		EasyMock.expect(studySite.getIsCoordinatingCenter()).andReturn(false);
+		EasyMock.expect(studySite.getActiveStudyPersonnel()).andReturn(new ArrayList<StudyPersonnel>());
+		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+		EasyMock.expect(study.getStudySites()).andReturn(new ArrayList<StudySite>());
+		EasyMock.expect(study.getStudyCoordinatingCenter()).andReturn(dummyStudySite);
+		EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(4);
+	  	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(4);
+	  	
 	  	replayMocks();
 		researchStaff = new LocalResearchStaff();
 		researchStaff.setAssignedIdentifier("test2");
