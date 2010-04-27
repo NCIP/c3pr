@@ -103,6 +103,7 @@ function manageIdentifierRadio(element){
 }
 function returnToRegistration(participantId){
 	$('participantId').value=participantId;
+	$('fromEditParticipant').value="true";
 	$('createRegistration').submit();
 }
 </script>
@@ -110,6 +111,7 @@ function returnToRegistration(participantId){
 <body>
 <form action="../../registration/createRegistration" method="get" id="createRegistration">
 	<input type="hidden" name="participantId" id="participantId" value=""/>
+	<input type="hidden" name="fromEditParticipant" id="fromEditParticipant" value="false"/>
 </form>
 <form:form method="post" name="participantDetailsForm" cssClass="standard">
 <tags:tabFields tab="${tab}" />
