@@ -815,7 +815,29 @@
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Summary 3 Report"
-                                    p:linkName="summary3ReportController"/> 
+                                    p:linkName="summary3ReportController"/>
+                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Advanced Search"
+                                    p:linkName="registrationAdvancedSearchController">
+                                    <property name="subTasks">
+				                        <list>
+				                            <bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Registration"
+				                                    p:linkName="registrationAdvancedSearchController"/>
+											<bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Study"
+				                                    p:linkName="studyAdvancedSearchController">
+											</bean>
+											<bean
+				                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+				                                    autowire="byType" p:displayName="Subject"
+				                                    p:linkName="subjectAdvancedSearchController">
+											</bean>
+				                        </list>
+				                    </property>
+                             </bean> 
                         </list>
                     </property>
                 </bean>
@@ -841,6 +863,26 @@
         <property name="viewName"><value>dashboard</value></property>
     </bean>
 
-
+	<!-- Mapping for advance search specific beans -->
+	<bean name="/report/advancedSearch/registrationAdvancedSearch" id="registrationAdvancedSearchController" lazy-init="true" 
+				class="edu.duke.cabig.c3pr.web.report.RegistrationAdvancedSearchController" autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.RegistrationAdvancedSearchCommand"/>
+        <property name="formView" value="report/registration_advanced_search"/>
+        <property name="successView" value="report/registration_advanced_search_result"/>
+    </bean>
+    <bean name="/report/advancedSearch/studyAdvancedSearch" id="studyAdvancedSearchController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.report.StudyAdvancedSearchController"
+          autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.StudyAdvancedSearchCommand"/>
+        <property name="formView" value="report/study_advanced_search"/>
+        <property name="successView" value="report/study_advanced_search_result"/>
+    </bean>
+    <bean name="/report/advancedSearch/subjectAdvancedSearch" id="subjectAdvancedSearchController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.report.SubjectAdvancedSearchController"
+          autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.SubjectAdvancedSearchCommand"/>
+        <property name="formView" value="report/subject_advanced_search"/>
+        <property name="successView" value="report/subject_advanced_search_result"/>
+    </bean>
 
 </beans>
