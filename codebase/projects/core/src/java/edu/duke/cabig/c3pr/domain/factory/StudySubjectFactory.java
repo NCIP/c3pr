@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
+import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -55,8 +56,14 @@ public class StudySubjectFactory {
     private ICD9DiseaseSiteDao icd9DiseaseSiteDao;
     
     private HealthcareSiteDao healthcareSiteDao;
+    
+    private ParticipantRepository participantRepository;
 
-    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+    public void setParticipantRepository(ParticipantRepository participantRepository) {
+		this.participantRepository = participantRepository;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
@@ -81,7 +88,12 @@ public class StudySubjectFactory {
         StudySubject built = new StudySubject();
         StudySite studySite = buildStudySite(deserializedStudySubject.getStudySite(),
                         buildStudy(deserializedStudySubject.getStudySite().getStudy()));
-        Participant participant = buildParticipant(deserializedStudySubject.getStudySubjectDemographics().getMasterSubject());
+        Participant participant = findMasterParticipant(deserializedStudySubject.getStudySubjectDemographics());
+        if (participant == null){
+        	participant = new Participant();
+        	participant.synchronizeWithStudySubjectDemographics(deserializedStudySubject.getStudySubjectDemographics());
+        	participant.addStudySubjectDemographics(deserializedStudySubject.getStudySubjectDemographics());
+        }
         if (participant.getId() != null) {	
             List<StudySubject> registrations = studySubjectDao
                             .searchBySubjectAndStudyIdentifiers(participant.getPrimaryIdentifier(),
@@ -92,7 +104,9 @@ public class StudySubjectFactory {
             }
         }
         else {
-            if (participant.validateParticipant()){ }//participantDao.save(participant);
+            if (participant.validateParticipant())
+            	{ participantDao.save(participant);
+            }
             else {
                 throw this.exceptionHelper
                                 .getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
@@ -124,7 +138,7 @@ public class StudySubjectFactory {
         StudySubject built = new StudySubject();
         StudySite studySite = buildStudySite(deserializedStudySubject.getStudySite(),
                         buildStudy(deserializedStudySubject.getStudySite().getStudy()));
-        Participant participant = buildParticipant(deserializedStudySubject.getStudySubjectDemographics().getMasterSubject());
+        Participant participant = findMasterParticipant(deserializedStudySubject.getStudySubjectDemographics());
         built.setStudySite(studySite);
         built.setStudySubjectDemographics(participant.createStudySubjectDemographics());
         Epoch epoch = buildEpoch(studySite.getStudy().getEpochs(), deserializedStudySubject
@@ -136,12 +150,13 @@ public class StudySubjectFactory {
         return built;
     }
 
-    public Participant buildParticipant(Participant participant) throws C3PRCodedException {
-        if (participant.getIdentifiers() == null || participant.getIdentifiers().size() == 0) {
+    public Participant findMasterParticipant(StudySubjectDemographics studySubjectDemographics) throws C3PRCodedException {
+    	Participant participant = null;
+        if (studySubjectDemographics.getIdentifiers() == null || studySubjectDemographics.getIdentifiers().size() == 0) {
             throw exceptionHelper
                             .getException(getCode("C3PR.EXCEPTION.REGISTRATION.MISSING.SUBJECT_IDENTIFIER.CODE"));
         }
-        for (OrganizationAssignedIdentifier organizationAssignedIdentifier : participant
+        for (OrganizationAssignedIdentifier organizationAssignedIdentifier : studySubjectDemographics
                         .getOrganizationAssignedIdentifiers()) {
             if (organizationAssignedIdentifier.getType().getName().equals(this.prtIdentifierTypeValueStr)) {
                 List<Participant> paList = participantService
@@ -158,24 +173,11 @@ public class StudySubjectFactory {
                         logger
                                         .debug("buildParticipant(Participant) - Participant with the same MRN found in the database");
                     }
-                    Participant temp = paList.get(0);
-                    if (temp.getFirstName().equals(participant.getFirstName())
-                                    && temp.getLastName().equals(participant.getLastName())
-                                    && temp.getBirthDate().getTime() == participant.getBirthDate()
-                                                    .getTime()) {
-                        return temp;
-                    }
-                    else {
-                        throw exceptionHelper
-                                        .getException(
-                                                        getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.ANOTHER_SUBJECT_SAME_MRN.CODE"),
-                                                        new String[] { organizationAssignedIdentifier
-                                                                        .getValue() });
-                    }
+                    participant = paList.get(0);
                 }
             }
         }
-        for (OrganizationAssignedIdentifier organizationAssignedIdentifier : participant
+        for (OrganizationAssignedIdentifier organizationAssignedIdentifier : studySubjectDemographics
                 .getOrganizationAssignedIdentifiers()) {
         	HealthcareSite healthcareSite= healthcareSiteDao.getByPrimaryIdentifier(organizationAssignedIdentifier.getHealthcareSite().getPrimaryIdentifier());
         	organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
