@@ -103,30 +103,42 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
 	        
         }
         
-        if(request.getSession().getAttribute("fromCreateRegistration")!=null ){
-        	refdata.put("fromUpdateParticipant", request.getSession().getAttribute("fromCreateRegistration"));
-        	request.getSession().removeAttribute("fromCreateRegistration");
-        }
-        if(request.getSession().getAttribute("studySiteStudyVersionIdFromCreateReg")!=null && !request.getSession().getAttribute("studySiteStudyVersionIdFromCreateReg").equals("")){
-        	String StudySiteStudyVersionId = (String)request.getSession().getAttribute("studySiteStudyVersionIdFromCreateReg");
-        	StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(Integer.parseInt(StudySiteStudyVersionId));
-        	refdata.put("studyName", studySiteStudyVersion.getStudyVersion().getShortTitleText());
-        	refdata.put("siteName", studySiteStudyVersion.getStudySite().getHealthcareSite().getName());
-        	refdata.put("studyPrimaryIdentifier", studySiteStudyVersion.getStudyVersion().getStudy().getPrimaryIdentifier());
-        	refdata.put("studySiteStudyVersionIdFromUpdateParticipant", StudySiteStudyVersionId);
-        	request.getSession().removeAttribute("studySiteStudyVersionIdFromCreateReg");
-        }
-       
-        if(request.getParameter("participantId")!=null){
-        	refdata.put("participantId", request.getParameter("participantId"));
-        	Participant participant = participantDao.getById(Integer.parseInt(request.getParameter("participantId")));
-        	refdata.put("participantName", participant.getLastName() + "" + participant.getFirstName());
-        	refdata.put("participantIdentifier", participant.getOrganizationAssignedIdentifiers().get(0).getType().getCode()+ " - " + participant.getOrganizationAssignedIdentifiers().get(0).getValue());
-        	
-        }
-        
-        
-    	return refdata;
+        if (request.getParameter("fromEditParticipant") != null && request.getParameter("fromEditParticipant").equals("true")) { 
+			if (request.getSession().getAttribute("fromCreateRegistration") != null) {
+				refdata.put("fromUpdateParticipant", request.getSession()
+						.getAttribute("fromCreateRegistration"));
+				request.getSession().removeAttribute("fromCreateRegistration");
+			}
+			if (request.getSession().getAttribute(
+					"studySiteStudyVersionIdFromCreateReg") != null
+					&& !request.getSession().getAttribute(
+							"studySiteStudyVersionIdFromCreateReg").equals("")) {
+				String StudySiteStudyVersionId = (String) request.getSession().getAttribute("studySiteStudyVersionIdFromCreateReg");
+				StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(Integer.parseInt(StudySiteStudyVersionId));
+				refdata.put("studyName", studySiteStudyVersion.getStudyVersion().getShortTitleText());
+				refdata.put("siteName", studySiteStudyVersion.getStudySite().getHealthcareSite().getName());
+				refdata.put("studyPrimaryIdentifier", studySiteStudyVersion.getStudyVersion().getStudy().getPrimaryIdentifier());
+				refdata.put("studySiteStudyVersionIdFromUpdateParticipant",StudySiteStudyVersionId);
+				request.getSession().removeAttribute("studySiteStudyVersionIdFromCreateReg");
+			} else if (request.getSession().getAttribute("searchedForStudy") != null && request.getSession().getAttribute("searchedForStudy")
+							.equals("true")) {
+				refdata.put("searchedForStudy", request.getSession().getAttribute("searchedForStudy"));
+				request.getSession().removeAttribute("searchedForStudy");
+				refdata.put("studySearchType", request.getSession().getAttribute("studySearchType"));
+				request.getSession().removeAttribute("studySearchType");
+				refdata.put("studySearchText", request.getSession().getAttribute("studySearchText"));
+				request.getSession().removeAttribute("studySearchText");
+
+			}
+			if (request.getParameter("participantId") != null) {
+				refdata.put("participantId", request.getParameter("participantId"));
+				Participant participant = participantDao.getById(Integer.parseInt(request.getParameter("participantId")));
+				refdata.put("participantName", participant.getLastName() + ""+ participant.getFirstName());
+				refdata.put("participantIdentifier", participant.getOrganizationAssignedIdentifiers().get(0).getType().getCode()+ " - "	
+						+ participant.getOrganizationAssignedIdentifiers().get(0).getValue());
+			}
+		}
+		return refdata;
     }
     
     @Override
