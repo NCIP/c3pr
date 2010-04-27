@@ -1791,7 +1791,6 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		studyPersonnel.setStatusCode("Inactive");
 		studyPersonnel.setResearchStaff(researchStaff);
 		
-//		EasyMock.expect(study.isCoOrdinatingCenter("")).andReturn(false);
 		EasyMock.expect(studySite.getIsCoordinatingCenter()).andReturn(false);
 		EasyMock.expect(studySite.getActiveStudyPersonnel()).andReturn(new ArrayList<StudyPersonnel>());
 		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
