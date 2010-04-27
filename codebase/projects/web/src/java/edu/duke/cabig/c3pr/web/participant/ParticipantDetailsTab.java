@@ -27,10 +27,14 @@ public class ParticipantDetailsTab extends ParticipantTab {
 		
 		if(request.getParameter("fromCreateRegistration")!=null && request.getParameter("fromCreateRegistration").equals("true")){
 			request.getSession().setAttribute("fromCreateRegistration", true);
-		}
 		
-		if(request.getParameter("studySiteStudyVersionIdFromCreateReg")!=null){
-			request.getSession().setAttribute("studySiteStudyVersionIdFromCreateReg", request.getParameter("studySiteStudyVersionIdFromCreateReg"));
+			if(request.getParameter("studySiteStudyVersionIdFromCreateReg")!=null && !request.getParameter("studySiteStudyVersionIdFromCreateReg").equals("")){
+				request.getSession().setAttribute("studySiteStudyVersionIdFromCreateReg", request.getParameter("studySiteStudyVersionIdFromCreateReg"));
+			} else if(request.getParameter("searchedForStudy").equals("true")){
+				request.getSession().setAttribute("searchedForStudy", request.getParameter("searchedForStudy"));
+				request.getSession().setAttribute("studySearchType", request.getParameter("studySearchType"));
+				request.getSession().setAttribute("studySearchText", request.getParameter("studySearchText"));
+			}
 		}
 		request.getSession().getAttribute("studySiteStudyVersionIdFromCreateReg");
 		
