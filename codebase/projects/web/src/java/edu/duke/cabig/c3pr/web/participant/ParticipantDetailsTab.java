@@ -36,7 +36,6 @@ public class ParticipantDetailsTab extends ParticipantTab {
 				request.getSession().setAttribute("studySearchText", request.getParameter("studySearchText"));
 			}
 		}
-		request.getSession().getAttribute("studySiteStudyVersionIdFromCreateReg");
 		
 		 Map<String, List<Lov>> configMap = configurationProperty.getMap();
 
