@@ -14,7 +14,7 @@ function validateFields(formFields, displayError) {
          displayError?element.value = trimWhitespace(element.value):null;
          
          // required element
-         if (element.required  && (element.value == '' || element.value == '(Begin typing here)')) {
+         if (element.required  && (element.value == '' || element.value == '(Begin typing here for suggestion)')) {
          	displayError?ValidationManager.showError(element,element.requiredError):null;
             validForm=false;
             continue;

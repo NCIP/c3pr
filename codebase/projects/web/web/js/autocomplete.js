@@ -101,7 +101,7 @@ function initSearchField() {
 }
 function addEventHandlersForAutoCompleter(theInput){
 
-        var message = '(Begin typing here)';
+        var message = '(Begin typing here for suggestion)';
 
           /* Add event handlers */
         Event.observe(theInput, 'focus', clearDefaultText);
@@ -117,7 +117,7 @@ function clearDefaultText(e) {
     var target = window.event ? window.event.srcElement : e ? e.target : null;
     if (!target) return;
 
-    if (target.value == '(Begin typing here)') {
+    if (target.value == '(Begin typing here for suggestion)') {
         target.value = '';
         Element.removeClassName(target, "pending-search");
     }
@@ -134,7 +134,7 @@ function replaceDefaultText(e2) {
     if (!target) return;
     // commenting for release need to fix it
   if (trim(target.value) == '' ) {
-        target.value = '(Begin typing here)';
+        target.value = '(Begin typing here for suggestion)';
     }
 }
 
