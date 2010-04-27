@@ -141,7 +141,7 @@
 	    							$(hiddenField).value=selectedChoice.id;
     								$('hcsInvestigator-hidden').value ='';
 									$('hcsInvestigator-input').className = $('hcsInvestigator-input').className + ' pending-search'
-    								$('hcsInvestigator-input').value ='(Begin typing here)';
+    								$('hcsInvestigator-input').value ='(Begin typing here for suggestion)';
 			}
 		}
        
