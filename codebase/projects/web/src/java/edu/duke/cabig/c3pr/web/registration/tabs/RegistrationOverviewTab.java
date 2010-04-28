@@ -154,6 +154,9 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
         }
 		map.put("isAdmin", WebUtils.isAdmin());
 		map.put("canEditRegistrationRecord", canEditRegistrationRecord(studySubject));
+		map.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
+        map.put("ethnicGroupCodes", configMap.get("ethnicGroupCode"));
+        map.put("raceCodes", configMap.get("raceCode"));
 		return map;
 	}
 	
