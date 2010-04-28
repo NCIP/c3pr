@@ -142,7 +142,12 @@
         	showWarning(localEditEvent, stratificationCriteriaArray);
         }
 
+        function activateInPlaceEditingForSubject(localEditEvent) {
+        	showWarning(localEditEvent, subjectArray);
+        }
+
         Event.observe(window, "load", function() {
+        	Event.observe("editInPlaceForSubject", "click", activateInPlaceEditingForSubject);
     		Event.observe("editInPlaceForArm", "click", activateInPlaceEditingForArm);
     		Event.observe("editInPlaceForEnrollmentDetail", "click", activateInPlaceEditingForEnrollmentDetail);
     		Event.observe("editInPlaceForInformedConsent", "click", activateInPlaceEditingForInformedConsent);
@@ -277,33 +282,63 @@
         </div>
   </div>
 </chrome:division>
-<chrome:division id="Subject Information" title="Subject">
+<chrome:division id="Subject Information" title="Subject" inPlaceLinkId="editInPlaceForSubject" condition="${canEditRegistrationRecord}">
     <div class="leftpanel">
         <div class="row">
             <div class="label"><fmt:message key="c3pr.common.firstName"/>:</div>
-            <div class="value">${command.participant.firstName}</div>
+            <div class="value">
+            	<tags:inPlaceEdit value="${command.participant.firstName}" path="studySubject.studySubjectDemographics.firstName" id="firstName" validations="validate-notEmpty" disable="${!canEditRegistrationRecord}"/>
+            </div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
-            <div class="value">${command.participant.lastName}</div>
+            <div class="value">
+            	<tags:inPlaceEdit value="${command.participant.lastName}" path="studySubject.studySubjectDemographics.lastName" id="lastName" validations="validate-notEmpty" disable="${!canEditRegistrationRecord}"/>
+            </div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="participant.gender"/>:</div>
-            <div class="value">${command.participant.administrativeGenderCode}</div>
+            <div class="value">
+	            <c:set var="commanSepOptValGender" value="["></c:set>
+				<c:forEach items="${administrativeGenderCode}"  var="genderCode" varStatus="status">
+			 				<c:set var="commanSepOptValGender" value="${commanSepOptValGender}['${genderCode.code}','${genderCode.desc}']"></c:set>
+			 				<c:if test="${status.index != (fn:length(administrativeGenderCode) -1)}">
+			     				<c:set var="commanSepOptValGender" value="${commanSepOptValGender},"></c:set>
+			 				</c:if>
+				</c:forEach>
+				<c:set var="commanSepOptValGender" value="${commanSepOptValGender}]"></c:set>
+            	<tags:inPlaceSelect value="${command.participant.administrativeGenderCode}" path="studySubject.studySubjectDemographics.administrativeGenderCode" id="administrativeGenderCode" validations="validate-notEmpty"
+                    commanSepOptVal="${commanSepOptValGender}"  pathToGet="studySubject.studySubjectDemographics.administrativeGenderCode" disable="${!canEditRegistrationRecord}"/>
+            </div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="participant.medicalRecordNumber"/>:</div>
-            <div class="value">${command.participant.MRN.value }</div>
+            <div class="value">
+            	<tags:inPlaceEdit value="${command.participant.MRN.value}" path="studySubject.studySubjectDemographics.MRN.value" id="medicalRecordNumber" validations="validate-notEmpty" disable="${!canEditRegistrationRecord}"/>
+            </div>
         </div>
 	</div>
 	<div class="rightpanel">
         <div class="row">
             <div class="label"><fmt:message key="participant.birthDate"/>:</div>
-            <div class="value">${command.participant.birthDateStr}</div>
+            <div class="value">
+            	<tags:inPlaceEdit value="${command.participant.birthDateStr}" path="studySubject.studySubjectDemographics.birthDate" id="birthDate" validations="validate-notEmpty" disable="${!canEditRegistrationRecord}"/>
+           	</div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="participant.ethnicity"/>:</div>
-            <div class="value">${command.participant.ethnicGroupCode}</div>
+            <div class="value">
+            	<c:set var="commanSepOptValEthnicity" value="["></c:set>
+				<c:forEach items="${ethnicGroupCodes}"  var="ethnicCode" varStatus="status">
+			 				<c:set var="commanSepOptValEthnicity" value="${commanSepOptValEthnicity}['${ethnicCode.code}','${ethnicCode.desc}']"></c:set>
+			 				<c:if test="${status.index != (fn:length(ethnicGroupCodes) -1)}">
+			     				<c:set var="commanSepOptValEthnicity" value="${commanSepOptValEthnicity},"></c:set>
+			 				</c:if>
+				</c:forEach>
+				<c:set var="commanSepOptValEthnicity" value="${commanSepOptValEthnicity}]"></c:set>
+            	<tags:inPlaceSelect value="${command.participant.ethnicGroupCode}" path="studySubject.studySubjectDemographics.ethnicGroupCode" id="ethnicGroupCode" validations="validate-notEmpty"
+                    commanSepOptVal="${commanSepOptValEthnicity}"  pathToGet="studySubject.studySubjectDemographics.ethnicGroupCode" disable="${!canEditRegistrationRecord}"/>
+            </div>
         </div>
         <div class="row">
             <div class="label"><fmt:message key="participant.race"/>:</div>
@@ -313,6 +348,16 @@
 
         </div>
     </div>
+     <script>
+    var subjectArray = new Array();
+    subjectArray.push(editor_firstName);
+    subjectArray.push(editor_lastName);
+    subjectArray.push(editor_administrativeGenderCode);
+    subjectArray.push(editor_medicalRecordNumber);
+    subjectArray.push(editor_birthDate);
+    subjectArray.push(editor_ethnicGroupCode);
+   // subjectArray.push(editor_raceCodes);
+    </script>
 </chrome:division>
 <chrome:division title="Identifiers">
     <table class="tablecontent" width="100%">
