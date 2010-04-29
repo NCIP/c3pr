@@ -16,6 +16,9 @@
       <tags:dwrJavascriptLink objects="reportCommand"/>
 --%>
 <script>
+	function resetScreen(){
+		alert("I have to implement reset screen functionality");
+	}
 </script>
 <style type="text/css">
 #search td {
@@ -130,8 +133,8 @@ color:white;
 <chrome:division>
 <br>
 <div  align="center">
-	<tags:button type="button" icon="search" size="small" color="blue" value="Search Subject" onclick="buildTable('searchForm');"/>
-	<tags:button type="button" size="small" color="blue" value="Clear" onclick="clearScreen();"/>
+	<tags:button type="submit" icon="search" size="small" color="blue" value="Search Subject" onclick="buildTable('searchForm');"/>
+	<tags:button type="button" size="small" color="blue" value="Reset" onclick="resetScreen();"/>
 </div>
 </chrome:division>
 </form:form>

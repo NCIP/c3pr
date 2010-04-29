@@ -6,16 +6,61 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@ include file="/WEB-INF/tags/includeYUI.tag" %>
 
 <html>
 <head>
-    <title>Subject Search</title>
+    <title>Subject Search Results</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>${tab.longTitle}</title>
-<%--  <tags:dwrJavascriptLink objects="createReport"/>
-      <tags:dwrJavascriptLink objects="reportCommand"/>
---%>
 <script>
+YAHOO.example.Data = {
+	    subjectList: [
+					<c:forEach items="${subjectList}" var="subject" varStatus="status">
+					        {
+					            subjectFullName: "${subject.fullName}",
+					            identifier: "${subject.primaryIdentifierValue}",
+					            subjectGender: "${subject.administrativeGenderCode}",
+					            subjectEthnicity: "${subject.ethnicGroupCode}",
+						        subjectBirthDate:  "${subject.birthDate}"	            
+					         }
+					         <c:if test="${!status.last}">,</c:if>
+					</c:forEach>
+					 ]
+}
+
+YAHOO.util.Event.addListener(window, "load", function() {
+    YAHOO.example.CustomSort = function() {
+        var myColumnDefs = [
+            {key:"subjectFullName",       label:"Full Name",       sortable:true,      resizeable:true , minWidth:250},
+            {key:"identifier",         label:"Primary Identifier", sortable:true,      resizeable:true},
+            {key:"subjectGender",         label:"Gender",          sortable:true,      resizeable:true},
+            {key:"subjectEthnicity",      label:"Ethnicity",       sortable:true,      resizeable:true},
+            {key:"subjectBirthDate",      label:"Birthdate",       sortable:true,      resizeable:true}
+        ];
+
+        var subjectDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.subjectList);
+        subjectDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+        subjectDataSource.responseSchema = {
+            fields: ["subjectFullName", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate"]
+        };
+
+        //Create config
+        var oConfigs = {
+        		paginator: new YAHOO.widget.Paginator({ rowsPerPage: 10 }), 
+				draggableColumns:true
+			};
+        var subjectDataTable = new YAHOO.widget.DataTable("subjectTable", myColumnDefs, subjectDataSource, oConfigs);
+
+        return {
+            oDS: subjectDataSource,
+            oDT: subjectDataTable
+        };
+    }();
+    
+});
+
+
 </script>
 <style type="text/css">
 #search td {
@@ -25,116 +70,18 @@ color:white;
 </head>
 <body>
 <!--  tags:instructions code="participant_search_report"/>  -->
-<chrome:box title="Search Subject">
-<form:form id="search" method="post">
+<chrome:box title="Subject Search Results">
 <chrome:division>
-	<div class="leftpanel">
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.firstName"/></div>
-          	<div class="value">
-        		<input type="text"  size="25">
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.lastName"/></div>
-        	<div class="value">
-        		<input type="text"  size="25">
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.identifier"/></div>
-          	<div class="value">
-        		<input type="text"  size="25">
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="participant.gender"/></div>
-          	<div class="value">
-  	            <select id="administrativeGenderCode" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
-                   <c:forEach items="${administrativeGenderCode}" var="administrativeGenderCode">
-                       <c:if test="${!empty administrativeGenderCode.desc}">
-                           <option value="${administrativeGenderCode.code}">${administrativeGenderCode.desc}</option>
-                       </c:if>
-                   </c:forEach>
-                </select>
-   	    	</div>
-        </div>
-        <div class="row" >
-	       	<div class="label"><fmt:message key="participant.ethnicity"/></div>
-	       	<div class="value">
-  	            <select id="ethnicGroupCodes" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
-                   <c:forEach items="${ethnicGroupCodes}" var="ethnicGroupCode">
-                       <c:if test="${!empty ethnicGroupCode.desc}">
-                           <option value="${ethnicGroupCode.code}">${ethnicGroupCode.desc}</option>
-                       </c:if>
-                   </c:forEach>
-                </select>
-   	    	</div>
-        </div>
-    </div>
-    <div class="rightpanel">
-    	<div class="row" >
-	       	<div class="label"><fmt:message key="participant.race" /></div>
-   	        <div class="value">
-  	            <select id="raceCodes" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
-                   <c:forEach items="${raceCodes}" var="raceCode">
-                       <c:if test="${!empty raceCode.desc}">
-                           <option value="${raceCode.code}">${raceCode.desc}</option>
-                       </c:if>
-                   </c:forEach>
-                </select>
-   	    	</div>
-        </div>
-        <div class="row" >
-	       	<div class="label"><fmt:message key="c3pr.common.age"/></div>
-   	        <div class="value">
-   	        	<select id="age">
-                   <option value="" selected="selected">Please Select</option>
-                   <option value="">Older than</option>
-                   <option value="">Younger than</option>
-                   <option value="">Equal to</option>
-                </select>
-       			<input type="text"  size="5">
-   	    	</div>
-        </div>
-        <div class="row" >
-      	<div class="label"><fmt:message key="c3pr.common.city"/></div>
-      	<div class="value">
-      		<input type="text"  size="25">
-      	</div>
-      </div>
-      <div class="row" >
-      	<div class="label"><fmt:message key="c3pr.common.state"/></div>
-      	<div class="value">
-      		<input type="text"  size="25">
-      	</div>
-      </div>
-      <div class="row" >
-      	<div class="label"><fmt:message key="c3pr.common.zip"/></div>
-      	<div class="value">
-      		<input type="text"  size="25">
-      	</div>
-      </div>
-      <div class="row" >
-     	<div class="label"><fmt:message key="c3pr.common.country"/></div>
-      	<div class="value">
-      		<input type="text"  size="25">
-      	</div>
-      </div>
-      <div class="divison"></div>
-     </div>
+	<div align="right">
+		<tags:button color="blue" value="print" size="small" icon="print"/>
+		<tags:button color="blue" value="export" size="small" icon="export"/>
+	</div>
+	<div id="subjectTable" class="yui-skin-sam"></div>
+	<div align="right">
+		<tags:button color="blue" value="print" size="small" icon="print"/>
+		<tags:button color="blue" value="export" size="small" icon="export"/>
+	</div>
 </chrome:division>
-<chrome:division>
-<br>
-<div  align="center">
-	<tags:button type="button" icon="search" size="small" color="blue" value="Search Subject" onclick="buildTable('searchForm');"/>
-	<tags:button type="button" size="small" color="blue" value="Clear" onclick="clearScreen();"/>
-</div>
-</chrome:division>
-</form:form>
 </chrome:box>
 </body>
 </html>
