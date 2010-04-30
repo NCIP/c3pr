@@ -15,7 +15,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
@@ -32,7 +31,6 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
-import edu.duke.cabig.c3pr.web.participant.ParticipantSummaryTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
@@ -134,6 +132,26 @@ public class EditParticipantController<C extends Participant> extends
          }
 
          return participant;
+    }
+    
+    @Override
+	protected ModelAndView showForm(HttpServletRequest request,
+			HttpServletResponse response, BindException errors)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return super.showForm(request, response, errors);
+	}
+  
+    
+    @Override
+    protected ModelAndView handleRequestInternal(HttpServletRequest request,
+    		HttpServletResponse response) throws Exception {
+    	if(request.getParameter("goToRegistration")!=null && request.getParameter("goToRegistration").equals("true")){
+    		super.handleRequestInternal(request, response);
+    		ModelAndView modelAndView = new ModelAndView("redirect:../../registration/createRegistration?fromEditParticipant=true&participantId=" + request.getParameter("participantId"));
+    		return modelAndView;
+    	}
+    	return super.handleRequestInternal(request, response);
     }
 
     @Override
