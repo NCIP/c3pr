@@ -101,11 +101,12 @@ function manageIdentifierRadio(element){
 	element.checked=true;
 	$(element.id+"-hidden").value="true";
 }
-function returnToRegistration(participantId){
-	$('participantId').value=participantId;
-	$('fromEditParticipant').value="true";
-	$('createRegistration').submit();
+function handleSaveSubjectDetailsAndReturnToRegistration(){
+	$('participantId').value='${command.id}';
+	$('goToRegistration').value="true";
+	$('participantDetailsForm').submit();
 }
+
 </script>
 </head>
 <body>
@@ -113,7 +114,9 @@ function returnToRegistration(participantId){
 	<input type="hidden" name="participantId" id="participantId" value=""/>
 	<input type="hidden" name="fromEditParticipant" id="fromEditParticipant" value="false"/>
 </form>
-<form:form method="post" name="participantDetailsForm" cssClass="standard">
+<form:form method="post" name="participantDetailsForm" id="participantDetailsForm" cssClass="standard">
+	<input type="hidden" name="goToRegistration" id="goToRegistration" value="false"/>
+	<input type="hidden" name="participantId" id="participantId" value="${command.id}"/>
 <tags:tabFields tab="${tab}" />
 
 <chrome:box title="${tab.shortTitle}">
@@ -329,7 +332,7 @@ function returnToRegistration(participantId){
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
 	<jsp:attribute name="localButtons">
 			<c:if test="${!empty fromCreateRegistration}">
-			<tags:button type="button" color="blue" icon="back" value="Return to registration" onclick="returnToRegistration(${command.id})" />
+			<tags:button type="button" color="blue" icon="back" value="Return to Registration" onclick="handleSaveSubjectDetailsAndReturnToRegistration()" />
 			</c:if>
 	</jsp:attribute>
 </tags:tabControls>
@@ -416,6 +419,11 @@ function returnToRegistration(participantId){
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
 </table>
+</div>
+
+
+<div id="updatedDummyDiv" style="display:none">
+
 </div>
 
 
