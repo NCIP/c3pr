@@ -29,10 +29,11 @@ import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
@@ -328,7 +329,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		
 		// check for the validity of the demographics snap shot and update participant if invalid
 		if (!studySubject.getStudySubjectDemographics().getValid()){
-			validateStudySubjectDemographics(studySubject);
+			takeSnapshotAndValidateStudySubjectDemographics(studySubject);
 		}
 		studySubject = studySubjectDao.merge(studySubject);
 		
@@ -376,7 +377,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         }
 		// check for the validity of the demographics snap shot and update participant if invalid
 		if (!studySubject.getStudySubjectDemographics().getValid()){
-			validateStudySubjectDemographics(studySubject);
+			takeSnapshotAndValidateStudySubjectDemographics(studySubject);
 		}
 		studySubject.register();
 		return save(studySubject);
@@ -470,9 +471,9 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
 		studySubject.reserve();
-		// check for the validity of the demographics snap shot and update participant if invalid
+		// take a snapshot if not already taken (i.e not valid) and set the demographics record to valid
 		if (!studySubject.getStudySubjectDemographics().getValid()){
-			validateStudySubjectDemographics(studySubject);
+			takeSnapshotAndValidateStudySubjectDemographics(studySubject);
 		}
 		return studySubject;
 	}
@@ -558,8 +559,12 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		return studySubjectDao.merge(studySubject);
 	}
 	
-	public void validateStudySubjectDemographics(StudySubject studySubject){
-		studySubject.getStudySubjectDemographics().setValid(true);
+	public void takeSnapshotAndValidateStudySubjectDemographics(StudySubject studySubject){
+		Participant masterSubject = studySubject.getStudySubjectDemographics().getMasterSubject();
+		StudySubjectDemographics snapShot = masterSubject.createStudySubjectDemographics();
+		snapShot.setValid(true);
+		studySubject.setStudySubjectDemographics(snapShot);
+		
 	}
 
 }
