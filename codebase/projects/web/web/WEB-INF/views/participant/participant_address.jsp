@@ -64,13 +64,11 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 	</span></div></div>
 	</chrome:box>
 	
-<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
-<jsp:attribute name="localButtons">
+<div align="right">
 		<c:if test="${!empty fromCreateRegistration}">
-		<tags:button type="button" color="blue" icon="back" value="Return to Registration" onclick="handleSaveSubjectDetailsAndReturnToRegistration()" />
+			<tags:button type="button" color="blue" icon="back" value="Return to Registration" onclick="handleSaveSubjectDetailsAndReturnToRegistration()" />
 		</c:if>
-</jsp:attribute>
-</tags:tabControls>
+</div>
 </form:form>
 
 </body>
