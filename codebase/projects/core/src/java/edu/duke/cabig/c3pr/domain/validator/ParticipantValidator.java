@@ -62,8 +62,12 @@ public class ParticipantValidator implements Validator {
             if (participantsWithMRN.size() > 0) {
                 if ((participant.getId() == null) || (participantsWithMRN.size() > 1)) {
                     errors
-                                    .rejectValue("primaryIdentifier",
-                                                    "Participant with this MRN already exists for the same Organization");
+                                    .rejectValue("primaryIdentifierValue", new Integer(
+                                            getCode("C3PR.SUBJECT.DUPLICATE.MRN.ERROR"))
+                                    .toString(),
+                    getMessageFromCode(
+                                    getCode("C3PR.SUBJECT.DUPLICATE.MRN.ERROR"),
+                                    null, null));
                 }
             }
         }
