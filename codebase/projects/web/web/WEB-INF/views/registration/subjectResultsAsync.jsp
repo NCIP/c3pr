@@ -10,14 +10,13 @@
 		<thead>
 			<c:if test="${participants!=null}">
 				<tr>
+					<td class="tableHeader"></td>
 					<td class="tableHeader"><fmt:message key="c3pr.common.lastName"/>, <fmt:message key="c3pr.common.firstName"/></td>
 					<td class="tableHeader"><fmt:message key="participant.medicalRecordNumber"/></td>
 					<td class="tableHeader"><fmt:message key="c3pr.common.assigningAuthority"/></td>
 					<td class="tableHeader"><fmt:message key="participant.gender"/></td>
 					<td class="tableHeader"><fmt:message key="participant.race"/></td>
 					<td class="tableHeader"><fmt:message key="participant.birthDate"/></td>
-					<td class="tableHeader"></td>
-					<td class="tableHeader"></td>
     			</tr>
 			</c:if>
 			</thead>
@@ -32,7 +31,9 @@
 				  <% String currClass=i%2==0? "odd":"even"; %>
 
             <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'" style="cursor:pointer"
-				onMouseOut="this.className='<%= currClass %>'" >					
+				onMouseOut="this.className='<%= currClass %>'" 
+				onclick='toggleCriteria("participants-table-${participantResultsStatus.index }", "minmax_participants-table-${participantResultsStatus.index }")'>	
+					<td><img id="image-open-${statusStudy.index }" src="<tags:imageUrl name="b-plus.gif"/>" border="0" alt="expand"></td>				
 					<td>${participant.lastName},${participant.firstName}</td>
 					<td>${participant.MRN.value}</td>
 					<td><c:if test="${! empty participant.MRN}">${participant.MRN.healthcareSite.name}</c:if></td>
@@ -76,10 +77,7 @@
 												<c:set var="imageVar" value="minimize"></c:set>				
 											</c:otherwise>
 										</c:choose>
-										<a style='cursor:pointer' onclick='toggleCriteria("participants-table-${participantResultsStatus.index }", "minmax_participants-table-${participantResultsStatus.index }")'><img id="minmax_participants-table-${participantResultsStatus.index }" src="<chrome:imageUrl name="../../templates/mocha/images/${imageVar}.png" />" alt="${imageVar}" style="vertical-align:middle" /></a>
 					</td>
-					<td><tags:button type="button" color="blue" icon="Select" value="Select" 
-					onclick="postProcessSubjectSelection('${participant.id}','${participant.lastName} ${participant.firstName}','${participant.identifiers[0].type.code}'+' - '+ '${participant.identifiers[0].value}')" size="small"/></td>
 				</tr>
 				<tr id="participants-table-${participantResultsStatus.index }" style="display:none;">
 				<td colspan="8" style="padding:30px;">
@@ -207,8 +205,10 @@
 							 	<c:set var="identifierType" value="${participant.organizationAssignedIdentifiers[0].type}"/>
 							 	<c:set var="idValue" value="${participant.organizationAssignedIdentifiers[0].value}" scope="request"/>
 							 	<c:set var="encodedIdValue" value="<%=java.net.URLEncoder.encode((java.lang.String)request.getAttribute("idValue"))%>" />
-							 	<tags:button id="updateSubject" type="button" color="blue" value="update" onclick="javascript:updateParticipant('assignedBy=organization&organizationNciId=${sourceValue }&identifierType=${identifierType}&identifier=${encodedIdValue}')" size="small" />
+							 	<tags:button id="updateSubject" type="button" color="blue" value="Edit" onclick="javascript:confirmationPopup('assignedBy=organization&organizationNciId=${sourceValue }&identifierType=${identifierType}&identifier=${encodedIdValue}')" />
 							</td>
+							<td><tags:button type="button" color="blue" icon="Select" value="Select" 
+								onclick="postProcessSubjectSelection('${participant.id}','${participant.lastName} ${participant.firstName}','${participant.identifiers[0].type.code}'+' - '+ '${participant.identifiers[0].value}')"/></td>
 						</tr>
 						</table>
 					</td>
