@@ -135,15 +135,6 @@ public class EditParticipantController<C extends Participant> extends
     }
     
     @Override
-	protected ModelAndView showForm(HttpServletRequest request,
-			HttpServletResponse response, BindException errors)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return super.showForm(request, response, errors);
-	}
-  
-    
-    @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request,
     		HttpServletResponse response) throws Exception {
     	if(request.getParameter("goToRegistration")!=null && request.getParameter("goToRegistration").equals("true")){
@@ -159,6 +150,10 @@ public class EditParticipantController<C extends Participant> extends
                     Object oCommand, BindException errors) throws Exception {
         Participant participant = (Participant) oCommand;
         participantDao.merge(participant);
+        if(request.getParameter("goToRegistration")!=null && request.getParameter("goToRegistration").equals("true")){
+    		ModelAndView modelAndView = new ModelAndView("redirect:../../registration/createRegistration?fromEditParticipant=true&participantId=" + request.getParameter("participantId"));
+    		return modelAndView;
+    	}
         response.sendRedirect("viewParticipant?"+ControllerTools.createParameterString(participant.getOrganizationAssignedIdentifiers().get(0)));
         return null;
     }
