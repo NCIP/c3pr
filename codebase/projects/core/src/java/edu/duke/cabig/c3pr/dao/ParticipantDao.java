@@ -205,19 +205,12 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
      * 
      * @return the subject identifiers with mrn
      * 
-     * @throws DataAccessException the data access exception
+     * @throws DataAccessException the data access exception  
      */
     public List<OrganizationAssignedIdentifier> getSubjectIdentifiersWithMRN(String MRN,
                     HealthcareSite site) throws DataAccessException {
-        List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate()
-                        .find("from Identifier I where I.typeInternal='MRN' and I.healthcareSite = ?", site);
-        List<OrganizationAssignedIdentifier> subIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
-        for (OrganizationAssignedIdentifier subIdent : orgAssignedIdentifiers) {
-            if (subIdent.getValue().equalsIgnoreCase(MRN)) {
-                subIdentifiers.add(subIdent);
-            }
-        }
-        return subIdentifiers;
+        return (List<OrganizationAssignedIdentifier>) getHibernateTemplate()
+                        .find("Select I from Identifier I, Participant P where I=any elements(P.identifiers) and I.typeInternal='MRN' and I.healthcareSite = ? and lower(I.value) = ?", new Object[]{site,MRN});
     }
 
 
@@ -272,6 +265,8 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         for(HealthcareSite  healthcareSite: participant.getHealthcareSites()){
         	getHibernateTemplate().initialize(healthcareSite.getIdentifiersAssignedToOrganization());
         }
+        getHibernateTemplate().initialize(participant.getCustomFieldsInternal());
+        getHibernateTemplate().initialize(participant.getStudySubjectDemographics());
     }
     
     /**
