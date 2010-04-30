@@ -2,10 +2,19 @@
 
 <html>
 <head>
+<script>
+function handleSaveSubjectDetailsAndReturnToRegistration(){
+	$('participantId').value='${command.id}';
+	$('goToRegistration').value="true";
+	$('participantAddressForm').submit();
+}
+</script>
     <title>Address of <participanttags:htmlTitle subject="${command}" /></title>
 </head>
 <body>
 <form:form id="participantAddressForm" name="participantAddressForm">   
+    <input type="hidden" name="goToRegistration" id="goToRegistration" value="false"/>
+	<input type="hidden" name="participantId" id="participantId" value=""/>
 	<chrome:box title="Address">
 	<input type="hidden" id="currentPage" name="_page${tab.number}"/>
 	<input type="hidden" id="_finish" name="_finish"/> 
@@ -54,6 +63,14 @@
 		<tags:button type="submit" color="green" id="flow-next"  value="Save & Done" icon="save"/>
 	</span></div></div>
 	</chrome:box>
+	
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
+<jsp:attribute name="localButtons">
+		<c:if test="${!empty fromCreateRegistration}">
+		<tags:button type="button" color="blue" icon="back" value="Return to Registration" onclick="handleSaveSubjectDetailsAndReturnToRegistration()" />
+		</c:if>
+</jsp:attribute>
+</tags:tabControls>
 </form:form>
 
 </body>

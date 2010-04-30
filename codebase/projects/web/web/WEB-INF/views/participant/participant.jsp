@@ -110,10 +110,6 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 </script>
 </head>
 <body>
-<form action="../../registration/createRegistration" method="get" id="createRegistration">
-	<input type="hidden" name="participantId" id="participantId" value=""/>
-	<input type="hidden" name="fromEditParticipant" id="fromEditParticipant" value="false"/>
-</form>
 <form:form method="post" name="participantDetailsForm" id="participantDetailsForm" cssClass="standard">
 	<input type="hidden" name="goToRegistration" id="goToRegistration" value="false"/>
 	<input type="hidden" name="participantId" id="participantId" value="${command.id}"/>
@@ -420,12 +416,6 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 	</tr>
 </table>
 </div>
-
-
-<div id="updatedDummyDiv" style="display:none">
-
-</div>
-
 
 </body>
 </html>
