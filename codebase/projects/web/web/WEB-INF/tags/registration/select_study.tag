@@ -48,9 +48,11 @@ document.observe("dom:loaded", function() {
 						postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}');
 					</c:when>
 					<c:otherwise>
-						   document.searchstudyForm.searchText.value='${studySearchText}';
-						   document.searchstudyForm.searchType.value='${studySearchType}';
-						   searchStudy();
+						<c:if test="${!empty searchedForStudy && searchedForStudy == 'true'}">
+							   document.searchstudyForm.searchText.value='${studySearchText}';
+							   document.searchstudyForm.searchType.value='${studySearchType}';
+							   searchStudy();
+						</c:if>
 						postProcessSubjectSelection(${participantId}, '${participantName}','${participantIdentifier}');
 					</c:otherwise>
 				</c:choose>
