@@ -193,10 +193,22 @@
 			new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});	
 	}
 
-	function updateParticipant(idParamString){
+	var confirmWin ;
+
+	 function confirmationPopup(idParamString){
+		 $('updateParticipantForm').action= "../personAndOrganization/participant/editParticipant?" + idParamString;
+	    	confirmWin = new Window({className :"mac_os_x", title: "Confirm", 
+				hideEffect:Element.hide, 
+				zIndex:100, width:400, height:180 , minimizable:false, maximizable:false,
+				showEffect:Element.show 
+				}); 
+			confirmWin.setContent($('confirmationMessage')) ;
+			confirmWin.showCenter(true);
+	 }
+
+	function updateParticipant(){
 		$('fromCreateRegistration').value="true";
 		$('studySiteStudyVersionIdFromCreateReg').value = $('studySiteStudyVersionId').value ;
-		$('updateParticipantForm').action= "../personAndOrganization/participant/editParticipant?" + idParamString;
 		$('studySearchType').value = $('searchType').value ;
 		$('studySearchText').value = $('searchText').value ;
 		$('searchedForStudy').value = $('searchedStudy').value ;
@@ -603,6 +615,18 @@
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
 </table>
+</div>
+<div id="HiddenPage" style="display:none;">
+<div id="confirmationMessage" style="padding: 15px;">
+	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.CREATE.REDIRECT.EDITSUBJECT.WARNING"/>
+	<div id="actionButtons">
+		<div class="flow-buttons">
+	   	<span class="next">
+	   		<tags:button type="button" color="red" icon="x" value="Cancel" onclick="confirmWin.close();" />
+			<tags:button type="button" color="green" icon="save" onclick="updateParticipant();" value="Continue" />
+		</span>
+		</div>
+	</div>
 </div>
     <!--end of create subject div-->
 </tags:minimizablePanelBox>
