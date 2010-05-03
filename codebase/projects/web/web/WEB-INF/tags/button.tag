@@ -197,6 +197,26 @@
 						</c:otherwise>
 					</c:choose>
 				</c:if>
+				<c:if test="${icon=='Print'||icon=='print'}">
+					<c:choose>
+						<c:when test="${size=='small'}">
+		    				<img src="<chrome:imageUrl name="../icons/button_icons/small/print_icon_small.png"/>" alt="" />
+						</c:when>
+						<c:otherwise>
+							<img src="<chrome:imageUrl name="../icons/button_icons/print_icon.png"/>" alt="" />
+						</c:otherwise>
+					</c:choose>
+				</c:if>
+				<c:if test="${icon=='Export'||icon=='export'}">
+					<c:choose>
+						<c:when test="${size=='small'}">
+		    				<img src="<chrome:imageUrl name="../icons/button_icons/small/export_icon_small.png"/>" alt="" />
+						</c:when>
+						<c:otherwise>
+							<img src="<chrome:imageUrl name="../icons/button_icons/export_icon.png"/>" alt="" />
+						</c:otherwise>
+					</c:choose>
+				</c:if>
 			</td>
 			<td class="r"></td>
 		</tr>
