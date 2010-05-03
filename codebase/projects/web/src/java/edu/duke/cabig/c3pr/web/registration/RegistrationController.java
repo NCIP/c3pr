@@ -34,6 +34,7 @@ import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDemographicsDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Consent;
@@ -108,6 +109,14 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     protected StudyDao studyDao;
     
     protected ConsentDao consentDao;
+    
+    /** The studySubjectDemographics dao. */
+    private StudySubjectDemographicsDao studySubjectDemographicsDao;
+
+    public void setStudySubjectDemographicsDao(
+			StudySubjectDemographicsDao studySubjectDemographicsDao) {
+		this.studySubjectDemographicsDao = studySubjectDemographicsDao;
+	}
 
 	public void setConsentDao(ConsentDao consentDao) {
 		this.consentDao = consentDao;
@@ -209,7 +218,11 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     	if(merged==null){
     		return null;
     	}
+    	
     	participantDao.initialize(merged.getParticipant());
+    	if(merged.getStudySubjectDemographics().getValid()){
+    		studySubjectDemographicsDao.initialize(merged.getStudySubjectDemographics());
+        }
         studyDao.initialize(merged.getStudySite().getStudy());
         studySiteDao.initialize(merged.getStudySite());
         command.setStudySubject(merged);
