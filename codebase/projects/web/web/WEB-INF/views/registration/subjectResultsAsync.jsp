@@ -81,7 +81,7 @@
 				</tr>
 				<tr id="participants-table-${participantResultsStatus.index }" style="display:none;">
 				<td colspan="8" style="padding:30px;">
-					<table border="0" cellpadding="4" width="100%">
+					<table border="1" cellpadding="4" width="100%">
         				<tr> <td width="100%">
 							<chrome:division id="participant-details" title="Basic Details">
 								<div class="leftpanel">
@@ -205,10 +205,21 @@
 							 	<c:set var="identifierType" value="${participant.organizationAssignedIdentifiers[0].type}"/>
 							 	<c:set var="idValue" value="${participant.organizationAssignedIdentifiers[0].value}" scope="request"/>
 							 	<c:set var="encodedIdValue" value="<%=java.net.URLEncoder.encode((java.lang.String)request.getAttribute("idValue"))%>" />
-							 	<tags:button id="updateSubject" type="button" color="blue" value="Edit" onclick="javascript:confirmationPopup('assignedBy=organization&organizationNciId=${sourceValue }&identifierType=${identifierType}&identifier=${encodedIdValue}')" />
+							 	<table>
+							 		<tr>
+									 	<td>
+									 		<tags:button id="updateSubject" type="button" size="small" color="blue" value="Edit" onclick="javascript:confirmationPopup('assignedBy=organization&organizationNciId=${sourceValue }&identifierType=${identifierType}&identifier=${encodedIdValue}')" />
+									 	</td>
+									 	<td>
+									 		<tags:button type="button" size="small" color="blue" icon="Select" value="Select" 
+										onclick="postProcessSubjectSelection('${participant.id}','${participant.lastName} ${participant.firstName}','${participant.identifiers[0].type.code}'+' - '+ '${participant.identifiers[0].value}')"/>
+									 	</td>
+							 		</tr>
+							 	</table>
+							 	
+							 	
+							 	
 							</td>
-							<td><tags:button type="button" color="blue" icon="Select" value="Select" 
-								onclick="postProcessSubjectSelection('${participant.id}','${participant.lastName} ${participant.firstName}','${participant.identifiers[0].type.code}'+' - '+ '${participant.identifiers[0].value}')"/></td>
 						</tr>
 						</table>
 					</td>
