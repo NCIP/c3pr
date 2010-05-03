@@ -447,6 +447,7 @@
     <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byName"/>
     <bean id="endpointDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EndpointDao" autowire="byName"/>
     <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byName"/>
+    <bean id="studySubjectDemographicsDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectDemographicsDao" autowire="byName"/>
     <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byName">
           	<property name="csmApplicationContextName" ref="csmApplicationContextName"/>
         	<property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
