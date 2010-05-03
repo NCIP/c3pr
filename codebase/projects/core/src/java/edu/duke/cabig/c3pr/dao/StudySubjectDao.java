@@ -65,8 +65,16 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     /** The participant dao. */
     private ParticipantDao participantDao;
+    
+    /** The studySubjectDemographics dao. */
+    private StudySubjectDemographicsDao studySubjectDemographicsDao;
 
-    /**
+    public void setStudySubjectDemographicsDao(
+			StudySubjectDemographicsDao studySubjectDemographicsDao) {
+		this.studySubjectDemographicsDao = studySubjectDemographicsDao;
+	}
+
+	/**
 	 * Sets the study dao.
 	 *
 	 * @param studyDao
@@ -528,7 +536,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         studyDao.initialize(studySubject.getStudySite().getStudy());
         studySiteDao.initialize(studySubject.getStudySite());
         participantDao.initialize(studySubject.getStudySubjectDemographics().getMasterSubject());
-
+        if(studySubject.getStudySubjectDemographics().getValid()){
+        	studySubjectDemographicsDao.initialize(studySubject.getStudySubjectDemographics());
+        }
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyInvestigatorsInternal());
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudyPersonnelInternal());
         getHibernateTemplate().initialize(studySubject.getStudySite().getStudySiteStudyVersions());
