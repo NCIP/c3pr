@@ -6,376 +6,82 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
-<%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator"%>
-<%@taglib uri="http://jawr.net/tags" prefix="jwr" %>
+<%@ include file="/WEB-INF/tags/includeYUI.tag" %>
 
 <html>
 <head>
-    <title>Registration Search</title>
+    <title>Subject Search Results</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>${tab.longTitle}</title>
-<%--  <tags:dwrJavascriptLink objects="createReport"/>
-      <tags:dwrJavascriptLink objects="reportCommand"/>
---%>
 <script>
-	function showExtraCriteriaForStudy(){
-		Element.show('advancedStudyOption1');
-		Element.show('advancedStudyOption2');
-		Element.hide('showStudyOptions');
-	}
+YAHOO.example.Data = {
+	    subjectList: [
+					<c:forEach items="${subjectList}" var="subject" varStatus="status">
+					        {
+					            subjectFullName: "${subject.fullName}",
+					            identifier: "${subject.primaryIdentifierValue}",
+					            subjectGender: "${subject.administrativeGenderCode}",
+					            subjectEthnicity: "${subject.ethnicGroupCode}",
+						        subjectBirthDate:  "${subject.formattedBirthDate}"	            
+					         }
+					         <c:if test="${!status.last}">,</c:if>
+					</c:forEach>
+					 ]
+}
 
-	function hideExtraCriteriaForStudy(){
-		Element.hide('advancedStudyOption1');
-		Element.hide('advancedStudyOption2');
-		Element.show('showStudyOptions');
-	}
+YAHOO.util.Event.addListener(window, "load", function() {
+    YAHOO.example.CustomSort = function() {
+        var myColumnDefs = [
+            {key:"subjectFullName",       label:"Full Name",       sortable:true,      resizeable:true , minWidth:250},
+            {key:"identifier",         label:"Primary Identifier", sortable:true,      resizeable:true},
+            {key:"subjectGender",         label:"Gender",          sortable:true,      resizeable:true},
+            {key:"subjectEthnicity",      label:"Ethnicity",       sortable:true,      resizeable:true},
+            {key:"subjectBirthDate",      label:"Birthdate",       sortable:true,      resizeable:true}
+        ];
 
-	function showExtraCriteriaForParticipant(){
-		Element.show('advancedParticipantOption1');
-		Element.show('advancedParticipantOption2');
-		Element.hide('showParticipantOptions');
-	}
+        var subjectDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.subjectList);
+        subjectDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+        subjectDataSource.responseSchema = {
+            fields: ["subjectFullName", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate"]
+        };
 
-	function hideExtraCriteriaForParticipant(){
-		Element.hide('advancedParticipantOption1');
-		Element.hide('advancedParticipantOption2');
-		Element.show('showParticipantOptions');
-	}
+        //Create config
+        var oConfigs = {
+        		paginator: new YAHOO.widget.Paginator({ rowsPerPage: 10 }), 
+				draggableColumns:true
+			};
+        var subjectDataTable = new YAHOO.widget.DataTable("subjectTable", myColumnDefs, subjectDataSource, oConfigs);
+
+        return {
+            oDS: subjectDataSource,
+            oDT: subjectDataTable
+        };
+    }();
+    
+});
 
 
-	function showExtraCriteriaForRegistration(){
-		Element.show('advancedRegistrationOption1');
-		Element.show('advancedRegistrationOption2');
-		Element.hide('showRegistrationOptions');
-	}
-
-	function hideExtraCriteriaForRegistration(){
-		Element.hide('advancedRegistrationOption1');
-		Element.hide('advancedRegistrationOption2');
-		Element.show('showRegistrationOptions');
-	}
-	
 </script>
 <style type="text/css">
 #search td {
 color:white;
 }
-
 </style>
 </head>
 <body>
-<tags:instructions code="registration_search_report"/>
-<chrome:box title="Search Registration">
-<form:form id="search" method="post">
-<chrome:division title="Study Criteria" >
-	<div class="leftpanel">
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.title"/></div>
-          	<div class="value">
-        		<input type="text"  size="25">
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.identifier"/></div>
-          	<div class="value">
-        		<input type="text"  size="25">
-        	</div>
-        </div>
-        <div class="row" id="showStudyOptions">
-        	<div class="value">
-        		<a  href="javascript:showExtraCriteriaForStudy();">+ show more options</a>
-        	</div>
-        </div>
-        <div id="advancedStudyOption1" style="display:none">
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.type"/></div>
-        	<div class="value">
-  	            <select id="studyType" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
-                   <c:forEach items="${typeRefData}" var="studyType">
-                       <c:if test="${!empty studyType.desc}">
-                           <option value="${studyType.code}">${studyType.desc}</option>
-                       </c:if>
-                   </c:forEach>
-                </select>
-   	    	</div>
-        </div>
-         <div class="row" >
-        	<div class="label"><fmt:message key="dashboard.coordinatingCenter"/></div>
-          	<div class="value">
-        		<input type="text"  size="35" class="autocomplete">
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="value">
-        		<a   href="javascript:hideExtraCriteriaForStudy();">- hide options</a>
-        	</div>
-        </div>
-        </div>
-    </div>
-    <div class="rightpanel">
-        <div class="row" >
-        	<div class="label"><fmt:message key="study.sponsor"/></div>
-          	<div class="value">
-        		<input type="text"  size="35" class="autocomplete">
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="study.site"/></div>
-          	<div class="value">
-        		<input type="text"  size="35" class="autocomplete"  >
-        	</div>
-        </div>
-        <div id="advancedStudyOption2" style="display:none">
-        <div class="row" >
-        	<div class="label"><fmt:message key="study.phase"/></div>
-          	<div class="value">
-  	            <select id="studyPhaseCode" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
-                   <c:forEach items="${phaseCodeRefData}" var="studyPhaseCode">
-                       <c:if test="${!empty studyPhaseCode.desc}">
-                           <option value="${studyPhaseCode.code}">${studyPhaseCode.desc}</option>
-                       </c:if>
-                   </c:forEach>
-                </select>
-   	    	</div>
-        </div>
-        </div>	
-     </div>
-</chrome:division>
-<chrome:division title="Subject Criteria">
-	<div class="leftpanel">
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.firstName"/></div>
-          	<div class="value">
-        		<input type="text"  size="25">
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.lastName"/></div>
-        	<div class="value">
-        		<input type="text"  size="25">
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.identifier"/></div>
-          	<div class="value">
-        		<input type="text"  size="25">
-        	</div>
-        </div>
-        <div class="row" id="showParticipantOptions">
-        	<div class="value">
-        		<a  href="javascript:showExtraCriteriaForParticipant();">+ show more options</a>
-        	</div>
-        </div>
-        <div id="advancedParticipantOption1" style="display:none">
-        <div class="row" >
-        	<div class="label"><fmt:message key="participant.gender"/></div>
-          	<div class="value">
-  	            <select id="administrativeGenderCode" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
-                   <c:forEach items="${administrativeGenderCode}" var="administrativeGenderCode">
-                       <c:if test="${!empty administrativeGenderCode.desc}">
-                           <option value="${administrativeGenderCode.code}">${administrativeGenderCode.desc}</option>
-                       </c:if>
-                   </c:forEach>
-                </select>
-   	    	</div>
-        </div>
-        <div class="row" >
-	       	<div class="label"><fmt:message key="participant.ethnicity"/></div>
-	       	<div class="value">
-  	            <select id="ethnicGroupCodes" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
-                   <c:forEach items="${ethnicGroupCodes}" var="ethnicGroupCode">
-                       <c:if test="${!empty ethnicGroupCode.desc}">
-                           <option value="${ethnicGroupCode.code}">${ethnicGroupCode.desc}</option>
-                       </c:if>
-                   </c:forEach>
-                </select>
-   	    	</div>
-        </div>
-        <div class="row" >
-        	<div class="value">
-        		<a   href="javascript:hideExtraCriteriaForParticipant();">- hide options</a>
-        	</div>
-        </div>
-        </div>
-    </div>
-    <div class="rightpanel">
-    	<div class="row" >
-	       	<div class="label"><fmt:message key="participant.race" /></div>
-   	        <div class="value">
-  	            <select id="raceCodes" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
-                   <c:forEach items="${raceCodes}" var="raceCode">
-                       <c:if test="${!empty raceCode.desc}">
-                           <option value="${raceCode.code}">${raceCode.desc}</option>
-                       </c:if>
-                   </c:forEach>
-                </select>
-   	    	</div>
-        </div>
-        <div class="row" >
-	       	<div class="label"><fmt:message key="c3pr.common.age"/></div>
-   	        <div class="value">
-   	        	<select id="age">
-                   <option value="">Please select</option>
-                   <option value="">Older than</option>
-                   <option value="">Younger than</option>
-                   <option value="">Equal to</option>
-                </select>
-       			<input type="text"  size="5">
-   	    	</div>
-        </div>
-        <div id="advancedParticipantOption2" style="display:none">
-        <div class="row" >
-      	<div class="label"><fmt:message key="c3pr.common.city"/></div>
-      	<div class="value">
-      		<input type="text"  size="25">
-      	</div>
-      </div>
-      <div class="row" >
-      	<div class="label"><fmt:message key="c3pr.common.state"/></div>
-      	<div class="value">
-      		<input type="text"  size="25">
-      	</div>
-      </div>
-      <div class="row" >
-      	<div class="label"><fmt:message key="c3pr.common.zip"/></div>
-      	<div class="value">
-      		<input type="text"  size="25">
-      	</div>
-      </div>
-      <div class="row" >
-     	<div class="label"><fmt:message key="c3pr.common.country"/></div>
-      	<div class="value">
-      		<input type="text"  size="25">
-      	</div>
-      </div>
-      <div class="divison"></div>
-      </div>
-     </div>
-</chrome:division>
-<chrome:division title="Registration Criteria">
-	<div class="leftpanel">
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.identifier"/></div>
-          	<div class="value">
-        		<input type="text"  size="25">
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.currentStatus"/></div>
-          	<div class="value">
-        		<select id="registrationStatus" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
-                   <c:forEach items="${registrationStatusRefData}" var="registrationStatus">
-                       <c:if test="${!empty registrationStatus.value && registrationStatus.value != 'Invalid'}">
-                           <option value="${registrationStatus.key}">${registrationStatus.value}</option>
-                       </c:if>
-                   </c:forEach>
-                   
-                </select>
-        	</div>
-        </div>
-        <div class="row" id="showRegistrationOptions">
-        	<div class="value">
-        		<a  href="javascript:showExtraCriteriaForRegistration();">+ show more options</a>
-        	</div>
-        </div>
-        <div id="advancedRegistrationOption1" style="display:none">
-        <div class="row" >
-        	<div class="label"><fmt:message key="registration.paymentMethod"/></div>
-          	<div class="value" >
-  	            <select id="paymentMethods" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
-                   <c:forEach items="${paymentMethods}" var="paymentMethod">
-                       <c:if test="${!empty paymentMethod.desc}">
-                           <option value="${paymentMethod.code}">${paymentMethod.desc}</option>
-                       </c:if>
-                   </c:forEach>
-                </select>
-   	    	</div>
-        </div>
-        <div class="row" >
-        	<div class="value">
-        		<a   href="javascript:hideExtraCriteriaForRegistration();">- hide options</a>
-        	</div>
-        </div>
-        </div>
-    </div>
-    <div class="rightpanel">
-    	<div class="row" >
-	       	<div class="label"><fmt:message key="registration.consentSignedDate"/></div>
-   	        <div class="value">
-   	        	<select id="consentSignedDate">
-                   <option value="" selected="selected">Please select</option>
-                   <option value="">Prior to</option>
-                   <option value="">Later than</option>
-                   <option value="">Equal to</option>
-                </select>
-       			<input type="text"  size="10">
-       			<a href="#" id="calbutton">
-    				<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a>
-   	    	</div>
-        </div>
-        <div class="row" >
-	       	<div class="label"><fmt:message key="registration.startDate"/></div>
-   	        <div class="value">
-   	        	<select id="registrationDate">
-                   <option value="" selected="selected">Please select</option>
-                   <option value="">Prior to</option>
-                   <option value="">Later than</option>
-                   <option value="">Equal to</option>
-                </select>
-       			<input type="text"  size="10">
-       			<a href="#" id="calbutton">
-    				<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a>
-   	    	</div>
-        </div>
-        <div class="row" >
-	       	<div class="label"><fmt:message key="registration.enrollingPhysician"/></div>
-   	        <div class="value">
-         	   	<input type="text"  size="35" class="autocomplete">
-   	    	</div>
-        </div>
-        <div class="row" >
-	       	<div class="label"><fmt:message key="c3pr.common.disease"/></div>
-	       	<div class="value">
-  	           	<input type="text"  size="35" class="autocomplete">
-   	    	</div>
-        </div>
-        <div id="advancedRegistrationOption2" style="display:none">
-        <div class="row" >
-	       	<div class="label"><fmt:message key="c3pr.common.diseaseSite"/></div>
-	       	<div class="value">
-  	           	<input type="text"  size="35" class="autocomplete">
-   	    	</div>
-        </div>
-        <div class="row" >
-	       	<div class="label"><fmt:message key="registration.enrollingSite"/></div>
-	       	<div class="value">
-  	           	<input type="text"  size="35" class="autocomplete">
-   	    	</div>
-        </div>
-      <div class="divison"></div>
-      </div>
-     </div>
-</chrome:division>
+<!--  tags:instructions code="participant_search_report"/>  -->
+<chrome:box title="Subject Search Results">
 <chrome:division>
-<br>
-<div  align="center">
-	<tags:button id="searchRegistration" type="button" icon="search" size="small" color="blue" value="Search Registration" />
-	
-	
-	
-	<tags:button type="button" size="small" color="blue" value="Clear" />
-</div>
+	<div align="right">
+		<tags:button color="blue" value="print" size="small" icon="print"/>
+		<tags:button color="blue" value="export" size="small" icon="export"/>
+	</div>
+	<div id="subjectTable" class="yui-skin-sam"></div>
+	<div align="right">
+		<tags:button color="blue" value="print" size="small" icon="print"/>
+		<tags:button color="blue" value="export" size="small" icon="export"/>
+	</div>
 </chrome:division>
-</form:form>
 </chrome:box>
 </body>
 </html>
