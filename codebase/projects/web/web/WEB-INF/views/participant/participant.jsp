@@ -328,7 +328,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
 	<jsp:attribute name="localButtons">
 			<c:if test="${!empty fromCreateRegistration}">
-			<tags:button type="button" color="blue" icon="back" value="Return to Registration" onclick="handleSaveSubjectDetailsAndReturnToRegistration()" />
+			<tags:button type="button" color="blue" icon="back" value="Save & Return to Registration" onclick="handleSaveSubjectDetailsAndReturnToRegistration()" />
 			</c:if>
 	</jsp:attribute>
 </tags:tabControls>

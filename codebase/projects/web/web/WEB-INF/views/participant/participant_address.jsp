@@ -66,7 +66,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 	
 <div align="right">
 		<c:if test="${!empty fromCreateRegistration}">
-			<tags:button type="button" color="blue" icon="back" value="Return to Registration" onclick="handleSaveSubjectDetailsAndReturnToRegistration()" />
+			<tags:button type="button" color="blue" icon="back" value="Save & Return to Registration" onclick="handleSaveSubjectDetailsAndReturnToRegistration()" />
 		</c:if>
 </div>
 </form:form>
