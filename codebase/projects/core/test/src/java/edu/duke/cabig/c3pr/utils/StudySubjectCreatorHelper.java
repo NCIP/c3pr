@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -41,6 +42,7 @@ public class StudySubjectCreatorHelper {
         participant.setLastName("lastName");
         participant.setAdministrativeGenderCode("M");
         participant.setBirthDate(new java.util.Date());
+        participant.setRaceCode(RaceCode.American_Indian_or_Alaska_Native.getName());
         return participant;
     }
     
