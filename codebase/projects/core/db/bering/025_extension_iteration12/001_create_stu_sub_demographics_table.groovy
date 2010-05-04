@@ -13,14 +13,17 @@ class CreateStudySubjectDemographics extends edu.northwestern.bioinformatics.ber
             t.addColumn("birth_date", "date", nullable: false)
             t.addColumn("marital_status_code", "string")
             t.addColumn("retired_indicator", "string",defaultValue: false,nullable:false)
-            t.addColumn("valid", "boolean",defaultValue: false,nullable:false)
-             
+          
             t.addColumn("add_id", "integer")
             t.addColumn("prt_id", "integer",nullable:false)
          }
+          if (databaseMatches('postgres')) {
+		   	execute("alter table stu_sub_demographics add valid boolean not null default false");
+	 	}
         
          if (databaseMatches('oracle')) {
-		   	execute('RENAME sequence SEQ_stu_sub_demographics_ID to stu_sub_demographics_ID_SEQ');
+         	execute("alter table stu_sub_demographics add valid varchar2(3) default 0 not null");
+		   	execute("RENAME SEQ_stu_sub_demographics_ID to stu_sub_demographics_ID_SEQ");
 	 	}
 	}
 	void down() {
