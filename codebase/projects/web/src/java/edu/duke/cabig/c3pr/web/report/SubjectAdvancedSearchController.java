@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.report;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,6 +18,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
+
+import com.semanticbits.querybuilder.QueryBuilder;
 
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
@@ -25,7 +30,22 @@ import edu.duke.cabig.c3pr.utils.Lov;
  * 
  */
 public class SubjectAdvancedSearchController extends SimpleFormController {
-
+	
+	public SubjectAdvancedSearchController(){
+//		setBindOnNewForm(true);
+//		setCommandClass(AdvancedSearchCommand.class);
+//		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("advancedSearch-ui.xml");
+//        Unmarshaller unmarshaller;
+//		try {
+//			unmarshaller = JAXBContext.newInstance("gov.nih.nci.cabig.caaers.web.search.ui").createUnmarshaller();
+//			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+	}
+	
+//	private QueryBuilder queryBuilder ;
     private static Log log = LogFactory.getLog(SubjectAdvancedSearchController.class);
     private ConfigurationProperty configurationProperty;
     private SubjectAdvancedSearchCommand subjectAdvancedSearchCommand;
