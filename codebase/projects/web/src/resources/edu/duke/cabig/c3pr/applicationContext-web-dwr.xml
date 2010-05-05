@@ -56,7 +56,7 @@
 	<bean id="studyAdvancedSearchCommand" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.report.StudyAdvancedSearchCommand" />
 		
-	<bean id="subjectAdvancedSearchCommand" autowire="byType"
-		class="edu.duke.cabig.c3pr.web.report.SubjectAdvancedSearchCommand" />
+	<bean id="advancedSearchCommand" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.report.AdvancedSearchCommand" />
 	
 </beans>
