@@ -211,5 +211,6 @@
             </dependency>
             
             <dependency org="aspectj" name="aspectjtools" rev="1.5.3" />
+         	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="0.1" />
         </dependencies>
 </ivy-module>
