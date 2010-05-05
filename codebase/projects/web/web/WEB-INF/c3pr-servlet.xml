@@ -880,7 +880,7 @@
     <bean name="/report/advancedSearch/subjectAdvancedSearch" id="subjectAdvancedSearchController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.report.SubjectAdvancedSearchController"
           autowire="byName">
-        <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.SubjectAdvancedSearchCommand"/>
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.AdvancedSearchCommand"/>
         <property name="formView" value="report/subject_advanced_search"/>
         <property name="successView" value="report/subject_advanced_search_result"/>
     </bean>
