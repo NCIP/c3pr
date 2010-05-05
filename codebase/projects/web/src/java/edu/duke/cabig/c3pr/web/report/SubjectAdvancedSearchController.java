@@ -31,24 +31,24 @@ import edu.duke.cabig.c3pr.utils.Lov;
  */
 public class SubjectAdvancedSearchController extends SimpleFormController {
 	
+	private QueryBuilder queryBuilder ;
+	
 	public SubjectAdvancedSearchController(){
-//		setBindOnNewForm(true);
-//		setCommandClass(AdvancedSearchCommand.class);
-//		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("advancedSearch-ui.xml");
-//        Unmarshaller unmarshaller;
-//		try {
-//			unmarshaller = JAXBContext.newInstance("gov.nih.nci.cabig.caaers.web.search.ui").createUnmarshaller();
-//			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		setBindOnNewForm(true);
+		setCommandClass(AdvancedSearchCommand.class);
+		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("participant-advanced-search.xml");
+        Unmarshaller unmarshaller;
+		try {
+			unmarshaller = JAXBContext.newInstance("com.semanticbits.querybuilder").createUnmarshaller();
+			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-//	private QueryBuilder queryBuilder ;
     private static Log log = LogFactory.getLog(SubjectAdvancedSearchController.class);
     private ConfigurationProperty configurationProperty;
-    private SubjectAdvancedSearchCommand subjectAdvancedSearchCommand;
+    private AdvancedSearchCommand subjectAdvancedSearchCommand;
     private ParticipantDao participantDao;
 
 	public ParticipantDao getParticipantDao() {
@@ -57,11 +57,11 @@ public class SubjectAdvancedSearchController extends SimpleFormController {
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
 	}
-	public SubjectAdvancedSearchCommand getSubjectAdvancedSearchCommand() {
+	public AdvancedSearchCommand getSubjectAdvancedSearchCommand() {
 		return subjectAdvancedSearchCommand;
 	}
 	public void setSubjectAdvancedSearchCommand(
-			SubjectAdvancedSearchCommand subjectAdvancedSearchCommand) {
+			AdvancedSearchCommand subjectAdvancedSearchCommand) {
 		this.subjectAdvancedSearchCommand = subjectAdvancedSearchCommand;
 	}
 
@@ -87,8 +87,7 @@ public class SubjectAdvancedSearchController extends SimpleFormController {
 	}
 	
 	@Override
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
-                    throws Exception {
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
     }
@@ -96,6 +95,7 @@ public class SubjectAdvancedSearchController extends SimpleFormController {
 	
 	@Override
 	protected ModelAndView onSubmit(Object command) throws Exception {
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		try{
 			map.put("subjectList", participantDao.getAll());
