@@ -22,7 +22,7 @@ YAHOO.example.Data = {
 					            identifier: "${subject.primaryIdentifierValue}",
 					            subjectGender: "${subject.administrativeGenderCode}",
 					            subjectEthnicity: "${subject.ethnicGroupCode}",
-						        subjectBirthDate:  "${subject.formattedBirthDate}"	            
+						        subjectBirthDate:  "${subject.birthDate}"	            
 					         }
 					         <c:if test="${!status.last}">,</c:if>
 					</c:forEach>
