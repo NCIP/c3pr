@@ -20,8 +20,40 @@ public class SubjectEligibilityAnswer extends AbstractMutableDeletableDomainObje
     private String answerText;
 
     private EligibilityCriteria eligibilityCriteria;
+    
+    private boolean allowWaiver = false;
+    
+    private String waiverId;
+    
+    private String waiverReason;
+    
+    private StudyPersonnel waivedBy;
+    
+	public boolean getAllowWaiver() {
+		return allowWaiver;
+	}
 
-    public String getAnswerText() {
+	public void setAllowWaiver(boolean allowWaiver) {
+		this.allowWaiver = allowWaiver;
+	}
+
+	public String getWaiverId() {
+		return waiverId;
+	}
+
+	public void setWaiverId(String waiverId) {
+		this.waiverId = waiverId;
+	}
+
+	public String getWaiverReason() {
+		return waiverReason;
+	}
+
+	public void setWaiverReason(String waiverReason) {
+		this.waiverReason = waiverReason;
+	}
+
+	public String getAnswerText() {
         return answerText;
     }
 
@@ -39,5 +71,16 @@ public class SubjectEligibilityAnswer extends AbstractMutableDeletableDomainObje
     public void setEligibilityCriteria(EligibilityCriteria eligibilityCriteria) {
         this.eligibilityCriteria = eligibilityCriteria;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "stu_personnel_id")
+    @Cascade( { CascadeType.LOCK})
+	public StudyPersonnel getWaivedBy() {
+		return waivedBy;
+	}
+
+	public void setWaivedBy(StudyPersonnel waivedBy) {
+		this.waivedBy = waivedBy;
+	}
 
 }

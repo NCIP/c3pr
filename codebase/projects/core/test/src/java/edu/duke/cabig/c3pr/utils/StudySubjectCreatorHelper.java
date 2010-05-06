@@ -34,7 +34,7 @@ import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 
 public class StudySubjectCreatorHelper {
     
-    private StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
+    protected StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
     
     public Participant createNewParticipant(){
         Participant participant=new Participant();

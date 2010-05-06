@@ -16,6 +16,7 @@ import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
@@ -300,7 +301,18 @@ public class StudyCreationHelper {
 		return study;
 	}
 
-
+	public void addEligibility(Epoch epoch){
+	  InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+	  inc1.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+	  exc1.setQuestionText("DEF");
+	  ExclusionEligibilityCriteria exc2 = new ExclusionEligibilityCriteria();
+	  exc2.setQuestionText("XYZ");
+	  epoch.addEligibilityCriterion(inc1);
+	  epoch.addEligibilityCriterion(exc1);
+	  epoch.addEligibilityCriterion(exc2);
+	}
+	
     public Study addStudySiteAndRandomizedTreatmentEpochToBasicStudy(Study study) {
 
         study.addStudySite(new StudySite());

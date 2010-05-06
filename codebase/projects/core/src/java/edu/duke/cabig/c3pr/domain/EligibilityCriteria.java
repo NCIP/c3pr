@@ -9,6 +9,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
+
 /**
  * @author Priyatam
  */
@@ -52,4 +54,19 @@ public abstract class EligibilityCriteria extends AbstractMutableDeletableDomain
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
+    
+    @Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		final EligibilityCriteria that = (EligibilityCriteria) o;
+
+		if(this.questionText == null || that.questionText == null)
+			return false;
+		
+		return this.questionText.equals(that.questionText);
+	}
 }

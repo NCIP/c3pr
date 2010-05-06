@@ -1929,5 +1929,47 @@ public class StudySubject extends
 	public void addStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion) {
 		this.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
 	}
-
+	
+	public void allowEligibilityWaiver(List<EligibilityCriteria> eligibilityCriteriaList, StudyPersonnel waivedBy){
+		if(waivedBy == null){
+			throw new C3PRBaseRuntimeException("Cannot allow waiver. Research staff is null.");
+		}
+		List<SubjectEligibilityAnswer> subjectEligibilityAnswers = getScheduledEpoch().getSubjectEligibilityAnswers();
+		for(EligibilityCriteria eligibilityCriteria : eligibilityCriteriaList){
+			for(SubjectEligibilityAnswer subjectEligibilityAnswer : subjectEligibilityAnswers){
+				if(subjectEligibilityAnswer.getEligibilityCriteria().equals(eligibilityCriteria)){
+					if(StringUtils.isBlank(subjectEligibilityAnswer.getAnswerText())){
+						throw new C3PRBaseRuntimeException("Eligibility criteria does not qualify for waiver.");
+					}
+					if ((subjectEligibilityAnswer.getEligibilityCriteria() instanceof InclusionEligibilityCriteria && !subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("no")) || 
+							(subjectEligibilityAnswer.getEligibilityCriteria() instanceof ExclusionEligibilityCriteria && !subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("yes"))) {
+						throw new C3PRBaseRuntimeException("Eligibility criteria does not qualify for waiver.");
+					}
+					subjectEligibilityAnswer.setAllowWaiver(true);
+					subjectEligibilityAnswer.setWaivedBy(waivedBy);
+				}
+			}
+		}
+	}
+	
+	public void waiveEligibility(List<SubjectEligibilityAnswer> subjectEligibilityAnswersInput){
+		List<SubjectEligibilityAnswer> subjectEligibilityAnswers = getScheduledEpoch().getSubjectEligibilityAnswers();
+		for(SubjectEligibilityAnswer subjectEligibilityAnswerInput : subjectEligibilityAnswersInput){
+			for(SubjectEligibilityAnswer subjectEligibilityAnswer : subjectEligibilityAnswers){
+				if(subjectEligibilityAnswer.getEligibilityCriteria().equals(subjectEligibilityAnswerInput.getEligibilityCriteria())){
+					if(!subjectEligibilityAnswer.getAllowWaiver()){
+						throw new C3PRBaseRuntimeException("Eligibility criteria cannot be waved. Please contact the study coordinator to initiate the waiver process.");
+					}
+					if(StringUtils.isBlank(subjectEligibilityAnswerInput.getWaiverId())){
+						throw new C3PRBaseRuntimeException("Cannot waive eligibility without a waiver id");
+					}
+					if(StringUtils.isBlank(subjectEligibilityAnswerInput.getWaiverReason())){
+						throw new C3PRBaseRuntimeException("Cannot waive eligibility without a waiver reason");
+					}
+					subjectEligibilityAnswer.setWaiverId(subjectEligibilityAnswerInput.getWaiverId());
+					subjectEligibilityAnswer.setWaiverReason(subjectEligibilityAnswerInput.getWaiverReason());
+				}
+			}
+		}
+	}
 }

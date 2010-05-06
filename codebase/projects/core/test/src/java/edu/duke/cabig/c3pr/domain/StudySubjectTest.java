@@ -1914,4 +1914,347 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  assertFalse(studySubject.canTakeSubjectOffStudy());
 	  verifyMocks();
   }
+  
+  public void testAllowEligibilityWaiver(){
+	  InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+	  inc1.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+	  exc1.setQuestionText("DEF");
+	  ExclusionEligibilityCriteria exc3 = new ExclusionEligibilityCriteria();
+	  exc3.setQuestionText("XYZ");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer1 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer1.setEligibilityCriteria(inc1);
+	  SubjectEligibilityAnswer subjectEligibilityAnswer2 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer2.setEligibilityCriteria(exc1);
+	  subjectEligibilityAnswer2.setAnswerText("yes");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer3 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer3.setEligibilityCriteria(exc3);
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer1);
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer2);
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer3);
+	  
+	  InclusionEligibilityCriteria inc2 = new InclusionEligibilityCriteria();
+	  inc2.setQuestionText("PQR");
+	  ExclusionEligibilityCriteria exc2 = new ExclusionEligibilityCriteria();
+	  exc2.setQuestionText("DEF");
+	  List<EligibilityCriteria> eligibilityCriteriaList = new ArrayList<EligibilityCriteria>();
+	  eligibilityCriteriaList.add(inc2);
+	  eligibilityCriteriaList.add(exc2);
+	  
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers);
+	  replayMocks();
+	  StudyPersonnel studyPersonnel = new StudyPersonnel();
+	  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+	  assertFalse(subjectEligibilityAnswer1.getAllowWaiver());
+	  assertTrue(subjectEligibilityAnswer2.getAllowWaiver());
+	  assertTrue(subjectEligibilityAnswer2.getWaivedBy() == studyPersonnel);
+	  assertFalse(subjectEligibilityAnswer3.getAllowWaiver());
+	  verifyMocks();
+  }
+  
+  public void testAllowEligibilityWaiverException1(){
+	  InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+	  inc1.setQuestionText("ABC");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer1 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer1.setEligibilityCriteria(inc1);
+	  subjectEligibilityAnswer1.setAnswerText("yes");
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer1);
+	  
+	  InclusionEligibilityCriteria inc2 = new InclusionEligibilityCriteria();
+	  inc2.setQuestionText("ABC");
+	  List<EligibilityCriteria> eligibilityCriteriaList = new ArrayList<EligibilityCriteria>();
+	  eligibilityCriteriaList.add(inc2);
+	  
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers);
+	  replayMocks();
+	  try {
+		  StudyPersonnel studyPersonnel = new StudyPersonnel();
+		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+		  fail("Should have thrown exception");
+	}catch (C3PRBaseRuntimeException e) {
+		e.printStackTrace();
+	}catch (RuntimeException e) {
+		e.printStackTrace();
+		fail("wrong exception");
+	}finally{
+	  verifyMocks();
+	}
+  }
+  
+  public void testAllowEligibilityWaiverException2(){
+	  ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+	  exc1.setQuestionText("DEF");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer2 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer2.setEligibilityCriteria(exc1);
+	  subjectEligibilityAnswer2.setAnswerText("no");
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer2);
+	  
+	  ExclusionEligibilityCriteria exc2 = new ExclusionEligibilityCriteria();
+	  exc2.setQuestionText("DEF");
+	  List<EligibilityCriteria> eligibilityCriteriaList = new ArrayList<EligibilityCriteria>();
+	  eligibilityCriteriaList.add(exc2);
+	  
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers);
+	  replayMocks();
+	  try {
+		  StudyPersonnel studyPersonnel = new StudyPersonnel();
+		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+		  fail("Should have thrown exception");
+	}catch (C3PRBaseRuntimeException e) {
+		e.printStackTrace();
+	}catch (RuntimeException e) {
+		e.printStackTrace();
+		fail("wrong exception");
+	}finally{
+	  verifyMocks();
+	}
+  }
+  
+  public void testAllowEligibilityWaiverException3(){
+	  ExclusionEligibilityCriteria exc3 = new ExclusionEligibilityCriteria();
+	  exc3.setQuestionText("XYZ");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer3 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer3.setEligibilityCriteria(exc3);
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer3);
+	  
+	  ExclusionEligibilityCriteria exc4 = new ExclusionEligibilityCriteria();
+	  exc4.setQuestionText("XYZ");
+	  List<EligibilityCriteria> eligibilityCriteriaList = new ArrayList<EligibilityCriteria>();
+	  eligibilityCriteriaList.add(exc4);
+	  
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers);
+	  replayMocks();
+	  try {
+		  StudyPersonnel studyPersonnel = new StudyPersonnel();
+		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+		  fail("Should have thrown exception");
+	}catch (C3PRBaseRuntimeException e) {
+		e.printStackTrace();
+	}catch (RuntimeException e) {
+		e.printStackTrace();
+		fail("wrong exception");
+	}finally{
+	  verifyMocks();
+	}
+  }
+  
+  public void testAllowEligibilityWaiverException4(){
+	  ExclusionEligibilityCriteria exc3 = new ExclusionEligibilityCriteria();
+	  exc3.setQuestionText("XYZ");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer3 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer3.setEligibilityCriteria(exc3);
+	  subjectEligibilityAnswer3.setAnswerText("yes");
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer3);
+	  
+	  ExclusionEligibilityCriteria exc4 = new ExclusionEligibilityCriteria();
+	  exc4.setQuestionText("XYZ");
+	  List<EligibilityCriteria> eligibilityCriteriaList = new ArrayList<EligibilityCriteria>();
+	  eligibilityCriteriaList.add(exc4);
+	  
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  replayMocks();
+	  try {
+		  StudyPersonnel studyPersonnel = null;
+		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+		  fail("Should have thrown exception");
+	}catch (C3PRBaseRuntimeException e) {
+		e.printStackTrace();
+	}catch (RuntimeException e) {
+		e.printStackTrace();
+		fail("wrong exception");
+	}finally{
+	  verifyMocks();
+	}
+  }
+  
+  public void testWaiveEligibilityException1(){
+	  InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+	  inc1.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+	  exc1.setQuestionText("DEF");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer1 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer1.setEligibilityCriteria(inc1);
+	  SubjectEligibilityAnswer subjectEligibilityAnswer2 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer2.setEligibilityCriteria(exc1);
+	  subjectEligibilityAnswer2.setAllowWaiver(true);
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers1 = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers1.add(subjectEligibilityAnswer1);
+	  subjectEligibilityAnswers1.add(subjectEligibilityAnswer2);
+	  
+	  InclusionEligibilityCriteria inc2 = new InclusionEligibilityCriteria();
+	  inc2.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc2 = new ExclusionEligibilityCriteria();
+	  exc2.setQuestionText("DEF");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer3 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer3.setEligibilityCriteria(inc2);
+	  SubjectEligibilityAnswer subjectEligibilityAnswer4 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer4.setEligibilityCriteria(exc2);
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers2 = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers2.add(subjectEligibilityAnswer3);
+	  subjectEligibilityAnswers2.add(subjectEligibilityAnswer4);
+	  
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers1);
+	  replayMocks();
+	  try {
+		studySubject.waiveEligibility(subjectEligibilityAnswers2);
+		fail("Should have thrown exception");
+	}catch (C3PRBaseRuntimeException e) {
+		e.printStackTrace();
+	} catch (RuntimeException e) {
+		e.printStackTrace();
+		fail("Wrong Exception");
+	}finally{
+	  verifyMocks();
+	}
+  }
+  
+  public void testWaiveEligibilityException2(){
+	  InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+	  inc1.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+	  exc1.setQuestionText("DEF");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer1 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer1.setEligibilityCriteria(inc1);
+	  subjectEligibilityAnswer1.setAllowWaiver(true);
+	  SubjectEligibilityAnswer subjectEligibilityAnswer2 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer2.setEligibilityCriteria(exc1);
+	  subjectEligibilityAnswer2.setAllowWaiver(true);
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers1 = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers1.add(subjectEligibilityAnswer1);
+	  subjectEligibilityAnswers1.add(subjectEligibilityAnswer2);
+	  
+	  InclusionEligibilityCriteria inc2 = new InclusionEligibilityCriteria();
+	  inc2.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc2 = new ExclusionEligibilityCriteria();
+	  exc2.setQuestionText("DEF");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer3 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer3.setEligibilityCriteria(inc2);
+	  subjectEligibilityAnswer3.setWaiverId("123");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer4 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer4.setEligibilityCriteria(exc2);
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers2 = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers2.add(subjectEligibilityAnswer3);
+	  subjectEligibilityAnswers2.add(subjectEligibilityAnswer4);
+	  
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers1);
+	  replayMocks();
+	  try {
+		studySubject.waiveEligibility(subjectEligibilityAnswers2);
+		fail("Should have thrown exception");
+	}catch (C3PRBaseRuntimeException e) {
+		e.printStackTrace();
+	} catch (RuntimeException e) {
+		e.printStackTrace();
+		fail("Wrong Exception");
+	}finally{
+	  verifyMocks();
+	}
+  }
+  
+  public void testWaiveEligibilityException3(){
+	  InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+	  inc1.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+	  exc1.setQuestionText("DEF");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer1 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer1.setEligibilityCriteria(inc1);
+	  subjectEligibilityAnswer1.setAllowWaiver(true);
+	  SubjectEligibilityAnswer subjectEligibilityAnswer2 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer2.setEligibilityCriteria(exc1);
+	  subjectEligibilityAnswer2.setAllowWaiver(true);
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers1 = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers1.add(subjectEligibilityAnswer1);
+	  subjectEligibilityAnswers1.add(subjectEligibilityAnswer2);
+	  
+	  InclusionEligibilityCriteria inc2 = new InclusionEligibilityCriteria();
+	  inc2.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc2 = new ExclusionEligibilityCriteria();
+	  exc2.setQuestionText("DEF");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer3 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer3.setEligibilityCriteria(inc2);
+	  subjectEligibilityAnswer3.setWaiverId("123");
+	  subjectEligibilityAnswer3.setWaiverReason("some reason 1");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer4 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer4.setEligibilityCriteria(exc2);
+	  subjectEligibilityAnswer4.setWaiverId("123");
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers2 = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers2.add(subjectEligibilityAnswer3);
+	  subjectEligibilityAnswers2.add(subjectEligibilityAnswer4);
+	  
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers1);
+	  replayMocks();
+	  try {
+		studySubject.waiveEligibility(subjectEligibilityAnswers2);
+		fail("Should have thrown exception");
+	}catch (C3PRBaseRuntimeException e) {
+		e.printStackTrace();
+	} catch (RuntimeException e) {
+		e.printStackTrace();
+		fail("Wrong Exception");
+	}finally{
+	  verifyMocks();
+	}
+  }
+  
+  public void testWaiveEligibility(){
+	  InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+	  inc1.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+	  exc1.setQuestionText("DEF");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer1 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer1.setEligibilityCriteria(inc1);
+	  subjectEligibilityAnswer1.setAllowWaiver(true);
+	  SubjectEligibilityAnswer subjectEligibilityAnswer2 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer2.setEligibilityCriteria(exc1);
+	  subjectEligibilityAnswer2.setAllowWaiver(true);
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers1 = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers1.add(subjectEligibilityAnswer1);
+	  subjectEligibilityAnswers1.add(subjectEligibilityAnswer2);
+	  
+	  InclusionEligibilityCriteria inc2 = new InclusionEligibilityCriteria();
+	  inc2.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc2 = new ExclusionEligibilityCriteria();
+	  exc2.setQuestionText("DEF");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer3 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer3.setEligibilityCriteria(inc2);
+	  subjectEligibilityAnswer3.setWaiverId("123");
+	  subjectEligibilityAnswer3.setWaiverReason("some reason 1");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer4 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer4.setEligibilityCriteria(exc2);
+	  subjectEligibilityAnswer4.setWaiverId("123");
+	  subjectEligibilityAnswer4.setWaiverReason("some reason 2");
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers2 = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers2.add(subjectEligibilityAnswer3);
+	  subjectEligibilityAnswers2.add(subjectEligibilityAnswer4);
+	  
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers1);
+	  replayMocks();
+	  studySubject.waiveEligibility(subjectEligibilityAnswers2);
+	  assertEquals("123", subjectEligibilityAnswer1.getWaiverId());
+	  assertEquals("123", subjectEligibilityAnswer2.getWaiverId());
+	  assertEquals("some reason 1", subjectEligibilityAnswer1.getWaiverReason());
+	  assertEquals("some reason 2", subjectEligibilityAnswer2.getWaiverReason());
+	  verifyMocks();
+  }
 }

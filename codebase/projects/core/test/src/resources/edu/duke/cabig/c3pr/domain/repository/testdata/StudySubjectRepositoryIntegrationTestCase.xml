@@ -34,6 +34,8 @@
     
     <STUDY_INVESTIGATORS id="1100" version="1" hsi_id="1100" sto_id="1100" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="AC"/>
     
+    <STUDY_PERSONNEL id="1100" version="1" research_staff_id="1100" sto_id="1100" status_code="Active"/>
+    
     <DISEASE_CATEGORIES id="1100" version="1" name="AIDS-related Human Papillomavirus"/>
     
     <DISEASE_TERMS id="1100" version="1" term="AIDS-related anal cancer" ctep_term="AIDS-related anal cancer" category_id="1" medra_code="10065860"/>

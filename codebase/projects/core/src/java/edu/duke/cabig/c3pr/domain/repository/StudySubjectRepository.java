@@ -3,8 +3,11 @@ package edu.duke.cabig.c3pr.domain.repository;
 import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 
@@ -58,6 +61,10 @@ public interface StudySubjectRepository {
     
     public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) ;
 
-	public StudySubject invalidateRegistration(StudySubject studySubject); 
+	public StudySubject invalidateRegistration(StudySubject studySubject);
+	
+	public StudySubject allowEligibilityWaiver(List<Identifier> studySubjectIdentifiers, List<EligibilityCriteria> eligibilityCrieteria,  String waivedByStudyPersonnelAssignedIdentifier);
+	
+	public StudySubject waiveEligibility(List<Identifier> studySubjectIdentifiers, List<SubjectEligibilityAnswer> subjectEligibilityAnswers);
     
 }

@@ -26,14 +26,17 @@ import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
@@ -567,4 +570,29 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		
 	}
 
+	public StudySubject allowEligibilityWaiver(
+			List<Identifier> studySubjectIdentifiers, List<EligibilityCriteria> eligibilityCrieteria, String waivedByStudyPersonnelAssignedIdentifier) {
+		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
+		List<StudyPersonnel> candidateStudyPersonnel = new ArrayList<StudyPersonnel>();
+		candidateStudyPersonnel.addAll(studySubject.getStudySite().getStudyPersonnel());
+		candidateStudyPersonnel.addAll(studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getStudyPersonnel());
+		StudyPersonnel waivedBy = null;
+		for(StudyPersonnel studyPersonnel : candidateStudyPersonnel){
+			if(studyPersonnel.getResearchStaff().getAssignedIdentifier().equals(waivedByStudyPersonnelAssignedIdentifier)){
+				waivedBy = studyPersonnel;
+			}
+		}
+		if(waivedBy == null){
+			throw new C3PRBaseRuntimeException("Cannot allow waiver. Null or unassociated study personnel.");
+		}
+		studySubject.allowEligibilityWaiver(eligibilityCrieteria, waivedBy);
+		return studySubjectDao.merge(studySubject);
+	}
+
+	public StudySubject waiveEligibility(
+			List<Identifier> studySubjectIdentifiers, List<SubjectEligibilityAnswer> subjectEligibilityAnswers) {
+		StudySubject studySubject = getUniqueStudySubjects(studySubjectIdentifiers);
+		studySubject.waiveEligibility(subjectEligibilityAnswers);
+		return studySubjectDao.merge(studySubject);
+	}
 }

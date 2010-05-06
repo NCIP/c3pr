@@ -1,18 +1,34 @@
 package edu.duke.cabig.c3pr.domain.repository;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
+import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.utils.PersistedStudySubjectCreator;
 
 public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     private StudySubjectDao studySubjectDao;
+    
+    private ResearchStaffDao researchStaffDao;
+    
+    private StudySiteDao studySiteDao;
 
     private StudySubjectRepository studySubjectRepository;
     
@@ -20,11 +36,16 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     
     private PersistedStudySubjectCreator persistedStudySubjectCreator;
     
+    private IdentifierGenerator identifierGenerator;
+    
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         studySubjectRepository=(StudySubjectRepository)getApplicationContext().getBean("studySubjectRepository");
         studySubjectDao=(StudySubjectDao)getApplicationContext().getBean("studySubjectDao");
+        researchStaffDao=(ResearchStaffDao)getApplicationContext().getBean("researchStaffDao");
+        studySiteDao=(StudySiteDao)getApplicationContext().getBean("studySiteDao");
+        identifierGenerator=(IdentifierGenerator)getApplicationContext().getBean("identifierGenerator");
         persistedStudySubjectCreator=new PersistedStudySubjectCreator(getApplicationContext());
     }
     
@@ -227,5 +248,161 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
             return;
         }
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.REGISTERED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+    }
+    
+    public void testAllowEligibilityWaiver() throws Exception{
+        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTreatmentWithArmEligibityStudySubject(false);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.buildCommandObject(studySubject);
+        persistedStudySubjectCreator.bindEligibility(studySubject);
+        List<SubjectEligibilityAnswer> subAnswwers = studySubject.getScheduledEpoch().getSubjectEligibilityAnswers();
+        for(SubjectEligibilityAnswer subjectEligibilityAnswer : subAnswwers){
+        	if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("ABC")){
+        		subjectEligibilityAnswer.setAnswerText("no");
+        	} else if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("DEF")){
+        		subjectEligibilityAnswer.setAnswerText("no");
+        	} else if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("XYZ")){
+        		subjectEligibilityAnswer.setAnswerText("yes");
+        	}
+        }
+        studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
+        studySubject = studySubjectDao.merge(studySubject);
+        ResearchStaff researchStaff = researchStaffDao.getById(1100);
+        StudyPersonnel studyPersonnel = studySubject.getStudySite().getStudyPersonnel().get(0);
+        studyPersonnel.setResearchStaff(researchStaff);
+        studyPersonnel.setStatusCode("Active");
+        studySiteDao.save(studySubject.getStudySite());
+        interruptSession();
+        
+        InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+  	  	inc1.setQuestionText("ABC");
+  	  	ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+  	  	exc1.setQuestionText("XYZ");
+  	  	List<EligibilityCriteria> eligibilityCriteriaList = new ArrayList<EligibilityCriteria>();
+  	  	eligibilityCriteriaList.add(inc1);
+  	  	eligibilityCriteriaList.add(exc1);
+  	  	studySubjectRepository.allowEligibilityWaiver(studySubject.getIdentifiers(), eligibilityCriteriaList, researchStaff.getAssignedIdentifier());
+  	  	interruptSession();
+  	  	
+  	  	studySubject = studySubjectDao.getById(studySubject.getId());
+  	  	for(SubjectEligibilityAnswer subjectEligibilityAnswer : studySubject.getScheduledEpoch().getSubjectEligibilityAnswers()){
+	  	  	if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("ABC") ||
+	  	  		subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("XYZ")){
+	    		assertTrue(subjectEligibilityAnswer.getAllowWaiver());
+	    		assertEquals(subjectEligibilityAnswer.getWaivedBy().getResearchStaff().getAssignedIdentifier(), researchStaff.getAssignedIdentifier());
+	    	} else {
+	    		assertFalse(subjectEligibilityAnswer.getAllowWaiver());
+	    	}
+  	  	}
+    }
+    
+    public void testAllowEligibilityWaiverException() throws Exception{
+        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTreatmentWithArmEligibityStudySubject(false);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.buildCommandObject(studySubject);
+        persistedStudySubjectCreator.bindEligibility(studySubject);
+        List<SubjectEligibilityAnswer> subAnswwers = studySubject.getScheduledEpoch().getSubjectEligibilityAnswers();
+        for(SubjectEligibilityAnswer subjectEligibilityAnswer : subAnswwers){
+        	if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("ABC")){
+        		subjectEligibilityAnswer.setAnswerText("no");
+        	} else if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("DEF")){
+        		subjectEligibilityAnswer.setAnswerText("no");
+        	} else if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("XYZ")){
+        		subjectEligibilityAnswer.setAnswerText("yes");
+        	}
+        }
+        studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
+        studySubject = studySubjectDao.merge(studySubject);
+        ResearchStaff researchStaff = researchStaffDao.getById(1100);
+        StudyPersonnel studyPersonnel = studySubject.getStudySite().getStudyPersonnel().get(0);
+        studyPersonnel.setResearchStaff(researchStaff);
+        studyPersonnel.setStatusCode("Active");
+        studySiteDao.save(studySubject.getStudySite());
+        interruptSession();
+        
+        InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+  	  	inc1.setQuestionText("ABC");
+  	  	ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+  	  	exc1.setQuestionText("XYZ");
+  	  	List<EligibilityCriteria> eligibilityCriteriaList = new ArrayList<EligibilityCriteria>();
+  	  	eligibilityCriteriaList.add(inc1);
+  	  	eligibilityCriteriaList.add(exc1);
+  	  	try {
+			studySubjectRepository.allowEligibilityWaiver(studySubject.getIdentifiers(), eligibilityCriteriaList, "test");
+			fail("Should have thrown Exception");
+		} catch (C3PRBaseRuntimeException e) {
+			e.printStackTrace();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			fail("Wrong Exception");
+		}
+    }
+    
+    public void testWaiveEligibility() throws Exception{
+        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTreatmentWithArmEligibityStudySubject(false);
+        persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.buildCommandObject(studySubject);
+        persistedStudySubjectCreator.bindEligibility(studySubject);
+        List<SubjectEligibilityAnswer> subAnswwers = studySubject.getScheduledEpoch().getSubjectEligibilityAnswers();
+        for(SubjectEligibilityAnswer subjectEligibilityAnswer : subAnswwers){
+        	if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("ABC")){
+        		subjectEligibilityAnswer.setAnswerText("no");
+        	} else if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("DEF")){
+        		subjectEligibilityAnswer.setAnswerText("no");
+        	} else if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("XYZ")){
+        		subjectEligibilityAnswer.setAnswerText("yes");
+        	}
+        }
+        studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
+        studySubject = studySubjectDao.merge(studySubject);
+        ResearchStaff researchStaff = researchStaffDao.getById(1100);
+        StudyPersonnel studyPersonnel = studySubject.getStudySite().getStudyPersonnel().get(0);
+        studyPersonnel.setResearchStaff(researchStaff);
+        studyPersonnel.setStatusCode("Active");
+        studySiteDao.save(studySubject.getStudySite());
+        interruptSession();
+        
+        InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+  	  	inc1.setQuestionText("ABC");
+  	  	ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+  	  	exc1.setQuestionText("XYZ");
+  	  	List<EligibilityCriteria> eligibilityCriteriaList = new ArrayList<EligibilityCriteria>();
+  	  	eligibilityCriteriaList.add(inc1);
+  	  	eligibilityCriteriaList.add(exc1);
+  	  	studySubjectRepository.allowEligibilityWaiver(studySubject.getIdentifiers(), eligibilityCriteriaList, researchStaff.getAssignedIdentifier());
+  	  	interruptSession();
+  	  	
+  	  	studySubject = studySubjectDao.getById(studySubject.getId());
+  	  	
+	  SubjectEligibilityAnswer subjectEligibilityAnswer1 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer1.setEligibilityCriteria(inc1);
+	  subjectEligibilityAnswer1.setWaiverId("123");
+	  subjectEligibilityAnswer1.setWaiverReason("some reason 1");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer2 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer2.setEligibilityCriteria(exc1);
+	  subjectEligibilityAnswer2.setWaiverId("123");
+	  subjectEligibilityAnswer2.setWaiverReason("some reason 2");
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer1);
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer2);
+  	  	
+	  	studySubject = studySubjectRepository.waiveEligibility(studySubject.getIdentifiers(), subjectEligibilityAnswers);
+	  	interruptSession();
+	  	
+	  	studySubject = studySubjectDao.getById(studySubject.getId());
+  	  	for(SubjectEligibilityAnswer subjectEligibilityAnswer : studySubject.getScheduledEpoch().getSubjectEligibilityAnswers()){
+	  	  	if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("ABC")){
+	  	  		assertEquals("123", subjectEligibilityAnswer.getWaiverId());
+	  	  		assertEquals("some reason 1", subjectEligibilityAnswer.getWaiverReason());
+	    	} else if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("XYZ")){
+	  	  		assertEquals("123", subjectEligibilityAnswer.getWaiverId());
+	  	  		assertEquals("some reason 2", subjectEligibilityAnswer.getWaiverReason());
+	    	} else {
+	    		assertFalse(subjectEligibilityAnswer.getAllowWaiver());
+	    	}
+  	  	}
     }
 }
