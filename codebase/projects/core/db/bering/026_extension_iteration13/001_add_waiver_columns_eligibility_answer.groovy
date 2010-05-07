@@ -7,9 +7,11 @@ class AddWaiverColumnsEligibilityAnswer extends edu.northwestern.bioinformatics.
     	execute('ALTER TABLE subject_eligibility_ans ADD CONSTRAINT FK_ELG_ANS_STDPERSON FOREIGN KEY (stu_personnel_id) REFERENCES study_personnel (ID)');
     	if (databaseMatches('postgres')) {
 				execute("alter table subject_eligibility_ans alter column allow_waiver set default false")
+				execute("update subject_eligibility_ans set allow_waiver=false")
 			}
 		 if (databaseMatches('oracle')){
 			execute("alter table subject_eligibility_ans modify allow_waiver default 0")
+			execute("update subject_eligibility_ans set allow_waiver=0")
 			}
 	}
 	void down() {
