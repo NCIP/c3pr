@@ -1930,7 +1930,18 @@ public class StudySubject extends
 		this.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
 	}
 	
+	public boolean canAllowEligibilityWaiver(){
+		if(getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING
+				&& getScheduledEpoch().hasWaivableEligibilityAnswers()){
+			return true;
+		}
+		return false;
+	}
+	
 	public void allowEligibilityWaiver(List<EligibilityCriteria> eligibilityCriteriaList, StudyPersonnel waivedBy){
+		if(!canAllowEligibilityWaiver()){
+			throw new C3PRBaseRuntimeException("Cannot allow waiver. Either there are no invalid eligibility answers or the scheduled epoch is not in pending state.");
+		}
 		if(waivedBy == null){
 			throw new C3PRBaseRuntimeException("Cannot allow waiver. Research staff is null.");
 		}
@@ -1938,11 +1949,7 @@ public class StudySubject extends
 		for(EligibilityCriteria eligibilityCriteria : eligibilityCriteriaList){
 			for(SubjectEligibilityAnswer subjectEligibilityAnswer : subjectEligibilityAnswers){
 				if(subjectEligibilityAnswer.getEligibilityCriteria().equals(eligibilityCriteria)){
-					if(StringUtils.isBlank(subjectEligibilityAnswer.getAnswerText())){
-						throw new C3PRBaseRuntimeException("Eligibility criteria does not qualify for waiver.");
-					}
-					if ((subjectEligibilityAnswer.getEligibilityCriteria() instanceof InclusionEligibilityCriteria && !subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("no")) || 
-							(subjectEligibilityAnswer.getEligibilityCriteria() instanceof ExclusionEligibilityCriteria && !subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("yes"))) {
+					if(!subjectEligibilityAnswer.canAllowWaiver()){
 						throw new C3PRBaseRuntimeException("Eligibility criteria does not qualify for waiver.");
 					}
 					subjectEligibilityAnswer.setAllowWaiver(true);

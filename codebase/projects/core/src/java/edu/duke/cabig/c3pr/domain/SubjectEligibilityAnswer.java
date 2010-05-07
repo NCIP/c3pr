@@ -10,6 +10,9 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.utils.StringUtils;
+
 /**
  * @author Kruttik
  */
@@ -83,4 +86,13 @@ public class SubjectEligibilityAnswer extends AbstractMutableDeletableDomainObje
 		this.waivedBy = waivedBy;
 	}
 
+	public boolean canAllowWaiver(){
+		if (!allowWaiver && !StringUtils.isBlank(answerText) && (
+				(eligibilityCriteria instanceof InclusionEligibilityCriteria && answerText.equalsIgnoreCase("no")) || 
+				(eligibilityCriteria instanceof ExclusionEligibilityCriteria && answerText.equalsIgnoreCase("yes"))
+				)) {
+			return true;
+		}
+		return false;
+	}
 }

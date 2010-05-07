@@ -645,6 +645,19 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 		}
 		return "";
 	}
-
+	
+	/**
+	 * Checks for waivable eligibility answers.
+	 * 
+	 * @return true, if successful
+	 */
+	public boolean hasWaivableEligibilityAnswers(){
+		for(SubjectEligibilityAnswer subjectEligibilityAnswer : getSubjectEligibilityAnswers()){
+			if(subjectEligibilityAnswer.canAllowWaiver()){
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

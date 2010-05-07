@@ -1915,6 +1915,35 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  verifyMocks();
   }
   
+  public void testCanAllowEligibilityWaiver1(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  replayMocks();
+	  assertFalse(studySubject.canAllowEligibilityWaiver());
+	  verifyMocks();
+  }
+  
+  public void testCanAllowEligibilityWaiver2(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(false);
+	  replayMocks();
+	  assertFalse(studySubject.canAllowEligibilityWaiver());
+	  verifyMocks();
+  }
+  
+  public void testCanAllowEligibilityWaiver3(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
+	  replayMocks();
+	  assertTrue(studySubject.canAllowEligibilityWaiver());
+	  verifyMocks();
+  }
+  
   public void testAllowEligibilityWaiver(){
 	  InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
 	  inc1.setQuestionText("ABC");
@@ -1943,8 +1972,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  eligibilityCriteriaList.add(exc2);
 	  
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
 	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
 	  StudyPersonnel studyPersonnel = new StudyPersonnel();
 	  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
@@ -1970,8 +2001,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  eligibilityCriteriaList.add(inc2);
 	  
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
 	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
 	  try {
 		  StudyPersonnel studyPersonnel = new StudyPersonnel();
@@ -2002,8 +2035,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  eligibilityCriteriaList.add(exc2);
 	  
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
 	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
 	  try {
 		  StudyPersonnel studyPersonnel = new StudyPersonnel();
@@ -2033,8 +2068,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  eligibilityCriteriaList.add(exc4);
 	  
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
 	  EasyMock.expect(scheduledEpoch.getSubjectEligibilityAnswers()).andReturn(subjectEligibilityAnswers);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
 	  try {
 		  StudyPersonnel studyPersonnel = new StudyPersonnel();
@@ -2065,6 +2102,55 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  eligibilityCriteriaList.add(exc4);
 	  
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
+	  replayMocks();
+	  try {
+		  StudyPersonnel studyPersonnel = null;
+		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+		  fail("Should have thrown exception");
+	}catch (C3PRBaseRuntimeException e) {
+		e.printStackTrace();
+	}catch (RuntimeException e) {
+		e.printStackTrace();
+		fail("wrong exception");
+	}finally{
+	  verifyMocks();
+	}
+  }
+  
+  public void testAllowEligibilityWaiverException5(){
+	  InclusionEligibilityCriteria inc1 = new InclusionEligibilityCriteria();
+	  inc1.setQuestionText("ABC");
+	  ExclusionEligibilityCriteria exc1 = new ExclusionEligibilityCriteria();
+	  exc1.setQuestionText("DEF");
+	  ExclusionEligibilityCriteria exc3 = new ExclusionEligibilityCriteria();
+	  exc3.setQuestionText("XYZ");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer1 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer1.setEligibilityCriteria(inc1);
+	  SubjectEligibilityAnswer subjectEligibilityAnswer2 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer2.setEligibilityCriteria(exc1);
+	  subjectEligibilityAnswer2.setAnswerText("yes");
+	  SubjectEligibilityAnswer subjectEligibilityAnswer3 = new SubjectEligibilityAnswer();
+	  subjectEligibilityAnswer3.setEligibilityCriteria(exc3);
+	  List<SubjectEligibilityAnswer> subjectEligibilityAnswers = new ArrayList<SubjectEligibilityAnswer>();
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer1);
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer2);
+	  subjectEligibilityAnswers.add(subjectEligibilityAnswer3);
+	  
+	  InclusionEligibilityCriteria inc2 = new InclusionEligibilityCriteria();
+	  inc2.setQuestionText("PQR");
+	  ExclusionEligibilityCriteria exc2 = new ExclusionEligibilityCriteria();
+	  exc2.setQuestionText("DEF");
+	  List<EligibilityCriteria> eligibilityCriteriaList = new ArrayList<EligibilityCriteria>();
+	  eligibilityCriteriaList.add(inc2);
+	  eligibilityCriteriaList.add(exc2);
+	  
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(false);
 	  replayMocks();
 	  try {
 		  StudyPersonnel studyPersonnel = null;
