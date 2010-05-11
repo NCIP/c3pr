@@ -60,7 +60,8 @@ public class SecurityUtils {
 	
 	public static List<RoleTypes> getRoleTypes(Authentication authentication){
 		List<RoleTypes> roleTypes = new ArrayList<RoleTypes>();
-		for(GrantedAuthority grantedAuthority : authentication.getAuthorities()){
+		GrantedAuthority[] grantedAuthorities = authentication.getAuthorities();
+		for(GrantedAuthority grantedAuthority : grantedAuthorities){
 			roleTypes.add(RoleTypes.getByCode(grantedAuthority.getAuthority()));
 		}
 		return roleTypes;
