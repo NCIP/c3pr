@@ -168,7 +168,7 @@
                 gov.nih.nci.cabig.ctms.dao.AbstractDomainObjectDao.*=CSM_AUTHN_CHECK,C3PR_AUTH_CHECK
                 edu.duke.cabig.c3pr.dao.StudyDao.*=CSM_AUTHN_CHECK,C3PR_AUTH_CHECK
                 edu.duke.cabig.c3pr.dao.StudySubjectDao.*=CSM_AUTHN_CHECK,C3PR_AUTH_CHECK
-              	edu.duke.cabig.c3pr.dao.ParticipantDao.*=CSM_AUTHN_CHECK
+                edu.duke.cabig.c3pr.dao.ParticipantDao.*=CSM_AUTHN_CHECK,C3PR_AUTH_CHECK
             </value>
         </property>
         <property name="accessDecisionManager">
@@ -204,7 +204,7 @@
         <property name="providers">
             <list>
                 <ref local="siteSecurityBasicAuthCheck"/>
-                <ref local="csmBasedSecurityCollectionFilter"/>
+                <!--<ref local="csmBasedSecurityCollectionFilter"/>-->
                 <ref local="c3prBasedSecurityFilter"/>
             </list>
         </property>
@@ -231,21 +231,16 @@
     <bean id="studySecurityFilter"
         class="edu.duke.cabig.c3pr.accesscontrol.StudySecurityFilter">
         <property name="csmUserRepository" ref="csmUserRepository"/>
-        <property name="rolesToExclude">
-            <list>
-                <value>SITE_COORDINATOR</value>
-            </list>
-        </property>
     </bean>
     
     <bean id="studySubjectSecurityFilter"
         class="edu.duke.cabig.c3pr.accesscontrol.StudySubjectSecurityFilter">
         <property name="csmUserRepository" ref="csmUserRepository"/>
-        <property name="rolesToExclude">
-            <list>
-                <value>SITE_COORDINATOR</value>
-            </list>
-        </property>
+    </bean>
+    
+    <bean id="subjectSecurityFilter"
+        class="edu.duke.cabig.c3pr.accesscontrol.SubjectSecurityFilter">
+        <property name="csmUserRepository" ref="csmUserRepository"/>
     </bean>
 
     <util:map id="domainObjectCSMAuhthorizationCheckProvidersMap"
@@ -267,7 +262,10 @@
         value-ref="studySecurityFilter"/>
         
         <entry key="edu.duke.cabig.c3pr.domain.StudySubject"
-            value-ref="studySubjectSecurityFilter"/>
+        value-ref="studySubjectSecurityFilter"/>
+        
+        <entry key="edu.duke.cabig.c3pr.domain.Participant"
+            value-ref="subjectSecurityFilter"/>
         
     </util:map>
 

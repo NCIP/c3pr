@@ -29,7 +29,7 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
     private Class processDomainObjectClass = AbstractMutableDomainObject.class;
 
     private Logger log = Logger
-                    .getLogger(CSMBasedAfterInvocationCollectionFilteringProvider.class);
+                    .getLogger(SiteSecurityAfterInvocationBasicAuthorizationCheckProvider.class);
 
     public Object decide(Authentication authentication, Object object,
                     ConfigAttributeDefinition configAttributeDefinition, Object returnedObject)

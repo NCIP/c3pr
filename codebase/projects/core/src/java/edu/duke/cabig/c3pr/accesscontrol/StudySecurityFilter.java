@@ -1,11 +1,11 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-import org.apache.log4j.Logger;
-
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import org.acegisecurity.Authentication;
+import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
@@ -52,13 +52,25 @@ public class StudySecurityFilter implements DomainObjectSecurityFilterer{
 			Iterator collectionIter = returnObject.iterator();
 			while (collectionIter.hasNext()) {
 	        	Study study = (Study)collectionIter.next();
-	        	if(!study.isAssignedAndActivePersonnel(researchStaff)){
+	        	if(SecurityUtils.hasRole(authentication, Arrays.asList(new RoleTypes[]{RoleTypes.SITE_COORDINATOR})) &&
+	        			!hasSiteLevelAccessPermission(researchStaff, study)){
+	        		returnObject.remove(study);
+	        		
+	        	}
+	        	if(SecurityUtils.hasRole(authentication, Arrays.asList(new RoleTypes[]{RoleTypes.STUDY_COORDINATOR, RoleTypes.REGISTRAR})) &&
+	        			!hasStudyLevelAccessPermission(researchStaff, study)){
 	        		returnObject.remove(study);
 	        	}
 			}
 		}else if(returnObject instanceof AbstractMutableDomainObjectFilterer){
 			Study study = (Study)returnObject.getFilteredObject();
-        	if(!study.isAssignedAndActivePersonnel(researchStaff)){
+			if(SecurityUtils.hasRole(authentication, Arrays.asList(new RoleTypes[]{RoleTypes.SITE_COORDINATOR})) &&
+        			!hasSiteLevelAccessPermission(researchStaff, study)){
+        		returnObject.remove(study);
+        		
+        	}
+        	if(SecurityUtils.hasRole(authentication, Arrays.asList(new RoleTypes[]{RoleTypes.STUDY_COORDINATOR, RoleTypes.REGISTRAR})) &&
+        			!hasStudyLevelAccessPermission(researchStaff, study)){
         		returnObject.remove(study);
         	}
 		}else{
@@ -67,6 +79,15 @@ public class StudySecurityFilter implements DomainObjectSecurityFilterer{
 		return returnObject.getFilteredObject();
 	}
 
+	private boolean hasSiteLevelAccessPermission(ResearchStaff researchStaff , Study study){
+		return study.getStudySites().contains(researchStaff.getHealthcareSite()) ||
+		study.getStudyCoordinatingCenter().getHealthcareSite().equals(researchStaff.getHealthcareSite());
+	}
+	
+	private boolean hasStudyLevelAccessPermission(ResearchStaff researchStaff , Study study){
+		return study.isAssignedAndActivePersonnel(researchStaff);
+	}
+	
 	/**
 	 * Sets the csm user repository.
 	 * 
