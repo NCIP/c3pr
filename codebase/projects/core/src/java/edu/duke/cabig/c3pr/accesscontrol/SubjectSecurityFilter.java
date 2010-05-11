@@ -53,13 +53,13 @@ public class SubjectSecurityFilter implements DomainObjectSecurityFilterer{
 			Iterator collectionIter = returnObject.iterator();
 			while (collectionIter.hasNext()) {
 	        	Participant participant = (Participant)collectionIter.next();
-	        	if(hasPermission(researchStaff, participant)){
+	        	if(!hasPermission(researchStaff, participant)){
 	        		returnObject.remove(participant);
 	        	}
 			}
 		}else if(returnObject instanceof AbstractMutableDomainObjectFilterer){
 			Participant participant = (Participant)returnObject.getFilteredObject();
-			if(hasPermission(researchStaff, participant)){
+			if(!hasPermission(researchStaff, participant)){
         		returnObject.remove(participant);
         	}
 		}else{
