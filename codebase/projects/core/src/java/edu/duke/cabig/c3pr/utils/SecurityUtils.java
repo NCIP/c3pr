@@ -1,11 +1,12 @@
 package edu.duke.cabig.c3pr.utils;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.userdetails.User;
+import org.apache.commons.collections15.CollectionUtils;
 
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 
@@ -51,13 +52,18 @@ public class SecurityUtils {
 	 * @return true, if successful
 	 */
 	public static boolean hasRole(Authentication authentication, List<RoleTypes> roleTypes){
-		List<GrantedAuthority> grantedAuthorities = Arrays.asList(authentication.getAuthorities());
-		for(GrantedAuthority grantedAuthority : grantedAuthorities){
-			if(roleTypes.contains(RoleTypes.getByCode(grantedAuthority.getAuthority()))){
-				return true;
-			}
+		if(roleTypes == null){
+			return false;
 		}
-		return false;
+		return CollectionUtils.containsAny(roleTypes, getRoleTypes(authentication));
+	}
+	
+	public static List<RoleTypes> getRoleTypes(Authentication authentication){
+		List<RoleTypes> roleTypes = new ArrayList<RoleTypes>();
+		for(GrantedAuthority grantedAuthority : authentication.getAuthorities()){
+			roleTypes.add(RoleTypes.getByCode(grantedAuthority.getAuthority()));
+		}
+		return roleTypes;
 	}
 	
 }
