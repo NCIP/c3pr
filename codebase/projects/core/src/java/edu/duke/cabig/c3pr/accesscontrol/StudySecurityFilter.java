@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -8,8 +9,10 @@ import org.acegisecurity.Authentication;
 import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.constants.RoleTypes;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
 
@@ -80,7 +83,11 @@ public class StudySecurityFilter implements DomainObjectSecurityFilterer{
 	}
 
 	private boolean hasSiteLevelAccessPermission(ResearchStaff researchStaff , Study study){
-		return study.getStudySites().contains(researchStaff.getHealthcareSite()) ||
+		List<HealthcareSite> healthcareSiteList = new ArrayList<HealthcareSite>();
+		for(StudySite studySite:study.getStudySites()){
+			healthcareSiteList.add(studySite.getHealthcareSite());
+		}
+		return healthcareSiteList.contains(researchStaff.getHealthcareSite()) ||
 		study.getStudyCoordinatingCenter().getHealthcareSite().equals(researchStaff.getHealthcareSite());
 	}
 	
