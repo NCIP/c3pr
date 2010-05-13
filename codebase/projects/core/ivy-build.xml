@@ -304,9 +304,11 @@
             Passes the test files in core through the ajc
     ================================================================================== -->
     <target name="compile" depends="common.compile, load-ajc" description="Passes the test files in core through the ajc">
-            <ajc srcdir="${main.src}" destdir="${classes.dir}" includes="edu/duke/cabig/c3pr/aspects/ajc/**" source="1.5">
+            <ajc srcdir="${main.src}" destdir="${classes.dir}" includes="edu/duke/cabig/c3pr/domain/*,edu/duke/cabig/c3pr/web/**,edu/duke/cabig/c3pr/aspects/compiletime/**" source="1.5" verbose="true" debug="true" 
+            	excludes="edu/duke/cabig/c3pr/aspects/springaop/**,edu/duke/cabig/c3pr/aspects/loadtime/**">
             <classpath>
                 <path refid="main.classpath"/>
+            	<pathelement location="${classes.dir}"/>
             </classpath>
         </ajc>
     </target>
