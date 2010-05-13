@@ -1,8 +1,8 @@
 <aspectj>
     <aspects>
-        <aspect name="edu.duke.cabig.c3pr.aspects.ajc.BroadcasterLayerAspect"/> 
-        <aspect name="edu.duke.cabig.c3pr.aspects.ajc.DaoLayerAspect"/> 
-        <aspect name="edu.duke.cabig.c3pr.aspects.ajc.InfrastructureLayerAspect"/> 
+        <aspect name="edu.duke.cabig.c3pr.aspects.loadtime.infrared.BroadcasterLayerAspect"/> 
+        <aspect name="edu.duke.cabig.c3pr.aspects.loadtime.infrared.DaoLayerAspect"/> 
+        <aspect name="edu.duke.cabig.c3pr.aspects.loadtime.infrared.InfrastructureLayerAspect"/> 
         <exclude within="org.springframework..*"/>         
     </aspects>
     

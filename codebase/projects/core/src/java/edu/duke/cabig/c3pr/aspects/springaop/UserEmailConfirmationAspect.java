@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.aspects;
+package edu.duke.cabig.c3pr.aspects.springaop;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.AfterReturning;

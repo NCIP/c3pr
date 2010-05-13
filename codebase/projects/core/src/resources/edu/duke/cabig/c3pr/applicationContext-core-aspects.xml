@@ -15,7 +15,4 @@
     <aop:spring-configured/>
 
 
-    <bean class="edu.duke.cabig.c3pr.aspects.SimpleProfiler" />
-     
-     
 </beans>
