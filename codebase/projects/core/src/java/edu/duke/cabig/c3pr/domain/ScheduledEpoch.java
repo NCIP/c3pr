@@ -26,6 +26,7 @@ import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
@@ -659,5 +660,44 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 		}
 		return false;
 	}
-
+	
+	@Transient
+	public List<SubjectEligibilityAnswer> getWaivableEligibilityAnswers(){
+		List<SubjectEligibilityAnswer> subjectEligibilityAnswers = new ArrayList<SubjectEligibilityAnswer>();
+		for(SubjectEligibilityAnswer subjectEligibilityAnswer : getSubjectEligibilityAnswers()){
+			if(subjectEligibilityAnswer.canAllowWaiver()){
+				subjectEligibilityAnswers.add(subjectEligibilityAnswer);
+			}
+		}
+		return subjectEligibilityAnswers;
+	}
+	
+	public boolean evaluateEligibilityIndicator() {
+        List<SubjectEligibilityAnswer> answers = getInclusionEligibilityAnswers();
+        for (SubjectEligibilityAnswer subjectEligibilityAnswer : answers) {
+            String answerText = subjectEligibilityAnswer.getAnswerText();
+            if(StringUtils.getBlankIfNull(answerText).equals("") || 
+            		(answerText.equalsIgnoreCase("No") && !subjectEligibilityAnswer.getAllowWaiver())){
+                return false;
+            }
+        }
+        answers = getExclusionEligibilityAnswers();
+        for (SubjectEligibilityAnswer subjectEligibilityAnswer : answers) {
+            String answerText = subjectEligibilityAnswer.getAnswerText();
+            if(StringUtils.getBlankIfNull(answerText).equals("") || 
+            		(answerText.equalsIgnoreCase("Yes") && !subjectEligibilityAnswer.getAllowWaiver())){
+                return false;
+            }
+        }
+        return true;
+    }
+	
+	@Transient
+	public boolean isEligibleWithWaiver(){
+		if(!this.eligibilityIndicator) return false;
+		for(SubjectEligibilityAnswer subjectEligibilityAnswer: getSubjectEligibilityAnswers()){
+			if(subjectEligibilityAnswer.getAllowWaiver()) return true;
+		}
+		return false;
+	}
 }

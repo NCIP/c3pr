@@ -381,4 +381,119 @@ public class ScheduledEpochTest extends AbstractTestCase {
 		assertFalse(scheduledEpoch.hasWaivableEligibilityAnswers());
 		verifyMocks();
 	}
+	
+	public void testEvaluateEligibilityIndicator1(){
+		SubjectEligibilityAnswer subjectEligibilityAnswer1 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer2 = registerMockFor(SubjectEligibilityAnswer.class);
+		List<SubjectEligibilityAnswer> subjectStratificationAnswers = scheduledEpoch.getSubjectEligibilityAnswers();
+		subjectStratificationAnswers.add(subjectEligibilityAnswer1);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer2);
+		EasyMock.expect(subjectEligibilityAnswer1.getEligibilityCriteria()).andReturn(new InclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer1.getAnswerText()).andReturn("Yes");
+		EasyMock.expect(subjectEligibilityAnswer2.getEligibilityCriteria()).andReturn(new ExclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer2.getAnswerText()).andReturn("No");
+		replayMocks();
+		assertTrue(scheduledEpoch.evaluateEligibilityIndicator());
+		verifyMocks();
+	}
+	
+	public void testEvaluateEligibilityIndicator2(){
+		SubjectEligibilityAnswer subjectEligibilityAnswer1 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer2 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer3 = registerMockFor(SubjectEligibilityAnswer.class);
+		List<SubjectEligibilityAnswer> subjectStratificationAnswers = scheduledEpoch.getSubjectEligibilityAnswers();
+		subjectStratificationAnswers.add(subjectEligibilityAnswer1);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer2);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer3);
+		EasyMock.expect(subjectEligibilityAnswer1.getEligibilityCriteria()).andReturn(new InclusionEligibilityCriteria());
+		EasyMock.expect(subjectEligibilityAnswer1.getAnswerText()).andReturn("Yes");
+		EasyMock.expect(subjectEligibilityAnswer3.getEligibilityCriteria()).andReturn(new InclusionEligibilityCriteria());
+		EasyMock.expect(subjectEligibilityAnswer3.getAnswerText()).andReturn("No");
+		EasyMock.expect(subjectEligibilityAnswer3.getAllowWaiver()).andReturn(false);
+		EasyMock.expect(subjectEligibilityAnswer2.getEligibilityCriteria()).andReturn(new ExclusionEligibilityCriteria());
+		replayMocks();
+		assertFalse(scheduledEpoch.evaluateEligibilityIndicator());
+		verifyMocks();
+	}
+	
+	public void testEvaluateEligibilityIndicator3(){
+		SubjectEligibilityAnswer subjectEligibilityAnswer1 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer2 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer3 = registerMockFor(SubjectEligibilityAnswer.class);
+		List<SubjectEligibilityAnswer> subjectStratificationAnswers = scheduledEpoch.getSubjectEligibilityAnswers();
+		subjectStratificationAnswers.add(subjectEligibilityAnswer1);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer2);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer3);
+		EasyMock.expect(subjectEligibilityAnswer1.getEligibilityCriteria()).andReturn(new InclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer1.getAnswerText()).andReturn("Yes");
+		EasyMock.expect(subjectEligibilityAnswer2.getEligibilityCriteria()).andReturn(new ExclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer2.getAnswerText()).andReturn("No");
+		EasyMock.expect(subjectEligibilityAnswer3.getEligibilityCriteria()).andReturn(new ExclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer3.getAnswerText()).andReturn("Yes");
+		EasyMock.expect(subjectEligibilityAnswer3.getAllowWaiver()).andReturn(false);
+		replayMocks();
+		assertFalse(scheduledEpoch.evaluateEligibilityIndicator());
+		verifyMocks();
+	}
+	
+	public void testEvaluateEligibilityIndicatorAllowWaiver1(){
+		SubjectEligibilityAnswer subjectEligibilityAnswer1 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer2 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer3 = registerMockFor(SubjectEligibilityAnswer.class);
+		List<SubjectEligibilityAnswer> subjectStratificationAnswers = scheduledEpoch.getSubjectEligibilityAnswers();
+		subjectStratificationAnswers.add(subjectEligibilityAnswer1);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer2);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer3);
+		EasyMock.expect(subjectEligibilityAnswer1.getEligibilityCriteria()).andReturn(new InclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer1.getAnswerText()).andReturn("Yes");
+		EasyMock.expect(subjectEligibilityAnswer2.getEligibilityCriteria()).andReturn(new ExclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer2.getAnswerText()).andReturn("No");
+		EasyMock.expect(subjectEligibilityAnswer3.getEligibilityCriteria()).andReturn(new ExclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer3.getAnswerText()).andReturn("Yes");
+		EasyMock.expect(subjectEligibilityAnswer3.getAllowWaiver()).andReturn(true);
+		replayMocks();
+		assertTrue(scheduledEpoch.evaluateEligibilityIndicator());
+		verifyMocks();
+	}
+	
+	public void testEvaluateEligibilityIndicatorAllowWaiver2(){
+		SubjectEligibilityAnswer subjectEligibilityAnswer1 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer2 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer3 = registerMockFor(SubjectEligibilityAnswer.class);
+		List<SubjectEligibilityAnswer> subjectStratificationAnswers = scheduledEpoch.getSubjectEligibilityAnswers();
+		subjectStratificationAnswers.add(subjectEligibilityAnswer1);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer2);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer3);
+		EasyMock.expect(subjectEligibilityAnswer1.getEligibilityCriteria()).andReturn(new InclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer1.getAnswerText()).andReturn("Yes");
+		EasyMock.expect(subjectEligibilityAnswer3.getEligibilityCriteria()).andReturn(new InclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer3.getAnswerText()).andReturn("No");
+		EasyMock.expect(subjectEligibilityAnswer3.getAllowWaiver()).andReturn(true);
+		EasyMock.expect(subjectEligibilityAnswer2.getEligibilityCriteria()).andReturn(new ExclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer2.getAnswerText()).andReturn("No");
+		replayMocks();
+		assertTrue(scheduledEpoch.evaluateEligibilityIndicator());
+		verifyMocks();
+	}
+	
+	public void testEvaluateEligibilityIndicatorAllowWaiver3(){
+		SubjectEligibilityAnswer subjectEligibilityAnswer1 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer2 = registerMockFor(SubjectEligibilityAnswer.class);
+		SubjectEligibilityAnswer subjectEligibilityAnswer3 = registerMockFor(SubjectEligibilityAnswer.class);
+		List<SubjectEligibilityAnswer> subjectStratificationAnswers = scheduledEpoch.getSubjectEligibilityAnswers();
+		subjectStratificationAnswers.add(subjectEligibilityAnswer1);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer2);
+		subjectStratificationAnswers.add(subjectEligibilityAnswer3);
+		EasyMock.expect(subjectEligibilityAnswer1.getEligibilityCriteria()).andReturn(new InclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer1.getAnswerText()).andReturn("Yes");
+		EasyMock.expect(subjectEligibilityAnswer3.getEligibilityCriteria()).andReturn(new InclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer3.getAnswerText()).andReturn("No");
+		EasyMock.expect(subjectEligibilityAnswer3.getAllowWaiver()).andReturn(true);
+		EasyMock.expect(subjectEligibilityAnswer2.getEligibilityCriteria()).andReturn(new ExclusionEligibilityCriteria()).times(2);
+		EasyMock.expect(subjectEligibilityAnswer2.getAnswerText()).andReturn("Yes");
+		EasyMock.expect(subjectEligibilityAnswer2.getAllowWaiver()).andReturn(false);
+		replayMocks();
+		assertFalse(scheduledEpoch.evaluateEligibilityIndicator());
+		verifyMocks();
+	}
 }
