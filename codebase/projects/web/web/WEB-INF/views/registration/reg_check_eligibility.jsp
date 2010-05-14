@@ -46,15 +46,24 @@ function navRollOver(obj, state) {
 											<c:set var="inclusionAnswerSelected" value="false"></c:set>
 											<c:forEach var="eligAnswer" varStatus="eligAnswerStatus" items="${command.studySubject.scheduledEpoch.subjectEligibilityAnswers}">
 												<c:if test="${eligAnswer.eligibilityCriteria.id == criteria.id}">
+													<c:set var="waiverAnswerIndex" value="${eligAnswerStatus.index}" />
 													<td width="15%" valign="center">
-														<form:select id="scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText">
-															<option value="">Please select</option>
-															<form:option value="Yes" />
-															<form:option value="No" />
-															<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
-														</form:select>
+													<c:choose>
+														<c:when test="${eligAnswer.allowWaiver}">
+															Waived <img src='<tags:imageUrl name="eligibility_waived.png"/>'/>
+														</c:when>
+														<c:otherwise>
+																<form:select id="scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText">
+																	<option value="">Please select</option>
+																	<form:option value="Yes" />
+																	<form:option value="No" />
+																	<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
+																</form:select>
+														</c:otherwise>
+													</c:choose>
 													</td>
 													<c:set var="inclusionAnswerSelected" value="true"></c:set>
+													<c:set var="eligibilityAnswer" value="${eligAnswer}"/>
 												</c:if>
 											</c:forEach>
 											
@@ -70,6 +79,30 @@ function navRollOver(obj, state) {
 											</c:if>
 											
 										</tr>
+										<c:if test="${inclusionAnswerSelected && eligibilityAnswer.allowWaiver}">
+											<tr align="center">
+												<td colspan="3">
+												<table width="90%" border="0">
+													<tr>
+														<td style="border:0px;">
+															<table>
+																<tr>
+																	<td style="border:0px;"><tags:requiredIndicator /><b>Waiver id</b> 
+																	<form:input path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${waiverAnswerIndex}].waiverId" size="10" cssClass="required validate-notEmpty" />
+																	</td>
+																</tr>
+																<tr>
+																	<td style="border:0px;"><b>Waiver allowed by</b> ${eligibilityAnswer.waivedBy.researchStaff.fullName}</td>
+																</tr>
+															</table>
+														</td>
+														<td style="border:0px;"><tags:requiredIndicator /><b>Waiver reason</b>
+														<form:textarea path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${waiverAnswerIndex}].waiverReason" cols="55" rows="2" cssClass="required validate-notEmpty&&maxlength190"/></td>
+													</tr>
+												</table>
+												</td>
+											</tr>
+										</c:if>
 										<c:set var="index" value="${index+1}"/>
 									</c:forEach>
 								</table>
@@ -102,18 +135,27 @@ function navRollOver(obj, state) {
 											<c:set var="exclusionAnswerSelected" value="false"></c:set>
 											<c:forEach var="eligAnswer" varStatus="eligAnswerStatus" items="${command.studySubject.scheduledEpoch.subjectEligibilityAnswers}">
 												<c:if test="${eligAnswer.eligibilityCriteria.id == criteria.id}">
+													<c:set var="waiverAnswerIndex" value="${eligAnswerStatus.index}" />
 													<td width="15%" valign="center">
-														<form:select id="scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText">
-															<option value="">Please select</option>
-															<form:option value="Yes" />
-															<form:option value="No" />
-															<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
-														</form:select>
+													<c:choose>
+														<c:when test="${eligAnswer.allowWaiver}">
+															<font color="green"><b>Waived</b></font>
+														</c:when>
+														<c:otherwise>
+																<form:select id="scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText">
+																	<option value="">Please select</option>
+																	<form:option value="Yes" />
+																	<form:option value="No" />
+																	<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
+																</form:select>
+														</c:otherwise>
+													</c:choose>
 													</td>
+													<c:set var="eligibilityAnswer" value="${eligAnswer}"/>
 													<c:set var="exclusionAnswerSelected" value="true"></c:set>
 												</c:if>
 											</c:forEach>
-											<c:if test="${exclusionAnswerSelected == 'false'}">
+											<c:if test="${exclusionAnswerSelected  && eligibilityAnswer.allowWaiver}">
 												<td width="15%" valign="center">
 													<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
 														<option value="">Please select</option>
@@ -124,6 +166,30 @@ function navRollOver(obj, state) {
 												</td>
 											</c:if>
 										</tr>
+										<c:if test="${exclusionAnswerSelected == 'false'}">
+										<tr>
+											<td colspan="3">
+											<table width="90%" border="0">
+												<tr>
+													<td style="border:0px;">
+														<table>
+															<tr>
+																<td style="border:0px;"><tags:requiredIndicator /><b>Waiver id</b> 
+																<form:input path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${waiverAnswerIndex}].waiverId" size="10" cssClass="required validate-notEmpty" />
+																</td>
+															</tr>
+															<tr>
+																<td style="border:0px;"><b>Waiver allowed by</b> ${eligibilityAnswer.waivedBy.researchStaff.fullName}</td>
+															</tr>
+														</table>
+													</td>
+													<td style="border:0px;"><tags:requiredIndicator /><b>Waiver reason</b>
+													<form:textarea path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${waiverAnswerIndex}].waiverReason" cols="55" rows="2" cssClass="required validate-notEmpty&&maxlength190"/></td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+										</c:if>
 										<c:set var="index" value="${index+1}"/>										
 									</c:forEach>
 								</table>

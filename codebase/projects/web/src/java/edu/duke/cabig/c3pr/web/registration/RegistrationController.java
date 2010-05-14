@@ -284,7 +284,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         StudySubject studySubject = wrapper.getStudySubject();
         if (studySubject.getScheduledEpoch() != null && studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion()!=null) {
             studySubject.updateDataEntryStatus();
-            studySubject.getScheduledEpoch().setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(studySubject));
+            studySubject.getScheduledEpoch().setEligibilityIndicator(studySubject.getScheduledEpoch().evaluateEligibilityIndicator());
         }
         super.postProcessPage(request, wrapper, errors, page);
     }

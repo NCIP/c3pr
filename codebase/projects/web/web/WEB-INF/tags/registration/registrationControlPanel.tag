@@ -46,12 +46,16 @@
 				<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
 			</c:if>
 	    	<c:if test="${takeSubjectOffStudy}">
-				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
+				<%--<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />--%>
+				<tags:oneControlPanelItem linkhref="changeEpoch?offStudySection=defReasonTable" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
 			</c:if>
 			<c:if test="${canBroadcast}">
 				<tags:oneControlPanelItem linkhref="javascript:confirmBroadcastRegistration();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_broadcast.png" linktext="Broadcast Registration" />
 			</c:if>
     	</csmauthz:accesscontrol>
+    	<c:if test="${command.canAllowEligibilityWaiver && isStudyCoordinator}">
+    		<tags:oneControlPanelItem linkhref="javascript:allowEligibilityWaiverPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_waiveEligibility.png" linktext="Waive Eligibility" />
+    	</c:if>
 		<tags:oneControlPanelItem linkhref="javascript:C3PR.disableAjaxLoadingIndicator=true;$('exportForm')._target.name='xxxx';$('exportForm').submit();C3PR.disableAjaxLoadingIndicator=false;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 	</tags:controlPanel>

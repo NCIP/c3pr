@@ -95,7 +95,7 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
 	            scheduledEpoch = new ScheduledEpoch();
 	        }
 	        scheduledEpoch.setEpoch(epoch);
-	        scheduledEpoch.setEligibilityIndicator(registrationControllerUtils.evaluateEligibilityIndicator(studySubject));
+	        scheduledEpoch.setEligibilityIndicator(studySubject.getScheduledEpoch().evaluateEligibilityIndicator());
 	        scheduledEpoch.setScEpochDataEntryStatus(scheduledEpoch.evaluateScheduledEpochDataEntryStatus((List)new ArrayList<Error>()));
 	        studySubject.addScheduledEpoch(scheduledEpoch);
 	        registrationControllerUtils.buildCommandObject(studySubject);

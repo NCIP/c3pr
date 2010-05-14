@@ -89,7 +89,14 @@
 			win.showCenter(true);
 	 	}
 
-		
+		function allowEligibilityWaiverPopup(){
+			var arr= $$("#allowWaiverDiv");
+			win = new Window({ width:600, height:300 ,className :"mac_os_x" , 
+				title: "Waive Eligibility" , minimizable:false, maximizable:false ,
+				zIndex:100 , hideEffect:Element.hide, showEffect:Element.show}) 
+			win.setContent(arr[0]) ;
+			win.showCenter(true);
+	 	}
 
 		function takeSubjectOffStudyPopup(){
 			var arr= $$("#takeSubjectOffStudy");
@@ -221,9 +228,12 @@
 <form:form method="post" action="manageRegistration">
     <tags:tabFields tab="${tab}"/>
 </form:form>
-	<div id="flash-message-offstudy" style="display:none;">
-		<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="c3pr.registration.subjectOffStudy"/>Subject has been taken off study.</div>
-	</div>
+<div id="flash-message-offstudy" style="display:none;">
+	<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="c3pr.registration.subjectOffStudy"/>Subject has been taken off study.</div>
+</div>
+<c:if test="${displayAllowWaiverSuccessMessage}">
+	<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="c3pr.registration.allowWaiverSucess"/></div>
+</c:if>
 <div id="summary">
 <br/>
 <chrome:division id="Study Information" title="Study">
@@ -647,8 +657,25 @@
 	                      <tr class="results">
 	                          <td class="alt" align="left">${eligibilityAnswer.eligibilityCriteria.questionText}</td>
 	                          <td class="alt" align="left">
-	                          	<tags:inPlaceSelect value="${eligibilityAnswer.answerText}" path="studySubject.scheduledEpoch.inclusionEligibilityAnswers[${status.index}].answerText" id="inclusionAnswerText_${status.index}"
+	                          	<c:choose>
+	                          	<c:when test="${!eligibilityAnswer.allowWaiver}">
+	                          		<tags:inPlaceSelect value="${eligibilityAnswer.answerText}" path="studySubject.scheduledEpoch.inclusionEligibilityAnswers[${status.index}].answerText" id="inclusionAnswerText_${status.index}"
                                     commanSepOptVal="${commanSepOptVal}" onComplete="updateEligibility" disable="${!canEditRegistrationRecord}" />
+	                          	</c:when>
+	                          	<c:otherwise>Waived <img src='<tags:imageUrl name="eligibility_waived.png"/>'/>
+									<table>
+										<tr>
+											<td style="border:0px;"><b>Waiver id:</b> ${!empty eligibilityAnswer.waiverId?eligibilityAnswer.waiverId:'Not yet specified' }</td>
+										</tr>
+										<tr>
+											<td style="border:0px;"><b>Waiver allowed by:</b> ${eligibilityAnswer.waivedBy.researchStaff.fullName}</td>
+										</tr>
+										<tr>
+											<td style="border:0px;"><b>Waiver reason:</b>${!empty eligibilityAnswer.waiverReason?eligibilityAnswer.waiverReason:'Not yet specified' }</td>
+										</tr>
+									</table>
+	                          	</c:otherwise>
+	                          	</c:choose>
 	                          </td>
 	                      </tr>
 	                  </c:forEach>
@@ -822,6 +849,9 @@
 <div id="invalidateRecordPage" style="display:none;">
 <div id="invalidateRecord" >
 	<%@ include file="invalidate_registration_record.jsp"%>
+</div>
+<div id="allowWaiverDiv" >
+	<%@ include file="reg_allow_eligibility_waiver.jsp"%>
 </div>
 </div>
 <div id="printable" style="display:none;">

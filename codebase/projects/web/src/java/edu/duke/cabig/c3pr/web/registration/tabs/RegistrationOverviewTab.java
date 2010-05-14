@@ -1,11 +1,15 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.acegisecurity.Authentication;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,15 +21,20 @@ import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
@@ -50,6 +59,12 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 	private EpochDao epochDao;
 	
 	private StudyDao studyDao ;
+	
+	private CSMUserRepository csmUserRepository;
+
+	public void setCsmUserRepository(CSMUserRepository csmUserRepository) {
+		this.csmUserRepository = csmUserRepository;
+	}
 
 	public EpochDao getEpochDao() {
 		return epochDao;
@@ -153,6 +168,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 			map.put("canBroadcast", "true");
         }
 		map.put("isAdmin", WebUtils.isAdmin());
+		map.put("isStudyCoordinator", WebUtils.isStudyCoordinator());
 		map.put("canEditRegistrationRecord", canEditRegistrationRecord(studySubject));
 		map.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
         map.put("ethnicGroupCodes", configMap.get("ethnicGroupCode"));
@@ -372,7 +388,26 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 			e.printStackTrace();
 		} 
 		return null;
-		
 	}
     
+    @Override
+    public void postProcess(HttpServletRequest request, C command, Errors errors) {
+    	List<EligibilityCriteria> eligibilityCriteria = new ArrayList<EligibilityCriteria>();
+    	if(WebUtils.hasSubmitParameter(request, "allowWaiver")){
+    		for(Integer subjectAnswerId : command.getWaiveEligibilityCrieteria()){
+    			for(SubjectEligibilityAnswer subjectEligibilityAnswer : command.getStudySubject().getScheduledEpoch().getWaivableEligibilityAnswers()){
+    				if(subjectEligibilityAnswer.getId().equals(subjectAnswerId)){
+    					eligibilityCriteria.add(subjectEligibilityAnswer.getEligibilityCriteria());
+    				}
+    			}
+    		}
+    	}
+    	SecurityContext context = SecurityContextHolder.getContext();
+		Authentication authentication = context.getAuthentication();
+    	String userName = SecurityUtils.getUserName(authentication);
+		ResearchStaff researchStaff = (ResearchStaff)csmUserRepository.getUserByName(userName);
+    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getIdentifiers(), eligibilityCriteria, researchStaff.getAssignedIdentifier());
+    	command.setStudySubject(studySubject);
+    	request.setAttribute("displayAllowWaiverSuccessMessage", "true");
+    }
 }

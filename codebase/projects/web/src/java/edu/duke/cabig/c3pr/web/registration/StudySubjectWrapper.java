@@ -3,9 +3,16 @@
  */
 package edu.duke.cabig.c3pr.web.registration;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.collections15.functors.InstantiateFactory;
+import org.apache.commons.collections15.list.LazyList;
+
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 
 /**
  * @author Himanshu
@@ -17,7 +24,9 @@ public class StudySubjectWrapper {
 	
 	// used for displaying participant data in UI
 	private Object participant;
-
+	
+	private List<Integer> waiveEligibilityCrieteria = new ArrayList<Integer>();
+	
 	public Object getParticipant() {
 		return participant;
 	}
@@ -105,4 +114,17 @@ public class StudySubjectWrapper {
 		}
 		return false;
 	}
+	
+	public boolean getCanAllowEligibilityWaiver(){
+		return this.studySubject.canAllowEligibilityWaiver();
+	}
+
+	public List<Integer> getWaiveEligibilityCrieteria() {
+		return waiveEligibilityCrieteria;
+	}
+
+	public void setWaiveEligibilityCrieteria(List<Integer> waiveEligibilityCrieteria) {
+		this.waiveEligibilityCrieteria = waiveEligibilityCrieteria;
+	}
+
 }

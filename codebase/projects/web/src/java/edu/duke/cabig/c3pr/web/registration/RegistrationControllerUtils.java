@@ -234,44 +234,13 @@ public class RegistrationControllerUtils {
 	
 	public void updateStatusForEmbeddedStudySubjet(StudySubject studySubject){
 		studySubject.setRegDataEntryStatus(studySubject.evaluateRegistrationDataEntryStatus());
-		studySubject.getScheduledEpoch().setEligibilityIndicator(evaluateEligibilityIndicator(studySubject));
+		studySubject.getScheduledEpoch().setEligibilityIndicator(studySubject.getScheduledEpoch().evaluateEligibilityIndicator());
 		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(studySubject.evaluateScheduledEpochDataEntryStatus((List)new ArrayList<Error>()));
 		if(studySubject.getParentStudySubject()!=null && studySubject.isDataEntryComplete()){
         	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
         	studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
 		}
 	}
-	
-	public boolean evaluateEligibilityIndicator(StudySubject studySubject) {
-        boolean flag = true;
-        List<SubjectEligibilityAnswer> answers = (studySubject
-                        .getScheduledEpoch()).getInclusionEligibilityAnswers();
-        for (SubjectEligibilityAnswer subjectEligibilityAnswer : answers) {
-            String answerText = subjectEligibilityAnswer.getAnswerText();
-            if (answerText == null
-                            || answerText.equalsIgnoreCase("")
-                            || (!answerText.equalsIgnoreCase("Yes") && !answerText
-                                            .equalsIgnoreCase("NA"))) {
-                flag = false;
-                break;
-            }
-        }
-        if (flag) {
-            answers = (studySubject.getScheduledEpoch())
-                            .getExclusionEligibilityAnswers();
-            for (SubjectEligibilityAnswer subjectEligibilityAnswer : answers) {
-                String answerText = subjectEligibilityAnswer.getAnswerText();
-                if (answerText == null
-                                || answerText.equalsIgnoreCase("")
-                                || (!answerText.equalsIgnoreCase("No") && !answerText
-                                                .equalsIgnoreCase("NA"))) {
-                    flag = false;
-                    break;
-                }
-            }
-        }
-        return flag;
-    }
 	
 	public void buildCommandObject(StudySubject studySubject) {
         if (studySubject.getScheduledEpoch()!=null) {

@@ -28,6 +28,7 @@ function redirectToTab(tabNumber){
 		document.getElementById('flowredirect').submit()
 	}
 }
+
 </script>
 </head>
 <body>
@@ -285,19 +286,22 @@ function redirectToTab(tabNumber){
 		</c:choose>
 	</chrome:division>
 	<chrome:division id="Eligibility" title="Eligibility" link="javascript:redirectToTab('${eligibilityTab}');">
-		<div class="leftpanel">
-		<div class="row">
 			<c:choose>
 				<c:when test="${command.studySubject.scheduledEpoch.eligibilityIndicator}">
-					<div class="label"><fmt:message key="registration.eligible"/>:</div>
-					<div class="value"><fmt:message key="c3pr.common.yes"/></div>
+					<div class="row">
+						<div class="label"><fmt:message key="registration.eligible"/>:</div>
+						<div class="value"><fmt:message key="c3pr.common.yes"/></div>
+					</div>
 				</c:when>
 				<c:otherwise>
-					<div><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span></div>
+					<div><span class="red"><fmt:message key="registartion.eligibiltyRequired"/></span>
+						<div id="flash-message" style="display:none;" class="info">
+							<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" />
+							Eligibility can be waived for this registration. Permission granted by Kruttik Aggarwal
+						</div>
+					</div>
 				</c:otherwise>
 			</c:choose>
-			</div>
-		</div>
 	</chrome:division>
 	<chrome:division id="stratification" title="Stratification" link="javascript:redirectToTab('${stratificationTab}')">
 		<c:choose>
