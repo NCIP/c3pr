@@ -12,15 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
-import javax.persistence.Transient;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
-
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
@@ -178,7 +177,7 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 	}
 	
-	@OneToMany(mappedBy = "studySubjectDemographics")
+	@OneToMany(mappedBy = "studySubjectDemographics",fetch=FetchType.EAGER)
 	@Cascade (CascadeType.LOCK)
 	public List<StudySubject> getRegistrations() {
 		return registrations;
@@ -587,21 +586,6 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 	 * @param primaryIdentifier the new primary identifier
 	 */
 	public void setPrimaryIdentifier(String primaryIdentifier) {
-	}
-
-	/**
-	 * Runs basic validation on the Participant object.
-	 * Moved here from the service during the refactoring effort.
-	 * 
-	 * @return true, if validate participant
-	 */
-	public boolean validateParticipant() {
-		if (StringUtils.getBlankIfNull(this.getFirstName()).equals("")
-				|| StringUtils.getBlankIfNull(this.getLastName()).equals("")
-				|| this.getBirthDate() == null
-				|| StringUtils.getBlankIfNull(this.getAdministrativeGenderCode())
-				.equals("")) return false;
-		return true;
 	}
 
     /**
