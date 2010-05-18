@@ -28,6 +28,7 @@ public class RulesDelegationServiceImpl implements RulesDelegationService{
 	public static final String STUDY_STATUS_CHANGE_EVENT = "STUDY_STATUS_CHANGE_EVENT";	
 	public static final String STUDY_SITE_STATUS_CHANGE_EVENT = "STUDY_SITE_STATUS_CHANGE_EVENT";	
 	public static final String REGISTRATION_EVENT = "REGISTRATION_EVENT";
+	public static final String MASTER_SUBJECT_UPDATED_EVENT = "MASTER_SUBJECT_UPDATED_EVENT";
 	
 	private BusinessRulesExecutionService businessRulesExecutionService;
 	
