@@ -595,7 +595,9 @@
     <bean id="passwordManagerService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordManagerServiceImpl" autowire="byName"/>
 	<bean id="passwordPolicyService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordPolicyServiceImpl" autowire="byName"/>
 
-	<bean id="scheduledNotificationService" class="edu.duke.cabig.c3pr.service.impl.ScheduledNotificationServiceImpl" autowire="byName"/>
+	<bean id="scheduledNotificationService" class="edu.duke.cabig.c3pr.service.impl.ScheduledNotificationServiceImpl" autowire="byName">
+		<property name="c3prURL" value="${c3pr.webapp.url}"/>
+	</bean>
 
 		<!-- Quartz Scheduler Service Classes-->
 	<bean id="schedulerService" class="edu.duke.cabig.c3pr.service.impl.SchedulerServiceImpl" autowire="byName">
