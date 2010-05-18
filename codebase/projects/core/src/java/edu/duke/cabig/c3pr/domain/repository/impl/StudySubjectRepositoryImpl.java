@@ -563,6 +563,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	}
 	
 	public void takeSnapshotAndValidateStudySubjectDemographics(StudySubject studySubject){
+		// set current studySubjectDemographics retiredIndicator to true;
+		studySubject.getStudySubjectDemographics().setRetiredIndicatorAsTrue();
 		Participant masterSubject = studySubject.getStudySubjectDemographics().getMasterSubject();
 		StudySubjectDemographics snapShot = masterSubject.createStudySubjectDemographics();
 		snapShot.setValid(true);
