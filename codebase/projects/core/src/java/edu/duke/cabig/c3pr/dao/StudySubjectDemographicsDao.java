@@ -42,7 +42,7 @@ public class StudySubjectDemographicsDao extends GridIdentifiableDao<StudySubjec
     /**
      * Initialize.
      * 
-     * @param participant the participant
+     * @param studySubjectDemographics the studySubjectDemographics
      * 
      * @throws DataAccessException the data access exception
      */
