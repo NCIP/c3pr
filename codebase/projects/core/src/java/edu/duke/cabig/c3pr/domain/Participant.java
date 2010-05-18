@@ -100,6 +100,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	@OneToMany(mappedBy = "masterSubject")
 	@Cascade(value = {CascadeType.LOCK})
 	@OrderBy("id")
+	@Where(clause = "retired_indicator  = 'false'")
 	public List<StudySubjectDemographics> getStudySubjectDemographics() {
 		return studySubjectDemographics;
 	}
@@ -203,18 +204,6 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		// do nothing
 	}
 
-	/**
-	 * Gets the study subjects.
-	 * 
-	 * @return the study subjects
-	 */
-	/*@OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@Where(clause = "reg_workflow_status  != 'INVALID'")
-	public List<StudySubject> getStudySubjects() {
-		return studySubjects;
-	}
-*/
 	@Transient
 	public List<StudySubject> getStudySubjects(){
 		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
@@ -728,6 +717,24 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 				this.addIdentifier(sysIdentifierCopy);
 			}
 		}
+	}
+	
+	
+	/**
+	 * Checks for c3 pr system identifier.
+	 *
+	 * @return true, if successful
+	 */
+	@Transient
+	public boolean hasC3PRSystemIdentifier() {
+		for (SystemAssignedIdentifier systemAssignedIdentfier : this
+				.getSystemAssignedIdentifiers()) {
+			if (systemAssignedIdentfier.getSystemName()
+					.equalsIgnoreCase("C3PR")) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }
