@@ -12,13 +12,14 @@ import org.apache.log4j.Logger;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
-import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
-import edu.duke.cabig.c3pr.dao.ScheduledNotificationDao;
+import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
@@ -27,8 +28,10 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.service.ScheduledNotificationService;
+import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -40,8 +43,21 @@ import freemarker.template.TemplateException;
 public class ScheduledNotificationServiceImpl implements ScheduledNotificationService, ApplicationContextAware {
 
     private Logger log = Logger.getLogger(ScheduledNotificationServiceImpl.class);
+    
+    private IdentifierGenerator identifierGenerator;
+    
+    private String c3prURL = null;
 
-    ApplicationContext applicationContext;
+    public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) {
+		this.identifierGenerator = identifierGenerator;
+	}
+    
+    @Required
+	public void setC3prURL(String c3prURL) {
+		this.c3prURL = c3prURL;
+	}
+
+	ApplicationContext applicationContext;
     
     /* Study Status Changed case     */
     public Integer saveScheduledNotification(PlannedNotification plannedNotification, Study study) {
@@ -65,6 +81,18 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	return saveScheduledNotification(plannedNotification, composedMessage, soList);
     } 
     
+    /* Update Master Subject case  */
+    public Integer saveScheduledNotification(PlannedNotification plannedNotification, Participant participant) {
+    	String composedMessage =  "To view this subject click on " + c3prURL + "/pages/personAndOrganization/participant/viewParticipant?" +identifierGenerator.createParameterString(participant.getPrimaryIdentifier());
+    	List<StudyOrganization> soList = new ArrayList<StudyOrganization>();
+    	for(StudySubjectDemographics studySubjectDemographics:participant.getStudySubjectDemographics()){
+    		for(StudySubject registration: studySubjectDemographics.getRegistrations()){
+    			soList.add(registration.getStudySite());
+    		}
+    	}
+    	return saveScheduledNotification(plannedNotification, composedMessage, soList);
+    } 
+    
     
     /* Generic save method called by all the above mthods to save the ScheduledNotifications    */
     public Integer saveScheduledNotification(PlannedNotification plannedNotification, String composedMessage, List<StudyOrganization> ssList){
@@ -78,7 +106,10 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 		session.setFlushMode(FlushMode.COMMIT);
     	try{
     		session.update(plannedNotification);
-    		session.update(plannedNotification.getHealthcareSite());
+    		// for updating master subject notification event, planned notification is not associated to a healthcare site
+    		if(plannedNotification.getHealthcareSite()!=null){
+    			session.update(plannedNotification.getHealthcareSite());
+    		}
         	//generating and saving the ScheduledNotification
         	scheduledNotification = addScheduledNotification(plannedNotification, composedMessage, ssList);
         	session.saveOrUpdate(plannedNotification);
@@ -141,12 +172,20 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     		scheduledNotification.getRecipientScheduledNotification().add(rsn);
     	}
     	
-		//Add the studyOrganization containing the site which is linked to by PlannedNotifications
-		for(StudyOrganization ss: soList){
-			if(ss.getHealthcareSite().getPrimaryIdentifier().equals(plannedNotification.getHealthcareSite().getPrimaryIdentifier())){
-				scheduledNotification.setStudyOrganization(ss);
+		
+		
+		if (plannedNotification.getEventName() == NotificationEventTypeEnum.MASTER_SUBJECT_UPDATED_EVENT){
+			scheduledNotification.setStudyOrganization(soList.get(0));
+		} else{
+			//Add the studyOrganization containing the site which is linked to by PlannedNotifications
+			for(StudyOrganization ss: soList){
+				if(ss.getHealthcareSite().getPrimaryIdentifier().equals(plannedNotification.getHealthcareSite().getPrimaryIdentifier())){
+					scheduledNotification.setStudyOrganization(ss);
+				}
 			}
 		}
+		
+		
     	
     	return scheduledNotification;
     }
@@ -178,69 +217,4 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
-	
-    
-    /* This method generates the final email message by plugging in the right values for the 
-    substitution variables. this was replaced by freemarker.
-
-    private String composeMessage(String messageWithSubVars, Study study){
-  	StringBuffer generatedMessage = new StringBuffer();
-  	int startIndex = 0;
-  	int dollarIndex = -1;
-  	int endDollarIndex = -1;
-  	String variableValue = "";
-  	
-  	//loops over the messageWithSubVars until it runs out of subvars.
-  	while(true){
-	    	dollarIndex = messageWithSubVars.indexOf("$", startIndex);
-	    	if(dollarIndex == -1){
-	    		//appending the string after the last '$' or the whole string if no '$' is found.
-	    		generatedMessage.append(messageWithSubVars.substring(startIndex));
-	    		//no more subvars hence exit
-	    		break;
-	    	} else {
-		    	
-		    	endDollarIndex = messageWithSubVars.indexOf("}", dollarIndex);
-		    	if(endDollarIndex == -1){
-		    		//this means closing brace wasnt found...hence return msg as is.
-		    		//admin needs to correct the message format.
-		    		return messageWithSubVars;
-		    	}
-		    	variableValue = getVariableValue(messageWithSubVars.substring(dollarIndex + 2, endDollarIndex), study);
-		    	
-		    	generatedMessage.append(messageWithSubVars.substring(startIndex, dollarIndex)+ " " + variableValue + " ");
-		    	startIndex = endDollarIndex + 1;
-	    	}
-  	}
-  	return generatedMessage.toString();
-  }
-  
-  private String getVariableValue(String variable, Study study){
-  	if(variable.equals(NotificationEmailSubstitutionVariablesEnum.COORDINATING_CENTER_STUDY_STATUS.toString())){
-  		return study.getCoordinatingCenterStudyStatus().getDisplayName();
-  	}
-		if(variable.equals(NotificationEmailSubstitutionVariablesEnum.REGISTRATION_STATUS.toString())){
-			return "rs";		
-		}
-		if(variable.equals(NotificationEmailSubstitutionVariablesEnum.STUDY_ID.toString())){
-			return study.getId().toString();
-		}
-		if(variable.equals(NotificationEmailSubstitutionVariablesEnum.STUDY_SHORT_TITLE.toString())){
-			return study.getShortTitleText();
-		}
-		return "";
-  }
-
-
-	public static void main(String arsg[]){
-		NotificationEmailService nes = new NotificationEmailService();
-		String messageWithSubVars = "The study ${" +NotificationEmailSubstitutionVariablesEnum.STUDY_ID +"} is now in ${" +
-		NotificationEmailSubstitutionVariablesEnum.COORDINATING_CENTER_STUDY_STATUS + "} status.";
-		Study study = new Study();
-		study.setShortTitleText("shortTitleText");
-		study.setId(10);
-		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-		
-		System.out.println(nes.composeMessage(messageWithSubVars, study));
-	}*/
 }
