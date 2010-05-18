@@ -64,5 +64,20 @@
             schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
         </rhs>        
     </rule>
+    <rule name="MasterSubject_Rules">
+        <lhs>
+        	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
+        	<pattern identifier="scheduledNotificationService" object-type="edu.duke.cabig.c3pr.service.ScheduledNotificationService"/>
+        	<pattern identifier="participant" object-type="edu.duke.cabig.c3pr.domain.Participant"/>
+        	<pattern identifier="schedulerService" object-type="edu.duke.cabig.c3pr.service.SchedulerService"/>
+        	<pattern identifier="event" object-type="edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum" />
+        	
+        	<eval>event.equals(NotificationEventTypeEnum.MASTER_SUBJECT_UPDATED_EVENT)</eval>    
+         </lhs>
+        <rhs>
+        	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, participant);
+            schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
+        </rhs>        
+    </rule>
     
 </package>	
