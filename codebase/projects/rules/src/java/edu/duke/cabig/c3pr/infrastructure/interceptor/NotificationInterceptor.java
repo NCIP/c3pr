@@ -26,12 +26,14 @@ import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.SiteStatusHistory;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -51,6 +53,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	private String studyId; 
 	private String studySiteId;
 	private String studySubjectId;
+	private String participantVersion;
 	
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
@@ -103,6 +106,43 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
         }
         return result;
 	}
+	
+	/**
+	 * Gets the planned notifications for the list of sites that are passed in.
+	 * This method access the db using a new session from the hibernate session factory.
+	 * 
+	 * @param hcsList the hcs list
+	 * @return the planned notifications
+	 */
+	public List<PlannedNotification> getPlannedNotificationsForUpdateMasterSubject(){
+		List<PlannedNotification> result;
+		
+		SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
+		Session session = sessionFactory.openSession(sessionFactory.getCurrentSession().connection());
+		session.setFlushMode(FlushMode.MANUAL);
+		result = new ArrayList<PlannedNotification>();
+        try {
+          Query query =  session.createQuery("from PlannedNotification p where p.eventName = :var").setString("var", NotificationEventTypeEnum.MASTER_SUBJECT_UPDATED_EVENT.toString());
+          
+          result = query.list();
+        }
+        catch (DataAccessResourceFailureException e) {
+            log.error(e.getMessage());
+        }
+        catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        catch (HibernateException e) {
+            log.error(e.getMessage());
+        }catch(Exception e){
+        	log.error(e.getMessage());
+        }
+        finally{
+        	session.close();
+        }
+        return result;
+	}
+
 
 	
 	/*
@@ -208,8 +248,24 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 				}
 			}
 		}
+		// Update Subject
+		
+		if(entity instanceof Participant && ((Participant)entity).getVersion()>0){
+			if(String.valueOf(((Participant)entity).getVersion()).equals(participantVersion)){
+				//while saving the scheduled notifications, the interceptor is fired again
+				//to prevent an infinite loop..we check to see if the participant obj involved is the same
+				//if so exit the interceptor immediately else continue processing
+				log.error("********  NotificationInterceptor.onFlushDirty(): same hashcode - ");
+				log.error(" entity.hashCode() ="+ entity.hashCode() + "participantVersion" +participantVersion);
+				log.debug("exiting to prevent looping");
+				return false;
+			}else{
+				participantVersion = String.valueOf(((Participant)entity).getVersion());
+				activateRulesForUpdatingMasterSubject((Participant)entity);
+			}
+		}
 		log.debug(this.getClass().getName() + ": Exiting onFlushDirty()");
-		return false;
+		return super.onFlushDirty(entity, id, currentState, previousState, propertyNames, types);
 	}
 	
 	/**
@@ -514,6 +570,31 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		return studySubject.getStudySite().getCurrentAccrualCount();
 	}
 	
+	/* Called for updating master subjects only. * fires rules to all registrars on whose sites subject is registered */
+	private void activateRulesForUpdatingMasterSubject(Participant participant){
+		
+		List<Object> objects = new ArrayList<Object>();
+		objects.add(participant);
+		List <HealthcareSite> hcsList = getRegisteredSitesForSubject(participant);
+		for(HealthcareSite hcs: hcsList){
+			PlannedNotification plannedNotification = getPlannedNotificationsForUpdateMasterSubject().get(0);
+			objects.add(plannedNotification);
+			rulesDelegationService.activateRules(NotificationEventTypeEnum.MASTER_SUBJECT_UPDATED_EVENT, objects);
+			objects.remove(plannedNotification);
+			}
+	}
+	
+	public List<HealthcareSite> getRegisteredSitesForSubject(Participant participant){
+		List<HealthcareSite> registeredSites = new ArrayList<HealthcareSite>();
+		
+		for(StudySubjectDemographics studySubjectDemographics: participant.getStudySubjectDemographics()){
+			for(StudySubject registration:studySubjectDemographics.getRegistrations()){
+				registeredSites.add(registration.getStudySite().getHealthcareSite());
+			}
+		}
+		return registeredSites;
+	}
+
 	public RulesDelegationServiceImpl getRulesDelegationService() {
 		return rulesDelegationService;
 	}
