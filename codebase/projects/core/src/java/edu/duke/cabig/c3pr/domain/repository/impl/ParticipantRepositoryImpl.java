@@ -6,10 +6,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDemographicsDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 
 @Transactional
 public class ParticipantRepositoryImpl implements ParticipantRepository {
@@ -17,6 +19,20 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
 	public ParticipantDao participantDao ;
 	private C3PRExceptionHelper exceptionHelper;
 	private MessageSource c3prErrorMessages;
+
+	private StudySubjectDemographicsDao studySubjectDemographicsDao;
+	
+	public void setStudySubjectDemographicsDao(
+			StudySubjectDemographicsDao studySubjectDemographicsDao) {
+		this.studySubjectDemographicsDao = studySubjectDemographicsDao;
+	}
+	
+	private IdentifierGenerator identifierGenerator;
+	
+	public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) {
+		this.identifierGenerator = identifierGenerator;
+	}
+	
 	
 	public Participant getUniqueParticipant(List<Identifier> identifiers) {
 		List<Participant> participants = participantDao.getByIdentifiers(identifiers);
@@ -56,5 +72,25 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
 	public void setC3prErrorMessages(MessageSource errorMessages) {
 		c3prErrorMessages = errorMessages;
 	}
-    
+
+	public Participant merge(Participant participant) {
+		if(!participant.hasC3PRSystemIdentifier()){
+			participant.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(participant));
+		}
+		participant=  participantDao.merge(participant);
+		participantDao.initialize(participant);
+		return participant;
+	}
+
+	public void save(Participant participant) {
+		if(!participant.hasC3PRSystemIdentifier()){
+			participant.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(participant));
+		}
+		participantDao.save(participant);
+	}
+
+	public List<Participant> searchByIdentifier(Identifier identifier) {
+		return participantDao.searchByIdentifier(identifier, Participant.class);
+	}
+
 }
