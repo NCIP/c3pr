@@ -46,17 +46,9 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
 
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         StudyWrapper wrapper = new StudyWrapper();
-        String studyId = request.getParameter("studyId");
-        if (!StringUtils.isBlank(studyId)) {
-            Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
-            studyDao.initialize(study);
-            wrapper.setStudy(study);
-            return wrapper;
-        } else {
             Study study = createDefaultStudyWithDesign();
             wrapper.setStudy(study);
             return wrapper;
-        }
     }
 
     /**
