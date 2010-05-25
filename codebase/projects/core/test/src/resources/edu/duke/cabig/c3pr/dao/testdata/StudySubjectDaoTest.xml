@@ -167,7 +167,8 @@
     <IDENTIFIERS id="1005" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1006" version="1" value="mrn" type="MRN" dtype="OAI" retired_indicator="false" prt_id="1000"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1008" version="1" value="coperative" type="local" system_name="c3pr" dtype="SAI" prt_id="1002" retired_indicator="false"/>
-    <IDENTIFIERS id="1009" version="1" value="abc123" type="local" system_name="c3pr" dtype="SAI" stu_id="1001" retired_indicator="false"/>   
+    <IDENTIFIERS id="1009" version="1" value="abc123" type="local" system_name="c3pr" dtype="SAI" stu_id="1001" retired_indicator="false"/> 
+    <IDENTIFIERS id="1010" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" spa_id="1001"  hcs_id="1003" primary_indicator="1"/>     
       
     <CONTACT_MECHANISMS/>
 </dataset>
