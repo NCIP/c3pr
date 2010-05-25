@@ -7,4 +7,11 @@ import edu.duke.cabig.c3pr.domain.Participant;
 
 public interface ParticipantRepository {
     public Participant getUniqueParticipant(List<Identifier> identifiers);
+    
+    public void save(Participant participant);
+    
+    public Participant merge(Participant participant);
+    
+    public List<Participant> searchByIdentifier(Identifier identifier);
+    
 }
