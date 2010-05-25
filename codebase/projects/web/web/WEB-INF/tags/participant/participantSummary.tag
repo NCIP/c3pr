@@ -9,14 +9,14 @@
 	<tr>
 		<td valign="top" width="40%">
 			<table>
-				<tags:tdNameValue name="Name" value="${participant.fullName}" columnAttrName="class='labelR'"/>
-				<tags:tdNameValue name="Birth date" value="${participant.birthDateStr}" columnAttrName="class='labelR'"/>
+				<tags:tdNameValue name="Name" value="${command.participant.fullName}" columnAttrName="class='labelR'"/>
+				<tags:tdNameValue name="Birth date" value="${command.participant.birthDateStr}" columnAttrName="class='labelR'"/>
 			</table>
 		</td>
 		<td valign="top">
 			<table>
-				<tags:tdNameValue name="Primary identifier" value="${participant.primaryIdentifierValue}" columnAttrName="width='50%' class='labelR'"/>
-				<tags:tdNameValue name="Gender" value="${participant.administrativeGenderCode}" columnAttrName="class='labelR'"/>
+				<tags:tdNameValue name="Primary identifier" value="${command.participant.primaryIdentifierValue}" columnAttrName="width='50%' class='labelR'"/>
+				<tags:tdNameValue name="Gender" value="${command.participant.administrativeGenderCode}" columnAttrName="class='labelR'"/>
 			</table>
 		</td>
 	</tr>
