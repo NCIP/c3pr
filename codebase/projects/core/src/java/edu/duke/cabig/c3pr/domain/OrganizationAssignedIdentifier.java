@@ -104,6 +104,9 @@ public class OrganizationAssignedIdentifier extends Identifier implements
 		if(OrganizationIdentifierTypeEnum.STUDY_SUBJECT_IDENTIFIER.getName().equalsIgnoreCase(type)){
 			return OrganizationIdentifierTypeEnum.STUDY_SUBJECT_IDENTIFIER;
 		}
+		if(OrganizationIdentifierTypeEnum.SUBJECT_IDENTIFIER.getName().equalsIgnoreCase(type)){
+			return OrganizationIdentifierTypeEnum.SUBJECT_IDENTIFIER;
+		}
     	return null;
 	}
     
