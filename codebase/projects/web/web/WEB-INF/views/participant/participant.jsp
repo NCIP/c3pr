@@ -1,7 +1,7 @@
 <%@ include file="taglibs.jsp"%>
 <html>
 <head>
-	<title><participanttags:htmlTitle subject="${command}" /></title>
+	<title><participanttags:htmlTitle subject="${command.participant}" /></title>
 <link href="calendar-blue.css" rel="stylesheet" type="text/css" />
 <%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="ParticipantAjaxFacade" />
@@ -28,14 +28,14 @@ function clearField(field) {
   var systemIdentifierRowInserterProps = {
             add_row_division_id: "identifiersTable", 	        /* this id belongs to element where the row would be appended to */
             skeleton_row_division_id: "dummy-systemIdentifierRow",
-            initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
-            path: "systemAssignedIdentifiers"                            /* this is the path of the collection that holds the rows  */
+            initialIndex: ${fn:length(command.participant.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
+            path: "participant.systemAssignedIdentifiers"                            /* this is the path of the collection that holds the rows  */
         };
    var organizationIdentifierRowInserterProps = {
             add_row_division_id: "identifiersTable", 	        /* this id belongs to element where the row would be appended to */
             skeleton_row_division_id: "dummy-organizationIdentifierRow",
-            initialIndex: ${command.MRN!=null?fn:length(command.organizationAssignedIdentifiers):fn:length(command.organizationAssignedIdentifiers)+1},                            /* this is the initial count of the rows when the page is loaded  */
-            path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
+            initialIndex: ${command.participant.MRN!=null?fn:length(command.participant.organizationAssignedIdentifiers):fn:length(command.participant.organizationAssignedIdentifiers)+1},                            /* this is the initial count of the rows when the page is loaded  */
+            path: "participant.organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
             postProcessRowInsertion: function(object){
 				        clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 						clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
@@ -102,7 +102,7 @@ function manageIdentifierRadio(element){
 	$(element.id+"-hidden").value="true";
 }
 function handleSaveSubjectDetailsAndReturnToRegistration(){
-	$('participantId').value='${command.id}';
+	$('participantId').value='${command.participant.id}';
 	$('goToRegistration').value="true";
 	$('participantDetailsForm').submit();
 }
@@ -112,7 +112,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 <body>
 <form:form method="post" name="participantDetailsForm" id="participantDetailsForm" cssClass="standard">
 	<input type="hidden" name="goToRegistration" id="goToRegistration" value="false"/>
-	<input type="hidden" name="participantId" id="participantId" value="${command.id}"/>
+	<input type="hidden" name="participantId" id="participantId" value="${command.participant.id}"/>
 <tags:tabFields tab="${tab}" />
 
 <chrome:box title="${tab.shortTitle}">
@@ -121,25 +121,25 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 				<div class="leftpanel">
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.firstName"/></div>
-						<div class="value"><form:input path="firstName"
+						<div class="value"><form:input path="participant.firstName"
 							cssClass="required validate-notEmpty" /></div>
 					</div>
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.lastName"/></div>
-						<div class="value"><form:input path="lastName"
+						<div class="value"><form:input path="participant.lastName"
 							cssClass="required validate-notEmpty" /></div>
 					</div>
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.middleName"/></div>
-						<div class="value"><form:input path="middleName" /></div>
+						<div class="value"><form:input path="participant.middleName" /></div>
 					</div>
 					<div class="row">
 						<div class="label"><fmt:message key="c3pr.common.maidenName"/></div>
-						<div class="value"><form:input path="maidenName" /></div>
+						<div class="value"><form:input path="participant.maidenName" /></div>
 					</div>
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.gender"/></div>
-						<div class="value"><form:select path="administrativeGenderCode"
+						<div class="value"><form:select path="participant.administrativeGenderCode"
 							cssClass="required validate-notEmpty">
 							<option value="">Please Select</option>
 							<form:options items="${administrativeGenderCode}"
@@ -149,13 +149,13 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 					</div>
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.birthDate"/></div>
-						<div class="value"><form:input path="birthDate" cssClass="required validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
+						<div class="value"><form:input path="participant.birthDate" cssClass="required validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
 					</div>
 				</div>
 				<div class="rightpanel">
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.ethnicity"/></div>
-						<div class="value"><form:select path="ethnicGroupCode"
+						<div class="value"><form:select path="participant.ethnicGroupCode"
 							cssClass="required validate-notEmpty">
 							<option value="">Please Select</option>
 							<form:options items="${ethnicGroupCode}" itemLabel="desc"
@@ -167,13 +167,13 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 						<table>
 						<tr>
                             <td align="left" class="race">
-		                        <form:checkbox id="raceCodes1" path="raceCodes" value="Asian"/> Asian<br>
-								<form:checkbox id="raceCodes2" path="raceCodes" value="Black_or_African_American"/> Black or African American<br>
-                                <form:checkbox id="raceCodes3" path="raceCodes" value="White"/> White<br>
-								<form:checkbox id="raceCodes4" path="raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native<br>
-		                        <form:checkbox id="raceCodes5" path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander<br>
-		                        <form:checkbox id="raceCodes6" path="raceCodes" value="Not_Reported"/> Not Reported<br>
-	 							<form:checkbox id="raceCodes7" path="raceCodes" value="Unknown"/> Unknown
+		                        <form:checkbox id="raceCodes1" path="participant.raceCodes" value="Asian"/> Asian<br>
+								<form:checkbox id="raceCodes2" path="participant.raceCodes" value="Black_or_African_American"/> Black or African American<br>
+                                <form:checkbox id="raceCodes3" path="participant.raceCodes" value="White"/> White<br>
+								<form:checkbox id="raceCodes4" path="participant.raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native<br>
+		                        <form:checkbox id="raceCodes5" path="participant.raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander<br>
+		                        <form:checkbox id="raceCodes6" path="participant.raceCodes" value="Not_Reported"/> Not Reported<br>
+	 							<form:checkbox id="raceCodes7" path="participant.raceCodes" value="Unknown"/> Unknown
 		                    </td><td align="left" id="raceCodes" style="display:inline"/>
 		                </tr>
 						</table>
@@ -182,21 +182,21 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 				</div>
 		</chrome:division>
 		<chrome:division title="Primary Identifier">
-		<tags:errors path="primaryIdentifierValue"/>
+		<tags:errors path="participant.primaryIdentifierValue"/>
          		<div id="mrnDetails">
 					 <div class="leftpanel">
 	                	 <div class="row">
 									<c:set var="_code" value="" />
 									<c:set var="_name" value="" />
-									<c:if test="${fn:length(command.organizationAssignedIdentifiers)>0}">				
-									<c:set var="_code" value="(${command.organizationAssignedIdentifiers[0].healthcareSite.primaryIdentifier})" />
-									<c:set var="_name" value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" />
+									<c:if test="${fn:length(command.participant.organizationAssignedIdentifiers)>0}">				
+									<c:set var="_code" value="(${command.participant.organizationAssignedIdentifiers[0].healthcareSite.primaryIdentifier})" />
+									<c:set var="_name" value="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.name}" />
 									</c:if>
 			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
 			                        <div class="value">
 									<input type="hidden" id="mrnOrganization-hidden"
-										name="organizationAssignedIdentifiers[0].healthcareSite"
-										value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+										name="participant.organizationAssignedIdentifiers[0].healthcareSite"
+										value="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}" />
 									<input id="mrnOrganization-input" size="32" type="text"
 									name="xyz"
 									value='<c:out value="${_name} ${_code}" />'
@@ -208,9 +208,9 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 	                    </div>
 						<div class="row">
 			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
-			                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
+			                        <div class="value"><input type="text" name="participant.organizationAssignedIdentifiers[0].value" 
 									size="30" maxlength="33"
-									value="${command.organizationAssignedIdentifiers[0].value}" class="required validate-notEmpty&&HTML_SPECIAL_CHARS" />
+									value="${command.participant.organizationAssignedIdentifiers[0].value}" class="required validate-notEmpty&&HTML_SPECIAL_CHARS" />
 									<tags:hoverHint keyProp="subject.MRN.value"/>
 									<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" 
 										id="organizationAssignedIdentifiers[0].primaryIndicator"value="true"/></div>
@@ -222,7 +222,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 								<div class="label"><fmt:message key="c3pr.common.identifierType"/></div>
 								<div class="value">
 								<form:select
-									path="organizationAssignedIdentifiers[0].type" cssClass="required validate-notEmpty"> 
+									path="participant.organizationAssignedIdentifiers[0].type" cssClass="required validate-notEmpty"> 
 									<form:options items="${identifiersTypeRefData}" itemLabel="desc" itemValue="code" />
 								</form:select>
 								</div>
@@ -232,11 +232,11 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 		</chrome:division>
 		
 		<chrome:division title="Additional Identifiers">
-		<tags:errors path="organizationAssignedIdentifiers"/>
-		<tags:errors path="systemAssignedIdentifiers"/>
+		<tags:errors path="participant.organizationAssignedIdentifiers"/>
+		<tags:errors path="participant.systemAssignedIdentifiers"/>
 			<table id="identifiersTable" border="0"
 					cellspacing="0" cellpadding="0" class="tablecontent">
-				<tr id="hOrganizationAssignedIdentifier" <c:if test="${fn:length(command.organizationAssignedIdentifiers) < 2}">style="display:none;"</c:if>>
+				<tr id="hOrganizationAssignedIdentifier" <c:if test="${fn:length(command.participant.identifiers) < 2}">style="display:none;"</c:if>>
 					<th><fmt:message key="c3pr.common.class"/><tags:hoverHint keyProp="study.identifier.type"/></th>
 					<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.assigningAuthority"/></span><tags:hoverHint keyProp="identifier.organization"/></th>
 						<th><span class=""><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/>
@@ -245,19 +245,19 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 						<th><fmt:message key="c3pr.common.primaryIndicator"/><tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
 						<th ></th>
 				</tr>
-					<c:forEach items="${command.organizationAssignedIdentifiers}" begin="1"
+					<c:forEach items="${command.participant.organizationAssignedIdentifiers}" begin="1"
 						varStatus="organizationStatus" var="orgId">
 						<tr
 							id="identifiersTable-${organizationStatus.index}">
 							<c:set var="_code" value="" />
 							<c:set var="_name" value="" />
-							<c:set var="_code" value="(${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.primaryIdentifier})" />
-							<c:set var="_name" value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
+							<c:set var="_code" value="(${command.participant.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.primaryIdentifier})" />
+							<c:set var="_name" value="${command.participant.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
 							<td><fmt:message key="c3pr.common.organization" /></td>
 							<td class="alt"><input type="hidden"
 								id="healthcareSite${organizationStatus.index}-hidden"
-								name="organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
-								value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.id}" />
+								name="participant.organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
+								value="${command.participant.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.id}" />
 							<input class="autocomplete validate-notEmpty" type="text"
 								id="healthcareSite${organizationStatus.index}-input" size="44"
 								value='<c:out value="${_name} ${_code}" />'/>
@@ -267,17 +267,17 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 								class="autocomplete"  style="display: none;"></div>
 							</td>
 							<td class="alt"><form:select
-								path="organizationAssignedIdentifiers[${organizationStatus.index}].type"
+								path="participant.organizationAssignedIdentifiers[${organizationStatus.index}].type"
 								cssClass="required validate-notEmpty">
 								<option value="">Please Select</option>
 								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 									itemValue="code" />
 							</form:select></td>
 							<td class="alt"><form:input
-								path="organizationAssignedIdentifiers[${organizationStatus.index}].value"
+								path="participant.organizationAssignedIdentifiers[${organizationStatus.index}].value"
 								cssClass="required validate-notEmpty" /></td>
 							<td>
-								<form:hidden path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" id="identifier-org-${organizationStatus.index}-hidden"/>
+								<form:hidden path="participant.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" id="identifier-org-${organizationStatus.index}-hidden"/>
 								<input type="radio" class="identifierRadios" id="identifier-org-${organizationStatus.index}" onclick="manageIdentifierRadio(this);"
 								<c:if test="${orgId.primaryIndicator}"> checked </c:if>/>
 							</td>
@@ -286,32 +286,49 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 						</tr>
 					</c:forEach>
-					<c:forEach items="${command.systemAssignedIdentifiers}"
+					<c:forEach items="${command.participant.systemAssignedIdentifiers}"
 						varStatus="status" var="sysId">
-						<tr id="systemIdentifiersTable-${status.index}">
-							<td><fmt:message key="c3pr.common.system" /></td>
-							<td class="alt"><form:input
-								path="systemAssignedIdentifiers[${status.index}].systemName"
-								cssClass="required validate-notEmpty" /></td>
-							<td class="alt"><form:select
-								path="systemAssignedIdentifiers[${status.index}].type"
-								cssClass="required validate-notEmpty">
-								<option value="">Please Select</option>
-								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
-									itemValue="code" />
-							</form:select></td>
-							<td class="alt"><form:input
-								path="systemAssignedIdentifiers[${status.index}].value"
-								cssClass="required validate-notEmpty" /></td>
-							<td>
-								<form:hidden path="systemAssignedIdentifiers[${status.index}].primaryIndicator" id="identifier-sys-${status.index}-hidden"/>
-								<input type="radio" class="identifierRadios" id="identifier-sys-${status.index}" onclick="manageIdentifierRadio(this);"
-								<c:if test="${sysId.primaryIndicator}"> checked </c:if>/>
-							</td>
-							<td class="alt"><a
-								href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},'${sysId.id==null?'HC#':'ID#'}${sysId.id==null?sysId.hashCode:sysId.id}');"><img
-								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-						</tr>
+						<c:choose>
+							<c:when test="${sysId.systemName == 'C3PR' && sysId.type == 'SUBJECT_IDENTIFIER'}">
+								<tr id="systemIdentifiersTable-${status.index}">
+									<td><fmt:message key="c3pr.common.system" /></td>
+									<td class="value">${sysId.systemName}</td>
+									<td class="value">${sysId.type}</td>
+									<td class="value">${sysId.value}</td>
+									<td>
+										<form:hidden path="participant.systemAssignedIdentifiers[${status.index}].primaryIndicator" id="identifier-sys-${status.index}-hidden"/>
+										<input type="radio" class="identifierRadios" id="identifier-sys-${status.index}" onclick="manageIdentifierRadio(this);"
+										<c:if test="${sysId.primaryIndicator}"> checked </c:if>/>
+									</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<tr id="systemIdentifiersTable-${status.index}">
+									<td><fmt:message key="c3pr.common.system" /></td>
+									<td class="alt"><form:input
+										path="participant.systemAssignedIdentifiers[${status.index}].systemName"
+										cssClass="required validate-notEmpty" /></td>
+									<td class="alt"><form:select
+										path="participant.systemAssignedIdentifiers[${status.index}].type"
+										cssClass="required validate-notEmpty">
+										<option value="">Please Select</option>
+										<form:options items="${identifiersTypeRefData}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>
+									<td class="alt"><form:input
+										path="participant.systemAssignedIdentifiers[${status.index}].value"
+										cssClass="required validate-notEmpty" /></td>
+									<td>
+										<form:hidden path="participant.systemAssignedIdentifiers[${status.index}].primaryIndicator" id="identifier-sys-${status.index}-hidden"/>
+										<input type="radio" class="identifierRadios" id="identifier-sys-${status.index}" onclick="manageIdentifierRadio(this);"
+										<c:if test="${sysId.primaryIndicator}"> checked </c:if>/>
+									</td>
+									<td class="alt"><a
+										href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},'${sysId.id==null?'HC#':'ID#'}${sysId.id==null?sysId.hashCode:sysId.id}');"><img
+										src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</table>
 				<br>
@@ -348,11 +365,11 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 		<td>System</td>
 		<td class="alt"><input
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text"
+			name="participant.systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text"
 			class="required validate-notEmpty" /></td>
 		<td class="alt"><select
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			name="participant.systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
@@ -361,12 +378,12 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 		</select></td>
 		<td class="alt"><input
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
+			name="participant.systemAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
 			onfocus="javascript:clearField(this)" class="required validate-notEmpty" /></td>
 		<td>
-			<input type="hidden" name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-hidden"/>
+			<input type="hidden" name="participant.systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-hidden"/>
 			<input type="radio" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
-			name="systemAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
+			name="participant.systemAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
 		</td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
@@ -382,10 +399,10 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 		<td>Organization</td>
 		<td class="alt"><input type="hidden"
 			id="healthcareSitePAGE.ROW.INDEX-hidden"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
+			name="participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
 		<input class="autocomplete validate-notEmpty" type="text"
 			id="healthcareSitePAGE.ROW.INDEX-input" size="44"
-			value="${command.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
+			value="${command.participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
 		 <tags:indicator
 			id="healthcareSitePAGE.ROW.INDEX-indicator" />
 		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"  style="display: none;"></div>
@@ -393,7 +410,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 
 		<td class="alt"><select
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			name="participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
@@ -402,12 +419,12 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 		</select></td>
 		<td class="alt"><input
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
+			name="participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
 			onfocus="javascript:clearField(this)" class="required validate-notEmpty" /></td>
 		<td>
 			<input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
-			name="organizationAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
-			<input type="hidden" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" 
+			name="participant.organizationAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
+			<input type="hidden" name="participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" 
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-hidden"/>
 		</td>
 		<td class="alt"><a
