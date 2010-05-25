@@ -20,6 +20,7 @@ public enum OrganizationIdentifierTypeEnum implements CodedEnum<String> {
 	SITE_IRB_IDENTIFIER("Site IRB Identifier"),
 	SITE_IDENTIFIER("Site Identifier"),
 	STUDY_SUBJECT_IDENTIFIER("Study Subject Identifier"),
+	SUBJECT_IDENTIFIER("Subject Identifier"),
 	GRID_IDENTIFIER("Grid Identifier");
 
     private String code;
