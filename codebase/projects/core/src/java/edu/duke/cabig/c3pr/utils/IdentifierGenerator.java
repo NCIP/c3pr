@@ -50,7 +50,7 @@ public class IdentifierGenerator {
 	public SystemAssignedIdentifier generateSystemAssignedIdentifier(Participant participant){
 		SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
 		sysIdentifier.setSystemName("C3PR");
-		sysIdentifier.setType("Participant Identifier");
+		sysIdentifier.setType("Subject Identifier");
 		sysIdentifier.setValue(UUID.randomUUID().toString());
 		return sysIdentifier;
 	}
