@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -35,6 +36,7 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -43,7 +45,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * 
  */
 
-public class CreateParticipantController<C extends Participant> extends
+public class CreateParticipantController<C extends ParticipantWrapper> extends
                 AutomaticSaveAjaxableFormController<C, Participant, ParticipantDao> {
 
     protected static final Log log = LogFactory.getLog(CreateParticipantController.class);
@@ -58,9 +60,15 @@ public class CreateParticipantController<C extends Participant> extends
     
     private ParticipantValidator participantValidator;
     
+    private ParticipantRepository participantRepository;
+    
     public IdentifierGenerator identifierGenerator ;
     
-    public ParticipantValidator getParticipantValidator() {
+    public void setParticipantRepository(ParticipantRepository participantRepository) {
+		this.participantRepository = participantRepository;
+	}
+
+	public ParticipantValidator getParticipantValidator() {
 		return participantValidator;
 	}
 
@@ -71,7 +79,7 @@ public class CreateParticipantController<C extends Participant> extends
 	private Configuration configuration;
 
     public CreateParticipantController() {
-        setCommandClass(Participant.class);
+        setCommandClass(ParticipantWrapper.class);
         Flow<C> flow = new Flow<C>("Create Subject");
         layoutTabs(flow);
         setFlow(flow);
@@ -84,8 +92,16 @@ public class CreateParticipantController<C extends Participant> extends
     }
 
     @Override
-    protected Participant getPrimaryDomainObject(C command) {
-        return command;
+    protected Participant getPrimaryDomainObject(ParticipantWrapper command) {
+        return ((ParticipantWrapper) command).getParticipant();
+    }
+    
+    @Override
+    protected Object formBackingObject(HttpServletRequest request)
+    		throws Exception {
+    	ParticipantWrapper participantWrapper = new ParticipantWrapper();
+    	participantWrapper.setParticipant(new Participant());
+    	return participantWrapper;
     }
     
     @Override
@@ -127,7 +143,8 @@ public class CreateParticipantController<C extends Participant> extends
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object oCommand, BindException errors) throws Exception {
     	
-        Participant participant = (Participant) oCommand;
+        ParticipantWrapper participantWrapper = (ParticipantWrapper) oCommand;
+        Participant participant = participantWrapper.getParticipant();
         
         if (request.getParameter("async") != null) {
         	 OrganizationAssignedIdentifier mrn = participant.getMRN();
@@ -232,10 +249,11 @@ public class CreateParticipantController<C extends Participant> extends
     
     @Override
     protected C save(C command, Errors errors) {
-    	Participant participant = (Participant)command;
-        command = (C)participantDao.merge(participant);
-        participantDao.initialize(command);
-        return command;
+    	ParticipantWrapper participantWrapper = (ParticipantWrapper)command;
+        Participant participant = participantRepository.merge(participantWrapper.getParticipant());
+        participantDao.initialize(participant);
+        participantWrapper.setParticipant(participant);
+        return (C)participantWrapper;
     }
 
 	public IdentifierGenerator getIdentifierGenerator() {

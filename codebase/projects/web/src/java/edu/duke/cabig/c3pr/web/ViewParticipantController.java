@@ -34,6 +34,7 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.web.participant.ParticipantRegistrationsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantSummaryTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
@@ -41,8 +42,8 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
  * @author Ramakrishna
  * 
  */
-public class ViewParticipantController<C extends Participant> extends
-                AutomaticSaveFlowFormController<C, Participant, ParticipantDao> {
+public class ViewParticipantController<C extends ParticipantWrapper> extends
+                AutomaticSaveFlowFormController<ParticipantWrapper, Participant, ParticipantDao> {
 
     private static Log log = LogFactory.getLog(ViewParticipantController.class);
 
@@ -56,8 +57,8 @@ public class ViewParticipantController<C extends Participant> extends
     protected ConfigurationProperty configurationProperty;
 
     public ViewParticipantController() {
-        setCommandClass(Participant.class);
-        Flow<C> flow = new Flow<C>("View Subject");
+        setCommandClass(ParticipantWrapper.class);
+        Flow<ParticipantWrapper> flow = new Flow<ParticipantWrapper>("View Subject");
         layoutTabs(flow);
         setFlow(flow);
         setBindOnNewForm(true);
@@ -74,12 +75,12 @@ public class ViewParticipantController<C extends Participant> extends
     }
     
     @Override
-    protected Participant getPrimaryDomainObject(C command) {
-        return command;
+    protected Participant getPrimaryDomainObject(ParticipantWrapper command) {
+        return command.getParticipant();
     }
 
     @Override
-    protected boolean shouldSave(HttpServletRequest request, C command, gov.nih.nci.cabig.ctms.web.tabs.Tab<C> tab) {
+    protected boolean shouldSave(HttpServletRequest request, ParticipantWrapper command, gov.nih.nci.cabig.ctms.web.tabs.Tab<ParticipantWrapper> tab) {
     	return false;
     }
 
@@ -99,9 +100,9 @@ public class ViewParticipantController<C extends Participant> extends
      */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
+    	ParticipantWrapper participantWrapper = new ParticipantWrapper();
         Participant participant = null;
         List<Participant> participants = new ArrayList<Participant>();
-        
         
         if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
         	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
@@ -175,9 +176,11 @@ public class ViewParticipantController<C extends Participant> extends
         }
         if(participant!=null){
             participantDao.initialize(participant);
-            return participant;
+        } else{
+        	participant = new Participant();
         }
-        return new Participant();
+        participantWrapper.setParticipant(participant);
+        return participantWrapper;
     }
     
 
@@ -221,17 +224,6 @@ public class ViewParticipantController<C extends Participant> extends
         binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor(
                 OrganizationIdentifierTypeEnum.class));
     }
-
-//    @Override
-//    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
-//                    throws Exception {
-//        if (sessionFormObject != null) {
-//            Participant participant = (Participant) sessionFormObject;
-//            getDao().reassociate((Participant) sessionFormObject);
-//        }
-//
-//        return sessionFormObject;
-//    }
 
     @Override
     protected Map referenceData(HttpServletRequest request, int page) throws Exception {

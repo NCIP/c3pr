@@ -31,13 +31,14 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
  * @author Ramakrishna
  * 
  */
-public class EditParticipantController<C extends Participant> extends
+public class EditParticipantController<C extends ParticipantWrapper> extends
                 AutomaticSaveAjaxableFormController<C, Participant, ParticipantDao> {
 
     private static Log log = LogFactory.getLog(EditParticipantController.class);
@@ -51,7 +52,7 @@ public class EditParticipantController<C extends Participant> extends
     public ParticipantRepository participantRepository ;
 
     public EditParticipantController() {
-        setCommandClass(Participant.class);
+        setCommandClass(ParticipantWrapper.class);
         Flow<C> flow = new Flow<C>("Edit Subject");
         layoutTabs(flow);
         setFlow(flow);
@@ -70,7 +71,7 @@ public class EditParticipantController<C extends Participant> extends
 
     @Override
     protected Participant getPrimaryDomainObject(C command) {
-        return command;
+        return ((ParticipantWrapper)command).getParticipant();
     }
 
     /**
@@ -89,6 +90,7 @@ public class EditParticipantController<C extends Participant> extends
      */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
+    	ParticipantWrapper participantWrapper = new ParticipantWrapper() ;
         Participant participant = null;
 
         if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
@@ -101,8 +103,8 @@ public class EditParticipantController<C extends Participant> extends
         }else{
         	participant =  new Participant();
         }
-
-        return participant;
+        participantWrapper.setParticipant(participant);
+        return participantWrapper;
     }
 
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
@@ -118,21 +120,23 @@ public class EditParticipantController<C extends Participant> extends
     @Override
     protected Object currentFormObject(HttpServletRequest request,
     		Object oCommand) throws Exception {
-    	 Participant participant = null;
-
-         if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
-         	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
-         	List<Identifier> identifiers=new ArrayList<Identifier>();
-         	identifiers.add(identifier);
-         	participant=participantRepository.getUniqueParticipant(identifiers);
-             participantDao.initialize(participant);
-             log.debug(" Participant's ID is:" + participant.getId());
-         }else{
-         	participant =  new Participant();
+    		ParticipantWrapper participantWrapper = (ParticipantWrapper)oCommand;
+	         if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
+	         	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
+	         	List<Identifier> identifiers=new ArrayList<Identifier>();
+	         	identifiers.add(identifier);
+	         	Participant participant=participantRepository.getUniqueParticipant(identifiers);
+	         	if(participant != participantWrapper.getParticipant()){
+	         		// the participant in command is cached in session and not corresponding to identifier. So returning a participant
+	         		// from db based on the identifier
+		             participantDao.initialize(participant);
+		             log.debug(" Participant's ID is:" + participant.getId());
+		             participantWrapper.setParticipant(participant);
+		             return participantWrapper;
+	         	}
+	         }
+	         return super.currentFormObject(request, oCommand);
          }
-
-         return participant;
-    }
     
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request,
@@ -148,7 +152,8 @@ public class EditParticipantController<C extends Participant> extends
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object oCommand, BindException errors) throws Exception {
-        Participant participant = (Participant) oCommand;
+    	ParticipantWrapper participantWrapper = (ParticipantWrapper) oCommand;
+        Participant participant = participantWrapper.getParticipant();
         participantDao.merge(participant);
         if(request.getParameter("goToRegistration")!=null && request.getParameter("goToRegistration").equals("true")){
     		ModelAndView modelAndView = new ModelAndView("redirect:../../registration/createRegistration?fromEditParticipant=true&participantId=" + request.getParameter("participantId"));
@@ -184,8 +189,11 @@ public class EditParticipantController<C extends Participant> extends
     
     @Override
     protected C save(C command, Errors errors) {
-        command = (C)participantDao.merge((Participant)command);
-        return command;
+    	ParticipantWrapper participantWrapper = (ParticipantWrapper)command;
+    	Participant participant = participantWrapper.getParticipant();
+        participant = participantDao.merge(participant);
+        participantDao.initialize(participant);
+        return (C)participantWrapper;
     }
 
 	public ParticipantRepository getParticipantRepository() {

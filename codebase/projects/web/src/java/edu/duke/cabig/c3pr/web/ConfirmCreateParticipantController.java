@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
 
 public class ConfirmCreateParticipantController extends ParameterizableViewController {
 	
@@ -31,6 +32,7 @@ public class ConfirmCreateParticipantController extends ParameterizableViewContr
     public ModelAndView handleRequestInternal(HttpServletRequest request,
                     HttpServletResponse response) throws Exception {
     	Map map = new HashMap();
+    	ParticipantWrapper participantWrapper = new ParticipantWrapper();
     	Participant participant = null ;
     	
     	if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
@@ -42,7 +44,8 @@ public class ConfirmCreateParticipantController extends ParameterizableViewContr
         }else{
         	participant =  new Participant();
         }
-        map.put("command", participant);
+    	participantWrapper.setParticipant(participant);
+        map.put("command", participantWrapper);
     	setViewName("participant/create_participant_confirmation");
         ModelAndView mav = new ModelAndView("participant/create_participant_confirmation", map);
 
