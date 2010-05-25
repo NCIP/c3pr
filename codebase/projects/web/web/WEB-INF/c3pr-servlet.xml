@@ -294,7 +294,7 @@
           class="edu.duke.cabig.c3pr.web.CreateParticipantController"
           autowire="byName">
         <property name="commandClass"
-                  value="edu.duke.cabig.c3pr.domain.Participant"/>
+                  value="edu.duke.cabig.c3pr.web.participant.ParticipantWrapper"/>
         <property name="bindOnNewForm"
                   value="true"/>
         <!-- Set the pages in Controller -->
@@ -315,7 +315,7 @@
           class="edu.duke.cabig.c3pr.web.EditParticipantController"
           autowire="byName">
         <property name="commandClass"
-                  value="edu.duke.cabig.c3pr.domain.Participant"/>
+                  value="edu.duke.cabig.c3pr.web.participant.ParticipantWrapper"/>
         <property name="commandName" value="command"/>
     </bean>
     <bean name="/personAndOrganization/participant/viewParticipant"
@@ -323,7 +323,7 @@
           class="edu.duke.cabig.c3pr.web.ViewParticipantController"
           autowire="byName">
         <property name="commandClass"
-                  value="edu.duke.cabig.c3pr.domain.Participant"/>
+                  value="edu.duke.cabig.c3pr.web.participant.ParticipantWrapper"/>
         <property name="commandName" value="command"/>
     </bean>
     <bean name="/personAndOrganization/participant/confirmCreateParticipant" id="confirmCreateParticipantController" autowire="byName"
