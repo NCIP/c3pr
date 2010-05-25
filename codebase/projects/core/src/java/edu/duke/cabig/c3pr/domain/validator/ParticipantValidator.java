@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain.validator;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -13,23 +14,40 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDemographicsDao;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 
 public class ParticipantValidator implements Validator {
 
     private ParticipantDao participantDao;
+    
+    private StudySubjectDemographicsDao studySubjectDemographicsDao;
 
     private MessageSource c3prErrorMessages;
     
-    private Logger log = Logger.getLogger(ParticipantValidator.class);
+    public void setStudySubjectDemographicsDao(
+			StudySubjectDemographicsDao studySubjectDemographicsDao) {
+		this.studySubjectDemographicsDao = studySubjectDemographicsDao;
+	}
+
+	private Logger log = Logger.getLogger(ParticipantValidator.class);
+    
+    private ParticipantRepository participantRepository;
 
     public boolean supports(Class clazz) {
         return Participant.class.equals(clazz);
     }
 
-    public void validate(Object arg0, Errors errors) {
+    public void setParticipantRepository(ParticipantRepository participantRepository) {
+		this.participantRepository = participantRepository;
+	}
+
+	public void validate(Object arg0, Errors errors) {
         validateParticipantDetails(arg0, errors);
         validateParticipantAddress(arg0, errors);
     }
@@ -50,35 +68,56 @@ public class ParticipantValidator implements Validator {
         ValidationUtils.rejectIfEmpty(errors, "address.countryCode", "required", "required field");
 
     }
-
-    public void validateParticipantMRN(Object target, Errors errors) {
-
-        Participant participant = (Participant) target;
-        OrganizationAssignedIdentifier mrn = participant.getMRN();
-
-        if ((mrn != null) && (mrn.getHealthcareSite() != null)) {
-            List<OrganizationAssignedIdentifier> participantsWithMRN = participantDao
-                            .getSubjectIdentifiersWithMRN(mrn.getValue(), mrn.getHealthcareSite());
-            if (participantsWithMRN.size() > 0) {
-                if ((participant.getId() == null) || (participantsWithMRN.size() > 1)) {
-                    errors
-                                    .rejectValue("primaryIdentifierValue", new Integer(
-                                            getCode("C3PR.SUBJECT.DUPLICATE.MRN.ERROR"))
-                                    .toString(),
-                    getMessageFromCode(
-                                    getCode("C3PR.SUBJECT.DUPLICATE.MRN.ERROR"),
-                                    null, null));
-                }
-            }
-        }
-
-    }
-    
     
     public void validateIdentifiers(Object target, Errors errors) {
         Participant participant = (Participant) target;
         List<OrganizationAssignedIdentifier> allOrganizationAssigedIdentitiers = participant
                         .getOrganizationAssignedIdentifiers();
+        
+        List<Identifier> commonIdentifiers = new ArrayList<Identifier>();
+        for(Identifier identifier: participant.getIdentifiers()){
+        	List<Participant> existingParticipants = new ArrayList<Participant>();
+        	existingParticipants = participantDao.searchByIdentifier(identifier,Participant.class);
+        	
+        	List<StudySubjectDemographics> existingSubjectSnapShots = new ArrayList<StudySubjectDemographics>();
+        	existingSubjectSnapShots = studySubjectDemographicsDao.searchByIdentifier(identifier,StudySubjectDemographics.class);
+        	
+        	// there cannot be more than 1 subject with the same identifier
+        	if(existingParticipants.size() > 1){
+        		commonIdentifiers.add(identifier);
+        		break;
+        	}
+        	
+        	if(existingParticipants.size() > 0 || existingSubjectSnapShots.size() > 0){
+        		// when subject is first time created, there cannot be another subject or subject snapshot with same identifiers.
+	        	if(participant.getId() == null){
+	        		commonIdentifiers.add(identifier);
+	        		break;
+	        		
+	        		// when a subject already exists with same identifier, the existing subject should be same as current subject 
+	        		// otherwise throw error
+	        	}else if((existingParticipants.size()== 1) && (existingParticipants.get(0).getId() != participant.getId())){
+	        		commonIdentifiers.add(identifier);
+	        		break;
+	        	} else {
+	        		for(StudySubjectDemographics snapshot: existingSubjectSnapShots){
+	        			if (snapshot.getMasterSubject().getId() != participant.getId()){
+	        				commonIdentifiers.add(identifier);
+	                		break;
+	        			}
+	        		}
+	        	}
+        	}
+        }
+        
+        
+        
+        
+        for(Identifier identifier: commonIdentifiers){
+        		 errors.reject("tempProperty", getMessageFromCode( getCode("C3PR.COMMON.DUPLICATE.IDENTIFIER.ERROR"),
+ 	                    new Object[]{identifier.getValue(), "Subject"},null));
+        	}
+        
         try {
             for (int orgIdentifierIndex = 0; orgIdentifierIndex < allOrganizationAssigedIdentitiers
                             .size(); orgIdentifierIndex++) {
