@@ -1311,5 +1311,38 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	 assertNotNull("Study subject demographics not saved", savedStudySubjectDemographics.getId());
     	 
      }
+     
+     public void testSearchByIdentifiers1() throws Exception{
+    	OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+    	HealthcareSite hcs = healthcareSiteDao.getById(1003);
+    	orgIdentifier.setHealthcareSite(hcs);
+    	orgIdentifier.setType(OrganizationIdentifierTypeEnum.CTEP);
+    	orgIdentifier.setValue("");
+    	
+    	List<StudySubject> registrations = studySubjectDao.searchByIdentifier(orgIdentifier, StudySubject.class);
+    	assertEquals("Wrong number of registrations ",0, registrations.size());
+    	 
+    	 orgIdentifier.setValue("code");
+    	 
+    	 List<StudySubject> registrationsNew = studySubjectDao.searchByIdentifier(orgIdentifier, StudySubject.class);
+    	 assertEquals("Wrong number of registrations ",1, registrationsNew.size());
+    	 
+     }
+     
+     public void testSearchByIdentifiers2() throws Exception{
+     	SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+     	sysIdentifier.setSystemName("nci1");
+     	sysIdentifier.setType("local");
+     	sysIdentifier.setValue("nci");
+     	
+     	List<StudySubject> registrations = studySubjectDao.searchByIdentifier(sysIdentifier, StudySubject.class);
+     	assertEquals("Wrong number of registrations ",0, registrations.size());
+     	 
+     	sysIdentifier.setSystemName("nci");
+     	 
+     	 List<StudySubject> registrationsNew = studySubjectDao.searchByIdentifier(sysIdentifier,StudySubject.class);
+     	 assertEquals("Wrong number of registrations ",1, registrationsNew.size());
+     	 
+      }
 
 }
