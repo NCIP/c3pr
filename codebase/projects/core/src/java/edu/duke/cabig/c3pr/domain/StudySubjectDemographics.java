@@ -36,7 +36,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @Table(name = "stu_sub_demographics")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "stu_sub_demographics_id_seq") })
-public class StudySubjectDemographics extends AbstractMutableDeletableDomainObject implements Customizable{
+public class StudySubjectDemographics extends AbstractMutableDeletableDomainObject implements Customizable,IdentifiableObject{
 	
 	 private String firstName;
 
