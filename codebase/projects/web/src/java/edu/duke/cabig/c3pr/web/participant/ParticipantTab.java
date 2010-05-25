@@ -6,11 +6,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.WorkFlowTab;
 
-public abstract class ParticipantTab extends WorkFlowTab<Participant> {
+public abstract class ParticipantTab extends WorkFlowTab<ParticipantWrapper> {
     protected ConfigurationProperty configurationProperty;
 
     protected HealthcareSiteDao healthcareSiteDao;

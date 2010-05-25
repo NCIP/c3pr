@@ -23,7 +23,7 @@ public class ParticipantDetailsTab extends ParticipantTab {
     
     @SuppressWarnings("unchecked")
 	@Override
-	public Map<String, Object> referenceData(HttpServletRequest request, Participant command) {
+	public Map<String, Object> referenceData(HttpServletRequest request, ParticipantWrapper command) {
 		
 		if(request.getParameter("fromCreateRegistration")!=null && request.getParameter("fromCreateRegistration").equals("true")){
 			request.getSession().setAttribute("fromCreateRegistration", true);
@@ -53,10 +53,9 @@ public class ParticipantDetailsTab extends ParticipantTab {
 	}
 
     @Override
-    public void validate(Participant participant, Errors errors) {
-        super.validate(participant, errors);
-        participantValidator.validateParticipantMRN(participant, errors);
-        participantValidator.validateIdentifiers(participant, errors);
+    public void validate(ParticipantWrapper participantWrapper, Errors errors) {
+        super.validate(participantWrapper, errors);
+        participantValidator.validateIdentifiers(participantWrapper.getParticipant(), errors);
     }
 
     public ParticipantValidator getParticipantValidator() {
