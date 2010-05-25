@@ -1,8 +1,13 @@
 package edu.duke.cabig.c3pr.dao;
 
+import edu.duke.cabig.c3pr.domain.IdentifiableObject;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import gov.nih.nci.cabig.ctms.dao.AbstractDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -221,5 +226,37 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 		}
 		query.append(')');
 	}
+	
 
+	@SuppressWarnings({ "unchecked", "hiding" })
+	public <T extends IdentifiableObject> List<T> searchByIdentifier(Identifier identifier, Class<T> clazz) {
+        List<T> li = new ArrayList<T>();
+        if (identifier instanceof OrganizationAssignedIdentifier) {
+        	OrganizationAssignedIdentifier organizationAssignedIdentifier = (OrganizationAssignedIdentifier) identifier;
+        	if (organizationAssignedIdentifier.getType() != null && organizationAssignedIdentifier.getHealthcareSite() != null
+                    && organizationAssignedIdentifier.getValue() != null) {
+        	  if (organizationAssignedIdentifier.getType() != null && organizationAssignedIdentifier.getHealthcareSite() != null
+                                && organizationAssignedIdentifier.getValue() != null)
+				li =  getHibernateTemplate()
+						.find(
+								"select O from "+clazz.getName()+" O, OrganizationAssignedIdentifier I where I.healthcareSite=? and "
+										+ "I.value=? and I.typeInternal=? and I=any elements(O.identifiers)",
+								new Object[] {organizationAssignedIdentifier.getHealthcareSite(),organizationAssignedIdentifier.getValue(),organizationAssignedIdentifier.getTypeInternal() });
+        		}
+			}  else if (identifier instanceof SystemAssignedIdentifier) {
+                SystemAssignedIdentifier id = (SystemAssignedIdentifier) identifier;
+
+                if (id.getType() != null && id.getSystemName() != null
+                                && id.getValue() != null) {
+                        li = getHibernateTemplate()
+                                        .find(
+                                                        "select O from "+clazz.getName()+" O, SystemAssignedIdentifier I where I.systemName=?"
+                                                                        + " and I.value=? and I.typeInternal=? and I=any elements(O.identifiers)",
+                                                        new Object[] { id.getSystemName(),
+                                                                        id.getValue(), id.getType() });
+
+                }
+        }
+        return  (List<T>) li;
+	}
 }
