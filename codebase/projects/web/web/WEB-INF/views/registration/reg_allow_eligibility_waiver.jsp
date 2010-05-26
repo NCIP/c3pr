@@ -13,7 +13,7 @@
 <input type="hidden" name="_target${tab.number}" id="_target"/>
 <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
 <input type="hidden" name="allowWaiver" value="true"/>
-<chrome:box title="Allow Eligibiity Waiver">
+<chrome:box title="Allow Eligibility Waiver">
 <table width="100%" border="0" class="tablecontent">
 	<tr>
 		<th align="left"><b><fmt:message key="study.criterion"/></b></th>
