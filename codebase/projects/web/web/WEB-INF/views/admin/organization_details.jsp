@@ -17,25 +17,6 @@ div.row div.label {
 }
 </style>
 <script>
-    ValidationManager.submitPostProcess=function(formElement, flag){
-    	if(!flag) return false;
-    	if(formElement.id=='command'){
-    		complete=true;
-    		if($('advance').checked){
-    			if($('studyServiceURL').value==''){
-    				ValidationManager.removeError($('studyServiceURL'));
-    				ValidationManager.showError($('studyServiceURL'),'required');
-    				complete=false;
-    			}else if($('registrationServiceURL').value==''){
-    				ValidationManager.removeError($('registrationServiceURL'));
-    				ValidationManager.showError($('registrationServiceURL'),'required');
-    				complete=false;
-    			}
-    		}
-    		return complete;
-    	}
-    	return flag;
-    }
 		function displayRemoteOrgs(){
 			var contentWin = new Window({className:"alphacube", destroyOnClose:true, id:"remoteorg-popup-id", width:550,  height:200, top: 30, left: 300});
 			contentWin.setContent( 'display_remote_org' );
@@ -96,7 +77,6 @@ div.row div.label {
 <form:form name="createOrganization">
 	<chrome:box title="Organization" htmlContent="${imageStr }">
 		<chrome:flashMessage />
-		<tags:tabFields tab="${tab}" />
 
 		<input type="hidden" name="_finish" value="true">
 		<input type="hidden" name="type1" value="">
@@ -119,7 +99,7 @@ div.row div.label {
 				</c:when>
 				<c:otherwise>
 					<div class="value"><form:input size="40" path="name"
-						cssClass="validate-maxlength200" /><tags:hoverHint
+						cssClass="required validate-notEmpty&&maxlength200" /><tags:hoverHint
 						keyProp="organization.name" /></div>
 				</c:otherwise>
 			</c:choose>
@@ -177,7 +157,7 @@ div.row div.label {
 			</c:if>
 		</chrome:division>
 		<br/>
-		<chrome:division id="multisite-config" title="Multisite Configuration"
+		<%--<chrome:division id="multisite-config" title="Multisite Configuration"
 			minimize="true" divIdToBeMinimized="multisiteConfig">
 			<div id="multisiteConfig" style="display: none">
 			<div class="row">
@@ -212,7 +192,7 @@ div.row div.label {
 			</div>
 			</div>
 		</chrome:division>
-		<br/>
+		<br/> --%>
 		<chrome:division id="address" title="Address">
 				<div class="row">
 					<div class="label"><fmt:message key="c3pr.common.streetAddress" /></div>
@@ -329,10 +309,10 @@ div.row div.label {
 
 	</chrome:box>
 </form:form> 
-<tags:tabControls tab="${tab}" flow="${flow}"
-	localButtons="${localButtons}" willSave="true"> 
-	<jsp:attribute name="submitButton">
-		<table>
+<div class="content buttons autoclear">
+	<div class="flow-buttons">
+        <span class="next">
+	    	<table>
 				<tr>
 					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalHealthcareSite' && coppaEnable}">
 						<td valign="bottom">
@@ -341,13 +321,13 @@ div.row div.label {
 						</td>
 					</c:if>
 					<td>
-						    	<tags:button type="submit" color="green" id="flow-update"
-								value="Save" icon="save" />
+						    	<tags:button type="button" color="green" value="Save" icon="save" onclick="submitForm();"/>
 					</td>
 				</tr>
 		</table>
-	</jsp:attribute>
-</tags:tabControls></div>
+        </span>
+	</div>
+</div>
 <div id="display_remote_org" style="display: none; text-align: left">
 <chrome:box title="Please select an Organization to be saved in C3PR"
 	id="popupId">
