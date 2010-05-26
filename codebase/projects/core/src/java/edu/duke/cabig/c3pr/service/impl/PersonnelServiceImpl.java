@@ -185,10 +185,7 @@ public class PersonnelServiceImpl implements PersonnelService {
     }
     
     
-    public HealthcareSite getLoggedInUsersOrganization(HttpServletRequest request){
-    	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
-        																					.getSession().getAttribute("userObject");
-    	
+    public HealthcareSite getUserOrganization(User user){
     	ResearchStaff researchStaff = null;
     	try {
 			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());

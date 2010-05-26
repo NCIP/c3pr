@@ -156,7 +156,6 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
 	            }
 	        }
         }
-        addCreatingOrganization(participant, request);
         participant.setId(participantDao.merge(participant).getId());
         
         ModelAndView modelAndView = null;
@@ -179,16 +178,6 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
 		return (request.getParameter("async") != null);
 	}
 
-	private void addCreatingOrganization(Participant participant, HttpServletRequest request){
-    	HealthcareSite hcs = personnelService.getLoggedInUsersOrganization(request);
-    	List<HealthcareSite> hcsList = participant.getHealthcareSites();
-    	if(hcs == null){
-    		hcs = healthcareSiteDao.getByPrimaryIdentifier(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
-    	}
-    	hcsList.add(hcs);
-    	
-    }
-    
     //throwing a stack overflow...hence commented out
     protected List<HealthcareSite> getHealthcareSites() {
         return null; //healthcareSiteDao.getAll();
