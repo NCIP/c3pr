@@ -212,7 +212,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 									size="30" maxlength="33"
 									value="${command.participant.organizationAssignedIdentifiers[0].value}" class="required validate-notEmpty&&HTML_SPECIAL_CHARS" />
 									<tags:hoverHint keyProp="subject.MRN.value"/>
-									<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" 
+									<input type="hidden" name="participant.organizationAssignedIdentifiers[0].primaryIndicator" 
 										id="organizationAssignedIdentifiers[0].primaryIndicator"value="true"/></div>
 						</div>
 					</div>
@@ -232,8 +232,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 		</chrome:division>
 		
 		<chrome:division title="Additional Identifiers">
-		<tags:errors path="participant.organizationAssignedIdentifiers"/>
-		<tags:errors path="participant.systemAssignedIdentifiers"/>
+		<tags:errors path="*"/>
 			<table id="identifiersTable" border="0"
 					cellspacing="0" cellpadding="0" class="tablecontent">
 				<tr id="hOrganizationAssignedIdentifier" <c:if test="${fn:length(command.participant.identifiers) < 2}">style="display:none;"</c:if>>
