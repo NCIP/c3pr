@@ -368,26 +368,6 @@
 	        	</div>
         	</div>
         </chrome:division>
-                <chrome:division title="Multisite Configuration">
-        	<div class="row">
-        		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.multisite.enable"/><tags:hoverHint keyProp="configure.multisiteEnable" /></div>
-        		<div class="value">
-        			<form:select path="conf[multisiteEnable].value" id="multisiteEnable" cssClass="required validate-notEmpty">
-        				<form:option value="">Please Select</form:option>
-        				<form:option value="true">Yes</form:option>
-        				<form:option value="false">No</form:option>
-        			</form:select>
-        		</div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.multisite.ifs_url"/></div>
-        		<div class="value"><form:input path="conf[ifs.url].value" id="ifs.url" cssClass="validate-URL"/></div>
-        	</div>
-        	<div class="row">
-        		<div class="label"><fmt:message key="configure.multisite.idp_url"/></div>
-        		<div class="value"><form:input path="conf[idp.url].value" id="idp.url" cssClass="validate-URL"/></div>
-        	</div>
-        </chrome:division>
 		<chrome:division title="NCI Enterprise Services (NES) Configuration">
         	<div class="row">
         		<div class="label"><tags:requiredIndicator /><fmt:message key="configure.coppa.enable"/><tags:hoverHint keyProp="configure.coppaEnable" /></div>
