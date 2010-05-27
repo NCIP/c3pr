@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -8,6 +9,7 @@ import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.SimpleTrigger;
 import org.quartz.Trigger;
 import org.quartz.TriggerUtils;
 
@@ -18,6 +20,7 @@ import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob;
 import edu.duke.cabig.c3pr.service.SchedulerService;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 
 /**
@@ -107,6 +110,10 @@ public class SchedulerServiceImpl implements SchedulerService {
 			if(frequency.equals(NotificationFrequencyEnum.ANNUAL)){
 		        	//every last day December at 12:00pm
 		        	t = new CronTrigger("TA:scheduledNotificationId:" + recipientScheduledNotificationId , "TGA:PlannedNotificationId:" + recipientScheduledNotificationId , ANNUAL);
+			}
+			if(frequency.equals(NotificationFrequencyEnum.END_OF_THE_DAY)){
+				Date endOfTheDay = DateUtil.getNextDayDate(new Date());
+				t = new SimpleTrigger("TG:scheduledNotificationId:" + recipientScheduledNotificationId, "TG:scheduledNotificationId:" + recipientScheduledNotificationId, endOfTheDay);
 			}
 			//This is the only one that will be used from here...the cron triggers will be created in createNotificationController
 			//at the time of creation of Planned Notifications.

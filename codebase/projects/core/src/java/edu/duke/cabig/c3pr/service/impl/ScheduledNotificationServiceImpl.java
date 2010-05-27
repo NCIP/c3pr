@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
+import edu.duke.cabig.c3pr.dao.ScheduledNotificationDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
@@ -31,6 +32,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.service.ScheduledNotificationService;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import freemarker.template.Template;
@@ -46,7 +48,14 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     
     private IdentifierGenerator identifierGenerator;
     
-    private String c3prURL = null;
+    private ScheduledNotificationDao scheduledNotificationDao;
+    
+    public void setScheduledNotificationDao(
+			ScheduledNotificationDao scheduledNotificationDao) {
+		this.scheduledNotificationDao = scheduledNotificationDao;
+	}
+
+	private String c3prURL = null;
 
     public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) {
 		this.identifierGenerator = identifierGenerator;
@@ -62,7 +71,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     /* Study Status Changed case     */
     public Integer saveScheduledNotification(PlannedNotification plannedNotification, Study study) {
     	String composedMessage = applyRuntimeReplacementsForEmailMessage(plannedNotification.getMessage(), study.buildMapForNotification());
-    	return saveScheduledNotification(plannedNotification, composedMessage, study.getStudyOrganizations());
+    	return saveScheduledNotification(plannedNotification, composedMessage, study.getStudyOrganizations(),null);
     }
     
     /* StudySite Status Changed case     */
@@ -70,7 +79,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	String composedMessage = applyRuntimeReplacementsForEmailMessage(plannedNotification.getMessage(), studySite.buildMapForNotification());
     	List<StudyOrganization> soList = new ArrayList<StudyOrganization>();
     	soList.add(studySite);
-    	return saveScheduledNotification(plannedNotification, composedMessage, soList);
+    	return saveScheduledNotification(plannedNotification, composedMessage, soList,null);
     }   
     
     /* New Registration case     */
@@ -78,24 +87,38 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	String composedMessage = applyRuntimeReplacementsForEmailMessage(plannedNotification.getMessage(), studySubject.buildMapForNotification());
     	List<StudyOrganization> soList = new ArrayList<StudyOrganization>();
     	soList.add(studySubject.getStudySite());
-    	return saveScheduledNotification(plannedNotification, composedMessage, soList);
+    	return saveScheduledNotification(plannedNotification, composedMessage, soList,null);
     } 
     
     /* Update Master Subject case  */
     public Integer saveScheduledNotification(PlannedNotification plannedNotification, Participant participant) {
-    	String composedMessage =  "To view this subject click on " + c3prURL + "/pages/personAndOrganization/participant/viewParticipant?" +identifierGenerator.createParameterString(participant.getPrimaryIdentifier());
+    	List<ScheduledNotification> scheduledNotificationsForThisSubject = new ArrayList<ScheduledNotification>();
+    	Boolean isANotificationAlreadyScheduledForToday = false;
+    	scheduledNotificationsForThisSubject = scheduledNotificationDao.getByEventId(participant.getC3PRSystemSubjectIdentifier().getValue());
+    	for(ScheduledNotification scheduledNotification: scheduledNotificationsForThisSubject){
+    		Date dateScheduled = DateUtil.getUtilDateFromString(DateUtil.formatDate(scheduledNotification.getDateSent(), "MM/dd/yyyy"), "MM/dd/yyyy");
+    		Date currentDate = DateUtil.getUtilDateFromString(DateUtil.formatDate(new Date(), "MM/dd/yyyy"), "MM/dd/yyyy");
+    		if (!dateScheduled.before(currentDate) && !dateScheduled.after(currentDate)){
+    			isANotificationAlreadyScheduledForToday = true;
+    			break;
+    		}
+    	}
+    	if (isANotificationAlreadyScheduledForToday){
+    		return null;
+    	}
+    	String composedMessage =  "To view this subject click on " + c3prURL + "/pages/personAndOrganization/participant/viewParticipant?" +identifierGenerator.createParameterString(participant.getC3PRSystemSubjectIdentifier());
     	List<StudyOrganization> soList = new ArrayList<StudyOrganization>();
     	for(StudySubjectDemographics studySubjectDemographics:participant.getStudySubjectDemographics()){
     		for(StudySubject registration: studySubjectDemographics.getRegistrations()){
     			soList.add(registration.getStudySite());
     		}
     	}
-    	return saveScheduledNotification(plannedNotification, composedMessage, soList);
+    	return saveScheduledNotification(plannedNotification, composedMessage, soList,participant.getC3PRSystemSubjectIdentifier().getValue());
     } 
     
     
     /* Generic save method called by all the above mthods to save the ScheduledNotifications    */
-    public Integer saveScheduledNotification(PlannedNotification plannedNotification, String composedMessage, List<StudyOrganization> ssList){
+    public Integer saveScheduledNotification(PlannedNotification plannedNotification, String composedMessage, List<StudyOrganization> ssList,String eventId){
     	log.debug(this.getClass().getName() + ": Entering saveScheduledNotification()");
     	ScheduledNotification scheduledNotification = null;
     	
@@ -111,7 +134,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     			session.update(plannedNotification.getHealthcareSite());
     		}
         	//generating and saving the ScheduledNotification
-        	scheduledNotification = addScheduledNotification(plannedNotification, composedMessage, ssList);
+        	scheduledNotification = addScheduledNotification(plannedNotification, composedMessage, ssList,eventId);
         	session.saveOrUpdate(plannedNotification);
         	session.flush();
     	}catch(Exception e){
@@ -137,9 +160,10 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
      * 
      * @return the scheduled notification
      */
-    public ScheduledNotification addScheduledNotification(PlannedNotification plannedNotification, String composedMessage, List<StudyOrganization> soList){
+    public ScheduledNotification addScheduledNotification(PlannedNotification plannedNotification, String composedMessage, List<StudyOrganization> soList,String eventId){
     	
     	ScheduledNotification scheduledNotification = new ScheduledNotification();
+    	scheduledNotification.setEventId(eventId);
     	plannedNotification.getScheduledNotifications().add(scheduledNotification);
     	scheduledNotification.setDateSent(new Date());
 		scheduledNotification.setMessage(composedMessage);
