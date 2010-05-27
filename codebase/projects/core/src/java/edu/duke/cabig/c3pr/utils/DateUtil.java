@@ -31,6 +31,8 @@ public class DateUtil extends DateUtils {
             "Sat" };
 
     private static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy hh:mm:ss am";
+    
+    public static final int MILLIS_IN_DAY = 1000 * 60 * 60 * 24;
 
     public static java.util.Date getServerTime() {
 
@@ -308,6 +310,28 @@ public class DateUtil extends DateUtils {
     
     public static Date getFormatterCurrentDate(String formatStr) {
        return getDate(formatStr, new Date());  
+    }
+    
+    public static Date getNextDayDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
+        String nextDate = dateFormat.format(date.getTime() + MILLIS_IN_DAY);
+        Date nextDayDate = null;
+        try {
+        	nextDayDate = dateFormat.parse(nextDate);
+        } catch (ParseException e) {
+        }
+        return nextDayDate;  
+    }
+    
+    public static Date getPreviousDayDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
+        String previousDate = dateFormat.format(date.getTime() + MILLIS_IN_DAY);
+        Date previousDayDate = null;
+        try {
+        	previousDayDate = dateFormat.parse(previousDate);
+        } catch (ParseException e) {
+        }
+        return previousDayDate;  
     }
     
     
