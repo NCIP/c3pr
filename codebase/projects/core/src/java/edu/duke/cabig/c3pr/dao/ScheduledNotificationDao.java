@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.util.List;
+
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 
 /**
@@ -15,6 +17,10 @@ public class ScheduledNotificationDao extends GridIdentifiableDao<ScheduledNotif
     @Override
     public Class<ScheduledNotification> domainClass() {
         return ScheduledNotification.class;
+    }
+    
+    public List<ScheduledNotification> getByEventId(String eventId){
+    	return getHibernateTemplate().find("from ScheduledNotification where eventId = ?",eventId);
     }
     
 }
