@@ -719,22 +719,21 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		}
 	}
 	
-	
 	/**
-	 * Checks for c3 pr system identifier.
+	 * Checks for c3pr system subject identifier.
 	 *
-	 * @return true, if successful
+	 * @return identifier, if successful
 	 */
 	@Transient
-	public boolean hasC3PRSystemIdentifier() {
+	public SystemAssignedIdentifier getC3PRSystemSubjectIdentifier() {
 		for (SystemAssignedIdentifier systemAssignedIdentfier : this
 				.getSystemAssignedIdentifiers()) {
 			if (systemAssignedIdentfier.getSystemName()
-					.equalsIgnoreCase("C3PR")) {
-				return true;
+					.equalsIgnoreCase("C3PR") && (systemAssignedIdentfier.getType().equalsIgnoreCase(OrganizationIdentifierTypeEnum.SUBJECT_IDENTIFIER.toString()))) {
+				return systemAssignedIdentfier;
 			}
 		}
-		return false;
+		return null;
 	}
 	
 }
