@@ -46,7 +46,7 @@
 									document.location='searchStudy?inRegistration=true&subjectId=${participant.id}'
 								</c:when>
 								<c:otherwise>
-									document.location='viewParticipant?<tags:identifierParameterString identifier="${participant.organizationAssignedIdentifiers[0] }"/>'
+									document.location='viewParticipant?<tags:identifierParameterString identifier="${participant.primaryIdentifier }"/>'
 								</c:otherwise>
 							</c:choose>
 						">
