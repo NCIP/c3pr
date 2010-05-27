@@ -42,6 +42,16 @@ public class ScheduledNotification extends AbstractMutableDeletableDomainObject 
 	
 	/** The study organization. */
 	private StudyOrganization studyOrganization;
+	
+	private String eventId;
+
+	public String getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(String eventId) {
+		this.eventId = eventId;
+	}
 
 	/**
 	 * Instantiates a new scheduled notification.
