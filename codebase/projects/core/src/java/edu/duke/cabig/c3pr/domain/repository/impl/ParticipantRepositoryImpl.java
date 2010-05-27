@@ -74,7 +74,7 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
 	}
 
 	public Participant merge(Participant participant) {
-		if(!participant.hasC3PRSystemIdentifier()){
+		if(participant.getC3PRSystemSubjectIdentifier()==null){
 			participant.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(participant));
 		}
 		participant=  participantDao.merge(participant);
@@ -83,7 +83,7 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
 	}
 
 	public void save(Participant participant) {
-		if(!participant.hasC3PRSystemIdentifier()){
+		if(participant.getC3PRSystemSubjectIdentifier()==null){
 			participant.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(participant));
 		}
 		participantDao.save(participant);
