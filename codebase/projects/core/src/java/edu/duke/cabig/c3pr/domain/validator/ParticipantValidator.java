@@ -96,12 +96,12 @@ public class ParticipantValidator implements Validator {
 	        		
 	        		// when a subject already exists with same identifier, the existing subject should be same as current subject 
 	        		// otherwise throw error
-	        	}else if((existingParticipants.size()== 1) && (existingParticipants.get(0).getId() != participant.getId())){
+	        	}else if((existingParticipants.size()== 1) && (!existingParticipants.get(0).getId().equals(participant.getId()))){
 	        		commonIdentifiers.add(identifier);
 	        		break;
 	        	} else {
 	        		for(StudySubjectDemographics snapshot: existingSubjectSnapShots){
-	        			if (snapshot.getMasterSubject().getId() != participant.getId()){
+	        			if (!snapshot.getMasterSubject().getId().equals(participant.getId())){
 	        				commonIdentifiers.add(identifier);
 	                		break;
 	        			}
@@ -109,9 +109,6 @@ public class ParticipantValidator implements Validator {
 	        	}
         	}
         }
-        
-        
-        
         
         for(Identifier identifier: commonIdentifiers){
         		 errors.reject("tempProperty", getMessageFromCode( getCode("C3PR.COMMON.DUPLICATE.IDENTIFIER.ERROR"),
