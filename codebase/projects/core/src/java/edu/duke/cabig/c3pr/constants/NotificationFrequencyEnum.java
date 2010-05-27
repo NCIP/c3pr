@@ -6,7 +6,7 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum NotificationFrequencyEnum implements CodedEnum<String> {
-    IMMEDIATE("Immediate"), WEEKLY("Weekly"), MONTHLY("Monthly"), ANNUAL ("Annual");
+	END_OF_THE_DAY("End of the day"),IMMEDIATE("Immediate"), WEEKLY("Weekly"), MONTHLY("Monthly"), ANNUAL ("Annual");
 
     private String code;
 
