@@ -126,7 +126,7 @@ public class EditParticipantController<C extends ParticipantWrapper> extends
 	         	List<Identifier> identifiers=new ArrayList<Identifier>();
 	         	identifiers.add(identifier);
 	         	Participant participant=participantRepository.getUniqueParticipant(identifiers);
-	         	if(participant != participantWrapper.getParticipant()){
+	         	if(!participant.getId().equals(participantWrapper.getParticipant().getId())){
 	         		// the participant in command is cached in session and not corresponding to identifier. So returning a participant
 	         		// from db based on the identifier
 		             participantDao.initialize(participant);
@@ -189,10 +189,10 @@ public class EditParticipantController<C extends ParticipantWrapper> extends
     
     @Override
     protected C save(C command, Errors errors) {
-    	ParticipantWrapper participantWrapper = (ParticipantWrapper)command;
-    	Participant participant = participantWrapper.getParticipant();
-        participant = participantDao.merge(participant);
+        ParticipantWrapper participantWrapper = (ParticipantWrapper)command;
+        Participant participant = participantRepository.merge(participantWrapper.getParticipant());
         participantDao.initialize(participant);
+        participantWrapper.setParticipant(participant);
         return (C)participantWrapper;
     }
 
