@@ -204,7 +204,7 @@
 							 	<c:set var="sourceValue" value="${participant.organizationAssignedIdentifiers[0].healthcareSite.primaryIdentifier}"/>
 							 	<c:set var="identifierType" value="${participant.organizationAssignedIdentifiers[0].type}"/>
 							 	<c:set var="idValue" value="${participant.organizationAssignedIdentifiers[0].value}" scope="request"/>
-							 	<c:set var="encodedIdValue" value="<%=java.net.URLEncoder.encode((java.lang.String)request.getAttribute("idValue"))%>" />
+							 	<c:set var="encodedIdValue" value='<%=java.net.URLEncoder.encode((java.lang.String)request.getAttribute("idValue"))%>' />
 							 	<table>
 							 		<tr>
 									 	<td>
