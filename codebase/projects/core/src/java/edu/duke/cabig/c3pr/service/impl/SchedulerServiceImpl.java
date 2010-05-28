@@ -112,8 +112,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 		        	t = new CronTrigger("TA:scheduledNotificationId:" + recipientScheduledNotificationId , "TGA:PlannedNotificationId:" + recipientScheduledNotificationId , ANNUAL);
 			}
 			if(frequency.equals(NotificationFrequencyEnum.END_OF_THE_DAY)){
-				Date endOfTheDay = DateUtil.getNextDayDate(new Date());
-				t = new SimpleTrigger("TG:scheduledNotificationId:" + recipientScheduledNotificationId, "TG:scheduledNotificationId:" + recipientScheduledNotificationId, endOfTheDay);
+				
+				Date endOfDayTime = DateUtil.getMidNightTime();
+				t = new SimpleTrigger("TG:scheduledNotificationId:" + recipientScheduledNotificationId, "TG:scheduledNotificationId:" + recipientScheduledNotificationId, endOfDayTime);
 			}
 			//This is the only one that will be used from here...the cron triggers will be created in createNotificationController
 			//at the time of creation of Planned Notifications.
