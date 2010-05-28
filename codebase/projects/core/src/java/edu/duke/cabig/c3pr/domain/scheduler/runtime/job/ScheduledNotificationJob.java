@@ -96,7 +96,7 @@ public class ScheduledNotificationJob extends ScheduledJob {
             	} else if(recipientScheduledNotification.getDeliveryStatus().equals(EmailNotificationDeliveryStatusEnum.PENDING) ||
             			recipientScheduledNotification.getDeliveryStatus().equals(EmailNotificationDeliveryStatusEnum.RETRY) ){
             		
-            		if(plannedNotification.getFrequency().equals(NotificationFrequencyEnum.IMMEDIATE)){
+            		if(plannedNotification.getFrequency().equals(NotificationFrequencyEnum.IMMEDIATE) || plannedNotification.getFrequency().equals(NotificationFrequencyEnum.END_OF_THE_DAY)){
             			if(recipientScheduledNotification.getRecipient() instanceof UserBasedRecipient){
             				if(((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getResearchStaff() != null){
             					logger.error("$$$$$$$$$$ Threads id is :" + Thread.currentThread().getId());
