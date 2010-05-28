@@ -312,27 +312,14 @@ public class DateUtil extends DateUtils {
        return getDate(formatStr, new Date());  
     }
     
-    public static Date getNextDayDate(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
-        String nextDate = dateFormat.format(date.getTime() + MILLIS_IN_DAY);
-        Date nextDayDate = null;
-        try {
-        	nextDayDate = dateFormat.parse(nextDate);
-        } catch (ParseException e) {
-        }
-        return nextDayDate;  
+    public static Date getMidNightTime(){
+    	java.util.Calendar cal = new java.util.GregorianCalendar();
+    	cal.add(Calendar.DATE, 1);
+		  cal.set(Calendar.HOUR, 0);
+		  cal.set(Calendar.MINUTE, 0);
+		  cal.set(Calendar.SECOND, 0);
+		  cal.set(Calendar.MILLISECOND, 0);
+
+    	 return cal.getTime();
     }
-    
-    public static Date getPreviousDayDate(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
-        String previousDate = dateFormat.format(date.getTime() + MILLIS_IN_DAY);
-        Date previousDayDate = null;
-        try {
-        	previousDayDate = dateFormat.parse(previousDate);
-        } catch (ParseException e) {
-        }
-        return previousDayDate;  
-    }
-    
-    
 }
