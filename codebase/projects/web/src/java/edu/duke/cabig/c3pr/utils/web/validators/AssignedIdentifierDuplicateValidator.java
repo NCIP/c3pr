@@ -20,7 +20,7 @@ public class AssignedIdentifierDuplicateValidator implements Validator {
         ResearchStaff researchStaff = (ResearchStaff) object;
         ResearchStaff rStaffFromDB = researchStaffDao.getByAssignedIdentifierFromLocal(researchStaff
 													.getAssignedIdentifier());
-		if (rStaffFromDB != null) {
+		if (rStaffFromDB != null && !rStaffFromDB.getId().equals(researchStaff.getId())) {
 			errors.reject("RSTAFF_EXISTS","Research Staff with identifier " +researchStaff.getAssignedIdentifier()+ " already exists");
 			return;
 		}
