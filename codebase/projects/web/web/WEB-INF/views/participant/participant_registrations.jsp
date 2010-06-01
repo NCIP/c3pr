@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title><participanttags:htmlTitle subject="${command}" /></title>
+    <title><participanttags:htmlTitle subject="${command.participant}" /></title>
 <style type="text/css">
         .labelR { width: 12em; text-align: right; padding: 4px; }
 </style>
