@@ -11,8 +11,26 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
  */
 public enum C3PRUserGroupType implements CodedEnum<String> {
 
-    C3PR_ADMIN("c3pr_admin"), STUDY_COORDINATOR("study_coordinator"), REGISTRAR("registrar"), SITE_COORDINATOR(
-                    "site_coordinator");
+    C3PR_ADMIN("c3pr_admin"), 
+    STUDY_COORDINATOR("study_coordinator"), 
+    SITE_COORDINATOR("site_coordinator"),
+    //INTRODUCED AS A PART OF UNIFIED SECURITY - SUITE2.2
+    SYSTEM_ADMINISTRATOR("system_administrator"),
+    BUSINESS_ADMINISTRATOR("business_administrator"),
+    PERSON_AND_ORGANIZATION_INFORMATION_MANAGER("person_and_organization_information_manager"),
+    DATA_IMPORTER("data_importer"),
+    USER_ADMINISTRATOR("user_administrator"),
+	STUDY_QA_MANAGER("study_qa_manager"),
+	STUDY_CREATOR("study_creator"),
+	SUPPLEMENTAL_STUDY_INFORMATION_MANAGER("supplemental_study_information_manager"),
+	STUDY_TEAM_ADMINISTRATOR("study_team_administrator"),
+	STUDY_SITE_PARTICIPATION_ADMINISTRATOR("study_site_participation_administrator"),
+	REGISTRATION_QA_MANAGER("registration_qa_manager"),
+	SUBJECT_MANAGER("subject_manager"),
+	REGISTRAR("registrar"),
+	DATA_READER("data_reader"),
+	DATA_ANALYST("data_analyst")
+    ;
 
     private String code;
 
