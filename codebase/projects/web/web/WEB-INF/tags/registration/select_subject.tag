@@ -286,7 +286,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="c3pr.common.firstName"/>
                                             </div>
                                             <div class="value">
-                                                <input id="firstName" name="firstName" type="text" value="" class="required validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
+                                                <input id="firstName" name="participant.firstName" type="text" value="" class="required validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -294,7 +294,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="c3pr.common.lastName"/>
                                             </div>
                                             <div class="value">
-                                                <input id="lastName" name="lastName" type="text" value="" class="required validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
+                                                <input id="lastName" name="participant.lastName" type="text" value="" class="required validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -302,7 +302,7 @@
                                                 <fmt:message key="c3pr.common.middleName"/>
                                             </div>
                                             <div class="value">
-                                                <input id="middleName" name="middleName" type="text" value=""/>
+                                                <input id="middleName" name="participant.middleName" type="text" value=""/>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -310,7 +310,7 @@
                                                 <fmt:message key="c3pr.common.maidenName"/>
                                             </div>
                                             <div class="value">
-                                                <input id="maidenName" name="maidenName" type="text" value=""/>
+                                                <input id="maidenName" name="participant.maidenName" type="text" value=""/>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -318,7 +318,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="participant.gender"/>
                                             </div>
                                             <div class="value">
-                                                <select id="administrativeGenderCode" name="administrativeGenderCode" class="required validate-notEmpty">
+                                                <select id="administrativeGenderCode" name="participant.administrativeGenderCode" class="required validate-notEmpty">
                                                     <option value="">Please select...</option>
                                                     <c:forEach items="${administrativeGenderCode}" var="administrativeGenderCode" varStatus="loop">
                                                         <c:if test="${!empty administrativeGenderCode.desc}">
@@ -333,7 +333,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="participant.birthDate"/>
                                             </div>
                                             <div class="value">
-                                                <input id="birthDate" name="birthDate" type="text" value="" class="required validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
+                                                <input id="birthDate" name="participant.birthDate" type="text" value="" class="required validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -343,7 +343,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="participant.ethnicity"/>
                                             </div>
                                             <div class="value">
-                                                <select id="ethnicGroupCode" name="ethnicGroupCode" class="required validate-notEmpty">
+                                                <select id="ethnicGroupCode" name="participant.ethnicGroupCode" class="required validate-notEmpty">
                                                     <option value="">Please select...</option>
                                                     <c:forEach items="${ethnicGroupCode}" var="ethnicGroupCode" varStatus="loop">
                                                         <c:if test="${!empty ethnicGroupCode.desc}">
@@ -359,19 +359,19 @@
                                                 <tags:requiredIndicator/><fmt:message key="participant.race"/>
                                             </div>
                                             <div class="value">
-                                                <input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/> Asian
+                                                <input id="raceCodes1" name="participant.raceCodes" type="checkbox" value="Asian"/> Asian
                                                 <br>
-                                                <input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/> Black or African American
+                                                <input id="raceCodes2" name="participant.raceCodes" type="checkbox" value="Black_or_African_American"/> Black or African American
                                                 <br>
-                                                <input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/> White
+                                                <input id="raceCodes3" name="participant.raceCodes" type="checkbox" value="White"/> White
                                                 <br>
-                                                <input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native
+                                                <input id="raceCodes4" name="participant.raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native
                                                 <br>
-                                                <input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander
+                                                <input id="raceCodes5" name="participant.raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander
                                                 <br>
-                                                <input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/> Not reported
+                                                <input id="raceCodes6" name="participant.raceCodes" type="checkbox" value="Not_Reported"/> Not reported
                                                 <br>
-                                                <input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/> Unknown
+                                                <input id="raceCodes7" name="participant.raceCodes" type="checkbox" value="Unknown"/> Unknown
                                                 <br/><span id="raceCodes" style="display:inline"></span>
                                             </div>
                                         </div>
@@ -383,7 +383,7 @@
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
 			<div class="value">
-				<input type="hidden" id="mrnOrganization-hidden" name="organizationAssignedIdentifiers[0].healthcareSite" />
+				<input type="hidden" id="mrnOrganization-hidden" name="participant.organizationAssignedIdentifiers[0].healthcareSite" />
 				<input id="mrnOrganization-input" size="36" type="text" name="abcxyz"
 				 class="autocomplete required validate-notEmpty" />
 				<tags:indicator id="mrnOrganization-indicator" />
@@ -393,9 +393,9 @@
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
 			<div class="value">
-				<input type="text" id="organizationAssignedIdentifiers[0].value" name="organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="required validate-notEmpty" />
+				<input type="text" id="organizationAssignedIdentifiers[0].value" name="participant.organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="required validate-notEmpty" />
 				<tags:hoverHint keyProp="subject.MRN.value"/>
-				<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" id="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
+				<input type="hidden" name="participant.organizationAssignedIdentifiers[0].primaryIndicator" id="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
 			</div>
 		</div>
 		</div>
@@ -403,7 +403,7 @@
 			<div class="row">
 				<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></div>
 				<div class="value">
-					<select name="organizationAssignedIdentifiers[0].type"  class="valueOk validate-notEmpty">
+					<select name="participant.organizationAssignedIdentifiers[0].type"  class="valueOk validate-notEmpty">
 						<c:forEach var="identifierType" items="${identifiersTypeRefData}">
 							<option value="${identifierType.code}">${identifierType.desc}</option>
 						</c:forEach>
@@ -484,7 +484,7 @@
                                                             <fmt:message key="c3pr.common.streetAddress"/>
                                                         </div>
                                                         <div class="value">
-                                                            <input id="streetAddress" name="streetAddress" type="text" value="" size="45"/>
+                                                            <input id="streetAddress" name="participant.address.streetAddress" type="text" value="" size="45"/>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -492,7 +492,7 @@
                                                             <fmt:message key="c3pr.common.city"/>
                                                         </div>
                                                         <div class="value">
-                                                            <input id="city" name="city" type="text" value=""/>
+                                                            <input id="city" name="participant.address.city" type="text" value=""/>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -500,7 +500,7 @@
                                                             <span class="data"><fmt:message key="c3pr.common.state"/></span>
                                                         </div>
                                                         <div class="value">
-                                                            <input id="stateCode" name="stateCode" type="text" value=""/>
+                                                            <input id="stateCode" name="participant.address.stateCode" type="text" value=""/>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -508,7 +508,7 @@
                                                             <fmt:message key="c3pr.common.zip"/>
                                                         </div>
                                                         <div class="value">
-                                                            <input id="postalCode" name="postalCode" type="text" value=""/>
+                                                            <input id="postalCode" name="participant.address.postalCode" type="text" value=""/>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -518,7 +518,7 @@
                                                             <fmt:message key="c3pr.common.country"/>
                                                         </div>
                                                         <div class="value">
-                                                            <input id="countryCode" name="countryCode" type="text" value=""/>
+                                                            <input id="countryCode" name="participant.address.countryCode" type="text" value=""/>
                                                         </div>
                                                     </div>
 													<div class="row">
@@ -526,7 +526,7 @@
                                                             <fmt:message key="c3pr.common.phone"/>
                                                         </div>
                                                         <div class="value">
-                                                            <input id="phone" name="phone" type="text" value=""/>
+                                                            <input id="phone" name="participant.phone" type="text" value=""/>
                                                         </div>
                                                     </div>
                                                     <div class="row">
@@ -534,7 +534,7 @@
                                                             <fmt:message key="c3pr.common.fax"/>
                                                         </div>
                                                         <div class="value">
-                                                            <input id="fax" name="fax" type="text" value=""/>
+                                                            <input id="fax" name="participant.fax" type="text" value=""/>
                                                         </div>
                                                     </div>
 													<div class="row">
@@ -542,7 +542,7 @@
                                                             <fmt:message key="c3pr.common.email"/>
                                                         </div>
                                                         <div class="value">
-                                                            <input id="email" name="email" type="text" value="" size="30"/>
+                                                            <input id="email" name="participant.email" type="text" value="" size="30"/>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -583,7 +583,7 @@
 	<tr>
 		<td class="alt"><input type="hidden"
 			id="healthcareSitePAGE.ROW.INDEX-hidden"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
+			name="participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
 		<input class="autocomplete validate-notEmpty" type="text"
 			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
 			value="${command.studySubject.participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
@@ -594,7 +594,7 @@
 
 		<td class="alt"><select
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			name="participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
@@ -603,12 +603,12 @@
 		</select></td>
 		<td class="alt"><input
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
+			name="participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
 			onfocus="javascript:clearField(this)" class="required validate-notEmpty" /></td>
 		<td>
 			<input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
 			name="organizationAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
-			<input type="hidden" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" 
+			<input type="hidden" name="participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" 
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-hidden"/>
 		</td>
 		<td class="alt"><a
