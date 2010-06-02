@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<queryBuilder xmlns="http://semanticbits.com/querybuilder">
+	<target-object>
+		<class-name>edu.duke.cabig.c3pr.domain.Participant</class-name>
+		<display-name>Participant</display-name>
+		<table-name>participants</table-name>
+		<table-alias>Participant_xx</table-alias>
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.Participant</class-name>
+			<display-name>Subject</display-name>
+			<table-alias>Participant_xx</table-alias>
+			<search-criteria>
+				<name>firstName</name>
+				<label>First Name</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>lastName</name>
+				<label>Last Name</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>gender</name>
+				<label>Gender</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>raceCode</name>
+				<label>Race</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>ethnicity</name>
+				<label>Ethnicity</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>birthDate</name>
+				<label>Birth Date</label>
+				<data-type>Date</data-type>
+			</search-criteria>
+		</dependent-object>
+		<!-- Adding address , because user can search participant by address parameters-->
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.Address</class-name>
+			<display-name>Address</display-name>
+			<table-alias>Address_xx</table-alias>
+			<search-criteria>
+				<name>city</name>
+				<label>City</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>stateCode</name>
+				<label>State</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>countryCode</name>
+				<label>Country</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>postalCode</name>
+				<label>Zip</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.Address</name>
+				<role-name>addressInternal</role-name>
+				<table-alias>Address_xx</table-alias>
+				<joining-condition>Participant_xx.addressInternal = Address_xx</joining-condition>
+			</association>
+		</dependent-object>
+		<!-- Adding identifier , because user can search participant by identifier value parameters-->
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.Identifier</class-name>
+			<display-name>Identifier</display-name>
+			<table-alias>Identifier_xx</table-alias>
+			<search-criteria>
+				<name>value</name>
+				<label>Identifier</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.Identifier</name>
+				<role-name>identifiers</role-name>
+				<table-name>identifiers</table-name>
+				<table-alias>Identifier_xx</table-alias>
+				<joining-condition>Identifier_xx = any elements(Participant_xx.identifiers)</joining-condition>
+			</association>
+		</dependent-object>
+	</target-object>
+</queryBuilder>

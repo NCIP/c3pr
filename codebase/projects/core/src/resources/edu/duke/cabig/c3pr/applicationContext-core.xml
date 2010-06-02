@@ -737,5 +737,7 @@
 	<bean id="identifierGenerator" class="edu.duke.cabig.c3pr.utils.IdentifierGenerator" autowire="byName"/>
 
     <bean id="setupStatus" class="edu.duke.cabig.c3pr.setup.SetupStatus" autowire="byName"/>
-
+		<!-- Added this bean to make use of query builder jar-->  
+   <!-- <bean id="queryBuilderDao" lazy-init="true" class="com.semanticbits.querybuilder.QueryBuilderDao"
+          autowire="byName"/> -->
 </beans>
