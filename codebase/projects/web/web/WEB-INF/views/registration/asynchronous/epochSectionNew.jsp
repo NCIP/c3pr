@@ -12,7 +12,7 @@
 		</td>
 		<td align="left" class="no-selection">${epoch.name}</td>
 		<td align="left" class="no-selection">${epoch.descriptionText}</td>
-		<td align="left" class="no-selection">${epoch.treatmentIndicator?'Treatment':'Non Treatment'}</td>
+		<td align="left" class="no-selection">${epoch.type.code}</td>
 		<td align="left" class="no-selection">${additionalInformation}</td>
 	</c:when>
 	<c:otherwise>
@@ -21,7 +21,7 @@
 		</td>
 		<td align="left">${epoch.name}</td>
 		<td align="left">${epoch.descriptionText}</td>
-		<td align="left">${epoch.treatmentIndicator?'Treatment':'Non Treatment'}</td>
+		<td align="left">${epoch.type.code}</td>
 		<td align="left">${additionalInformation} 
 			
 		</td>

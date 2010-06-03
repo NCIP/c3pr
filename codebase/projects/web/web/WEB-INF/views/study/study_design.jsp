@@ -10,49 +10,16 @@
               $(divID).innerHTML = stringValue;
           }
       }
-
-       function manageEnrollingIndicatorSelectBox(box, index) {
-           if (isNaN(index)) return;
-           try {
-               if (box.value == 'true') {
-                   $('study.epochs[' + index + '].reservationIndicator').value = 'false';
-               }
-           } catch(ex) {
-           }
-        }
-
-       function manageTreatmentIndicatorSelectBox(box, index) {
-           if (isNaN(index)) return;
-           try {
-               if (box.value == 'false') {
-                   $('study.epochs[' + index + '].randomizedIndicator').value= 'false';
-                   
-               } else {
-                   $('study.epochs[' + index + '].reservationIndicator').value = 'false';
-                   $('study.epochs[' + index + '].enrollmentIndicator').value = 'true';
-                   
-               }
-           } catch(ex) {
-           }
+       	function manageReservingEpoch(box, index) {
+       		if(box.value == 'RESERVING'){
+       			$('study.epochs[' + index + '].enrollmentIndicator').value = 'false';
+       		}
         }
         
-       	function manageReservingIndicatorSelectBox(box, index) {
-             if (isNaN(index)) return;
-             try {
-                 if (box.value == 'false') {
-                	 Effect.OpenUp('addArm-' + index);
-                	$('armButton-'+ index).style.display="";
-                      
-                 } else {
-                     
-                   
-                	 Effect.CloseDown('addArm-' + index);
-                     $('study.epochs[' + index + '].enrollmentIndicator').value = 'false';
-                     $('study.epochs[' + index + '].treatmentIndicator').value = 'false';
-                     $('study.epochs[' + index + '].randomizedIndicator').value = 'false';
-                 }
-             } catch(ex) {
-             }
+        function manageEnrollmentIndicator(box, index) {
+       		if(box.value == 'true' && $('study.epochs['+index+'].type').value == 'RESERVING'){
+       			$('study.epochs['+index+'].type').selectedIndex=0;
+       		}
         }
         
         var armInserterProps= {
@@ -151,8 +118,7 @@ DELETED TD
 						onclick="RowManager.deleteRow(genericEpochRowInserterProps,${treatmentEpochCount.index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')">
 <!-- GENERIC START-->
 <div id="epoch-${treatmentEpochCount.index}" style="display: none">
- <tags:errors path="study.epochs[${treatmentEpochCount.index}].reservationIndicator" />
- <tags:errors path="study.epochs[${treatmentEpochCount.index}].treatmentIndicator" />
+ <tags:errors path="study.epochs[${treatmentEpochCount.index}].type" />
  <tags:errors path="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator" />
 	<table width="100%" border="0">
 	<tr>
@@ -180,46 +146,31 @@ DELETED TD
 	      </tr>
 	      <tr>
 			<td align="right">
-			  	<tags:requiredIndicator /><b><fmt:message key="study.epoch.treating"/></b> 
+			  	<tags:requiredIndicator /><b><fmt:message key="study.epoch.type"/></b> 
 			</td>
 	        <td>
-				<form:select path="study.epochs[${treatmentEpochCount.index}].treatmentIndicator"
-												cssClass="required validate-notEmpty" onchange="manageTreatmentIndicatorSelectBox(this,${treatmentEpochCount.index});">
+				<form:select path="study.epochs[${treatmentEpochCount.index}].type"
+												cssClass="required validate-notEmpty" onchange="manageReservingEpoch(this,${treatmentEpochCount.index});">
 	                    <option value="">Please Select</option>
-	                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+	                    <form:option value="SCREENING" label="Screening"/>
+	                    <form:option value="TREATMENT" label="Treatment"/>
+	                    <form:option value="FOLLOWUP" label="Follow-up"/>
+	                    <form:option value="RESERVING" label="Reserving"/>
 				</form:select>
-	            <tags:hoverHint id="study.treatmentEpoch.treatmentIndicator-${treatmentEpochCount.index}" keyProp="study.epoch.treatmentIndicator" />
+	            <tags:hoverHint id="study.treatmentEpoch.type-${treatmentEpochCount.index}" keyProp="study.epoch.type" />
 			</td>
 	      </tr>
 	      <tr>
 	          <td align="right"><tags:requiredIndicator /><b><fmt:message key="c3pr.common.enrolling"/></b> </td>
 	          <td align="left">
-	            <form:select id="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator" path="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,${treatmentEpochCount.index});"
-							cssClass="required validate-notEmpty">
+	            <form:select id="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator" path="study.epochs[${treatmentEpochCount.index}].enrollmentIndicator"
+							cssClass="required validate-notEmpty" onchange="manageEnrollmentIndicator(this,${treatmentEpochCount.index});">
 		                    <option value="">Please Select</option>
 		                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 				</form:select>
 			    <tags:hoverHint id="study.nonTreatmentEpoch.enrollmentIndicator-${treatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.enrollmentIndicator" />
 	          </td>
 	      </tr>
-	      <c:if test="${command.study.randomizedIndicator== true }">
-	      <tr>
-	              <td align="right"><tags:requiredIndicator /><b><fmt:message key="study.randomized"/></b> </td>
-	              <td>
-	                  <form:select
-													path="study.epochs[${treatmentEpochCount.index}].randomizedIndicator"
-													cssClass="required validate-notEmpty">
-	                    <option value="">Please Select</option>
-	                    <form:options items="${yesNo}" itemLabel="desc"
-														itemValue="code" />
-	                  </form:select>
-	                  <tags:hoverHint
-													id="study.treatmentEpoch.randomizedIndicator-${treatmentEpochCount.index}"
-													keyProp="study.treatmentEpoch.randomizedIndicator" />
-	              </td>
-	      </tr>
-	  	</c:if>
-
       </table>
 
   	</td>
@@ -248,27 +199,23 @@ DELETED TD
 											keyProp="study.nonTreatmentEpoch.accrualCeiling" />
           </td>
           </tr>
-          <tr>
-                        <td align="right">
-										<div
-											id="reservationIndicatorLabel-${treatmentEpochCount.index}">
-											<tags:requiredIndicator /><b><fmt:message key="study.epoch.reserving"/></b></div></td>
-                        <td align="left">
-                           <div
-											id="reservationIndicator-${treatmentEpochCount.index}">
-                               <form:select path="study.epochs[${treatmentEpochCount.index}].reservationIndicator"
-											onchange="manageReservingIndicatorSelectBox(this,${treatmentEpochCount.index});"
-											cssClass="required validate-notEmpty">
-                                   <option value="">Please Select</option>
-                                   <form:options items="${yesNo}"
-												itemLabel="desc" itemValue="code" />
-                              </form:select>
-                               <tags:hoverHint
-											id="study.nonTreatmentEpoch.reservationIndicator-${treatmentEpochCount.index}"
-											keyProp="study.nonTreatmentEpoch.reservationIndicator" />
-                           </div>
-                        </td>
-        </tr>
+          <c:if test="${command.study.randomizedIndicator== true }">
+	      <tr>
+	              <td align="right"><tags:requiredIndicator /><b><fmt:message key="study.randomized"/></b> </td>
+	              <td>
+	                  <form:select
+													path="study.epochs[${treatmentEpochCount.index}].randomizedIndicator"
+													cssClass="required validate-notEmpty">
+	                    <option value="">Please Select</option>
+	                    <form:options items="${yesNo}" itemLabel="desc"
+														itemValue="code" />
+	                  </form:select>
+	                  <tags:hoverHint
+													id="study.treatmentEpoch.randomizedIndicator-${treatmentEpochCount.index}"
+													keyProp="study.treatmentEpoch.randomizedIndicator" />
+	              </td>
+	      </tr>
+	  	</c:if>
         
     <c:if test="${command.study.stratificationIndicator== true }">
       <tr>
@@ -340,7 +287,7 @@ DELETED TD
       </c:choose>    
       </table>
       <br>
-      <div id="armButton-${treatmentEpochCount.index}" style="${command.study.epochs[treatmentEpochCount.index].reservationIndicator?'display:none':''}">
+      <div id="armButton-${treatmentEpochCount.index}" style="${command.study.epochs[treatmentEpochCount.index].type=='RESERVING'?'display:none':''}">
       	<tags:button id="addArm-${treatmentEpochCount.index}" type="button" color="blue" icon="add" value="Add Arm"
 					onclick="$('addArmMessage-${treatmentEpochCount.index}') != null ? $('addArmMessage-${treatmentEpochCount.index}').hide():''; javascript:RowManager.addRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}));" size="small"/>
  	  </div>
@@ -430,18 +377,18 @@ DELETED TD
 						</tr>
 
 						<tr>
-							<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.epoch.treating"/></b></td>
-							<td align="left"><select
-								id="study.epochs[PAGE.ROW.INDEX].treatmentIndicator"
-								name="study.epochs[PAGE.ROW.INDEX].treatmentIndicator"
-								onchange="manageTreatmentIndicatorSelectBox(this,PAGE.ROW.INDEX);"
+							<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.epoch.type"/></b></td>
+							<td align="left"><select id="study.epochs[PAGE.ROW.INDEX].type"
+								name="study.epochs[PAGE.ROW.INDEX].type"
+								onchange="manageReservingEpoch(this,PAGE.ROW.INDEX);"
 								class="required validate-notEmpty">
 								<option value="">Please Select</option>
-								<option value="true">Yes</option>
-								<option value="false">No</option>
-							</select> <tags:hoverHint
-								id="study.nonTreatmentEpoch.treatmentIndicator-PAGE.ROW.INDEX"
-								keyProp="study.epoch.treatmentIndicator" /></td>
+								<option value="SCREENING">Screening</option>
+			                    <option value="TREATMENT">Treatment</option>
+			                    <option value="FOLLOWUP">Follow-up</option>
+			                    <option value="RESERVING">Reserving</option>
+							</select> <tags:hoverHint id="study.treatmentEpoch.type-PAGE.ROW.INDEX"
+								keyProp="study.epoch.type" /></td>
 						</tr>
 
 						<tr>
@@ -449,8 +396,7 @@ DELETED TD
 							<td align="left"><select
 								id="study.epochs[PAGE.ROW.INDEX].enrollmentIndicator"
 								name="study.epochs[PAGE.ROW.INDEX].enrollmentIndicator"
-								onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);"
-								class="required validate-notEmpty">
+								class="required validate-notEmpty"  onchange="manageEnrollmentIndicator(this,PAGE.ROW.INDEX);">
 								<option value="">Please Select</option>
 								<option value="true" selected="selected">Yes</option>
 								<option value="false">No</option>
@@ -458,24 +404,6 @@ DELETED TD
 								id="study.nonTreatmentEpoch.enrollmentIndicator-PAGE.ROW.INDEX"
 								keyProp="study.nonTreatmentEpoch.enrollmentIndicator" /></td>
 						</tr>
-
-						<c:if test="${command.study.randomizedIndicator == true}">
-							<tr>
-								<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.randomized"/></b></td>
-								<td align="left"><select
-									id="study.epochs[PAGE.ROW.INDEX].randomizedIndicator"
-									name="study.epochs[PAGE.ROW.INDEX].randomizedIndicator"
-									class="required validate-notEmpty">
-									<option value="">Please Select</option>
-									<option value="true" selected="selected">Yes</option>
-									<option value="false">No</option>
-								</select> <tags:hoverHint
-									id="study.treatmentEpoch.randomizedIndicator-PAGE.ROW.INDEX"
-									keyProp="study.treatmentEpoch.randomizedIndicator" /></td>
-							</tr>
-						</c:if>
-
-
 					</table>
 
 					</td>
@@ -499,25 +427,21 @@ DELETED TD
 								keyProp="study.nonTreatmentEpoch.accrualCeiling" />
 							</td>
 						</tr>
-						<tr>
-							<td align="right">
-							<div id="reservationIndicatorLabel-PAGE.ROW.INDEX"><span
-								class=""><tags:requiredIndicator /><b><fmt:message key="study.epoch.reserving"/></b></div>
-							</td>
-							<td align="left">
-							<div id="reservationIndicator-PAGE.ROW.INDEX"><select
-								id="study.epochs[PAGE.ROW.INDEX].reservationIndicator"
-								name="study.epochs[PAGE.ROW.INDEX].reservationIndicator"
-								onchange="manageReservingIndicatorSelectBox(this,PAGE.ROW.INDEX);"
-								class="required validate-notEmpty">
-								<option value="">Please Select</option>
-								<option value="true">Yes</option>
-								<option value="false" selected="selected">No</option>
-							</select> <tags:hoverHint
-								id="study.nonTreatmentEpoch.reservationIndicator-PAGE.ROW.INDEX"
-								keyProp="study.nonTreatmentEpoch.reservationIndicator" /></div>
-							</td>
-						</tr>
+						<c:if test="${command.study.randomizedIndicator == true}">
+							<tr>
+								<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.randomized"/></b></td>
+								<td align="left"><select
+									id="study.epochs[PAGE.ROW.INDEX].randomizedIndicator"
+									name="study.epochs[PAGE.ROW.INDEX].randomizedIndicator"
+									class="required validate-notEmpty">
+									<option value="">Please Select</option>
+									<option value="true" selected="selected">Yes</option>
+									<option value="false">No</option>
+								</select> <tags:hoverHint
+									id="study.treatmentEpoch.randomizedIndicator-PAGE.ROW.INDEX"
+									keyProp="study.treatmentEpoch.randomizedIndicator" /></td>
+							</tr>
+						</c:if>
 						<c:if test="${command.study.stratificationIndicator == true}">
 							<tr>
 								<td align="right"><tags:requiredIndicator /><b><fmt:message key="study.stratified"/></b></td>
