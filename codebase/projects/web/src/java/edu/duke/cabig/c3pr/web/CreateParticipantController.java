@@ -22,7 +22,6 @@ import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
@@ -147,16 +146,12 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
         Participant participant = participantWrapper.getParticipant();
         
         if (request.getParameter("async") != null) {
-        	 OrganizationAssignedIdentifier mrn = participant.getMRN();
-	        if ((mrn != null) && (mrn.getHealthcareSite() != null)) {
-	            List<OrganizationAssignedIdentifier> participantsWithMRN = participantDao
-	                            .getSubjectIdentifiersWithMRN(mrn.getValue(), mrn.getHealthcareSite());
-	            if (participantsWithMRN.size() > 0) {
-	             response.sendError(499,"Participant with mrn " + mrn.getValue() + " already exists for the organization " + mrn.getHealthcareSite().getName());
+        	participantValidator.validateIdentifiers(participant, errors);
+	       if(errors.hasErrors()){
+	             response.sendError(499,"Another or same participant shares the same identifier");
 	            }
 	        }
-        }
-        participant.setId(participantDao.merge(participant).getId());
+        participant.setId(participantRepository.merge(participant).getId());
         
         ModelAndView modelAndView = null;
         if (request.getParameter("async") != null) {
