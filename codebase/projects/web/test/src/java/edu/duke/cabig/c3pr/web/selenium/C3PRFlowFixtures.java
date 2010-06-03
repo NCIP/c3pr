@@ -32,33 +32,16 @@ public class C3PRFlowFixtures extends SeleneseTestCase{
 		
 	}
 	public void populateStudyEpochAndArm() throws InterruptedException{
-		/*selenium.click("//button[@type='button']");
-		//aw.addPanel("addEpoch", "//div[@id='reservationIndicator-0']");
-		selenium.type("study.epochs[0].name", "Enrolling");
-		selenium.type("study.epochs[0].epochOrder", "1");
-		selenium.select("study.epochs[0].treatmentIndicator", "label=Yes");
-		selenium.select("study.epochs[0].randomizedIndicator", "label=No");
-		selenium.select("study.epochs[0].stratificationIndicator", "label=No");
-		aw.addPanel("addArm-0", "//input[@name='study.epochs[0].arms[0].name']");
-		aw.addPanel("addEpoch", "//div[@id='reservationIndicator-1']");
-		selenium.type("study.epochs[1].name", "Randomized");
-		selenium.type("study.epochs[1].epochOrder", "3");
-		selenium.select("study.epochs[1].treatmentIndicator", "label=Yes");
-		aw.addPanel("addArm-1", "//input[@name='study.epochs[1].arms[0].name']");
-		aw.addPanel("addArm-1", "//input[@name='study.epochs[1].arms[1].name']");
-		selenium.type("study.epochs[1].arms[1].name", "Arm B");*/
-		
 		selenium.click("//button[@type='button']");
 		selenium.type("study.epochs[0].name", "Enrolling");
 		selenium.type("study.epochs[0].epochOrder", "1");
-		selenium.select("study.epochs[0].treatmentIndicator", "label=Yes");
-		selenium.select("study.epochs[0].randomizedIndicator", "label=No");
+		selenium.select("study.epochs[0].type", "label=TREATMENT");
 		selenium.select("study.epochs[0].stratificationIndicator", "label=No");
 		selenium.click("addArm-0");
 		selenium.click("//button[@type='button' and @onclick=\"$('dummy-genericEpoch').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(genericEpochRowInserterProps)\"]");
 		selenium.type("study.epochs[1].name", "Randomized");
 		selenium.type("study.epochs[1].epochOrder", "3");
-		selenium.select("study.epochs[1].treatmentIndicator", "label=Yes");
+		selenium.select("study.epochs[0].type", "label=TREATMENT");
 		//selenium.click("addArm-1");
 		//selenium.click("addArm-1");
 		aw.addPanel("addArm-1", "//input[@name='study.epochs[1].arms[0].name']");

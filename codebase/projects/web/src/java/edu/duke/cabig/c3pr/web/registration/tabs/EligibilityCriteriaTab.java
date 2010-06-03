@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -50,7 +51,7 @@ public class EligibilityCriteriaTab extends RegistrationTab<StudySubjectWrapper>
 	        Epoch epoch = epochDao.getById(id);
 	        epochDao.initialize(epoch);
 	        ScheduledEpoch scheduledEpoch;
-	        if (epoch.getTreatmentIndicator()) {
+	        if (epoch.getType() == EpochType.TREATMENT) {
 	            (epoch).getArms().size();
 	            scheduledEpoch = new ScheduledEpoch();
 	        }

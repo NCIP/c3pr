@@ -12,6 +12,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
@@ -171,7 +172,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
         Epoch epoch = epochDao.getById(id);
         epochDao.initialize(epoch);
         ScheduledEpoch scheduledEpoch;
-        if (epoch.getTreatmentIndicator()) {
+        if (epoch.getType() == EpochType.TREATMENT) {
             (epoch).getArms().size();
             scheduledEpoch = new ScheduledEpoch();
         }

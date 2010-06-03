@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -94,7 +95,7 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
 	        Integer id = Integer.parseInt(request.getParameter("epoch"));
 	        Epoch epoch = epochDao.getById(id);
 	        epochDao.initialize(epoch);
-	        if (epoch.getTreatmentIndicator()) {
+	        if (epoch.getType() == EpochType.TREATMENT) {
 	            (epoch).getArms().size();
 	            scheduledEpoch = new ScheduledEpoch();
 	        }

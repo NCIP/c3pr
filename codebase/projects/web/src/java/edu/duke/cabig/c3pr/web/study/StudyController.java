@@ -16,6 +16,7 @@ import org.springframework.web.multipart.support.StringMultipartFileEditor;
 
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
@@ -143,7 +144,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         binder.registerCustomEditor(CoordinatingCenterStudyStatus.class, new EnumByNameEditor( CoordinatingCenterStudyStatus.class));
         binder.registerCustomEditor(InvestigatorStatusCodeEnum.class, new EnumByNameEditor( InvestigatorStatusCodeEnum.class));
         binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor( SiteStudyStatus.class));
-
+        binder.registerCustomEditor(EpochType.class, new EnumByNameEditor(EpochType.class));
     }
 
     protected boolean isSummaryEnabled() {

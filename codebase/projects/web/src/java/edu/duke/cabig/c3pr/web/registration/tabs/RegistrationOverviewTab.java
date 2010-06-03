@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
@@ -253,7 +254,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 
 	private String getPossibleStatus(StudySubject studySubject, Epoch epoch) {
 		if(!isRequiresAdditionalInfo(studySubject, epoch)){
-			if(epoch.getReservationIndicator()){
+			if(epoch.getType() == EpochType.RESERVING){
 				return "RESERVED" ;
 			}else if(epoch.getEnrollmentIndicator()) {
 				return "ENROLLED" ;

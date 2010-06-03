@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.apache.commons.collections15.list.LazyList;
 
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -47,7 +48,7 @@ public class StudySubjectWrapper {
 		if (!this.studySubject.getDataEntryStatus()) {
 			return false;
 		}
-		return (this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator()
+		return (this.studySubject.getScheduledEpoch().getEpoch().getType() == EpochType.RESERVING
 				&& (this.studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) 
 				&& (this.studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING));
 	}
@@ -57,7 +58,7 @@ public class StudySubjectWrapper {
 			return false;
 		}
 		
-		boolean reservationIndicator = this.studySubject.getScheduledEpoch().getEpoch().getReservationIndicator() ;
+		boolean reservationIndicator = this.studySubject.getScheduledEpoch().getEpoch().getType() == EpochType.RESERVING ;
 		boolean enrollmentIndicator = this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator() ;
 		
 		if(this.studySubject.getParentStudySubject() != null){
