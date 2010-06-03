@@ -58,6 +58,15 @@
     <bean name="/configureC3PR" id="postAuthenticationController" autowire="byName"
         class="edu.duke.cabig.c3pr.utils.web.setup.PostAuthenticationController"/>
 	
+    <bean name="/databaseMigration" id="databaseMigrationController" lazy-init="true"
+        class="edu.duke.cabig.c3pr.utils.web.setup.DatabaseMigrationController" autowire="byName">
+        <property name="commandClass"
+            value="edu.duke.cabig.c3pr.utils.web.setup.command.EpochTypeCommand"/>
+        <property name="formView" value="setup/emptyEpochTypeMigration"/>
+        <property name="sessionForm" value="true"/>
+        <property name="successView" value="redirect:../pages/dashboard"/>
+    </bean>
+	
     <bean name="/css/*"
           class="org.springframework.web.servlet.mvc.UrlFilenameViewController">
         <property name="prefix"><value>css/</value></property>

@@ -3,6 +3,7 @@
         <pattern>/setup/*</pattern>
     </decorator>
     <decorator name="standard" page="standard.jsp">
+        <pattern>/setup/*</pattern>
         <pattern>/pages/*</pattern>
         <pattern>/public/*</pattern>
         <pattern>/public/user/*</pattern>
