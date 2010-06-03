@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.xml;
 
 import java.util.Date;
 
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
@@ -122,9 +123,8 @@ public class DomainObjectCreationHelper {
 		if(study.getRandomizedIndicator()){
 			epoch.setRandomizedIndicator(true);
 		}
-		epoch.setReservationIndicator(false);
 		epoch.setStratificationIndicator(true);
-		epoch.setTreatmentIndicator(true);
+		epoch.setType(EpochType.TREATMENT);
 		arm.setDescriptionText("DescriptionText1");
 		arm.setGridId("grid1");
 		arm.setName("arm 1");

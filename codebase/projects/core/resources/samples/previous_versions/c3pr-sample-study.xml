@@ -38,8 +38,7 @@
 			<accrualIndicator>false</accrualIndicator>
 			<stratificationIndicator>true</stratificationIndicator>
 			<randomizedIndicator>false</randomizedIndicator>
-			<reservationIndicator>false</reservationIndicator>
-			<treatmentIndicator>false</treatmentIndicator>
+			<type>SCREENING</type>
 			<enrollmentIndicator>true</enrollmentIndicator>
 			<arm gridId="789d3da3-88fc-4780-aee8-d74c7b48314a">
 				<name>Arm A</name>

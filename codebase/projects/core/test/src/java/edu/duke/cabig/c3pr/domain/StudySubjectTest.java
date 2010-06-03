@@ -10,6 +10,7 @@ import org.easymock.classextension.EasyMock;
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
@@ -1065,7 +1066,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
 
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
-    	EasyMock.expect(epoch.getReservationIndicator()).andReturn(false);
+    	EasyMock.expect(epoch.getType()).andReturn(EpochType.SCREENING);
     	replayMocks();
     	studySubject.addScheduledEpoch(scheduledEpoch);
     	try{
@@ -1084,7 +1085,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testReserve3() throws Exception{
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
- 		EasyMock.expect(epoch.getReservationIndicator()).andReturn(true);
+ 		EasyMock.expect(epoch.getType()).andReturn(EpochType.RESERVING);
     	EasyMock.expect(scheduledEpoch.evaluateScheduledEpochDataEntryStatus((List<Error>)EasyMock.anyObject())).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
  		scheduledEpoch.setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
  		
@@ -1120,7 +1121,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     public void testReserve4() throws Exception{
 
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
- 		EasyMock.expect(epoch.getReservationIndicator()).andReturn(true);
+ 		EasyMock.expect(epoch.getType()).andReturn(EpochType.RESERVING);
     	EasyMock.expect(scheduledEpoch.evaluateScheduledEpochDataEntryStatus((List<Error>)EasyMock.anyObject())).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
  		scheduledEpoch.setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
  		

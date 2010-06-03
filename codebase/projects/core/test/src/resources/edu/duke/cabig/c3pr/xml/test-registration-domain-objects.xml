@@ -83,8 +83,7 @@
 				<name>epoch1</name>
 				<stratificationIndicator>false</stratificationIndicator>
 				<randomizedIndicator>true</randomizedIndicator>
-				<reservationIndicator>false</reservationIndicator>
-				<treatmentIndicator>false</treatmentIndicator>
+				<type>SCREENING</type>
 				<enrollmentIndicator>true</enrollmentIndicator>
 				<arm gridId="84b8f18b-cdda-418f-8e95-cb1f990e17fd">
 					<name>A</name>
@@ -144,8 +143,7 @@
 		<startDate>2008-08-28</startDate>
 		<epoch gridId="b4008e6a-d25c-44d0-8929-4cc83bafa602">
 			<name>epoch1</name>
-			<reservationIndicator>false</reservationIndicator>
-			<treatmentIndicator>true</treatmentIndicator>
+			<type>TREATMENT</type>
 			<enrollmentIndicator>true</enrollmentIndicator>
 			<arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
 				<name>A</name>

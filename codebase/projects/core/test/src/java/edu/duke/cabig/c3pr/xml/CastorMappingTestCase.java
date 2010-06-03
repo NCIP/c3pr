@@ -356,8 +356,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 		assertEquals(expected.getAccrualCeiling(), actual.getAccrualCeiling());
 		assertEquals(expected.getStratificationIndicator(), actual.getStratificationIndicator());
 		assertEquals(expected.getRandomizedIndicator(), actual.getRandomizedIndicator());
-		assertEquals(expected.getTreatmentIndicator(), actual.getTreatmentIndicator());
-		assertEquals(expected.getReservationIndicator(), actual.getReservationIndicator());
+		assertEquals(expected.getType(), actual.getType());
 		assertEquals(expected.getEnrollmentIndicator(), actual.getEnrollmentIndicator());
 		assertArms(expected.getArms(), actual.getArms());
 		assertEligibilityCriteria(expected.getEligibilityCriteria(), actual.getEligibilityCriteria());

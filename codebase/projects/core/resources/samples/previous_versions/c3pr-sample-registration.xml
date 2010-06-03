@@ -47,8 +47,7 @@
         <epoch gridId="b4008e6a-d25c-44d0-8929-4cc83bafa602">
             <name>epoch1</name>
             <accrualIndicator>false</accrualIndicator>
-            <reservationIndicator>false</reservationIndicator>
-            <treatmentIndicator>true</treatmentIndicator>
+            <type>TREATMENT</type>
             <enrollmentIndicator>true</enrollmentIndicator>
             <arm gridId="034bda2f-96ff-46d5-87eb-6ad4000a03e3">
                 <name>A</name>

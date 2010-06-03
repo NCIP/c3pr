@@ -34,6 +34,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
@@ -1233,7 +1234,7 @@ public class StudySubject extends
 					"The subject cannot be reserved a spot on the study site. The subject is already registered or enrolled on the study site.");
 		} else {
 			ScheduledEpoch scheduledEpoch = this.getScheduledEpoch();
-			if (!scheduledEpoch.getEpoch().getReservationIndicator()) {
+			if (scheduledEpoch.getEpoch().getType() != EpochType.RESERVING) {
 				throw new C3PRBaseRuntimeException(
 				"The epoch has to be reserving in order to reserve a spot for the subject");
 			}else {

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
@@ -47,7 +48,7 @@ public class StudyCreationHelper {
         Study study = buildBasicLocalStudy(true, null);
         Epoch epoch = new Epoch();
         epoch.setName("screening");
-        epoch.setReservationIndicator(reserving);
+        epoch.setType(EpochType.RESERVING);
         epoch.setEnrollmentIndicator(enrolling);
         study.addEpoch(epoch);
         return study;
@@ -92,7 +93,7 @@ public class StudyCreationHelper {
         Study study = buildBasicLocalStudy(false, null);
         Epoch epoch = new Epoch();
         epoch.setName("screening");
-        epoch.setReservationIndicator(reserving);
+        epoch.setType(EpochType.RESERVING);
         epoch.setEnrollmentIndicator(enrolling);
         study.addEpoch(epoch);
         return study;

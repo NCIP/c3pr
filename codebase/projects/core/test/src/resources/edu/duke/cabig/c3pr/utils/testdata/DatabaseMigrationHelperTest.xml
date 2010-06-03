@@ -37,8 +37,8 @@
 
     <RANDOMIZATIONS id="1001" version="1" dtype="BR" retired_indicator = "false" />
 
-    <EPOCHS id="1000" version="1" name="Treatment" description_text="treatement desc" stu_version_id="1000" stratification_indicator="0" type="TREATMENT" retired_indicator = "false" />
-    <EPOCHS id="1001" version="1" name="Cancer" description_text="cancer desc" stu_version_id="1000"  stratification_indicator="0" type="TREATMENT" retired_indicator = "false" />
+    <EPOCHS id="1000" type="TREATMENT" version="1" name="Treatment" description_text="treatement desc" stu_version_id="1000" stratification_indicator="0" type="TREATMENT" retired_indicator = "false" />
+    <EPOCHS id="1001" type="RESERVING" version="1" name="Cancer" description_text="cancer desc" stu_version_id="1000"  stratification_indicator="0" type="TREATMENT" retired_indicator = "false" />
     <EPOCHS id="1002" version="1" name="Treatment" description_text="treatement desc" stu_version_id="1001"  stratification_indicator="0" type="TREATMENT"  retired_indicator = "false" />
     <EPOCHS id="1003" version="1" name="Cancer" description_text="cancer desc" stu_version_id="1001" stratification_indicator="0" type="TREATMENT"  retired_indicator = "false" />
 

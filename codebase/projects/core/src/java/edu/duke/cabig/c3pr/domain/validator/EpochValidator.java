@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 
@@ -62,21 +63,21 @@ public class EpochValidator implements Validator {
     
     public void validateIndicators(Object target,Errors errors){
     	Epoch epoch = (Epoch) target;
-    	if(epoch.getReservationIndicator() &&(epoch.getEnrollmentIndicator() || epoch.getTreatmentIndicator() || epoch.getRandomizedIndicator())){
+    	if(epoch.getType() == EpochType.RESERVING &&(epoch.getEnrollmentIndicator() || epoch.getType() == EpochType.TREATMENT || epoch.getRandomizedIndicator())){
     		errors.rejectValue("reservationIndicator",new Integer(studyValidator
                     .getCode("C3PR.STUDY.EPOCH.INVALID_RESERVATION_INDICATOR.CODE")).toString(),
                     studyValidator.getMessageFromCode(studyValidator
                                     .getCode("C3PR.STUDY.EPOCH.INVALID_RESERVATION_INDICATOR.CODE"), null,
                                     null));
     	}
-    	if(epoch.getRandomizedIndicator() && !epoch.getTreatmentIndicator()){
+    	if(epoch.getRandomizedIndicator() && epoch.getType() != EpochType.TREATMENT){
     		errors.rejectValue("treatmentIndicator",new Integer(studyValidator
                     .getCode("C3PR.STUDY.EPOCH.INVALID_TREATMENT_INDICATOR.CODE")).toString(),
                     studyValidator.getMessageFromCode(studyValidator
                                     .getCode("C3PR.STUDY.EPOCH.INVALID_TREATMENT_INDICATOR.CODE"), null,
                                     null));
     	}
-    	if(epoch.getTreatmentIndicator() && !epoch.getEnrollmentIndicator()){
+    	if(epoch.getType() == EpochType.TREATMENT && !epoch.getEnrollmentIndicator()){
     		errors.rejectValue("enrollmentIndicator",new Integer(studyValidator
                     .getCode("C3PR.STUDY.EPOCH.INVALID_ENROLLMENT_INDICATOR.CODE")).toString(),
                     studyValidator.getMessageFromCode(studyValidator

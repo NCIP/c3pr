@@ -19,6 +19,7 @@ import org.springframework.orm.hibernate3.HibernateSystemException;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
@@ -993,7 +994,7 @@ public class StudyDaoTest extends DaoTestCase {
             Epoch newEpoch = new Epoch();
             newEpoch.setName("Test Non Treatment Epoch");
             newEpoch.setAccrualCeiling(10);
-            newEpoch.setReservationIndicator(Boolean.TRUE);
+            newEpoch.setType(EpochType.RESERVING);
             newEpoch.setEnrollmentIndicator(Boolean.FALSE);
             newEpoch.setEpochOrder(1);
             study.addEpoch(newEpoch);
@@ -1011,15 +1012,14 @@ public class StudyDaoTest extends DaoTestCase {
             List<Epoch> totalEpochs = loaded.getEpochs();
             assertEquals("Wrong number of Epochs are retreived", 2, totalEpochs.size());
             for (Epoch newEpoch : totalEpochs) {
-                assertEquals("Wrong Treatment Indicator: ", "false", newEpoch
-                                .getTreatmentIndicator().toString());
+                assertEquals("Wrong Treatment Indicator: ", EpochType.TREATMENT, newEpoch.getType());
             }
             assertEquals("Wrong epoch name", "Test Non Treatment Epoch", (totalEpochs.get(0))
                             .getName());
             assertEquals("Wrong enrollment indicator", Boolean.FALSE, (totalEpochs.get(0))
                             .getEnrollmentIndicator());
-            assertEquals("Wrong reservation indicator", Boolean.TRUE, (totalEpochs.get(0))
-                            .getReservationIndicator());
+//            assertEquals("Wrong reservation indicator", Boolean.TRUE, (totalEpochs.get(0))
+//                            .getReservationIndicator());
             assertEquals("Wrong accrual ceiling", 10, (totalEpochs.get(0)).getAccrualCeiling()
                             .intValue());
 

@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -24,6 +26,7 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedInstantiateFactory;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -85,6 +88,28 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 
 	/** The treatment indicator. */
 	private Boolean treatmentIndicator = false;
+
+	/** The epoch type. */
+	private EpochType type;
+	
+	/**
+	 * Gets the epoch type.
+	 * 
+	 * @return the epoch type
+	 */
+	@Enumerated(EnumType.STRING)
+	public EpochType getType() {
+		return type;
+	}
+
+	/**
+	 * Sets the epoch type.
+	 * 
+	 * @param epochType the new epoch type
+	 */
+	public void setType(EpochType epochType) {
+		this.type = epochType;
+	}
 
 	/**
 	 * Gets the requires arm.
@@ -244,23 +269,23 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 		this.enrollmentIndicator = enrollmentIndicator;
 	}
 
-	/**
-	 * Gets the reservation indicator.
-	 *
-	 * @return the reservation indicator
-	 */
-	public Boolean getReservationIndicator() {
-		return reservationIndicator;
-	}
-
-	/**
-	 * Sets the reservation indicator.
-	 *
-	 * @param reservationIndicator the new reservation indicator
-	 */
-	public void setReservationIndicator(Boolean reservationIndicator) {
-		this.reservationIndicator = reservationIndicator;
-	}
+//	/**
+//	 * Gets the reservation indicator.
+//	 *
+//	 * @return the reservation indicator
+//	 */
+//	public Boolean getReservationIndicator() {
+//		return reservationIndicator;
+//	}
+//
+//	/**
+//	 * Sets the reservation indicator.
+//	 *
+//	 * @param reservationIndicator the new reservation indicator
+//	 */
+//	public void setReservationIndicator(Boolean reservationIndicator) {
+//		this.reservationIndicator = reservationIndicator;
+//	}
 
 	// No-Arg Constructor for Hibernate
 
@@ -857,24 +882,6 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	 */
 	public void setStratificationIndicator(Boolean stratificationIndicator) {
 		this.stratificationIndicator = stratificationIndicator;
-	}
-
-	/**
-	 * Gets the treatment indicator.
-	 *
-	 * @return the treatment indicator
-	 */
-	public Boolean getTreatmentIndicator() {
-		return treatmentIndicator;
-	}
-
-	/**
-	 * Sets the treatment indicator.
-	 *
-	 * @param treatmentIndicator the new treatment indicator
-	 */
-	public void setTreatmentIndicator(Boolean treatmentIndicator) {
-		this.treatmentIndicator = treatmentIndicator;
 	}
 
 	/**

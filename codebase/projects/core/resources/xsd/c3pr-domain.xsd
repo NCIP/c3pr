@@ -93,8 +93,7 @@
       <xs:element minOccurs="0" maxOccurs="1" name="accrualCeiling" type="xs:int" />
       <xs:element minOccurs="0" maxOccurs="1" name="stratificationIndicator" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="randomizedIndicator" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="reservationIndicator" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="1" name="treatmentIndicator" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="type" type="EpochTypeEnum" />
       <xs:element minOccurs="0" maxOccurs="1" name="enrollmentIndicator" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="unbounded" name="arm" type="ArmType" />
       <xs:element minOccurs="0" maxOccurs="unbounded" name="eligibilityCriteria" type="EligibilityCriteriaType"/>
@@ -186,6 +185,14 @@
       <xs:enumeration value="Active" />
       <xs:enumeration value="Inactive" />
       <xs:enumeration value="Nullified" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="EpochTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SCREENING" />
+      <xs:enumeration value="TREATMENT" />
+      <xs:enumeration value="FOLLOWUP" />
+      <xs:enumeration value="RESERVING" />
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="LocalInvestigatorType">

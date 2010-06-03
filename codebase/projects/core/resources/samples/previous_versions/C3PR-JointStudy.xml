@@ -40,7 +40,7 @@
 			<descriptionText>
 			</descriptionText>
 			<stratificationIndicator>true</stratificationIndicator>
-			<treatmentIndicator>true</treatmentIndicator>
+			<type>TREATMENT</type>
 			<enrollmentIndicator>true</enrollmentIndicator>
 			<arm>
 				<name>Arm A</name>

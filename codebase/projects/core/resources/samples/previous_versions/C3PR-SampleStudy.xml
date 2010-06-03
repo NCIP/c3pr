@@ -38,8 +38,7 @@
 			<accrualIndicator>false</accrualIndicator>
 			<stratificationIndicator>false</stratificationIndicator>
 			<randomizedIndicator>false</randomizedIndicator>
-			<reservationIndicator>false</reservationIndicator>
-			<treatmentIndicator>false</treatmentIndicator>
+			<type>SCREENING</type>
 			<enrollmentIndicator>true</enrollmentIndicator>
 		</epoch>
 		<studyCoordinatingCenter gridId="87ef052f-52cd-4dd3-97f6-2230d3fe71e1">
@@ -118,7 +117,7 @@
 					<stratificationIndicator>false</stratificationIndicator>
 					<randomizedIndicator>false</randomizedIndicator>
 					<reservationIndicator>false</reservationIndicator>
-					<treatmentIndicator>true</treatmentIndicator>
+					<type>TREATMENT</type>
 					<enrollmentIndicator>true</enrollmentIndicator>
 				</epoch>
 				<studySite gridId="10097ad1-51d6-419e-ab55-1ad10d945f08">

@@ -41,8 +41,7 @@
 		</identifier>
 		<epoch>
 			<name>epoch1</name>
-			<reservationIndicator>false</reservationIndicator>
-			<treatmentIndicator>false</treatmentIndicator>
+			<type>SCREENING</type>
 			<enrollmentIndicator>true</enrollmentIndicator>
 			<arm>
 				<name>A</name>
@@ -50,8 +49,7 @@
 		</epoch>
 		<epoch>
 			<name>epoch2</name>
-			<reservationIndicator>false</reservationIndicator>
-			<treatmentIndicator>false</treatmentIndicator>
+			<type>SCREENING</type>
 			<enrollmentIndicator>true</enrollmentIndicator>
 		</epoch>
 		<studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

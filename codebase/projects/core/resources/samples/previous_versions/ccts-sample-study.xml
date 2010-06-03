@@ -47,7 +47,7 @@
 	<epoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gridId="73b061cf-e4cc-42ec-b7a3-9b8f39ac84ef" xsi:type="TreatmentEpochType">
 		<name>Treatment</name>
 		<descriptionText/>
-		<treatmentIndicator>true</treatmentIndicator>
+		<type>TREATMENT</type>
 		<arm gridId="6d3a4394-3e9e-449f-860b-039aa5e1a93e">
 			<name>Arm A</name>
 			<descriptionText/>

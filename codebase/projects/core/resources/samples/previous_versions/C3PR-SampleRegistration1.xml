@@ -53,8 +53,7 @@
 				<name>epoch</name>
 				<descriptionText />
 				<accrualIndicator>false</accrualIndicator>
-				<reservationIndicator>false</reservationIndicator>
-				<treatmentIndicator>false</treatmentIndicator>
+				<type>SCREENING</type>
 				<enrollmentIndicator>true</enrollmentIndicator>
 				<arm gridId="6cf66ea0-8b59-48fb-9692-b7a59eed5737">
 					<name>Arm A</name>

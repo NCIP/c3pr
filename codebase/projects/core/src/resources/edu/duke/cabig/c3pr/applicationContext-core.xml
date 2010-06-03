@@ -427,6 +427,13 @@
     <!--Apply transactions based on annotation-->
     <tx:annotation-driven proxy-target-class="true"/>
 
+    <!-- Migration Helper -->
+    <bean id="databaseMigrationHelper" class="edu.duke.cabig.c3pr.utils.DatabaseMigrationHelper" autowire="byName">
+        <property name="hibernateTemplate">
+            <ref bean="hibernateTemplate"/>
+        </property>
+    </bean>
+
     <!-- Daos -->
     <bean id="passwordPolicyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.PasswordPolicyDao" autowire="byName">
     </bean>

@@ -53,8 +53,7 @@
 			<accrualCeiling>10</accrualCeiling>
 			<stratificationIndicator>true</stratificationIndicator>
 			<randomizedIndicator>true</randomizedIndicator>
-			<reservationIndicator>false</reservationIndicator>
-			<treatmentIndicator>true</treatmentIndicator>
+			<type>TREATMENT</type>
 			<enrollmentIndicator>true</enrollmentIndicator>
 			<arm gridId="grid1">
 				<name>arm 1</name>
@@ -237,8 +236,7 @@
 					<accrualCeiling>10</accrualCeiling>
 					<stratificationIndicator>true</stratificationIndicator>
 					<randomizedIndicator>true</randomizedIndicator>
-					<reservationIndicator>false</reservationIndicator>
-					<treatmentIndicator>true</treatmentIndicator>
+					<type>TREATMENT</type>
 					<enrollmentIndicator>true</enrollmentIndicator>
 					<arm gridId="grid1">
 						<name>arm 1</name>
@@ -482,8 +480,7 @@
 					<accrualCeiling>10</accrualCeiling>
 					<stratificationIndicator>true</stratificationIndicator>
 					<randomizedIndicator>true</randomizedIndicator>
-					<reservationIndicator>false</reservationIndicator>
-					<treatmentIndicator>true</treatmentIndicator>
+					<type>TREATMENT</type>
 					<enrollmentIndicator>true</enrollmentIndicator>
 					<arm gridId="grid1">
 						<name>arm 1</name>

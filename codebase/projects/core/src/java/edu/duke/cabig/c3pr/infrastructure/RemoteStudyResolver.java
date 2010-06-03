@@ -13,6 +13,7 @@ import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 import com.semanticbits.coppasimulator.util.CoppaPAObjectFactory;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
@@ -359,7 +360,7 @@ public class RemoteStudyResolver implements RemoteResolver {
 		
 		Epoch epoch = new Epoch();
 		//setting default values in epoch
-		epoch.setTreatmentIndicator(true);
+		epoch.setType(EpochType.TREATMENT);
 		epoch.setEnrollmentIndicator(true);
 		epoch.setName("Treatment Epoch");
 		epoch.setEpochOrder(1);

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Required;
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.DatabaseMigrationHelper;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
@@ -21,6 +22,7 @@ public class SetupStatus implements InitializingBean {
     private Map<InitialSetupElement, SetupChecker> checkers;
     private CSMUserRepository csmUserRepository;
     private Configuration configuration;
+    public DatabaseMigrationHelper databaseMigrationHelper;
 
     private boolean[] prepared;
 
@@ -45,6 +47,11 @@ public class SetupStatus implements InitializingBean {
                 return csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN).size() > 0;
             }
         });
+        checkers.put(InitialSetupElement.DATABASE_MIGRATION, new SetupChecker() {
+            public boolean isPrepared() {
+                return !databaseMigrationHelper.isDatabaseMigrationNeeded();
+            }
+        });
     }
 
     public void recheck() {
@@ -64,6 +71,10 @@ public class SetupStatus implements InitializingBean {
     public boolean isPostAuthenticationSetupNeeded(){
         return !prepared[InitialSetupElement.SITE.ordinal()];
     }
+    
+    public boolean isDatabaseMigrationNeeded(){
+        return !prepared[InitialSetupElement.DATABASE_MIGRATION.ordinal()];
+    }
 
     ////// INNER CLASSES
 
@@ -73,7 +84,8 @@ public class SetupStatus implements InitializingBean {
 
     public enum InitialSetupElement {
         SITE,
-        ADMINISTRATOR
+        ADMINISTRATOR,
+        DATABASE_MIGRATION
     }
 
     //////CONFIGURATION
@@ -86,5 +98,11 @@ public class SetupStatus implements InitializingBean {
     @Required
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
+	}
+
+    @Required
+	public void setDatabaseMigrationHelper(
+			DatabaseMigrationHelper databaseMigrationHelper) {
+		this.databaseMigrationHelper = databaseMigrationHelper;
 	}
 }

@@ -517,9 +517,8 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         	cloneEpoch.setEpochOrder(epoch.getEpochOrder());
         	cloneEpoch.setName(epoch.getName());
         	cloneEpoch.setRandomizedIndicator(epoch.getRandomizedIndicator());
-        	cloneEpoch.setReservationIndicator(epoch.getReservationIndicator());
         	cloneEpoch.setStratificationIndicator(epoch.getStratificationIndicator());
-        	cloneEpoch.setTreatmentIndicator(epoch.getTreatmentIndicator());
+        	cloneEpoch.setType(epoch.getType());
 
         	for(Arm arm : epoch.getArms()){
         		String key = arm.getClass().getName() + arm.getId() ;
