@@ -21,6 +21,10 @@
 			<ivy pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/ivy.xml" />
   			<artifact pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/[artifact].[ext]" />
 		</url>
+		<url name="semanticbits-caaers-repo-http">
+			<ivy pattern="http://repo.semanticbits.com/ivy-repo/caAERS/[organisation]/[module]/ivy-[revision].xml" />
+			<artifact pattern="http://repo.semanticbits.com/ivy-repo/caAERS/[organisation]/[module]/jars/[artifact]-[revision].[ext]" />
+		</url>
 		<!-- created for publishing esb-client -->
 		<sftp name="semanticbits-repo-alfie" user="userivy" userPassword="userivy" host="alfie.semanticbits.com">
 		  <ivy pattern="/usr/local/tomcats/ivy-repository/[organisation]/[module]/[revision]/ivy.xml"/>
