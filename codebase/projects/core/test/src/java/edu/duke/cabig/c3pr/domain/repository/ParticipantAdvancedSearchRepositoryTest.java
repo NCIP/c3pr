@@ -30,7 +30,7 @@ public class ParticipantAdvancedSearchRepositoryTest extends
 //		}
 //	}
 //
-//	public void testGetResultSetWithHQLForFirstName() throws Exception {
+	public void testGetResultSetWithHQLForFirstName() throws Exception {
 //		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 //
 //		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
@@ -45,7 +45,7 @@ public class ParticipantAdvancedSearchRepositoryTest extends
 //		
 //		List<Participant> subjects = (List<Participant>)queryBuilderDao.search(hql);
 //		assertEquals("2 participants not found", 2,  subjects.size());
-//	}
+	}
 //	
 //	public void testGetResultSetWithHQLForZipcode() throws Exception {
 //		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
