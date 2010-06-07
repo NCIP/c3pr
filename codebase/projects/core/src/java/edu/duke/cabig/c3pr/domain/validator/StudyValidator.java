@@ -19,6 +19,7 @@ import org.springframework.validation.Validator;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
@@ -40,7 +41,8 @@ public class StudyValidator implements Validator {
 
     private MessageSource c3prErrorMessages;
 
-    private Logger log = Logger.getLogger(StudyValidator.class);
+	private Logger log = Logger.getLogger(StudyValidator.class);
+    
 
     public boolean supports(Class clazz) {
         return Study.class.isAssignableFrom(clazz);
@@ -86,6 +88,36 @@ public class StudyValidator implements Validator {
 
     public void validateStudyIdentifiers(Object target, Errors errors) {
         Study study = (Study) target;
+        
+		List<Identifier> commonIdentifiers = new ArrayList<Identifier>();
+        for(Identifier identifier: study.getIdentifiers()){
+        	List<Study> existingStudies = new ArrayList<Study>();
+        	existingStudies = studyDao.searchByIdentifier(identifier,Study.class);
+        	
+        	//  there cannot be more than 1 study with the same identifier
+        	if(existingStudies.size() > 1){
+        		commonIdentifiers.add(identifier);
+        		break;
+        	}
+        	
+        	if(existingStudies.size() > 0){
+        		// when study is first time created, there cannot be another study with same identifier(s).
+	        	if(study.getId() == null){
+	        		commonIdentifiers.add(identifier);
+	        		break;
+	        		
+	        		// when a study already exists with same identifier, the existing study should be same as current study 
+	        		// otherwise it is already assigned to the other study
+	        	}else if(existingStudies.size()== 1 && !existingStudies.get(0).getId().equals(study.getId())){
+	        		commonIdentifiers.add(identifier);
+	        		break;
+	        	} 
+        	}
+        }
+        for(Identifier identifier: commonIdentifiers){
+        		 errors.reject("tempProperty", getMessageFromCode( getCode("C3PR.COMMON.DUPLICATE.IDENTIFIER.ERROR"),
+ 	                    new Object[]{identifier.getValue(), "Study"},null));
+        	}
         List<OrganizationAssignedIdentifier> allOrganizationAssigedIdentitiers = study
                         .getOrganizationAssignedIdentifiers();
         try {
