@@ -61,7 +61,6 @@ public class DatabaseMigrationController extends SimpleFormController {
 		for(Epoch epoch : epochTypeCommand.getEpochs()){
 			databaseMigrationHelper.updateEpochWithType(epoch.getId(), epoch.getType());
 		}
-		configuration.set(Configuration.DATABASE_MIGRATION_MANUAL_SETUP_NEEDED, "false");
 		setupStatus.recheck();
 		return new ModelAndView(getSuccessView());
 	}
