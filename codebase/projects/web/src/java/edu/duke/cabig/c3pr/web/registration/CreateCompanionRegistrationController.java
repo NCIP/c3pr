@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
@@ -28,12 +29,12 @@ public class CreateCompanionRegistrationController<C extends StudySubjectWrapper
      * Logger for this class
      */
     private static final Logger logger = Logger.getLogger(CreateCompanionRegistrationController.class);
-
+    
 	public CreateCompanionRegistrationController() {
         super("Create Registration");
     }
 
-    @Override
+	@Override
     protected void intializeFlows(Flow flow) {
     	flow.addTab(new SelectStudySiteAndEpochTab());
         flow.addTab(new EnrollmentDetailsTab());
@@ -81,6 +82,17 @@ public class CreateCompanionRegistrationController<C extends StudySubjectWrapper
     		StudySubject parentStudySubject = studySubjectDao.getById(Integer.parseInt(parentRegistrationId));
     		
     		studySubject.setStudySubjectDemographics(parentStudySubject.getStudySubjectDemographics());
+    		
+    		if (!studySubject.getStudySubjectDemographics().getValid()){
+    			Participant participant = parentStudySubject.getStudySubjectDemographics().getMasterSubject();
+    			participantDao.initialize(participant);
+        		wrapper.setParticipant(participant);
+        		
+        	}else{
+        		StudySubjectDemographics studySubjectDemographics = studySubject.getStudySubjectDemographics();
+        		studySubjectDemographicsDao.initialize(studySubjectDemographics);
+        		wrapper.setParticipant(studySubjectDemographics);
+        	}
     		studySubject.setParentStudySubject(parentStudySubject);
     		studySubject.setStartDate(parentStudySubject.getStartDate());
     		studySubject.setPaymentMethod(parentStudySubject.getPaymentMethod());

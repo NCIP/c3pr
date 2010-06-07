@@ -111,7 +111,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     protected ConsentDao consentDao;
     
     /** The studySubjectDemographics dao. */
-    private StudySubjectDemographicsDao studySubjectDemographicsDao;
+    protected StudySubjectDemographicsDao studySubjectDemographicsDao;
 
     public void setStudySubjectDemographicsDao(
 			StudySubjectDemographicsDao studySubjectDemographicsDao) {
@@ -365,10 +365,6 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
 
     public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
         this.healthcareSiteDao = healthcareSiteDao;
-    }
-
-    public ParticipantDao getParticipantDao() {
-        return participantDao;
     }
 
     public void setParticipantDao(ParticipantDao participantDao) {
