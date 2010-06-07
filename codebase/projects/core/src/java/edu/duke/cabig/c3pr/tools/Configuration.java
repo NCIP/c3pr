@@ -119,9 +119,6 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> COPPA_ENABLE = PROPERTIES
     .add(new ConfigurationProperty.Text("coppaEnable"));
     
-    public static final ConfigurationProperty<String> DATABASE_MIGRATION_MANUAL_SETUP_NEEDED = PROPERTIES
-    .add(new ConfigurationProperty.Text("databaseMigrationManualSetupNeeded"));
-    
     
     protected Class<? extends ConfigurationEntry> getConfigurationEntryClass() {
         return C3prConfigurationEntry.class;
