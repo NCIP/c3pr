@@ -34,7 +34,7 @@ function clearField(field) {
    var organizationIdentifierRowInserterProps = {
             add_row_division_id: "identifiersTable", 	        /* this id belongs to element where the row would be appended to */
             skeleton_row_division_id: "dummy-organizationIdentifierRow",
-            initialIndex: ${command.participant.MRN!=null?fn:length(command.participant.organizationAssignedIdentifiers):fn:length(command.participant.organizationAssignedIdentifiers)+1},                            /* this is the initial count of the rows when the page is loaded  */
+            initialIndex: ${fn:length(command.participant.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
             path: "participant.organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
             postProcessRowInsertion: function(object){
 				        clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
