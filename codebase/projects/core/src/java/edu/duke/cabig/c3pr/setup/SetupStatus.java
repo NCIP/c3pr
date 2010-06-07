@@ -22,7 +22,7 @@ public class SetupStatus implements InitializingBean {
     private Map<InitialSetupElement, SetupChecker> checkers;
     private CSMUserRepository csmUserRepository;
     private Configuration configuration;
-    public DatabaseMigrationHelper databaseMigrationHelper;
+    private DatabaseMigrationHelper databaseMigrationHelper;
 
     private boolean[] prepared;
 

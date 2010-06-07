@@ -12,6 +12,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.constants.APIName;
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
@@ -104,7 +105,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
     public boolean isEpochAccrualCeilingReached(int epochId) {
         Epoch epoch = epochDao.getById(epochId);
-        if (epoch.isReserving()) {
+        if (epoch.getType() == EpochType.RESERVING) {
             ScheduledEpoch scheduledEpoch = new ScheduledEpoch(true);
             scheduledEpoch.setEpoch(epoch);
             List<StudySubject> list = studySubjectDao.searchByScheduledEpoch(scheduledEpoch);

@@ -990,6 +990,7 @@ public class StudyDaoTest extends DaoTestCase {
 
             study.addEpoch(studyCreationHelper.createEpoch("TestNonTreatmentEpoch"));
             study.getEpochs().get(0).setEpochOrder(2);
+            study.getEpochs().get(0).setType(EpochType.RESERVING);
 
             Epoch newEpoch = new Epoch();
             newEpoch.setName("Test Non Treatment Epoch");
@@ -1012,7 +1013,7 @@ public class StudyDaoTest extends DaoTestCase {
             List<Epoch> totalEpochs = loaded.getEpochs();
             assertEquals("Wrong number of Epochs are retreived", 2, totalEpochs.size());
             for (Epoch newEpoch : totalEpochs) {
-                assertEquals("Wrong Treatment Indicator: ", EpochType.TREATMENT, newEpoch.getType());
+                assertEquals("Wrong Treatment Indicator: ", EpochType.RESERVING, newEpoch.getType());
             }
             assertEquals("Wrong epoch name", "Test Non Treatment Epoch", (totalEpochs.get(0))
                             .getName());

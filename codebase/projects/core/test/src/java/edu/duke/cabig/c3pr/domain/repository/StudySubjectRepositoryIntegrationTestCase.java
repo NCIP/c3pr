@@ -90,7 +90,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     public void testIsEpochAccrualCeilingReachedReservingCase0(){
         studySubject=persistedStudySubjectCreator.getPersistedLocalNonRandomizedStudySubject(true, true, false);
         persistedStudySubjectCreator.addScheduledNonEnrollingEpochFromStudyEpochs(studySubject);
-        (studySubject.getScheduledEpoch().getEpoch()).setAccrualCeiling(1);
+        studySubject.getScheduledEpoch().getEpoch().setAccrualCeiling(1);
         studySubjectDao.save(studySubject);
         interruptSession();
         assertEquals("Wrong accrual ceiling reached indicator", true, studySubjectRepository.isEpochAccrualCeilingReached(studySubject.getScheduledEpoch().getEpoch().getId()));

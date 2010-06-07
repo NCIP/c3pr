@@ -93,7 +93,11 @@ public class StudyCreationHelper {
         Study study = buildBasicLocalStudy(false, null);
         Epoch epoch = new Epoch();
         epoch.setName("screening");
-        epoch.setType(EpochType.RESERVING);
+        if(reserving){
+        	epoch.setType(EpochType.RESERVING);
+        }else{
+        	epoch.setType(EpochType.TREATMENT);
+        }
         epoch.setEnrollmentIndicator(enrolling);
         study.addEpoch(epoch);
         return study;
@@ -127,6 +131,7 @@ public class StudyCreationHelper {
         epoch.setName("epoch1");
         epoch.setRandomizedIndicator(false);
         epoch.setEnrollmentIndicator(true);
+        epoch.setType(EpochType.TREATMENT);
         return epoch;
     }
 

@@ -77,17 +77,11 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	/** The current book randomization entry position. */
 	private Integer currentBookRandomizationEntryPosition;
 
-	/** The reservation indicator. */
-	private Boolean reservationIndicator = false;
-
 	/** The enrollment indicator. */
 	private Boolean enrollmentIndicator = false;
 
 	/** The stratification indicator. */
 	private Boolean stratificationIndicator = false;
-
-	/** The treatment indicator. */
-	private Boolean treatmentIndicator = false;
 
 	/** The epoch type. */
 	private EpochType type;
@@ -119,16 +113,6 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	@Transient
 	public Boolean getRequiresArm() {
 		return (this.getRandomizedIndicator() || this.getArms().size() > 0);
-	}
-
-	/**
-	 * Checks if is reserving.
-	 *
-	 * @return true, if is reserving
-	 */
-	@Transient
-	public boolean isReserving() {
-		return this.reservationIndicator;
 	}
 
 	/**

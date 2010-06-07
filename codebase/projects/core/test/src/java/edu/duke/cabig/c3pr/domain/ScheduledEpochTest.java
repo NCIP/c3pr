@@ -9,6 +9,7 @@ import java.util.List;
 import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 
@@ -134,7 +135,7 @@ public class ScheduledEpochTest extends AbstractTestCase {
 	 * epoch.isReserving: false
 	 */
 	public void testIsReserving1(){
-		EasyMock.expect(epoch.isReserving()).andReturn(false);
+		EasyMock.expect(epoch.getType()).andReturn(EpochType.TREATMENT);
 		replayMocks();
 		assertEquals(false, scheduledEpoch.isReserving());
 		verifyMocks();
@@ -145,7 +146,7 @@ public class ScheduledEpochTest extends AbstractTestCase {
 	 * epoch.isReserving: true
 	 */
 	public void testIsReserving2(){
-		EasyMock.expect(epoch.isReserving()).andReturn(true);
+		EasyMock.expect(epoch.getType()).andReturn(EpochType.RESERVING);
 		replayMocks();
 		assertEquals(true, scheduledEpoch.isReserving());
 		verifyMocks();

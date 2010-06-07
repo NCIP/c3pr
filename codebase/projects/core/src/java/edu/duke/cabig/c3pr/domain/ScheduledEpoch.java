@@ -22,6 +22,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -314,7 +315,8 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
      */
     @Transient
     public boolean isReserving() {
-        return this.getEpoch().isReserving();
+    	Epoch epoch = getEpoch();
+        return epoch.getType() == EpochType.RESERVING;
     }
 
     /**
