@@ -30,7 +30,7 @@ public class StudyAdvancedSearchRepositoryTest extends
 //		}
 //	}
 //
-//	public void testGenerateHQL() throws Exception {
+	public void testGenerateHQL() throws Exception {
 //		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 //
 //		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
@@ -47,7 +47,7 @@ public class StudyAdvancedSearchRepositoryTest extends
 //		System.out.println("Generated HQL is : " + hql);
 //		System.out.println("######################################################");
 //
-//	}
+	}
 //	
 //	public void testGetResultSetWithHQLForFirstName() throws Exception {
 //		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
