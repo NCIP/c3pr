@@ -11,7 +11,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -31,16 +30,13 @@ public class SelectStudySiteAndEpochTab extends RegistrationTab<StudySubjectWrap
     	Map refdata=super.referenceData(request, command);
 
     	String studyId = request.getParameter("study") ;
-		String participantId = request.getParameter("participant");
 		String parentRegistrationId = request.getParameter("parentRegistrationId");
 		
-		Participant participant = participantDao.getById(Integer.parseInt(participantId));
 		Study companionStudy = studyDao.getById(Integer.parseInt(studyId));
 		StudySubject parentRegistration = studySubjectDao.getById(Integer.parseInt(parentRegistrationId));
         List<StudySite> studySites = getStudySites(parentRegistration.getStudySite().getStudy(), companionStudy) ;
 		
         refdata.put("mandatory", "true");
-		refdata.put("participant", participant);
 		refdata.put("studySites", studySites);
 		refdata.put("epochs", getEnrollingEpochs(companionStudy));
 		refdata.put("companionStudy", companionStudy);
@@ -78,9 +74,6 @@ public class SelectStudySiteAndEpochTab extends RegistrationTab<StudySubjectWrap
     	StudySite studySite = studySiteDao.getById(Integer.parseInt(studySiteId));
         command.getStudySubject().setStudySite(studySite);
     	
-    	StudySubject exampleSS = new StudySubject(true);
-        exampleSS.setParticipant(command.getStudySubject().getParticipant());
-        exampleSS.setStudySite(studySite);
         Integer id = Integer.parseInt(request.getParameter("epoch"));
         
         Epoch epoch = epochDao.getById(id);
