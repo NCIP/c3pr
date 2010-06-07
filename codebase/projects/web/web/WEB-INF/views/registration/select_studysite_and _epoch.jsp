@@ -29,7 +29,7 @@ function manageEpochSelection(element){
 </head>
 <body>
 	<br>
-	<tags:panelBox boxId="mybox" title="Selected Subject: ${participant.fullName}"></tags:panelBox>
+	<tags:panelBox boxId="mybox" title="Selected Subject: ${command.participant.fullName}"></tags:panelBox>
 	<tags:panelBox boxId="mybox" title="Selected Study: ${companionStudy.shortTitleText} (${companionStudy.coordinatingCenterAssignedIdentifier.value})"></tags:panelBox>
 	<tags:formPanelBox tab="${tab}" flow="${flow}" >
 	<chrome:division title="Select Study Site">
