@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -402,12 +401,12 @@ public class HealthcareSiteDao extends OrganizationDao {
 						healthcareSiteWithSameCtepCode = getByCtepCodeFromLocal(remoteHealthcareSiteTemp.getCtepCode());
 						healthcareSiteWithSameNciCode = getByNciCodeFromLocal(remoteHealthcareSiteTemp.getNCICode());
 						if(healthcareSiteWithSameCtepCode != null){
-							//make the remoteHcs refer to the existing one so other associations can be saved succesfully.
+							//make the remoteHcs refer to the existing one so other associations can be saved successfully.
 							remoteHealthcareSiteList.remove(i);
 							remoteHealthcareSiteList.add(i, healthcareSiteWithSameCtepCode);
 							log.warn("Healthcare site with CTEP: " + remoteHealthcareSiteTemp.getCtepCode() + " already exists in database");
 						} else if(healthcareSiteWithSameNciCode != null){
-							//make the remoteHcs refer to the existing one so other associations can be saved succesfully.
+							//make the remoteHcs refer to the existing one so other associations can be saved successfully.
 							remoteHealthcareSiteList.remove(i);
 							remoteHealthcareSiteList.add(i, healthcareSiteWithSameNciCode);
 							log.warn("Healthcare site with NCI: " + remoteHealthcareSiteTemp.getNCICode() + " already exists in database");
@@ -417,7 +416,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 							getHibernateTemplate().save(remoteHealthcareSiteTemp);
 						}
 					} else {
-						//make the study Org list refer to the existing org so other associations can be saved succesfully.
+						//make the study Org list refer to the existing org so other associations can be saved successfully.
 						remoteHealthcareSiteList.remove(i);
 						remoteHealthcareSiteList.add(i, healthcareSiteFromDatabase);
 					}
@@ -466,18 +465,19 @@ public class HealthcareSiteDao extends OrganizationDao {
 
 			Application app = userProvisioningManager
 					.getApplication(csmApplicationContextName);
-			org.setApplication(app);
-			org.setGroupDesc(organization.getDescriptionText());
-			org.setGroupName(siteId);
-			org.setUpdateDate(new Date());
-			log.debug("Creating group for new organization:" + siteId);
-			userProvisioningManager.createGroup(org);
+			//Not creating groups for PG's anymore as of CCTS2.2
+//			org.setApplication(app);
+//			org.setGroupDesc(organization.getDescriptionText());
+//			org.setGroupName(siteId);
+//			org.setUpdateDate(new Date());
+//			log.debug("Creating group for new organization:" + siteId);
+//			userProvisioningManager.createGroup(org);
 
 			ProtectionGroup pg = new ProtectionGroup();
-			pg.setApplication(userProvisioningManager
-					.getApplication(csmApplicationContextName));
-			pg.setParentProtectionGroup(userProvisioningManager
-					.getProtectionGroupById(siteProtectionGroupId));
+			pg.setApplication(app);
+			//not using parent pg anymore as of CCTS2.2
+//			pg.setParentProtectionGroup(userProvisioningManager
+//					.getProtectionGroupById(siteProtectionGroupId));
 			pg.setProtectionGroupName(siteId);
 			log.debug("Creating protection group for new organization:"
 					+ siteId);
@@ -486,19 +486,17 @@ public class HealthcareSiteDao extends OrganizationDao {
 			log.debug("Creating Protection Element for new organization:"
 					+ siteId);
 			ProtectionElement pe = new ProtectionElement();
-			pe.setApplication(userProvisioningManager
-					.getApplication(csmApplicationContextName));
+			pe.setApplication(app);
 			pe.setObjectId(siteId);
 			pe.setProtectionElementName(siteId);
 			pe.setProtectionElementDescription("Site Protection Element");
-			Set pgs = new HashSet();
+			Set<ProtectionGroup> pgs = new HashSet<ProtectionGroup>();
 			pgs.add(pg);
 			pe.setProtectionGroups(pgs);
 			userProvisioningManager.createProtectionElement(pe);
 
-			userProvisioningManager.assignGroupRoleToProtectionGroup(pg
-					.getProtectionGroupId().toString(), org.getGroupId()
-					.toString(), new String[] { siteAccessRoleId });
+//			userProvisioningManager.assignGroupRoleToProtectionGroup(pg
+//				.getProtectionGroupId().toString(), org.getGroupId().toString(), new String[]{siteAccessRoleId});
 
 		} catch (CSObjectNotFoundException e) {
 			log.error("###Error getting info for"

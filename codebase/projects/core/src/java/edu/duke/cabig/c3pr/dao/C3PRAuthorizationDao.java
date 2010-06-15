@@ -112,4 +112,5 @@ public class C3PRAuthorizationDao extends DIAuthorizationDao {
 	 */
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
-	}}
+	}
+}

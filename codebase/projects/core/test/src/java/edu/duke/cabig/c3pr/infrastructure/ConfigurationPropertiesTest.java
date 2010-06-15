@@ -4,6 +4,7 @@ package edu.duke.cabig.c3pr.infrastructure;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperties;
 import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty;
+import gov.nih.nci.cabig.ctms.tools.configuration.DefaultConfigurationProperties;
 import junit.framework.TestCase;
 
 /**
@@ -11,7 +12,7 @@ import junit.framework.TestCase;
  */
 public class ConfigurationPropertiesTest extends TestCase {
     public void testEmptyPropertiesIsEmptyWithoutErrors() throws Exception {
-        ConfigurationProperties empty = ConfigurationProperties.empty();
+        ConfigurationProperties empty = DefaultConfigurationProperties.empty();
         assertEquals(0, empty.size());
         assertNull(empty.get("anything"));
         assertNull(empty.getNameFor("anything"));
