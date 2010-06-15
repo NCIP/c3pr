@@ -18,25 +18,23 @@
 	<c:if test="${!isLoggedInUser && FLOW != 'SETUP_FLOW'}">
 	ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		var error = document.getElementById("errorMsg1");
-		
-		var groups_0 = document.getElementById("groups_0");
-		var groups_1 = document.getElementById("groups_1");
-		var groups_2 = document.getElementById("groups_2");
-		var groups_3 = document.getElementById("groups_3");
+		var multi_groups = document.getElementsByName("groups");
 		
 		if(continueSubmission == true){
-			if(groups_0.checked == true || groups_1.checked == true || groups_2.checked == true || groups_3.checked == true){
-				return true;
-			} else {
-				error.style.display = "";
-				return false;
+			for (i=0;i<=multi_groups.length;i++){
+				if(multi_groups[i].checked == true){
+					return true;
+				}
 			}
+			error.style.display = "";
+			return false;
 		}else {
-			if(groups_0.checked == true || groups_1.checked == true || groups_2.checked == true || groups_3.checked == true){
-				error.style.display = "none";
-			}else{
-				error.style.display = "";
-			} 
+			error.style.display = "";
+			for (i=0;i<=multi_groups.length;i++){
+				if(multi_groups[i].checked == true){
+					error.style.display = "none";
+				}
+			}
 			return false;
 		}
 	}
@@ -468,7 +466,7 @@
                         ${group.displayName}
                 </div>
                 <div class="value">
-                    <form:checkbox id="groups_${status.index}" path="groups" value="${group}" disabled="${fn:contains(group.displayName,'admin') && !isAdmin}" />
+                    <form:checkbox id="groups_${status.index}" path="groups" value="${group}" />
                 </div>
             </div>
         </c:forEach>

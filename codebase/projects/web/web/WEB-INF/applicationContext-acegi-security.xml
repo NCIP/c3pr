@@ -300,7 +300,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="objectPrivilegeMap" ref="urlObjectPrivilegeMap"/>
     </bean>
 
-    <bean id="urlAuthorizationCheck" autowire="byType" class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+    <bean id="urlAuthorizationCheck" autowire="byType" class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
         <property name="csmAuthorizationCheck">
             <bean class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
                 <property name="csmUserProvisioningManager" ref="csmUserProvisioningManager"/>
@@ -309,10 +309,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
         <property name="objectIdGenerator" ref="urlPrivilegeAndObjectIdGenerator"/>
         <property name="privilegeGenerator" ref="urlPrivilegeAndObjectIdGenerator"/>
+        <property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
     </bean>
 
     <bean id="filterAuthorizationCheck" autowire="byType"
-          class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+          class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
         <property name="csmAuthorizationCheck">
             <bean
                     class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
@@ -321,6 +322,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 <property name="authorizationSwitch" ref="authorizationSwitch"/>
             </bean>
         </property>
+        <property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
         <property name="objectIdGenerator"
                   ref="filterPrivilegeAndObjectIdGenerator"/>
         <property name="privilegeGenerator"

@@ -159,7 +159,7 @@ public class CreateResearchStaffController<C extends ResearchStaff> extends
         
         RemoteResearchStaff remoteRStaffSelected = null;
         boolean saveExternalResearchStaff = false;
-
+        
         try {
             if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW) || request.getSession().getAttribute(FLOW).equals(SETUP_FLOW)) {
             	
