@@ -71,7 +71,7 @@ import gov.nih.nci.caxchange.TargetResponseMessage;
 public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, CaXchangeMessageResponseNotifier {
 
     private String caXchangeURL;
-    //default valut. Should not change
+    //default value. Should not change
     private Map messageTypesMapping;
 
     private CaXchangeMessageResponseHandlerSet messageResponseHandlers = new CaXchangeMessageResponseHandlerSet();
@@ -83,6 +83,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     private int timeout;
     public static final String namespaceURI = "http://caXchange.nci.nih.gov/messaging";
     public static final String localPart = "caXchangeResponseMessage";
+    public static final String FAILURE = "FAILURE";
     
     public void setTimeout(int timeout) {
         this.timeout = timeout;
@@ -258,6 +259,13 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     		responseMessage = caXchangeClient.processRequestSynchronously(xchangeMessage);  
     		if(responseMessage.getResponse().getCaXchangeError() != null){
     			log.error("Int hub returned error: "+responseMessage.getResponse().getCaXchangeError().getErrorDescription());
+    		}
+    		if(responseMessage.getResponse().getResponseStatus().getValue().equals(FAILURE)){
+    			log.error("Int hub returned response error: ");
+    			if(responseMessage.getResponse().getTargetResponse(0) != null &&
+    					responseMessage.getResponse().getTargetResponse(0).getTargetError() != null){
+    				log.error(responseMessage.getResponse().getTargetResponse(0).getTargetError().getErrorDescription());
+    			}
     		}
     		InputStream serializeStream = CaXchangeRequestProcessorClient.class.getResourceAsStream("client-config.wsdd");            
     		StringWriter writer = new StringWriter();            

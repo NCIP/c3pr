@@ -47,13 +47,16 @@
 		<dependency org="commons-lang" name="commons-lang" rev="2.3" />
 		<dependency org="commons-logging" name="commons-logging"
 			rev="1.1" />
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.6.0"/>
 		<dependency org="net.sourceforge.collections"
 			name="collections-generic" rev="4.01" />
 		<dependency org="edu.northwestern.bioinformatics"
 			name="core-commons" rev="77" />
 
-		<dependency org="org.acegisecurity" name="acegi-security"
-			rev="1.0.3" />
+		<dependency org="org.acegisecurity" name="acegi-security" rev="1.0.3">
+				<exclude org="gov.nih.nci.security" module="csmapi" rev="3.2.1-ctms00" conf="*"/>
+				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>		
+		</dependency>
 		<dependency org="castor" name="castor" rev="0.9.9" />
 		<dependency org="jdom" name="jdom" rev="1.0" />
 		<dependency org="org.apache.xmlgraphics" name="fop" rev="0.93" />
@@ -105,14 +108,21 @@
 		<dependency org="gov.nih.nci.cabig.ctms"
 			name="ctms-commons-core" rev="${ctmsi.commons.version}" transitive="false" />
 		<!--<dependency org="gov.nih.nci.security.acegi" name="acegi-csm"
-			rev="${ctmsi.commons.version}" transitive="true" />-->
+			rev="${ctmsi.acegi.version}" transitive="true" />-->
 		<dependency org="gov.nih.nci.security.acegi" name="acegi-grid"
-			rev="${ctmsi.commons.version}" transitive="true" />
-
+			rev="${ctmsi.acegi.version}" transitive="true" >
+				<exclude org="gov.nih.nci.security" module="csmapi" rev="3.2.1-ctms00" conf="*"/>
+				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>
+		</dependency>
+		
 		<dependency org="gov.nih.nci.cabig.ctms"
 			name="ctms-commons-lang" rev="${ctmsi.commons.version}" transitive="false" />
+		
 		<dependency org="gov.nih.nci.cabig.ctms"
-			name="ctms-commons-testing-uctrace" rev="${ctmsi.commons.version}" />
+			name="ctms-commons-testing-uctrace" rev="${ctmsi.commons.version}">
+				<exclude org="gov.nih.nci.security" module="csmapi" rev="3.2.1-ctms00" conf="*"/>
+				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>
+		</dependency>
 			
 		<dependency org="wsdl4j"
 			name="wsdl4j" rev="1.5" />
@@ -125,13 +135,19 @@
 		<dependency org="org.springframework" name="spring-mock"
 			rev="2.0.2" force="true" conf="test->default" />
 		<dependency org="edu.northwestern.bioinformatics"
-			name="core-commons-testing" rev="77" conf="test->default" />
+			name="core-commons-testing" rev="77" conf="test->default">
+				<exclude org="gov.nih.nci.security" module="csmapi" rev="3.2.1-ctms00" conf="*"/>
+				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>		
+		</dependency>
 		<dependency org="org.easymock" name="easymockclassextension"
 			rev="2.2.1" conf="test->default" />
 		<dependency org="junit" name="junit" rev="3.8.1"
 			conf="test->default" />
 		<dependency org="gov.nih.nci.cabig.ctms"
-			name="ctms-commons-testing-all" rev="0.8" conf="test->default" />
+			name="ctms-commons-testing-all" rev="0.8" conf="test->default">
+				<exclude org="gov.nih.nci.security" module="csmapi" rev="3.2.1-ctms00" conf="*"/>
+				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>
+		</dependency>
 
 	</dependencies>
 </ivy-module>
