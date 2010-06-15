@@ -4,11 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -40,16 +41,11 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
 import gov.nih.nci.cabig.ctms.suite.authorization.ScopeType;
+import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
-import gov.nih.nci.security.authorization.domainobjects.Group;
-import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
-import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
-import gov.nih.nci.security.dao.GroupSearchCriteria;
-import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
-import gov.nih.nci.security.dao.RoleSearchCriteria;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
@@ -445,7 +441,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 								//this email is not being used as login so use it as the loginId
 								remoteResearchStaff.setLoginId(remoteResearchStaff.getEmail());
 							}
-							saveResearchStaff(remoteResearchStaff);
+							saveOrUpdateStaffAndCSMUser(remoteResearchStaff, null);
 						} else {
 							log.error("Unable to save Remote Staff: "	+ remoteResearchStaff.getFullName()
 									+ " as it's NCI Identifier: "+ remoteResearchStaff.getAssignedIdentifier() + " is already in the database.");
@@ -504,16 +500,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	@Transactional
 	public void saveResearchStaff(ResearchStaff staff) throws C3PRBaseException {
 		save(staff, null);
-
-//		try {
-//			User csmUser = getCSMUser(staff);
-//			csmUser.setOrganization(staff.getHealthcareSite().getPrimaryIdentifier());
-//			assignUserToGroup(csmUser, siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
-//			log.debug("Successfully assigned user to organization group"
-//					+ siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
-//		} catch (CSObjectNotFoundException e) {
-//			new C3PRBaseException("Could not assign user to organization group.");
-//		}
 	}
 
 	/**
@@ -526,6 +512,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 
 	/**
+	 * Need to merge this with createCSMUser. currently used by coppa.
 	 * @param c3prUser
 	 * @param csmUser
 	 * @throws C3PRBaseException
@@ -563,10 +550,91 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			throw new C3PRBaseException("Could not create user", e);
 		}
 	}
+	
+	/**Does not create CSM user if username is blank or null. 
+	 * Else If staff doesn't have a login id then it creates the CSM User and sets the login id in the staff from the created csm user.
+	 * If staff has a login id then it means the csm user exists, so this method will just update it instead.
+	 * 
+	 * @param staff
+	 * @param username
+	 * @return gov.nih.nci.security.authorization.domainobjects.User
+	 * @throws C3PRBaseException, MailException, CSTransactionException
+	 */
+	public gov.nih.nci.security.authorization.domainobjects.User saveOrUpdateStaffAndCSMUser(ResearchStaff staff, String username)
+			throws C3PRBaseException, MailException {
+		
+		C3PRUser c3prUser = (C3PRUser)staff;
+		gov.nih.nci.security.authorization.domainobjects.User csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
+		try {
+			if(StringUtils.isEmpty(username)){
+				if (StringUtils.isEmpty(staff.getLoginId())) {
+					populateCSMUser(c3prUser, csmUser);
+					csmUser.setLoginName(username.toLowerCase());
+					csmUser.setPassword(((edu.duke.cabig.c3pr.domain.User)c3prUser).generatePassword());
+					userProvisioningManager.createUser(csmUser);
+					c3prUser.setLoginId(csmUser.getUserId().toString());
+					UserDao.addUserToken((edu.duke.cabig.c3pr.domain.User) c3prUser);
+				} else {
+					populateCSMUser(c3prUser, csmUser);
+					userProvisioningManager.modifyUser(csmUser);
+				}
+			} else {
+				log.debug("Not creating csm user as staff's username is not specified.");
+			}
+			
+			log.debug("Saving Research Staff");
+			if (c3prUser.getId() != null) {
+				this.merge(c3prUser);
+			} else {
+				this.save(c3prUser);
+			}
+		} catch (CSTransactionException e) {
+			throw new C3PRBaseException("Could not create user", e);
+		}
+		return csmUser;
+	}
+	
+	/**
+	 * Creates the research staff with groups.
+	 *
+	 * @param staff the staff
+	 * @param map the map
+	 * @param username the username
+	 * @return the research staff
+	 */
+	public ResearchStaff saveOrUpdateStaffAndCSMUserWithGroups(ResearchStaff staff,
+			Map<HealthcareSite, List<C3PRUserGroupType>> map, String username) {
+		
+		try {
+			gov.nih.nci.security.authorization.domainobjects.User csmUser = saveOrUpdateStaffAndCSMUser(staff, username);
+			Iterator<HealthcareSite> iter = map.keySet().iterator();
+			HealthcareSite healthcareSite;
+			while(iter.hasNext()){
+				healthcareSite = iter.next();
+				assignUsersToGroup(csmUser, map.get(healthcareSite), healthcareSite);
+			}
+			staff.setLoginId(csmUser.getUserId().toString());	
+			
+			log.debug("Saving c3pr user");
+			if (staff.getId() != null) {
+				this.merge(staff);
+			} else {
+				this.save(staff);
+			}
+		} catch (MailException e) {
+			log.error(e.getMessage());
+		} catch (C3PRBaseException e) {
+			log.error(e.getMessage());
+		}
+		return staff;
+	}
+
 
 	/**
-	 * @param c3prUser
-	 * @param csmUser
+	 * Populate csm user.
+	 *
+	 * @param c3prUser the c3pr user
+	 * @param csmUser the csm user
 	 */
 	private void populateCSMUser(C3PRUser c3prUser,
 			gov.nih.nci.security.authorization.domainobjects.User csmUser) {
@@ -586,11 +654,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @param healthcareSite the healthcare site
 	 * @throws C3PRBaseException the c3pr base exception
 	 */
-	private void assignUsersToGroup(User csmUser,
+	public void assignUsersToGroup(User csmUser,
 			List<C3PRUserGroupType> groupList, HealthcareSite healthcareSite) throws C3PRBaseException {
-//		Set<String> groups = new HashSet<String>();
-//		Set<String> roles = new HashSet<String>();
-		
 		//provisioning as per the new suite authorization -start
 		ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
 		for(C3PRUserGroupType groupType: groupList){
@@ -603,29 +668,15 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			}
 		}
 		//provisioning as per the new suite authorization - end
-		
-//		try {
-//	    	for (C3PRUserGroupType group : groupList) {
-//				groups.add(getGroupIdByName(group.getCode()));
-//			}
-//	    	for(C3PRUserGroupType group: groupList){
-//	    		roles.add(getRoleIdByName(group.getCode()));	
-//			} 
-//			userProvisioningManager.assignGroupsToUser(csmUser.getUserId()
-//					.toString(), groups.toArray(new String[groups.size()]));
-//			
-//			//link the user to the PG corresponding to the staff's org.
-//			String siteId = siteObjectIdGenerator.generateId(healthcareSite);
-//			String protectionGroupId = getProtectionGroupIdByName(healthcareSite);
-//			String[] roleArray = roles.toArray(new String[0]);
-//			userProvisioningManager.assignUserRoleToProtectionGroup(csmUser.getUserId().toString(), roleArray, protectionGroupId);
-//			
-//		} catch (Exception e) {
-//			throw new C3PRBaseException("Could not add user to group", e);
-//		}
 	}
 
 
+	/**
+	 * Sets the sites and studies.
+	 *
+	 * @param suiteRoleMembership the suite role membership
+	 * @param healthcareSite the healthcare site
+	 */
 	private void setSitesAndStudies(SuiteRoleMembership suiteRoleMembership,
 			HealthcareSite healthcareSite) {
 		
@@ -636,100 +687,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			suiteRoleMembership.forAllSites();
 		}
 	}
-
+	
 	/**
-	 * Assign user to group.
+	 * Merge research staff and csm data.
 	 *
-	 * @param csmUser the csm user
-	 * @param groupName the group name
+	 * @param staff the staff
 	 * @throws C3PRBaseException the c3 pr base exception
-	 */
-	private void assignUserToGroup(User csmUser, String groupName)
-			throws C3PRBaseException {
-		Set<String> groups = new HashSet<String>();
-		try {
-			Set<Group> existingSet = userProvisioningManager.getGroups(csmUser
-					.getUserId().toString());
-			for (Group existingGroup : existingSet) {
-				groups.add(existingGroup.getGroupId().toString());
-			}
-			groups.add(getGroupIdByName(groupName));
-			userProvisioningManager.assignGroupsToUser(csmUser.getUserId()
-					.toString(), groups.toArray(new String[groups.size()]));
-		} catch (Exception e) {
-			throw new C3PRBaseException("Could not add user to group", e);
-		}
-	}
-
-	/**
-	 * Gets the group id by name.
-	 *
-	 * @param groupName the group name
-	 * @return the group id by name
-	 */
-	private String getGroupIdByName(String groupName) {
-		Group search = new Group();
-		search.setGroupName(groupName);
-		GroupSearchCriteria sc = new GroupSearchCriteria(search);
-		if (userProvisioningManager.getObjects(sc).size() == 0) {
-			try {
-				userProvisioningManager.createGroup(search);
-				log.warn("Creating the group: "+groupName+" as it doesnt pre-exist. ");
-			} catch (CSTransactionException e) {
-				log.error(e.getMessage());
-			}
-		}
-		Group returnGroup = (Group) userProvisioningManager.getObjects(sc).get(0);
-		return returnGroup.getGroupId().toString();
-	}
-
-	/**
-	 * Gets the role id by name.
-	 * The role name is the same as the group name.
-	 *
-	 * @param groupName the group name
-	 * @return the role id by name
-	 */
-	private String getRoleIdByName(String groupName) {
-		Role search = new Role();
-		search.setName(groupName);
-		RoleSearchCriteria sc = new RoleSearchCriteria(search);
-		if (userProvisioningManager.getObjects(sc).size() == 0) {
-				log.error("This role does not exist in the system :"+groupName);
-		}
-		Role returnRole = (Role) userProvisioningManager.getObjects(sc).get(0);
-		return returnRole.getId().toString();
-	}
-	
-	/**
-	 * Gets the protection group id by name.
-	 *
-	 * @param siteId the site id
-	 * @return the protection group id by name
-	 */
-	private String getProtectionGroupIdByName(HealthcareSite healthcareSite) {
-		String siteId = siteObjectIdGenerator.generateId(healthcareSite);
-		ProtectionGroup search = new ProtectionGroup();
-		search.setProtectionGroupName(siteId);
-		ProtectionGroupSearchCriteria sc = new ProtectionGroupSearchCriteria(search);
-		if (userProvisioningManager.getObjects(sc).size() == 0) {
-				log.error("This ProtectionGroup does not exist in the system :"+siteId+ ". Hence creating it.");
-				try {
-					healthcareSiteDao.createGroupForOrganization(healthcareSite);
-				} catch (C3PRBaseRuntimeException e) {
-					log.error(e.getMessage());
-				} catch (C3PRBaseException e) {
-					log.error(e.getMessage());
-				}
-		}
-		ProtectionGroup returnProtectionGroup = (ProtectionGroup) userProvisioningManager.getObjects(sc).get(0);
-		return returnProtectionGroup.getProtectionGroupId().toString();
-	}
-	
-	
-	/**
-	 * @param staff
-	 * @throws C3PRBaseException
 	 */
 	public void mergeResearchStaffAndCsmData(ResearchStaff staff)
 			throws C3PRBaseException {
@@ -740,26 +703,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			new C3PRBaseException("Could not save Research staff"
 					+ e.getMessage());
 		}
-//		try {
-//			User csmUser = getCSMUser(staff);
-//			csmUser.setOrganization(staff.getHealthcareSite()
-//					.getPrimaryIdentifier());
-//			assignUserToGroup(csmUser, siteObjectIdGenerator.generateId(staff
-//					.getHealthcareSite()));
-//			log.debug("Successfully assigned user to organization group"
-//					+ siteObjectIdGenerator.generateId(staff
-//							.getHealthcareSite()));
-//		} catch (CSObjectNotFoundException e) {
-//			new C3PRBaseException(
-//					"Could not assign user to organization group.");
-//		}
 	}
 
 	/*
-	 * Moved csm related save/merge code here from personnelServiceImpl for
-	 * coppa integration
+	 * Moved csm related save/merge code here from personnelServiceImpl for coppa integration
 	 */
-
 	public void setUserProvisioningManager(
 			UserProvisioningManager userProvisioningManager) {
 		this.userProvisioningManager = userProvisioningManager;
