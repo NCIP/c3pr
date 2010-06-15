@@ -36,7 +36,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPreAuthNeeded(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn(null);
     	EasyMock.expect(databaseMigrationHelper.isDatabaseMigrationNeeded()).andReturn(false);
     	replayMocks();
@@ -46,7 +46,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPreAuthNotNeeded(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>(Arrays.asList(new User[]{new User()})));
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>(Arrays.asList(new User[]{new User()})));
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn(null);
     	EasyMock.expect(databaseMigrationHelper.isDatabaseMigrationNeeded()).andReturn(false);
     	replayMocks();
@@ -56,7 +56,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPostAuthNeeded1(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn(null);
     	EasyMock.expect(databaseMigrationHelper.isDatabaseMigrationNeeded()).andReturn(false);
     	replayMocks();
@@ -66,7 +66,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPostAuthNeeded2(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("SomeNCICode");
     	EasyMock.expect(configuration.get(Configuration.SITE_NAME)).andReturn(null);
     	EasyMock.expect(databaseMigrationHelper.isDatabaseMigrationNeeded()).andReturn(false);
@@ -77,7 +77,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPostAuthNeeded3(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("SomeNCICode");
     	EasyMock.expect(configuration.get(Configuration.SITE_NAME)).andReturn("SITE_NAME");
     	EasyMock.expect(configuration.get(Configuration.SMTP_PROTOCOL)).andReturn(null);
@@ -89,7 +89,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPostAuthNeeded4(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("SomeNCICode");
     	EasyMock.expect(configuration.get(Configuration.SITE_NAME)).andReturn("SITE_NAME");
     	EasyMock.expect(configuration.get(Configuration.SMTP_PROTOCOL)).andReturn("SMTP_PROTOCOL");
@@ -102,7 +102,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPostAuthNeeded5(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("SomeNCICode");
     	EasyMock.expect(configuration.get(Configuration.SITE_NAME)).andReturn("SITE_NAME");
     	EasyMock.expect(configuration.get(Configuration.SMTP_PROTOCOL)).andReturn("SMTP_PROTOCOL");
@@ -116,7 +116,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPostAuthNeeded6(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("SomeNCICode");
     	EasyMock.expect(configuration.get(Configuration.SITE_NAME)).andReturn("SITE_NAME");
     	EasyMock.expect(configuration.get(Configuration.SMTP_PROTOCOL)).andReturn("SMTP_PROTOCOL");
@@ -131,7 +131,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPostAuthNeeded7(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("SomeNCICode");
     	EasyMock.expect(configuration.get(Configuration.SITE_NAME)).andReturn("SITE_NAME");
     	EasyMock.expect(configuration.get(Configuration.SMTP_PROTOCOL)).andReturn("SMTP_PROTOCOL");
@@ -147,7 +147,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPostAuthNeeded8(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("SomeNCICode");
     	EasyMock.expect(configuration.get(Configuration.SITE_NAME)).andReturn("SITE_NAME");
     	EasyMock.expect(configuration.get(Configuration.SMTP_PROTOCOL)).andReturn("SMTP_PROTOCOL");
@@ -164,7 +164,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPostAuthNeeded9(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("SomeNCICode");
     	EasyMock.expect(configuration.get(Configuration.SITE_NAME)).andReturn("SITE_NAME");
     	EasyMock.expect(configuration.get(Configuration.SMTP_PROTOCOL)).andReturn("SMTP_PROTOCOL");
@@ -182,7 +182,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testRecheckPostAuthNotNeeded(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("SomeNCICode");
     	EasyMock.expect(configuration.get(Configuration.SITE_NAME)).andReturn("SITE_NAME");
     	EasyMock.expect(configuration.get(Configuration.SMTP_PROTOCOL)).andReturn("SMTP_PROTOCOL");
@@ -200,7 +200,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testDatabaseMigrationNeededTrue(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn(null);
     	EasyMock.expect(databaseMigrationHelper.isDatabaseMigrationNeeded()).andReturn(true);
     	replayMocks();
@@ -210,7 +210,7 @@ public class SetupStatusTest extends AbstractTestCase {
     }
     
     public void testDatabaseMigrationNeededFalse(){
-    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>());
+    	EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>());
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn(null);
     	EasyMock.expect(databaseMigrationHelper.isDatabaseMigrationNeeded()).andReturn(false);
     	replayMocks();
@@ -222,7 +222,7 @@ public class SetupStatusTest extends AbstractTestCase {
     public void testAfterPropertiesSet(){
     	assertTrue(setupStatus.isPostAuthenticationSetupNeeded());
 		assertTrue(setupStatus.isPreAuthenticationSetupNeeded());
-		EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.C3PR_ADMIN)).andReturn(new HashSet<User>(Arrays.asList(new User[]{new User()})));
+		EasyMock.expect(csmUserRepository.getCSMUsersByGroup(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(new HashSet<User>(Arrays.asList(new User[]{new User()})));
     	EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("SomeNCICode");
     	EasyMock.expect(configuration.get(Configuration.SITE_NAME)).andReturn("SITE_NAME");
     	EasyMock.expect(configuration.get(Configuration.SMTP_PROTOCOL)).andReturn("SMTP_PROTOCOL");

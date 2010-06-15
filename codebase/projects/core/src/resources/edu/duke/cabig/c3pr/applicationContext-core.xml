@@ -134,13 +134,12 @@
 			   <value>edu.duke.cabig.c3pr.domain.Consent</value>
 			   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
 			   <value>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</value>
+			   <value>edu.duke.cabig.c3pr.domain.RolePrivilege</value>
             </list>
         </property>
         <property name="entityInterceptor">
-            <ref local="chainedInterceptor"/>
-            <!--    <bean
-           class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
-           autowire="byName"/> -->
+             <ref local="chainedInterceptor"/>
+             <!--  <bean class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor" autowire="byName"/>  -->
         </property>
         <property name="hibernateProperties">
             <ref bean="hibernateProperties"/>
@@ -316,6 +315,7 @@
 				   	<value>edu.duke.cabig.c3pr.domain.Consent</value>
 				   	<value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
 				   	<value>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</value>
+   				   <value>edu.duke.cabig.c3pr.domain.RolePrivilege</value>
               </list>
         </property>
         <!--  <property name="auditAll">
@@ -372,9 +372,15 @@
         </property>
     </bean>
 
-    <bean name="auditHistoryRepository" class="edu.duke.cabig.c3pr.domain.repository.AuditHistoryRepository">
+    <bean id="auditHistoryDao" class="gov.nih.nci.cabig.ctms.audit.dao.AuditHistoryDao">
         <property name="sessionFactory">
             <ref local="auditSessionFactory"/>
+        </property>
+    </bean>
+    
+    <bean name="auditHistoryRepository" class="edu.duke.cabig.c3pr.domain.repository.AuditHistoryRepository">
+        <property name="auditHistoryDao">
+            <ref local="auditHistoryDao"/>
         </property>
     </bean>
 
@@ -493,6 +499,8 @@
 	<bean id="studySiteStudyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao" autowire="byName"/>
     <bean id="studySubjectStudyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectStudyVersionDao" autowire="byName"/>
 	<bean id="consentDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ConsentDao" autowire="byName"/>
+	<bean id="rolePrivilegeDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RolePrivilegeDao" autowire="byName"/>
+	
 
 	<!-- Multisite Request Handlers -->
     <!--  <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
