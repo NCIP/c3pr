@@ -60,6 +60,8 @@
 		
 		<ibiblio name="mvn.repo" root="http://mirrors.ibiblio.org/pub/mirrors/maven2" m2compatible="true" changingPattern=".*SNAPSHOT">
 		</ibiblio>
+		
+		<ibiblio name="nci-ivy-repo" root="https://ncisvn.nci.nih.gov/svn/cbiit-ivy-repo/trunk/" pattern="[organization]/[module]/[revision]/[artifact]-[revision].[ext]" />
        </chain>
 		
 	</resolvers>
