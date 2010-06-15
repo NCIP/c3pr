@@ -66,5 +66,31 @@ public class SecurityUtils {
 		}
 		return roleTypes;
 	}
+
+	/**
+	 * Gets the role types that can access staff.
+	 *
+	 * @return the role types that can access staff
+	 */
+	public static List<RoleTypes> getRoleTypesFromCodeList(List<String> codeList) {
+		List<RoleTypes> roleTypes = new ArrayList<RoleTypes>();
+		for(String role: codeList){
+			roleTypes.add(RoleTypes.getByCode(role));
+		}
+		return roleTypes;
+	}
+	
+	/**
+	 * Checks for all site access. Does this by refering the csm PG.
+	 * To be implemented.
+	 *
+	 * @param authentication the authentication
+	 * @return true, if successful
+	 */
+	public static boolean hasAllSiteAccess(Authentication authentication) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 }
