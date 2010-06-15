@@ -123,8 +123,18 @@
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.advancedStudySearch(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 	
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.search*(..))"
+               value="edu.duke.cabig.c3pr.domain.ResearchStaff:READ"/>
+
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.get*(..))"
+               value="edu.duke.cabig.c3pr.domain.ResearchStaff:READ"/>
+                              
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.InvestigatorDao.search*(..))"
+               value="edu.duke.cabig.c3pr.domain.Investigator:READ"/>	
 	
-	
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.InvestigatorDao.get*(..))"
+               value="edu.duke.cabig.c3pr.domain.Investigator:READ"/>
+               	
 		<entry key="execution(* save(edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy))"
                value="edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy:UPDATE"/>
                
@@ -152,13 +162,14 @@
     </bean>
 
     <bean id="daoAuthorizationCheck" autowire="byType"
-          class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+          class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
         <property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck">
         </property>
         <property name="objectIdGenerator"
                   ref="joinPointPrivilegeAndObjectIdGenerator"/>
         <property name="privilegeGenerator"
                   ref="joinPointPrivilegeAndObjectIdGenerator"/>
+        <property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
     </bean>
 
     <bean id="daoSecurityInterceptor" parent="daoSecurityInterceptorTemplate"
@@ -169,6 +180,8 @@
                 edu.duke.cabig.c3pr.dao.StudyDao.*=CSM_AUTHN_CHECK,C3PR_AUTH_CHECK
                 edu.duke.cabig.c3pr.dao.StudySubjectDao.*=CSM_AUTHN_CHECK,C3PR_AUTH_CHECK
                 edu.duke.cabig.c3pr.dao.ParticipantDao.*=CSM_AUTHN_CHECK,C3PR_AUTH_CHECK
+				edu.duke.cabig.c3pr.dao.ResearchStaffDao.*=CSM_AUTHN_CHECK
+				edu.duke.cabig.c3pr.dao.InvestigatorDao.*=CSM_AUTHN_CHECK
             </value>
         </property>
         <property name="accessDecisionManager">
@@ -227,7 +240,19 @@
         <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
         <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
     </bean>
+
+    <bean id="researchStaffSiteCSMGroupAuthorizationCheckProvider"
+          class="edu.duke.cabig.c3pr.accesscontrol.ResearchStaffSiteCSMGroupAuthorizationCheckProvider">
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
+    </bean>
     
+    <bean id="investigatorSiteCSMGroupAuthorizationCheckProvider"
+          class="edu.duke.cabig.c3pr.accesscontrol.InvestigatorSiteCSMGroupAuthorizationCheckProvider">
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
+    </bean>
+            
     <bean id="studySecurityFilter"
         class="edu.duke.cabig.c3pr.accesscontrol.StudySecurityFilter">
         <property name="csmUserRepository" ref="csmUserRepository"/>
@@ -243,6 +268,28 @@
         <property name="csmUserRepository" ref="csmUserRepository"/>
     </bean>
 
+    <bean id="researchStaffSecurityFilter"
+        class="edu.duke.cabig.c3pr.accesscontrol.ResearchStaffSecurityFilter">
+        <property name="csmUserRepository" ref="csmUserRepository"/>
+        <property name="rolesThatCanAccessStaff">
+            <list>
+                <value>ROLE_person_and_organization_information_manager</value>
+                <value>ROLE_user_administrator</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="investigatorSecurityFilter"
+        class="edu.duke.cabig.c3pr.accesscontrol.InvestigatorSecurityFilter">
+        <property name="csmUserRepository" ref="csmUserRepository"/>
+        <property name="rolesThatCanAccessInvestigators">
+            <list>
+                <value>ROLE_person_and_organization_information_manager</value>
+                <value>ROLE_user_administrator</value>
+            </list>
+        </property>
+    </bean>
+        
     <util:map id="domainObjectCSMAuhthorizationCheckProvidersMap"
               map-class="java.util.LinkedHashMap">
 
@@ -252,21 +299,25 @@
                value-ref="studySubjectSiteCSMGroupAuthorizationCheckProvider"/>
         <entry key="edu.duke.cabig.c3pr.domain.Participant"
                value-ref="participantSiteCSMGroupAuthorizationCheckProvider"/>
-
+        <entry key="edu.duke.cabig.c3pr.domain.ResearchStaff"
+               value-ref="researchStaffSiteCSMGroupAuthorizationCheckProvider"/>
+        <entry key="edu.duke.cabig.c3pr.domain.Investigator"
+               value-ref="investigatorSiteCSMGroupAuthorizationCheckProvider"/>
     </util:map>
     
     <util:map id="domainObjectC3PRAuhthorizationCheckProvidersMap"
-        map-class="java.util.LinkedHashMap">
+        	  map-class="java.util.LinkedHashMap">
         
         <entry key="edu.duke.cabig.c3pr.domain.Study"
-        value-ref="studySecurityFilter"/>
-        
+  		        value-ref="studySecurityFilter"/>
         <entry key="edu.duke.cabig.c3pr.domain.StudySubject"
-        value-ref="studySubjectSecurityFilter"/>
-        
+        		value-ref="studySubjectSecurityFilter"/>
         <entry key="edu.duke.cabig.c3pr.domain.Participant"
-            value-ref="subjectSecurityFilter"/>
-        
+            	value-ref="subjectSecurityFilter"/>
+        <entry key="edu.duke.cabig.c3pr.domain.ResearchStaff"
+            	value-ref="researchStaffSecurityFilter"/>
+        <entry key="edu.duke.cabig.c3pr.domain.Investigator"
+            	value-ref="investigatorSecurityFilter"/>            	        
     </util:map>
 
     <bean id="csmBasedSecurityCollectionFilter"
@@ -297,9 +348,11 @@
     </bean>
 
     <bean id="csmUserDetailsService"
-          class="gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService">
+          class="edu.duke.cabig.c3pr.accesscontrol.C3prUserDetailsService">
         <property name="csmUserProvisioningManager"
                   ref="csmUserProvisioningManager"/>
+        <property name="provisioningSessionFactory"
+                  ref="provisioningSessionFactory"/>                 
     </bean>
 
     <bean id="localAuthenticationProvider"

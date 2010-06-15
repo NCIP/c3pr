@@ -26,6 +26,13 @@
         <property name="username" value="${datasource.username}"/>
         <property name="password" value="${datasource.password}"/>
     </bean>
+    
+    <bean id="csmDataSource" parent="dataSourceTemplate">
+        <property name="url" value="${csmDatasource.url}"/>
+        <property name="username" value="${csmDatasource.username}"/>
+        <property name="password" value="${csmDatasource.password}"/>
+    </bean>
+    
     <bean id="hibernateProperties"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
