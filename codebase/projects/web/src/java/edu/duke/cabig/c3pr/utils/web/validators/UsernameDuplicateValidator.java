@@ -47,7 +47,7 @@ public class UsernameDuplicateValidator implements Validator {
         	}
 
         if (user.getGroups() != null && user.getGroups().size() < 1) {
-            errors.reject("Please select atleast 1 group for user");
+            errors.reject("groups.required");
         }
     }
 
