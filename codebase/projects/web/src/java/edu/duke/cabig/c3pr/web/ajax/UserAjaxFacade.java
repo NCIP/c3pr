@@ -96,17 +96,18 @@ public class UserAjaxFacade {
     public List<Person> matchNameAndEmail(String text, String assignedIdentifier) throws Exception {
     	//getting the site of the logged in user
     	ResearchStaff rStaff = researchStaffDao.getByAssignedIdentifierFromLocal(assignedIdentifier);
-    	String nciInstituteCode = null;
+//    	String nciInstituteCode = null;
+    	//FIXME : Vinay Gangoli (Security code should take care of getting research staff associted to correct healthcare site.)
+//    	if(rStaff != null){
+//    		nciInstituteCode =  rStaff.getHealthcareSite().getPrimaryIdentifier();
+//    	} else {
+//    		//Defaulting to the hosting site...as no site was found for logged in user.
+//    		//nciInstituteCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
+//    		log.error("No organization associated to the user.");
+//    	}
     	
-    	if(rStaff != null){
-    		nciInstituteCode =  rStaff.getHealthcareSite().getPrimaryIdentifier();
-    	} else {
-    		//Defaulting to the hosting site...as no site was found for logged in user.
-    		nciInstituteCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
-    	}
-    	
-    	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>(new LinkedHashSet<ResearchStaff> (researchStaffDao.getBySubNameAndSubEmail(extractSubnames(text), nciInstituteCode)));
-        List<HealthcareSiteInvestigator> hcsInvestigatorsList = new ArrayList<HealthcareSiteInvestigator>(new LinkedHashSet<HealthcareSiteInvestigator> (healthcareSiteInvestigatorDao.getBySubNameAndSubEmail(extractSubnames(text), nciInstituteCode)));
+    	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>(new LinkedHashSet<ResearchStaff> (researchStaffDao.getBySubNameAndSubEmail(extractSubnames(text))));
+        List<HealthcareSiteInvestigator> hcsInvestigatorsList = new ArrayList<HealthcareSiteInvestigator>(new LinkedHashSet<HealthcareSiteInvestigator> (healthcareSiteInvestigatorDao.getBySubNameAndSubEmail(extractSubnames(text))));
 
         List<Investigator> investigatorsList = new ArrayList<Investigator>();
         for(HealthcareSiteInvestigator hcsi: hcsInvestigatorsList){

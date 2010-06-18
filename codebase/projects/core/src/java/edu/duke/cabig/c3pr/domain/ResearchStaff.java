@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
@@ -40,9 +42,11 @@ public abstract class ResearchStaff extends User {
     private String assignedIdentifier;
     
     /** The healthcare site. */
-    private HealthcareSite healthcareSite;
+//    private HealthcareSite healthcareSite;
     
-    /** The status code. */
+	private List<HealthcareSite> healthcareSites = new ArrayList<HealthcareSite>();
+    
+	/** The status code. */
     private StatusType statusCode = StatusType.AC;
     
 	/** The user based recipient. */
@@ -136,25 +140,25 @@ public abstract class ResearchStaff extends User {
         this.contactMechanisms = contactMechanisms;
     }
 
-    /**
-     * Gets the healthcare site.
-     * 
-     * @return the healthcare site
-     */
-    @ManyToOne
-    @JoinColumn(name = "HCS_ID")
-    public HealthcareSite getHealthcareSite() {
-        return healthcareSite;
-    }
-
-    /**
-     * Sets the healthcare site.
-     * 
-     * @param healthcareSite the new healthcare site
-     */
-    public void setHealthcareSite(HealthcareSite healthcareSite) {
-        this.healthcareSite = healthcareSite;
-    }
+//    /**
+//     * Gets the healthcare site.
+//     * 
+//     * @return the healthcare site
+//     */
+//    @ManyToOne
+//    @JoinColumn(name = "HCS_ID")
+//    public HealthcareSite getHealthcareSite() {
+//        return healthcareSite;
+//    }
+//
+//    /**
+//     * Sets the healthcare site.
+//     * 
+//     * @param healthcareSite the new healthcare site
+//     */
+//    public void setHealthcareSite(HealthcareSite healthcareSite) {
+//        this.healthcareSite = healthcareSite;
+//    }
 
     /**
      * Compare to.
@@ -233,4 +237,19 @@ public abstract class ResearchStaff extends User {
 		this.assignedIdentifier = assignedIdentifier;
 	}
 	
+	/**
+	 * @return the healthcareSites
+	 */
+    @ManyToMany
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinTable(name = "rs_hc_site_assocn", joinColumns = @JoinColumn(name = "rs_id"), inverseJoinColumns = @JoinColumn(name = "hcs_id"))
+	public List<HealthcareSite> getHealthcareSites() { 	
+		return healthcareSites;
+	}
+	public void setHealthcareSites(List<HealthcareSite> healthcareSites) {
+		this.healthcareSites = healthcareSites;
+	}
+	public void addHealthcareSite(HealthcareSite healthcareSite){
+    	this.getHealthcareSites().add(healthcareSite);
+    } 
 }

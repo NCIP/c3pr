@@ -77,7 +77,7 @@ public class ParticipantDetailsTab extends ParticipantTab {
     	if(command.getParticipant().getId() == null){
     		gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
     		.getSession().getAttribute("userObject");
-        	command.getParticipant().getHealthcareSites().add(personnelService.getUserOrganization(user));
+        	command.getParticipant().getHealthcareSites().addAll(personnelService.getUserOrganizations(user));
     	}
     }
 

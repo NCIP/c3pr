@@ -87,8 +87,12 @@ public class StudySecurityFilter implements DomainObjectSecurityFilterer{
 		for(StudySite studySite:study.getStudySites()){
 			healthcareSiteList.add(studySite.getHealthcareSite());
 		}
-		return healthcareSiteList.contains(researchStaff.getHealthcareSite()) ||
-		study.getStudyCoordinatingCenter().getHealthcareSite().equals(researchStaff.getHealthcareSite());
+		for(HealthcareSite hcSite : researchStaff.getHealthcareSites()){
+    		if(healthcareSiteList.contains(hcSite) || hcSite.equals(study.getStudyCoordinatingCenter().getHealthcareSite())){
+        		return true;
+        	}
+    	}
+    	return false;
 	}
 	
 	private boolean hasStudyLevelAccessPermission(ResearchStaff researchStaff , Study study){

@@ -54,8 +54,10 @@
 
     <ARMS id="2100" version="1" name="Arm A" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="2100" retired_indicator="false"/>
 
-    <RESEARCH_STAFF id="1100" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1100" dtype="Local" />
-
+    <RESEARCH_STAFF id="1100" version="1" first_name="Research Bill" last_name="Staff2"  dtype="Local" />
+	
+	<rs_hc_site_assocn id="1100" rs_id="1100" hcs_id="1100" />
+	
     <INVESTIGATORS id="1100" version="1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" />
 
     <INVESTIGATORS id="2100" version="1" first_name="Adam" last_name="Staff1" dtype="Local" />

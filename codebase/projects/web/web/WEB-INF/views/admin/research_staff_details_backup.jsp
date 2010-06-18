@@ -1,5 +1,4 @@
 <%@ include file="taglibs.jsp"%>
-<%@ taglib uri="http://c3pr.nci.nih.gov/c3pr" prefix="c3pr" %>
 <html>
 <head>
 <title>
@@ -32,6 +31,50 @@
 </style>
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
+	
+function displayRemoteResearchStaff(){
+	var contentWin = new Window({className:"alphacube", destroyOnClose:true, id:"remoteRS-popup-id", width:550,  height:200, top: 30, left: 300});
+	contentWin.setContent( 'display_remote_rs' );
+  	contentWin.showCenter(true);
+ 	popupObserver = {
+			onDestroy: function(eventName, win) {
+				if (win == contentWin) {
+					$('display_remote_rs').style.display='none';
+					contentWin = null;
+					Windows.removeObserver(this);
+				}
+			}
+		}
+ 	Windows.addObserver(popupObserver);
+}
+
+Event.observe(window, "load", function(){
+	if(${fn:length(command.researchStaff.externalResearchStaff) gt 0}){
+		displayRemoteResearchStaff();
+	}
+});
+
+function submitRemoteRsForSave(){
+	var form = document.getElementById('command');
+	form._action.value="saveRemoteRStaff";
+	form.submit();
+}
+	
+function selectResearchStaff(selectedIndex){
+	var form = document.getElementById('command')
+	form._selected.value=selectedIndex;
+	document.getElementById('save-yes').disabled = false;
+}
+	
+function syncResearchStaff(){
+	document.getElementById('command')._action.value="syncResearchStaff";
+	document.getElementById('command').submit();
+}
+
+function submitForm(){
+	document.getElementById('command').submit();
+}
+	
 function handleUsername(){
 	if($('usernameCheckbox').checked){
 		if($('email').value==''){
@@ -133,7 +176,8 @@ RowManager.registerRowInserters();
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
-	<input type="hidden" name="_username" value="">
+	<input type="hidden" name="_createStaff" value="">
+	<input type="hidden" name="_createUser" value="">
 	
 	<tags:instructions code="research_staff_details" />
 	<tags:errors path="*"/>
@@ -240,11 +284,10 @@ RowManager.registerRowInserters();
         <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
         <div class="value">
         	<c:choose>
-        	<c:when test="${empty command.userName}">
-        		<form:input size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+        	<c:when test="${FLOW == 'SAVE_FLOW'}">
+        		<form:input size="20" path="researchStaff.loginId" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
         		<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
         		<input id="copiedEmailAddress" type="hidden"/>
-        		<input type="hidden" name="_createUser" value="true">
         	</c:when>
         	<c:otherwise>${username}</c:otherwise>
         	</c:choose>
@@ -262,23 +305,48 @@ RowManager.registerRowInserters();
 <chrome:division title="Associated Organizations" cssClass="big">
 	<table id="associateOrganization" width="100%" border="0">
 	<tr></tr>
-    <c:forEach items="${command.healthcareSiteRolesHolderList}" var="healthcareSiteRolesHolder"  varStatus="status">
+    <c:forEach items="${command.researchStaff.healthcareSites}" var="healthcareSite"  varStatus="status">
     <tr id="healthcareSite-${status}">
 	    <td>
 		<chrome:deletableDivision divTitle="genericTitle-${status.index}" id="genericHealthcareSiteBox-${status.index}" cssClass="small"
-	    	title="Organization: ${command.healthcareSiteRolesHolderList[status.index].healthcareSite.name} (${command.healthcareSiteRolesHolderList[status.index].healthcareSite.primaryIdentifier })" minimize="true" divIdToBeMinimized="hcs-${status.index}" disableDelete="true"
+	    	title="Organization: ${command.researchStaff.healthcareSites[status.index].name} (${command.researchStaff.healthcareSites[status.index].primaryIdentifier })" minimize="true" divIdToBeMinimized="hcs-${status.index}" disableDelete="true"
 		    onclick="#">
 			<div id="hcs-${status.index}" style="display: none">
- 				<tags:errors path="healthcareSiteRolesHolderList[${status.index}]" />
-				<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
-					<div class="newLabel"> 
-						<input type="checkbox" id="hcs-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${group.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, group)}"> checked </c:if> />
-					</div>
-					<div class="newValue">
-						${group.displayName}
-					</div>
-					
-		    	</c:forEach>
+ 				<tags:errors path="researchStaff.healthcareSites[${status.index}]" />
+ 				<div class="leftpanel">
+	 				<table width="80%" align="center">
+						<c:forEach items="${groups}" var="group" varStatus="groupStatusL" begin="0" end="${(fn:length(groups)/2) - 1}">
+							<tr>
+								<td>
+									<div class="row">
+							            <div class="newLabel">abc <!-- 
+							             --></div>
+							             <div class="newValue">
+											${group.displayName}						                
+							            </div>
+							        </div>
+								</td>
+							</tr>
+				    	</c:forEach>
+					</table>
+				</div>
+				<div class="rightpanel">
+					<table width="80%" align="center">
+						<c:forEach items="${groups}" var="group" varStatus="groupStatusR" begin="${(fn:length(groups)/2)}" end="${fn:length(groups) - 1}">
+							<tr>
+								<td>
+									<div class="row">
+							            <div class="newLabel">avc<!-- 
+							            --></div>
+							             <div class="newValue">
+											${group.displayName}						                
+							            </div>
+							        </div>
+								</td>
+							</tr>
+				    	</c:forEach>
+					</table>	
+				</div>
 			</div>
 		</chrome:deletableDivision>
 		</td>
@@ -292,7 +360,6 @@ RowManager.registerRowInserters();
 	<div align="right">
 		<tags:button size="small" type="button" color="blue" icon="add" value="Associate organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
 	</div>
-
 </chrome:box>
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
@@ -311,6 +378,43 @@ RowManager.registerRowInserters();
 	</jsp:attribute>
 </tags:tabControls>
 </form:form>
+</div>
+
+<div id="display_remote_rs" style="display:none;text-align:left" >
+	<chrome:box title="Please select a Research Staff Person to be saved in C3PR" id="popupId">
+		<div class="eXtremeTable">
+          <table width="100%" border="0" cellspacing="0"  class="tableRegion">
+            <thead>
+              <tr align="center" class="label">
+              	<td/>
+                <td class="tableHeader">First Name</td>
+                <td class="tableHeader">Last Name</td>
+                <td class="tableHeader">Email Address</td>
+              </tr>
+            </thead>
+            <c:forEach items="${command.researchStaff.externalResearchStaff}"  var="remRs" varStatus="rdStatus">
+              <tr>
+              	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onClick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
+                <td align="left">${remRs.firstName}</td>
+                <td align="left">${remRs.lastName}</td>
+                <td align="left">${remRs.email}</td>
+              </tr>
+            </c:forEach>
+          </table>
+		</div>
+		<br><br>
+   		<table width="100%">	
+   			<tr>
+   				<td align="left">
+   					<input type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
+   				</td>
+   				<td align="right">
+    				<input type="submit" disabled value="Ok" id="save-yes" onClick="javascript:window.parent.submitRemoteRsForSave();"/>
+   				</td>
+   			</tr>	
+   		</table>
+	</chrome:box>
+</div>
 <!-- Dummy Section -->
 <div id="dummy-healthcareSite" style="display: none"></div>
 <div id="genericHtml" style="display: none">
@@ -319,15 +423,15 @@ RowManager.registerRowInserters();
 	    <td>
 		<chrome:deletableDivision divTitle="genericTitle-PAGE.ROW.INDEX" id="genericHealthcareSiteBox-PAGE.ROW.INDEX" cssClass="indented"
 	    	title="Organization" onclick="RowManager.deleteRow(healthcareSiteRowInserterProps,PAGE.ROW.INDEX,-1)" >
- 				<tags:errors path="healthcareSiteRolesHolderList[PAGE.ROW.INDEX]" />
+ 				<tags:errors path="researchStaff.study.healthcareSites[PAGE.ROW.INDEX]" />
  				<div class="row">
  					<div class="label">
  						<fmt:message key="c3pr.common.organization"></fmt:message>
 	 				</div>
 	 				<div class="value">
-	 					<input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite" />
+	 					<input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="healthcareSites[PAGE.ROW.INDEX]" />
        					<input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input" size="40"  
-       																						value="${command.healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite.name}"/>
+       																						value="${command.researchStaff.healthcareSites[PAGE.ROW.INDEX].name}"/>
       		 			<tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
 						<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
 	 				</div>
@@ -335,13 +439,13 @@ RowManager.registerRowInserters();
  				<br>
  				<div class="leftpanel">
 	 				<table width="80%" align="center">
-						<c:forEach items="${groups}" var="group" varStatus="groupStatusL" begin="0" end="${(fn:length(groups)/2) }">
+						<c:forEach items="${groups}" var="group" varStatus="groupStatusL" begin="0" end="${(fn:length(groups)/2) - 1}">
 							<tr>
 								<td>
 									<div class="row">
-							            <div class="newLabel">
-							            	<input type="checkbox" />
-							             </div>
+							            <div class="newLabel">bsd 
+							            <!-- 
+							             --></div>
 							             <div class="newValue">
 											${group.displayName}						                
 							            </div>
@@ -353,13 +457,12 @@ RowManager.registerRowInserters();
 				</div>
 				<div class="rightpanel">
 					<table width="80%" align="center">
-						<c:forEach items="${groups}" var="group" varStatus="groupStatusR" begin="${(fn:length(groups)/2) + 1}" end="${fn:length(groups) - 1}">
+						<c:forEach items="${groups}" var="group" varStatus="groupStatusR" begin="${(fn:length(groups)/2)}" end="${fn:length(groups) - 1}">
 							<tr>
 								<td>
 									<div class="row">
-							            <div class="newLabel">
-											<input type="checkbox" /> 
-							             </div>
+							            <div class="newLabel"><!-- 
+							             --></div>
 							             <div class="newValue">
 											${group.displayName}						                
 							            </div>

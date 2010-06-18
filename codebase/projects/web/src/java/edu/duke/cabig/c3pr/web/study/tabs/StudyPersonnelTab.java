@@ -56,26 +56,27 @@ public class StudyPersonnelTab extends StudyTab {
         Study study = wrapper.getStudy();
         
         for(StudySite studySite : study.getStudySites()){
-        	for(StudyPersonnel studyPersonnel : studySite.getStudyPersonnel()){
-        		ResearchStaff researchStaff = studyPersonnel.getResearchStaff();
-        		List<C3PRUserGroupType> groupRoles = new ArrayList<C3PRUserGroupType>();
-					groupRoles = getGroups(researchStaff);
-					researchStaff.setGroups(groupRoles);
-        	} 
+//        	for(StudyPersonnel studyPersonnel : studySite.getStudyPersonnel()){
+//        		ResearchStaff researchStaff = studyPersonnel.getResearchStaff();
+//        		List<C3PRUserGroupType> groupRoles = new ArrayList<C3PRUserGroupType>();
+//        		FIXME : Vinay Gangoli
+//					groupRoles = getGroups(researchStaff);
+//					researchStaff.setGroups(groupRoles);
+//        	} 
         }
         addConfigMapToRefdata(refdata, "studyPersonnelStatusRefData");
         return refdata;
     }
-
-    private List<C3PRUserGroupType> getGroups(ResearchStaff researchStaff) {
-    	List<C3PRUserGroupType> list = new ArrayList<C3PRUserGroupType>();
-		try {
-			list = personnelService.getGroups(researchStaff);
-		} catch (C3PRBaseException e) {
-			e.printStackTrace();
-		}
-		return list ; 
-	}
+//FIXME : Vinay Gangoli
+//    private List<C3PRUserGroupType> getGroups(ResearchStaff researchStaff) {
+//    	List<C3PRUserGroupType> list = new ArrayList<C3PRUserGroupType>();
+//		try {
+//			list = personnelService.getGroups(researchStaff);
+//		} catch (C3PRBaseException e) {
+//			e.printStackTrace();
+//		}
+//		return list ; 
+//	}
 
     @Override
     public void postProcessOnValidation(HttpServletRequest request, StudyWrapper wrapper,

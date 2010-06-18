@@ -59,7 +59,7 @@ public class PersonnelServiceTestCase extends DaoTestCase {
 
         // now save the research staff
         researchStaff = new LocalResearchStaff();
-        researchStaff.setHealthcareSite(site);
+        researchStaff.addHealthcareSite(site);
         researchStaff.setAssignedIdentifier("test-user");
         researchStaff.setFirstName("test");
         researchStaff.setLastName("user");

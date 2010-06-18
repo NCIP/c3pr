@@ -61,6 +61,10 @@ public enum C3PRUserGroupType implements CodedEnum<String> {
         return sentenceCasedName(this);
     }
     
+    public String getName() {
+        return name();
+    }
+    
 	public static SuiteRole getUnifiedSuiteRole(C3PRUserGroupType groupType) {
 		
 		switch(groupType){

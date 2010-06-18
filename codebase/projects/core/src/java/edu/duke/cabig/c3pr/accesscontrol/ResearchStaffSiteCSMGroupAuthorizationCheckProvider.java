@@ -6,6 +6,8 @@ import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 
+import java.util.List;
+
 import org.acegisecurity.Authentication;
 import org.apache.log4j.Logger;
 
@@ -34,10 +36,15 @@ public class ResearchStaffSiteCSMGroupAuthorizationCheckProvider implements
         if (domainObject instanceof ResearchStaff) {
         	ResearchStaff researchStaff = (ResearchStaff) domainObject;
         	//get the researchStaff's hcs and see if logged in user has access to that organization.
-        	HealthcareSite hcs = researchStaff.getHealthcareSite();
-            log.debug("### Checking permission for user on site:"+ hcs.getPrimaryIdentifier());
-            hasPermission = csmGroupAuthorizationCheck.checkAuthorizationForObjectId(
-                            authentication, permission, siteObjectIdGenerator.generateId(hcs));
+        	
+        	List<HealthcareSite> hcSites = researchStaff.getHealthcareSites();
+        	for(HealthcareSite hcSite : hcSites){
+            	log.debug("### Checking permission for user on site:"+ hcSite.getPrimaryIdentifier());
+                hasPermission = csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication, permission, siteObjectIdGenerator.generateId(hcSite));
+                if(hasPermission){
+                	break ;
+                }
+            }
         }
         else {
             log.debug("Unsupported object sent to StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider. Expecting Study object found "

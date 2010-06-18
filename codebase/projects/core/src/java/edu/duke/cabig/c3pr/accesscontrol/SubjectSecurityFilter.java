@@ -73,9 +73,10 @@ public class SubjectSecurityFilter implements DomainObjectSecurityFilterer{
     	for(OrganizationAssignedIdentifier identifier : participant.getOrganizationAssignedIdentifiers()){
     		hcsList.add(identifier.getHealthcareSite());
     	}
-    	if(participant.getHealthcareSites().contains(researchStaff.getHealthcareSite()) || 
-    			hcsList.contains(researchStaff.getHealthcareSite())){
-    		return true;
+    	for(HealthcareSite hcSite : researchStaff.getHealthcareSites()){
+    		if(hcsList.contains(hcSite)){
+        		return true;
+        	}
     	}
     	return false;
 	}

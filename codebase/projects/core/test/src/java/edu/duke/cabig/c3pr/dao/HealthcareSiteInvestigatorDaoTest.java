@@ -147,7 +147,7 @@ public class HealthcareSiteInvestigatorDaoTest extends
     }
     
     public void testGetBySubNameAndSubEmail() throws Exception{
-    	List<HealthcareSiteInvestigator> healthcareSiteInvestigators = dao.getBySubNameAndSubEmail(new String[]{"Bi","test"},"code");
+    	List<HealthcareSiteInvestigator> healthcareSiteInvestigators = dao.getBySubNameAndSubEmail(new String[]{"Bi","test"});
     	assertEquals("Wrong numbers of investigators retrieved",1, healthcareSiteInvestigators.size());
     }
     

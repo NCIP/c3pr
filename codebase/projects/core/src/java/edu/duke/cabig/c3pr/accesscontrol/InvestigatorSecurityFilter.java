@@ -113,8 +113,10 @@ public class InvestigatorSecurityFilter implements DomainObjectSecurityFilterer{
 		for(HealthcareSiteInvestigator hcsi : investigator.getHealthcareSiteInvestigators()){
 			healthcareSites.add(hcsi.getHealthcareSite());
 		}
-		if(healthcareSites.contains(researchStaff.getHealthcareSite())){
-			return true;
+		for(HealthcareSite hcSite : researchStaff.getHealthcareSites()){
+			if(healthcareSites.contains(hcSite)){
+				return true;
+			}
 		}
 		return false;
 	}

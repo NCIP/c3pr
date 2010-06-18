@@ -87,21 +87,19 @@ public class CreateNotificationController extends SimpleFormController {
 	
 
     protected Object formBackingObject(HttpServletRequest request) throws Exception {    	
-    	    	
-    	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
-        																					.getSession().getAttribute("userObject");
-    	ResearchStaff researchStaff = null;
+	    NotificationWrapper wrapper = new NotificationWrapper();   	
+    	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request.getSession().getAttribute("userObject");
     	try {
     		//get the logged in users site.
-			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
-			return researchStaff.getHealthcareSite();
+    		ResearchStaff researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
+			wrapper.getHealthcareSites().addAll(researchStaff.getHealthcareSites());
 		} catch (C3PRNoSuchUserException e) {
 			log.debug(e.getMessage());
 			//if logged in user has no site(e.g: c3pr_admin) get the hosting site.
 			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
-    		Organization org = healthcareSiteDao.getByPrimaryIdentifier(localNciCode);
-            return org;
+			wrapper.getHealthcareSites().add(healthcareSiteDao.getByPrimaryIdentifier(localNciCode));
 		}
+		return wrapper ;
     }
 
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
@@ -143,18 +141,6 @@ public class CreateNotificationController extends SimpleFormController {
     	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
 																		.getSession().getAttribute("userObject");
     	ResearchStaff researchStaff = null;
-    	HealthcareSite hcs = null;
-    	try {
-			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
-			//Get the logged in users site....
-			hcs = researchStaff.getHealthcareSite();
-		} catch (C3PRNoSuchUserException e) {
-			log.debug(e.getMessage());
-			//if logged in user has no site(e.g: c3pr_admin) get the hosting site.
-			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
-    		hcs = healthcareSiteDao.getByPrimaryIdentifier(localNciCode);
-		}
-    	
     	if (isAjaxRequest(request)) {
 			request.getParameter("_asynchronous");
 			ModelAndView modelAndView = page.postProcessAsynchronous(request,
@@ -187,6 +173,8 @@ public class CreateNotificationController extends SimpleFormController {
 	        Trigger trigger = null;
 	        
 	        PlannedNotification pn = null;
+	        HealthcareSite hcs = null;
+				
 	        for(int i = 0; i < organization.getPlannedNotifications().size(); i++){
 	        	pn = organization.getPlannedNotifications().get(i);
 	        	if(pn.getHealthcareSite() == null && hcs != null){
@@ -235,18 +223,6 @@ public class CreateNotificationController extends SimpleFormController {
 	        		plannedNotificationDao.saveOrUpdate(pn);
 	        	}
 	        }
-	        
-//	        if(organization.getId() != null){
-//	        	organizationService.mergeNotification(organization);    	
-//	        }else {
-//	        	organizationService.saveNotification(organization);
-//	        }
-	       
-//	        for(int i = 0; i < organization.getPlannedNotifications().size(); i++){
-//	        	pn = organization.getPlannedNotifications().get(i);
-//	        	trigger = generateTriggerForReportBasedEvents(pn, i);
-//	        	scheduleJobsForReportBasedEvents(pn, trigger, i);
-//	        }
 	        
 	        Map map = errors.getModel();
 	        map.put("command", organization);

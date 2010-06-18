@@ -8,6 +8,7 @@ import org.acegisecurity.Authentication;
 import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.constants.RoleTypes;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
@@ -107,8 +108,14 @@ public class ResearchStaffSecurityFilter implements DomainObjectSecurityFilterer
 	 * @param researchStaff the study
 	 * @return true, if successful
 	 */
-	private boolean hasSiteLevelAccessPermission(ResearchStaff loggedIdResearchStaff , ResearchStaff researchStaff){
-		return researchStaff.getHealthcareSite().equals(loggedIdResearchStaff.getHealthcareSite());
+	private boolean hasSiteLevelAccessPermission(ResearchStaff loggedInResearchStaff , ResearchStaff researchStaff){
+		List<HealthcareSite> hcSites = researchStaff.getHealthcareSites();
+		for(HealthcareSite hcSite : loggedInResearchStaff.getHealthcareSites()){
+			if(hcSites.contains(hcSite)){
+				return true ;
+			}
+		}
+		return false;
 	}
 	
 	

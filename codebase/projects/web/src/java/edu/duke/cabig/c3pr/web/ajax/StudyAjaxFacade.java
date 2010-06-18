@@ -248,21 +248,6 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         return reducedPersonnel;
     }
 
-    public List<ResearchStaff> matchResearchStaffs(String text, int siteIndex,
-                    HttpServletRequest request) throws Exception {
-        StudyWrapper wrapper = (StudyWrapper) getCommandOnly(request);
-        Study study = wrapper.getStudy();
-        int siteId = study.getStudyOrganizations().get(siteIndex).getHealthcareSite().getId();
-        List<ResearchStaff> staffCol = researchStaffDao
-                        .getBySubnames(extractSubnames(text), siteId);
-        List<ResearchStaff> reducedStaffCol = new ArrayList<ResearchStaff>(staffCol.size());
-        for (ResearchStaff staff : staffCol) {
-            reducedStaffCol.add(buildReduced(staff, Arrays.asList("id", "firstName", "lastName")));
-        }
-
-        return reducedStaffCol;
-    }
-
     public List<String> matchResearchStaffRoles(String id, HttpServletRequest request)
                     throws Exception {
         List<C3PRUserGroupType> groups = new ArrayList<C3PRUserGroupType>();

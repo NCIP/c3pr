@@ -124,7 +124,7 @@ public class RemoteResearchStaffResolverTest extends ApplicationContextTest{
 		remoteResearchStaff.setAddress(address);
 		HealthcareSite healthcareSite = new LocalHealthcareSite();
 		healthcareSite.setCtepCode("NCIMB");
-		remoteResearchStaff.setHealthcareSite(healthcareSite);
+		remoteResearchStaff.addHealthcareSite(healthcareSite);
 		return remoteResearchStaff;
 	}
 

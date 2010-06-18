@@ -22,21 +22,22 @@ public class CommonUtils {
         return "";
     }
 	
+	public static User getLoggedInUser() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication auth = context.getAuthentication();
+        if (auth != null) {
+            return (User)auth.getPrincipal();
+        }
+        return null;
+    }
+	
+	
     public static String getDateString(Date date){
       if (date != null) {
     	  		return DateUtil.formatDate(date, "MM/dd/yyyy");
 		}
 		return "";
     }
-
-
-//    public static Date getOldDate(Date date, int days){
-//		GregorianCalendar cal = new GregorianCalendar();
-//		cal.setTime(date);
-//		cal.add(Calendar.DATE, days);
-//		return cal.getTime();
-//
-//    }
 
     public static String listErrors(List<Error> errors){
     	StringBuffer sb = new StringBuffer();

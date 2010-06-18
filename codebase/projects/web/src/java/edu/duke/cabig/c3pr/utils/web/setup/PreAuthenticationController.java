@@ -19,8 +19,8 @@ import edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController;
 /**
  * @author Kruttik Aggarwal
  */
-public class PreAuthenticationController<C extends ResearchStaff> extends
-                CreateResearchStaffController<ResearchStaff> {
+public class PreAuthenticationController extends
+                CreateResearchStaffController {
 
     private Logger log = Logger.getLogger(PreAuthenticationController.class);
     
@@ -29,7 +29,7 @@ public class PreAuthenticationController<C extends ResearchStaff> extends
     private SetupStatus setupStatus;
     
 	@Override
-    protected ModelAndView onSynchronousSubmit(HttpServletRequest request,
+    protected ModelAndView onSubmit(HttpServletRequest request,
                     HttpServletResponse response, Object command, BindException errors)
                     throws Exception {
 		String userName = "";
@@ -41,7 +41,7 @@ public class PreAuthenticationController<C extends ResearchStaff> extends
 			researchStaff = (ResearchStaff)command;
 		}else{
 			userName = ((ResearchStaff)command).getLoginId();
-			ModelAndView mv = super.onSynchronousSubmit(request, response, command, errors);
+			ModelAndView mv = super.onSubmit(request, response, command, errors);
 			researchStaffDao.flush();
 			if(errors.hasErrors()){
 				return showForm(request, response, errors);

@@ -38,6 +38,7 @@ import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import gov.nih.nci.cabig.ctms.suite.authorization.AuthorizationHelper;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
 import gov.nih.nci.cabig.ctms.suite.authorization.ScopeType;
@@ -89,6 +90,16 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	/** The healthcare site dao. */
 	private HealthcareSiteDao healthcareSiteDao;
+	
+	private AuthorizationHelper authorizationHelper ;
+
+	public AuthorizationHelper getAuthorizationHelper() {
+		return authorizationHelper;
+	}
+
+	public void setAuthorizationHelper(AuthorizationHelper authorizationHelper) {
+		this.authorizationHelper = authorizationHelper;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -101,10 +112,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 
 	public void initialize(ResearchStaff researchStaff){
-		if(researchStaff.getHealthcareSite() != null){
-			getHibernateTemplate().initialize(researchStaff.getHealthcareSite().getIdentifiersAssignedToOrganization());
-			getHibernateTemplate().initialize(researchStaff.getContactMechanisms());
+		for(HealthcareSite healthcareSite : researchStaff.getHealthcareSites()){
+			getHibernateTemplate().initialize(healthcareSite.getIdentifiersAssignedToOrganization());
 		}
+		getHibernateTemplate().initialize(researchStaff.getContactMechanisms());
 	}
 	
 	@Transactional(readOnly = false)
@@ -112,23 +123,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		getHibernateTemplate().flush();
 	}
 	
-	/**
-	 * Gets the by subnames.
-	 *
-	 * @param subnames
-	 *            the subnames
-	 * @param healthcareSite
-	 *            the healthcare site
-	 *
-	 * @return the by subnames
-	 */
-	public List<ResearchStaff> getBySubnames(String[] subnames,
-			int healthcareSite) {
-		return findBySubname(subnames, "o.healthcareSite.id = '"
-				+ healthcareSite + "'", EXTRA_PARAMS,
-				SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
-	}
-
 	/**
 	 * Gets the by sub name and sub email.
 	 *
@@ -139,10 +133,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 *
 	 * @return the by sub name and sub email
 	 */
-	public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames, String ctepCode) {
-		return findBySubname(subnames,
-				"o.healthcareSite.identifiersAssignedToOrganization.value = '"+ ctepCode + "'" +
-        		" and o.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1'",
+	public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames) {
+		return findBySubname(subnames,null ,
 				EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
 	}
 
@@ -156,8 +148,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 *
 	 * @return the list< research staff>
 	 */
-	public List<ResearchStaff> searchByExample(ResearchStaff staff,
-			boolean isWildCard) {
+	public List<ResearchStaff> searchByExample(ResearchStaff staff, boolean isWildCard) {
 
 		// get the remote staff and update the database first
 		RemoteResearchStaff remoteResearchStaff = convertToRemoteResearchStaff(staff);
@@ -169,21 +160,17 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		example.excludeProperty("salt");
 		example.excludeProperty("passwordLastSet");
 		try {
-			Criteria criteria = getSession()
-					.createCriteria(ResearchStaff.class);
+			Criteria criteria = getSession().createCriteria(ResearchStaff.class);
 			criteria.addOrder(Order.asc("assignedIdentifier"));
-			criteria
-					.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+			criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
 			if (isWildCard) {
 				example.enableLike(MatchMode.ANYWHERE);
 				criteria.add(example);
-				if (staff.getHealthcareSite() != null) {
-					criteria.createCriteria("healthcareSite").add(
-							Restrictions
-									.ilike("name", "%"
-											+ staff.getHealthcareSite()
-													.getName() + "%"));
+				if (staff.getHealthcareSites().size() > 0) {
+					criteria.createCriteria("healthcareSites").add(Restrictions.ilike("name", "%" + staff.getHealthcareSites().get(0).getName() + "%")); 
+							// As per discussion in search by example staff will have only one healthcare site
+							
 				}
 				result = criteria.list();
 			} else {
@@ -204,23 +191,17 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @return the list< research staff>
 	 */
 	@SuppressWarnings( { "unchecked" })
-	public List<ResearchStaff> searchResearchStaff(
-			final ResearchStaffQuery query) {
+	public List<ResearchStaff> searchResearchStaff(final ResearchStaffQuery query) {
 		String queryString = query.getQueryString();
 		log.debug("::: " + queryString.toString());
 		return (List<ResearchStaff>) getHibernateTemplate().execute(
 				new HibernateCallback() {
-
-					public Object doInHibernate(final Session session)
-							throws HibernateException, SQLException {
-						org.hibernate.Query hiberanteQuery = session
-								.createQuery(query.getQueryString());
-						Map<String, Object> queryParameterMap = query
-								.getParameterMap();
+					public Object doInHibernate(final Session session) throws HibernateException, SQLException {
+						org.hibernate.Query hiberanteQuery = session.createQuery(query.getQueryString());
+						Map<String, Object> queryParameterMap = query.getParameterMap();
 						for (String key : queryParameterMap.keySet()) {
 							Object value = queryParameterMap.get(key);
 							hiberanteQuery.setParameter(key, value);
-
 						}
 						return hiberanteQuery.list();
 					}
@@ -238,12 +219,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	public ResearchStaff getByAssignedIdentifierFromLocal(String assignedIdentifier) {
 		ResearchStaff result = null;
 		try {
-			result = (ResearchStaff) (getHibernateTemplate().find(
-					"from ResearchStaff rs where rs.assignedIdentifier = '"
-							+ assignedIdentifier + "'").get(0));
+			result = (ResearchStaff) (getHibernateTemplate().find("from ResearchStaff rs where rs.assignedIdentifier = '" + assignedIdentifier + "'").get(0));
 		} catch (Exception e) {
-			log.debug("User with assignedIdentifier " + assignedIdentifier
-					+ " does not exist. Returning null");
+			log.debug("User with assignedIdentifier " + assignedIdentifier + " does not exist. Returning null");
 		}
 		return result;
 	}
@@ -257,7 +235,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @return the research staff
 	 */
 	public ResearchStaff getByAssignedIdentifier(String assignedIdentifier) {
-
 		ResearchStaff researchStaff = getByAssignedIdentifierFromLocal(assignedIdentifier);
 		if(researchStaff == null){
 			//get the remote staff and update the database
@@ -317,8 +294,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		remoteResearchStaff.setAddress(researchStaff.getAddress());
 		remoteResearchStaff.setFirstName(researchStaff.getFirstName());
 		remoteResearchStaff.setLastName(researchStaff.getLastName());
-		remoteResearchStaff
-				.setHealthcareSite(researchStaff.getHealthcareSite());
+		for(HealthcareSite hcSite : researchStaff.getHealthcareSites()){
+			remoteResearchStaff.addHealthcareSite(hcSite);
+		}
 		remoteResearchStaff.setAssignedIdentifier(researchStaff.getAssignedIdentifier());
 		return remoteResearchStaff;
 	}
@@ -337,7 +315,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	public List<ResearchStaff> getResearchStaffByOrganizationNCIInstituteCode(
 			HealthcareSite healthcareSite) {
 		RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
-		remoteResearchStaff.setHealthcareSite(healthcareSite);
+		remoteResearchStaff.addHealthcareSite(healthcareSite);
 		getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
 
 		//run a query against the updated database to get all research staff
@@ -354,7 +332,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		//run a query against the updated database to get all research staff
 		Criteria researchStaffCriteria = getHibernateTemplate().getSessionFactory()
 				.getCurrentSession().createCriteria(ResearchStaff.class);
-		Criteria healthcareSiteCriteria = researchStaffCriteria.createCriteria("healthcareSite");
+		Criteria healthcareSiteCriteria = researchStaffCriteria.createCriteria("healthcareSites");
 		Criteria identifiersAssignedToOrganizationCriteria = healthcareSiteCriteria.createCriteria("identifiersAssignedToOrganization");
 		
 		identifiersAssignedToOrganizationCriteria.add(Expression.eq("value", healthcareSite.getPrimaryIdentifier()));
@@ -380,26 +358,24 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		RemoteResearchStaff retrievedRemoteResearchStaff;
 		for (Object object : objectList) {
 			retrievedRemoteResearchStaff = (RemoteResearchStaff) object;
-			if (retrievedRemoteResearchStaff.getHealthcareSite() != null) {
+			if (retrievedRemoteResearchStaff.getHealthcareSites().size() > 0) {
 				// If the organization attached to the staff is in the db use it. Else create it.
-				HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao
-						.getByPrimaryIdentifierFromLocal(retrievedRemoteResearchStaff
-								.getHealthcareSite().getPrimaryIdentifier());
-				if (matchingHealthcareSiteFromDb == null) {
-					log.error("No Organization exists for the CTEP Code:"
-							+ retrievedRemoteResearchStaff.getHealthcareSite().getPrimaryIdentifier());
-					try {
-						healthcareSiteDao.createGroupForOrganization(retrievedRemoteResearchStaff.getHealthcareSite());
-						healthcareSiteDao.save(retrievedRemoteResearchStaff.getHealthcareSite());
-					} catch (C3PRBaseRuntimeException e) {
-						log.error(e.getMessage());
-					} catch (C3PRBaseException e) {
-						log.error(e.getMessage());
+				for(HealthcareSite hcs : retrievedRemoteResearchStaff.getHealthcareSites() ){
+					HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao.getByPrimaryIdentifierFromLocal(hcs.getPrimaryIdentifier());
+					if (matchingHealthcareSiteFromDb == null) {
+						log.error("No Organization exists for the CTEP Code:" + hcs.getPrimaryIdentifier());
+						try {
+							healthcareSiteDao.createGroupForOrganization(hcs);
+							healthcareSiteDao.save(hcs);
+						} catch (C3PRBaseRuntimeException e) {
+							log.error(e.getMessage());
+						} catch (C3PRBaseException e) {
+							log.error(e.getMessage());
+						}
+					} else {
+						// we have the retrieved staff's Org in our db...link up with the same
+						retrievedRemoteResearchStaff.addHealthcareSite(matchingHealthcareSiteFromDb);
 					}
-				} else {
-					// we have the retrieved staff's Org in our db...link up with the same
-					retrievedRemoteResearchStaff
-							.setHealthcareSite(matchingHealthcareSiteFromDb);
 				}
 			} else {
 				//If the resolver hasn't set the hcs, it can't be saved. We don't save staff without organization.
@@ -429,7 +405,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					updateContactMechanisms(researchStaffFromDatabase.get(0), remoteResearchStaff);
 				} else {
 					// Ensure the staff has an organization and that its assignedId is unique.
-					if (remoteResearchStaff.getHealthcareSite() != null) {
+					if (remoteResearchStaff.getHealthcareSites().size() > 0) {
 						ResearchStaff researchStaffWithMatchingAssignedIdentifier = 
 								getByAssignedIdentifierFromLocal(remoteResearchStaff.getAssignedIdentifier());
 						if (researchStaffWithMatchingAssignedIdentifier == null) {
@@ -544,8 +520,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				this.save(c3prUser);
 			}
 			c3prUser.setLoginId(csmUser.getUserId().toString());
-
-			assignUsersToGroup(csmUser, c3prUser.getGroups(), staff.getHealthcareSite());
+//			FIXME : Vinay Gangoli
+//			assignUsersToGroup(csmUser, c3prUser.getGroups(), staff.getHealthcareSite());
 		} catch (CSTransactionException e) {
 			throw new C3PRBaseException("Could not create user", e);
 		}
@@ -566,7 +542,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		C3PRUser c3prUser = (C3PRUser)staff;
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
 		try {
-			if(StringUtils.isEmpty(username)){
+			if(!StringUtils.isEmpty(username)){
 				if (StringUtils.isEmpty(staff.getLoginId())) {
 					populateCSMUser(c3prUser, csmUser);
 					csmUser.setLoginName(username.toLowerCase());
@@ -611,7 +587,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			HealthcareSite healthcareSite;
 			while(iter.hasNext()){
 				healthcareSite = iter.next();
-				assignUsersToGroup(csmUser, map.get(healthcareSite), healthcareSite);
+				assignUsersToGroup(csmUser, map.get(healthcareSite), healthcareSite, false);
 			}
 			staff.setLoginId(csmUser.getUserId().toString());	
 			
@@ -652,10 +628,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @param csmUser the csm user
 	 * @param groupList the group list
 	 * @param healthcareSite the healthcare site
+	 * @param hasAccessToAllSites 
 	 * @throws C3PRBaseException the c3pr base exception
 	 */
 	public void assignUsersToGroup(User csmUser,
-			List<C3PRUserGroupType> groupList, HealthcareSite healthcareSite) throws C3PRBaseException {
+			List<C3PRUserGroupType> groupList, HealthcareSite healthcareSite, boolean hasAccessToAllSites) throws C3PRBaseException {
 		//provisioning as per the new suite authorization -start
 		ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
 		for(C3PRUserGroupType groupType: groupList){
@@ -663,7 +640,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				log.error("Ignoring the invalid role that was passed to the Dao: " + groupType.getDisplayName());
 			} else {
 				SuiteRoleMembership suiteRoleMembership = new SuiteRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(groupType), null, null);
-				setSitesAndStudies(suiteRoleMembership, healthcareSite);
+				setSitesAndStudies(suiteRoleMembership, healthcareSite, hasAccessToAllSites);
 				provisioningSession.replaceRole(suiteRoleMembership);	
 			}
 		}
@@ -676,10 +653,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 *
 	 * @param suiteRoleMembership the suite role membership
 	 * @param healthcareSite the healthcare site
+	 * @param hasAccessToAllSites 
 	 */
 	private void setSitesAndStudies(SuiteRoleMembership suiteRoleMembership,
-			HealthcareSite healthcareSite) {
-		
+		HealthcareSite healthcareSite, boolean hasAccessToAllSites) {
 		Set<ScopeType> scopeTypes = suiteRoleMembership.getRole().getScopes();
 		if(scopeTypes.contains(ScopeType.SITE)){
 			suiteRoleMembership.addSite(healthcareSite.getPrimaryIdentifier());
@@ -700,16 +677,14 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			User csmUser = getCSMUser(staff);
 			save(staff, csmUser);
 		} catch (CSObjectNotFoundException e) {
-			new C3PRBaseException("Could not save Research staff"
-					+ e.getMessage());
+			new C3PRBaseException("Could not save Research staff" + e.getMessage());
 		}
 	}
 
 	/*
 	 * Moved csm related save/merge code here from personnelServiceImpl for coppa integration
 	 */
-	public void setUserProvisioningManager(
-			UserProvisioningManager userProvisioningManager) {
+	public void setUserProvisioningManager(UserProvisioningManager userProvisioningManager) {
 		this.userProvisioningManager = userProvisioningManager;
 	}
 
@@ -733,8 +708,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @param researchStaff
 	 * @return
 	 */
-	public List<ResearchStaff> getRemoteResearchStaff(
-			final ResearchStaff researchStaff) {
+	public List<ResearchStaff> getRemoteResearchStaff( final ResearchStaff researchStaff) {
 		ResearchStaff searchCriteria = new RemoteResearchStaff();
 		searchCriteria.setAssignedIdentifier(researchStaff.getAssignedIdentifier());
 		List<ResearchStaff> remoteResearchStaffs = (List)remoteSession.find(searchCriteria);
@@ -745,9 +719,123 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		return provisioningSessionFactory;
 	}
 
-	public void setProvisioningSessionFactory(
-			ProvisioningSessionFactory provisioningSessionFactory) {
+	public void setProvisioningSessionFactory(ProvisioningSessionFactory provisioningSessionFactory) {
 		this.provisioningSessionFactory = provisioningSessionFactory;
 	}
+	
+	// creates or updates research Staff
+	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff) throws C3PRBaseException {
+		return createOrModifyResearchStaff(staff, false, null, null, false);
+	}
+	
+	// create updates research staff and creates csm user also if createCsmUser flag is set to yes and user name is passed
+	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, boolean createCsmUser, String username) throws C3PRBaseException {
+		return createOrModifyResearchStaff(staff, createCsmUser, username, null, false);
+	}
+	
+	// assign roles to organization for a particulat staff
+	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException {
+		return createOrModifyResearchStaff(staff, false, null, associationMap, false);
+	}
+	
+	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, boolean createCsmUser, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException {
+		C3PRUser c3prUser = (C3PRUser)staff;
+		gov.nih.nci.security.authorization.domainobjects.User csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
+		if(createCsmUser && StringUtils.isNotBlank(username)){
+			try {
+				populateCSMUser(c3prUser, csmUser);
+				csmUser.setLoginName(username.toLowerCase());
+				csmUser.setPassword(((edu.duke.cabig.c3pr.domain.User)c3prUser).generatePassword());
+				userProvisioningManager.createUser(csmUser);
+				c3prUser.setLoginId(csmUser.getUserId().toString());
+				UserDao.addUserToken((edu.duke.cabig.c3pr.domain.User) c3prUser);
+			} catch (CSTransactionException e) {
+				throw new C3PRBaseException("Could not create user", e);
+			}
+		}else{
+			log.debug("Not creating csm user as createCsmUser flag is set to false.");
+		}
+		
+		boolean csmUserExists = false ;
+		try {
+			csmUser = getCSMUser(c3prUser);
+			if(csmUser != null){
+				csmUserExists = true ;
+			}
+		} catch (CSObjectNotFoundException e) {
+			csmUserExists = false ;
+		}
+		
+		if(!createCsmUser && csmUserExists){
+			log.debug("Updating csm user to make sure csmUser is refelecting same information as research staff.");
+			// We have to make sure we update csm user everytime because we dont know if firstname, last name or email address got updated.
+			try {
+				populateCSMUser(c3prUser, csmUser);
+				userProvisioningManager.modifyUser(csmUser);
+			} catch (CSTransactionException e) {
+				throw new C3PRBaseException("not able to update csm user", e);
+			} 
+		}
+		
+//		log.debug("Saving Research Staff");
+//		c3prUser = (C3PRUser)merge(c3prUser);
+
+		if(associationMap != null && !associationMap.isEmpty() && csmUserExists){
+			c3prUser = assignRolesToOrganization(c3prUser, csmUser, associationMap, hasAccessToAllSites);
+		}
+		c3prUser = (C3PRUser)merge(c3prUser);
+		return (ResearchStaff)c3prUser ;
+	}
+	
+	
+	
+	private C3PRUser assignRolesToOrganization(C3PRUser c3prUser, User csmUser, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) {
+		Iterator<HealthcareSite> iter = associationMap.keySet().iterator();
+		HealthcareSite healthcareSite;
+		while(iter.hasNext()){
+			healthcareSite = iter.next();
+			try {
+				assignUsersToGroup(csmUser, associationMap.get(healthcareSite), healthcareSite, hasAccessToAllSites);
+			} catch (C3PRBaseException e) {
+				log.error(e.getMessage());
+			}
+		}
+		return c3prUser;
+	}
+	
+
+    /**
+     * Gets the user groups for organization.
+     *
+     * @param csmUser the csm user
+     * @param healthcareSite the healthcare site
+     * @return the user groups for organization
+     */
+    public List<C3PRUserGroupType> getUserGroupsForOrganization(User csmUser, HealthcareSite healthcareSite){
+        List<C3PRUserGroupType> groupList = new ArrayList<C3PRUserGroupType>();
+        Map<SuiteRole, SuiteRoleMembership> rolesMap =
+            authorizationHelper.getRoleMemberships(csmUser.getUserId());
+       
+        Iterator<SuiteRole> iter = rolesMap.keySet().iterator();
+        SuiteRoleMembership suiteRoleMembership;
+        SuiteRole suiteRole;
+       
+        while(iter.hasNext()){
+            suiteRole = iter.next();
+            if(suiteRole.getScopes().contains(ScopeType.SITE)){
+                suiteRoleMembership = rolesMap.get(suiteRole);
+                //include roles that are scoped by site and have access to all sites or the site in question
+                if(suiteRoleMembership.isAllSites() ||
+                        suiteRoleMembership.getSiteIdentifiers().contains(healthcareSite.getPrimaryIdentifier())){
+                    groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
+                }
+            } else {
+                //include all roles that are not scoped by site in order to return global roles
+                groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
+            }
+        }
+        return groupList;
+    }
 
 }
+	

@@ -39,7 +39,6 @@ public abstract class User extends C3PRUser{
     private List<String> passwordHistory;
 
     public User() {
-        groups = new ArrayList<C3PRUserGroupType>();
         passwordHistory = new ArrayList<String>();
     }
     

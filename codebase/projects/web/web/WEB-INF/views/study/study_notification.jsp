@@ -1,5 +1,4 @@
 <%@ include file="taglibs.jsp"%>
-
 <html>
 <head>
     <title><studyTags:htmlTitle study="${command.study}" /></title>

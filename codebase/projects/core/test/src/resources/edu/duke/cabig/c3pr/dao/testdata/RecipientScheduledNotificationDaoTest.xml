@@ -9,7 +9,9 @@
     <IDENTIFIERS id="1000" version="1" value="du code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"/>
     <IDENTIFIERS id="1001" version="1" value="wf code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"/>
     
-         <RESEARCH_STAFF id="1000" version="1"  assigned_identifier="x1" first_name="Research Bill" last_name="Dahr" dtype="Local" hcs_id="1000" retired_indicator = "false" />
+         <RESEARCH_STAFF id="1000" version="1"  assigned_identifier="x1" first_name="Research Bill" last_name="Dahr" dtype="Local"  retired_indicator = "false" />
+    
+    <rs_hc_site_assocn id="1000" rs_id="1000" hcs_id="1000" />
     
          <INVESTIGATORS id="1000" version="1"  assigned_identifier="x1" first_name="Investigator Bill" last_name="Drury" dtype="Local" retired_indicator = "false" />
 	

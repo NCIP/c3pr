@@ -156,7 +156,6 @@
     <bean name="/admin/createNotification" id="createNotificationController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateNotificationController" autowire="byName">
         <property name="commandName" value="command"/>
-        <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Organization"/>
         <property name="formView" value="admin/notification_details"/>
         <property name="successView" value="admin/notification_confirmation"/>
         <property name="sessionForm" value="true"/>
@@ -479,8 +478,7 @@
           id="createResearchStaffController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
           autowire="byName">
-        <property name="commandClass"
-                  value="edu.duke.cabig.c3pr.domain.ResearchStaff"/>
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper"/>
         <property name="formView" value="admin/research_staff_details"/>
         <property name="successView" value="admin/research_staff_confirmation"/>
         <property name="sessionForm" value="true"/>

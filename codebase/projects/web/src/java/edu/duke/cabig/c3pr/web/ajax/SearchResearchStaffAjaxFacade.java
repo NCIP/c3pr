@@ -39,7 +39,6 @@ public class SearchResearchStaffAjaxFacade {
         table.setAction(model.getContext().getContextPath() + "/pages/admin/editResearchStaff");
         table.setTitle("Research Staff");
         table.setShowPagination(false);
-//        table.setRowsDisplayed(rStaffResults.size());
         table.setOnInvokeAction("buildTable('assembler')");
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
         table.setShowExports(false);
@@ -58,8 +57,8 @@ public class SearchResearchStaffAjaxFacade {
 
         Column columnSite = model.getColumnInstance();
         columnSite.setTitle("Organization");
-        columnSite.setCell((OrganizationLinkDisplayCell.class).getName());  
-        columnSite.setProperty("healthcareSite.name");
+        columnSite.setCell((HealthcareSiteLinkDisplayCell.class).getName());  
+        columnSite.setProperty("healthcareSites");
         model.addColumn(columnSite);
 
         Column columnCtep = model.getColumnInstance();
@@ -91,7 +90,7 @@ public class SearchResearchStaffAjaxFacade {
         }
         if (!StringUtils.isBlank(params[3])) {
             HealthcareSite healthcareSite = healthcareSiteDao.getById(Integer.parseInt(params[3]));
-            rStaff.setHealthcareSite(healthcareSite);
+            rStaff.addHealthcareSite(healthcareSite);
         }
 
         List<ResearchStaff> rStaffResults = researchStaffDao.searchByExample(rStaff, true);

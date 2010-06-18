@@ -59,11 +59,17 @@
     <ARMS id="1006" version="1" name="Arm 1006" description_text="Arm 1006 desc" target_accrual_number="1006" eph_id="1003"  retired_indicator = "false" />
     <ARMS id="1007" version="1" name="Arm 1007" description_text="Arm 1007 desc" target_accrual_number="1007" eph_id="1003"  retired_indicator = "false" />
         
-    <RESEARCH_STAFF id="1000" version="1"  assigned_identifier="x1" first_name="Research Bill" last_name="Staff2" hcs_id="1000" dtype="Local" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1001" version="1"  assigned_identifier="x2" first_name="Research George" last_name="Staff2" hcs_id="1000" dtype="Local" retired_indicator = "false" />
-    <RESEARCH_STAFF id="1002" version="1"  assigned_identifier="x3" first_name="Research Benjamin" last_name="Staff3" hcs_id="1001" dtype="Local" retired_indicator = "false" />    
-    <RESEARCH_STAFF id="1003" version="1"  assigned_identifier="x4" first_name="Research JFK" last_name="Staff4" hcs_id="1001" dtype="Local" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1000" version="1"  assigned_identifier="x1" first_name="Research Bill" last_name="Staff2"  dtype="Local" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1001" version="1"  assigned_identifier="x2" first_name="Research George" last_name="Staff2"  dtype="Local" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1002" version="1"  assigned_identifier="x3" first_name="Research Benjamin" last_name="Staff3"  dtype="Local" retired_indicator = "false" />    
+    <RESEARCH_STAFF id="1003" version="1"  assigned_identifier="x4" first_name="Research JFK" last_name="Staff4" dtype="Local" retired_indicator = "false" />
     
+             
+  <rs_hc_site_assocn id="1000" rs_id="1000" hcs_id="1000" />
+  <rs_hc_site_assocn id="1001" rs_id="1001" hcs_id="1000" />
+  <rs_hc_site_assocn id="1002" rs_id="1002" hcs_id="1001" />
+  <rs_hc_site_assocn id="1003" rs_id="1003" hcs_id="1001" />
+  
     <INVESTIGATORS id="1000" version="1"  assigned_identifier="x1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" retired_indicator = "false" />
     <INVESTIGATORS id="1001" version="1"  assigned_identifier="x2" first_name="Investigator George" last_name="Staff2" dtype="Local" retired_indicator = "false" />
     <INVESTIGATORS id="1002" version="1"  assigned_identifier="x3" first_name="Investigator Benjamin" last_name="Staff3" dtype="Local" retired_indicator = "false" />

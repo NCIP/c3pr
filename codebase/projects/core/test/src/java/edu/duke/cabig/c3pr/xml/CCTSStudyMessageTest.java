@@ -24,16 +24,6 @@ public class CCTSStudyMessageTest extends MasqueradingDaoTestCase<StudyDao> {
     }
 
     public void testSerialization() throws Exception {
-//    	List<Study> studies = getDao().getAll();
-//    	for (Study study : studies) {
-//    		getDao().initialize(study);
-//    	}
-//    	interruptSession();
-//        for (Study study : studies) {
-//            String marshalledStudy = marshaller.toXML(study);
-//            assertNotNull(marshalledStudy);
-//            System.out.println(marshalledStudy);
-//        }
         Study study = getDao().getById(1000);
         getDao().initialize(study);
         interruptSession();

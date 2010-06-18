@@ -10,6 +10,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Oct 19, 2007 Time: 10:46:54 AM To change this
@@ -23,34 +24,32 @@ public class UsernameDuplicateValidator implements Validator {
 	
     public boolean supports(Class aClass) {
         //return aClass.isAssignableFrom(ResearchStaff.class);
-    	return ResearchStaff.class.isAssignableFrom(aClass);
+    	return ResearchStaffWrapper.class.isAssignableFrom(aClass);
     }
 
     public void validate(Object object, Errors errors) {
-        ResearchStaff user = (ResearchStaff) object;
-        if(StringUtils.getBlankIfNull(user.getLoginId()).equals("")){
-        	errors.reject("submision.errors");
-        }
-        // do it for old and new users. The search should be against remote research staff too
-        //for now the search is against the db only as searching remote causes stale object exception on ORacle. see CPR-578
-        
-        	if(object instanceof RemoteResearchStaff){ } else {
-            	try {
-            		//using login id. Since the user name check should only happen in create flow and not in module flow
-            		//the login id check will work.
-					if(csmUserRepository.getUserByName(user.getLoginId()) != null){
-						errors.reject("duplicate.username.error");
-					}
-				} catch (C3PRNoSuchUserException e) {
-					//user not found in CSM, no action needed.
-				}
-        	}
-
-        if (user.getGroups() != null && user.getGroups().size() < 1) {
-            errors.reject("groups.required");
-        }
+//        ResearchStaffWrapper wrapper = (ResearchStaffWrapper) object;
+//        ResearchStaff user = wrapper.getResearchStaff();
+//        
+//        if(StringUtils.getBlankIfNull(user.getLoginId()).equals("")){
+//        	errors.reject("submision.errors");
+//        }
+//        // do it for old and new users. The search should be against remote research staff too
+//        //for now the search is against the db only as searching remote causes stale object exception on ORacle. see CPR-578
+//        
+//        	if(user instanceof RemoteResearchStaff){ } else {
+//            	try {
+//            		//using login id. Since the user name check should only happen in create flow and not in module flow
+//            		//the login id check will work.
+//					if(csmUserRepository.getUserByName(user.getLoginId()) != null){
+//						errors.reject("duplicate.username.error");
+//					}
+//				} catch (C3PRNoSuchUserException e) {
+//					//user not found in CSM, no action needed.
+//				}
+//        	}
     }
-
+    
     @Required
 	public void setCsmUserRepository(CSMUserRepository csmUserRepository) {
 		this.csmUserRepository = csmUserRepository;

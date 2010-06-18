@@ -72,9 +72,7 @@
 	        
 	        RowManager.addRowInseter(notificationRowInserterProps);
 	        RowManager.registerRowInserters();
-	</script>
-
-	<script>
+	
 		var userEmailAutocompleterProps = {
             basename: "userEmail",
             populator: function(autocompleter, text) {
@@ -92,14 +90,11 @@
                 return (obj.firstName +" " +obj.lastName + " (" +obj.email+ ") " + image)
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-    								//hiddenField=userEmailAutocompleterProps.basename+"-hidden"
 	    							hiddenField=inputElement.id.split("-")[0]+"-hidden";
 	    							$(hiddenField).value=selectedChoice.email;
 			 }
         }         
-	</script>
 	
-	<script type="text/javascript">
 		var win;
 		var currentMessageIndex;
 	     	

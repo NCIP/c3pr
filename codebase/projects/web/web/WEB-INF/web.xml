@@ -9,6 +9,10 @@
             <taglib-uri>http://csm.ncicb.nci.nih.gov/authz</taglib-uri>
             <taglib-location>/WEB-INF/csmauthz.tld</taglib-location>
         </taglib>
+        <taglib>
+            <taglib-uri>http://c3pr.nci.nih.gov/c3pr</taglib-uri>
+            <taglib-location>/WEB-INF/c3pr-functions.tld</taglib-location>
+        </taglib>
     </jsp-config>
     <context-param>
         <param-name>webAppRootKey</param-name>

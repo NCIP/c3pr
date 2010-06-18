@@ -70,7 +70,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         rs1.setLastName("Johnson");
         rs1.setMaidenName("Bradster");
         rs1.setAssignedIdentifier("NCI-123");
-        rs1.setHealthcareSite(site);
+        rs1.addHealthcareSite(site);
         getDao().save(rs1);
 
         interruptSession();
@@ -84,7 +84,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         rs2.setLastName("Johnson");
         rs2.setMaidenName("Bradster");
         rs2.setAssignedIdentifier("NCI-123");
-        rs2.setHealthcareSite(site);
+        rs2.addHealthcareSite(site);
 
         try {
             getDao().save(rs2);
@@ -98,34 +98,12 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 
     
     /**
-     * Test for loading of Research Staff based on mathing pattern on Staff name
-     * 
-     * @throws Exception
-     */
-    public void testGetBySubnameMatchesShortTitle() throws Exception {
-        List<ResearchStaff> actual = getDao().getBySubnames(new String[] { "Bi" }, 1000);
-        assertEquals("Wrong number of matches", 1, actual.size());
-        assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
-    }
-
-    /**
-     * Test for loading of Site Investigators based on matching pattern on Investigator name
-     * 
-     * @throws Exception
-     */
-    public void testGetBySubnameMatchesIntersectionOfSubnames() throws Exception {
-        List<ResearchStaff> actual = getDao().getBySubnames(new String[] { "Resea", "Geo" }, 1000);
-        assertEquals("Wrong number of matches", 1, actual.size());
-        assertEquals("Wrong match", 1001, (int) actual.get(0).getId());
-    }
-    
-    /**
      * Test for loading of Site Investigators based on matching pattern on Investigator email
      * 
      * @throws Exception
      */
     public void testGetBySubnameMatchesIntersectionOfSubnamesAndSubemail() throws Exception {
-        List<ResearchStaff> actual = getDao().getBySubNameAndSubEmail(new String[] { "test" }, "NC010");
+        List<ResearchStaff> actual = getDao().getBySubNameAndSubEmail(new String[] { "test" });
         assertEquals("Wrong number of matches", 1, actual.size());
         assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
     }
@@ -141,7 +119,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     	researchStaff.setFirstName("Research");
     	
     	HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);
-    	researchStaff.setHealthcareSite(healthcareSite);
+    	researchStaff.addHealthcareSite(healthcareSite);
     	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
     	assertEquals("Incorrect Size of retrieved list",5,researchStaffList.size());
     }
@@ -169,7 +147,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 		remoteResearchStaff.setFirstName("LArry");
 		remoteResearchStaff.setLastName("Page");
 		remoteResearchStaff.setAssignedIdentifier("NCI_101");
-		remoteResearchStaff.setHealthcareSite(healthcareSite);
+		remoteResearchStaff.addHealthcareSite(healthcareSite);
 		getDao().save(remoteResearchStaff);
 		ResearchStaff staff = getDao().getByAssignedIdentifier("NCI_101");
         assertNotNull(remoteResearchStaff);

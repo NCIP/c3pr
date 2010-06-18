@@ -4,11 +4,11 @@
     <title>Manage Research Staff</title>
     <tags:dwrJavascriptLink objects="SearchResearchStaffAjaxFacade"/>
     <tags:dwrJavascriptLink objects="OrganizationAjaxFacade"/>
-   <style type="text/css">
+   	<style type="text/css">
         div.content {
             padding: 5px 15px;
         }
-   </style>
+   	</style>
     <script type="text/javascript">
      dwr.engine.setErrorHandler(handleDWRError);
 	 function handleDWRError(err){
@@ -37,7 +37,9 @@
 	    							$('healthcareSite-indicator').style.display='none';
 			 }
         }
+        
         AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
+        
         function buildTable(form) {
         	params = new Array(3);
 			var parameterMap = getParameterMap(form);
@@ -85,7 +87,6 @@
 <chrome:search title="Search">
 <tags:instructions code="research_staff_search" />
     <form name="searchForm" id="searchForm" method="post">
-    	
         <div>
             <input type="hidden" name="_selected" id="_selected" value="">
             <input type="hidden" name="_action" id="_action" value="">
@@ -121,14 +122,11 @@
                     <fmt:message key="c3pr.common.organization"/>
                 </div>
                 <div class="value">
-                	 <input type="hidden" id="healthcareSite-hidden"
-					name="healthcareSite" value="${command.healthcareSite.id}" /> <input
-					id="healthcareSite-input" size="60" type="text" name="xyz"
-					value="${command.healthcareSite.name}"
-					class="autocomplete validate-notEmpty" /> 
+                	<input type="hidden" id="healthcareSite-hidden" name="healthcareSite" value="${command.healthcareSite.id}" /> 
+                	<input id="healthcareSite-input" size="60" type="text" name="xyz" value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" /> 
                     <tags:hoverHint keyProp="researchStaff.organization"/>
                     <img id="healthcareSite-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
-				<div id="healthcareSite-choices" class="autocomplete" style="display: none;"></div>
+					<div id="healthcareSite-choices" class="autocomplete" style="display: none;" />
                 </div>
             </div>
             <div class="row">
@@ -147,7 +145,6 @@
         </div>
     </chrome:division>
 </chrome:box>
-
 </div>
 </body>
 </html>

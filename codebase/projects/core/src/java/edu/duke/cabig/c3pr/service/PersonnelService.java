@@ -73,7 +73,7 @@ public interface PersonnelService {
     /*
      * Used while saving the subject to add the creating org.
      */
-    public HealthcareSite getUserOrganization(User user);
+    public List<HealthcareSite> getUserOrganizations(User user);
 
     public User getCSMUserByUsername(String userName);
     

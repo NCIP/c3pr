@@ -21,7 +21,6 @@ import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
@@ -127,8 +126,8 @@ public abstract class HealthcareSite extends Organization implements Comparable<
      *
      * @return the research staffs
      */
-    @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @ManyToMany(mappedBy = "healthcareSites" )
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     public List<ResearchStaff> getResearchStaffs() {
         return researchStaffs;
     }

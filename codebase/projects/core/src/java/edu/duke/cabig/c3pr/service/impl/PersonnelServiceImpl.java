@@ -185,7 +185,7 @@ public class PersonnelServiceImpl implements PersonnelService {
     }
     
     
-    public HealthcareSite getUserOrganization(User user){
+    public List<HealthcareSite> getUserOrganizations(User user){
     	ResearchStaff researchStaff = null;
     	try {
 			researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
@@ -193,7 +193,7 @@ public class PersonnelServiceImpl implements PersonnelService {
 			log.debug(e.getMessage());
 			return null;
 		}
-    	return researchStaff.getHealthcareSite();
+    	return researchStaff.getHealthcareSites();
     }
 
     // spring settters

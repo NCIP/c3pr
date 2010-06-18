@@ -71,9 +71,10 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 				if(!StringUtils.isEmpty(remoteResearchStaff.getAssignedIdentifier())){
 					log.debug("Searching based on NciId");
 					remoteResearchStaffList = searchRoleBasedOnNciId(remoteResearchStaff.getAssignedIdentifier(), new ClinicalResearchStaff());
-				} else if(remoteResearchStaff.getHealthcareSite() != null && remoteResearchStaff.getHealthcareSite().getPrimaryIdentifier() != null){
+				} else if(remoteResearchStaff.getHealthcareSites().size() > 0 
+						&& remoteResearchStaff.getHealthcareSites().get(0).getPrimaryIdentifier() != null){ // It is search by example so only one org will be present in object
 					log.debug("Searching based on Organization");
-					remoteResearchStaffList = searchRoleBasedOnOrganization(remoteResearchStaff.getHealthcareSite().getPrimaryIdentifier(), new ClinicalResearchStaff());
+					remoteResearchStaffList = searchRoleBasedOnOrganization(remoteResearchStaff.getHealthcareSites().get(0).getPrimaryIdentifier(), new ClinicalResearchStaff());
 				} else {
 					log.debug("Searching based on Name");
 					remoteResearchStaffList = searchRoleBasedOnName(remoteResearchStaff.getFirstName(), remoteResearchStaff.getMiddleName(), remoteResearchStaff.getLastName(), new ClinicalResearchStaff());
@@ -121,7 +122,7 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 						Address address = personOrganizationResolverUtils.getAddressFromCoppaOrganization(coppaOrganization);
 						healthcareSite.setAddress(address);
 						
-						remoteResearchStaff.setHealthcareSite(healthcareSite);
+						remoteResearchStaff.addHealthcareSite(healthcareSite);
 					} else {
 						log.error("IdentifiedOrganization is null for Organization with coppaId: "+coppaOrganization.getIdentifier().getExtension());
 					}
@@ -151,7 +152,7 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 				//Build HealthcareSite
 				HealthcareSite healthcareSite = new RemoteHealthcareSite();
 				personOrganizationResolverUtils.setCtepCodeFromExtension(healthcareSite,identifiedOrganization.getAssignedId().getExtension());
-				remoteResearchStaff.setHealthcareSite(healthcareSite);
+				remoteResearchStaff.addHealthcareSite(healthcareSite);
 			}
 			return remoteResearchStaff;
 		}
