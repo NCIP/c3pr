@@ -227,7 +227,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/registration/overview.*"
                value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         <entry key="/pages/registration/manageRegistration.*"
-               value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
+        value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
+        <entry key="/pages/registration/offEpoch.*"
+            value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
 
 		<entry key="/pages/personAndOrganization/investigator/getGroup.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>

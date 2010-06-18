@@ -399,6 +399,14 @@
         </property>
         <!-- <property name="bindOnNewForm" value="true" />-->
     </bean>
+    
+    <bean name="/registration/offEpoch"
+        id="offEpochController"
+        class="edu.duke.cabig.c3pr.web.registration.OffEpochController"
+        parent="parentRegistrationController"
+        autowire="byName">
+    </bean>
+    
     <bean name="/registration/confirm"
           id="confirmRegistrationCoStudyntroller"
           class="edu.duke.cabig.c3pr.web.registration.RegistrationConfirmAndRandomizeController" autowire="byName">

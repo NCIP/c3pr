@@ -61,8 +61,7 @@
     <bean name="/databaseMigration" id="databaseMigrationController" lazy-init="true"
         class="edu.duke.cabig.c3pr.utils.web.setup.DatabaseMigrationController" autowire="byName">
         <property name="commandClass"
-            value="edu.duke.cabig.c3pr.utils.web.setup.command.EpochTypeCommand"/>
-        <property name="formView" value="setup/emptyEpochTypeMigration"/>
+            value="edu.duke.cabig.c3pr.utils.web.setup.command.DataMigrationCommand"/>
         <property name="sessionForm" value="true"/>
         <property name="successView" value="redirect:../pages/dashboard"/>
     </bean>

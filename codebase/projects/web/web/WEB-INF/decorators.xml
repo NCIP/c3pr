@@ -49,6 +49,7 @@
 		<pattern>/pages/personAndOrganization/researchStaff/editResearchStaff</pattern>
         <pattern>/pages/personAndOrganization/researchStaff/searchResearchStaff</pattern> 
         <pattern>/pages/personAndOrganization/investigator/createInvestigatorGroups</pattern>
+        <pattern>/pages/registration/offEpoch</pattern>
     </decorator>
     <decorator name="nullDecorator" page="nullDecorator.jsp"/>
     <decorator name="noheaderDecorator" page="noheaderDecorator.jsp">
