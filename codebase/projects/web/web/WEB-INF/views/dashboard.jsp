@@ -24,15 +24,16 @@
 			title="Frequently Used Shortcuts">
 			<table width=100% cellspacing="0" cellpadding="0" border="0">
 				<tr>
-					<td><c:forEach var="k" items="${links.keys}"
+					<td><c:forEach var="lov" items="${links}"
 						varStatus="status">
 						<img src="<c:url value="/images/chrome/li_item.jpg" />">&nbsp;&nbsp;<a
-							href="<c:url value="/${k}" />">${links.p[k]}</a>
+							href="<c:url value="/${lov.code}" />">${lov.desc}</a>
 						<br />
-						<c:if test="${status.count == fn:length(links.keys) / 2}">
-							<td>
+						<c:if test="${status.count == fn:length(links) / 2}">
+							</td><td>
 						</c:if>
 					</c:forEach>
+					</td>
 				</tr>
 			</table>
 		</chrome:box> <tags:inbox

@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +35,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
-import edu.duke.cabig.c3pr.utils.web.PropertyWrapper;
+import edu.duke.cabig.c3pr.utils.Lov;
 import gov.nih.nci.ccts.grid.smoketest.client.SmokeTestServiceClient;
 
 /**
@@ -44,10 +46,6 @@ public class DashboardController extends ParameterizableViewController {
 
     protected static final Log log = LogFactory.getLog(DashboardController.class);
 
-    private String filename;
-
-    //private StudyServiceImpl studyService;
-    
     private StudyDao studyDao;
     
     private StudySubjectDao studySubjectDao;
@@ -91,27 +89,24 @@ public class DashboardController extends ParameterizableViewController {
         Authentication auth = context.getAuthentication();
         GrantedAuthority[] groups = auth.getAuthorities();
 
-        filename = "default.links.properties";
-
+        Set<Lov> links = new HashSet<Lov>();
         for (GrantedAuthority ga : groups) {
             if (DashboardController.class.getClassLoader().getResource(
                             ga.getAuthority() + ".links.properties") != null) {
-                filename = ga.getAuthority() + ".links.properties";
+                String filename = ga.getAuthority() + ".links.properties";
                 log.debug("Found rolebased links file: " + filename);
-                break;
+                Properties p = new Properties();
+                try {
+                    p.load(DashboardController.class.getClassLoader().getResourceAsStream(filename));
+                    log.debug("The links file has " + p.keySet().size() + " elements.");
+                }
+                catch (IOException e) {
+                    log.error("Error while trying to read the property file: [" + filename + "]");
+                }
+                addLinks(links, p);
             }
         }
-
-        Properties p = new Properties();
-        try {
-            p.load(DashboardController.class.getClassLoader().getResourceAsStream(filename));
-            log.debug("The links file has " + p.keySet().size() + " elements.");
-            request.setAttribute("links", new PropertyWrapper(p));
-        }
-        catch (IOException e) {
-            log.error("Error while trying to read the property file: [" + filename + "]");
-        }
-
+        request.setAttribute("links", links);
         getMostEnrolledStudies(request);
         getRecentPendingStudies(request);
         getRecentPendingRegistrations(request);
@@ -186,6 +181,12 @@ public class DashboardController extends ParameterizableViewController {
         return this.configuration.get(Configuration.SMOKE_TEST_URL);
     }
 
+    private void addLinks(Set<Lov> lovs , Properties properties){
+    	for(Object key : properties.keySet()){
+    		lovs.add(new Lov(key.toString(),properties.getProperty(key.toString())));
+    	}
+    }
+    
     public ResearchStaffDao getResearchStaffDao() {
         return researchStaffDao;
     }
