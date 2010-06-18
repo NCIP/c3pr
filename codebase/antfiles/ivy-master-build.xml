@@ -33,8 +33,8 @@
     		<fileset file="${projects.dir}/core/ivy-build.xml" />
 			<fileset file="${projects.dir}/rules/ivy-build.xml" />
     		<fileset file="${projects.dir}/web/ivy-build.xml" />
-    		<fileset file="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" />
-    		<fileset file="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" />
+    		<!--<fileset file="${projects.dir}/grid/StudyServiceImpl/ivy-build.xml" />
+    		<fileset file="${projects.dir}/grid/RegistrationServiceImpl/ivy-build.xml" />-->
     	</ivy:buildlist>
   		<property name="buildlist.done" value="true" />
   		<echo message="buildList : ${build-path}" />
