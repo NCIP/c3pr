@@ -17,7 +17,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 
-
+<script>
+	function gotoOffEpoch(location){
+		document.location = location + "&<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
+	}
+</script>
 <tags:controlPanel>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
 			<c:if test="${isAdmin}">
@@ -38,10 +42,17 @@
 				<tags:oneControlPanelItem linkhref="${editRegURL}" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Resume Registration" />
 			</c:if>
 			<c:if test="${canChangeEpoch}">
-				<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
+				<%--<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />--%>
+				<tags:oneControlPanelItem linkhref="javascript:gotoOffEpoch('offEpoch?operationType=changeEpochAssignment')"
+					 imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
 			</c:if>
 	    	<c:if test="${takeSubjectOffStudy}">
-				<tags:oneControlPanelItem linkhref="javascript:takeSubjectOffStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
+				<tags:oneControlPanelItem linkhref="javascript:gotoOffEpoch('offEpoch?operationType=takeSubjectOffStudy')"
+					imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Take subject off study" />
+			</c:if>
+			<c:if test="${canFailScreening}">
+				<tags:oneControlPanelItem linkhref="javascript:gotoOffEpoch('offEpoch?operationType=failScreening')"
+					imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_takesubjoff.png" linktext="Fail screening" />
 			</c:if>
 			<c:if test="${canBroadcast}">
 				<tags:oneControlPanelItem linkhref="javascript:confirmBroadcastRegistration();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_broadcast.png" linktext="Broadcast Registration" />

@@ -27,7 +27,7 @@
 
             <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
-				onClick="postProcessEpochSelection('${epoch.id}','${epoch.name}', '${epoch.enrollmentIndicator?'Enrolling':'Non-Enrolling'}',${epoch.reservationIndicator?'true':'false'})">					
+				onClick="postProcessEpochSelection('${epoch.id}','${epoch.name}', '${epoch.enrollmentIndicator?'Enrolling':'Non-Enrolling'}',${epoch.type =='RESERVING'?'true':'false'})">					
 					<td>${epoch.name}</td>
 					<td>${epoch.descriptionText}</a></td>
 					<td>${epoch.enrollmentIndicator?'Yes':'No'}</td>

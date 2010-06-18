@@ -98,26 +98,6 @@
 			win.showCenter(true);
 	 	}
 
-		function takeSubjectOffStudyPopup(){
-			var arr= $$("#takeSubjectOffStudy");
-			win = new Window({className :"mac_os_x", title: "Take Subject Off Study", 
-									hideEffect:Element.hide, 
-									zIndex:100, width:600, height:300 , minimizable:false, maximizable:false, destroyOnClose: true, recenterAuto:true,
-									showEffect:Element.show 
-									})
-			win.setContent(arr[0]) ;
-			win.showCenter(true);
-			inputDateElementLocal1="offStudyDate";
-			inputDateElementLink1="offStudyDate-calbutton";
-			Calendar.setup(
-			{
-			    inputField  : inputDateElementLocal1,         // ID of the input field
-			    ifFormat    : "%m/%d/%Y",    // the date format
-			    button      : inputDateElementLink1       // ID of the button
-			}
-			);
-		}
-
 		function invalidateRegistrationRecord(){
 			var arr= $$("#invalidateRecord");
 			win = new Window({className :"mac_os_x", title: "Invalidate Registration Record", 
@@ -236,62 +216,6 @@
 </c:if>
 <div id="summary">
 <br/>
-<chrome:division id="Study Information" title="Study">
-    <div class="leftpanel">
-        <div class="row">
-            <div class="label"><fmt:message key="study.shortTitle"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
-        </div>
-        <div class="row">
-            <div class="label"><fmt:message key="c3pr.common.status"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</div>
-        </div>
-         <div class="row">
-            <div class="label"><fmt:message key="study.version.name"/>:</div>
-            <div class="value">${command.studySubject.studySiteVersion.studyVersion.name}</div>
-        </div>
-	</div>
-	<div class="rightpanel">
-        <div class="row">
-            <div class="label"> <fmt:message key="study.phase"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.phaseCode}</div>
-        </div>
-        <div class="row">
-            <div class="label"><fmt:message key="study.randomized"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
-        </div>
-        <div class="row">
-            <div class="label"><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
-            <div class="value">${command.studySubject.studySite.study.primaryIdentifier}</div>
-        </div>
-   </div>
-</chrome:division>
-<chrome:division id="Study Site Information:" title="Study Site">
-   	<div class="leftpanel">
-        <div class="row">
-            <div class="label"><fmt:message key="c3pr.common.name"/>:</div>
-            <div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
-        </div>
-        <div class="row">
-            <div class="label"><fmt:message key="site.address"/>:</div>
-            <div class="value">${command.studySubject.studySite.healthcareSite.address.addressString}</div>
-        </div>
-        <div class="row">
-            <div class="label"><fmt:message key="c3pr.common.status"/>:</div>
-            <div class="value">${command.studySubject.studySite.siteStudyStatus.code}</div>
-        </div>
-	</div>
-	<div class="rightpanel">
-        <div class="row">
-            <div class="label"><fmt:message key="site.NCIInstitutionCode"/>:</div>
-            <div class="value">${command.studySubject.studySite.healthcareSite.primaryIdentifier}</div>
-        </div>
-        <div class="row">
-            <div class="label"><fmt:message key="site.IRBApprovalDate"/>:</div>
-            <div class="value">${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.irbApprovalDateStr}</div>
-        </div>
-  </div>
-</chrome:division>
 <chrome:division id="Subject Information" title="Subject" inPlaceLinkId="editInPlaceForSubject" condition="${canEditRegistrationRecord}">
     <div class="leftpanel">
         <div class="row">
@@ -369,7 +293,63 @@
    // subjectArray.push(editor_raceCodes);
     </script>
 </chrome:division>
-<chrome:division title="Identifiers">
+<chrome:division id="Study Information" title="Study">
+    <div class="leftpanel">
+        <div class="row">
+            <div class="label"><fmt:message key="study.shortTitle"/>:</div>
+            <div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
+        </div>
+        <div class="row">
+            <div class="label"><fmt:message key="c3pr.common.status"/>:</div>
+            <div class="value">${command.studySubject.studySite.study.coordinatingCenterStudyStatus.displayName}</div>
+        </div>
+         <div class="row">
+            <div class="label"><fmt:message key="study.version.name"/>:</div>
+            <div class="value">${command.studySubject.studySiteVersion.studyVersion.name}</div>
+        </div>
+	</div>
+	<div class="rightpanel">
+        <div class="row">
+            <div class="label"> <fmt:message key="study.phase"/>:</div>
+            <div class="value">${command.studySubject.studySite.study.phaseCode}</div>
+        </div>
+        <div class="row">
+            <div class="label"><fmt:message key="study.randomized"/>:</div>
+            <div class="value">${command.studySubject.studySite.study.randomizedIndicator?'Yes':'No'}</div>
+        </div>
+        <div class="row">
+            <div class="label"><fmt:message key="c3pr.common.primaryIdentifier"/>:</div>
+            <div class="value">${command.studySubject.studySite.study.primaryIdentifier}</div>
+        </div>
+   </div>
+</chrome:division>
+<chrome:division id="Study Site Information:" title="Study Site">
+   	<div class="leftpanel">
+        <div class="row">
+            <div class="label"><fmt:message key="c3pr.common.name"/>:</div>
+            <div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
+        </div>
+        <div class="row">
+            <div class="label"><fmt:message key="site.address"/>:</div>
+            <div class="value">${command.studySubject.studySite.healthcareSite.address.addressString}</div>
+        </div>
+        <div class="row">
+            <div class="label"><fmt:message key="c3pr.common.status"/>:</div>
+            <div class="value">${command.studySubject.studySite.siteStudyStatus.code}</div>
+        </div>
+	</div>
+	<div class="rightpanel">
+        <div class="row">
+            <div class="label"><fmt:message key="site.NCIInstitutionCode"/>:</div>
+            <div class="value">${command.studySubject.studySite.healthcareSite.primaryIdentifier}</div>
+        </div>
+        <div class="row">
+            <div class="label"><fmt:message key="site.IRBApprovalDate"/>:</div>
+            <div class="value">${command.studySubject.studySubjectStudyVersion.studySiteStudyVersion.irbApprovalDateStr}</div>
+        </div>
+  </div>
+</chrome:division>
+<chrome:division title="Registration Identifiers">
     <table class="tablecontent" width="100%">
         <tr>
         	<th width="10%"><fmt:message key="c3pr.common.class"/></th>
@@ -405,8 +385,12 @@
 <chrome:division id="Current Epoch Information" title="Epoch & Arm" inPlaceLinkId="editInPlaceForArm" condition="${canEditRegistrationRecord}">
     <div class="leftpanel">
         <div class="row">
-            <div class="label"><fmt:message key="c3pr.common.epoch"/>:</div>
+            <div class="label"><fmt:message key="c3pr.common.epoch.name"/>:</div>
             <div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
+        </div>
+        <div class="row">
+            <div class="label"><fmt:message key="c3pr.common.epoch.type"/>:</div>
+            <div class="value">${command.studySubject.scheduledEpoch.epoch.type.code}</div>
         </div>
        	<div class="row">
        		<c:choose>
@@ -474,18 +458,24 @@
             </div>
         </div>
         <c:if test="${command.studySubject.regWorkflowStatus=='OFF_STUDY'}">
-            <div class="row">
-                <div class="label"><fmt:message key="registration.offStudyReason"/>:</div>
-                <div class="value">
-   		             <tags:inPlaceEdit value="${command.studySubject.offStudyReasonText}" path="studySubject.offStudyReasonText" id="offStudyReasonText" validations="validate-notEmpty" disable="${!canEditRegistrationRecord}"/>
-                </div>
-            </div>
-            <div class="row">
+        	<div class="row">
                 <div class="label"><fmt:message key="registration.offStudyDate"/>:</div>
                 <div class="value">
-                <tags:inPlaceEdit value="${command.studySubject.offStudyDateStr}" path="studySubject.offStudyDate" id="offStudyDate" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
+                	<tags:inPlaceEdit value="${command.studySubject.offStudyDateStr}" path="studySubject.offStudyDate" id="offStudyDate" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
                 </div>
             </div>
+            <table class="tablecontent">
+		        <tr>
+		        	<th align="left">Off study reason(s)</th>
+		            <th align="left">Description</th>
+		        </tr>
+		        <c:forEach var="offStudyReason" items="${command.studySubject.offStudyReasons}">
+					<tr>
+						<td>${offStudyReason.reason.description}</td>
+						<td>${offStudyReason.description}</td>
+					</tr>
+				</c:forEach>
+		  	</table>
         </c:if>
         <div class="row">
             <div class="label"><fmt:message key="registration.enrollingPhysician"/>:</div>
@@ -835,16 +825,6 @@
     </chrome:division>
 </c:if>
 
-</div>
-<div id="epochSelection" style="display:none;">
-<div id="changeEpoch" >
-	<%@ include file="reg_change_epoch.jsp"%>
-</div>
-</div>
-<div id="takeSubjectOffStudyPage" style="display:none;">
-<div id="takeSubjectOffStudy" >
-	<%@ include file="take_subject_offstudy.jsp"%>
-</div>
 </div>
 <div id="invalidateRecordPage" style="display:none;">
 <div id="invalidateRecord" >

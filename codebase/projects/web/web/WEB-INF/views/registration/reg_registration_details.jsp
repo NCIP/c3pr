@@ -411,7 +411,7 @@ function changeStudyVersion(){
 <%--<tags:instructions code="enrollment_details" />--%>
 
 	<c:choose>
-		<c:when test="${command.studySubject.scheduledEpoch.epoch.reservationIndicator == 'true'}">
+		<c:when test="${command.studySubject.scheduledEpoch.epoch.type == 'RESERVING'}">
 			<c:set var="reservingEpoch" value="true"/>
 		</c:when>
 		<c:otherwise>
