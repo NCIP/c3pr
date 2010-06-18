@@ -77,15 +77,6 @@ public class StudySubject extends
 	/** The lazy list helper. */
 	private LazyListHelper lazyListHelper;
 
-	/** The off study reason text. */
-	private String offStudyReasonText;
-
-	/** The off study date. */
-	private Date offStudyDate;
-
-	/** The participant. */
-//	private Participant participant;
-	
 	/** The participant. */
 	private StudySubjectDemographics studySubjectDemographics;
 
@@ -473,8 +464,9 @@ public class StudySubject extends
 	 */
 	@Transient
 	public String getOffStudyDateStr() {
-		if (offStudyDate != null) {
-			return DateUtil.formatDate(offStudyDate, "MM/dd/yyyy");
+		Date OffStudyDate = getOffStudyDate();
+		if (OffStudyDate != null) {
+			return DateUtil.formatDate(OffStudyDate, "MM/dd/yyyy");
 		}
 		return "";
 	}
@@ -801,17 +793,12 @@ public class StudySubject extends
 	 *
 	 * @return the off study date
 	 */
+	@Transient
 	public Date getOffStudyDate() {
-		return offStudyDate;
-	}
-
-	/**
-	 * Sets the off study date.
-	 *
-	 * @param offStudyDate the new off study date
-	 */
-	public void setOffStudyDate(Date offStudyDate) {
-		this.offStudyDate = offStudyDate;
+		if(this.regWorkflowStatus == RegistrationWorkFlowStatus.OFF_STUDY){
+			return getScheduledEpoch().getOffEpochDate();
+		}
+		return null;
 	}
 
 	/**
@@ -819,17 +806,12 @@ public class StudySubject extends
 	 *
 	 * @return the off study reason text
 	 */
-	public String getOffStudyReasonText() {
-		return offStudyReasonText;
-	}
-
-	/**
-	 * Sets the off study reason text.
-	 *
-	 * @param offStudyReasonText the new reason text
-	 */
-	public void setOffStudyReasonText(String offStudyReasonText) {
-		this.offStudyReasonText = offStudyReasonText;
+	@Transient
+	public List<OffEpochReason> getOffStudyReasons() {
+		if(this.regWorkflowStatus == RegistrationWorkFlowStatus.OFF_STUDY){
+			return getScheduledEpoch().getOffEpochReasons();
+		}
+		return null;
 	}
 
 	/**
@@ -1353,22 +1335,41 @@ public class StudySubject extends
 		return arm;
 	}
 
-	/**
-	 * Take subject off study.
-	 *
-	 * @param reasonText the off study reason text
-	 * @param offStudyDate the off study date
-	 */
-	public void takeSubjectOffStudy(String reasonText, Date offStudyDate) {
+	public void takeSubjectOffStudy(List<OffEpochReason> offStudyReasons, Date offStudyDate) {
 		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
 			throw new C3PRBaseRuntimeException(
 					"The subject has to be enrolled before being taken off study");
 		}
-		this.setOffStudyReasonText(reasonText);
-		this.setOffStudyDate(offStudyDate);
+		for(OffEpochReason offEpochReason : offStudyReasons){
+			if (! (offEpochReason.getReason() instanceof OffStudyReason)) {
+				throw new C3PRBaseRuntimeException(
+				"Invalid reason type. Expected OffStudyReason but was "+offEpochReason.getReason().getClass());
+			}
+		}
+		this.getScheduledEpoch().takeSubjectOffEpoch(offStudyReasons, offStudyDate);
 		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
 	}
+	
+	public void takeSubjectOffCurrentEpoch(List<OffEpochReason> offEpochReasons, Date offEpochDate) {
+		if (this.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
+			throw new C3PRBaseRuntimeException(
+					"The subject has to be successfully registered on the epoch before being taken off epoch");
+		}
+		this.getScheduledEpoch().takeSubjectOffEpoch(offEpochReasons, offEpochDate);
+	}
 
+	public void failScreening(List<OffEpochReason> offScreeningReasons, Date failScreeningDate) {
+		ScheduledEpoch scheduledEpoch = getScheduledEpoch();
+		if(canFailScreening()){
+			scheduledEpoch.takeSubjectOffEpoch(offScreeningReasons, failScreeningDate);
+			setRegWorkflowStatus(RegistrationWorkFlowStatus.NOT_REGISTERED);
+		}else{
+			throw new C3PRBaseRuntimeException(
+					"Cannot fail screening. The subject is not registered successfully on a screening epoch.");
+		}
+		
+	}
+	
 	/**
 	 * Transfer.
 	 *
@@ -1904,19 +1905,34 @@ public class StudySubject extends
 	}
 	
 	@Transient
-	public boolean isComplete(){
-		return getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED;
+	public boolean isCurrentEpochWorkflowComplete(){
+		return getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED || 
+		getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.OFF_EPOCH;
 	}
 	
 	@Transient
 	public boolean canChangeEpoch(){
-		return isComplete() && getStudySite().getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN &&
-		getStudySite().getStudy().getIfHigherOrderEpochExists(getScheduledEpoch().getEpoch());
+		return isCurrentEpochWorkflowComplete() && 
+				getStudySite().getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN &&
+				getStudySite().getStudy().getIfHigherOrderEpochExists(getScheduledEpoch().getEpoch()) &&
+				regWorkflowStatus != RegistrationWorkFlowStatus.OFF_STUDY &&
+				regWorkflowStatus != RegistrationWorkFlowStatus.NOT_REGISTERED;
 	}
 	
 	@Transient
 	public boolean canTakeSubjectOffStudy() {
-		if (isComplete() && regWorkflowStatus != RegistrationWorkFlowStatus.OFF_STUDY) {
+		if (regWorkflowStatus == RegistrationWorkFlowStatus.ENROLLED) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Transient
+	public boolean canFailScreening() {
+		if (regWorkflowStatus != RegistrationWorkFlowStatus.ENROLLED &&
+				regWorkflowStatus != RegistrationWorkFlowStatus.OFF_STUDY &&
+				getScheduledEpoch().getEpoch().getType() == EpochType.SCREENING &&
+				getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) {
 			return true;
 		}
 		return false;
@@ -1979,5 +1995,10 @@ public class StudySubject extends
 				}
 			}
 		}
+	}
+	
+	@Transient
+	public Identifier getUniqueIdentifier(){
+		return getSystemAssignedIdentifiers().get(0);
 	}
 }

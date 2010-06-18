@@ -135,11 +135,20 @@
 			   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
 			   <value>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</value>
 			   <value>edu.duke.cabig.c3pr.domain.RolePrivilege</value>
+               <value>edu.duke.cabig.c3pr.domain.Reason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffStudyReason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffTreatmentReason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffScreeningReason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffReservingReason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffFollowupReason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffEpochReason</value>
             </list>
         </property>
         <property name="entityInterceptor">
-             <ref local="chainedInterceptor"/>
-             <!--  <bean class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor" autowire="byName"/>  -->
+            <ref local="chainedInterceptor"/>
+            <!--    <bean
+           class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
+           autowire="byName"/> -->
         </property>
         <property name="hibernateProperties">
             <ref bean="hibernateProperties"/>
@@ -500,7 +509,8 @@
     <bean id="studySubjectStudyVersionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectStudyVersionDao" autowire="byName"/>
 	<bean id="consentDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ConsentDao" autowire="byName"/>
 	<bean id="rolePrivilegeDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RolePrivilegeDao" autowire="byName"/>
-	
+    <bean id="reasonDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ReasonDao" autowire="byName"/>
+    <bean id="offEpochReasonDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.OffEpochReasonDao" autowire="byName"/>
 
 	<!-- Multisite Request Handlers -->
     <!--  <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">

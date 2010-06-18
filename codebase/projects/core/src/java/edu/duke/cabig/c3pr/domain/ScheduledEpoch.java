@@ -82,16 +82,6 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 		this.offEpochDate = offEpochDate;
 	}
 
-	public String getOffEpochReasonText() {
-		return offEpochReasonText;
-	}
-
-	public void setOffEpochReasonText(String offEpochReasonText) {
-		this.offEpochReasonText = offEpochReasonText;
-	}
-
-	private String offEpochReasonText;
-
     /** The sc epoch data entry status. */
     private ScheduledEpochDataEntryStatus scEpochDataEntryStatus;
 
@@ -100,6 +90,8 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 
     /** The disapproval reason text. */
     private String disapprovalReasonText;
+    
+    private List<OffEpochReason> offEpochReasons;
     
     /**
      * Gets the stratum group number.
@@ -177,6 +169,7 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
                         ScheduledArm.class));
         eligibilityIndicator = false;
         setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
+        offEpochReasons = new ArrayList<OffEpochReason>();
    }
 
     /**
@@ -702,4 +695,22 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 		}
 		return false;
 	}
+
+    @OneToMany
+    @Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name = "SCEPH_ID", nullable = false)
+	public List<OffEpochReason> getOffEpochReasons() {
+		return offEpochReasons;
+	}
+
+	public void setOffEpochReasons(List<OffEpochReason> offEpochReasons) {
+		this.offEpochReasons = offEpochReasons;
+	}
+	
+	public void takeSubjectOffEpoch(List<OffEpochReason> offEpochReasons, Date offEpochDate){
+		this.getOffEpochReasons().addAll(offEpochReasons);
+		this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.OFF_EPOCH;
+		this.offEpochDate = offEpochDate;
+	}
+	
 }

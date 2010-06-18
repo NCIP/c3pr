@@ -77,6 +77,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         notificationEmailer=registerMockFor(StudyTargetAccrualNotificationEmail.class);
         exceptionHelper=registerMockFor(C3PRExceptionHelper.class);
         c3prErrorMessages=registerMockFor(MessageSource.class);
+        identifierGenerator = (IdentifierGenerator) ApplicationTestCase.getDeployedCoreApplicationContext().getBean("identifierGenerator");
         StudySubjectRepositoryImpl studySubjectRepositoryImpl=new StudySubjectRepositoryImpl();
         studySubjectRepositoryImpl.setC3prErrorMessages(c3prErrorMessages);
         studySubjectRepositoryImpl.setEpochDao(epochDao);
@@ -87,11 +88,11 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectRepositoryImpl.setParticipantDao(participantDao);
         studySubjectRepositoryImpl.setStudySubjectService(studySubjectService);
         studySubjectRepositoryImpl.setNotificationEmailer(notificationEmailer);
+        studySubjectRepositoryImpl.setIdentifierGenerator(identifierGenerator);
         studySubjectRepository=studySubjectRepositoryImpl;
         studySubject=new StudySubject();
         studySubjectCreatorHelper=new StudySubjectCreatorHelper();
         studySubject.setStudySubjectDemographics(studySubjectCreatorHelper.createNewParticipant().createStudySubjectDemographics());
-        identifierGenerator = (IdentifierGenerator) ApplicationTestCase.getDeployedCoreApplicationContext().getBean("identifierGenerator");
     }
 
     public ScheduledEpoch buildScheduledEpoch(){
@@ -132,7 +133,6 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	  public void testCreate() throws Exception{
 	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
 	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
-	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
 	        studySubject.addScheduledEpoch(scheduledEpochFirst);
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
@@ -177,7 +177,6 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 
 	  public void testEnrollOnNonRandomizedEpochWithoutArm() throws Exception{
 	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
-	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpochWithoutArm(false));
 	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
 	        studySubject.addScheduledEpoch(scheduledEpochFirst);
@@ -203,7 +202,6 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	    }
 	  public void testEnrollOnNonRandomizedEpochWithArm() throws Exception{
 	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
-	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(false));
 	        ScheduledArm scheduledArm = new ScheduledArm();
 	        scheduledArm.setArm(studySubjectCreatorHelper.createTestTreatmentEpoch(false).getArms().get(0));
@@ -250,7 +248,6 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        replayMocks();
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
@@ -272,7 +269,6 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        replayMocks();
 	        studySubjectRepository.enroll(studySubject);
 	        verifyMocks();
@@ -296,11 +292,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        EasyMock.expect(epochDao.merge(studySubject.getScheduledEpoch().getEpoch())).andReturn(studySubject.getScheduledEpoch().getEpoch());
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        replayMocks();
 	        studySubject = studySubjectRepository.enroll(studySubject);
 	        try{
-	        	studySubjectRepository.transferSubject(studySubject.getIdentifiers());
+	        	studySubjectRepository.transferSubject(studySubject.getUniqueIdentifier());
 	        	}
 	        catch(Exception ex){
 	        	 log.error("studySubjectRepositoryImpl.getUniqueStudySubjects() threw exception");
@@ -328,11 +323,10 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        EasyMock.expect(epochDao.merge(studySubject.getScheduledEpoch().getEpoch())).andReturn(studySubject.getScheduledEpoch().getEpoch()).times(2);
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        replayMocks();
 	        studySubject = studySubjectRepository.enroll(studySubject);
 	        try{
-	        	studySubjectRepository.transferSubject(studySubject.getIdentifiers());
+	        	studySubjectRepository.transferSubject(studySubject.getUniqueIdentifier());
 	        	}
 	        catch(Exception ex){
 	        	ex.printStackTrace();
@@ -361,21 +355,19 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        EasyMock.expect(epochDao.merge(studySubject.getScheduledEpoch().getEpoch())).andReturn(studySubject.getScheduledEpoch().getEpoch());
 	        studySubjectService.broadcastMessage(studySubject);
 	        notificationEmailer.sendEmail(studySubject);
-	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        replayMocks();
 	        studySubject = studySubjectRepository.enroll(studySubject);
 	        studySubjectCreatorHelper.addScheduled2ndNonRandomizedEnrollingEpochFromStudyEpochs(studySubject);
 	        studySubjectCreatorHelper.buildCommandObject(studySubject);
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
-	        studySubjectRepository.transferSubject(studySubject.getIdentifiers());
+	        studySubjectRepository.transferSubject(studySubject.getUniqueIdentifier());
 	        assertSame("The subject should have been successfully transferred",ScheduledEpochWorkFlowStatus.REGISTERED,studySubject.getScheduledEpochs().get(1).getScEpochWorkflowStatus());
 	        verifyMocks();
 	    }
 	  
 	  public void testUnSuccessfulEnrollRegistrationDateMissing() throws Exception{
 	        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
-	        studySubjectRepository.setIdentifierGenerator(identifierGenerator);
 	        scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpochWithoutArm(false));
 	        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
 	        studySubject.addScheduledEpoch(scheduledEpochFirst);

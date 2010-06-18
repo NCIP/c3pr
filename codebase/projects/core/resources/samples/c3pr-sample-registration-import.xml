@@ -174,7 +174,6 @@
 		</enrollingPhysician>
 		<otherEnrollingPhysician>Some other treating physician
 		</otherEnrollingPhysician>
-		<offStudyReasonText>Some reason</offStudyReasonText>
 		<offStudyDate>2009-09-17</offStudyDate>
 		<diseaseHistory>
 			<otherPrimaryDiseaseCode>some other disease code

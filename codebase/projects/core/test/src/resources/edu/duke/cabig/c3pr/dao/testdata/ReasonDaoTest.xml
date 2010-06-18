@@ -1,0 +1,7 @@
+<dataset>
+
+               <Reasons id="1000" code="ABCD" description="ABCD" dtype="OFF_TREATMENT"/>
+               <Reasons id="1001" code="ABC" description="ABC" dtype="OFF_STUDY"/>
+               <Reasons id="1002" code="EFG" description="EFG" dtype="OFF_SCREENING"/>
+               <Reasons id="1003" code="EFGH" description="EFGH" dtype="OFF_RESERVING"/>
+</dataset>

@@ -85,6 +85,13 @@
 	<CONTACT_MECHANISMS/>
 	
 	<STUDY_SUBJECT_CONSENTS	/>
+    
+    <Reasons id="1000" code="DEATH_ON_STUDY" description="ABCD" dtype="OFF_STUDY"/>
+    <Reasons id="1001" code="LATE_ADVERSE_EVENT_SIDE_EFFECT" description="ABC" dtype="OFF_STUDY"/>
+    <Reasons id="1002" code="EFG" description="EFG" dtype="OFF_SCREENING"/>
+    <Reasons id="1003" code="EFGH" description="EFGH" dtype="OFF_RESERVING"/>
+    
+    <off_epoch_reasons/>
 	
 </dataset>
 

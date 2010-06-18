@@ -343,7 +343,6 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element minOccurs="0" maxOccurs="1" name="offStudyReasonText" type="xs:string" />
       <xs:element minOccurs="0" maxOccurs="1" name="offStudyDate" type="xs:date" />
       <xs:element minOccurs="0" maxOccurs="1" name="diseaseHistory" type="DiseaseHistoryType" />
       <xs:element minOccurs="0" maxOccurs="1" name="paymentMethod" type="PaymentMethodType" />

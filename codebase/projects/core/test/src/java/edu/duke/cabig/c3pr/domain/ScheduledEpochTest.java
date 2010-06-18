@@ -11,6 +11,7 @@ import org.easymock.classextension.EasyMock;
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 
 /**
@@ -496,5 +497,18 @@ public class ScheduledEpochTest extends AbstractTestCase {
 		replayMocks();
 		assertFalse(scheduledEpoch.evaluateEligibilityIndicator());
 		verifyMocks();
+	}
+	
+	public void testTakeSubjectOffEpoch(){
+		Date date = new Date();
+		List<OffEpochReason> offEpochReasons = new ArrayList<OffEpochReason>();
+		OffEpochReason offEpochReason1 = new OffEpochReason();
+		OffEpochReason offEpochReason2 = new OffEpochReason();
+		offEpochReasons.add(offEpochReason1);
+		offEpochReasons.add(offEpochReason2);
+		scheduledEpoch.takeSubjectOffEpoch(offEpochReasons, date);
+		assertEquals(ScheduledEpochWorkFlowStatus.OFF_EPOCH, scheduledEpoch.getScEpochWorkflowStatus());
+		assertEquals(date, scheduledEpoch.getOffEpochDate());
+		assertEquals(2, scheduledEpoch.getOffEpochReasons().size());
 	}
 }

@@ -493,16 +493,52 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     }
 
     /**
-     * Test get off study date str.
+     * Test get off study date.
      *
      * @throws Exception the exception
      */
-    public void testGetOffStudyDateStr() throws Exception{
-    	assertEquals("Unexpected off study date","",studySubject.getOffStudyDateStr());
-
-    	Date offStudyDate = new Date();
-    	studySubject.setOffStudyDate(offStudyDate);
-    	assertEquals("Wrong off study date or in wrong format",DateUtil.formatDate(offStudyDate, "MM/dd/yyyy"),studySubject.getOffStudyDateStr());
+    public void testGetOffStudyDateNull() throws Exception{
+    	assertNull(studySubject.getOffStudyDate());
+    }
+    
+    /**
+     * Test get off study date.
+     *
+     * @throws Exception the exception
+     */
+    public void testGetOffStudyDateNotNull() throws Exception{
+    	Date date = new Date();
+    	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
+    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(scheduledEpoch.getOffEpochDate()).andReturn(date);
+  	  	replayMocks();
+  	  	studySubject.setStudySite(studySite);
+  	  	studySubject.addScheduledEpoch(scheduledEpoch);
+    	assertEquals(date, studySubject.getOffStudyDate());
+    }
+    /**
+     * Test get off study date.
+     *
+     * @throws Exception the exception
+     */
+    public void testGetOffStudyDateStrNull() throws Exception{
+    	assertEquals("",studySubject.getOffStudyDateStr());
+    }
+    
+    /**
+     * Test get off study date.
+     *
+     * @throws Exception the exception
+     */
+    public void testGetOffStudyDateStrNotNull() throws Exception{
+    	Date date = new Date();
+    	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
+    	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(scheduledEpoch.getOffEpochDate()).andReturn(date);
+  	  	replayMocks();
+  	  	studySubject.setStudySite(studySite);
+  	  	studySubject.addScheduledEpoch(scheduledEpoch);
+  	  	assertEquals("Wrong off study date or in wrong format",DateUtil.formatDate(date, "MM/dd/yyyy"),studySubject.getOffStudyDateStr());
     }
 
     /**
@@ -1240,7 +1276,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
   public void testTakeSubjectOffStudyFailWhenNotEnrolled() throws Exception{
 	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
 	  try{
-		  studySubject.takeSubjectOffStudy("Subject being taken off study", new Date());
+		  studySubject.takeSubjectOffStudy(new ArrayList<OffEpochReason>(), new Date());
 		  fail("Should have thrown exception");
 	  }catch(C3PRBaseRuntimeException ex){
 
@@ -1255,18 +1291,18 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    * @throws Exception the exception
    */
   public void testTakeSubjectOffStudySuccessful() throws Exception{
-	  String offStudyReasonText = "Subject being taken off study";
 	  Date offStudyDate = new Date();
+	  List<OffEpochReason> offStudyReasons = new ArrayList<OffEpochReason>();
 	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
-	  try{
-		  studySubject.takeSubjectOffStudy(offStudyReasonText, offStudyDate);
-	  }catch(C3PRBaseRuntimeException ex){
-		  fail("Should not have thrown exception");
-	  }
+	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+  	  scheduledEpoch.takeSubjectOffEpoch(offStudyReasons, offStudyDate);
+	  replayMocks();
+	  studySubject.setStudySite(studySite);
+	  studySubject.addScheduledEpoch(scheduledEpoch);
+	  studySubject.takeSubjectOffStudy(offStudyReasons, offStudyDate);
 
 	  assertTrue("Unable to take study subject off study",studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.OFF_STUDY);
-	  assertEquals("Wrong offStudy reason",offStudyReasonText,studySubject.getOffStudyReasonText());
-	  assertEquals("Wrong offStudy date",offStudyDate,studySubject.getOffStudyDate());
+	  verifyMocks();
   }
 
   /**
@@ -1807,34 +1843,44 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		verifyMocks();
   }
   
-  public void testIsCompleteTrue(){
+  public void testIsCurrentEpochWorkflowCompleteTrue1(){
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
 	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
 	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
 	  replayMocks();
-	  assertTrue(studySubject.isComplete());
+	  assertTrue(studySubject.isCurrentEpochWorkflowComplete());
 	  verifyMocks();
   }
   
-  public void testIsCompleteFalse1(){
+  public void testIsCurrentEpochWorkflowCompleteTrue2(){
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
-	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.OFF_EPOCH).times(2);
 	  replayMocks();
-	  assertFalse(studySubject.isComplete());
+	  assertTrue(studySubject.isCurrentEpochWorkflowComplete());
 	  verifyMocks();
   }
   
-  public void testIsCompleteFalse2(){
+  public void testIsCurrentEpochWorkflowCompleteFalse1(){
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
-	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED).times(2);
 	  replayMocks();
-	  assertFalse(studySubject.isComplete());
+	  assertFalse(studySubject.isCurrentEpochWorkflowComplete());
 	  verifyMocks();
   }
   
-  public void testCanChangeEpochTrue(){
+  public void testIsCurrentEpochWorkflowCompleteFalse2(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING).times(2);
+	  replayMocks();
+	  assertFalse(studySubject.isCurrentEpochWorkflowComplete());
+	  verifyMocks();
+  }
+  
+  public void testCanChangeEpochTrue1(){
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
 	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
 	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
@@ -1849,10 +1895,26 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  verifyMocks();
   }
   
+  public void testCanChangeEpochTrue2(){
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.OFF_EPOCH).times(2);
+	  EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(2);
+	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+	  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+	  EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(study.getIfHigherOrderEpochExists(epoch)).andReturn(true);
+	  replayMocks();
+	  assertTrue(studySubject.canChangeEpoch());
+	  verifyMocks();
+  }
+  
   public void testCanChangeEpochFalse1(){
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
-	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING).times(2);
 	  replayMocks();
 	  assertFalse(studySubject.canChangeEpoch());
 	  verifyMocks();
@@ -1886,10 +1948,39 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  verifyMocks();
   }
   
-  public void testCanTakeSubjectOffStudyTrue(){
+  public void testCanChangeEpochFalse4(){
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
 	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
-	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.OFF_EPOCH).times(2);
+	  EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(2);
+	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+	  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+	  EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(study.getIfHigherOrderEpochExists(epoch)).andReturn(true);
+	  replayMocks();
+	  assertFalse(studySubject.canChangeEpoch());
+	  verifyMocks();
+  }
+  
+  public void testCanChangeEpochFalse5(){
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.NOT_REGISTERED);
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.OFF_EPOCH).times(2);
+	  EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(2);
+	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+	  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+	  EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(study.getIfHigherOrderEpochExists(epoch)).andReturn(true);
+	  replayMocks();
+	  assertFalse(studySubject.canChangeEpoch());
+	  verifyMocks();
+  }
+  
+  public void testCanTakeSubjectOffStudyTrue(){
 	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
 	  replayMocks();
 	  assertTrue(studySubject.canTakeSubjectOffStudy());
@@ -1897,9 +1988,6 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
   }
   
   public void testCanTakeSubjectOffStudyFalse1(){
-	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
-	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
 	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
 	  replayMocks();
 	  assertFalse(studySubject.canTakeSubjectOffStudy());
@@ -1907,12 +1995,58 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
   }
   
   public void testCanTakeSubjectOffStudyFalse2(){
-	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
-	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
-	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
-	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
 	  replayMocks();
 	  assertFalse(studySubject.canTakeSubjectOffStudy());
+	  verifyMocks();
+  }
+  
+  public void testCanFailScreeningTrue(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(epoch.getType()).andReturn(EpochType.SCREENING);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
+	  replayMocks();
+	  assertTrue(studySubject.canFailScreening());
+	  verifyMocks();
+  }
+  
+  public void testCanFailScreeningFalse1(){
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+	  replayMocks();
+	  assertFalse(studySubject.canFailScreening());
+	  verifyMocks();
+  }
+  
+  public void testCanFailScreeningFalse2(){
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.OFF_STUDY);
+	  replayMocks();
+	  assertFalse(studySubject.canFailScreening());
+	  verifyMocks();
+  }
+  
+  public void testCanFailScreeningFalse3(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(epoch.getType()).andReturn(EpochType.TREATMENT);
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
+	  replayMocks();
+	  assertFalse(studySubject.canFailScreening());
+	  verifyMocks();
+  }
+  
+  public void testCanFailScreeningFalse4(){
+	  studySubject.setStudySubjectStudyVersion(studySubjectStudyVersion);
+	  EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(2);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(epoch.getType()).andReturn(EpochType.SCREENING);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
+	  replayMocks();
+	  assertFalse(studySubject.canFailScreening());
 	  verifyMocks();
   }
   
@@ -2343,5 +2477,135 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  assertEquals("some reason 1", subjectEligibilityAnswer1.getWaiverReason());
 	  assertEquals("some reason 2", subjectEligibilityAnswer2.getWaiverReason());
 	  verifyMocks();
+  }
+  
+  public void testFailScreeningSuccessfull(){
+	  Date failScreeningDate = new Date();
+	  List<OffEpochReason> offScreeningReasons = new ArrayList<OffEpochReason>();
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
+	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.REGISTERED);
+	  EasyMock.expect(epoch.getType()).andReturn(EpochType.SCREENING);
+  	  scheduledEpoch.takeSubjectOffEpoch(offScreeningReasons, failScreeningDate);
+	  replayMocks();
+	  studySubject.setStudySite(studySite);
+	  studySubject.addScheduledEpoch(scheduledEpoch);
+	  studySubject.failScreening(offScreeningReasons, failScreeningDate);
+
+	  assertEquals(RegistrationWorkFlowStatus.NOT_REGISTERED,studySubject.getRegWorkflowStatus());
+	  verifyMocks();
+  }
+  
+  public void testFailScreeningFail1(){
+	  Date failScreeningDate = new Date();
+	  List<OffEpochReason> offScreeningReasons = new ArrayList<OffEpochReason>();
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
+	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(epoch.getType()).andReturn(EpochType.TREATMENT);
+	  replayMocks();
+	  studySubject.setStudySite(studySite);
+	  studySubject.addScheduledEpoch(scheduledEpoch);
+	  try {
+			studySubject.failScreening(offScreeningReasons, failScreeningDate);
+			fail();
+		} catch (C3PRBaseRuntimeException e) {
+			e.printStackTrace();
+		} finally{
+			verifyMocks();
+		}
+  }
+  
+  public void testFailScreeningFail2(){
+	  Date failScreeningDate = new Date();
+	  List<OffEpochReason> offScreeningReasons = new ArrayList<OffEpochReason>();
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
+	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
+	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.OFF_EPOCH);
+	  EasyMock.expect(epoch.getType()).andReturn(EpochType.SCREENING);
+	  replayMocks();
+	  studySubject.setStudySite(studySite);
+	  studySubject.addScheduledEpoch(scheduledEpoch);
+	  try {
+			studySubject.failScreening(offScreeningReasons, failScreeningDate);
+			fail();
+		} catch (C3PRBaseRuntimeException e) {
+			e.printStackTrace();
+		} finally{
+			verifyMocks();
+		}
+  }
+  
+  public void testFailScreeningFail3(){
+	  Date failScreeningDate = new Date();
+	  List<OffEpochReason> offScreeningReasons = new ArrayList<OffEpochReason>();
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	  replayMocks();
+	  studySubject.setStudySite(studySite);
+	  studySubject.addScheduledEpoch(scheduledEpoch);
+	  try {
+			studySubject.failScreening(offScreeningReasons, failScreeningDate);
+			fail();
+		} catch (C3PRBaseRuntimeException e) {
+			e.printStackTrace();
+		} finally{
+			verifyMocks();
+		}
+  }
+  
+  public void testTakeSubjectOffStudySuccessfull(){
+	  Date offStudyDate = new Date();
+	  List<OffEpochReason> offStudyReasons = new ArrayList<OffEpochReason>();
+	  OffEpochReason offEpochReason = registerMockFor(OffEpochReason.class);
+	  offStudyReasons.add(offEpochReason);
+	  EasyMock.expect(offEpochReason.getReason()).andReturn(new OffStudyReason());
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+	  scheduledEpoch.takeSubjectOffEpoch(offStudyReasons, offStudyDate);
+	  replayMocks();
+	  studySubject.setStudySite(studySite);
+	  studySubject.addScheduledEpoch(scheduledEpoch);
+	  studySubject.takeSubjectOffStudy(offStudyReasons, offStudyDate);
+
+	  assertEquals(RegistrationWorkFlowStatus.OFF_STUDY,studySubject.getRegWorkflowStatus());
+	  verifyMocks();
+  }
+  
+  public void testTakeSubjectOffStudyFail1(){
+	  Date offStudyDate = new Date();
+	  List<OffEpochReason> offStudyReasons = new ArrayList<OffEpochReason>();
+	  OffEpochReason offEpochReason = registerMockFor(OffEpochReason.class);
+	  offStudyReasons.add(offEpochReason);
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
+	  replayMocks();
+	  try {
+		studySubject.takeSubjectOffStudy(offStudyReasons, offStudyDate);
+		fail();
+	} catch (C3PRBaseRuntimeException e) {
+		e.printStackTrace();
+	}finally{
+	  verifyMocks();
+	}
+  }
+  
+  public void testTakeSubjectOffStudyFail2(){
+	  Date offStudyDate = new Date();
+	  List<OffEpochReason> offStudyReasons = new ArrayList<OffEpochReason>();
+	  OffEpochReason offEpochReason = registerMockFor(OffEpochReason.class);
+	  offStudyReasons.add(offEpochReason);
+	  EasyMock.expect(offEpochReason.getReason()).andReturn(new OffScreeningReason()).times(2);
+	  studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+	  replayMocks();
+	  try {
+		studySubject.takeSubjectOffStudy(offStudyReasons, offStudyDate);
+		fail();
+	} catch (C3PRBaseRuntimeException e) {
+		e.printStackTrace();
+	}finally{
+	  verifyMocks();
+	}
   }
 }

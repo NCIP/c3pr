@@ -1,10 +1,5 @@
 package edu.duke.cabig.c3pr.dao;
 
-import java.util.List;
-
-import org.hibernate.LockMode;
-import org.springframework.transaction.annotation.Transactional;
-
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 
 /**

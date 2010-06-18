@@ -5,7 +5,7 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.OffEpochReason;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -30,8 +30,6 @@ public interface StudySubjectRepository {
      */
     public StudySubject save(StudySubject studySubject);
     
-    public StudySubject doLocalRegistration(StudySubject studySubject) throws C3PRCodedException;
-    
     public StudySubject importStudySubject(StudySubject deserialedStudySubject)
 	throws C3PRCodedException;
     
@@ -39,32 +37,33 @@ public interface StudySubjectRepository {
     
     public StudySubject register(StudySubject studySubject);
     
-    public StudySubject register(List<Identifier> studySubjectIdentifiers);
+    public StudySubject register(Identifier studySubjectIdentifier);
     
-    public StudySubject enroll(List<Identifier> studySubjectIdentifiers) throws C3PRCodedException;
+    public StudySubject enroll(Identifier studySubjectIdentifier) throws C3PRCodedException;
     
     public StudySubject enroll(StudySubject studySubject) throws C3PRCodedException;
     
-    public StudySubject transferSubject(List<Identifier> studySubjectIdentifiers);
+    public StudySubject transferSubject(Identifier studySubjectIdentifier);
     
     public StudySubject transferSubject(StudySubject studySubject);
     
-    public void takeSubjectOffStudy(List<Identifier> studySubjectIdentifiers,String offStudyReasonText,Date offStudyDate);
+    public StudySubject takeSubjectOffStudy(Identifier studySubjectIdentifier, List<OffEpochReason> offStudyReasons, Date offStudyDate);
     
     public StudySubject create(StudySubject studySubject);
     
     public StudySubject reserve(StudySubject studySubject);
     
-    public StudySubject reserve(List<Identifier> studySubjectIdentifiers);
+    public StudySubject reserve(Identifier studySubjectIdentifier);
     
-    public StudySubject getUniqueStudySubjects(List<Identifier> studySubjectIdentifiers);
+    public StudySubject getUniqueStudySubject(Identifier studySubjectIdentifier);
     
-    public void setIdentifierGenerator(IdentifierGenerator identifierGenerator) ;
-
 	public StudySubject invalidateRegistration(StudySubject studySubject);
 	
-	public StudySubject allowEligibilityWaiver(List<Identifier> studySubjectIdentifiers, List<EligibilityCriteria> eligibilityCrieteria,  String waivedByStudyPersonnelAssignedIdentifier);
+	public StudySubject allowEligibilityWaiver(Identifier studySubjectIdentifier, List<EligibilityCriteria> eligibilityCrieteria,  String waivedByStudyPersonnelAssignedIdentifier);
 	
-	public StudySubject waiveEligibility(List<Identifier> studySubjectIdentifiers, List<SubjectEligibilityAnswer> subjectEligibilityAnswers);
+	public StudySubject waiveEligibility(Identifier studySubjectIdentifier, List<SubjectEligibilityAnswer> subjectEligibilityAnswers);
+	
+	public StudySubject failScreening(Identifier studySubjectIdentifier, List<OffEpochReason> offScreeningReasons, Date failScreeningDate);
     
+	public StudySubject takeSubjectOffCurrentEpoch(Identifier studySubjectIdentifier, List<OffEpochReason> offEpochReasons, Date offEpochDate);
 }

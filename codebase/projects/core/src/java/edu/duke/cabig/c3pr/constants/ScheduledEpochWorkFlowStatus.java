@@ -7,10 +7,7 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum ScheduledEpochWorkFlowStatus implements CodedEnum<String> {
      PENDING("Pending"), REGISTERED_BUT_NOT_RANDOMIZED("Registered But Not Randomized"),REGISTERED("Registered"),
-     //TODO
-     // the following to be removed with appropriate data migration script
- //    APPROVED("Approved"),UNAPPROVED("Unapproved"), DISAPPROVED("Disapproved")
-     ;
+     OFF_EPOCH("Off Epoch");
 
     private String code;
 
