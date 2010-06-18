@@ -40,10 +40,7 @@ public class CompanionRegistrationTab<C extends StudySubjectWrapper> extends Reg
 		StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
 		String regId = request.getParameter("childStudySubjectId");
 		StudySubject childStudySubject = studySubjectDao.getById(Integer.parseInt(regId)) ;
-			
-		List<Identifier> identifiers=new ArrayList<Identifier>();
-    	identifiers.add(wrapper.getStudySubject().getSystemAssignedIdentifiers().get(0));
-    	StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    	StudySubject studySubject=studySubjectRepository.getUniqueStudySubject(wrapper.getStudySubject().getUniqueIdentifier());
     	studySubject.removeChildStudySubject(childStudySubject);
     	studySubjectDao.initialize(studySubject);
     	wrapper.setStudySubject(studySubject);
@@ -52,10 +49,7 @@ public class CompanionRegistrationTab<C extends StudySubjectWrapper> extends Reg
 	
 	public ModelAndView refreshCompanionSection(HttpServletRequest request,Object command, Errors errors) {
 		StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
-
-		List<Identifier> identifiers=new ArrayList<Identifier>();
-    	identifiers.add(wrapper.getStudySubject().getSystemAssignedIdentifiers().get(0));
-    	StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    	StudySubject studySubject=studySubjectRepository.getUniqueStudySubject(wrapper.getStudySubject().getUniqueIdentifier());
     	studySubjectDao.initialize(studySubject);
     	wrapper.setStudySubject(studySubject);
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request));

@@ -93,10 +93,7 @@ public class RegistrationConfirmAndRandomizeController extends
 		StudySubject studySubject = null;
 		StudySubjectWrapper wrapper = new StudySubjectWrapper();
 		 if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
-	        	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
-	        	List<Identifier> identifiers=new ArrayList<Identifier>();
-	        	identifiers.add(identifier);
-	        	studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+	        	studySubject=studySubjectRepository.getUniqueStudySubject(ControllerTools.getIdentifierInRequest(request));
 	        	// setting the participant in StudySubjectWrapper. Using studySubject.participant until 
 	        	// studySubject.studySubjectDemographics is valid, using studySubject.studySubjectDemographics once 
 	        	// it becomes valid

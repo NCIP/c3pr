@@ -37,12 +37,12 @@ public class EditCompanionRegistrationController<C extends StudySubjectWrapper> 
         StudySubject studySubject = wrapper.getStudySubject();
         if(!(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED)){
 	        if(wrapper.getShouldReserve()){
-	        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+	        	studySubject=studySubjectRepository.reserve(studySubject.getUniqueIdentifier());
 	        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
-	        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+	        	studySubject=studySubjectRepository.register(studySubject.getUniqueIdentifier());
 	        }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
 	        	try{
-	        		studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+	        		studySubject=studySubjectRepository.enroll(studySubject.getUniqueIdentifier());
 	        	}catch (C3PRCodedRuntimeException e) {
 				
 	        	}

@@ -26,9 +26,7 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
 	public Map<String,Object> referenceData(HttpServletRequest request,
     		StudySubjectWrapper wrapper) {
     	StudySubject studySubject = wrapper.getStudySubject();
-    	List<Identifier> identifiers=new ArrayList<Identifier>();
-    	identifiers.add(studySubject.getSystemAssignedIdentifiers().get(0));
-    	studySubject = studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    	studySubject = studySubject=studySubjectRepository.getUniqueStudySubject(studySubject.getUniqueIdentifier());
 		Map map = registrationControllerUtils.buildMap(studySubject);
 		map.put("companions", getCompanionStudySubject(request));
 		boolean actionRequired = false;
@@ -57,9 +55,7 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
     	List<Companion> companions = new ArrayList<Companion>();
     	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
     	if(identifier != null){
-    		List<Identifier> identifiers=new ArrayList<Identifier>();
-    		identifiers.add(identifier);
-    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+    		StudySubject studySubject=studySubjectRepository.getUniqueStudySubject(identifier);
     		for(CompanionStudyAssociation companionStudyAssoc : studySubject.getStudySite().getStudy().getStudyVersion().getCompanionStudyAssociations()){
     			Companion companion = new Companion();
     			Study companionStudy = companionStudyAssoc.getCompanionStudy();

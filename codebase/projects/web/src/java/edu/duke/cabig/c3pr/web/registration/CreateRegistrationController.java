@@ -73,9 +73,9 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
         if(wrapper.getShouldReserve()==null){
         	studySubject=studySubjectRepository.save(studySubject);
         }else if(wrapper.getShouldReserve()){
-        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+        	studySubject=studySubjectRepository.reserve(studySubject.getUniqueIdentifier());
         }else if(wrapper.getShouldRegister()){
-        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        	studySubject=studySubjectRepository.register(studySubject.getUniqueIdentifier());
         }else if(wrapper.getShouldEnroll()){
         	try {
 				studySubject=studySubjectRepository.enroll(studySubject);

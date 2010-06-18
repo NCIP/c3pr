@@ -70,27 +70,6 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
     	StudySubjectWrapper wrapper= (StudySubjectWrapper)super.formBackingObject(request);
     	ScheduledEpoch scheduledEpoch;
     	
-    	if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.offEpochDate") && 
-    			!StringUtils.isBlank(request.getParameter("studySubject.scheduledEpoch.offEpochDate"))){
-    		Date offEpochDate;
-    		offEpochDate = DateUtil.getUtilDateFromString(request.getParameter("studySubject.scheduledEpoch.offEpochDate"),"mm/dd/yyyy");
-    		wrapper.getStudySubject().getScheduledEpoch().setOffEpochDate(offEpochDate);
-    	}
-    	
-    	
-    	if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.offEpochReasonText") &&
-    			!StringUtils.isBlank(request.getParameter("studySubject.scheduledEpoch.offEpochReasonText"))){
-    		String offEpochReasonText = request.getParameter("studySubject.scheduledEpoch.offEpochReasonText");
-    		wrapper.getStudySubject().getScheduledEpoch().setOffEpochReasonText(offEpochReasonText);
-    	}
-    	
-    	 if (WebUtils.hasSubmitParameter(request, "studySubject.startDate") && 
-	    			!StringUtils.isBlank(request.getParameter("studySubject.startDate"))){
-	    		Date registrationStartDate;
-	    		registrationStartDate = DateUtil.getUtilDateFromString(request.getParameter("studySubject.startDate"),"mm/dd/yyyy");
-	    		wrapper.getStudySubject().setStartDate(registrationStartDate);
-	    	}
-    	
     	if(WebUtils.hasSubmitParameter(request, "epoch")){
 	        Integer id = Integer.parseInt(request.getParameter("epoch"));
 	        Epoch epoch = epochDao.getById(id);
@@ -102,25 +81,12 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
 	        else {
 	            scheduledEpoch = new ScheduledEpoch();
 	        }
-	        
-	        if (WebUtils.hasSubmitParameter(request, "studySubject.scheduledEpoch.startDate") && 
-	    			!StringUtils.isBlank(request.getParameter("studySubject.scheduledEpoch.startDate"))){
-	    		Date scheduledEpochStartDate;
-	    		scheduledEpochStartDate = DateUtil.getUtilDateFromString(request.getParameter("studySubject.scheduledEpoch.startDate"),"mm/dd/yyyy");
-	    		scheduledEpoch.setStartDate(scheduledEpochStartDate);
-	    	}
 	        scheduledEpoch.setEpoch(epoch);
 	        wrapper.getStudySubject().addScheduledEpoch(scheduledEpoch);
 	        registrationControllerUtils.buildCommandObject(wrapper.getStudySubject());
     	}
     	return wrapper;
     }
-    @Override
-	protected void onBindOnNewForm(HttpServletRequest request, Object command)
-			throws Exception {
-		// TODO Auto-generated method stub
-		super.onBindOnNewForm(request, command);
-	}
 
 	@Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
@@ -160,9 +126,9 @@ public class TransferEpochRegistrationController<C extends StudySubjectWrapper> 
 				// TODO Handle multisite error seperately and elegantly. for now eat the error
 			}
         }else if(wrapper.getShouldRegister()){
-        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        	studySubject=studySubjectRepository.register(studySubject.getUniqueIdentifier());
         }else if(wrapper.getShouldReserve()){
-        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+        	studySubject=studySubjectRepository.reserve(studySubject.getUniqueIdentifier());
         }else{
             studySubject=studySubjectRepository.save(studySubject);
         }

@@ -153,7 +153,8 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		map.put("armAssigned", armAssigned);
 		map.put("armAssignedLabel", armAssignedLabel);
 		map.put("takeSubjectOffStudy", studySubject.canTakeSubjectOffStudy());
-		map.put("isCompleteRegistration", studySubject.isComplete());
+		map.put("canFailScreening", studySubject.canFailScreening());
+		map.put("isCompleteRegistration", studySubject.isCurrentEpochWorkflowComplete());
 		map.put("registerableWithCompanions", registrationControllerUtils
 				.registerableAsorWithCompanion(studySubject));
 		map.put("requiresMultiSite", studySubjectService
@@ -407,7 +408,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		Authentication authentication = context.getAuthentication();
     	String userName = SecurityUtils.getUserName(authentication);
 		ResearchStaff researchStaff = (ResearchStaff)csmUserRepository.getUserByName(userName);
-    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getIdentifiers(), eligibilityCriteria, researchStaff.getAssignedIdentifier());
+    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getUniqueIdentifier(), eligibilityCriteria, researchStaff.getAssignedIdentifier());
     	command.setStudySubject(studySubject);
     	request.setAttribute("displayAllowWaiverSuccessMessage", "true");
     }

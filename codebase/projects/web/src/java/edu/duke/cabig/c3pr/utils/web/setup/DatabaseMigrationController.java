@@ -15,13 +15,16 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.constants.EpochType;
+import edu.duke.cabig.c3pr.dao.ReasonDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.OffEpochReason;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.setup.SetupStatus;
-import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DatabaseMigrationHelper;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
-import edu.duke.cabig.c3pr.utils.web.setup.command.EpochTypeCommand;
+import edu.duke.cabig.c3pr.utils.web.setup.command.DataMigrationCommand;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Kruttik Aggarwal
@@ -30,9 +33,13 @@ public class DatabaseMigrationController extends SimpleFormController {
 	
 	private SetupStatus setupStatus;
 	
-	private Configuration configuration;
-	
 	private DatabaseMigrationHelper databaseMigrationHelper;
+	
+	private ReasonDao reasonDao;
+
+	public void setReasonDao(ReasonDao reasonDao) {
+		this.reasonDao = reasonDao;
+	}
 
 	public void setDatabaseMigrationHelper(
 			DatabaseMigrationHelper databaseMigrationHelper) {
@@ -48,30 +55,53 @@ public class DatabaseMigrationController extends SimpleFormController {
 	@Override
 	protected Map referenceData(HttpServletRequest request, Object command,
 			Errors errors) throws Exception {
-		Map<String, List<Study>> map = new HashMap<String, List<Study>>();
-		map.put("studies", databaseMigrationHelper.getMigratableStudies());
+		Map<String, List<? extends AbstractMutableDomainObject>> map = new HashMap<String, List<? extends AbstractMutableDomainObject>>();
+		DataMigrationCommand dataMigrationCommand = (DataMigrationCommand)command;
+		List<Study> migratableStudies = databaseMigrationHelper.getMigratableStudies();
+		List<StudySubject> migratableStudySubjects = databaseMigrationHelper.getMigratableStudySubjects();
+		if(migratableStudies.size()>0){
+			map.put("studies", migratableStudies);
+			setFormView("setup/emptyEpochTypeMigration");
+			dataMigrationCommand.setMigrationType(DataMigrationCommand.EPOCH_TYPE_EMPTY);
+		}else{
+			map.put("studySubjects", migratableStudySubjects);
+			map.put("offTreatmentReasons", reasonDao.getOffTreatmentReasons());
+			map.put("offScreeningReasons", reasonDao.getOffScreeningReasons());
+			map.put("offReservingReasons", reasonDao.getOffReservingReasons());
+			map.put("offFollowupReasons", reasonDao.getOffFollowupReasons());
+			map.put("offStudyReasons", reasonDao.getOffStudyReasons());
+			setFormView("setup/emptyOffEpochReasonMigration");
+			dataMigrationCommand.setMigrationType(DataMigrationCommand.OFF_EPOCH_REASON_EMPTY);
+		}
 		return map;
 	}
+	
 	
 	@Override
 	protected ModelAndView onSubmit(HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse, Object o, BindException e)
 			throws Exception {
-		EpochTypeCommand epochTypeCommand = (EpochTypeCommand)o;
-		for(Epoch epoch : epochTypeCommand.getEpochs()){
-			databaseMigrationHelper.updateEpochWithType(epoch.getId(), epoch.getType());
+		DataMigrationCommand dataMigrationCommand = (DataMigrationCommand)o;
+		switch (dataMigrationCommand.getMigrationType()) {
+		case DataMigrationCommand.EPOCH_TYPE_EMPTY:
+			for(Epoch epoch : dataMigrationCommand.getEpochs()){
+				databaseMigrationHelper.updateEpochWithType(epoch.getId(), epoch.getType());
+			}
+			break;
+		case DataMigrationCommand.OFF_EPOCH_REASON_EMPTY:
+			for(OffEpochReason offEpochReason : dataMigrationCommand.getOffEpochReasons()){
+				databaseMigrationHelper.updateOffEpochReasonWithReason(offEpochReason.getId(), offEpochReason.getReason().getId());
+			}
+			databaseMigrationHelper.updateOffStudyWithNotRegistered();
+			break;
 		}
 		setupStatus.recheck();
-		return new ModelAndView(getSuccessView());
+		return new ModelAndView("redirect:../pages/dashboard");
 	}
 
 	@Required
 	public void setSetupStatus(SetupStatus setupStatus) {
 		this.setupStatus = setupStatus;
-	}
-
-	public void setConfiguration(Configuration configuration) {
-		this.configuration = configuration;
 	}
 
 }

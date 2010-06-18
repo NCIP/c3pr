@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.ReasonDao;
 import edu.duke.cabig.c3pr.dao.ScheduledEpochDao;
 import edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -44,6 +45,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -92,8 +94,14 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     protected ICD9DiseaseSiteDao icd9DiseaseSiteDao;
 
     protected StudySiteStudyVersionDao studySiteStudyVersionDao;
+    
+    private ReasonDao reasonDao;
 
-    public void setStudySiteStudyVersionDao(
+    public void setReasonDao(ReasonDao reasonDao) {
+		this.reasonDao = reasonDao;
+	}
+
+	public void setStudySiteStudyVersionDao(
 			StudySiteStudyVersionDao studySiteStudyVersionDao) {
 		this.studySiteStudyVersionDao = studySiteStudyVersionDao;
 	}
@@ -245,10 +253,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         StudySubject studySubject = null;
         StudySubjectWrapper wrapper = new StudySubjectWrapper();
         if (WebUtils.hasSubmitParameter(request, ControllerTools.IDENTIFIER_VALUE_PARAM_NAME)) {
-        	Identifier identifier=ControllerTools.getIdentifierInRequest(request);
-        	List<Identifier> identifiers=new ArrayList<Identifier>();
-        	identifiers.add(identifier);
-        	studySubject=studySubjectRepository.getUniqueStudySubjects(identifiers);
+        	studySubject=studySubjectRepository.getUniqueStudySubject(ControllerTools.getIdentifierInRequest(request));
         	// setting the participant in StudySubjectWrapper. Using studySubject.participant until 
         	// studySubject.studySubjectDemographics is valid, using studySubject.studySubjectDemographics once 
         	// it becomes valid
@@ -348,6 +353,8 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         		ICD9DiseaseSiteCodeDepth.class));
         binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor(
         		OrganizationIdentifierTypeEnum.class));
+        binder.registerCustomEditor(Reason.class, new CustomDaoEditor(
+                reasonDao));
 
     }
 

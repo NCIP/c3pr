@@ -79,9 +79,9 @@ public class TransferEpochCompanionRegistrationController<C extends StudySubject
         else if(wrapper.getShouldEnroll()){
         	studySubject=studySubjectRepository.enroll(studySubject);
         }else if(wrapper.getShouldRegister()){
-        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        	studySubject=studySubjectRepository.register(studySubject.getUniqueIdentifier());
         }else if(wrapper.getShouldReserve()){
-        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+        	studySubject=studySubjectRepository.reserve(studySubject.getUniqueIdentifier());
         }else{
             studySubject=studySubjectRepository.save(studySubject);
         }

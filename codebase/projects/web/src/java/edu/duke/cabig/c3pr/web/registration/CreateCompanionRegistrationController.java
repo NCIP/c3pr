@@ -51,12 +51,12 @@ public class CreateCompanionRegistrationController<C extends StudySubjectWrapper
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
         if(wrapper.getShouldReserve()){
-        	studySubject=studySubjectRepository.reserve(studySubject.getIdentifiers());
+        	studySubject=studySubjectRepository.reserve(studySubject.getUniqueIdentifier());
         }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){
-        	studySubject=studySubjectRepository.register(studySubject.getIdentifiers());
+        	studySubject=studySubjectRepository.register(studySubject.getUniqueIdentifier());
         }else if(wrapper.getShouldEnroll() && !wrapper.getShouldRandomize()){
         	try{
-        		studySubject=studySubjectRepository.enroll(studySubject.getIdentifiers());
+        		studySubject=studySubjectRepository.enroll(studySubject.getUniqueIdentifier());
         	}catch (C3PRCodedRuntimeException e) {
 			
         	}

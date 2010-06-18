@@ -41,6 +41,16 @@ public abstract class RegistrationTab<C extends StudySubjectWrapper> extends InP
     protected StudySiteDao studySiteDao;
     
     protected Configuration configuration;
+    
+    protected static final String OPERATION_TYPE_PARAM_NAME="operationType";
+	
+    protected static final String OFF_STUDY_OPERATION="takeSubjectOffStudy";
+	
+    protected static final String FAIL_SCREENING_OPERATION="failScreening";
+	
+    protected static final String CHANGE_EPOCH_OPERATION="changeEpochAssignment";
+	
+    protected static final String ACTION_PARAM_NAME="action";
 
     public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;

@@ -4,6 +4,7 @@
 package edu.duke.cabig.c3pr.web.registration;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
@@ -12,8 +13,10 @@ import org.apache.commons.collections15.list.LazyList;
 import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.OffEpochReason;
+import edu.duke.cabig.c3pr.domain.OffTreatmentReason;
+import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 
 /**
  * @author Himanshu
@@ -27,6 +30,19 @@ public class StudySubjectWrapper {
 	private Object participant;
 	
 	private List<Integer> waiveEligibilityCrieteria = new ArrayList<Integer>();
+	
+	private Reason[] reasons;
+	
+	private List<OffEpochReason> offEpochReasons = LazyList.decorate(new ArrayList<OffEpochReason>(), new InstantiateFactory<OffEpochReason>(OffEpochReason.class){
+		@Override
+		public OffEpochReason create() {
+			OffEpochReason offEpochReason = super.create();
+			offEpochReason.setReason(new OffTreatmentReason());
+			return offEpochReason;
+		}
+	});
+	
+	private Date offEpochDate;
 	
 	public Object getParticipant() {
 		return participant;
@@ -126,6 +142,30 @@ public class StudySubjectWrapper {
 
 	public void setWaiveEligibilityCrieteria(List<Integer> waiveEligibilityCrieteria) {
 		this.waiveEligibilityCrieteria = waiveEligibilityCrieteria;
+	}
+
+	public Reason[] getReasons() {
+		return reasons;
+	}
+
+	public void setReasons(Reason[] reasons) {
+		this.reasons = reasons;
+	}
+
+	public Date getOffEpochDate() {
+		return offEpochDate;
+	}
+
+	public void setOffEpochDate(Date offEpochDate) {
+		this.offEpochDate = offEpochDate;
+	}
+
+	public List<OffEpochReason> getOffEpochReasons() {
+		return offEpochReasons;
+	}
+
+	public void setOffEpochReasons(List<OffEpochReason> offEpochReasons) {
+		this.offEpochReasons = offEpochReasons;
 	}
 
 }
