@@ -19,6 +19,10 @@
     <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1001" study_id="1001" long_title_text="long_title_text2" name="1.0" version_date="01-01-2001" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1002" study_id="1002" long_title_text="long_title_text" name="1.0" version_date="01-01-2001" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1003" study_id="1003" long_title_text="long_title_text" name="1.0" version_date="01-01-2001" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    
+    <CONSENTS/>
+    
+    <CONSENT_QUESTIONS/>
 
     <comp_stu_associations id="1000" mandatory_indicator="1" parent_version_id='1001' companion_study_id='1002' retired_indicator='false'/>
 
