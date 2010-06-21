@@ -263,22 +263,22 @@ function redirectToTab(tabNumber){
 	<chrome:division title="Informed Consents">
 		<c:choose>
 			<c:when test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions)> 0}">
-				<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-				<div class="row">
-					<div class="label"><b>${studySubjectConsentVersion.consent.name}</b>:</div>
-					<div class="value">
-						<c:choose>
-							<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null 
-							&& studySubjectConsentVersion.informedConsentSignedDateStr != ''}">
-								${studySubjectConsentVersion.informedConsentSignedDateStr}
-							</c:when>
-							<c:otherwise>
-								<font color="red"><i>not signed</i></font>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</div>
-			</c:forEach>
+				<table class="tablecontent">
+					<tr>
+						<th><fmt:message key="registration.consentSignedDate"/></th>
+						<th><fmt:message key="registration.consentDeliveredDate"/></th>
+						<th><fmt:message key="registration.consentMethod"/></th>
+						<th><fmt:message key="registration.consentPresenter"/></th>
+					</tr>
+					<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+						<tr>
+							<td>${studySubjectConsentVersion.informedConsentSignedDateStr!=null?studySubjectConsentVersion.informedConsentSignedDateStr:'<font color="red">&nbsp;&nbsp;not signed</font>'}</td>
+							<td>${studySubjectConsentVersion.consentDeliveryDate}</td>
+							<td>${studySubjectConsentVersion.consentingMethod.displayName}</td>
+							<td>${studySubjectConsentVersion.consentPresenter}</td>
+						</tr>
+					</c:forEach>
+				</table>
 			</c:when>
 			<c:otherwise>
 				<font color="red">&nbsp;&nbsp;The subject has not signed any consent forms</font> 

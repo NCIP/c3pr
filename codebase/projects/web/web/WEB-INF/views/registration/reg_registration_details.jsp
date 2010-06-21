@@ -444,6 +444,24 @@ function changeStudyVersion(){
 			</div>
 		</div>
 		<div class="row">
+			<div class="label"><fmt:message key="study.consentVersion"/></div>
+			<div class="value">
+				${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.versionId}
+			</div>
+		</div>
+		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
+			<div class="value">
+				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
+			<div class="value">
+				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
+			</div>
+		</div>
+		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 			<div class="value">
 				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
@@ -519,34 +537,6 @@ function changeStudyVersion(){
 		</div>
 	</div>
 <!-- MAIN BODY ENDS HERE -->
-<!--  CONSENT DIV BEGINS -->
-
-<c:if test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) > 1}">
-<chrome:division title="Consents">
-	<table class="tablecontent">
-		<tr>
-		  <th>
-          	<fmt:message key="c3pr.common.name"/>
-          	<tags:hoverHint keyProp="study.consent.name" />
-          </th>
-          <th>
-          	<fmt:message key="registration.consentSignedDate"/>
-          	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
-          </th>
-		</tr>
-		<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-			<tr>
-				<td>
-					${studySubjectConsentVersion.consent.name}
-				</td>
-				<td>
-					<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" />
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-</chrome:division>
-</c:if>
 </tags:formPanelBox>
 <div style="display:none">
     <div id="chooseCategory">
@@ -731,11 +721,5 @@ function changeStudyVersion(){
 </style>
 </c:otherwise>
 </c:choose>
-<script type="text/javascript">
-if($('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value == null ||
-		$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value == ''){
-		$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value = '${consentSignedDate}';
-	}
-</script>
 </body>
 </html>
