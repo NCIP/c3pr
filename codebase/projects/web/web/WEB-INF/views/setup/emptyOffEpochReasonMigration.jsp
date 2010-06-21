@@ -14,8 +14,8 @@
 		<c:if test="${registration.regWorkflowStatus=='OFF_STUDY'}">
 			<chrome:division title="Off Study Details">
 				<b>Off study date</b> : ${ registration.offStudyDateStr}<br>
-				<b>Off study reason</b>: 
-				<form:select path="offEpochReasons[${offOffEpochReasonIndex }].reason.id">
+				<tags:requiredIndicator /><b>Off study reason</b>: 
+				<form:select path="offEpochReasons[${offOffEpochReasonIndex }].reason.id" cssClass="required validate-notEmpty">
 						<option value="" selected>--Please Select--</option>
 						<form:options items="${offStudyReasons}" itemLabel="description" itemValue="id"/>
 					</form:select>
@@ -37,7 +37,7 @@
 				<td>${scheduledEpoch.epoch.name }</td>
 				<td>${scheduledEpoch.epoch.type.code }</td>
 				<td>
-					<form:select path="offEpochReasons[${offOffEpochReasonIndex }].reason.id">
+					<form:select path="offEpochReasons[${offOffEpochReasonIndex }].reason.id" cssClass="required validate-notEmpty">
 						<option value="" selected>--Please Select--</option>
 						<c:choose>
 							<c:when test="${scheduledEpoch.epoch.type == 'TREATMENT'}">
@@ -67,7 +67,7 @@
 						<td>${currentScheduledEpoch.epoch.name }</td>
 						<td>${currentScheduledEpoch.epoch.type.code }</td>
 						<td>
-							<form:select path="offEpochReasons[${offOffEpochReasonIndex }].reason.id">
+							<form:select path="offEpochReasons[${offOffEpochReasonIndex }].reason.id" cssClass="required validate-notEmpty">
 								<option value="" selected>--Please Select--</option>
 								<c:choose>
 									<c:when test="${currentScheduledEpoch.epoch.type == 'TREATMENT'}">
@@ -90,14 +90,6 @@
 					</tr>
 					<c:set var="offOffEpochReasonIndex" value="${offOffEpochReasonIndex+1}"/>
 				</c:when>
-				<%--<c:when test="${currentScheduledEpoch.scEpochWorkflowStatus!='OFF_EPOCH'}">
-					<tr>
-						<td>${currentScheduledEpoch.epoch.name }</td>
-						<td>${currentScheduledEpoch.epoch.type.code }</td>
-						<td colspan="2">${currentScheduledEpoch.scEpochWorkflowStatus.code }</td>
-					</tr>
-					<c:set var="offOffEpochReasonIndex" value="${offOffEpochReasonIndex+1}"/>
-				</c:when>--%>
 			</c:choose>
 		</table>
 		</chrome:division>
