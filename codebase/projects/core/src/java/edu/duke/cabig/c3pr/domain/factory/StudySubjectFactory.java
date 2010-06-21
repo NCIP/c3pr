@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.ConsentQuestion;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
@@ -27,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
+import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -129,6 +131,11 @@ public class StudySubjectFactory {
     	for (Consent consent :studySite.getStudySiteStudyVersion().getStudyVersion().getConsents()){
     		StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
     		studySubjectConsentVersion.setConsent(consent);
+    		for(ConsentQuestion question:consent.getQuestions()){
+    			SubjectConsentQuestionAnswer subjectConsentQuestionAnswer = new SubjectConsentQuestionAnswer();
+    			subjectConsentQuestionAnswer.setConsentQuestion(question);
+    			studySubjectConsentVersion.addSubjectConsentAnswer(subjectConsentQuestionAnswer);
+    		}
     		built.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
     	}
     }
