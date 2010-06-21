@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.CompanionRegistrationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
+import edu.duke.cabig.c3pr.web.registration.tabs.InformedConsentsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ReviewSubmitTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.SearchStudySubjectTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.StratificationTab;
@@ -38,6 +39,7 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
     @Override
     protected void intializeFlows(Flow flow) {
         flow.addTab(new SearchStudySubjectTab());
+        flow.addTab(new InformedConsentsTab());
         flow.addTab(new EnrollmentDetailsTab());
         flow.addTab(new EligibilityCriteriaTab());
         flow.addTab(new StratificationTab());

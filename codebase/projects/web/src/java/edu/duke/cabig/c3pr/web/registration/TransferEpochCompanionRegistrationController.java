@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.CompanionRegistrationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
+import edu.duke.cabig.c3pr.web.registration.tabs.InformedConsentsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ReviewSubmitTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.StratificationTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
@@ -38,6 +39,7 @@ public class TransferEpochCompanionRegistrationController<C extends StudySubject
 
     @Override
     protected void intializeFlows(Flow flow) {
+    	flow.addTab(new InformedConsentsTab());
     	flow.addTab(new EnrollmentDetailsTab());
         flow.addTab(new EligibilityCriteriaTab());
         flow.addTab(new StratificationTab());

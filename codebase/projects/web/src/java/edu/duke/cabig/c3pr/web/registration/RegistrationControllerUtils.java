@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Companion;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.ConsentQuestion;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -29,6 +30,7 @@ import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
@@ -295,6 +297,12 @@ public class RegistrationControllerUtils {
 		 for(int i=0; i< studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getConsents().size();i++){
 			 studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(i).
 			 setConsent(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getConsents().get(i));
+			 for(ConsentQuestion question:studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getConsents().get(i).getQuestions()){
+	    			SubjectConsentQuestionAnswer subjectConsentQuestionAnswer = new SubjectConsentQuestionAnswer();
+	    			subjectConsentQuestionAnswer.setConsentQuestion(question);
+	    			studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(i)
+	    			.addSubjectConsentAnswer(subjectConsentQuestionAnswer);
+	    		}
 	         }
 	}
 

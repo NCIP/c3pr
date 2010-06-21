@@ -1,19 +1,19 @@
 package edu.duke.cabig.c3pr.web.registration;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
+import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
@@ -43,7 +43,6 @@ import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
-import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -322,6 +321,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
                     throws Exception {
+    	binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
                         "MM/dd/yyyy"), true));
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
@@ -353,6 +353,8 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         		ICD9DiseaseSiteCodeDepth.class));
         binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor(
         		OrganizationIdentifierTypeEnum.class));
+        binder.registerCustomEditor(ConsentingMethod.class, new EnumByNameEditor(
+        		ConsentingMethod.class));
         binder.registerCustomEditor(Reason.class, new CustomDaoEditor(
                 reasonDao));
 
