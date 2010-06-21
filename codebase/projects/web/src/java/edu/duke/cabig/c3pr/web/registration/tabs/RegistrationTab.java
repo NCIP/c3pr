@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
+import java.util.Map;
+
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
@@ -22,7 +24,11 @@ public abstract class RegistrationTab<C extends StudySubjectWrapper> extends InP
 
     protected ConfigurationProperty configurationProperty;
 
-    protected StudySubjectService studySubjectService;
+    public ConfigurationProperty getConfigurationProperty() {
+		return configurationProperty;
+	}
+
+	protected StudySubjectService studySubjectService;
     
     protected StudySubjectRepository studySubjectRepository;
     
@@ -113,4 +119,9 @@ public abstract class RegistrationTab<C extends StudySubjectWrapper> extends InP
 	public void setStudySiteDao(StudySiteDao studySiteDao) {
 		this.studySiteDao = studySiteDao;
 	}
+	
+	protected void addConfigMapToRefdata(Map<String, Object> refdata, String name) {
+	        refdata.put(name, getConfigurationProperty().getMap().get(name));
+	    }
+
 }

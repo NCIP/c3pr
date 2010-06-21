@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,9 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
-import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
@@ -21,8 +17,6 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
-import edu.duke.cabig.c3pr.domain.StudyVersion;
-import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
@@ -65,33 +59,8 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     	 
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
     	StudySubject studySubject = wrapper.getStudySubject();
-    	 if(request.getSession().getAttribute("studyVersion") !=null ){
-           	request.getSession().removeAttribute("studyVersion");
-           }
-       if(request.getSession().getAttribute("canEnroll") !=null ){
-       	request.getSession().removeAttribute("canEnroll");
-       }
     	if(studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED && studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
     		studySubject.getScheduledEpoch().setStartDate(studySubject.getStartDate());
-    	}
-    	if(WebUtils.hasSubmitParameter(request, "updateStudyVersion") && request.getParameter("updateStudyVersion").equals("true")){
-    		Date consentSignedDate = null;
-    		try {
-    			consentSignedDate = new SimpleDateFormat("MM/dd/yyyy").parse(request.getParameter("consentSignedDate"));
-    			request.setAttribute("consentSignedDate", request.getParameter("consentSignedDate"));
-			} catch (ParseException e) {
-				throw new RuntimeException("Invalid Submit. Registration Date is invalid");
-			}
-			try{
-				studySubject.changeStudyVersion(consentSignedDate);
-			} catch(C3PRCodedRuntimeException ex){
-				if(ex.getExceptionCode()==101){
-					errors.reject("tempProperty","Unable to find an epoch with same name in the study version");
-				}
-			}
-    		getRegistrationControllerUtils().buildCommandObject(studySubject);
-    		getRegistrationControllerUtils().addConsents(studySubject);
-    		return;
     	}
     	
     	// set the scheduled epoch start date to registration start date for first time enrollment
@@ -114,20 +83,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
         		command.getStudySubject().getDiseaseHistory().setOtherPrimaryDiseaseSiteCode("");
         	}
         }
-        
         StudySiteStudyVersion studySiteStudyVersion = ((StudySubjectWrapper)command).getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
-        
-        for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-			if(studySubjectConsentVersion.getInformedConsentSignedDateStr()!=null && studySubjectConsentVersion.getInformedConsentSignedDateStr() != ""){
-				if (!studySiteStudyVersion.getStudySite().canEnroll(studySiteStudyVersion.getStudyVersion() , studySubjectConsentVersion.getInformedConsentSignedDate())){
-					request.getSession().setAttribute("canEnroll",false);
-					StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getActiveStudyVersion(studySubjectConsentVersion.getInformedConsentSignedDate());
-					request.getSession().setAttribute("studyVersion",studyVersion);
-					errors.reject("tempProperty","Informed consent signed date does not correspond to the selected study version");
-					break;
-				}
-			}
-		}
     }
     
     
@@ -142,9 +98,6 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 	    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
 				if (studySubjectConsentVersion
 						.getInformedConsentSignedDate() != null) {
-					if(studySubjectConsentVersion.getInformedConsentSignedDate().after(new Date())){
-						errors.reject("tempProperty", "Consent signed date cannot be a future date");
-					}
 					if(date !=null){
 						if (date.before(studySubjectConsentVersion.getInformedConsentSignedDate())) {
 							errors
@@ -155,28 +108,6 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 				}
 			}
     	
-    	if(command.getStudySubject().getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
-    		boolean atLeastOneConsentSigned = false;
-    		for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-    			if(studySubjectConsentVersion.getInformedConsentSignedDateStr()!=null && studySubjectConsentVersion.getInformedConsentSignedDateStr() != ""){
-    				atLeastOneConsentSigned = true;
-    			}
-    		}
-    		if(!atLeastOneConsentSigned){
-    			errors.reject("tempProperty","At least one consent signed date is required.");
-    		}
-    		
-    	} else if (command.getStudySubject().getStudySite().getStudy().getConsentRequired() == ConsentRequired.ALL){
-    		boolean allConsentsSigned = true;
-    		for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-    			if(studySubjectConsentVersion.getInformedConsentSignedDateStr() ==null || studySubjectConsentVersion.getInformedConsentSignedDateStr() == ""){
-    				allConsentsSigned = false;
-    			}
-    		}
-    		if(!allConsentsSigned){
-    			errors.reject("tempProperty","All consent signed dates are mandatory.");
-    		}
-    	}
     }
     
 }
