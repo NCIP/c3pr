@@ -423,6 +423,18 @@ public class StudyValidator implements Validator {
           catch (Exception ex) {
               log.debug(ex.getMessage());
           }
+          
+          Boolean mandatoryConsentExists = false;
+          for(Consent consent:consents){
+        	  if(consent.getMandatoryIndicator()){
+        		  mandatoryConsentExists = true;
+        		  break;
+        	  }
+          }
+          
+          if (!mandatoryConsentExists){
+        	  errors.reject("consentsMandatoryIndicator","There should be at least one mandatory consent");
+          }
     }
 
     private ConsentValidator consentValidator;
