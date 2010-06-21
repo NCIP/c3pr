@@ -28,6 +28,8 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
+import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.ConsentQuestion;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -1873,5 +1875,33 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals(1, loaded.getEpochs().get(0).getStratumGroups().size());
 		assertEquals(0, br.getBookRandomizationEntry().size());
 		interruptSession();
+    }
+    
+    public void testSaveStudyWithConsentQuestion() throws Exception{
+    	Study study = dao.getById(1000);
+    	assertEquals("expected no consent",0,study.getConsents().size());
+    	Consent consent = new Consent();
+    	consent.setName("consent 1");
+    	consent.setMandatoryIndicator(true);
+    	consent.setVersionId("version 1");
+    	
+    	ConsentQuestion consentQuestion = new ConsentQuestion();
+    	consentQuestion.setText("Question1");
+    	
+    	consent.addQuestion(consentQuestion);
+    	
+    	study.addConsent(consent);
+    	
+    	dao.save(study);
+    	
+    	Study reloaded = dao.getById(1000);
+    	
+    	assertEquals("Consent not saved",1,reloaded.getConsents().size());
+    	assertEquals("Wrong consent saved","consent 1",reloaded.getConsents().get(0).getName());
+    	assertEquals("Wrong consent version id","version 1",reloaded.getConsents().get(0).getVersionId());
+    	
+    	assertEquals("Consent question not saved",1,reloaded.getConsents().get(0).getQuestions().size());
+    	assertEquals("Wrong consent question saved","Question1",reloaded.getConsents().get(0).getQuestions().get(0).getText());
+    
     }
 }

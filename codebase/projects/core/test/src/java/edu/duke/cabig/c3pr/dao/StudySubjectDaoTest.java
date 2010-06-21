@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +32,7 @@ import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.ConsentQuestion;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -49,6 +51,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
+import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -1344,5 +1347,43 @@ public class StudySubjectDaoTest extends DaoTestCase {
      	 assertEquals("Wrong number of registrations ",1, registrationsNew.size());
      	 
       }
+     
+     public void testSaveStudySubjectConsentVersionWithSubjectConsentAnswers() throws Exception{
+    	 StudySubject studySubject = studySubjectDao.getById(1000);
+    	 assertEquals("Unexpected study subject consents",0,studySubject.getStudySubjectStudyVersion()
+    			 .getStudySubjectConsentVersions().size());
+    	 
+    	 StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
+    	 
+    	 Consent consent = studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getConsents().get(0);
+    	 ConsentQuestion consentQuestion = consent.getQuestions().get(0);
+    	 
+    	 studySubjectConsentVersion.setConsent(consent);
+    	 studySubjectConsentVersion.setInformedConsentSignedDate(new Date());
+    	 
+    	 Time time = new Time(22, 11, 11);
+    	 studySubjectConsentVersion.setInformedConsentSignedTime(time);
+    	 
+    	 SubjectConsentQuestionAnswer subjectConsentQuestionAnswer = new SubjectConsentQuestionAnswer();
+    	 subjectConsentQuestionAnswer.setConsentQuestion(consentQuestion);
+    	 subjectConsentQuestionAnswer.setAgreementIndicator(true);
+    	 
+    	 studySubjectConsentVersion.addSubjectConsentAnswer(subjectConsentQuestionAnswer);
+    	 studySubject.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
+    	 
+    	 studySubjectDao.save(studySubject);
+    	 
+    	 StudySubject reloadedStudySubject = studySubjectDao.getById(1000);
+    	 
+    	 assertEquals("Wrong number of study subject consents",1,reloadedStudySubject.getStudySubjectStudyVersion()
+    			 .getStudySubjectConsentVersions().size());
+    	 
+    	 assertTrue("Wrong subject consent answer",reloadedStudySubject.getStudySubjectStudyVersion()
+    			 .getStudySubjectConsentVersions().get(0).getSubjectConsentAnswers().get(0).getAgreementIndicator());
+    	 assertEquals("Picked wrong study consent question","Are you willing to participate in tissue collection",
+    			 reloadedStudySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0)
+    			 .getSubjectConsentAnswers().get(0).getConsentQuestion().getText());
+    	
+     }
 
 }
