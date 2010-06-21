@@ -1,14 +1,25 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import org.apache.commons.collections15.functors.InstantiateFactory;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.NotNull;
+
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
 @Table(name = "consents", uniqueConstraints = { @UniqueConstraint(columnNames = { "stu_version_id", "name" }) })
@@ -16,6 +27,15 @@ import org.hibernate.validator.NotNull;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "CONSENTS_ID_SEQ") })
 public class Consent extends AbstractMutableDeletableDomainObject implements Comparable<Consent>{
 
+	private LazyListHelper lazyListHelper;
+	
+	private Boolean mandatoryIndicator = false;
+	
+	public Consent(){
+		lazyListHelper = new LazyListHelper();
+		lazyListHelper.add(ConsentQuestion.class,new InstantiateFactory<ConsentQuestion>(ConsentQuestion.class));
+	}
+	
 	public int compareTo(Consent o) {
 		if (this.equals(o))
 			return 0;
@@ -24,6 +44,50 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	}
 
 	private String name;
+	
+	public Boolean getMandatoryIndicator() {
+		return mandatoryIndicator;
+	}
+
+	@OneToMany
+	@JoinColumn(name = "con_id",nullable=false)
+	@Cascade(value={CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<ConsentQuestion> getQuestionsInternal() {
+		return lazyListHelper.getInternalList(ConsentQuestion.class);
+	}
+	
+	@Transient
+	public List<ConsentQuestion> getQuestions() {
+		return lazyListHelper.getLazyList(ConsentQuestion.class);
+	}
+
+	public void setQuestions(List<ConsentQuestion> questions) {
+		setQuestionsInternal(questions);
+	}
+	
+	public void setQuestionsInternal(List<ConsentQuestion> questions) {
+		lazyListHelper.setInternalList(ConsentQuestion.class, questions);
+	}
+	
+	public void addQuestion(ConsentQuestion question){
+		this.getQuestions().add(question);
+	}
+
+	public void setMandatoryIndicator(Boolean mandatoryIndicator) {
+		this.mandatoryIndicator = mandatoryIndicator;
+	}
+
+	private String versionId;
+	
+	public String getVersionId() {
+		return versionId;
+	}
+
+	public void setVersionId(String versionId) {
+		this.versionId = versionId;
+	}
+
 
 	@NotNull
 	public String getName() {
