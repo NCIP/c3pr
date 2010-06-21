@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-import java.util.List;
+import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.userdetails.User;
@@ -16,26 +16,28 @@ import org.acegisecurity.userdetails.User;
  */
 public class AuthorizedUser extends User {
 
-	private List<Object> protectionGroupRoleContextList;
+	private ProvisioningSession provisioningSession;
+	
+	private UserPrivilege userPrivileges[];
 
     public AuthorizedUser(String string, String string1, boolean b, boolean b1, boolean b2, boolean b3,
-                    GrantedAuthority[] grantedAuthorities, List<Object> protectionGroupRoleContextList) throws IllegalArgumentException {
+                    GrantedAuthority[] grantedAuthorities, ProvisioningSession provisioningSession) throws IllegalArgumentException {
         super(string, string1, b, b1, b2, b3, grantedAuthorities);
         
-        setProtectionGroupRoleContextList(protectionGroupRoleContextList);
+        this.provisioningSession = provisioningSession;
     }
 
-//    public AuthorizedUser(UserDetails user) {
-//        this(user.getUsername(), user.getPassword(), true, true, true, true, user.getAuthorities(), );
-//    }
-
-	public List<Object> getProtectionGroupRoleContextList() {
-		return protectionGroupRoleContextList;
+	public ProvisioningSession getProvisioningSession() {
+		return provisioningSession;
 	}
 
-	public void setProtectionGroupRoleContextList(
-			List<Object> protectionGroupRoleContextList) {
-		this.protectionGroupRoleContextList = protectionGroupRoleContextList;
+	public void setProvisioningSession(ProvisioningSession provisioningSession) {
+		this.provisioningSession = provisioningSession;
 	}
+
+	public UserPrivilege[] getUserPrivileges() {
+		return userPrivileges;
+	}
+
 
  }
