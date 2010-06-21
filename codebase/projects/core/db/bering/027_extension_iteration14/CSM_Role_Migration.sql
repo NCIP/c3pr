@@ -177,6 +177,11 @@ Insert into csm_user_group(user_id,group_id)
 select csm_user.user_id, -44 from csm_user, csm_user_group
 where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
 
+--Registrar
+Insert into csm_user_group(user_id,group_id)
+select csm_user.user_id, -36 from csm_user, csm_user_group
+where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 2;
+
 --Delete old csm_user_group
 delete from csm_user_group where group_id = -1005;
 delete from csm_user_group where group_id = 3;
