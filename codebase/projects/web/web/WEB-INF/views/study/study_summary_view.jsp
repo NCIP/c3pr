@@ -423,14 +423,18 @@
     </table>
 </chrome:division>
 <chrome:division title="Consents" cssClass="big">
-    <table class="tablecontent" width="60%">
-        <tr><th><b><fmt:message key="study.consents"/> 
-        	<c:if test="${fn:length(command.study.consents) != 0}">
-        		(${command.study.consentRequired.code} required)
-        </c:if>
-        </b></th></tr>
+     <table class="tablecontent" width="60%">
+        <tr>
+            <th><b><fmt:message key="study.consents"/></b></th>
+            <th><b><fmt:message key="study.consentVersion"/></b></th>
+            <th><b><fmt:message key="study.consentMandatoryIndicator"/></b></th>
+        </tr>
         <c:forEach items="${command.study.consents}" var="consent">
-            <tr><td class="alt">${consent.name}</td></tr>
+            <tr>
+                <td class="alt">${consent.name}</td>
+                <td class="alt">${consent.versionId}</td>
+                <td class="alt">${consent.mandatoryIndicator?"Yes":"No"}</td>
+			</tr>
         </c:forEach>
     </table>
     <c:if test="${fn:length(command.study.consents) == 0}">
