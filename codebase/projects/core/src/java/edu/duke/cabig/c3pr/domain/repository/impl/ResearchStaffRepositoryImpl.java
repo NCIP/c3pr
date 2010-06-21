@@ -1,10 +1,7 @@
 package edu.duke.cabig.c3pr.domain.repository.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.mail.MailException;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
@@ -79,25 +76,38 @@ public class ResearchStaffRepositoryImpl implements ResearchStaffRepository {
 	public void evict(ResearchStaff researchStaff) {
 		researchStaffDao.evict(researchStaff);
 	}
-	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff,
-			boolean createCsmUser, String username,
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap)
-			throws C3PRBaseException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
-	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, boolean createCsmUser, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites)
-			throws C3PRBaseException {
-		return researchStaffDao.createOrModifyResearchStaff(staff, createCsmUser, username, associationMap, hasAccessToAllSites);
-	}
-	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff,
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap)
-			throws C3PRBaseException {
-		return null;
-	}
 	public List<C3PRUserGroupType> getGroups(User csmUser, HealthcareSite healthcareSite) {
 		return researchStaffDao.getUserGroupsForOrganization(csmUser, healthcareSite);
 	}
+	
+	public ResearchStaff createCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) throws C3PRBaseException {
+		return researchStaffDao.createCSMUser(researchStaff, username, hasAccessToAllSites);
+	}
+	
+	public ResearchStaff createCSMUserAndAssignRoles(ResearchStaff researchStaff, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
+			boolean hasAccessToAllSites) throws C3PRBaseException {
+		return researchStaffDao.createCSMUserAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
+	}
+	
+	public ResearchStaff createOrModifyResearchStaff(ResearchStaff researchStaff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
+			boolean hasAccessToAllSites) throws C3PRBaseException {
+		return researchStaffDao.createOrModifyResearchStaff(researchStaff, associationMap, hasAccessToAllSites);
+	}
+	public ResearchStaff createResearchStaff(ResearchStaff researchStaff) throws C3PRBaseException{
+		return researchStaffDao.createResearchStaff(researchStaff);
+	}
+	public ResearchStaff createResearchStaffWithCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) throws C3PRBaseException{
+		return researchStaffDao.createResearchStaffWithCSMUser(researchStaff , username, hasAccessToAllSites);
+	}
+	public ResearchStaff createResearchStaffWithCSMUserAndAssignRoles(ResearchStaff researchStaff, String username, 
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException{
+		return researchStaffDao.createResearchStaffWithCSMUserAndAssignRoles(researchStaff, username , associationMap, hasAccessToAllSites);
+	}
+	public ResearchStaff createSuperUser(ResearchStaff researchStaff, String username, 
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException{
+		return researchStaffDao.createSuperUser(researchStaff,  username , associationMap);
+	}
+	
 
 }

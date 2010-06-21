@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.aspects.springaop;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,6 +11,8 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 
@@ -33,32 +38,61 @@ public class UserEmailConfirmationAspect {
 		this.changeURL = changeURL;
 	}
 
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.service.PersonnelService.save(..))"
-                    + " && args(staff)")
-    public void sendEmail(ResearchStaff staff) {
-
-    	try {
-          SimpleMailMessage msg = new SimpleMailMessage(
-                          this.accountCreatedTemplateMessage);
-          msg.setTo(staff.getEmail());
-          msg.setText("A new C3PR account has been created for you.\n"
-                  + "Your username is follows:\n"
-                  + "Username: " + csmRepository.getUsernameById(staff.getLoginId())
-                  + "\n"
-                  + "You must create your password before you can login. In order to do so please visit this URL:\n"
-                  + "\n"
-                  + changeURL + "&token=" + staff.getToken() + "\n"
-                  + "\n"
-                  + "Regards\n"
-                  + "The C3PR Notification System.\n");
-          log.debug("Trying to send user account confirmation email. URL is " + changeURL + "&token=" + staff.getToken());
-          this.mailSender.send(msg);
-      }
-      catch (MailException e) {
-          log.error("Could not send email due to  " + e.getMessage(),e);
-          // just log it for now
-      }
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.createResearchStaffWithCSMUserAndAssignRoles(..))" 
+                    + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
+    public void createResearchStaffWithCSMUserAndAssignRoles(ResearchStaff researchStaff, String username, 
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) {
+		sendEmail(researchStaff);
     }
+	
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.createCSMUser(..))"
+            + " && args(researchStaff, username, hasAccessToAllSites)")
+	public void createCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) {
+		sendEmail(researchStaff);
+	}
+	
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.createSuperUser(..))"
+            + " && args(researchStaff,  username , associationMap)")
+	public void createSuperUser(ResearchStaff researchStaff, String username, 
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) {
+		sendEmail(researchStaff);
+	}
+	
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.createResearchStaffWithCSMUser(..))"
+            + " && args(researchStaff , username, hasAccessToAllSites)")
+	public void createResearchStaffWithCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) {
+		sendEmail(researchStaff);
+	}
+	
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.createCSMUserAndAssignRoles(..))"
+            + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
+	public void createCSMUserAndAssignRoles(ResearchStaff researchStaff, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
+			boolean hasAccessToAllSites) {
+		sendEmail(researchStaff);
+	}
+
+	private void sendEmail(ResearchStaff staff) {
+		try {
+	          SimpleMailMessage msg = new SimpleMailMessage( this.accountCreatedTemplateMessage);
+	          msg.setTo(staff.getEmail());
+	          msg.setText("A new C3PR account has been created for you.\n"
+	                  + "Your username is follows:\n"
+	                  + "Username: " + csmRepository.getUsernameById(staff.getLoginId())
+	                  + "\n"
+	                  + "You must create your password before you can login. In order to do so please visit this URL:\n"
+	                  + "\n"
+	                  + changeURL + "&token=" + staff.getToken() + "\n"
+	                  + "\n"
+	                  + "Regards\n"
+	                  + "The C3PR Notification System.\n");
+	          log.debug("Trying to send user account confirmation email. URL is " + changeURL + "&token=" + staff.getToken());
+	          this.mailSender.send(msg);
+	      }
+	      catch (MailException e) {
+	          log.error("Could not send email due to  " + e.getMessage(),e);
+	          // just log it for now
+	      }
+	}
 
 	@Required
     public void setMailSender(MailSender mailSender) {

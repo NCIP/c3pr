@@ -50,6 +50,7 @@ import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
+// TODO: Auto-generated Javadoc
 /**
  * Hibernate implementation of ResearchStaffDao.
  *
@@ -91,12 +92,23 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	/** The healthcare site dao. */
 	private HealthcareSiteDao healthcareSiteDao;
 	
+	/** The authorization helper. */
 	private AuthorizationHelper authorizationHelper ;
 
+	/**
+	 * Gets the authorization helper.
+	 *
+	 * @return the authorization helper
+	 */
 	public AuthorizationHelper getAuthorizationHelper() {
 		return authorizationHelper;
 	}
 
+	/**
+	 * Sets the authorization helper.
+	 *
+	 * @param authorizationHelper the new authorization helper
+	 */
 	public void setAuthorizationHelper(AuthorizationHelper authorizationHelper) {
 		this.authorizationHelper = authorizationHelper;
 	}
@@ -111,6 +123,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		return ResearchStaff.class;
 	}
 
+	/**
+	 * Initialize.
+	 *
+	 * @param researchStaff the research staff
+	 */
 	public void initialize(ResearchStaff researchStaff){
 		for(HealthcareSite healthcareSite : researchStaff.getHealthcareSites()){
 			getHibernateTemplate().initialize(healthcareSite.getIdentifiersAssignedToOrganization());
@@ -118,6 +135,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		getHibernateTemplate().initialize(researchStaff.getContactMechanisms());
 	}
 	
+	/**
+	 * Flush.
+	 */
 	@Transactional(readOnly = false)
     public void flush() {
 		getHibernateTemplate().flush();
@@ -126,11 +146,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	/**
 	 * Gets the by sub name and sub email.
 	 *
-	 * @param subnames
-	 *            the subnames
-	 * @param ctepCode
-	 *            the nci institute code
-	 *
+	 * @param subnames the subnames
 	 * @return the by sub name and sub email
 	 */
 	public List<ResearchStaff> getBySubNameAndSubEmail(String[] subnames) {
@@ -141,12 +157,9 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	/**
 	 * Search by example.
 	 *
-	 * @param staff
-	 *            the staff
-	 * @param isWildCard
-	 *            the is wild card
-	 *
-	 * @return the list< research staff>
+	 * @param staff the staff
+	 * @param isWildCard the is wild card
+	 * @return the list
 	 */
 	public List<ResearchStaff> searchByExample(ResearchStaff staff, boolean isWildCard) {
 
@@ -185,10 +198,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	/**
 	 * Search research staff.
 	 *
-	 * @param query
-	 *            the query
-	 *
-	 * @return the list< research staff>
+	 * @param query the query
+	 * @return the list
 	 */
 	@SuppressWarnings( { "unchecked" })
 	public List<ResearchStaff> searchResearchStaff(final ResearchStaffQuery query) {
@@ -261,9 +272,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * Gets the by external identifier. Created for the remote research staff
 	 * use case.
 	 *
-	 * @param emailAddress
-	 *            the email address
-	 *
+	 * @param externalIdentifier the external identifier
 	 * @return the ResearchStaff List
 	 */
 	public List<ResearchStaff> getByExternalIdentifierFromLocal(
@@ -308,8 +317,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * database Then gets btoh the local and remote research staff by
 	 * organization nci institute code from the database.
 	 *
-	 * @param nciInstituteCode
-	 *            the nci institute code
+	 * @param healthcareSite the healthcare site
 	 * @return the research staff by organization nci institute code
 	 */
 	public List<ResearchStaff> getResearchStaffByOrganizationNCIInstituteCode(
@@ -323,9 +331,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 
 	/**
+	 * Gets the research staff by organization ctep code from local.
 	 *
-	 * @param healthcareSite
-	 * @return
+	 * @param healthcareSite the healthcare site
+	 * @return the research staff by organization ctep code from local
 	 */
 	public List<ResearchStaff> getResearchStaffByOrganizationCtepCodeFromLocal(
 			HealthcareSite healthcareSite) {
@@ -346,8 +355,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * Gets the remote research staff by organization nci institute code from
 	 * the resolver and updates the db.
 	 *
-	 * @param nciInstituteCode
-	 *            the nci institute code
+	 * @param remoteResearchStaff the remote research staff
 	 * @return the research staff by organization nci institute code
 	 */
 	public List<RemoteResearchStaff> getRemoteResearchStaffFromResolverByExample(
@@ -468,10 +476,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	
 	/**
 	 * Moved csm related save/save code here from personnelServiceImpl for coppa
-	 * integration
-	 * 
-	 * @param staff
-	 * @throws C3PRBaseException
+	 * integration.
+	 *
+	 * @param staff the staff
+	 * @throws C3PRBaseException the C3PR base exception
 	 */
 	@Transactional
 	public void saveResearchStaff(ResearchStaff staff) throws C3PRBaseException {
@@ -479,9 +487,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 
 	/**
-	 * @param user
-	 * @return
-	 * @throws CSObjectNotFoundException
+	 * Gets the cSM user.
+	 *
+	 * @param user the user
+	 * @return the cSM user
+	 * @throws CSObjectNotFoundException the cS object not found exception
 	 */
 	private User getCSMUser(C3PRUser user) throws CSObjectNotFoundException {
 		return userProvisioningManager.getUserById(user.getLoginId());
@@ -489,10 +499,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 	/**
 	 * Need to merge this with createCSMUser. currently used by coppa.
-	 * @param c3prUser
-	 * @param csmUser
-	 * @throws C3PRBaseException
-	 * @throws MailException
+	 *
+	 * @param staff the staff
+	 * @param csmUser the csm user
+	 * @throws C3PRBaseException the C3PR base exception
+	 * @throws MailException the mail exception
 	 */
 	@Transactional
 	private void save(ResearchStaff staff,
@@ -527,14 +538,16 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		}
 	}
 	
-	/**Does not create CSM user if username is blank or null. 
+	/**
+	 * Does not create CSM user if username is blank or null.
 	 * Else If staff doesn't have a login id then it creates the CSM User and sets the login id in the staff from the created csm user.
 	 * If staff has a login id then it means the csm user exists, so this method will just update it instead.
-	 * 
-	 * @param staff
-	 * @param username
+	 *
+	 * @param staff the staff
+	 * @param username the username
 	 * @return gov.nih.nci.security.authorization.domainobjects.User
-	 * @throws C3PRBaseException, MailException, CSTransactionException
+	 * @throws C3PRBaseException the C3PR base exception
+	 * @throws MailException the mail exception
 	 */
 	public gov.nih.nci.security.authorization.domainobjects.User saveOrUpdateStaffAndCSMUser(ResearchStaff staff, String username)
 			throws C3PRBaseException, MailException {
@@ -628,7 +641,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @param csmUser the csm user
 	 * @param groupList the group list
 	 * @param healthcareSite the healthcare site
-	 * @param hasAccessToAllSites 
+	 * @param hasAccessToAllSites the has access to all sites
 	 * @throws C3PRBaseException the c3pr base exception
 	 */
 	public void assignUsersToGroup(User csmUser,
@@ -653,7 +666,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 *
 	 * @param suiteRoleMembership the suite role membership
 	 * @param healthcareSite the healthcare site
-	 * @param hasAccessToAllSites 
+	 * @param hasAccessToAllSites the has access to all sites
 	 */
 	private void setSitesAndStudies(SuiteRoleMembership suiteRoleMembership,
 		HealthcareSite healthcareSite, boolean hasAccessToAllSites) {
@@ -669,7 +682,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * Merge research staff and csm data.
 	 *
 	 * @param staff the staff
-	 * @throws C3PRBaseException the c3 pr base exception
+	 * @throws C3PRBaseException the C3PR base exception
 	 */
 	public void mergeResearchStaffAndCsmData(ResearchStaff staff)
 			throws C3PRBaseException {
@@ -684,29 +697,49 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	/*
 	 * Moved csm related save/merge code here from personnelServiceImpl for coppa integration
 	 */
+	/**
+	 * Sets the user provisioning manager.
+	 *
+	 * @param userProvisioningManager the new user provisioning manager
+	 */
 	public void setUserProvisioningManager(UserProvisioningManager userProvisioningManager) {
 		this.userProvisioningManager = userProvisioningManager;
 	}
 
+	/**
+	 * Sets the remote session.
+	 *
+	 * @param remoteSession the new remote session
+	 */
 	public void setRemoteSession(RemoteSession remoteSession) {
 		this.remoteSession = remoteSession;
 	}
 
+	/**
+	 * Sets the site object id generator.
+	 *
+	 * @param siteObjectIdGenerator the new site object id generator
+	 */
 	public void setSiteObjectIdGenerator(
 			CSMObjectIdGenerator siteObjectIdGenerator) {
 		this.siteObjectIdGenerator = siteObjectIdGenerator;
 	}
 
+	/**
+	 * Sets the healthcare site dao.
+	 *
+	 * @param healthcareSiteDao the new healthcare site dao
+	 */
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
 	/**
 	 * This method queries the external system to fetch all the matching
-	 * ResearchStaff
+	 * ResearchStaff.
 	 *
-	 * @param researchStaff
-	 * @return
+	 * @param researchStaff the research staff
+	 * @return the remote research staff
 	 */
 	public List<ResearchStaff> getRemoteResearchStaff( final ResearchStaff researchStaff) {
 		ResearchStaff searchCriteria = new RemoteResearchStaff();
@@ -715,30 +748,37 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		return remoteResearchStaffs;
 	}
 
+	/**
+	 * Gets the provisioning session factory.
+	 *
+	 * @return the provisioning session factory
+	 */
 	public ProvisioningSessionFactory getProvisioningSessionFactory() {
 		return provisioningSessionFactory;
 	}
 
+	/**
+	 * Sets the provisioning session factory.
+	 *
+	 * @param provisioningSessionFactory the new provisioning session factory
+	 */
 	public void setProvisioningSessionFactory(ProvisioningSessionFactory provisioningSessionFactory) {
 		this.provisioningSessionFactory = provisioningSessionFactory;
 	}
 	
-	// creates or updates research Staff
-	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff) throws C3PRBaseException {
-		return createOrModifyResearchStaff(staff, false, null, null, false);
-	}
-	
-	// create updates research staff and creates csm user also if createCsmUser flag is set to yes and user name is passed
-	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, boolean createCsmUser, String username) throws C3PRBaseException {
-		return createOrModifyResearchStaff(staff, createCsmUser, username, null, false);
-	}
-	
-	// assign roles to organization for a particulat staff
-	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException {
-		return createOrModifyResearchStaff(staff, false, null, associationMap, false);
-	}
-	
-	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, boolean createCsmUser, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException {
+	/**
+	 * Creates the or modify research staff.
+	 *
+	 * @param staff the staff
+	 * @param createCsmUser the create csm user
+	 * @param username the username
+	 * @param associationMap the association map
+	 * @param hasAccessToAllSites the has access to all sites
+	 * @return the research staff
+	 * @throws C3PRBaseException the C3PR base exception
+	 */
+	@Transactional
+	private ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, boolean createCsmUser, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException {
 		C3PRUser c3prUser = (C3PRUser)staff;
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
 		if(createCsmUser && StringUtils.isNotBlank(username)){
@@ -789,6 +829,15 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	
 	
 	
+	/**
+	 * Assign roles to organization.
+	 *
+	 * @param c3prUser the c3pr user
+	 * @param csmUser the csm user
+	 * @param associationMap the association map
+	 * @param hasAccessToAllSites the has access to all sites
+	 * @return the C3PR user
+	 */
 	private C3PRUser assignRolesToOrganization(C3PRUser c3prUser, User csmUser, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) {
 		Iterator<HealthcareSite> iter = associationMap.keySet().iterator();
 		HealthcareSite healthcareSite;
@@ -836,6 +885,111 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         }
         return groupList;
     }
+    
+	/**
+	 * Creates the csm user.
+	 *
+	 * @param researchStaff the research staff
+	 * @param username the username
+	 * @param hasAccessToAllSites the has access to all sites
+	 * @return the research staff
+	 * @throws C3PRBaseException the C3PR base exception
+	 */
+	public ResearchStaff createCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) throws C3PRBaseException{
+		return createOrModifyResearchStaff(researchStaff, true, username, null , hasAccessToAllSites);
+	}
+
+	/**
+	 * Creates the csm user and assign roles.
+	 *
+	 * @param researchStaff the research staff
+	 * @param username the username
+	 * @param associationMap the association map
+	 * @param hasAccessToAllSites the has access to all sites
+	 * @return the research staff
+	 * @throws C3PRBaseException the C3PR base exception
+	 */
+	public ResearchStaff createCSMUserAndAssignRoles(
+			ResearchStaff researchStaff, String username,
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
+			boolean hasAccessToAllSites) throws C3PRBaseException {
+		return createOrModifyResearchStaff(researchStaff, true, username, associationMap , hasAccessToAllSites);
+	}
+
+	/**
+	 * Creates the or modify research staff.
+	 *
+	 * @param researchStaff the research staff
+	 * @param associationMap the association map
+	 * @param hasAccessToAllSites the has access to all sites
+	 * @return the research staff
+	 * @throws C3PRBaseException the c3pr base exception
+	 */
+	public ResearchStaff createOrModifyResearchStaff(
+			ResearchStaff researchStaff,
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
+			boolean hasAccessToAllSites) throws C3PRBaseException {
+		return createOrModifyResearchStaff(researchStaff, false, null, associationMap , hasAccessToAllSites);
+	}
+
+	/**
+	 * Creates the research staff.
+	 *
+	 * @param researchStaff the research staff
+	 * @return the research staff
+	 * @throws C3PRBaseException the C3PR base exception
+	 */
+	public ResearchStaff createResearchStaff(ResearchStaff researchStaff) throws C3PRBaseException {
+		return createOrModifyResearchStaff(researchStaff, false, null, null , false);
+	}
+
+	/**
+	 * Creates the research staff with csm user.
+	 *
+	 * @param researchStaff the research staff
+	 * @param username the username
+	 * @param hasAccessToAllSites the has access to all sites
+	 * @return the research staff
+	 * @throws C3PRBaseException the c3pr base exception
+	 */
+	public ResearchStaff createResearchStaffWithCSMUser(
+			ResearchStaff researchStaff, String username,
+			boolean hasAccessToAllSites) throws C3PRBaseException {
+		return createOrModifyResearchStaff(researchStaff, true, username, null , hasAccessToAllSites);
+	}
+
+	/**
+	 * Creates the research staff with csm user and assign roles.
+	 *
+	 * @param researchStaff the research staff
+	 * @param username the username
+	 * @param associationMap the association map
+	 * @param hasAccessToAllSites the has access to all sites
+	 * @return the research staff
+	 * @throws C3PRBaseException the C3PR base exception
+	 */
+	public ResearchStaff createResearchStaffWithCSMUserAndAssignRoles(
+			ResearchStaff researchStaff, String username,
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
+			boolean hasAccessToAllSites) throws C3PRBaseException {
+		return createOrModifyResearchStaff(researchStaff, true, username, associationMap , hasAccessToAllSites);
+	}
+
+	/**
+	 * Creates the super user.
+	 *
+	 * @param researchStaff the research staff
+	 * @param username the username
+	 * @param associationMap the association map
+	 * @return the research staff
+	 * @throws C3PRBaseException the C3PR base exception
+	 */
+	public ResearchStaff createSuperUser(ResearchStaff researchStaff,
+			String username,
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException {
+		return createOrModifyResearchStaff(researchStaff, true, username, associationMap , true);
+	}
+
 
 }
 	

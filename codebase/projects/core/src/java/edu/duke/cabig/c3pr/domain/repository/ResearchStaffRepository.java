@@ -20,10 +20,20 @@ public interface ResearchStaffRepository {
 	public ResearchStaff getByAssignedIdentifierFromLocal(String assignedIdentifier);
 	public List<ResearchStaff> getRemoteResearchStaff(ResearchStaff staff);
 	public gov.nih.nci.security.authorization.domainobjects.User getCSMUser(C3PRUser user) ;
-
 	public List<C3PRUserGroupType> getGroups(User csmUser, HealthcareSite healthcareSite);
 	public boolean isLoggedInUser(ResearchStaff staff);
-	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, boolean createCsmUser, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException ;
-	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, boolean createCsmUser, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException ;
-	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException ;
+	
+	
+	public ResearchStaff createResearchStaffWithCSMUser(ResearchStaff researchStaff, String username,boolean hasAccessToAllSites) throws C3PRBaseException;
+	public ResearchStaff createResearchStaffWithCSMUserAndAssignRoles(ResearchStaff researchStaff, String username, 
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException;
+	public ResearchStaff createResearchStaff(ResearchStaff researchStaff) throws C3PRBaseException;
+	public ResearchStaff createSuperUser(ResearchStaff researchStaff, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException;
+	public ResearchStaff createCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) throws C3PRBaseException;
+	public ResearchStaff createCSMUserAndAssignRoles(ResearchStaff researchStaff, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
+			boolean hasAccessToAllSites) throws C3PRBaseException;
+	public ResearchStaff createOrModifyResearchStaff(ResearchStaff researchStaff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
+			boolean hasAccessToAllSites) throws C3PRBaseException;
+
+	
 }
