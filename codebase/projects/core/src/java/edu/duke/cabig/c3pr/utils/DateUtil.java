@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.utils;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -322,4 +323,13 @@ public class DateUtil extends DateUtils {
 
     	 return cal.getTime();
     }
+    
+    public static Time getTime(Date date){
+    	return new Time(date.getTime());
+    }
+    
+    public static int getYear(Date date){
+    	return date.getYear() + 1900;
+    }
+    
 }
