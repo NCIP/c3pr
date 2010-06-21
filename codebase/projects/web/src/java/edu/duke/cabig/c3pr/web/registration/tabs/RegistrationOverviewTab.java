@@ -403,13 +403,14 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
     				}
     			}
     		}
+    	
+	    	SecurityContext context = SecurityContextHolder.getContext();
+			Authentication authentication = context.getAuthentication();
+	    	String userName = SecurityUtils.getUserName(authentication);
+			ResearchStaff researchStaff = (ResearchStaff)csmUserRepository.getUserByName(userName);
+	    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getUniqueIdentifier(), eligibilityCriteria, researchStaff.getAssignedIdentifier());
+	    	command.setStudySubject(studySubject);
+	    	request.setAttribute("displayAllowWaiverSuccessMessage", "true");
     	}
-    	SecurityContext context = SecurityContextHolder.getContext();
-		Authentication authentication = context.getAuthentication();
-    	String userName = SecurityUtils.getUserName(authentication);
-		ResearchStaff researchStaff = (ResearchStaff)csmUserRepository.getUserByName(userName);
-    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getUniqueIdentifier(), eligibilityCriteria, researchStaff.getAssignedIdentifier());
-    	command.setStudySubject(studySubject);
-    	request.setAttribute("displayAllowWaiverSuccessMessage", "true");
     }
 }
