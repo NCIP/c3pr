@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.constants.StudyPart;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -33,7 +32,6 @@ import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
-import gov.nih.nci.security.authorization.domainobjects.User;
 
 /**
  * @author Ramakrishna
@@ -92,7 +90,7 @@ public class CreateResearchStaffController extends SimpleFormController{
         if (StringUtils.isNotBlank(assignedIdentifier)) {
             researchStaff = researchStaffRepository.getByAssignedIdentifier(assignedIdentifier);
             researchStaffRepository.initialize(researchStaff);
-            User csmUser = researchStaffRepository.getCSMUser(researchStaff);
+            gov.nih.nci.security.authorization.domainobjects.User csmUser = researchStaffRepository.getCSMUser(researchStaff);
             if(csmUser != null){
             	wrapper.setUserName(csmUser.getLoginName());
             	for(HealthcareSite hcSite : researchStaff.getHealthcareSites()){
@@ -122,10 +120,6 @@ public class CreateResearchStaffController extends SimpleFormController{
         model.put("isAdmin", WebUtils.isAdmin());
         model.put("isLoggedInUser", researchStaffRepository.isLoggedInUser(researchStaff));
         model.put("coppaEnable", configuration.get(Configuration.COPPA_ENABLE));
-        User csmUser = researchStaffRepository.getCSMUser(researchStaff);
-        if(csmUser != null){
-        	model.put("username", csmUser.getLoginName());
-        }
         if(researchStaff.getId() != null){
         	request.setAttribute(FLOW, EDIT_FLOW);
         }else{
@@ -212,12 +206,8 @@ public class CreateResearchStaffController extends SimpleFormController{
 		String flowVar = request.getSession().getAttribute(FLOW).toString();
 		String createUser = request.getParameter(CREATE_USER);
 		
-		String hasAccessToAllSitesStr = request.getParameter("hasAccessToAllStudies");
-		boolean hasAccessToAllSites = false ;
-		if(StringUtils.isNotBlank(hasAccessToAllSitesStr) && StringUtils.equals(hasAccessToAllSitesStr, TRUE)){
-			 hasAccessToAllSites = Boolean.TRUE;
-		}
-		
+		boolean hasAccessToAllSites = wrapper.getHasAccessToAllSites() ;
+
 		List<HealthcareSiteRolesHolder> listAssociation = wrapper.getHealthcareSiteRolesHolderList();
 		Map<HealthcareSite, List<C3PRUserGroupType>> associationMap = new HashMap<HealthcareSite, List<C3PRUserGroupType>>();
 		for(HealthcareSiteRolesHolder associationObject : listAssociation){
@@ -280,20 +270,28 @@ public class CreateResearchStaffController extends SimpleFormController{
 //        map.put("command", saveExternalResearchStaff?remoteRStaffSelected:researchStaff);
         if(StringUtils.equals(flowVar, SAVE_FLOW)){
         	if(StringUtils.isNotBlank(createUser) && StringUtils.equals(createUser, TRUE)){
-        		researchStaff = researchStaffRepository.createOrModifyResearchStaff(researchStaff, true, username, associationMap, hasAccessToAllSites);
+        		if(associationMap.isEmpty()){
+        			researchStaff = researchStaffRepository.createResearchStaffWithCSMUser(researchStaff, username, hasAccessToAllSites);
+        		}else{
+        			researchStaff = researchStaffRepository.createResearchStaffWithCSMUserAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
+        		}
         		// create research staff and csm user and assign roles if provided
         	}else{
-        		researchStaff = researchStaffRepository.createOrModifyResearchStaff(researchStaff, false, null, null, hasAccessToAllSites);
+        		researchStaff = researchStaffRepository.createResearchStaff(researchStaff);
         	}
         }else if (StringUtils.equals(flowVar, SETUP_FLOW)){
         	// create research staff, csm user and assign org and provide access to all sites
-        	researchStaff = researchStaffRepository.createOrModifyResearchStaff(researchStaff, true, username, associationMap, true);
+        	researchStaff = researchStaffRepository.createSuperUser(researchStaff, username, associationMap);
         }else if(StringUtils.equals(flowVar, EDIT_FLOW)){
         	if(StringUtils.isNotBlank(createUser)  && StringUtils.equals(createUser, TRUE)){
-        		researchStaff = researchStaffRepository.createOrModifyResearchStaff(researchStaff, true, username, associationMap, hasAccessToAllSites);
+        		if(associationMap.isEmpty()){
+        			researchStaff = researchStaffRepository.createCSMUser(researchStaff, username, hasAccessToAllSites);
+        		}else{
+        			researchStaff = researchStaffRepository.createCSMUserAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
+        		}
         		// create research staff and csm user and assign roles if provided
         	}else{
-        		researchStaff = researchStaffRepository.createOrModifyResearchStaff(researchStaff, false, null, associationMap, hasAccessToAllSites);
+        		researchStaff = researchStaffRepository.createOrModifyResearchStaff(researchStaff, associationMap, hasAccessToAllSites);
         	}
         }
         wrapper.setResearchStaff(researchStaff);
@@ -311,7 +309,8 @@ public class CreateResearchStaffController extends SimpleFormController{
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
 	}
-
+    
+    @Required
 	public void setResearchStaffRepository(ResearchStaffRepository researchStaffRepository) {
 		this.researchStaffRepository = researchStaffRepository;
 	}

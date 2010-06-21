@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
 import edu.duke.cabig.c3pr.setup.SetupStatus;
 import edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController;
+import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
 
 /**
  * @author Kruttik Aggarwal
@@ -26,27 +27,28 @@ public class PreAuthenticationController extends
     
     private PasswordManagerService passwordManagerService;
     
-    private SetupStatus setupStatus;
+	private SetupStatus setupStatus;
     
 	@Override
     protected ModelAndView onSubmit(HttpServletRequest request,
                     HttpServletResponse response, Object command, BindException errors)
                     throws Exception {
+		ResearchStaffWrapper wrapper = (ResearchStaffWrapper)command;
+    	ResearchStaff researchStaff = wrapper.getResearchStaff();
 		String userName = "";
 		String password = request.getParameter("password");
 		String confirmedPassword = request.getParameter("confirmPassword");
-		ResearchStaff researchStaff = null;
 		if(WebUtils.hasSubmitParameter(request, "errorPassword")){
-			userName = request.getParameter("username");
+			userName = wrapper.getUserName();
 			researchStaff = (ResearchStaff)command;
 		}else{
-			userName = ((ResearchStaff)command).getLoginId();
+			userName = researchStaff.getLoginId();
 			ModelAndView mv = super.onSubmit(request, response, command, errors);
 			researchStaffDao.flush();
 			if(errors.hasErrors()){
 				return showForm(request, response, errors);
 	        }
-			researchStaff = (ResearchStaff)mv.getModel().get("command");
+			researchStaff = ((ResearchStaffWrapper)mv.getModel().get("command")).getResearchStaff();
 		}
 		userName = userName.toLowerCase();
         try {

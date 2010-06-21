@@ -188,10 +188,10 @@ RowManager.registerRowInserters();
         <div class="value">
         	<c:choose>
         		<c:when test="${!empty errorPassword}">
-        			${username}
+        			${command.userName}
         		</c:when>
         		<c:otherwise>
-        			<form:input size="20" path="researchStaff.loginId" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+        			<form:input size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
         			<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
         			<input id="copiedEmailAddress" type="hidden"/>
         		</c:otherwise>	
@@ -219,7 +219,7 @@ RowManager.registerRowInserters();
         </div>
         <div class="value">
         	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-       		<input type="hidden" name="groups" value="C3PR_ADMIN" />
+       		<input type="hidden" name="healthcareSiteRolesHolderList[0].groups" value="C3PR_ADMIN" />
        		<input type="hidden" name="siteAccess" value="ALL" />
        		<input type="hidden" name="_groups" value="on" />
         </div>
@@ -232,7 +232,7 @@ RowManager.registerRowInserters();
 <c:when test="${isLoggedInUser}">
 	<div class="row">
         <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
-        <div class="value">${username}</div>
+        <div class="value">${command.userName}</div>
     </div>
 </c:when>
 <c:otherwise>
@@ -246,7 +246,7 @@ RowManager.registerRowInserters();
         		<input id="copiedEmailAddress" type="hidden"/>
         		<input type="hidden" name="_createUser" value="true">
         	</c:when>
-        	<c:otherwise>${username}</c:otherwise>
+        	<c:otherwise>${command.userName}</c:otherwise>
         	</c:choose>
         </div>
     </div>
@@ -255,7 +255,7 @@ RowManager.registerRowInserters();
 <div class="row">
         <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
         <div class="value">
-       		<input id="allSiteAccessCheckbox" name="accessToAllSites" type="checkbox" onclick="handleAccessToAllSites();"/><tags:hoverHint keyProp="researchStaff.accessToAllSites"/>
+       		<input id="allSiteAccessCheckbox" name="hasAccessToAllSites" type="checkbox" /><tags:hoverHint keyProp="researchStaff.accessToAllSites"/>
         </div>
     </div>
 <br>
@@ -333,42 +333,15 @@ RowManager.registerRowInserters();
 	 				</div>
  				</div>
  				<br>
- 				<div class="leftpanel">
-	 				<table width="80%" align="center">
-						<c:forEach items="${groups}" var="group" varStatus="groupStatusL" begin="0" end="${(fn:length(groups)/2) }">
-							<tr>
-								<td>
-									<div class="row">
-							            <div class="newLabel">
-							            	<input type="checkbox" />
-							             </div>
-							             <div class="newValue">
-											${group.displayName}						                
-							            </div>
-							        </div>
-								</td>
-							</tr>
-				    	</c:forEach>
-					</table>
-				</div>
-				<div class="rightpanel">
-					<table width="80%" align="center">
-						<c:forEach items="${groups}" var="group" varStatus="groupStatusR" begin="${(fn:length(groups)/2) + 1}" end="${fn:length(groups) - 1}">
-							<tr>
-								<td>
-									<div class="row">
-							            <div class="newLabel">
-											<input type="checkbox" /> 
-							             </div>
-							             <div class="newValue">
-											${group.displayName}						                
-							            </div>
-							        </div>
-								</td>
-							</tr>
-				    	</c:forEach>
-					</table>	
-				</div>
+ 				<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
+					<div class="newLabel"> 
+						<input type="checkbox" id="hcs-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${group.name}"  />
+					</div>
+					<div class="newValue">
+						${group.displayName}
+					</div>
+					
+		    	</c:forEach>
 		</chrome:deletableDivision>
 		</td>
 		</tr>

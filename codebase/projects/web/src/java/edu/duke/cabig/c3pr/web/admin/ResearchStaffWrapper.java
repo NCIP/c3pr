@@ -34,7 +34,7 @@ public class ResearchStaffWrapper {
 	public void setHasAccessToAllSites(boolean hasAccessToAllSites) {
 		this.hasAccessToAllSites = hasAccessToAllSites;
 	}
-	public boolean isHasAccessToAllSites() {
+	public boolean getHasAccessToAllSites() {
 		return hasAccessToAllSites;
 	}
 	public void setHealthcareSiteRolesHolderList(
