@@ -765,4 +765,10 @@
 		<!-- Added this bean to make use of query builder jar-->  
    <!-- <bean id="queryBuilderDao" lazy-init="true" class="com.semanticbits.querybuilder.QueryBuilderDao"
           autowire="byName"/> -->
+          
+          
+    <bean id="researchStaffRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl"
+          lazy-init="true" autowire="byType">
+        <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
+    </bean>
 </beans>
