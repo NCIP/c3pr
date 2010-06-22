@@ -33,7 +33,6 @@ public class StudyNotificationTab extends StudyTab {
     public Map referenceData(HttpServletRequest request, StudyWrapper command) {
         Map<String, Object> refdata = super.referenceData(command);
         addConfigMapToRefdata(refdata, "notificationPersonnelRoleRefData");
-        boolean isAdmin = isAdmin();
         return refdata;
     }
 

@@ -129,7 +129,6 @@ public class StudyOverviewTab extends StudyTab {
     public ModelAndView sendMessageToESB(HttpServletRequest request, Object commandObj, Errors error) {
     	Study study = ((StudyWrapper) commandObj).getStudy();
     	Map<String, Object> map = new HashMap<String, Object>();
-		map.put("isAdmin", edu.duke.cabig.c3pr.utils.web.WebUtils.isAdmin());
     	try {
             log.debug("Sending message to CCTS esb");
             studyService.broadcastMessage(study);
@@ -163,44 +162,7 @@ public class StudyOverviewTab extends StudyTab {
         if(configuration.get(Configuration.ESB_ENABLE).equals("true")){
         	request.setAttribute("canBroadcast", "true");
         }
-        refdata.put("isAdmin", isAdmin());
         return refdata ;
-    }
-
-    public ModelAndView adminOverride(HttpServletRequest request, Object commandObj, Errors error) {
-        StudyWrapper command=(StudyWrapper)commandObj;
-        String property=request.getParameter("property");
-        String value=request.getParameter("value");
-        String retValue="";
-        Map<String, String> map = new HashMap<String, String>();
-        if(!isAdmin()){
-            retValue = "<script>alert('You dont have admin privileges to take this action.')</script>";
-            map.put(AjaxableUtils.getFreeTextModelName(), retValue);
-            return new ModelAndView("", map);
-        }
-        if(property==null || value==null){
-            retValue = "<script>alert('no value specified')</script>";
-            map.put(AjaxableUtils.getFreeTextModelName(), retValue);
-            return new ModelAndView("", map);
-        }
-        if (property.contains("changedSiteStudyStatus")) {
-
-            int studySiteIndex = Integer.parseInt(property.split("_")[1]);
-            SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
-          //TODO fix it later
-//            command.getStudy().getStudySites().get(
-//                            studySiteIndex).setSiteStudyStatus(statusObject);
-            retValue = command.getStudy().getStudySites().get(studySiteIndex).getSiteStudyStatus()
-                        .getCode();
-
-        } else if (property.contains("changedCoordinatingCenterStudyStatus")) {
-            CoordinatingCenterStudyStatus statusObject = CoordinatingCenterStudyStatus
-                    .getByCode(value);
-            command.getStudy().setCoordinatingCenterStudyStatus(statusObject);
-            retValue = command.getStudy().getCoordinatingCenterStudyStatus().getCode();
-        }
-        map.put(AjaxableUtils.getFreeTextModelName(), retValue);
-        return new ModelAndView("", map);
     }
 
     protected boolean suppressValidation(HttpServletRequest request, Object study) {

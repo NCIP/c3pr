@@ -43,7 +43,6 @@ public class StudyConsentTab extends StudyTab {
     public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
-        refdata = canDisableTab(request, refdata, DISABLE_FORM_CONSENT);
         addConfigMapToRefdata(refdata, "yesNo");
         refdata.put("consentRequired", WebUtils.collectOptions(ConsentRequired.values(), "Please select"));
         return refdata;

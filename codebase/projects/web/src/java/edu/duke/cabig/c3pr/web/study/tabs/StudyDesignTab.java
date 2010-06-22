@@ -40,7 +40,6 @@ public class StudyDesignTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData(wrapper);
         addConfigMapToRefdata(refdata, "yesNo");
         refdata.put("epochOrders", getEpochOrders(wrapper));
-        refdata = canDisableTab(request, refdata, DISABLE_FORM_EPOCH_AND_ARMS);
         return refdata;
     }
 

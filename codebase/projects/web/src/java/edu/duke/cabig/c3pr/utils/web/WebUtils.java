@@ -9,11 +9,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.acegisecurity.Authentication;
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.context.SecurityContext;
-import org.acegisecurity.context.SecurityContextHolder;
-
 public class WebUtils extends org.springframework.web.util.WebUtils{
 
 	/**
@@ -34,62 +29,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
 					.getDisplayName());
 		}
 		return options;
-	}
-
-	public static Boolean isAdmin() {
-		SecurityContext context = SecurityContextHolder.getContext();
-		Authentication auth = context.getAuthentication();
-		if (auth != null) {
-			GrantedAuthority[] groups = auth.getAuthorities();
-			for (GrantedAuthority ga : groups) {
-				if (ga.getAuthority().endsWith("admin")) {
-					return new Boolean(true);
-				}
-			}
-		}
-		return new Boolean(false);
-	}
-	
-	public static Boolean isStudyCoordinator() {
-		SecurityContext context = SecurityContextHolder.getContext();
-		Authentication auth = context.getAuthentication();
-		if (auth != null) {
-			GrantedAuthority[] groups = auth.getAuthorities();
-			for (GrantedAuthority ga : groups) {
-				if (ga.getAuthority().endsWith("study_coordinator")) {
-					return new Boolean(true);
-				}
-			}
-		}
-		return new Boolean(false);
-	}
-	
-	public static Boolean isSiteCoordinator() {
-		SecurityContext context = SecurityContextHolder.getContext();
-		Authentication auth = context.getAuthentication();
-		if (auth != null) {
-			GrantedAuthority[] groups = auth.getAuthorities();
-			for (GrantedAuthority ga : groups) {
-				if (ga.getAuthority().endsWith("site_coordinator")) {
-					return new Boolean(true);
-				}
-			}
-		}
-		return new Boolean(false);
-	}
-	
-	public static Boolean isRegistrar() {
-		SecurityContext context = SecurityContextHolder.getContext();
-		Authentication auth = context.getAuthentication();
-		if (auth != null) {
-			GrantedAuthority[] groups = auth.getAuthorities();
-			for (GrantedAuthority ga : groups) {
-				if (ga.getAuthority().endsWith("registrar")) {
-					return new Boolean(true);
-				}
-			}
-		}
-		return new Boolean(false);
 	}
 
 	/**

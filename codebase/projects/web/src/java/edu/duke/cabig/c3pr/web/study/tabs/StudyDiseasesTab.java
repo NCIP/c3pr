@@ -49,26 +49,6 @@ public class StudyDiseasesTab extends StudyTab {
         super("Diseases", "Diseases", "study/study_diseases");
     }
 
-    @Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
-        boolean isAdmin = isAdmin();
-        refdata.put("diseaseCategories", getDiseaseCategories());
-        if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
-                .toString().equals("true"))
-                || (request.getAttribute("editFlow") != null && request.getAttribute(
-                "editFlow").toString().equals("true"))) {
-            if (request.getSession().getAttribute(DISABLE_FORM_DISEASES) != null && !isAdmin) {
-                refdata
-                        .put("disableForm", request.getSession().getAttribute(
-                                DISABLE_FORM_DISEASES));
-            } else {
-                refdata.put("disableForm", new Boolean(false));
-            }
-        }
-        return refdata;
-    }
-
     private List<DiseaseCategory> getDiseaseCategories() {
     	List<DiseaseCategory> diseaseCategories = diseaseCategoryDao.getAll();
     	List<DiseaseCategory> diseaseCategoryList = new ArrayList<DiseaseCategory>();

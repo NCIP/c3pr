@@ -7,9 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.acegisecurity.Authentication;
-import org.acegisecurity.context.SecurityContext;
-import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -169,19 +166,12 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 		if(configuration.get(Configuration.ESB_ENABLE).equals("true")){
 			map.put("canBroadcast", "true");
         }
-		map.put("isAdmin", WebUtils.isAdmin());
-		map.put("isStudyCoordinator", WebUtils.isStudyCoordinator());
-		map.put("canEditRegistrationRecord", canEditRegistrationRecord(studySubject));
 		map.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
         map.put("ethnicGroupCodes", configMap.get("ethnicGroupCode"));
         map.put("raceCodes", configMap.get("raceCode"));
 		return map;
 	}
 	
-	private Boolean canEditRegistrationRecord(StudySubject studySubject) {
-		return WebUtils.isAdmin() && (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) ;
-	}
-
 	public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj,
             Errors error) {
 		StudySubject command = ((StudySubjectWrapper) commandObj).getStudySubject();
@@ -194,7 +184,6 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) commandObj;
 		StudySubject command = wrapper.getStudySubject();
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("isAdmin", WebUtils.isAdmin());
     	try {
             log.debug("Sending message to CCTS esb");
             studySubjectService.broadcastMessage(command);
@@ -404,9 +393,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
     			}
     		}
     	
-	    	SecurityContext context = SecurityContextHolder.getContext();
-			Authentication authentication = context.getAuthentication();
-	    	String userName = SecurityUtils.getUserName(authentication);
+	    	String userName = SecurityUtils.getUserName();
 			ResearchStaff researchStaff = (ResearchStaff)csmUserRepository.getUserByName(userName);
 	    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getUniqueIdentifier(), eligibilityCriteria, researchStaff.getAssignedIdentifier());
 	    	command.setStudySubject(studySubject);

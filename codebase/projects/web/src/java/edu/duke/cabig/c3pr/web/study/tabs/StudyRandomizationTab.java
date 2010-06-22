@@ -52,7 +52,6 @@ public class StudyRandomizationTab extends StudyTab {
             }
             request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);
         }
-        refdata = canDisableTab(request, refdata, DISABLE_FORM_RANDOMIZATION);
         return refdata;
     }
 

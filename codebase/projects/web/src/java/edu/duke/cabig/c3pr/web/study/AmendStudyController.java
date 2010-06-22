@@ -8,10 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.acegisecurity.Authentication;
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.context.SecurityContext;
-import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -68,19 +64,8 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
         request.setAttribute(FLOW_TYPE, AMEND_STUDY);
         request.setAttribute("amendFlow", "true");
 
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication auth = context.getAuthentication();
-        GrantedAuthority[] groups = auth.getAuthorities();
-        String isAdmin = "false";
-        for (GrantedAuthority ga : groups) {
-            if (ga.getAuthority().endsWith("admin")) {
-                isAdmin = "true";
-            }
-        }
-
         request.setAttribute("softDelete", "false");
         request.setAttribute("editAuthorizationTask", editTask);
-        request.setAttribute("isAdmin", isAdmin);
         return super.referenceData(request,command, e , page);
     }
 

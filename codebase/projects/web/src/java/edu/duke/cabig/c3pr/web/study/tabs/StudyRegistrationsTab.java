@@ -22,10 +22,6 @@ public class StudyRegistrationsTab extends StudyTab {
     public Map<String, Object> referenceData(StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
         Boolean isOnlyStudyCoordinator = false;
-        if(WebUtils.isStudyCoordinator()&& !WebUtils.isSiteCoordinator() && !WebUtils.isAdmin() && !WebUtils.isRegistrar()){
-        	isOnlyStudyCoordinator = true;
-        }
-        refdata.put("isOnlyStudyCoordinator", isOnlyStudyCoordinator);
         refdata.put("participantAssignments", this.getStudyDao().getStudySubjectsForStudy(wrapper.getStudy().getId()));
 
         return refdata;

@@ -9,11 +9,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.acegisecurity.Authentication;
-import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import edu.duke.cabig.c3pr.utils.web.filter.PreAuthenticationSetupFilter;
 
 public class AuditInfoFilter extends
@@ -25,11 +24,7 @@ public class AuditInfoFilter extends
     public void doFilter(final ServletRequest request, final ServletResponse response,
                     final FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpReq = (HttpServletRequest) request;
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userName = null;
-        if (authentication != null){
-        	userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        }
+        String userName = SecurityUtils.getUserName();
         if (!StringUtils.isBlank(userName)) {
         	log.debug("setting audit info for "+ userName);
             gov.nih.nci.cabig.ctms.audit.DataAuditInfo

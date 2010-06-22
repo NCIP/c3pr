@@ -6,10 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.acegisecurity.Authentication;
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.context.SecurityContext;
-import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
@@ -97,16 +93,6 @@ public class EditStudyController extends StudyController<StudyWrapper> {
         request.setAttribute(FLOW_TYPE, EDIT_STUDY);
         request.setAttribute("editFlow", "true");
 
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication auth = context.getAuthentication();
-        GrantedAuthority[] groups = auth.getAuthorities();
-        String isAdmin = "false";
-        for (GrantedAuthority ga : groups) {
-            if (ga.getAuthority().endsWith("admin")) {
-                isAdmin = "true";
-            }
-        }
-
         if (((StudyWrapper) command).getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING) {
             softDelete = "true";
         }
@@ -115,7 +101,6 @@ public class EditStudyController extends StudyController<StudyWrapper> {
 
 
         request.setAttribute("softDelete", softDelete);
-        request.setAttribute("isAdmin", isAdmin);
         return super.referenceData(request, command, e, page);
     }
 

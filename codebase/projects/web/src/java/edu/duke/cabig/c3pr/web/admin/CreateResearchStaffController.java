@@ -130,7 +130,6 @@ public class CreateResearchStaffController extends SimpleFormController{
     	
     	Map<String, Object> model = new HashMap<String, Object>();;
         model.put("groups", C3PRUserGroupType.values());
-        model.put("isAdmin", WebUtils.isAdmin());
         model.put("isLoggedInUser", researchStaffRepository.isLoggedInUser(researchStaff));
         model.put("coppaEnable", configuration.get(Configuration.COPPA_ENABLE));
         if(researchStaff.getId() != null){

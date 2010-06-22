@@ -33,7 +33,6 @@ public class CompanionStudyTab extends StudyTab {
     public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
         addConfigMapToRefdata(refdata, "yesNo");
-        refdata = canDisableTab(request, refdata, DISABLE_FORM_COMPANION);
         return refdata;
     }
     

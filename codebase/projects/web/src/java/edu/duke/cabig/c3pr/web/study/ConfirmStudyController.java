@@ -1,18 +1,16 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.utils.web.navigation.Task;
-import org.acegisecurity.Authentication;
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.context.SecurityContext;
-import org.acegisecurity.context.SecurityContextHolder;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.BaseCommandController;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.BaseCommandController;
+
+import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 
 public class ConfirmStudyController extends BaseCommandController {
 
@@ -25,16 +23,6 @@ public class ConfirmStudyController extends BaseCommandController {
 
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication auth = context.getAuthentication();
-        GrantedAuthority[] groups = auth.getAuthorities();
-        boolean isRegistrarOnly = true;
-        for (GrantedAuthority ga : groups) {
-            if (ga.getAuthority().endsWith("admin") || ga.getAuthority().endsWith("ordinator")) {
-                isRegistrarOnly = false;
-            }
-        }
-        request.setAttribute("isRegistrar", isRegistrarOnly);
         request.setAttribute("editAuthorizationTask", editTask);
 
         StudyWrapper wrapper = new StudyWrapper();

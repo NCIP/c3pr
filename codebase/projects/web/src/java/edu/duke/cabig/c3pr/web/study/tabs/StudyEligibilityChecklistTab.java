@@ -39,7 +39,6 @@ public class StudyEligibilityChecklistTab extends StudyTab {
     @Override
     public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
-        refdata = canDisableTab(request, refdata, DISABLE_FORM_ELIGIBILITY);
         refdata.put("epochIndex",request.getParameter("epochIndex"));
         return refdata;
     }

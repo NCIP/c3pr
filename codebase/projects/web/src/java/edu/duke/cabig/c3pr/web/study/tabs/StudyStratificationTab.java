@@ -39,7 +39,6 @@ public class StudyStratificationTab extends StudyTab {
 	@Override
 	public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
 		Map<String, Object> refdata = super.referenceData(wrapper);
-		refdata = canDisableTab(request, refdata, DISABLE_FORM_STRATIFICATION);
 		
 		if(wrapper.getStudy().getRandomizedIndicator() && wrapper.getStudy().getRandomizationType().equals(RandomizationType.BOOK)){
 			refdata.put("isBookRandomized", "true");

@@ -45,37 +45,35 @@ public class DatabaseMigrationController extends SimpleFormController {
 			DatabaseMigrationHelper databaseMigrationHelper) {
 		this.databaseMigrationHelper = databaseMigrationHelper;
 	}
+	
+	@Override
+	protected Object formBackingObject(HttpServletRequest request)
+			throws Exception {
+		DataMigrationCommand dataMigrationCommand = (DataMigrationCommand)super.formBackingObject(request);
+		List<Study> migratableStudies = databaseMigrationHelper.getMigratableStudies();
+		List<StudySubject> migratableStudySubjects = databaseMigrationHelper.getMigratableStudySubjects();
+		if(migratableStudies.size()>0){
+			request.setAttribute("studies", migratableStudies);
+			setFormView("setup/emptyEpochTypeMigration");
+			dataMigrationCommand.setMigrationType(DataMigrationCommand.EPOCH_TYPE_EMPTY);
+		}else{
+			request.setAttribute("studySubjects", migratableStudySubjects);
+			request.setAttribute("offTreatmentReasons", reasonDao.getOffTreatmentReasons());
+			request.setAttribute("offScreeningReasons", reasonDao.getOffScreeningReasons());
+			request.setAttribute("offReservingReasons", reasonDao.getOffReservingReasons());
+			request.setAttribute("offFollowupReasons", reasonDao.getOffFollowupReasons());
+			request.setAttribute("offStudyReasons", reasonDao.getOffStudyReasons());
+			setFormView("setup/emptyOffEpochReasonMigration");
+			dataMigrationCommand.setMigrationType(DataMigrationCommand.OFF_EPOCH_REASON_EMPTY);
+		}
+		return dataMigrationCommand;
+	}
 
 	@Override
 	protected void initBinder(HttpServletRequest request,
 			ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(EpochType.class, new EnumByNameEditor(EpochType.class));
 	}
-	
-	@Override
-	protected Map referenceData(HttpServletRequest request, Object command,
-			Errors errors) throws Exception {
-		Map<String, List<? extends AbstractMutableDomainObject>> map = new HashMap<String, List<? extends AbstractMutableDomainObject>>();
-		DataMigrationCommand dataMigrationCommand = (DataMigrationCommand)command;
-		List<Study> migratableStudies = databaseMigrationHelper.getMigratableStudies();
-		List<StudySubject> migratableStudySubjects = databaseMigrationHelper.getMigratableStudySubjects();
-		if(migratableStudies.size()>0){
-			map.put("studies", migratableStudies);
-			setFormView("setup/emptyEpochTypeMigration");
-			dataMigrationCommand.setMigrationType(DataMigrationCommand.EPOCH_TYPE_EMPTY);
-		}else{
-			map.put("studySubjects", migratableStudySubjects);
-			map.put("offTreatmentReasons", reasonDao.getOffTreatmentReasons());
-			map.put("offScreeningReasons", reasonDao.getOffScreeningReasons());
-			map.put("offReservingReasons", reasonDao.getOffReservingReasons());
-			map.put("offFollowupReasons", reasonDao.getOffFollowupReasons());
-			map.put("offStudyReasons", reasonDao.getOffStudyReasons());
-			setFormView("setup/emptyOffEpochReasonMigration");
-			dataMigrationCommand.setMigrationType(DataMigrationCommand.OFF_EPOCH_REASON_EMPTY);
-		}
-		return map;
-	}
-	
 	
 	@Override
 	protected ModelAndView onSubmit(HttpServletRequest httpServletRequest,

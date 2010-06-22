@@ -1,32 +1,29 @@
 package edu.duke.cabig.c3pr.web;
 
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationContext;
-import org.springframework.beans.BeansException;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.acegisecurity.context.SecurityContext;
-import org.acegisecurity.context.SecurityContextHolder;
-import org.acegisecurity.Authentication;
-import org.acegisecurity.GrantedAuthority;
-import org.apache.log4j.Logger;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 
-import edu.duke.cabig.c3pr.tools.Configuration;
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.acegisecurity.Authentication;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.apache.log4j.Logger;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.service.impl.OrganizationServiceImpl;
-import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl;
-import edu.duke.cabig.c3pr.domain.C3PRUser;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
-import gov.nih.nci.security.authorization.domainobjects.Group;
+import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
+import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.SecurityUtils;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,15 +32,10 @@ import gov.nih.nci.security.authorization.domainobjects.Group;
  * Time: 2:04:43 PM
  */
 
-public class SkinFilter implements Filter, ApplicationContextAware {
+public class SkinFilter implements Filter {
     private FilterConfig filterConfig = null;
-    private ApplicationContext applicationContext;
     
     private Logger log = Logger.getLogger(SkinFilter.class);
-
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 
     public void init(FilterConfig filterConfig) throws ServletException {
         this.filterConfig = filterConfig;
@@ -60,7 +52,7 @@ public class SkinFilter implements Filter, ApplicationContextAware {
             if (auth != null) {
                 gov.nih.nci.security.authorization.domainobjects.User user = ps.getCSMUserByUsername(auth.getName());
                 ((HttpServletRequest)servletRequest).getSession().setAttribute("userObject", user);
-                ((HttpServletRequest)servletRequest).getSession().setAttribute("userRole", getRole(user, ps));
+                ((HttpServletRequest)servletRequest).getSession().setAttribute("userRole", getRole());
            }
         }
 
@@ -92,36 +84,18 @@ public class SkinFilter implements Filter, ApplicationContextAware {
     }
 
     
-    private String getRole(gov.nih.nci.security.authorization.domainobjects.User user, PersonnelServiceImpl personnelService){
-    	 Iterator<C3PRUserGroupType> groupIterator = null;
-    	 List<String> groupRoles = new ArrayList<String>();
-         try {
-             groupIterator = personnelService.getGroups(user.getUserId().toString()).iterator();
-         }
-         catch (C3PRBaseException cbe) {
-             log.error(cbe.getMessage());
-         }
-         while (groupIterator.hasNext()) {
-             groupRoles.add(((C3PRUserGroupType) groupIterator.next()).name());
-         }
-         if(groupRoles.contains("C3PR_ADMIN")){
-        	 return "Admin";
-         }
-		 if(groupRoles.contains("SITE_COORDINATOR")){
-			return "Site Coordinator";
-		 }
-		 if(groupRoles.contains("STUDY_COORDINATOR") && groupRoles.contains("REGISTRAR")){
-			return "Study Coordinator | Registrar"; 
-		 }
-		 if(groupRoles.contains("STUDY_COORDINATOR")){
-			return "Study Coordinator"; 
-		 }
-		 if(groupRoles.contains("REGISTRAR")){
-			return "Registrar"; 
-		 }
-    	 return "";
+    private String getRole(){
+    	if(SecurityUtils.isSuperUser()){
+    		return "Super User";
+    	}
+    	List<RoleTypes> roles = SecurityUtils.getRoleTypes();
+    	String roleString = "";
+    	for(RoleTypes role : roles){
+    		roleString += role.getCode() + ",";
+    	}
+    	roleString = roleString.substring(0, roleString.length()-2);
+    	return roleString;
     }
-    
     
     public void destroy() {
     }

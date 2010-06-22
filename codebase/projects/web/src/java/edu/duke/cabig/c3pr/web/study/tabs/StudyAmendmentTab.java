@@ -37,7 +37,6 @@ public class StudyAmendmentTab extends StudyTab {
         refdata.put("disableForm", new Boolean(false));
         refdata.put("mandatory", "true");
         refdata.put("amendmentTypeOptions", WebUtils.collectOptions(AmendmentType.values(), "Please Select"));
-        disableAll(request);
         return refdata;
     }
 

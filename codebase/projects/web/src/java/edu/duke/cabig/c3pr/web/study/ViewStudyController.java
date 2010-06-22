@@ -6,10 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.acegisecurity.Authentication;
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.context.SecurityContext;
-import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,12 +17,12 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab;
-import edu.duke.cabig.c3pr.web.study.tabs.StudyViewAmendmentsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyNotificationTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyOverviewTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyPersonnelTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyRegistrationsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudySitesTab;
+import edu.duke.cabig.c3pr.web.study.tabs.StudyViewAmendmentsTab;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
@@ -89,17 +85,6 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
                                 int i) throws Exception {
         Map<String, Object> refdata = super.referenceData(request, o, errors, i);
 
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication auth = context.getAuthentication();
-        GrantedAuthority[] groups = auth.getAuthorities();
-        boolean isRegistrarOnly = true;
-        for (GrantedAuthority ga : groups) {
-            if (ga.getAuthority().endsWith("admin") || ga.getAuthority().endsWith("ordinator")) {
-                isRegistrarOnly = false;
-            }
-        }
-
-        refdata.put("isRegistrar", isRegistrarOnly);
         refdata.put(FLOW_TYPE, VIEW_STUDY);
         refdata.put("editAuthorizationTask", editTask);
         return refdata;

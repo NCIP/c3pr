@@ -52,37 +52,7 @@ public class StudyDetailsTab extends StudyTab {
         addConfigMapToRefdata(refdata, "phaseCodeRefData");
         addConfigMapToRefdata(refdata, "typeRefData");
         addConfigMapToRefdata(refdata, "yesNo");
-
-        boolean isAdmin = isAdmin();
-        if (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equalsIgnoreCase("true")) {
-            // amend-flow: set the disableForm refData for the amend flow.
-            if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null && !isAdmin) {
-                refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_DETAILS));
-            } else {
-                refdata.put("disableForm", new Boolean(false));
-                refdata.put("mandatory", "true");
-            }
-        } else if (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equalsIgnoreCase("true")) {
-            // edit-flow: disable all unless in PENDING STATE.
-            if (!(wrapper.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING) && !isAdmin) {
-                disableAll(request);
-            } else {
-                // all states other than pending
-                enableAll(request);
-                refdata.put("mandatory", "true");
-            }
-            // set the disableForm refData for the edit flow.
-            if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null && !isAdmin) {
-                refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_DETAILS));
-            } else {
-                refdata.put("disableForm", new Boolean(false));
-                refdata.put("mandatory", "true");
-            }
-        } else {
-            // this must be the create flow
-            enableAll(request);
-            refdata.put("mandatory", "true");
-        }
+        refdata.put("mandatory", "true");
         return refdata;
     }
 
