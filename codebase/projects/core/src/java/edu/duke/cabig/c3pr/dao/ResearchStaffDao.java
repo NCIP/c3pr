@@ -882,10 +882,42 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	            }
 	        }
 		} catch (CSObjectNotFoundException e) {
-			// TODO Auto-generated catch block
 			log.error(e.getMessage());
 		}
         return groupList;
+    }
+    
+    /**
+     * Checks for all site access.
+     *
+     * @return true, if successful
+     */
+    public boolean getHasAccessToAllSites(User csmUser){
+    	ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
+    	SuiteRoleMembership suiteRoleMembership;
+        SuiteRole suiteRole;
+		try {
+			Set<Group> groups = userProvisioningManager.getGroups(csmUser.getUserId().toString());
+	    	Iterator<Group> iter = groups.iterator();
+	    	String groupName;
+	    	while(iter.hasNext()){
+	    		groupName = ((Group)iter.next()).getGroupName();
+	    		suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
+	    		if(suiteRole.getScopes().contains(ScopeType.SITE)){
+	            	suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+	                //include roles that are scoped by site and have access to all sites or the site in question
+	                if(suiteRoleMembership.isAllSites()){
+	                    return true;
+	                }
+	            } else {
+	                //unscoped by site, so grant access to all sites
+	            	return true;
+	            }
+	    	}
+		} catch (CSObjectNotFoundException e) {
+			log.error(e.getMessage());
+		}
+        return false;
     }
     
 	/**
