@@ -19,7 +19,7 @@ public class CheckUserPrivilegeTag extends TagSupport{
 		for(String privilegeString : hasPrivileges.split(",")){
 			privileges.add(UserPrivilegeType.valueOf(privilegeString));
 		}
-		if(SecurityUtils.hasPrivilege(privileges)){
+		if(SecurityUtils.hasAnyPrivilege(privileges)){
 			return EVAL_BODY_INCLUDE;
 		}
 		return SKIP_BODY;
