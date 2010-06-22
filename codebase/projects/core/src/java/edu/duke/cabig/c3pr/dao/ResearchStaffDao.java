@@ -851,24 +851,17 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
     	ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
     	List<C3PRUserGroupType> groupList = new ArrayList<C3PRUserGroupType>();
+    	
+        SuiteRoleMembership suiteRoleMembership;
+        SuiteRole suiteRole;
     	Set<Group> groups;
 		try {
 			groups = userProvisioningManager.getGroups(csmUser.getUserId().toString());
-		
 	    	Iterator<Group> iter = groups.iterator();
-	    	List<SuiteRole> userRolesList = new ArrayList<SuiteRole>();
 	    	String groupName;
 	    	while(iter.hasNext()){
 	    		groupName = ((Group)iter.next()).getGroupName();
-	    		userRolesList.add(C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName)));
-	    	}
-	
-	        Iterator<SuiteRole> iterator = userRolesList.iterator();
-	        SuiteRoleMembership suiteRoleMembership;
-	        SuiteRole suiteRole;
-	       
-	        while(iterator.hasNext()){
-	        	suiteRole = iterator.next();
+	    		suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
 	            if(suiteRole.getScopes().contains(ScopeType.SITE)){
 	            	suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
 	                //include roles that are scoped by site and have access to all sites or the site in question
@@ -880,7 +873,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	                //include all roles that are not scoped by site in order to return global roles
 	                groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
 	            }
-	        }
+	    	}
 		} catch (CSObjectNotFoundException e) {
 			log.error(e.getMessage());
 		}
