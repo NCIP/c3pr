@@ -192,7 +192,13 @@ public class SecurityUtils {
 	public static List<C3PRUserGroupType> getC3PRUserRoleTypes(GrantedAuthority[] grantedAuthorities){
 		List<C3PRUserGroupType> c3prUserGroupTypes = new ArrayList<C3PRUserGroupType>();
 		for(GrantedAuthority grantedAuthority : grantedAuthorities){
-			c3prUserGroupTypes.add(C3PRUserGroupType.getByCode(grantedAuthority.getAuthority().substring(ACEGI_PREFIX.length())));
+			final String code = grantedAuthority.getAuthority().substring(ACEGI_PREFIX.length());
+			final C3PRUserGroupType groupType = C3PRUserGroupType.getByCode(code);
+			if (groupType!=null) {
+				c3prUserGroupTypes.add(groupType);
+			} else {
+				log.warn("Unable to resolve C3PRUserGroupType by code: "+code);
+			}
 		}
 		return c3prUserGroupTypes;
 	}
