@@ -7,6 +7,7 @@ import java.util.List;
 import org.acegisecurity.Authentication;
 import org.apache.log4j.Logger;
 
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
 
@@ -92,7 +93,12 @@ public class ResearchStaffSecurityFilter implements DomainObjectSecurityFilterer
 	 * @return true, if successful
 	 */
 	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList , ResearchStaff researchStaff){
-		return userAccessibleOrganizationIdsList.contains(researchStaff.getHealthcareSite().getPrimaryIdentifier());
+		for(HealthcareSite healthcareSite: researchStaff.getHealthcareSites()){
+			if(userAccessibleOrganizationIdsList.contains(healthcareSite.getPrimaryIdentifier())){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
