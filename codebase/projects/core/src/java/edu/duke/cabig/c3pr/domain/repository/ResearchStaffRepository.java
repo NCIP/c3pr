@@ -34,6 +34,7 @@ public interface ResearchStaffRepository {
 			boolean hasAccessToAllSites) throws C3PRBaseException;
 	public ResearchStaff createOrModifyResearchStaff(ResearchStaff researchStaff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
 			boolean hasAccessToAllSites) throws C3PRBaseException;
+	public boolean getHasAccessToAllSites(User csmUser);
 
 	
 }
