@@ -11,7 +11,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -42,8 +41,6 @@ public abstract class ResearchStaff extends User {
     private String assignedIdentifier;
     
     /** The healthcare site. */
-//    private HealthcareSite healthcareSite;
-    
 	private List<HealthcareSite> healthcareSites = new ArrayList<HealthcareSite>();
     
 	/** The status code. */
@@ -100,7 +97,6 @@ public abstract class ResearchStaff extends User {
         getStudyPersonnels().add(studyPersonnel);
     }
 
-    // / BEAN METHODS
 
     /**
      * Gets the study personnels.
@@ -140,25 +136,6 @@ public abstract class ResearchStaff extends User {
         this.contactMechanisms = contactMechanisms;
     }
 
-//    /**
-//     * Gets the healthcare site.
-//     * 
-//     * @return the healthcare site
-//     */
-//    @ManyToOne
-//    @JoinColumn(name = "HCS_ID")
-//    public HealthcareSite getHealthcareSite() {
-//        return healthcareSite;
-//    }
-//
-//    /**
-//     * Sets the healthcare site.
-//     * 
-//     * @param healthcareSite the new healthcare site
-//     */
-//    public void setHealthcareSite(HealthcareSite healthcareSite) {
-//        this.healthcareSite = healthcareSite;
-//    }
 
     /**
      * Compare to.
