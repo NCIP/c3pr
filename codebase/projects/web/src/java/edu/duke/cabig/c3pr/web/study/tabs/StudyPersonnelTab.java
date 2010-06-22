@@ -11,6 +11,7 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
@@ -31,6 +32,8 @@ public class StudyPersonnelTab extends StudyTab {
     private StudyValidator studyValidator;
 
     private PersonnelService personnelService;
+    
+    private StudyPersonnelDao studyPersonnelDao;
 
     private ResearchStaffDao researchStaffDao;
 
@@ -117,6 +120,8 @@ public class StudyPersonnelTab extends StudyTab {
                         sPersonnel.setStatusCode("Active");
                         sPersonnel.setStudyOrganization(selectedStudyOrganization);
                         selectedStudyOrganization.getStudyPersonnel().add(sPersonnel);
+                        
+                        studyPersonnelDao.saveOrUpdateStudyPersonnel(sPersonnel, false);
                     } else {
                         log.error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
                     }
@@ -126,6 +131,7 @@ public class StudyPersonnelTab extends StudyTab {
     		for(StudyPersonnel studyPersonnel : selectedStudyOrganization.getStudyPersonnel()){
     			if(studyPersonnel.getResearchStaff().getAssignedIdentifier().equals(request.getParameter("_selectedPersonnelAssignedId"))){
     				selectedStudyOrganization.getStudyPersonnel().remove(studyPersonnel);
+    				studyPersonnelDao.saveOrUpdateStudyPersonnel(studyPersonnel, true);
     				break;
     			}
     		}
@@ -149,5 +155,13 @@ public class StudyPersonnelTab extends StudyTab {
     public void setStudyValidator(StudyValidator studyValidator) {
         this.studyValidator = studyValidator;
     }
+
+	public StudyPersonnelDao getStudyPersonnelDao() {
+		return studyPersonnelDao;
+	}
+
+	public void setStudyPersonnelDao(StudyPersonnelDao studyPersonnelDao) {
+		this.studyPersonnelDao = studyPersonnelDao;
+	}
 
 }
