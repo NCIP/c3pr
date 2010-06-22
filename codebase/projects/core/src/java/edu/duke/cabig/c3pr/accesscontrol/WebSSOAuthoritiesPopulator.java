@@ -77,7 +77,7 @@ public class WebSSOAuthoritiesPopulator implements CasAuthoritiesPopulator {
         }
 
         WebSSOUser user = new WebSSOUser((AuthorizedUser)userDetailsService.loadUserByUsername(getUserIdFromGridIdentity(attrMap
-                        .get(CAGRID_SSO_GRID_IDENTITY))), rolePrivilegeDao);
+                        .get(CAGRID_SSO_GRID_IDENTITY))));
         user.setGridId(getUserIdFromGridIdentity(attrMap.get(CAGRID_SSO_GRID_IDENTITY)));
         user.setDelegatedEPR(attrMap.get(CAGRID_SSO_DELEGATION_SERVICE_EPR));
         user.setFirstName(attrMap.get(CAGRID_SSO_FIRST_NAME));
