@@ -881,7 +881,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     }
     
     /**
-     * Checks for all site access.
+     * Checks for all site access. Returns true if user is not scoped by site at all.
      *
      * @return true, if successful
      */
