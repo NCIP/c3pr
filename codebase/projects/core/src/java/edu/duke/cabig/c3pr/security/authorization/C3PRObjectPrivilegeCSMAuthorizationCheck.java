@@ -48,37 +48,50 @@ public class C3PRObjectPrivilegeCSMAuthorizationCheck extends
 			String privilege, String objectId) {
 		
 		//return getCsmAuthorizationCheck().checkAuthorizationForObjectId(authentication, privilege, objectId);
-		return true;
+//		return true;
 		
-//		String checkPrivilege = privilege;
-//		if (checkPrivilege == null) {
-//			logger.error("No checkPrivilege was passed in.");
-//			checkPrivilege = ((CSMGroupAuthorizationCheck)csmAuthorizationCheck).getRequiredPermission();
-//		}
-//
-//		//Get all the groups that have this privilege on the Object and then call isMember to check if user belongs to any of them.
-//		boolean isAuthorized = false;
-//		try {
-//			//Calling getAccessibleRoles(). As of CCTS2.2 Roles are the same as Groups
-//			List<RolePrivilege> rolePrivileges = rolePrivilegeDao.getAccessibleRoles(objectId, checkPrivilege);
-//			if (rolePrivileges == null || rolePrivileges.size() == 0) {
-//				logger.debug("Found no groups for " + objectId);
-//			} else {
-//				for (Iterator i = rolePrivileges.iterator(); i.hasNext();) {
-//					RolePrivilege rolePrivilege = (RolePrivilege) i.next();
-//					if (authentication != null && isMember(authentication, rolePrivilege.getRoleName())) {
-//						isAuthorized = true;
-//						break;
-//					}
-//				}
-//			}
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//			logger.debug(ex);
-//		}
-//		return isAuthorized;
+		String checkPrivilege = privilege;
+		if (checkPrivilege == null) {
+			logger.error("No checkPrivilege was passed in.");
+			checkPrivilege = ((CSMGroupAuthorizationCheck)csmAuthorizationCheck).getRequiredPermission();
+		}
+
+		//Get all the groups that have this privilege on the Object and then call isMember to check if user belongs to any of them.
+		boolean isAuthorized = false;
+		try {
+			//Calling getAccessibleRoles(). As of CCTS2.2 Roles are the same as Groups
+			String rolePrivilegeObjectId = getRolePrivilegeObjectIdFromObjectId(objectId);
+			List<RolePrivilege> rolePrivileges = rolePrivilegeDao.getAccessibleRoles(rolePrivilegeObjectId, checkPrivilege);
+			if (rolePrivileges == null || rolePrivileges.size() == 0) {
+				logger.debug("Found no groups for " + objectId);
+			} else {
+				for (Iterator i = rolePrivileges.iterator(); i.hasNext();) {
+					RolePrivilege rolePrivilege = (RolePrivilege) i.next();
+					if (authentication != null && isMember(authentication, rolePrivilege.getRoleName())) {
+						isAuthorized = true;
+						break;
+					}
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			logger.debug(ex);
+		}
+		return isAuthorized;
 	}
 	
+
+	/**
+	 * Gets the role privilege object id from object id.
+	 * override this method if you extend this class and need to modify the objectId.
+	 *
+	 * @param objectId the object id
+	 * @return the role privilege object id from object id
+	 */
+	protected String getRolePrivilegeObjectIdFromObjectId(String objectId) {
+		return objectId;
+	}
+
 
 	/**
 	 * Checks if user(Authentication) is member of the group that is passed in.
