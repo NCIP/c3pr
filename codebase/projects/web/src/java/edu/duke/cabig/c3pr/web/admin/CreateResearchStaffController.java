@@ -22,10 +22,13 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.domain.repository.ResearchStaffRepository;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
@@ -40,7 +43,16 @@ public class CreateResearchStaffController extends SimpleFormController{
 
     protected ResearchStaffDao researchStaffDao;
     private HealthcareSiteDao healthcareSiteDao ;
+    
+    private PersonnelService personnelService ;
 
+	public PersonnelService getPersonnelService() {
+		return personnelService;
+	}
+
+	public void setPersonnelService(PersonnelService personnelService) {
+		this.personnelService = personnelService;
+	}
 	private ResearchStaffRepository researchStaffRepository;
     private CSMUserRepository csmUserRepository;
     
@@ -93,6 +105,7 @@ public class CreateResearchStaffController extends SimpleFormController{
             gov.nih.nci.security.authorization.domainobjects.User csmUser = researchStaffRepository.getCSMUser(researchStaff);
             if(csmUser != null){
             	wrapper.setUserName(csmUser.getLoginName());
+            	wrapper.setHasAccessToAllSites(researchStaffRepository.getHasAccessToAllSites(csmUser));
             	for(HealthcareSite hcSite : researchStaff.getHealthcareSites()){
             		HealthcareSiteRolesHolder object = new HealthcareSiteRolesHolder();
             		object.setHealthcareSite(hcSite);
@@ -206,19 +219,6 @@ public class CreateResearchStaffController extends SimpleFormController{
 		String flowVar = request.getSession().getAttribute(FLOW).toString();
 		String createUser = request.getParameter(CREATE_USER);
 		
-		boolean hasAccessToAllSites = wrapper.getHasAccessToAllSites() ;
-
-		List<HealthcareSiteRolesHolder> listAssociation = wrapper.getHealthcareSiteRolesHolderList();
-		Map<HealthcareSite, List<C3PRUserGroupType>> associationMap = new HashMap<HealthcareSite, List<C3PRUserGroupType>>();
-		for(HealthcareSiteRolesHolder associationObject : listAssociation){
-			if(associationObject != null){
-			associationMap.put(associationObject.getHealthcareSite(), associationObject.getGroups());
-			if(!researchStaff.getHealthcareSites().contains(associationObject.getHealthcareSite())){
-				researchStaff.addHealthcareSite(associationObject.getHealthcareSite());
-			}
-			}
-		}
-		
         Map map = errors.getModel();
 
         String studyflow = request.getParameter("studyflow") ; 
@@ -226,78 +226,98 @@ public class CreateResearchStaffController extends SimpleFormController{
         	map.put("studyflow", studyflow);
         }
         
-//        RemoteResearchStaff remoteRStaffSelected = null;
-//        boolean saveExternalResearchStaff = false;
-//
-//        try {
-//			if (StringUtils.equals(SAVE_FLOW, flowVar) || StringUtils.equals(SETUP_FLOW, flowVar)) {
-//				if(StringUtils.equals("saveRemoteRStaff", actionParam)){
-//            		saveExternalResearchStaff = true;
-//            		remoteRStaffSelected = (RemoteResearchStaff)researchStaff.getExternalResearchStaff().get(Integer.parseInt(selectedParam));
-//            		if(remoteRStaffSelected.getHealthcareSites().size() > 0){
-//            			for(HealthcareSite hcSite : remoteRStaffSelected.getHealthcareSites()){
-//            				//get the corresponding hcs from the dto object and save that organization and then save this staff
-//                			HealthcareSite matchingHealthcareSiteFromDb = getHealthcareSiteDao().getByPrimaryIdentifier(hcSite.getPrimaryIdentifier());
-//                			if(matchingHealthcareSiteFromDb == null){
-//                				getHealthcareSiteDao().save(hcSite);
-//                			} else{
-//                				//we have the retrieved staff's Org in our db...link up with the same and persist
-//                				remoteRStaffSelected.addHealthcareSite(matchingHealthcareSiteFromDb);
-//                			}
-//                			 personnelService.save(remoteRStaffSelected);
-//            			}
-//            		}else{
-//            			errors.reject("REMOTE_RS_ORG_NULL","There is no Organization associated with the external Research Staff");
-//            		}
-//            	}
-//            	personnelService.save(researchStaff);
-//            } else if(StringUtils.equals("saveRemoteRStaff", actionParam)) {
-//            	researchStaffDao.evict(researchStaff);
-//				if(researchStaff.getExternalResearchStaff()!= null && researchStaff.getExternalResearchStaff().size() > 0){
-//					saveExternalResearchStaff = true;
-//					remoteRStaffSelected = (RemoteResearchStaff) researchStaff.getExternalResearchStaff().get(Integer.parseInt(selectedParam));
-//					personnelService.convertLocalResearchStaffToRemoteResearchStaff((LocalResearchStaff)researchStaff, remoteRStaffSelected);
-//				}
-//			}  else {
-//                personnelService.merge(researchStaff);
-//            }
-//        }
-//        catch (C3PRBaseRuntimeException e) {
-//            if (e.getRootCause().getMessage().contains("MailException")) {
-//                log.info("Error saving Research staff.Probably failed to send email", e);
-//            }
-//        }
-//        map.put("command", saveExternalResearchStaff?remoteRStaffSelected:researchStaff);
-        if(StringUtils.equals(flowVar, SAVE_FLOW)){
-        	if(StringUtils.isNotBlank(createUser) && StringUtils.equals(createUser, TRUE)){
-        		if(associationMap.isEmpty()){
-        			researchStaff = researchStaffRepository.createResearchStaffWithCSMUser(researchStaff, username, hasAccessToAllSites);
-        		}else{
-        			researchStaff = researchStaffRepository.createResearchStaffWithCSMUserAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
-        		}
-        		// create research staff and csm user and assign roles if provided
-        	}else{
-        		researchStaff = researchStaffRepository.createResearchStaff(researchStaff);
-        	}
-        }else if (StringUtils.equals(flowVar, SETUP_FLOW)){
-        	// create research staff, csm user and assign org and provide access to all sites
-        	researchStaff = researchStaffRepository.createSuperUser(researchStaff, username, associationMap);
-        }else if(StringUtils.equals(flowVar, EDIT_FLOW)){
-        	if(StringUtils.isNotBlank(createUser)  && StringUtils.equals(createUser, TRUE)){
-        		if(associationMap.isEmpty()){
-        			researchStaff = researchStaffRepository.createCSMUser(researchStaff, username, hasAccessToAllSites);
-        		}else{
-        			researchStaff = researchStaffRepository.createCSMUserAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
-        		}
-        		// create research staff and csm user and assign roles if provided
-        	}else{
-        		researchStaff = researchStaffRepository.createOrModifyResearchStaff(researchStaff, associationMap, hasAccessToAllSites);
-        	}
-        }
-        wrapper.setResearchStaff(researchStaff);
-        map.put("command", wrapper);
-        ModelAndView mv = new ModelAndView(getSuccessView(), map);
-        return mv;
+        RemoteResearchStaff remoteRStaffSelected = null;
+        boolean saveExternalResearchStaff = false;
+
+        try {
+			if (!StringUtils.equals(EDIT_FLOW, flowVar) && StringUtils.equals("saveRemoteRStaff", actionParam)) {
+        		saveExternalResearchStaff = true;
+        		remoteRStaffSelected = (RemoteResearchStaff)researchStaff.getExternalResearchStaff().get(Integer.parseInt(selectedParam));
+        		if(remoteRStaffSelected.getHealthcareSites().size() > 0){
+        			for(HealthcareSite hcSite : remoteRStaffSelected.getHealthcareSites()){
+    				//	get the corresponding hcs from the dto object and save that organization and then save this staff
+        				HealthcareSite matchingHealthcareSiteFromDb = getHealthcareSiteDao().getByPrimaryIdentifier(hcSite.getPrimaryIdentifier());
+        				if(matchingHealthcareSiteFromDb == null){
+        					getHealthcareSiteDao().save(hcSite);
+        				} else{
+    					//	we have the retrieved staff's Org in our db...link up with the same and persist
+        					remoteRStaffSelected.removeHealthcareSite(hcSite);
+        					remoteRStaffSelected.addHealthcareSite(matchingHealthcareSiteFromDb);
+        				}
+        			}
+        			//TODO create RS and assign organizations to it
+        			researchStaffRepository.createResearchStaff(remoteRStaffSelected);
+	      		}else{
+	      			errors.reject("REMOTE_RS_ORG_NULL","There is no Organization associated with the external Research Staff");
+	      		}
+          	
+        	}else if(StringUtils.equals(EDIT_FLOW, flowVar) && StringUtils.equals("saveRemoteRStaff", actionParam)) {
+        		researchStaffDao.evict(researchStaff);
+				if(researchStaff.getExternalResearchStaff()!= null && researchStaff.getExternalResearchStaff().size() > 0){
+					saveExternalResearchStaff = true;
+					remoteRStaffSelected = (RemoteResearchStaff) researchStaff.getExternalResearchStaff().get(Integer.parseInt(selectedParam));
+					personnelService.convertLocalResearchStaffToRemoteResearchStaff((LocalResearchStaff)researchStaff, remoteRStaffSelected);
+				}
+			}  else {
+				boolean hasAccessToAllSites = wrapper.getHasAccessToAllSites() ;
+
+				List<HealthcareSiteRolesHolder> listAssociation = wrapper.getHealthcareSiteRolesHolderList();
+				Map<HealthcareSite, List<C3PRUserGroupType>> associationMap = new HashMap<HealthcareSite, List<C3PRUserGroupType>>();
+				for(HealthcareSiteRolesHolder associationObject : listAssociation){
+					if(associationObject != null){
+					associationMap.put(associationObject.getHealthcareSite(), associationObject.getGroups());
+						if(!researchStaff.getHealthcareSites().contains(associationObject.getHealthcareSite())){
+							researchStaff.addHealthcareSite(associationObject.getHealthcareSite());
+						}
+					}
+				}
+				if(StringUtils.equals(flowVar, SAVE_FLOW)){
+		        	if(StringUtils.isNotBlank(createUser) && StringUtils.equals(createUser, TRUE)){
+		        		if(associationMap.isEmpty()){
+		        			researchStaff = researchStaffRepository.createResearchStaffWithCSMUser(researchStaff, username, hasAccessToAllSites);
+		        		}else{
+		        			researchStaff = researchStaffRepository.createResearchStaffWithCSMUserAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
+		        		}
+		        		// create research staff and csm user and assign roles if provided
+		        	}else{
+		        		if(associationMap.isEmpty()){
+		        			researchStaff = researchStaffRepository.createResearchStaff(researchStaff);
+		        		}else{
+		        			researchStaff = researchStaffRepository.createResearchStaff(researchStaff, associationMap);
+		        		}
+		        	}
+		        }else if (StringUtils.equals(flowVar, SETUP_FLOW)){
+		        	// create research staff, csm user and assign org and provide access to all sites
+		        	researchStaff = researchStaffRepository.createSuperUser(researchStaff, username, associationMap);
+		        }else if(StringUtils.equals(flowVar, EDIT_FLOW)){
+		        	if(StringUtils.isNotBlank(createUser)  && StringUtils.equals(createUser, TRUE)){
+		        		if(associationMap.isEmpty()){
+		        			researchStaff = researchStaffRepository.createCSMUser(researchStaff, username, hasAccessToAllSites);
+		        		}else{
+		        			researchStaff = researchStaffRepository.createCSMUserAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
+		        		}
+		        		// create research staff and csm user and assign roles if provided
+		        	}else{
+		        		researchStaff = researchStaffRepository.createOrModifyResearchStaff(researchStaff, associationMap, hasAccessToAllSites);
+		        	}
+		        }
+			}
+        }catch (C3PRBaseRuntimeException e) {
+          if (e.getRootCause().getMessage().contains("MailException")) {
+              log.info("Error saving Research staff.Probably failed to send email", e);
+          }else{
+        	  errors.reject(e.getMessage());
+          }
+          
+      }
+	  if(saveExternalResearchStaff){
+		  wrapper.setResearchStaff(remoteRStaffSelected);
+	  }else{
+		  wrapper.setResearchStaff(researchStaff);  
+	  }
+	  map.put("command", wrapper);
+	  ModelAndView mv = new ModelAndView(getSuccessView(), map);
+	  return mv;
     }
 
 	@Required
