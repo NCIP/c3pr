@@ -1,10 +1,8 @@
 package edu.duke.cabig.c3pr.security;
 
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.RemoteStudy;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
 
 /**
  * WIll generate the objectId and privilege for HealthcareSite domain object. THis is needed to make
