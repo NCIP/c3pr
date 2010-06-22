@@ -1,4 +1,5 @@
 <%@ include file="taglibs.jsp"%>
+<%@ taglib uri="http://c3pr.nci.nih.gov/c3pr" prefix="c3pr" %>
 <html>
 <head>
 <title>
@@ -28,9 +29,65 @@
 	.division.big h3 {
 		font-size:1em;
 	}
+	.division.indented {
+		margin-left:2px;
+	}
+	
+	div.row div.orgLabel {
+		float:left;
+		font-weight:bold;
+		margin-left:0.5em;
+		text-align:right;
+		width:5em;
+	}
+	div.row div.orgValue {
+		font-weight:normal;
+		margin-left:8em;
+	}
+
+
 </style>
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
+function displayRemoteResearchStaff(){
+	var contentWin = new Window({className:"alphacube", destroyOnClose:true, id:"remoteRS-popup-id", width:550,  height:200, top: 30, left: 300});
+	contentWin.setContent( 'display_remote_rs' );
+  	contentWin.showCenter(true);
+ 	popupObserver = {
+			onDestroy: function(eventName, win) {
+				if (win == contentWin) {
+					$('display_remote_rs').style.display='none';
+					contentWin = null;
+					Windows.removeObserver(this);
+				}
+			}
+		}
+ 	Windows.addObserver(popupObserver);
+}
+
+Event.observe(window, "load", function(){
+	if(${fn:length(command.researchStaff.externalResearchStaff) gt 0}){
+		displayRemoteResearchStaff();
+	}
+});
+
+function submitRemoteRsForSave(){
+	var form = document.getElementById('command');
+	form._action.value="saveRemoteRStaff";
+	form.submit();
+}
+	
+function selectResearchStaff(selectedIndex){
+	var form = document.getElementById('command')
+	form._selected.value=selectedIndex;
+	document.getElementById('save-yes').disabled = false;
+}
+	
+function syncResearchStaff(){
+	document.getElementById('command')._action.value="syncResearchStaff";
+	document.getElementById('command').submit();
+}
+
 function handleUsername(){
 	if($('usernameCheckbox').checked){
 		if($('email').value==''){
@@ -267,16 +324,23 @@ RowManager.registerRowInserters();
 	    	title="Organization: ${command.healthcareSiteRolesHolderList[status.index].healthcareSite.name} (${command.healthcareSiteRolesHolderList[status.index].healthcareSite.primaryIdentifier })" minimize="true" divIdToBeMinimized="hcs-${status.index}" disableDelete="true"
 		    onclick="#">
 			<div id="hcs-${status.index}" style="display: none">
- 				<tags:errors path="healthcareSiteRolesHolderList[${status.index}]" />
+				<table>
+				<tr>
 				<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
+					<td>
+					<c:if test="${groupStatus.index % 3 == 0}">
+						</td></tr><tr><td>						
+					</c:if>
 					<div class="newLabel"> 
 						<input type="checkbox" id="hcs-${status.index}-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${group.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, group)}"> checked </c:if> />
 					</div>
 					<div class="newValue">
 						${group.displayName}
 					</div>
-					
+					</td>
 		    	</c:forEach>
+		    	</tr>
+		    	</table>
 			</div>
 		</chrome:deletableDivision>
 		</td>
@@ -307,6 +371,43 @@ RowManager.registerRowInserters();
 	</jsp:attribute>
 </tags:tabControls>
 </form:form>
+</div>
+
+<div id="display_remote_rs" style="display:none;text-align:left" >
+	<chrome:box title="Please select a Research Staff Person to be saved in C3PR" id="popupId">
+		<div class="eXtremeTable">
+          <table width="100%" border="0" cellspacing="0"  class="tableRegion">
+            <thead>
+              <tr align="center" class="label">
+              	<td/>
+                <td class="tableHeader">First Name</td>
+                <td class="tableHeader">Last Name</td>
+                <td class="tableHeader">Email Address</td>
+              </tr>
+            </thead>
+            <c:forEach items="${command.researchStaff.externalResearchStaff}"  var="remRs" varStatus="rdStatus">
+              <tr>
+              	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onClick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
+                <td align="left">${remRs.firstName}</td>
+                <td align="left">${remRs.lastName}</td>
+                <td align="left">${remRs.email}</td>
+              </tr>
+            </c:forEach>
+          </table>
+		</div>
+		<br><br>
+   		<table width="100%">	
+   			<tr>
+   				<td align="left">
+   					<input type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
+   				</td>
+   				<td align="right">
+    				<input type="submit" disabled value="Ok" id="save-yes" onClick="javascript:window.parent.submitRemoteRsForSave();"/>
+   				</td>
+   			</tr>	
+   		</table>
+	</chrome:box>
+</div>
 <!-- Dummy Section -->
 <div id="dummy-healthcareSite" style="display: none"></div>
 <div id="genericHtml" style="display: none">
@@ -317,10 +418,10 @@ RowManager.registerRowInserters();
 	    	title="Organization" onclick="RowManager.deleteRow(healthcareSiteRowInserterProps,PAGE.ROW.INDEX,-1)" >
  				<tags:errors path="healthcareSiteRolesHolderList[PAGE.ROW.INDEX]" />
  				<div class="row">
- 					<div class="label">
+ 					<div class="orgLabel">
  						<fmt:message key="c3pr.common.organization"></fmt:message>
 	 				</div>
-	 				<div class="value">
+	 				<div class="orgValue">
 	 					<input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite" />
        					<input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input" size="40"  
        																						value="${command.healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite.name}"/>
@@ -329,25 +430,31 @@ RowManager.registerRowInserters();
 	 				</div>
  				</div>
  				<br>
+ 				<table width="100%">
+ 				<tr>
  				<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
+ 					<td>
+					<c:if test="${groupStatus.index % 3 == 0}">
+						</td></tr><tr><td>						
+					</c:if>
 					<div class="newLabel"> 
 						<input type="checkbox" id="hcs-PAGE.ROW.INDEX-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${group.name}"  />
 					</div>
 					<div class="newValue">
 						${group.displayName}
 					</div>
-					
+					</td>
 		    	</c:forEach>
+		    	</tr>
+		    	</table>
 		</chrome:deletableDivision>
 		</td>
 		</tr>
 </table>
 </div>
-		
 <script>
-	//$('associateOrganizationBtn').click();
 	new FormQueryStringUtils($('command')).stripQueryString('assignedIdentifier');
+	//$('associateOrganizationBtn').click()
 </script>
-</div>
 </body>
 </html>
