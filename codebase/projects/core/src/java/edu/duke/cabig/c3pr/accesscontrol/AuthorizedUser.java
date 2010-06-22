@@ -3,6 +3,11 @@ package edu.duke.cabig.c3pr.accesscontrol;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.userdetails.User;
 
@@ -40,6 +45,14 @@ public class AuthorizedUser extends User {
 
 	public RolePrivilege[] getRolePrivileges() {
 		return rolePrivileges;
+	}
+	
+	public List<UserPrivilege> getUserPrivileges(){
+		Set<UserPrivilege> privileges = new HashSet<UserPrivilege>();
+		for(RolePrivilege rolePrivilege : rolePrivileges){
+			privileges.add(new UserPrivilege(rolePrivilege.getObjectId(),rolePrivilege.getPrivilege()));
+		}
+		return new ArrayList(privileges);
 	}
 
  }

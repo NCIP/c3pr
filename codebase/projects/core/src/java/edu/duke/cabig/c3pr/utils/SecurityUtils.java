@@ -1,19 +1,22 @@
 package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.userdetails.User;
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.duke.cabig.c3pr.accesscontrol.AuthorizedUser;
+import edu.duke.cabig.c3pr.accesscontrol.UserPrivilege;
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.RoleTypes;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.dao.RolePrivilegeDao;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
@@ -27,24 +30,31 @@ public class SecurityUtils {
 	
 	/** The log. */
 	private static Log log = LogFactory.getLog(SecurityUtils.class);
-
 	
-	/**
-	 * Check if user is a super user based on ROLE_c3pr_admin.
-	 * 
-	 * @param authentication the authentication
-	 * 
-	 * @return true, if checks if is super user
-	 */
-	public static boolean isSuperUser(Authentication authentication) {
-        for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
-        	if (grantedAuthority.getAuthority().equals(RoleTypes.C3PR_ADMIN.getCode())) {
-        			return true;
-        	}       
-        }		
-		return false;
+	public static boolean isSuperUser(Authentication authentication){
+    	List<RoleTypes> allRoles = Arrays.asList(RoleTypes.values());
+    	List<RoleTypes> roles = SecurityUtils.getRoleTypes();
+    	if(allRoles.equals(roles)){
+    		return true;
+    	}
+    	return false;
 	}
 	
+	public static boolean isSuperUser(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	return isSuperUser(authentication);
+	}
+	
+	/**
+	 * Gets the user name from the authentication object.
+	 * 
+	 * 
+	 * @return the user name
+	 */
+	public static String getUserName() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return getUserName(authentication);
+	}
 	
 	/**
 	 * Gets the user name from the authentication object.
@@ -55,6 +65,18 @@ public class SecurityUtils {
 	 */
 	public static String getUserName(Authentication authentication) {
 		return ((User)authentication.getPrincipal()).getUsername();
+	}
+	
+	/**
+	 * Checks if user has any of the provided roles.
+	 * 
+	 * @param roleTypes the role types
+	 * 
+	 * @return true, if successful
+	 */
+	public static boolean hasRole(List<RoleTypes> roleTypes){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return hasRole(authentication, roleTypes);
 	}
 	
 	/**
@@ -72,6 +94,11 @@ public class SecurityUtils {
 		return CollectionUtils.containsAny(roleTypes, getRoleTypes(authentication));
 	}
 	
+	public static List<RoleTypes> getRoleTypes(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return getRoleTypes(authentication);
+	}
+	
 	public static List<RoleTypes> getRoleTypes(Authentication authentication){
 		List<RoleTypes> roleTypes = new ArrayList<RoleTypes>();
 		GrantedAuthority[] grantedAuthorities = authentication.getAuthorities();
@@ -81,6 +108,49 @@ public class SecurityUtils {
 		return roleTypes;
 	}
 	
+	/**
+	 * Checks if user has any of the provided privilege.
+	 * 
+	 * @param authentication the authentication
+	 * @param roleTypes the role types
+	 * 
+	 * @return true, if successful
+	 */
+	public static boolean hasPrivilege(List<UserPrivilegeType> privilegeTypes){
+		if(privilegeTypes == null){
+			return false;
+		}
+		List<UserPrivilege> privileges = new ArrayList<UserPrivilege>();
+		for(UserPrivilegeType userPrivilegeType : privilegeTypes){
+			privileges.add(new UserPrivilege(userPrivilegeType.getCode()));
+		}
+		
+		return CollectionUtils.containsAny(privileges, getUserPrivileges());
+	}
+	
+	/**
+	 * Checks if user has any of the provided privilege.
+	 * 
+	 * @param authentication the authentication
+	 * @param roleTypes the role types
+	 * 
+	 * @return true, if successful
+	 */
+	public static boolean hasPrivilege(UserPrivilegeType privilegeType){
+		if(privilegeType == null){
+			return false;
+		}
+		List<UserPrivilegeType> privilegeTypes = new ArrayList<UserPrivilegeType>();
+		privilegeTypes.add(privilegeType);
+		return hasPrivilege(privilegeTypes);
+	}
+	
+	public static List<UserPrivilege> getUserPrivileges(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		AuthorizedUser authorizedUser = (AuthorizedUser)authentication.getPrincipal();
+		return authorizedUser.getUserPrivileges();
+	}
+
 	/**
 	 * Gets the c3 pr user role types.
 	 *
@@ -235,5 +305,4 @@ public class SecurityUtils {
 		return roleTypes;
 	}
 
-	
 }

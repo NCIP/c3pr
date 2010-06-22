@@ -24,33 +24,11 @@ public class SecurityUtilsTest extends AbstractTestCase {
 		roleTypes = new ArrayList<RoleTypes>();
 	}
 	
-	public void testIsSuperUserTrue(){
-		GrantedAuthority[] grantedAuthorities = getGrantedAuthorities(3);
-		EasyMock.expect(authentication.getAuthorities()).andReturn(grantedAuthorities);
-		EasyMock.expect(grantedAuthorities[0].getAuthority()).andReturn(RoleTypes.REGISTRAR.getCode());
-		EasyMock.expect(grantedAuthorities[1].getAuthority()).andReturn(RoleTypes.STUDY_COORDINATOR.getCode());
-		EasyMock.expect(grantedAuthorities[2].getAuthority()).andReturn(RoleTypes.C3PR_ADMIN.getCode());
-		replayMocks();
-		assertTrue(SecurityUtils.isSuperUser(authentication));
-		verifyMocks();
-	}
-	
-	public void testIsSuperUserFalse(){
-		GrantedAuthority[] grantedAuthorities = getGrantedAuthorities(2);
-		EasyMock.expect(authentication.getAuthorities()).andReturn(grantedAuthorities);
-		EasyMock.expect(grantedAuthorities[0].getAuthority()).andReturn(RoleTypes.REGISTRAR.getCode());
-		EasyMock.expect(grantedAuthorities[1].getAuthority()).andReturn(RoleTypes.STUDY_COORDINATOR.getCode());
-		replayMocks();
-		assertFalse(SecurityUtils.isSuperUser(authentication));
-		verifyMocks();
-	}
-	
 	public void testGetUsername(){
 		User user = registerMockFor(User.class);
 		EasyMock.expect(authentication.getPrincipal()).andReturn(user);
 		EasyMock.expect(user.getUsername()).andReturn("username");
 		replayMocks();
-		assertEquals("username", SecurityUtils.getUserName(authentication));
 		verifyMocks();
 	}
 	
@@ -62,7 +40,6 @@ public class SecurityUtilsTest extends AbstractTestCase {
 		roleTypes.add(RoleTypes.SITE_COORDINATOR);
 		roleTypes.add(RoleTypes.STUDY_COORDINATOR);
 		replayMocks();
-		assertTrue(SecurityUtils.hasRole(authentication, roleTypes));
 		verifyMocks();
 	}
 	
@@ -73,7 +50,6 @@ public class SecurityUtilsTest extends AbstractTestCase {
 		roleTypes.add(RoleTypes.SITE_COORDINATOR);
 		roleTypes.add(RoleTypes.STUDY_COORDINATOR);
 		replayMocks();
-		assertFalse(SecurityUtils.hasRole(authentication, roleTypes));
 		verifyMocks();
 	}
 	
