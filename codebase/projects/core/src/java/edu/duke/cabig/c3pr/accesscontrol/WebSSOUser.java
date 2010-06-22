@@ -1,10 +1,10 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-import java.util.List;
-
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.userdetails.UserDetails;
 import org.globus.gsi.GlobusCredential;
+
+import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Dec 11, 2007 Time: 9:58:53 PM To change this template
@@ -23,13 +23,13 @@ public class WebSSOUser extends AuthorizedUser {
     private GlobusCredential gridCredential;
 
     public WebSSOUser(String string, String string1, boolean b, boolean b1, boolean b2, boolean b3,
-                    GrantedAuthority[] grantedAuthorities, List<Object> protectionGroupRoleContextList) throws IllegalArgumentException {
-        super(string, string1, b, b1, b2, b3, grantedAuthorities, protectionGroupRoleContextList);
+                    GrantedAuthority[] grantedAuthorities, ProvisioningSession provisioningSession) throws IllegalArgumentException {
+        super(string, string1, b, b1, b2, b3, grantedAuthorities, provisioningSession);
     }
 
     public WebSSOUser(UserDetails user) {
         this(user.getUsername(), user.getPassword(), true, true, true, true, user.getAuthorities(), 
-        		((AuthorizedUser)user).getProtectionGroupRoleContextList());
+        		((AuthorizedUser)user).getProvisioningSession());
     }
 
     public String getGridId() {
