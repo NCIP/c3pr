@@ -6,7 +6,7 @@
 <%@attribute name="commandObj" required="true" type="edu.duke.cabig.c3pr.web.study.StudyWrapper"%>
 
 <c:forEach items="${commandObj.study.studySites}" varStatus="status" var="site">
-	<csmauthz:accesscontrol domainObject="${site}" hasPrivileges="ACCESS"  
+	<csmauthz:accesscontrol domainObject="${site}" hasPrivileges="READ"  
 				            authorizationCheckName="studySiteAuthorizationCheck">
 		<div id="siteSection_${site.healthcareSite.primaryIdentifier }">
 			<studyTags:studySiteSection index="${status.index}" site="${site}" isMultisite="${multisiteEnv}" localNCICode="${localNCICode}" />

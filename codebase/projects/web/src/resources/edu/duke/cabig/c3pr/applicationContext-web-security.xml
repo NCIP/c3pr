@@ -200,11 +200,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			ref="studyOrganizationPrivilegeAndObjectIdGenerator" />
 		<property name="privilegeGenerator"
 			ref="studyOrganizationPrivilegeAndObjectIdGenerator" />
+		<property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
 	</bean>
 	
 
 	<bean id="siteAuthorizationCheck"
-		class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
+		class="edu.duke.cabig.c3pr.accesscontrol.SiteAuthorizationCheck">
 		<property name="authorizationSwitch" ref="authorizationSwitch" />
 		<property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck" />
 		<property name="objectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator" />

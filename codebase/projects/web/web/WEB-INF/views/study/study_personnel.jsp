@@ -171,7 +171,7 @@ changed before submit in javascripts. The parameters need proper default values,
 		                    		</c:when>
 		                    	</c:choose>
 		                    	<c:if test="${canDisplay}">
-			                        <csmauthz:accesscontrol domainObject="${studyOrganization}" hasPrivileges="ACCESS"  
+			                        <csmauthz:accesscontrol domainObject="${studyOrganization}" hasPrivileges="READ"  
 				                                                authorizationCheckName="studySiteAuthorizationCheck">
 				                        <c:if test="${empty selectedStudyOrganization}">
 				                        	<c:set var="selectedStudyOrganization" value="${studyOrganization}"/>
