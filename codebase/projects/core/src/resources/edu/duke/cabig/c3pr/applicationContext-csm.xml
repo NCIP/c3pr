@@ -84,8 +84,5 @@
 		<property name="authorizationManager" ref="csmUserProvisioningManager"/>
 	</bean>
 	
-	<bean id="authorizationHelper" class="gov.nih.nci.cabig.ctms.suite.authorization.AuthorizationHelper">
-		<property name="authorizationManager" ref="csmUserProvisioningManager"/>
-	</bean>
 	
 </beans>
