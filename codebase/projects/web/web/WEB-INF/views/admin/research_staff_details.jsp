@@ -134,7 +134,7 @@ RowManager.registerRowInserters();
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
 	<input type="hidden" name="_username" value="">
-	
+	<c:set var="noHealthcareSiteAssociated" value="${fn:length(command.researchStaff.healthcareSites) == 0}"></c:set>
 	<tags:instructions code="research_staff_details" />
 	<tags:errors path="*"/>
 	<chrome:division id="staff-details" title="Basic Details">
@@ -272,7 +272,7 @@ RowManager.registerRowInserters();
  				<tags:errors path="healthcareSiteRolesHolderList[${status.index}]" />
 				<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
 					<div class="newLabel"> 
-						<input type="checkbox" id="hcs-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${group.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, group)}"> checked </c:if> />
+						<input type="checkbox" id="hcs-${status.index}-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${group.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, group)}"> checked </c:if> />
 					</div>
 					<div class="newValue">
 						${group.displayName}
@@ -286,13 +286,11 @@ RowManager.registerRowInserters();
 	</c:forEach>
 	</table>
 </chrome:division>
-	
 	<br>
 	<hr />
 	<div align="right">
-		<tags:button size="small" type="button" color="blue" icon="add" value="Associate organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
+		<tags:button id="associateOrganizationBtn" size="small" type="button" color="blue" icon="add" value="Associate organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
 	</div>
-
 </chrome:box>
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
@@ -335,7 +333,7 @@ RowManager.registerRowInserters();
  				<br>
  				<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
 					<div class="newLabel"> 
-						<input type="checkbox" id="hcs-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${group.name}"  />
+						<input type="checkbox" id="hcs-PAGE.ROW.INDEX-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${group.name}"  />
 					</div>
 					<div class="newValue">
 						${group.displayName}
@@ -347,8 +345,11 @@ RowManager.registerRowInserters();
 		</tr>
 </table>
 </div>
+		
 <script>
-	new FormQueryStringUtils($('command.researchStaff')).stripQueryString('assignedIdentifier');
+	//$('associateOrganizationBtn').click();
+	new FormQueryStringUtils($('command')).stripQueryString('assignedIdentifier');
 </script>
+</div>
 </body>
 </html>
