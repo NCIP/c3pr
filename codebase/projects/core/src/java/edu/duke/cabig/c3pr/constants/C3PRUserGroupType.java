@@ -33,8 +33,8 @@ public enum C3PRUserGroupType implements CodedEnum<String> {
     STUDY_CALENDAR_TEMPLATE_BUILDER("study_calendar_template_builder"),
     STUDY_SUBJECT_CALENDAR_MANAGER("study_subject_calendar_manager"),
     AE_REPORTER("ae_reporter"),
-    AE_EXPEDITED_REPORT_REVIEWER("expedited_report_reviewer"),
-    AE_STUDY_DATA_REVIEWER("adverse_event_study_data_reviewer"),
+    AE_EXPEDITED_REPORT_REVIEWER("ae_expedited_report_reviewer"),
+    AE_STUDY_DATA_REVIEWER("ae_study_data_reviewer"),
     LAB_IMPACT_CALENDAR_NOTIFIER("lab_impact_calendar_notifier"),
     LAB_DATA_USER("lab_data_user")
     ;
