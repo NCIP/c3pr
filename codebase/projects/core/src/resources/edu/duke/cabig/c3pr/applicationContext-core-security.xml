@@ -254,41 +254,19 @@
     </bean>
             
     <bean id="studySecurityFilter"
-        class="edu.duke.cabig.c3pr.accesscontrol.StudySecurityFilter">
-        <property name="csmUserRepository" ref="csmUserRepository"/>
-    </bean>
+        class="edu.duke.cabig.c3pr.accesscontrol.StudySecurityFilter" />
     
     <bean id="studySubjectSecurityFilter"
-        class="edu.duke.cabig.c3pr.accesscontrol.StudySubjectSecurityFilter">
-        <property name="csmUserRepository" ref="csmUserRepository"/>
-    </bean>
+        class="edu.duke.cabig.c3pr.accesscontrol.StudySubjectSecurityFilter" />
     
     <bean id="subjectSecurityFilter"
-        class="edu.duke.cabig.c3pr.accesscontrol.SubjectSecurityFilter">
-        <property name="csmUserRepository" ref="csmUserRepository"/>
-    </bean>
+        class="edu.duke.cabig.c3pr.accesscontrol.SubjectSecurityFilter" />
 
     <bean id="researchStaffSecurityFilter"
-        class="edu.duke.cabig.c3pr.accesscontrol.ResearchStaffSecurityFilter">
-        <property name="csmUserRepository" ref="csmUserRepository"/>
-        <property name="rolesThatCanAccessStaff">
-            <list>
-                <value>ROLE_person_and_organization_information_manager</value>
-                <value>ROLE_user_administrator</value>
-            </list>
-        </property>
-    </bean>
+        class="edu.duke.cabig.c3pr.accesscontrol.ResearchStaffSecurityFilter" />
     
     <bean id="investigatorSecurityFilter"
-        class="edu.duke.cabig.c3pr.accesscontrol.InvestigatorSecurityFilter">
-        <property name="csmUserRepository" ref="csmUserRepository"/>
-        <property name="rolesThatCanAccessInvestigators">
-            <list>
-                <value>ROLE_person_and_organization_information_manager</value>
-                <value>ROLE_user_administrator</value>
-            </list>
-        </property>
-    </bean>
+        class="edu.duke.cabig.c3pr.accesscontrol.InvestigatorSecurityFilter" />
         
     <util:map id="domainObjectCSMAuhthorizationCheckProvidersMap"
               map-class="java.util.LinkedHashMap">
@@ -352,7 +330,9 @@
         <property name="csmUserProvisioningManager"
                   ref="csmUserProvisioningManager"/>
         <property name="provisioningSessionFactory"
-                  ref="provisioningSessionFactory"/>                 
+                  ref="provisioningSessionFactory"/>   
+        <property name="rolePrivilegeDao"
+                  ref="rolePrivilegeDao"/>   
     </bean>
 
     <bean id="localAuthenticationProvider"
@@ -414,6 +394,7 @@
         <property name="userDetailsService">
             <ref local="csmUserDetailsService"/>
         </property>
+        <property name="rolePrivilegeDao" ref="rolePrivilegeDao"/>
     </bean>
     
     <bean id="casProxyDecider" class="org.acegisecurity.providers.cas.proxy.RejectProxyTickets">

@@ -147,10 +147,8 @@
             </list>
         </property>
         <property name="entityInterceptor">
-            <ref local="chainedInterceptor"/>
-            <!--    <bean
-           class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
-           autowire="byName"/> -->
+             <ref local="chainedInterceptor"/>
+             <!--  <bean class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor" autowire="byName"/>  -->
         </property>
         <property name="hibernateProperties">
             <ref bean="hibernateProperties"/>
@@ -484,7 +482,9 @@
     <bean id="healthcareSiteInvestigatorDao" parent="daoTemplate"
           class="edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao" autowire="byName"/>
     <bean id="studyPersonnelDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyPersonnelDao"
-          autowire="byName"/>
+          autowire="byName">
+          <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
+    </bean>
     <bean id="researchStaffDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffDao" autowire="byName" >
 	    <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
         <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
