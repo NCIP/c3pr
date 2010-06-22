@@ -33,11 +33,13 @@ public class SecurityUtils {
 	
 	public static boolean isSuperUser(Authentication authentication){
     	List<RoleTypes> allRoles = Arrays.asList(RoleTypes.values());
-    	List<RoleTypes> roles = SecurityUtils.getRoleTypes();
-    	if(allRoles.equals(roles)){
-    		return true;
-    	}
-    	return false;
+    	List<RoleTypes> roles = SecurityUtils.getRoleTypes(authentication);
+    	for(RoleTypes role : allRoles){
+	    	if(!roles.contains(role)){
+	    		return false;
+	    	}
+		}
+    	return true;
 	}
 	
 	public static boolean isSuperUser(){
@@ -116,7 +118,7 @@ public class SecurityUtils {
 	 * 
 	 * @return true, if successful
 	 */
-	public static boolean hasPrivilege(List<UserPrivilegeType> privilegeTypes){
+	public static boolean hasAnyPrivilege(List<UserPrivilegeType> privilegeTypes){
 		if(privilegeTypes == null){
 			return false;
 		}
@@ -136,13 +138,33 @@ public class SecurityUtils {
 	 * 
 	 * @return true, if successful
 	 */
+	public static boolean hasAllPrivilege(List<UserPrivilegeType> privilegeTypes){
+		if(privilegeTypes == null){
+			return false;
+		}
+		List<UserPrivilege> privileges = new ArrayList<UserPrivilege>();
+		for(UserPrivilegeType userPrivilegeType : privilegeTypes){
+			privileges.add(new UserPrivilege(userPrivilegeType.getCode()));
+		}
+		
+		return getUserPrivileges().containsAll(privileges);
+	}
+	
+	/**
+	 * Checks if user has any of the provided privilege.
+	 * 
+	 * @param authentication the authentication
+	 * @param roleTypes the role types
+	 * 
+	 * @return true, if successful
+	 */
 	public static boolean hasPrivilege(UserPrivilegeType privilegeType){
 		if(privilegeType == null){
 			return false;
 		}
 		List<UserPrivilegeType> privilegeTypes = new ArrayList<UserPrivilegeType>();
 		privilegeTypes.add(privilegeType);
-		return hasPrivilege(privilegeTypes);
+		return hasAnyPrivilege(privilegeTypes);
 	}
 	
 	public static List<UserPrivilege> getUserPrivileges(){

@@ -6,9 +6,6 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum RoleTypes implements CodedEnum<String>{
-	C3PR_ADMIN("ROLE_c3pr_admin"), 
-	STUDY_COORDINATOR("ROLE_study_coordinator"), 
-	SITE_COORDINATOR("ROLE_site_coordinator"),
 	//INTRODUCED AS A PART OF UNIFIED SECURITY - SUITE2.2
     SYSTEM_ADMINISTRATOR("ROLE_system_administrator"),
     BUSINESS_ADMINISTRATOR("ROLE_business_administrator"),
