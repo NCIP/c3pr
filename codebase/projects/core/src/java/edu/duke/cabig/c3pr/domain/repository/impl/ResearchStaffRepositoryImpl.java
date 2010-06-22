@@ -110,7 +110,7 @@ public class ResearchStaffRepositoryImpl implements ResearchStaffRepository {
 	}
 	
 	public boolean getHasAccessToAllSites(User csmUser) {
-		return false;
+		return researchStaffDao.getHasAccessToAllSites(csmUser);
 	}
 	
 	public ResearchStaff createResearchStaff(ResearchStaff researchStaff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap)  throws C3PRBaseException {
