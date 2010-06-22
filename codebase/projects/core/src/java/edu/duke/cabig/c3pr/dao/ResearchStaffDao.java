@@ -992,9 +992,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	}
 
 	public ResearchStaff createResearchStaff(ResearchStaff researchStaff,
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) {
-		// TODO Auto-generated method stub
-		return null;
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap)  throws C3PRBaseException {
+		return createOrModifyResearchStaff(researchStaff, true, null, associationMap, false);
 	}
 
 
