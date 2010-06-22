@@ -137,7 +137,6 @@ var healthcareSiteRowInserterProps = {
     skeleton_row_division_id: "dummy-healthcareSite",
     initialIndex: ${fn:length(command.researchStaff.healthcareSites)},
     softDelete: false,
-    isAdmin: ${isAdmin == 'true'},
     path: "healthcareSites",
     postProcessRowInsertion: function(object){
     	statusIndex = object.localIndex;

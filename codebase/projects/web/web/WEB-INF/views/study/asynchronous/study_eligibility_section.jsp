@@ -16,7 +16,6 @@
           skeleton_row_division_id: "dummy-inclusionRow-${index}",
           initialIndex: ${fn:length(command.study.epochs[index].inclusionEligibilityCriteria)},
           softDelete: ${softDelete == 'true'},
-          isAdmin: ${isAdmin == 'true'},
           path: "study.epochs[${index }].inclusionEligibilityCriteria"
     };
     var instanceExclusionRow_${index} = {
@@ -24,7 +23,6 @@
         skeleton_row_division_id: "dummy-exclusionRow-${index}",
         initialIndex: ${fn:length(command.study.epochs[index].exclusionEligibilityCriteria)},
 	   	softDelete: ${softDelete == 'true'},
-	   	isAdmin: ${isAdmin == 'true'},
         path: "study.epochs[${index }].exclusionEligibilityCriteria"
     };
 	RowManager.addRowInseter(instanceInclusionRow_${index});

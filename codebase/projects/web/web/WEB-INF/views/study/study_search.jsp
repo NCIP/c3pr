@@ -17,7 +17,6 @@
 </head>
 <!-- MAIN BODY STARTS HERE -->
 <body>
-
 <chrome:search title="Search">
 <tags:instructions code="study_search" />
     <form:form id="searchForm" method="post">

@@ -16,6 +16,7 @@
 <%@taglib prefix="jwr" uri="http://jawr.net/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
+<%@taglib prefix="c3pr" uri="http://edu.duke.cabig.c3pr.web/c3pr" %>
 
 <script>
 	function gotoOffEpoch(location){
@@ -24,9 +25,9 @@
 </script>
 <tags:controlPanel>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-			<c:if test="${isAdmin}">
+			<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_UPDATE">
 				<tags:oneControlPanelItem linkhref="javascript:invalidateRegistrationRecord();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_closeStudy.jpg" linktext="Invalidate Record" />
-			</c:if>
+			</c3pr:checkprivilege>
 			<c:if test="${!isCompleteRegistration}">
 				<c:choose>
 					<c:when test="${not empty command.studySubject.parentStudySubject}">
@@ -58,9 +59,11 @@
 				<tags:oneControlPanelItem linkhref="javascript:confirmBroadcastRegistration();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_broadcast.png" linktext="Broadcast Registration" />
 			</c:if>
     	</csmauthz:accesscontrol>
-    	<c:if test="${command.canAllowEligibilityWaiver && isStudyCoordinator}">
-    		<tags:oneControlPanelItem linkhref="javascript:allowEligibilityWaiverPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_waiveEligibility.png" linktext="Waive Eligibility" />
-    	</c:if>
+    	<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_OVERRIDE">
+	    	<c:if test="${command.canAllowEligibilityWaiver}">
+	    		<tags:oneControlPanelItem linkhref="javascript:allowEligibilityWaiverPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_waiveEligibility.png" linktext="Waive Eligibility" />
+	    	</c:if>
+    	</c3pr:checkprivilege>
 		<tags:oneControlPanelItem linkhref="javascript:C3PR.disableAjaxLoadingIndicator=true;$('exportForm')._target.name='xxxx';$('exportForm').submit();C3PR.disableAjaxLoadingIndicator=false;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 		<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 	</tags:controlPanel>

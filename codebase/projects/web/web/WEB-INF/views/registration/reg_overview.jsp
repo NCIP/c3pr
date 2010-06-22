@@ -187,6 +187,12 @@
     </script>
 </head>
 <body>
+<c:set var="canEditRegistrationRecord" value="false"/>
+<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_OVERRIDE">
+	<c:if test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus == 'REGISTERED'}">
+		<c:set var="canEditRegistrationRecord" value="true"/>
+	</c:if>
+</c3pr:checkprivilege>
 	<div id="controlPanel">
 		<registrationTags:registrationControlPanel command="${command}"></registrationTags:registrationControlPanel>
 	</div>
@@ -997,10 +1003,10 @@
 					</font><br></strong><br>
 				</div>
 				<div align="center">
-					<c:if test="${isAdmin}">
+					<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_UPDATE">
 						<div align="left" style="padding-left: 5px; font-size: 10pt;"><fmt:message key="REGISTRATION.BROADCAST.SENT_SUCCESSFULLY.RESEND"/></div>
 						<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
-					</c:if>
+					</c3pr:checkprivilege>
 					<tags:button type="button" color="red" icon="x" value="Close" onclick="contentWin.close();" />
 				</div>
 			</c:when>

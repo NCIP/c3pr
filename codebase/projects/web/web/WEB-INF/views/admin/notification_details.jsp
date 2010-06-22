@@ -24,7 +24,6 @@
 	            skeleton_row_division_id: "dummy-roleRow",
 	            initialIndex: ${fn:length(command.plannedNotifications[nStatus.index].roleBasedRecipient)},
 	            softDelete: ${softDelete == 'true'},
-	            isAdmin: ${isAdmin == 'true'},
 	            row_index_indicator: "SECONDARY.NESTED.PAGE.ROW.INDEX",
 	            path: "plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient"
 	       };
@@ -33,7 +32,6 @@
 	            skeleton_row_division_id: "dummy-emailRow",
 	            initialIndex: ${fn:length(command.plannedNotifications[nStatus.index].userBasedRecipient)},
 	            softDelete: ${softDelete == 'true'},
-	            isAdmin: ${isAdmin == 'true'},
 	            row_index_indicator: "NESTED.PAGE.ROW.INDEX",
 	            path: "plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient",
 	            postProcessRowInsertion: function(object){
@@ -54,7 +52,6 @@
 	            skeleton_row_division_id: "dummy-cmRow",
 	            initialIndex: ${fn:length(command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)},
 	            softDelete: ${softDelete == 'true'},
-	            isAdmin: ${isAdmin == 'true'},
 	            row_index_indicator: "TERTIARY.NESTED.PAGE.ROW.INDEX",
 	            path: "plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient"
 	       };
@@ -66,7 +63,6 @@
 	                skeleton_row_division_id: "dummy-notification",
 	                initialIndex: ${fn:length(command.plannedNotifications)},
 	                softDelete: true,
-	                isAdmin: true,
 	                path: "plannedNotifications"
 	        };
 	        

@@ -797,10 +797,10 @@
 					</font><br></strong><br>
 				</div>
 				<div align="center">
-					<c:if test="${isAdmin}">
+					<c3pr:checkprivilege hasPrivileges="STUDY_CREATE">
 						<div align="left" style="padding-left: 5px; font-size: 10pt;"><fmt:message key="STUDY.BROADCAST.SENT_SUCCESSFULLY.RESEND"/></div>
 						<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
-					</c:if>
+					</c3pr:checkprivilege>
 					<tags:button type="button" color="red" icon="x" value="Close" onclick="contentWin.close();" />
 				</div>
 			</c:when>

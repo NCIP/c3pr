@@ -26,7 +26,6 @@
             add_row_division_id: "arm",
             skeleton_row_division_id: "dummy-arm",
             initialIndex: ${fn:length(command.study.epochs[treatmentEpochCount.index].arms)},
-            isAdmin: ${isAdmin == 'true'},
             row_index_indicator: "NESTED.PAGE.ROW.INDEX",
             deleteMsgPrefix: "Book Randomization Entries(if any) for this Epoch will be deleted.",
             path: "epochs[PAGE.ROW.INDEX].arms"
@@ -36,7 +35,6 @@
             add_row_division_id: "genericEpoch",
             skeleton_row_division_id: "dummy-genericEpoch",
             initialIndex: ${fn:length(command.study.epochs)},
-            isAdmin: ${isAdmin == 'true'},
             path: "epochs",
             postProcessRowInsertion: function(object){
       								var inputName="study.epochs["+object.localIndex+"].name";

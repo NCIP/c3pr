@@ -64,7 +64,6 @@
 	    skeleton_row_division_id: "dummy-row",
 	    initialIndex: ${fn:length(command.study.companionStudyAssociations)},
 	    softDelete: false,
-	    isAdmin: ${isAdmin == 'true'},
 	    path: "study.companionStudyAssociations",
 	    postProcessRowInsertion: function(object){
 	    	statusIndex = object.localIndex;

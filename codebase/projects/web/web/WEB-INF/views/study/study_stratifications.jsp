@@ -272,7 +272,6 @@
                 skeleton_row_division_id: "dummy-strat-ans-${epochCount.index }",
                 initialIndex: 2,
                 softDelete: ${softDelete == 'true'},
-                isAdmin: ${isAdmin == 'true'},
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
                 path: "study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers"
             };
@@ -282,7 +281,6 @@
                 skeleton_row_division_id: "dummy-strat-${epochCount.index}",
                 initialIndex: ${fn:length(command.study.epochs[epochCount.index].stratificationCriteria)},
                 softDelete: ${softDelete == 'true'},
-                isAdmin: ${isAdmin == 'true'},
                 path: "study.epochs[${epochCount.index }].stratificationCriteria"
             };	
             RowManager.addRowInseter(stratRowInserterProps_${epochCount.index});

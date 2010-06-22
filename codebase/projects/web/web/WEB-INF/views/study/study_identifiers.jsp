@@ -40,7 +40,6 @@ var systemIdentifierRowInserterProps = {
     skeleton_row_division_id: "dummy-row-systemIdentifier",
     initialIndex: ${fn:length(command.study.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
     softDelete: ${softDelete == 'true'},
-    isAdmin: ${isAdmin == 'true'},
     getColumnDivisionID: function(index){
     							return "systemIdentifier-"+index;
     						},
@@ -52,7 +51,6 @@ var organizationIdentifierRowInserterProps = {
        initialIndex: ${fn:length(command.study.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
        path: "study.organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
        softDelete: ${softDelete == 'true'},
-       isAdmin: ${isAdmin == 'true'},
        postProcessRowInsertion: function(object){
 	       clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 		   clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;

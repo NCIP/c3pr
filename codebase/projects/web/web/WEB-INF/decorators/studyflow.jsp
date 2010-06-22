@@ -137,9 +137,6 @@
 <tags:enableRowDeletion/>
 <tags:tabMethodForm/>
 <layout:footer/>
-<c:if test="${!empty disableForm && disableForm}">
-<tags:disableForm/>
-</c:if>
 </div>
 </body>
 </html>

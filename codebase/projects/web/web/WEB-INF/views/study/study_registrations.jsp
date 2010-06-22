@@ -1,11 +1,4 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ include file="taglibs.jsp"%>
 
 <html>
     <title><studyTags:htmlTitle study="${command.study}" /></title>
@@ -45,10 +38,10 @@ function createReg(studyId){
     </chrome:box>
 <div align="right">
 	<c:if test="${command.study.coordinatingCenterStudyStatus=='OPEN'}">
-		<c:if test="${isOnlyStudyCoordinator=='false'}">
+		<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_CREATE">
 			<tags:button type="button" color="blue" icon="add" value="Register another subject" 
 			onclick="javascript:sendLinkToCreateRegistration();" size="small"/>
-		</c:if>
+		</c3pr:checkprivilege>
 	</c:if>
 </div>
 </body>
