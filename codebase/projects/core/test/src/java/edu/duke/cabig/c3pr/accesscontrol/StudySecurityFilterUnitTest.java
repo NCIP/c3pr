@@ -56,9 +56,9 @@ public class StudySecurityFilterUnitTest extends AbstractTestCase {
 	}
 	
 	public void testFilterSiteCoordinator(){
-		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
+//		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
 		expectSecurityUtilsIsSuperAdmin(false);
-		expectSecurityUtilsHasRole(RoleTypes.SITE_COORDINATOR, 1);
+//		expectSecurityUtilsHasRole(RoleTypes.SITE_COORDINATOR, 1);
 		replayMocks();
 		Collection<Study> studiesRet = (Collection<Study>)studySecurityFilter.filter(authentication, "", collectionFilterer);
 		assertEquals(2, studiesRet.size());
@@ -66,9 +66,9 @@ public class StudySecurityFilterUnitTest extends AbstractTestCase {
 	}
 	
 	public void testFilterStudyCoordinator1(){
-		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
+//		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
 		expectSecurityUtilsIsSuperAdmin(false);
-		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR, 5);
+//		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR, 5);
 		expectSecurityUtilsGetUsername();
 		EasyMock.expect(csmUserRepository.getUserByName("username")).andReturn(researchStaff);
 		EasyMock.expect(study1.isAssignedAndActivePersonnel(researchStaff)).andReturn(true);
@@ -82,9 +82,9 @@ public class StudySecurityFilterUnitTest extends AbstractTestCase {
 	}
 	
 	public void testFilterStudyCoordinator2(){
-		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
+//		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
 		expectSecurityUtilsIsSuperAdmin(false);
-		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR, 5);
+//		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR, 5);
 		expectSecurityUtilsGetUsername();
 		EasyMock.expect(csmUserRepository.getUserByName("username")).andReturn(researchStaff);
 		EasyMock.expect(study1.isAssignedAndActivePersonnel(researchStaff)).andReturn(false);
@@ -98,9 +98,9 @@ public class StudySecurityFilterUnitTest extends AbstractTestCase {
 	}
 	
 	public void testFilterStudyCoordinator3(){
-		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
+//		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
 		expectSecurityUtilsIsSuperAdmin(false);
-		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR, 5);
+//		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR, 5);
 		expectSecurityUtilsGetUsername();
 		EasyMock.expect(csmUserRepository.getUserByName("username")).andReturn(researchStaff);
 		EasyMock.expect(study1.isAssignedAndActivePersonnel(researchStaff)).andReturn(true);
@@ -114,9 +114,9 @@ public class StudySecurityFilterUnitTest extends AbstractTestCase {
 	}
 	
 	public void testFilterStudyCoordinator4(){
-		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
+//		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
 		expectSecurityUtilsIsSuperAdmin(false);
-		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR, 3);
+//		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR, 3);
 		expectSecurityUtilsGetUsername();
 		EasyMock.expect(csmUserRepository.getUserByName("username")).andReturn(researchStaff);
 		EasyMock.expect(study1.isAssignedAndActivePersonnel(researchStaff)).andReturn(true);
@@ -127,9 +127,9 @@ public class StudySecurityFilterUnitTest extends AbstractTestCase {
 	}
 	
 	public void testFilterStudyCoordinator5(){
-		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
+//		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
 		expectSecurityUtilsIsSuperAdmin(false);
-		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR, 3);
+//		expectSecurityUtilsHasRole(RoleTypes.STUDY_COORDINATOR, 3);
 		expectSecurityUtilsGetUsername();
 		EasyMock.expect(csmUserRepository.getUserByName("username")).andReturn(researchStaff);
 		EasyMock.expect(study2.isAssignedAndActivePersonnel(researchStaff)).andReturn(false);
@@ -151,8 +151,8 @@ public class StudySecurityFilterUnitTest extends AbstractTestCase {
 		GrantedAuthority[] grantedAuthorities = getGrantedAuthorities(3);
 		EasyMock.expect(authentication.getAuthorities()).andReturn(grantedAuthorities);
 		EasyMock.expect(grantedAuthorities[0].getAuthority()).andReturn(RoleTypes.REGISTRAR.getCode());
-		EasyMock.expect(grantedAuthorities[1].getAuthority()).andReturn(RoleTypes.STUDY_COORDINATOR.getCode());
-		EasyMock.expect(grantedAuthorities[2].getAuthority()).andReturn(isAdmin?RoleTypes.C3PR_ADMIN.getCode():RoleTypes.SITE_COORDINATOR.getCode());
+//		EasyMock.expect(grantedAuthorities[1].getAuthority()).andReturn(RoleTypes.STUDY_COORDINATOR.getCode());
+//		EasyMock.expect(grantedAuthorities[2].getAuthority()).andReturn(isAdmin?RoleTypes.C3PR_ADMIN.getCode():RoleTypes.SITE_COORDINATOR.getCode());
 	}
 	
 	private void expectSecurityUtilsHasRole(RoleTypes roleTypes , int times){

@@ -74,7 +74,8 @@ public class GridSecurityUtilsUnitTest extends AbstractTestCase {
 		replayMocks();
 		try {
 			List<RoleTypes> roles=gridSecurityUtils.getRoles("SmokeTest");
-			assertEquals(RoleTypes.C3PR_ADMIN, roles.get(0));
+//			assertEquals(RoleTypes.C3PR_ADMIN, roles.get(0));
+			fail("fix the test cases for refatcoring.");
 			verifyMocks();
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -91,10 +92,11 @@ public class GridSecurityUtilsUnitTest extends AbstractTestCase {
 		replayMocks();
 		try {
 			List<RoleTypes> roles=gridSecurityUtils.getRoles("SmokeTest");
-			assertEquals(RoleTypes.C3PR_ADMIN, roles.get(0));
-			assertEquals(RoleTypes.STUDY_COORDINATOR, roles.get(1));
-			assertEquals(RoleTypes.REGISTRAR, roles.get(2));
-			assertEquals(RoleTypes.SITE_COORDINATOR, roles.get(3));
+//			assertEquals(RoleTypes.C3PR_ADMIN, roles.get(0));
+//			assertEquals(RoleTypes.STUDY_COORDINATOR, roles.get(1));
+//			assertEquals(RoleTypes.REGISTRAR, roles.get(2));
+//			assertEquals(RoleTypes.SITE_COORDINATOR, roles.get(3));
+			fail("fix the test cases for refatcoring.");
 			verifyMocks();
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -109,7 +111,8 @@ public class GridSecurityUtilsUnitTest extends AbstractTestCase {
 		try {
 			List<RoleTypes> roles=gridSecurityUtils.getRoles("SmokeTest");
 			assertEquals("wrong size", 1, roles.size());
-			assertEquals(RoleTypes.SITE_COORDINATOR, roles.get(0));
+//			assertEquals(RoleTypes.SITE_COORDINATOR, roles.get(0));
+			fail("fix the test cases for refatcoring.");
 			verifyMocks();
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -120,12 +123,13 @@ public class GridSecurityUtilsUnitTest extends AbstractTestCase {
 	
 	public void testGetRolesAsString(){
 		ArrayList<RoleTypes> roles=new ArrayList<RoleTypes>();
-		roles.add(RoleTypes.C3PR_ADMIN);
-		roles.add(RoleTypes.REGISTRAR);
-		roles.add(RoleTypes.STUDY_COORDINATOR);
-		roles.add(RoleTypes.SITE_COORDINATOR);
+//		roles.add(RoleTypes.C3PR_ADMIN);
+//		roles.add(RoleTypes.REGISTRAR);
+//		roles.add(RoleTypes.STUDY_COORDINATOR);
+//		roles.add(RoleTypes.SITE_COORDINATOR);
 		String roleString=gridSecurityUtils.getRolesAsString(roles);
-		assertEquals("{"+RoleTypes.C3PR_ADMIN.getDisplayName()+","+RoleTypes.REGISTRAR.getDisplayName()+","+RoleTypes.STUDY_COORDINATOR.getDisplayName()+","+RoleTypes.SITE_COORDINATOR.getDisplayName()+","+"}", roleString);
+//		assertEquals("{"+RoleTypes.C3PR_ADMIN.getDisplayName()+","+RoleTypes.REGISTRAR.getDisplayName()+","+RoleTypes.STUDY_COORDINATOR.getDisplayName()+","+RoleTypes.SITE_COORDINATOR.getDisplayName()+","+"}", roleString);
+		fail("fix the test cases for refatcoring.");
 	}
 	
 }
