@@ -1,5 +1,4 @@
 <%@ include file="taglibs.jsp"%>
-<%@ taglib uri="http://c3pr.nci.nih.gov/c3pr" prefix="c3pr" %>
 <html>
 <head>
 <title>
