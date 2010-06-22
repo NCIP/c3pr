@@ -162,7 +162,6 @@ var AbstractRowInserterProps = {
 	parent_row_index: -1,
 	isRegistered: true,
 	softDelete: false,
-	isAdmin: false,
 	alertOnSoftDelete: true,
 	callRemoveFromCommand: false,
 	deleteMsgPrefix:"",
@@ -341,7 +340,7 @@ var AbstractRowInserterProps = {
     onLoadRowInitialize: function(object, currentRowIndex){
     						},
 	onLoadInitialize: function(object){
-							if(this.softDelete && !this.isAdmin){
+							if(this.softDelete){
 								for(localInd=0 ; localInd<this.initialIndex ; localInd++)
 									new Element.descendants(object.getColumnDivisionElement(localInd)).each(function(e){e.disabled="true"})
 							}							
