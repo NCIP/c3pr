@@ -7,13 +7,15 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/classpath-modifier.jar"/>
 	<classpathentry kind="lib" path="lib/maven-ant-tasks-2.0.7.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-testing-uctrace-0.8.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-base-0.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/commons-io-1.3.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/log4j-1.2.12.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-core-0.8.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-lang-0.8.jar"/>
 	<classpathentry kind="lib" path="build/lib/cobertura-1.9rc1.jar"/>
 	<classpathentry kind="var" path="ANT_HOME/lib/ant.jar"/>
+	<classpathentry kind="var" path="ANT_HOME"/>
+	<classpathentry kind="var" path="GLOBUS_LOCATION"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-base-1.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-core-1.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-lang-1.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-testing-uctrace-1.0.3.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin1"/>
 </classpath>

@@ -40,12 +40,6 @@
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/cryptix.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/cryptix32.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/cryptix-asn1.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_resolution_service.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_resolution_stubs_java.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_resolution_test.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_transfer_service.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_transfer_stubs_java.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_transfer_test.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_usage_core.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_usage_packets_common.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/globus_wsrf_tools_test.jar"/>
@@ -62,7 +56,6 @@
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/puretls.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/resolver.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/saaj.jar"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/servlet.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/wsdl4j.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/wsrf_common.jar"/>
 	<classpathentry kind="var" path="GLOBUS_LOCATION/lib/wsrf_core_registry_stubs.jar"/>
