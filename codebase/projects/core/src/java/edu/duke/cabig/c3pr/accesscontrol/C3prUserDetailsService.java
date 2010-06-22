@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
 
+import edu.duke.cabig.c3pr.dao.RolePrivilegeDao;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
 import gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService;
 
@@ -22,6 +23,8 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 	
 	private ProvisioningSessionFactory provisioningSessionFactory;
 	
+	RolePrivilegeDao rolePrivilegeDao;
+	
 	private static final Log logger = LogFactory.getLog(C3prUserDetailsService.class);
 	
 	
@@ -37,7 +40,7 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = 
 			getCsmUserProvisioningManager().getUser(userDetails.getUsername());
 		AuthorizedUser authorizedUser= new AuthorizedUser(userDetails.getUsername(), userDetails.getPassword(), true, true, true, true, 
-						userDetails.getAuthorities(), provisioningSessionFactory.createSession(csmUser.getUserId()));
+						userDetails.getAuthorities(), provisioningSessionFactory.createSession(csmUser.getUserId()), rolePrivilegeDao);
 		return authorizedUser;
 	}
 
@@ -48,6 +51,14 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 	public void setProvisioningSessionFactory(
 			ProvisioningSessionFactory provisioningSessionFactory) {
 		this.provisioningSessionFactory = provisioningSessionFactory;
+	}
+
+	public RolePrivilegeDao getRolePrivilegeDao() {
+		return rolePrivilegeDao;
+	}
+
+	public void setRolePrivilegeDao(RolePrivilegeDao rolePrivilegeDao) {
+		this.rolePrivilegeDao = rolePrivilegeDao;
 	}
 
 }

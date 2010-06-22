@@ -16,6 +16,8 @@ import org.cagrid.gaards.cds.delegated.stubs.types.DelegatedCredentialReference;
 import org.globus.gsi.GlobusCredential;
 import org.springframework.beans.factory.annotation.Required;
 
+import edu.duke.cabig.c3pr.dao.RolePrivilegeDao;
+
 import gov.nih.nci.cagrid.common.Utils;
 
 /**
@@ -25,6 +27,8 @@ import gov.nih.nci.cagrid.common.Utils;
 public class WebSSOAuthoritiesPopulator implements CasAuthoritiesPopulator {
 
     private UserDetailsService userDetailsService;
+    
+    private RolePrivilegeDao rolePrivilegeDao;
 
     public static final String ATTRIBUTE_DELIMITER = "$";
 
@@ -73,7 +77,7 @@ public class WebSSOAuthoritiesPopulator implements CasAuthoritiesPopulator {
         }
 
         WebSSOUser user = new WebSSOUser((AuthorizedUser)userDetailsService.loadUserByUsername(getUserIdFromGridIdentity(attrMap
-                        .get(CAGRID_SSO_GRID_IDENTITY))));
+                        .get(CAGRID_SSO_GRID_IDENTITY))), rolePrivilegeDao);
         user.setGridId(getUserIdFromGridIdentity(attrMap.get(CAGRID_SSO_GRID_IDENTITY)));
         user.setDelegatedEPR(attrMap.get(CAGRID_SSO_DELEGATION_SERVICE_EPR));
         user.setFirstName(attrMap.get(CAGRID_SSO_FIRST_NAME));
@@ -149,4 +153,12 @@ public class WebSSOAuthoritiesPopulator implements CasAuthoritiesPopulator {
         String[] sections=gridIdentity.split("=");
         return sections[sections.length-1];
     }
+
+	public RolePrivilegeDao getRolePrivilegeDao() {
+		return rolePrivilegeDao;
+	}
+
+	public void setRolePrivilegeDao(RolePrivilegeDao rolePrivilegeDao) {
+		this.rolePrivilegeDao = rolePrivilegeDao;
+	}
 }

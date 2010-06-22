@@ -1,10 +1,10 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
+import org.acegisecurity.Authentication;
+
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
-import gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck;
-
-import org.acegisecurity.Authentication;
+import edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck;
 
 /**
  * User: Vinay Gangoli
@@ -12,7 +12,7 @@ import org.acegisecurity.Authentication;
  * Time: 3:14:12 PM
  */
 
-public class StudySiteAuthorizationCheck extends DelegatingObjectPrivilegeCSMAuthorizationCheck{
+public class StudySiteAuthorizationCheck extends C3PRObjectPrivilegeCSMAuthorizationCheck{
 
    @Override
 	public boolean checkAuthorization(Authentication authentication, String privilege,
@@ -40,6 +40,18 @@ public class StudySiteAuthorizationCheck extends DelegatingObjectPrivilegeCSMAut
 	   }
 	   
 	   return authorize?authorize:super.checkAuthorization(authentication,privilege, object);
+	}
+   
+   
+	/**
+	 * Gets the role privilege object id from object id.
+	 *
+	 * @param objectId the object id
+	 * @return the role privilege object id from object id
+	 */
+   @Override
+   protected String getRolePrivilegeObjectIdFromObjectId(String objectId) {
+		return objectId.substring(0, objectId.lastIndexOf("."));
 	}
 }
 

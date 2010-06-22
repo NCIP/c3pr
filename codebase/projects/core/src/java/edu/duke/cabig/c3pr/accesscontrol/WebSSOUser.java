@@ -4,6 +4,8 @@ import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.userdetails.UserDetails;
 import org.globus.gsi.GlobusCredential;
 
+import edu.duke.cabig.c3pr.dao.RolePrivilegeDao;
+
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 
 /**
@@ -23,13 +25,13 @@ public class WebSSOUser extends AuthorizedUser {
     private GlobusCredential gridCredential;
 
     public WebSSOUser(String string, String string1, boolean b, boolean b1, boolean b2, boolean b3,
-                    GrantedAuthority[] grantedAuthorities, ProvisioningSession provisioningSession) throws IllegalArgumentException {
-        super(string, string1, b, b1, b2, b3, grantedAuthorities, provisioningSession);
+                    GrantedAuthority[] grantedAuthorities, ProvisioningSession provisioningSession, RolePrivilegeDao rolePrivilegeDao) throws IllegalArgumentException {
+        super(string, string1, b, b1, b2, b3, grantedAuthorities, provisioningSession, rolePrivilegeDao);
     }
 
-    public WebSSOUser(UserDetails user) {
+    public WebSSOUser(UserDetails user, RolePrivilegeDao rolePrivilegeDao) {
         this(user.getUsername(), user.getPassword(), true, true, true, true, user.getAuthorities(), 
-        		((AuthorizedUser)user).getProvisioningSession());
+        		((AuthorizedUser)user).getProvisioningSession(), rolePrivilegeDao);
     }
 
     public String getGridId() {
