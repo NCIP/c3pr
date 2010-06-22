@@ -1,12 +1,18 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-import java.util.List;
 
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
 import gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
+import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
+import gov.nih.nci.security.provisioning.AuthorizationManagerImpl;
+
+import java.util.Set;
 
 import org.acegisecurity.userdetails.UserDetails;
 import org.acegisecurity.userdetails.UsernameNotFoundException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -21,6 +27,8 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 	
 	private ProvisioningSessionFactory provisioningSessionFactory;
 	
+	private static final Log logger = LogFactory.getLog(C3prUserDetailsService.class);
+	
 	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService#loadUserByUsername(java.lang.String)
@@ -31,17 +39,26 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 
 		UserDetails userDetails = super.loadUserByUsername(username);
 		
-		List<Object> protectionGroupRoleContextList = getProtectionGroupRoleContextList();
+		gov.nih.nci.security.authorization.domainobjects.User csmUser = 
+			getCsmUserProvisioningManager().getUser(userDetails.getUsername());
 		AuthorizedUser authorizedUser= new AuthorizedUser(userDetails.getUsername(), userDetails.getPassword(), true, true, true, true, 
-						userDetails.getAuthorities(), protectionGroupRoleContextList);
+						userDetails.getAuthorities(), provisioningSessionFactory.createSession(csmUser.getUserId()));
 		return authorizedUser;
 	}
 
-	private List<Object> getProtectionGroupRoleContextList() {
-		// TODO Auto-generated method stub
-		//use the new library to build this list.
-		return null;
-	}
+//	private Set<ProtectionGroupRoleContext> getProtectionGroupRoleContextList(UserDetails userDetails) {
+//		//use the new library to build this list.
+//		Set<ProtectionGroupRoleContext> contexts = null;
+//		gov.nih.nci.security.authorization.domainobjects.User csmUser = 
+//			getCsmUserProvisioningManager().getUser(userDetails.getUsername());
+//		try {
+//			contexts = 
+//				getCsmUserProvisioningManager().getProtectionGroupRoleContextForUser(csmUser.getUserId().toString());
+//		} catch (CSObjectNotFoundException e) {
+//			logger.error(e.getMessage());
+//		}
+//		return contexts;
+//	}
 
 	public ProvisioningSessionFactory getProvisioningSessionFactory() {
 		return provisioningSessionFactory;
