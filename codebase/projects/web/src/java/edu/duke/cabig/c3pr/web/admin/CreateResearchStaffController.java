@@ -132,11 +132,6 @@ public class CreateResearchStaffController extends SimpleFormController{
         model.put("groups", C3PRUserGroupType.values());
         model.put("isLoggedInUser", researchStaffRepository.isLoggedInUser(researchStaff));
         model.put("coppaEnable", configuration.get(Configuration.COPPA_ENABLE));
-        if(researchStaff.getId() != null){
-        	request.setAttribute(FLOW, EDIT_FLOW);
-        }else{
-        	request.setAttribute(FLOW, SAVE_FLOW);
-        }
         return model;
     }
     
