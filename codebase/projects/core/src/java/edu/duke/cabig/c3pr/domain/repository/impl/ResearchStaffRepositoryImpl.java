@@ -109,6 +109,9 @@ public class ResearchStaffRepositoryImpl implements ResearchStaffRepository {
 		return researchStaffDao.createSuperUser(researchStaff,  username , associationMap);
 	}
 	
+	/**
+	* Returns true if user is not scoped by site at all.
+	*/
 	public boolean getHasAccessToAllSites(User csmUser) {
 		return researchStaffDao.getHasAccessToAllSites(csmUser);
 	}
