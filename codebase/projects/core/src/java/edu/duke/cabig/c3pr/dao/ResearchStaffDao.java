@@ -985,9 +985,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @throws C3PRBaseException the C3PR base exception
 	 */
 	public ResearchStaff createSuperUser(ResearchStaff researchStaff,
-			String username,
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException {
+			String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException {
 		return createOrModifyResearchStaff(researchStaff, true, username, associationMap , true);
+	}
+
+	public ResearchStaff createResearchStaff(ResearchStaff researchStaff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException  {
+		return createOrModifyResearchStaff(researchStaff, false, null, associationMap , false);
 	}
 
 

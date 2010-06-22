@@ -252,4 +252,7 @@ public abstract class ResearchStaff extends User {
 	public void addHealthcareSite(HealthcareSite healthcareSite){
     	this.getHealthcareSites().add(healthcareSite);
     } 
+	public void removeHealthcareSite(HealthcareSite healthcareSite){
+    	this.getHealthcareSites().remove(healthcareSite);
+    }
 }
