@@ -37,8 +37,6 @@ public class StudySecurityFilterTest extends DaoTestCase {
 		csmUserRepository = (CSMUserRepository) getApplicationContext().getBean("csmUserRepository");
 		rolesToExclude.add(RoleTypes.SITE_COORDINATOR);
 		studySecurityFilter = new StudySecurityFilter();
-		studySecurityFilter.setCsmUserRepository(csmUserRepository);
-		studySecurityFilter.setRolesToExclude(rolesToExclude);
 		studyDao = (StudyDao) getApplicationContext().getBean("studyDao");
 	}
     

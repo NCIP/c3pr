@@ -34,13 +34,11 @@ public class StudySubjectSecurityFilterUnitTest extends AbstractTestCase {
 		super.setUp();
 		studySubjectSecurityFilter = new StudySubjectSecurityFilter();
 		csmUserRepository = registerMockFor(CSMUserRepository.class);
-		studySubjectSecurityFilter.setCsmUserRepository(csmUserRepository);
 		rolesToExclude = new ArrayList<RoleTypes>();
 		studySubjects = new ArrayList<StudySubject>();
 		collectionFilterer = new CollectionFilterer(studySubjects);
 		authentication = registerMockFor(Authentication.class);
 		researchStaff = registerMockFor(ResearchStaff.class);
-		studySubjectSecurityFilter.setRolesToExclude(rolesToExclude);
 		studySubject1 = registerMockFor(StudySubject.class);
 		studySubjects.add(studySubject1);
 		studySubject2 = registerMockFor(StudySubject.class);
