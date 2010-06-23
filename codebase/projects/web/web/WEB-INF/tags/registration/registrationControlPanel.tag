@@ -25,7 +25,7 @@
 </script>
 <tags:controlPanel>
 		<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
-			<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_UPDATE">
+			<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_OVERRIDE">
 				<tags:oneControlPanelItem linkhref="javascript:invalidateRegistrationRecord();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_closeStudy.jpg" linktext="Invalidate Record" />
 			</c3pr:checkprivilege>
 			<c:if test="${!isCompleteRegistration}">
