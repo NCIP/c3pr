@@ -27,6 +27,7 @@ function clearField(field) {
         }
   var systemIdentifierRowInserterProps = {
             add_row_division_id: "identifiersTable", 	        /* this id belongs to element where the row would be appended to */
+            row_id_discriminator: "systemIdentifiersTable", // override the above! see row-manager.js for explanation. 
             skeleton_row_division_id: "dummy-systemIdentifierRow",
             initialIndex: ${fn:length(command.participant.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
             path: "participant.systemAssignedIdentifiers"                            /* this is the path of the collection that holds the rows  */

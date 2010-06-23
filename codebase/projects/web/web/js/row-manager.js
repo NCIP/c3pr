@@ -144,6 +144,10 @@ Event.observe(window, "load", function() {
 var AbstractRowInserterProps = Class.create()
 var AbstractRowInserterProps = {
 	add_row_division_id: "row-table",
+	row_id_discriminator: null, // see CPR-1940. This property is used in a situation when two different RowInserters operate on the same HTML table.
+								// In such cases the 'removeRow' operation may delete wrong rows on pages, such as Manage Subject, which intermix different content in the
+								// same HTML table. On Manage Subject, these are organization and system IDs, which require that table rows have different ID attributes.
+								// This property explicitly specifies the ID or the rows to be used for this instance of RowInserter.
 	path: "",
 	skeleton_row_division_id: "dummy-row",
 	initialIndex: 0,
