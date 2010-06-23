@@ -12,8 +12,6 @@ import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
  */
 public enum C3PRUserGroupType implements CodedEnum<String> {
 
-//    C3PR_ADMIN("c3pr_admin"), 
-    //INTRODUCED AS A PART OF UNIFIED SECURITY - SUITE2.2
     SYSTEM_ADMINISTRATOR("system_administrator"),
     BUSINESS_ADMINISTRATOR("business_administrator"),
     PERSON_AND_ORGANIZATION_INFORMATION_MANAGER("person_and_organization_information_manager"),

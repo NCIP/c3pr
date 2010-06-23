@@ -13,6 +13,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
@@ -148,14 +149,12 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 * @param studyPersonnel the study personnel
 	 */
 	private void removeStudies(StudyPersonnel studyPersonnel, ProvisioningSession provisioningSession, Set<Group> groups) {
-		Iterator<Group> iter = groups.iterator();
+		Iterator<C3PRUserGroupType> iter = SecurityUtils.getC3PRUserRoleTypes().iterator();
 		SuiteRole suiteRole;
 		SuiteRoleMembership suiteRoleMembership;
 		Study study;
-		C3PRUserGroupType group;
 		while(iter.hasNext()){
-			group = C3PRUserGroupType.getByCode(((Group)iter.next()).getGroupName());
-			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(group);
+			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(iter.next());
 			study = studyPersonnel.getStudyOrganization().getStudy();
 			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
 			if(suiteRole != null && suiteRole.getScopes().contains(ScopeType.STUDY) &&

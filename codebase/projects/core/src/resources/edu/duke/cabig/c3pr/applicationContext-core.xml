@@ -487,7 +487,6 @@
     </bean>
     <bean id="researchStaffDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffDao" autowire="byName" >
 	    <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
-        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
     </bean>
     <bean id="investigatorGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorGroupDao" autowire="byName"/>
     <bean id="investigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorDao" autowire="byName"/>

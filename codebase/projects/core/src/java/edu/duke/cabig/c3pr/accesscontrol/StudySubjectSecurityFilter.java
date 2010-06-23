@@ -27,16 +27,16 @@ public class StudySubjectSecurityFilter implements DomainObjectSecurityFilterer{
 
 		//Use the provisioningSession to determine hasAllStudyAccess and if not then build userAccessibleStudyIdsList.
 		List<String> userAccessibleStudyIdsList = null;
-		boolean hasAllStudyAccess = SecurityUtils.hasAllStudyAccess(authentication);
+		boolean hasAllStudyAccess = SecurityUtils.hasAllStudyAccess();
 		if(!hasAllStudyAccess){
-			userAccessibleStudyIdsList = SecurityUtils.buildUserAccessibleStudyIdsList(authentication);
+			userAccessibleStudyIdsList = SecurityUtils.buildUserAccessibleStudyIdsList();
 		}
 		
 		//Use the provisioningSession to determine hasAllSiteAccess and if not then build userAccessibleOrganizationIdsList.
 		List<String> userAccessibleOrganizationIdsList = null;
-		boolean hasAllSiteAccess = SecurityUtils.hasAllSiteAccess(authentication);
+		boolean hasAllSiteAccess = SecurityUtils.hasAllSiteAccess();
 		if(!hasAllSiteAccess){
-			userAccessibleOrganizationIdsList = SecurityUtils.buildUserAccessibleOrganizationIdsList(authentication);
+			userAccessibleOrganizationIdsList = SecurityUtils.buildUserAccessibleOrganizationIdsList();
 		}
 		
 		logger.debug("Authorizing the user and filtering studies.");

@@ -28,9 +28,9 @@ public class SubjectSecurityFilter implements DomainObjectSecurityFilterer{
 		
 		//Use the provisioningSession to determine hasAllSiteAccess and if not then build userAccessibleOrganizationIdsList.
 		List<String> userAccessibleOrganizationIdsList = null;
-		boolean hasAllSiteAccess = SecurityUtils.hasAllSiteAccess(authentication);
+		boolean hasAllSiteAccess = SecurityUtils.hasAllSiteAccess();
 		if(!hasAllSiteAccess){
-			userAccessibleOrganizationIdsList = SecurityUtils.buildUserAccessibleOrganizationIdsList(authentication);
+			userAccessibleOrganizationIdsList = SecurityUtils.buildUserAccessibleOrganizationIdsList();
 		}
 		
 		logger.debug("Authorizing the user and filtering subjects.");

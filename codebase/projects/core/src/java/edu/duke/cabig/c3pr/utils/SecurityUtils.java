@@ -216,9 +216,10 @@ public class SecurityUtils {
 	 * @param authentication the authentication
 	 * @return true, if successful
 	 */
-	public static boolean hasAllSiteAccess(Authentication authentication){
+	public static boolean hasAllSiteAccess(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
-		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes(authentication);
+		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes();
 		SuiteRoleMembership suiteRoleMembership; 
 		for(C3PRUserGroupType userRole: rolesList){
 			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
@@ -238,9 +239,10 @@ public class SecurityUtils {
 	 * @param authentication the authentication
 	 * @return true, if successful
 	 */
-	public static boolean hasAllStudyAccess(Authentication authentication){
+	public static boolean hasAllStudyAccess(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
-		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes(authentication);
+		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes();
 		SuiteRoleMembership suiteRoleMembership; 
 		for(C3PRUserGroupType userRole: rolesList){
 			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
@@ -259,9 +261,10 @@ public class SecurityUtils {
 	 * @param authentication the authentication
 	 * @return the list
 	 */
-	public static List<String> buildUserAccessibleOrganizationIdsList(Authentication authentication){
+	public static List<String> buildUserAccessibleOrganizationIdsList(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
-		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes(authentication);
+		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes();
 		List<String> userAccessibleOrganizationIdsList = new ArrayList<String>();
 		SuiteRoleMembership suiteRoleMembership; 
 		for(C3PRUserGroupType userRole: rolesList){
@@ -286,9 +289,10 @@ public class SecurityUtils {
 	 * @param authentication the authentication
 	 * @return the list
 	 */
-	public static List<String> buildUserAccessibleStudyIdsList(Authentication authentication){
+	public static List<String> buildUserAccessibleStudyIdsList(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
-		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes(authentication);
+		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes();
 		List<String> userAccessibleStudyIdsList = new ArrayList<String>();
 		SuiteRoleMembership suiteRoleMembership;
 		for(C3PRUserGroupType userRole: rolesList){
