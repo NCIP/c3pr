@@ -13,7 +13,10 @@
 
 <%@page import="java.io.PrintStream" %>
 <%@page import="java.io.PrintWriter" %>
- <page:applyDecorator name="standard">
+ 
+<%@page import="org.apache.commons.lang.ArrayUtils"%>
+<%@page import="org.springframework.web.util.HtmlUtils"%>
+<%@page import="java.util.Arrays"%><page:applyDecorator name="standard">
     <html>
     <head>
         <style>
@@ -175,6 +178,47 @@
                     </tr>
                     <%                } %>
                 </table>
+				<br/>
+                <b>Parameter List:</b>
+                <table class="errortd" width="100%" cellspacing="1">
+                    <tr>
+                        <td width="100px">
+                            <b>Name</b>
+                        </td>
+                        <td>
+                            <b>Value</b>
+                        </td>
+                    </tr>
+                    <%
+                    java.util.Enumeration params = request.getParameterNames();
+                    while(params.hasMoreElements())
+                    {
+                    	String pname  = (String) params.nextElement();
+                    	String[] pvalue = request.getParameterValues(pname);
+                    %>
+                    <tr>
+                        <td>
+                            <font color="blue">
+                                <%=pname %>
+                            </font>
+                        </td>
+                        <td>
+                            <%
+                            	if (pvalue!=null) {
+                            		for (String valueStr: pvalue) {
+                            			out.print(HtmlUtils.htmlEscape(valueStr));
+                            			if (ArrayUtils.indexOf(pvalue,valueStr)<pvalue.length-1) {
+                            				out.print(", ");
+                            			}
+                            		}
+                            	}
+                            %>
+                        </td>
+                    </tr>
+                    <%
+                	} // end iterating over parameters
+                	%>
+                </table>                
                 <br/>
                 <b>Attribute List:</b>
                 <table class="errortd" width="100%" cellspacing="1">
@@ -199,11 +243,10 @@
                         <td colspan="2">
                             <b>StackTrace :</b>
                             <br/>
-                            <pre>
-                                             <%
-                                                 exception.printStackTrace(new PrintWriter(out));
-                                             %>
-                                  </pre>
+                            <pre><%
+                                                 exception.printStackTrace(new PrintWriter(out,true));
+                                             
+                             %></pre>
                         </td>
                     </tr>
                 </table>
