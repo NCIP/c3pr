@@ -71,7 +71,7 @@ public class ControllerTools {
     		if(request.getParameter(ASSIGNED_BY_PARAM_NAME).equals(ASSIGNED_BY_ORG_VALUE)){
     			OrganizationAssignedIdentifier orgAssignedIdentifier = new OrganizationAssignedIdentifier();
     			orgAssignedIdentifier.setHealthcareSite(new LocalHealthcareSite());
-    			orgAssignedIdentifier.getHealthcareSite().setCtepCode(request.getParameter(ORG_NCI_PARAM_NAME));
+    			orgAssignedIdentifier.getHealthcareSite().setCtepCode("null".equals(request.getParameter(ORG_NCI_PARAM_NAME))?null:request.getParameter(ORG_NCI_PARAM_NAME));
     			identifier=orgAssignedIdentifier;
     		}else if(request.getParameter(ASSIGNED_BY_PARAM_NAME).equals(ASSIGNED_BY_SYS_VALUE)){
     			SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
