@@ -187,7 +187,7 @@ RowManager.registerRowInserters();
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
-	<input type="hidden" name="_username" value="">
+
 	<c:set var="noHealthcareSiteAssociated" value="${fn:length(command.researchStaff.healthcareSites) == 0}"></c:set>
 	<tags:instructions code="research_staff_details" />
 	<tags:errors path="*"/>
@@ -267,20 +267,8 @@ RowManager.registerRowInserters();
 	    <input type="password" name="confirmPassword" class="required validate-notEmpty" autocomplete="off"/>
 	  </div>
 	</div>
-    <div class="row">
-        <div class="label">
-                <fmt:message key="c3pr.common.c3prAdmin"></fmt:message>
-        </div>
-        <div class="value">
-        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-       		<input type="hidden" name="healthcareSiteRolesHolderList[0].groups" value="C3PR_ADMIN" />
-       		<input type="hidden" name="siteAccess" value="ALL" />
-       		<input type="hidden" name="_groups" value="on" />
-        </div>
-    </div>
 	<c:if test="${!empty errorPassword}">
 		<input type="hidden" name="errorPassword" value="true"/>
-		<input type="hidden" name="username" value="${username }"/>
 	</c:if>
 </c:when>
 <c:when test="${isLoggedInUser}">
@@ -322,24 +310,41 @@ RowManager.registerRowInserters();
 		<chrome:deletableDivision divTitle="genericTitle-${status.index}" id="genericHealthcareSiteBox-${status.index}" cssClass="small"
 	    	title="Organization: ${command.healthcareSiteRolesHolderList[status.index].healthcareSite.name} (${command.healthcareSiteRolesHolderList[status.index].healthcareSite.primaryIdentifier })" minimize="true" divIdToBeMinimized="hcs-${status.index}" disableDelete="true"
 		    onclick="#">
-			<div id="hcs-${status.index}" style="display: none">
-				<table>
-				<tr>
-				<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
-					<td>
-					<c:if test="${groupStatus.index % 3 == 0}">
-						</td></tr><tr><td>						
-					</c:if>
-					<div class="newLabel"> 
-						<input type="checkbox" id="hcs-${status.index}-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${group.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, group)}"> checked </c:if> />
-					</div>
-					<div class="newValue">
-						${group.displayName}
-					</div>
-					</td>
-		    	</c:forEach>
-		    	</tr>
-		    	</table>
+		    <div id="hcs-${status.index}" style="display: none">
+		    <c:choose>
+		    	<c:when test="${FLOW=='SETUP_FLOW'}">
+				 	<div class="row">
+			        	<div class="label">
+			                <fmt:message key="c3pr.common.c3prAdmin"></fmt:message>
+				        </div>
+				        <div class="value">
+				        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
+				       		<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
+								<input type="hidden" id="hcs-PAGE.ROW.INDEX-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${group.name}"  />
+					    	</c:forEach>
+				        </div>
+			    	</div>
+		    	</c:when>
+		    	<c:otherwise>
+			    	<table>
+					<tr>
+					<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
+						<td>
+						<c:if test="${groupStatus.index % 3 == 0}">
+							</td></tr><tr><td>						
+						</c:if>
+						<div class="newLabel"> 
+							<input type="checkbox" id="hcs-${status.index}-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${group.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, group)}"> checked </c:if> />
+						</div>
+						<div class="newValue">
+							${group.displayName}
+						</div>
+						</td>
+			    	</c:forEach>
+			    	</tr>
+			    	</table>
+		    	</c:otherwise>
+		    </c:choose>
 			</div>
 		</chrome:deletableDivision>
 		</td>
@@ -429,7 +434,22 @@ RowManager.registerRowInserters();
 	 				</div>
  				</div>
  				<br>
- 				<table width="100%">
+ 				<c:choose>
+		    	<c:when test="${FLOW=='SETUP_FLOW'}">
+				 	<div class="row">
+			        	<div class="label">
+			                <fmt:message key="c3pr.common.c3prAdmin"></fmt:message>
+				        </div>
+				        <div class="value">
+				        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
+				       		<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
+								<input type="hidden" id="hcs-PAGE.ROW.INDEX-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${group.name}"  />
+					    	</c:forEach>
+				        </div>
+			    	</div>
+		    	</c:when>
+		    	<c:otherwise>
+		    		<table width="100%">
  				<tr>
  				<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
  					<td>
@@ -446,6 +466,8 @@ RowManager.registerRowInserters();
 		    	</c:forEach>
 		    	</tr>
 		    	</table>
+		    	</c:otherwise>
+		    	</c:choose>
 		</chrome:deletableDivision>
 		</td>
 		</tr>
