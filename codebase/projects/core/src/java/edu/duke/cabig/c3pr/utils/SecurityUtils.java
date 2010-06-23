@@ -187,7 +187,14 @@ public class SecurityUtils {
 	 */
 	public static List<C3PRUserGroupType> getC3PRUserRoleTypes(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return getC3PRUserRoleTypes(authentication.getAuthorities());
+		List<C3PRUserGroupType> roleTypes;
+		if (authentication!=null) {
+			roleTypes = getC3PRUserRoleTypes(authentication.getAuthorities());
+		} else {
+			roleTypes = new ArrayList<C3PRUserGroupType>();
+			log.warn("getC3PRUserRoleTypes invoked on an un-authenticated user; authentication is null");
+		}
+		return roleTypes;
 	}
 	
 	/**
