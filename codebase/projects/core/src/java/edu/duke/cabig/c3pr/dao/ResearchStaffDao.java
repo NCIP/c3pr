@@ -688,7 +688,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		if(associationMap != null && !associationMap.isEmpty() && csmUserExists){
 			c3prUser = assignRolesToOrganization(c3prUser, csmUser, associationMap, hasAccessToAllSites);
 		}
-		saveOrUpdateStaff(c3prUser);
+		c3prUser = (C3PRUser) merge((ResearchStaff)c3prUser);
 		return (ResearchStaff)c3prUser ;
 	}
 	
