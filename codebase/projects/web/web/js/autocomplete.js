@@ -71,19 +71,22 @@ var AutocompleterManager= {
 								this.acCreate(autoCompleterObject)
 							},
 	acCreate: function(mode) {
-				    new Autocompleter.DWR(mode.inputElement(), mode.displayChoices(),
+					// CPR-1940: no point in registering this auto-completer if the element does not exist in the DOM.
+					if ($(mode.inputElement())!=null) {
+						new Autocompleter.DWR(mode.inputElement(), mode.displayChoices(),
 											mode.populator, {valueSelector: mode.valueSelector,
 															 	afterUpdateElement: mode.afterUpdateElement,
 															 	indicator: mode.indicator(),
 															 	isFreeTextAllowed: mode.isFreeTextAllowed
 				    										 })
-				    clearElement=document.getElementById(mode.basename + "-clear")
-				    if(clearElement!=null){
-					    Event.observe(mode.basename + "-clear", "click", function() {
+						clearElement=document.getElementById(mode.basename + "-clear")
+						if(clearElement!=null){
+							Event.observe(mode.basename + "-clear", "click", function() {
 																			$(mode.basename)?$(mode.basename).value = "":null
 																			$(mode.inputElement()).value = ""
 																	    })
-					}
+						}
+					} 
 				},
 	addAutocompleter: function(ac){
 							this.autoCompleters.push(ac)
