@@ -182,7 +182,8 @@ public class SecurityUtils {
 	 * @param authentication the authentication
 	 * @return the c3 pr user role types
 	 */
-	public static List<C3PRUserGroupType> getC3PRUserRoleTypes(Authentication authentication){
+	public static List<C3PRUserGroupType> getC3PRUserRoleTypes(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		return getC3PRUserRoleTypes(authentication.getAuthorities());
 	}
 	
