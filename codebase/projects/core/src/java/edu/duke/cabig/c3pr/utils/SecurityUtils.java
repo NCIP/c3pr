@@ -66,7 +66,10 @@ public class SecurityUtils {
 	 * @return the user name
 	 */
 	public static String getUserName(Authentication authentication) {
-		return ((User)authentication.getPrincipal()).getUsername();
+		if(authentication != null){
+			return ((User)authentication.getPrincipal()).getUsername();
+		}
+		return null ;
 	}
 	
 	/**
