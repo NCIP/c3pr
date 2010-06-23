@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -91,7 +90,7 @@ public class SkinFilter implements Filter {
     	List<RoleTypes> roles = SecurityUtils.getRoleTypes();
     	String roleString = "";
     	for(RoleTypes role : roles){
-    		roleString += role.getCode() + ",";
+			roleString += role.getCode() + ",";
     	}
     	roleString = roleString.substring(0, roleString.length()-2);
     	return roleString;
