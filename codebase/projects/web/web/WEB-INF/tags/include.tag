@@ -4,8 +4,8 @@
 <tags:parsedStylesheetLink name="tables"/>
 
 <jwr:style src="/csslib/${skinName}.zcss" />
-<jwr:script src="/jslib/c3pr.zjs" />
-<jwr:script src="/jslib/js${skinName}.zjs" />
+<jwr:script src="/jslib/c3pr.zjs" useRandomParam="false" />
+<jwr:script src="/jslib/js${skinName}.zjs"  useRandomParam="false" />
 <jwr:style src="/css/commonui.zcss" />
 
 <%--
