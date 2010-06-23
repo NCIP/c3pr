@@ -108,7 +108,10 @@ public class SecurityUtils {
 		List<RoleTypes> roleTypes = new ArrayList<RoleTypes>();
 		GrantedAuthority[] grantedAuthorities = authentication.getAuthorities();
 		for(GrantedAuthority grantedAuthority : grantedAuthorities){
-			roleTypes.add(RoleTypes.getByCode(grantedAuthority.getAuthority()));
+			RoleTypes role = RoleTypes.getByCode(grantedAuthority.getAuthority());
+			if(role!=null){
+				roleTypes.add(role);
+			}
 		}
 		return roleTypes;
 	}

@@ -30,7 +30,7 @@ public class SecurityUtilsTest extends AbstractTestCase {
 	}
 	
 	public void testIsSuperUserTrue(){
-		GrantedAuthority[] grantedAuthorities = getGrantedAuthorities(15);
+		GrantedAuthority[] grantedAuthorities = getGrantedAuthorities(23);
 		EasyMock.expect(authentication.getAuthorities()).andReturn(grantedAuthorities);
 		EasyMock.expect(grantedAuthorities[0].getAuthority()).andReturn(RoleTypes.REGISTRAR.getCode());
 		EasyMock.expect(grantedAuthorities[1].getAuthority()).andReturn(RoleTypes.BUSINESS_ADMINISTRATOR.getCode());
@@ -47,6 +47,14 @@ public class SecurityUtilsTest extends AbstractTestCase {
 		EasyMock.expect(grantedAuthorities[12].getAuthority()).andReturn(RoleTypes.SYSTEM_ADMINISTRATOR.getCode());
 		EasyMock.expect(grantedAuthorities[13].getAuthority()).andReturn(RoleTypes.SUPPLEMENTAL_STUDY_INFORMATION_MANAGER.getCode());
 		EasyMock.expect(grantedAuthorities[14].getAuthority()).andReturn(RoleTypes.USER_ADMINISTRATOR.getCode());
+		EasyMock.expect(grantedAuthorities[15].getAuthority()).andReturn(RoleTypes.AE_RULE_AND_REPORT_MANAGER.getCode());
+		EasyMock.expect(grantedAuthorities[16].getAuthority()).andReturn(RoleTypes.STUDY_CALENDAR_TEMPLATE_BUILDER.getCode());
+		EasyMock.expect(grantedAuthorities[17].getAuthority()).andReturn(RoleTypes.STUDY_SUBJECT_CALENDAR_MANAGER.getCode());
+		EasyMock.expect(grantedAuthorities[18].getAuthority()).andReturn(RoleTypes.AE_REPORTER.getCode());
+		EasyMock.expect(grantedAuthorities[19].getAuthority()).andReturn(RoleTypes.AE_EXPEDITED_REPORT_REVIEWER.getCode());
+		EasyMock.expect(grantedAuthorities[20].getAuthority()).andReturn(RoleTypes.AE_STUDY_DATA_REVIEWER.getCode());
+		EasyMock.expect(grantedAuthorities[21].getAuthority()).andReturn(RoleTypes.LAB_IMPACT_CALENDAR_NOTIFIER.getCode());
+		EasyMock.expect(grantedAuthorities[22].getAuthority()).andReturn(RoleTypes.LAB_DATA_USER.getCode());
 		replayMocks();
 		assertTrue(SecurityUtils.isSuperUser(authentication));
 		verifyMocks();
