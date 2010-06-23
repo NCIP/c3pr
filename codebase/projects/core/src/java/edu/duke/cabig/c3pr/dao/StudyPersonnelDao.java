@@ -149,12 +149,12 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 * @param studyPersonnel the study personnel
 	 */
 	private void removeStudies(StudyPersonnel studyPersonnel, ProvisioningSession provisioningSession, Set<Group> groups) {
-		Iterator<C3PRUserGroupType> iter = SecurityUtils.getC3PRUserRoleTypes().iterator();
+		Iterator<Group> iter = groups.iterator();
 		SuiteRole suiteRole;
 		SuiteRoleMembership suiteRoleMembership;
 		Study study;
 		while(iter.hasNext()){
-			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(iter.next());
+			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(iter.next().getGroupName()));
 			study = studyPersonnel.getStudyOrganization().getStudy();
 			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
 			if(suiteRole != null && suiteRole.getScopes().contains(ScopeType.STUDY) &&
