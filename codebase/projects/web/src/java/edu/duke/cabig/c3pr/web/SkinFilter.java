@@ -51,7 +51,8 @@ public class SkinFilter implements Filter {
             if (auth != null) {
                 gov.nih.nci.security.authorization.domainobjects.User user = ps.getCSMUserByUsername(auth.getName());
                 ((HttpServletRequest)servletRequest).getSession().setAttribute("userObject", user);
-                ((HttpServletRequest)servletRequest).getSession().setAttribute("userRole", getRole());
+                ((HttpServletRequest)servletRequest).getSession().setAttribute("userRoles", SecurityUtils.getRoleTypes());
+                ((HttpServletRequest)servletRequest).getSession().setAttribute("isSuperUser", SecurityUtils.isSuperUser());
            }
         }
 
@@ -80,20 +81,6 @@ public class SkinFilter implements Filter {
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
-    }
-
-    
-    private String getRole(){
-    	if(SecurityUtils.isSuperUser()){
-    		return "Super User";
-    	}
-    	List<RoleTypes> roles = SecurityUtils.getRoleTypes();
-    	String roleString = "";
-    	for(RoleTypes role : roles){
-			roleString += role.getCode() + ",";
-    	}
-    	roleString = roleString.substring(0, roleString.length()-2);
-    	return roleString;
     }
     
     public void destroy() {

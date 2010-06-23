@@ -5,6 +5,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c3pr" uri="http://edu.duke.cabig.c3pr.web/c3pr" %>
 <%@attribute name="ignoreTopRightQuickLinks"%>
 <div id="header">
 	<a id="skipnav" href="#skipnav">Skip Navigation</a>
@@ -26,7 +27,27 @@
 								</c:otherwise>
 								</c:choose>
 							</div>
-							<div style="padding:0px 2px 0px 2px">${userRole}</div>
+							<div style="padding:0px 2px 0px 2px">
+								<c:choose>
+									<c:when test="${isSuperUser}">
+										Super User
+									</c:when>
+									<c:when test="${fn:length(userRoles) == 1}">
+										${userRoles[0].displayName }
+									</c:when>
+									<c:otherwise>
+										${userRoles[0].displayName }
+										<div style="font-size:6pt;"><a style="color:#E4C48F;" href="javascript:Effect.Combo('rolesList')">${fn:length(userRoles)-1 } more roles..</a></div>
+										<div id="rolesList" style="display:none;color:white; background-color:rgb(107,107,107);position:absolute;z-index:30;">
+											<div style="padding:5px 2px 1px">
+											<c:forEach items="${userRoles}" var="role" begin="1">
+												${role.displayName }<br>
+											</c:forEach>
+											</div>
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</div>
 						</b>
 						</div>
 					</div>
