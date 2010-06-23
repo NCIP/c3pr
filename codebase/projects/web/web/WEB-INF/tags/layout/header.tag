@@ -26,6 +26,7 @@
 								</c:otherwise>
 								</c:choose>
 							</div>
+							<div style="padding:0px 2px 0px 2px">${userRole}</div>
 						</b>
 						</div>
 					</div>
