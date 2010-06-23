@@ -94,14 +94,6 @@ select csm_user.user_id, -28 from csm_user, csm_user_group
 where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
 
 Insert into csm_user_group(user_id,group_id)
-select csm_user.user_id, -23 from csm_user, csm_user_group
-where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
-
-Insert into csm_user_group(user_id,group_id)
-select csm_user.user_id, -23 from csm_user, csm_user_group
-where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
-
-Insert into csm_user_group(user_id,group_id)
 select csm_user.user_id, -29 from csm_user, csm_user_group
 where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
 
@@ -110,15 +102,7 @@ select csm_user.user_id, -30 from csm_user, csm_user_group
 where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
 
 Insert into csm_user_group(user_id,group_id)
-select csm_user.user_id, -23 from csm_user, csm_user_group
-where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
-
-Insert into csm_user_group(user_id,group_id)
 select csm_user.user_id, -31 from csm_user, csm_user_group
-where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
-
-Insert into csm_user_group(user_id,group_id)
-select csm_user.user_id, -23 from csm_user, csm_user_group
 where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
 
 Insert into csm_user_group(user_id,group_id)
@@ -159,10 +143,6 @@ where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
 
 Insert into csm_user_group(user_id,group_id)
 select csm_user.user_id, -41 from csm_user, csm_user_group
-where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
-
-Insert into csm_user_group(user_id,group_id)
-select csm_user.user_id, -23 from csm_user, csm_user_group
 where csm_user.user_id = csm_user_group.user_id and csm_user_group.group_id = 1;
 
 Insert into csm_user_group(user_id,group_id)
