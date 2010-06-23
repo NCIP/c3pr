@@ -297,7 +297,7 @@ RowManager.registerRowInserters();
 <div class="row">
         <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
         <div class="value">
-       		<input id="allSiteAccessCheckbox" name="hasAccessToAllSites" type="checkbox" /><tags:hoverHint keyProp="researchStaff.accessToAllSites"/>
+       		<input id="allSiteAccessCheckbox" name="hasAccessToAllSites" type="checkbox" <c:if test="${command.hasAccessToAllSites}"> checked </c:if>/><tags:hoverHint keyProp="researchStaff.accessToAllSites"/>
         </div>
     </div>
 <br>
@@ -475,7 +475,6 @@ RowManager.registerRowInserters();
 </div>
 <script>
 	new FormQueryStringUtils($('command')).stripQueryString('assignedIdentifier');
-	//$('associateOrganizationBtn').click()
 </script>
 </body>
 </html>

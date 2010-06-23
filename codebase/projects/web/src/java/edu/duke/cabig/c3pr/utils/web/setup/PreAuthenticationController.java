@@ -20,8 +20,7 @@ import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
 /**
  * @author Kruttik Aggarwal
  */
-public class PreAuthenticationController extends
-                CreateResearchStaffController {
+public class PreAuthenticationController extends CreateResearchStaffController {
 
     private Logger log = Logger.getLogger(PreAuthenticationController.class);
     
@@ -30,25 +29,23 @@ public class PreAuthenticationController extends
 	private SetupStatus setupStatus;
     
 	@Override
-    protected ModelAndView onSubmit(HttpServletRequest request,
-                    HttpServletResponse response, Object command, BindException errors)
-                    throws Exception {
+    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 		ResearchStaffWrapper wrapper = (ResearchStaffWrapper)command;
     	ResearchStaff researchStaff = wrapper.getResearchStaff();
-		String userName = "";
-		String password = request.getParameter("password");
+    	String userName = wrapper.getUserName();
+
+    	String password = request.getParameter("password");
 		String confirmedPassword = request.getParameter("confirmPassword");
-		if(WebUtils.hasSubmitParameter(request, "errorPassword")){
-			userName = wrapper.getUserName();
-			researchStaff = (ResearchStaff)command;
-		}else{
-			userName = researchStaff.getLoginId();
+		
+		if(!WebUtils.hasSubmitParameter(request, "errorPassword")){
 			ModelAndView mv = super.onSubmit(request, response, command, errors);
 			researchStaffDao.flush();
 			if(errors.hasErrors()){
 				return showForm(request, response, errors);
 	        }
 			researchStaff = ((ResearchStaffWrapper)mv.getModel().get("command")).getResearchStaff();
+		}else{
+			// just set the password
 		}
 		userName = userName.toLowerCase();
         try {
