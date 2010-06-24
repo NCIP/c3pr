@@ -10,10 +10,12 @@ C3PR.tabbedFlowSelectPage = function(click) {
 C3PR.tabbedFlowUpdateTarget = function(evt) {
     var a = Event.element(evt)
     var tabclass = Element.classNames(a).detect(function(cls) { return cls.slice(0, 3) == "tab" })
-    var targetPage = tabclass.slice(3)
-    $('_target').name = "_target" + targetPage 
-    if ($('command')._finish){
-    	$('command')._finish.disabled = true 
+    if (tabclass!=null) {
+    	var targetPage = tabclass.slice(3)
+    	$('_target').name = "_target" + targetPage 
+    	if ($('command')!=null && $('command')._finish){
+    		$('command')._finish.disabled = true 
+    	}
     }
 }
 

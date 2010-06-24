@@ -296,7 +296,11 @@ var AbstractRowInserterProps = {
    									return "<div id='"+this.getColumnDivisionID(this.localIndex)+"'>"+htmlStr+"</div>"
     							},
     getColumnDivisionID: function(index){
-    							return this.add_row_division_id+"-"+index
+    							if (this.row_id_discriminator!=null) {
+    								return this.row_id_discriminator+"-"+index
+    							} else {
+    								return this.add_row_division_id+"-"+index
+    							}
     						},
     getRowsDivisionHtml: function(){
     							return $(this.add_row_division_id).innerHTML
