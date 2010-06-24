@@ -35,6 +35,12 @@
 	<condition property="ant.contrib.available">
 		<available file="${lib.dir}/ant-contrib-1.0b2.jar" />
 	</condition>
+	
+	<property name="offline" value="${env.offline}" />
+	<condition property="online">
+		<isfalse value="${offline}"/>
+	</condition>
+	
 
 	<!--===========================================================================
 	   Condition which determines the type of database and sets the corresponding property to true.
@@ -223,7 +229,12 @@
         Note:- Forced to load only once, as I observed that in this task is getting called in every
         	subant invoke.
 		=======================================================-->
-	<target name="load-ivy" depends="download-ivy,download-jsch" unless="ivy.loaded">
+	<target name="load-ivy" depends="download-ivy,download-jsch,load-online-settings,load-offline-settings" unless="ivy.loaded">
+		<echo message="Ivy loaded." />
+	</target>
+	
+	<target name="load-online-settings" if="online">	
+		<echo message="Going for online settings" />
 		<path id="ivy.lib.path">
 			<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
 		</path>
@@ -231,8 +242,19 @@
 	   	         uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
 		<ivy:settings file="${proj.root.dir}/ivysettings.xml" id="c3pr.ivy.instance" />
 		<property name="ivy.loaded" location="true"/>
-
 	</target>
+	
+	<target name="load-offline-settings" unless="ivy.loaded">
+		<echo message="Going for offline settings" />
+		<path id="ivy.lib.path">
+			<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+		</path>
+	   	<taskdef resource="org/apache/ivy/ant/antlib.xml"
+	   	         uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
+		<ivy:settings file="${proj.root.dir}/ivysettings-offline.xml" id="c3pr.ivy.instance" />
+		<property name="ivy.loaded" location="true"/>
+	</target>
+	
 
     <!-- ========================================================
           target: resolve
