@@ -314,24 +314,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
     </bean>
 
-    <bean id="filterAuthorizationCheck" autowire="byType"
-          class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
-        <property name="csmAuthorizationCheck">
-            <bean
-                    class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
-                <property name="csmUserProvisioningManager"
-                          ref="csmUserProvisioningManager"/>
-                <property name="authorizationSwitch" ref="authorizationSwitch"/>
-            </bean>
-        </property>
-        <property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
-        <property name="objectIdGenerator"
-                  ref="filterPrivilegeAndObjectIdGenerator"/>
-        <property name="privilegeGenerator"
-                  ref="filterPrivilegeAndObjectIdGenerator"/>
-    </bean>
-
-
     <bean id="filterInvocationInterceptor"
           class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
         <property name="authenticationManager"
@@ -344,9 +326,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                         <bean class="gov.nih.nci.security.acegi.csm.vote.AuthorizationSwitchVoter">
                             <property name="authorizationSwitch" ref="authorizationSwitch"/>
                         </bean>
-                        <bean class="gov.nih.nci.security.acegi.csm.vote.CSMAuthorizationCheckVoter">
-                            <property name="processConfigAttribute" value="CSM_FILTER_CHECK"/>
-                            <property name="authorizationCheck" ref="filterAuthorizationCheck"/>
+                        <bean class="edu.duke.cabig.c3pr.security.vote.C3PRPrivilegeBasedAccessDecisionVoter">
+                            <property name="processConfigAttribute" value="C3PR_FILTER_CHECK"/>
+                            <property name="objectIdGenerator"
+                                ref="filterPrivilegeAndObjectIdGenerator"/>
+                            <property name="privilegeGenerator"
+                                ref="filterPrivilegeAndObjectIdGenerator"/>
                         </bean>
                         <bean class="org.acegisecurity.vote.AuthenticatedVoter" />
                     </list>
@@ -357,10 +342,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <value>
                 CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
                 /pages/dashboard=IS_AUTHENTICATED_REMEMBERED
-                \A/pages/.*\Z=CSM_FILTER_CHECK
+                \A/pages/.*\Z=C3PR_FILTER_CHECK
                </value>
 
         </property>
-         </bean>
+    </bean>
 
 </beans>
