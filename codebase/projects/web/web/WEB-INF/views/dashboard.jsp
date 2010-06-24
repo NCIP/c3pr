@@ -29,7 +29,7 @@
 						<img src="<c:url value="/images/chrome/li_item.jpg" />">&nbsp;&nbsp;<a
 							href="<c:url value="/${lov.code}" />">${lov.desc}</a>
 						<br />
-						<c:if test="${status.count == fn:length(links) / 2}">
+						<c:if test="${status.count == (fn:length(links)%2==0?fn:length(links):fn:length(links)+1) / 2}">
 							</td><td>
 						</c:if>
 					</c:forEach>
