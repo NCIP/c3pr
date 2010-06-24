@@ -294,12 +294,14 @@ RowManager.registerRowInserters();
     </div>
 </c:otherwise>
 </c:choose>
+<c:if test="${FLOW != 'SETUP_FLOW'}">
 <div class="row">
-        <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
-        <div class="value">
-       		<input id="allSiteAccessCheckbox" name="hasAccessToAllSites" type="checkbox" <c:if test="${command.hasAccessToAllSites}"> checked </c:if>/><tags:hoverHint keyProp="researchStaff.accessToAllSites"/>
-        </div>
+    <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
+    <div class="value">
+   		<input id="allSiteAccessCheckbox" name="hasAccessToAllSites" type="checkbox" <c:if test="${command.hasAccessToAllSites}"> checked </c:if>/><tags:hoverHint keyProp="researchStaff.accessToAllSites"/>
     </div>
+</div>
+</c:if>
 <br>
 <chrome:division title="Associated Organizations" cssClass="big">
 	<table id="associateOrganization" width="100%" border="0">
