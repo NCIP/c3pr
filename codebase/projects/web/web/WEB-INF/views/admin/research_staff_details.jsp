@@ -283,10 +283,10 @@ RowManager.registerRowInserters();
         <div class="value">
         	<c:choose>
         	<c:when test="${empty command.userName}">
-        		<form:input size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
-        		<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
-        		<input id="copiedEmailAddress" type="hidden"/>
-        		<input type="hidden" name="_createUser" value="true">
+	        		<form:input size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+	        		<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
+	        		<input id="copiedEmailAddress" type="hidden"/>
+	        		<input type="hidden" name="_createUser" value="true">
         	</c:when>
         	<c:otherwise>${command.userName}</c:otherwise>
         	</c:choose>
@@ -298,7 +298,9 @@ RowManager.registerRowInserters();
 <div class="row">
     <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
     <div class="value">
-   		<input id="allSiteAccessCheckbox" name="hasAccessToAllSites" type="checkbox" <c:if test="${command.hasAccessToAllSites}"> checked </c:if>/><tags:hoverHint keyProp="researchStaff.accessToAllSites"/>
+    	<form:checkbox path="hasAccessToAllSites"/>
+   	<!-- 	<input id="allSiteAccessCheckbox" name="hasAccessToAllSites" type="checkbox" <c:if test="${command.hasAccessToAllSites}"> checked </c:if>/><tags:hoverHint keyProp="researchStaff.accessToAllSites"/>
+   	 -->
     </div>
 </div>
 </c:if>
