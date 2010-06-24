@@ -26,11 +26,19 @@ import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
  */
 public class SecurityUtils {
 
+	/** The Constant ACEGI_PREFIX. */
 	public static final String ACEGI_PREFIX = "ROLE_";
 	
 	/** The log. */
 	private static Log log = LogFactory.getLog(SecurityUtils.class);
 	
+	/**
+	 * Checks if is super user.
+	 * 
+	 * @param authentication the authentication
+	 * 
+	 * @return true, if is super user
+	 */
 	public static boolean isSuperUser(Authentication authentication){
     	List<RoleTypes> allRoles = Arrays.asList(RoleTypes.values());
     	List<RoleTypes> roles = SecurityUtils.getRoleTypes(authentication);
@@ -42,6 +50,11 @@ public class SecurityUtils {
     	return true;
 	}
 	
+	/**
+	 * Checks if is super user.
+	 * 
+	 * @return true, if is super user
+	 */
 	public static boolean isSuperUser(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	return isSuperUser(authentication);
@@ -49,7 +62,6 @@ public class SecurityUtils {
 	
 	/**
 	 * Gets the user name from the authentication object.
-	 * 
 	 * 
 	 * @return the user name
 	 */
@@ -99,11 +111,23 @@ public class SecurityUtils {
 		return CollectionUtils.containsAny(roleTypes, getRoleTypes(authentication));
 	}
 	
+	/**
+	 * Gets the role types.
+	 * 
+	 * @return the role types
+	 */
 	public static List<RoleTypes> getRoleTypes(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		return getRoleTypes(authentication);
 	}
 	
+	/**
+	 * Gets the role types.
+	 * 
+	 * @param authentication the authentication
+	 * 
+	 * @return the role types
+	 */
 	public static List<RoleTypes> getRoleTypes(Authentication authentication){
 		List<RoleTypes> roleTypes = new ArrayList<RoleTypes>();
 		GrantedAuthority[] grantedAuthorities = authentication.getAuthorities();
@@ -117,10 +141,20 @@ public class SecurityUtils {
 	}
 	
 	/**
-	 * Checks if user has any of the provided privilege.
+	 * Checks for privilege.
 	 * 
-	 * @param authentication the authentication
-	 * @param roleTypes the role types
+	 * @param userPrivilege the user privilege
+	 * 
+	 * @return true, if successful
+	 */
+	public static boolean hasPrivilege(UserPrivilege userPrivilege){
+		return getUserPrivileges().contains(userPrivilege);
+	}
+	
+	/**
+	 * Checks if user has any of the provided privileges.
+	 * 
+	 * @param privilegeTypes the privilege types
 	 * 
 	 * @return true, if successful
 	 */
@@ -137,10 +171,9 @@ public class SecurityUtils {
 	}
 	
 	/**
-	 * Checks if user has any of the provided privilege.
+	 * Checks if user has all of the provided privileges.
 	 * 
-	 * @param authentication the authentication
-	 * @param roleTypes the role types
+	 * @param privilegeTypes the privilege types
 	 * 
 	 * @return true, if successful
 	 */
@@ -157,10 +190,9 @@ public class SecurityUtils {
 	}
 	
 	/**
-	 * Checks if user has any of the provided privilege.
+	 * Checks if user has the provided privilege.
 	 * 
-	 * @param authentication the authentication
-	 * @param roleTypes the role types
+	 * @param privilegeType the privilege type
 	 * 
 	 * @return true, if successful
 	 */
@@ -173,6 +205,11 @@ public class SecurityUtils {
 		return hasAnyPrivilege(privilegeTypes);
 	}
 	
+	/**
+	 * Gets the user privileges.
+	 * 
+	 * @return the user privileges
+	 */
 	public static List<UserPrivilege> getUserPrivileges(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		AuthorizedUser authorizedUser = (AuthorizedUser)authentication.getPrincipal();
@@ -181,8 +218,7 @@ public class SecurityUtils {
 
 	/**
 	 * Gets the c3 pr user role types.
-	 *
-	 * @param authentication the authentication
+	 * 
 	 * @return the c3 pr user role types
 	 */
 	public static List<C3PRUserGroupType> getC3PRUserRoleTypes(){
@@ -199,8 +235,9 @@ public class SecurityUtils {
 	
 	/**
 	 * Gets the c3 pr user role types.
-	 *
-	 * @param authentication the authentication
+	 * 
+	 * @param grantedAuthorities the granted authorities
+	 * 
 	 * @return the c3 pr user role types
 	 */
 	public static List<C3PRUserGroupType> getC3PRUserRoleTypes(GrantedAuthority[] grantedAuthorities){
@@ -220,11 +257,10 @@ public class SecurityUtils {
 	
 	/**
 	 * Checks for all site acsess.
-	 * Get the provisioningSession from the user and the roles from the authentication object to 
+	 * Get the provisioningSession from the user and the roles from the authentication object to
 	 * determine hasAllSiteAccess
-	 *  User has all Site access if he isnt scoped by site or suiteRoleMembership.isAllSites() is true
-	 *
-	 * @param authentication the authentication
+	 * User has all Site access if he isnt scoped by site or suiteRoleMembership.isAllSites() is true
+	 * 
 	 * @return true, if successful
 	 */
 	public static boolean hasAllSiteAccess(){
@@ -243,11 +279,10 @@ public class SecurityUtils {
 	
 	/**
 	 * Checks for all study acsess.
-	 * Get the provisioningSession from the user and the roles from the authentication object to 
+	 * Get the provisioningSession from the user and the roles from the authentication object to
 	 * determine hasAllSiteAccess
 	 * User has all Study access if he isnt scoped by study or suiteRoleMembership.isAllStudies() is true
-	 *
-	 * @param authentication the authentication
+	 * 
 	 * @return true, if successful
 	 */
 	public static boolean hasAllStudyAccess(){
@@ -266,10 +301,9 @@ public class SecurityUtils {
 	
 	/**
 	 * Builds the user accessible organization ids list.
-	 * Get the provisioningSession from the user and the roles from the authentication object to 
+	 * Get the provisioningSession from the user and the roles from the authentication object to
 	 * build userAccessibleOrganizationIdsList(provided user doesn't have hasAllSiteAccess).
-	 *
-	 * @param authentication the authentication
+	 * 
 	 * @return the list
 	 */
 	public static List<String> buildUserAccessibleOrganizationIdsList(){
@@ -294,10 +328,9 @@ public class SecurityUtils {
 
 	/**
 	 * Builds the user accessible organization ids list.
-	 * Get the provisioningSession from the user and the roles from the authentication object to 
+	 * Get the provisioningSession from the user and the roles from the authentication object to
 	 * build userAccessibleOrganizationIdsList(provided user doesn't have hasAllSiteAccess).
-	 *
-	 * @param authentication the authentication
+	 * 
 	 * @return the list
 	 */
 	public static List<String> buildUserAccessibleStudyIdsList(){
@@ -323,9 +356,12 @@ public class SecurityUtils {
 	
 	/**
 	 * Check privilege, given roles set.
-	 *
-	 * @param rolesSet the roles set
+	 * 
 	 * @param privilege the privilege
+	 * @param rolePrivilegeDao the role privilege dao
+	 * @param rolesList the roles list
+	 * @param objectId the object id
+	 * 
 	 * @return true, if successful
 	 */
 	public static boolean checkPrivilegeGivenRoles(RolePrivilegeDao rolePrivilegeDao, List<C3PRUserGroupType> rolesList, String objectId, String privilege) {
@@ -340,7 +376,9 @@ public class SecurityUtils {
 	
 	/**
 	 * Gets the role types that can access staff.
-	 *
+	 * 
+	 * @param codeList the code list
+	 * 
 	 * @return the role types that can access staff
 	 */
 	public static List<RoleTypes> getRoleTypesFromCodeList(List<String> codeList) {
