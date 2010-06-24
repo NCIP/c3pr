@@ -2,9 +2,8 @@
 
 <html>
 <head>
-    <title>Notification: ${command.name}:${command.primaryIdentifier}</title>
+    <title>Notification: ${command.healthcareSite.name}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <title>Confirmation</title>
 </head>
 <body>
 
@@ -18,7 +17,7 @@
             	<tr><th width="35%" class="alt" align="left"><b><fmt:message key="notification.eventRegistered"/><b></th>
             		<th width="35%" class="alt" align="left"><b><fmt:message key="notification.frequency"/><b></th>
             	</tr>
-            	<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.plannedNotifications}">
+            	<c:forEach var="plannedNotification" varStatus="plannedNotificationStatus" items="${command.healthcareSite.plannedNotifications}">
 				<c:if test="${plannedNotification.retiredIndicator == 'false'}">
 				<tr>
 					<td class="alt" align="left">
