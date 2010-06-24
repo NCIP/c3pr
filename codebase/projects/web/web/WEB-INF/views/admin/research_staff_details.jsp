@@ -298,7 +298,7 @@ RowManager.registerRowInserters();
 <div class="row">
     <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
     <div class="value">
-    	<form:checkbox path="hasAccessToAllSites"/>
+    	<form:checkbox id="allSiteAccessCheckbox" path="hasAccessToAllSites"/>
    	<!-- 	<input id="allSiteAccessCheckbox" name="hasAccessToAllSites" type="checkbox" <c:if test="${command.hasAccessToAllSites}"> checked </c:if>/><tags:hoverHint keyProp="researchStaff.accessToAllSites"/>
    	 -->
     </div>
