@@ -22,6 +22,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
@@ -45,6 +46,7 @@ import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 
@@ -84,20 +86,25 @@ public class CreateNotificationController extends SimpleFormController {
 	
 	//job related declarations
 	private Scheduler scheduler;
-	
 
     protected Object formBackingObject(HttpServletRequest request) throws Exception {    	
 	    NotificationWrapper wrapper = new NotificationWrapper();   	
     	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request.getSession().getAttribute("userObject");
     	try {
+    		if(WebUtils.hasSubmitParameter(request, "organization")){
+    			HealthcareSite healthcareSite = healthcareSiteDao.getById(Integer.parseInt(request.getParameter("organization")));
+    			wrapper.setHealthcareSite(healthcareSite);
+    		} else{
     		//get the logged in users site.
-    		ResearchStaff researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
-			wrapper.getHealthcareSites().addAll(researchStaff.getHealthcareSites());
+	    		ResearchStaff researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
+				wrapper.setHealthcareSite(researchStaff.getHealthcareSites().get(0));
+	    	}
 		} catch (C3PRNoSuchUserException e) {
 			log.debug(e.getMessage());
-			//if logged in user has no site(e.g: c3pr_admin) get the hosting site.
+			//if logged in user has no site(in future) get the hosting site.
 			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
-			wrapper.getHealthcareSites().add(healthcareSiteDao.getByPrimaryIdentifier(localNciCode));
+			HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifier(localNciCode);
+			wrapper.setHealthcareSite(hcs);
 		}
 		return wrapper ;
     }
@@ -124,8 +131,8 @@ public class CreateNotificationController extends SimpleFormController {
     	super.initBinder(request, binder);
     	binder.registerCustomEditor(NotificationEventTypeEnum.class, new EnumByNameEditor(
     			NotificationEventTypeEnum.class));
-    	binder.registerCustomEditor(NotificationFrequencyEnum.class, new EnumByNameEditor(
-    			NotificationFrequencyEnum.class));    	
+    	binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
+    	binder.registerCustomEditor(ResearchStaff.class, new CustomDaoEditor(researchStaffDao));
     }
     
     /*
@@ -141,11 +148,13 @@ public class CreateNotificationController extends SimpleFormController {
     	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
 																		.getSession().getAttribute("userObject");
     	ResearchStaff researchStaff = null;
+    	NotificationWrapper notificationWrapper = (NotificationWrapper) command;
+    	HealthcareSite healthcareSite = notificationWrapper.getHealthcareSite();
     	if (isAjaxRequest(request)) {
 			request.getParameter("_asynchronous");
 			ModelAndView modelAndView = page.postProcessAsynchronous(request,
 					(Organization) command, errors);
-			if(((Organization)command).getId() != null){
+			if(healthcareSite.getId() != null){
 				command = organizationService.merge((Organization) command);
 	        }else {
 	        	organizationService.saveNotification((Organization) command);
@@ -158,15 +167,6 @@ public class CreateNotificationController extends SimpleFormController {
 			return modelAndView;
 		} else {
 			
-			Organization organization = null;
-	        if (command instanceof Organization) {
-	            organization = (Organization) command;
-	        }
-	        else {
-	            log.error("Incorrect Command object passsed into CreateNotificationController.");
-	            return new ModelAndView(getFormView());
-	        }
-	        
 	        //assign the Rs or Inv to the userBasedRecpients
 	        ResearchStaff rs = null;
 	        Investigator investigator = null; 
@@ -175,8 +175,8 @@ public class CreateNotificationController extends SimpleFormController {
 	        PlannedNotification pn = null;
 	        HealthcareSite hcs = null;
 				
-	        for(int i = 0; i < organization.getPlannedNotifications().size(); i++){
-	        	pn = organization.getPlannedNotifications().get(i);
+	        for(int i = 0; i < healthcareSite.getPlannedNotifications().size(); i++){
+	        	pn = healthcareSite.getPlannedNotifications().get(i);
 	        	if(pn.getHealthcareSite() == null && hcs != null){
 	        		pn.setHealthcareSite(hcs);
 	        	}
@@ -225,7 +225,7 @@ public class CreateNotificationController extends SimpleFormController {
 	        }
 	        
 	        Map map = errors.getModel();
-	        map.put("command", organization);
+	        map.put("command", notificationWrapper);
 	        ModelAndView mv = new ModelAndView(getSuccessView(), map);
 	        return mv;
 		}

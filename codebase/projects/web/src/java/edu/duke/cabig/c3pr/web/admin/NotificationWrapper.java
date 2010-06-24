@@ -1,20 +1,18 @@
 package edu.duke.cabig.c3pr.web.admin;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 
 public class NotificationWrapper {
 	
-	private List<HealthcareSite> healthcareSites = new ArrayList<HealthcareSite>();
+private HealthcareSite healthcareSite;
 
-	public List<HealthcareSite> getHealthcareSites() {
-		return healthcareSites;
-	}
+public HealthcareSite getHealthcareSite() {
+	return healthcareSite;
+}
 
-	public void setHealthcareSites(List<HealthcareSite> healthcareSites) {
-		this.healthcareSites = healthcareSites;
-	}
-	
+public void setHealthcareSite(HealthcareSite healthcareSite) {
+	this.healthcareSite = healthcareSite;
+}
+
+
 }
