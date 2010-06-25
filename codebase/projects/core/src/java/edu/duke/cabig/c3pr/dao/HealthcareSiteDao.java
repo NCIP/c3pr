@@ -72,11 +72,6 @@ public class HealthcareSiteDao extends OrganizationDao {
 	/** The csm application context name. */
 	private String csmApplicationContextName;
 
-    /** The site protection group id. */
-    private String siteProtectionGroupId;
-
-    /** The site access role id. */
-    private String siteAccessRoleId;
 
     /** The site object id generator. */
     private CSMObjectIdGenerator siteObjectIdGenerator;
@@ -89,21 +84,6 @@ public class HealthcareSiteDao extends OrganizationDao {
 		this.csmApplicationContextName = csmApplicationContextName;
 	}
 
-	/**
-	 * Sets the site protection group id.
-	 * @param siteProtectionGroupId the new site protection group id
-	 */
-	public void setSiteProtectionGroupId(String siteProtectionGroupId) {
-		this.siteProtectionGroupId = siteProtectionGroupId;
-	}
-
-	/**
-	 * Sets the site access role id.
-	 * @param siteAccessRoleId the new site access role id
-	 */
-	public void setSiteAccessRoleId(String siteAccessRoleId) {
-		this.siteAccessRoleId = siteAccessRoleId;
-	}
 
 	/**
 	 * Sets the site object id generator.
@@ -289,6 +269,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * 
 	 * @return the HealthcareSite
 	 */
+	@SuppressWarnings("unchecked")
 	public HealthcareSite getNCIOrganization() {
 		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
 				.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.value=?", 
@@ -300,6 +281,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * 
 	 * @return the HealthcareSite
 	 */
+	@SuppressWarnings("unchecked")
 	public HealthcareSite getCTEPOrganization() {
 		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
 				.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.value=?", 
@@ -312,6 +294,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @param primaryIdentifierCode the nci institute code
 	 * @return the HealthcareSite
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
+	@SuppressWarnings("unchecked")
 	public HealthcareSite getByNciCodeFromLocal(String nciCode) {
 		if(StringUtils.isEmpty(nciCode)){
 			return null;
@@ -328,6 +311,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @param primaryIdentifierCode the nci institute code
 	 * @return the HealthcareSite
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
+	@SuppressWarnings("unchecked")
 	public HealthcareSite getByCtepCodeFromLocal(String ctepCode) {
 		if(StringUtils.isEmpty(ctepCode)){
 			return null;
@@ -462,29 +446,16 @@ public class HealthcareSiteDao extends OrganizationDao {
 		Group org = new Group();
 		try {
 			String siteId = siteObjectIdGenerator.generateId(organization);
-
 			Application app = userProvisioningManager
 					.getApplication(csmApplicationContextName);
-			//Not creating groups for PG's anymore as of CCTS2.2
-//			org.setApplication(app);
-//			org.setGroupDesc(organization.getDescriptionText());
-//			org.setGroupName(siteId);
-//			org.setUpdateDate(new Date());
-//			log.debug("Creating group for new organization:" + siteId);
-//			userProvisioningManager.createGroup(org);
 
 			ProtectionGroup pg = new ProtectionGroup();
 			pg.setApplication(app);
-			//not using parent pg anymore as of CCTS2.2
-//			pg.setParentProtectionGroup(userProvisioningManager
-//					.getProtectionGroupById(siteProtectionGroupId));
 			pg.setProtectionGroupName(siteId);
-			log.debug("Creating protection group for new organization:"
-					+ siteId);
+			log.debug("Creating protection group for new organization:"+ siteId);
 			userProvisioningManager.createProtectionGroup(pg);
 
-			log.debug("Creating Protection Element for new organization:"
-					+ siteId);
+			log.debug("Creating Protection Element for new organization:"+ siteId);
 			ProtectionElement pe = new ProtectionElement();
 			pe.setApplication(app);
 			pe.setObjectId(siteId);
@@ -494,13 +465,8 @@ public class HealthcareSiteDao extends OrganizationDao {
 			pgs.add(pg);
 			pe.setProtectionGroups(pgs);
 			userProvisioningManager.createProtectionElement(pe);
-
-//			userProvisioningManager.assignGroupRoleToProtectionGroup(pg
-//				.getProtectionGroupId().toString(), org.getGroupId().toString(), new String[]{siteAccessRoleId});
-
 		} catch (CSObjectNotFoundException e) {
-			log.error("###Error getting info for"
-							+ csmApplicationContextName
+			log.error("###Error getting info for" + csmApplicationContextName
 							+ " application from CSM. Application configuration exception###");
 			throw new C3PRBaseRuntimeException(
 					"Application configuration problem. Cannot find application '"
@@ -508,8 +474,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 		} catch (CSTransactionException e) {
 			log.warn("Could not create group for organization:"
 					+ organization.getPrimaryIdentifier());
-			throw new C3PRBaseException(
-					"Cannot create group for organization.", e);
+			throw new C3PRBaseException("Cannot create group for organization.", e);
 		}
 		return org;
 	}
