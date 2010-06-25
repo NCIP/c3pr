@@ -9,7 +9,8 @@
 	
 <html>
 	<head> 
-	<tags:dwrJavascriptLink objects="UserAjaxFacade" />   
+	<tags:dwrJavascriptLink objects="UserAjaxFacade"/>   
+	<tags:dwrJavascriptLink objects="OrganizationAjaxFacade"/>
 	<style type="text/css">
 		.divider{
 	  			border-left-color: black;
@@ -22,18 +23,18 @@
 			var roleRowInserterProps= {
 	            add_row_division_id: "table2",
 	            skeleton_row_division_id: "dummy-roleRow",
-	            initialIndex: ${fn:length(command.plannedNotifications[nStatus.index].roleBasedRecipient)},
+	            initialIndex: ${fn:length(command.healthcareSite.plannedNotifications[nStatus.index].roleBasedRecipient)},
 	            softDelete: ${softDelete == 'true'},
 	            row_index_indicator: "SECONDARY.NESTED.PAGE.ROW.INDEX",
-	            path: "plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient"
+	            path: "healthcareSite.plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient"
 	       };
 	        var emailRowInserterProps= {
 	            add_row_division_id: "table1",
 	            skeleton_row_division_id: "dummy-emailRow",
-	            initialIndex: ${fn:length(command.plannedNotifications[nStatus.index].userBasedRecipient)},
+	            initialIndex: ${fn:length(command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient)},
 	            softDelete: ${softDelete == 'true'},
 	            row_index_indicator: "NESTED.PAGE.ROW.INDEX",
-	            path: "plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient",
+	            path: "healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient",
 	            postProcessRowInsertion: function(object){
 			       clonedRowInserter=Object.clone(userEmailAutocompleterProps);
 				   clonedRowInserter.basename=clonedRowInserter.basename + "[" +object.parent_row_index + "][" +object.localIndex + "]";
@@ -50,10 +51,10 @@
 	        var contactMechanismRowInserterProps= {
 	            add_row_division_id: "table3",
 	            skeleton_row_division_id: "dummy-cmRow",
-	            initialIndex: ${fn:length(command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)},
+	            initialIndex: ${fn:length(command.healthcareSite.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)},
 	            softDelete: ${softDelete == 'true'},
 	            row_index_indicator: "TERTIARY.NESTED.PAGE.ROW.INDEX",
-	            path: "plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient"
+	            path: "healthcareSite.plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient"
 	       };
 	        var notificationRowInserterProps = {
 	                nested_row_inserter: emailRowInserterProps,
@@ -61,10 +62,38 @@
 	                tertiary_nested_row_inserter: contactMechanismRowInserterProps,
 	                add_row_division_id: "notification",
 	                skeleton_row_division_id: "dummy-notification",
-	                initialIndex: ${fn:length(command.plannedNotifications)},
+	                initialIndex: ${fn:length(command.healthcareSite.plannedNotifications)},
 	                softDelete: true,
-	                path: "plannedNotifications"
+	                path: "healthcareSite.plannedNotifications"
 	        };
+
+	        var sponsorSiteAutocompleterProps = {
+	                basename: "healthcareSite",
+	                populator: function(autocompleter, text) {
+	                	$('healthcareSite-indicator').style.display='';
+	                    OrganizationAjaxFacade.matchHealthcareSites(text,function(values) {
+	                        autocompleter.setChoices(values)
+	                    })
+	                },
+	                valueSelector: function(obj) {
+	                	if(obj.externalId != null){
+	                		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
+	                	} else {
+	                		image = '';
+	                	}
+
+	                	return (obj.name+" ("+obj.primaryIdentifier+")" + image)
+	                },
+	                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+	        								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
+	    	    							$(hiddenField).value=selectedChoice.id;
+	    	    							$('healthcareSite-indicator').style.display='none';
+	    	    							$('hcs_id').value=selectedChoice.id;
+	    	    							$('testGetForm').submit();
+	    			 }
+	            }
+	            
+	        AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
 	        
 	        RowManager.addRowInseter(notificationRowInserterProps);
 	        RowManager.registerRowInserters();
@@ -86,8 +115,10 @@
                 return (obj.firstName +" " +obj.lastName + " (" +obj.email+ ") " + image)
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-	    							hiddenField=inputElement.id.split("-")[0]+"-hidden";
-	    							$(hiddenField).value=selectedChoice.email;
+	    							hiddenField1=inputElement.id.split("-")[0]+"-hidden";
+	    							$(hiddenField1).value=selectedChoice.email;
+	    							hiddenField2=inputElement.id.split("-")[0]+"-hiddenResearchStaff";
+	    							$(hiddenField2).value=selectedChoice.id;
 			 }
         }         
 	
@@ -313,19 +344,42 @@
               $(divID).innerHTML = stringValue;
           }
         }
+
+        function testGet(){
+        	$('testGetForm').submit();
+            
+        }
 	</script> 
 	</head>
 	
 	<body>	
+	<form action="createNotification" method="get" id="testGetForm">
+		<input type="hidden" name="organization" id="hcs_id" value="16831"/>
+	</form>
+	
 	<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Notifications" action="createNotification">
 		<input type="hidden" name="_action" value="">
 		<input type="hidden" name="_selected" value="">
 		<input type="hidden" name="_finish" value="true">
 		<input type="hidden" id="assignedIdentifier" name="assignedIdentifier" value="${assignedIdentifier}" />
 	<tags:instructions code="notification_details" />	
+			<div class="row">
+                <div class="label">
+                    <fmt:message key="c3pr.common.organization"/>
+                </div>
+                <div class="value">
+                	<input type="hidden" id="healthcareSite-hidden" name="healthcareSite" value="${command.healthcareSite.id}" /> 
+                	<input id="healthcareSite-input" size="60" type="text" name="xyz" value="${command.healthcareSite.name} (${command.healthcareSite.primaryIdentifier})" class="autocomplete validate-notEmpty" /> 
+                    <tags:hoverHint keyProp="notification.organization"/>
+                    <img id="healthcareSite-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
+					<div id="healthcareSite-choices" class="autocomplete" style="display: none;" />
+                	</div>
+            	</div>
+    		 </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<table id="notification" width="100%">
 			<tr></tr>
-			<c:forEach items="${command.plannedNotifications}" var="notification" varStatus="nStatus">
+			
+			<c:forEach items="${command.healthcareSite.plannedNotifications}" var="notification" varStatus="nStatus">
 				<tr id="notification-${nStatus.index}"><td>
 				<chrome:deletableDivision id="notification-details-${nStatus.index}" title="${notification.eventName.displayName}" divTitle="a-${nStatus.index}"
 				onclick="RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}')">
@@ -335,7 +389,7 @@
 				<tr>
 					<td width="10%" align="right"><b><fmt:message key="notification.event"/></b></td>
 					<td align="left">
-						<form:select path="plannedNotifications[${nStatus.index}].eventName" cssClass="required validate-notEmpty" 
+						<form:select path="healthcareSite.plannedNotifications[${nStatus.index}].eventName" cssClass="required validate-notEmpty" 
 									 onchange="displayAccrualField('${nStatus.index}');runReportBasedLogic('${nStatus.index}');"
 									 onclick="updateName('a-${nStatus.index}', '${nStatus.index}');">
 		                    <option value="" disabled="disabled">-- Select an Event -- </option>
@@ -349,18 +403,18 @@
 						
 						<!-- liteView popup -->
 						<div id="emailMessageDetails-${nStatus.index}" style="display:none">	
-							<form:input path="plannedNotifications[${nStatus.index}].title" size="100" cssStyle="width:96%;" onfocus="lastElement = this;" />
+							<form:input path="healthcareSite.plannedNotifications[${nStatus.index}].title" size="100" cssStyle="width:96%;" onfocus="lastElement = this;" />
 						</div>
 						<!-- liteview popup -->
 						
 					</td> 
 		            <td align="left" rowspan="2">
 		            	<c:if test="${notification.eventName == 'NEW_REGISTRATION_EVENT_REPORT'}">
-		            		<form:textarea title="Click to Edit"  rows="3" cols="33" path="plannedNotifications[${nStatus.index}].message" 
+		            		<form:textarea title="Click to Edit"  rows="3" cols="33" path="healthcareSite.plannedNotifications[${nStatus.index}].message" 
 		            				   onclick="showMessageBody('${nStatus.index}');" disabled="true" />
 		            	</c:if>
 		            	<c:if test="${notification.eventName != 'NEW_REGISTRATION_EVENT_REPORT'}">
-		            		<form:textarea title="Click to Edit"  rows="3" cols="33" path="plannedNotifications[${nStatus.index}].message" 
+		            		<form:textarea title="Click to Edit"  rows="3" cols="33" path="healthcareSite.plannedNotifications[${nStatus.index}].message" 
 		            				   onclick="showMessageBody('${nStatus.index}');" disabled="false" />
 		            	</c:if>
 		            </td>
@@ -369,12 +423,12 @@
 		        <tr><td align="right"><b><fmt:message key="notification.frequency"/></b></td>
 		            <td>
 		            <c:if test="${notification.eventName != 'NEW_REGISTRATION_EVENT_REPORT'}">
-						<form:select path="plannedNotifications[${nStatus.index}].frequency" cssClass="required validate-notEmpty" disabled="true" onchange="runReportBasedLogic('${nStatus.index}');">
+						<form:select path="healthcareSite.plannedNotifications[${nStatus.index}].frequency" cssClass="required validate-notEmpty" disabled="true" onchange="runReportBasedLogic('${nStatus.index}');">
 		                    <form:options items="${notificationFrequencyRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
 		            </c:if>
 		            <c:if test="${notification.eventName == 'NEW_REGISTRATION_EVENT_REPORT'}">
-		            	<form:select path="plannedNotifications[${nStatus.index}].frequency" cssClass="required validate-notEmpty" onchange="runReportBasedLogic('${nStatus.index}');">
+		            	<form:select path="healthcareSite.plannedNotifications[${nStatus.index}].frequency" cssClass="required validate-notEmpty" onchange="runReportBasedLogic('${nStatus.index}');">
 		                    <form:options items="${notificationFrequencyRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
 		            </c:if>
@@ -386,10 +440,10 @@
 		       
 		        <tr>
 		        	<td align="right"><div id="studyAccrual[${nStatus.index}]label" 
-		        		style="<c:if test="${command.plannedNotifications[nStatus.index].eventName != 'STUDY_ACCRUAL_EVENT'}">display:none</c:if>">Threshold:</div></td>
+		        		style="<c:if test="${command.healthcareSite.plannedNotifications[nStatus.index].eventName != 'STUDY_ACCRUAL_EVENT'}">display:none</c:if>">Threshold:</div></td>
 		            <td><div id="studyAccrual[${nStatus.index}]value" 
-		            		style="<c:if test="${command.plannedNotifications[nStatus.index].eventName != 'STUDY_ACCRUAL_EVENT'}">display:none</c:if>">
-						<form:select path="plannedNotifications[${nStatus.index}].studyThreshold">
+		            		style="<c:if test="${command.healthcareSite.plannedNotifications[nStatus.index].eventName != 'STUDY_ACCRUAL_EVENT'}">display:none</c:if>">
+						<form:select path="healthcareSite.plannedNotifications[${nStatus.index}].studyThreshold">
 		                    <option value="">Please Select</option>
 		                    <form:options items="${notificationStudyAccrualRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
@@ -400,10 +454,10 @@
 		        
 		        <tr>
 		        	<td align="right"><div id="studySiteAccrual[${nStatus.index}]label"  
-		        		style="<c:if test="${command.plannedNotifications[nStatus.index].eventName != 'STUDY_SITE_ACCRUAL_EVENT'}">display:none</c:if>">Threshold:</div></td>
+		        		style="<c:if test="${command.healthcareSite.plannedNotifications[nStatus.index].eventName != 'STUDY_SITE_ACCRUAL_EVENT'}">display:none</c:if>">Threshold:</div></td>
 		            <td><div id="studySiteAccrual[${nStatus.index}]value" 
-		            		style="<c:if test="${command.plannedNotifications[nStatus.index].eventName != 'STUDY_SITE_ACCRUAL_EVENT'}">display:none</c:if>">
-						<form:select path="plannedNotifications[${nStatus.index}].studySiteThreshold">
+		            		style="<c:if test="${command.healthcareSite.plannedNotifications[nStatus.index].eventName != 'STUDY_SITE_ACCRUAL_EVENT'}">display:none</c:if>">
+						<form:select path="healthcareSite.plannedNotifications[${nStatus.index}].studySiteThreshold">
 		                    <option value="">Please Select</option>
 		                    <form:options items="${notificationStudySiteAccrualRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
@@ -429,15 +483,17 @@
 			     <tr><td align="center" colspan="1" style="vertical-align: top;">
 		      		 <table id="table1">
 		      		 	<tr><td></td><td></td></tr>
-						<c:forEach var="email" varStatus="emailStatus" items="${command.plannedNotifications[nStatus.index].userBasedRecipient}">
+						<c:forEach var="email" varStatus="emailStatus" items="${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient}">
 							<tr id="table1-${emailStatus.index}">
 								<td class="alt">
 								<div id="userEmail[${nStatus.index}][${emailStatus.index}]-choices" class="autocomplete" style="display: none;"></div>
 									<input type="hidden" id="userEmail[${nStatus.index}][${emailStatus.index}]-hidden" 
-										name="plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].emailAddress" 
-										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" />
+										name="healthcareSite.plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].emailAddress" 
+										value="${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" />
+									<input type="hidden" id="userEmail[${nStatus.index}][${emailStatus.index}]-hiddenResearchStaff" 
+										name="healthcareSite.plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].researchStaff" />
 									<input id="userEmail[${nStatus.index}][${emailStatus.index}]-input" size="40" type="text"  
-										value="${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].fullName} (${command.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress})" class="autocomplete validate-notEmpty" />
+										value="${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].fullName} (${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress})" class="autocomplete validate-notEmpty" />
 									<tags:indicator id="userEmail[${nStatus.index}][${emailStatus.index}]-indicator" />
 									
 								</td>
@@ -452,10 +508,10 @@
 			      	<td align="center" colspan="1" style="vertical-align: top;">
 			      		<table id="table2">
 			      			<tr><td></td><td></td></tr>
-							<c:forEach var="role" varStatus="roleStatus" items="${command.plannedNotifications[nStatus.index].roleBasedRecipient}">
+							<c:forEach var="role" varStatus="roleStatus" items="${command.healthcareSite.plannedNotifications[nStatus.index].roleBasedRecipient}">
 								<tr id="table2-${roleStatus.index}">
 								<td class="alt">
-									<form:select path="plannedNotifications[${nStatus.index}].roleBasedRecipient[${roleStatus.index}].role" cssClass="required validate-notEmpty">
+									<form:select path="healthcareSite.plannedNotifications[${nStatus.index}].roleBasedRecipient[${roleStatus.index}].role" cssClass="required validate-notEmpty">
 						                <option value="">Please Select</option>
 						                <form:options items="${notificationPersonnelRoleRefData}" itemLabel="desc" itemValue="code" />
 						            </form:select></td>
@@ -470,10 +526,10 @@
 			      	<td align="center" colspan="1" style="vertical-align: top;">
 			      		<table id="table3">
 			      			<tr><td></td><td></td></tr>																	  
-							<c:forEach var="cm" varStatus="cmStatus" items="${command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
+							<c:forEach var="cm" varStatus="cmStatus" items="${command.healthcareSite.plannedNotifications[nStatus.index].contactMechanismBasedRecipient}">
 								<tr id="table3-${cmStatus.index}">
 								<td class="alt">
-									<form:input size="30" path="plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${cmStatus.index}].contactMechanisms[0].value" 
+									<form:input size="30" path="healthcareSite.plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${cmStatus.index}].contactMechanisms[0].value" 
 											cssClass="required validate-notEmpty&&EMAIL" /></td>
 								<td class="alt" valign="top"><a
 									href="javascript:RowManager.deleteRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${cmStatus.index},'${cm.id==null?'HC#':'ID#'}${cm.id==null?cm.hashCode:cm.id}');">
@@ -490,14 +546,15 @@
 		      	</chrome:deletableDivision></td>
 				</tr>
 				<script>
-			         RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].userBasedRecipient)});
-			         RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].roleBasedRecipient)});
-			         RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)});
+			         RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient)});
+			         RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.healthcareSite.plannedNotifications[nStatus.index].roleBasedRecipient)});
+			         RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.healthcareSite.plannedNotifications[nStatus.index].contactMechanismBasedRecipient)});
 			  	</script>
 			</c:forEach>
 			</table>
-			<tags:button type="button" color="blue" icon="add" value="Add Notification" onclick="RowManager.addRow(notificationRowInserterProps);"/>
-			
+			<div align="right">
+				<tags:button type="button" color="blue" icon="add" value="Add Notification" onclick="RowManager.addRow(notificationRowInserterProps);"/>
+			</div>
 	</tags:basicFormPanelBox>
 	</div>
 	
@@ -514,7 +571,7 @@
 				<td align="left">
 	                <select id="plannedNotifications[PAGE.ROW.INDEX].eventName"  
 	                onchange="displayAccrualField('PAGE.ROW.INDEX');runReportBasedLogic('PAGE.ROW.INDEX');"
-		            		name="plannedNotifications[PAGE.ROW.INDEX].eventName" class="required validate-notEmpty">
+		            		name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].eventName" class="required validate-notEmpty">
 		            		<option value="" disabled="disabled">-- Select an Event --</option>
 	                    <c:forEach items="${notificationEventsRefData}" var="event">
 							<option value="${event.code}">${event.desc}</option>
@@ -530,21 +587,24 @@
 				<td align="right" valign="top"><b><fmt:message key="notification.messageDetails"/></b>
 					<!-- liteView popup -->
 					<div id="emailMessageDetails-PAGE.ROW.INDEX" style="display:none">	
-						<input type="text" id="plannedNotifications[PAGE.ROW.INDEX].title" name="plannedNotifications[PAGE.ROW.INDEX].title" size="100" class="width:96%;" onFocus="lastElement = this;" />
+						<input type="text" id="plannedNotifications[PAGE.ROW.INDEX].title" name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].title" size="100" class="width:96%;" onFocus="lastElement = this;" />
 					</div>
 					<!-- liteview popup -->					
 				</td> 
 	            <td align="left" rowspan="2">
 	            	<c:set var="eventName" value="NEW_REGISTRATION_EVENT_REPORT" />
 	            	<textarea title="Click to Edit"  rows="3" cols="33" id="plannedNotifications[PAGE.ROW.INDEX].message"
-	            			name="plannedNotifications[PAGE.ROW.INDEX].message" onClick="showMessageBody('PAGE.ROW.INDEX');"></textarea>
+	            			name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].message" onClick="showMessageBody('PAGE.ROW.INDEX');"></textarea>
 	            </td>
+	            <td>
+	            	<input type="hidden" name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].healthcareSite" value="${command.healthcareSite.id }"/>
+	        	</td>
 	        </tr>
 	        
 	        <tr><td align="right"><b><fmt:message key="notification.frequency"/></b></td>
 	            <td>
 		            <select id="plannedNotifications[PAGE.ROW.INDEX].frequency" 
-		            		name="plannedNotifications[PAGE.ROW.INDEX].frequency" class="required validate-notEmpty" disabled="disabled">
+		            		name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].frequency" class="required validate-notEmpty" disabled="disabled">
 		                    <option value="ANNUAL">Annual</option>
 							<option value="MONTHLY">Monthly</option>
 							<option value="WEEKLY">Weekly</option>
@@ -560,7 +620,7 @@
 	        	<b><fmt:message key="notification.threshold"/></b></div></td>
 	            <td><div id="studyAccrual[PAGE.ROW.INDEX]value" style="display:none">
 						<select id="plannedNotifications[PAGE.ROW.INDEX].studyThreshold" 
-								name="plannedNotifications[PAGE.ROW.INDEX].studyThreshold">
+								name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].studyThreshold">
 		                     <option value="" selected>Please Select</option>
 		                     <c:forEach items="${notificationStudyAccrualRefData}" var="studyAcc">
 								<option value="${studyAcc.code}">${studyAcc.desc}</option>
@@ -575,7 +635,7 @@
 	        	<td align="right"><div id="studySiteAccrual[PAGE.ROW.INDEX]label" style="display:none"><b><fmt:message key="notification.threshold"/></b></div></td>
 	            <td><div id="studySiteAccrual[PAGE.ROW.INDEX]value" style="display:none">
 					<select id="plannedNotifications[PAGE.ROW.INDEX].studySiteThreshold" 
-							name="plannedNotifications[PAGE.ROW.INDEX].studySiteThreshold">
+							name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].studySiteThreshold">
 	                   		 <option value="" selected>Please Select</option>
 		                     <c:forEach items="${notificationStudySiteAccrualRefData}" var="studySiteAcc">
 								<option value="${studySiteAcc.code}">${studySiteAcc.desc}</option>
@@ -633,10 +693,10 @@
 			<tr>
 				<td class="alt">
 					<input type="hidden" id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-hidden" 
-							name="plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress" 
-							value="${command.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" />
+							name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress" 
+							value="${command.healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" />
 					<input id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-input" size="40" type="text" 
-							value="${command.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" class="autocomplete validate-notEmpty" />
+							value="${command.healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" class="autocomplete validate-notEmpty" />
 					<tags:indicator id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-indicator" />
 					<div id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-choices" class="autocomplete"></div></td>
 				<td class="alt" valign="top"><a
@@ -652,7 +712,7 @@
 			<tr>
 				<td class="alt">
 		            <select id="plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" 
-		            		name="plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="required validate-notEmpty">
+		            		name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="required validate-notEmpty">
 	                    <c:forEach items="${notificationPersonnelRoleRefData}" var="role">
 							<option value="${role.code}">${role.desc}</option>
 						</c:forEach>
@@ -671,7 +731,7 @@
 			<tr>
 				<td class="alt">
 		            <input id="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value" 
-		            	   name="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
+		            	   name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
 						   class="required validate-notEmpty&&EMAIL" size="30" type="text" />
 	            </td>
 				<td class="alt" valign="top"><a
