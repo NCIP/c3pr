@@ -57,8 +57,6 @@ public class PersonnelServiceImpl implements PersonnelService {
 
     private UserProvisioningManager userProvisioningManager;
 
-    private CSMObjectIdGenerator siteObjectIdGenerator;
-    
     private PlannedNotificationDao plannedNotificationDao;
     
     private BaseResearchStaffDataContainerDao baseResearchStaffDataContainerDao;
@@ -220,14 +218,6 @@ public class PersonnelServiceImpl implements PersonnelService {
 	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
 		this.investigatorDao = investigatorDao;
 	}
-
-	public CSMObjectIdGenerator getSiteObjectIdGenerator() {
-        return siteObjectIdGenerator;
-    }
-
-    public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
-        this.siteObjectIdGenerator = siteObjectIdGenerator;
-    }
 
 	public PlannedNotificationDao getPlannedNotificationDao() {
 		return plannedNotificationDao;

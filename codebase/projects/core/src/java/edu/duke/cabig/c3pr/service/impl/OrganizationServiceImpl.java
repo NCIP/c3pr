@@ -27,8 +27,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     private String siteAccessRoleId;
 
-    private CSMObjectIdGenerator siteObjectIdGenerator;
-
     private Logger log = Logger.getLogger(OrganizationService.class);
     
     
@@ -45,14 +43,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         healthcareSiteDao.save(site);
     }
 
-
-    public CSMObjectIdGenerator getSiteObjectIdGenerator() {
-        return siteObjectIdGenerator;
-    }
-
-    public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
-        this.siteObjectIdGenerator = siteObjectIdGenerator;
-    }
 
     public String getSiteAccessRoleId() {
         return siteAccessRoleId;
