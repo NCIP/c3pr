@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
-import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
