@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.dao.RolePrivilegeDao;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
+import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
 
 /**
@@ -387,6 +388,20 @@ public class SecurityUtils {
 			roleTypes.add(RoleTypes.getByCode(role));
 		}
 		return roleTypes;
+	}
+	
+	/**
+	 * Checks if is global role.
+	 *
+	 * @param groupType the group type
+	 * @return true, if is global role
+	 */
+	public static boolean isGlobalRole(C3PRUserGroupType groupType){
+		SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(groupType);
+		if(suiteRole.isScoped()){
+			return false;
+		}
+		return true;
 	}
 
 }
