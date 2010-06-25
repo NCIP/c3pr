@@ -599,29 +599,38 @@
     
 </chrome:division>
 <chrome:division title="Informed Consents" inPlaceLinkId="editInPlaceForInformedConsent" condition="${canEditRegistrationRecord}">
-	<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-		<div class="row">
-			<div class="label"><b>${studySubjectConsentVersion.consent.name}</b>:</div>
-			<div class="value">
-				<c:choose>
-					<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null && studySubjectConsentVersion.informedConsentSignedDateStr != ''}"> 
-						<tags:inPlaceEdit value="${studySubjectConsentVersion.informedConsentSignedDateStr}" path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" 
-								id="informedConsentSignedDate_${status.index}" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
-					</c:when>
-					<c:otherwise>
-						<font color="red"><i>not signed</i></font>
-					</c:otherwise>
-				</c:choose>
-			</div>
-		</div>
-	</c:forEach>
-    <script>
-    var informedConsentArray = new Array();
-    <c:forEach var="informedConsent" items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" varStatus="informedConsentStatus">
-    	informedConsentArray.push(editor_informedConsentSignedDate_${informedConsentStatus.index});	
-    </c:forEach>
-    </script>
-			
+	<table class="tablecontent">
+		<tr>
+			<th><fmt:message key="registration.consentSignedDate"/></th>
+			<th><fmt:message key="registration.consentDeliveredDate"/></th>
+			<th><fmt:message key="registration.consentMethod"/></th>
+			<th><fmt:message key="registration.consentPresenter"/></th>
+		</tr>
+		<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+			<tr>
+				<td>	
+					<c:choose>
+						<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null && studySubjectConsentVersion.informedConsentSignedDateStr != ''}"> 
+							<tags:inPlaceEdit value="${studySubjectConsentVersion.informedConsentSignedDateStr}" path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" 
+									id="informedConsentSignedDate_${status.index}" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
+						</c:when>
+						<c:otherwise>
+							<font color="red"><i>not signed</i></font>
+						</c:otherwise>
+					</c:choose>
+				</td>
+				<td>${studySubjectConsentVersion.consentDeliveryDate}</td>
+				<td>${studySubjectConsentVersion.consentingMethod.displayName}</td>
+				<td>${studySubjectConsentVersion.consentPresenter}</td>
+			</tr>
+		</c:forEach>
+	</table>
+	 <script>
+ 		var informedConsentArray = new Array();
+	    <c:forEach var="informedConsent" items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" varStatus="informedConsentStatus">
+	    	informedConsentArray.push(editor_informedConsentSignedDate_${informedConsentStatus.index});	
+	    </c:forEach>
+ 	</script>
 </chrome:division>
 </div>
 <chrome:division id="Eligibility" title="Eligibility" inPlaceLinkId="editInPlaceForEligibilityCriteria" condition="${canEditRegistrationRecord}">
@@ -840,135 +849,132 @@
 	<%@ include file="reg_allow_eligibility_waiver.jsp"%>
 </div>
 </div>
+
 <div id="printable" style="display:none;">
-	<chrome:division id="Subject Information" title="Subject">
-			<div class="row">
-				<div class="label"><fmt:message key="participant.fullName"/>:</div>
-				<div class="value">${command.participant.fullName}</div>
-			</div>
-			<div class="row">
-				<div class="label"><fmt:message key="participant.MRN"/>:</div>
-				<div class="value">${command.participant.MRN.value }</div>
-			</div>
-		</chrome:division>
-		<chrome:division id="Parent Registration Information" title="${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.primaryIdentifier})">
-			<div class="row">
-	            <div class="label"><b><fmt:message key="registration.registrationIdentifier"/></b>:</div>
-				<c:choose>
-					<c:when test="${!empty command.studySubject.coOrdinatingCenterIdentifier.value}">
-						<div class="value">${command.studySubject.coOrdinatingCenterIdentifier.value}</div>
-					</c:when>
-					<c:otherwise>
-						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notGenerated"/></span></div>
-					</c:otherwise>
-				</c:choose>
-	        </div>
-			<div class="row">
-				<div class="label"><b><fmt:message key="study.shortTitle"/></b>:</div>
-				<div class="value">${command.studySubject.studySite.study.shortTitleText}</div>
-			</div>
-			<div class="row">
-				<div class="label"><b><fmt:message key="registration.registrationStatus"/></b>:</div>
-				<div class="value">${command.studySubject.regWorkflowStatus.code }</div>
-			</div>		
-			<div class="row">
-				<div class="label"><b><fmt:message key="c3pr.common.epoch"/></b>:</div>
-				<div class="value">${command.studySubject.scheduledEpoch.epoch.name}</div>
-			</div>
+	<h3><b>Subject</b></h3>
+		<hr></hr>
+		<table>
+			<tr>
+				<td align="right"><b><fmt:message key="participant.fullName"/>:</b></td>
+				<td align="left">${command.participant.fullName}</td>
+			</tr>
+			<tr>
+				<td align="right"><b><fmt:message key="participant.MRN"/>:</b></td>
+				<td align="left">${command.participant.MRN.value }</td>
+			</tr>
+		</table> 
+		
+	<h3><b>${command.studySubject.studySite.study.shortTitleText} (${command.studySubject.studySite.study.primaryIdentifier})</b></h3>
+		<hr></hr>
+		<table>
+			<tr>
+				<td align="right"><b><fmt:message key="registration.registrationIdentifier"/>:</b></td>
+				<td align="left">${command.studySubject.coOrdinatingCenterIdentifier.value}</td>
+			</tr>
+			<tr>
+				<td align="right"><b><fmt:message key="study.shortTitle"/>:</b></td>
+				<td align="left">${command.studySubject.studySite.study.shortTitleText }</td>
+			</tr>
+			<tr>
+				<td align="right"><b><fmt:message key="registration.registrationStatus"/>:</b></td>
+				<td align="left">${command.studySubject.regWorkflowStatus.code}</td>
+			</tr>
+			<tr>
+				<td align="right"><b><fmt:message key="c3pr.common.epoch"/>:</b></td>
+				<td align="left">${command.studySubject.scheduledEpoch.epoch.name }</td>
+			</tr>
 			<c:if test="${!empty armAssigned}">
-				<div class="row">
-					<div class="label"><b>${armAssignedLabel }</b>:</div>
-					<div class="value">${armAssigned}</div>
-				</div>
+				<tr>
+					<td align="right"><b><fmt:message key="armAssignedLabel"/>:</b></td>
+					<td align="left">${armAssigned}</td>
+				</tr>
 			</c:if>
-			<div class="row">
-				<div class="label"><b><fmt:message key="registration.enrollingSite"/></b>:</div>
-				<div class="value">${command.studySubject.studySite.healthcareSite.name}</div>
-			</div>
-			<div class="row">
-				<div class="label"><b><fmt:message key="registration.startDate"/></b>:</div>
-				<div class="value">${command.studySubject.startDateStr}</div>
-			</div>
+			<tr>
+				<td align="right"><b><fmt:message key="registration.enrollingSite"/>:</b></td>
+				<td align="left">${command.studySubject.studySite.healthcareSite.name }</td>
+			</tr>
+			<tr>
+				<td align="right"><b><fmt:message key="registration.startDate"/>:</b></td>
+				<td align="left">${command.studySubject.startDateStr }</td>
+			</tr>
+			
 			<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-				<div class="row">
-					<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
-					<div class="value">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</div>
-				</div>
+				<tr>
+				<td align="right"><b>Informed Consent ${status.index+1}:</b></td>
+				<td align="left">${studySubjectConsentVersion.informedConsentSignedDateStr} (${studySubjectConsentVersion.consent.name})</td>
+			</tr>
 			</c:forEach>
-			<div class="row">
-				<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
+			
+			<tr>
+				<td align="right"><b><fmt:message key="registration.enrollingPhysician"/>:</b></td>
 				<c:choose>
 					<c:when test="${!empty command.studySubject.treatingPhysicianFullName}">
-						<div class="value">
-            				${command.studySubject.treatingPhysicianFullName} 
-						</div>
+						<td align="left">${command.studySubject.treatingPhysicianFullName }</td>
 					</c:when>
 					<c:otherwise>
-						<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
+						<td align="left"><i><fmt:message key="c3pr.common.noSelection"/></i></td>
 					</c:otherwise>
 				</c:choose>
-			</div>
-		</chrome:division>
+			</tr>
+		</table> 
+		
 		<c:forEach items="${command.studySubject.childStudySubjects}" var="childStudySubject" varStatus="status">
 			<c:if test="${newRegistration || (!newRegistration && !previous_epoch_enrollment_indicator )}">
-			<chrome:division id="companionRegInfo${status.index}" title="${childStudySubject.studySite.study.shortTitleText} (${childStudySubject.studySite.study.primaryIdentifier})">
-				<div class="row">
-		            <div class="label"><b><fmt:message key="registration.registrationIdentifier"/></b>:</div>
-					<c:choose>
-						<c:when test="${!empty childStudySubject.coOrdinatingCenterIdentifier.value}">
-							<div class="value">${childStudySubject.coOrdinatingCenterIdentifier.value}</div>
-						</c:when>
-						<c:otherwise>
-							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notGenerated"/></span></div>
-						</c:otherwise>
-					</c:choose>
-		        </div>
-				<div class="row">
-					<div class="label"><b><fmt:message key="study.shortTitle"/></b>:</div>
-					<div class="value">${childStudySubject.studySite.study.shortTitleText}</div>
-				</div>
-				<div class="row">
-					<div class="label"><b><fmt:message key="registration.registrationStatus"/></b>:</div>
-					<div class="value">${childStudySubject.regWorkflowStatus.code }</div>
-				</div>		
-				<div class="row">
-					<div class="label"><b><fmt:message key="c3pr.common.epoch"/></b>:</div>
-					<div class="value">${childStudySubject.scheduledEpoch.epoch.name}</div>
-				</div>
-				<c:if test="${!empty armAssigned}">
-					<div class="row">
-						<div class="label"><b>${armAssignedLabel }</b>:</div>
-						<div class="value">${armAssigned}</div>
-					</div>
-				</c:if>
-				<div class="row">
-					<div class="label"><b><fmt:message key="registration.enrollingSite"/></b>:</div>
-					<div class="value">${childStudySubject.studySite.healthcareSite.name}</div>
-				</div>
-				<div class="row">
-					<div class="label"><b><fmt:message key="registration.startDate"/></b>:</div>
-					<div class="value">${childStudySubject.startDateStr}</div>
-				</div>
-				<c:forEach items="${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="childStudySubjectConsentVersion" varStatus="status">
-					<div class="row">
-						<div class="label"><b>Informed Consent ${status.index+1}</b>:</div>
-						<div class="value">${childStudySubjectConsentVersion.informedConsentSignedDateStr} (${childStudySubjectConsentVersion.consent.name})</div>
-					</div>
-				</c:forEach>
-				<div class="row">
-					<div class="label"><b><fmt:message key="registration.enrollingPhysician"/></b>:</div>
-					<c:choose>
-						<c:when test="${!empty childStudySubject.treatingPhysicianFullName}">
-							<div class="value">${childStudySubject.treatingPhysicianFullName}</div>
-						</c:when>
-						<c:otherwise>
-							<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.noSelection"/></span></div>
-						</c:otherwise>
-					</c:choose>
-				</div>
-			</chrome:division>
+				<h3><b>${childStudySubject.studySite.study.shortTitleText} (${childStudySubject.studySite.study.primaryIdentifier})</b></h3>
+				<hr></hr>
+				<table>
+					<tr>
+						<td align="right"><b><fmt:message key="registration.registrationIdentifier"/>:</b></td>
+						<td align="left">${childStudySubject.coOrdinatingCenterIdentifier.value}</td>
+					</tr>
+					<tr>
+						<td align="right"><b><fmt:message key="study.shortTitle"/>:</b></td>
+						<td align="left">${childStudySubject.studySite.study.shortTitleText }</td>
+					</tr>
+					<tr>
+						<td align="right"><b><fmt:message key="registration.registrationStatus"/>:</b></td>
+						<td align="left">${childStudySubject.regWorkflowStatus.code}</td>
+					</tr>
+					<tr>
+						<td align="right"><b><fmt:message key="c3pr.common.epoch"/>:</b></td>
+						<td align="left">${childStudySubject.scheduledEpoch.epoch.name }</td>
+					</tr>
+					<c:if test="${!empty childStudySubject.scheduledEpoch.scheduledArm}">
+						<tr>
+							<td align="right"><b><fmt:message key="armAssignedLabel"/>:</b></td>
+							<td align="left">${childStudySubject.scheduledEpoch.scheduledArm.arm.name}</td>
+						</tr>
+					</c:if>
+					<tr>
+						<td align="right"><b><fmt:message key="registration.enrollingSite"/>:</b></td>
+						<td align="left">${childStudySubject.studySite.healthcareSite.name }</td>
+					</tr>
+					<tr>
+						<td align="right"><b><fmt:message key="registration.startDate"/>:</b></td>
+						<td align="left">${childStudySubject.startDateStr }</td>
+					</tr>
+					
+					<c:forEach items="${childStudySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="childStudySubjectConsentVersion" varStatus="status">
+						<tr>
+						<td align="right"><b>Informed Consent ${status.index+1}:</b></td>
+						<td align="left">${childStudySubjectConsentVersion.informedConsentSignedDateStr} (${childStudySubjectConsentVersion.consent.name})</td>
+					</tr>
+					</c:forEach>
+					
+					<tr>
+						<td align="right"><b><fmt:message key="registration.enrollingPhysician"/>:</b></td>
+						<c:choose>
+							<c:when test="${!empty childStudySubject.treatingPhysicianFullName}">
+								<td align="left">${childStudySubject.treatingPhysicianFullName }</td>
+							</c:when>
+							<c:otherwise>
+								<td align="left"><i><fmt:message key="c3pr.common.noSelection"/></i></td>
+							</c:otherwise>
+						</c:choose>
+					</tr>
+				</table> 
 			</c:if>
-		</c:forEach>	
+		</c:forEach>
 	</div>
 
 <form:form id="exportForm" method="post">
