@@ -193,7 +193,7 @@ RowManager.registerRowInserters();
 var contentWin ;
 function handleAllSiteAccess(){
 	if($('allSiteAccessCheckbox').checked){
-		contentWin = new Window({ width:400, height:110 ,className :"alert_lite"}) ;
+		contentWin = new Window({ width:400, height:120 ,className :"alert_lite"}) ;
 		contentWin.setContent('confirmation-msg') ;
 		contentWin.showCenter(true);
 	}
