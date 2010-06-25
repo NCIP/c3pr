@@ -1,18 +1,17 @@
 package edu.duke.cabig.c3pr.security.authorization;
 
-import edu.duke.cabig.c3pr.dao.RolePrivilegeDao;
+import edu.duke.cabig.c3pr.accesscontrol.AuthorizedUser;
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
+import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
+import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
+import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
 import gov.nih.nci.security.acegi.csm.authorization.AbstractObjectPrivilegeCSMAuthorizationCheck;
-import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
-import gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.acegisecurity.Authentication;
-import org.acegisecurity.GrantedAuthority;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -27,10 +26,6 @@ import org.apache.commons.logging.LogFactory;
 public class C3PRObjectPrivilegeCSMAuthorizationCheck extends
 									AbstractObjectPrivilegeCSMAuthorizationCheck{
 	
-	private CSMAuthorizationCheck csmAuthorizationCheck;
-	
-	private RolePrivilegeDao rolePrivilegeDao;
-
 	private static final Log logger = LogFactory.getLog(C3PRObjectPrivilegeCSMAuthorizationCheck.class);
 	
 	
@@ -48,28 +43,31 @@ public class C3PRObjectPrivilegeCSMAuthorizationCheck extends
 			String privilege, String objectId) {
 		
 		//return getCsmAuthorizationCheck().checkAuthorizationForObjectId(authentication, privilege, objectId);
-//		return true;
-		
-		String checkPrivilege = privilege;
-		if (checkPrivilege == null) {
-			logger.error("No checkPrivilege was passed in.");
-			checkPrivilege = ((CSMGroupAuthorizationCheck)csmAuthorizationCheck).getRequiredPermission();
+		if(authentication == null){
+			return true;
 		}
+		AuthorizedUser authorizedUser = (AuthorizedUser)authentication.getPrincipal();
+		UserPrivilegeType userPrivilegeType = UserPrivilegeType.valueOf(privilege);
+		if(userPrivilegeType == null){
+			userPrivilegeType = UserPrivilegeType.getByCode(privilege);
+		}
+		
+//		if (checkPrivilege == null) {
+//			logger.error("No checkPrivilege was passed in.");
+//			checkPrivilege = ((CSMGroupAuthorizationCheck)csmAuthorizationCheck).getRequiredPermission();
+//		}
 
 		//Get all the groups that have this privilege on the Object and then call isMember to check if user belongs to any of them.
-		boolean isAuthorized = false;
 		try {
 			//Calling getAccessibleRoles(). As of CCTS2.2 Roles are the same as Groups
-			String rolePrivilegeObjectId = getRolePrivilegeObjectIdFromObjectId(objectId);
-			List<RolePrivilege> rolePrivileges = rolePrivilegeDao.getAccessibleRoles(rolePrivilegeObjectId, checkPrivilege);
+			//List<RolePrivilege> rolePrivileges = rolePrivilegeDao.getAccessibleRoles(rolePrivilegeObjectId, checkPrivilege);
+			List<RolePrivilege> rolePrivileges = authorizedUser.getRolePrivileges(userPrivilegeType);
 			if (rolePrivileges == null || rolePrivileges.size() == 0) {
 				logger.debug("Found no groups for " + objectId);
 			} else {
-				for (Iterator i = rolePrivileges.iterator(); i.hasNext();) {
-					RolePrivilege rolePrivilege = (RolePrivilege) i.next();
-					if (authentication != null && isMember(authentication, rolePrivilege.getRoleName())) {
-						isAuthorized = true;
-						break;
+				for (RolePrivilege rolePrivilege : rolePrivileges) {
+					if (isMember(authorizedUser, rolePrivilege.getRoleName(),objectId)) {
+						return true;
 					}
 				}
 			}
@@ -77,21 +75,9 @@ public class C3PRObjectPrivilegeCSMAuthorizationCheck extends
 			ex.printStackTrace();
 			logger.debug(ex);
 		}
-		return isAuthorized;
+		return false;
 	}
 	
-
-	/**
-	 * Gets the role privilege object id from object id.
-	 * override this method if you extend this class and need to modify the objectId.
-	 *
-	 * @param objectId the object id
-	 * @return the role privilege object id from object id
-	 */
-	protected String getRolePrivilegeObjectIdFromObjectId(String objectId) {
-		return objectId;
-	}
-
 
 	/**
 	 * Checks if user(Authentication) is member of the group that is passed in.
@@ -100,62 +86,16 @@ public class C3PRObjectPrivilegeCSMAuthorizationCheck extends
 	 * @param groupName the group name
 	 * @return true, if is member
 	 */
-	protected boolean isMember(Authentication authentication, String groupName) {
-		
+	protected boolean isMember(AuthorizedUser authorizedUser, String groupName, String objectId) {
 		boolean isMember = false;
-		
-		GrantedAuthority[] gaArray = authentication.getAuthorities();
-		Set<String> groups = new HashSet<String>();
-		try {
-			for(int i=0;i<gaArray.length;i++){
-				groups.add(getGroupNameFromAuthority(gaArray[i]));
-			}
-		} catch (Exception ex) {
-			throw new RuntimeException("Error getting groups: " + ex.getMessage(), ex);
-		}
-
-		if (groups != null) {
-			for (Iterator i = groups.iterator(); i.hasNext();) {
-				String usersGroupName = (String) i.next();
-				if (usersGroupName.equals(groupName)) {
-					isMember = true;
-					break;
-				}
-			}
-			logger.debug("isMember? " + isMember);
-		} else {
-			logger.debug("found no groups for user " + authentication.getName());
+		ProvisioningSession provisioningSession = authorizedUser.getProvisioningSession();
+		SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
+		SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+		String siteId = objectId.substring(objectId.lastIndexOf("."));
+		if(suiteRoleMembership.isAllSites() || suiteRoleMembership.getSiteIdentifiers().contains(siteId)){
+			isMember = true;
 		}
 		return isMember;
-	}
-	
-
-	/**
-	 * Gets the group name from authority.
-	 * Note that the authority is the string "ROLE_" appended with the group name.
-	 *
-	 * @param grantedAuthority the granted authority
-	 * @return the group name from authority
-	 */
-	private String getGroupNameFromAuthority(GrantedAuthority grantedAuthority) {
-		return grantedAuthority.getAuthority().substring(5, grantedAuthority.getAuthority().length());
-	}
-
-
-	public RolePrivilegeDao getRolePrivilegeDao() {
-		return rolePrivilegeDao;
-	}
-
-	public void setRolePrivilegeDao(RolePrivilegeDao rolePrivilegeDao) {
-		this.rolePrivilegeDao = rolePrivilegeDao;
-	}
-
-	public CSMAuthorizationCheck getCsmAuthorizationCheck() {
-		return csmAuthorizationCheck;
-	}
-
-	public void setCsmAuthorizationCheck(CSMAuthorizationCheck csmAuthorizationCheck) {
-		this.csmAuthorizationCheck = csmAuthorizationCheck;
 	}
 
 }

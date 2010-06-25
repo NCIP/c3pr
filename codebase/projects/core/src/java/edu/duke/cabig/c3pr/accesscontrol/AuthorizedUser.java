@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
+import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 
@@ -55,4 +56,17 @@ public class AuthorizedUser extends User {
 		return new ArrayList(privileges);
 	}
 
+	public List<RolePrivilege> getRolePrivileges(UserPrivilegeType userPrivilegeType){
+		String checkObjectId = userPrivilegeType.getCode().split(":")[0];
+		String checkPrivilege = userPrivilegeType.getCode().split(":")[1];
+		List<RolePrivilege> filteredRolePrivileges = new ArrayList<RolePrivilege>();
+		for(RolePrivilege rolePrivilege : rolePrivileges){
+			if(rolePrivilege.getObjectId().equals(checkObjectId) &&
+					rolePrivilege.getPrivilege().equals(checkPrivilege)){
+				filteredRolePrivileges.add(rolePrivilege);
+			}
+		}
+		return filteredRolePrivileges;
+	}
+	
  }

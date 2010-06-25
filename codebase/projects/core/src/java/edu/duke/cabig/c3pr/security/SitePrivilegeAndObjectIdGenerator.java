@@ -1,6 +1,9 @@
 package edu.duke.cabig.c3pr.security;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
+import gov.nih.nci.cabig.ctms.suite.authorization.ScopeType;
 
 /**
  * WIll generate the objectId and privilege for HealthcareSite domain object. THis is needed to make
@@ -24,12 +27,12 @@ public final class SitePrivilegeAndObjectIdGenerator extends
         assertSupports(object);
         HealthcareSite site = (HealthcareSite) object;
 
-        return HealthcareSite.class.getName() + getPathSeperator() + site.getPrimaryIdentifier();
+        return ScopeType.SITE.getScopeCsmNamePrefix() + site.getPrimaryIdentifier();
     }
 
     @Override
     protected boolean supports(Object object) {
-        return object instanceof HealthcareSite;
+        return object instanceof LocalHealthcareSite || object instanceof RemoteHealthcareSite;
     }
 
 }

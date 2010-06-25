@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.accesscontrol;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
-import gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class ResearchStaffSiteCSMGroupAuthorizationCheckProvider implements
 
     private CSMObjectIdGenerator siteObjectIdGenerator;
 
-    private CSMGroupAuthorizationCheck csmGroupAuthorizationCheck;
+    private CSMAuthorizationCheck csmAuthorizationCheck;
 
     private Logger log = Logger
                     .getLogger(ResearchStaffSiteCSMGroupAuthorizationCheckProvider.class);
@@ -40,7 +39,7 @@ public class ResearchStaffSiteCSMGroupAuthorizationCheckProvider implements
         	List<HealthcareSite> hcSites = researchStaff.getHealthcareSites();
         	for(HealthcareSite hcSite : hcSites){
             	log.debug("### Checking permission for user on site:"+ hcSite.getPrimaryIdentifier());
-                hasPermission = csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication, permission, siteObjectIdGenerator.generateId(hcSite));
+                hasPermission = csmAuthorizationCheck.checkAuthorizationForObjectId(authentication, permission, siteObjectIdGenerator.generateId(hcSite));
                 if(hasPermission){
                 	break ;
                 }
@@ -55,13 +54,13 @@ public class ResearchStaffSiteCSMGroupAuthorizationCheckProvider implements
 
     public boolean checkAuthorizationForObjectId(Authentication authentication, String permission,
                     String objectId) {
-        return csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication, permission,
+        return csmAuthorizationCheck.checkAuthorizationForObjectId(authentication, permission,
                         objectId);
     }
 
     public boolean checkAuthorizationForObjectIds(Authentication authentication, String permission,
                     String[] objectIds) {
-        return csmGroupAuthorizationCheck.checkAuthorizationForObjectIds(authentication,
+        return csmAuthorizationCheck.checkAuthorizationForObjectIds(authentication,
                         permission, objectIds);
     }
 
@@ -73,11 +72,8 @@ public class ResearchStaffSiteCSMGroupAuthorizationCheckProvider implements
         this.siteObjectIdGenerator = siteObjectIdGenerator;
     }
 
-    public CSMGroupAuthorizationCheck getCsmGroupAuthorizationCheck() {
-        return csmGroupAuthorizationCheck;
-    }
+	public void setCsmAuthorizationCheck(CSMAuthorizationCheck csmAuthorizationCheck) {
+		this.csmAuthorizationCheck = csmAuthorizationCheck;
+	}
 
-    public void setCsmGroupAuthorizationCheck(CSMGroupAuthorizationCheck csmGroupAuthorizationCheck) {
-        this.csmGroupAuthorizationCheck = csmGroupAuthorizationCheck;
-    }
 }

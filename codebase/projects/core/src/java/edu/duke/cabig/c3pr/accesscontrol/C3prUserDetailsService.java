@@ -47,7 +47,7 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = 
 			getCsmUserProvisioningManager().getUser(userDetails.getUsername());
 		AuthorizedUser authorizedUser= new AuthorizedUser(userDetails.getUsername(), userDetails.getPassword(), true, true, true, true, 
-						userDetails.getAuthorities(), provisioningSessionFactory.createSession(csmUser.getUserId()), getAllRolePrivileges(userDetails.getAuthorities()));
+						userDetails.getAuthorities(), provisioningSessionFactory. createSession(csmUser.getUserId()), getAllRolePrivileges(userDetails.getAuthorities()));
 		return authorizedUser;
 	}
 	

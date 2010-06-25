@@ -1,8 +1,10 @@
 package edu.duke.cabig.c3pr.security;
 
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.RemoteStudy;
 import edu.duke.cabig.c3pr.domain.Study;
+import gov.nih.nci.cabig.ctms.suite.authorization.ScopeType;
 
 /**
  * WIll generate the objectId and privilege for HealthcareSite domain object. THis is needed to make
@@ -24,7 +26,9 @@ public final class StudyPrivilegeAndObjectIdGenerator extends
     @Override
     public String generateId(Object object) {
         assertSupports(object);
-        return Study.class.getName();
+        Study study = (Study) object;
+
+        return ScopeType.STUDY.getScopeCsmNamePrefix() + study.getCoordinatingCenterAssignedIdentifier().getValue();
     }
 
     @Override

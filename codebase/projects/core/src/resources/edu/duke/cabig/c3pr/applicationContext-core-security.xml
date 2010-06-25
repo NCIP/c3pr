@@ -154,22 +154,13 @@
                   ref="joinPointObjectPrivilegeMap"/>
     </bean>
 
-    <bean id="csmGroupAuthorizationCheck"
-          class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
-        <property name="csmUserProvisioningManager"
-                  ref="csmUserProvisioningManager"/>
-        <property name="authorizationSwitch" ref="authorizationSwitch"/>
-    </bean>
-
     <bean id="daoAuthorizationCheck" autowire="byType"
-          class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
-        <property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck">
-        </property>
+        class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCheck">
+        <property name="authorizationSwitch" ref="authorizationSwitch"/>
         <property name="objectIdGenerator"
                   ref="joinPointPrivilegeAndObjectIdGenerator"/>
         <property name="privilegeGenerator"
                   ref="joinPointPrivilegeAndObjectIdGenerator"/>
-        <property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
     </bean>
 
     <bean id="daoSecurityInterceptor" parent="daoSecurityInterceptorTemplate"
@@ -216,43 +207,11 @@
     <bean id="afterInvocationManager" class="org.acegisecurity.afterinvocation.AfterInvocationProviderManager">
         <property name="providers">
             <list>
-                <ref local="siteSecurityBasicAuthCheck"/>
-                <!--<ref local="csmBasedSecurityCollectionFilter"/>-->
                 <ref local="c3prBasedSecurityFilter"/>
             </list>
         </property>
     </bean>
 
-    <bean id="studySiteSiteSecurityCSMGroupAuthorizationCheckProvider"
-          class="edu.duke.cabig.c3pr.accesscontrol.StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider">
-        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
-        <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
-    </bean>
-
-    <bean id="studySubjectSiteCSMGroupAuthorizationCheckProvider"
-          class="edu.duke.cabig.c3pr.accesscontrol.StudySubjectSiteCSMGroupAuthorizationCheckProvider">
-        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
-        <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
-    </bean>
-    
-    <bean id="participantSiteCSMGroupAuthorizationCheckProvider"
-          class="edu.duke.cabig.c3pr.accesscontrol.ParticipantSiteCSMGroupAuthorizationCheckProvider">
-        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
-        <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
-    </bean>
-
-    <bean id="researchStaffSiteCSMGroupAuthorizationCheckProvider"
-          class="edu.duke.cabig.c3pr.accesscontrol.ResearchStaffSiteCSMGroupAuthorizationCheckProvider">
-        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
-        <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
-    </bean>
-    
-    <bean id="investigatorSiteCSMGroupAuthorizationCheckProvider"
-          class="edu.duke.cabig.c3pr.accesscontrol.InvestigatorSiteCSMGroupAuthorizationCheckProvider">
-        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
-        <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
-    </bean>
-            
     <bean id="studySecurityFilter"
         class="edu.duke.cabig.c3pr.accesscontrol.StudySecurityFilter" />
     
@@ -268,21 +227,6 @@
     <bean id="investigatorSecurityFilter"
         class="edu.duke.cabig.c3pr.accesscontrol.InvestigatorSecurityFilter" />
         
-    <util:map id="domainObjectCSMAuhthorizationCheckProvidersMap"
-              map-class="java.util.LinkedHashMap">
-
-        <entry key="edu.duke.cabig.c3pr.domain.Study"
-               value-ref="studySiteSiteSecurityCSMGroupAuthorizationCheckProvider"/>
-        <entry key="edu.duke.cabig.c3pr.domain.StudySubject"
-               value-ref="studySubjectSiteCSMGroupAuthorizationCheckProvider"/>
-        <entry key="edu.duke.cabig.c3pr.domain.Participant"
-               value-ref="participantSiteCSMGroupAuthorizationCheckProvider"/>
-        <entry key="edu.duke.cabig.c3pr.domain.ResearchStaff"
-               value-ref="researchStaffSiteCSMGroupAuthorizationCheckProvider"/>
-        <entry key="edu.duke.cabig.c3pr.domain.Investigator"
-               value-ref="investigatorSiteCSMGroupAuthorizationCheckProvider"/>
-    </util:map>
-    
     <util:map id="domainObjectC3PRAuhthorizationCheckProvidersMap"
         	  map-class="java.util.LinkedHashMap">
         
@@ -298,15 +242,6 @@
             	value-ref="investigatorSecurityFilter"/>            	        
     </util:map>
 
-    <bean id="csmBasedSecurityCollectionFilter"
-        class="edu.duke.cabig.c3pr.accesscontrol.CSMBasedAfterInvocationCollectionFilteringProvider">
-        <property name="processConfigAttribute"
-                  value="CSM_AUTHN_CHECK"/>
-        <property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
-        <property name="domainObjectCSMAuhthorizationCheckProvidersMap"
-                  ref="domainObjectCSMAuhthorizationCheckProvidersMap"/>
-    </bean>
-    
     <bean id="c3prBasedSecurityFilter"
         class="edu.duke.cabig.c3pr.accesscontrol.C3PRBasedAfterInvocationFilteringProvider">
         <property name="authorizationSwitch" ref="authorizationSwitch"/>
@@ -314,15 +249,6 @@
             value="C3PR_AUTH_CHECK"/>
         <property name="domainObjectC3PRAuhthorizationCheckProvidersMap"
             ref="domainObjectC3PRAuhthorizationCheckProvidersMap"/>
-    </bean>
-
-    <bean id="siteSecurityBasicAuthCheck"
-          class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationBasicAuthorizationCheckProvider">
-        <property name="processConfigAttribute"
-            value="CSM_AUTHN_CHECK"/>
-        <property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
-        <property name="domainObjectCSMAuhthorizationCheckProvidersMap"
-                  ref="domainObjectCSMAuhthorizationCheckProvidersMap"/>
     </bean>
 
     <bean id="csmUserDetailsService"

@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.security;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import gov.nih.nci.cabig.ctms.suite.authorization.ScopeType;
 
 /**
  * WIll generate the objectId and privilege for HealthcareSite domain object. THis is needed to make
@@ -25,7 +26,7 @@ public final class StudyOrganizationPrivilegeAndObjectIdGenerator extends
         assertSupports(object);
         StudyOrganization studyOrganization = (StudyOrganization) object;
         
-        return HealthcareSite.class.getName() + getPathSeperator() + studyOrganization.getHealthcareSite().getPrimaryIdentifier();
+        return ScopeType.SITE.getScopeCsmNamePrefix() + studyOrganization.getHealthcareSite().getPrimaryIdentifier();
     }
 
     @Override

@@ -153,6 +153,17 @@ public class SecurityUtils {
 	}
 	
 	/**
+	 * Checks for privilege.
+	 * 
+	 * @param userPrivilege the user privilege
+	 * 
+	 * @return true, if successful
+	 */
+	public static boolean hasPrivilege(Authentication authentication, UserPrivilege userPrivilege){
+		return getUserPrivileges(authentication).contains(userPrivilege);
+	}
+	
+	/**
 	 * Checks if user has any of the provided privileges.
 	 * 
 	 * @param privilegeTypes the privilege types
@@ -213,6 +224,15 @@ public class SecurityUtils {
 	 */
 	public static List<UserPrivilege> getUserPrivileges(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return getUserPrivileges(authentication);
+	}
+	
+	/**
+	 * Gets the user privileges.
+	 * 
+	 * @return the user privileges
+	 */
+	public static List<UserPrivilege> getUserPrivileges(Authentication authentication){
 		AuthorizedUser authorizedUser = (AuthorizedUser)authentication.getPrincipal();
 		return authorizedUser.getUserPrivileges();
 	}
