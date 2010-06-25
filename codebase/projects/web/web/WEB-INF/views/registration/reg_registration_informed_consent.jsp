@@ -97,7 +97,7 @@ function changeStudyVersion(){
 		</c:otherwise>
 	</c:choose>
 	
-<c:if test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) > 1}">
+<c:if test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) > 0}">
 <c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
 <chrome:division title="${studySubjectConsentVersion.consent.name}">
 	<table width="100%" cellpadding="2" cellspacing="4">

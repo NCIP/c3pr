@@ -327,18 +327,6 @@ function hideDiseaseIndicator(){
 	$('diseaseIndicator').hide();
 }
 
-function closePopup(){
-	Effect.CloseDown('studyVersionDiv');
-}
-
-function changeStudyVersion(){
-	Effect.CloseDown('studyVersionDiv');
-	$('updateStudyVersion').value="true";
-	$('consentSignedDate').value=$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value;
-	$('dontSave').remove();
-	$('studyVersionForm').submit();
-}
-
 </script>
 <style>
 	#single-fields-interior div.row div.label {
@@ -362,52 +350,9 @@ function changeStudyVersion(){
 	</tags:panelBox>
 </c:when>
 <c:otherwise>
-<div id="checkInformedConsentSignedDateDiv" style="display: none;">
 </div>
-<form:form id="studyVersionForm">
-	<form:errors path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate">
-		<div id="checkInformedConsentSignedDateDivInline">
-		</div>
-	</form:errors>
-	<input type="hidden" id="updateStudyVersion" name="updateStudyVersion" value="false"/>
-	<input type="hidden" id="consentSignedDate" name="consentSignedDate"/>
-	<input type="hidden" id="dontSave" name="dontSave" value="true"/>
-</form:form>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 	<input type="hidden" name="_validateForm" id="_validateForm"/>
-	<div id="errorMsg1" style="display:none">
-	</div>
-	<div id="studyVersionDiv">
-	<c:if test="${not empty canEnroll && !canEnroll}">
-		<c:choose>
-		<c:when test="${empty studyVersion}">
-				<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
-				<div style="font-size:20px; margin-bottom:5px;">Invalid</div>
-				<div>
-					Cannot register subject. Site is/was not accruing on the given consent signed date because the site is/was not having the valid IRB approval for the study version.
-				</div>
-			<div align="right" style="padding-top: 10px">
-			<tags:button type="button" color="blue" icon="Close" value="Close" onclick="closePopup();" />
-		</div>
-		</c:when>
-		<c:otherwise>
-			<div style="padding-top: 20px">
-				<img src="<tags:imageUrl name="error.png" />" alt="Alert!" style="float:left; margin-right:30px; margin-left:30px;" />
-				<fmt:message key="REGISTRATION.STUDYVERSION.ERROR.FOUND.VALID" />
-				<ul style="padding-left:150px;">
-					<li><fmt:message key="study.versionNameNumber" /> : ${studyVersion.name}</li>
-				</ul>
-			</div>
-			<div align="right" style="padding-top: 10px">
-			<tags:button type="button" color="red" icon="Cancel" value="Cancel" onclick="closePopup();" /> &nbsp;&nbsp;&nbsp;
-			<tags:button type="button" color="green" icon="Save &amp; Continue" value="Continue" onclick="changeStudyVersion()" />
-		</div>
-		</c:otherwise>
-		</c:choose>
-		<hr>
-	</c:if>
-	</div>
-
 <%--<tags:instructions code="enrollment_details" />--%>
 
 	<c:choose>
@@ -433,38 +378,6 @@ function changeStudyVersion(){
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 			<div class="value">
 				<tags:dateInput path="studySubject.startDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
-			</div>
-		</div>
-	</c:if>
-	<c:if test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) == 1}">
-		<div class="row">
-			<div class="label"><fmt:message key="study.consent"/></div>
-			<div class="value">
-				${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.name}
-			</div>
-		</div>
-		<div class="row">
-			<div class="label"><fmt:message key="study.consentVersion"/></div>
-			<div class="value">
-				${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].consent.versionId}
-			</div>
-		</div>
-		<div class="row">
-			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
-			<div class="value">
-				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
-			</div>
-		</div>
-		<div class="row">
-			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
-			<div class="value">
-				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
-			</div>
-		</div>
-		<div class="row">
-			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
-			<div class="value">
-				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
 			</div>
 		</div>
 	</c:if>
