@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.admin;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,9 +31,9 @@ import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSu
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
-import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 
@@ -128,8 +129,18 @@ public class CreateResearchStaffController extends SimpleFormController{
     	ResearchStaffWrapper wrapper = (ResearchStaffWrapper)command;
     	ResearchStaff researchStaff = wrapper.getResearchStaff();
     	
-    	Map<String, Object> model = new HashMap<String, Object>();;
-        model.put("groups", C3PRUserGroupType.values());
+    	Map<String, Object> model = new HashMap<String, Object>();
+    	List<C3PRUserGroupType> roles = new ArrayList<C3PRUserGroupType>();
+    	List<C3PRUserGroupType> globalRoles = new ArrayList<C3PRUserGroupType>();
+    	for(C3PRUserGroupType role : C3PRUserGroupType.values()){
+    		if(SecurityUtils.isGlobalRole(role)){
+    			globalRoles.add(role);
+    		}else{
+    			roles.add(role);
+    		}
+    	}
+        model.put("roles", roles);
+        model.put("globalRoles", globalRoles);
         model.put("isLoggedInUser", researchStaffRepository.isLoggedInUser(researchStaff));
         model.put("coppaEnable", configuration.get(Configuration.COPPA_ENABLE));
         return model;

@@ -37,7 +37,7 @@
 		font-weight:bold;
 		margin-left:0.5em;
 		text-align:right;
-		width:5em;
+		width:7em;
 	}
 	div.row div.orgValue {
 		font-weight:normal;
@@ -120,7 +120,31 @@ function copyUsername(){
     	ValidationManager.setStateOnLoad($('loginId'), isValid);
 	}
 }
-	
+
+var firstHealthcareSiteAutocompleterProps = {
+    basename: "healthcareSite",
+    populator: function(autocompleter, text) {
+			ResearchStaffAjaxFacade.matchHealthcareSites( text,function(values) {
+            autocompleter.setChoices(values)
+        })
+    },
+    valueSelector: function(obj) {
+    	if(obj.externalId != null){
+    		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
+    	} else {
+    		image = '';
+    	}
+    	return (obj.name+" ("+obj.primaryIdentifier+")" + image)
+    },
+    afterUpdateElement: 
+	    function(inputElement, selectedElement, selectedChoice) {
+			hiddenField=inputElement.id.split("-")[0]+"-hidden";
+			$(hiddenField).value=selectedChoice.id;
+		}
+}
+
+AutocompleterManager.addAutocompleter(firstHealthcareSiteAutocompleterProps);
+
 var healthcareSiteAutocompleterProps = {
     basename: "healthcareSite",
     populator: function(autocompleter, text) {
@@ -147,7 +171,7 @@ AutocompleterManager.addAutocompleter(healthcareSiteAutocompleterProps);
 var healthcareSiteRowInserterProps = {
     add_row_division_id: "associateOrganization", 	        
     skeleton_row_division_id: "dummy-healthcareSite",
-    initialIndex: ${fn:length(command.researchStaff.healthcareSites)},
+    initialIndex: ${fn:length(command.researchStaff.healthcareSites) + 1},
     softDelete: false,
     path: "healthcareSites",
     postProcessRowInsertion: function(object){
@@ -166,10 +190,32 @@ var healthcareSiteRowInserterProps = {
 RowManager.addRowInseter(healthcareSiteRowInserterProps);
 RowManager.registerRowInserters();
 
+var contentWin ;
+function handleAllSiteAccess(){
+	if($('allSiteAccessCheckbox').checked){
+		contentWin = new Window({ width:400, height:110 ,className :"alert_lite"}) ;
+		contentWin.setContent('confirmation-msg') ;
+		contentWin.showCenter(true);
+	}
+}
+
+function close(){
+	contentWin.close();
+}
+
 </script>
 
 </head>
 <body>
+<div id="confirmation-msg" style="display: none;">
+	<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+		<fmt:message key="RESEARCH_STAFF.ALL_SITE_ACCESS_CHECKED"/>
+	</div>
+	<div align="center" style="padding-top: 20px">
+		<tags:button type="button "color="blue" value="OK" onclick="javascript:contentWin.close();"/>
+	</div>
+</div>
+</div>			
 <div id="main">
 <c:choose>
 	<c:when test="${command.researchStaff.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
@@ -298,11 +344,26 @@ RowManager.registerRowInserters();
 <div class="row">
     <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
     <div class="value">
-    	<form:checkbox id="allSiteAccessCheckbox" path="hasAccessToAllSites"/>
-   	<!-- 	<input id="allSiteAccessCheckbox" name="hasAccessToAllSites" type="checkbox" <c:if test="${command.hasAccessToAllSites}"> checked </c:if>/><tags:hoverHint keyProp="researchStaff.accessToAllSites"/>
-   	 -->
+    	<form:checkbox id="allSiteAccessCheckbox" path="hasAccessToAllSites" onclick="handleAllSiteAccess();"/>
     </div>
 </div>
+<br>
+<chrome:division title="Global Roles" cssClass="big">
+<table title="Global Roles">
+<tr>
+<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
+	<td>
+		<div class="newLabel"> 
+			<input type="checkbox" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}" <c:if test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}"> checked </c:if>/>
+		</div>
+		<div class="newValue">
+			${globalRole.displayName}
+		</div>
+	</td>
+ </c:forEach>
+ </tr>
+</table>
+</chrome:division>
 </c:if>
 <br>
 <chrome:division title="Associated Organizations" cssClass="big">
@@ -312,9 +373,20 @@ RowManager.registerRowInserters();
     <tr id="healthcareSite-${status}">
 	    <td>
 		<chrome:deletableDivision divTitle="genericTitle-${status.index}" id="genericHealthcareSiteBox-${status.index}" cssClass="small"
-	    	title="Organization: ${command.healthcareSiteRolesHolderList[status.index].healthcareSite.name} (${command.healthcareSiteRolesHolderList[status.index].healthcareSite.primaryIdentifier })" minimize="true" divIdToBeMinimized="hcs-${status.index}" disableDelete="true"
+	    	title="Organization: ${command.healthcareSiteRolesHolderList[status.index].healthcareSite.name} (${command.healthcareSiteRolesHolderList[status.index].healthcareSite.primaryIdentifier })" 
+	    	minimize="${FLOW != 'EDIT_FLOW'?'false':'true'}" divIdToBeMinimized="hcs-${status.index}" disableDelete="true"
 		    onclick="#">
-		    <div id="hcs-${status.index}" style="display: none">
+		    <c:if test="${fn:length(command.researchStaff.healthcareSites) == 0 && fn:length(command.healthcareSiteRolesHolderList) == 1}">
+		    	<div class="row">
+ 					<div class="orgLabel">
+ 						<fmt:message key="c3pr.common.organization"></fmt:message>
+	 				</div>
+	 				<div class="orgValue">
+	 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-NOTEMPTY"></tags:autocompleter>
+	 				</div>
+ 				</div>
+		    </c:if>
+		    <div id="hcs-${status.index}" <c:if test="${FLOW == 'EDIT_FLOW'}">style="display: none"</c:if>>
 		    <c:choose>
 		    	<c:when test="${FLOW=='SETUP_FLOW'}">
 				 	<div class="row">
@@ -323,8 +395,8 @@ RowManager.registerRowInserters();
 				        </div>
 				        <div class="value">
 				        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-				       		<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
-								<input type="hidden" id="hcs-PAGE.ROW.INDEX-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${group.name}"  />
+				       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
+								<input type="hidden" id="hcs-PAGE.ROW.INDEX-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
 					    	</c:forEach>
 				        </div>
 			    	</div>
@@ -332,16 +404,16 @@ RowManager.registerRowInserters();
 		    	<c:otherwise>
 			    	<table>
 					<tr>
-					<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
+					<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
 						<td>
-						<c:if test="${groupStatus.index % 3 == 0}">
+						<c:if test="${roleStatus.index % 3 == 0}">
 							</td></tr><tr><td>						
 						</c:if>
 						<div class="newLabel"> 
-							<input type="checkbox" id="hcs-${status.index}-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${group.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, group)}"> checked </c:if> />
+							<input type="checkbox" id="hcs-${status.index}-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, role)}"> checked </c:if> />
 						</div>
 						<div class="newValue">
-							${group.displayName}
+							${role.displayName}
 						</div>
 						</td>
 			    	</c:forEach>
@@ -446,8 +518,8 @@ RowManager.registerRowInserters();
 				        </div>
 				        <div class="value">
 				        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-				       		<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
-								<input type="hidden" id="hcs-PAGE.ROW.INDEX-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${group.name}"  />
+				       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
+								<input type="hidden" id="hcs-PAGE.ROW.INDEX-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
 					    	</c:forEach>
 				        </div>
 			    	</div>
@@ -455,16 +527,16 @@ RowManager.registerRowInserters();
 		    	<c:otherwise>
 		    		<table width="100%">
  				<tr>
- 				<c:forEach items="${groups}" var="group" varStatus="groupStatus" >
+ 				<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
  					<td>
-					<c:if test="${groupStatus.index % 3 == 0}">
+					<c:if test="${roleStatus.index % 3 == 0}">
 						</td></tr><tr><td>						
 					</c:if>
 					<div class="newLabel"> 
-						<input type="checkbox" id="hcs-PAGE.ROW.INDEX-group-${groupStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${group.name}"  />
+						<input type="checkbox" id="hcs-PAGE.ROW.INDEX-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
 					</div>
 					<div class="newValue">
-						${group.displayName}
+						${role.displayName}
 					</div>
 					</td>
 		    	</c:forEach>
