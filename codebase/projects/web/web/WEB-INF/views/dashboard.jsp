@@ -68,7 +68,10 @@
 			<br />--%>
 			<div id="build-name">version: ${buildInfo.buildName}</div>
 		</chrome:box></td>
-		<td valign="top"><chrome:box
+		
+		<td valign="top">
+		<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_READ">
+		<chrome:box
 			title="Incomplete Registrations*">
 			<c:choose>
 				
@@ -84,8 +87,6 @@
 					</tr>
 					<c:forEach var="registration" items="${uRegistrations}"
 						varStatus="status">
-						<csmauthz:accesscontrol domainObject="${registration.studySite.healthcareSite}"
-                                                      hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
 						<script>
 							paramString_${status.index }="<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>";
 						</script>
@@ -112,7 +113,6 @@
 								<c:out value="${registration.regWorkflowStatus.displayName}" />
 							</chrome:td>
 						</chrome:tr>
-						</csmauthz:accesscontrol>
 					</c:forEach>
 				</table>
 			</c:when>
@@ -120,7 +120,10 @@
 				<b><fmt:message key="DASHBOARD.INCOMPLETE_REGISTRATIONS.EMPTY"/></b>
 			</c:otherwise>
 			</c:choose>
-		</chrome:box> <chrome:box title="Pending Studies*">
+		</chrome:box>
+		</c3pr:checkprivilege>
+		<c3pr:checkprivilege hasPrivileges="STUDY_READ">
+		<chrome:box title="Pending Studies*">
 			<c:choose>
 			
 			<c:when test="${pStudies != null && fn:length(pStudies) > 0}">
@@ -214,6 +217,7 @@
 			</c:otherwise>
 			</c:choose>
 		</chrome:box>
+		</c3pr:checkprivilege>
 		<fmt:message key="DASHBOARD.ASTERISK.MESSAGE"/>
 		</td>
 		

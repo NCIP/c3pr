@@ -90,12 +90,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	</bean>
 
 	<bean id="taskAuthorizationCheck"
-		class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
-		<property name="authorizationSwitch" ref="authorizationSwitch" />
-		<property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck" />
+		class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCheck">
 		<property name="objectIdGenerator" ref="taskPrivilegeAndObjectIdGenerator" />
 		<property name="privilegeGenerator" ref="taskPrivilegeAndObjectIdGenerator" />
-		<property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
+		<property name="authorizationSwitch" ref="authorizationSwitch"/>
 	</bean>
 
 	<bean id="loginAuthorizationCheck"
@@ -138,65 +136,49 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	</bean>
 
 	<bean id="sectionAuthorizationCheck"
-		class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
-		<property name="authorizationSwitch" ref="authorizationSwitch" />
-		<property name="csmAuthorizationCheck"
-			ref="csmGroupAuthorizationCheck">
-		</property>
+		class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCheck">
 		<property name="objectIdGenerator"
 			ref="sectionPrivilegeAndObjectIdGenerator" />
 		<property name="privilegeGenerator"
 			ref="sectionPrivilegeAndObjectIdGenerator">
 		</property>
-		<property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
+		<property name="authorizationSwitch" ref="authorizationSwitch"/>
 	</bean>
 	
 	<bean id="studySiteAuthorizationCheck"
 		class="edu.duke.cabig.c3pr.accesscontrol.StudySiteAuthorizationCheck">
 		<property name="authorizationSwitch" ref="authorizationSwitch" />
-		<property name="csmAuthorizationCheck"
-			ref="csmGroupAuthorizationCheck" />
 		<property name="objectIdGenerator"
 			ref="studyOrganizationPrivilegeAndObjectIdGenerator" />
 		<property name="privilegeGenerator"
 			ref="studyOrganizationPrivilegeAndObjectIdGenerator" />
-		<property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
 	</bean>
 	
 
 	<bean id="siteAuthorizationCheck"
-		class="edu.duke.cabig.c3pr.accesscontrol.SiteAuthorizationCheck">
-		<property name="authorizationSwitch" ref="authorizationSwitch" />
-		<property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck" />
+		class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
 		<property name="objectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator" />
 		<property name="privilegeGenerator" ref="sitePrivilegeAndObjectIdGenerator" />
-		<property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
+		<property name="authorizationSwitch" ref="authorizationSwitch"/>
 	</bean>
 
 
 	<bean id="domainObjectAuthorizationCheck"
 		class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
-		<property name="authorizationSwitch" ref="authorizationSwitch" />
-		<property name="csmAuthorizationCheck"
-			ref="csmGroupAuthorizationCheck" />
+		<property name="authorizationSwitch" ref="authorizationSwitch"/>
 		<property name="objectIdGenerator"
 			ref="domainObjectPrivilegeAndObjectIdGenerator" />
 		<property name="privilegeGenerator"
 			ref="domainObjectPrivilegeAndObjectIdGenerator" />
-		<property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
 	</bean>
 	
 	<bean id="studyAuthorizationCheck"
 		class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
-		<property name="authorizationSwitch" ref="authorizationSwitch" />
-		<property name="csmAuthorizationCheck"
-			ref="csmGroupAuthorizationCheck" />
+		<property name="authorizationSwitch" ref="authorizationSwitch"/>
 		<property name="objectIdGenerator"
 			ref="studyPrivilegeAndObjectIdGenerator" />
 		<property name="privilegeGenerator"
 			ref="studyPrivilegeAndObjectIdGenerator" />
-		<property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
 	</bean>
 	
-
 </beans>

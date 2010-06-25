@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.ParameterizableViewController;
 
 import edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -36,6 +37,7 @@ import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import gov.nih.nci.ccts.grid.smoketest.client.SmokeTestServiceClient;
 
 /**
@@ -107,9 +109,13 @@ public class DashboardController extends ParameterizableViewController {
             }
         }
         request.setAttribute("links", links);
-        getMostEnrolledStudies(request);
-        getRecentPendingStudies(request);
-        getRecentPendingRegistrations(request);
+        if(SecurityUtils.hasPrivilege(UserPrivilegeType.STUDY_READ)){
+        	getMostEnrolledStudies(request);
+        	getRecentPendingStudies(request);
+        }
+        if(SecurityUtils.hasPrivilege(UserPrivilegeType.STUDYSUBJECT_READ)){
+        	getRecentPendingRegistrations(request);
+        }
 
         getNotifications(request);
         request.setAttribute("cctsEnv", isCCTSEnv());

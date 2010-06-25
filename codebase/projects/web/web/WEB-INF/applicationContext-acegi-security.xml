@@ -169,10 +169,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
     </bean>
 
-    <util:map id="urlObjectPrivilegeMap">
-        <entry key="/pages/skin" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
-    </util:map>
-
     <util:map id="filterObjectPrivilegeMap" map-class="java.util.LinkedHashMap">
         <!--  START PERSON AND ORG SECTION -->
         <!--  START RESEARCH STAFF -->	
@@ -259,21 +255,14 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                   ref="filterObjectPrivilegeMap"/>
     </bean>
 
-    <bean id="urlPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.web.security.UrlPrivilegeAndObjectIdGenerator">
-        <property name="objectPrivilegeMap" ref="urlObjectPrivilegeMap"/>
+    <bean id="filterAuthorizationCheck" autowire="byType"
+        class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCheck">
+        <property name="objectIdGenerator"
+                  ref="filterPrivilegeAndObjectIdGenerator"/>
+        <property name="privilegeGenerator"
+                  ref="filterPrivilegeAndObjectIdGenerator"/>
     </bean>
 
-    <bean id="urlAuthorizationCheck" autowire="byType" class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
-        <property name="csmAuthorizationCheck">
-            <bean class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
-                <property name="csmUserProvisioningManager" ref="csmUserProvisioningManager"/>
-                <property name="authorizationSwitch" ref="authorizationSwitch"/>
-            </bean>
-        </property>
-        <property name="objectIdGenerator" ref="urlPrivilegeAndObjectIdGenerator"/>
-        <property name="privilegeGenerator" ref="urlPrivilegeAndObjectIdGenerator"/>
-        <property name="rolePrivilegeDao" ref="rolePrivilegeDao" />
-    </bean>
 
     <bean id="filterInvocationInterceptor"
           class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
@@ -287,12 +276,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                         <bean class="gov.nih.nci.security.acegi.csm.vote.AuthorizationSwitchVoter">
                             <property name="authorizationSwitch" ref="authorizationSwitch"/>
                         </bean>
-                        <bean class="edu.duke.cabig.c3pr.security.vote.C3PRPrivilegeBasedAccessDecisionVoter">
-                            <property name="processConfigAttribute" value="C3PR_FILTER_CHECK"/>
-                            <property name="objectIdGenerator"
-                                ref="filterPrivilegeAndObjectIdGenerator"/>
-                            <property name="privilegeGenerator"
-                                ref="filterPrivilegeAndObjectIdGenerator"/>
+                        <bean class="gov.nih.nci.security.acegi.csm.vote.CSMAuthorizationCheckVoter">
+                            <property name="processConfigAttribute" value="CSM_FILTER_CHECK"/>
+                            <property name="authorizationCheck" ref="filterAuthorizationCheck"/>
                         </bean>
                         <bean class="org.acegisecurity.vote.AuthenticatedVoter" />
                     </list>
@@ -303,7 +289,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <value>
                 CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
                 /pages/dashboard=IS_AUTHENTICATED_REMEMBERED
-                \A/pages/.*\Z=C3PR_FILTER_CHECK
+                \A/pages/.*\Z=CSM_FILTER_CHECK
                </value>
 
         </property>
