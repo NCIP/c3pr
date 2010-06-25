@@ -510,15 +510,29 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				//Get the suiteRoleMembership and edit it with the new changes
 				if(hasAccessToAllSites){
 					suiteRoleMembership.forAllSites();
+					provisioningSession.replaceRole(suiteRoleMembership);
 				} else {
-					suiteRoleMembership.addSite(healthcareSite.getPrimaryIdentifier());					
+					//Get all existing sites(if any) add the new site and save it thru a new SRM. 
+					//This ensures the SRM doesn't have all-site access since the all site access chkbox was unchecked.
+					SuiteRoleMembership newSuiteRoleMembership= new SuiteRoleMembership(suiteRole, null, null);
+					if(!suiteRoleMembership.isAllSites()){
+						List<String> allSiteIds = suiteRoleMembership.getSiteIdentifiers();
+						for(String siteId: allSiteIds){
+							newSuiteRoleMembership.addSite(siteId);
+						}
+					}
+					newSuiteRoleMembership.addSite(healthcareSite.getPrimaryIdentifier());	
+					provisioningSession.replaceRole(newSuiteRoleMembership);
 				}
-			} 
-			provisioningSession.replaceRole(suiteRoleMembership);
+			} else {
+				//provisioning or global non site scoped role with all site access
+				provisioningSession.replaceRole(suiteRoleMembership);
+			}
 		}
 		
-		//iterate over the users suiteRole list and delete the unchecked
-		//roles from the user's provisioningSession
+		//Iterate over the user's (pre-existing) suiteRole list and delete the unchecked roles. 
+		//Can only delete site scoped roles here as this method deals with one site at a time.
+		//Global roles will have to be deleted in assignRolesToOrganization
 		Set<Group> groups;
 		if(csmUser.getGroups() != null){
 			try {
@@ -530,7 +544,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					if(!suiteRoleMembership.isAllSites() && suiteRoleMembership.getSiteIdentifiers().contains(healthcareSite.getPrimaryIdentifier()) &&
 							!groupList.contains(C3PRUserGroupType.getByCode(suiteRole.getCsmName()))){
 						suiteRoleMembership.removeSite(healthcareSite.getPrimaryIdentifier());
+						//remove the site for which the role was unchecked
 						provisioningSession.replaceRole(suiteRoleMembership);
+						//remove the role if it has no sites remaining
+						if(suiteRoleMembership.getSiteIdentifiers().size() == 0){
+							provisioningSession.deleteRole(suiteRole);
+						}
 					}
 				}
 			} catch (CSObjectNotFoundException e) {
@@ -694,15 +713,45 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		Iterator<HealthcareSite> iter = associationMap.keySet().iterator();
 		ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
 		HealthcareSite healthcareSite;
+		List<C3PRUserGroupType> groupList;
+		C3PRUserGroupType groupArray[] = C3PRUserGroupType.values();
 		while(iter.hasNext()){
 			healthcareSite = iter.next();
-			setSitesAndStudies(csmUser, provisioningSession, associationMap.get(healthcareSite), healthcareSite, hasAccessToAllSites);
+			groupList = associationMap.get(healthcareSite);
+			setSitesAndStudies(csmUser, provisioningSession, groupList, healthcareSite, hasAccessToAllSites);
+			//if any of the global roles are unchecked for every site then delete them.
+			for(int i=0;i<groupArray.length;i++){
+				if(groupArray[i] != null && groupList.contains(groupArray[i])){
+					groupArray[i] = null;
+				}
+			}
 		}
+		deleteRole(provisioningSession, groupArray);
 		return c3prUser;
 	}
 	
 
     /**
+     * Delete roles specified in the array. This comes into play when the allSiteAccess chk box is checked.
+     * When the allSite chkbox is checked we cannot delete individual site-roles.  We only delete those roles
+     * which are unchecked for all sites.
+     *
+     * @param provisioningSession the provisioning session
+     * @param groupArray the group array
+     */
+    private void deleteRole(ProvisioningSession provisioningSession,
+			C3PRUserGroupType[] groupArray) {
+    	SuiteRole suiteRole;
+    	for(int i=0;i<groupArray.length;i++){
+    		if(groupArray[i] != null){
+    			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupArray[i].getCode()));
+    			provisioningSession.deleteRole(suiteRole);
+    		}
+    	}
+    	
+	}
+
+	/**
      * Gets the user groups for organization.
      *
      * @param csmUser the csm user
@@ -724,17 +773,15 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	    	while(iter.hasNext()){
 	    		groupName = ((Group)iter.next()).getGroupName();
 	    		suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
-	            if(suiteRole.getScopes().contains(ScopeType.SITE)){
-	            	suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
-	                //include roles that are scoped by site and have access to all sites or the site in question
-	                if(suiteRoleMembership.isAllSites() ||
-	                        suiteRoleMembership.getSiteIdentifiers().contains(healthcareSite.getPrimaryIdentifier())){
-	                    groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
-	                }
-	            } else {
-	                //include all roles that are not scoped by site in order to return global roles
-	                groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
-	            }
+            	suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+                //include roles that are scoped by site and have access to the site in question
+                if(suiteRoleMembership.isAllSites() ||
+                		suiteRoleMembership.getSiteIdentifiers().contains(healthcareSite.getPrimaryIdentifier())){
+                    groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
+                }
+                if(!suiteRole.isScoped()){
+                    groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
+                }
 	    	}
 		} catch (CSObjectNotFoundException e) {
 			log.error(e.getMessage());
