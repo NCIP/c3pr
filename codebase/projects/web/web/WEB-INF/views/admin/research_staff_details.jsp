@@ -398,6 +398,9 @@ function close(){
 				       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
 								<input type="hidden" id="hcs-PAGE.ROW.INDEX-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
 					    	</c:forEach>
+					    	<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
+								<input type="hidden" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${globalRole.name}" />
+							</c:forEach>
 				        </div>
 			    	</div>
 		    	</c:when>
