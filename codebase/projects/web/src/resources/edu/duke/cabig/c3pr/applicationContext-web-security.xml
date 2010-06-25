@@ -173,7 +173,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	</bean>
 	
 	<bean id="studyAuthorizationCheck"
-		class="edu.duke.cabig.c3pr.security.authorization.C3PRObjectPrivilegeCSMAuthorizationCheck">
+		class="edu.duke.cabig.c3pr.accesscontrol.StudyAuthorizationCheck">
 		<property name="authorizationSwitch" ref="authorizationSwitch"/>
 		<property name="objectIdGenerator"
 			ref="studyPrivilegeAndObjectIdGenerator" />
