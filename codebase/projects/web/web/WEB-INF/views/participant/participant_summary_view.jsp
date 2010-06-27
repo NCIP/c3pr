@@ -15,7 +15,7 @@
 <div id="controlPanel">
 	
 		<tags:controlPanel>
-			<csmauthz:accesscontrol domainObject="${command.participant}" hasPrivileges="UPDATE" authorizationCheckName="domainObjectAuthorizationCheck">
+			<csmauthz:accesscontrol domainObject="${command.participant}" hasPrivileges="SUBJECT_UPDATE" authorizationCheckName="subjectAuthorizationCheck">
 				<tags:oneControlPanelItem linkhref="javascript:editParticipant();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
 			</csmauthz:accesscontrol>
 			<tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />

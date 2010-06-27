@@ -89,31 +89,22 @@
 						<td class="alt">${empty companion.companionRegistrationUrl ?"Not Started": (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</td>
 						<td class="alt">
 						<c:if test="${companion.registrationStatus != 'Enrolled'}">
+							<csmauthz:accesscontrol domainObject="${command.studySubject.studySite.study}"
+										hasPrivileges="STUDYSUBJECT_UPDATE"
+										authorizationCheckName="studyAuthorizationCheck">
 							<c:choose>
 								<c:when test="${not empty companion.companionRegistrationUrl}">
-									<csmauthz:accesscontrol domainObject="${command.studySubject}"
-										hasPrivileges="UPDATE"
-										authorizationCheckName="domainObjectAuthorizationCheck">
 										<a href="javascript:editCompanionRegistration('${companion.companionRegistrationUrl}', '${status.index}');"><img src="<tags:imageUrl name="../templates/mocha/images/controlPanel/controlPanel_pencil.png" />" alt="" /> Edit</a>
 										&nbsp;
 										<c:if test="${!companion.mandatoryIndicator}">
 											<a href="javascript:removeChildStudySubject('${companion.registrationId}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/x_icon_small.png" />" alt="" /> Remove</a>
 										</c:if>
-									</csmauthz:accesscontrol>
 								</c:when>
-								<c:otherwise>
-									<c:choose>
-									<c:when test="${companion.companionStudyStatus == 'OPEN'}">
-										<csmauthz:accesscontrol domainObject="${command.studySubject}"
-											hasPrivileges="UPDATE"
-											authorizationCheckName="domainObjectAuthorizationCheck">
-											<a id="registerCompanionStudy" href="javascript:openPopup('${ companion.companionStudyId}','${command.participant.id}','${command.studySubject.id}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/add_icon_small.png" />" alt="" /> Register</a>
-										</csmauthz:accesscontrol>
-									</c:when>
-									<c:otherwise></c:otherwise>
-									</c:choose>
-								</c:otherwise>
+								<c:when test="${companion.companionStudyStatus == 'OPEN'}">
+										<a id="registerCompanionStudy" href="javascript:openPopup('${ companion.companionStudyId}','${command.participant.id}','${command.studySubject.id}', '${status.index}');"><img src="<tags:imageUrl name="icons/button_icons/small/add_icon_small.png" />" alt="" /> Register</a>
+								</c:when>
 							</c:choose>
+							</csmauthz:accesscontrol>
 							<img id="searchCompanionInd-${status.index}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">  
 						</c:if>
 						</td>

@@ -92,13 +92,13 @@ function updateTargetAccrual(){
 	</c:forEach>
 <div id="controlPanel">
 	<tags:controlPanel>
-		<c:if test="${!(command.study.companionIndicator && !command.study.standaloneIndicator)}">
-			<tags:oneControlPanelItem linkhref="javascript:activateAndSaveStudy();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Open Study" />
-		</c:if>
-		<tags:oneControlPanelItem linkhref="javascript:javascript:document.location='../study/viewStudy?studyId=${command.study.id}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage Study" />
-		<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
+		<csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
+			<c:if test="${!(command.study.companionIndicator && !command.study.standaloneIndicator)}">
+				<tags:oneControlPanelItem linkhref="javascript:activateAndSaveStudy();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Open Study" />
+			</c:if>
 			<tags:oneControlPanelItem linkhref="javascript:updateTargetAccrual();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Edit Accrual" />
 		</csmauthz:accesscontrol>
+		<tags:oneControlPanelItem linkhref="javascript:javascript:document.location='../study/viewStudy?studyId=${command.study.id}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage Study" />
 	</tags:controlPanel>
 </div>
 <div id="flash-message-targetaccrual" style="display:none;">

@@ -171,7 +171,7 @@ changed before submit in javascripts. The parameters need proper default values,
 		                    		</c:when>
 		                    	</c:choose>
 		                    	<c:if test="${canDisplay}">
-			                        <csmauthz:accesscontrol domainObject="${studyOrganization}" hasPrivileges="READ"  
+			                        <csmauthz:accesscontrol domainObject="${studyOrganization}" hasPrivileges="STUDYPERSONNEL_CREATE"  
 				                                                authorizationCheckName="studySiteAuthorizationCheck">
 				                        <c:if test="${empty selectedStudyOrganization}">
 				                        	<c:set var="selectedStudyOrganization" value="${studyOrganization}"/>
@@ -250,10 +250,9 @@ changed before submit in javascripts. The parameters need proper default values,
   </c:otherwise>
 </c:choose>
 <div align="right">
-	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE"
-                            authorizationCheckName="studyAuthorizationCheck">
+	<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE">
 		<tags:button id="createPersonnel" type="button" size="small" color="blue" value="Create Research Staff" onclick="showCreateResearchStaffPopup();"/>
-	</csmauthz:accesscontrol>
+	</c3pr:checkprivilege>
 </div>
 <br/>
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>

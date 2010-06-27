@@ -233,8 +233,7 @@
 		                            </c:when>
 		                            <c:otherwise>
 		                                <c:if test="${not empty editAuthorizationTask}">
-		                                    <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
-		                                                            authorizationCheckName="taskAuthorizationCheck">
+		                                    <csmauthz:accesscontrol domainObject="${companionStudyAssociation.companionStudy.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
 		                                        <tags:button id="editCompanionStudy" type="button" color="blue" value="Edit"
 													onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
 		                                    </csmauthz:accesscontrol>

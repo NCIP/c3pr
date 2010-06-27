@@ -40,7 +40,7 @@ function submitLocalForm(idParamStr){
             <tbody class="tableBody">
 			<%int i=0; %>
 			<c:forEach items="${registrations}" var="registration" varStatus="status">
-                <csmauthz:accesscontrol domainObject="${registration.studySite.healthcareSite}" hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
+                <csmauthz:accesscontrol domainObject="${registration.studySite.study}" hasPrivileges="STUDYSUBJECT_READ"  authorizationCheckName="studyAuthorizationCheck">
 
             <% String currClass=i%2==0? "odd":"even"; %>
             	<script>

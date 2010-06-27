@@ -165,7 +165,7 @@ function closePopup(deleteRow) {
 				                		</form:select>
 				            		 </td>
 				                     <td>
-				                     <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
+				                     <csmauthz:accesscontrol domainObject="${companionStudyAssociation.companionStudy.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
 	                     	            	<c:if test="${!companionStudyAssociation.companionStudy.standaloneIndicator && companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'PENDING'}">
 	                     	            		<tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}&parentStudyFlow=${flowType}';" size="small"/>
 	                     	            	</c:if>
@@ -182,10 +182,10 @@ function closePopup(deleteRow) {
 </table>
 <div align="right">
 <tags:button type="button" color="blue" icon="add" value="Add Existing Companion" onclick="$('addCompanionMessage') != null ? $('addCompanionMessage').hide():'';addRow('addExistingCompanionStudy')" size="small"/>
-<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="studyAuthorizationCheck">
+<c3pr:checkprivilege hasPrivileges="STUDY_CREATE">
 	<tags:button type="button" color="blue" value="Create New Companion" 
 	onclick="$('addCompanionMessage') != null ? $('addCompanionMessage').hide():'';addRow('createCompanionStudy')" size="small" icon="add"/>
-</csmauthz:accesscontrol>
+</c3pr:checkprivilege>
 </div>
 
 </jsp:attribute>

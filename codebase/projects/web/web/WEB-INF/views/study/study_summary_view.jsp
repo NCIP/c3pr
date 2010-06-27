@@ -222,19 +222,19 @@
                 <c:set var="closed" value="Temporarily_Close"></c:set>
             </c:if>
         </c:forEach>
-		<c:if test="${not empty editAuthorizationTask}">
-			<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
-				<c:if test="${!empty closed}">
-                	<tags:oneControlPanelItem linkhref="#" onclick="javascript:showCloseStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_closeStudy.jpg" linktext="Close Study" id="closeStudy"/>
-                </c:if>
-                <c:if test="${!empty open}">
-                	<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('open');" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Open Study" />
-                </c:if>
-	            <c:if test="${applyAmendment}">
-            		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('applyAmendment')" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_readytoOpen.png" linktext="Apply Amendment" />
-	            </c:if>
-            </csmauthz:accesscontrol>
-			<c:if test="${flowType != 'VIEW_STUDY'}">
+		<csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
+			<c:if test="${!empty closed}">
+               	<tags:oneControlPanelItem linkhref="#" onclick="javascript:showCloseStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_closeStudy.jpg" linktext="Close Study" id="closeStudy"/>
+               </c:if>
+               <c:if test="${!empty open}">
+               	<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('open');" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_openstudy.png" linktext="Open Study" />
+               </c:if>
+            <c:if test="${applyAmendment}">
+           		<tags:oneControlPanelItem linkhref="javascript:changeStudyStatus('applyAmendment')" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_readytoOpen.png" linktext="Apply Amendment" />
+            </c:if>
+        </csmauthz:accesscontrol>
+		<c:choose>
+			<c:when test="${flowType != 'VIEW_STUDY'}">
 				<tags:oneControlPanelItem linkhref="javascript:document.location='../study/viewStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="Manage Study" />
 				<c:if test="${!studyCommand.study.standaloneIndicator && fn:length(command.study.parentStudyAssociations) == 1}">
 					<c:choose>
@@ -246,9 +246,9 @@
 						</c:otherwise>
 					</c:choose>
 				</c:if>
-			</c:if>
-			<c:if test="${flowType == 'VIEW_STUDY'}">
-				<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
+			</c:when>
+			<c:otherwise>
+				<csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
                 	<c:if test="${command.study.coordinatingCenterStudyStatus != 'CLOSED_TO_ACCRUAL' && command.study.coordinatingCenterStudyStatus != 'CLOSED_TO_ACCRUAL_AND_TREATMENT'}">
                 	<c:choose>
 	                    <c:when test="${command.study.companionIndicator=='true'}">
@@ -265,15 +265,13 @@
                      </c:if>
                      <c:if test="${canBroadcast}">
 						<tags:oneControlPanelItem linkhref="javascript:confirmBroadcastStudy();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_broadcast.png" linktext="Broadcast Study" />
-					</c:if>	
+					</c:if>
+					<tags:oneControlPanelItem linkhref="javascript:updateTargetAccrual();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Edit Accrual" />	
                 </csmauthz:accesscontrol>
-                <csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="UPDATE" authorizationCheckName="studyAuthorizationCheck">
-					<tags:oneControlPanelItem linkhref="javascript:updateTargetAccrual();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_reconsent.png" linktext="Edit Accrual" />
-				</csmauthz:accesscontrol>
 				<tags:oneControlPanelItem linkhref="javascript:doExportAction();;" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_xml.png" linktext="Export XML" />
 				<tags:oneControlPanelItem linkhref="javascript:launchPrint();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
-			</c:if>
-		</c:if>
+			</c:otherwise>
+		</c:choose>
 	</tags:controlPanel>
 </div>
 <c:if test="${not empty studyMessage}">
@@ -597,8 +595,7 @@
 		                            </c:when>
 		                            <c:otherwise>
 		                                <c:if test="${not empty editAuthorizationTask}">
-		                                    <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
-		                                                            authorizationCheckName="taskAuthorizationCheck">
+		                                    <csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
 		                                        <tags:button id="editCompanionStudy" type="button" color="blue" value="Edit"
 													onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
 		                                    </csmauthz:accesscontrol>
@@ -671,7 +668,7 @@
 </div>
 <div align="right">
 	<c:if test="${flowType != 'VIEW_STUDY' && applyAmendment}">
-	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="studyAuthorizationCheck">
+	<csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
 		<tags:button color="blue" value="Apply Amendment" icon="applyAmendment" onclick="javascript:changeStudyStatus('applyAmendment')"/>
 	</csmauthz:accesscontrol>
 	</c:if>

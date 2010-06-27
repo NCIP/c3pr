@@ -462,9 +462,9 @@
     	<br>
     	<div align="right">
     	<br>
-    	<csmauthz:accesscontrol domainObject="${command.study}" hasPrivileges="CREATE" authorizationCheckName="studyAuthorizationCheck">
+    	<c3pr:checkprivilege hasPrivileges="INVESTIGATOR_CREATE">
        		<tags:button id="createPrincipalInvestigator" type="button" size="small" color="blue" value="Create principal investigator"/>
-       	</csmauthz:accesscontrol>
+       	</c3pr:checkprivilege>
        	</div>
     	<div class="division"></div>
     </div>
