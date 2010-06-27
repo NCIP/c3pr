@@ -2,7 +2,9 @@ package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
@@ -18,6 +20,7 @@ import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.dao.RolePrivilegeDao;
+import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
@@ -327,10 +330,11 @@ public class SecurityUtils {
 	 * 
 	 * @return the list
 	 */
-	public static List<String> buildUserAccessibleOrganizationIdsList(){
+	public static List<String> buildUserAccessibleOrganizationIdsList(UserPrivilegeType privlegeType){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
-		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes();
+		List<RolePrivilege> rpList = ((AuthorizedUser)authentication.getPrincipal()).getRolePrivileges(privlegeType);
+		Set<C3PRUserGroupType> rolesList = getC3PRUserGroupTypeList(rpList);
 		List<String> userAccessibleOrganizationIdsList = new ArrayList<String>();
 		SuiteRoleMembership suiteRoleMembership; 
 		for(C3PRUserGroupType userRole: rolesList){
@@ -345,6 +349,16 @@ public class SecurityUtils {
 			}
 		}
 		return userAccessibleOrganizationIdsList;
+	}
+
+	private static Set<C3PRUserGroupType> getC3PRUserGroupTypeList(
+			List<RolePrivilege> rpList) {
+		Set<C3PRUserGroupType> rolesList = new HashSet<C3PRUserGroupType>();
+		for(RolePrivilege rp: rpList){
+			rolesList.add(C3PRUserGroupType.getByCode(rp.getRoleName()));
+		}
+		return rolesList;
+		
 	}
 
 	/**

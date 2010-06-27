@@ -6,6 +6,7 @@ import java.util.List;
 import org.acegisecurity.Authentication;
 import org.apache.log4j.Logger;
 
+import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
 
@@ -36,7 +37,7 @@ public class StudySubjectSecurityFilter implements DomainObjectSecurityFilterer{
 		List<String> userAccessibleOrganizationIdsList = null;
 		boolean hasAllSiteAccess = SecurityUtils.hasAllSiteAccess();
 		if(!hasAllSiteAccess){
-			userAccessibleOrganizationIdsList = SecurityUtils.buildUserAccessibleOrganizationIdsList();
+			userAccessibleOrganizationIdsList = SecurityUtils.buildUserAccessibleOrganizationIdsList(UserPrivilegeType.STUDYSUBJECT_READ);
 		}
 		
 		logger.debug("Authorizing the user and filtering studies.");
