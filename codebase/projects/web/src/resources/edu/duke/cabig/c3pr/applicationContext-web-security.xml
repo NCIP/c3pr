@@ -181,4 +181,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			ref="studyPrivilegeAndObjectIdGenerator" />
 	</bean>
 	
+	<bean id="subjectAuthorizationCheck"
+		class="edu.duke.cabig.c3pr.accesscontrol.SubjectAuthorizationCheck">
+		<property name="objectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator" />
+		<property name="privilegeGenerator" ref="sitePrivilegeAndObjectIdGenerator" />
+		<property name="authorizationSwitch" ref="authorizationSwitch"/>
+	</bean>
+	
 </beans>
