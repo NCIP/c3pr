@@ -23,3 +23,5 @@ INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID)
 VALUES('registrar','edu.duke.cabig.c3pr.domain.Study', 'READ', (select nextval('role_privileges_ID_SEQ')));
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
 VALUES('registrar','edu.duke.cabig.c3pr.domain.Subject', 'READ', (select nextval('role_privileges_ID_SEQ')));
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('registrar','edu.duke.cabig.c3pr.domain.StudySite', 'READ', (select nextval('role_privileges_ID_SEQ')));
