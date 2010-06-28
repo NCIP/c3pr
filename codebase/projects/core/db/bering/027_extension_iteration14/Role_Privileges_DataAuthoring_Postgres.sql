@@ -98,11 +98,11 @@ VALUES('registration_qa_manager','edu.duke.cabig.c3pr.domain.StudySubject', 'REA
 
 
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
-VALUES('subject_manager','edu.duke.cabig.c3pr.domain.Participant', 'CREATE', (select nextval('role_privileges_ID_SEQ')));
+VALUES('subject_manager','edu.duke.cabig.c3pr.domain.Subject', 'CREATE', (select nextval('role_privileges_ID_SEQ')));
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
-VALUES('subject_manager','edu.duke.cabig.c3pr.domain.Participant', 'UPDATE', (select nextval('role_privileges_ID_SEQ')));
+VALUES('subject_manager','edu.duke.cabig.c3pr.domain.Subject', 'UPDATE', (select nextval('role_privileges_ID_SEQ')));
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
-VALUES('subject_manager','edu.duke.cabig.c3pr.domain.Participant', 'READ', (select nextval('role_privileges_ID_SEQ')));
+VALUES('subject_manager','edu.duke.cabig.c3pr.domain.Subject', 'READ', (select nextval('role_privileges_ID_SEQ')));
 
 
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
