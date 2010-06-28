@@ -238,7 +238,6 @@ RowManager.registerRowInserters();
 		<tags:button type="button "color="blue" value="OK" onclick="javascript:contentWin.close();"/>
 	</div>
 </div>
-</div>
 <div id="main">
 <c:choose>
 	<c:when test="${command.researchStaff.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
@@ -260,6 +259,7 @@ RowManager.registerRowInserters();
 	<c:set var="noHealthcareSiteAssociated" value="${fn:length(command.researchStaff.healthcareSites) == 0}"></c:set>
 	<tags:instructions code="research_staff_details" />
 	<tags:errors path="*"/>
+	<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE">
 	<chrome:division id="staff-details" title="Basic Details">
 	    <div class="leftpanel">
 	        <div class="row">
@@ -301,6 +301,7 @@ RowManager.registerRowInserters();
 	    </div>
 	    <div class="division"></div>
 	</chrome:division>
+	</c3pr:checkprivilege>
 </chrome:box>
 <chrome:box title="Account Information">
 <tags:instructions code="research_staff_account_information" />
@@ -347,6 +348,7 @@ RowManager.registerRowInserters();
     </div>
 </c:when>
 <c:otherwise>
+	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
 	<div class="row">
         <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
         <div class="value">
@@ -361,19 +363,24 @@ RowManager.registerRowInserters();
         	</c:choose>
         </div>
     </div>
+    </c3pr:checkprivilege>
 </c:otherwise>
 </c:choose>
+
 <c:if test="${FLOW != 'SETUP_FLOW'}">
+<c3pr:checkprivilege hasPrivileges="USER_CREATE">
 <div class="row">
     <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
     <div class="value">
     	<form:checkbox id="allSiteAccessCheckbox" path="hasAccessToAllSites" onclick="handleAllSiteAccess();"/>
     </div>
 </div>
-</c:if>
 <br>
+</c3pr:checkprivilege>
+</c:if>
 <chrome:division title="Associated Organizations" cssClass="big">
 	<c:if test="${FLOW != 'SETUP_FLOW'}">
+	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
 	<chrome:division title="Global Roles" cssClass="indented">
 		<table title="Global Roles">
 		<tr>
@@ -390,6 +397,7 @@ RowManager.registerRowInserters();
 		 </tr>
 		</table>
 	</chrome:division>
+	</c3pr:checkprivilege>
 	</c:if>
 	<table id="associateOrganization" width="100%" border="0">
 	<tr></tr>
@@ -402,6 +410,7 @@ RowManager.registerRowInserters();
 		    onclick="#">
 		    <div id="hcs-${status.index}" <c:if test="${FLOW == 'EDIT_FLOW'}">style="display: none"</c:if>>
 			<c:if test="${fn:length(command.researchStaff.healthcareSites) == 0 && fn:length(command.healthcareSiteRolesHolderList) == 1}">
+				<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE">
 		    	<div class="row">
  					<div class="orgLabel">
  						<fmt:message key="c3pr.common.organization"></fmt:message>
@@ -410,6 +419,7 @@ RowManager.registerRowInserters();
 	 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-NOTEMPTY"></tags:autocompleter>
 	 				</div>
  				</div>
+ 				</c3pr:checkprivilege>
 		    </c:if>
 		    <c:choose>
 		    	<c:when test="${FLOW=='SETUP_FLOW'}">
@@ -429,6 +439,7 @@ RowManager.registerRowInserters();
 			    	</div>
 		    	</c:when>
 		    	<c:otherwise>
+		    		<c3pr:checkprivilege hasPrivileges="USER_CREATE">
 			    	<table>
 					<tr>
 					<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
@@ -446,6 +457,7 @@ RowManager.registerRowInserters();
 			    	</c:forEach>
 			    	</tr>
 			    	</table>
+			    	</c3pr:checkprivilege>
 		    	</c:otherwise>
 		    </c:choose>
 			</div>
@@ -455,12 +467,15 @@ RowManager.registerRowInserters();
 	</c:forEach>
 	</table>
 </chrome:division>
+<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE">
 	<br>
 	<hr />
 	<div align="right">
 		<tags:button id="associateOrganizationBtn" size="small" type="button" color="blue" icon="add" value="Associate organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
 	</div>
+</c3pr:checkprivilege>
 </chrome:box>
+<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE,USER_CREATE">
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
 		<table>
@@ -477,6 +492,7 @@ RowManager.registerRowInserters();
 		</table>
 	</jsp:attribute>
 </tags:tabControls>
+</c3pr:checkprivilege>
 </form:form>
 </div>
 
@@ -524,6 +540,7 @@ RowManager.registerRowInserters();
 		<chrome:deletableDivision divTitle="genericTitle-PAGE.ROW.INDEX" id="genericHealthcareSiteBox-PAGE.ROW.INDEX" cssClass="small"
 	    	title="Organization" onclick="RowManager.deleteRow(healthcareSiteRowInserterProps,PAGE.ROW.INDEX,-1)" >
  				<tags:errors path="healthcareSiteRolesHolderList[PAGE.ROW.INDEX]" />
+ 				<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE">
  				<div class="row">
  					<div class="orgLabel">
  						<fmt:message key="c3pr.common.organization"></fmt:message>
@@ -537,6 +554,7 @@ RowManager.registerRowInserters();
 	 				</div>
  				</div>
  				<br>
+ 				</c3pr:checkprivilege>
  				<c:choose>
 		    	<c:when test="${FLOW=='SETUP_FLOW'}">
 				 	<div class="row">
@@ -552,6 +570,7 @@ RowManager.registerRowInserters();
 			    	</div>
 		    	</c:when>
 		    	<c:otherwise>
+		    	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
 		    		<table width="100%">
  				<tr>
  				<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
@@ -569,6 +588,7 @@ RowManager.registerRowInserters();
 		    	</c:forEach>
 		    	</tr>
 		    	</table>
+		    	</c3pr:checkprivilege>
 		    	</c:otherwise>
 		    	</c:choose>
 		</chrome:deletableDivision>

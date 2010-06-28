@@ -174,7 +174,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <!--  START RESEARCH STAFF -->	
 	        <entry key="/pages/personAndOrganization/researchStaff/searchResearchStaff.*" value="edu.duke.cabig.c3pr.domain.ResearchStaff:READ"/>
 	        <entry key="/pages/personAndOrganization/researchStaff/createResearchStaff.*" value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
-			<entry key="/pages/personAndOrganization/researchStaff/editResearchStaff.*" value="edu.duke.cabig.c3pr.domain.ResearchStaff:UPDATE"/>
+			<entry key="/pages/personAndOrganization/researchStaff/editResearchStaff.*" value="edu.duke.cabig.c3pr.domain.ResearchStaff:READ"/>
         <!--  END RESEARCH STAFF -->
         <!--  START SUBJECT -->
         	<entry key="/pages/personAndOrganization/participant/create.*" value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
