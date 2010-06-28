@@ -80,7 +80,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<entry key="/pages/study/createCompanionStudy" value="edu.duke.cabig.c3pr.domain.Study:CREATE" />
 		<!-- End Study -->
 		<!-- NO IDEA Discuss with Vinay -->
-		<entry key="/pages/admin/viewInbox" value="edu.duke.cabig.c3pr.domain.Participant:READ" />
+		<entry key="/pages/admin/viewInbox" value="edu.duke.cabig.c3pr.domain.Inbox:READ" />
 	</util:map>
 
 	<bean id="taskPrivilegeAndObjectIdGenerator"

@@ -36,11 +36,15 @@
 					</td>
 				</tr>
 			</table>
-		</chrome:box> <tags:inbox
+		</chrome:box> 
+		<c3pr:checkprivilege hasPrivileges="INBOX_READ">
+		<tags:inbox
 			recipientScheduledNotification="${recipientScheduledNotification}"
 			endValue="5"
 			htmlContent="<a href='../pages/admin/viewInbox'>My Inbox</a>"
-			url="../pages/admin/viewInbox" /> <chrome:box
+			url="../pages/admin/viewInbox" />
+		</c3pr:checkprivilege> 
+		<chrome:box
 			title="C3PR Development Notes">
 			
 			<div id="c3pr-wiki">
@@ -67,7 +71,8 @@
 			</div>
 			<br />--%>
 			<div id="build-name">version: ${buildInfo.buildName}</div>
-		</chrome:box></td>
+		</chrome:box>
+		</td>
 		
 		<td valign="top">
 		<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_READ">
@@ -218,7 +223,9 @@
 			</c:choose>
 		</chrome:box>
 		</c3pr:checkprivilege>
-		<fmt:message key="DASHBOARD.ASTERISK.MESSAGE"/>
+		<c3pr:checkprivilege hasPrivileges="STUDY_READ,STUDYSUBJECT_READ">
+			<fmt:message key="DASHBOARD.ASTERISK.MESSAGE"/>
+		</c3pr:checkprivilege>
 		</td>
 		
 	</tr>

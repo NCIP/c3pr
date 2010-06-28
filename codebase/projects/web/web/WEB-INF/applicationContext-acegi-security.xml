@@ -190,9 +190,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			<entry key="/pages/personAndOrganization/investigator/editInvestigator.*" value="edu.duke.cabig.c3pr.domain.Investigator:UPDATE"/>
         <!--  END INVESTIGATOR -->
         <!--  START ORGANIZATION -->
-	        <entry key="/pages/personAndOrganization/organization/createOrganization.*" value="edu.duke.cabig.c3pr.domain.HealthacareSite:CREATE"/>
-			<entry key="/pages/personAndOrganization/organization/editOrganization.*" value="edu.duke.cabig.c3pr.domain.HealthacareSite:UPDATE"/>
-	        <entry key="/pages/personAndOrganization/organization/searchOrganization" value="edu.duke.cabig.c3pr.domain.HealthacareSite:READ"/>
+	        <entry key="/pages/personAndOrganization/organization/createOrganization.*" value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
+			<entry key="/pages/personAndOrganization/organization/editOrganization.*" value="edu.duke.cabig.c3pr.domain.HealthcareSite:UPDATE"/>
+	        <entry key="/pages/personAndOrganization/organization/searchOrganization" value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
         <!--  END ORGANIZATION -->
         <!--  END PERSON AND ORG SECTION -->
         
@@ -244,7 +244,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		
 		<entry key="/pages/skin" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
         <entry key="/pages/admin/download.*" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
-		<entry key="/pages/admin/viewInbox.*" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
+		<entry key="/pages/admin/viewInbox.*" value="edu.duke.cabig.c3pr.domain.Inbox:READ"/>
         <entry key="/pages/admin/validateConnectivity.*" value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
     </util:map>
 
