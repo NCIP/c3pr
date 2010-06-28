@@ -173,8 +173,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			ref="domainObjectPrivilegeAndObjectIdGenerator" />
 	</bean>
 	
-	<bean id="studyAuthorizationCheck"
-		class="edu.duke.cabig.c3pr.accesscontrol.StudyAuthorizationCheck" />
+	<bean id="studySubjectAuthorizationCheck"
+		class="edu.duke.cabig.c3pr.accesscontrol.StudySubjectAuthorizationCheck" />
 	
 	<bean id="subjectAuthorizationCheck"
 		class="edu.duke.cabig.c3pr.accesscontrol.SubjectAuthorizationCheck">
