@@ -21,7 +21,7 @@ import org.acegisecurity.Authentication;
  * Time: 3:14:12 PM
  */
 
-public class StudyAuthorizationCheck implements CSMAuthorizationCheck{
+public class StudySubjectAuthorizationCheck implements CSMAuthorizationCheck{
 	
 	
 	public boolean checkAuthorization(Authentication authentication, String privilege,
