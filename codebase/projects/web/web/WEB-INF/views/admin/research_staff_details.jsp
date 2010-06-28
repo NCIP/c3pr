@@ -259,7 +259,6 @@ RowManager.registerRowInserters();
 	<c:set var="noHealthcareSiteAssociated" value="${fn:length(command.researchStaff.healthcareSites) == 0}"></c:set>
 	<tags:instructions code="research_staff_details" />
 	<tags:errors path="*"/>
-	<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE">
 	<chrome:division id="staff-details" title="Basic Details">
 	    <div class="leftpanel">
 	        <div class="row">
@@ -286,9 +285,7 @@ RowManager.registerRowInserters();
 		    </div>
 			<div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" /></div>
-	            <div class="value">
-					<form:input size="30" path="researchStaff.email" cssClass="required validate-notEmpty&&EMAIL" onkeyup="copyUsername();"/><tags:hoverHint keyProp="contactMechanism.email"/>
-				</div>
+				<tags:researchStaffInput commandClass="${command.researchStaff.class}" cssClass="required validate-notEmpty&&EMAIL" path="researchStaff.email" size="30" value="${command.researchStaff.email}" onkeyup="copyUsername();"></tags:researchStaffInput>
 	       	</div>
 	        <div class="row">
 	            <div class="label"><fmt:message key="c3pr.common.phone" /></div>
@@ -301,7 +298,6 @@ RowManager.registerRowInserters();
 	    </div>
 	    <div class="division"></div>
 	</chrome:division>
-	</c3pr:checkprivilege>
 </chrome:box>
 <chrome:box title="Account Information">
 <tags:instructions code="research_staff_account_information" />
@@ -413,10 +409,10 @@ RowManager.registerRowInserters();
 				<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE">
 		    	<div class="row">
  					<div class="orgLabel">
- 						<fmt:message key="c3pr.common.organization"></fmt:message>
+ 						<tags:requiredIndicator /><fmt:message key="c3pr.common.organization"></fmt:message>
 	 				</div>
 	 				<div class="orgValue">
-	 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-NOTEMPTY"></tags:autocompleter>
+	 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>
 	 				</div>
  				</div>
  				</c3pr:checkprivilege>
@@ -542,7 +538,7 @@ RowManager.registerRowInserters();
  				<tags:errors path="healthcareSiteRolesHolderList[PAGE.ROW.INDEX]" />
  				<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE">
  				<div class="row">
- 					<div class="orgLabel">
+ 					<div class="orgLabel"><tags:requiredIndicator />
  						<fmt:message key="c3pr.common.organization"></fmt:message>
 	 				</div>
 	 				<div class="orgValue">
