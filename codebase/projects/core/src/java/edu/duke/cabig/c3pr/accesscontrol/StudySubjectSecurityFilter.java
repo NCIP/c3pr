@@ -2,13 +2,16 @@ package edu.duke.cabig.c3pr.accesscontrol;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.acegisecurity.Authentication;
 import org.apache.log4j.Logger;
 
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
+import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 
 /**
  * The Class StudySubjectSecurityFilter.
@@ -26,39 +29,20 @@ public class StudySubjectSecurityFilter implements DomainObjectSecurityFilterer{
 	public Object filter(Authentication authentication, String permission,
 			Filterer returnObject) {
 
-		//Use the provisioningSession to determine hasAllStudyAccess and if not then build userAccessibleStudyIdsList.
-		List<String> userAccessibleStudyIdsList = null;
-		boolean hasAllStudyAccess = SecurityUtils.hasAllStudyAccess();
-		if(!hasAllStudyAccess){
-			userAccessibleStudyIdsList = SecurityUtils.buildUserAccessibleStudyIdsList();
-		}
-		
-		//Use the provisioningSession to determine hasAllSiteAccess and if not then build userAccessibleOrganizationIdsList.
-		List<String> userAccessibleOrganizationIdsList = null;
-		boolean hasAllSiteAccess = SecurityUtils.hasAllSiteAccess();
-		if(!hasAllSiteAccess){
-			userAccessibleOrganizationIdsList = SecurityUtils.buildUserAccessibleOrganizationIdsList(UserPrivilegeType.STUDYSUBJECT_READ);
-		}
-		
 		logger.debug("Authorizing the user and filtering studies.");
 		//check the type of filterer
+		StudySubject studySubject = null;
 		if(returnObject instanceof CollectionFilterer || returnObject instanceof ArrayFilterer){
 			Iterator collectionIter = returnObject.iterator();
 			while (collectionIter.hasNext()) {
-	        	StudySubject studySubject = (StudySubject)collectionIter.next();
-	        	if(!hasAllStudyAccess && !hasStudyLevelAccessPermission(userAccessibleStudyIdsList, studySubject)){
-	        		returnObject.remove(studySubject);
-	        	}
-	        	if(!hasAllSiteAccess && !hasSiteLevelAccessPermission(userAccessibleOrganizationIdsList, studySubject)){
+	        	studySubject = (StudySubject)collectionIter.next();
+	        	if(!hasSiteAndStudyLevelAccess(studySubject)){
 	        		returnObject.remove(studySubject);
 	        	}
 			}
 		}else if(returnObject instanceof AbstractMutableDomainObjectFilterer){
-			StudySubject studySubject = (StudySubject)returnObject.getFilteredObject();
-        	if(!hasAllStudyAccess && !hasStudyLevelAccessPermission(userAccessibleStudyIdsList, studySubject)){
-        		returnObject.remove(studySubject);
-        	}
-        	if(!hasAllSiteAccess && !hasSiteLevelAccessPermission(userAccessibleOrganizationIdsList, studySubject)){
+			studySubject = (StudySubject)returnObject.getFilteredObject();
+			if(!hasSiteAndStudyLevelAccess(studySubject)){
         		returnObject.remove(studySubject);
         	}
 		}else{
@@ -67,6 +51,39 @@ public class StudySubjectSecurityFilter implements DomainObjectSecurityFilterer{
 		return returnObject.getFilteredObject();
 	}
 
+	
+	private boolean hasSiteAndStudyLevelAccess(StudySubject studySubject){
+		//load all the roles the user has with the specified privilege
+		Set<C3PRUserGroupType> userRoles = SecurityUtils.getUserRoles(UserPrivilegeType.STUDY_READ);
+		Iterator<C3PRUserGroupType> iter = userRoles.iterator();
+
+		C3PRUserGroupType role;
+		SuiteRole suiteRole;
+		while(iter.hasNext()){
+			role = iter.next();
+			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(role);
+			//grant access if role is unscoped
+			if(!suiteRole.isScoped()){
+				return true;
+			} else {
+				if(SecurityUtils.hasAllSiteAccess(role) || hasSiteLevelAccessPermission(SecurityUtils
+						.buildUserAccessibleOrganizationIdsList(role), studySubject)){
+					if(!suiteRole.isStudyScoped()){
+						//user is only scoped by site
+						return true;
+					} else {
+						//user is both site and study scoped
+						if(SecurityUtils.hasAllStudyAccess(role) || hasStudyLevelAccessPermission(SecurityUtils
+								.buildUserAccessibleStudyIdsList(role), studySubject)){
+				    		return true;
+				    	}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList , StudySubject studySubject){
 		return userAccessibleOrganizationIdsList.contains(studySubject.getStudySite().getHealthcareSite()) ||
 		userAccessibleOrganizationIdsList.contains(studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
