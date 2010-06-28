@@ -47,7 +47,8 @@ public enum UserPrivilegeType implements CodedEnum<String>{
 	IMPORT_UPDATE("edu.duke.cabig.c3pr.utils.web.navigation.Task.Import:UPDATE"),
 	USER_CREATE("edu.duke.cabig.c3pr.domain.C3PRUser:CREATE"),
 	USER_READ("edu.duke.cabig.c3pr.domain.C3PRUser:READ"),
-	USER_UPDATE("edu.duke.cabig.c3pr.domain.C3PRUser:UPDATE");
+	USER_UPDATE("edu.duke.cabig.c3pr.domain.C3PRUser:UPDATE"),
+	INBOX_READ("edu.duke.cabig.c3pr.domain.Inbox:READ");
 
 	private String code;
 

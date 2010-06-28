@@ -69,3 +69,61 @@ VALUES('study_qa_manager','edu.duke.cabig.c3pr.domain.StudySubject', 'READ', (se
 
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
 VALUES('study_site_participation_administrator','edu.duke.cabig.c3pr.domain.Study', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+--Inbox related privileges
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('system_administrator','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('business_administrator','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('person_and_organization_information_manager','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('data_importer','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('user_administrator','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('study_qa_manager','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('study_creator','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('supplemental_study_information_manager','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('study_team_administrator','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('study_site_participation_administrator','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('registration_qa_manager','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('subject_manager','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('registrar','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('data_reader','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
+
+
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('data_analyst','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));
