@@ -163,7 +163,9 @@ public class CreateResearchStaffController extends SimpleFormController{
 		}
 		Set<HealthcareSite> hcSites = new HashSet<HealthcareSite> ();
 		for(HealthcareSiteRolesHolder roleHolder : listAssociation){
-			hcSites.add(roleHolder.getHealthcareSite());
+			if(roleHolder != null){
+				hcSites.add(roleHolder.getHealthcareSite());	
+			}
 		}
 		if(hcSites.size() < listAssociation.size()){
 			errors.reject("organization.already.present.error");	
