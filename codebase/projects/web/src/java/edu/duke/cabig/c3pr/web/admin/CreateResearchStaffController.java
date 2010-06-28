@@ -3,8 +3,10 @@ package edu.duke.cabig.c3pr.web.admin;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -154,6 +156,17 @@ public class CreateResearchStaffController extends SimpleFormController{
 		List<HealthcareSiteRolesHolder> listAssociation = wrapper.getHealthcareSiteRolesHolderList();
 		if(listAssociation.size() == 0){
 			errors.reject("organization.not.present.error");
+		}
+
+		if(listAssociation.size() == 0){
+			errors.reject("organization.not.present.error");
+		}
+		Set<HealthcareSite> hcSites = new HashSet<HealthcareSite> ();
+		for(HealthcareSiteRolesHolder roleHolder : listAssociation){
+			hcSites.add(roleHolder.getHealthcareSite());
+		}
+		if(hcSites.size() < listAssociation.size()){
+			errors.reject("organization.already.present.error");	
 		}
 		
     	String actionParam = request.getParameter("_action");

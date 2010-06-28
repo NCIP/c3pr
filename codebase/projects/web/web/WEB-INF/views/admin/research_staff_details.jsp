@@ -26,12 +26,17 @@
 	}
 	
 	.division.big h3 {
-		font-size:1em;
-	}
-	.division.indented {
-		margin-left:2px;
+		font-size:1.2em;
 	}
 	
+	.division.indented {
+		margin-left:4px;
+	}
+	
+	.division.indented h3 {
+		font-size:1em;
+	}
+		
 	div.row div.orgLabel {
 		float:left;
 		font-weight:bold;
@@ -48,6 +53,29 @@
 </style>
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
+var contentWin ;
+function handleAllSiteAccess(){
+	if($('allSiteAccessCheckbox').checked){
+		contentWin = new Window({ width:400, height:120 ,className :"alert_lite"}) ;
+		contentWin.setContent('confirmation-allsiteaccess-msg') ;
+		contentWin.showCenter(true);
+	}
+}
+
+function handleGlobalRoleCheckbox(element){
+	var globalRoleAlreadySelected = false ;
+	$$(".globalRoleCheckbox").each(function(e) {
+		if(e != element && e.checked){
+			globalRoleAlreadySelected = true ;
+		}
+	});
+	if(!globalRoleAlreadySelected && element.checked){
+		contentWin = new Window({ width:400, height:120 ,className :"alert_lite"}) ;
+		contentWin.setContent('confirmation-globalrole-msg') ;
+		contentWin.showCenter(true);
+	}
+}
+
 function displayRemoteResearchStaff(){
 	var contentWin = new Window({className:"alphacube", destroyOnClose:true, id:"remoteRS-popup-id", width:550,  height:200, top: 30, left: 300});
 	contentWin.setContent( 'display_remote_rs' );
@@ -190,24 +218,11 @@ var healthcareSiteRowInserterProps = {
 RowManager.addRowInseter(healthcareSiteRowInserterProps);
 RowManager.registerRowInserters();
 
-var contentWin ;
-function handleAllSiteAccess(){
-	if($('allSiteAccessCheckbox').checked){
-		contentWin = new Window({ width:400, height:120 ,className :"alert_lite"}) ;
-		contentWin.setContent('confirmation-msg') ;
-		contentWin.showCenter(true);
-	}
-}
-
-function close(){
-	contentWin.close();
-}
-
 </script>
 
 </head>
 <body>
-<div id="confirmation-msg" style="display: none;">
+<div id="confirmation-allsiteaccess-msg" style="display: none;">
 	<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
 		<fmt:message key="RESEARCH_STAFF.ALL_SITE_ACCESS_CHECKED"/>
 	</div>
@@ -215,7 +230,15 @@ function close(){
 		<tags:button type="button "color="blue" value="OK" onclick="javascript:contentWin.close();"/>
 	</div>
 </div>
-</div>			
+<div id="confirmation-globalrole-msg" style="display: none;">
+	<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
+		<fmt:message key="RESEARCH_STAFF.GLOBAL_ROLE_CHECKED"/>
+	</div>
+	<div align="center" style="padding-top: 20px">
+		<tags:button type="button "color="blue" value="OK" onclick="javascript:contentWin.close();"/>
+	</div>
+</div>
+</div>
 <div id="main">
 <c:choose>
 	<c:when test="${command.researchStaff.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
@@ -347,26 +370,27 @@ function close(){
     	<form:checkbox id="allSiteAccessCheckbox" path="hasAccessToAllSites" onclick="handleAllSiteAccess();"/>
     </div>
 </div>
-<br>
-<chrome:division title="Global Roles" cssClass="big">
-<table title="Global Roles">
-<tr>
-<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
-	<td>
-		<div class="newLabel"> 
-			<input type="checkbox" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}" <c:if test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}"> checked </c:if>/>
-		</div>
-		<div class="newValue">
-			${globalRole.displayName}
-		</div>
-	</td>
- </c:forEach>
- </tr>
-</table>
-</chrome:division>
 </c:if>
 <br>
 <chrome:division title="Associated Organizations" cssClass="big">
+	<c:if test="${FLOW != SETUP_FLOW}">
+	<chrome:division title="Global Roles" cssClass="indented">
+		<table title="Global Roles">
+		<tr>
+		<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
+			<td>
+				<div class="newLabel"> 
+					<input type="checkbox" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}" class="globalRoleCheckbox" onclick="handleGlobalRoleCheckbox(this);" <c:if test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}"> checked </c:if>/>
+				</div>
+				<div class="newValue">
+					${globalRole.displayName}
+				</div>
+			</td>
+		 </c:forEach>
+		 </tr>
+		</table>
+	</chrome:division>
+	</c:if>
 	<table id="associateOrganization" width="100%" border="0">
 	<tr></tr>
     <c:forEach items="${command.healthcareSiteRolesHolderList}" var="healthcareSiteRolesHolder"  varStatus="status">
@@ -376,17 +400,17 @@ function close(){
 	    	title="Organization: ${command.healthcareSiteRolesHolderList[status.index].healthcareSite.name} (${command.healthcareSiteRolesHolderList[status.index].healthcareSite.primaryIdentifier })" 
 	    	minimize="${FLOW != 'EDIT_FLOW'?'false':'true'}" divIdToBeMinimized="hcs-${status.index}" disableDelete="true"
 		    onclick="#">
-		    <c:if test="${fn:length(command.researchStaff.healthcareSites) == 0 && fn:length(command.healthcareSiteRolesHolderList) == 1}">
+		    <div id="hcs-${status.index}" <c:if test="${FLOW == 'EDIT_FLOW'}">style="display: none"</c:if>>
+			<c:if test="${fn:length(command.researchStaff.healthcareSites) == 0 && fn:length(command.healthcareSiteRolesHolderList) == 1}">
 		    	<div class="row">
  					<div class="orgLabel">
  						<fmt:message key="c3pr.common.organization"></fmt:message>
 	 				</div>
 	 				<div class="orgValue">
-	 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-NOTEMPTY"></tags:autocompleter>
+	 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-NOTEMPTY"></tags:autocompleter>
 	 				</div>
  				</div>
 		    </c:if>
-		    <div id="hcs-${status.index}" <c:if test="${FLOW == 'EDIT_FLOW'}">style="display: none"</c:if>>
 		    <c:choose>
 		    	<c:when test="${FLOW=='SETUP_FLOW'}">
 				 	<div class="row">
@@ -497,7 +521,7 @@ function close(){
 <table width="100%">
 	<tr id="healthcareSite-PAGE.ROW.INDEX">
 	    <td>
-		<chrome:deletableDivision divTitle="genericTitle-PAGE.ROW.INDEX" id="genericHealthcareSiteBox-PAGE.ROW.INDEX" cssClass="indented"
+		<chrome:deletableDivision divTitle="genericTitle-PAGE.ROW.INDEX" id="genericHealthcareSiteBox-PAGE.ROW.INDEX" cssClass="small"
 	    	title="Organization" onclick="RowManager.deleteRow(healthcareSiteRowInserterProps,PAGE.ROW.INDEX,-1)" >
  				<tags:errors path="healthcareSiteRolesHolderList[PAGE.ROW.INDEX]" />
  				<div class="row">
