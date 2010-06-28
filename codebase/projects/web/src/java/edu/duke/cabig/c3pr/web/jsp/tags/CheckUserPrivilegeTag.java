@@ -17,7 +17,7 @@ public class CheckUserPrivilegeTag extends TagSupport{
 	public int doStartTag() throws JspException {
 		List<UserPrivilegeType> privileges = new ArrayList<UserPrivilegeType>();
 		for(String privilegeString : hasPrivileges.split(",")){
-			privileges.add(UserPrivilegeType.valueOf(privilegeString));
+			privileges.add(UserPrivilegeType.valueOf(privilegeString.trim()));
 		}
 		if(SecurityUtils.hasAnyPrivilege(privileges)){
 			return EVAL_BODY_INCLUDE;
