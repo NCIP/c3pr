@@ -53,7 +53,7 @@ public class SubjectSecurityFilter implements DomainObjectSecurityFilterer{
 	
 	private boolean hasSiteAndStudyLevelAccess(Participant participant){
 		//load all the roles the user has with the specified privilege
-		Set<C3PRUserGroupType> userRoles = SecurityUtils.getUserRoles(UserPrivilegeType.STUDY_READ);
+		Set<C3PRUserGroupType> userRoles = SecurityUtils.getUserRoles(UserPrivilegeType.SUBJECT_READ);
 		Iterator<C3PRUserGroupType> iter = userRoles.iterator();
 
 		C3PRUserGroupType role;
