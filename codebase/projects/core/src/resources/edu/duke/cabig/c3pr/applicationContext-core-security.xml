@@ -83,6 +83,9 @@
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudyDao.get*(..))"
         value="edu.duke.cabig.c3pr.domain.Study:READ"/>
         
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.getMostEnrolledStudies(..))"
+            value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+        
         <entry key="execution(public * gov.nih.nci.cabig.ctms.dao.AbstractDomainObjectDao+.get*(..)) &amp;&amp; target(edu.duke.cabig.c3pr.dao.StudyDao)"
             value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
