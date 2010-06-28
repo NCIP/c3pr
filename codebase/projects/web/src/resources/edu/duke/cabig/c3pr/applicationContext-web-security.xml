@@ -23,9 +23,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<!-- END ORGANIZATION -->	
 		
 		<!-- START SUBJECT -->
-		<entry key="/pages/personAndOrganization/participant/searchParticipant" value="edu.duke.cabig.c3pr.domain.Participant:READ" />
-		<entry key="/pages/personAndOrganization/participant/createParticipant" value="edu.duke.cabig.c3pr.domain.Participant:CREATE" />
-		<entry key="/pages/personAndOrganization/participant/confirmCreateParticipant" value="edu.duke.cabig.c3pr.domain.Participant:CREATE" />
+		<entry key="/pages/personAndOrganization/participant/searchParticipant" value="edu.duke.cabig.c3pr.domain.Subject:READ" />
+		<entry key="/pages/personAndOrganization/participant/createParticipant" value="edu.duke.cabig.c3pr.domain.Subject:CREATE" />
+		<entry key="/pages/personAndOrganization/participant/confirmCreateParticipant" value="edu.duke.cabig.c3pr.domain.Subject:CREATE" />
 		<!-- END SUBJECT -->
 		
 		<!-- START INVESTIGATOR -->
@@ -58,7 +58,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			<!-- Entries related to advance search  
          	<entry key="/pages/report/advancedSearch/registrationAdvancedSearch" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         	<entry key="/pages/report/advancedSearch/studyAdvancedSearch" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
-       		<entry key="/pages/report/advancedSearch/subjectAdvancedSearch" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
+       		<entry key="/pages/report/advancedSearch/subjectAdvancedSearch" value="edu.duke.cabig.c3pr.domain.Subject:READ"/>
        		-->
 		<!--  Reports End -->
 		
@@ -113,8 +113,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
 		<entry key="/pages/study/searchStudy" value="edu.duke.cabig.c3pr.domain.Study:READ" />
 		
-		<entry key="/pages/personAndOrganization/participant/searchParticipant" value="edu.duke.cabig.c3pr.domain.Participant:READ" />
-		<entry key="/pages/personAndOrganization/participant/confirmCreateParticipant" value="edu.duke.cabig.c3pr.domain.Participant:CREATE" />
+		<entry key="/pages/personAndOrganization/participant/searchParticipant" value="edu.duke.cabig.c3pr.domain.Subject:READ" />
+		<entry key="/pages/personAndOrganization/participant/confirmCreateParticipant" value="edu.duke.cabig.c3pr.domain.Subject:CREATE" />
 
 		<entry key="/pages/admin/configure" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Configuration:CREATE" />
 		<entry key="/pages/admin/password_policy_configure" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Configuration:CREATE" />

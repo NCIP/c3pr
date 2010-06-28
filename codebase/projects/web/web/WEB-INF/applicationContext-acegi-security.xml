@@ -177,11 +177,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			<entry key="/pages/personAndOrganization/researchStaff/editResearchStaff.*" value="edu.duke.cabig.c3pr.domain.ResearchStaff:READ"/>
         <!--  END RESEARCH STAFF -->
         <!--  START SUBJECT -->
-        	<entry key="/pages/personAndOrganization/participant/create.*" value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
-        	<entry key="/pages/personAndOrganization/participant/edit.*" value="edu.duke.cabig.c3pr.domain.Participant:UPDATE"/>
-        	<entry key="/pages/personAndOrganization/participant/view.*" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
-        	<entry key="/pages/personAndOrganization/participant/search.*" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
-        	<entry key="/pages/personAndOrganization/participant/confirm.*" value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
+        	<entry key="/pages/personAndOrganization/participant/create.*" value="edu.duke.cabig.c3pr.domain.Subject:CREATE"/>
+        	<entry key="/pages/personAndOrganization/participant/edit.*" value="edu.duke.cabig.c3pr.domain.Subject:UPDATE"/>
+        	<entry key="/pages/personAndOrganization/participant/view.*" value="edu.duke.cabig.c3pr.domain.Subject:READ"/>
+        	<entry key="/pages/personAndOrganization/participant/search.*" value="edu.duke.cabig.c3pr.domain.Subject:READ"/>
+        	<entry key="/pages/personAndOrganization/participant/confirm.*" value="edu.duke.cabig.c3pr.domain.Subject:CREATE"/>
         <!--  END SUBJECT -->
         <!--  START INVESTIGATOR -->
        		<entry key="/pages/personAndOrganization/investigator/getGroup.*" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
@@ -213,7 +213,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
          	<!-- Entries related to advance search  
          	<entry key="/pages/report/advancedSearch/registrationAdvancedSearch.*" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         	<entry key="/pages/report/advancedSearch/studyAdvancedSearch.*" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
-        	<entry key="/pages/report/advancedSearch/subjectAdvancedSearch.*" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
+        	<entry key="/pages/report/advancedSearch/subjectAdvancedSearch.*" value="edu.duke.cabig.c3pr.domain.Subject:READ"/>
         	-->      
         <!-- End Reports -->
         

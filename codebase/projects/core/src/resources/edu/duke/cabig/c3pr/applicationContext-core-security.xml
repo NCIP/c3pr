@@ -106,16 +106,16 @@
             value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
        
        <entry key="execution(* edu.duke.cabig.c3pr.dao.ParticipantDao.get*(..))"
-       value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
+       value="edu.duke.cabig.c3pr.domain.Subject:READ"/>
         
         <!--<entry key="execution(public * gov.nih.nci.cabig.ctms.dao.AbstractDomainObjectDao+.get*(..)) &amp;&amp; target(edu.duke.cabig.c3pr.dao.ParticipantDao)"
-            value="edu.duke.cabig.c3pr.domain.Participant:READ"/>-->
+            value="edu.duke.cabig.c3pr.domain.Subject:READ"/>-->
                
        <entry key="execution(* edu.duke.cabig.c3pr.dao.ParticipantDao.save*(..))"
-               value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.Subject:CREATE"/>
                
        <entry key="execution(* edu.duke.cabig.c3pr.dao.ParticipantDao.search*(..))"
-               value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
+               value="edu.duke.cabig.c3pr.domain.Subject:READ"/>
 
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.search*(..))"
                value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
