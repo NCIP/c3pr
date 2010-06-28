@@ -280,45 +280,38 @@ public class SecurityUtils {
 	
 	
 	/**
-	 * Checks for all site acsess.
+	 * Checks for all site access.
 	 * Get the provisioningSession from the user and the roles from the authentication object to
 	 * determine hasAllSiteAccess
 	 * User has all Site access if he isnt scoped by site or suiteRoleMembership.isAllSites() is true
 	 * 
 	 * @return true, if successful
 	 */
-	public static boolean hasAllSiteAccess(){
+	public static boolean hasAllSiteAccess(C3PRUserGroupType userRole){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
-		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes();
-		SuiteRoleMembership suiteRoleMembership; 
-		for(C3PRUserGroupType userRole: rolesList){
-			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
-			if(suiteRoleMembership.isAllSites() || !suiteRoleMembership.hasSiteScope()){
-				return true;
-			}
+		SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
+		if(suiteRoleMembership.isAllSites() || !suiteRoleMembership.hasSiteScope()){
+			return true;
 		}
 		return false;
 	}
+
 	
 	/**
-	 * Checks for all study acsess.
+	 * Checks for all study access.
 	 * Get the provisioningSession from the user and the roles from the authentication object to
 	 * determine hasAllSiteAccess
 	 * User has all Study access if he isnt scoped by study or suiteRoleMembership.isAllStudies() is true
 	 * 
 	 * @return true, if successful
 	 */
-	public static boolean hasAllStudyAccess(){
+	public static boolean hasAllStudyAccess(C3PRUserGroupType userRole){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
-		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes();
-		SuiteRoleMembership suiteRoleMembership; 
-		for(C3PRUserGroupType userRole: rolesList){
-			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
-			if(suiteRoleMembership.isAllStudies() || !suiteRoleMembership.hasStudyScope()){
-				return true;
-			}
+		SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
+		if(suiteRoleMembership.isAllStudies() || !suiteRoleMembership.hasStudyScope()){
+			return true;
 		}
 		return false;
 	}
@@ -330,35 +323,20 @@ public class SecurityUtils {
 	 * 
 	 * @return the list
 	 */
-	public static List<String> buildUserAccessibleOrganizationIdsList(UserPrivilegeType privlegeType){
+	public static List<String> buildUserAccessibleOrganizationIdsList(C3PRUserGroupType userRole){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
-		List<RolePrivilege> rpList = ((AuthorizedUser)authentication.getPrincipal()).getRolePrivileges(privlegeType);
-		Set<C3PRUserGroupType> rolesList = getC3PRUserGroupTypeList(rpList);
 		List<String> userAccessibleOrganizationIdsList = new ArrayList<String>();
-		SuiteRoleMembership suiteRoleMembership; 
-		for(C3PRUserGroupType userRole: rolesList){
-			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
-			if(suiteRoleMembership.isAllSites()){
-				log.error("User has access to all sites. No point in building list");
-			} else {
-				//add NC010 from "HealthcareSite.NC010" to the userAccessibleOrganizationIdsList
-				for(String siteId:suiteRoleMembership.getSiteIdentifiers()){
-					userAccessibleOrganizationIdsList.add(siteId.substring(siteId.lastIndexOf(".") + 1));
-				}
+		SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
+		if(suiteRoleMembership.isAllSites()){
+			log.error("User has access to all sites. No point in building list");
+		} else {
+			//add NC010 from "HealthcareSite.NC010" to the userAccessibleOrganizationIdsList
+			for(String siteId:suiteRoleMembership.getSiteIdentifiers()){
+				userAccessibleOrganizationIdsList.add(siteId.substring(siteId.lastIndexOf(".") + 1));
 			}
 		}
 		return userAccessibleOrganizationIdsList;
-	}
-
-	private static Set<C3PRUserGroupType> getC3PRUserGroupTypeList(
-			List<RolePrivilege> rpList) {
-		Set<C3PRUserGroupType> rolesList = new HashSet<C3PRUserGroupType>();
-		for(RolePrivilege rp: rpList){
-			rolesList.add(C3PRUserGroupType.getByCode(rp.getRoleName()));
-		}
-		return rolesList;
-		
 	}
 
 	/**
@@ -368,26 +346,37 @@ public class SecurityUtils {
 	 * 
 	 * @return the list
 	 */
-	public static List<String> buildUserAccessibleStudyIdsList(){
+	public static List<String> buildUserAccessibleStudyIdsList(C3PRUserGroupType userRole){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
-		List<C3PRUserGroupType> rolesList = SecurityUtils.getC3PRUserRoleTypes();
 		List<String> userAccessibleStudyIdsList = new ArrayList<String>();
-		SuiteRoleMembership suiteRoleMembership;
-		for(C3PRUserGroupType userRole: rolesList){
-			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
-			if(suiteRoleMembership.isAllSites()){
-				log.error("User has access to all sites. No point in building list");
-			} else {
-				//add NC010 from "HealthcareSite.NC010" to the userAccessibleOrganizationIdsList
-				for(String studyId:suiteRoleMembership.getStudyIdentifiers()){
-					userAccessibleStudyIdsList.add(studyId.substring(studyId.lastIndexOf(".") + 1));
-				}
+		SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
+		if(suiteRoleMembership.isAllSites()){
+			log.error("User has access to all sites. No point in building list");
+		} else {
+			//add NC010 from "HealthcareSite.NC010" to the userAccessibleOrganizationIdsList
+			for(String studyId:suiteRoleMembership.getStudyIdentifiers()){
+				userAccessibleStudyIdsList.add(studyId.substring(studyId.lastIndexOf(".") + 1));
 			}
 		}
 		return userAccessibleStudyIdsList;
 	}
 	
+	public static Set<C3PRUserGroupType> getC3PRUserGroupTypeList(
+			List<RolePrivilege> rpList) {
+		Set<C3PRUserGroupType> rolesList = new HashSet<C3PRUserGroupType>();
+		for(RolePrivilege rp: rpList){
+			rolesList.add(C3PRUserGroupType.getByCode(rp.getRoleName()));
+		}
+		return rolesList;
+	}
+	
+	
+	public static Set<C3PRUserGroupType> getUserRoles(UserPrivilegeType privlegeType){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		List<RolePrivilege> rpList = ((AuthorizedUser)authentication.getPrincipal()).getRolePrivileges(privlegeType);
+		return SecurityUtils.getC3PRUserGroupTypeList(rpList);
+	}
 	
 	/**
 	 * Check privilege, given roles set.
