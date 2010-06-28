@@ -161,13 +161,17 @@ public class CreateResearchStaffController extends SimpleFormController{
 		if(listAssociation.size() == 0){
 			errors.reject("organization.not.present.error");
 		}
+		boolean duplicateOrg = false ;
 		Set<HealthcareSite> hcSites = new HashSet<HealthcareSite> ();
 		for(HealthcareSiteRolesHolder roleHolder : listAssociation){
 			if(roleHolder != null){
-				hcSites.add(roleHolder.getHealthcareSite());	
+				duplicateOrg = hcSites.add(roleHolder.getHealthcareSite());
+				if(duplicateOrg){
+					break ;
+				}
 			}
 		}
-		if(hcSites.size() < listAssociation.size()){
+		if(duplicateOrg){
 			errors.reject("organization.already.present.error");	
 		}
 		
