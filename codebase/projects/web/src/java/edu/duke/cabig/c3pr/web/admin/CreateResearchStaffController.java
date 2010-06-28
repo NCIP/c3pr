@@ -105,22 +105,29 @@ public class CreateResearchStaffController extends SimpleFormController{
         if (StringUtils.isNotBlank(assignedIdentifier)) {
             researchStaff = researchStaffRepository.getByAssignedIdentifier(assignedIdentifier);
             researchStaffRepository.initialize(researchStaff);
+            for(HealthcareSite hcSite : researchStaff.getHealthcareSites()){
+        		HealthcareSiteRolesHolder object = new HealthcareSiteRolesHolder();
+        		object.setHealthcareSite(hcSite);
+        		wrapper.addHealthcareSiteRolesHolder(object);
+        	}
             gov.nih.nci.security.authorization.domainobjects.User csmUser = researchStaffRepository.getCSMUser(researchStaff);
             if(csmUser != null){
             	wrapper.setUserName(csmUser.getLoginName());
             	wrapper.setHasAccessToAllSites(researchStaffRepository.getHasAccessToAllSites(csmUser));
-            	for(HealthcareSite hcSite : researchStaff.getHealthcareSites()){
-            		HealthcareSiteRolesHolder object = new HealthcareSiteRolesHolder();
-            		object.setHealthcareSite(hcSite);
-            		object.setGroups(researchStaffRepository.getGroups(csmUser, hcSite));
-            		wrapper.addHealthcareSiteRolesHolder(object);
+            	for(HealthcareSiteRolesHolder rolesHolder : wrapper.getHealthcareSiteRolesHolderList()){
+            		rolesHolder.setGroups(researchStaffRepository.getGroups(csmUser, rolesHolder.getHealthcareSite()));
             	}
             }
+            
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
         }else {
             researchStaff = new LocalResearchStaff();
             researchStaff.setVersion(Integer.parseInt("1"));
             request.getSession().setAttribute(FLOW, SAVE_FLOW);
+            HealthcareSiteRolesHolder rolesHolder = new HealthcareSiteRolesHolder();
+    		if(wrapper.getHealthcareSiteRolesHolderList().size() == 0){
+    			wrapper.getHealthcareSiteRolesHolderList().add(rolesHolder);
+    		}
         }
         wrapper.setResearchStaff(researchStaff);
         return wrapper;
@@ -158,20 +165,17 @@ public class CreateResearchStaffController extends SimpleFormController{
 			errors.reject("organization.not.present.error");
 		}
 
-		if(listAssociation.size() == 0){
-			errors.reject("organization.not.present.error");
-		}
-		boolean duplicateOrg = false ;
+		boolean noDuplicateOrg = true ;
 		Set<HealthcareSite> hcSites = new HashSet<HealthcareSite> ();
 		for(HealthcareSiteRolesHolder roleHolder : listAssociation){
 			if(roleHolder != null){
-				duplicateOrg = hcSites.add(roleHolder.getHealthcareSite());
-				if(duplicateOrg){
+				noDuplicateOrg = hcSites.add(roleHolder.getHealthcareSite());
+				if(!noDuplicateOrg){
 					break ;
 				}
 			}
 		}
-		if(duplicateOrg){
+		if(!noDuplicateOrg){
 			errors.reject("organization.already.present.error");	
 		}
 		

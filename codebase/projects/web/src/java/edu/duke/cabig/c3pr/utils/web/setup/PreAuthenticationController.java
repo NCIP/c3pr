@@ -71,11 +71,6 @@ public class PreAuthenticationController extends CreateResearchStaffController {
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
 		Object obj = super.formBackingObject(request);
-		ResearchStaffWrapper wrapper =(ResearchStaffWrapper) obj ;
-		HealthcareSiteRolesHolder rolesHolder = new HealthcareSiteRolesHolder();
-		if(wrapper.getHealthcareSiteRolesHolderList().size() == 0){
-			wrapper.getHealthcareSiteRolesHolderList().add(rolesHolder);
-		}
 		request.getSession().setAttribute(FLOW, SETUP_FLOW);
 		return obj;
 	}
