@@ -373,7 +373,7 @@ RowManager.registerRowInserters();
 </c:if>
 <br>
 <chrome:division title="Associated Organizations" cssClass="big">
-	<c:if test="${FLOW != SETUP_FLOW}">
+	<c:if test="${FLOW != 'SETUP_FLOW'}">
 	<chrome:division title="Global Roles" cssClass="indented">
 		<table title="Global Roles">
 		<tr>
@@ -420,10 +420,10 @@ RowManager.registerRowInserters();
 				        <div class="value">
 				        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
 				       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
-								<input type="hidden" id="hcs-PAGE.ROW.INDEX-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
+								<input type="hidden" id="hcs-${status.index}-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}"  />
 					    	</c:forEach>
 					    	<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
-								<input type="hidden" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${globalRole.name}" />
+								<input type="hidden" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${globalRole.name}" />
 							</c:forEach>
 				        </div>
 			    	</div>

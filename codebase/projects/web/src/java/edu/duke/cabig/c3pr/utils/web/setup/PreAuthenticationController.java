@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
 import edu.duke.cabig.c3pr.setup.SetupStatus;
 import edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController;
+import edu.duke.cabig.c3pr.web.admin.HealthcareSiteRolesHolder;
 import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
 
 /**
@@ -70,6 +71,11 @@ public class PreAuthenticationController extends CreateResearchStaffController {
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
 		Object obj = super.formBackingObject(request);
+		ResearchStaffWrapper wrapper =(ResearchStaffWrapper) obj ;
+		HealthcareSiteRolesHolder rolesHolder = new HealthcareSiteRolesHolder();
+		if(wrapper.getHealthcareSiteRolesHolderList().size() == 0){
+			wrapper.getHealthcareSiteRolesHolderList().add(rolesHolder);
+		}
 		request.getSession().setAttribute(FLOW, SETUP_FLOW);
 		return obj;
 	}
