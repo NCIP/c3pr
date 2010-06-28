@@ -53,10 +53,17 @@ public enum C3PRUserGroupType implements CodedEnum<String> {
     }
 
     public String getDisplayName() {
-    	if (this.getCode().equals("c3pr_admin")){
-    		return "C3PR admin";
+    	if(sentenceCasedName(this).contains("ae")){
+    		return sentenceCasedName(this).replace("ae", "AE");
+    	}else if(sentenceCasedName(this).contains("Ae")){
+    		return sentenceCasedName(this).replace("Ae", "AE");
+    	}else if(sentenceCasedName(this).contains("qa")){
+    		return sentenceCasedName(this).replace("qa", "QA");
+    	}else if(sentenceCasedName(this).contains("Qa")){
+    		return sentenceCasedName(this).replace("Qa", "QA");
+    	}else{
+    		return sentenceCasedName(this);	
     	}
-        return sentenceCasedName(this);
     }
     
     public String getName() {
