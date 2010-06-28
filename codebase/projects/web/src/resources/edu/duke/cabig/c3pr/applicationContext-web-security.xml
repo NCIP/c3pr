@@ -50,9 +50,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<!--  END ADMIN -->
 		
 		<!-- Reports Start -->
-			<entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
-			<entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Study:READ" />
-			<entry key="/pages/report/summary3Report" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />	
+		<entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
+		<entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
+		<entry key="/pages/report/summary3Report" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />	
+		<entry key="/pages/report/createParticipantReport" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
 			
 			<!-- Entries related to advance search  
          	<entry key="/pages/report/advancedSearch/registrationAdvancedSearch" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
@@ -120,10 +121,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		
 		<entry key="/pages/admin/searchInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:READ" />
 		
-		<entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
-		<entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Study:READ" />
-		<entry key="/pages/report/createParticipantReport" value="edu.duke.cabig.c3pr.domain.Participant:READ" />
-		<entry key="/pages/report/summary3Report"   value="edu.duke.cabig.c3pr.domain.StudySubject:READ" />
+		<entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
+		<entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
+		<entry key="/pages/report/summary3Report" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
+		<entry key="/pages/report/createParticipantReport" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
 
 		<entry key="/pages/admin/createNotification" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
 	</util:map>
