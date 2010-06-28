@@ -92,8 +92,6 @@ VALUES('study_site_participation_administrator','edu.duke.cabig.c3pr.domain.Stud
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
 VALUES('registration_qa_manager','edu.duke.cabig.c3pr.domain.StudySubject', 'OVERRIDE', (select nextval('role_privileges_ID_SEQ')));
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
-VALUES('registration_qa_manager','edu.duke.cabig.c3pr.domain.StudySubject', 'CREATE', (select nextval('role_privileges_ID_SEQ')));
-INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
 VALUES('registration_qa_manager','edu.duke.cabig.c3pr.domain.StudySubject', 'UPDATE', (select nextval('role_privileges_ID_SEQ')));
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
 VALUES('registration_qa_manager','edu.duke.cabig.c3pr.domain.StudySubject', 'READ', (select nextval('role_privileges_ID_SEQ')));
