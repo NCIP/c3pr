@@ -55,8 +55,6 @@ VALUES('user_administrator','edu.duke.cabig.c3pr.domain.C3PRUser', 'READ', (sele
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
 VALUES('study_qa_manager','edu.duke.cabig.c3pr.domain.Study', 'OVERRIDE', (select nextval('role_privileges_ID_SEQ')));
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
-VALUES('study_qa_manager','edu.duke.cabig.c3pr.domain.Study', 'CREATE', (select nextval('role_privileges_ID_SEQ')));
-INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
 VALUES('study_qa_manager','edu.duke.cabig.c3pr.domain.Study', 'UPDATE', (select nextval('role_privileges_ID_SEQ')));
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
 VALUES('study_qa_manager','edu.duke.cabig.c3pr.domain.Study', 'READ', (select nextval('role_privileges_ID_SEQ')));
