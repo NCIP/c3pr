@@ -63,7 +63,7 @@
 	                add_row_division_id: "notification",
 	                skeleton_row_division_id: "dummy-notification",
 	                initialIndex: ${fn:length(command.healthcareSite.plannedNotifications)},
-	                softDelete: true,
+	                softDelete: false,
 	                path: "healthcareSite.plannedNotifications"
 	        };
 
@@ -491,7 +491,8 @@
 										name="healthcareSite.plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].emailAddress" 
 										value="${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress}" />
 									<input type="hidden" id="userEmail[${nStatus.index}][${emailStatus.index}]-hiddenResearchStaff" 
-										name="healthcareSite.plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].researchStaff" />
+										name="healthcareSite.plannedNotifications[${nStatus.index}].userBasedRecipient[${emailStatus.index}].researchStaff" 
+										value="${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].researchStaff.id}"/>
 									<input id="userEmail[${nStatus.index}][${emailStatus.index}]-input" size="40" type="text"  
 										value="${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].fullName} (${command.healthcareSite.plannedNotifications[nStatus.index].userBasedRecipient[emailStatus.index].emailAddress})" class="autocomplete validate-notEmpty" />
 									<tags:indicator id="userEmail[${nStatus.index}][${emailStatus.index}]-indicator" />
