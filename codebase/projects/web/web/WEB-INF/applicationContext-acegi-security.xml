@@ -172,43 +172,43 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <util:map id="filterObjectPrivilegeMap" map-class="java.util.LinkedHashMap">
         <!--  START PERSON AND ORG SECTION -->
         <!--  START RESEARCH STAFF -->	
-	        <entry key="/pages/personAndOrganization/researchStaff/searchResearchStaff.*" value="edu.duke.cabig.c3pr.domain.ResearchStaff:READ"/>
-	        <entry key="/pages/personAndOrganization/researchStaff/createResearchStaff.*" value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
-			<entry key="/pages/personAndOrganization/researchStaff/editResearchStaff.*" value="edu.duke.cabig.c3pr.domain.ResearchStaff:READ"/>
+        <entry key="/pages/personAndOrganization/researchStaff/searchResearchStaff.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.ResearchStaff:READ"/>
+        <entry key="/pages/personAndOrganization/researchStaff/createResearchStaff.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.ResearchStaff:CREATE"/>
+        <entry key="/pages/personAndOrganization/researchStaff/editResearchStaff.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.ResearchStaff:UPDATE"/>
         <!--  END RESEARCH STAFF -->
         <!--  START SUBJECT -->
-        	<entry key="/pages/personAndOrganization/participant/create.*" value="edu.duke.cabig.c3pr.domain.Subject:CREATE"/>
-        	<entry key="/pages/personAndOrganization/participant/edit.*" value="edu.duke.cabig.c3pr.domain.Subject:UPDATE"/>
-        	<entry key="/pages/personAndOrganization/participant/view.*" value="edu.duke.cabig.c3pr.domain.Subject:READ"/>
-        	<entry key="/pages/personAndOrganization/participant/search.*" value="edu.duke.cabig.c3pr.domain.Subject:READ"/>
-        	<entry key="/pages/personAndOrganization/participant/confirm.*" value="edu.duke.cabig.c3pr.domain.Subject:CREATE"/>
+        <entry key="/pages/personAndOrganization/participant/create.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Subject:CREATE"/>
+        <entry key="/pages/personAndOrganization/participant/edit.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Subject:UPDATE"/>
+        <entry key="/pages/personAndOrganization/participant/view.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Subject:READ"/>
+        <entry key="/pages/personAndOrganization/participant/search.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Subject:READ"/>
+        <entry key="/pages/personAndOrganization/participant/confirm.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Subject:CREATE"/>
         <!--  END SUBJECT -->
         <!--  START INVESTIGATOR -->
-       		<entry key="/pages/personAndOrganization/investigator/getGroup.*" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
-        	<entry key="/pages/personAndOrganization/investigator/searchInvestigator.*" value="edu.duke.cabig.c3pr.domain.Investigator:READ"/>
-        	<entry key="/pages/personAndOrganization/investigator/createInvestigator.*" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
-			<entry key="/pages/personAndOrganization/investigator/editInvestigator.*" value="edu.duke.cabig.c3pr.domain.Investigator:UPDATE"/>
+        <entry key="/pages/personAndOrganization/investigator/getGroup.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:READ"/>
+        <entry key="/pages/personAndOrganization/investigator/searchInvestigator.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:READ"/>
+        <entry key="/pages/personAndOrganization/investigator/createInvestigator.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:CREATE"/>
+        <entry key="/pages/personAndOrganization/investigator/editInvestigator.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:UPDATE"/>
         <!--  END INVESTIGATOR -->
         <!--  START ORGANIZATION -->
-	        <entry key="/pages/personAndOrganization/organization/createOrganization.*" value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
-			<entry key="/pages/personAndOrganization/organization/editOrganization.*" value="edu.duke.cabig.c3pr.domain.HealthcareSite:UPDATE"/>
-	        <entry key="/pages/personAndOrganization/organization/searchOrganization" value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
+        <entry key="/pages/personAndOrganization/organization/createOrganization.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.HealthcareSite:CREATE"/>
+        <entry key="/pages/personAndOrganization/organization/editOrganization.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.HealthcareSite:UPDATE"/>
+        <entry key="/pages/personAndOrganization/organization/searchOrganization" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.HealthcareSite:READ"/>
         <!--  END ORGANIZATION -->
         <!--  END PERSON AND ORG SECTION -->
         
         <!-- Start Administration -->
-     	   	<entry key="/pages/admin/importStudy.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Import:CREATE"/>
-     	   	<entry key="/pages/admin/importRegistration.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Import:CREATE"/>
-           	<entry key="/pages/admin/configure.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Configuration:CREATE"/>
-      	    <entry key="/pages/admin/createNotification.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Notification:CREATE"/>
-        	<entry key="/pages/admin/password_policy_configure.*"  value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Configuration:CREATE"/>
+     	<entry key="/pages/admin/importStudy.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Import:CREATE"/>
+     	<entry key="/pages/admin/importRegistration.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Import:CREATE"/>
+        <entry key="/pages/admin/configure.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Configuration:CREATE"/>
+      	<entry key="/pages/admin/createNotification.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Notification:CREATE"/>
+        <entry key="/pages/admin/password_policy_configure.*"  value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Configuration:CREATE"/>
         <!-- End Administration -->
         
         <!-- Start Reports -->
-            <entry key="/pages/report/createReport.*" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
-            <entry key="/pages/report/createStudyReport.*" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
-            <entry key="/pages/report/summary3Report.*" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
-            <entry key="/pages/report/createParticipantReport.*" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
+        <entry key="/pages/report/createReport.*" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
+        <entry key="/pages/report/createStudyReport.*" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
+        <entry key="/pages/report/summary3Report.*" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
+        <entry key="/pages/report/createParticipantReport.*" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
 
          	<!-- Entries related to advance search  
          	<entry key="/pages/report/advancedSearch/registrationAdvancedSearch.*" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
@@ -218,35 +218,34 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <!-- End Reports -->
         
         <!-- Start Study -->
-	        <entry key="/pages/study/create.*" value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
-	        <entry key="/pages/study/confirm.*" value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
-	        <entry key="/pages/study/viewAmendment.*" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
-	        <entry key="/pages/study/edit.*" value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
-	        <entry key="/pages/study/select.*" value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
-	        <entry key="/pages/study/search.*" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
-	        <entry key="/pages/study/view.*" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
-	        <entry key="/pages/study/amend.*" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+        <entry key="/pages/study/create.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Study:CREATE"/>
+        <entry key="/pages/study/confirm.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Study:CREATE"/>
+        <entry key="/pages/study/viewAmendment.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Study:READ"/>
+        <entry key="/pages/study/edit.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Study:UPDATE"/>
+        <entry key="/pages/study/select.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Study:UPDATE"/>
+        <entry key="/pages/study/search.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Study:READ"/>
+        <entry key="/pages/study/view.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Study:READ"/>
+        <entry key="/pages/study/amend.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Study:READ"/>
         <!-- End Study -->
         
         <!-- Start Registration -->
-        	<entry key="/pages/registration/asynchronous/epochSectionNew.*" value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
-			<entry key="/pages/registration/create.*" value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
-			<entry key="/pages/registration/selectStudySiteAndEpoch.*" value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
-	        <entry key="/pages/registration/confirm.*" value="edu.duke.cabig.c3pr.domain.StudySubject:CREATE"/>
-			<entry key="/pages/registration/manageCompanionRegistration.*" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
-	        <entry key="/pages/registration/edit.*" value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
-	        <entry key="/pages/registration/transfer.*" value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
-	        <entry key="/pages/registration/search.*" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
-	        <entry key="/pages/registration/registrationDetails.*" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
-	        <entry key="/pages/registration/overview.*" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
-	        <entry key="/pages/registration/manageRegistration.*" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
-	        <entry key="/pages/registration/offEpoch.*" value="edu.duke.cabig.c3pr.domain.StudySubject:UPDATE"/>
+        <entry key="/pages/registration/asynchronous/epochSectionNew.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:UPDATE"/>
+        <entry key="/pages/registration/create.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:CREATE"/>
+        <entry key="/pages/registration/selectStudySiteAndEpoch.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:CREATE"/>
+        <entry key="/pages/registration/confirm.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:CREATE"/>
+        <entry key="/pages/registration/manageCompanionRegistration.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:READ"/>
+        <entry key="/pages/registration/edit.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:UPDATE"/>
+        <entry key="/pages/registration/transfer.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:UPDATE"/>
+        <entry key="/pages/registration/search.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:READ"/>
+        <entry key="/pages/registration/overview.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:READ"/>
+        <entry key="/pages/registration/manageRegistration.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:READ"/>
+        <entry key="/pages/registration/offEpoch.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:UPDATE"/>
         <!-- End Registration -->
 		
-		<entry key="/pages/skin" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE" />
-        <entry key="/pages/admin/download.*" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+        <entry key="/pages/skin" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Configuration:CREATE" />
+        <entry key="/pages/admin/download.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Import:CREATE"/>
 		<entry key="/pages/admin/viewInbox.*" value="edu.duke.cabig.c3pr.domain.Inbox:READ"/>
-        <entry key="/pages/admin/validateConnectivity.*" value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
+        <entry key="/pages/admin/validateConnectivity.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Configuration:CREATE"/>
     </util:map>
 
 
