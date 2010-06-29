@@ -86,7 +86,7 @@ public class CreateRegistrationController<C extends StudySubjectWrapper> extends
 				// Book exhausted message is non-recoverable. It displays an error on the UI
 				if(e.getExceptionCode()==234){
 					request.setAttribute("armNotAvailable", true);
-					return showPage(request, errors, 6);
+					return showPage(request, errors, 7);
 				}
 				// TODO Handle multisite error seperately and elegantly. for now eat the error
 			}
