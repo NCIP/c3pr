@@ -37,6 +37,7 @@ import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
 import gov.nih.nci.cabig.ctms.suite.authorization.ScopeType;
@@ -508,7 +509,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
 			if(suiteRole != null && suiteRole.getScopes().contains(ScopeType.SITE)){
 				//Get the suiteRoleMembership and edit it with the new changes
-				if(hasAccessToAllSites){
+				if(hasAccessToAllSites || suiteRole.equals(SecurityUtils.GLOBAL_ROLE)){
 					suiteRoleMembership.forAllSites();
 					provisioningSession.replaceRole(suiteRoleMembership);
 				} else {
@@ -805,15 +806,16 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	    	while(iter.hasNext()){
 	    		groupName = iter.next().getGroupName();
 	    		suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
-	    		if(suiteRole.getScopes().contains(ScopeType.SITE)){
+	    		//exclude PO_MGR as he is hard-coded to have all site access and hence doesnt drive the all-site access chkbox
+	    		if(suiteRole.getScopes().contains(ScopeType.SITE)  && !suiteRole.equals(SecurityUtils.GLOBAL_ROLE)){
 	            	suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
 	                //include roles that are scoped by site and have access to all sites or the site in question
 	                if(suiteRoleMembership.isAllSites()){
 	                    return true;
 	                }
 	            } else {
-	                //unscoped by site, so grant access to all sites
-	            	return true;
+	                //global roles are not considered for the all sites access checkbox value.
+	            	return false;
 	            }
 	    	}
 		} catch (CSObjectNotFoundException e) {

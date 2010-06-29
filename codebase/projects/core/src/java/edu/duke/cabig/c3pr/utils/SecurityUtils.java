@@ -19,7 +19,6 @@ import edu.duke.cabig.c3pr.accesscontrol.UserPrivilege;
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
-import edu.duke.cabig.c3pr.dao.RolePrivilegeDao;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
@@ -35,6 +34,8 @@ public class SecurityUtils {
 	
 	/** The log. */
 	private static Log log = LogFactory.getLog(SecurityUtils.class);
+	
+	public static final SuiteRole GLOBAL_ROLE = SuiteRole.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER;
 	
 	/**
 	 * Checks if is super user.
@@ -87,18 +88,7 @@ public class SecurityUtils {
 		}
 		return null ;
 	}
-	
-	/**
-	 * Checks if user has any of the provided roles.
-	 * 
-	 * @param roleTypes the role types
-	 * 
-	 * @return true, if successful
-	 */
-	public static boolean hasRole(List<RoleTypes> roleTypes){
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return hasRole(authentication, roleTypes);
-	}
+
 	
 	/**
 	 * Checks if user has any of the provided roles.
@@ -142,17 +132,6 @@ public class SecurityUtils {
 			}
 		}
 		return roleTypes;
-	}
-	
-	/**
-	 * Checks for privilege.
-	 * 
-	 * @param userPrivilege the user privilege
-	 * 
-	 * @return true, if successful
-	 */
-	public static boolean hasPrivilege(UserPrivilege userPrivilege){
-		return getUserPrivileges().contains(userPrivilege);
 	}
 	
 	/**
@@ -240,22 +219,6 @@ public class SecurityUtils {
 		return authorizedUser.getUserPrivileges();
 	}
 
-	/**
-	 * Gets the c3 pr user role types.
-	 * 
-	 * @return the c3 pr user role types
-	 */
-	public static List<C3PRUserGroupType> getC3PRUserRoleTypes(){
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		List<C3PRUserGroupType> roleTypes;
-		if (authentication!=null) {
-			roleTypes = getC3PRUserRoleTypes(authentication.getAuthorities());
-		} else {
-			roleTypes = new ArrayList<C3PRUserGroupType>();
-			log.warn("getC3PRUserRoleTypes invoked on an un-authenticated user; authentication is null");
-		}
-		return roleTypes;
-	}
 	
 	/**
 	 * Gets the c3 pr user role types.
@@ -362,8 +325,10 @@ public class SecurityUtils {
 		return userAccessibleStudyIdsList;
 	}
 	
-	public static Set<C3PRUserGroupType> getC3PRUserGroupTypeList(
-			List<RolePrivilege> rpList) {
+	
+	public static Set<C3PRUserGroupType> getUserRoles(UserPrivilegeType privlegeType){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		List<RolePrivilege> rpList = ((AuthorizedUser)authentication.getPrincipal()).getRolePrivileges(privlegeType);
 		Set<C3PRUserGroupType> rolesList = new HashSet<C3PRUserGroupType>();
 		for(RolePrivilege rp: rpList){
 			rolesList.add(C3PRUserGroupType.getByCode(rp.getRoleName()));
@@ -371,47 +336,6 @@ public class SecurityUtils {
 		return rolesList;
 	}
 	
-	
-	public static Set<C3PRUserGroupType> getUserRoles(UserPrivilegeType privlegeType){
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		List<RolePrivilege> rpList = ((AuthorizedUser)authentication.getPrincipal()).getRolePrivileges(privlegeType);
-		return SecurityUtils.getC3PRUserGroupTypeList(rpList);
-	}
-	
-	/**
-	 * Check privilege, given roles set.
-	 * 
-	 * @param privilege the privilege
-	 * @param rolePrivilegeDao the role privilege dao
-	 * @param rolesList the roles list
-	 * @param objectId the object id
-	 * 
-	 * @return true, if successful
-	 */
-	public static boolean checkPrivilegeGivenRoles(RolePrivilegeDao rolePrivilegeDao, List<C3PRUserGroupType> rolesList, String objectId, String privilege) {
-		for(C3PRUserGroupType role: rolesList){
-			if(rolePrivilegeDao.isValidRolePrivilege(objectId, privilege, role.getCode())){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	
-	/**
-	 * Gets the role types that can access staff.
-	 * 
-	 * @param codeList the code list
-	 * 
-	 * @return the role types that can access staff
-	 */
-	public static List<RoleTypes> getRoleTypesFromCodeList(List<String> codeList) {
-		List<RoleTypes> roleTypes = new ArrayList<RoleTypes>();
-		for(String role: codeList){
-			roleTypes.add(RoleTypes.getByCode(role));
-		}
-		return roleTypes;
-	}
 	
 	/**
 	 * Checks if is global role.
@@ -421,7 +345,7 @@ public class SecurityUtils {
 	 */
 	public static boolean isGlobalRole(C3PRUserGroupType groupType){
 		SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(groupType);
-		if(suiteRole.isScoped()){
+		if(suiteRole.isScoped() && !suiteRole.equals(GLOBAL_ROLE)){
 			return false;
 		}
 		return true;
