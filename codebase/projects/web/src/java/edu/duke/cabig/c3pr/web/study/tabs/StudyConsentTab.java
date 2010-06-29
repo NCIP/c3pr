@@ -40,8 +40,8 @@ public class StudyConsentTab extends StudyTab {
 
 	@SuppressWarnings("unchecked")
 	@Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
+		 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
         addConfigMapToRefdata(refdata, "yesNo");
         refdata.put("consentRequired", WebUtils.collectOptions(ConsentRequired.values(), "Please select"));

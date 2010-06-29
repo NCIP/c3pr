@@ -73,11 +73,12 @@ public class StudySitesTab extends StudyTab {
 		super("Sites", "Sites", "study/study_sites");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Map<String, Object> referenceData(HttpServletRequest request,
+	public Map<String, Object> referenceDataForTab(HttpServletRequest request,
 			StudyWrapper wrapper) {
 		Study study = wrapper.getStudy();
-		Map<String, Object> refdata = super.referenceData(wrapper);
+		 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
 		refdata.put("multisiteEnv", new Boolean(this.configuration.get(Configuration.MULTISITE_ENABLE)));
 		refdata.put("localNCICode", this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE));
 		refdata.put("openSections",request.getParameter("openSections"));

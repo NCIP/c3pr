@@ -45,9 +45,10 @@ public class StudyDetailsTab extends StudyTab {
         super.updateRandomization(study);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData();
+    public Map<String, Object> referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
+    	 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         addConfigMapToRefdata(refdata, "phaseCodeRefData");
         addConfigMapToRefdata(refdata, "typeRefData");
         addConfigMapToRefdata(refdata, "yesNo");

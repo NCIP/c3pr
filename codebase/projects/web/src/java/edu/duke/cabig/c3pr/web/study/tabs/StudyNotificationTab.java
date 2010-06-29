@@ -29,9 +29,10 @@ public class StudyNotificationTab extends StudyTab {
         super("Notifications", "Notifications", "study/study_notification");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper command) {
-        Map<String, Object> refdata = super.referenceData(command);
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper command) {
+    	 Map<String, Object> refdata = super.referenceDataForTab(request,command);
         addConfigMapToRefdata(refdata, "notificationPersonnelRoleRefData");
         return refdata;
     }

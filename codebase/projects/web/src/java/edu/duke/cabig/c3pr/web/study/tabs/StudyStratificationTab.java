@@ -11,14 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Randomization;
-import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
-import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -36,9 +33,10 @@ public class StudyStratificationTab extends StudyTab {
 				"study/study_stratifications");
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-		Map<String, Object> refdata = super.referenceData(wrapper);
+	public Map referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
+		Map<String, Object> refdata = super.referenceDataForTab(request, wrapper);
 		
 		if(wrapper.getStudy().getRandomizedIndicator() && wrapper.getStudy().getRandomizationType().equals(RandomizationType.BOOK)){
 			refdata.put("isBookRandomized", "true");

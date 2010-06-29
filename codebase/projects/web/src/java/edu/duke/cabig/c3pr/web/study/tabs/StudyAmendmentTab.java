@@ -31,9 +31,10 @@ public class StudyAmendmentTab extends StudyTab {
         setShowSummary("false");
     }
 
+	@SuppressWarnings("unchecked")
     @Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
+    	 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         refdata.put("disableForm", new Boolean(false));
         refdata.put("mandatory", "true");
         refdata.put("amendmentTypeOptions", WebUtils.collectOptions(AmendmentType.values(), "Please Select"));

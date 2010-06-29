@@ -53,9 +53,10 @@ public class StudyPersonnelTab extends StudyTab {
         super("Personnel", "Personnel",  "study/study_personnel");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
+    	 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         Study study = wrapper.getStudy();
         
         for(StudySite studySite : study.getStudySites()){

@@ -25,9 +25,10 @@ public class StudyViewAmendmentsTab extends StudyTab {
         super("Manage Amendments", "Amendments", "study/study_view_amendments");
     }
 
+	@SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> referenceData(StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
+    public Map<String, Object> referenceDataForTab(HttpServletRequest request,StudyWrapper wrapper) {
+    	 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         refdata.put("applyAmendment", wrapper.applyAmendment());
         return refdata;
     }

@@ -36,10 +36,11 @@ public class StudyEligibilityChecklistTab extends StudyTab {
         super("Eligibility Checklist", "Eligibility", "study/study_eligibility_checklist");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
-        refdata.put("epochIndex",request.getParameter("epochIndex"));
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
+    	 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
+         refdata.put("epochIndex",request.getParameter("epochIndex"));
         return refdata;
     }
 

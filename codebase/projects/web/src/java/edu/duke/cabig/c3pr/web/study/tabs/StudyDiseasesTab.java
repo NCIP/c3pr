@@ -96,8 +96,7 @@ public class StudyDiseasesTab extends StudyTab {
 		   	studyDisease.setDiseaseTerm(term);
 			study.addStudyDisease(studyDisease);
 		}
-		Study modifiedStudy = studyDao.merge(study);
-		wrapper.setStudy(modifiedStudy);
+
 		Map map = new HashMap();
 		map.put("command", wrapper); 
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);

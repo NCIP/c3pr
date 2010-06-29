@@ -1,10 +1,11 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:32:32 PM To change this template
@@ -18,10 +19,10 @@ public class StudyRegistrationsTab extends StudyTab {
         super("Study Registrations", "Registrations", "study/study_registrations");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> referenceData(StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
-        Boolean isOnlyStudyCoordinator = false;
+    public Map<String, Object> referenceDataForTab(HttpServletRequest request,StudyWrapper wrapper) {
+    	 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         refdata.put("participantAssignments", this.getStudyDao().getStudySubjectsForStudy(wrapper.getStudy().getId()));
 
         return refdata;

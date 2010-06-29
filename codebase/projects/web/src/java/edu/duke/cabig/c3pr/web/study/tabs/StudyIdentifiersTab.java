@@ -21,9 +21,10 @@ public class StudyIdentifiersTab extends StudyTab {
         super("Identifiers", "Identifiers", "study/study_identifiers");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData();
+    public Map<String, Object> referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
+    	 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         addConfigMapToRefdata(refdata, "orgIdentifiersTypeRefData");
         return refdata;
     }

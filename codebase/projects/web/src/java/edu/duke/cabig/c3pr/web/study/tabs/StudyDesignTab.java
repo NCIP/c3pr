@@ -35,9 +35,10 @@ public class StudyDesignTab extends StudyTab {
         super("Epochs and Arms", "Epochs & Arms", "study/study_design");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
+    	 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         addConfigMapToRefdata(refdata, "yesNo");
         refdata.put("epochOrders", getEpochOrders(wrapper));
         return refdata;

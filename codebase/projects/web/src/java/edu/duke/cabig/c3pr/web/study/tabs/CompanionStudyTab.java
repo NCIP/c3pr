@@ -30,8 +30,8 @@ public class CompanionStudyTab extends StudyTab {
 
     @SuppressWarnings("unchecked")
 	@Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
+        Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         addConfigMapToRefdata(refdata, "yesNo");
         return refdata;
     }

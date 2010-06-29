@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
@@ -79,6 +80,24 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
 
     public StudyTab(String longTitle, String shortTitle, String viewName, Boolean willSave) {
         super(longTitle, shortTitle, viewName, willSave);
+    }
+    
+    @Override
+    public final Map referenceData(HttpServletRequest request, StudyWrapper command) {
+    // update possibly unsaved Study in command with one from DB when entering a tab
+    	if(WebUtils.hasSubmitParameter(request, "tabRedirect")){
+	    	Study oldStudy = command.getStudy();
+	    	Study studyFromDB = studyDao.getById(oldStudy.getId());
+	    	studyDao.initialize(studyFromDB);
+	    	command.setStudy(studyFromDB);
+    	}
+    	
+    	return referenceDataForTab(request, command);
+    	
+    }
+    
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper command){
+    	return super.referenceData(request, command);
     }
 
     /*
@@ -188,12 +207,6 @@ public abstract class StudyTab extends InPlaceEditableTab<StudyWrapper> {
         this.healthcareSiteDao = healthcareSiteDao;
     }
 
-    @Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper command) {
-    	// TODO Auto-generated method stub
-    	return super.referenceData(request, command);
-    }
-    
     @Override
     public final void postProcess(HttpServletRequest request, StudyWrapper wrapper, Errors errors) {
         if(!errors.hasErrors()){

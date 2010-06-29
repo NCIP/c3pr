@@ -16,7 +16,6 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.AmendmentType;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Error;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -150,12 +149,12 @@ public class StudyOverviewTab extends StudyTab {
     }
 
     @Override
-    public Map referenceData(HttpServletRequest request, StudyWrapper command) {
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper command) {
         request.setAttribute("isCCTSEnv", isCCTSEnv());
         List<Error> dataEntryErrors = new ArrayList<Error>();
         command.getStudy().setDataEntryStatus(command.getStudy().evaluateDataEntryStatus(dataEntryErrors));
         request.setAttribute("errors", dataEntryErrors);
-        Map<String, Object> refdata = super.referenceData(request, command);
+        Map<String, Object> refdata = super.referenceDataForTab(request, command);
         refdata.put("canAmendStudy", command.canAmendStudy());
         refdata.put("resumeAmendment", command.resumeAmendment());
         refdata.put("applyAmendment", command.applyAmendment());

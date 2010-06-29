@@ -29,9 +29,10 @@ public class StudyRandomizationTab extends StudyTab {
         super("Randomization", "Randomization", "study/study_randomizations");
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> referenceData(HttpServletRequest request, StudyWrapper wrapper) {
-        Map<String, Object> refdata = super.referenceData(wrapper);
+    public Map<String, Object> referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
+    	 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         Study study = wrapper.getStudy();
         String flowType = "";
         if (getFlow().getName().equals("Create Study")) {
