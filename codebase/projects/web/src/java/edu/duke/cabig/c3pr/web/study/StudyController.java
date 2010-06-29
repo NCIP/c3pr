@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
@@ -122,6 +123,15 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     @Override
     protected Object currentFormObject(HttpServletRequest request, Object command) throws Exception {
     	return command;
+    }
+    
+    @Override
+  	protected boolean suppressValidation(HttpServletRequest request,
+		Object command) {
+    	if(WebUtils.hasSubmitParameter(request, "tabRedirect")){
+    			return true;
+    	}
+    	return super.suppressValidation(request, command);
     }
 
     @Override
