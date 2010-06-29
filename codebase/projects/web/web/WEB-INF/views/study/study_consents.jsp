@@ -125,9 +125,10 @@
 										      		</c:otherwise>
 									      		</c:choose>    
 									      </table>
+									      <div align="right">
 									      	<tags:button id="addQuestion-${consentCount.index}" type="button" color="blue" icon="add" value="Add Question"
 														onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(consentRowInserterProps,${consentCount.index}));" size="small"/>
-									 
+									 	 </div>
 									  </td>
 								</tr>    
 					 	  </table>
@@ -142,7 +143,7 @@
 	</table>
 
 <br>
-<div align="left">
+<div align="right">
 	<tags:button type="button" color="blue" icon="add" value="Add Consent" onclick="addConsent();" size="small"/>
     <br>
 </div>
@@ -204,7 +205,7 @@
 								</td>
 							</tr>  
 							<tr>
-								<td colspan="2">
+								<td colspan="2" align="right">
 									<tags:button id="addQuestion-PAGE.ROW.INDEX" type="button" color="blue" icon="add" value="Add Question"
 										onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(consentRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
 								</td>
