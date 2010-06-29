@@ -60,7 +60,7 @@
                     </c:if>
         <div id="login-action">
                             <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="loginAuthorizationCheck">
-							<c:url value="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide" scope="request" var="_c3prHelpURL" />
+							<c:url value="https://cabig-kc.nci.nih.gov/CTMS/KC/index.php/C3PR_End_User_Guide/" scope="request" var="_c3prHelpURL" />
 							<c:choose>
 								<c:when test ="${currentSubTask != null}">
 										<c:set var="roboHelpKey">ROBOHELP_${currentSubTask.linkName}</c:set>
