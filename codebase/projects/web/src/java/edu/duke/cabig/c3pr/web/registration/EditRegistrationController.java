@@ -109,7 +109,7 @@ public class EditRegistrationController<C extends StudySubjectWrapper> extends R
 				// Book exhausted message is non-recoverable. It displays an error on the UI
 				if(e.getExceptionCode()==234){
 					request.setAttribute("armNotAvailable", true);
-					return showPage(request, errors, 5);
+					return showPage(request, errors, 6);
 				}
 			}
         	
