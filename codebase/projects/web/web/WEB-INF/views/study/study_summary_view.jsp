@@ -248,7 +248,7 @@
 				</c:if>
 			</c:when>
 			<c:otherwise>
-				<csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_DEFINITION_UPDATE" authorizationCheckName="siteAuthorizationCheck">
+				<csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="UI_STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
                 	<c:if test="${command.study.coordinatingCenterStudyStatus != 'CLOSED_TO_ACCRUAL' && command.study.coordinatingCenterStudyStatus != 'CLOSED_TO_ACCRUAL_AND_TREATMENT'}">
                 	<c:choose>
 	                    <c:when test="${command.study.companionIndicator=='true'}">
@@ -595,7 +595,7 @@
 		                            </c:when>
 		                            <c:otherwise>
 		                                <c:if test="${not empty editAuthorizationTask}">
-		                                    <csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_DEFINITION_UPDATE" authorizationCheckName="siteAuthorizationCheck">
+		                                    <csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="UI_STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
 		                                        <tags:button id="editCompanionStudy" type="button" color="blue" value="Edit"
 													onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}'" size="small"/>
 		                                    </csmauthz:accesscontrol>

@@ -250,7 +250,7 @@ changed before submit in javascripts. The parameters need proper default values,
   </c:otherwise>
 </c:choose>
 <div align="right">
-	<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE">
+	<c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
 		<tags:button id="createPersonnel" type="button" size="small" color="blue" value="Create Research Staff" onclick="showCreateResearchStaffPopup();"/>
 	</c3pr:checkprivilege>
 </div>

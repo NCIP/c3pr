@@ -462,7 +462,7 @@
     	<br>
     	<div align="right">
     	<br>
-    	<c3pr:checkprivilege hasPrivileges="INVESTIGATOR_CREATE">
+    	<c3pr:checkprivilege hasPrivileges="UI_INVESTIGATOR_CREATE">
        		<tags:button id="createPrincipalInvestigator" type="button" size="small" color="blue" value="Create principal investigator"/>
        	</c3pr:checkprivilege>
        	</div>

@@ -165,7 +165,7 @@ function closePopup(deleteRow) {
 				                		</form:select>
 				            		 </td>
 				                     <td>
-				                     <csmauthz:accesscontrol domainObject="${companionStudyAssociation.companionStudy.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
+				                     <csmauthz:accesscontrol domainObject="${companionStudyAssociation.companionStudy.studyCoordinatingCenter.healthcareSite}" hasPrivileges="UI_STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
 	                     	            	<c:if test="${!companionStudyAssociation.companionStudy.standaloneIndicator && companionStudyAssociation.companionStudy.coordinatingCenterStudyStatus.name == 'PENDING'}">
 	                     	            		<tags:button id="editCompanionStudy" type="button" color="blue" value="Edit" onclick="javascript:document.location='editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}&parentStudyFlow=${flowType}';" size="small"/>
 	                     	            	</c:if>

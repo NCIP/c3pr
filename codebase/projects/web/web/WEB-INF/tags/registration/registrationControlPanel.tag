@@ -7,7 +7,7 @@
 	}
 </script>
 <tags:controlPanel>
-	<csmauthz:accesscontrol domainObject="${command.studySubject.studySite.study}" hasPrivileges="STUDYSUBJECT_UPDATE" authorizationCheckName="studyAuthorizationCheck">
+	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UI_STUDYSUBJECT_UPDATE" authorizationCheckName="studySubjectAuthorizationCheck">
 		<c:if test="${!isCompleteRegistration}">
 			<c:choose>
 				<c:when test="${not empty command.studySubject.parentStudySubject}">

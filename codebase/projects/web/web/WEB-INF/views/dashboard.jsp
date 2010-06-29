@@ -75,7 +75,7 @@
 		</td>
 		
 		<td valign="top">
-		<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_READ">
+		<c3pr:checkprivilege hasPrivileges="UI_STUDYSUBJECT_SEARCH">
 		<chrome:box
 			title="Incomplete Registrations*">
 			<c:choose>
@@ -127,7 +127,7 @@
 			</c:choose>
 		</chrome:box>
 		</c3pr:checkprivilege>
-		<c3pr:checkprivilege hasPrivileges="STUDY_READ">
+		<c3pr:checkprivilege hasPrivileges="UI_STUDY_SEARCH">
 		<chrome:box title="Pending Studies*">
 			<c:choose>
 			
@@ -223,7 +223,7 @@
 			</c:choose>
 		</chrome:box>
 		</c3pr:checkprivilege>
-		<c3pr:checkprivilege hasPrivileges="STUDY_READ,STUDYSUBJECT_READ">
+		<c3pr:checkprivilege hasPrivileges="UI_STUDY_SEARCH,UI_STUDYSUBJECT_SEARCH">
 			<fmt:message key="DASHBOARD.ASTERISK.MESSAGE"/>
 		</c3pr:checkprivilege>
 		</td>

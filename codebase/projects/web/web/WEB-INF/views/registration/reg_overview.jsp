@@ -1009,7 +1009,7 @@
 					</font><br></strong><br>
 				</div>
 				<div align="center">
-					<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_UPDATE">
+					<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_UPDATE,STUDYSUBJECT_CREATE">
 						<div align="left" style="padding-left: 5px; font-size: 10pt;"><fmt:message key="REGISTRATION.BROADCAST.SENT_SUCCESSFULLY.RESEND"/></div>
 						<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
 					</c3pr:checkprivilege>

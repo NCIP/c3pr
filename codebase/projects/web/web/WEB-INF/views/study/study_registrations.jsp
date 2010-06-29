@@ -38,7 +38,7 @@ function createReg(studyId){
     </chrome:box>
 <div align="right">
 	<c:if test="${command.study.coordinatingCenterStudyStatus=='OPEN'}">
-		<c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_CREATE">
+		<c3pr:checkprivilege hasPrivileges="UI_STUDYSUBJECT_CREATE">
 			<tags:button type="button" color="blue" icon="add" value="Register another subject" 
 			onclick="javascript:sendLinkToCreateRegistration();" size="small"/>
 		</c3pr:checkprivilege>
