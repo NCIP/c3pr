@@ -106,11 +106,11 @@
         <copy todir="${tomcat.security.dir}" overwrite="true">
             <filterset>
                 <filter token="tomcat.security.dir" value="${tomcat.security.dir}"/>
-                <filter token="datasource.username" value="${datasource.username}"/>
-                <filter token="datasource.password" value="${datasource.password}"/>
-                <filter token="datasource.url" value='${datasource.url}'/>
-                <filter token="datasource.driver" value="${datasource.driver}"/>
-                <filter token="datasource.dialect.upt" value="${datasource.dialect}"/>
+                <filter token="datasource.username" value="${csmDatasource.username}"/>
+                <filter token="datasource.password" value="${csmDatasource.password}"/>
+                <filter token="datasource.url" value='${csmDatasource.url}'/>
+                <filter token="datasource.driver" value="${csmDatasource.driver}"/>
+                <filter token="datasource.dialect.upt" value="${csmDatasource.dialect}"/>
                 <filter token="csm.context.name" value="${csm.context.name}"/>
             </filterset>
             <fileset dir="${base.codebase.dir}">

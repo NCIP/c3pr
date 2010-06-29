@@ -2,14 +2,14 @@
 <!DOCTYPE installer PUBLIC "-//tp23 //DTD Ant Installer Config//EN" "http://antinstaller.sf.net/dtd/antinstall-config-0.7.dtd">
 <!--
 
-This is the install config for c3pr2.9 installer
+This is the install config for C3PR2.9.1 installer
 -->
 
 <installer
         ui="swing,text"
         verbose="false"
         lookAndFeel="jgoodies"
-        name="C3PR2.9 Installer"
+        name="C3PR2.9.1 Installer"
         windowIcon="/resources/c3prv2_installer_icon-32.gif"
         defaultImageResource="/resources/installer_banner.gif"
         antialiased="true"
@@ -19,9 +19,9 @@ This is the install config for c3pr2.9 installer
     <page
             type="input"
             name="intro"
-            displayText="Welcome to the C3PR2.9 installer program">
+            displayText="Welcome to the C3PR2.9.1 installer program">
         <comment
-                displayText="This will help you Install/Uninstall C3PR2.9 Application"
+                displayText="This will help you Install/Uninstall C3PR2.9.1 Application"
                 />
 
         <hidden property="application_name" value="@application_name@"/>
@@ -44,8 +44,8 @@ This is the install config for c3pr2.9 installer
           displayText="Installation directory">
         <directory
                 property="install.dir"
-                defaultValue="/tmp/c3pr2.9"
-                defaultValueWin="${env.ProgramFiles}\c3pr2.9"
+                defaultValue="/tmp/c3pr2.9.1"
+                defaultValueWin="${env.ProgramFiles}\c3pr2.9.1"
                 displayText="Select an installation directory"
                 create="true"/>
         <comment displayText="Note:Make sure that the installation path does not contain any spaces."/>
@@ -248,12 +248,121 @@ This is the install config for c3pr2.9 installer
         <hidden property="audit.dialect" value="org.hibernate.dialect.SQLServerDialect"/>
         <hidden property="jackrabbit.repository" value="classpath:edu/duke/cabig/c3pr/rules/jackrabbit-repo-sqlserver.xml"/>
     </page>
+    
+    
+    <!--CSM Database properties-->
+    <page
+            type="input"
+            name="selectCSMDatabase"
+            displayText="Select Database For CSM Authentication">
+        <select
+                property="csm.database.type"
+                displayText="Select your Database type"
+                defaultValue="oracle">
+            <option text="Oracle" value="oracle"/>
+            <option text="PostgreSQL" value="postgres"/>
+            <option text="SQL Server" value="sqlserver"/>
+            <option text="Other/none" value="none"/>
+        </select>
+    </page>
 
+    <page
+            type="input"
+            name="oracleCSMProperties"
+            displayText="Oracle Properties"
+            ifProperty="${csm.database.type}==oracle">
+        <text
+                property="csmDatasource.url"
+                displayText="CSM Database URL"
+                defaultValue="jdbc:oracle:thin:@localhost:1522:c3pr_dev"
+                />
+        <text
+                property="csmDatasource.username"
+                displayText="CSM Database Username"
+                defaultValue="c3pr_dev"
+                regex="*"/>
+        <text
+                property="csmDatasource.password"
+                displayText="CSM Database Password"
+                defaultValue="c3pr_dev"
+                />
+        <text
+                property="csmDatasource.schema"
+                displayText="CSM Database Schema"
+                defaultValue="c3pr_dev"
+                />
+        <hidden
+                property="csmDatasource.driver"
+                value="oracle.jdbc.OracleDriver"
+                />
+        <hidden
+                property="csmDatasource.dialect"
+                value="org.hibernate.dialect.Oracle9Dialect"
+                />
+    </page>
+    <page
+            name="postgresCSMProperties"
+            type="input"
+            displayText="PostgreSQL Properties"
+            ifProperty="${csm.database.type}==postgres">
+        <text
+                property="csmDatasource.url"
+                displayText="CSM Database URL"
+                defaultValue="jdbc:postgresql://localhost:5432/c3pr_dev"
+                />
+
+        <text
+                property="csmDatasource.username"
+                displayText="CSM Database Username"
+                defaultValue="pg"
+                />
+        <text
+                property="csmDatasource.password"
+                displayText="CSM Database Password"
+                defaultValue="pguser"
+                />
+
+        <hidden
+                property="csmDatasource.driver"
+                value="org.postgresql.Driver"/>
+
+        <hidden
+                property="csmDatasource.dialect"
+                value="org.hibernate.dialect.PostgreSQLDialect"/>
+    </page>
+    <page
+            name="sqlserverCSMProperties"
+            type="input"
+            displayText="SQL Server Properties"
+            ifProperty="${csm.database.type}==sqlserver">
+        <text
+                property="csmDatasource.url"
+                displayText="CSM Database URL"
+                defaultValue="jdbc:jtds:sqlserver://localhost:4581/c3pr_dev"
+                />
+        <text
+                property="csmDatasource.username"
+                displayText="CSM Database Username"
+                defaultValue="admin"
+                />
+        <text
+                property="csmDatasource.password"
+                displayText="CSM Database Password"
+                defaultValue="admin"
+                />
+        <hidden
+                property="csmDatasource.driver"
+                value="net.sourceforge.jtds.jdbc.Driver"/>
+
+        <hidden
+                property="csmDatasource.dialect"
+                value="org.hibernate.dialect.SQLServerDialect"/>
+    </page>
     <page
             type="progress"
             name="progress"
             showTargets="true"
-            displayText="C3PR2.9 Installation progress"
+            displayText="C3PR2.9.1 Installation progress"
             target="cleanUp">
     </page>
 
