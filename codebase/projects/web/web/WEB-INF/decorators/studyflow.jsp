@@ -131,6 +131,10 @@
 <form:form id="flowredirect">
     <input type="hidden" name="_target${tab.targetNumber}" id="flowredirect-target"/>
     <input type="hidden" name="_page${tab.number}"/>
+    <input type="hidden" name="tabRedirect" value="true"/>
+    <c:if test="${tab.number > 0}">
+    	 <input type="hidden" name="_doNotSave" value="true"/>
+    </c:if>
 </form:form>
 </div>
 <tags:jsLogs debug="false"/>
