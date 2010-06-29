@@ -81,7 +81,7 @@ public class CreateStudyController<C extends StudyWrapper> extends StudyControll
                 && request.getParameter("_activate").equals("false")) {
             return true;
         }
-        return false;
+        return super.suppressValidation(request, command);
     }
 
     @Override
