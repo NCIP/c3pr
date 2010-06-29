@@ -156,8 +156,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				criteria.add(example);
 				if (staff.getHealthcareSites().size() > 0) {
 					criteria.createCriteria("healthcareSites").add(Restrictions.ilike("name", "%" + staff.getHealthcareSites().get(0).getName() + "%")); 
-							// As per discussion in search by example staff will have only one healthcare site
-							
+					// As per discussion in search by example staff will have only one healthcare site
 				}
 				result = criteria.list();
 			} else {
@@ -463,20 +462,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
 
 	/**
-	 * Save or update staff.
-	 *
-	 * @param c3prUser the c3pr user
-	 */
-	private void saveOrUpdateStaff(C3PRUser c3prUser){
-		log.debug("Saving c3pr user");
-		if (c3prUser.getId() != null) {
-			this.merge(c3prUser);
-		} else {
-			this.save(c3prUser);
-		}
-	}
-
-	/**
 	 * Populate csm user.
 	 *
 	 * @param c3prUser the c3pr user
@@ -749,7 +734,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     			provisioningSession.deleteRole(suiteRole);
     		}
     	}
-    	
 	}
 
 	/**
