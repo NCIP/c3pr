@@ -317,8 +317,10 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
      */
     private Credentials getCredentials() throws BroadcastException{
     	Credentials creds = new Credentials();
-    	creds.setUserName("hmarwaha");
-        creds.setPassword("password");
+    	
+    	//commented out as they are optional elements for ihub
+//    	creds.setUserName("hmarwaha");
+//      creds.setPassword("password");
         try {
             // if a provider is registered then use it to get credentials
             if (delegatedCredentialProvider != null) {
