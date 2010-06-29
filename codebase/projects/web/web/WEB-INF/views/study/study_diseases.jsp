@@ -48,7 +48,7 @@
 	},
 
 	addStudyDisease:function(selectedTerms){
-		 <tags:tabMethod method="addStudyDiseases" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'selectedDiseaseTerms='+selectedTerms" onComplete="hideDiseaseIndicator"/> ;
+		 <tags:tabMethod method="addStudyDiseases" viewName="/study/asynchronous/study_disease_section" divElement="'studyDiseases'" formName="'tabMethodForm'" javaScriptParam="'selectedDiseaseTerms='+selectedTerms+'&_doNotSave=true'" onComplete="hideDiseaseIndicator"/> ;
 	},
 	
     cancelTermsSelection:function(){
