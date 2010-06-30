@@ -24,6 +24,8 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 
@@ -53,21 +55,28 @@ public class StudyFactory {
 	public Study buildStudy(Study study) throws C3PRCodedException {
 
 		// load study orgs from db Not to be imported
-		for (StudyOrganization organization : study.getStudyOrganizations()) {
+		for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
 			HealthcareSite loadedSite = healthcareSiteDao
-					.getByPrimaryIdentifier(organization.getHealthcareSite()
+					.getByPrimaryIdentifier(studyOrganization.getHealthcareSite()
 							.getPrimaryIdentifier());
 			if (loadedSite == null) {
 				throw exceptionHelper
 						.getException(
 								getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
-								new String[] { organization.getHealthcareSite()
+								new String[] { studyOrganization.getHealthcareSite()
 										.getPrimaryIdentifier() });
 			}
-			organization.setHealthcareSite(loadedSite);
+			studyOrganization.setHealthcareSite(loadedSite);
+			
+			// setting the link between study site study version and study version
+			if(studyOrganization instanceof StudySite){
+				for(StudySiteStudyVersion studySiteStudyVersion:((StudySite) studyOrganization).getStudySiteStudyVersions()){
+					studySiteStudyVersion.setStudyVersion(study.getStudyVersion());
+				}
+			}
 
 			// load Investigators from DB
-			for (StudyInvestigator sInv : organization.getStudyInvestigators()) {
+			for (StudyInvestigator sInv : studyOrganization.getStudyInvestigators()) {
 				Investigator inv = sInv.getHealthcareSiteInvestigator()
 						.getInvestigator();
 				Investigator loadedInvestigator = investigatorDao
