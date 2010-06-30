@@ -39,9 +39,9 @@
     <bean id="booleanFromString" class="java.lang.Boolean">
         <constructor-arg value="${authorizationSwitch}"/>
     </bean>
-<!-- 
+ 
     <bean id="csmAuthorizationDao"
-          class="edu.duke.cabig.c3pr.dao.FasterAuthorizationDaoImpl">
+          class="gov.nih.nci.cabig.ctms.suite.authorization.csmext.FasterAuthorizationDao">
         <constructor-arg index="0">
             <bean class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
                 <property name="dataSource" ref="csmDataSource"/>
@@ -68,10 +68,10 @@
         </constructor-arg>
         <constructor-arg index="1" ref="csmApplicationContextName"/>
     </bean>
- -->
+
 
     <bean id="csmUserProvisioningManager" class="gov.nih.nci.security.provisioning.AuthorizationManagerImpl">
-        <!--   <property name="authorizationDAO" ref="csmAuthorizationDao"/>   -->
+        <property name="authorizationDAO" ref="csmAuthorizationDao"/>
         <constructor-arg index="0" ref="csmApplicationContextName"/>
 		<constructor-arg index="1" ref="connectionProperties"/>
     </bean>

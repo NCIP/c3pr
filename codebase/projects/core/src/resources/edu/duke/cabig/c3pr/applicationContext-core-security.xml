@@ -261,7 +261,11 @@
         <property name="provisioningSessionFactory"
                   ref="provisioningSessionFactory"/>   
         <property name="rolePrivilegeDao"
-                  ref="rolePrivilegeDao"/>   
+                  ref="rolePrivilegeDao"/>
+        <property name="researchStaffDao"
+                  ref="researchStaffDao"/> 
+        <property name="userDao"
+                  ref="userDao"/>  
     </bean>
 
     <bean id="localAuthenticationProvider"
