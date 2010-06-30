@@ -584,7 +584,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		
 		
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_URL@" value="${database.csm.url}" />
-    	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_USER@" value="${database.csm.url.username}" />
+    	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_USER@" value="${database.csm.username}" />
     	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_PASSWORD@" value="${database.csm.password}" />
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_DIALECT@" value="${database.csm.dialect}" />
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_DRIVER@" value="${database.csm.driver}" />
