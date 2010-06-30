@@ -696,6 +696,9 @@
 					<input type="hidden" id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-hidden" 
 							name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress" 
 							value="${command.healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" />
+					<input type="hidden" id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-hiddenResearchStaff" 
+										name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].researchStaff" 
+										value="${command.healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].researchStaff.id}"/>
 					<input id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-input" size="40" type="text" 
 							value="${command.healthcareSite.plannedNotifications[PAGE.ROW.INDEX].userBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress}" class="autocomplete validate-notEmpty" />
 					<tags:indicator id="userEmail[PAGE.ROW.INDEX][NESTED.PAGE.ROW.INDEX]-indicator" />
