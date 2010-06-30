@@ -337,17 +337,15 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     }
     
     
-    public List<ResearchStaff> getSitePersonnel(Integer hcsId)
-    throws Exception {
+    public List<ResearchStaff> getSitePersonnel(Integer hcsId, String studyId) throws Exception {
 		HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
 
 		//replaced the following method with a dao call and a resolver call....for coppa data
-		//List<ResearchStaff> hcsRSList = hcs.getResearchStaffs();
 		List<ResearchStaff> hcsRSList = researchStaffDao.getResearchStaffByOrganizationNCIInstituteCode(hcs);
-//		hcsRSList.addAll(researchStaffDao.);
+		List<ResearchStaff> studyScopedRSList = researchStaffDao.getStaffScopedByStudy(hcsRSList, hcs, studyId);
 		
 		List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
-		for (ResearchStaff rs : hcsRSList) {
+		for (ResearchStaff rs : studyScopedRSList) {
 		reducedHcsRsList.add(buildReduced(rs, Arrays.asList("id",
 		                "firstName","lastName","assignedIdentifier")));
 		}
