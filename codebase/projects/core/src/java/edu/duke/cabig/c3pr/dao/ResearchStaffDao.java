@@ -435,19 +435,18 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     		}
     	}
     }
-
-	
-	/**
-	 * Moved csm related save/save code here from personnelServiceImpl for coppa
-	 * integration.
+ 	
+ 	/**
+	 * Creates only the research staff.
 	 *
-	 * @param staff the staff
+	 * @param researchStaff the research staff
+	 * @return the research staff
 	 * @throws C3PRBaseException the C3PR base exception
 	 */
-	@Transactional
-	public void saveResearchStaff(ResearchStaff staff) throws C3PRBaseException {
-		createResearchStaff(staff);
+	public ResearchStaff createResearchStaff(ResearchStaff researchStaff) throws C3PRBaseException {
+		return createOrModifyResearchStaff(researchStaff, false, null, null , false);
 	}
+
 
 	/**
 	 * Gets the cSM user.
@@ -544,52 +543,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		}
 	}
 	
-	/**
-	 * Merge research staff and csm data.
-	 *
-	 * @param staff the staff
-	 * @throws C3PRBaseException the C3PR base exception
-	 */
-	public void mergeResearchStaffAndCsmData(ResearchStaff staff)
-			throws C3PRBaseException {
-		try {
-			User csmUser = getCSMUser(staff);
-			createOrModifyResearchStaff(staff, false, csmUser.getLoginName(), null, false);
-		} catch (CSObjectNotFoundException e) {
-			new C3PRBaseException("Could not save Research staff" + e.getMessage());
-		}
-	}
-
-	/*
-	 * Moved csm related save/merge code here from personnelServiceImpl for coppa integration
-	 */
-	/**
-	 * Sets the user provisioning manager.
-	 *
-	 * @param userProvisioningManager the new user provisioning manager
-	 */
-	public void setUserProvisioningManager(UserProvisioningManager userProvisioningManager) {
-		this.userProvisioningManager = userProvisioningManager;
-	}
-
-	/**
-	 * Sets the remote session.
-	 *
-	 * @param remoteSession the new remote session
-	 */
-	public void setRemoteSession(RemoteSession remoteSession) {
-		this.remoteSession = remoteSession;
-	}
-
-
-	/**
-	 * Sets the healthcare site dao.
-	 *
-	 * @param healthcareSiteDao the new healthcare site dao
-	 */
-	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-		this.healthcareSiteDao = healthcareSiteDao;
-	}
 
 	/**
 	 * This method queries the external system to fetch all the matching
@@ -603,24 +556,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		searchCriteria.setAssignedIdentifier(researchStaff.getAssignedIdentifier());
 		List<ResearchStaff> remoteResearchStaffs = (List)remoteSession.find(searchCriteria);
 		return remoteResearchStaffs;
-	}
-
-	/**
-	 * Gets the provisioning session factory.
-	 *
-	 * @return the provisioning session factory
-	 */
-	public ProvisioningSessionFactory getProvisioningSessionFactory() {
-		return provisioningSessionFactory;
-	}
-
-	/**
-	 * Sets the provisioning session factory.
-	 *
-	 * @param provisioningSessionFactory the new provisioning session factory
-	 */
-	public void setProvisioningSessionFactory(ProvisioningSessionFactory provisioningSessionFactory) {
-		this.provisioningSessionFactory = provisioningSessionFactory;
 	}
 	
 	/**
@@ -637,7 +572,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @throws C3PRBaseException the C3PR base exception
 	 */
 	@Transactional
-	private ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, boolean createCsmUser, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException {
+	public ResearchStaff createOrModifyResearchStaff(ResearchStaff staff, boolean createCsmUser, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException {
 		C3PRUser c3prUser = (C3PRUser)staff;
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
 		if(createCsmUser && StringUtils.isNotBlank(username)){
@@ -808,114 +743,106 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         return false;
     }
     
+    
 	/**
-	 * Creates the csm user.
+	 * Gets the staff scoped by study. 
+	 * Used mainly to display study scoped personnel(e.g reg and data readers) on study_personnel page.
 	 *
-	 * @param researchStaff the research staff
-	 * @param username the username
-	 * @param hasAccessToAllSites the has access to all sites
-	 * @return the research staff
+	 * @param staffList the staff list
+	 * @return the staff scoped by study
+	 */
+	public List<ResearchStaff> getStaffScopedByStudy(List<ResearchStaff> staffList, HealthcareSite healthcareSite, String studyId){
+		List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
+		List<C3PRUserGroupType> groups;
+        SuiteRole suiteRole;
+        SuiteRoleMembership suiteRoleMembership;
+    	ProvisioningSession provisioningSession;
+
+		try {
+			for(ResearchStaff researchStaff: staffList){
+				groups = getUserGroupsForOrganization(getCSMUser(researchStaff), healthcareSite);
+				provisioningSession = provisioningSessionFactory.createSession(Long.valueOf(researchStaff.getLoginId()));
+				for(C3PRUserGroupType group: groups){
+					suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(group);
+					//add staff who have study scoped roles and do not have all-study access and isnt already added to the study
+					if(suiteRole.isStudyScoped()){
+		            	suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+		            	if(!suiteRoleMembership.isAllStudies() && !suiteRoleMembership.getStudyIdentifiers().contains(studyId)){
+							reducedHcsRsList.add(researchStaff);
+							break;		            		
+		            	}
+					}
+				}
+			}
+		} catch (CSObjectNotFoundException e) {
+			logger.error(e.getMessage());
+		}
+		return reducedHcsRsList;
+	}
+
+	/**
+	 * Gets the provisioning session factory.
+	 *
+	 * @return the provisioning session factory
+	 */
+	public ProvisioningSessionFactory getProvisioningSessionFactory() {
+		return provisioningSessionFactory;
+	}
+
+	/**
+	 * Sets the provisioning session factory.
+	 *
+	 * @param provisioningSessionFactory the new provisioning session factory
+	 */
+	public void setProvisioningSessionFactory(ProvisioningSessionFactory provisioningSessionFactory) {
+		this.provisioningSessionFactory = provisioningSessionFactory;
+	}
+
+	/**
+	 * Merge research staff and csm data.
+	 *
+	 * @param staff the staff
 	 * @throws C3PRBaseException the C3PR base exception
 	 */
-	public ResearchStaff createCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) throws C3PRBaseException{
-		return createOrModifyResearchStaff(researchStaff, true, username, null , hasAccessToAllSites);
+	public void mergeResearchStaffAndCsmData(ResearchStaff staff)
+			throws C3PRBaseException {
+		try {
+			User csmUser = getCSMUser(staff);
+			createOrModifyResearchStaff(staff, false, csmUser.getLoginName(), null, false);
+		} catch (CSObjectNotFoundException e) {
+			new C3PRBaseException("Could not save Research staff" + e.getMessage());
+		}
+	}
+
+	/*
+	 * Moved csm related save/merge code here from personnelServiceImpl for coppa integration
+	 */
+	/**
+	 * Sets the user provisioning manager.
+	 *
+	 * @param userProvisioningManager the new user provisioning manager
+	 */
+	public void setUserProvisioningManager(UserProvisioningManager userProvisioningManager) {
+		this.userProvisioningManager = userProvisioningManager;
 	}
 
 	/**
-	 * Creates the csm user and assign roles.
+	 * Sets the remote session.
 	 *
-	 * @param researchStaff the research staff
-	 * @param username the username
-	 * @param associationMap the association map
-	 * @param hasAccessToAllSites the has access to all sites
-	 * @return the research staff
-	 * @throws C3PRBaseException the C3PR base exception
+	 * @param remoteSession the new remote session
 	 */
-	public ResearchStaff createCSMUserAndAssignRoles(
-			ResearchStaff researchStaff, String username,
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
-			boolean hasAccessToAllSites) throws C3PRBaseException {
-		return createOrModifyResearchStaff(researchStaff, true, username, associationMap , hasAccessToAllSites);
+	public void setRemoteSession(RemoteSession remoteSession) {
+		this.remoteSession = remoteSession;
 	}
+
 
 	/**
-	 * Creates the or modify research staff.
+	 * Sets the healthcare site dao.
 	 *
-	 * @param researchStaff the research staff
-	 * @param associationMap the association map
-	 * @param hasAccessToAllSites the has access to all sites
-	 * @return the research staff
-	 * @throws C3PRBaseException the c3pr base exception
+	 * @param healthcareSiteDao the new healthcare site dao
 	 */
-	public ResearchStaff createOrModifyResearchStaff(
-			ResearchStaff researchStaff,
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
-			boolean hasAccessToAllSites) throws C3PRBaseException {
-		return createOrModifyResearchStaff(researchStaff, false, null, associationMap , hasAccessToAllSites);
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
 	}
-
-	/**
-	 * Creates only the research staff.
-	 *
-	 * @param researchStaff the research staff
-	 * @return the research staff
-	 * @throws C3PRBaseException the C3PR base exception
-	 */
-	public ResearchStaff createResearchStaff(ResearchStaff researchStaff) throws C3PRBaseException {
-		return createOrModifyResearchStaff(researchStaff, false, null, null , false);
-	}
-
-	/**
-	 * Creates the research staff with csm user.
-	 *
-	 * @param researchStaff the research staff
-	 * @param username the username
-	 * @param hasAccessToAllSites the has access to all sites
-	 * @return the research staff
-	 * @throws C3PRBaseException the c3pr base exception
-	 */
-	public ResearchStaff createResearchStaffWithCSMUser(
-			ResearchStaff researchStaff, String username,
-			boolean hasAccessToAllSites) throws C3PRBaseException {
-		return createOrModifyResearchStaff(researchStaff, true, username, null , hasAccessToAllSites);
-	}
-
-	/**
-	 * Creates the research staff with csm user and assign roles.
-	 *
-	 * @param researchStaff the research staff
-	 * @param username the username
-	 * @param associationMap the association map
-	 * @param hasAccessToAllSites the has access to all sites
-	 * @return the research staff
-	 * @throws C3PRBaseException the C3PR base exception
-	 */
-	public ResearchStaff createResearchStaffWithCSMUserAndAssignRoles(
-			ResearchStaff researchStaff, String username,
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
-			boolean hasAccessToAllSites) throws C3PRBaseException {
-		return createOrModifyResearchStaff(researchStaff, true, username, associationMap , hasAccessToAllSites);
-	}
-
-	/**
-	 * Creates the super user.
-	 *
-	 * @param researchStaff the research staff
-	 * @param username the username
-	 * @param associationMap the association map
-	 * @return the research staff
-	 * @throws C3PRBaseException the C3PR base exception
-	 */
-	public ResearchStaff createSuperUser(ResearchStaff researchStaff, String username,
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException {
-		return createOrModifyResearchStaff(researchStaff, true, username, associationMap , true);
-	}
-
-	public ResearchStaff createResearchStaff(ResearchStaff researchStaff,
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap)  throws C3PRBaseException {
-		return createOrModifyResearchStaff(researchStaff, true, null, associationMap, false);
-	}
-
-
 }
 	

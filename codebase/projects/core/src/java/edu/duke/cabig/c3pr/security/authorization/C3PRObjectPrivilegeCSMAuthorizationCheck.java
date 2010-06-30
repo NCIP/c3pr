@@ -91,7 +91,7 @@ public class C3PRObjectPrivilegeCSMAuthorizationCheck extends
 		ProvisioningSession provisioningSession = authorizedUser.getProvisioningSession();
 		SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
 		SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
-		String siteId = objectId.substring(objectId.lastIndexOf("."));
+		String siteId = objectId.substring(objectId.lastIndexOf(".") + 1);
 		if(suiteRoleMembership.isAllSites() || suiteRoleMembership.getSiteIdentifiers().contains(siteId)){
 			isMember = true;
 		}

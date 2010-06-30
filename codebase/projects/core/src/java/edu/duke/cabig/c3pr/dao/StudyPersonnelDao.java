@@ -135,6 +135,7 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 			Study study = studyPersonnel.getStudyOrganization().getStudy();
 			if(suiteRole != null && suiteRole.getScopes().contains(ScopeType.STUDY)){
 				suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+				//not worrying about staff with all study access as they shouldnt be showing up in the list in the first place.
 				suiteRoleMembership.addStudy(study.getCoordinatingCenterAssignedIdentifier().getValue());
 				provisioningSession.replaceRole(suiteRoleMembership);
 			}			
@@ -157,6 +158,7 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(iter.next().getGroupName()));
 			study = studyPersonnel.getStudyOrganization().getStudy();
 			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+			//not worrying about staff with all study access as they shouldnt be showing up in the list in the first place.
 			if(suiteRole != null && suiteRole.getScopes().contains(ScopeType.STUDY) &&
 					suiteRoleMembership.getStudyIdentifiers().contains(study.getCoordinatingCenterAssignedIdentifier().getValue())){
 				suiteRoleMembership.removeStudy(study.getCoordinatingCenterAssignedIdentifier().getValue());
