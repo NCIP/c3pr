@@ -927,10 +927,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 				return studySite;
 			}
 		}
-		throw this.c3PRExceptionHelper
-				.getRuntimeException(
-						getCode("C3PR.EXCEPTION.STUDY.STUDYSITE_NOT_FOUND_INVALID_NCICODE.CODE"),
-						new String[] { primaryIdentifier });
+		return null;
 	}
 
         @Transient
