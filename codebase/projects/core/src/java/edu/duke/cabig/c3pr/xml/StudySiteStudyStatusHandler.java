@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.xml;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
@@ -29,10 +30,20 @@ public class StudySiteStudyStatusHandler implements FieldHandler {
                     IllegalArgumentException {
         StudySite studySite = (StudySite) object;
         StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
+        
         studySiteStudyVersion.setStartDate(new Date());
+        
         studySite.addStudySiteStudyVersion(studySiteStudyVersion);
         SiteStudyStatus siteStudyStatus = SiteStudyStatus.valueOf(value.toString());
-        studySite.handleStudySiteStatusChange(new Date(), siteStudyStatus);
+        
+        // first status history will be created for each study site and the start date is set to 100 yrs old from today's date
+
+		Date currentDate = new Date();
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setTime(currentDate);
+        calendar.add(calendar.YEAR, -100);
+        
+        studySite.handleStudySiteStatusChange(calendar.getTime(), siteStudyStatus);
         //TODO RK is going to look into this
  //        studySite.setSiteStudyStatus(SiteStudyStatus.valueOf((String) value));
     }
