@@ -43,14 +43,17 @@ function showPersonnel() {
     studyPersonnelSelect.options[0].selected = true;
     <%--call the getAll method for the selected organization instead of calling getInvestigatorsById() for every group.--%>
     var catId = $('studyOrganizationSelect').value.split("-")[1]
-    StudyAjaxFacade.getSitePersonnel(catId, function(diseases) {
-          diseases.each(function(cat) {
-         var assignedIdentifier = cat.assignedIdentifier == null ? "":cat.assignedIdentifier
-           	var name = cat.firstName + " " + cat.lastName+ " (" +  assignedIdentifier+ ")";
-            var opt = new Option(name, cat.id)
-            studyPersonnelSelect.options.add(opt)
-        })
-    })
+    var studyId = $('_studyId').value;
+    if(catId!=null){
+    	StudyAjaxFacade.getSitePersonnel(catId, studyId, function(diseases) {
+            diseases.each(function(cat) {
+           var assignedIdentifier = cat.assignedIdentifier == null ? "":cat.assignedIdentifier
+             	var name = cat.firstName + " " + cat.lastName+ " (" +  assignedIdentifier+ ")";
+              var opt = new Option(name, cat.id)
+              studyPersonnelSelect.options.add(opt)
+          })
+      })   
+    }                                                          
 }
 
 /**
@@ -130,6 +133,7 @@ changed before submit in javascripts. The parameters need proper default values,
 <input type="hidden" id="_actionx" name="_actionx" value="save">
 <input type="hidden" id="_selectedPersonnelAssignedId" name="_selectedPersonnelAssignedId" value="">
 <input type="hidden" id="_selectedStudyOrganization" name="_selectedStudyOrganization" value="${!empty selectedStudyOrganization?selectedStudyOrganization.id:''}">
+<input type="hidden" id="_studyId" name="_studyId" value="${command.study.primaryIdentifier}">
 
 
 
