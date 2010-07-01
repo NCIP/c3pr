@@ -218,8 +218,12 @@ public class SecurityUtils {
 	 * @return the user privileges
 	 */
 	public static List<UserPrivilege> getUserPrivileges(Authentication authentication){
-		AuthorizedUser authorizedUser = (AuthorizedUser)authentication.getPrincipal();
-		return authorizedUser.getUserPrivileges();
+		if(authentication != null){
+			AuthorizedUser authorizedUser = (AuthorizedUser)authentication.getPrincipal();
+			return authorizedUser.getUserPrivileges();
+		}else {
+			return new ArrayList<UserPrivilege>();
+		}
 	}
 
 	
