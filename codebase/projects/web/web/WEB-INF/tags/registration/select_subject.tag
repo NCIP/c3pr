@@ -4,6 +4,7 @@
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="c3pr" uri="http://edu.duke.cabig.c3pr.web/c3pr" %>
 <tags:dwrJavascriptLink objects="ParticipantAjaxFacade" />
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 <script type="text/javascript">
@@ -227,15 +228,17 @@
 
 <tags:minimizablePanelBox title="Select Subject" boxId="SubjectBox">
     <!-- subTabbedflow-->
-    	<a href="javascript:moveToCreateSubject()" id="createSubject_btn" class="fifthlevelTab-current">
-    		<span><img src="<tags:imageUrl name="icons/searchParticipantController_icon.png"/>" alt="" />Create Subject</span>
-    	</a>
-    	<a href="javascript:moveToSearchSubject()" id="searchSubject_btn" class="fifthlevelTab">
+    	<a href="javascript:moveToSearchSubject()" id="searchSubject_btn" class="fifthlevelTab-current">
     		<span id="searchSubjectSpan"><img src="<tags:imageUrl name="icons/search.png"/>" alt="" /> Search for Subject</span>
     	</a>
+    	<c3pr:checkprivilege hasPrivileges="UI_SUBJECT_CREATE">
+	    	<a href="javascript:moveToCreateSubject()" id="createSubject_btn" class="fifthlevelTab">
+	    		<span><img src="<tags:imageUrl name="icons/searchParticipantController_icon.png"/>" alt="" />Create Subject</span>
+	    	</a>
+	    </c3pr:checkprivilege>
     <br/>
     <!-- start of search subject div-->
-    <div id="searchSubjectDiv" style="display:none;">
+    <div id="searchSubjectDiv">
         <div style="border:2px solid #AC8139; padding-top:10px; padding-bottom:10px; margin-top:4px; background-color:Beige;">
             <form id="searchSubjectForm" action="" method="post">
                 <input type="hidden" name="async" id="async" value="async">
@@ -273,7 +276,7 @@
     </div>
     <!-- end of search subject div-->
     <!--start of create subject div-->
-    <div id="createSubjectDiv" style="">
+    <div id="createSubjectDiv"  style="display:none;">
         <div style="border:2px solid #AC8139; padding-top:10px; padding-bottom:10px; margin-top:4px; background-color:Beige;">
             <div id="createSubjectDetailsDiv">
                 <form id="createSubForm" name="createSubForm">
