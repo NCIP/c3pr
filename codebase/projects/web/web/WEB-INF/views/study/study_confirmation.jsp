@@ -61,11 +61,9 @@
 									<input type="button" id="manageCompanionStudy" value="Manage" onclick="javascript:document.location='<c:url value='/pages/study/viewStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
 								</c:when>
 								<c:otherwise>                	
-								<c:if test="${not empty editAuthorizationTask}">  
 								<csmauthz:accesscontrol domainObject="${companionStudyAssociation.companionStudy.studyCoordinatingCenter.healthcareSite}" hasPrivileges="UI_STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
 									<input type="button" id="editCompanionStudy" value="Edit" onclick="javascript:document.location='<c:url value='/pages/study/editCompanionStudy?studyId=${companionStudyAssociation.companionStudy.id}' />'"/>
 								</csmauthz:accesscontrol>
-								</c:if>	                
 								</c:otherwise>
 							</c:choose>
 		                </td>

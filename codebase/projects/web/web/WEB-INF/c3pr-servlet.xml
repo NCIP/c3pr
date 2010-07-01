@@ -217,12 +217,6 @@
           autowire="byName"
           class="edu.duke.cabig.c3pr.web.study.ConfirmStudyController">
           <property name="studyDao" ref="studyDao" />
-          <property name="editTask">
-            <bean
-                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                    autowire="byType" p:displayName="Edit Study"
-                    p:linkName="editStudyController"/>
-       	 </property>
     </bean>
     <bean name="/study/viewAmendment" id="viewAmendmentController"
           autowire="byName"
@@ -231,52 +225,22 @@
     </bean>
     <bean name="/study/editStudy" id="editStudyController"
           class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName">
-          <property name="editTask">
-            <bean
-                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                    autowire="byType" p:displayName="Edit Study"
-                    p:linkName="editStudyController"/>
-          </property>
 	</bean>          
     <bean name="/study/editCompanionStudy" id="editCompanionStudyController"
           class="edu.duke.cabig.c3pr.web.study.EditCompanionStudyController"
           autowire="byName">
-          <property name="editTask">
-            <bean
-                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                    autowire="byType" p:displayName="Edit Study"
-                    p:linkName="editStudyController"/>
-          </property>
     </bean>
     <bean name="/study/amendStudy" id="amendStudyController"
           class="edu.duke.cabig.c3pr.web.study.AmendStudyController" autowire="byName">
-          <property name="editTask">
-            <bean
-                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                    autowire="byType" p:displayName="Edit Study"
-                    p:linkName="editStudyController"/>
-          </property>
     </bean>
 	<bean name="/study/amendCompanionStudy" id="amendCompanionStudyController"
           class="edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController"
           autowire="byName">
-          <property name="editTask">
-            <bean
-                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                    autowire="byType" p:displayName="Edit Study"
-                    p:linkName="editStudyController"/>
-          </property>
     </bean>
     
     <bean name="/study/viewStudy" id="viewStudyController"
           class="edu.duke.cabig.c3pr.web.study.ViewStudyController" autowire="byName">
          <property name="xmlUtility" ref="studyXmlUtility"/>
-        <property name="editTask">
-            <bean
-                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                    autowire="byType" p:displayName="Edit Study"
-                    p:linkName="editStudyController"/>
-        </property>
     </bean>
 
 
@@ -390,12 +354,6 @@
         <property name="commandClass" value="edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper"/>
         <property name="commandName" value="command"/>
         <property name="sessionForm" value="true"/>
-        <property name="editTask">
-            <bean
-                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                    autowire="byType" p:displayName="Create Registration"
-                    p:linkName="createRegistrationController"/>
-        </property>
         <!-- <property name="bindOnNewForm" value="true" />-->
     </bean>
     

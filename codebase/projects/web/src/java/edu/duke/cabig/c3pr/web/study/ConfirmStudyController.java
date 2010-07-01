@@ -10,12 +10,10 @@ import org.springframework.web.servlet.mvc.BaseCommandController;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 
 public class ConfirmStudyController extends BaseCommandController {
 
     protected StudyDao studyDao;
-    private edu.duke.cabig.c3pr.utils.web.navigation.Task editTask;
 
     public ConfirmStudyController() {
     }
@@ -23,7 +21,6 @@ public class ConfirmStudyController extends BaseCommandController {
 
     public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        request.setAttribute("editAuthorizationTask", editTask);
 
         StudyWrapper wrapper = new StudyWrapper();
         Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
@@ -44,14 +41,6 @@ public class ConfirmStudyController extends BaseCommandController {
 
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;
-    }
-
-    public Task getEditTask() {
-        return editTask;
-    }
-
-    public void setEditTask(Task editTask) {
-        this.editTask = editTask;
     }
 
 }

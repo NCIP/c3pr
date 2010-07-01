@@ -32,4 +32,55 @@
             </description>
         </attribute>
     </tag>
+    
+    <tag>
+        <name>tabaccesscontrol</name>
+        <tag-class>edu.duke.cabig.c3pr.web.jsp.tags.TabAccessControlTag</tag-class>
+        <description>
+        </description>
+        
+        <attribute>
+            <name>hasPrivilege</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+                A comma separated list of privilege names.
+            </description>
+        </attribute>
+        <attribute>
+            <name>domainObject</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+                The actual domain object instance for which permissions
+                are being evaluated.
+            </description>
+        </attribute>
+        <attribute>
+            <name>tabAuthorizationCheckName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+                The actual domain object instance for which permissions
+                are being evaluated.
+            </description>
+        </attribute>
+        <attribute>
+            <name>tab</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+                The Tab object instance for which permissions
+                are being evaluated.
+            </description>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <description>
+                The string value of the authorization scope.
+            </description>
+        </attribute>
+    </tag>
 </taglib>

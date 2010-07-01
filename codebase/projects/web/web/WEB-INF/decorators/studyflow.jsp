@@ -9,6 +9,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
+<%@taglib prefix="c3pr" uri="http://edu.duke.cabig.c3pr.web/c3pr" %>
 
 <html>
 <head>
@@ -79,19 +80,29 @@
             </div>
         </c:if>
 
-        <div id="main${hasSummary ? '' : '-no-summary'}-pane" class="pane">
-            <c:choose>
-        		<c:when test="${!empty tab && tab.showSummary!='false'}">
-	                <layout:studySummaryLayout tab='${tab}' flow="${flow}">
-	                    <decorator:body/>
-	                </layout:studySummaryLayout>
-        		</c:when>
-        		<c:otherwise>
-        			<decorator:body/>
-        			
-        		</c:otherwise>
-           	</c:choose>
-        </div>
+		<c:set var="tabAuthroized" value="false"/>
+ 		<c3pr:tabaccesscontrol tab="${tab}" tabAuthorizationCheckName="studyOrganizationTabAuthorizationCheck" domainObject="${studyCommand.study}">
+  			<c:set var="tabAuthroized" value="true"/>
+   		</c3pr:tabaccesscontrol>
+   		<c:choose>
+        	<c:when test="${tabAuthroized }">
+        		<div id="main${hasSummary ? '' : '-no-summary'}-pane" class="pane">
+		            <c:choose>
+		        		<c:when test="${!empty tab && tab.showSummary!='false'}">
+		      				<layout:studySummaryLayout tab='${tab}' flow="${flow}">
+			                    <decorator:body/>
+			                </layout:studySummaryLayout>
+		        		</c:when>
+		        		<c:otherwise>
+				            <decorator:body/>
+		        		</c:otherwise>
+		           	</c:choose>
+		        </div>
+			</c:when>
+			<c:otherwise>
+				<tags:notAuthorized/>
+			</c:otherwise>
+		</c:choose>
     </chrome:body>
     </c:when>
     <c:otherwise>

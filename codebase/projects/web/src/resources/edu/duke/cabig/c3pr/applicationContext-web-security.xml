@@ -141,4 +141,56 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<property name="authorizationSwitch" ref="authorizationSwitch"/>
 	</bean>
 	
+	<bean id="studyOrganizationTabAuthorizationCheck"
+		class="edu.duke.cabig.c3pr.web.security.StudyOrganizationTabAuthorizationCheck">
+		<property name="csmAuthorizationCheck" ref="siteAuthorizationCheck"/>
+		<property name="tabBasedPrivilegeMap" ref="studyTabPrivilgeMap" />
+		<property name="tabBasedScopeMap" ref="studyTabScopeMap" />
+	</bean>
+	
+	<util:map id="studyTabPrivilgeMap">
+		<!-- START Core Study Tabs -->	
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyAmendmentTab" value="edu.duke.cabig.c3pr.domain.Study.Definition.Details:CREATE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab" value="edu.duke.cabig.c3pr.domain.Study.Definition.Details:CREATE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyConsentTab" value="edu.duke.cabig.c3pr.domain.Study.Definition.Details:CREATE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab" value="edu.duke.cabig.c3pr.domain.Study.Definition.Supplemental:CREATE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyEligibilityChecklistTab" value="edu.duke.cabig.c3pr.domain.Study.Definition.Supplemental:CREATE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyStratificationTab" value="edu.duke.cabig.c3pr.domain.Study.Definition.Supplemental:CREATE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyRandomizationTab" value="edu.duke.cabig.c3pr.domain.Study.Definition.Supplemental:CREATE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab" value="edu.duke.cabig.c3pr.domain.Study.Definition.Supplemental:CREATE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.CompanionStudyTab" value="edu.duke.cabig.c3pr.domain.Study.Definition.Supplemental:CREATE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyOverviewTab" value="edu.duke.cabig.c3pr.domain.Study:READ" />
+		
+		<!-- START Manage Study Tabs -->
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudySitesTab" value="edu.duke.cabig.c3pr.domain.StudySite:READ" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab" value="edu.duke.cabig.c3pr.domain.Study:OVERRIDE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab" value="edu.duke.cabig.c3pr.domain.StudyPersonnel:READ" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyPersonnelTab" value="edu.duke.cabig.c3pr.domain.StudyPersonnel:READ" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyNotificationTab" value="edu.duke.cabig.c3pr.domain.Study:OVERRIDE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyRegistrationsTab" value="edu.duke.cabig.c3pr.domain.Study:OVERRIDE" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyViewAmendmentsTab" value="edu.duke.cabig.c3pr.domain.Study:OVERRIDE" />
+	</util:map>
+	
+	<util:map id="studyTabScopeMap">
+		<!-- START Core Study Tabs -->	
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyAmendmentTab" value="COCENTER_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyDetailsTab" value="COCENTER_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyConsentTab" value="COCENTER_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab" value="COCENTER_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyEligibilityChecklistTab" value="COCENTER_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyStratificationTab" value="COCENTER_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyRandomizationTab" value="COCENTER_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyDiseasesTab" value="COCENTER_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.CompanionStudyTab" value="COCENTER_SCOPED_AUTHRORIZATION_CHECK" />
+		
+		<!-- START Manage Study Tabs -->
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudySitesTab" value="STUDYSITE_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab" value="STUDYSITE_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab" value="STUDYSITE_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyPersonnelTab" value="STUDYSITE_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyNotificationTab" value="STUDYSITE_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyRegistrationsTab" value="STUDYSITE_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyViewAmendmentsTab" value="STUDYSITE_SCOPED_AUTHRORIZATION_CHECK" />
+		<entry key="edu.duke.cabig.c3pr.web.study.tabs.StudyOverviewTab" value="STUDYORGANIZATION_SCOPED_AUTHRORIZATION_CHECK" />
+	</util:map>
 </beans>

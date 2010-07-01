@@ -14,7 +14,6 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyNotificationTab;
@@ -32,7 +31,6 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * use File | Settings | File Templates.
  */
 public class ViewStudyController extends StudyController<StudyWrapper> {
-    private edu.duke.cabig.c3pr.utils.web.navigation.Task editTask;
 
     private XmlMarshaller xmlUtility;
     private final String DO_NOT_SAVE = "_doNotSave" ;
@@ -86,7 +84,6 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
         Map<String, Object> refdata = super.referenceData(request, o, errors, i);
 
         refdata.put(FLOW_TYPE, VIEW_STUDY);
-        refdata.put("editAuthorizationTask", editTask);
         return refdata;
     }
 
@@ -122,14 +119,6 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
         Study study = ((StudyWrapper) command).getStudy();
         ModelAndView modelAndView = new ModelAndView(new RedirectView("editStudy?studyId=" + study.getId()));
         return modelAndView;
-    }
-
-    public Task getEditTask() {
-        return editTask;
-    }
-
-    public void setEditTask(Task editTask) {
-        this.editTask = editTask;
     }
 
     public XmlMarshaller getXmlUtility() {

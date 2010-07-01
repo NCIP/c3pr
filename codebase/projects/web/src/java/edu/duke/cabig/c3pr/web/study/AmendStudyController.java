@@ -21,7 +21,6 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.web.study.tabs.CompanionStudyTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyAmendmentTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyConsentTab;
@@ -48,16 +47,7 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
         super(s);
     }
 
-    private Task editTask;
     private StudyRepository studyRepository;
-
-    public Task getEditTask() {
-        return editTask;
-    }
-
-    public void setEditTask(Task editTask) {
-        this.editTask = editTask;
-    }
 
     @Override
     protected Map referenceData(HttpServletRequest request, Object command, Errors e, int page) throws Exception {
@@ -65,7 +55,6 @@ public class AmendStudyController extends StudyController<StudyWrapper> {
         request.setAttribute("amendFlow", "true");
 
         request.setAttribute("softDelete", "false");
-        request.setAttribute("editAuthorizationTask", editTask);
         return super.referenceData(request,command, e , page);
     }
 

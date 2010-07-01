@@ -30,12 +30,10 @@ buildMenu(<c:out value="${tab.number}" />, "<c:out value='${currentTask.displayN
 
 <ul id="workflow-tabs" class="tabs autoclear">
 <c:forEach items="${flow.tabs}" var="atab" varStatus="status">
-	<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
 	    <c:set var="selected" value="${atab.number == tab.number}"/>
 	    <li class="tab ${selected ? 'selected' : ''} ${status.last ? 'last' : ''} ${not empty mandatory ? 'mandatory' : ''}"><div>
 	        <a href="#" class="tab${atab.number}">${atab.number + 1}. ${atab.shortTitle}</a>
 	    </div></li>
-    </csmauthz:accesscontrol>
 </c:forEach>
 </ul>    
 

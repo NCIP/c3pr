@@ -17,7 +17,6 @@ import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.web.study.tabs.CompanionStudyTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyConsentTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyDesignTab;
@@ -40,16 +39,7 @@ public class EditStudyController extends StudyController<StudyWrapper> {
 
     protected static final Log log = LogFactory.getLog(EditStudyController.class);
 
-    private Task editTask;
     private final String DO_NOT_SAVE = "_doNotSave" ;
-
-    public Task getEditTask() {
-        return editTask;
-    }
-
-    public void setEditTask(Task editTask) {
-        this.editTask = editTask;
-    }
 
     public EditStudyController() {
         super("Edit Study");
@@ -97,7 +87,6 @@ public class EditStudyController extends StudyController<StudyWrapper> {
             softDelete = "true";
         }
 
-        request.setAttribute("editAuthorizationTask", editTask);
 
 
         request.setAttribute("softDelete", softDelete);
