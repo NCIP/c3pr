@@ -601,6 +601,7 @@
 <chrome:division title="Informed Consents" inPlaceLinkId="editInPlaceForInformedConsent" condition="${canEditRegistrationRecord}">
 	<table class="tablecontent">
 		<tr>
+			<th><fmt:message key="study.consentName"/></th>
 			<th><fmt:message key="registration.consentSignedDate"/></th>
 			<th><fmt:message key="registration.consentDeliveredDate"/></th>
 			<th><fmt:message key="registration.consentMethod"/></th>
@@ -608,6 +609,7 @@
 		</tr>
 		<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
 			<tr>
+				<td>${studySubjectConsentVersion.consent.name}</td>
 				<td>	
 					<c:choose>
 						<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null && studySubjectConsentVersion.informedConsentSignedDateStr != ''}"> 
