@@ -50,27 +50,30 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 
 	public void setInformedConsentSignedTime(Time informedConsentSignedTime) {
 		Calendar cal = new GregorianCalendar();
-		if(informedConsentSignedTime==null){
-			informedConsentSignedTimestamp = new Date();
+		if(informedConsentSignedTime!=null){
+			cal.setTime(informedConsentSignedTimestamp);
+			cal.set(Calendar.HOUR, informedConsentSignedTime.getHours());
+			cal.set(Calendar.MINUTE, informedConsentSignedTime.getMinutes());
+			cal.set(Calendar.SECOND,informedConsentSignedTime.getSeconds());
+			this.setInformedConsentSignedTimestamp(cal.getTime());
 		}
-		cal.setTime(informedConsentSignedTimestamp);
-		cal.set(Calendar.HOUR, informedConsentSignedTime.getHours());
-		cal.set(Calendar.MINUTE, informedConsentSignedTime.getMinutes());
-		cal.set(Calendar.SECOND,informedConsentSignedTime.getSeconds());
-		this.setInformedConsentSignedTimestamp(cal.getTime());
 	}
 
 	private List<SubjectConsentQuestionAnswer> subjectConsentAnswers = new ArrayList<SubjectConsentQuestionAnswer>();
 
 	public void setInformedConsentSignedDate(Date informedConsentSignedDate) {
-		Calendar cal = new GregorianCalendar(0,0,0,0,0,0);
-		if(informedConsentSignedTimestamp!=null){
-			cal.setTime(informedConsentSignedTimestamp);
+		
+		if(informedConsentSignedDate!=null){
+			
+			Calendar cal = new GregorianCalendar(0,0,0,0,0,0);
+			if(informedConsentSignedTimestamp!=null){
+				cal.setTime(informedConsentSignedTimestamp);
+			}
+			cal.set(Calendar.YEAR, informedConsentSignedDate.getYear() +1900);
+			cal.set(Calendar.MONTH, informedConsentSignedDate.getMonth());
+			cal.set(Calendar.DATE,informedConsentSignedDate.getDate());
+			this.setInformedConsentSignedTimestamp(cal.getTime());
 		}
-		cal.set(Calendar.YEAR, informedConsentSignedDate.getYear() +1900);
-		cal.set(Calendar.MONTH, informedConsentSignedDate.getMonth());
-		cal.set(Calendar.DATE,informedConsentSignedDate.getDate());
-		this.setInformedConsentSignedTimestamp(cal.getTime());
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
