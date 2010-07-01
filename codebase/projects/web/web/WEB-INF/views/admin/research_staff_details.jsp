@@ -62,20 +62,6 @@ function handleAllSiteAccess(){
 	}
 }
 
-function handleGlobalRoleCheckbox(element){
-	var globalRoleAlreadySelected = false ;
-	$$(".globalRoleCheckbox").each(function(e) {
-		if(e != element && e.checked){
-			globalRoleAlreadySelected = true ;
-		}
-	});
-	if(!globalRoleAlreadySelected && element.checked){
-		contentWin = new Window({ width:400, height:120 ,className :"alert_lite"}) ;
-		contentWin.setContent('confirmation-globalrole-msg') ;
-		contentWin.showCenter(true);
-	}
-}
-
 function displayRemoteResearchStaff(){
 	var contentWin = new Window({className:"alphacube", destroyOnClose:true, id:"remoteRS-popup-id", width:550,  height:200, top: 30, left: 300});
 	contentWin.setContent( 'display_remote_rs' );
@@ -230,14 +216,6 @@ RowManager.registerRowInserters();
 		<tags:button type="button "color="blue" value="OK" onclick="javascript:contentWin.close();"/>
 	</div>
 </div>
-<div id="confirmation-globalrole-msg" style="display: none;">
-	<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
-		<fmt:message key="RESEARCH_STAFF.GLOBAL_ROLE_CHECKED"/>
-	</div>
-	<div align="center" style="padding-top: 20px">
-		<tags:button type="button "color="blue" value="OK" onclick="javascript:contentWin.close();"/>
-	</div>
-</div>
 <div id="main">
 <c:choose>
 	<c:when test="${command.researchStaff.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
@@ -377,7 +355,7 @@ RowManager.registerRowInserters();
 <chrome:division title="Associated Organizations" cssClass="big">
 	<c:if test="${FLOW != 'SETUP_FLOW'}">
 	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
-	<chrome:division title="Global Roles" cssClass="indented">
+	<chrome:division title="Global Roles" cssClass="indented"><tags:hoverHint keyProp="contactMechanism.username"/>
 		<table title="Global Roles">
 		<tr>
 		<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
@@ -400,8 +378,8 @@ RowManager.registerRowInserters();
     <c:forEach items="${command.healthcareSiteRolesHolderList}" var="healthcareSiteRolesHolder"  varStatus="status">
     <tr id="healthcareSite-${status}">
 	    <td>
-		<chrome:deletableDivision divTitle="genericTitle-${status.index}" id="genericHealthcareSiteBox-${status.index}" cssClass="small"
-	    	title="Organization: ${command.healthcareSiteRolesHolderList[status.index].healthcareSite.name} (${command.healthcareSiteRolesHolderList[status.index].healthcareSite.primaryIdentifier })" 
+		<chrome:deletableDivision divTitle="genericTitle-${status.index}" id="genericHealthcareSiteBox-${status.index}" cssClass="indented"
+	    	title="${command.healthcareSiteRolesHolderList[status.index].healthcareSite.name} (${command.healthcareSiteRolesHolderList[status.index].healthcareSite.primaryIdentifier })" 
 	    	minimize="${FLOW != 'EDIT_FLOW'?'false':'true'}" divIdToBeMinimized="hcs-${status.index}" disableDelete="true"
 		    onclick="#">
 		    <div id="hcs-${status.index}" <c:if test="${FLOW == 'EDIT_FLOW'}">style="display: none"</c:if>>
