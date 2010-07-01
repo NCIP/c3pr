@@ -27,7 +27,7 @@ public class StudySubjectAuthorizationCheck implements CSMAuthorizationCheck{
 	public boolean checkAuthorization(Authentication authentication, String privilege,
 			Object object) {
 	   
-		UserPrivilegeType userPrivilegeType = UserPrivilegeType.getByCode(privilege);
+		UserPrivilegeType userPrivilegeType = UserPrivilegeType.valueOf(privilege);
 		Study study = ((StudySubject)object).getStudySite().getStudy();
 		
 		//load all the roles the user has with the specified privilege
