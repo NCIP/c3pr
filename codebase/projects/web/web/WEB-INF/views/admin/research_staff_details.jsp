@@ -355,19 +355,23 @@ RowManager.registerRowInserters();
 <chrome:division title="Associated Organizations" cssClass="big">
 	<c:if test="${FLOW != 'SETUP_FLOW'}">
 	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
-	<chrome:division title="Global Roles" cssClass="indented"><tags:hoverHint keyProp="contactMechanism.username"/>
-		<table title="Global Roles">
-		<tr>
-		<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
-			<td>
+	<chrome:division title="Global Roles" cssClass="indented">
+		<tags:hoverHint keyProp="researchStaff.globalRoles"/>	
+		<table>
+			<tr>
+			<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
+				<td>
+				<c:if test="${roleStatus.index % 3 == 0}">
+					</td></tr><tr><td>						
+				</c:if>
 				<div class="newLabel"> 
 					<input type="checkbox" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}" class="globalRoleCheckbox" onclick="handleGlobalRoleCheckbox(this);" <c:if test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}"> checked </c:if>/>
 				</div>
 				<div class="newValue">
 					${globalRole.displayName}
 				</div>
-			</td>
-		 </c:forEach>
+				</td>
+	    	</c:forEach>
 		 </tr>
 		</table>
 	</chrome:division>
