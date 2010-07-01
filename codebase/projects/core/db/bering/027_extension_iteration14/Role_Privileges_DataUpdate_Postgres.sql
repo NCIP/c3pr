@@ -79,7 +79,10 @@ VALUES('data_importer','edu.duke.cabig.c3pr.domain.StudySubject', 'CREATE', (sel
 
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
 VALUES('study_team_administrator','edu.duke.cabig.c3pr.domain.Study', 'UPDATE', (select nextval('role_privileges_ID_SEQ')));
-
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('study_team_administrator','edu.duke.cabig.c3pr.domain.ResearchStaff', 'READ', (select nextval('role_privileges_ID_SEQ')));
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
+VALUES('study_team_administrator','edu.duke.cabig.c3pr.domain.Investigator', 'READ', (select nextval('role_privileges_ID_SEQ')));
 --Inbox related privileges
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) 
 VALUES('system_administrator','edu.duke.cabig.c3pr.domain.Inbox', 'READ', (select nextval('role_privileges_ID_SEQ')));

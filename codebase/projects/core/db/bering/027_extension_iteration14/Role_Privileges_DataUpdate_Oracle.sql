@@ -44,6 +44,8 @@ INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) VALUES('data_impo
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) VALUES('data_importer','edu.duke.cabig.c3pr.domain.StudySubject', 'CREATE', role_privileges_id_seq.nextval);
 
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) VALUES('study_team_administrator','edu.duke.cabig.c3pr.domain.Study', 'UPDATE', role_privileges_id_seq.nextval);
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) VALUES('study_team_administrator','edu.duke.cabig.c3pr.domain.ResearchStaff', 'READ', role_privileges_id_seq.nextval);
+INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) VALUES('study_team_administrator','edu.duke.cabig.c3pr.domain.Investigator', 'READ', role_privileges_id_seq.nextval);
 
 INSERT INTO role_privileges(ROLE_NAME,OBJECT_ID,PRIVILEGE, ID) VALUES('system_administrator','edu.duke.cabig.c3pr.domain.Inbox', 'READ', role_privileges_id_seq.nextval);
 
