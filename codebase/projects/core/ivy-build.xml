@@ -5,67 +5,67 @@
 	<property file="${antfiles.dir}/build.properties" />
 	<property file="${antfiles.dir}/c3pr-ivy.properties" />
 	<import file="${antfiles.dir}/common.xml"/>
-	
+
 	<!--db dir-->
 	<property name="db.scripts.basedir" value="db"/>
 	<property name="db.scripts.dir" value="${basedir}/${db.scripts.basedir}"/>
 	<property name="bering.migration.dir" value="${db.scripts.dir}/bering"/>
 	<property name="oracle.db.script.dir" value="${db.scripts.dir}/oracle"/>
-    <property name="postgresql.db.script.dir" value="${db.scripts.dir}/PostGreSQL"/>
-    <property name="oracle.csm.db.scripts.dir" value="${oracle.db.script.dir}/csm"/>
-    <property name="postgresql.csm.db.scripts.dir" value="${postgresql.db.script.dir}/csm"/>
+	<property name="postgresql.db.script.dir" value="${db.scripts.dir}/PostGreSQL"/>
+	<property name="oracle.csm.db.scripts.dir" value="${oracle.db.script.dir}/csm"/>
+	<property name="postgresql.csm.db.scripts.dir" value="${postgresql.db.script.dir}/csm"/>
 	<property name="sqlserver.db.script.dir" value="${db.scripts.dir}/SQLServer"/>
 	<property name="sqlserver.csm.db.scripts.dir" value="${sqlserver.db.script.dir}/csm"/>
-	
+
 	<!--CSM Tomcat dirs-->
 	<property name="conf.dir" value="${basedir}/conf/"/>
 	<property name="csm.conf.dir" value="${conf.dir}/csm"/>
-	
+
 	<target name="module-specific-flow" depends="find-datasource" description="Copy resources into classpath">
 
 		<property name="build.context.dir" location="${classes.dir}/context"/>
-        <!--copy the properties file-->
-    	<copy file="${dsFile}"
+		<!--copy the properties file-->
+		<copy file="${dsFile}"
     	              tofile="${build.context.dir}/datasource.properties" overwrite="true"/>
 		<copy file="${antfiles.dir}/build.properties"
 		              tofile="${build.context.dir}/c3pr.properties" overwrite="true"/>
-        <!--Unix works for all environments -->
-        <pathconvert targetos="unix" property="catalina.home.unix">
-            <path location="${catalina.home}"/>
-        </pathconvert>
+		<!--Unix works for all environments -->
+		<pathconvert targetos="unix" property="catalina.home.unix">
+			<path location="${catalina.home}"/>
+		</pathconvert>
 
-        <!-- copy log4j -->
-        <copy file="${antfiles.dir}/c3pr-log4j.properties"
+		<!-- copy log4j -->
+		<copy file="${antfiles.dir}/c3pr-log4j.properties"
               tofile="${classes.dir}/log4j.properties"
               overwrite="true"
               filtering="true">
-            <!--<filterset>
+			<!--<filterset>
                 <filter token="catalina.home" value="${catalina.home.unix}"/>
                 <filter token="log4j.filename" value="${log4j.filename}"/>
             </filterset>-->
-        </copy>
+		</copy>
 
-        <!--copy the castor mapping file-->
-        <copy todir="${classes.dir}" filtering="true" overwrite="true">
-            <fileset dir="${main.src.resources}">
-                <include name="**/*.*"/>
-            </fileset>
-            <fileset dir="${resources.dir}">
-                <include name="*.*"/>
-            </fileset>
-            <fileset dir="${resources.dir}/xsd">
-                <include name="*.*"/>
-            </fileset>
-        	<fileset dir="${resources.dir}/samples">
-                <include name="*.xml"/>
-            </fileset>
-        </copy>
+		<!--copy the castor mapping file-->
+		<copy todir="${classes.dir}" filtering="true" overwrite="true">
+			<fileset dir="${main.src.resources}">
+				<include name="**/*.*"/>
+			</fileset>
+			<fileset dir="${resources.dir}">
+				<include name="*.*"/>
+			</fileset>
+			<fileset dir="${resources.dir}/xsd">
+				<include name="*.*"/>
+			</fileset>
+			<fileset dir="${resources.dir}/samples">
+				<include name="*.xml"/>
+			</fileset>
+		</copy>
 
-        <!--copy bering migrate scripts-->
-        <copy todir="${classes.dir}/${db.scripts.basedir}" overwrite="true">
-            <fileset dir="${db.scripts.dir}"/>
-        </copy>
-    </target>
+		<!--copy bering migrate scripts-->
+		<copy todir="${classes.dir}/${db.scripts.basedir}" overwrite="true">
+			<fileset dir="${db.scripts.dir}"/>
+		</copy>
+	</target>
 
 	<!-- ========================================================================
 		target: load-datasource
@@ -83,10 +83,10 @@
 		<property name="dsFile.located" value="true"/>
 	</target>
 	<!-- ============================================================== -->
-    <!-- Bering migration task                                          -->
-    <!-- ============================================================== -->
+	<!-- Bering migration task                                          -->
+	<!-- ============================================================== -->
 	<target name="migrate" description="does bering migration" depends="resolve,prepare-bering">
-        <migrate classpathRef="main.classpath"
+		<migrate classpathRef="main.classpath"
 				 driver="${datasource.driver}"
                  dialect="${bering.dialect}"
                  url="${datasource.url}"
@@ -95,23 +95,23 @@
         		 migrationsdir="${bering.migration.dir}" />
 		<echo message="bering.dialect : ${bering.dialect}" />
 	</target>
-	
+
 	<target name="autobuild-ci-drop-and-create-existing-database" depends="check-database-type" if="postgres.true">
 		<ant target="drop-and-create-existing-database" antfile="ivy-build.xml" inheritall="false"/>
 	</target>
-	
+
 	<target name="drop-and-create-existing-database" description="drop the database and create new database" depends="resolve, find-datasource">
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
-            <classpath>
-                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
-            </classpath>
-        </taskdef>
-		<property file="${dsFile}"/>    
-		<echo message="${datasource.driver}"/>    
-		<echo message="${datasource.url}"/>    
-		<echo message="${datasource.username}"/>    
-		<echo message="${datasource.password}"/>  
-        <propertyregex property="datasource.base" input="${datasource.url}" regexp="${datasource.schema}" replace="postgres"/>
+			<classpath>
+				<pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+			</classpath>
+		</taskdef>
+		<property file="${dsFile}"/>
+		<echo message="${datasource.driver}"/>
+		<echo message="${datasource.url}"/>
+		<echo message="${datasource.username}"/>
+		<echo message="${datasource.password}"/>
+		<propertyregex property="datasource.base" input="${datasource.url}" regexp="${datasource.schema}" replace="postgres"/>
 		<echo message="old vale was ${datasource.url}"/>
 		<echo message="The value is now ${datasource.base}"/>
 		<sql userid="${datasource.username}" password="${datasource.password}" url="${datasource.base}"  driver="${datasource.driver}"
@@ -120,33 +120,33 @@
 			CREATE DATABASE ${datasource.schema};
 		</sql>
 	</target>
-	
+
 	<target name="autobuild-ci-recreate-db-hudson" depends="check-database-type" if="oracle.true">
 		<ant target="recreate-db-hudson" antfile="ivy-build.xml" inheritall="false"/>
 	</target>
-	
+
 	<target name="recreate-db-hudson" description="drop the database and create new database" depends="resolve, find-datasource">
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
-		            <classpath>
-		                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
-		            </classpath>
-		        </taskdef>
-		<property file="${dsFile}"/>   
-		<echo message="${datasource.driver}"/>   
-		<echo message="${datasource.url}"/>   
-		<echo message="${datasource.username}"/>   
-		<echo message="${datasource.password}"/> 
+			<classpath>
+				<pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+			</classpath>
+		</taskdef>
+		<property file="${dsFile}"/>
+		<echo message="${datasource.driver}"/>
+		<echo message="${datasource.url}"/>
+		<echo message="${datasource.username}"/>
+		<echo message="${datasource.password}"/>
 		<if>
 			<equals arg1="${datasource.driver}" arg2="org.postgresql.Driver"/>
-				<then>
-					<sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}" url="${datasource.url}" 
+			<then>
+				<sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}" url="${datasource.url}" 
 					classpathref="main.classpath" onerror="abort" autocommit="true">
 						DROP DATABASE IF EXISTS ${datasource.schema} ;
 						CREATE DATABASE ${datasource.schema};
 					</sql>
-				</then>
-				<else>
-					<sql driver="${datasource.driver}" userid="${datasource.hudsonuser}" password="${datasource.hudsonpassword}" url="${datasource.url}" 
+			</then>
+			<else>
+				<sql driver="${datasource.driver}" userid="${datasource.hudsonuser}" password="${datasource.hudsonpassword}" url="${datasource.url}" 
 										classpathref="main.classpath" onerror="abort" autocommit="true">
 						DROP USER ${datasource.username} CASCADE;
 						CREATE USER ${datasource.username} IDENTIFIED BY ${datasource.username}  DEFAULT TABLESPACE users TEMPORARY TABLESPACE temp QUOTA UNLIMITED ON users;
@@ -155,114 +155,113 @@
 						GRANT create session, create table , drop any table, create sequence, drop any sequence, create trigger, drop any trigger, create type , drop any type, create view, drop any view , create procedure, drop any procedure , create any  index , drop any index TO ${datasource.username}_role;
 						GRANT ${datasource.username}_role TO ${datasource.username};
 					</sql>
-				</else>
-			</if>
+			</else>
+		</if>
 	</target>
-    <target name="prepare-bering" depends="find-datasource">
-        <property file="${dsFile}"/>
+	<target name="prepare-bering" depends="find-datasource">
+		<property file="${dsFile}"/>
 		<echo message="Datasource File : ${dsFile}" />
-        <!--Taskdef. Has to be done inside since classpath is ext-->
-    	<taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml" classpathref="main.classpath"/>
+		<!--Taskdef. Has to be done inside since classpath is ext-->
+		<taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml" classpathref="main.classpath"/>
 
-        <property name="oracle.keyword" value="Oracle"/>
-        <property name="postgresql.keyword" value="PostgreSQLDialect"/>
-    	 <property name="sqlserver.keyword" value="SQLServer"/>
+		<property name="oracle.keyword" value="Oracle"/>
+		<property name="postgresql.keyword" value="PostgreSQLDialect"/>
+		<property name="sqlserver.keyword" value="SQLServer"/>
 
-        <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.PostgreSQL">
-            <contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
-        </condition>
+		<condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.PostgreSQL">
+			<contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
+		</condition>
 
-        <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.Oracle">
-            <contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
-        </condition>
-    	
-    	<condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.SqlServer">
-    	           <contains string="${datasource.dialect}" substring="${sqlserver.keyword}"/>
-    	</condition>
+		<condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.Oracle">
+			<contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
+		</condition>
 
-    </target>
+		<condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.SqlServer">
+			<contains string="${datasource.dialect}" substring="${sqlserver.keyword}"/>
+		</condition>
 
-    <target name="insert-static-data" depends="prepare-bering"
+	</target>
+
+	<target name="insert-static-data" depends="prepare-bering"
             description="Will insert static date into the database">
 
-        <sql driver="${datasource.driver}"
+		<sql driver="${datasource.driver}"
              url="${datasource.url}"
              userid="${datasource.username}"
              password="${datasource.password}"
              classpathref="run.classpath"
              rdbms="oracle">
-            <transaction src="${oracle.db.script.dir}/static-data.sql"/>
-        </sql>
+			<transaction src="${oracle.db.script.dir}/static-data.sql"/>
+		</sql>
 
-        <sql driver="${datasource.driver}"
+		<sql driver="${datasource.driver}"
              url="${datasource.url}"
              userid="${datasource.username}"
              password="${datasource.password}"
              classpathref="run.classpath"
              rdbms="postgres">
-            <transaction src="${postgresql.db.script.dir}/static-data.sql"/>
-        </sql>
+			<transaction src="${postgresql.db.script.dir}/static-data.sql"/>
+		</sql>
 
-    </target>
+	</target>
 
-    <target name="delete-static-data" depends="prepare-bering"
+	<target name="delete-static-data" depends="prepare-bering"
             description="Will insert static date into the database">
 
-        <sql driver="${datasource.driver}"
+		<sql driver="${datasource.driver}"
              url="${datasource.url}"
              userid="${datasource.username}"
              password="${datasource.password}"
              classpathref="run.classpath"
              rdbms="oracle">
-            <transaction src="${oracle.db.script.dir}/static-data-delete.sql"/>
-        </sql>
+			<transaction src="${oracle.db.script.dir}/static-data-delete.sql"/>
+		</sql>
 
-        <sql driver="${datasource.driver}"
+		<sql driver="${datasource.driver}"
              url="${datasource.url}"
              userid="${datasource.username}"
              password="${datasource.password}"
              classpathref="run.classpath"
              rdbms="postgres">
-            <transaction src="${postgresql.db.script.dir}/static-data-delete.sql"/>
-        </sql>
+			<transaction src="${postgresql.db.script.dir}/static-data-delete.sql"/>
+		</sql>
 
-    </target>
+	</target>
 
 
-    <target name="tomcat.security" depends="find-datasource"
+	<target name="tomcat.security" depends="find-datasource"
             description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
-        <fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
-            <condition>
-                <not>
-                    <isset property="catalina.home"/>
-                </not>
-            </condition>
-        </fail>
-    	<property file="${dsFile}"/>
+		<fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
+			<condition>
+				<not>
+					<isset property="catalina.home"/>
+				</not>
+			</condition>
+		</fail>
+		<property file="${dsFile}"/>
 		<echo message="Datasource File : ${dsFile}" />
-        <property name="catalina.home" value="PLEASE SET catalina.home EXTERNALLY"/>
-        <echo>Configuring CSM and UPT for the Tomcat instance in ${catalina.home}</echo>
-        <property name="tomcat.security.dir" value="${catalina.home}/conf/cabig"/>
+		<property name="catalina.home" value="PLEASE SET catalina.home EXTERNALLY"/>
+		<echo>Configuring CSM and UPT for the Tomcat instance in ${catalina.home}</echo>
+		<property name="tomcat.security.dir" value="${catalina.home}/conf/cabig"/>
+		<!-- default UPT dialect to same as SC's, if not already set -->
+		<property name="datasource.dialect.upt" value="${csmDatasource.dialect}"/>
+		<mkdir dir="${tomcat.security.dir}"/>
+		<copy todir="${tomcat.security.dir}" overwrite="true">
+			<filterset>
+				<filter token="tomcat.security.dir" value="${tomcat.security.dir}"/>
+				<filter token="csmDatasource.username" value="${csmDatasource.username}"/>
+				<filter token="csmDatasource.password" value="${csmDatasource.password}"/>
+				<filter token="csmDatasource.url" value='${csmDatasource.url}'/>
+				<filter token="csmDatasource.driver" value="${csmDatasource.driver}"/>
+				<filter token="csmDatasource.dialect.upt" value="${csmDatasource.dialect}"/>
+				<filter token="csm.context.name" value="${csm.context.name}"/>
+			</filterset>
+			<fileset dir="${csm.conf.dir}">
+				<include name="csm_jaas.config"/>
+			</fileset>
+		</copy>
 
-        <!-- default UPT dialect to same as SC's, if not already set -->
-        <property name="datasource.dialect.upt" value="${datasource.dialect}"/>
-        <mkdir dir="${tomcat.security.dir}"/>
-        <copy todir="${tomcat.security.dir}" overwrite="true">
-            <filterset>
-                <filter token="tomcat.security.dir" value="${tomcat.security.dir}"/>
-                <filter token="datasource.username" value="${csmDatasource.username}"/>
-                <filter token="datasource.password" value="${csmDatasource.password}"/>
-                <filter token="datasource.url" value='${csmDatasource.url}'/>
-                <filter token="datasource.driver" value="${csmDatasource.driver}"/>
-                <filter token="datasource.dialect.upt" value="${csmDatasource.dialect}"/>
-                <filter token="csm.context.name" value="${csm.context.name}"/>
-            </filterset>
-            <fileset dir="${csm.conf.dir}">
-                <include name="csm_jaas.config"/>
-            </fileset>
-        </copy>
-
-        <echo taskname="todo">
+		<echo taskname="todo">
             ===== MANUAL STEPS =====
             ========================
             The automatic portion of the security setup is complete. If you have not
@@ -273,44 +272,44 @@
             ========= END ==========
             ===== MANUAL STEPS =====
         </echo>
-    </target>
-	
+	</target>
+
 	<!-- =============================================================== -->
-    <!-- Call check-style for core project                 -->
-    <!-- =============================================================== -->
-    <target name="reports-style-core" depends="resolve" description="Check the style of Core.">
-		<taskdef resource="checkstyletask.properties" classpathref="main.classpath" />	
-			
-        <echo message="Reporting style for project core." />
-        <antcall target="run-report-style">
-            <param name="project" value="core"/>
-        </antcall>
-    </target>
-	
+	<!-- Call check-style for core project                 -->
+	<!-- =============================================================== -->
+	<target name="reports-style-core" depends="resolve" description="Check the style of Core.">
+		<taskdef resource="checkstyletask.properties" classpathref="main.classpath" />
+
+		<echo message="Reporting style for project core." />
+		<antcall target="run-report-style">
+			<param name="project" value="core"/>
+		</antcall>
+	</target>
+
 	<!-- =========================================================================== 
           target: load-ajc              
     ============================================================================= -->
-    <target name="load-ajc" unless="loaded.ajc" description="--> define the ajc task">
-        <taskdef name="ajc" classname="org.aspectj.tools.ant.taskdefs.Ajc10">
-            <classpath>
-                 <pathelement location="${lib.dir}/aspectjtools-1.5.3.jar"/>
-            </classpath>
-        </taskdef>    
-        <property name="loaded.ajc" value="true" />
-    </target>
+	<target name="load-ajc" unless="loaded.ajc" description="--> define the ajc task">
+		<taskdef name="ajc" classname="org.aspectj.tools.ant.taskdefs.Ajc10">
+			<classpath>
+				<pathelement location="${lib.dir}/aspectjtools-1.5.3.jar"/>
+			</classpath>
+		</taskdef>
+		<property name="loaded.ajc" value="true" />
+	</target>
 
-    <!-- =============================================================================
+	<!-- =============================================================================
         target : aspectj-compile-test
             Passes the test files in core through the ajc
     ================================================================================== -->
-    <target name="compile" depends="common.compile, load-ajc" description="Passes the test files in core through the ajc">
-            <ajc srcdir="${main.src}" destdir="${classes.dir}" includes="edu/duke/cabig/c3pr/domain/*,edu/duke/cabig/c3pr/web/**,edu/duke/cabig/c3pr/aspects/compiletime/**" source="1.5" verbose="true" debug="true" 
+	<target name="compile" depends="common.compile, load-ajc" description="Passes the test files in core through the ajc">
+		<ajc srcdir="${main.src}" destdir="${classes.dir}" includes="edu/duke/cabig/c3pr/domain/*,edu/duke/cabig/c3pr/web/**,edu/duke/cabig/c3pr/aspects/compiletime/**" source="1.5" verbose="true" debug="true" 
             	excludes="edu/duke/cabig/c3pr/aspects/springaop/**,edu/duke/cabig/c3pr/aspects/loadtime/**">
-            <classpath>
-                <path refid="main.classpath"/>
-            	<pathelement location="${classes.dir}"/>
-            </classpath>
-        </ajc>
-    </target>
+			<classpath>
+				<path refid="main.classpath"/>
+				<pathelement location="${classes.dir}"/>
+			</classpath>
+		</ajc>
+	</target>
 
 </project>
