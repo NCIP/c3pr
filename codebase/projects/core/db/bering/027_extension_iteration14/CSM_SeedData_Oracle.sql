@@ -1,9 +1,9 @@
 update csm_application set application_name='c3pr old' where application_id = 1;
-insert into csm_application (application_id ,application_name ,application_description,declarative_flag ,active_flag) values (-1, 'c3pr', 'Application Description', 0, 0)
+insert into csm_application (application_id ,application_name ,application_description,declarative_flag ,active_flag) values (-1, 'c3pr', 'Application Description', 0, 0);
 update csm_protection_element set application_id=-1 where application_id=1;
 update csm_protection_group set application_id=-1 where application_id=1;
 update csm_role set application_id=-1 where application_id=1;
-update csm_group set application_id=-1 where application_id=1
+update csm_group set application_id=-1 where application_id=1;
 delete from csm_application where application_id = 1;
 
 delete from csm_role_privilege;
@@ -32,7 +32,6 @@ INSERT INTO csm_group(group_id, group_name, group_desc, application_id) VALUES (
 INSERT INTO csm_group(group_id, group_name, group_desc, application_id) VALUES (-35,	'registration_qa_manager',	'Updates registration information (study subject ID, Date of consent) after enrollment. Can waive the eligibility criteria for certain study subjects.', 		-1);
 INSERT INTO csm_group(group_id, group_name, group_desc, application_id) VALUES (-36, 'subject_manager',	'Defines patient to system (remaining subject data managed by other roles which are not defined)',		-1);
 INSERT INTO csm_group(group_id, group_name, group_desc, application_id) VALUES (-37,	'study_subject_calendar_manager',	'Creates and updates a subject-specific study calendar based on a study calendar template', 		-1);
---INSERT INTO csm_group(group_id, group_name, group_desc, application_id) VALUES (-30,	'registrar',	'Accepts and approves/denies subject registration requests, requests subject registration on a particular study',		-1);
 INSERT INTO csm_group(group_id, group_name, group_desc, application_id) VALUES (-38,	'ae_reporter',	'Creates / updates info about AE that needs reported / submits report to appropriate parties per report definition. Enters set of required AEs to be assessed and any other AEs that patient experienced.',		-1);
 INSERT INTO csm_group(group_id, group_name, group_desc, application_id) VALUES (-39,	'ae_expedited_report_reviewer',	'Read-only: reviews, provides comments, and routes expedited reports through the review workflow',		-1);
 INSERT INTO csm_group(group_id, group_name, group_desc, application_id) VALUES (-40,	'ae_study_data_reviewer',	'Read-only: reviews, provides comments, and adverse event data through a review workflow',		-1);

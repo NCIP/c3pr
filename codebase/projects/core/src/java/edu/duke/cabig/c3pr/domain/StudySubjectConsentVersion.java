@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -73,6 +74,7 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="informed_consent_signed_tstamp")
 	public Date getInformedConsentSignedTimestamp() {
 		return informedConsentSignedTimestamp;
 	}

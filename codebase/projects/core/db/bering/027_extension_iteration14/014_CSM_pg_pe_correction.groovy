@@ -1,7 +1,11 @@
 class CSMPGPECorrection extends edu.northwestern.bioinformatics.bering.Migration {
 	
     void up() {
-    	external("CSM_PG_PE_Correction.sql")
+    	if (databaseMatches('oracle')) {
+           external("CSM_PG_PE_Correction_Oracle.sql")
+        } else if (databaseMatches('postgresql')){
+            external("CSM_PG_PE_Correction_Postgres.sql")
+        }
     }
 
     void down() {

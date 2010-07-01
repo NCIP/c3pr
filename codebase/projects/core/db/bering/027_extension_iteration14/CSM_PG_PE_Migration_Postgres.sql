@@ -13,8 +13,8 @@ Insert into csm_protection_group(protection_group_name,protection_group_descript
 select distinct 'Study.'||identifiers.value as pg_name,'Study.'||identifiers.value as pg_value,-1 as application_id,0 as large_count,now() as update_date 
 from  identifiers, studies where identifiers.stu_id=studies.id and identifiers.type='COORDINATING_CENTER_IDENTIFIER';
 
-Insert into csm_protection_element(protection_element_name,protection_element_description,object_id,application_id,update_date) 
-select pg.protection_group_name,pg.protection_group_name,pg.protection_group_name,-1,pg.update_date from csm_protection_group pg;
+Insert into csm_protection_element(protection_element_id , protection_element_name,protection_element_description,object_id,application_id,update_date) 
+select  pg.protection_group_name,pg.protection_group_name,pg.protection_group_name,-1,pg.update_date from csm_protection_group pg;
 
 Insert into csm_pg_pe(protection_group_id,protection_element_id,update_date)
 select pg.protection_group_id, pe.protection_element_id, now() from csm_protection_group pg, csm_protection_element pe 
