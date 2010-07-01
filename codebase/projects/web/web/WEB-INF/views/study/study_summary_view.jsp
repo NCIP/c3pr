@@ -248,9 +248,21 @@
 				</c:if>
 			</c:when>
 			<c:otherwise>
-				<csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="UI_STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
-                	<c:if test="${command.study.coordinatingCenterStudyStatus != 'CLOSED_TO_ACCRUAL' && command.study.coordinatingCenterStudyStatus != 'CLOSED_TO_ACCRUAL_AND_TREATMENT'}">
-                	<c:choose>
+				<c:set var="showEditStudyLink" value="false"/>
+				<c:choose>
+					<c:when test="${command.study.coordinatingCenterStudyStatus == 'PENDING'}">
+						<csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="UI_STUDY_UPDATE" authorizationCheckName="siteAuthorizationCheck">
+							<c:set var="showEditStudyLink" value="true"/>
+						</csmauthz:accesscontrol>
+					</c:when>
+					<c:otherwise>
+						<csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_OVERRIDE" authorizationCheckName="siteAuthorizationCheck">
+							<c:set var="showEditStudyLink" value="true"/>
+						</csmauthz:accesscontrol>
+					</c:otherwise>
+				</c:choose>
+               	<c:if test="${showEditStudyLink}">
+	               	<c:choose>
 	                    <c:when test="${command.study.companionIndicator=='true'}">
 	                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editCompanionStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit Study" />
 	                    </c:when>
@@ -258,10 +270,11 @@
 	                    	<tags:oneControlPanelItem linkhref="javascript:document.location='../study/editStudy?studyId=${command.study.id}'" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit Study" />
 	                    </c:otherwise>
 	                </c:choose>
-                    <c:if test="${command.study.standaloneIndicator && canAmendStudy}">
+                </c:if>
+                <csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDY_DEFINITION_UPDATE" authorizationCheckName="siteAuthorizationCheck">
+                     <c:if test="${command.study.standaloneIndicator && canAmendStudy}">
                     	<c:set var="amend" value="${resumeAmendment?'Resume Amendment':'Amend Study'}"></c:set>
 		                <tags:oneControlPanelItem linkhref="javascript:amendStudyPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_createStudy.png" linktext="${amend}" />
-                     </c:if>
                      </c:if>
                      <c:if test="${canBroadcast}">
 						<tags:oneControlPanelItem linkhref="javascript:confirmBroadcastStudy();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_broadcast.png" linktext="Broadcast Study" />
@@ -331,6 +344,10 @@
 		<div class="label"><fmt:message key="c3pr.common.status"/>:</div>
 		<div class="value">${command.study.coordinatingCenterStudyStatus.code}</div>
 	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="dashboard.coordinatingCenter"/>:</div>
+		<div class="value">${command.study.studyCoordinatingCenter.healthcareSite.name}</div>
+	</div>
 </div>
 
 <div class="rightpanel">
@@ -364,6 +381,10 @@
   				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.notSpecified"/></span></div>
   			</c:otherwise>
   		</c:choose>
+	</div>
+	<div class="row">
+		<div class="label"><fmt:message key="study.sponsor"/>:</div>
+		<div class="value">${fn:length(command.study.studyFundingSponsors)>0?command.study.studyFundingSponsors[0].healthcareSite.name:'NA'}</div>
 	</div>
 </div>
 </chrome:division>
