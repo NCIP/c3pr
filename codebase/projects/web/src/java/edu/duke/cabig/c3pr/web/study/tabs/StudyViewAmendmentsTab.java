@@ -19,7 +19,6 @@ import edu.duke.cabig.c3pr.web.study.StudyWrapper;
  */
 public class StudyViewAmendmentsTab extends StudyTab {
 
-    private StudyDao studyDao;
 
 	public StudyViewAmendmentsTab() {
         super("Manage Amendments", "Amendments", "study/study_view_amendments");
@@ -31,14 +30,6 @@ public class StudyViewAmendmentsTab extends StudyTab {
     	 Map<String, Object> refdata = super.referenceDataForTab(request,wrapper);
         refdata.put("applyAmendment", wrapper.applyAmendment());
         return refdata;
-    }
-
-    public StudyDao getStudyDao() {
-        return studyDao;
-    }
-
-    public void setStudyDao(StudyDao studyDao) {
-        this.studyDao = studyDao;
     }
 
     public ModelAndView applyAmendment(HttpServletRequest request, Object obj,Errors errors) {
