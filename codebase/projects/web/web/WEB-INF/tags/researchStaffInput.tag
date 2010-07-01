@@ -13,10 +13,14 @@
 	<c:set var="size" value="25"></c:set>
 </c:if>
 <c:set var="showTextOnly" value="true" />
+
 <c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE,RESEARCHSTAFF_UPDATE">
 	<c:set var="showTextOnly" value="false"></c:set>
 </c3pr:checkprivilege>
 <c:choose>
+	<c:when test="${FLOW == 'SETUP_FLOW'}">
+		<c:set var="showTextOnly" value="false" />
+	</c:when>
 	<c:when test="${commandClass eq 'class edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
 		<c:set var="showTextOnly" value="true" />
 	</c:when>

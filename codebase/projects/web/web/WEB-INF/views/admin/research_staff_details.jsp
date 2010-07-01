@@ -398,6 +398,16 @@ RowManager.registerRowInserters();
 	 				</div>
  				</div>
  				</c3pr:checkprivilege>
+ 				<c:if test="${FLOW == 'SETUP_FLOW'}">
+	 				<div class="row">
+	 					<div class="orgLabel">
+	 						<tags:requiredIndicator /><fmt:message key="c3pr.common.organization"></fmt:message>
+		 				</div>
+		 				<div class="orgValue">
+		 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>
+		 				</div>
+	 				</div>
+ 				</c:if>
 		    </c:if>
 		    <c:choose>
 		    	<c:when test="${FLOW=='SETUP_FLOW'}">
@@ -452,8 +462,14 @@ RowManager.registerRowInserters();
 		<tags:button id="associateOrganizationBtn" size="small" type="button" color="blue" icon="add" value="Associate organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
 	</div>
 </c3pr:checkprivilege>
+<c:if test="${FLOW == 'SETUP_FLOW'}">
+	<br>
+	<hr />
+	<div align="right">
+		<tags:button id="associateOrganizationBtn" size="small" type="button" color="blue" icon="add" value="Associate organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
+	</div>
+</c:if>
 </chrome:box>
-<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE,USER_CREATE">
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
 		<table>
@@ -470,7 +486,6 @@ RowManager.registerRowInserters();
 		</table>
 	</jsp:attribute>
 </tags:tabControls>
-</c3pr:checkprivilege>
 </form:form>
 </div>
 
