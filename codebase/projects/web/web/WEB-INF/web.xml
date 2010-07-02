@@ -160,6 +160,19 @@
     </filter-mapping>
     
     <filter>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <filter-class>edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter</filter-class>
+        <init-param>
+            <param-name>interceptorBeanName</param-name>
+            <param-value>openSessionInViewInterceptor</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <filter>
         <filter-name>AnonymousAuditInfoFilter</filter-name>
         <filter-class>edu.duke.cabig.c3pr.utils.web.AnonymousAuditInfoFilter</filter-class>
     </filter>
@@ -279,35 +292,6 @@
         <url-pattern>/public/login</url-pattern>
     </filter-mapping><filter-mapping>
     <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/dwr/*</url-pattern>
-    </filter-mapping>
-    
-    <filter>
-        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
-        <filter-class>edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter</filter-class>
-        <init-param>
-            <param-name>interceptorBeanName</param-name>
-            <param-value>openSessionInViewInterceptor</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/setup/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/pages/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/public/user/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/public/login</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
         <url-pattern>/dwr/*</url-pattern>
     </filter-mapping>
     

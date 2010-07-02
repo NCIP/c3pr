@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.accesscontrol.UserPrivilege;
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
@@ -267,6 +268,24 @@ public class SecurityUtils {
 		}
 		return false;
 	}
+	
+	/**
+	 * Checks for all site access.
+	 * Get the provisioningSession from the user and the roles from the authentication object to
+	 * determine hasAllSiteAccess
+	 * User has all Site access if he isnt scoped by site or suiteRoleMembership.isAllSites() is true
+	 * 
+	 * @return true, if successful
+	 */
+	public static boolean hasAllSiteAccess(String userPrivilegeString){
+		Set<C3PRUserGroupType> userGroupTypes = getUserRoles(UserPrivilegeType.valueOf(userPrivilegeString));
+		for(C3PRUserGroupType userGroupType : userGroupTypes){
+			if(hasAllSiteAccess(userGroupType)){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	
 	/**
@@ -371,6 +390,16 @@ public class SecurityUtils {
 			return false;
 		}
 		return true;
+	}
+	
+	
+	/**
+	 * Gets the logged in research staff.
+	 * 
+	 * @return the logged in research staff
+	 */
+	public static ResearchStaff getLoggedInResearchStaff(){
+		return ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getResearchStaff();
 	}
 
 }

@@ -120,6 +120,10 @@
 			}
 		}
 		
+		function updateCoCenterInputOnSelect(){
+			$('coCenter-hidden1').value = $('study.studyCoordinatingCenters[0].healthcareSite').value;
+		}
+		
 		var piCoCenterAutocompleterProps = {
             basename: "piCoCenter",
             populator: function(autocompleter, text) {
@@ -361,15 +365,27 @@
     		<div class="row">
 		    	<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.name"/></div>
 				<div class="value">
-					<c:set var="_codeCoord" value="" />
-					<c:set var="_nameCoord" value="" />
-						<c:if test="${fn:length(command.study.studyCoordinatingCenters)>0}">				
-							<c:set var="_codeCoord" value="(${command.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier})" />
-							<c:set var="_nameCoord" value="${command.study.studyCoordinatingCenters[0].healthcareSite.name}" />
-						</c:if>
-						<tags:autocompleter cssClass="required validate-notEmpty" hintKey="study.healthcareSite.name" name="study.studyCoordinatingCenters[0].healthcareSite" displayValue="${_nameCoord} ${_codeCoord }" value="${command.study.studyCoordinatingCenters[0].healthcareSite.id }" basename="coCenter"></tags:autocompleter>
-						<input type="hidden" id="coCenter-hidden1" name="study.organizationAssignedIdentifiers[0].healthcareSite"
-														value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+					<c:choose>
+						<c:when test="${c3pr:hasAllSiteAccess('UI_STUDY_CREATE')}">
+							<c:set var="_codeCoord" value="" />
+								<c:set var="_nameCoord" value="" />
+								<c:if test="${fn:length(command.study.studyCoordinatingCenters)>0}">				
+									<c:set var="_codeCoord" value="(${command.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier})" />
+									<c:set var="_nameCoord" value="${command.study.studyCoordinatingCenters[0].healthcareSite.name}" />
+								</c:if>
+								<tags:autocompleter cssClass="required validate-notEmpty" hintKey="study.healthcareSite.name" name="study.studyCoordinatingCenters[0].healthcareSite" displayValue="${_nameCoord} ${_codeCoord }" value="${command.study.studyCoordinatingCenters[0].healthcareSite.id }" basename="coCenter"></tags:autocompleter>
+								<input type="hidden" id="coCenter-hidden1" name="study.organizationAssignedIdentifiers[0].healthcareSite"
+																value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+								</c:when>
+						<c:otherwise>
+							<form:select path="study.studyCoordinatingCenters[0].healthcareSite" onchange="updateCoCenterInputOnSelect();" cssClass="required validate-notEmpty" cssStyle="width: 235px;">
+								<form:option value="" label="Please Select"/>
+								<form:options items="${(c3pr:getLoggedInResearchStaff()).healthcareSites}" itemLabel="name" itemValue="id"/>
+							</form:select>
+							<input type="hidden" id="coCenter-hidden1" name="study.organizationAssignedIdentifiers[0].healthcareSite"
+																value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>	
 		</div>

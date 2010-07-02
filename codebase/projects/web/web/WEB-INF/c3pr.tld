@@ -17,6 +17,18 @@
         <function-signature>boolean contains(java.util.List,java.lang.Object)</function-signature>
     </function>
     
+    <function>
+        <name>hasAllSiteAccess</name>
+        <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
+        <function-signature>boolean hasAllSiteAccess(java.lang.String)</function-signature>
+    </function>
+    
+    <function>
+        <name>getLoggedInResearchStaff</name>
+        <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
+        <function-signature>ResearchStaff getLoggedInResearchStaff()</function-signature>
+    </function>
+    
     <tag>
         <name>checkprivilege</name>
         <tag-class>edu.duke.cabig.c3pr.web.jsp.tags.CheckUserPrivilegeTag</tag-class>
