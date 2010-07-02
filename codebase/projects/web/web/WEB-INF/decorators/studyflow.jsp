@@ -80,10 +80,17 @@
             </div>
         </c:if>
 
-		<c:set var="tabAuthroized" value="false"/>
- 		<c3pr:tabaccesscontrol tab="${tab}" tabAuthorizationCheckName="studyOrganizationTabAuthorizationCheck" domainObject="${studyCommand.study}">
-  			<c:set var="tabAuthroized" value="true"/>
-   		</c3pr:tabaccesscontrol>
+		<c:choose>
+			<c:when test="${empty studyCommand.study.id}">
+				<c:set var="tabAuthroized" value="true"/>
+			</c:when>
+			<c:otherwise>
+				<c:set var="tabAuthroized" value="false"/>
+		 		<c3pr:tabaccesscontrol tab="${tab}" tabAuthorizationCheckName="studyOrganizationTabAuthorizationCheck" domainObject="${studyCommand.study}">
+		  			<c:set var="tabAuthroized" value="true"/>
+		   		</c3pr:tabaccesscontrol>
+			</c:otherwise>
+		</c:choose>
    		<c:choose>
         	<c:when test="${tabAuthroized }">
         		<div id="main${hasSummary ? '' : '-no-summary'}-pane" class="pane">
