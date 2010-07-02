@@ -37,6 +37,9 @@ public class StudyOrganizationTabAuthorizationCheck implements TabAuthroizationC
 		if(scope.equals(COCENTER_SCOPED_AUTHRORIZATION_CHECK)){
 			return csmAuthorizationCheck.checkAuthorization(authentication, privilege, study.getStudyCoordinatingCenter().getHealthcareSite());
 		}else if(scope.equals(STUDYSITE_SCOPED_AUTHRORIZATION_CHECK)){
+			if(csmAuthorizationCheck.checkAuthorization(authentication, privilege, study.getStudyCoordinatingCenter().getHealthcareSite())){
+				return true;
+			}
 			for(StudySite studySite : study.getStudySites()){
 				if(csmAuthorizationCheck.checkAuthorization(authentication, privilege, studySite.getHealthcareSite())){
 					return true;
