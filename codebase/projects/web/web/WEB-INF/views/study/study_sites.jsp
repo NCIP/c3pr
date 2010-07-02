@@ -209,6 +209,7 @@
 			</c:when>
 			<c:otherwise>
 			<div class="row">
+				<csmauthz:accesscontrol domainObject="${command.study.studyCoordinatingCenter.healthcareSite}" hasPrivileges="STUDYSITE_CREATE" authorizationCheckName="siteAuthorizationCheck">
 				<c:choose>
 				<c:when test="${command.study.coordinatingCenterStudyStatus == 'PENDING' || command.study.coordinatingCenterStudyStatus == 'OPEN'}">
 					<c:if test="${command.study.coordinatingCenterStudyStatus == 'PENDING'}">
@@ -230,6 +231,7 @@
 						key="study.status.${command.study.coordinatingCenterStudyStatus}.site.add.no" /></div>
 				</c:otherwise>
 				</c:choose>
+				</csmauthz:accesscontrol>
 				</div>
 				<br>
 				<form:form id="studySitesForm">
