@@ -116,13 +116,13 @@ function handleUsername(){
     		$('loginId').disabled=true;
     		$('copiedEmailAddress').value=$('loginId').value;
     		$('loginId').name="inValidName";
-    		$('copiedEmailAddress').name="loginId";
+    		$('copiedEmailAddress').name="userName";
     	}
 	}else{
 		$('loginId').value='';
 		ValidationManager.setInvalidState($('loginId'));
 		$('loginId').disabled=false;
-		$('loginId').name="loginId";
+		$('loginId').name="userName";
     	$('copiedEmailAddress').name="";
 	}
 }
@@ -204,6 +204,10 @@ var healthcareSiteRowInserterProps = {
 RowManager.addRowInseter(healthcareSiteRowInserterProps);
 RowManager.registerRowInserters();
 
+function handleRoleCheckbox(roleCheckbox){
+	
+	
+}
 </script>
 
 </head>
@@ -365,7 +369,7 @@ RowManager.registerRowInserters();
 					</td></tr><tr><td>						
 				</c:if>
 				<div class="newLabel"> 
-					<input type="checkbox" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}" class="globalRoleCheckbox" onclick="handleGlobalRoleCheckbox(this);" <c:if test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}"> checked </c:if>/>
+					<input type="checkbox" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}" class="globalRoleCheckbox"  <c:if test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}"> checked </c:if>/>
 				</div>
 				<div class="newValue">
 					${globalRole.displayName}
@@ -436,7 +440,7 @@ RowManager.registerRowInserters();
 							</td></tr><tr><td>						
 						</c:if>
 						<div class="newLabel"> 
-							<input type="checkbox" id="hcs-${status.index}-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, role)}"> checked </c:if> />
+							<input type="checkbox" id="hcs-${status.index}-role-${roleStatus.index}" onclick="handleRoleCheckbox(this);" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, role)}"> checked </c:if> />
 						</div>
 						<div class="newValue">
 							${role.displayName}

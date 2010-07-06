@@ -182,10 +182,10 @@ public class CreateResearchStaffController extends SimpleFormController{
     	String actionParam = request.getParameter("_action");
 		String flowVar = request.getSession().getAttribute(FLOW).toString();
 		
-		String copiedUsername = request.getParameter("copiedEmailAddress");
-		if(StringUtils.isBlank(wrapper.getUserName()) && StringUtils.isNotBlank(copiedUsername)){
-			wrapper.setUserName(copiedUsername);
-		}
+//		String copiedUsername = request.getParameter("copiedEmailAddress");
+//		if(StringUtils.isBlank(wrapper.getUserName()) && StringUtils.isNotBlank(copiedUsername)){
+//			wrapper.setUserName(copiedUsername);
+//		}
 		
 		String createUser = request.getParameter(CREATE_USER);
 		if(StringUtils.isNotBlank(createUser)  && StringUtils.equals(createUser, TRUE)){
@@ -252,11 +252,11 @@ public class CreateResearchStaffController extends SimpleFormController{
 		String flowVar = request.getSession().getAttribute(FLOW).toString();
 		String createUser = request.getParameter(CREATE_USER);
 		
-		String copiedUsername = request.getParameter("loginId");
-		if(StringUtils.isBlank(wrapper.getUserName()) && StringUtils.isNotBlank(copiedUsername)){
-			wrapper.setUserName(copiedUsername);
-			username = wrapper.getUserName();
-		}
+//		String copiedUsername = request.getParameter("loginId");
+//		if(StringUtils.isBlank(wrapper.getUserName()) && StringUtils.isNotBlank(copiedUsername)){
+//			wrapper.setUserName(copiedUsername);
+//			username = wrapper.getUserName();
+//		}
 		
         Map map = errors.getModel();
 
