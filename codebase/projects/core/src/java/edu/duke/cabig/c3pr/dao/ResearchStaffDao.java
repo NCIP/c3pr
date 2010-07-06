@@ -722,6 +722,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			Set<Group> groups = userProvisioningManager.getGroups(csmUser.getUserId().toString());
 	    	Iterator<Group> iter = groups.iterator();
 	    	String groupName;
+	    	//global roles are not considered for the all sites access checkbox value.
 	    	while(iter.hasNext()){
 	    		groupName = iter.next().getGroupName();
 	    		suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
@@ -732,9 +733,6 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	                if(suiteRoleMembership.isAllSites()){
 	                    return true;
 	                }
-	            } else {
-	                //global roles are not considered for the all sites access checkbox value.
-	            	return false;
 	            }
 	    	}
 		} catch (CSObjectNotFoundException e) {
