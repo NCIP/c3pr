@@ -38,33 +38,33 @@ public class UserEmailConfirmationAspect {
 		this.changeURL = changeURL;
 	}
 
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.createResearchStaffWithCSMUserAndAssignRoles(..))" 
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl.createResearchStaffWithCSMUserAndAssignRoles(..))" 
                     + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
     public void createResearchStaffWithCSMUserAndAssignRoles(ResearchStaff researchStaff, String username, 
 			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) {
 		sendEmail(researchStaff);
     }
 	
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.createCSMUser(..))"
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl.createCSMUser(..))"
             + " && args(researchStaff, username, hasAccessToAllSites)")
 	public void createCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) {
 		sendEmail(researchStaff);
 	}
-	
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.createSuperUser(..))"
+
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl.createSuperUser(..))"
             + " && args(researchStaff,  username , associationMap)")
 	public void createSuperUser(ResearchStaff researchStaff, String username, 
 			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) {
 		sendEmail(researchStaff);
 	}
 	
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.createResearchStaffWithCSMUser(..))"
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl.createResearchStaffWithCSMUser(..))"
             + " && args(researchStaff , username, hasAccessToAllSites)")
 	public void createResearchStaffWithCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) {
 		sendEmail(researchStaff);
 	}
 	
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.ResearchStaffDao.createCSMUserAndAssignRoles(..))"
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl.createCSMUserAndAssignRoles(..))"
             + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
 	public void createCSMUserAndAssignRoles(ResearchStaff researchStaff, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
 			boolean hasAccessToAllSites) {
