@@ -66,13 +66,11 @@ public class CreateReportFacade {
 //        model.addExport(export);
 
         Row row = model.getRowInstance();
-        row.setHighlightRow(Boolean.TRUE);
         model.addRow(row);
 
         Column columnShortTitle = model.getColumnInstance();
         columnShortTitle.setTitle("Study Short Title");
         columnShortTitle.setProperty("studySite.study.trimmedShortTitleText");
-        columnShortTitle.setCell((ViewRegistrationLinkCustomCell.class).getName());
         model.addColumn(columnShortTitle);
 
         Column columnStudyPrimaryIdentifier = model.getColumnInstance();
