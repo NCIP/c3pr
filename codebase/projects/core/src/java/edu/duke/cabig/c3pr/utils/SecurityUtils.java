@@ -301,11 +301,12 @@ public class SecurityUtils {
 		if(authentication != null){	
 			ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
 			SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
-			if(suiteRoleMembership.isAllStudies() || !suiteRoleMembership.hasStudyScope()){
-				return true;
+			SuiteRole suiteRole = suiteRoleMembership.getRole();
+			if(suiteRole.isStudyScoped() && !suiteRoleMembership.isAllStudies()){
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	/**
