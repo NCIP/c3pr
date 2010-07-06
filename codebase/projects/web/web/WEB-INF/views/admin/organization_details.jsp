@@ -63,7 +63,11 @@ div.row div.label {
     </script>
 </head>
 <body>
-
+<c:choose>
+<c:when test="${!c3pr:hasAllSiteAccess('UI_HEALTHCARE_SITE_CREATE')}">
+	<tags:notAuthorized/>
+</c:when>
+<c:otherwise>
 <div id="main"><c:choose>
 	<c:when
 		test="${command.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
@@ -330,5 +334,7 @@ div.row div.label {
 		<tr>
 	</table>
 </chrome:box></div>
+</c:otherwise>
+</c:choose>
 </body>
 </html>
