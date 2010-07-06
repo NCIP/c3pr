@@ -56,7 +56,7 @@
 var contentWin ;
 function handleAllSiteAccess(){
 	if($('allSiteAccessCheckbox').checked){
-		contentWin = new Window({ width:400, height:120 ,className :"alert_lite"}) ;
+		contentWin = new Window({ width:400, height:150 ,className :"alert_lite"}) ;
 		contentWin.setContent('confirmation-allsiteaccess-msg') ;
 		contentWin.showCenter(true);
 	}
@@ -263,7 +263,7 @@ RowManager.registerRowInserters();
 		    </div>
 			<div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" /></div>
-				<tags:researchStaffInput commandClass="${command.researchStaff.class}" cssClass="required validate-notEmpty&&EMAIL" path="researchStaff.email" size="30" value="${command.researchStaff.email}" onkeyup="copyUsername();"></tags:researchStaffInput>
+				<tags:researchStaffInput id="email" commandClass="${command.researchStaff.class}" cssClass="required validate-notEmpty&&EMAIL" path="researchStaff.email" size="30" value="${command.researchStaff.email}" onkeyup="copyUsername();"></tags:researchStaffInput>
 	       	</div>
 	        <div class="row">
 	            <div class="label"><fmt:message key="c3pr.common.phone" /></div>
@@ -289,7 +289,7 @@ RowManager.registerRowInserters();
         			${command.userName}
         		</c:when>
         		<c:otherwise>
-        			<form:input size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+        			<form:input id="loginId" size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
         			<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
         			<input id="copiedEmailAddress" type="hidden"/>
         		</c:otherwise>	
@@ -328,7 +328,7 @@ RowManager.registerRowInserters();
         <div class="value">
         	<c:choose>
         	<c:when test="${empty command.userName}">
-	        		<form:input size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+	        		<form:input id="loginId" size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
 	        		<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
 	        		<input id="copiedEmailAddress" type="hidden"/>
 	        		<input type="hidden" name="_createUser" value="true">

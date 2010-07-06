@@ -9,8 +9,13 @@
 <%@attribute name="size" %>
 <%@attribute name="cssClass" %>
 <%@attribute name="onkeyup" %>
+<%@attribute name="id" %>
+
 <c:if test="${empty size}">
 	<c:set var="size" value="25"></c:set>
+</c:if>
+<c:if test="${empty id}">
+	<c:set var="id" value="path"></c:set>
 </c:if>
 <c:set var="showTextOnly" value="true" />
 
@@ -46,7 +51,7 @@
 	</c:when>
 	<c:otherwise>
 		<div class="value">
-			<form:input size="${size}" path="${path}" cssClass="${cssClass}" />
+			<form:input size="${size}" path="${path}" cssClass="${cssClass}" id="${id}"/>
 		  </div>
 	</c:otherwise>
 </c:choose>
