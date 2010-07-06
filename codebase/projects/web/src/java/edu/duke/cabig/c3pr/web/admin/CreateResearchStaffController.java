@@ -164,6 +164,26 @@ public class CreateResearchStaffController extends SimpleFormController{
 		if(listAssociation.size() == 0){
 			errors.reject("organization.not.present.error");
 		}
+		
+		if(wrapper.getHasAccessToAllSites()){
+			boolean onlyGlobalRolesSelected = true ;
+			for(HealthcareSiteRolesHolder roleHolder : listAssociation){
+				if(roleHolder != null){
+					for(C3PRUserGroupType group : roleHolder.getGroups()){
+						if(!SecurityUtils.isGlobalRole(group)){
+							onlyGlobalRolesSelected = false ;
+							break ;
+						}
+					}
+					if(!onlyGlobalRolesSelected){
+						break ;
+					}
+				}
+			}
+			if(onlyGlobalRolesSelected){
+				errors.reject("researchstaff.hasAllSiteAccess.noSiteStudySpecificRoleSelected");
+			}
+		}
 
 		boolean noDuplicateOrg = true ;
 		Set<HealthcareSite> hcSites = new HashSet<HealthcareSite> ();

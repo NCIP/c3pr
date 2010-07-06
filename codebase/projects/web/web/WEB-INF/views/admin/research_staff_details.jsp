@@ -350,7 +350,7 @@ function handleRoleCheckbox(roleCheckbox){
 <div class="row">
     <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
     <div class="value">
-    	<form:checkbox id="allSiteAccessCheckbox" path="hasAccessToAllSites" onclick="handleAllSiteAccess();"/>
+    	<form:checkbox id="allSiteAccessCheckbox" path="hasAccessToAllSites" onclick="handleAllSiteAccess();"/><tags:hoverHint keyProp="researchStaff.accessToAllSites"></tags:hoverHint>
     </div>
 </div>
 <br>
