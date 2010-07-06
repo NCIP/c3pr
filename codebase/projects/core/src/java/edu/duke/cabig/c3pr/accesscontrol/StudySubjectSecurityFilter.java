@@ -85,8 +85,8 @@ public class StudySubjectSecurityFilter implements DomainObjectSecurityFilterer{
 	}
 	
 	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList , StudySubject studySubject){
-		return userAccessibleOrganizationIdsList.contains(studySubject.getStudySite().getHealthcareSite()) ||
-		userAccessibleOrganizationIdsList.contains(studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite());
+		return userAccessibleOrganizationIdsList.contains(studySubject.getStudySite().getHealthcareSite().getPrimaryIdentifier()) ||
+		userAccessibleOrganizationIdsList.contains(studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getHealthcareSite().getPrimaryIdentifier());
 	}
 	
 	private boolean hasStudyLevelAccessPermission(List<String> userAccessibleStudyIdsList , StudySubject studySubject){
