@@ -64,13 +64,19 @@ div.row div.label {
 </head>
 <body>
 <c:choose>
-<c:when test="${!c3pr:hasAllSiteAccess('UI_HEALTHCARE_SITE_CREATE')}">
+<c:when test="${FLOW == 'SAVE_FLOW' && !c3pr:hasAllSiteAccess('UI_HEALTHCARE_SITE_CREATE')}">
 	<tags:notAuthorized/>
 </c:when>
 <c:otherwise>
+<c:set var="hasEditPrivilege" value="false"/>
+<c:if test="${FLOW == 'EDIT_FLOW'}">
+	<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UI_HEALTHCARE_SITE_UPDATE" authorizationCheckName="siteAuthorizationCheck">
+		<c:set var="hasEditPrivilege" value="true"/>
+	</csmauthz:accesscontrol>
+</c:if>
 <div id="main"><c:choose>
 	<c:when
-		test="${command.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+		test="${command.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
 		<c:set var="imageStr"
 			value="&nbsp;<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='22' height='21' border='0' align='middle'/>" />
 	</c:when>
@@ -95,7 +101,7 @@ div.row div.label {
 				key="c3pr.common.name" /></div>
 			<c:choose>
 				<c:when
-					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
 					<div class="value">&nbsp;${command.name} &nbsp;<img
 						src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar"
 						width="17" height="16" border="0" align="middle" /> <tags:hoverHint
@@ -114,7 +120,7 @@ div.row div.label {
 			</div>
 			<c:choose>
 				<c:when
-					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
 					<c:choose>
 						<c:when test="${!empty command.descriptionText}">
 							<div class="value">&nbsp;${command.descriptionText}</div>
@@ -166,7 +172,7 @@ div.row div.label {
 					<div class="label"><fmt:message key="c3pr.common.streetAddress" /></div>
 						<c:choose>
 							<c:when
-								test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+								test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
 								<c:choose>
 									<c:when test="${!empty command.address.streetAddress}">
 										<div class="value">&nbsp;${command.address.streetAddress}</div>
@@ -186,7 +192,7 @@ div.row div.label {
 						<div class="label"><fmt:message key="c3pr.common.city" /></div>
 						<c:choose>
 							<c:when
-								test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+								test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
 								<c:choose>
 									<c:when test="${!empty command.address.city}">
 										<div class="value">&nbsp;${command.address.city}</div>
@@ -206,7 +212,7 @@ div.row div.label {
 			<div class="label"><fmt:message key="c3pr.common.state" /></div>
 			<c:choose>
 				<c:when
-					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
 					<c:choose>
 						<c:when test="${!empty command.address.stateCode}">
 							<div class="value">&nbsp;${command.address.stateCode}</div>
@@ -227,7 +233,7 @@ div.row div.label {
 			<div class="label"><fmt:message key="c3pr.common.zip" /></div>
 			<c:choose>
 				<c:when
-					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
 					<c:choose>
 						<c:when test="${!empty command.address.postalCode}">
 							<div class="value">&nbsp;${command.address.postalCode}</div>
@@ -248,7 +254,7 @@ div.row div.label {
 			<div class="label"><fmt:message key="c3pr.common.country" /></div>
 			<c:choose>
 				<c:when
-					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+					test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
 					<c:choose>
 						<c:when test="${!empty command.address.countryCode}">
 							<div class="value">&nbsp;${command.address.countryCode}</div>
@@ -282,7 +288,7 @@ div.row div.label {
         <span class="next">
 	    	<table>
 				<tr>
-					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalHealthcareSite' && coppaEnable}">
+					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalHealthcareSite' && coppaEnable &&  hasEditPrivilege}">
 						<td valign="bottom">
 									<tags:button type="submit" value="Sync" color="blue"
 									id="sync-org" onclick="javascript:syncOrganization();" />	
