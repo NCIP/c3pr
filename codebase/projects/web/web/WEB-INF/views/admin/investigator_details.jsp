@@ -120,14 +120,20 @@ function submitForm(){
 <form:form name="investigatorForm">
 		<chrome:flashMessage />
 		<tags:tabFields tab="${tab}" />
-<c:set var="hasEditPrivilege" value="false"/>
-<c:if test="${FLOW == 'EDIT_FLOW'}">
+<c:choose>
+<c:when test="${FLOW == 'EDIT_FLOW'}">
+	<c:set var="hasEditPrivilege" value="false"/>
 	<c:forEach items="${command.healthcareSiteInvestigators}" var="siteInv">
 		<csmauthz:accesscontrol domainObject="${siteInv.healthcareSite}" hasPrivileges="UI_INVESTIGATOR_UPDATE" authorizationCheckName="siteAuthorizationCheck">
 			<c:set var="hasEditPrivilege" value="true"/>
 		</csmauthz:accesscontrol>
 	</c:forEach>
-</c:if>
+</c:when>
+<c:otherwise>
+	<c:set var="hasEditPrivilege" value="true"/>
+</c:otherwise>
+</c:choose>
+
 <chrome:box title="Investigator" htmlContent="${imageStr }">
 <tags:instructions code="investigator_details" />
 	<input type="hidden" name="_action" value="">

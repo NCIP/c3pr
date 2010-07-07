@@ -68,12 +68,17 @@ div.row div.label {
 	<tags:notAuthorized/>
 </c:when>
 <c:otherwise>
-<c:set var="hasEditPrivilege" value="false"/>
-<c:if test="${FLOW == 'EDIT_FLOW'}">
+<c:choose>
+<c:when test="${FLOW == 'EDIT_FLOW'}">
+	<c:set var="hasEditPrivilege" value="false"/>
 	<csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UI_HEALTHCARE_SITE_UPDATE" authorizationCheckName="siteAuthorizationCheck">
 		<c:set var="hasEditPrivilege" value="true"/>
 	</csmauthz:accesscontrol>
-</c:if>
+</c:when>
+<c:otherwise>
+	<c:set var="hasEditPrivilege" value="true"/>
+</c:otherwise>
+</c:choose>
 <div id="main"><c:choose>
 	<c:when
 		test="${command.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
