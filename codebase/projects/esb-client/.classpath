@@ -137,10 +137,10 @@
 	<classpathentry kind="lib" path="build/lib/CoreServices-service-3.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/CoreServices-stubs-3.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/slf4j-api-1.6.0.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-base-1.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-core-1.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-lang-1.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-testing-uctrace-1.0.3.RELEASE.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-base-1.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-core-1.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-lang-1.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-testing-uctrace-1.0.5.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin1"/>
 </classpath>

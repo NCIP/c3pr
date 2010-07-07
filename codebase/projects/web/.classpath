@@ -215,16 +215,9 @@
 	<classpathentry kind="lib" path="build/testlib/dbunit-2.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/remoteentitymanager-1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-base-1.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-core-1.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-lang-1.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-suite-authorization-0.1.2.RELEASE.jar"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-web-1.0.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="build/lib/csmapi-4.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/clm-4.2.beta.jar"/>
 	<classpathentry kind="lib" path="build/lib/slf4j-api-1.6.0.jar"/>
-	<classpathentry kind="lib" path="build/lib/query-builder-0.11.jar"/>
-	<classpathentry kind="lib" path="build/lib/query-builder-tests-0.11.jar"/>
 	<classpathentry kind="lib" path="build/lib/commons-lang-2.4.jar"/>
 	<classpathentry kind="lib" path="build/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="build/lib/jaxb-impl-2.1.9.jar"/>
@@ -245,5 +238,11 @@
 	<classpathentry kind="lib" path="build/lib/geronimo-jaxws_2.1_spec-1.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/geronimo-ws-metadata_2.0_spec-1.1.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/wstx-asl-3.2.9.jar"/>
+	<classpathentry kind="lib" path="build/lib/query-builder-0.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-base-1.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-core-1.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-lang-1.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-suite-authorization-0.4.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-web-1.0.5.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
