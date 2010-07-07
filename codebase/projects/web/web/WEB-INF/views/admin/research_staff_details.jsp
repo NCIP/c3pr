@@ -230,7 +230,7 @@ function handleRoleCheckbox(roleCheckbox){
 	</c:otherwise>
 </c:choose>
 <form:form name="researchStaffForm">
-<chrome:box title="${FLOW == 'SETUP_FLOW'?'Create Research Staff as Administrator':'Research Staff'}" htmlContent="${imageStr }">
+<chrome:box title="${FLOW == 'SETUP_FLOW'?'Create Research Staff as Super User':'Research Staff'}" htmlContent="${imageStr }">
 	<chrome:flashMessage />
 	<tags:tabFields tab="${tab}" />
 
