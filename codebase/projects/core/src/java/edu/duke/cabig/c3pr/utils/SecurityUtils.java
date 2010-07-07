@@ -261,12 +261,13 @@ public class SecurityUtils {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if(authentication != null){
 			ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
-			SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
-			if(suiteRoleMembership.isAllSites() || !suiteRoleMembership.hasSiteScope()){
-				return true;
+			SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(userRole);
+			SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+			if(suiteRole.isSiteScoped() && !suiteRoleMembership.isAllSites()){
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	/**
@@ -363,7 +364,7 @@ public class SecurityUtils {
 	/**
 	 * Gets all the user's roles that have the privilege that is passed in.
 	 *
-	 * @param privlegeType the privlege type
+	 * @param privlegeType the privilege type
 	 * @return the user roles
 	 */
 	public static Set<C3PRUserGroupType> getUserRoles(UserPrivilegeType privlegeType){

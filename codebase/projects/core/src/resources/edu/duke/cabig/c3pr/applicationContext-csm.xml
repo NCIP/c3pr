@@ -85,4 +85,18 @@
 	</bean>
 	
 	
+    <bean id="csmUserDetailsService"
+          class="edu.duke.cabig.c3pr.accesscontrol.C3prUserDetailsService">
+        <property name="csmUserProvisioningManager"
+                  ref="csmUserProvisioningManager"/>
+        <property name="provisioningSessionFactory"
+                  ref="provisioningSessionFactory"/>   
+        <property name="rolePrivilegeDao"
+                  ref="rolePrivilegeDao"/>
+        <property name="researchStaffDao"
+                  ref="researchStaffDao"/> 
+        <property name="userDao"
+                  ref="userDao"/>  
+    </bean>
+	
 </beans>

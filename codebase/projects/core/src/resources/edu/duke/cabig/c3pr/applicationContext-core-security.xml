@@ -254,20 +254,6 @@
             ref="domainObjectC3PRAuhthorizationCheckProvidersMap"/>
     </bean>
 
-    <bean id="csmUserDetailsService"
-          class="edu.duke.cabig.c3pr.accesscontrol.C3prUserDetailsService">
-        <property name="csmUserProvisioningManager"
-                  ref="csmUserProvisioningManager"/>
-        <property name="provisioningSessionFactory"
-                  ref="provisioningSessionFactory"/>   
-        <property name="rolePrivilegeDao"
-                  ref="rolePrivilegeDao"/>
-        <property name="researchStaffDao"
-                  ref="researchStaffDao"/> 
-        <property name="userDao"
-                  ref="userDao"/>  
-    </bean>
-
     <bean id="localAuthenticationProvider"
           class="gov.nih.nci.security.acegi.csm.authentication.CSMAuthenticationProvider">
         <property name="csmAuthenticationManager">
