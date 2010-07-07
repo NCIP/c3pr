@@ -7,6 +7,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib uri="http://jawr.net/tags" prefix="jwr" %>
 <%@taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
+<%@taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
 <%@taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
