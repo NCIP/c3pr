@@ -31,7 +31,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<!-- START INVESTIGATOR -->
 		<entry key="/pages/personAndOrganization/investigator/searchInvestigator" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:READ" />
 		<entry key="/pages/personAndOrganization/investigator/createInvestigator" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:CREATE" />
-		<entry key="/pages/personAndOrganization/investigator/editInvestigator" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:UPDATE" />
+		<entry key="/pages/personAndOrganization/investigator/editInvestigator" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:READ" />
 		<entry key="/pages/personAndOrganization/investigator/createInvestigatorGroups" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:CREATE" />
 		<!-- END INVESTIGATOR -->
 		<!--  END PERSON AND ORG SECTION -->

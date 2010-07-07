@@ -120,6 +120,14 @@ function submitForm(){
 <form:form name="investigatorForm">
 		<chrome:flashMessage />
 		<tags:tabFields tab="${tab}" />
+<c:set var="hasEditPrivilege" value="false"/>
+<c:if test="${FLOW == 'EDIT_FLOW'}">
+	<c:forEach items="${command.healthcareSiteInvestigators}" var="siteInv">
+		<csmauthz:accesscontrol domainObject="${siteInv.healthcareSite}" hasPrivileges="UI_INVESTIGATOR_UPDATE" authorizationCheckName="siteAuthorizationCheck">
+			<c:set var="hasEditPrivilege" value="true"/>
+		</csmauthz:accesscontrol>
+	</c:forEach>
+</c:if>
 <chrome:box title="Investigator" htmlContent="${imageStr }">
 <tags:instructions code="investigator_details" />
 	<input type="hidden" name="_action" value="">
@@ -132,7 +140,7 @@ function submitForm(){
             <div class="label"><tags:requiredIndicator />
                 <fmt:message key="c3pr.common.firstName"/></div>
 				<c:choose>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator' || !hasEditPrivilege}">
 						<c:choose>
 							<c:when test="${!empty command.firstName}">
 								<div class="value">${command.firstName}</div>
@@ -154,7 +162,7 @@ function submitForm(){
                 <fmt:message key="c3pr.common.lastName"/></div>
             
 				<c:choose>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator' || !hasEditPrivilege}">
 						<c:choose>
 							<c:when test="${!empty command.lastName}">
 								<div class="value">${command.lastName}</div>
@@ -176,7 +184,7 @@ function submitForm(){
                 <fmt:message key="c3pr.common.middleName"/></div>
             
 				<c:choose>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator' || !hasEditPrivilege}">
 						<c:choose>
 							<c:when test="${!empty command.middleName}">
 								<div class="value">${command.middleName}</div>
@@ -197,7 +205,7 @@ function submitForm(){
             <div class="label">
                 <fmt:message key="c3pr.common.maidenName"/></div>
 				<c:choose>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator' || !hasEditPrivilege}">
 						<c:choose>
 							<c:when test="${!empty command.maidenName}">
 								<div class="value">${command.maidenName}</div>
@@ -222,7 +230,7 @@ function submitForm(){
                 <tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
             
 				<c:choose>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator' || !hasEditPrivilege}">
 						<div class="value">${command.assignedIdentifier}</div>
 					</c:when>
 					<c:otherwise>
@@ -236,7 +244,7 @@ function submitForm(){
             <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" />
             </div>
 				<c:choose>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator' || !hasEditPrivilege}">
 						<c:choose>
 							<c:when test="${!empty command.email}">
 								<div class="value">${command.email}</div>
@@ -257,7 +265,7 @@ function submitForm(){
             <div class="label"><fmt:message key="c3pr.common.phone" /> 
             </div>
 			<c:choose>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator' || !hasEditPrivilege}">
 						<c:choose>
 							<c:when test="${!empty command.phone}">
 								<div class="value">${command.phone}</div>
@@ -279,7 +287,7 @@ function submitForm(){
             <div class="label"><fmt:message key="c3pr.common.fax" /> 
             </div>
 			<c:choose>
-					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator'}">
+					<c:when test="${command.class eq 'class edu.duke.cabig.c3pr.domain.RemoteInvestigator' || !hasEditPrivilege}">
 						<c:choose>
 							<c:when test="${!empty command.fax}">
 								<div class="value">${command.fax}</div>
@@ -315,9 +323,11 @@ function submitForm(){
 					name="healthcareSiteInvestigators[${status.index}].healthcareSite"
 					value="${command.healthcareSiteInvestigators[status.index].healthcareSite.id}" />
 					<c:choose>
-						<c:when test="${command.healthcareSiteInvestigators[status.index].healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+						<c:when test="${command.healthcareSiteInvestigators[status.index].healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
 							${command.healthcareSiteInvestigators[status.index].healthcareSite.name} (${command.healthcareSiteInvestigators[status.index].healthcareSite.primaryIdentifier}) &nbsp;
-									<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/> 
+							 <c:if test="${command.healthcareSiteInvestigators[status.index].healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite'}">
+							 	<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
+							 </c:if>
 						</c:when>
 						<c:otherwise>
 							<c:set var="siteDisplayText" value=""/>
@@ -351,7 +361,7 @@ function submitForm(){
 		</c:forEach>
         
     </table>
-    <c:if test="${empty createPI || createPI == false}">
+    <c:if test="${hasEditPrivilege && (empty createPI || createPI == false)}">
     	<tags:button type="button" color="blue" value="Add Organization" icon="add" onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" size="small"/>
     </c:if>
 	
@@ -359,12 +369,13 @@ function submitForm(){
 
 
 </chrome:box>
+<c:if test="${hasEditPrivilege}">
 <tags:tabControls tab="${tab}" flow="${flow}"
 	localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
 		<table>
 				<tr>
-					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalInvestigator' && coppaEnable}">
+					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalInvestigator' && coppaEnable &&  hasEditPrivilege}">
 						<td valign="bottom">
 									<tags:button type="submit" value="Sync" color="blue"
 									id="sync-org" onclick="javascript:syncInvestigator();" />	
@@ -378,6 +389,7 @@ function submitForm(){
 		</table>
 	</jsp:attribute>
 </tags:tabControls>
+</c:if>
 </form:form> 
 </div>
 

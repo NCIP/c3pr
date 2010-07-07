@@ -187,7 +187,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/personAndOrganization/investigator/getGroup.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:READ"/>
         <entry key="/pages/personAndOrganization/investigator/searchInvestigator.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:READ"/>
         <entry key="/pages/personAndOrganization/investigator/createInvestigator.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:CREATE"/>
-        <entry key="/pages/personAndOrganization/investigator/editInvestigator.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:UPDATE"/>
+        <entry key="/pages/personAndOrganization/investigator/editInvestigator.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.Investigator:READ"/>
         <!--  END INVESTIGATOR -->
         <!--  START ORGANIZATION -->
         <entry key="/pages/personAndOrganization/organization/createOrganization.*" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.HealthcareSite:CREATE"/>
