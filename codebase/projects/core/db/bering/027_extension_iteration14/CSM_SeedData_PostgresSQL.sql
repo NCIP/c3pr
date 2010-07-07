@@ -1,5 +1,5 @@
 update csm_application set application_name='c3pr old' where application_id = 1;
-insert into csm_application (application_id ,application_name ,application_description,declarative_flag ,active_flag) values (-1, 'c3pr', 'Application Description', 0, 0);
+insert into csm_application (application_id ,application_name ,application_description,declarative_flag ,active_flag) values (-1, 'CTMS_SUITE', 'Application Description', 0, 0);
 update csm_protection_element set application_id=-1 where application_id=1;
 update csm_protection_group set application_id=-1 where application_id=1;
 update csm_role set application_id=-1 where application_id=1;
