@@ -16,7 +16,7 @@ var Lightview = {
     border: 12,                                            // Size of the border
     buttons: { opacity: { normal: 0.65, hover: 1 } },      // Opacity of inner buttons
     cyclic: false,                                         // Makes galleries cyclic, no end/begin.
-    images: '../images/lightview/',                        // The directory of the images, from this file
+    images: '/c3pr/images/lightview/',                        // The directory of the images, from this file, changing this for C3PR
     imgNumberTemplate: 'Image #{position} of #{total}',    // Want a different language? change it here
     overlay: {                                             // Overlay
       background: '#000',                                  // Background color, Mac Firefox & Safari use overlay.png
