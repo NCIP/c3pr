@@ -262,9 +262,7 @@
                 <constructor-arg ref="csmApplicationContextName"/>
             </bean>
         </property>
-        <property name="userDetailsService">
-            <ref local="csmUserDetailsService"/>
-        </property>
+        <property name="userDetailsService" ref="csmUserDetailsService"/>
         <property name="userCache" ref="userCache"/>
     </bean>
 
@@ -310,9 +308,7 @@
     <bean id="webSSOAuthoritiesPopulator" class="edu.duke.cabig.c3pr.accesscontrol.WebSSOAuthoritiesPopulator">
         <property name="hostCertificate" value="${hostCertificate}"></property>
         <property name="hostKey" value="${hostKey}"/>
-        <property name="userDetailsService">
-            <ref local="csmUserDetailsService"/>
-        </property>
+        <property name="userDetailsService" ref="csmUserDetailsService"/>
         <property name="rolePrivilegeDao" ref="rolePrivilegeDao"/>
     </bean>
     
@@ -348,9 +344,7 @@
     
     <bean id="casAuthoritiesPopulator"
           class="org.acegisecurity.providers.cas.populator.DaoCasAuthoritiesPopulator">
-        <property name="userDetailsService">
-            <ref local="csmUserDetailsService"/>
-        </property>
+        <property name="userDetailsService"  ref="csmUserDetailsService"/>
     </bean>
     
 	<bean id="serviceProperties" class="org.acegisecurity.ui.cas.ServiceProperties">
