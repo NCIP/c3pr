@@ -380,6 +380,10 @@ public abstract class HealthcareSite extends Organization implements Comparable<
     public void addExternalOrganization(HealthcareSite externalHealthcareSite){
     	this.getExternalOrganizations().add(externalHealthcareSite);
     }
-
+    
+    @Override
+    public String toString() {
+    	return getName() + " (" + getPrimaryIdentifier() + ")";
+    }
 
 }
