@@ -369,7 +369,21 @@ function handleRoleCheckbox(roleCheckbox){
 					</td></tr><tr><td>						
 				</c:if>
 				<div class="newLabel"> 
-					<input type="checkbox" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}" class="globalRoleCheckbox"  <c:if test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}"> checked </c:if>/>
+					<c:choose>
+						<c:when test="${isLoggedInUser}">
+				        	<c:choose>
+				        		<c:when test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}">
+				        			<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
+				        		</c:when>
+				        		<c:otherwise>
+				        			<img src="<tags:imageUrl name='checkno.gif'/>"/>
+				        		</c:otherwise>
+				        	</c:choose>
+						</c:when>
+						<c:otherwise>
+							<input type="checkbox" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}" class="globalRoleCheckbox"  <c:if test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}"> checked </c:if>/>
+						</c:otherwise>
+					</c:choose>
 				</div>
 				<div class="newValue">
 					${globalRole.displayName}
@@ -448,7 +462,21 @@ function handleRoleCheckbox(roleCheckbox){
 							</td></tr><tr><td>						
 						</c:if>
 						<div class="newLabel"> 
-							<input type="checkbox" id="hcs-${status.index}-role-${roleStatus.index}" onclick="handleRoleCheckbox(this);" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, role)}"> checked </c:if> />
+							<c:choose>
+								<c:when test="${isLoggedInUser}">
+						        	<c:choose>
+						        		<c:when test="${c3pr:contains(healthcareSiteRolesHolder.groups, role)}">
+						        			<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
+						        		</c:when>
+						        		<c:otherwise>
+						        			<img src="<tags:imageUrl name='checkno.gif'/>"/>
+						        		</c:otherwise>
+						        	</c:choose>
+								</c:when>
+								<c:otherwise>
+									<input type="checkbox" id="hcs-${status.index}-role-${roleStatus.index}" onclick="handleRoleCheckbox(this);" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, role)}"> checked </c:if> />
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<div class="newValue">
 							${role.displayName}
@@ -471,7 +499,9 @@ function handleRoleCheckbox(roleCheckbox){
 	<br>
 	<hr />
 	<div align="right">
-		<tags:button id="associateOrganizationBtn" size="small" type="button" color="blue" icon="add" value="Associate organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
+		<c:if test="${!isLoggedInUser}">
+			<tags:button id="associateOrganizationBtn" size="small" type="button" color="blue" icon="add" value="Associate organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
+		</c:if>
 	</div>
 </c3pr:checkprivilege>
 <c:if test="${FLOW == 'SETUP_FLOW'}">
