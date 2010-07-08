@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -84,12 +85,13 @@ public class SubjectSecurityFilter implements DomainObjectSecurityFilterer{
 	 * @return true, if successful
 	 */
 	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList, Participant participant){
-		List<HealthcareSite> hcsList = participant.getHealthcareSites();
+		List<HealthcareSite> participantOrganizations = new ArrayList<HealthcareSite>();
+		participantOrganizations.addAll(participant.getHealthcareSites());
     	for(OrganizationAssignedIdentifier identifier : participant.getOrganizationAssignedIdentifiers()){
-    		hcsList.add(identifier.getHealthcareSite());
+    		participantOrganizations.add(identifier.getHealthcareSite());
     	}
-    	for(HealthcareSite hcs: hcsList){
-    		if(userAccessibleOrganizationIdsList.contains(hcs.getPrimaryIdentifier())){
+    	for(HealthcareSite participantOrganization: participantOrganizations){
+    		if(userAccessibleOrganizationIdsList.contains(participantOrganization.getPrimaryIdentifier())){
         		return true;    			
     		}
     	}
