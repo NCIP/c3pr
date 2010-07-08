@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -49,7 +50,7 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 		return mandatoryIndicator;
 	}
 
-	@OneToMany
+	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name = "con_id",nullable=false)
 	@Cascade(value={CascadeType.ALL,CascadeType.DELETE_ORPHAN})
 	@Where(clause = "retired_indicator  = 'false'")
