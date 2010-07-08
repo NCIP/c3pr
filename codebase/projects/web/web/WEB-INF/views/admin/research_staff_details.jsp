@@ -398,7 +398,15 @@ function handleRoleCheckbox(roleCheckbox){
  						<tags:requiredIndicator /><fmt:message key="c3pr.common.organization"></fmt:message>
 	 				</div>
 	 				<div class="orgValue">
-	 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>
+	 					<c:choose>
+		 					<c:when test="${c3pr:hasAllSiteAccess('UI_RESEARCHSTAFF_CREATE')}">
+								<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>							</c:when>
+							<c:otherwise>
+								<select name="healthcareSiteRolesHolderList[0].healthcareSite" class="required validate-notEmpty" style="width: 350px;">
+									<tags:userOrgOptions/>
+								</select>
+							</c:otherwise>
+	 					</c:choose>
 	 				</div>
  				</div>
  				</c3pr:checkprivilege>
@@ -543,11 +551,20 @@ function handleRoleCheckbox(roleCheckbox){
  						<fmt:message key="c3pr.common.organization"></fmt:message>
 	 				</div>
 	 				<div class="orgValue">
-	 					<input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite" />
-       					<input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input" size="40"  
-       																						value="${command.healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite.name}"/>
-      		 			<tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
-						<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
+	 					<c:choose>
+		 					<c:when test="${c3pr:hasAllSiteAccess('UI_RESEARCHSTAFF_CREATE') || FLOW =='SETUP_FLOW'}">
+		 						<input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite" />
+		       					<input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input" size="40"  
+		       																						value="${command.healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite.name}"/>
+		      		 			<tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
+								<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
+							</c:when>
+							<c:otherwise>
+								<select name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite" class="required validate-notEmpty" style="width: 350px;">
+									<tags:userOrgOptions/>
+								</select>
+							</c:otherwise>
+	 					</c:choose>
 	 				</div>
  				</div>
  				<br>
