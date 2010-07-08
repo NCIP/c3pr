@@ -103,7 +103,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     			break;
     		}
     	}
-    	if (isANotificationAlreadyScheduledForToday){
+    	if (isANotificationAlreadyScheduledForToday){	
     		return null;
     	}
     	String composedMessage =  "To view this subject click on " + c3prURL + "/pages/personAndOrganization/participant/viewParticipant?" +identifierGenerator.createParameterString(participant.getC3PRSystemSubjectIdentifier());
@@ -124,7 +124,7 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	
     	//Creating a new session to save the scheduled notifications to avoid conflicts with the
     	//CurrentSession (whose flush initiated this interceptor call in the first place).
-    	SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
+    	SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("notificationSessionFactory");
     	Session session = sessionFactory.openSession();
 		session.setFlushMode(FlushMode.COMMIT);
     	try{
