@@ -567,7 +567,7 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 				<property name="database.csm.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 			</case>
 		</switch>
-
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@csm.context.name@" value="${csm.context.name}" />
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_URL@" value="${database.url}" />
 		
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_NAME@" value="${database.name}" />
