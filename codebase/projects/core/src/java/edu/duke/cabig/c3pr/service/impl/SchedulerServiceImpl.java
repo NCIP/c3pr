@@ -45,8 +45,13 @@ public class SchedulerServiceImpl implements SchedulerService {
 	 */
 	public void scheduleStudyNotification(PlannedNotification plannedNotification, Integer scheduledNotificationId){
 		
-        assert scheduledNotificationId != null: "scheduledNotificationId cannot be null";
-
+		// do nothing if scheduled notification Id is null. This currently happens only for master_subject_updated event
+		// when there is already a notification scheduled for the day. Then another one is not created
+		if (scheduledNotificationId == null){
+			log.debug("Exiting ScheduleNotification of the SchedulerServiceImpl because scheduledNotificationId is null");
+			return;
+		}
+		
        	log.debug("Entering ScheduleNotification of the SchedulerServiceImpl: " + scheduledNotificationId);
 
         try {
