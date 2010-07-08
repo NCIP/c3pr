@@ -15,6 +15,7 @@
     <CSM_USER user_id="1004" login_name="study_team_administrator" first_name="c3pr_etc" last_name="admin_etc" />
     <CSM_USER user_id="1005" login_name="registration_qa_manager" first_name="c3pr_etc" last_name="admin_etc" />
     <CSM_USER user_id="1006" login_name="registrar" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1007" login_name="registrar-allStudy" first_name="c3pr_etc" last_name="admin_etc" />
       
    	<CSM_GROUP group_id="1000" group_name="system_administrator" group_desc="" application_id="-1" />
    	<CSM_GROUP group_id="1001" group_name="study_creator" group_desc="" application_id="-1" />
@@ -31,6 +32,7 @@
     <CSM_USER_GROUP user_group_id="1004" user_id="1004" group_id="1004" />
     <CSM_USER_GROUP user_group_id="1005" user_id="1005" group_id="1005" />
     <CSM_USER_GROUP user_group_id="1006" user_id="1006" group_id="1006" />
+    <CSM_USER_GROUP user_group_id="1007" user_id="1007" group_id="1006" />
    	
 	<CSM_ROLE role_id="1000" role_name="system_administrator" application_id="-1" active_flag="1" />
 	<CSM_ROLE role_id="1001" role_name="study_creator" application_id="-1" active_flag="1" />
@@ -75,17 +77,21 @@
 	<CSM_PG_PE   pg_pe_id="1006"  protection_group_id= "1006" protection_element_id="1006" />
 	<CSM_PG_PE   pg_pe_id="1007"  protection_group_id= "1007" protection_element_id="1007" />
 	
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1001" />
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1001"  user_id="1001" group_id="1001" role_id="1001" protection_group_id="1001" />
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1002"  user_id="1002" group_id="1002" role_id="1002" protection_group_id="1001" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000"  role_id="1000" protection_group_id="1001" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1001"  user_id="1001" role_id="1001" protection_group_id="1001" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1002"  user_id="1002"  role_id="1002" protection_group_id="1001" />
 	<!-- giving study_site_participation_administrator and study_team_administrator access to wake and duke respectively-->
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1003"  user_id="1003" group_id="1003" role_id="1003" protection_group_id="1003" />
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1004"  user_id="1004" group_id="1004" role_id="1004" protection_group_id="1004" />
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1005"  user_id="1005" group_id="1005" role_id="1005" protection_group_id="1001" />
-	<!-- giving registrar access to studies 1000 and 1001 -->
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1006"  user_id="1006" group_id="1006" role_id="1006" protection_group_id="1004" />
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1007"  user_id="1006" group_id="1006" role_id="1006" protection_group_id="1005" />
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1008"  user_id="1006" group_id="1006" role_id="1006" protection_group_id="1006" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1003"  user_id="1003" role_id="1003" protection_group_id="1003" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1004"  user_id="1004" role_id="1004" protection_group_id="1004" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1005"  user_id="1005" role_id="1005" protection_group_id="1001" />
+	<!-- giving registrar access to duke and studies 1000 and 1001 -->
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1006"  user_id="1006" role_id="1006" protection_group_id="1004" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1007"  user_id="1006" role_id="1006" protection_group_id="1005" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1008"  user_id="1006" role_id="1006" protection_group_id="1006" />
+	<!-- giving registrar-allStudy access to all studies and both duke and wake -->
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1009"  user_id="1007" role_id="1006" protection_group_id="1003" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1010"  user_id="1007" role_id="1006" protection_group_id="1004" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1011"  user_id="1007" role_id="1006" protection_group_id="1000" />
 	
                      
     <STUDIES therapeutic_intent_indicator="0" id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator="false" dtype="Local"/>

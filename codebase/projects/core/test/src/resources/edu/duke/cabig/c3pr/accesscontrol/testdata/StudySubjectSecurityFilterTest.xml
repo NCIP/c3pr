@@ -1,0 +1,282 @@
+<dataset>
+
+	<CSM_PRIVILEGE  privilege_id="1000" privilege_name="system_administrator" privilege_description="system_administrator" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1001" privilege_name="study_creator" privilege_description="study_creator" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1002" privilege_name="supplemental_study_information_manager" privilege_description="supplemental_study_information_manager" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1003" privilege_name="study_site_participation_administrator" privilege_description="study_site_participation_administrator" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1004" privilege_name="study_team_administrator" privilege_description="study_team_administrator" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1005" privilege_name="registration_qa_manager" privilege_description="registration_qa_manager" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1006" privilege_name="registrar" privilege_description="registrar" update_date="2001-01-01"/>
+	
+	<CSM_USER user_id="1000" login_name="system_administrator" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1001" login_name="study_creator" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1002" login_name="supplemental_study_information_manager" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1003" login_name="study_site_participation_administrator" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1004" login_name="study_team_administrator" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1005" login_name="registration_qa_manager" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1006" login_name="registrar" first_name="c3pr_etc" last_name="admin_etc" />
+    <CSM_USER user_id="1007" login_name="registrar-allStudy" first_name="c3pr_etc" last_name="admin_etc" />
+      
+   	<CSM_GROUP group_id="1000" group_name="system_administrator" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1001" group_name="study_creator" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1002" group_name="supplemental_study_information_manager" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1003" group_name="study_site_participation_administrator" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1004" group_name="study_team_administrator" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1005" group_name="registration_qa_manager" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1006" group_name="registrar" group_desc="" application_id="-1" />
+   	  
+  	<CSM_USER_GROUP user_group_id="1000" user_id="1000" group_id="1000" />
+    <CSM_USER_GROUP user_group_id="1001" user_id="1001" group_id="1001" />
+    <CSM_USER_GROUP user_group_id="1002" user_id="1002" group_id="1002" />
+    <CSM_USER_GROUP user_group_id="1003" user_id="1003" group_id="1003" />
+    <CSM_USER_GROUP user_group_id="1004" user_id="1004" group_id="1004" />
+    <CSM_USER_GROUP user_group_id="1005" user_id="1005" group_id="1005" />
+    <CSM_USER_GROUP user_group_id="1006" user_id="1006" group_id="1006" />
+    <CSM_USER_GROUP user_group_id="1007" user_id="1007" group_id="1006" />
+   	
+	<CSM_ROLE role_id="1000" role_name="system_administrator" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1001" role_name="study_creator" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1002" role_name="supplemental_study_information_manager" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1003" role_name="study_site_participation_administrator" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1004" role_name="study_team_administrator" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1005" role_name="registration_qa_manager" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1006" role_name="registrar" application_id="-1" active_flag="1" />
+	
+  	<CSM_ROLE_PRIVILEGE role_privilege_id="1000" role_id="1000" privilege_id="1000" />
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1001" role_id="1001" privilege_id="1001"/>
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1002" role_id="1002" privilege_id="1002"/>
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1003" role_id="1003" privilege_id="1003"/>
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1004" role_id="1004" privilege_id="1004" />
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1005" role_id="1005" privilege_id="1005" />
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1006" role_id="1006" privilege_id="1006" />
+	
+	<CSM_PROTECTION_GROUP protection_group_id="1000" protection_group_name="Study" application_id="-1" large_element_count_flag="0" />
+	<CSM_PROTECTION_GROUP protection_group_id="1001" protection_group_name="HealthcareSite" application_id="-1" large_element_count_flag="0"/>
+	<CSM_PROTECTION_GROUP protection_group_id="1002" protection_group_name="HealthcareSite.NC009" application_id="-1" large_element_count_flag="0" />
+	<CSM_PROTECTION_GROUP protection_group_id="1003" protection_group_name="HealthcareSite.NC008" application_id="-1" large_element_count_flag="0" />
+	<CSM_PROTECTION_GROUP protection_group_id="1004" protection_group_name="HealthcareSite.NC010" application_id="-1" large_element_count_flag="0" />
+	<CSM_PROTECTION_GROUP protection_group_id="1005" protection_group_name="Study.CCAI1000" application_id="-1" large_element_count_flag="0" />
+	<CSM_PROTECTION_GROUP protection_group_id="1006" protection_group_name="Study.CCAI1001" application_id="-1" large_element_count_flag="0" />
+	<CSM_PROTECTION_GROUP protection_group_id="1007" protection_group_name="Study.CCAI1002" application_id="-1" large_element_count_flag="0" />
+	
+	<CSM_PROTECTION_ELEMENT protection_element_id="1000" protection_element_name="Study" object_id="Study" application_id="-1" />
+	<CSM_PROTECTION_ELEMENT protection_element_id="1001" protection_element_name="HealthcareSite" object_id="HealthcareSite" application_id="-1" />
+	<CSM_PROTECTION_ELEMENT protection_element_id="1002" protection_element_name="HealthcareSite.NC009" object_id="HealthcareSite.NC009" application_id="-1" />
+	<CSM_PROTECTION_ELEMENT protection_element_id="1003" protection_element_name="HealthcareSite.NC008" object_id="HealthcareSite.NC008" application_id="-1" />
+	<CSM_PROTECTION_ELEMENT protection_element_id="1004" protection_element_name="HealthcareSite.NC010" object_id="HealthcareSite.NC010" application_id="-1" />
+	<CSM_PROTECTION_ELEMENT protection_element_id="1005" protection_element_name="Study.CCAI1000" object_id="Study.CCAI1000" application_id="-1" />
+	<CSM_PROTECTION_ELEMENT protection_element_id="1006" protection_element_name="Study.CCAI1001" object_id="Study.CCAI1001" application_id="-1" />	
+	<CSM_PROTECTION_ELEMENT protection_element_id="1007" protection_element_name="Study.CCAI1002" object_id="Study.CCAI1002" application_id="-1" />	
+	
+	<CSM_PG_PE   pg_pe_id="1000"  protection_group_id= "1000" protection_element_id="1000" />
+	<CSM_PG_PE   pg_pe_id="1001"  protection_group_id= "1001" protection_element_id="1001" />
+	<CSM_PG_PE   pg_pe_id="1002"  protection_group_id= "1002" protection_element_id="1002" />
+	<CSM_PG_PE   pg_pe_id="1003"  protection_group_id= "1003" protection_element_id="1003" />
+	<CSM_PG_PE   pg_pe_id="1004"  protection_group_id= "1004" protection_element_id="1004" />
+	<CSM_PG_PE   pg_pe_id="1005"  protection_group_id= "1005" protection_element_id="1005" />
+	<CSM_PG_PE   pg_pe_id="1006"  protection_group_id= "1006" protection_element_id="1006" />
+	<CSM_PG_PE   pg_pe_id="1007"  protection_group_id= "1007" protection_element_id="1007" />
+	
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" role_id="1000" protection_group_id="1001" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1001"  user_id="1001" role_id="1001" protection_group_id="1001" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1002"  user_id="1002" role_id="1002" protection_group_id="1001" />
+	<!-- giving study_site_participation_administrator and study_team_administrator access to wake and duke respectively-->
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1003"  user_id="1003" role_id="1003" protection_group_id="1003" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1004"  user_id="1004" role_id="1004" protection_group_id="1004" />
+	<!-- giving the reg qa mgr access to duke site only -->
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1005"  user_id="1005" role_id="1005" protection_group_id="1004" />
+	<!-- giving registrar access to duke and studies 1000 and 1001 -->
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1006"  user_id="1006" role_id="1006" protection_group_id="1004" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1007"  user_id="1006" role_id="1006" protection_group_id="1005" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1008"  user_id="1006" role_id="1006" protection_group_id="1006" />
+	<!-- giving registrar-allStudy access to all studies at both duke and wake -->
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1009"  user_id="1007" role_id="1006" protection_group_id="1003" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1010"  user_id="1007" role_id="1006" protection_group_id="1004" />
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1011"  user_id="1007" role_id="1006" protection_group_id="1000" />
+	
+
+	<STUDIES therapeutic_intent_indicator="0" id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN" consent_required="ONE"  retired_indicator = "false"  dtype="Local"/>
+    <STUDIES therapeutic_intent_indicator="0" id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty"  status="OPEN" retired_indicator = "false"  dtype="Local"/>
+    <STUDIES therapeutic_intent_indicator="0" id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false"  dtype="Local"/>
+    
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1000" study_id="1000" name="1.0" version_date="2001-01-01" long_title_text="long_title_text" short_title_text="short_title_text1" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1001" study_id="1001" name="1.0" version_date="2001-01-01" long_title_text="long_title_text2" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1002" study_id="1002" name="1.0" version_date="2001-01-01" long_title_text="long_title_text" short_title_text="short_title_text3" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    
+    <CONSENTS id="1000" version="0" name="consent 1" stu_version_id="1000" version_id="version 1" retired_indicator="false" mandatory_indicator="1" />
+    
+    <CONSENT_QUESTIONS id="1000" version="0" text="Are you willing to participate in tissue collection" con_id="1000" retired_indicator="false" />
+   
+    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
+    <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" />
+  
+    <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000" retired_indicator = "false" />
+    <ORGANIZATIONS id="1001" version="1" name="dana farber" description_text="dana farber" dtype="Local" address_id="1001" retired_indicator = "false" />  
+    <ORGANIZATIONS id="1002" version="1" name="wake forest" description_text="wake forest" dtype="Local" address_id="1001" retired_indicator = "false" />
+    <ORGANIZATIONS id="1003" version="1" name="nci" description_text="nci" dtype="Local" address_id="1001" retired_indicator = "false" />  
+    
+    <STUDY_ORGANIZATIONS id="1008" version="1"  study_id="1000" hcs_id="1001" type="SCC"   retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1000" version="1"  study_id="1000" hcs_id="1000" type="SST"   retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1001" version="1" study_id="1000" hcs_id="1001" type="SST"   retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1004" version="1"  study_id="1001" hcs_id="1000" type="SCC"   retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1002" version="1"  study_id="1001" hcs_id="1000" type="SST"   retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1003" version="1" study_id="1001" hcs_id="1001" type="SST"   retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1010" version="1" study_id="1000" hcs_id="1002" type="SST"   retired_indicator = "false" />
+    
+    <STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="2000-01-01" />
+	<STU_SITE_STATUS_HISTORY id="1002" version="1" sto_id="1002" site_study_status="ACTIVE"  start_date="2000-01-01" />
+	<STU_SITE_STATUS_HISTORY id="1001" version="1" sto_id="1001" site_study_status="ACTIVE"  start_date="2000-01-01" />
+    <STU_SITE_STATUS_HISTORY id="1003" version="1" sto_id="1003" site_study_status="ACTIVE"  start_date="2000-01-01" />
+	<STU_SITE_STATUS_HISTORY id="1010" version="1" sto_id="1010" site_study_status="ACTIVE"  start_date="2000-01-01" />
+        
+    <study_site_versions id="1000" version="1" start_date="2000-01-01" irb_approval_date="2000-01-01" stu_version_id="1000" sto_id="1000"/>
+    <study_site_versions id="1001" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1000" sto_id="1001"/>
+    <study_site_versions id="1002" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1001" sto_id="1002"/>
+    <study_site_versions id="1003" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1001" sto_id="1003"/>
+    <study_site_versions id="1010" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1000" sto_id="1010"/>
+    <study_site_versions id="1011" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1002" sto_id="1010"/>
+    
+    <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
+            
+    <EPOCHS id="1000" version="1" name="Treatment1000" type="TREATMENT" epoch_order="1" description_text="treatement desc" enrollment_indicator="1" stu_version_id="1000" retired_indicator = "false"  />
+    <EPOCHS id="1001" version="1" name="Treatment1001" type="TREATMENT" epoch_order="2" description_text="cancer desc" stu_version_id="1000" retired_indicator = "false" />
+    <EPOCHS id="1002" version="1" name="Treatment1002" type="TREATMENT" epoch_order="3" description_text="treatement desc" stu_version_id="1000"   retired_indicator = "false" />
+    <EPOCHS id="1003" version="1" name="Treatment1003" type="TREATMENT" epoch_order="3" description_text="cancer desc" stu_version_id="1000"   retired_indicator = "false" />
+    <EPOCHS id="1004" version="1" name="NonTreatment1004" type="SCREENING" epoch_order="4" description_text="non treatement desc" stu_version_id="1000"   retired_indicator = "false" />
+    <EPOCHS id="1005" version="1" name="NonTreatment1005" type="SCREENING" epoch_order="5" description_text="non treatment cancer desc" stu_version_id="1000"   retired_indicator = "false" />
+    
+    <ARMS id="1000" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1000"  retired_indicator = "false" />
+    <ARMS id="1001" version="1" name="Arm 1001" description_text="Arm 1001 desc" target_accrual_number="1001" eph_id="1000"  retired_indicator = "false" />
+    <ARMS id="1002" version="1" name="Arm 1002" description_text="Arm 1002 desc" target_accrual_number="1002" eph_id="1001"  retired_indicator = "false" />
+    <ARMS id="1003" version="1" name="Arm 1003" description_text="Arm 1003 desc" target_accrual_number="1003" eph_id="1001"  retired_indicator = "false" />
+    <ARMS id="1004" version="1" name="Arm 1004" description_text="Arm 1004 desc" target_accrual_number="1004" eph_id="1002"  retired_indicator = "false" />
+    <ARMS id="1005" version="1" name="Arm 1005" description_text="Arm 1005 desc" target_accrual_number="1005" eph_id="1002"  retired_indicator = "false" />
+    <ARMS id="1006" version="1" name="Arm 1006" description_text="Arm 1006 desc" target_accrual_number="1006" eph_id="1003"  retired_indicator = "false" />
+    <ARMS id="1007" version="1" name="Arm 1007" description_text="Arm 1007 desc" target_accrual_number="1007" eph_id="1003"  retired_indicator = "false" />
+        
+    <RESEARCH_STAFF id="1000" version="1" dtype="Local" assigned_identifier="x1" first_name="Research Bill" last_name="Staff2" login_id="1000" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1001" version="1" dtype="Local" assigned_identifier="x2" first_name="Research George" last_name="Staff2" login_id="1001" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1002" version="1" dtype="Local" assigned_identifier="x3" first_name="Research Benjamin" last_name="Staff3" login_id="1002" retired_indicator = "false" />    
+    <RESEARCH_STAFF id="1003" version="1" dtype="Local" assigned_identifier="x4" first_name="Research JFK" last_name="Staff4" login_id="1003" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1004" version="1" dtype="Local" assigned_identifier="x5" first_name="Research Tom" last_name="Staff4" login_id="1004" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1005" version="1" dtype="Local" assigned_identifier="x6" first_name="Research Jim" last_name="Staff4" login_id="1005" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1006" version="1" dtype="Local" assigned_identifier="x7" first_name="Research John" last_name="Staff4" login_id="1006" retired_indicator = "false" />
+    <RESEARCH_STAFF id="1007" version="1" dtype="Local" assigned_identifier="x8" first_name="Research Jessica" last_name="Staff4" login_id="1007" retired_indicator = "false" />
+    
+    <rs_hc_site_assocn id="1000" rs_id="1000" hcs_id="1000" />
+    <rs_hc_site_assocn id="1001" rs_id="1001" hcs_id="1000" />
+    <rs_hc_site_assocn id="1002" rs_id="1002" hcs_id="1001" />
+    <rs_hc_site_assocn id="1003" rs_id="1003" hcs_id="1001" />
+    <rs_hc_site_assocn id="1004" rs_id="1004" hcs_id="1000" />
+    <rs_hc_site_assocn id="1005" rs_id="1005" hcs_id="1000" />
+    <rs_hc_site_assocn id="1006" rs_id="1006" hcs_id="1000" />
+    <rs_hc_site_assocn id="1007" rs_id="1007" hcs_id="1000" />
+    <rs_hc_site_assocn id="1008" rs_id="1007" hcs_id="1002" />
+    
+    <INVESTIGATORS id="1000" version="1" assigned_identifier="x1" first_name="Bill" last_name="Murphy" dtype="Local" retired_indicator = "false" />
+    <INVESTIGATORS id="1001" version="1" assigned_identifier="x2" first_name="George" last_name="Claire" dtype="Local" retired_indicator = "false" />
+    <INVESTIGATORS id="1002" version="1" assigned_identifier="x3" first_name="Benjamin" last_name="Douglas" dtype="Local" retired_indicator = "false" />
+    <INVESTIGATORS id="1003" version="1" assigned_identifier="x4" first_name="John" last_name="Muster" dtype="Local"  retired_indicator = "false" />
+    
+    <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="AC" status_date="2000-01-01" inv_id="1000" hcs_id="1000" retired_indicator = "false" />
+    <HC_SITE_INVESTIGATORS id="1001" version="1" status_code="AC" status_date="2000-01-01" inv_id="1001" hcs_id="1000" retired_indicator = "false" />
+    <HC_SITE_INVESTIGATORS id="1002" version="1" status_code="AC" status_date="2000-01-01" inv_id="1002" hcs_id="1001" retired_indicator = "false" />
+    <HC_SITE_INVESTIGATORS id="1003" version="1" status_code="AC" status_date="2000-01-01" inv_id="1003" hcs_id="1001" retired_indicator = "false" />
+    
+    <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01" role_code="role1" status_code="AC" retired_indicator = "false" />
+    <STUDY_INVESTIGATORS id="1001" version="1" hsi_id="1001" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01" role_code="role2" status_code="AC" retired_indicator = "false" />
+    <STUDY_INVESTIGATORS id="1003" version="1" hsi_id="1001" sto_id="1001" start_date="2000-01-01" end_date="2000-01-01" role_code="role2" status_code="AC" retired_indicator = "false" />    
+    <STUDY_INVESTIGATORS id="1002" version="1" hsi_id="1001" sto_id="1010" start_date="2000-01-01" end_date="2000-01-01" role_code="role2" status_code="AC" retired_indicator = "false" />    
+    
+    <DISEASE_CATEGORIES id="1000" version="1" name="AIDS-related Human Papillomavirus" retired_indicator = "false" />
+    
+    <DISEASE_TERMS id="1000" version="1" term="AIDS-related anal cancer" ctep_term="AIDS-related anal cancer" category_id="1000" medra_code="10065860" retired_indicator = "false" />
+    <DISEASE_TERMS id="1001" version="1" term="AIDS-related cervical cancer" ctep_term="AIDS-related cervical cancer" category_id="1000" medra_code="10008229" retired_indicator = "false" />
+   
+    <STUDY_DISEASES id="1000" version="1" stu_version_id="1000" disease_term_id="1000" lead_disease="1" retired_indicator = "false" />
+    
+    <ELIGIBILITY_CRITERIA id="2000" version="1" question_number="1" eph_id="1000" question_text="inclusion question 1" dtype="I" retired_indicator = "false" />
+    <ELIGIBILITY_CRITERIA id="2001" version="1" question_number="2" eph_id="1000" question_text="inclusion question 2" dtype="I" retired_indicator = "false" />
+    <ELIGIBILITY_CRITERIA id="2002" version="1" question_number="3" eph_id="1000" question_text="exclusion question 1" dtype="E"  retired_indicator = "false" />
+    <ELIGIBILITY_CRITERIA id="2003" version="1" question_number="1" eph_id="1002" question_text="inclusion question 1" dtype="I" retired_indicator = "false" />
+    <ELIGIBILITY_CRITERIA id="2004" version="1" question_number="2" eph_id="1002" question_text="inclusion question 2" dtype="E" retired_indicator = "false" />
+    <ELIGIBILITY_CRITERIA id="2005" version="1" question_number="3" eph_id="1002" question_text="exclusion question 1" dtype="E"  retired_indicator = "false" />
+    
+    <STRAT_CRITERIA id="1000" version="1" question_text="question" eph_id="1000" question_number="1" retired_indicator = "false" />
+    <STRAT_CRITERIA id="1001" version="1" question_text="question" eph_id="1002" question_number="1" retired_indicator = "false" />
+    
+    <STRAT_CRI_PER_ANS id="1000" version="1" permissible_answer="answer" str_cri_id="1000" retired_indicator = "false" />      
+    <STRAT_CRI_PER_ANS id="1001" version="1" permissible_answer="answer" str_cri_id="1001" retired_indicator = "false" />  
+    <STRAT_CRI_PER_ANS id="1002" version="1" permissible_answer="answer2" str_cri_id="1001" retired_indicator = "false" />      
+
+    <STRATUM_GROUPS id="1100" version="1" current_position="1" stratum_group_number="8" epochs_id="1005" />
+    
+    <BOOK_RNDM_ENTRY id="1100" version="1" position="1" str_grp_id="1100" arms_id="1007" rndm_id="1100" />             
+              
+   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M" race_code="White" add_id="1000"  retired_indicator = "false" />
+    <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="2000-01-01" administrative_gender_code="M" race_code="White" add_id="1001"  retired_indicator = "false" />
+    <PARTICIPANTS id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M" race_code="Native_Hawaiian_or_Pacific_Islander" add_id="1001"  retired_indicator = "false" /> 
+   	<PARTICIPANTS id="1010" version="1" first_name="Ru" last_name="Clo" birth_date="2000-01-01" administrative_gender_code="M" race_code="White" add_id="1000"  retired_indicator = "false" />       
+	
+	<prt_org_associations  version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
+   	<prt_org_associations  version="1" prt_id="1001" org_id="1000"  retired_indicator = "false"/>
+   	<prt_org_associations  version="1" prt_id="1002" org_id="1000"  retired_indicator = "false"/>
+   	<prt_org_associations  version="1" prt_id="1010" org_id="1000"  retired_indicator = "false"/>
+   	
+  	<icd9_disease_sites id="1000" version="0" name="Skin" code="200" description_text="skin" depth="LEVEL2" selectable="0"  />    
+
+    <DISEASE_HISTORY id="1000" version="1" icd9_disease_site_id="1000" retired_indicator = "false" />
+    
+    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M" race_code="White" ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
+    <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M" race_code="White" ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
+    <stu_sub_demographics id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M" race_code="Native_Hawaiian_or_Pacific_Islander" ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" /> 
+   	<stu_sub_demographics id="1003" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M" race_code="Native_Hawaiian_or_Pacific_Islander" ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />
+   	<stu_sub_demographics id="1004" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M" race_code="Native_Hawaiian_or_Pacific_Islander" ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />       
+	
+
+    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1000" sti_id="1000" retired_indicator = "false" grid_id="1000"/>
+    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1001" sti_id="1001" retired_indicator = "false" grid_id="1001"/>
+    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1002" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1002" sti_id="1001" retired_indicator = "false" grid_id="1002"/>
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1003" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1003" sti_id="1001" retired_indicator = "false" grid_id="1003"/>
+    <STUDY_SUBJECTS reg_workflow_status="ENROLLED" reg_data_entry_status="COMPLETE" id="1004" version="1" start_date="2010-01-11" stu_sub_dmgphcs_id="1004" sti_id="1001" retired_indicator = "false" grid_id="1004"/>
+	
+	<study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator="false" />
+    <study_subject_versions id="1001" version="1" study_site_ver_id="1001" spa_id="1001" retired_indicator="false" />
+    <study_subject_versions id="1002" version="1" study_site_ver_id="1002" spa_id="1002" retired_indicator="false" />
+    <study_subject_versions id="1003" version="1" study_site_ver_id="1011" spa_id="1003" retired_indicator="false" />
+    <study_subject_versions id="1004" version="1" study_site_ver_id="1011" spa_id="1004" retired_indicator="false" />
+
+ 	<STUDY_SUBJECT_CONSENTS/>	
+ 	
+ 	<SUB_CON_QUE_ANS/>
+ 	
+	<stu_sub_associations parent_stu_sub_id="1000" child_stu_sub_id="1001" />
+    
+    <SCHEDULED_EPOCHS id="1000" version="1" start_date="2006-03-05" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1000" sc_epoch_workflow_status="REGISTERED" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
+    <SCHEDULED_EPOCHS id="1001" version="1" start_date="2007-01-02" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1005" sc_epoch_workflow_status="REGISTERED" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
+	<SCHEDULED_EPOCHS id="1002" version="1" start_date="2008-11-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1001" sc_epoch_workflow_status="PENDING" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
+    <SCHEDULED_EPOCHS id="1003" version="1" start_date="2000-01-01" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1003"  eph_id="1000" sc_epoch_workflow_status="PENDING" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
+    <SCHEDULED_EPOCHS id="1004" version="1" start_date="2010-01-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1004"  eph_id="1000" sc_epoch_workflow_status="REGISTERED" sc_epoch_data_entry_status="COMPLETE" retired_indicator = "false" />
+    
+	<SUBJECT_STRAT_ANS id="1000" version="1" sceph_id="1000" str_cri_id="1000" retired_indicator = "false" />
+	
+	<SUBJECT_ELIGIBILITY_ANS id="1000" version="1" sceph_id="1000" elgct_id="2000" retired_indicator = "false" />
+	
+    <SCHEDULED_ARMS id="1000" version="1" start_date="2000-01-01" eligibility_indicator="1" arm_id="1000" SCEPH_ID="1000"  retired_indicator = "false" />  
+
+    <STRAT_CRI_ANS_CMB id="1001" version="1" sc_id="1000" scpa_id="1000" retired_indicator = "false" />
+    
+    <IDENTIFIERS id="1001" version="1" value="CCAI1002" type="local" system_name="nci" dtype="OAI" prt_id="1000" stu_id="1002" org_id="1000" hcs_id="1003" retired_indicator="false" spa_id="1000" primary_indicator="0"/>
+    <IDENTIFIERS id="1002" version="1" value="grid" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator="false"  spa_id="1001"/>
+    <IDENTIFIERS id="1000" version="1" value="CCAI1000" type="COORDINATING_CENTER_IDENTIFIER" system_name="nci" dtype="OAI" stu_id="1000" hcs_id="1001" retired_indicator="false"/>
+    <IDENTIFIERS id="1007" version="1" value="CCAI1001" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" retired_indicator="false" stu_id="1001"  hcs_id="1000" />    
+    <IDENTIFIERS id="1003" version="1" value="NC010" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"  hcs_id="1003" primary_indicator="1"/>
+    <IDENTIFIERS id="1004" version="1" value="NC009" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"  hcs_id="1003" primary_indicator="1"/>
+    <IDENTIFIERS id="1005" version="1" value="NC008" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1002"  hcs_id="1003" primary_indicator="1"/>
+    <IDENTIFIERS id="1006" version="1" value="mrn" type="MRN" dtype="OAI" retired_indicator="false" prt_id="1000"  hcs_id="1003" primary_indicator="1"/>
+    <IDENTIFIERS id="1008" version="1" value="coperative" type="local" system_name="c3pr" dtype="SAI" prt_id="1002" retired_indicator="false"/>
+    <IDENTIFIERS id="1009" version="1" value="abc123" type="local" system_name="c3pr" dtype="SAI" stu_id="1001" retired_indicator="false"/> 
+    <IDENTIFIERS id="1010" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" spa_id="1001"  hcs_id="1003" primary_indicator="1"/>     
+      
+    <CONTACT_MECHANISMS/>
+</dataset>
