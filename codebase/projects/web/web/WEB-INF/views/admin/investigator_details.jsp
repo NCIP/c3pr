@@ -324,10 +324,7 @@ function submitForm(){
 
         <c:forEach items="${command.healthcareSiteInvestigators}" var="hcsInv" varStatus="status">
 			<tr id="invesitgatorTable-${status.index}">
-				<td class="alt"><input type="hidden"
-					id="healthcareSite${status.index}-hidden"
-					name="healthcareSiteInvestigators[${status.index}].healthcareSite"
-					value="${command.healthcareSiteInvestigators[status.index].healthcareSite.id}" />
+				<td class="alt">
 					<c:choose>
 						<c:when test="${command.healthcareSiteInvestigators[status.index].healthcareSite.class eq 'class edu.duke.cabig.c3pr.domain.RemoteHealthcareSite' || !hasEditPrivilege}">
 							${command.healthcareSiteInvestigators[status.index].healthcareSite.name} (${command.healthcareSiteInvestigators[status.index].healthcareSite.primaryIdentifier}) &nbsp;
@@ -336,12 +333,25 @@ function submitForm(){
 							 </c:if>
 						</c:when>
 						<c:otherwise>
-							<c:set var="siteDisplayText" value=""/>
-							<c:if test="${!empty command.healthcareSiteInvestigators[status.index].id}">
-								<c:set var="siteDisplayText" value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name} (${command.healthcareSiteInvestigators[status.index].healthcareSite.primaryIdentifier})"/>
-							</c:if>
-							<input class="autocomplete required validate-notEmpty" type="text" id="healthcareSite${status.index}-input" size="50"
-								value="${siteDisplayText }" />
+							<c:choose>
+								<c:when test="${c3pr:hasAllSiteAccess('UI_INVESTIGATOR_CREATE')}">
+									<input type="hidden"
+										id="healthcareSite${status.index}-hidden"
+										name="healthcareSiteInvestigators[${status.index}].healthcareSite"
+										value="${command.healthcareSiteInvestigators[status.index].healthcareSite.id}" />
+									<c:set var="siteDisplayText" value=""/>
+									<c:if test="${!empty command.healthcareSiteInvestigators[status.index].id}">
+										<c:set var="siteDisplayText" value="${command.healthcareSiteInvestigators[status.index].healthcareSite.name} (${command.healthcareSiteInvestigators[status.index].healthcareSite.primaryIdentifier})"/>
+									</c:if>
+									<input class="autocomplete required validate-notEmpty" type="text" id="healthcareSite${status.index}-input" size="50"
+										value="${siteDisplayText }" />
+								</c:when>
+								<c:otherwise>
+									<form:select path="healthcareSiteInvestigators[${status.index}].healthcareSite" cssClass="required validate-notEmpty" cssStyle="width: 350px;">
+										<tags:userOrgOptions preSelectedSiteId="${command.healthcareSiteInvestigators[status.index].healthcareSite.id}"/>
+									</form:select>
+								</c:otherwise>
+							</c:choose>
 						</c:otherwise>
 					</c:choose>
 					<tags:indicator
@@ -404,10 +414,19 @@ function submitForm(){
 <table>
 	<tr>
 		<td class="alt">
-            <input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite" />
-            <input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input" size="50" value="${command.healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite.name}" />
-            <tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator" />
-            <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
+			<c:choose>
+				<c:when test="${c3pr:hasAllSiteAccess('UI_INVESTIGATOR_CREATE')}">
+					<input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite" />
+		            <input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input" size="50" value="${command.healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite.name}" />
+		            <tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator" />
+		            <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
+				</c:when>
+				<c:otherwise>
+					<select name="healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite" class="required validate-notEmpty" style="width: 350px;">
+						<tags:userOrgOptions/>
+					</select>
+				</c:otherwise>
+			</c:choose>
     	</td>
 	
 		<td class="alt"><select id="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode" name="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode" class="required validate-notEmpty">
