@@ -31,17 +31,16 @@ public class StudySubjectSecurityFilter implements DomainObjectSecurityFilterer{
 
 		logger.debug("Authorizing the user and filtering studies.");
 		//check the type of filterer
-		StudySubject studySubject = null;
 		if(returnObject instanceof CollectionFilterer || returnObject instanceof ArrayFilterer){
 			Iterator collectionIter = returnObject.iterator();
 			while (collectionIter.hasNext()) {
-	        	studySubject = (StudySubject)collectionIter.next();
+				StudySubject studySubject = (StudySubject)collectionIter.next();
 	        	if(!hasSiteAndStudyLevelAccess(studySubject)){
 	        		returnObject.remove(studySubject);
 	        	}
 			}
 		}else if(returnObject instanceof AbstractMutableDomainObjectFilterer){
-			studySubject = (StudySubject)returnObject.getFilteredObject();
+			StudySubject studySubject = (StudySubject)returnObject.getFilteredObject();
 			if(!hasSiteAndStudyLevelAccess(studySubject)){
         		returnObject.remove(studySubject);
         	}

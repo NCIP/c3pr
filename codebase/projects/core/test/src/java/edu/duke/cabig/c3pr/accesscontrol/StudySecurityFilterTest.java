@@ -5,11 +5,9 @@ import java.util.List;
 import org.acegisecurity.AccessDeniedException;
 import org.acegisecurity.Authentication;
 
-import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.AuthenticationProviderDaoTestCase;
-import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
@@ -100,6 +98,18 @@ public class StudySecurityFilterTest extends AuthenticationProviderDaoTestCase {
 		assertTrue(containsElementWithId(filteredStudies, 1001));
 		assertFalse(containsElementWithId(filteredStudies, 1002));
 	}
+
+	@SuppressWarnings("unchecked")
+	public void testFilterRegistrarAllStudy(){
+		Authentication authentication = setUserInSecurityContext("registrar-allStudy");
+		List<Study> studies = studyDao.getAll();
+		
+		List<Study> filteredStudies = (List<Study>)studySecurityFilter.filter(authentication, "", new CollectionFilterer(studies));
+		assertEquals(3, filteredStudies.size());
+		assertTrue(containsElementWithId(filteredStudies, 1000));
+		assertTrue(containsElementWithId(filteredStudies, 1001));
+		assertTrue(containsElementWithId(filteredStudies, 1002));
+	}
 	
 	public void testFilterRegistrarNonCollection(){
 		Authentication authentication = setUserInSecurityContext("registrar");
@@ -116,15 +126,5 @@ public class StudySecurityFilterTest extends AuthenticationProviderDaoTestCase {
 		
 	}
 	
-	
-	
-	private boolean containsElementWithId(List<? extends AbstractMutableDomainObject> domainObjects, int id){
-		for(AbstractMutableDomainObject domainObject : domainObjects){
-			if(domainObject.getId().equals(id)){
-				return true;
-			}
-		}
-		return false;
-	}
 
 }
