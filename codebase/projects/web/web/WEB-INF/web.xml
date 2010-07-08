@@ -169,7 +169,27 @@
     </filter>
     <filter-mapping>
         <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/setup/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <url-pattern>/pages/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <url-pattern>/public/user/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <url-pattern>/public/login</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <url-pattern>/dwr/call/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <url-pattern>/j_acegi_security_check</url-pattern>
     </filter-mapping>
     
     <filter>
@@ -264,7 +284,7 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>AuditInfoFilter</filter-name>
-        <url-pattern>/dwr/*</url-pattern>
+        <url-pattern>/dwr/call/*</url-pattern>
     </filter-mapping>
     
     <filter>
@@ -292,7 +312,7 @@
         <url-pattern>/public/login</url-pattern>
     </filter-mapping><filter-mapping>
     <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/dwr/*</url-pattern>
+        <url-pattern>/dwr/call/*</url-pattern>
     </filter-mapping>
     
     <filter>
