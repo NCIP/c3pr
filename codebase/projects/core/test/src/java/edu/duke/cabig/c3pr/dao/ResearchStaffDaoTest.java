@@ -4,15 +4,26 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.SEARCH_SUBJECT;
 import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
+import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
+import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 
 /**
  * JUnit Tests for ResearchStaffDao
@@ -121,7 +132,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     	HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);
     	researchStaff.addHealthcareSite(healthcareSite);
     	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
-    	assertEquals("Incorrect Size of retrieved list",5,researchStaffList.size());
+    	assertEquals("Incorrect Size of retrieved list",researchStaffList.size(), 5);
     }
     
     /**
@@ -183,6 +194,65 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         assertEquals("Incorrect size", 1, researchStaffList.size());
      }
     
+    //newly added
+	public void testCreateOrModifyResearchStaff(ResearchStaff researchStaff,
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException {
+	}
+	
+	public void testCreateCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) throws C3PRBaseException{
+	}
+
+	public void testCreateCSMUserAndAssignRoles(){
+		ResearchStaff staff = getDao().getById(1000);
+		Map<HealthcareSite, List<C3PRUserGroupType>> associationMap = new HashMap<HealthcareSite, List<C3PRUserGroupType>>();
+		List<C3PRUserGroupType> roleList = new ArrayList<C3PRUserGroupType>();
+		roleList.add(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER);
+		roleList.add(C3PRUserGroupType.STUDY_CREATOR);
+		associationMap.put(healthcareSiteDao.getById(1001), roleList);
+		roleList = new ArrayList<C3PRUserGroupType>();
+		roleList.add(C3PRUserGroupType.SYSTEM_ADMINISTRATOR);
+		roleList.add(C3PRUserGroupType.REGISTRAR);
+		associationMap.put(healthcareSiteDao.getById(1000), roleList);
+		try {
+			//getDao().createCSMUserAndAssignRoles(staff, "someName", associationMap, true);
+			getDao().createOrModifyResearchStaff(staff, true, "someName", associationMap , true);
+			ResearchStaff reloadedStaff = getDao().getById(1000);
+			User user = getDao().getCSMUser((C3PRUser)reloadedStaff);
+			assertEquals("wrong number of groups", user.getGroups().size(), 4);
+			Set pgrcSet = user.getProtectionGroupRoleContexts();
+			Iterator iter = pgrcSet.iterator();
+			while(iter.hasNext()){
+				ProtectionGroupRoleContext pgrc = (ProtectionGroupRoleContext)iter.next();
+				
+			}
+		} catch (C3PRBaseException e) {
+			e.printStackTrace();
+		} catch (CSObjectNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void testCreateResearchStaff(ResearchStaff researchStaff) throws C3PRBaseException {
+	}
+
+	public void testCreateResearchStaffWithCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) 
+			throws C3PRBaseException {
+	}
+
+	public void testCreateResearchStaffWithCSMUserAndAssignRoles(ResearchStaff researchStaff, String username,
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException {
+	}
+
+	public void testCreateSuperUser(ResearchStaff researchStaff, String username,
+			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException {
+	}
+
+	public void testCreateResearchStaff(ResearchStaff researchStaff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap)  throws C3PRBaseException {
+	}
+    //newly added
+	
+	
     /**
      * Test search Remote research staff by healthcareSite.
      * This should get the new ones and save them to the database too...this includes the associated orgs
