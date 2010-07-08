@@ -195,6 +195,122 @@
 	<bean id="baseResearchStaffDataContainerDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.BaseResearchStaffDataContainerDao"/>
 	<bean id="baseInvestigatorDataContainerDao" parent="converterDaoTemplate" class="edu.duke.cabig.c3pr.dao.BaseInvestigatorDataContainerDao"/>
 	<!-- End -->
+	
+	
+	<!--  Session Factory for Notification Framework -->
+	<!-- Start -->
+    <bean id="notificationSessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" autowire="byName">
+        <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy"/>
+        </property>
+        <!-- Must reference all OR mapping files. -->
+        <property name="annotatedClasses">
+            <list>
+                <value>edu.duke.cabig.c3pr.domain.LocalStudy</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteStudy</value>
+                <value>edu.duke.cabig.c3pr.domain.Epoch</value>
+                <value>edu.duke.cabig.c3pr.domain.Arm</value>
+                <value>edu.duke.cabig.c3pr.domain.StudySite</value>
+                <value>edu.duke.cabig.c3pr.domain.SiteStatusHistory</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyFundingSponsor</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyOrganization</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalHealthcareSite</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
+                <value>edu.duke.cabig.c3pr.domain.Organization</value>
+                <value>edu.duke.cabig.c3pr.domain.Address</value>
+                <value>edu.duke.cabig.c3pr.domain.StudySubject</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
+                <value>edu.duke.cabig.c3pr.domain.Participant</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
+                <value>edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier</value>
+                <value>edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier</value>
+                <value>edu.duke.cabig.c3pr.domain.Identifier</value>
+                <value>edu.duke.cabig.c3pr.domain.EligibilityCriteria</value>
+                <value>edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer</value>
+                <value>edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria</value>
+                <value>edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyDisease</value>
+                <value>edu.duke.cabig.c3pr.domain.DiseaseCategory</value>
+                <value>edu.duke.cabig.c3pr.domain.DiseaseTerm</value>
+                <value>edu.duke.cabig.c3pr.domain.StratificationCriterion</value>
+                <value>edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer</value>
+                <value>edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer</value>
+                <value>edu.duke.cabig.c3pr.domain.Summary3ReportDiseaseSite</value>
+                <value>edu.duke.cabig.c3pr.domain.ICD9DiseaseSite</value>
+                <value>edu.duke.cabig.c3pr.domain.DiseaseHistory</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalContactMechanism</value>
+				<value>edu.duke.cabig.c3pr.domain.RemoteContactMechanism</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledEpoch</value>
+                <value>edu.duke.cabig.c3pr.domain.StratumGroup</value>
+                <value>edu.duke.cabig.c3pr.domain.BookRandomizationEntry</value>
+                <value>edu.duke.cabig.c3pr.domain.Randomization</value>
+                <value>edu.duke.cabig.c3pr.domain.BookRandomization</value>
+                <value>edu.duke.cabig.c3pr.domain.PhoneCallRandomization</value>
+                <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
+                <value>edu.duke.cabig.c3pr.tools.C3prConfigurationEntry</value>
+                <value>edu.duke.cabig.c3pr.domain.PlannedNotification</value>
+                <value>edu.duke.cabig.c3pr.domain.Recipient</value>
+                <value>edu.duke.cabig.c3pr.domain.UserBasedRecipient</value>
+                <value>edu.duke.cabig.c3pr.domain.RoleBasedRecipient</value>
+                <value>edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient</value>
+             	<value>edu.duke.cabig.c3pr.domain.InvestigatorGroup</value>
+                <value>edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation</value>
+                <value>edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy</value>
+                <value>edu.duke.cabig.c3pr.domain.CompanionStudyAssociation</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledNotification</value>
+                <value>edu.duke.cabig.c3pr.domain.RecipientScheduledNotification</value>
+                <value>edu.duke.cabig.c3pr.domain.EndPointConnectionProperty</value>
+                <value>edu.duke.cabig.c3pr.domain.GridEndPoint</value>
+                <value>edu.duke.cabig.c3pr.domain.EndPoint</value>
+                <value>edu.duke.cabig.c3pr.domain.Error</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.CustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.StringCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.DateCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.IntegerCustomField</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
+               <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudyVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.Consent</value>
+			   <value>edu.duke.cabig.c3pr.domain.ConsentQuestion</value>
+			   <value>edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
+			   <value>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</value>
+			   <value>edu.duke.cabig.c3pr.domain.RolePrivilege</value>
+               <value>edu.duke.cabig.c3pr.domain.Reason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffStudyReason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffTreatmentReason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffScreeningReason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffReservingReason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffFollowupReason</value>
+               <value>edu.duke.cabig.c3pr.domain.OffEpochReason</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="notificationHibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="checkWriteOperations">
+            <value>false</value>
+        </property>
+        <property name="sessionFactory">
+            <ref bean="notificationSessionFactory"/>
+        </property>
+    </bean>
+
+	<!-- End of Notification Framework Session Factory-->
 
 
 	<!-- Auditing related beans definition start here-->
