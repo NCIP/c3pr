@@ -50,11 +50,6 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 	
 	private HealthcareSiteDao healthcareSiteDao;
 	
-	private String studyId; 
-	private String studySiteId;
-	private String studySubjectId;
-	private String participantVersion;
-	
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
@@ -186,55 +181,27 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		
 		//Study status changes are spotted here for activating rules.
 		if(entity instanceof Study){
-			if(String.valueOf(((Study)entity).getVersion()).equals(studyId)){
-				//while saving the scheduled notifications, the interceptor is fired again
-				//to prevent an infinite loop..we check to see if the study obj involved is the same
-				//if so exit the interceptor immediately else continue processing
-				log.error("********  NotificationInterceptor.onFlushDirty(): same hashcode - ");
-				log.error(" entity.hashCode() ="+ entity.hashCode() + "studyId" +studyId);
-				log.debug("exiting to prevent looping");
-				return false;
-			}else{
-				studyId = String.valueOf(((Study)entity).getVersion());
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (propertyNames[i].equals("coordinatingCenterStudyStatusInternal") && previousState != null && currentState != null ){		
 							handleStudyStatusChange(previousState[i], currentState[i], entity);
 					}
 				}
-			}
 		}
 		
 		//StudySite status changes are spotted here for activating rules.
 		if(entity instanceof SiteStatusHistory){
 			StudySite studySite = ((SiteStatusHistory)entity).getStudySite();
-			if(String.valueOf(studySite.getVersion()).equals(studySiteId)){
-				//while saving the scheduled notifications, the interceptor is fired again
-				//to prevent an infinite loop..we check to see if the studySite obj involved is the same
-				//if so exit the interceptor immediately else continue processing
-				log.debug("exiting to prevent looping");
-				return false;
-			}else{
-				studySiteId = String.valueOf(studySite.getVersion());
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (propertyNames[i].equals("siteStudyStatus")){
 						if(previousState != null && currentState != null ){
 							handleStudySiteStatusChange(previousState[i], currentState[i], studySite);
 						}
 					}
-				}
 			}
 		}		
 		
 		//When Reg status changes to Reserved or Registered
 		if(entity instanceof StudySubject){	
-			if(String.valueOf(((StudySubject)entity).getVersion()).equals(studySubjectId)){
-				//while saving the scheduled notifications, the interceptor is fired again
-				//to prevent an infinite loop..we check to see if the studySite obj involved is the same
-				//if so exit the interceptor immediately else continue processing
-				log.debug("exiting to prevent looping");
-				return false;
-			}else{
-				studySubjectId = String.valueOf(((StudySubject)entity).getVersion());
 				for (int i = 0; i < propertyNames.length; i++) {
 					if (propertyNames[i].equals("regWorkflowStatus")){
 						if( currentState != null ){
@@ -244,25 +211,13 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 								handleNewStudySubjectSaved(null, currentState[i], entity);
 							}
 						}
-					}
 				}
 			}
 		}
 		// Update Subject
 		
 		if(entity instanceof Participant && ((Participant)entity).getVersion()>0){
-			if(String.valueOf(((Participant)entity).getVersion()).equals(participantVersion)){
-				//while saving the scheduled notifications, the interceptor is fired again
-				//to prevent an infinite loop..we check to see if the participant obj involved is the same
-				//if so exit the interceptor immediately else continue processing
-				log.error("********  NotificationInterceptor.onFlushDirty(): same hashcode - ");
-				log.error(" entity.hashCode() ="+ entity.hashCode() + "participantVersion" +participantVersion);
-				log.debug("exiting to prevent looping");
-				return false;
-			}else{
-				participantVersion = String.valueOf(((Participant)entity).getVersion());
 				activateRulesForUpdatingMasterSubject((Participant)entity);
-			}
 		}
 		log.debug(this.getClass().getName() + ": Exiting onFlushDirty()");
 		return super.onFlushDirty(entity, id, currentState, previousState, propertyNames, types);
