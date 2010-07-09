@@ -5,6 +5,7 @@ import org.springframework.test.annotation.ExpectedException;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import gov.nih.nci.cabig.ctms.suite.authorization.ScopeType;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 13, 2007 Time: 3:19:07 PM To change this template
@@ -24,12 +25,6 @@ public class SitePrivilegeAndObjectIdGeneratorTest extends ApplicationTestCase {
         site.setCtepCode("testSite");
     }
 
-    public void testPrivilegeGenerator() {
-        String privilege = sitePrivilegeAndObjectIdGenerator.generatePrivilege(site);
-        assertNotNull(privilege);
-        assertEquals("edu.duke.cabig.c3pr.domain.HealthcareSite" + ".ACCESS", privilege);
-    }
-
     @ExpectedException(Exception.class)
     public void testNullObjectGenerator() {
         try {
@@ -44,7 +39,7 @@ public class SitePrivilegeAndObjectIdGeneratorTest extends ApplicationTestCase {
     public void testObjectIdGenerator() {
         String id = sitePrivilegeAndObjectIdGenerator.generateId(site);
         assertNotNull(id);
-        assertEquals(id, "edu.duke.cabig.c3pr.domain.HealthcareSite" + "." + site.getPrimaryIdentifier());
+        assertEquals(id, ScopeType.SITE.getScopeCsmNamePrefix() + site.getPrimaryIdentifier());
     }
 
 }
