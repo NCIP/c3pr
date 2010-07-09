@@ -311,21 +311,6 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     }
     
     /**
-     * Gets the study endpoints.
-     * 
-     * @return the study endpoints
-     */
-    @Transient
-    public List<EndPoint> getStudyEndpoints() {
-    	List<EndPoint> studyEndpoints=new ArrayList<EndPoint>();
-    	for(EndPoint endPoint: endpoints){
-    		if(endPoint.getServiceName()==ServiceName.STUDY)
-    			studyEndpoints.add(endPoint);
-    	}
-        return studyEndpoints;
-    }
-    
-    /**
      * Gets the registration endpoints.
      * 
      * @return the registration endpoints

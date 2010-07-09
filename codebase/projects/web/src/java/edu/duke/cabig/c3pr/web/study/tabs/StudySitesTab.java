@@ -88,32 +88,6 @@ public class StudySitesTab extends StudyTab {
 	}
 
 	@Override
-	public void postProcessOnValidation(HttpServletRequest request,StudyWrapper wrapper, Errors errors) {
-		Study study = wrapper.getStudy();
-		for (StudySite studySite : study.getStudySites()) {
-			setCoordinatingCenterStudyStatus(request, study, studySite);
-		}
-//		for (CompanionStudyAssociation parentStudyAssociation : study.getParentStudyAssociations()) {
-//			for (StudySite studySite : parentStudyAssociation.getStudySites()) {
-//				setCoordinatingCenterStudyStatus(request, study, studySite);
-//			}
-//		}
-	}
-
-	private void setCoordinatingCenterStudyStatus(HttpServletRequest request,
-			Study study, StudySite studySite) {
-		//TODO: Investigate the postProcessOnValidation change for dao.getByID. Make sure it does not impact the hosted mode functionality.
-		if (studySite.getIsCoordinatingCenter() || studySite.getHostedMode()) {
-			studySite.setCoordinatingCenterStudyStatus(study.getCoordinatingCenterStudyStatus());
-		} else if (WebUtils.hasSubmitParameter(request, "submitted")
-				&& (!WebUtils.hasSubmitParameter(request, studySite.getHealthcareSite().getPrimaryIdentifier()+ "-wasHosted")
-				|| request.getParameter(studySite.getHealthcareSite().getPrimaryIdentifier()+ "-wasHosted").equalsIgnoreCase("true")))
-		{
-			studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-		}
-	}
-
-	@Override
 	public void validate(StudyWrapper wrapper, Errors errors) {
 		super.validate(wrapper, errors);
 		this.studyValidator.validateStudySites(wrapper.getStudy(), errors);
@@ -127,46 +101,6 @@ public class StudySitesTab extends StudyTab {
 		this.studyValidator = studyValidator;
 	}
 
-//	@SuppressWarnings("unchecked")
-//	public ModelAndView associateParentStudySites(HttpServletRequest request,
-//			Object obj, Errors errors) {
-//		HashMap map = new HashMap();
-//		List<StudySite> studySites = new ArrayList<StudySite>();
-//		StudyWrapper wrapper = (StudyWrapper) obj;
-//		Study study = wrapper.getStudy();
-//
-//		String parentAssociationId = request.getParameter("studyAssociationId");
-//		String primaryIdentifiers = request.getParameter("primaryIdentifiers");
-//		String irbApprovalSites = request.getParameter("irbApprovalSites");
-//
-//		List<String> primaryIdentifierList = getTokenList(primaryIdentifiers);
-//		List<String> irbApprovalList = getTokenList(irbApprovalSites);
-//
-//		for (CompanionStudyAssociation parentStudyAssociation : study
-//				.getParentStudyAssociations()) {
-//			if (StringUtils.equals(parentAssociationId, parentStudyAssociation
-//					.getId().toString())) {
-//				for (String primaryIdentifier : primaryIdentifierList) {
-//					HealthcareSite healthcareSite = (HealthcareSite) healthcareSiteDao
-//							.getByPrimaryIdentifier(primaryIdentifier);
-//					StudySite studySite = new StudySite();
-//					studySite.setHealthcareSite(healthcareSite);
-//					studySite.setStudy(study);
-//					if (irbApprovalList.contains(primaryIdentifier)) {
-//						studySite.setIrbApprovalDate(parentStudyAssociation
-//								.getParentStudy().getStudySite(primaryIdentifier)
-//								.getIrbApprovalDate());
-//					}
-//					parentStudyAssociation.addStudySite(studySite);
-//				}
-//				map.put("parentStudyAssociation", parentStudyAssociation);
-//				map.put("parentIndex", request.getParameter("parentIndex"));
-//				break;
-//			}
-//		}
-//		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
-//	}
-
 	private static List<String> getTokenList(String string) {
 		List<String> tokenList = new ArrayList<String>();
 		StringTokenizer st = new StringTokenizer(string, "|");
@@ -175,28 +109,6 @@ public class StudySitesTab extends StudyTab {
 		}
 		return tokenList;
 	}
-
-//	@SuppressWarnings("unchecked")
-//	public ModelAndView removeCompanionStudyAssociation(
-//			HttpServletRequest request, Object obj, Errors errors) {
-//		StudyWrapper wrapper = (StudyWrapper) obj;
-//		Study study = wrapper.getStudy();
-//		HashMap map = new HashMap();
-//		String studySiteId = request.getParameter("studySiteId");
-//		if (!StringUtils.isBlank(studySiteId)) {
-//			StudySite studySite = studySiteDao.getById(Integer
-//					.parseInt(studySiteId));
-//			String primaryIdentifier = studySite.getHealthcareSite()
-//					.getPrimaryIdentifier();
-//			CompanionStudyAssociation companionStudyAssociation = study
-//					.getCompanionStudySite(primaryIdentifier)
-//					.getCompanionStudyAssociation();
-//			companionStudyAssociation.removeStudySite(studySite);
-//			map.put("parentStudyAssociation", companionStudyAssociation);
-//			map.put("parentIndex", request.getParameter("parentIndex"));
-//		}
-//		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
-//	}
 
 	@SuppressWarnings("unchecked")
 	public ModelAndView changeStatus(HttpServletRequest request, Object obj,
@@ -233,31 +145,7 @@ public class StudySitesTab extends StudyTab {
 
 		APIName apiName = APIName.valueOf(request.getParameter("action"));
 		try {
-			if (apiName == APIName.CREATE_STUDY_DEFINITION) {
-				endPoint = studyRepository.createStudyAtAffiliate(studyIdentifiers,
-						nciInstituteCode);
-			} else if (apiName == APIName.CREATE_AND_OPEN_STUDY) {
-				endPoint = studyRepository.createAndOpenStudyAtAffiliate(studyIdentifiers,
-						nciInstituteCode);
-			} else if (apiName == APIName.OPEN_STUDY) {
-				endPoint = studyRepository.openStudyAtAffiliate(studyIdentifiers,
-						nciInstituteCode);
-			} else if (apiName == APIName.AMEND_STUDY) {
-				studyRepository.amendStudyAtAffiliates(studyIdentifiers, study);
-			} else if (apiName == APIName.CLOSE_STUDY_TO_ACCRUAL) {
-				endPoint = studyRepository.closeStudyToAccrualAtAffiliate(studyIdentifiers,
-						nciInstituteCode);
-			}else if (apiName == APIName.CLOSE_STUDY_TO_ACCRUAL_AND_TREATMENT) {
-				endPoint = studyRepository.closeStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
-						nciInstituteCode);
-			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_TO_ACCRUAL) {
-				endPoint = studyRepository.temporarilyCloseStudyToAccrualAtAffiliate(studyIdentifiers,
-						nciInstituteCode);
-			}else if (apiName == APIName.TEMPORARILY_CLOSE_STUDY_TO_ACCRUAL_AND_TREATMENT) {
-				endPoint = studyRepository.temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(studyIdentifiers,
-						nciInstituteCode);
-			}
-			else if (apiName == APIName.ACTIVATE_STUDY_SITE) {
+			if (apiName == APIName.ACTIVATE_STUDY_SITE) {
 				studySite = studyRepository.activateStudySite(studyIdentifiers,
 							studySite, effectiveDate);
 			} else if (apiName == APIName.CLOSE_STUDY_SITE_TO_ACCRUAL) {
@@ -317,7 +205,6 @@ public class StudySitesTab extends StudyTab {
 		StudySite studySite = new StudySite();
 		studySite.setHealthcareSite(healthcareSite);
 		study.addStudySite(studySite);
-		setCoordinatingCenterStudyStatus(request, study, studySite);
 
 		Map map = new HashMap();
 		map.put("site", studySite);

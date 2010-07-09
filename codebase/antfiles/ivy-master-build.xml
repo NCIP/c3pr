@@ -28,7 +28,7 @@
     	<ivy:buildlist reference="build-path">
     		<fileset file="${basedir}/ivy-build.xml" />
       		<fileset file="${projects.dir}/esb-client/ivy-build.xml" />
-    		<fileset file="${projects.dir}/grid/StudyService/ivy-build.xml" />
+    		<!--<fileset file="${projects.dir}/grid/StudyService/ivy-build.xml" />-->
     		<fileset file="${projects.dir}/grid/RegistrationService/ivy-build.xml" />
     		<fileset file="${projects.dir}/core/ivy-build.xml" />
 			<fileset file="${projects.dir}/rules/ivy-build.xml" />
@@ -289,9 +289,9 @@
     	<ant target="publish-local" antfile="${projects.dir}/esb-client/ivy-build.xml" dir="${projects.dir}/esb-client" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
     	</ant>
-		<ant target="publish-local" antfile="${projects.dir}/grid/StudyService/ivy-build.xml" dir="${grid.dir}/StudyService" inheritall="false">
+		<!--<ant target="publish-local" antfile="${projects.dir}/grid/StudyService/ivy-build.xml" dir="${grid.dir}/StudyService" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
-    	</ant>
+    	</ant>-->
 		<ant target="publish-local" antfile="${projects.dir}/grid/RegistrationService/ivy-build.xml" dir="${grid.dir}/RegistrationService" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
     	</ant>

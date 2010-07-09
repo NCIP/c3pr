@@ -64,7 +64,10 @@ public class EndPointFactory {
     public EndPoint getEndPoint(ServiceName multisiteServiceName, APIName multisiteAPIName, StudyOrganization studyOrganization){
         EndPoint endPoint=studyOrganization.getEndPoint(multisiteServiceName, multisiteAPIName);
         if(endPoint==null){
-        	EndPointConnectionProperty endPointProperty=multisiteServiceName==ServiceName.STUDY?studyOrganization.getHealthcareSite().getStudyEndPointProperty():studyOrganization.getHealthcareSite().getRegistrationEndPointProperty();
+        	EndPointConnectionProperty endPointProperty=null;
+        	if(multisiteServiceName==ServiceName.REGISTRATION){
+        		endPointProperty=studyOrganization.getHealthcareSite().getRegistrationEndPointProperty();
+        	}
             endPoint=this.newInstance(multisiteServiceName, multisiteAPIName, endPointProperty);
             if(endPoint == null){
             	throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.ENDPOINT_INCORRECT_CONFIGURATION.CODE"),new String[]{studyOrganization.getHealthcareSite().getName()});

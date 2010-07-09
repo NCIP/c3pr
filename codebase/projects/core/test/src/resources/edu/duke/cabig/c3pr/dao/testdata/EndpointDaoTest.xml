@@ -29,7 +29,7 @@
 	<STUDY_SITE_VERSIONS id="1000" start_date="01-01-2000" stu_version_id="1000" irb_approval_date="01-01-2000" sto_id="1100"/>
 	<STUDY_SITE_VERSIONS id="1001" start_date="01-01-2002" stu_version_id="1000" irb_approval_date="01-01-2000" sto_id="1200"/>
 
-    <ENDPOINTS id="1000" version="0" service_name="STUDY" api_name="OPEN_STUDY" endpoint_prop_id="1000" dtype="GRID"/>
+    <ENDPOINTS id="1000" version="0" service_name="REGISTRATION" api_name="ENROLL_SUBJECT" endpoint_prop_id="1000" dtype="GRID"/>
 
     <ERRORS id="1000" version="0" endpoint_id="1000" error_source="11" error_code="11"/>
 

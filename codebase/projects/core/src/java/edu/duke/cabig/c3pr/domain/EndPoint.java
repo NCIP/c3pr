@@ -222,9 +222,7 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
     @Transient
     public XMLUtils getXMLUtils(){
         XMLUtils xmlUtils=null;
-        if(serviceName==ServiceName.STUDY)
-            xmlUtils= new XMLUtils(new XmlMarshaller(STUDY_XML_CASTOR_MAPPING_FILE_NAME));
-        else if(serviceName==ServiceName.REGISTRATION)
+        if(serviceName==ServiceName.REGISTRATION)
             xmlUtils= new XMLUtils(new XmlMarshaller(REGISTRATION_XML_CASTOR_MAPPING_FILE_NAME));
         return xmlUtils;
     }
@@ -236,9 +234,7 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
      */
     @Transient
     protected XmlMarshaller getXMLMarshaller(){
-        if(serviceName==ServiceName.STUDY)
-            return new XmlMarshaller(STUDY_XML_CASTOR_MAPPING_FILE_NAME);
-        else if(serviceName==ServiceName.REGISTRATION)
+        if(serviceName==ServiceName.REGISTRATION)
             return new XmlMarshaller(REGISTRATION_XML_CASTOR_MAPPING_FILE_NAME);
         return null;
     }

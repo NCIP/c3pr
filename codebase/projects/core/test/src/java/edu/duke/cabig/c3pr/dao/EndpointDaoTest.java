@@ -60,8 +60,8 @@ public class EndpointDaoTest extends DaoTestCase {
         Date date2=new Date();
         EndPoint endPoint=new GridEndPoint();
         endPoint.setEndPointProperty(studySite.getHealthcareSite().getStudyEndPointProperty());
-        endPoint.setApiName(APIName.OPEN_STUDY);
-        endPoint.setServiceName(ServiceName.STUDY);
+        endPoint.setApiName(APIName.ENROLL_SUBJECT);
+        endPoint.setServiceName(ServiceName.REGISTRATION);
         endPoint.setAttemptDate(date1);
         studySite.getEndpoints().add(endPoint);
         endPoint.setStudyOrganization(studySite);
@@ -71,8 +71,8 @@ public class EndpointDaoTest extends DaoTestCase {
         
         endPoint=new GridEndPoint();
         endPoint.setEndPointProperty(studySite.getHealthcareSite().getStudyEndPointProperty());
-        endPoint.setApiName(APIName.OPEN_STUDY);
-        endPoint.setServiceName(ServiceName.STUDY);
+        endPoint.setApiName(APIName.ENROLL_SUBJECT);
+        endPoint.setServiceName(ServiceName.REGISTRATION);
         endPoint.setAttemptDate(date2);
         studySite.getEndpoints().add(endPoint);
         endPoint.setStudyOrganization(studySite);
@@ -81,8 +81,8 @@ public class EndpointDaoTest extends DaoTestCase {
         studySite=studySiteDao.getById(studySite.getId());
         
         assertNotNull("Empty Endpoint", studySite.getEndpoints().get(0));
-        assertEquals("Wrong Service", ServiceName.STUDY, studySite.getEndpoints().get(0).getServiceName());
-        assertEquals("Wrong Service", APIName.OPEN_STUDY, studySite.getEndpoints().get(0).getApiName());
+        assertEquals("Wrong Service", ServiceName.REGISTRATION, studySite.getEndpoints().get(0).getServiceName());
+        assertEquals("Wrong Service", APIName.ENROLL_SUBJECT, studySite.getEndpoints().get(0).getApiName());
         assertEquals("Wrong Date", date2.toLocaleString(), studySite.getLastAttemptedEndpoint().getAttemptDate().toLocaleString());
     }
     
@@ -103,8 +103,8 @@ public class EndpointDaoTest extends DaoTestCase {
         Date date2=new Date();
         EndPoint endPoint=new GridEndPoint();
         endPoint.setEndPointProperty(studySite.getHealthcareSite().getStudyEndPointProperty());
-        endPoint.setApiName(APIName.OPEN_STUDY);
-        endPoint.setServiceName(ServiceName.STUDY);
+        endPoint.setApiName(APIName.ENROLL_SUBJECT);
+        endPoint.setServiceName(ServiceName.REGISTRATION);
         endPoint.setAttemptDate(date2);
         studySite.getEndpoints().add(endPoint);
         endPoint.setStudyOrganization(studySite);
@@ -114,8 +114,8 @@ public class EndpointDaoTest extends DaoTestCase {
         
         endPoint=new GridEndPoint();
         endPoint.setEndPointProperty(studySite.getHealthcareSite().getStudyEndPointProperty());
-        endPoint.setApiName(APIName.OPEN_STUDY);
-        endPoint.setServiceName(ServiceName.STUDY);
+        endPoint.setApiName(APIName.ENROLL_SUBJECT);
+        endPoint.setServiceName(ServiceName.REGISTRATION);
         
         endPoint.setAttemptDate(date1);
         studySite.getEndpoints().add(endPoint);
@@ -125,8 +125,8 @@ public class EndpointDaoTest extends DaoTestCase {
         studySite=studySiteDao.getById(studySite.getId());
         
         assertNotNull("Empty Endpoint", studySite.getEndpoints().get(0));
-        assertEquals("Wrong Service", ServiceName.STUDY, studySite.getEndpoints().get(0).getServiceName());
-        assertEquals("Wrong Service", APIName.OPEN_STUDY, studySite.getEndpoints().get(0).getApiName());
+        assertEquals("Wrong Service", ServiceName.REGISTRATION, studySite.getEndpoints().get(0).getServiceName());
+        assertEquals("Wrong Service", APIName.ENROLL_SUBJECT, studySite.getEndpoints().get(0).getApiName());
         assertEquals("Wrong Date", date2.toLocaleString(), studySite.getLastAttemptedEndpoint().getAttemptDate().toLocaleString());
     }
     
@@ -144,17 +144,16 @@ public class EndpointDaoTest extends DaoTestCase {
         StudyOrganization studySite=sites.get(0);
         EndPoint endPoint=new GridEndPoint();
         endPoint.setEndPointProperty(studySite.getHealthcareSite().getStudyEndPointProperty());
-        endPoint.setApiName(APIName.OPEN_STUDY);
-        endPoint.setServiceName(ServiceName.STUDY);
-        //studySite.getEndpoints().add(endPoint);
+        endPoint.setApiName(APIName.ENROLL_SUBJECT);
+        endPoint.setServiceName(ServiceName.REGISTRATION);
         endPoint.setStudyOrganization(studySite);
         dao.merge(endPoint);
         interruptSession();
         studySite=studySiteDao.getById(studySite.getId());
         assertEquals("Wrong Size", 1, studySite.getEndpoints().size());
         assertNotNull("Empty Endpoint", studySite.getEndpoints().get(0));
-        assertEquals("Wrong Service", ServiceName.STUDY, studySite.getEndpoints().get(0).getServiceName());
-        assertEquals("Wrong Service", APIName.OPEN_STUDY, studySite.getEndpoints().get(0).getApiName());
+        assertEquals("Wrong Service", ServiceName.REGISTRATION, studySite.getEndpoints().get(0).getServiceName());
+        assertEquals("Wrong Service", APIName.ENROLL_SUBJECT, studySite.getEndpoints().get(0).getApiName());
     }
     
     /**
@@ -171,8 +170,8 @@ public class EndpointDaoTest extends DaoTestCase {
         StudyOrganization studySite=sites.get(0);
         EndPoint endPoint=new GridEndPoint();
         endPoint.setEndPointProperty(studySite.getHealthcareSite().getStudyEndPointProperty());
-        endPoint.setApiName(APIName.OPEN_STUDY);
-        endPoint.setServiceName(ServiceName.STUDY);
+        endPoint.setApiName(APIName.ENROLL_SUBJECT);
+        endPoint.setServiceName(ServiceName.REGISTRATION);
         studySite.getEndpoints().add(endPoint);
         endPoint.setStudyOrganization(studySite);
         dao.save(endPoint);
@@ -180,8 +179,8 @@ public class EndpointDaoTest extends DaoTestCase {
         studySite=studySiteDao.getById(studySite.getId());
         assertEquals("Wrong Size", 1, studySite.getEndpoints().size());
         assertNotNull("Empty Endpoint", studySite.getEndpoints().get(0));
-        assertEquals("Wrong Service", ServiceName.STUDY, studySite.getEndpoints().get(0).getServiceName());
-        assertEquals("Wrong Service", APIName.OPEN_STUDY, studySite.getEndpoints().get(0).getApiName());
+        assertEquals("Wrong Service", ServiceName.REGISTRATION, studySite.getEndpoints().get(0).getServiceName());
+        assertEquals("Wrong Service", APIName.ENROLL_SUBJECT, studySite.getEndpoints().get(0).getApiName());
         endPoint=studySite.getEndpoints().get(0);
         Error error=new Error();
         error.setErrorCode("1");

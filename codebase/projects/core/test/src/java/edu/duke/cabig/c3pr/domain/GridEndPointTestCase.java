@@ -12,7 +12,6 @@ import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.grid.registrationservice.client.RegistrationServiceClient;
-import edu.duke.cabig.c3pr.grid.studyservice.client.StudyServiceClient;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import gov.nih.nci.cabig.ccts.domain.Message;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
@@ -44,20 +43,6 @@ public class GridEndPointTestCase extends AbstractTestCase {
 		gridEndPoint= new GridEndPoint();
 		gridEndPoint.setEndPointProperty(endPointConnectionProperty);
 		gridEndPoint.setGlobusCredential(registerMockFor(GlobusCredential.class));
-	}
-	
-	/**
-	 * Test get service for study.
-	 */
-	public void testGetServiceStudy(){
-		serviceName= ServiceName.STUDY;
-		gridEndPoint.setServiceName(serviceName);
-		EasyMock.expect(endPointConnectionProperty.getIsAuthenticationRequired()).andReturn(true);
-		EasyMock.expect(endPointConnectionProperty.getUrl()).andReturn("http://www.semanticbits.com");
-		replayMocks();
-		StudyServiceClient someService= (StudyServiceClient)gridEndPoint.getService();
-		assertNotNull(someService);
-		verifyMocks();
 	}
 	
 	/**

@@ -54,9 +54,6 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @DiscriminatorValue(value = "SST")
 public class StudySite extends StudyOrganization implements Comparable<StudySite> {
 
-    /** The coordinating center study status. */
-    private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
-
     /** The companion study association. */
     private CompanionStudyAssociation companionStudyAssociation ;
 
@@ -84,7 +81,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
      */
     public StudySite() {
     	lazyListHelper = new LazyListHelper();
-        coordinatingCenterStudyStatus=CoordinatingCenterStudyStatus.PENDING;
         ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
         resourceBundleMessageSource.setBasename("error_messages_multisite");
         ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
@@ -325,26 +321,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         if(siteHistory != null && siteHistory.getEndDate() != null){
         	return possibleActions;
         }
-        if(this.coordinatingCenterStudyStatus != this.getStudy().getCoordinatingCenterStudyStatus()){
-            CoordinatingCenterStudyStatus studyCoordinatingCenterStudyStatus = this.getStudy().getCoordinatingCenterStudyStatus();
-            if(studyCoordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.READY_TO_OPEN){
-                if(this.coordinatingCenterStudyStatus!=CoordinatingCenterStudyStatus.PENDING){
-                	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE"),new String[] { this.getHealthcareSite().getName(), this.coordinatingCenterStudyStatus.getDisplayName(), studyCoordinatingCenterStudyStatus.getDisplayName()});
-                }
-            	possibleActions.add(APIName.CREATE_STUDY_DEFINITION);
-                return possibleActions;
-            }else if(studyCoordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.OPEN){
-                if(this.coordinatingCenterStudyStatus == CoordinatingCenterStudyStatus.PENDING){
-                    possibleActions.add(APIName.CREATE_AND_OPEN_STUDY);
-                    return possibleActions;
-                }else if(this.coordinatingCenterStudyStatus==CoordinatingCenterStudyStatus.READY_TO_OPEN){
-                    possibleActions.add(APIName.OPEN_STUDY);
-                    return possibleActions;
-                }else{
-                	throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE"),new String[] { this.getHealthcareSite().getName(), this.coordinatingCenterStudyStatus.getDisplayName(), studyCoordinatingCenterStudyStatus.getDisplayName()});
-                }
-            }
-        }
         
         if(this.getStudy().getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.OPEN){
         	return possibleActions;
@@ -376,16 +352,6 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
         return possibleActions;
     }
 
-    @Column(name = "study_status")
-    @Enumerated(EnumType.STRING)
-    public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
-        return coordinatingCenterStudyStatus;
-    }
-
-    public void setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
-        this.coordinatingCenterStudyStatus = coordinatingCenterStudyStatus;
-    }
-
     @ManyToOne
 	@Cascade( { CascadeType.LOCK})
 	@JoinColumn(name = "comp_assoc_id" , insertable=false, updatable=false)
@@ -404,7 +370,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 			int size = getStudySiteStudyVersions().size();
 			if(size == 0 ) {
 				throw getC3PRExceptionHelper().getRuntimeException(
-                        getCode("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE"), new String[] { this.getHealthcareSite().getName(), this.coordinatingCenterStudyStatus.getDisplayName()});
+                        getCode("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE"), new String[] { this.getHealthcareSite().getName(), this.getStudy().getCoordinatingCenterStudyStatus().getDisplayName()});
 			}
 			studySiteStudyVersion= getStudySiteStudyVersion(new Date());	
 		}

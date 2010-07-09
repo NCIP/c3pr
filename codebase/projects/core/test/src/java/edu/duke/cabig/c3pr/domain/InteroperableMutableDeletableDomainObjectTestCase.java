@@ -90,12 +90,13 @@ public class InteroperableMutableDeletableDomainObjectTestCase extends AbstractT
 		endpointsLocal.add(endPoint3);
 		iAMDDObject.setEndpoints(endpointsLocal);
 		EasyMock.expect(endPoint1.getServiceName()).andReturn(ServiceName.REGISTRATION);
-		EasyMock.expect(endPoint2.getServiceName()).andReturn(ServiceName.STUDY);
-		EasyMock.expect(endPoint2.getApiName()).andReturn(APIName.ACTIVATE_STUDY_SITE);
-		EasyMock.expect(endPoint3.getServiceName()).andReturn(ServiceName.STUDY);
-		EasyMock.expect(endPoint3.getApiName()).andReturn(APIName.CREATE_STUDY_DEFINITION);
+		EasyMock.expect(endPoint1.getApiName()).andReturn(APIName.CHANGE_EPOCH);
+		EasyMock.expect(endPoint2.getServiceName()).andReturn(ServiceName.REGISTRATION);
+		EasyMock.expect(endPoint2.getApiName()).andReturn(APIName.ENROLL_SUBJECT);
+		EasyMock.expect(endPoint3.getServiceName()).andReturn(ServiceName.REGISTRATION);
+		EasyMock.expect(endPoint3.getApiName()).andReturn(APIName.PUT_SUBJECT_OFF_STUDY);
 		replayMocks();
-		assertNotNull(iAMDDObject.getEndPoint(ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION));
+		assertNotNull(iAMDDObject.getEndPoint(ServiceName.REGISTRATION, APIName.PUT_SUBJECT_OFF_STUDY));
 		verifyMocks();
 	}
 	
@@ -109,10 +110,11 @@ public class InteroperableMutableDeletableDomainObjectTestCase extends AbstractT
 		endpointsLocal.add(endPoint2);
 		iAMDDObject.setEndpoints(endpointsLocal);
 		EasyMock.expect(endPoint1.getServiceName()).andReturn(ServiceName.REGISTRATION);
-		EasyMock.expect(endPoint2.getServiceName()).andReturn(ServiceName.STUDY);
-		EasyMock.expect(endPoint2.getApiName()).andReturn(APIName.ACTIVATE_STUDY_SITE);
+		EasyMock.expect(endPoint1.getApiName()).andReturn(APIName.CHANGE_EPOCH);
+		EasyMock.expect(endPoint2.getServiceName()).andReturn(ServiceName.REGISTRATION);
+		EasyMock.expect(endPoint2.getApiName()).andReturn(APIName.ENROLL_SUBJECT);
 		replayMocks();
-		assertNull(iAMDDObject.getEndPoint(ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION));
+		assertNull(iAMDDObject.getEndPoint(ServiceName.REGISTRATION, APIName.PUT_SUBJECT_OFF_STUDY));
 		verifyMocks();
 	}
 	

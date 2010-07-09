@@ -98,14 +98,6 @@ public class StudyOrganizationTest extends AbstractTestCase{
 
 
 	/**
-	 * Test get study end points.
-	 */
-	public void testGetStudyEndPoints(){
-		StudyOrganization studyOrganization = getStudyOrgWithEndPoints();
-		assertEquals(1, studyOrganization.getStudyEndpoints().size());
-	}
-
-	/**
 	 * Test get reg end points.
 	 */
 	public void testGetRegEndPoints(){
@@ -135,16 +127,6 @@ public class StudyOrganizationTest extends AbstractTestCase{
 	private StudyOrganization getStudyOrgWithEndPoints() {
 
 		StudyOrganization studyOrganization = new StudySite();
-		GridEndPoint endPointStudy = new GridEndPoint();
-		endPointStudy.setServiceName(ServiceName.STUDY);
-
-		EndPointConnectionProperty endPointConnectionProperty = new EndPointConnectionProperty();
-		endPointConnectionProperty.setEndPointType(EndPointType.GRID);
-		endPointConnectionProperty.setUrl("https://url.com");
-
-		endPointStudy.setEndPointProperty(endPointConnectionProperty);
-		endPointStudy.setApiName(APIName.ACTIVATE_STUDY_SITE);
-		studyOrganization.addEndPoint(endPointStudy);
 
 		GridEndPoint endPointReg = new GridEndPoint();
 		EndPointConnectionProperty endPointConnectionProperty1 = new EndPointConnectionProperty();

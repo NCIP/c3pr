@@ -102,7 +102,7 @@ public class EndpointTest extends AbstractTestCase {
 		someMock.someExceptionAPI();
 		EasyMock.expectLastCall().andThrow(new RuntimeException("org.globus.wsrf.impl.security.authorization.exceptions.AuthorizationException: \"/O=caBIG/OU=caGrid/OU=Training/OU=Dorian/CN=SmokeTest\" is not authorized to use operation: {http://studyservice.grid.c3pr.cabig.duke.edu/StudyService}createAndOpenStudy on this service"));
 		EndpointSubclass endpointSubclass= new EndpointSubclass("someExceptionAPI", new Class[]{});
-		endpointSubclass.setApiName(APIName.CREATE_AND_OPEN_STUDY);
+		endpointSubclass.setApiName(APIName.ENROLL_SUBJECT);
 		endpointSubclass.setStudyOrganization(registerMockFor(StudyOrganization.class));
 		HealthcareSite healthcareSite= registerMockFor(HealthcareSite.class);
 		EasyMock.expect(endpointSubclass.getStudyOrganization().getHealthcareSite()).andReturn(healthcareSite);
@@ -129,8 +129,6 @@ public class EndpointTest extends AbstractTestCase {
 	
 	public void testGetXMLUtils(){
 		EndpointSubclass endpointSubclass= new EndpointSubclass();
-		endpointSubclass.setServiceName(ServiceName.STUDY);
-		assertNotNull(endpointSubclass.getXMLUtils());
 		endpointSubclass.setServiceName(ServiceName.REGISTRATION);
 		assertNotNull(endpointSubclass.getXMLUtils());
 	}
@@ -142,8 +140,6 @@ public class EndpointTest extends AbstractTestCase {
 	
 	public void testGetXMLMarshaller(){
 		EndpointSubclass endpointSubclass= new EndpointSubclass();
-		endpointSubclass.setServiceName(ServiceName.STUDY);
-		assertNotNull(endpointSubclass.getXMLMarshaller());
 		endpointSubclass.setServiceName(ServiceName.REGISTRATION);
 		assertNotNull(endpointSubclass.getXMLMarshaller());
 	}

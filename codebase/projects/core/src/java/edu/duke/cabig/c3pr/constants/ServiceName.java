@@ -6,7 +6,7 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum ServiceName implements CodedEnum<String> {
-    STUDY("edu.duke.cabig.c3pr.grid.studyservice.client.StudyServiceClient"), REGISTRATION("edu.duke.cabig.c3pr.grid.registrationservice.client.RegistrationServiceClient");
+    REGISTRATION("edu.duke.cabig.c3pr.grid.registrationservice.client.RegistrationServiceClient");
 
     private String code;
 

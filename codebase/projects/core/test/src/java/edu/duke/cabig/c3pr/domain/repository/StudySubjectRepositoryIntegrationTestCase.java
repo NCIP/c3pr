@@ -418,6 +418,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
+        studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
         studySubject = studySubjectRepository.enroll(studySubject);
         interruptSession();
         Date offStudyDate = new Date();

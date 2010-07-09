@@ -3,9 +3,7 @@ package edu.duke.cabig.c3pr.domain.repository;
 import java.util.Date;
 import java.util.List;
 
-import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -13,7 +11,6 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 public interface StudyRepository {
 
@@ -42,13 +39,7 @@ public interface StudyRepository {
 
     public Study openStudy(List<Identifier> studyIdentifiers);
 
-//    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
-//                    String nciInstituteCode);
-
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate);
-
-//    public StudySite approveStudySiteForActivation(List<Identifier> studyIdentifiers,
-//            StudySite studySite);
 
     public StudySite activateStudySite(List<Identifier> studyIdentifiers, StudySite studySite, Date effectiveDate);
 
@@ -77,48 +68,6 @@ public interface StudyRepository {
     public StudySite temporarilyCloseStudySiteToAccrualAndTreatment(List<Identifier> studyIdentifiers, String nciInstituteCode, Date effectiveDate);
 
     public List<StudySite> closeStudySites(List<Identifier> studyIdentifiers, Date effectiveDate);
-
-    public void createStudyAtAffiliates(List<Identifier> studyIdentifiers);
-
-    public EndPoint createStudyAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
-
-    public void createAndOpenStudyAtAffiliates(List<Identifier> studyIdentifiers);
-
-    public EndPoint createAndOpenStudyAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
-
-    public void openStudyAtAffiliates(List<Identifier> studyIdentifiers);
-
-    public EndPoint openStudyAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
-
-    public void amendStudyAtAffiliates(List<Identifier> studyIdentifiers, Study study);
-
-    public void updateAffliateProtocolVersion(List<Identifier> studyIdentifiers,
-                    String nciInstituteCode, String version);
-
-    public void closeStudyToAccrualAtAffiliates(List<Identifier> studyIdentifiers);
-
-    public EndPoint closeStudyToAccrualAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
-
-    public void closeStudyToAccrualAndTreatmentAtAffiliates(List<Identifier> studyIdentifiers);
-
-    public EndPoint closeStudyToAccrualAndTreatmentAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
-
-    public void temporarilyCloseStudyToAccrualAtAffiliates(List<Identifier> studyIdentifiers);
-
-    public EndPoint temporarilyCloseStudyToAccrualAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
-
-    public void temporarilyCloseStudyToAccrualAndTreatmentAtAffiliates(List<Identifier> studyIdentifiers);
-
-    public EndPoint temporarilyCloseStudyToAccrualAndTreatmentAtAffiliate(List<Identifier> studyIdentifiers, String nciInstituteCode);
-
-    public void updateStudyStatusAtAffiliates(List<Identifier> studyIdentifiers,
-                    CoordinatingCenterStudyStatus status);
-
-    public EndPoint handleAffiliateSiteBroadcast(String nciInstituteCode, Study study, APIName multisiteAPIName, List<? extends AbstractMutableDomainObject> domainObjects);
-
-    public void handleAffiliateSitesBroadcast(Study study, APIName multisiteAPIName, List<? extends AbstractMutableDomainObject> domainObjects);
-
-    public EndPoint handleCoordinatingCenterBroadcast(Study study, APIName multisiteAPIName, List<? extends AbstractMutableDomainObject> domainObjects);
 
     public Study getUniqueStudy(List<Identifier> studyIdentifiers);
 

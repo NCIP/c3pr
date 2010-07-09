@@ -61,32 +61,6 @@ public class StudySiteDaoTest extends DaoTestCase {
         }
     }
     
-    /**
-     * Test save study site with end point.
-     * 
-     * @throws Exception the exception
-     */
-    public void testSaveStudySiteWithEndPoint() throws Exception {
-        List<StudySite> sites = dao.getByCtepCode("code");
-        assertTrue(sites.size() == 2);
-        for (StudySite site : sites) {
-            assertEquals(site.getHealthcareSite().getCtepCode(), "code");
-        }
-        StudySite studySite=sites.get(0);
-        EndPoint endPoint=new GridEndPoint();
-        endPoint.setStudyOrganization(studySite);
-        endPoint.setEndPointProperty(studySite.getHealthcareSite().getStudyEndPointProperty());
-        endPoint.setApiName(APIName.OPEN_STUDY);
-        endPoint.setServiceName(ServiceName.STUDY);
-        studySite.getEndpoints().add(endPoint);
-        endpointDao.save(endPoint);
-        interruptSession();
-        endPoint=endpointDao.getById(endPoint.getId());
-        assertNotNull("Empty Endpoint", endPoint);
-        assertEquals("Wrong Service", ServiceName.STUDY, endPoint.getServiceName());
-        assertEquals("Wrong Service", APIName.OPEN_STUDY, endPoint.getApiName());
-    }
-    
     public void testStudySiteStatusChange() {
     	 List<StudySite> sites = dao.getByCtepCode("code");
     	 StudySite studySite=sites.get(0);

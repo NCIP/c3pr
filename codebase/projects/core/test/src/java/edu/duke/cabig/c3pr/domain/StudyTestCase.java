@@ -1820,18 +1820,11 @@ public class StudyTestCase extends AbstractTestCase {
 	 * test set coordinating center study status
 	 */
 	public void testSetCoordinatingCenterStudyStatus() {
-		StudySite studySite = new StudySite();
-		basicStudy.addStudySite(studySite);
-		studySite
-				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		basicStudy
 				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
 		assertEquals("coordinating center status is open ",
 				CoordinatingCenterStudyStatus.OPEN, basicStudy
 						.getCoordinatingCenterStudyStatus());
-		assertEquals("study site coordinating center is open ",
-				CoordinatingCenterStudyStatus.OPEN, basicStudy.getStudySites()
-						.get(0).getCoordinatingCenterStudyStatus());
 	}
 
 	public void testCreateAmendment() throws Exception {

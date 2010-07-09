@@ -343,108 +343,13 @@ public class StudySiteTestCase extends AbstractTestCase {
 	}
 	
 	/**
-	 * Test get possible transition. study.coordinatingCenterStudyStatus:
-	 * ReadyToOpen study.coordinatingCenterStudyStatus: Pending
-	 */
-	public void testGetPossibleTransition1() {
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.READY_TO_OPEN).times(2);
-		replayMocks();
-		studySite.setStudy(study);
-		List<APIName> apiNames = studySite.getPossibleTransitions();
-		assertEquals(1, apiNames.size());
-		assertEquals(APIName.CREATE_STUDY_DEFINITION, apiNames.get(0));
-		verifyMocks();
-	}
-
-	/**
-	 * Test get possible transition. study.coordinatingCenterStudyStatus:
-	 * ReadyToOpen studySite.coordinatingCenterStudyStatus: Not Pending
-	 */
-	public void testGetPossibleTransition2() {
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.READY_TO_OPEN).times(2);
-		C3PRCodedRuntimeException c3CodedException = new C3PRCodedRuntimeException(1, "test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE", null,null)).andReturn("1");
-		EasyMock.expect(healthcareSite.getName()).andReturn("test");
-		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
-		replayMocks();
-		studySite.setStudy(study);
-		try {
-			studySite.getPossibleTransitions();
-		} catch (C3PRCodedRuntimeException e) {
-			e.printStackTrace();
-			assertEquals(1, e.getExceptionCode());
-			return;
-		} finally {
-			verifyMocks();
-		}
-		fail("Should have failed");
-	}
-
-	/**
-	 * Test get possible transition. study.coordinatingCenterStudyStatus: Open
-	 * studySite.coordinatingCenterStudyStatus: Pending
-	 */
-	public void testGetPossibleTransition3() {
-		studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.PENDING);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN).times(2);
-		replayMocks();
-		studySite.setStudy(study);
-		List<APIName> apiNames = studySite.getPossibleTransitions();
-		assertEquals(1, apiNames.size());
-		assertEquals(APIName.CREATE_AND_OPEN_STUDY, apiNames.get(0));
-		verifyMocks();
-	}
-
-	/**
-	 * Test get possible transition. study.coordinatingCenterStudyStatus: Open
-	 * studySite.coordinatingCenterStudyStatus: ReadyToOpen
-	 */
-	public void testGetPossibleTransition4() {
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.READY_TO_OPEN);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN).times(2);
-		replayMocks();
-		studySite.setStudy(study);
-		List<APIName> apiNames = studySite.getPossibleTransitions();
-		assertEquals(1, apiNames.size());
-		assertEquals(APIName.OPEN_STUDY, apiNames.get(0));
-		verifyMocks();
-	}
-
-	/**
-	 * Test get possible transition. study.coordinatingCenterStudyStatus: Open
-	 * studySite.coordinatingCenterStudyStatus: ClosedToAccrual
-	 */
-	public void testGetPossibleTransition5() {
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN).times(2);
-		C3PRCodedRuntimeException c3CodedException = new C3PRCodedRuntimeException(1, "test");
-		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE", null,null)).andReturn("1");
-		EasyMock.expect(healthcareSite.getName()).andReturn("test");
-		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
-		replayMocks();
-		studySite.setStudy(study);
-		try {
-			studySite.getPossibleTransitions();
-		} catch (C3PRCodedRuntimeException e) {
-			e.printStackTrace();
-			assertEquals(1, e.getExceptionCode());
-			return;
-		} finally {
-			verifyMocks();
-		}
-		fail("Should have failed");
-	}
-
-	/**
 	 * Test get possible transition. study.coordinatingCenterStudyStatus: Not
 	 * Open studySite.coordinatingCenterStudyStatus: Not Open
 	 * study.coordinatingCenterStudyStatus=
 	 * studySite.coordinatingCenterStudyStatus
 	 */
 	public void testGetPossibleTransition6() {
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.PENDING).times(2);
+		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.PENDING);
 		replayMocks();
 		studySite.setStudy(study);
 		List<APIName> apiNames = studySite.getPossibleTransitions();
@@ -459,8 +364,7 @@ public class StudySiteTestCase extends AbstractTestCase {
 	 */
 	public void testGetPossibleTransition7() {
 		studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.PENDING);
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN).times(2);
+		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
 		replayMocks();
 		studySite.setStudy(study);
 		List<APIName> apiNames = studySite.getPossibleTransitions();
@@ -476,8 +380,7 @@ public class StudySiteTestCase extends AbstractTestCase {
 	 */
 	public void testGetPossibleTransition8() {
 		studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN).times(2);
+		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
 		replayMocks();
 		studySite.setStudy(study);
 		List<APIName> apiNames = studySite.getPossibleTransitions();
@@ -496,8 +399,7 @@ public class StudySiteTestCase extends AbstractTestCase {
 	 */
 	public void testGetPossibleTransition9() {
 		studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL);
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN).times(2);
+		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
 		replayMocks();
 		studySite.setStudy(study);
 		List<APIName> apiNames = studySite.getPossibleTransitions();
@@ -516,8 +418,7 @@ public class StudySiteTestCase extends AbstractTestCase {
 	 */
 	public void testGetPossibleTransition10() {
 		studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT);
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN).times(2);
+		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
 		replayMocks();
 		studySite.setStudy(study);
 		List<APIName> apiNames = studySite.getPossibleTransitions();
@@ -535,8 +436,7 @@ public class StudySiteTestCase extends AbstractTestCase {
 	 */
 	public void testGetPossibleTransition11() {
 		studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.CLOSED_TO_ACCRUAL);
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN).times(2);
+		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
 		replayMocks();
 		studySite.setStudy(study);
 		List<APIName> apiNames = studySite.getPossibleTransitions();
@@ -552,9 +452,8 @@ public class StudySiteTestCase extends AbstractTestCase {
 	 */
 	public void testGetPossibleTransition12() {
 		Date date = new Date();
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
 		
-		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN).times(2);
+		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.OPEN);
 		replayMocks();
 		studySite.handleStudySiteStatusChange(date,SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT);
 		studySite.setStudy(study);
@@ -912,18 +811,15 @@ public class StudySiteTestCase extends AbstractTestCase {
 		verifyMocks();
 	}
 	
-	public void testGetCoordinatingCenterStatus(){
-		studySite.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
-		assertEquals("Coordinating center status is open" , CoordinatingCenterStudyStatus.OPEN, studySite.getCoordinatingCenterStudyStatus());
-	}
-	
 	public void testGetStudySiteStudyVersion(){
 		studySite.setStudySiteStudyVersion(studySiteStudyVersion);
 		assertNotNull("study site study version is present", studySite.getStudySiteStudyVersion());
 	}
 	
 	public void testGetStudySiteStudyVersion1(){
+		studySite.setStudy(study);
 		C3PRCodedRuntimeException c3CodedException = new C3PRCodedRuntimeException(1, "test");
+		EasyMock.expect(study.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.PENDING);
 		EasyMock.expect(messageSource.getMessage("C3PR.EXCEPTION.STUDYSITE.CORRUPT.STATE.CODE",null, null)).andReturn("1");
 		EasyMock.expect(c3PRExceptionHelper.getRuntimeException(EasyMock.anyInt(),EasyMock.isA(String[].class))).andReturn(c3CodedException);
 		EasyMock.expect(healthcareSite.getName()).andReturn("Duke");

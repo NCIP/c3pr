@@ -169,24 +169,6 @@ public class EndPointFactoryTestCase extends AbstractTestCase {
 	
 	/**
 	 * Test get endpoint.
-	 * serviceName: STUDY
-	 */
-	public void testGetEndpointStudyService(){
-		endPointFactory.setDelegatedCredentialProvider(null);
-		EasyMock.expect(studyOrganization.getEndPoint(ServiceName.STUDY, APIName.ACTIVATE_STUDY_SITE)).andReturn(null);
-		EasyMock.expect(studyOrganization.getHealthcareSite()).andReturn(healthcareSite);
-		EasyMock.expect(healthcareSite.getStudyEndPointProperty()).andReturn(endPointProperty);
-		EasyMock.expect(endPointProperty.getEndPointType()).andReturn(EndPointType.GRID);
-		studyOrganization.addEndPoint(EasyMock.isA(EndPoint.class));
-		replayMocks();
-		EndPoint endPoint= endPointFactory.getEndPoint(ServiceName.STUDY, APIName.ACTIVATE_STUDY_SITE, studyOrganization);
-		assertNotNull(endPoint);
-		assertNotNull(endPoint.getStudyOrganization());
-		verifyMocks();
-	}
-	
-	/**
-	 * Test get endpoint.
 	 * serviceName: REGISTRATION
 	 */
 	public void testGetEndpointRegistrationService(){

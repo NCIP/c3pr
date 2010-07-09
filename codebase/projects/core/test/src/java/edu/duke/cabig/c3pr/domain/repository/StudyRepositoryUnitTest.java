@@ -9,9 +9,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
-import edu.duke.cabig.c3pr.constants.APIName;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
@@ -53,8 +51,6 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 
     private StudyRepository studyRepository;
 
-    private StudyService studyService;
-
     private Study study;
 
     StudySite studySite;
@@ -82,12 +78,10 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
         studyDao = registerMockFor(StudyDao.class);
         studySiteDao = registerMockFor(StudySiteDao.class);
         studyRepository = new StudyRepositoryImpl();
-        studyService = registerMockFor(StudyService.class);
         healthcareSiteDao = registerDaoMockFor(HealthcareSiteDao.class);
         ((StudyRepositoryImpl) studyRepository).setHealthcareSiteDao(healthcareSiteDao);
         ((StudyRepositoryImpl) studyRepository).setStudyDao(studyDao);
         ((StudyRepositoryImpl) studyRepository).setStudySiteDao(studySiteDao);
-        ((StudyRepositoryImpl) studyRepository).setStudyService(studyService);
         ((StudyRepositoryImpl) studyRepository).setC3prErrorMessages(c3prErrorMessages);
         ((StudyRepositoryImpl) studyRepository).setC3PRExceptionHelper(c3PRExceptionHelper);
         study = studyCreationHelper.createBasicStudy();
@@ -102,26 +96,11 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 
     public void testCreateStudyCompleteDataEntryHosted() {
         EasyMock.expect(studyDao.merge(study)).andReturn(study);
-        EasyMock.expect(studyService.isMultisiteEnable()).andReturn(false);
         replayMocks();
         studyRepository.createStudy(study);
         verifyMocks();
     }
     
-    //TODO
-    // check the method calls and logic for the workflow in the following test case
-    public void testCreateStudyCompleteDataEntryCoCenter() {
-    	EasyMock.expect(studyService.isMultisiteEnable()).andReturn(true);
-    	EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(2);
-    	EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
-    	EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(1);
-    	EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(1);
-    	EasyMock.expect(studyDao.merge(study)).andReturn(study);
-        replayMocks();
-		studyRepository.createStudy(study);
-        verifyMocks();
-    }
-
     public void testCreateStudyIncompleteDataEntry1() {
         study.readyToOpen();
         try {
@@ -174,12 +153,8 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     //TODO 
     // check the logic and method calls for this test case.
     public void testOpenStudyMultisite() throws C3PRCodedException {
-        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(6);
+        EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
         EasyMock.expect(studyDao.merge(study)).andReturn(study).times(2);
-        EasyMock.expect(studyService.isMultisiteEnable()).andReturn(true).times(2);
-        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke").times(4);
-        EasyMock.expect(studyService.canMultisiteBroadcast(studySite)).andReturn(true).times(2);
-        EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(new GridEndPoint()).times(2);
         replayMocks();
         studyRepository.openStudy(ids);
         verifyMocks();
@@ -342,11 +317,8 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     	studySite.setHostedMode(false);
     	study.getStudyCoordinatingCenter().setHostedMode(false);
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
-    	//studySite.setSiteStudyStatus(SiteStudyStatus.APPROVED_FOR_ACTIVTION);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
-        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Test");
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
-        EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudyCoordinatingCenter.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(endPoint);
         replayMocks();
         studyRepository.activateStudySite(ids, "Duke", new Date());
         verifyMocks();
@@ -355,7 +327,6 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public void testCloseStudyHosted() throws C3PRCodedException {
     	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
-        EasyMock.expect(studyService.isMultisiteEnable()).andReturn(false);
         EasyMock.expect(studyDao.merge(study)).andReturn(study);
         replayMocks();
         studyRepository.closeStudyToAccrual(ids);
@@ -367,60 +338,10 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     	studySite.handleStudySiteStatusChange(new Date(), SiteStudyStatus.ACTIVE);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
-        EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke");
-        EasyMock.expect(studyService.isStudyOrganizationLocal("Duke")).andReturn(false);
-        EasyMock.expect(studyService.handleMultiSiteBroadcast(EasyMock.isA(StudySite.class), EasyMock.isA(ServiceName.class), EasyMock.isA(APIName.class),EasyMock.isA(List.class))).andReturn(endPoint);
         replayMocks();
         studyRepository.closeStudySiteToAccrual(ids, "Duke", new Date());
         verifyMocks();
     }
-
-//    public void testBuildAndSave() {
-//        // building the study
-//        Study study = studyCreationHelper.getLocalNonRandomizedTratmentWithArmStudy();
-//
-//        StudySite organization = new StudySite();
-//        HealthcareSite healthcareSite = buildHealthcareSite();
-//
-//        Investigator investigator = buildInvestigator();
-//        List<Investigator> investigators = new ArrayList<Investigator>();
-//        investigators.add(investigator);
-//        HealthcareSiteInvestigator healthcareSiteInvestigator = buildHealthcareSiteInvestigator(
-//                        investigator, healthcareSite);
-//        StudyInvestigator sInv = buildStudyInvestigator(healthcareSiteInvestigator);
-//        ArrayList<StudyInvestigator> sInvList = new ArrayList<StudyInvestigator>();
-//        sInvList.add(sInv);
-//
-//        organization.setHealthcareSite(healthcareSite);
-//        organization.setStudyInvestigators(sInvList);
-//        study.getStudyOrganizations().add(organization);
-//
-//        OrganizationAssignedIdentifier organizationAssignedIdentifier = new OrganizationAssignedIdentifier();
-//        organizationAssignedIdentifier.setHealthcareSite(healthcareSite);
-//        organizationAssignedIdentifier.setValue("oai-001");
-//        study.getOrganizationAssignedIdentifiers().add(organizationAssignedIdentifier);
-//
-//        // list of mocks
-//        EasyMock.expect(healthcareSiteDao.getByNciInstituteCode("hcs-001")).andReturn(
-//                        healthcareSite);
-//        EasyMock.expect(investigatorDao.getInvestigatorsByNciInstituteCode("inv-001")).andReturn(
-//                        investigators);
-//        EasyMock.expect(
-//                        healthcareSiteInvestigatorDao.getSiteInvestigator(healthcareSite,
-//                                        investigator)).andReturn(healthcareSiteInvestigator);
-//        EasyMock.expect(healthcareSiteDao.getByNciInstituteCode("hcs-001")).andReturn(
-//                        healthcareSite);
-//        studyDao.save(study);
-//        replayMocks();
-//
-//        try {
-//            studyRepository.buildAndSave(study);
-//        }
-//        catch (Exception e) {
-//            assertFalse("C3PRCodedException thrown", false);
-//        }
-//        verifyMocks();
-//    }
 
     public StudyInvestigator buildStudyInvestigator(
                     HealthcareSiteInvestigator healthcareSiteInvestigator) {

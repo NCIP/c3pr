@@ -570,18 +570,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	}
 
 	public void setCoordinatingCenterStudyStatus(
-			CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
-            for(StudySite studySite: this.getStudySites()){
-                if(studySite.getHostedMode() || studySite.getIsCoordinatingCenter())
-                    studySite.setCoordinatingCenterStudyStatus(coordinatingCenterStudyStatus);
-            }
-            for(CompanionStudyAssociation parentStudyAssociation : this.getParentStudyAssociations()){
-            	for(StudySite studySite : parentStudyAssociation.getStudySites()){
-                    if(studySite.getHostedMode() || studySite.getIsCoordinatingCenter())
-                        studySite.setCoordinatingCenterStudyStatus(coordinatingCenterStudyStatus);
-                }
-            }
-            this.setCoordinatingCenterStudyStatusInternal(coordinatingCenterStudyStatus);
+		CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
+        this.setCoordinatingCenterStudyStatusInternal(coordinatingCenterStudyStatus);
 	}
 
 	@Column(name = "status")

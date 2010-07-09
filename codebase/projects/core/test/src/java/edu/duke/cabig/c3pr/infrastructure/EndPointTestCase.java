@@ -1,12 +1,8 @@
 package edu.duke.cabig.c3pr.infrastructure;
 
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.globus.gsi.GlobusCredential;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.APIName;
@@ -16,11 +12,8 @@ import edu.duke.cabig.c3pr.domain.EndPoint;
 import edu.duke.cabig.c3pr.domain.EndPointConnectionProperty;
 import edu.duke.cabig.c3pr.domain.GridEndPoint;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.grid.studyservice.client.StudyServiceClient;
-import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.grid.registrationservice.client.RegistrationServiceClient;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
-import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ccts.domain.Message;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
@@ -52,20 +45,20 @@ public class EndPointTestCase extends AbstractTestCase {
 //    }
     
     public void testGetService(){
-        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
+        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.REGISTRATION, APIName.ENROLL_SUBJECT, null);
         Object obj=endPoint.getService();
         assertNotNull(obj);
-        assertEquals("Wrong instance of service", StudyServiceClient.class, obj.getClass());
+        assertEquals("Wrong instance of service", RegistrationServiceClient.class, obj.getClass());
     }
     
     public void testGetAPI(){
-        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
+    	endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.REGISTRATION, APIName.ENROLL_SUBJECT, null);
         Method method=endPoint.getAPI();
         assertNotNull(method);
     }
     
     public void testGetArgumentsNullArgument(){
-        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
+    	endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.REGISTRATION, APIName.ENROLL_SUBJECT, null);
         Object[] args=endPoint.getArguments(null);
         assertNotNull(args);
         assertEquals("Wrong args length", args.length, 1);
@@ -73,7 +66,7 @@ public class EndPointTestCase extends AbstractTestCase {
     }
     
     public void testGetArgumentsEmptyArgument(){
-        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
+    	endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.REGISTRATION, APIName.ENROLL_SUBJECT, null);
         List<AbstractMutableDomainObject> list=new ArrayList<AbstractMutableDomainObject>();
         replayMocks();
         Object[] args=null;
@@ -89,7 +82,7 @@ public class EndPointTestCase extends AbstractTestCase {
     }
     
     public void testGetArguments(){
-        endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.STUDY, APIName.CREATE_STUDY_DEFINITION, null);
+    	endPoint=new GridEndPoint(getEndPointProperty(false), ServiceName.REGISTRATION, APIName.ENROLL_SUBJECT, null);
         List<AbstractMutableDomainObject> list=new ArrayList<AbstractMutableDomainObject>();
         list.add(new LocalStudy());	
         Object[] args=endPoint.getArguments(list);
@@ -98,17 +91,6 @@ public class EndPointTestCase extends AbstractTestCase {
         assertEquals("wrong argument type", Message.class, args[0].getClass());
         assertEquals("wrong size of message elemets in side the message", 1, ((Message)args[0]).get_any().length);
     }
-    
-//    public void testInvoke(){
-//        endPoint=new GridEndPoint(getEndPointProperty(false), MultisiteServiceName.STUDY, MultisiteAPIName.CREATE_STUDY, null);
-//        List<AbstractMutableDomainObject> list=new ArrayList<AbstractMutableDomainObject>();
-//        List<MessageElement> messList=new ArrayList<MessageElement>();
-//        messList.add(new MessageElement());
-//        EasyMock.expect(xmlUtils.getMessageElementsForDomainObjects(list)).andReturn(messList);
-//        replayMocks();
-//        
-//        verifyMocks();
-//    }
     
     private EndPointConnectionProperty getEndPointProperty(boolean isAuthenticationRequired){
         EndPointConnectionProperty endPointProperty=new EndPointConnectionProperty();

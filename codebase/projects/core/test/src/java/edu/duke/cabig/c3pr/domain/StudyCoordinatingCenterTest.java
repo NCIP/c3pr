@@ -19,7 +19,7 @@ public class StudyCoordinatingCenterTest extends AbstractTestCase{
 		StudyCoordinatingCenter studyCoordinatingCenter = getStudyOrgWithEndPoints();
 		 List<APIName> apiList = studyCoordinatingCenter.getPossibleEndpoints();
 		 
-		 assertTrue(((APIName)apiList.get(0)).getCode().equals(APIName.ACTIVATE_STUDY_SITE.getCode()));
+		 assertTrue(((APIName)apiList.get(0)).getCode().equals(APIName.ENROLL_SUBJECT.getCode()));
 	}
 	
 	/**
@@ -31,14 +31,14 @@ public class StudyCoordinatingCenterTest extends AbstractTestCase{
 		
 		StudyCoordinatingCenter studyCoordinatingCenter = new StudyCoordinatingCenter();
 		GridEndPoint endPointStudy = new GridEndPoint();
-		endPointStudy.setServiceName(ServiceName.STUDY);
+		endPointStudy.setServiceName(ServiceName.REGISTRATION);
 
 		EndPointConnectionProperty endPointConnectionProperty = new EndPointConnectionProperty();
 		endPointConnectionProperty.setEndPointType(EndPointType.GRID);
 		endPointConnectionProperty.setUrl("https://url.com");
 		
 		endPointStudy.setEndPointProperty(endPointConnectionProperty);
-		endPointStudy.setApiName(APIName.ACTIVATE_STUDY_SITE);
+		endPointStudy.setApiName(APIName.ENROLL_SUBJECT);
 		studyCoordinatingCenter.addEndPoint(endPointStudy);
 		return studyCoordinatingCenter;
 	}
