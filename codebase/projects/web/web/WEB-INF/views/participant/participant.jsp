@@ -84,7 +84,7 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 			ValidationManager.showError($("raceCodes"), "required")	
 			return false;
 		}
-		if(compareDateWithToday($('birthDate').value)==0)
+		if(compareDateWithToday($('participant.birthDate').value)==0)
 			return true;
 		alert("Birth Date cannot be greater than today's date");
 		return false;
@@ -105,13 +105,13 @@ function manageIdentifierRadio(element){
 function handleSaveSubjectDetailsAndReturnToRegistration(){
 	$('participantId').value='${command.participant.id}';
 	$('goToRegistration').value="true";
-	$('participantDetailsForm').submit();
+	$('command').submit();
 }
 
 </script>
 </head>
 <body>
-<form:form method="post" name="participantDetailsForm" id="participantDetailsForm" cssClass="standard">
+<form:form method="post" name="command" id="command" cssClass="standard">
 	<input type="hidden" name="goToRegistration" id="goToRegistration" value="false"/>
 	<input type="hidden" name="participantId" id="participantId" value="${command.participant.id}"/>
 <tags:tabFields tab="${tab}" />
