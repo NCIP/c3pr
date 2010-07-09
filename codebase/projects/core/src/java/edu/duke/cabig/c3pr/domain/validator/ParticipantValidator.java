@@ -53,19 +53,19 @@ public class ParticipantValidator implements Validator {
     }
 
     public void validateParticipantDetails(Object arg0, Errors errors) {
-        ValidationUtils.rejectIfEmpty(errors, "firstName", "required", "required field");
-        ValidationUtils.rejectIfEmpty(errors, "lastName", "required", "required field");
-        ValidationUtils.rejectIfEmpty(errors, "birthDate", "required", "required field");
+        ValidationUtils.rejectIfEmpty(errors, "participant.firstName", "required", "required field");
+        ValidationUtils.rejectIfEmpty(errors, "participant.lastName", "required", "required field");
+        ValidationUtils.rejectIfEmpty(errors, "participant.birthDate", "required", "required field");
     }
 
     public void validateParticipantAddress(Object arg0, Errors errors) {
 
         ValidationUtils
-                        .rejectIfEmpty(errors, "address.streetAddress", "required",
+                        .rejectIfEmpty(errors, "participant.address.streetAddress", "required",
                                         "required field");
-        ValidationUtils.rejectIfEmpty(errors, "address.city", "required", "required field");
-        ValidationUtils.rejectIfEmpty(errors, "address.stateCode", "required", "required field");
-        ValidationUtils.rejectIfEmpty(errors, "address.countryCode", "required", "required field");
+        ValidationUtils.rejectIfEmpty(errors, "participant.address.city", "required", "required field");
+        ValidationUtils.rejectIfEmpty(errors, "participant.address.stateCode", "required", "required field");
+        ValidationUtils.rejectIfEmpty(errors, "participant.address.countryCode", "required", "required field");
 
     }
     
@@ -119,7 +119,7 @@ public class ParticipantValidator implements Validator {
             for (int orgIdentifierIndex = 0; orgIdentifierIndex < allOrganizationAssigedIdentitiers
                             .size(); orgIdentifierIndex++) {
                 errors
-                                .pushNestedPath("organizationAssignedIdentifiers["
+                                .pushNestedPath("participant.organizationAssignedIdentifiers["
                                                 + orgIdentifierIndex + "]");
                 errors.popNestedPath();
             }
@@ -129,7 +129,7 @@ public class ParticipantValidator implements Validator {
             if (allOrganizationAssigedIdentitiers.size() > uniqueOrgIdentifiers.size()) {
                 errors
                                 .rejectValue(
-                                                "organizationAssignedIdentifiers",
+                                                "participant.organizationAssignedIdentifiers",
                                                 new Integer(
                                                                 getCode("C3PR.SUBJECT.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR"))
                                                                 .toString(),
@@ -146,13 +146,13 @@ public class ParticipantValidator implements Validator {
         try {
             for (int sysIdentifierIndex = 0; sysIdentifierIndex < allOrganizationAssigedIdentitiers
                             .size(); sysIdentifierIndex++) {
-                errors.pushNestedPath("systemAssignedIdentifiers[" + sysIdentifierIndex + "]");
+                errors.pushNestedPath("participant.systemAssignedIdentifiers[" + sysIdentifierIndex + "]");
                 errors.popNestedPath();
             }
             Set<SystemAssignedIdentifier> uniqueSysIdentifiers = new HashSet<SystemAssignedIdentifier>();
             uniqueSysIdentifiers.addAll(allSystemAssigedIdentitiers);
             if (allSystemAssigedIdentitiers.size() > uniqueSysIdentifiers.size()) {
-                errors.rejectValue("systemAssignedIdentifiers", new Integer(
+                errors.rejectValue("participant.systemAssignedIdentifiers", new Integer(
                                 getCode("C3PR.SUBJECT.DUPLICATE.SYSTEM_ASSIGNED_IDENTIFIER.ERROR"))
                                 .toString(), getMessageFromCode(
                                 getCode("C3PR.SUBJECT.DUPLICATE.SYSTEM_ASSIGNED_IDENTIFIER.ERROR"),
