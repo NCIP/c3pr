@@ -483,7 +483,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testGetInformedConsentSignedDateStr() throws Exception{
     	StudySubject studySubject1 = new StudySubject();
-    	assertEquals("Unexpected consent signed date","", studySubject1.getStudySubjectStudyVersion()
+    	assertEquals("Unexpected consent signed date",null, studySubject1.getStudySubjectStudyVersion()
     	 		.getStudySubjectConsentVersions().get(0).getInformedConsentSignedDateStr());
     	Date informedConsentSignedDate = new Date();
     	 studySubject1.getStudySubjectStudyVersion()
