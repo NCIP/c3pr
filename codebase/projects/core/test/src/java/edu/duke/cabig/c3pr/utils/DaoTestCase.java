@@ -145,6 +145,9 @@ public abstract class DaoTestCase extends DbTestCase {
         databaseConnection.getConfig()
                         .setProperty("http://www.dbunit.org/properties/datatypeFactory",
                                         createDataTypeFactory());
+        String skipOracleRecycleBinTables = "http://www.dbunit.org/features/skipOracleRecycleBinTables"; 
+        databaseConnection.getConfig().setFeature(skipOracleRecycleBinTables, true);
+        
         return databaseConnection;
     }
 
