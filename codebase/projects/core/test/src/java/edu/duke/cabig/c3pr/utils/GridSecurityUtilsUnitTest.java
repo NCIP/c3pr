@@ -69,13 +69,12 @@ public class GridSecurityUtilsUnitTest extends AbstractTestCase {
 	}
 	
 	public void testGetRolesAdmin(){
-		User user=new User("SmokeTest", "password", true, true, true, true,new GrantedAuthorityImpl[]{new GrantedAuthorityImpl("ROLE_c3pr_admin")});
+		User user=new User("SmokeTest", "password", true, true, true, true,new GrantedAuthorityImpl[]{new GrantedAuthorityImpl("ROLE_system_administrator")});
 		EasyMock.expect(userDetailsService.loadUserByUsername("SmokeTest")).andReturn(user);
 		replayMocks();
 		try {
 			List<RoleTypes> roles=gridSecurityUtils.getRoles("SmokeTest");
-//			assertEquals(RoleTypes.C3PR_ADMIN, roles.get(0));
-			fail("fix the test cases for refatcoring.");
+			assertEquals(RoleTypes.SYSTEM_ADMINISTRATOR, roles.get(0));
 			verifyMocks();
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -84,19 +83,18 @@ public class GridSecurityUtilsUnitTest extends AbstractTestCase {
 	}
 	
 	public void testGetRolesAll(){
-		User user=new User("SmokeTest", "password", true, true, true, true,new GrantedAuthorityImpl[]{new GrantedAuthorityImpl("ROLE_c3pr_admin"),
-				new GrantedAuthorityImpl("ROLE_study_coordinator"),
+		User user=new User("SmokeTest", "password", true, true, true, true,new GrantedAuthorityImpl[]{new GrantedAuthorityImpl("ROLE_data_importer"),
+				new GrantedAuthorityImpl("ROLE_person_and_organization_information_manager"),
 				new GrantedAuthorityImpl("ROLE_registrar"),
-				new GrantedAuthorityImpl("ROLE_site_coordinator"),});
+				new GrantedAuthorityImpl("ROLE_user_administrator"),});
 		EasyMock.expect(userDetailsService.loadUserByUsername("SmokeTest")).andReturn(user);
 		replayMocks();
 		try {
 			List<RoleTypes> roles=gridSecurityUtils.getRoles("SmokeTest");
-//			assertEquals(RoleTypes.C3PR_ADMIN, roles.get(0));
-//			assertEquals(RoleTypes.STUDY_COORDINATOR, roles.get(1));
-//			assertEquals(RoleTypes.REGISTRAR, roles.get(2));
-//			assertEquals(RoleTypes.SITE_COORDINATOR, roles.get(3));
-			fail("fix the test cases for refatcoring.");
+			assertEquals(RoleTypes.DATA_IMPORTER, roles.get(0));
+			assertEquals(RoleTypes.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER, roles.get(1));
+			assertEquals(RoleTypes.REGISTRAR, roles.get(2));
+			assertEquals(RoleTypes.USER_ADMINISTRATOR, roles.get(3));
 			verifyMocks();
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -105,14 +103,13 @@ public class GridSecurityUtilsUnitTest extends AbstractTestCase {
 	}
 	
 	public void testGetRolesInvalidRole(){
-		User user=new User("SmokeTest", "password", true, true, true, true,new GrantedAuthorityImpl[]{new GrantedAuthorityImpl("wrong"),new GrantedAuthorityImpl("ROLE_site_coordinator")});
+		User user=new User("SmokeTest", "password", true, true, true, true,new GrantedAuthorityImpl[]{new GrantedAuthorityImpl("wrong"),new GrantedAuthorityImpl("ROLE_user_administrator")});
 		EasyMock.expect(userDetailsService.loadUserByUsername("SmokeTest")).andReturn(user);
 		replayMocks();
 		try {
 			List<RoleTypes> roles=gridSecurityUtils.getRoles("SmokeTest");
 			assertEquals("wrong size", 1, roles.size());
-//			assertEquals(RoleTypes.SITE_COORDINATOR, roles.get(0));
-			fail("fix the test cases for refatcoring.");
+			assertEquals(RoleTypes.USER_ADMINISTRATOR, roles.get(0));
 			verifyMocks();
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -123,13 +120,12 @@ public class GridSecurityUtilsUnitTest extends AbstractTestCase {
 	
 	public void testGetRolesAsString(){
 		ArrayList<RoleTypes> roles=new ArrayList<RoleTypes>();
-//		roles.add(RoleTypes.C3PR_ADMIN);
-//		roles.add(RoleTypes.REGISTRAR);
-//		roles.add(RoleTypes.STUDY_COORDINATOR);
-//		roles.add(RoleTypes.SITE_COORDINATOR);
+		roles.add(RoleTypes.DATA_ANALYST);
+		roles.add(RoleTypes.REGISTRAR);
+		roles.add(RoleTypes.STUDY_CREATOR);
+		roles.add(RoleTypes.STUDY_QA_MANAGER);
 		String roleString=gridSecurityUtils.getRolesAsString(roles);
-//		assertEquals("{"+RoleTypes.C3PR_ADMIN.getDisplayName()+","+RoleTypes.REGISTRAR.getDisplayName()+","+RoleTypes.STUDY_COORDINATOR.getDisplayName()+","+RoleTypes.SITE_COORDINATOR.getDisplayName()+","+"}", roleString);
-		fail("fix the test cases for refatcoring.");
+		assertEquals("{"+RoleTypes.DATA_ANALYST.getDisplayName()+","+RoleTypes.REGISTRAR.getDisplayName()+","+RoleTypes.STUDY_CREATOR.getDisplayName()+","+RoleTypes.STUDY_QA_MANAGER.getDisplayName()+","+"}", roleString);
 	}
 	
 }
