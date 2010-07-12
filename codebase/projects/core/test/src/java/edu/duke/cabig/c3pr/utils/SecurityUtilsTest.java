@@ -22,11 +22,20 @@ public class SecurityUtilsTest extends AbstractTestCase {
 	
 	List<RoleTypes> roleTypes;
 	
+	SecurityContext defaultSecurityContext;
+	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		authentication = registerMockFor(Authentication.class);
 		roleTypes = new ArrayList<RoleTypes>();
+		defaultSecurityContext = SecurityContextHolder.getContext();
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		SecurityContextHolder.setContext(defaultSecurityContext);
+		super.tearDown();
 	}
 	
 	public void testIsSuperUserTrue(){
