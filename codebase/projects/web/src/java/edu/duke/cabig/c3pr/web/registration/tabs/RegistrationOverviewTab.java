@@ -393,8 +393,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
     			}
     		}
     	
-	    	String userName = SecurityUtils.getUserName();
-			ResearchStaff researchStaff = (ResearchStaff)csmUserRepository.getUserByName(userName);
+			ResearchStaff researchStaff = SecurityUtils.getLoggedInResearchStaff();
 	    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getUniqueIdentifier(), eligibilityCriteria, researchStaff.getAssignedIdentifier());
 	    	command.setStudySubject(studySubject);
 	    	request.setAttribute("displayAllowWaiverSuccessMessage", "true");

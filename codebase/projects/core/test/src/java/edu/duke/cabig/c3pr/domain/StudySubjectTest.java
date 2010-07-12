@@ -2112,11 +2112,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING);
 	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
-	  StudyPersonnel studyPersonnel = new StudyPersonnel();
-	  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+	  ResearchStaff researchStaff = new LocalResearchStaff();
+	  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 	  assertFalse(subjectEligibilityAnswer1.getAllowWaiver());
 	  assertTrue(subjectEligibilityAnswer2.getAllowWaiver());
-	  assertTrue(subjectEligibilityAnswer2.getWaivedBy() == studyPersonnel);
+	  assertTrue(subjectEligibilityAnswer2.getWaivedBy() == researchStaff);
 	  assertFalse(subjectEligibilityAnswer3.getAllowWaiver());
 	  verifyMocks();
   }
@@ -2142,8 +2142,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
 	  try {
-		  StudyPersonnel studyPersonnel = new StudyPersonnel();
-		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+		  ResearchStaff researchStaff = new LocalResearchStaff();
+		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
 		e.printStackTrace();
@@ -2176,8 +2176,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
 	  try {
-		  StudyPersonnel studyPersonnel = new StudyPersonnel();
-		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+		  ResearchStaff researchStaff = new LocalResearchStaff();
+		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
 		e.printStackTrace();
@@ -2209,8 +2209,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
 	  try {
-		  StudyPersonnel studyPersonnel = new StudyPersonnel();
-		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+		  ResearchStaff researchStaff = new LocalResearchStaff();
+		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
 		e.printStackTrace();
@@ -2242,8 +2242,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
 	  try {
-		  StudyPersonnel studyPersonnel = null;
-		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+		  ResearchStaff researchStaff = null;
+		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
 		e.printStackTrace();
@@ -2288,8 +2288,8 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(false);
 	  replayMocks();
 	  try {
-		  StudyPersonnel studyPersonnel = null;
-		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, studyPersonnel);
+		  ResearchStaff researchStaff = null;
+		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
 		e.printStackTrace();

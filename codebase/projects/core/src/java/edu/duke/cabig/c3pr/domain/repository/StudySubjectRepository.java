@@ -59,7 +59,7 @@ public interface StudySubjectRepository {
     
 	public StudySubject invalidateRegistration(StudySubject studySubject);
 	
-	public StudySubject allowEligibilityWaiver(Identifier studySubjectIdentifier, List<EligibilityCriteria> eligibilityCrieteria,  String waivedByStudyPersonnelAssignedIdentifier);
+	public StudySubject allowEligibilityWaiver(Identifier studySubjectIdentifier, List<EligibilityCriteria> eligibilityCrieteria,  String waivedByPersonnelAssignedIdentifier);
 	
 	public StudySubject waiveEligibility(Identifier studySubjectIdentifier, List<SubjectEligibilityAnswer> subjectEligibilityAnswers);
 	

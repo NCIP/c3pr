@@ -295,7 +295,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
 	  	  	if(subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("ABC") ||
 	  	  		subjectEligibilityAnswer.getEligibilityCriteria().getQuestionText().equals("XYZ")){
 	    		assertTrue(subjectEligibilityAnswer.getAllowWaiver());
-	    		assertEquals(subjectEligibilityAnswer.getWaivedBy().getResearchStaff().getAssignedIdentifier(), researchStaff.getAssignedIdentifier());
+	    		assertEquals(subjectEligibilityAnswer.getWaivedBy().getAssignedIdentifier(), researchStaff.getAssignedIdentifier());
 	    	} else {
 	    		assertFalse(subjectEligibilityAnswer.getAllowWaiver());
 	    	}

@@ -10,7 +10,6 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
@@ -30,7 +29,7 @@ public class SubjectEligibilityAnswer extends AbstractMutableDeletableDomainObje
     
     private String waiverReason;
     
-    private StudyPersonnel waivedBy;
+    private ResearchStaff waivedBy;
     
 	public boolean getAllowWaiver() {
 		return allowWaiver;
@@ -76,13 +75,13 @@ public class SubjectEligibilityAnswer extends AbstractMutableDeletableDomainObje
     }
 
     @ManyToOne
-    @JoinColumn(name = "stu_personnel_id")
+    @JoinColumn(name = "rs_id")
     @Cascade( { CascadeType.LOCK})
-	public StudyPersonnel getWaivedBy() {
+	public ResearchStaff getWaivedBy() {
 		return waivedBy;
 	}
 
-	public void setWaivedBy(StudyPersonnel waivedBy) {
+	public void setWaivedBy(ResearchStaff waivedBy) {
 		this.waivedBy = waivedBy;
 	}
 

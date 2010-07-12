@@ -1955,7 +1955,7 @@ public class StudySubject extends
 		return false;
 	}
 	
-	public void allowEligibilityWaiver(List<EligibilityCriteria> eligibilityCriteriaList, StudyPersonnel waivedBy){
+	public void allowEligibilityWaiver(List<EligibilityCriteria> eligibilityCriteriaList, ResearchStaff waivedBy){
 		if(!canAllowEligibilityWaiver()){
 			throw new C3PRBaseRuntimeException("Cannot allow waiver. Either there are no invalid eligibility answers or the scheduled epoch is not in pending state.");
 		}
