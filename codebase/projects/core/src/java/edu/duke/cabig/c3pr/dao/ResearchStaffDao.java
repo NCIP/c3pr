@@ -339,9 +339,11 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		RemoteResearchStaff retrievedRemoteResearchStaff;
 		for (Object object : objectList) {
 			retrievedRemoteResearchStaff = (RemoteResearchStaff) object;
-			if (retrievedRemoteResearchStaff.getHealthcareSites().size() > 0) {
+			List<HealthcareSite> healthcareSites = new ArrayList<HealthcareSite>();
+			healthcareSites.addAll(retrievedRemoteResearchStaff.getHealthcareSites());
+			if (healthcareSites.size() > 0) {
 				// If the organization attached to the staff is in the db use it. Else create it.
-				for(HealthcareSite hcs : retrievedRemoteResearchStaff.getHealthcareSites() ){
+				for(HealthcareSite hcs : healthcareSites ){
 					HealthcareSite matchingHealthcareSiteFromDb = healthcareSiteDao.getByPrimaryIdentifierFromLocal(hcs.getPrimaryIdentifier());
 					if (matchingHealthcareSiteFromDb == null) {
 						log.error("No Organization exists for the CTEP Code:" + hcs.getPrimaryIdentifier());
@@ -355,6 +357,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 						}
 					} else {
 						// we have the retrieved staff's Org in our db...link up with the same
+						retrievedRemoteResearchStaff.removeHealthcareSite(hcs);
 						retrievedRemoteResearchStaff.addHealthcareSite(matchingHealthcareSiteFromDb);
 					}
 				}
