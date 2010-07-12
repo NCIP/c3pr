@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.User;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -42,9 +43,15 @@ public class UserDao extends GridIdentifiableDao<User> implements MutableDomainO
      * @param loginId  The login id of the user.
      * @return The user.
      */
-    public User getByLoginId(long loginId) {
-        List<User> results = getHibernateTemplate().find("from ResearchStaff as rs join fetch rs.healthcareSites where rs.loginId=?", Long.toString(loginId));
-        getHibernateTemplate().initialize(((ResearchStaff)results.get(0)).getHealthcareSites().get(0).getIdentifiersAssignedToOrganization());
+    @SuppressWarnings("unchecked")
+	public User getByLoginId(long loginId) {
+        List<User> results = getHibernateTemplate().find("from ResearchStaff as rs left join fetch rs.healthcareSites where rs.loginId=?", Long.toString(loginId));
+        if(results.size() > 0 &&  ((ResearchStaff)results.get(0)).getHealthcareSites().size() > 0){
+        	for(HealthcareSite hcs: ((ResearchStaff)results.get(0)).getHealthcareSites()){
+            	getHibernateTemplate().initialize(hcs.getIdentifiersAssignedToOrganization());
+        	}
+        }
+        
         return results.size() > 0 ? results.get(0) : null;
     }
     
