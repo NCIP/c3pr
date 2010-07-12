@@ -10,8 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.userdetails.UserDetails;
+
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.accesscontrol.C3prUserDetailsService;
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
@@ -21,7 +25,9 @@ import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
+import gov.nih.nci.security.acegi.authentication.CSMUserDetailsService;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
+import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 
@@ -35,7 +41,7 @@ import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 
     private HealthcareSiteDao healthcareSiteDao;
-
+    private C3prUserDetailsService c3prUserDetailsService;
     
     /**
      * Instantiates a new research staff dao test.
@@ -132,7 +138,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     	HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);
     	researchStaff.addHealthcareSite(healthcareSite);
     	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
-    	assertEquals("Incorrect Size of retrieved list",researchStaffList.size(), 5);
+    	assertEquals("Incorrect Size of retrieved list",researchStaffList.size(), 4);
     }
     
     /**
@@ -203,34 +209,41 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 	}
 
 	public void testCreateCSMUserAndAssignRoles(){
-		ResearchStaff staff = getDao().getById(1000);
+		ResearchStaff staff = getDao().getById(1001);
 		Map<HealthcareSite, List<C3PRUserGroupType>> associationMap = new HashMap<HealthcareSite, List<C3PRUserGroupType>>();
+		HealthcareSite hcs1 = healthcareSiteDao.getById(1001);
+		
 		List<C3PRUserGroupType> roleList = new ArrayList<C3PRUserGroupType>();
-		roleList.add(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER);
+		roleList.add(C3PRUserGroupType.STUDY_TEAM_ADMINISTRATOR);
 		roleList.add(C3PRUserGroupType.STUDY_CREATOR);
-		associationMap.put(healthcareSiteDao.getById(1001), roleList);
-		roleList = new ArrayList<C3PRUserGroupType>();
-		roleList.add(C3PRUserGroupType.SYSTEM_ADMINISTRATOR);
-		roleList.add(C3PRUserGroupType.REGISTRAR);
-		associationMap.put(healthcareSiteDao.getById(1000), roleList);
+		associationMap.put(hcs1, roleList);
 		try {
 			//getDao().createCSMUserAndAssignRoles(staff, "someName", associationMap, true);
 			getDao().createOrModifyResearchStaff(staff, true, "someName", associationMap , true);
-			ResearchStaff reloadedStaff = getDao().getById(1000);
+			ResearchStaff reloadedStaff = getDao().getById(1001);
 			User user = getDao().getCSMUser((C3PRUser)reloadedStaff);
-			assertEquals("wrong number of groups", user.getGroups().size(), 4);
-			Set pgrcSet = user.getProtectionGroupRoleContexts();
-			Iterator iter = pgrcSet.iterator();
-			while(iter.hasNext()){
-				ProtectionGroupRoleContext pgrc = (ProtectionGroupRoleContext)iter.next();
-				
-			}
+			UserDetails user1 = c3prUserDetailsService.loadUserByUsername(user.getLoginName());
+//			assertEquals("wrong number of groups", user.getGroups().size(), 4);
+			GrantedAuthority[] pgrcSet = user1.getAuthorities();
+//			for(GrantedAuthority ga: pgrcSet){
+//			ga.getAuthority()
+//			if(pgrc.getProtectionGroup().getProtectionGroupName().equals("HealthcareSite."+hcs1.getPrimaryIdentifier())){
+//					Iterator iter1 = pgrc.getRoles().iterator();
+//					Role role;
+//					while(iter.hasNext()){
+//						role = (Role)iter.next();
+//						if(!role.getName().equals(C3PRUserGroupType.STUDY_TEAM_ADMINISTRATOR.getCode()) &&
+//								!role.getName().equals(C3PRUserGroupType.STUDY_CREATOR.getCode())){
+//							fail("Wrong groups associated to the organization");
+//						}
+//					}
+//				}
+//			}
 		} catch (C3PRBaseException e) {
 			e.printStackTrace();
 		} catch (CSObjectNotFoundException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	public void testCreateResearchStaff(ResearchStaff researchStaff) throws C3PRBaseException {
@@ -251,6 +264,17 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 	public void testCreateResearchStaff(ResearchStaff researchStaff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap)  throws C3PRBaseException {
 	}
     //newly added
+
+
+	public C3prUserDetailsService getC3prUserDetailsService() {
+		return c3prUserDetailsService;
+	}
+
+
+	public void setC3prUserDetailsService(
+			C3prUserDetailsService c3prUserDetailsService) {
+		this.c3prUserDetailsService = c3prUserDetailsService;
+	}
 	
 	
     /**

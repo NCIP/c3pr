@@ -1,10 +1,94 @@
 <dataset>	
+	<CSM_PRIVILEGE  privilege_id="1000" privilege_name="system_administrator" privilege_description="system_administrator" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1001" privilege_name="study_creator" privilege_description="study_creator" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1002" privilege_name="supplemental_study_information_manager" privilege_description="supplemental_study_information_manager" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1003" privilege_name="study_site_participation_administrator" privilege_description="study_site_participation_administrator" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1004" privilege_name="study_team_administrator" privilege_description="study_team_administrator" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1005" privilege_name="registration_qa_manager" privilege_description="registration_qa_manager" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1006" privilege_name="registrar" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1007" privilege_name="business_administrator" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1008" privilege_name="person_and_organization_information_manager" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1009" privilege_name="data_importer" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1010" privilege_name="user_administrator" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1011" privilege_name="study_qa_manager" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1012" privilege_name="subject_manager" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1013" privilege_name="data_reader" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1014" privilege_name="data_analyst" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1015" privilege_name="ae_rule_and_report_manager" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1016" privilege_name="study_calendar_template_builder" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1017" privilege_name="study_subject_calendar_manager" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1018" privilege_name="ae_reporter" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1019" privilege_name="ae_expedited_report_reviewer" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1020" privilege_name="ae_study_data_reviewer" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1021" privilege_name="lab_impact_calendar_notifier" privilege_description="registrar" update_date="2001-01-01"/>
+	<CSM_PRIVILEGE  privilege_id="1022" privilege_name="lab_data_user" privilege_description="registrar" update_date="2001-01-01"/>
+
 	<CSM_USER user_id="1000" login_name="c3pr_admin_etc" first_name="c3pr_etc" last_name="admin_etc" />   
-	<CSM_GROUP group_id="1000" group_name="edu.duke.cabig.c3pr.domain.HealthcareSite.RM-TST-ID-1000" group_desc="" application_id="-1" /> 
-	<CSM_ROLE role_id="19" role_name="peraon_and_organization_information_manager" application_id="-1" active_flag="1" />
-	<CSM_PROTECTION_GROUP protection_group_id="1000" protection_group_name="dbunit" application_id="-1" large_element_count_flag="0"/>
-	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="19" protection_group_id="1000" />
+	
+   	<CSM_GROUP group_id="1000" group_name="system_administrator" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1001" group_name="study_creator" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1002" group_name="supplemental_study_information_manager" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1003" group_name="study_site_participation_administrator" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1004" group_name="study_team_administrator" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1005" group_name="registration_qa_manager" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1006" group_name="registrar" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1007" group_name="business_administrator" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1008" group_name="person_and_organization_information_manager" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1009" group_name="data_importer" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1010" group_name="user_administrator" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1011" group_name="study_qa_manager" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1012" group_name="subject_manager" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1013" group_name="data_reader" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1014" group_name="data_analyst" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1015" group_name="ae_rule_and_report_manager" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1016" group_name="study_calendar_template_builder" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1017" group_name="study_subject_calendar_manager" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1018" group_name="ae_reporter" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1019" group_name="ae_expedited_report_reviewer" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1020" group_name="ae_study_data_reviewer" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1021" group_name="lab_impact_calendar_notifier" group_desc="" application_id="-1" />
+   	<CSM_GROUP group_id="1022" group_name="lab_data_user" group_desc="" application_id="-1" />
+   	   	  
+  	<CSM_USER_GROUP user_group_id="1000" user_id="1000" group_id="1000" />
+  	
+	<CSM_ROLE role_id="1000" role_name="system_administrator" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1001" role_name="study_creator" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1002" role_name="supplemental_study_information_manager" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1003" role_name="study_site_participation_administrator" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1004" role_name="study_team_administrator" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1005" role_name="registration_qa_manager" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1006" role_name="registrar" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1007" role_name="business_administrator" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1008" role_name="person_and_organization_information_manager" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1009" role_name="data_importer" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1010" role_name="user_administrator" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1011" role_name="study_qa_manager" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1012" role_name="subject_manager" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1013" role_name="data_reader" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1014" role_name="data_analyst" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1015" role_name="ae_rule_and_report_manager" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1016" role_name="study_calendar_template_builder" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1017" role_name="study_subject_calendar_manager" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1018" role_name="ae_reporter" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1019" role_name="ae_expedited_report_reviewer" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1020" role_name="ae_study_data_reviewer" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1021" role_name="lab_impact_calendar_notifier" application_id="-1" active_flag="1" />
+	<CSM_ROLE role_id="1022" role_name="lab_data_user" application_id="-1" active_flag="1" />
+	
+  	<CSM_ROLE_PRIVILEGE role_privilege_id="1000" role_id="1000" privilege_id="1000" />
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1001" role_id="1001" privilege_id="1001"/>
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1002" role_id="1002" privilege_id="1002"/>
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1003" role_id="1003" privilege_id="1003"/>
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1004" role_id="1004" privilege_id="1004" />
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1005" role_id="1005" privilege_id="1005" />
+    <CSM_ROLE_PRIVILEGE role_privilege_id="1006" role_id="1006" privilege_id="1006" />
+    
+   	<CSM_PROTECTION_GROUP protection_group_id="1000" protection_group_name="HealthcareSite" application_id="-1" large_element_count_flag="0"/>
+	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1000" />
 	<CSM_PROTECTION_ELEMENT protection_element_id="1000" protection_element_name="dbunit" application_id="-1" object_id="temp" attribute="" />
+ 
+ 	<CSM_PG_PE   pg_pe_id="1000"  protection_group_id= "1000" protection_element_id="1000" />
+	 
 	 
 	<STUDIES therapeutic_intent_indicator="0" id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false"  dtype="Local"/>
     
