@@ -50,7 +50,7 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 		return mandatoryIndicator;
 	}
 
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany
 	@JoinColumn(name = "con_id",nullable=false)
 	@Cascade(value={CascadeType.ALL,CascadeType.DELETE_ORPHAN})
 	@Where(clause = "retired_indicator  = 'false'")
