@@ -524,7 +524,15 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 
 	<target name="c3pr:datasource:properties:config" description="Configure tomcat container for c3pr application">
 		<mkdir dir="${tomcat.home}/conf/${application.context.name}"/>
-		<copy file="${c3pr-webapp.dir.dist}/c3pr-templates/c3pr.datasource.properties" tofile="${tomcat.home}/conf/${application.context.name}/datasource.properties" overwrite="true" />
+		<switch value="${database.type}">
+			<case value="oracle">
+				<copy file="${c3pr-webapp.dir.dist}/c3pr-templates/oracle/oracle.datasource.properties" tofile="${tomcat.home}/conf/${application.context.name}/datasource.properties" overwrite="true" />
+			</case>
+			<case value="postgresql">
+				<copy file="${c3pr-webapp.dir.dist}/c3pr-templates/postgres/postgres.datasource.properties" tofile="${tomcat.home}/conf/${application.context.name}/datasource.properties" overwrite="true" />
+			</case>
+		</switch>
+		
 		<antcall target="c3pr:properties:config">
 			<param name="filename" value="datasource.properties"/>
 		</antcall>
@@ -532,8 +540,14 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	
 	<target name="c3pr:csm_jass:config" description="Configure tomcat container for c3pr application">
 		<mkdir dir="${tomcat.home}/conf/cabig"/>
-		<copy file="${c3pr-webapp.dir.dist}/c3pr-templates/c3pr.csm_jaas.config" tofile="${tomcat.home}/conf/${application.context.name}/${application.context.name}_csm_jaas.config" overwrite="true" />
-
+		<switch value="${database.csm.type}">
+			<case value="oracle">
+				<copy file="${c3pr-webapp.dir.dist}/c3pr-templates/oracle/oracle.csm_jaas.config" tofile="${tomcat.home}/conf/${application.context.name}/${application.context.name}_csm_jaas.config" overwrite="true" />
+			</case>
+			<case value="postgresql">
+				<copy file="${c3pr-webapp.dir.dist}/c3pr-templates/postgres/postgres.csm_jaas.config" tofile="${tomcat.home}/conf/${application.context.name}/${application.context.name}_csm_jaas.config" overwrite="true" />
+			</case>
+		</switch>
 		<antcall target="c3pr:properties:config">
 			<param name="filename" value="${application.context.name}_csm_jaas.config"/>
 		</antcall>
@@ -553,20 +567,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	</target>
 	
 	<target name="c3pr:properties:config" description="Configure tomcat container for c3pr application">
-		<switch value="${database.type}">
-			<case value="oracle">
-				<property name="database.driver" value="oracle.jdbc.OracleDriver"/>
-				<property name="database.dialect" value="org.hibernate.dialect.Oracle9Dialect"/>
-				<property name="csmDatabase.driver" value="oracle.jdbc.OracleDriver"/>
-				<property name="csmDatabase.dialect" value="org.hibernate.dialect.Oracle9Dialect"/>
-			</case>
-			<case value="postgresql">
-				<property name="database.driver" value="org.postgresql.Driver"/>
-				<property name="database.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-				<property name="database.csm.driver" value="org.postgresql.Driver"/>
-				<property name="database.csm.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
-			</case>
-		</switch>
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@csm.context.name@" value="${csm.context.name}" />
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_URL@" value="${database.url}" />
 		
@@ -582,8 +582,6 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@QUARTZ_DELEGATE_CLASSNAME@" value="${jdbc.quartz.delegateClassName}" />
     	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@AUDIT_DIALECT@" value="${audit.dialect}" />
 		
-		
-		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_URL@" value="${database.csm.url}" />
     	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_USER@" value="${database.csm.username}" />
     	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_PASSWORD@" value="${database.csm.password}" />
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_DIALECT@" value="${database.csm.dialect}" />
