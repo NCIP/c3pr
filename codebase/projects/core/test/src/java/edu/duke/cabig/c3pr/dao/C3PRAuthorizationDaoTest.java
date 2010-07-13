@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.dao;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
+import gov.nih.nci.cabig.ctms.suite.authorization.csmext.FasterAuthorizationDao;
 import gov.nih.nci.security.authorization.domainobjects.User;
 
 /**
@@ -14,13 +15,13 @@ import gov.nih.nci.security.authorization.domainobjects.User;
 public class C3PRAuthorizationDaoTest extends ContextDaoTestCase<HibernateDaoSupport> {
     
 	/** The c3pr authorization dao. */
-	C3PRAuthorizationDao c3prAuthorizationDao;
+	FasterAuthorizationDao c3prAuthorizationDao;
 	
 	/**
 	 * Instantiates a new c3 pr authorization dao test.
 	 */
 	public C3PRAuthorizationDaoTest(){
-		c3prAuthorizationDao = (C3PRAuthorizationDao) getApplicationContext().getBean("csmAuthorizationDao");
+		c3prAuthorizationDao = (FasterAuthorizationDao) getApplicationContext().getBean("csmAuthorizationDao");
 	}
     
     
