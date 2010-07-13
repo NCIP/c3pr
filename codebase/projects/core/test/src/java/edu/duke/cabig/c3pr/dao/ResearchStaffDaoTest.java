@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.acegisecurity.userdetails.UserDetails;
 
 
@@ -25,7 +28,10 @@ import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
+import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.acegi.authentication.CSMUserDetailsService;
+import gov.nih.nci.security.authorization.domainobjects.Group;
+import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
 import gov.nih.nci.security.authorization.domainobjects.Role;
 import gov.nih.nci.security.authorization.domainobjects.User;
@@ -41,13 +47,14 @@ import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 
     private HealthcareSiteDao healthcareSiteDao;
-    private C3prUserDetailsService c3prUserDetailsService;
+	private UserProvisioningManager userProvisioningManager;
     
     /**
      * Instantiates a new research staff dao test.
      */
     public ResearchStaffDaoTest() {
     	healthcareSiteDao = (HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
+    	userProvisioningManager = (UserProvisioningManager) getApplicationContext().getBean("csmUserProvisioningManager");
     }
     
     
@@ -218,34 +225,40 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 		roleList.add(C3PRUserGroupType.STUDY_CREATOR);
 		associationMap.put(hcs1, roleList);
 		try {
-			//getDao().createCSMUserAndAssignRoles(staff, "someName", associationMap, true);
-			getDao().createOrModifyResearchStaff(staff, true, "someName", associationMap , true);
+			getDao().createOrModifyResearchStaff(staff, true, "somename", associationMap , false);
 			ResearchStaff reloadedStaff = getDao().getById(1001);
 			User user = getDao().getCSMUser((C3PRUser)reloadedStaff);
-			UserDetails user1 = c3prUserDetailsService.loadUserByUsername(user.getLoginName());
-//			assertEquals("wrong number of groups", user.getGroups().size(), 4);
-			GrantedAuthority[] pgrcSet = user1.getAuthorities();
-//			for(GrantedAuthority ga: pgrcSet){
-//			ga.getAuthority()
-//			if(pgrc.getProtectionGroup().getProtectionGroupName().equals("HealthcareSite."+hcs1.getPrimaryIdentifier())){
-//					Iterator iter1 = pgrc.getRoles().iterator();
-//					Role role;
-//					while(iter.hasNext()){
-//						role = (Role)iter.next();
-//						if(!role.getName().equals(C3PRUserGroupType.STUDY_TEAM_ADMINISTRATOR.getCode()) &&
-//								!role.getName().equals(C3PRUserGroupType.STUDY_CREATOR.getCode())){
-//							fail("Wrong groups associated to the organization");
-//						}
-//					}
-//				}
-//			}
+
+			Set<Group> groups = userProvisioningManager.getGroups(user.getUserId().toString());
+			assertEquals("wrong number of groups", groups.size(), 2);
+			Set<ProtectionGroupRoleContext> pgrcList = userProvisioningManager.getProtectionGroupRoleContextForUser(user.getUserId().toString());
+    		
+	    	Iterator<Group> iter = groups.iterator();
+	    	Group group;
+	    	String groupName;
+	    	while(iter.hasNext()){
+	    		group = (Group)iter.next();
+	    		groupName = group.getGroupName();
+	    		Iterator<ProtectionGroupRoleContext> iter2 = pgrcList.iterator();
+	    		while(iter2.hasNext()){
+	    			if(iter2.next().getProtectionGroup().getProtectionGroupName().equals("HealthcareSite."+hcs1.getPrimaryIdentifier())){
+			    		if(!groupName.equals(C3PRUserGroupType.STUDY_TEAM_ADMINISTRATOR.getCode()) &&
+								!groupName.equals(C3PRUserGroupType.STUDY_CREATOR.getCode())){
+							fail("Wrong groups associated to the organization");
+						}
+		    		} else {
+		    			fail("Wrong protection group associated to the organization");
+		    		}	
+	    		}
+	    	}
 		} catch (C3PRBaseException e) {
 			e.printStackTrace();
 		} catch (CSObjectNotFoundException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 
+	
 	public void testCreateResearchStaff(ResearchStaff researchStaff) throws C3PRBaseException {
 	}
 
@@ -265,15 +278,14 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 	}
     //newly added
 
-
-	public C3prUserDetailsService getC3prUserDetailsService() {
-		return c3prUserDetailsService;
+	public UserProvisioningManager getUserProvisioningManager() {
+		return userProvisioningManager;
 	}
 
 
-	public void setC3prUserDetailsService(
-			C3prUserDetailsService c3prUserDetailsService) {
-		this.c3prUserDetailsService = c3prUserDetailsService;
+	public void setUserProvisioningManager(
+			UserProvisioningManager userProvisioningManager) {
+		this.userProvisioningManager = userProvisioningManager;
 	}
 	
 	
