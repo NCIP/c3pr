@@ -40,7 +40,7 @@ public class StudyInvestigatorsTab extends StudyTab {
     }
 
     @Override
-    public Map<String, Object> referenceData(StudyWrapper wrapper) {
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper wrapper) {
         Map<String, Object> refdata = super.referenceData(wrapper);
         addConfigMapToRefdata(refdata, "studyInvestigatorStatusRefData");
         return refdata;
