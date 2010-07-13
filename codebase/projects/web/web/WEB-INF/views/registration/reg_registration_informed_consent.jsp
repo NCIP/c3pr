@@ -99,7 +99,7 @@ function changeStudyVersion(){
 	
 <c:if test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) > 0}">
 <c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-<chrome:division title="${studySubjectConsentVersion.consent.name}">
+<chrome:division title="Consent: ${studySubjectConsentVersion.consent.name}">
 	<table width="100%" cellpadding="2" cellspacing="4">
 		<tr>
 			<td width="50%">
@@ -116,7 +116,7 @@ function changeStudyVersion(){
 					<tr>
 					  <td align="right">
 			          	<b><fmt:message key="registration.consentMethod"/></b>
-			          	<tags:hoverHint keyProp="study.consent.name" />
+			          	<tags:hoverHint keyProp="studySubject.informedConsentingMethod" />
 			          </td>
 			          <td align="left"><form:select id="consetingMethod" path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentingMethod">
 	                    	<form:option label="Please Select" value=""/>
@@ -131,7 +131,7 @@ function changeStudyVersion(){
 					<tr>
 					  <td align="right">
 			          	<b><fmt:message key="registration.consentDeliveredDate"/></b>
-			          	<tags:hoverHint keyProp="study.consent.name" />
+			          	<tags:hoverHint keyProp="studySubject.informedConsentFormDeliveredDate" />
 			          </td>
 			          <td align="left"><tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentDeliveryDate"
 			          	size="14" /></td>
@@ -139,7 +139,7 @@ function changeStudyVersion(){
 					<tr>
 					  <td align="right">
 			          	<b><fmt:message key="registration.consentPresenter"/></b>
-			          	<tags:hoverHint keyProp="study.consent.name" />
+			          	<tags:hoverHint keyProp="studySubject.informedConsentFormPresenter" />
 			          </td>
 			          <td align="left"><form:input path ="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentPresenter" size="14"></form:input></td>
 					</tr>
