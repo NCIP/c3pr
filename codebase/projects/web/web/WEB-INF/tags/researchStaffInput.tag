@@ -15,7 +15,7 @@
 	<c:set var="size" value="25"></c:set>
 </c:if>
 <c:if test="${empty id}">
-	<c:set var="id" value="path"></c:set>
+	<c:set var="id" value="${path}"></c:set>
 </c:if>
 <c:set var="showTextOnly" value="true" />
 
