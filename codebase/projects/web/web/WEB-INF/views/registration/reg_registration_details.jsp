@@ -364,7 +364,8 @@ function hideDiseaseIndicator(){
 		</c:otherwise>
 	</c:choose>
 	
-	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'false'}">
+	<c:if test="${command.studySubject.regWorkflowStatus == 'ENROLLED' || (command.studySubject.regWorkflowStatus == 'PENDING' && 
+		command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'false'}">
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="scheduledEpoch.startDate"/></div>
 			<div class="value">
@@ -373,7 +374,7 @@ function hideDiseaseIndicator(){
 		</div>
 	</c:if>
 	
-	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'true' && command.studySubject.regWorkflowStatus != 'ENROLLED' }">
+	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'true' && command.studySubject.regWorkflowStatus == 'PENDING' }">
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 			<div class="value">
