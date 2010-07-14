@@ -124,4 +124,12 @@ public class StudyDiseasesTab extends StudyTab {
 		map.put("command", wrapper); 
 		return new ModelAndView(AjaxableUtils.getAjaxViewName(request), map);
 	}
+    
+    @Override
+    public Map referenceDataForTab(HttpServletRequest request, StudyWrapper command) {
+        Map<String, Object> refdata = super.referenceData(command);
+        refdata.put("diseaseCategories", getDiseaseCategories());
+        return refdata;
+    }
+    
 }
