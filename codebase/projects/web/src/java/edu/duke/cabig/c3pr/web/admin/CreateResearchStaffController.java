@@ -202,11 +202,6 @@ public class CreateResearchStaffController extends SimpleFormController{
     	String actionParam = request.getParameter("_action");
 		String flowVar = request.getSession().getAttribute(FLOW).toString();
 		
-//		String copiedUsername = request.getParameter("copiedEmailAddress");
-//		if(StringUtils.isBlank(wrapper.getUserName()) && StringUtils.isNotBlank(copiedUsername)){
-//			wrapper.setUserName(copiedUsername);
-//		}
-		
 		String createUser = request.getParameter(CREATE_USER);
 		if(StringUtils.isNotBlank(createUser)  && StringUtils.equals(createUser, TRUE)){
 			String username = wrapper.getUserName();
