@@ -51,6 +51,8 @@ public class SecurityUtils {
     	for(RoleTypes role : allRoles){
 	    	if(!roles.contains(role)){
 	    		return false;
+	    	}else if(!hasAllSiteAccess(role)){
+	    		return false ;
 	    	}
 		}
     	return true;
@@ -270,6 +272,10 @@ public class SecurityUtils {
 		return true;
 	}
 	
+	public static boolean hasAllSiteAccess(RoleTypes roleType){
+		return hasAllSiteAccess(C3PRUserGroupType.valueOf(roleType.getName()));
+	}
+	
 	/**
 	 * Checks for all site access.
 	 * Get the provisioningSession from the user and the roles from the authentication object to
@@ -287,7 +293,6 @@ public class SecurityUtils {
 		}
 		return false;
 	}
-
 	
 	/**
 	 * Checks for all study access.
