@@ -127,7 +127,7 @@ public class StudyDiseasesTab extends StudyTab {
     
     @Override
     public Map referenceDataForTab(HttpServletRequest request, StudyWrapper command) {
-        Map<String, Object> refdata = super.referenceData(command	);
+        Map<String, Object> refdata = super.referenceData(command);
         refdata.put("diseaseCategories", getDiseaseCategories());
         return refdata;
     }
