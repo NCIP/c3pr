@@ -331,7 +331,7 @@ function handleRoleCheckbox(roleCheckbox){
         <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
         <div class="value">
         	<c:choose>
-        	<c:when test="${empty command.userName}">
+        	<c:when test="${empty command.userName || duplicateUser}">
 	        		<form:input id="loginId" size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
 	        		<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
 	        		<input id="copiedEmailAddress" type="hidden"/>

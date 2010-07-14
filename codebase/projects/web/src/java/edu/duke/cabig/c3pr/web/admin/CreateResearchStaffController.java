@@ -210,6 +210,7 @@ public class CreateResearchStaffController extends SimpleFormController{
 					edu.duke.cabig.c3pr.domain.User user = csmUserRepository.getUserByName(username);
 					if(user != null){
 						errors.reject("duplicate.username.error");
+						request.setAttribute("duplicateUser", "true");
 					}
 				}catch(C3PRNoSuchUserException e){
 				}
