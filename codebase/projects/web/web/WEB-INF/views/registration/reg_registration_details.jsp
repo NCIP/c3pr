@@ -374,7 +374,7 @@ function hideDiseaseIndicator(){
 		</div>
 	</c:if>
 	
-	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'true' && command.studySubject.regWorkflowStatus == 'PENDING' }">
+	<c:if test="${command.studySubject.scheduledEpoch.epoch.enrollmentIndicator == 'true' && command.studySubject.regWorkflowStatus != 'ENROLLED' }">
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 			<div class="value">
