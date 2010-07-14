@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -18,6 +16,7 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.dbunit.IDatabaseTester;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.springframework.context.ApplicationContext;
@@ -225,5 +224,10 @@ public abstract class DaoTestCase extends DbTestCase {
             ids.add(object.getId());
         }
         return ids;
+    }
+    
+    @Override
+    protected IDatabaseTester getDatabaseTester() throws Exception {
+    	return newDatabaseTester();
     }
 }
