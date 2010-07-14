@@ -180,6 +180,9 @@ changed before submit in javascripts. The parameters need proper default values,
 				                        <c:if test="${empty selectedStudyOrganization}">
 				                        	<c:set var="selectedStudyOrganization" value="${studyOrganization}"/>
 				                        	<c:set var="selected_site_index" value="${status.index}"/>
+				                        	<script>
+				                        		$('_selectedStudyOrganization').value = "${selectedStudyOrganization.id}";
+				                        	</script>
 				                        </c:if>
 				                        <c:choose>
 				                        <c:when test="${selectedStudyOrganization.healthcareSite.primaryIdentifier == studyOrganization.healthcareSite.primaryIdentifier }">
