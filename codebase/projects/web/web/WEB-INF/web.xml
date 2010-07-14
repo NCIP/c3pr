@@ -288,34 +288,6 @@
     </filter-mapping>
     
     <filter>
-        <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
-        <filter-class>edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter</filter-class>
-        <init-param>
-            <param-name>interceptorBeanName</param-name>
-            <param-value>auditOpenSessionInViewInterceptor</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/setup/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/pages/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/public/user/*</url-pattern>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/public/login</url-pattern>
-    </filter-mapping><filter-mapping>
-    <filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
-        <url-pattern>/dwr/call/*</url-pattern>
-    </filter-mapping>
-    
-    <filter>
         <filter-name>eXtremeExport</filter-name>
         <filter-class>org.extremecomponents.table.filter.ExportFilter</filter-class>
     </filter>
