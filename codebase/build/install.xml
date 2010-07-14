@@ -567,9 +567,32 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 	</target>
 	
 	<target name="c3pr:properties:config" description="Configure tomcat container for c3pr application">
+		<switch value="${database.type}">
+			<case value="oracle">
+				<property name="database.driver" value="oracle.jdbc.OracleDriver"/>
+				<property name="database.dialect" value="org.hibernate.dialect.Oracle9Dialect"/>
+			</case>
+			<case value="postgresql">
+				<property name="database.driver" value="org.postgresql.Driver"/>
+				<property name="database.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+			</case>
+		</switch>
+		<switch value="${database.csm.type}">
+			<case value="oracle">
+				<property name="database.csm.driver" value="oracle.jdbc.OracleDriver"/>
+				<property name="database.csm.dialect" value="org.hibernate.dialect.Oracle9Dialect"/>
+			</case>
+			<case value="postgresql">
+				<property name="database.csm.driver" value="org.postgresql.Driver"/>
+				<property name="database.csm.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+			</case>
+		</switch>
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@csm.context.name@" value="${csm.context.name}" />
-		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_URL@" value="${database.url}" />
 		
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_HOST@" value="${database.server}" />
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_PORT@" value="${database.port}" />
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_URL@" value="${database.url}" />
+
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_NAME@" value="${database.name}" />
     	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_USER@" value="${database.user}" />
     	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@DB_PASSWORD@" value="${database.password}" />
@@ -582,10 +605,15 @@ $HeadURL: http://gforge.nci.nih.gov/svnroot/automation/trunk/software/bda-build-
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@QUARTZ_DELEGATE_CLASSNAME@" value="${jdbc.quartz.delegateClassName}" />
     	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@AUDIT_DIALECT@" value="${audit.dialect}" />
 		
-    	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_USER@" value="${database.csm.username}" />
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_HOST@" value="${database.csm.host}" />
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_PORT@" value="${database.csm.port}" />
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_NAME@" value="${database.csm.name}" />
+			
+		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_USER@" value="${database.csm.username}" />
     	<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_PASSWORD@" value="${database.csm.password}" />
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_DIALECT@" value="${database.csm.dialect}" />
 		<replace file="${tomcat.home}/conf/${application.context.name}/${filename}" token="@CSM_DB_DRIVER@" value="${database.csm.driver}" />
+		
 	</target>
 
 	<target name="install:tomcat:c3pr-webapp:re-configure" description="Configure c3pr-webapp application, copies over externalized properties or configurations that are not part of the tomcat configuration" unless="exclude.tomcat" depends="common:init,common:tomcat:init">
