@@ -289,14 +289,17 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
     public List<InvestigatorGroup> matchActiveGroupsByOrganizationId(Integer hcsId,
                     HttpServletRequest request) throws Exception {
-        HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
-        List<InvestigatorGroup> invGroups = hcs.getInvestigatorGroups();
-        List<InvestigatorGroup> reducedInvGroups = new ArrayList<InvestigatorGroup>();
-        for (InvestigatorGroup iGrp : invGroups) {
-            if (iGrp.getEndDate() == null || iGrp.getEndDate().after(new Date())) {
-                reducedInvGroups.add(buildReduced(iGrp, Arrays.asList("id", "name")));
-            }
-        }
+    
+    	 List<InvestigatorGroup> reducedInvGroups = new ArrayList<InvestigatorGroup>();
+		if(hcsId != null){
+			HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
+			List<InvestigatorGroup> invGroups = hcs.getInvestigatorGroups();
+		        for (InvestigatorGroup iGrp : invGroups) {
+		            if (iGrp.getEndDate() == null || iGrp.getEndDate().after(new Date())) {
+		                reducedInvGroups.add(buildReduced(iGrp, Arrays.asList("id", "name")));
+		            }
+		        }
+		}
         return reducedInvGroups;
     }
 
@@ -323,10 +326,14 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
     public List<HealthcareSiteInvestigator> getActiveSiteInvestigators(Integer hcsId)
                     throws Exception {
-
+    	
+    	List<HealthcareSiteInvestigator> reducedHcsInvList = new ArrayList<HealthcareSiteInvestigator>();
+    	if(hcsId == null){
+    		return reducedHcsInvList;
+    	}
         HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
         List<HealthcareSiteInvestigator> hcsInvList = hcs.getHealthcareSiteInvestigators();
-        List<HealthcareSiteInvestigator> reducedHcsInvList = new ArrayList<HealthcareSiteInvestigator>();
+       
         for (HealthcareSiteInvestigator inv : hcsInvList) {
             if (inv.getStatusCode() != null && inv.getStatusCode().equals(InvestigatorStatusCodeEnum.AC)) {
                 reducedHcsInvList.add(buildReduced(inv, Arrays.asList("id",
