@@ -55,7 +55,8 @@ function toggleImage(id){
 						    <c:set var="singleQuoteAlias" value="\\&#39" />
 						    <c:set var="siteName" value="${fn:replace(study.accruingStudySites[0].healthcareSite.name, singleQuote, singleQuoteAlias)}" />
 						     <c:set var="studyShortTitle" value="${fn:replace(study.shortTitleText, singleQuote, singleQuoteAlias)}" />
-								postProcessStudySelection(${study.accruingStudySites[0].siteStudyStatus.code=='Active'},'${study.accruingStudySites[0].latestAccruingStudySiteStudyVersion.id}','${study.accruingStudySites[0].id}', '${siteName}','${studyShortTitle}','${study.identifiers[0].value}');
+						     <c:set var="studyIdentifier" value="${fn:replace(study.identifiers[0].value, singleQuote, singleQuoteAlias)}" />
+								postProcessStudySelection(${study.accruingStudySites[0].siteStudyStatus.code=='Active'},'${study.accruingStudySites[0].latestAccruingStudySiteStudyVersion.id}','${study.accruingStudySites[0].id}', '${siteName}','${studyShortTitle}','${studyIdentifier}');
 						</c:when>
 						<c:otherwise>
 						    alert('Study has no active study sites.');
@@ -94,7 +95,8 @@ function toggleImage(id){
                                 <c:set var="singleQuoteAlias" value="\\&#39" />
                                 <c:set var="siteName" value="${fn:replace(site.healthcareSite.name, singleQuote, singleQuoteAlias)}" />
                                 <c:set var="studyShortTitle" value="${fn:replace(study.shortTitleText, singleQuote, singleQuoteAlias)}" />
-								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.latestStudySiteStudyVersion.id}','${site.id}','${siteName}','${studyShortTitle}','${study.identifiers[0].value}')"/>
+                                <c:set var="studyIdentifier" value="${fn:replace(study.identifiers[0].value, singleQuote, singleQuoteAlias)}" />
+								<c:set var="javLink" value="postProcessStudySelection(${site.siteStudyStatus.code=='Active'},'${site.latestStudySiteStudyVersion.id}','${site.id}','${siteName}','${studyShortTitle}','${studyIdentifier}')"/>
 										<%
 											Calendar yearOld=Calendar.getInstance();
 											yearOld.add(Calendar.YEAR, -1);
