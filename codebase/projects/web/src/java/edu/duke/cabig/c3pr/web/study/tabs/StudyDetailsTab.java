@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,12 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
 
@@ -52,7 +55,9 @@ public class StudyDetailsTab extends StudyTab {
         addConfigMapToRefdata(refdata, "phaseCodeRefData");
         addConfigMapToRefdata(refdata, "typeRefData");
         addConfigMapToRefdata(refdata, "yesNo");
-        refdata.put("mandatory", "true");
+        if(wrapper.getStudy().getId() == null || SecurityUtils.hasAnyPrivilege(Arrays.asList(new UserPrivilegeType[]{UserPrivilegeType.STUDY_DEFINITION_DETAILS_UPDATE}))){
+        	refdata.put("mandatory", "true");
+        }
         return refdata;
     }
 
