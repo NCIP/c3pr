@@ -194,17 +194,22 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 									<c:set var="_name" value="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.name}" />
 									</c:if>
 			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
-			                        <div class="value">
-									<input type="hidden" id="mrnOrganization-hidden"
-										name="participant.organizationAssignedIdentifiers[0].healthcareSite"
-										value="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-									<input id="mrnOrganization-input" size="32" type="text"
-									name="xyz"
-									value='<c:out value="${_name} ${_code}" />'
-									class="autocomplete validate-notEmpty" />
-									<tags:hoverHint keyProp="subject.MRN.organization"/>
-									<tags:indicator id="mrnOrganization-indicator" />
-									<div id="mrnOrganization-choices" class="autocomplete" style="display:none;"></div>
+		                         	<div class="value">
+			                        <c:choose>
+										<c:when test="${c3pr:hasAllSiteAccess('UI_SUBJECT_UPDATE')}">
+											<input type="hidden" id="mrnOrganization-hidden" name="participant.organizationAssignedIdentifiers[0].healthcareSite"
+											value="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+											<input id="mrnOrganization-input" size="32" type="text" name="xyz" value='<c:out value="${_name} ${_code}" />' class="autocomplete validate-notEmpty" />
+											<tags:hoverHint keyProp="subject.MRN.organization"/>
+											<tags:indicator id="mrnOrganization-indicator" />
+											<div id="mrnOrganization-choices" class="autocomplete" style="display:none;"></div>
+										</c:when>
+										<c:otherwise>
+											<form:select path="participant.organizationAssignedIdentifiers[0].healthcareSite" cssClass="required validate-notEmpty" cssStyle="width: 350px;">
+												<tags:userOrgOptions preSelectedSiteId="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}"/>
+											</form:select>
+										</c:otherwise>
+									</c:choose>
 								    </div>
 	                    </div>
 						<div class="row">
