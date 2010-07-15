@@ -752,21 +752,28 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     * @param staffList the staff list
     * @return the staff scoped by study
     */
-	public List<ResearchStaff> getStaffScopedByStudy(List<ResearchStaff> staffList, HealthcareSite healthcareSite,
-			String studyId) {
+	public List<ResearchStaff> getStaffScopedByStudy(List<ResearchStaff> staffList, HealthcareSite healthcareSite) {
 		List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
 		List<C3PRUserGroupType> groups;
-		try {
-			for (ResearchStaff researchStaff : staffList) {
-				groups = getRegistrarGroupsForOrganization(
-						getCSMUser(researchStaff), healthcareSite);
-				if (groups.size() > 0) {
-					reducedHcsRsList.add(researchStaff);
-				}
+		User user = null;
+		
+		for (ResearchStaff researchStaff : staffList) {
+			try {
+				user = getCSMUser(researchStaff);
+			} catch (CSObjectNotFoundException e) {
+				logger.error("Failed to load user for :"+ researchStaff.getFirstName());
+				logger.error(e.getMessage());
 			}
-		} catch (CSObjectNotFoundException e) {
-			logger.error(e.getMessage());
+			if(user == null){
+				log.warn("No csm user exists for staff with first Name: "+researchStaff.getFirstName());
+				continue;
+			}
+			groups = getRegistrarGroupsForOrganization(user, healthcareSite);
+			if (groups.size() > 0) {
+				reducedHcsRsList.add(researchStaff);
+			}
 		}
+		
 		return reducedHcsRsList;
 	}
 
