@@ -133,7 +133,7 @@ changed before submit in javascripts. The parameters need proper default values,
 <input type="hidden" id="_actionx" name="_actionx" value="save">
 <input type="hidden" id="_selectedPersonnelAssignedId" name="_selectedPersonnelAssignedId" value="">
 <input type="hidden" id="_selectedStudyOrganization" name="_selectedStudyOrganization" value="${!empty selectedStudyOrganization?selectedStudyOrganization.id:''}">
-<input type="hidden" id="_studyId" name="_studyId" value="${command.study.primaryIdentifier}">
+<input type="hidden" id="_studyId" name="_studyId" value="${command.study.id}">
 
 
 
