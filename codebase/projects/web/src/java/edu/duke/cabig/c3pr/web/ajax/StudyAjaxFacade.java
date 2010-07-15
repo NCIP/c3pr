@@ -46,6 +46,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController;
@@ -337,20 +338,30 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         for (HealthcareSiteInvestigator inv : hcsInvList) {
             if (inv.getStatusCode() != null && inv.getStatusCode().equals(InvestigatorStatusCodeEnum.AC)) {
                 reducedHcsInvList.add(buildReduced(inv, Arrays.asList("id",
-                                "investigator.firstName", "investigator.lastName", "investigator.assignedIdentifier")));
+                      "investigator.firstName", "investigator.lastName", "investigator.assignedIdentifier")));
             }
         }
         return reducedHcsInvList;
     }
     
     
+    /**
+     * Gets the site personnel. USed by study_personnel jsp.
+     * Note: we only the study scoped staff who are not already asigned to the study.
+     *
+     * @param hcsId the hcs id
+     * @param studyId the study id
+     * @return the site personnel
+     * @throws Exception the exception
+     */
     public List<ResearchStaff> getSitePersonnel(Integer hcsId, String studyId) throws Exception {
 		HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
 
-		//replaced the following method with a dao call and a resolver call....for coppa data
-		List<ResearchStaff> hcsRSList = researchStaffDao.getResearchStaffByOrganizationNCIInstituteCode(hcs);
-		List<ResearchStaff> studyScopedRSList = researchStaffDao.getStaffScopedByStudy(hcsRSList, hcs, studyId);
-		
+		//get all staff belonging o the org in question
+		List<ResearchStaff> hcsRSList = researchStaffDao.getResearchStaffByOrganizationCtepCodeFromLocal(hcs);
+		//get the sub list of staff (from the above list) who are scoped by study
+		List<ResearchStaff> studyScopedRSList = researchStaffDao.getStaffScopedByStudy(hcsRSList, hcs);
+		removePreAssignedStaff(studyScopedRSList, studyId);
 		List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
 		for (ResearchStaff rs : studyScopedRSList) {
 		reducedHcsRsList.add(buildReduced(rs, Arrays.asList("id",
@@ -359,7 +370,32 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		return reducedHcsRsList;
 	}
 
-    public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {
+    /**
+     * Removes the pre assigned staff. 
+     * Looks at the study personnel and removes them from the list to be returned.
+     *
+     * @param studyScopedRSList the study scoped rs list
+     * @param studyId the study id
+     */
+    private void removePreAssignedStaff(List<ResearchStaff> studyScopedRSList,
+			String studyId) {
+    	Study study = studyDao.getById(Integer.valueOf(studyId));
+    	List<ResearchStaff> preAssignedStaffList = new ArrayList<ResearchStaff>();
+
+    	for(StudySite studySite: study.getStudySites()){
+    		for(StudyPersonnel studyPersonnel: studySite.getStudyPersonnel()){
+    			preAssignedStaffList.add(studyPersonnel.getResearchStaff());
+    		}
+    	}
+    	
+    	for(ResearchStaff rStaff: preAssignedStaffList){
+    		if(studyScopedRSList.contains(rStaff)){
+    			studyScopedRSList.remove(rStaff);
+    		}
+    	}
+	}
+
+	public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {
 
         List<HealthcareSite> healthcareSites = healthcareSiteDao.getBySubnames(extractSubnames(text));
         List<HealthcareSite> reducedHealthcareSites = new ArrayList<HealthcareSite>(healthcareSites
