@@ -150,7 +150,7 @@ function manageIdentifierRadio(element){
 		</select></td>
 		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
-			onfocus="javascript:clearField(this)" type="text"
+			 type="text"
 			class="required validate-notEmpty" /></td>
 		<td>
 			<input type="hidden" name="studySubject.systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-hidden"/>
@@ -187,7 +187,7 @@ function manageIdentifierRadio(element){
 		</select></td>
 		<td><input id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="studySubject.organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
-			onfocus="javascript:clearField(this)" type="text"
+			 type="text"
 			class="required validate-notEmpty" /></td>
 		<td>
 			<input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
