@@ -191,7 +191,11 @@
         <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
         <url-pattern>/j_acegi_security_check</url-pattern>
     </filter-mapping>
-    
+    <filter-mapping>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <url-pattern>/j_acegi_cas_security_check</url-pattern>
+    </filter-mapping> 
+       
     <filter>
         <filter-name>AnonymousAuditInfoFilter</filter-name>
         <filter-class>edu.duke.cabig.c3pr.utils.web.AnonymousAuditInfoFilter</filter-class>
