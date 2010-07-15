@@ -449,7 +449,7 @@ function updateTargetAccrual(){
 <div id="openWithDateMessage" style="display:none; padding: 15px;">
 		<div style="font-size: 10pt; padding-top: 20px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
 	        <b><tags:requiredIndicator />Effective date</b>
-	        <input type="text" id="studyOpenDate" class="date validate-DATE&&notEmpty"  value="${command.study.studyVersion.versionDateStr }"/>
+	        <input type="text" id="studyOpenDate" class="validate-DATE&&notEmpty"  value="${command.study.studyVersion.versionDateStr }"/>
             <a href="#" id="studyOpenDate-callButton">
            	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            	</a>
