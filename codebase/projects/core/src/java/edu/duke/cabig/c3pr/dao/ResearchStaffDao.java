@@ -745,40 +745,69 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     }
     
     
-	/**
-	 * Gets the staff scoped by study. 
-	 * Used mainly to display study scoped personnel(e.g reg and data readers) on study_personnel page.
-	 *
-	 * @param staffList the staff list
-	 * @return the staff scoped by study
-	 */
-	public List<ResearchStaff> getStaffScopedByStudy(List<ResearchStaff> staffList, HealthcareSite healthcareSite, String studyId){
+    /**
+    * Gets the staff scoped by study. 
+    * Used mainly to display study scoped personnel(e.g reg and data readers) on study_personnel page.
+    *
+    * @param staffList the staff list
+    * @return the staff scoped by study
+    */
+	public List<ResearchStaff> getStaffScopedByStudy(List<ResearchStaff> staffList, HealthcareSite healthcareSite,
+			String studyId) {
 		List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
 		List<C3PRUserGroupType> groups;
-        SuiteRole suiteRole;
-        SuiteRoleMembership suiteRoleMembership;
-    	ProvisioningSession provisioningSession;
-
 		try {
-			for(ResearchStaff researchStaff: staffList){
-				groups = getUserGroupsForOrganization(getCSMUser(researchStaff), healthcareSite);
-				provisioningSession = provisioningSessionFactory.createSession(Long.valueOf(researchStaff.getLoginId()));
-				for(C3PRUserGroupType group: groups){
-					suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(group);
-					//add staff who have study scoped roles and do not have all-study access and isnt already added to the study
-					if(suiteRole.isStudyScoped()){
-		            	suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
-		            	if(!suiteRoleMembership.isAllStudies() && !suiteRoleMembership.getStudyIdentifiers().contains(studyId)){
-							reducedHcsRsList.add(researchStaff);
-							break;		            		
-		            	}
-					}
+			for (ResearchStaff researchStaff : staffList) {
+				groups = getRegistrarGroupsForOrganization(
+						getCSMUser(researchStaff), healthcareSite);
+				if (groups.size() > 0) {
+					reducedHcsRsList.add(researchStaff);
 				}
 			}
 		} catch (CSObjectNotFoundException e) {
 			logger.error(e.getMessage());
 		}
 		return reducedHcsRsList;
+	}
+
+
+	/**
+	 * Gets the registrar groups for organization.
+	 *
+	 * @param csmUser the csm user
+	 * @param healthcareSite the healthcare site
+	 * @return the registrar groups for organization
+	 */
+	public List<C3PRUserGroupType> getRegistrarGroupsForOrganization(
+			User csmUser, HealthcareSite healthcareSite) {
+
+		ProvisioningSession provisioningSession;
+		List<C3PRUserGroupType> groupList = new ArrayList<C3PRUserGroupType>();
+		SuiteRoleMembership suiteRoleMembership;
+		SuiteRole suiteRole;
+		Set<Group> groups;
+		try {
+			groups = userProvisioningManager.getGroups(csmUser.getUserId().toString());
+			Iterator<Group> iter = groups.iterator();
+			String groupName;
+			while (iter.hasNext()) {
+				groupName = ((Group) iter.next()).getGroupName();
+				if (C3PRUserGroupType.REGISTRAR.getCode().equals(groupName)) {
+					// include roles that are scoped by site and have access to
+					// the site in question
+					provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
+					suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
+					suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+					if (suiteRoleMembership.isAllSites() || 
+							suiteRoleMembership.getSiteIdentifiers().contains(healthcareSite.getPrimaryIdentifier())) {
+						groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
+					}
+				}
+			}
+		} catch (CSObjectNotFoundException e) {
+			log.error(e.getMessage());
+		}
+		return groupList;
 	}
 
 	/**
