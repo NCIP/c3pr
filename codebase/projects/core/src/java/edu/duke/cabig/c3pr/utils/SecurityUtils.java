@@ -48,7 +48,11 @@ public class SecurityUtils {
 	public static boolean isSuperUser(Authentication authentication){
     	List<RoleTypes> allRoles = Arrays.asList(RoleTypes.values());
     	List<RoleTypes> roles = SecurityUtils.getRoleTypes(authentication);
+    	List<RoleTypes> nonC3PRRoles = SecurityUtils.getNonC3PRRoles();
     	for(RoleTypes role : allRoles){
+    		if(nonC3PRRoles.contains(role)){
+    			continue;
+    		}
 	    	if(!roles.contains(role)){
 	    		return false;
 	    	}else if(!hasAllSiteAccess(role)){
@@ -407,6 +411,21 @@ public class SecurityUtils {
 	 */
 	public static ResearchStaff getLoggedInResearchStaff(){
 		return ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getResearchStaff();
+	}
+	
+	public static List<RoleTypes> getNonC3PRRoles(){
+		List<RoleTypes> nonC3PRRoles = new ArrayList<RoleTypes>();
+
+		nonC3PRRoles.add(RoleTypes.AE_EXPEDITED_REPORT_REVIEWER);
+		nonC3PRRoles.add(RoleTypes.AE_REPORTER);
+		nonC3PRRoles.add(RoleTypes.AE_RULE_AND_REPORT_MANAGER);
+		nonC3PRRoles.add(RoleTypes.AE_STUDY_DATA_REVIEWER);
+		nonC3PRRoles.add(RoleTypes.LAB_DATA_USER);
+		nonC3PRRoles.add(RoleTypes.LAB_IMPACT_CALENDAR_NOTIFIER);
+		nonC3PRRoles.add(RoleTypes.STUDY_CALENDAR_TEMPLATE_BUILDER);
+		nonC3PRRoles.add(RoleTypes.STUDY_SUBJECT_CALENDAR_MANAGER);
+		
+		return nonC3PRRoles;
 	}
 
 }
