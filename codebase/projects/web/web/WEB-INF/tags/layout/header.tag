@@ -73,7 +73,7 @@
           					<a href="${_c3prHelpURL}${roboHelpLink}" target="_blank" id="help">Help</a>  
 		  
 		  &nbsp;|</a>&nbsp;&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a></csmauthz:accesscontrol>
-                            <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="logoutAuthorizationCheck"><a href="<c:url value="/public/login"/>">Log in</a></csmauthz:accesscontrol>
+                            <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="logoutAuthorizationCheck"><a href="<c:url value="/pages/dashboard"/>">Log in</a></csmauthz:accesscontrol>
                             <br />
                             <div><a href="<c:url value='/pages/dashboard' />">Dashboard</a>
                             &nbsp;</div>
