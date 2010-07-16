@@ -46,6 +46,7 @@ import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
@@ -754,9 +755,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     */
 	public List<ResearchStaff> getStaffScopedByStudy(List<ResearchStaff> staffList, HealthcareSite healthcareSite) {
 		List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
-		List<C3PRUserGroupType> groups;
 		User user = null;
-		
 		for (ResearchStaff researchStaff : staffList) {
 			try {
 				user = getCSMUser(researchStaff);
@@ -768,53 +767,33 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				log.warn("No csm user exists for staff with first Name: "+researchStaff.getFirstName());
 				continue;
 			}
-			groups = getRegistrarGroupsForOrganization(user, healthcareSite);
-			if (groups.size() > 0) {
+			if (checkUserAccessForSite(user, healthcareSite, C3PRUserGroupType.REGISTRAR.getCode())) {
 				reducedHcsRsList.add(researchStaff);
 			}
 		}
-		
 		return reducedHcsRsList;
 	}
 
 
+
 	/**
-	 * Gets the registrar groups for organization.
+	 * Check user access for site for the role that is passed in.
 	 *
 	 * @param csmUser the csm user
 	 * @param healthcareSite the healthcare site
-	 * @return the registrar groups for organization
+	 * @param role the role
+	 * @return true, if successful
 	 */
-	public List<C3PRUserGroupType> getRegistrarGroupsForOrganization(
-			User csmUser, HealthcareSite healthcareSite) {
-
-		ProvisioningSession provisioningSession;
-		List<C3PRUserGroupType> groupList = new ArrayList<C3PRUserGroupType>();
-		SuiteRoleMembership suiteRoleMembership;
-		SuiteRole suiteRole;
-		Set<Group> groups;
+	public boolean checkUserAccessForSite(User csmUser, HealthcareSite healthcareSite, String role) {
 		try {
-			groups = userProvisioningManager.getGroups(csmUser.getUserId().toString());
-			Iterator<Group> iter = groups.iterator();
-			String groupName;
-			while (iter.hasNext()) {
-				groupName = ((Group) iter.next()).getGroupName();
-				if (C3PRUserGroupType.REGISTRAR.getCode().equals(groupName)) {
-					// include roles that are scoped by site and have access to
-					// the site in question
-					provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
-					suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
-					suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
-					if (suiteRoleMembership.isAllSites() || 
-							suiteRoleMembership.getSiteIdentifiers().contains(healthcareSite.getPrimaryIdentifier())) {
-						groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
-					}
-				}
-			}
+			return userProvisioningManager.checkPermission(csmUser.getLoginName(), 
+							"HealthcareSite."+healthcareSite.getPrimaryIdentifier(), role);
 		} catch (CSObjectNotFoundException e) {
 			log.error(e.getMessage());
+		} catch (CSException e) {
+			log.error(e.getMessage());
 		}
-		return groupList;
+		return false;
 	}
 
 	/**
