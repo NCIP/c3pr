@@ -94,6 +94,10 @@ public class StudySecurityFilter implements DomainObjectSecurityFilterer{
 	}
 	
 	private boolean hasStudyLevelAccessPermission(List<String> userAccessibleStudyIdsList, Study study){
+		//some Coppa studies do not have CoordinatingCenterAssignedIdentifiers, so grant everyone access to such studies.
+		if(study.getCoordinatingCenterAssignedIdentifier() == null){
+			return true;
+		}
 		return userAccessibleStudyIdsList.contains(study.getCoordinatingCenterAssignedIdentifier().getValue());
 	}
 
