@@ -102,8 +102,8 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 		researchStaff.setFirstName(csmUser.getFirstName());
 		researchStaff.setLastName(csmUser.getLastName());
 		researchStaff.setLoginId(csmUser.getUserId().toString());
-		researchStaff.setEmail(csmUser.getEmailId());
-		researchStaff.setPhone(csmUser.getPhoneNumber());
+//		researchStaff.setEmail(csmUser.getEmailId());
+//		researchStaff.setPhone(csmUser.getPhoneNumber());
 		researchStaff.setAssignedIdentifier(UUID.randomUUID().toString());
 		return researchStaff;
 	}
