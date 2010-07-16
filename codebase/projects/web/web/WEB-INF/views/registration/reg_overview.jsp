@@ -675,7 +675,7 @@
 											<td style="border:0px;"><b>Waiver id:</b> ${!empty eligibilityAnswer.waiverId?eligibilityAnswer.waiverId:'Not yet specified' }</td>
 										</tr>
 										<tr>
-											<td style="border:0px;"><b>Waiver allowed by:</b> ${eligibilityAnswer.waivedBy.researchStaff.fullName}</td>
+											<td style="border:0px;"><b>Waiver allowed by:</b> ${eligibilityAnswer.waivedBy.fullName}</td>
 										</tr>
 										<tr>
 											<td style="border:0px;"><b>Waiver reason:</b>${!empty eligibilityAnswer.waiverReason?eligibilityAnswer.waiverReason:'Not yet specified' }</td>

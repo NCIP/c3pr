@@ -92,7 +92,7 @@ function navRollOver(obj, state) {
 																	</td>
 																</tr>
 																<tr>
-																	<td style="border:0px;"><b>Waiver allowed by</b> ${eligibilityAnswer.waivedBy.researchStaff.fullName}</td>
+																	<td style="border:0px;"><b>Waiver allowed by</b> ${eligibilityAnswer.waivedBy.fullName}</td>
 																</tr>
 															</table>
 														</td>
