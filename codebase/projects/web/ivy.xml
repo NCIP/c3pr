@@ -53,7 +53,7 @@
         	<dependency org="cobertura" name="cobertura" rev="1.9rc1" />
 			<dependency org="checkstyle" name="checkstyle" rev="4.4" />
         	<dependency org="commons-collections" name="commons-collections" rev="3.2" />
-        	<dependency org="commons-lang" name="commons-lang" rev="2.3" />
+        	<dependency org="commons-lang" name="commons-lang" rev="2.4" />
         	<dependency org="commons-logging" name="commons-logging" rev="1.1" />
         	<dependency org="commons-fileupload" name="commons-fileupload" rev="1.2" />
 			<dependency org="commons-validator" name="commons-validator" rev="1.1.4" />
