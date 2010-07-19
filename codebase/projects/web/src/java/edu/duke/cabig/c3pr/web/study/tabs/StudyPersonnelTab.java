@@ -121,8 +121,6 @@ public class StudyPersonnelTab extends StudyTab {
                         sPersonnel.setStatusCode("Active");
                         sPersonnel.setStudyOrganization(selectedStudyOrganization);
                         selectedStudyOrganization.getStudyPersonnel().add(sPersonnel);
-                        
-                        studyPersonnelDao.saveOrUpdateStudyPersonnel(sPersonnel, false);
                     } else {
                         log.error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
                     }
@@ -132,7 +130,6 @@ public class StudyPersonnelTab extends StudyTab {
     		for(StudyPersonnel studyPersonnel : selectedStudyOrganization.getStudyPersonnel()){
     			if(studyPersonnel.getResearchStaff().getAssignedIdentifier().equals(request.getParameter("_selectedPersonnelAssignedId"))){
     				selectedStudyOrganization.getStudyPersonnel().remove(studyPersonnel);
-    				studyPersonnelDao.saveOrUpdateStudyPersonnel(studyPersonnel, true);
     				break;
     			}
     		}
