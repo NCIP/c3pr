@@ -207,9 +207,11 @@
 							 	<c:set var="encodedIdValue" value='<%=java.net.URLEncoder.encode((java.lang.String)request.getAttribute("idValue"))%>' />
 							 	<table>
 							 		<tr>
-									 	<td>
-									 		<tags:button id="updateSubject" type="button" size="small" color="blue" value="Edit" onclick="javascript:confirmationPopup('assignedBy=organization&organizationNciId=${sourceValue }&identifierType=${identifierType}&identifier=${encodedIdValue}')" />
-									 	</td>
+							 			<c3pr:checkprivilege hasPrivileges="UI_SUBJECT_UPDATE">
+										 	<td>
+										 		<tags:button id="updateSubject" type="button" size="small" color="blue" value="Edit" onclick="javascript:confirmationPopup('assignedBy=organization&organizationNciId=${sourceValue }&identifierType=${identifierType}&identifier=${encodedIdValue}')" />
+										 	</td>
+										 </c3pr:checkprivilege>
 									 	<td>
 									 		<tags:button type="button" size="small" color="blue" icon="Select" value="Select" 
 										onclick="postProcessSubjectSelection('${participant.id}','${participant.lastName} ${participant.firstName}','${participant.identifiers[0].type.code}'+' - '+ '${participant.identifiers[0].value}')"/>
