@@ -357,13 +357,10 @@ public class SecurityUtils {
 		if(authentication != null){
 			ProvisioningSession provisioningSession = ((AuthorizedUser)authentication.getPrincipal()).getProvisioningSession();
 			SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(C3PRUserGroupType.getUnifiedSuiteRole(userRole));
-			if(suiteRoleMembership.isAllSites()){
-				log.error("User has access to all sites. No point in building list");
-			} else {
-				//add NC010 from "HealthcareSite.NC010" to the userAccessibleOrganizationIdsList
-				for(String studyId:suiteRoleMembership.getStudyIdentifiers()){
-					userAccessibleStudyIdsList.add(studyId.substring(studyId.lastIndexOf(".") + 1));
-				}
+			
+			//add NC010 from "HealthcareSite.NC010" to the userAccessibleOrganizationIdsList
+			for(String studyId:suiteRoleMembership.getStudyIdentifiers()){
+				userAccessibleStudyIdsList.add(studyId.substring(studyId.lastIndexOf(".") + 1));
 			}
 		}
 		return userAccessibleStudyIdsList;
