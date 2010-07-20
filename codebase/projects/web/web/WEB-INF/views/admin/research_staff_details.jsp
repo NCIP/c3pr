@@ -41,8 +41,9 @@
 		float:left;
 		font-weight:bold;
 		margin-left:0.5em;
+		margin-right:0.5em;
 		text-align:right;
-		width:7em;
+		width:8em;
 	}
 	div.row div.orgValue {
 		font-weight:normal;
@@ -500,7 +501,7 @@ function handleRoleCheckbox(roleCheckbox){
 	<hr />
 	<div align="right">
 		<c:if test="${!isLoggedInUser}">
-			<tags:button id="associateOrganizationBtn" size="small" type="button" color="blue" icon="add" value="Associate organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
+			<tags:button id="associateOrganizationBtn" size="small" type="button" color="blue" icon="add" value="Add organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
 		</c:if>
 	</div>
 </c3pr:checkprivilege>
@@ -572,7 +573,7 @@ function handleRoleCheckbox(roleCheckbox){
 <table width="100%">
 	<tr id="healthcareSite-PAGE.ROW.INDEX">
 	    <td>
-		<chrome:deletableDivision divTitle="genericTitle-PAGE.ROW.INDEX" id="genericHealthcareSiteBox-PAGE.ROW.INDEX" cssClass="small"
+		<chrome:deletableDivision divTitle="genericTitle-PAGE.ROW.INDEX" id="genericHealthcareSiteBox-PAGE.ROW.INDEX" cssClass="indented"
 	    	title="Organization" onclick="RowManager.deleteRow(healthcareSiteRowInserterProps,PAGE.ROW.INDEX,-1)" >
  				<tags:errors path="healthcareSiteRolesHolderList[PAGE.ROW.INDEX]" />
  				<c3pr:checkprivilege hasPrivileges="RESEARCHSTAFF_CREATE">
