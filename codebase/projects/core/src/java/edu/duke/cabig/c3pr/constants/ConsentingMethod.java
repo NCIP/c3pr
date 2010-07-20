@@ -22,6 +22,10 @@ public enum ConsentingMethod implements CodedEnum<String>{
 	public static ConsentingMethod getByCode(String code) {
 		return getByClassAndCode(ConsentingMethod.class, code);
 	}
+	
+	public String getName() {
+	        return name();
+	    }
 
 	public String getDisplayName() {
 		return sentenceCasedName(this);
