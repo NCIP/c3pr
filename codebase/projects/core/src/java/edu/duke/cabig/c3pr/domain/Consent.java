@@ -1,9 +1,11 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -20,6 +22,8 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.NotNull;
 
+import edu.duke.cabig.c3pr.constants.ConsentingMethod;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
@@ -32,9 +36,46 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	
 	private Boolean mandatoryIndicator = false;
 	
+	private List<ConsentingMethod> consentingMethods = new ArrayList<ConsentingMethod>();
+	
+	@Transient
+	public List<ConsentingMethod> getConsentingMethods() {
+		return consentingMethods;
+	}
+	
+	@Column(name="consenting_methods")
+	public String getConsentingMethodsString() {
+		String consentingMethodsString = "";
+		for(ConsentingMethod consentingMethod : consentingMethods){
+			if(consentingMethodsString != ""){
+				consentingMethodsString = consentingMethodsString + " : " + consentingMethod.getName();
+			}else{
+				consentingMethodsString = consentingMethod.getName();
+			}
+		}
+		return consentingMethodsString;
+	}
+	
+	public void setConsentingMethodsString(String consentingMethodsString) {
+		consentingMethods = new ArrayList<ConsentingMethod>();
+		if (!StringUtils.isBlank(consentingMethodsString)) {
+			StringTokenizer tokenizer = new StringTokenizer(consentingMethodsString, " : ");
+			while (tokenizer.hasMoreTokens()) {
+				ConsentingMethod consentingMethod = (ConsentingMethod) Enum.valueOf(ConsentingMethod.class, tokenizer
+						.nextToken());
+				consentingMethods.add(consentingMethod);
+			};
+		}
+	}
+
+	public void setConsentingMethods(List<ConsentingMethod> consentingMethods) {
+		this.consentingMethods = consentingMethods;
+	}
+
 	public Consent(){
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(ConsentQuestion.class,new InstantiateFactory<ConsentQuestion>(ConsentQuestion.class));
+		this.consentingMethods.add(ConsentingMethod.WRITTEN);
 	}
 	
 	public int compareTo(Consent o) {
