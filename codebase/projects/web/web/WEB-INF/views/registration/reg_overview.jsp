@@ -185,6 +185,13 @@
         	}
 		
     </script>
+    <style type="text/css">
+	    button.omnipotent-button td.m, a.omnipotent-button td.m {
+			padding-top:2px;
+			padding-left:8px;
+			padding-right:8px;
+		}
+    </style>
 </head>
 <body>
 <c:set var="canEditRegistrationRecord" value="false"/>
@@ -991,18 +998,16 @@
 					<fmt:message key="REGISTRATION.BROADCAST.NOT_YET_SENT"/>
 				</div>
 				<div align="center" style="padding-top: 20px">
-				<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();"/>
-				<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" />
+					<tags:button type="button "color="blue" value="Yes" onclick="javascript:doSendMessageToESB();" icon="check" id="broadcastButton" size="big"/>
+					<tags:button type="button" color="red" icon="x" value="Cancel" onclick="contentWin.close();" id="cancelButton" size="big"/>
 				</div>
 			</c:when>
 			<c:when test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND'}">
 				<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
 					<fmt:message key="REGISTRATION.BROADCAST.SENT_NO_RESPONSE"/>
 				</div>
-				<div align="center" style="padding-top: 20px">
 				<tags:button type="button "color="blue" value="Check response" onclick="javascript:getBroadcastStatus();"/>
 				<tags:button type="button" color="red" icon="x" value="Later" onclick="window.location.reload();" />
-				</div>
 			</c:when>
 			<c:when test="${command.studySubject.cctsWorkflowStatus=='MESSAGE_SEND_CONFIRMED'}">
 				<div align="left" style="font-size: 10pt; padding-top: 10px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px">
