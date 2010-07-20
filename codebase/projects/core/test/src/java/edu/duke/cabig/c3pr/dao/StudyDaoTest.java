@@ -18,6 +18,7 @@ import java.util.List;
 import org.springframework.orm.hibernate3.HibernateSystemException;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
@@ -1903,5 +1904,30 @@ public class StudyDaoTest extends DaoTestCase {
     	assertEquals("Consent question not saved",1,reloaded.getConsents().get(0).getQuestions().size());
     	assertEquals("Wrong consent question saved","Question1",reloaded.getConsents().get(0).getQuestions().get(0).getText());
     
+    }
+    
+    public void testSaveWithConsentingMethods() throws Exception{
+    	Study study = dao.getById(1000);
+    	assertEquals("expected no consent",0,study.getConsents().size());
+    	Consent consent = new Consent();
+    	consent.setName("consent 1");
+    	consent.setMandatoryIndicator(true);
+    	consent.setVersionId("version 1");
+    	
+    	List<ConsentingMethod> consentingMethods = new ArrayList<ConsentingMethod>();
+    	consentingMethods.add(ConsentingMethod.VERBAL);
+    	consentingMethods.add(ConsentingMethod.WRITTEN);
+    	consent.setConsentingMethods(consentingMethods);
+    	
+    	study.addConsent(consent);
+    	
+    	dao.save(study);
+    	
+    	Study reloaded = dao.getById(1000);
+    	
+    	assertEquals("Consent not saved",1,reloaded.getConsents().size());
+    	assertEquals("Wrong consent saved","consent 1",reloaded.getConsents().get(0).getName());
+    	assertEquals("Wrong consenting methods string","VERBAL : WRITTEN",reloaded.getConsents().get(0).getConsentingMethodsString());
+    	
     }
 }
