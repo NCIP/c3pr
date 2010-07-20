@@ -8,13 +8,18 @@ import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.userdetails.User;
+import org.aspectj.weaver.ast.HasAnnotation;
 import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.accesscontrol.AuthorizedUser;
 import edu.duke.cabig.c3pr.accesscontrol.UserPrivilege;
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
+import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
+import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
+import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
 
 public class SecurityUtilsTest extends AbstractTestCase {
 
@@ -24,12 +29,20 @@ public class SecurityUtilsTest extends AbstractTestCase {
 	
 	SecurityContext defaultSecurityContext;
 	
+	ProvisioningSession provisioningSession ;
+	SuiteRoleMembership suiteRoleMembership ;
+	AuthorizedUser principal ;
+	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		authentication = registerMockFor(Authentication.class);
+		principal = registerMockFor(AuthorizedUser.class);
+		provisioningSession = registerMockFor(ProvisioningSession.class);
+		suiteRoleMembership = registerMockFor(SuiteRoleMembership.class);
 		roleTypes = new ArrayList<RoleTypes>();
 		defaultSecurityContext = SecurityContextHolder.getContext();
+		defaultSecurityContext.setAuthentication(authentication);
 	}
 	
 	@Override
@@ -40,7 +53,12 @@ public class SecurityUtilsTest extends AbstractTestCase {
 	
 	public void testIsSuperUserTrue(){
 		GrantedAuthority[] grantedAuthorities = getGrantedAuthorities(23);
+		
 		EasyMock.expect(authentication.getAuthorities()).andReturn(grantedAuthorities);
+		EasyMock.expect(authentication.getPrincipal()).andReturn(principal).times(15);
+		EasyMock.expect(principal.getProvisioningSession()).andReturn(provisioningSession).times(15);
+		EasyMock.expect(suiteRoleMembership.isAllSites()).andReturn(true).times(12);
+		
 		EasyMock.expect(grantedAuthorities[0].getAuthority()).andReturn(RoleTypes.REGISTRAR.getCode());
 		EasyMock.expect(grantedAuthorities[1].getAuthority()).andReturn(RoleTypes.BUSINESS_ADMINISTRATOR.getCode());
 		EasyMock.expect(grantedAuthorities[2].getAuthority()).andReturn(RoleTypes.DATA_ANALYST.getCode());
@@ -64,14 +82,37 @@ public class SecurityUtilsTest extends AbstractTestCase {
 		EasyMock.expect(grantedAuthorities[20].getAuthority()).andReturn(RoleTypes.AE_STUDY_DATA_REVIEWER.getCode());
 		EasyMock.expect(grantedAuthorities[21].getAuthority()).andReturn(RoleTypes.LAB_IMPACT_CALENDAR_NOTIFIER.getCode());
 		EasyMock.expect(grantedAuthorities[22].getAuthority()).andReturn(RoleTypes.LAB_DATA_USER.getCode());
+
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.REGISTRAR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.BUSINESS_ADMINISTRATOR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.DATA_ANALYST)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.DATA_IMPORTER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.DATA_READER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.REGISTRATION_QA_MANAGER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.STUDY_CREATOR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.STUDY_QA_MANAGER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.STUDY_SITE_PARTICIPATION_ADMINISTRATOR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.STUDY_TEAM_ADMINISTRATOR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.SUBJECT_MANAGER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.SYSTEM_ADMINISTRATOR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.SUPPLEMENTAL_STUDY_INFORMATION_MANAGER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.USER_ADMINISTRATOR)).andReturn(suiteRoleMembership);
+		
 		replayMocks();
 		assertTrue(SecurityUtils.isSuperUser(authentication));
 		verifyMocks();
 	}
 	
 	public void testIsSuperUserFalse(){
-		GrantedAuthority[] grantedAuthorities = getGrantedAuthorities(14);
+		GrantedAuthority[] grantedAuthorities = getGrantedAuthorities(23);
+		
 		EasyMock.expect(authentication.getAuthorities()).andReturn(grantedAuthorities);
+		EasyMock.expect(authentication.getPrincipal()).andReturn(principal).times(15);
+		EasyMock.expect(principal.getProvisioningSession()).andReturn(provisioningSession).times(15);
+		EasyMock.expect(suiteRoleMembership.isAllSites()).andReturn(true).times(11);
+		EasyMock.expect(suiteRoleMembership.isAllSites()).andReturn(false).times(1);
+		
 		EasyMock.expect(grantedAuthorities[0].getAuthority()).andReturn(RoleTypes.REGISTRAR.getCode());
 		EasyMock.expect(grantedAuthorities[1].getAuthority()).andReturn(RoleTypes.BUSINESS_ADMINISTRATOR.getCode());
 		EasyMock.expect(grantedAuthorities[2].getAuthority()).andReturn(RoleTypes.DATA_ANALYST.getCode());
@@ -86,6 +127,32 @@ public class SecurityUtilsTest extends AbstractTestCase {
 		EasyMock.expect(grantedAuthorities[11].getAuthority()).andReturn(RoleTypes.SUBJECT_MANAGER.getCode());
 		EasyMock.expect(grantedAuthorities[12].getAuthority()).andReturn(RoleTypes.SYSTEM_ADMINISTRATOR.getCode());
 		EasyMock.expect(grantedAuthorities[13].getAuthority()).andReturn(RoleTypes.SUPPLEMENTAL_STUDY_INFORMATION_MANAGER.getCode());
+		EasyMock.expect(grantedAuthorities[14].getAuthority()).andReturn(RoleTypes.USER_ADMINISTRATOR.getCode());
+		EasyMock.expect(grantedAuthorities[15].getAuthority()).andReturn(RoleTypes.AE_RULE_AND_REPORT_MANAGER.getCode());
+		EasyMock.expect(grantedAuthorities[16].getAuthority()).andReturn(RoleTypes.STUDY_CALENDAR_TEMPLATE_BUILDER.getCode());
+		EasyMock.expect(grantedAuthorities[17].getAuthority()).andReturn(RoleTypes.STUDY_SUBJECT_CALENDAR_MANAGER.getCode());
+		EasyMock.expect(grantedAuthorities[18].getAuthority()).andReturn(RoleTypes.AE_REPORTER.getCode());
+		EasyMock.expect(grantedAuthorities[19].getAuthority()).andReturn(RoleTypes.AE_EXPEDITED_REPORT_REVIEWER.getCode());
+		EasyMock.expect(grantedAuthorities[20].getAuthority()).andReturn(RoleTypes.AE_STUDY_DATA_REVIEWER.getCode());
+		EasyMock.expect(grantedAuthorities[21].getAuthority()).andReturn(RoleTypes.LAB_IMPACT_CALENDAR_NOTIFIER.getCode());
+		EasyMock.expect(grantedAuthorities[22].getAuthority()).andReturn(RoleTypes.LAB_DATA_USER.getCode());
+
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.REGISTRAR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.BUSINESS_ADMINISTRATOR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.DATA_ANALYST)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.DATA_IMPORTER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.DATA_READER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.REGISTRATION_QA_MANAGER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.STUDY_CREATOR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.STUDY_QA_MANAGER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.STUDY_SITE_PARTICIPATION_ADMINISTRATOR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.STUDY_TEAM_ADMINISTRATOR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.SUBJECT_MANAGER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.SYSTEM_ADMINISTRATOR)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.SUPPLEMENTAL_STUDY_INFORMATION_MANAGER)).andReturn(suiteRoleMembership);
+		EasyMock.expect(provisioningSession.getProvisionableRoleMembership(SuiteRole.USER_ADMINISTRATOR)).andReturn(suiteRoleMembership);
+		
 		replayMocks();
 		assertFalse(SecurityUtils.isSuperUser(authentication));
 		verifyMocks();
