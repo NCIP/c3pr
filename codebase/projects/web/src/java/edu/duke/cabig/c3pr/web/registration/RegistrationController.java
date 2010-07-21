@@ -294,33 +294,9 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     }
 
     @Override
-    protected void onBind(HttpServletRequest request, Object oCommand,
-    		BindException errors) throws Exception {
-    	super.onBind(request, oCommand, errors);
-    	StudySubjectWrapper wrapper = (StudySubjectWrapper) oCommand;
-        StudySubject studySubject = wrapper.getStudySubject();
-        
-    	if(WebUtils.hasSubmitParameter(request, "studySiteStudyVersionId") && !StringUtils.isBlank(request.getParameter("studySiteStudyVersionId"))){
-    		StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(Integer.parseInt(request.getParameter("studySiteStudyVersionId")));
-    		if(studySiteStudyVersion == null){
-    			log.debug("Study Site Study Version is not set to Study Subject Study Version");
-    		}
-    		studySubject.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySiteStudyVersion);
-    		studySubject.setStudySite(studySiteStudyVersion.getStudySite());
-    	}else{
-    		log.debug("Study Site Study Version is not set to Study Subject Study Version");
-    	} 
-    	if(studySubject.getScheduledEpoch()== null && WebUtils.hasSubmitParameter(request, "epoch") && !StringUtils.isBlank(request.getParameter("epoch"))){
-        	Epoch epoch = epochDao.getById(Integer.parseInt(request.getParameter("epoch")));
-        	ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
-        	scheduledEpoch.setEpoch(epoch);
-        	studySubject.addScheduledEpoch(scheduledEpoch);
-        }
-    }
-    
-    @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
                     throws Exception {
+    	 super.initBinder(request, binder);
     	binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
                         "MM/dd/yyyy"), true));
@@ -357,6 +333,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         		ConsentingMethod.class));
         binder.registerCustomEditor(Reason.class, new CustomDaoEditor(
                 reasonDao));
+        binder.registerCustomEditor(ConsentingMethod.class, new EnumByNameEditor(ConsentingMethod.class));
 
     }
 
