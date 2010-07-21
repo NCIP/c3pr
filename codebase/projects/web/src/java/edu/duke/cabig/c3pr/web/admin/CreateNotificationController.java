@@ -95,9 +95,16 @@ public class CreateNotificationController extends SimpleFormController {
     			HealthcareSite healthcareSite = healthcareSiteDao.getById(Integer.parseInt(request.getParameter("organization")));
     			wrapper.setHealthcareSite(healthcareSite);
     		} else{
-    		//get the logged in users site.
+    		//get the logged in users site.If the logged in user is not yet associated to a site then get the hosting site.
 	    		ResearchStaff researchStaff = (ResearchStaff)userDao.getByLoginId(user.getUserId().longValue());
-				wrapper.setHealthcareSite(researchStaff.getHealthcareSites().get(0));
+	    		if(researchStaff.getHealthcareSites().size()>0){
+	    			wrapper.setHealthcareSite(researchStaff.getHealthcareSites().get(0));
+	    		} else{
+	    			log.debug("Logged in User is not associated to a site, so getting the hosting site organization");
+	    			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
+	    			HealthcareSite hcs = healthcareSiteDao.getByPrimaryIdentifier(localNciCode);
+	    			wrapper.setHealthcareSite(hcs);
+	    		}
 	    	}
 		} catch (C3PRNoSuchUserException e) {
 			log.debug(e.getMessage());
