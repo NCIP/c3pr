@@ -57,6 +57,12 @@ public class SubjectSecurityFilter implements DomainObjectSecurityFilterer{
 		Set<C3PRUserGroupType> userRoles = SecurityUtils.getUserRoles(UserPrivilegeType.SUBJECT_READ);
 		Iterator<C3PRUserGroupType> iter = userRoles.iterator();
 
+		//build a list of organizations which have assigned identifiers to the participant.
+		List<HealthcareSite> participantOrganizations = new ArrayList<HealthcareSite>();
+    	for(OrganizationAssignedIdentifier identifier : participant.getOrganizationAssignedIdentifiers()){
+    		participantOrganizations.add(identifier.getHealthcareSite());
+    	}
+    	
 		C3PRUserGroupType role;
 		SuiteRole suiteRole;
 		while(iter.hasNext()){
@@ -67,7 +73,7 @@ public class SubjectSecurityFilter implements DomainObjectSecurityFilterer{
 				return true;
 			} else {
 				if(SecurityUtils.hasAllSiteAccess(role) || hasSiteLevelAccessPermission(SecurityUtils
-						.buildUserAccessibleOrganizationIdsList(role), participant)){
+						.buildUserAccessibleOrganizationIdsList(role), participantOrganizations)){
 					return true;
 				}
 			}
@@ -84,12 +90,7 @@ public class SubjectSecurityFilter implements DomainObjectSecurityFilterer{
 	 * @param participant the participant
 	 * @return true, if successful
 	 */
-	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList, Participant participant){
-		List<HealthcareSite> participantOrganizations = new ArrayList<HealthcareSite>();
-		participantOrganizations.addAll(participant.getHealthcareSites());
-    	for(OrganizationAssignedIdentifier identifier : participant.getOrganizationAssignedIdentifiers()){
-    		participantOrganizations.add(identifier.getHealthcareSite());
-    	}
+	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList, List<HealthcareSite> participantOrganizations){
     	for(HealthcareSite participantOrganization: participantOrganizations){
     		if(userAccessibleOrganizationIdsList.contains(participantOrganization.getPrimaryIdentifier())){
         		return true;    			
