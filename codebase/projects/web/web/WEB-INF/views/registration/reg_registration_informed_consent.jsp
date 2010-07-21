@@ -118,11 +118,20 @@ function changeStudyVersion(){
 			          	<b><fmt:message key="registration.consentMethod"/></b>
 			          	<tags:hoverHint keyProp="studySubject.informedConsentingMethod" />
 			          </td>
-			          <td align="left"><form:select id="consetingMethod" path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentingMethod">
-	                    	<form:option label="Please Select" value=""/>
-	                    	<form:option label="Written" value="WRITTEN"/>
-	                    	<form:option label="Verbal" value="VERBAL"/>
-                		</form:select></td>
+			          
+	                     <c:if test="${fn:length(studySubjectConsentVersion.consent.consentingMethods) > 1}">
+	                     	<td align="left"><form:select id="consetingMethod" path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentingMethod">
+		                    	<form:option label="Please Select" value=""/>
+		                    	<form:option label="Written" value="WRITTEN"/>
+		                    	<form:option label="Verbal" value="VERBAL"/>
+	                    	</form:select></td>
+	                    </c:if>
+	                    <c:if test="${fn:length(studySubjectConsentVersion.consent.consentingMethods) == 1}">
+	                    	<td align="left"><form:select id="consetingMethod" path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentingMethod"
+	                    		disabled="true">
+	                    		<form:options items="${studySubjectConsentVersion.consent.consentingMethods}" itemLabel="code" itemValue="name"/>
+	                    	</form:select></td>
+	                    </c:if>
 					</tr>
 				</table>
 			</td>
@@ -165,7 +174,7 @@ function changeStudyVersion(){
 							<td align="right" width="80%">${subjectConsentAnswer.consentQuestion.text}</td>
 			         		<td align="left" width="20%"><form:select id="studySubjectConsentVersions[${status.index }].subjectConsentAnswers[${answerStatus.index}].agreementIndicator" 
 			         			path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index }].subjectConsentAnswers[${answerStatus.index}].agreementIndicator">
-									<form:option value="Please Select" />
+									<option value="">Please Select</option>
 									<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 								</form:select>
 							</td>
