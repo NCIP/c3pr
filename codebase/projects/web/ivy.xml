@@ -145,6 +145,7 @@
 			
 			<exclude org="org.slf4j" name="slf4j-log4j12" rev="1.3.0"/>
 			
+			
 			<!-- <exclude org="org.globus" name="saaj" rev="4.0.3-globus"/> -->
 			<!-- Apache CXF -->			
 			<dependency org="org.apache.cxf" name="cxf-rt-frontend-jaxws" rev="2.1.10">			
@@ -155,7 +156,21 @@
 				<exclude org="org.springframework"></exclude>
 				<exclude org="stax"></exclude>				
 			</dependency>		
-			<dependency org="org.apache.ws.commons.schema" name="XmlSchema" rev="1.4.2" force="true"/>		
+			<dependency org="org.apache.ws.commons.schema" name="XmlSchema" rev="1.4.2" force="true"/>
 			
+			<dependency org="ncicb" name="iso-datatypes" rev="2.1">
+				<exclude org="asm"></exclude>
+			</dependency>
+			
+			<!-- To prevent iso-datatypes from dragging incompatible version of asm -->
+			
+			<!--  
+			<exclude org="asm" name="asm" rev="3.1"/>
+			<exclude org="asm" name="asm-tree" rev="3.0"/>
+			 -->
+			 			
+			<dependency org="asm" name="asm" rev="2.2.3" force="true"/>
+			<dependency org="asm" name="asm-tree" rev="2.2.3" force="true"/>
+						 
         </dependencies>
 </ivy-module>

@@ -1,4 +1,6 @@
 <ivysettings>
+	<property name="nci.ivy.repo" value="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo" />
+	<property name="nci.cagrid.ivy.repo" value="http://software.cagrid.org/repository-1.3" />
 	<settings defaultResolver="c3pr-resolver" validate="false" />
 	<cache basedir="${ivy.cache}"/>
 	<resolvers>
@@ -62,6 +64,12 @@
 		</ibiblio>
 		
 		<ibiblio name="nci-ivy-repo" root="https://ncisvn.nci.nih.gov/svn/cbiit-ivy-repo/trunk/" pattern="[organization]/[module]/[revision]/[artifact]-[revision].[ext]" />
+		
+		<url name="ncicb-ivy-repo" m2compatible="false">
+			<ivy pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/ivy.xml" />
+			<artifact
+				pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+		</url>		
        </chain>
 		
 	</resolvers>

@@ -3,6 +3,11 @@ package edu.duke.cabig.c3pr.webservice.subjectmanagement;
 import javax.jws.WebService;
 
 /**
+ * Implementation of the Subject Management web service.
+ * 
+ * @see https
+ *      ://ncisvn.nci.nih.gov/svn/c3pr/trunk/c3prv2/documentation/design/essn
+ *      /SubjectManagement/PSM_SS_Subject_Management.doc
  * @author dkrylov
  * 
  */
