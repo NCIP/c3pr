@@ -47,8 +47,8 @@
             	color: #E4C48F;
             	font-size: 10pt;
             	position:absolute;
-                left: 76px;
-                top: 490px;
+                left: 113px;
+                top: 510px;
                 width: 850px;
             }
             div.row {
@@ -136,7 +136,7 @@
         return true;
     }
 </SCRIPT>
-    </head>
+</head>
     <body>
     </div>
 </div>
