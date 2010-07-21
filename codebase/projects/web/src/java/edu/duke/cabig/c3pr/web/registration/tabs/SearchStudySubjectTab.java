@@ -143,48 +143,37 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
     }
     
     @Override
-    public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors error) {
+    public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors errors) {
     	
-    	command.setParticipant(command.getStudySubject().getParticipant());
-    	if (WebUtils.hasSubmitParameter(request, "epochId")) {
-            return;
+    	StudySubject studySubject = ((StudySubjectWrapper)command).getStudySubject();
+    	
+    	command.setParticipant(studySubject.getParticipant());
+    	
+    	if(WebUtils.hasSubmitParameter(request, "studySiteStudyVersionId") && !StringUtils.isBlank(request.getParameter("studySiteStudyVersionId"))){
+    		StudySiteStudyVersion studySiteStudyVersion = studySiteStudyVersionDao.getById(Integer.parseInt(request.getParameter("studySiteStudyVersionId")));
+    		if(studySiteStudyVersion == null){
+    			logger.debug("Study Site Study Version is not set to Study Subject Study Version");
+    		}
+    		studySubject.getStudySubjectStudyVersion().setStudySiteStudyVersion(studySiteStudyVersion);
+    		studySubject.setStudySite(studySiteStudyVersion.getStudySite());
+    	}else{
+    		logger.debug("Study Site Study Version is not set to Study Subject Study Version");
+    	} 
+    	if(studySubject.getScheduledEpoch()== null && WebUtils.hasSubmitParameter(request, "epoch") && !StringUtils.isBlank(request.getParameter("epoch"))){
+        	Epoch epoch = epochDao.getById(Integer.parseInt(request.getParameter("epoch")));
+        	ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
+        	scheduledEpoch.setEpoch(epoch);
+        	studySubject.addScheduledEpoch(scheduledEpoch);
         }
-        if (command.getStudySubject().getParticipant() == null || command.getStudySubject().getStudySite() == null) {
-            request.setAttribute("alreadyRegistered", new Boolean(true));
-            return;
-        }
-        
-        List registrations = studySubjectDao.searchBySubjectAndStudyIdentifiers(command.getStudySubject().
-        		getParticipant().getPrimaryIdentifier(), command.getStudySubject().getStudySite().
-        		getStudy().getCoordinatingCenterAssignedIdentifier());
-        if (registrations.size() > 0) {
-            request.setAttribute("alreadyRegistered", new Boolean(true));
-            return;
-        }
-        Integer id;
-        try {
-            id = Integer.parseInt(request.getParameter("epoch"));
-        }
-        catch (RuntimeException e) {
-            return;
-        }
-      
-        Epoch epoch = epochDao.getById(id);
-        epochDao.initialize(epoch);
-        ScheduledEpoch scheduledEpoch;
-        if (epoch.getType() == EpochType.TREATMENT) {
-            (epoch).getArms().size();
-            scheduledEpoch = new ScheduledEpoch();
-        }
-        else {
-            scheduledEpoch = new ScheduledEpoch();
-        }
-        scheduledEpoch.setEpoch(epoch);
-        if (command.getStudySubject().getScheduledEpochs().size() == 0) command.getStudySubject().getScheduledEpochs().add(0,
-                        scheduledEpoch);
-        else {
-            command.getStudySubject().getScheduledEpochs().set(0, scheduledEpoch);
-        }
+    	
+    	
+		if(studySubject.getId()==null){
+    			List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+    			studySubjects=studySubjectRepository.findRegistrations(studySubject);
+    			if (studySubjects.size() > 0) {
+    				errors.reject("duplicateRegistration","Subject already registered on this study");
+    	        }
+		}
         registrationControllerUtils.buildCommandObject(command.getStudySubject());
         registrationControllerUtils.addConsents(command.getStudySubject());
         studySiteDao.initialize(command.getStudySubject().getStudySite());
@@ -193,14 +182,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
     @Override
 	public void validate(StudySubjectWrapper command, Errors errors) {
 		super.validate(command, errors);
-		StudySubject studySubject = ((StudySubjectWrapper)command).getStudySubject();
-		if(studySubject.getId()==null){
-    			List<StudySubject> studySubjects = new ArrayList<StudySubject>();
-    			studySubjects=studySubjectRepository.findRegistrations(studySubject);
-    			if (studySubjects.size() > 0) {
-    				errors.reject("duplicateRegistration","Subject already registered on this study");
-    	        }
-		}
+	
 	}
 
 	public ModelAndView checkEpochAccrualCeiling(HttpServletRequest request, Object commandObj,
