@@ -1,6 +1,6 @@
 class dropNotNullConstraintOnStratumGroupIdInBookRandomizationEntry extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
-       setNullable('book_rndm_entry','str_grp_id', true);
+       setNullable('sub_con_que_ans','agreement_indicator', true);
     }
 
     void down() {
