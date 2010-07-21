@@ -30,7 +30,6 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ANY")
 @XmlSeeAlso({
-    II.class,
     COLLSUBJECT.class,
     SLISTTSDate.class,
     NPPDTSDateFull.class,
@@ -90,6 +89,7 @@ import javax.xml.bind.annotation.XmlType;
     NPPDCD.class,
     NPPDTELEmail.class,
     NPPDEDImage.class,
+    II.class,
     COLLTSDateTime.class,
     LISTEDDocRef.class,
     NPPDII.class,

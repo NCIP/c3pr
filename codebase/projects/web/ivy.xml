@@ -155,7 +155,7 @@
 				<exclude org="org.springframework"></exclude>
 				<exclude org="stax"></exclude>				
 			</dependency>		
- 			
+			<dependency org="org.apache.ws.commons.schema" name="XmlSchema" rev="1.4.2" force="true"/>		
 			
         </dependencies>
 </ivy-module>

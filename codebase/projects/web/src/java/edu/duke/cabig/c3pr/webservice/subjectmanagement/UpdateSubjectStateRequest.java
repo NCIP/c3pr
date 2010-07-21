@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="subjectIdentifier" type="{uri:iso.org:21090}II"/>
+ *         &lt;element name="biologicEntityIdentifier" type="{http://enterpriseservices.nci.nih.gov}BiologicEntityIdentifier"/>
  *         &lt;element name="newState" type="{uri:iso.org:21090}ST"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -30,39 +30,39 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "subjectIdentifier",
+    "biologicEntityIdentifier",
     "newState"
 })
 @XmlRootElement(name = "UpdateSubjectStateRequest", namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class UpdateSubjectStateRequest {
 
     @XmlElement(namespace = "", required = true)
-    protected II subjectIdentifier;
+    protected BiologicEntityIdentifier biologicEntityIdentifier;
     @XmlElement(namespace = "", required = true)
     protected ST newState;
 
     /**
-     * Gets the value of the subjectIdentifier property.
+     * Gets the value of the biologicEntityIdentifier property.
      * 
      * @return
      *     possible object is
-     *     {@link II }
+     *     {@link BiologicEntityIdentifier }
      *     
      */
-    public II getSubjectIdentifier() {
-        return subjectIdentifier;
+    public BiologicEntityIdentifier getBiologicEntityIdentifier() {
+        return biologicEntityIdentifier;
     }
 
     /**
-     * Sets the value of the subjectIdentifier property.
+     * Sets the value of the biologicEntityIdentifier property.
      * 
      * @param value
      *     allowed object is
-     *     {@link II }
+     *     {@link BiologicEntityIdentifier }
      *     
      */
-    public void setSubjectIdentifier(II value) {
-        this.subjectIdentifier = value;
+    public void setBiologicEntityIdentifier(BiologicEntityIdentifier value) {
+        this.biologicEntityIdentifier = value;
     }
 
     /**

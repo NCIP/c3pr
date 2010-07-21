@@ -1,221 +1,261 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://enterpriseservices.nci.nih.gov"
-        xmlns:ISO="uri:iso.org:21090" xmlns:tns="http://enterpriseservices.nci.nih.gov"
-        xmlns:sch="http://www.ascc.net/xml/schematron" elementFormDefault="qualified">
+	xmlns:ISO="uri:iso.org:21090" xmlns:tns="http://enterpriseservices.nci.nih.gov"
+	xmlns:sch="http://www.ascc.net/xml/schematron" elementFormDefault="qualified">
 
-    <annotation>
-        <documentation>XML Schema defining types and faults for NCI Enterprise
-            Services
-            implementation.
+	<annotation>
+		<documentation>XML Schema defining types and faults for NCI Enterprise
+			Services
+			implementation.
         </documentation>
-    </annotation>
+	</annotation>
 
-    <import schemaLocation="ISO_datatypes_Narrative.xsd" namespace="uri:iso.org:21090"/>
+	<import schemaLocation="ISO_datatypes_Narrative.xsd" namespace="uri:iso.org:21090" />
 
-    <complexType name="BiologicEntity" abstract="true">
-        <annotation>
-            <documentation>Any individual living (or previously living) being.
+	<complexType name="BiologicEntity" abstract="true">
+		<annotation>
+			<documentation>Any individual living (or previously living) being.
 
-                For example, animal, human being.
+				For example, animal, human being.
             </documentation>
-        </annotation>
-        <sequence>
-            <element name="administrativeGenderCode" type="ISO:CD">
-                <annotation>
-                    <documentation>A coded value specifying the physical or societal
-                        properties by which male is distinguished from female.
+		</annotation>
+		<sequence>
+			<element name="administrativeGenderCode" type="ISO:CD">
+				<annotation>
+					<documentation>A coded value specifying the physical or societal
+						properties by which male is distinguished from female.
 
-                        NOTE: For
-                        humans, identification of sex is usually based upon
-                        self-report and
-                        may come from a form, questionnaire, interview,
-                        etc.
+						NOTE: For
+						humans, identification of sex is usually based upon
+						self-report and
+						may come from a form, questionnaire, interview,
+						etc.
+					</documentation>
+				</annotation>
+			</element>
+			<element name="birthDate" type="ISO:TS.DateTime">
+				<annotation>
+					<documentation>The date (and time) on which the biologic entity
+						is
+						born.
                     </documentation>
-                </annotation>
-            </element>
-            <element name="birthDate" type="ISO:TS.DateTime">
-                <annotation>
-                    <documentation>The date (and time) on which the biologic entity
-                        is
-                        born.
+				</annotation>
+			</element>
+			<element name="deathDate" type="ISO:TS.DateTime">
+				<annotation>
+					<documentation>The date (and time) on which the biologic entity
+						died.
                     </documentation>
-                </annotation>
-            </element>
-            <element name="deathDate" type="ISO:TS.DateTime">
-                <annotation>
-                    <documentation>The date (and time) on which the biologic entity
-                        died.
-                    </documentation>
-                </annotation>
-            </element>
-        </sequence>
-    </complexType>
+				</annotation>
+			</element>
+			<element name="biologicEntityIdentifier" minOccurs="0" type="tns:BiologicEntityIdentifier"
+				maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
 
-    <complexType name="Person">
-        <annotation>
-            <documentation>A human being.</documentation>
-        </annotation>
-        <complexContent>
-            <extension base="tns:BiologicEntity">
-                <sequence>
-                    <element name="deathIndicator" type="ISO:BL">
-                        <annotation>
-                            <documentation>Specifies whether the person is dead.
+	<complexType name="Person">
+		<annotation>
+			<documentation>A human being.</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="tns:BiologicEntity">
+				<sequence>
+					<element name="deathIndicator" type="ISO:BL">
+						<annotation>
+							<documentation>Specifies whether the person is dead.
+							</documentation>
+						</annotation>
+					</element>
+
+					<element name="ethnicGroupCode" type="ISO:DSET_CD">
+						<annotation>
+							<documentation>A coded value specifying the self-declared ethnic
+								origination, independent of racial origination.
+
+								For example, for
+								the NCI, these ethnic groups are based on OMB
+								approved
+								categories.
                             </documentation>
-                        </annotation>
-                    </element>
+						</annotation>
+					</element>
+					<element name="maritalStatusCode" type="ISO:CD">
+						<annotation>
+							<documentation>A coded value specifying the domestic partnership
+								status of a person.
 
-                    <element name="ethnicGroupCode" type="ISO:DSET_CD">
-                        <annotation>
-                            <documentation>A coded value specifying the self-declared ethnic
-                                origination, independent of racial origination.
-
-                                For example, for
-                                the NCI, these ethnic groups are based on OMB
-                                approved
-                                categories.
+								For example, Married, Widowed, Single,
+								Separated, etc.
                             </documentation>
-                        </annotation>
-                    </element>
-                    <element name="maritalStatusCode" type="ISO:CD">
-                        <annotation>
-                            <documentation>A coded value specifying the domestic partnership
-                                status of a person.
+						</annotation>
+					</element>
+					<element name="name" type="ISO:DSET_EN.PN">
+						<annotation>
+							<documentation>A non-unique textual identifier for the person.
 
-                                For example, Married, Widowed, Single,
-                                Separated, etc.
+								For example, proper name, nickname, legal name, etc.
+							</documentation>
+						</annotation>
+					</element>
+
+					<element name="postalAddress" type="ISO:AD">
+						<annotation>
+							<documentation>A contact point used to send physical forms of
+								communication to the person.
                             </documentation>
-                        </annotation>
-                    </element>
-                    <element name="name" type="ISO:DSET_EN.PN">
-                        <annotation>
-                            <documentation>A non-unique textual identifier for the person.
+						</annotation>
+					</element>
 
-                                For example, proper name, nickname, legal name, etc.
+					<element name="raceCode" type="ISO:DSET_CD">
+						<annotation>
+							<documentation>A coded value specifying a self-declared racial
+								origination, independent of ethnic origination.
+
+								For example, for
+								the National Cancer Institute, this code is based
+								on Office of
+								Management &amp;amp; Budget (OMB) approved
+								categories.
+							</documentation>
+						</annotation>
+					</element>
+					<element name="telecomAddress" type="ISO:BAG_TEL">
+						<annotation>
+							<documentation>A sequence of digits or characters used to
+								identify a particular telephone, fax, or email of the person.
+
+								For example, the set of digits that serves as the address for a
+								telephone device. Included in the phone number are country,
+								city, and area codes needed to uniquely address the telephone. A
+								URL or e-mail would be similarly described.
                             </documentation>
-                        </annotation>
-                    </element>
+						</annotation>
+					</element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Subject">
+		<annotation>
+			<documentation>An entity of interest, either biological or otherwise.
 
-                    <element name="postalAddress" type="ISO:AD">
-                        <annotation>
-                            <documentation>A contact point used to send physical forms of
-                                communication to the person.
-                            </documentation>
-                        </annotation>
-                    </element>
-
-                    <element name="raceCode" type="ISO:DSET_CD">
-                        <annotation>
-                            <documentation>A coded value specifying a self-declared racial
-                                origination, independent of ethnic origination.
-
-                                For example, for
-                                the National Cancer Institute, this code is based
-                                on Office of
-                                Management &amp;amp; Budget (OMB) approved
-                                categories.
-                            </documentation>
-                        </annotation>
-                    </element>
-                    <element name="telecomAddress" type="ISO:BAG_TEL">
-                        <annotation>
-                            <documentation>A sequence of digits or characters used to
-                                identify a particular telephone, fax, or email of the person.
-
-                                For example, the set of digits that serves as the address for a
-                                telephone device. Included in the phone number are country,
-                                city, and area codes needed to uniquely address the telephone. A
-                                URL or e-mail would be similarly described.
-                            </documentation>
-                        </annotation>
-                    </element>
-                </sequence>
-            </extension>
-        </complexContent>
-    </complexType>
-    <complexType name="Subject">
-        <annotation>
-            <documentation>An entity of interest, either biological or otherwise.
-
-                For example, a human being who might be of interest because they are
-                on a study, a sheep who might have experienced an adverse event, or
-                a pacemaker that failed.
+				For example, a human being who might be of interest because they are
+				on a study, a sheep who might have experienced an adverse event, or
+				a pacemaker that failed.
             </documentation>
-        </annotation>
-        <sequence>
-            <element name="performing" type="tns:BiologicEntity"
-                     minOccurs="1" maxOccurs="1"/>
-            <element name="identifying" type="tns:SubjectIdentifier"
-                     minOccurs="0" maxOccurs="unbounded"></element>
+		</annotation>
+		<sequence>
+			<element name="entity" type="tns:BiologicEntity" minOccurs="1"
+				maxOccurs="1" />
+		</sequence>
+	</complexType>
+	<complexType name="BiologicEntityIdentifier">
+		<annotation>
+			<documentation>The unique identification of a biologic entity in a
+				specified context.
+				NOTE: This class is a resolution of the
+				requirement for noting the type
+				of an identifier which is not handled
+				by the purely technical HL7 II
+				data type. It is the result of
+				applying a pattern provided by HL7
+				data type expert, Grahame Grieve.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="effectiveDateRange" type="ISO:IVL_TS.DateTime">
+				<annotation>
+					<documentation>The date and time span for when the biologic entity
+						identifier is active.</documentation>
+				</annotation>
+			</element>
+			<element name="identifier" type="ISO:II">
+				<annotation>
+					<documentation>The unique symbol that establishes identity of the
+						biologic entity.
 
-        </sequence>
-    </complexType>
-    <complexType name="SubjectIdentifier">
-        <annotation>
-            <documentation>The unique identification of a study subject in a
-                specified context.
-            </documentation>
-        </annotation>
-        <sequence>
-            <element name="identifier" type="ISO:II">
-                <annotation>
-                    <documentation>A unique symbol that establishes identity of the
-                        study subject.
+						For example, medical record number.
 
-                        For example, study subject number 7 on a specific
-                        study.
-                    </documentation>
-                </annotation>
-            </element>
-            <element name="primaryIndicator" type="ISO:BL">
-                <annotation>
-                    <documentation>An indicator of whether or not this identifier is a
-                        primary one.
-                    </documentation>
-                </annotation>
-            </element>
-            <element name="typeCode" type="ISO:CD">
-                <annotation>
-                    <documentation>A coded value specifying the kind of study
-                        subject
-                        identifier.
+						NOTE: This is
+						different from the StudySubject.identifier.
+					</documentation>
+				</annotation>
+			</element>
+			<element name="typeCode" type="ISO:CD">
+				<annotation>
+					<documentation>A coded value specifying the kind of biologic entity
+						identifier.
 
-                        For example, study level subject identifier, study site
-                        level subject
-                        identifier, cross study identifier.
-                    </documentation>
-                </annotation>
-            </element>
-        </sequence>
-    </complexType>
+						For example, hospital record number, medical record
+						number.
+					</documentation>
+				</annotation>
+			</element>
+			<element name="assigningOrganization" type="tns:Organization" />
+		</sequence>
+	</complexType>
 
-    <complexType name="DSET_SUBJECT">
-        <annotation>
-            <appinfo>
-                <sch:pattern name="null or not empty">
-                    <sch:rule abstract="true" id="DSET_SUBJECT-0">
-                        <sch:assert test="(@nullFlavor or item) and not(@nullFlavor and item)"/>
-                    </sch:rule>
-                </sch:pattern>
-                <sch:pattern name="no null members">
-                    <sch:rule abstract="true" id="DSET_SUBJECT-1">
-                        <sch:assert test="@nullFlavor or not(item\@nullFlavor)"/>
-                    </sch:rule>
-                </sch:pattern>
-            </appinfo>
-        </annotation>
-        <complexContent>
-            <extension base="tns:COLL_SUBJECT">
-                <sequence>
-                    <element name="item" type="tns:Subject" minOccurs="0"
-                             maxOccurs="unbounded"/>
-                </sequence>
-            </extension>
-        </complexContent>
-    </complexType>
-    <complexType abstract="true" name="COLL_SUBJECT">
-        <complexContent>
-            <extension base="ISO:ANY"/>
-        </complexContent>
-    </complexType>
+	<complexType name="Organization">
+		<annotation>
+			<documentation>A formalized group of persons or other organizations
+				collected together for a common purpose (such as administrative,
+				legal, political) and the infrastructure to carry out that purpose.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="organizationIdentifier" type="tns:OrganizationIdentifier"
+				minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="OrganizationIdentifier">
+		<annotation>
+			<documentation>Identifier of an organization.</documentation>
+		</annotation>
+		<sequence>
+			<element name="identifier" type="ISO:II">
+				<annotation>
+					<documentation>The unique symbol that establishes identity of the
+						organization.</documentation>
+				</annotation>
+			</element>
+			<element name="primaryIndicator" type="ISO:BL" />
+			<element name="typeCode" type="ISO:CD">
+				<annotation>
+					<documentation>A coded value specifying the kind of organization
+						identifier.</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="DSET_SUBJECT">
+		<annotation>
+			<appinfo>
+				<sch:pattern name="null or not empty">
+					<sch:rule abstract="true" id="DSET_SUBJECT-0">
+						<sch:assert test="(@nullFlavor or item) and not(@nullFlavor and item)" />
+					</sch:rule>
+				</sch:pattern>
+				<sch:pattern name="no null members">
+					<sch:rule abstract="true" id="DSET_SUBJECT-1">
+						<sch:assert test="@nullFlavor or not(item\@nullFlavor)" />
+					</sch:rule>
+				</sch:pattern>
+			</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="tns:COLL_SUBJECT">
+				<sequence>
+					<element name="item" type="tns:Subject" minOccurs="0"
+						maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType abstract="true" name="COLL_SUBJECT">
+		<complexContent>
+			<extension base="ISO:ANY" />
+		</complexContent>
+	</complexType>
 </schema>

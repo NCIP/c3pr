@@ -1,6 +1,8 @@
 
 package edu.duke.cabig.c3pr.webservice.subjectmanagement;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * Any individual living (or previously living) being.
  * 
- *                 For example, animal, human being.
+ * 				For example, animal, human being.
  *             
  * 
  * <p>Java class for BiologicEntity complex type.
@@ -26,6 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="administrativeGenderCode" type="{uri:iso.org:21090}CD"/>
  *         &lt;element name="birthDate" type="{uri:iso.org:21090}TS.DateTime"/>
  *         &lt;element name="deathDate" type="{uri:iso.org:21090}TS.DateTime"/>
+ *         &lt;element name="biologicEntityIdentifier" type="{http://enterpriseservices.nci.nih.gov}BiologicEntityIdentifier" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -38,7 +41,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "BiologicEntity", namespace = "http://enterpriseservices.nci.nih.gov", propOrder = {
     "administrativeGenderCode",
     "birthDate",
-    "deathDate"
+    "deathDate",
+    "biologicEntityIdentifier"
 })
 @XmlSeeAlso({
     Person.class
@@ -51,6 +55,7 @@ public abstract class BiologicEntity {
     protected TSDateTime birthDate;
     @XmlElement(required = true)
     protected TSDateTime deathDate;
+    protected List<BiologicEntityIdentifier> biologicEntityIdentifier;
 
     /**
      * Gets the value of the administrativeGenderCode property.
@@ -122,6 +127,35 @@ public abstract class BiologicEntity {
      */
     public void setDeathDate(TSDateTime value) {
         this.deathDate = value;
+    }
+
+    /**
+     * Gets the value of the biologicEntityIdentifier property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the biologicEntityIdentifier property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getBiologicEntityIdentifier().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link BiologicEntityIdentifier }
+     * 
+     * 
+     */
+    public List<BiologicEntityIdentifier> getBiologicEntityIdentifier() {
+        if (biologicEntityIdentifier == null) {
+            biologicEntityIdentifier = new ArrayList<BiologicEntityIdentifier>();
+        }
+        return this.biologicEntityIdentifier;
     }
 
 }
