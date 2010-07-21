@@ -386,15 +386,24 @@
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.organization"/></div>
 			<div class="value">
-				<input type="hidden" id="mrnOrganization-hidden" name="participant.organizationAssignedIdentifiers[0].healthcareSite" />
-				<input id="mrnOrganization-input" size="36" type="text" name="abcxyz"
-				 class="autocomplete required validate-notEmpty" />
-				<tags:indicator id="mrnOrganization-indicator" />
-				<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"><tags:hoverHint keyProp="subject.MRN.organization"/></div>
+				<c:choose>
+					<c:when test="${c3pr:hasAllSiteAccess('UI_SUBJECT_UPDATE')}">
+						<input type="hidden" id="mrnOrganization-hidden" name="participant.organizationAssignedIdentifiers[0].healthcareSite" />
+					<input id="mrnOrganization-input" size="36" type="text" name="abcxyz"
+					 class="autocomplete required validate-notEmpty" />
+					<tags:indicator id="mrnOrganization-indicator" />
+					<div id="mrnOrganization-choices" class="autocomplete" style="display: none;"><tags:hoverHint keyProp="subject.MRN.organization"/></div>
+					</c:when>
+					<c:otherwise>
+						<select name="participant.organizationAssignedIdentifiers[0].healthcareSite" class="required validate-notEmpty" style="width: 260px;">
+							<tags:userOrgOptions preSelectedSiteId="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}"/>
+						</select>
+					</c:otherwise>
+				</c:choose>
+				
 			</div>
 		</div>
 		<div class="row">
-			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
 			<div class="value">
 				<input type="text" id="organizationAssignedIdentifiers[0].value" name="participant.organizationAssignedIdentifiers[0].value" size="30" maxlength="30" class="required validate-notEmpty" />
 				<tags:hoverHint keyProp="subject.MRN.value"/>
