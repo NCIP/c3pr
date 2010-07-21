@@ -18,6 +18,12 @@
     </function>
     
     <function>
+        <name>containsConsentingMethod</name>
+        <function-class>edu.duke.cabig.c3pr.utils.web.C3PRWebUtils</function-class>
+        <function-signature>boolean containsConsentingMethod(java.util.List,java.lang.String)</function-signature>
+    </function>
+    
+    <function>
         <name>hasAllSiteAccess</name>
         <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
         <function-signature>boolean hasAllSiteAccess(java.lang.String)</function-signature>
