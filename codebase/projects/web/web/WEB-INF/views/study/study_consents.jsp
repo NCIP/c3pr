@@ -33,6 +33,16 @@
     	}
     	RowManager.addRow(consentRowInserterProps);
     }
+
+    function addConsentQuestion(consentIndex){
+        questionId = "addQuestionMessage-" + consentIndex;
+        if($(questionId) !=null){
+    		$(questionId).hide();
+        }
+    	RowManager.addRow(RowManager.getNestedRowInserter(consentRowInserterProps,consentIndex));
+    }
+	
+    
 	</script>
 </head>
 <body>
@@ -90,7 +100,21 @@
 									</form:select>
 								</td>
 							</tr>
-							
+							<tr>
+					    		<td align="right"><tags:requiredIndicator/><b><fmt:message key="study.consentingMethods"/></b>
+									<tags:hoverHint id="study.consentingMethods-${consentCount.index}" keyProp="study.consentingMethods" />
+								</td>
+								<td><table width="70%"><tr>
+									<td align="left"><input type="checkbox" id="consentingMethod-${consentCount.index}_written" 
+										name="study.consents[${consentCount.index}].consentingMethods" 
+										value="WRITTEN" <c:if test="${c3pr:containsConsentingMethod(command.study.consents[consentCount.index].consentingMethods, 'Written')}"> checked </c:if> /> Written 
+									</td>
+									<td align="left"><input type="checkbox" id="consentingMethod-${consentCount.index}_verbal" 
+										 name="study.consents[${consentCount.index}].consentingMethods" 
+										value="VERBAL" <c:if test="${c3pr:containsConsentingMethod(command.study.consents[consentCount.index].consentingMethods, 'Verbal')}"> checked </c:if> /> Verbal
+									</td>
+								</tr></table></td>
+							</tr>
 							
 							 <tr bgcolor="eeffee">
 									  <td align="left" colspan="2">
@@ -105,7 +129,7 @@
 										      <c:choose>
 											      	<c:when test="${fn:length(consent.questions) == 0}">
 											      		<tr>
-											      			<td align="left" colspan="2" width="100%" id="addquestionsMessage-${consentCount.index}"><fmt:message key="study.consent.addQuestion"/></td>
+											      			<td align="left" colspan="2" width="100%" id="addQuestionMessage-${consentCount.index}"><fmt:message key="study.consent.addQuestion"/></td>
 											      		</tr>
 											      	</c:when>
 											      	<c:otherwise>
@@ -127,7 +151,7 @@
 									      </table>
 									      <div align="right">
 									      	<tags:button id="addQuestion-${consentCount.index}" type="button" color="blue" icon="add" value="Add Question"
-														onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(consentRowInserterProps,${consentCount.index}));" size="small"/>
+									      		onclick="addConsentQuestion(${consentCount.index});" size="small"/>
 									 	 </div>
 									  </td>
 								</tr>    
@@ -189,6 +213,20 @@
 							        </select>
 							     </td>
 							</tr>
+							
+							<tr>
+					    		<td align="right"><tags:requiredIndicator/><b><fmt:message key="study.consentingMethods"/></b>
+									<tags:hoverHint id="study.consentingMethods-PAGE.ROW.INDEX" keyProp="study.consentingMethods" />
+								</td>
+								<td><table width="50%"><tr>
+									<td align="left"><input type="checkbox" id="consentingMethod-PAGE.ROW.INDEX_written" 
+										name="study.consents[PAGE.ROW.INDEX].consentingMethods" value="WRITTEN" /> Written 
+									</td>
+									<td align="left"><input type="checkbox" id="consentingMethod-PAGE.ROW.INDEX_verbal" 
+										 name="study.consents[PAGE.ROW.INDEX].consentingMethods" value="VERBAL" /> Verbal
+									</td>
+								</tr></table></td>
+							</tr>
 							  
 							<tr>
 								<td colspan="2" align="left">
@@ -207,7 +245,7 @@
 							<tr>
 								<td colspan="2" align="right">
 									<tags:button id="addQuestion-PAGE.ROW.INDEX" type="button" color="blue" icon="add" value="Add Question"
-										onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(consentRowInserterProps,PAGE.ROW.INDEX));" size="small"/>
+									      				onclick="addConsentQuestion(PAGE.ROW.INDEX);" size="small"/>
 								</td>
 							</tr>
 						</table>
