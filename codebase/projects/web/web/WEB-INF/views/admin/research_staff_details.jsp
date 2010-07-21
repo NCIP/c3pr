@@ -137,7 +137,7 @@ function copyUsername(){
 }
 
 var firstHealthcareSiteAutocompleterProps = {
-    basename: "healthcareSite",
+    basename: "firstHealthcareSite",
     populator: function(autocompleter, text) {
 			ResearchStaffAjaxFacade.matchHealthcareSites( text,function(values) {
             autocompleter.setChoices(values)
@@ -415,7 +415,8 @@ function handleRoleCheckbox(roleCheckbox){
 	 				<div class="orgValue">
 	 					<c:choose>
 		 					<c:when test="${c3pr:hasAllSiteAccess('UI_RESEARCHSTAFF_CREATE')}">
-								<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>							</c:when>
+								<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="firstHealthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>							
+							</c:when>
 							<c:otherwise>
 								<select name="healthcareSiteRolesHolderList[0].healthcareSite" class="required validate-notEmpty" style="width: 350px;">
 									<tags:userOrgOptions/>
@@ -431,7 +432,7 @@ function handleRoleCheckbox(roleCheckbox){
 	 						<tags:requiredIndicator /><fmt:message key="c3pr.common.organization"></fmt:message>
 		 				</div>
 		 				<div class="orgValue">
-		 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="healthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>
+		 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="firstHealthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>
 		 				</div>
 	 				</div>
  				</c:if>
