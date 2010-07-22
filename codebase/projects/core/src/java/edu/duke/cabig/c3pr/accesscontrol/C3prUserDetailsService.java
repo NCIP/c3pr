@@ -68,7 +68,8 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 	/**
 	 * Gets the research staff. 
 	 * Creates one if the staff does not exist. This is for the suite use case of dynamic provisioning.
-	 *
+	 * NOTE: Throws a runtime exception if unable to provision.
+	 * Since dynamic user provisioning failed, we show the error on the ui instead of working around it.
 	 * @param userId the user id
 	 * @return the research staff
 	 */
@@ -80,11 +81,11 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 				logger.debug("Attempting to dynamically provision the CSM user with user id: "+ csmUser.getUserId() +" in C3PR as staff.");
 				setAuditInfo();
 				researchStaffDao.createResearchStaff(researchStaff);
-			} catch (C3PRBaseException e) {
-				logger.error("Unable to dynamically provision staff for user: "+csmUser.getUserId());
-				logger.error(e.getMessage());
 			} catch(Exception e){
+				logger.error("Unable to proceed as dynamic provisioning failed for user: "+csmUser.getUserId());
+				logger.error("Check user details in csm_user for invalid data.");
 				logger.error(e.getMessage());
+				throw new RuntimeException();
 			}
 			return researchStaff;
 		}
@@ -102,7 +103,7 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 		researchStaff.setFirstName(csmUser.getFirstName());
 		researchStaff.setLastName(csmUser.getLastName());
 		researchStaff.setLoginId(csmUser.getUserId().toString());
-//		researchStaff.setEmail(csmUser.getEmailId());
+		researchStaff.setEmail(csmUser.getEmailId());
 //		researchStaff.setPhone(csmUser.getPhoneNumber());
 		researchStaff.setAssignedIdentifier(UUID.randomUUID().toString());
 		return researchStaff;

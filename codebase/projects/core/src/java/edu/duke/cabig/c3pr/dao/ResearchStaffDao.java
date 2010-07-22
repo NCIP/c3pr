@@ -505,9 +505,15 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					//This ensures the SRM doesn't have all-site access since the all site access chkbox was unchecked.
 					SuiteRoleMembership newSuiteRoleMembership= new SuiteRoleMembership(suiteRole, null, null);
 					if(!suiteRoleMembership.isAllSites()){
-						List<String> allSiteIds = suiteRoleMembership.getSiteIdentifiers();
+						List<String> allSiteIds = suiteRoleMembership.getStudyIdentifiers();
 						for(String siteId: allSiteIds){
 							newSuiteRoleMembership.addSite(siteId);
+						}
+					}
+					if(suiteRole.getScopes().contains(ScopeType.STUDY) && !suiteRoleMembership.isAllStudies()){
+						List<String> allStudyIds = suiteRoleMembership.getStudyIdentifiers();
+						for(String studyId: allStudyIds){
+							newSuiteRoleMembership.addSite(studyId);
 						}
 					}
 					newSuiteRoleMembership.addSite(healthcareSite.getPrimaryIdentifier());	
@@ -698,7 +704,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	    		groupName = ((Group)iter.next()).getGroupName();
 	    		suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
             	suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
-                //include roles that are scoped by site and have access to the site in question
+                //include roles that are scoped by site and have access to the site in question.
                 if(suiteRoleMembership.isAllSites() ||
                 		suiteRoleMembership.getSiteIdentifiers().contains(healthcareSite.getPrimaryIdentifier())){
                     groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
