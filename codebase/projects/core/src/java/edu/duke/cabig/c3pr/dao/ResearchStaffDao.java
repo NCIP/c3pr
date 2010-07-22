@@ -513,7 +513,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					if(suiteRole.getScopes().contains(ScopeType.STUDY) && !suiteRoleMembership.isAllStudies()){
 						List<String> allStudyIds = suiteRoleMembership.getStudyIdentifiers();
 						for(String studyId: allStudyIds){
-							newSuiteRoleMembership.addSite(studyId);
+							newSuiteRoleMembership.addStudy(studyId);
 						}
 					}
 					newSuiteRoleMembership.addSite(healthcareSite.getPrimaryIdentifier());	
