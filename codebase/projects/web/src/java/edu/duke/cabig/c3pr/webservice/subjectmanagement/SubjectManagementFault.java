@@ -4,6 +4,7 @@ package edu.duke.cabig.c3pr.webservice.subjectmanagement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -30,21 +31,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "SubjectManagementFault", propOrder = {
     "message"
 })
+@XmlSeeAlso({
+    InsufficientPrivilegesExceptionFault.class,
+    NoSuchSubjectExceptionFault.class,
+    UnableToCreateOrUpdateSubjectExceptionFault.class,
+    SubjectAlreadyExistsExceptionFault.class,
+    InvalidStateTransitionExceptionFault.class,
+    InvalidSubjectDataExceptionFault.class
+})
 public class SubjectManagementFault {
-	
-	public SubjectManagementFault() {	
-	}
 
-	
-	
-    public SubjectManagementFault(String message) {
-		super();
-		this.message = message;
-	}
-
-
-
-	@XmlElement(namespace = "", required = true)
+    @XmlElement(namespace = "", required = true)
     protected String message;
 
     /**

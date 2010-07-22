@@ -9,18 +9,18 @@
 	targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectManagementService">
 	<jaxws:bindings>
 		<jaxws:package name="edu.duke.cabig.c3pr.webservice.subjectmanagement"></jaxws:package>
-	</jaxws:bindings>	
+	</jaxws:bindings>
 	<wsdl:types>
-		<xsd:schema
-			xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
+		<xsd:schema xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+			jaxb:version="2.1"
 			targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectManagementService">
 			<xsd:annotation>
 				<xsd:appinfo>
 					<jaxb:schemaBindings>
-      					<jaxb:package name="edu.duke.cabig.c3pr.webservice.subjectmanagement"/>
-    				</jaxb:schemaBindings>		
+						<jaxb:package name="edu.duke.cabig.c3pr.webservice.subjectmanagement" />
+					</jaxb:schemaBindings>
 				</xsd:appinfo>
-			</xsd:annotation>			
+			</xsd:annotation>
 			<xsd:import namespace="http://enterpriseservices.nci.nih.gov"
 				schemaLocation="SubjectManagement.xsd" />
 			<xsd:import namespace="uri:iso.org:21090" schemaLocation="ISO_datatypes_Narrative.xsd" />
@@ -92,10 +92,51 @@
 			</xsd:element>
 
 			<xsd:element name="SubjectManagementFault" type="tns:SubjectManagementFault"></xsd:element>
+			<xsd:element name="InvalidSubjectDataExceptionFault"
+				type="tns:InvalidSubjectDataExceptionFault"></xsd:element>
+			<xsd:element name="InvalidStateTransitionExceptionFault"
+				type="tns:InvalidStateTransitionExceptionFault"></xsd:element>
+			<xsd:element name="NoSuchSubjectExceptionFault" type="tns:NoSuchSubjectExceptionFault"></xsd:element>
+			<xsd:element name="SubjectAlreadyExistsExceptionFault"
+				type="tns:SubjectAlreadyExistsExceptionFault"></xsd:element>
+			<xsd:element name="UnableToCreateOrUpdateSubjectExceptionFault"
+				type="tns:UnableToCreateOrUpdateSubjectExceptionFault"></xsd:element>
+			<xsd:element name="InsufficientPrivilegesExceptionFault"
+				type="tns:InsufficientPrivilegesExceptionFault"></xsd:element>
 			<xsd:complexType name="SubjectManagementFault">
 				<xsd:sequence>
 					<xsd:element name="message" type="xsd:string" />
 				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="InvalidSubjectDataExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="InvalidStateTransitionExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="NoSuchSubjectExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="SubjectAlreadyExistsExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="UnableToCreateOrUpdateSubjectExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="InsufficientPrivilegesExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+				</xsd:complexContent>
 			</xsd:complexType>
 		</xsd:schema>
 	</wsdl:types>
@@ -127,22 +168,22 @@
 
 	<!-- Fault Messages -->
 	<wsdl:message name="InvalidSubjectDataExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:SubjectManagementFault"></wsdl:part>
+		<wsdl:part name="fault" element="tns:InvalidSubjectDataExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="InvalidStateTransitionExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:SubjectManagementFault"></wsdl:part>
+		<wsdl:part name="fault" element="tns:InvalidStateTransitionExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="NoSuchSubjectExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:SubjectManagementFault"></wsdl:part>
+		<wsdl:part name="fault" element="tns:NoSuchSubjectExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="SubjectAlreadyExistsExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:SubjectManagementFault"></wsdl:part>
+		<wsdl:part name="fault" element="tns:SubjectAlreadyExistsExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="UnableToCreateOrUpdateSubjectExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:SubjectManagementFault"></wsdl:part>
+		<wsdl:part name="fault" element="tns:UnableToCreateOrUpdateSubjectExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="InsufficientPrivilegesExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:SubjectManagementFault"></wsdl:part>
+		<wsdl:part name="fault" element="tns:InsufficientPrivilegesExceptionFault"></wsdl:part>
 	</wsdl:message>
 
 

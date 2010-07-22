@@ -10,7 +10,7 @@ import javax.xml.ws.WebFault;
  * Generated source version: 2.1
  * 
  */
-@WebFault(name = "SubjectManagementFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
+@WebFault(name = "NoSuchSubjectExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class NoSuchSubjectExceptionFaultMessage
     extends Exception
 {
@@ -19,14 +19,14 @@ public class NoSuchSubjectExceptionFaultMessage
      * Java type that goes as soapenv:Fault detail element.
      * 
      */
-    private SubjectManagementFault faultInfo;
+    private NoSuchSubjectExceptionFault faultInfo;
 
     /**
      * 
      * @param message
      * @param faultInfo
      */
-    public NoSuchSubjectExceptionFaultMessage(String message, SubjectManagementFault faultInfo) {
+    public NoSuchSubjectExceptionFaultMessage(String message, NoSuchSubjectExceptionFault faultInfo) {
         super(message);
         this.faultInfo = faultInfo;
     }
@@ -37,7 +37,7 @@ public class NoSuchSubjectExceptionFaultMessage
      * @param faultInfo
      * @param cause
      */
-    public NoSuchSubjectExceptionFaultMessage(String message, SubjectManagementFault faultInfo, Throwable cause) {
+    public NoSuchSubjectExceptionFaultMessage(String message, NoSuchSubjectExceptionFault faultInfo, Throwable cause) {
         super(message, cause);
         this.faultInfo = faultInfo;
     }
@@ -45,9 +45,9 @@ public class NoSuchSubjectExceptionFaultMessage
     /**
      * 
      * @return
-     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementFault
+     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.NoSuchSubjectExceptionFault
      */
-    public SubjectManagementFault getFaultInfo() {
+    public NoSuchSubjectExceptionFault getFaultInfo() {
         return faultInfo;
     }
 

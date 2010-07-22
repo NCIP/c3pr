@@ -10,7 +10,7 @@ import javax.xml.ws.WebFault;
  * Generated source version: 2.1
  * 
  */
-@WebFault(name = "SubjectManagementFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
+@WebFault(name = "InvalidStateTransitionExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class InvalidStateTransitionExceptionFaultMessage
     extends Exception
 {
@@ -19,14 +19,14 @@ public class InvalidStateTransitionExceptionFaultMessage
      * Java type that goes as soapenv:Fault detail element.
      * 
      */
-    private SubjectManagementFault faultInfo;
+    private InvalidStateTransitionExceptionFault faultInfo;
 
     /**
      * 
      * @param message
      * @param faultInfo
      */
-    public InvalidStateTransitionExceptionFaultMessage(String message, SubjectManagementFault faultInfo) {
+    public InvalidStateTransitionExceptionFaultMessage(String message, InvalidStateTransitionExceptionFault faultInfo) {
         super(message);
         this.faultInfo = faultInfo;
     }
@@ -37,7 +37,7 @@ public class InvalidStateTransitionExceptionFaultMessage
      * @param faultInfo
      * @param cause
      */
-    public InvalidStateTransitionExceptionFaultMessage(String message, SubjectManagementFault faultInfo, Throwable cause) {
+    public InvalidStateTransitionExceptionFaultMessage(String message, InvalidStateTransitionExceptionFault faultInfo, Throwable cause) {
         super(message, cause);
         this.faultInfo = faultInfo;
     }
@@ -45,9 +45,9 @@ public class InvalidStateTransitionExceptionFaultMessage
     /**
      * 
      * @return
-     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementFault
+     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidStateTransitionExceptionFault
      */
-    public SubjectManagementFault getFaultInfo() {
+    public InvalidStateTransitionExceptionFault getFaultInfo() {
         return faultInfo;
     }
 

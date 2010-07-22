@@ -10,7 +10,7 @@ import javax.xml.ws.WebFault;
  * Generated source version: 2.1
  * 
  */
-@WebFault(name = "SubjectManagementFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
+@WebFault(name = "UnableToCreateOrUpdateSubjectExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class UnableToCreateOrUpdateSubjectExceptionFaultMessage
     extends Exception
 {
@@ -19,14 +19,14 @@ public class UnableToCreateOrUpdateSubjectExceptionFaultMessage
      * Java type that goes as soapenv:Fault detail element.
      * 
      */
-    private SubjectManagementFault faultInfo;
+    private UnableToCreateOrUpdateSubjectExceptionFault faultInfo;
 
     /**
      * 
      * @param message
      * @param faultInfo
      */
-    public UnableToCreateOrUpdateSubjectExceptionFaultMessage(String message, SubjectManagementFault faultInfo) {
+    public UnableToCreateOrUpdateSubjectExceptionFaultMessage(String message, UnableToCreateOrUpdateSubjectExceptionFault faultInfo) {
         super(message);
         this.faultInfo = faultInfo;
     }
@@ -37,7 +37,7 @@ public class UnableToCreateOrUpdateSubjectExceptionFaultMessage
      * @param faultInfo
      * @param cause
      */
-    public UnableToCreateOrUpdateSubjectExceptionFaultMessage(String message, SubjectManagementFault faultInfo, Throwable cause) {
+    public UnableToCreateOrUpdateSubjectExceptionFaultMessage(String message, UnableToCreateOrUpdateSubjectExceptionFault faultInfo, Throwable cause) {
         super(message, cause);
         this.faultInfo = faultInfo;
     }
@@ -45,9 +45,9 @@ public class UnableToCreateOrUpdateSubjectExceptionFaultMessage
     /**
      * 
      * @return
-     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementFault
+     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.UnableToCreateOrUpdateSubjectExceptionFault
      */
-    public SubjectManagementFault getFaultInfo() {
+    public UnableToCreateOrUpdateSubjectExceptionFault getFaultInfo() {
         return faultInfo;
     }
 

@@ -10,7 +10,7 @@ import javax.xml.ws.WebFault;
  * Generated source version: 2.1
  * 
  */
-@WebFault(name = "SubjectManagementFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
+@WebFault(name = "InsufficientPrivilegesExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class InsufficientPrivilegesExceptionFaultMessage
     extends Exception
 {
@@ -19,14 +19,14 @@ public class InsufficientPrivilegesExceptionFaultMessage
      * Java type that goes as soapenv:Fault detail element.
      * 
      */
-    private SubjectManagementFault faultInfo;
+    private InsufficientPrivilegesExceptionFault faultInfo;
 
     /**
      * 
      * @param message
      * @param faultInfo
      */
-    public InsufficientPrivilegesExceptionFaultMessage(String message, SubjectManagementFault faultInfo) {
+    public InsufficientPrivilegesExceptionFaultMessage(String message, InsufficientPrivilegesExceptionFault faultInfo) {
         super(message);
         this.faultInfo = faultInfo;
     }
@@ -37,7 +37,7 @@ public class InsufficientPrivilegesExceptionFaultMessage
      * @param faultInfo
      * @param cause
      */
-    public InsufficientPrivilegesExceptionFaultMessage(String message, SubjectManagementFault faultInfo, Throwable cause) {
+    public InsufficientPrivilegesExceptionFaultMessage(String message, InsufficientPrivilegesExceptionFault faultInfo, Throwable cause) {
         super(message, cause);
         this.faultInfo = faultInfo;
     }
@@ -45,9 +45,9 @@ public class InsufficientPrivilegesExceptionFaultMessage
     /**
      * 
      * @return
-     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementFault
+     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.InsufficientPrivilegesExceptionFault
      */
-    public SubjectManagementFault getFaultInfo() {
+    public InsufficientPrivilegesExceptionFault getFaultInfo() {
         return faultInfo;
     }
 

@@ -24,7 +24,13 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _NoSuchSubjectExceptionFault_QNAME = new QName("http://enterpriseservices.nci.nih.gov/SubjectManagementService", "NoSuchSubjectExceptionFault");
+    private final static QName _InsufficientPrivilegesExceptionFault_QNAME = new QName("http://enterpriseservices.nci.nih.gov/SubjectManagementService", "InsufficientPrivilegesExceptionFault");
+    private final static QName _InvalidStateTransitionExceptionFault_QNAME = new QName("http://enterpriseservices.nci.nih.gov/SubjectManagementService", "InvalidStateTransitionExceptionFault");
+    private final static QName _SubjectAlreadyExistsExceptionFault_QNAME = new QName("http://enterpriseservices.nci.nih.gov/SubjectManagementService", "SubjectAlreadyExistsExceptionFault");
     private final static QName _SubjectManagementFault_QNAME = new QName("http://enterpriseservices.nci.nih.gov/SubjectManagementService", "SubjectManagementFault");
+    private final static QName _UnableToCreateOrUpdateSubjectExceptionFault_QNAME = new QName("http://enterpriseservices.nci.nih.gov/SubjectManagementService", "UnableToCreateOrUpdateSubjectExceptionFault");
+    private final static QName _InvalidSubjectDataExceptionFault_QNAME = new QName("http://enterpriseservices.nci.nih.gov/SubjectManagementService", "InvalidSubjectDataExceptionFault");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: edu.duke.cabig.c3pr.webservice.subjectmanagement
@@ -34,59 +40,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpdateSubjectStateResponse }
+     * Create an instance of {@link NoSuchSubjectExceptionFault }
      * 
      */
-    public UpdateSubjectStateResponse createUpdateSubjectStateResponse() {
-        return new UpdateSubjectStateResponse();
-    }
-
-    /**
-     * Create an instance of {@link QuerySubjectResponse }
-     * 
-     */
-    public QuerySubjectResponse createQuerySubjectResponse() {
-        return new QuerySubjectResponse();
-    }
-
-    /**
-     * Create an instance of {@link Organization }
-     * 
-     */
-    public Organization createOrganization() {
-        return new Organization();
-    }
-
-    /**
-     * Create an instance of {@link SubjectManagementFault }
-     * 
-     */
-    public SubjectManagementFault createSubjectManagementFault() {
-        return new SubjectManagementFault();
-    }
-
-    /**
-     * Create an instance of {@link UpdateSubjectRequest }
-     * 
-     */
-    public UpdateSubjectRequest createUpdateSubjectRequest() {
-        return new UpdateSubjectRequest();
-    }
-
-    /**
-     * Create an instance of {@link UpdateSubjectStateRequest }
-     * 
-     */
-    public UpdateSubjectStateRequest createUpdateSubjectStateRequest() {
-        return new UpdateSubjectStateRequest();
-    }
-
-    /**
-     * Create an instance of {@link CreateSubjectResponse }
-     * 
-     */
-    public CreateSubjectResponse createCreateSubjectResponse() {
-        return new CreateSubjectResponse();
+    public NoSuchSubjectExceptionFault createNoSuchSubjectExceptionFault() {
+        return new NoSuchSubjectExceptionFault();
     }
 
     /**
@@ -98,11 +56,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QuerySubjectRequest }
+     * Create an instance of {@link UnableToCreateOrUpdateSubjectExceptionFault }
      * 
      */
-    public QuerySubjectRequest createQuerySubjectRequest() {
-        return new QuerySubjectRequest();
+    public UnableToCreateOrUpdateSubjectExceptionFault createUnableToCreateOrUpdateSubjectExceptionFault() {
+        return new UnableToCreateOrUpdateSubjectExceptionFault();
     }
 
     /**
@@ -114,11 +72,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link BiologicEntityIdentifier }
+     * Create an instance of {@link Subject }
      * 
      */
-    public BiologicEntityIdentifier createBiologicEntityIdentifier() {
-        return new BiologicEntityIdentifier();
+    public Subject createSubject() {
+        return new Subject();
+    }
+
+    /**
+     * Create an instance of {@link InsufficientPrivilegesExceptionFault }
+     * 
+     */
+    public InsufficientPrivilegesExceptionFault createInsufficientPrivilegesExceptionFault() {
+        return new InsufficientPrivilegesExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link InvalidSubjectDataExceptionFault }
+     * 
+     */
+    public InvalidSubjectDataExceptionFault createInvalidSubjectDataExceptionFault() {
+        return new InvalidSubjectDataExceptionFault();
     }
 
     /**
@@ -130,19 +104,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DSETSUBJECT }
+     * Create an instance of {@link UpdateSubjectStateResponse }
      * 
      */
-    public DSETSUBJECT createDSETSUBJECT() {
-        return new DSETSUBJECT();
+    public UpdateSubjectStateResponse createUpdateSubjectStateResponse() {
+        return new UpdateSubjectStateResponse();
     }
 
     /**
-     * Create an instance of {@link Subject }
+     * Create an instance of {@link InvalidStateTransitionExceptionFault }
      * 
      */
-    public Subject createSubject() {
-        return new Subject();
+    public InvalidStateTransitionExceptionFault createInvalidStateTransitionExceptionFault() {
+        return new InvalidStateTransitionExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link QuerySubjectRequest }
+     * 
+     */
+    public QuerySubjectRequest createQuerySubjectRequest() {
+        return new QuerySubjectRequest();
+    }
+
+    /**
+     * Create an instance of {@link UpdateSubjectStateRequest }
+     * 
+     */
+    public UpdateSubjectStateRequest createUpdateSubjectStateRequest() {
+        return new UpdateSubjectStateRequest();
+    }
+
+    /**
+     * Create an instance of {@link Organization }
+     * 
+     */
+    public Organization createOrganization() {
+        return new Organization();
     }
 
     /**
@@ -154,12 +152,122 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DSETSUBJECT }
+     * 
+     */
+    public DSETSUBJECT createDSETSUBJECT() {
+        return new DSETSUBJECT();
+    }
+
+    /**
+     * Create an instance of {@link UpdateSubjectRequest }
+     * 
+     */
+    public UpdateSubjectRequest createUpdateSubjectRequest() {
+        return new UpdateSubjectRequest();
+    }
+
+    /**
+     * Create an instance of {@link QuerySubjectResponse }
+     * 
+     */
+    public QuerySubjectResponse createQuerySubjectResponse() {
+        return new QuerySubjectResponse();
+    }
+
+    /**
+     * Create an instance of {@link SubjectManagementFault }
+     * 
+     */
+    public SubjectManagementFault createSubjectManagementFault() {
+        return new SubjectManagementFault();
+    }
+
+    /**
+     * Create an instance of {@link CreateSubjectResponse }
+     * 
+     */
+    public CreateSubjectResponse createCreateSubjectResponse() {
+        return new CreateSubjectResponse();
+    }
+
+    /**
+     * Create an instance of {@link BiologicEntityIdentifier }
+     * 
+     */
+    public BiologicEntityIdentifier createBiologicEntityIdentifier() {
+        return new BiologicEntityIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link SubjectAlreadyExistsExceptionFault }
+     * 
+     */
+    public SubjectAlreadyExistsExceptionFault createSubjectAlreadyExistsExceptionFault() {
+        return new SubjectAlreadyExistsExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link NoSuchSubjectExceptionFault }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", name = "NoSuchSubjectExceptionFault")
+    public JAXBElement<NoSuchSubjectExceptionFault> createNoSuchSubjectExceptionFault(NoSuchSubjectExceptionFault value) {
+        return new JAXBElement<NoSuchSubjectExceptionFault>(_NoSuchSubjectExceptionFault_QNAME, NoSuchSubjectExceptionFault.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InsufficientPrivilegesExceptionFault }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", name = "InsufficientPrivilegesExceptionFault")
+    public JAXBElement<InsufficientPrivilegesExceptionFault> createInsufficientPrivilegesExceptionFault(InsufficientPrivilegesExceptionFault value) {
+        return new JAXBElement<InsufficientPrivilegesExceptionFault>(_InsufficientPrivilegesExceptionFault_QNAME, InsufficientPrivilegesExceptionFault.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InvalidStateTransitionExceptionFault }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", name = "InvalidStateTransitionExceptionFault")
+    public JAXBElement<InvalidStateTransitionExceptionFault> createInvalidStateTransitionExceptionFault(InvalidStateTransitionExceptionFault value) {
+        return new JAXBElement<InvalidStateTransitionExceptionFault>(_InvalidStateTransitionExceptionFault_QNAME, InvalidStateTransitionExceptionFault.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SubjectAlreadyExistsExceptionFault }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", name = "SubjectAlreadyExistsExceptionFault")
+    public JAXBElement<SubjectAlreadyExistsExceptionFault> createSubjectAlreadyExistsExceptionFault(SubjectAlreadyExistsExceptionFault value) {
+        return new JAXBElement<SubjectAlreadyExistsExceptionFault>(_SubjectAlreadyExistsExceptionFault_QNAME, SubjectAlreadyExistsExceptionFault.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SubjectManagementFault }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", name = "SubjectManagementFault")
     public JAXBElement<SubjectManagementFault> createSubjectManagementFault(SubjectManagementFault value) {
         return new JAXBElement<SubjectManagementFault>(_SubjectManagementFault_QNAME, SubjectManagementFault.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link UnableToCreateOrUpdateSubjectExceptionFault }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", name = "UnableToCreateOrUpdateSubjectExceptionFault")
+    public JAXBElement<UnableToCreateOrUpdateSubjectExceptionFault> createUnableToCreateOrUpdateSubjectExceptionFault(UnableToCreateOrUpdateSubjectExceptionFault value) {
+        return new JAXBElement<UnableToCreateOrUpdateSubjectExceptionFault>(_UnableToCreateOrUpdateSubjectExceptionFault_QNAME, UnableToCreateOrUpdateSubjectExceptionFault.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InvalidSubjectDataExceptionFault }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", name = "InvalidSubjectDataExceptionFault")
+    public JAXBElement<InvalidSubjectDataExceptionFault> createInvalidSubjectDataExceptionFault(InvalidSubjectDataExceptionFault value) {
+        return new JAXBElement<InvalidSubjectDataExceptionFault>(_InvalidSubjectDataExceptionFault_QNAME, InvalidSubjectDataExceptionFault.class, null, value);
     }
 
 }

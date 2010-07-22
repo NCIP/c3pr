@@ -10,7 +10,7 @@ import javax.xml.ws.WebFault;
  * Generated source version: 2.1
  * 
  */
-@WebFault(name = "SubjectManagementFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
+@WebFault(name = "SubjectAlreadyExistsExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class SubjectAlreadyExistsExceptionFaultMessage
     extends Exception
 {
@@ -19,14 +19,14 @@ public class SubjectAlreadyExistsExceptionFaultMessage
      * Java type that goes as soapenv:Fault detail element.
      * 
      */
-    private SubjectManagementFault faultInfo;
+    private SubjectAlreadyExistsExceptionFault faultInfo;
 
     /**
      * 
      * @param message
      * @param faultInfo
      */
-    public SubjectAlreadyExistsExceptionFaultMessage(String message, SubjectManagementFault faultInfo) {
+    public SubjectAlreadyExistsExceptionFaultMessage(String message, SubjectAlreadyExistsExceptionFault faultInfo) {
         super(message);
         this.faultInfo = faultInfo;
     }
@@ -37,7 +37,7 @@ public class SubjectAlreadyExistsExceptionFaultMessage
      * @param faultInfo
      * @param cause
      */
-    public SubjectAlreadyExistsExceptionFaultMessage(String message, SubjectManagementFault faultInfo, Throwable cause) {
+    public SubjectAlreadyExistsExceptionFaultMessage(String message, SubjectAlreadyExistsExceptionFault faultInfo, Throwable cause) {
         super(message, cause);
         this.faultInfo = faultInfo;
     }
@@ -45,9 +45,9 @@ public class SubjectAlreadyExistsExceptionFaultMessage
     /**
      * 
      * @return
-     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementFault
+     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectAlreadyExistsExceptionFault
      */
-    public SubjectManagementFault getFaultInfo() {
+    public SubjectAlreadyExistsExceptionFault getFaultInfo() {
         return faultInfo;
     }
 

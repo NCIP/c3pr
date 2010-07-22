@@ -10,7 +10,7 @@ import javax.xml.ws.WebFault;
  * Generated source version: 2.1
  * 
  */
-@WebFault(name = "SubjectManagementFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
+@WebFault(name = "InvalidSubjectDataExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class InvalidSubjectDataExceptionFaultMessage
     extends Exception
 {
@@ -19,14 +19,14 @@ public class InvalidSubjectDataExceptionFaultMessage
      * Java type that goes as soapenv:Fault detail element.
      * 
      */
-    private SubjectManagementFault faultInfo;
+    private InvalidSubjectDataExceptionFault faultInfo;
 
     /**
      * 
      * @param message
      * @param faultInfo
      */
-    public InvalidSubjectDataExceptionFaultMessage(String message, SubjectManagementFault faultInfo) {
+    public InvalidSubjectDataExceptionFaultMessage(String message, InvalidSubjectDataExceptionFault faultInfo) {
         super(message);
         this.faultInfo = faultInfo;
     }
@@ -37,7 +37,7 @@ public class InvalidSubjectDataExceptionFaultMessage
      * @param faultInfo
      * @param cause
      */
-    public InvalidSubjectDataExceptionFaultMessage(String message, SubjectManagementFault faultInfo, Throwable cause) {
+    public InvalidSubjectDataExceptionFaultMessage(String message, InvalidSubjectDataExceptionFault faultInfo, Throwable cause) {
         super(message, cause);
         this.faultInfo = faultInfo;
     }
@@ -45,9 +45,9 @@ public class InvalidSubjectDataExceptionFaultMessage
     /**
      * 
      * @return
-     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementFault
+     *     returns fault bean: edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExceptionFault
      */
-    public SubjectManagementFault getFaultInfo() {
+    public InvalidSubjectDataExceptionFault getFaultInfo() {
         return faultInfo;
     }
 
