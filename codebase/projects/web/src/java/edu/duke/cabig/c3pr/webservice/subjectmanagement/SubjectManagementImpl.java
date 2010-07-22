@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.webservice.subjectmanagement;
 
 import javax.jws.WebService;
 
+import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
+
 /**
  * Implementation of the Subject Management web service.
  * 
@@ -14,13 +16,24 @@ import javax.jws.WebService;
 @WebService(targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement", portName = "SubjectManagement", serviceName = "SubjectManagementService")
 public class SubjectManagementImpl implements SubjectManagement {
 
-	public CreateSubjectResponse createSubject(CreateSubjectRequest parameters)
+	private JAXBToDomainObjectConverter converter;
+	
+	public JAXBToDomainObjectConverter getConverter() {
+		return converter;
+	}
+
+	public void setConverter(JAXBToDomainObjectConverter converter) {
+		this.converter = converter;
+	}
+
+	public CreateSubjectResponse createSubject(CreateSubjectRequest request)
 			throws InsufficientPrivilegesExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage,
 			SubjectAlreadyExistsExceptionFaultMessage,
 			UnableToCreateOrUpdateSubjectExceptionFaultMessage {
-		// TODO Auto-generated method stub
-		throw new UnableToCreateOrUpdateSubjectExceptionFaultMessage("test", new UnableToCreateOrUpdateSubjectExceptionFault());
+		Subject subject = request.getSubject();
+		
+		return null;
 	}
 
 	public QuerySubjectResponse querySubject(QuerySubjectRequest parameters)

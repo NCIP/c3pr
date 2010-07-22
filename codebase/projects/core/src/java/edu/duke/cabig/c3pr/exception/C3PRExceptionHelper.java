@@ -117,4 +117,22 @@ public class C3PRExceptionHelper {
         }
         return getRuntimeException(-1,e);
     }
+
+	/**
+	 * @param code
+	 * @return
+	 */
+	public ConversionException getConversionException(int code) {
+		return new ConversionException(code, getExceptionMessageFromCode(code, null, null));
+	}
+	
+    /**
+     * @param code
+     * @param params
+     * @return
+     */
+    public ConversionException getConversionException(int code, Object[] params) {
+        return new ConversionException(code, getExceptionMessageFromCode(code, params, null));
+    }
+
 }
