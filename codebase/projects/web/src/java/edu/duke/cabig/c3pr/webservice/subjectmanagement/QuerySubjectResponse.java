@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "subjects"
 })
-@XmlRootElement(name = "QuerySubjectResponse", namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
+@XmlRootElement(name = "QuerySubjectResponse")
 public class QuerySubjectResponse {
 
     @XmlElement(namespace = "", required = true)

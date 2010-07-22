@@ -5,6 +5,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import org.iso._21090.AD;
+import org.iso._21090.BAGTEL;
+import org.iso._21090.BL;
+import org.iso._21090.CD;
+import org.iso._21090.DSETCD;
+import org.iso._21090.DSETENPN;
 
 
 /**

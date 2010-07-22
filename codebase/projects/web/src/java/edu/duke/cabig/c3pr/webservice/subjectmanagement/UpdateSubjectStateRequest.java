@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import org.iso._21090.ST;
 
 
 /**
@@ -33,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
     "biologicEntityIdentifier",
     "newState"
 })
-@XmlRootElement(name = "UpdateSubjectStateRequest", namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
+@XmlRootElement(name = "UpdateSubjectStateRequest")
 public class UpdateSubjectStateRequest {
 
     @XmlElement(namespace = "", required = true)

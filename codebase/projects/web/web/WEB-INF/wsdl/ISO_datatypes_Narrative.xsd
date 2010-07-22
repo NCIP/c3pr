@@ -10,7 +10,15 @@
 	-->
 <xsd:schema elementFormDefault="qualified"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:sch="http://www.ascc.net/xml/schematron"
-	targetNamespace="uri:iso.org:21090" xmlns="uri:iso.org:21090">
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	targetNamespace="uri:iso.org:21090" xmlns="uri:iso.org:21090" jaxb:version="2.1">
+	<xsd:annotation>
+		<xsd:appinfo>
+			<jaxb:schemaBindings>
+      			<jaxb:package name="org.iso._21090"/>
+    		</jaxb:schemaBindings>		
+		</xsd:appinfo>
+	</xsd:annotation>
 	<xsd:complexType name="Narrative" mixed="true">
 		<xsd:choice minOccurs="0" maxOccurs="unbounded">
 			<xsd:element ref="content" />

@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://enterpriseservices.nci.nih.gov"
 	xmlns:ISO="uri:iso.org:21090" xmlns:tns="http://enterpriseservices.nci.nih.gov"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
 	xmlns:sch="http://www.ascc.net/xml/schematron" elementFormDefault="qualified">
-
+	
 	<annotation>
+		<appinfo>
+			<jaxb:schemaBindings>
+      			<jaxb:package name="edu.duke.cabig.c3pr.webservice.subjectmanagement"/>
+    		</jaxb:schemaBindings>
+		</appinfo>
 		<documentation>XML Schema defining types and faults for NCI Enterprise
 			Services
 			implementation.

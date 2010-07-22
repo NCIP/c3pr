@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SubjectManagementFault", namespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", propOrder = {
+@XmlType(name = "SubjectManagementFault", propOrder = {
     "message"
 })
 public class SubjectManagementFault {

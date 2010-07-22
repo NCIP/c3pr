@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
 	xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectManagementService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sm="http://enterpriseservices.nci.nih.gov"
 	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SubjectManagementService"
-	xsi:schemaLocation="uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov SubjectManagement.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov SubjectManagement.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
 	targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectManagementService">
+	<jaxws:bindings>
+		<jaxws:package name="edu.duke.cabig.c3pr.webservice.subjectmanagement"></jaxws:package>
+	</jaxws:bindings>	
 	<wsdl:types>
 		<xsd:schema
+			xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
 			targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectManagementService">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<jaxb:schemaBindings>
+      					<jaxb:package name="edu.duke.cabig.c3pr.webservice.subjectmanagement"/>
+    				</jaxb:schemaBindings>		
+				</xsd:appinfo>
+			</xsd:annotation>			
 			<xsd:import namespace="http://enterpriseservices.nci.nih.gov"
 				schemaLocation="SubjectManagement.xsd" />
 			<xsd:import namespace="uri:iso.org:21090" schemaLocation="ISO_datatypes_Narrative.xsd" />
