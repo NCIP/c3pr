@@ -31,8 +31,20 @@ import javax.xml.bind.annotation.XmlType;
     "message"
 })
 public class SubjectManagementFault {
+	
+	public SubjectManagementFault() {	
+	}
 
-    @XmlElement(namespace = "", required = true)
+	
+	
+    public SubjectManagementFault(String message) {
+		super();
+		this.message = message;
+	}
+
+
+
+	@XmlElement(namespace = "", required = true)
     protected String message;
 
     /**

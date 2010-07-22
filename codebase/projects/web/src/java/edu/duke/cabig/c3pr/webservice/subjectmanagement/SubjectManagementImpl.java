@@ -20,7 +20,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 			SubjectAlreadyExistsExceptionFaultMessage,
 			UnableToCreateOrUpdateSubjectExceptionFaultMessage {
 		// TODO Auto-generated method stub
-		return null;
+		throw new UnableToCreateOrUpdateSubjectExceptionFaultMessage("test", new SubjectManagementFault("test fault"));
 	}
 
 	public QuerySubjectResponse querySubject(QuerySubjectRequest parameters)
