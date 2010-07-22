@@ -12,7 +12,6 @@
 <script type="text/javascript">
 
 function removeStudyPersonnel(selectedStudyPersonnelAssignedId) {
-	$('_doNotSave').value = true;
 	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-")[0];
     $('_actionx').value = "removeStudyPersonnel";
     $('_selectedPersonnelAssignedId').value=selectedStudyPersonnelAssignedId;
@@ -31,6 +30,13 @@ function addStudyPersonnel(){
 	$('_doNotSave').value = true;
 	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-")[0];
 	$('_actionx').value = "addStudyPersonnel";
+	$('command').submit();
+}
+
+function saveStudyPersonnel(){
+	addPersonnelToCart();
+	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-")[0];
+	$('_actionx').value = "saveStudyPersonnel";
 	$('command').submit();
 }
 
@@ -262,7 +268,12 @@ changed before submit in javascripts. The parameters need proper default values,
 	</c3pr:checkprivilege>
 </div>
 <br/>
-<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" isFlow="false"/>
+<div class="flow-buttons">
+	<span class="next">
+		<tags:button type="button" color="blue" value="Save" icon="save" onclick="saveStudyPersonnel();"/>
+ 	</span>
+ </div>
+
 </form:form>
 </body>
 </html>
