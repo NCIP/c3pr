@@ -281,7 +281,7 @@ function redirectToTab(tabNumber){
 											<tags:inPlaceEdit value="${studySubjectConsentVersion.informedConsentSignedDateStr}" path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" 
 												id="informedConsentSignedDate_${status.index}" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
 										</td>
-										<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentDeliveryDate}"/></td>
+										<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentDeliveryDateStr}"/></td>
 										<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentingMethod.displayName}"/></td>
 										<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentPresenter}"/></td>
 									</c:when>
