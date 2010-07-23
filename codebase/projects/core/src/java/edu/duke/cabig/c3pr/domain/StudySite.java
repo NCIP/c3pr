@@ -144,7 +144,7 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     public int getCurrentAccrualCount() {
         int count = 0;
         for (StudySubject s : this.getStudySubjects()) {
-            if (s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED || s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED
+            if (s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED || s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.OFF_STUDY
                             || s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED) count++;
         }
         return count;
