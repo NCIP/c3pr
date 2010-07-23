@@ -707,7 +707,7 @@ public class StudySiteTestCase extends AbstractTestCase {
 		
 		EasyMock.expect(studySubjectStudyVersion.getStudySubject()).andReturn(studySubject);
 		EasyMock.expect(studySiteStudyVersion.getStudySubjectStudyVersions()).andReturn(studySubjectStudyVersions);
-		EasyMock.expect(studySubject.getRegWorkflowStatus()).andReturn(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED).times(2);
+		EasyMock.expect(studySubject.getRegWorkflowStatus()).andReturn(RegistrationWorkFlowStatus.OFF_STUDY).times(2);
 		
 		studySite.setStudySiteStudyVersions(studySiteStudyVersions);
 		replayMocks();
