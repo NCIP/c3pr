@@ -606,34 +606,42 @@
     
 </chrome:division>
 <chrome:division title="Informed Consents" inPlaceLinkId="editInPlaceForInformedConsent" condition="${canEditRegistrationRecord}">
-	<table class="tablecontent">
-		<tr>
-			<th><fmt:message key="study.consentName"/></th>
-			<th><fmt:message key="registration.consentSignedDate"/></th>
-			<th><fmt:message key="registration.consentDeliveredDate"/></th>
-			<th><fmt:message key="registration.consentMethod"/></th>
-			<th><fmt:message key="registration.consentPresenter"/></th>
-		</tr>
-		<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-			<tr>
-				<td>${studySubjectConsentVersion.consent.name}</td>
-				<td>	
-					<c:choose>
-						<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null && studySubjectConsentVersion.informedConsentSignedDateStr != ''}"> 
-							<tags:inPlaceEdit value="${studySubjectConsentVersion.informedConsentSignedDateStr}" path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" 
-									id="informedConsentSignedDate_${status.index}" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
-						</c:when>
-						<c:otherwise>
-							<font color="red"><i>not signed</i></font>
-						</c:otherwise>
-					</c:choose>
-				</td>
-				<td>${studySubjectConsentVersion.consentDeliveryDate}</td>
-				<td>${studySubjectConsentVersion.consentingMethod.displayName}</td>
-				<td>${studySubjectConsentVersion.consentPresenter}</td>
-			</tr>
-		</c:forEach>
-	</table>
+		<table class="tablecontent">
+					<tr>
+						<th><fmt:message key="study.consentName"/></th>
+						<th><fmt:message key="registration.consentSignedDate"/></th>
+						<th><fmt:message key="registration.consentDeliveredDate"/></th>
+						<th><fmt:message key="registration.consentMethod"/></th>
+						<th><fmt:message key="registration.consentPresenter"/></th>
+					</tr>
+					<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+						<tr>
+							<td>${studySubjectConsentVersion.consent.name}</td>
+								
+								<c:choose>
+									<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null && studySubjectConsentVersion.informedConsentSignedDateStr != ''}"> 
+										<td>
+											<tags:inPlaceEdit value="${studySubjectConsentVersion.informedConsentSignedDateStr}" path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" 
+												id="informedConsentSignedDate_${status.index}" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
+										</td>
+										<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentDeliveryDate}"/></td>
+										<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentingMethod.displayName}"/></td>
+										<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentPresenter}"/></td>
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${studySubjectConsentVersion.consent.mandatoryIndicator == true}"> 
+												<td colspan="4"><span class="red"><fmt:message key="registartion.consentRequired"/></span></td>
+											</c:when>
+											<c:otherwise>
+												<td colspan="4"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></td>
+											</c:otherwise>
+										</c:choose>
+									</c:otherwise>
+								</c:choose>
+						</tr>
+					</c:forEach>
+				</table>
 	 <script>
  		var informedConsentArray = new Array();
 	    <c:forEach var="informedConsent" items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" varStatus="informedConsentStatus">
