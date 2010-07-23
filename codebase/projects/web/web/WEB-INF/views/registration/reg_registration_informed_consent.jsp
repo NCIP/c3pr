@@ -131,6 +131,8 @@ function changeStudyVersion(){
 	                    		disabled="true">
 	                    		<form:options items="${studySubjectConsentVersion.consent.consentingMethods}" itemLabel="code" itemValue="name"/>
 	                    	</form:select></td>
+	                    	<input type="hidden" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentingMethod" 
+	                    		value="${studySubjectConsentVersion.consent.consentingMethods[0]}"/>
 	                    </c:if>
 					</tr>
 				</table>
