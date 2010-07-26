@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.BaseInvestigatorDataContainer;
+import edu.duke.cabig.c3pr.domain.BaseOrganizationDataContainer;
 import edu.duke.cabig.c3pr.domain.BaseResearchStaffDataContainer;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -240,6 +241,7 @@ public class PersonnelServiceImpl implements PersonnelService {
 		baseResearchStaffDataContainer.setLastName(remoteResearchStaff.getLastName());
 		baseResearchStaffDataContainer.setMiddleName(remoteResearchStaff.getMiddleName());
 		baseResearchStaffDataContainer.setMaidenName(remoteResearchStaff.getMaidenName());
+		baseResearchStaffDataContainer.setExternalId(remoteResearchStaff.getExternalId());
 		baseResearchStaffDataContainerDao.save(baseResearchStaffDataContainer);
 		return baseResearchStaffDataContainer;
 	}
@@ -253,6 +255,7 @@ public class PersonnelServiceImpl implements PersonnelService {
 		baseInvestigatorDataContainer.setLastName(remoteInvestigator.getLastName());
 		baseInvestigatorDataContainer.setMiddleName(remoteInvestigator.getMiddleName());
 		baseInvestigatorDataContainer.setMaidenName(remoteInvestigator.getMaidenName());
+		baseInvestigatorDataContainer.setExternalId(remoteInvestigator.getExternalId());
 		baseInvestigatorDataContainerDao.save(baseInvestigatorDataContainer);
 		return baseInvestigatorDataContainer;
 	}

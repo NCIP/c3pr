@@ -1,13 +1,19 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -48,4 +54,21 @@ public class BaseOrganizationDataContainer extends AbstractMutableDomainObject{
 	public void setExternalId(String externalId) {
 		this.externalId = externalId;
 	}
+	
+    private List<BaseResearchStaffDataContainer> baseResearchStaffDataContainers = new ArrayList<BaseResearchStaffDataContainer>();
+    @ManyToMany(mappedBy = "baseOrganizationDataContainers" )
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    public List<BaseResearchStaffDataContainer> getBaseResearchStaffDataContainers() {
+        return baseResearchStaffDataContainers;
+    }
+    public void setBaseResearchStaffDataContainers(List<BaseResearchStaffDataContainer> baseResearchStaffDataContainers) {
+        this.baseResearchStaffDataContainers = baseResearchStaffDataContainers;
+    }
+    public void addBaseResearchStaffDataContainers(BaseResearchStaffDataContainer rs) {
+        getBaseResearchStaffDataContainers().add(rs);
+    }
+    public void removeBaseResearchStaffDataContainers(BaseResearchStaffDataContainer rs) {
+        getBaseResearchStaffDataContainers().remove(rs);
+    }
+    
 }

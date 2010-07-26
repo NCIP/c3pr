@@ -1,12 +1,19 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -54,7 +61,8 @@ public class BaseResearchStaffDataContainer extends AbstractMutableDeletableDoma
 	private String maidenName;
 	private String assignedIdentifier;
 	private String dtype;
-	private BaseOrganizationDataContainer baseOrganizationDataContainer;
+	private String externalId ; 
+	private List<BaseOrganizationDataContainer> baseOrganizationDataContainers = new ArrayList<BaseOrganizationDataContainer>();
 	
 
 	public String getAssignedIdentifier() {
@@ -64,12 +72,28 @@ public class BaseResearchStaffDataContainer extends AbstractMutableDeletableDoma
 		this.assignedIdentifier = assignedIdentifier;
 	}
 	
-	@ManyToOne
-    @JoinColumn(name = "HCS_ID")
-	public BaseOrganizationDataContainer getBaseOrganizationDataContainer() {
-		return baseOrganizationDataContainer;
+	
+	@ManyToMany
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinTable(name = "rs_hc_site_assocn", joinColumns = @JoinColumn(name = "rs_id"), inverseJoinColumns = @JoinColumn(name = "hcs_id"))
+	public List<BaseOrganizationDataContainer> getBaseOrganizationDataContainers() {
+		return baseOrganizationDataContainers;
 	}
-	public void setBaseOrganizationDataContainer(BaseOrganizationDataContainer baseOrganizationDataContainer) {
-		this.baseOrganizationDataContainer = baseOrganizationDataContainer;
+	public void setBaseOrganizationDataContainers(List<BaseOrganizationDataContainer> baseOrganizationDataContainers) {
+		this.baseOrganizationDataContainers = baseOrganizationDataContainers;
 	}
+	
+	public void addBaseOrganizationDataContainer(BaseOrganizationDataContainer baseOrganizationDataContainer){
+    	this.getBaseOrganizationDataContainers().add(baseOrganizationDataContainer);
+    } 
+	public void removeHealthcareSite(BaseOrganizationDataContainer baseOrganizationDataContainer){
+    	this.getBaseOrganizationDataContainers().remove(baseOrganizationDataContainer);
+    }
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
+	}
+	public String getExternalId() {
+		return externalId;
+	}
+	
 }

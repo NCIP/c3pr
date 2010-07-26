@@ -51,6 +51,7 @@ public class BaseInvestigatorDataContainer extends AbstractMutableDeletableDomai
 	private String maidenName;
 	private String assignedIdentifier;
 	private String dtype;
+	private String externalId ;
 	
 
 	public String getAssignedIdentifier() {
@@ -58,6 +59,12 @@ public class BaseInvestigatorDataContainer extends AbstractMutableDeletableDomai
 	}
 	public void setAssignedIdentifier(String assignedIdentifier) {
 		this.assignedIdentifier = assignedIdentifier;
+	}
+	public void setExternalId(String externalId) {
+		this.externalId = externalId;
+	}
+	public String getExternalId() {
+		return externalId;
 	}
 	
 }
