@@ -274,11 +274,13 @@ changed before submit in javascripts. The parameters need proper default values,
 				                        <form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="code"/>
 				                    </form:select>
 		                            </td>
-		                            <td class="alt">
-			                            <a href="javascript:removeStudyInvestigator('${studyInvestigator.healthcareSiteInvestigator.investigator.assignedIdentifier }');">
-			                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove">
-			                            </a>&nbsp;
-			                        </td>
+		                            <c:if test="${studyInvestigator.roleCode != 'Principal Investigator'}">
+			                            <td class="alt">
+				                            <a href="javascript:removeStudyInvestigator('${studyInvestigator.healthcareSiteInvestigator.investigator.assignedIdentifier }');">
+				                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove">
+				                            </a>&nbsp;
+				                        </td>
+			                        </c:if>
 		                        </tr>
 			                    </c:forEach>
 			                </table>
