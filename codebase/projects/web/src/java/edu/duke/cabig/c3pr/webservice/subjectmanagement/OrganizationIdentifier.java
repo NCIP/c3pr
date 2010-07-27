@@ -5,9 +5,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import org.iso._21090.BL;
-import org.iso._21090.CD;
-import org.iso._21090.II;
+import edu.duke.cabig.c3pr.webservice.iso21090.BL;
+import edu.duke.cabig.c3pr.webservice.iso21090.CD;
+import edu.duke.cabig.c3pr.webservice.iso21090.II;
 
 
 /**

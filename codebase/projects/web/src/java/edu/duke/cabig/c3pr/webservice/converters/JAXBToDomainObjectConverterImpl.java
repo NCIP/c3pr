@@ -1,22 +1,40 @@
 package edu.duke.cabig.c3pr.webservice.converters;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
+import edu.duke.cabig.c3pr.webservice.iso21090.AD;
+import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
+import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
+import edu.duke.cabig.c3pr.webservice.iso21090.BL;
+import edu.duke.cabig.c3pr.webservice.iso21090.CD;
+import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
+import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
+import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
+import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
+import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
+import edu.duke.cabig.c3pr.webservice.iso21090.II;
+import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.Organization;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Person;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
-import gov.nih.nci.iso21090.Cd;
-import gov.nih.nci.iso21090.grid.dto.transform.DtoTransformException;
-import gov.nih.nci.iso21090.grid.dto.transform.iso.CDTransformer;
 
 /**
  * Default implementation of {@link JAXBToDomainObjectConverter}.
@@ -27,14 +45,37 @@ import gov.nih.nci.iso21090.grid.dto.transform.iso.CDTransformer;
 public class JAXBToDomainObjectConverterImpl implements
 		JAXBToDomainObjectConverter {
 
+	private static final String NAME_SEP = " ";
+	public static final String FAM = "FAM";
+	public static final String GIV = "GIV";
+	private static final String CTEP = "CTEP";
+	private static final String NCI = "NCI";
+
+	private static final String TS_DATETIME_PATTERN = "yyyyMMddHHmmss";
+
 	public static final int NO_SUBJECT_DATA_PROVIDED_CODE = 900;
 	private static final int INVALID_SUBJECT_DATA_REPRESENTATION = 901;
 	private static final int MISSING_SUBJECT_IDENTIFIER = 902;
+	private static final int SUBJECT_IDENTIFIER_MISSING_ORGANIZATION = 903;
+	private static final int ORGANIZATION_IDENTIFIER_MISSING_TYPECODE = 904;
+	private static final int UNABLE_TO_FIND_ORGANIZATION = 905;
+	private static final int WRONG_DATE_FORMAT = 906;
+
 	/** The exception helper. */
 	protected C3PRExceptionHelper exceptionHelper;
 
+	private HealthcareSiteDao healthcareSiteDao;
+
 	private static Log log = LogFactory
 			.getLog(JAXBToDomainObjectConverterImpl.class);
+
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
 
 	public C3PRExceptionHelper getExceptionHelper() {
 		return exceptionHelper;
@@ -53,42 +94,254 @@ public class JAXBToDomainObjectConverterImpl implements
 	 */
 	public Participant convert(Subject subject) throws ConversionException {
 		if (subject != null && subject.getEntity() != null) {
-			try {
-				Participant participant = new Participant();
-				// the following cast is reasonably safe: there is only on
-				// subclass
-				// of BiologicalEntity.
-				Person person = (Person) subject.getEntity();
-				Cd gender = CDTransformer.INSTANCE.toDto(person
-						.getAdministrativeGenderCode());
-				if (gender != null) {
-					participant.setAdministrativeGenderCode(gender.getCode());
-				}
-				List<BiologicEntityIdentifier> identifiers = person
-						.getBiologicEntityIdentifier();
-				if (CollectionUtils.isNotEmpty(identifiers)) {
-					processIdentifiers(identifiers, participant);
-				} else {
-					throw exceptionHelper
-							.getConversionException(MISSING_SUBJECT_IDENTIFIER);
-				}
-				return participant;
-			} catch (DtoTransformException e) {
-				log.error(e.getMessage(), e);
+
+			Participant participant = new Participant();
+			// the following cast is reasonably safe: there is only one
+			// subclass
+			// of BiologicalEntity.
+			Person person = (Person) subject.getEntity();
+			// gender
+			CD gender = person.getAdministrativeGenderCode();
+			participant.setAdministrativeGenderCode(gender != null ? gender
+					.getCode() : null);
+			// ids
+			List<BiologicEntityIdentifier> identifiers = person
+					.getBiologicEntityIdentifier();
+			if (CollectionUtils.isNotEmpty(identifiers)) {
+				processIdentifiers(identifiers, participant);
+			} else {
 				throw exceptionHelper
-						.getConversionException(INVALID_SUBJECT_DATA_REPRESENTATION);
+						.getConversionException(MISSING_SUBJECT_IDENTIFIER);
 			}
+			// birth date
+			participant.setBirthDate(convertToDate(person.getBirthDate()));
+			participant.setDeathDate(convertToDate(person.getDeathDate()));
+			participant
+					.setDeathIndicator(person.getDeathIndicator() != null ? person
+							.getDeathIndicator().isValue()
+							: null);
+			participant.setEthnicGroupCode(getEthnicGroupCode(person));
+			participant
+					.setMaritalStatusCode(person.getMaritalStatusCode() != null ? person
+							.getMaritalStatusCode().getCode()
+							: null);
+			participant.setFirstName(getFirstName(person));
+			participant.setLastName(getLastName(person));
+			participant.setMiddleName(getMiddleName(person));
+			participant.setAddress(getAddress(person));
+
+			return participant;
+
 		} else {
 			throw exceptionHelper
 					.getConversionException(NO_SUBJECT_DATA_PROVIDED_CODE);
 		}
 	}
 
-	private void processIdentifiers(List<BiologicEntityIdentifier> identifiers,
-			Participant participant) {		
-		for (BiologicEntityIdentifier bioId : identifiers) {
-			Identifier id = new OrganizationAssignedIdentifier();
+	private Address getAddress(Person person) {
+		Address address = null;
+		AD addr = person.getPostalAddress();
+		if (addr != null) {
+			address = new Address();
+			address.setCity(getCity(addr));
+			address.setCountryCode(getCountry(addr));
+			address.setPostalCode(getZip(addr));
+			address.setStateCode(getState(addr));
+			address.setStreetAddress(getStreet(addr));
 		}
+		return address;
+	}
+
+	/**
+	 * @param participant
+	 * @param addr
+	 */
+	private void processPostalAddress(Participant participant, final AD addr) {
+	}
+
+	private String getMiddleName(Person person) {
+		String name = null;
+		List<String> list = extractNameParts(person, EntityNamePartType.GIV);
+		if (CollectionUtils.isNotEmpty(list) && list.size() > 1) {
+			name = list.get(1);
+		}
+		return name;
+	}
+
+	private String getLastName(Person person) {
+		String name = null;
+		List<String> list = extractNameParts(person, EntityNamePartType.FAM);
+		if (CollectionUtils.isNotEmpty(list)) {
+			name = StringUtils.join(list, NAME_SEP);
+		}
+		return name;
+	}
+
+	private String getFirstName(Person person) {
+		String name = null;
+		List<String> list = extractNameParts(person, EntityNamePartType.GIV);
+		if (CollectionUtils.isNotEmpty(list)) {
+			name = list.get(0);
+		}
+		return name;
+	}
+
+	private List<String> extractNameParts(Person person, EntityNamePartType type) {
+		List<String> list = new ArrayList<String>();
+		DSETENPN parts = person.getName();
+		if (parts != null && CollectionUtils.isNotEmpty(parts.getItem())) {
+			ENPN nameEntry = parts.getItem().get(0);
+			if (nameEntry.getPart() != null) {
+				for (ENXP nameEntryPart : nameEntry.getPart()) {
+					if (type.equals(nameEntryPart.getType())) {
+						list.add(nameEntryPart.getValue());
+					}
+				}
+			}
+		}
+		return list;
+	}
+
+	private String getEthnicGroupCode(Person person) {
+		DSETCD codes = person.getEthnicGroupCode();
+		return getFirstCode(codes);
+	}
+
+	/**
+	 * @param codes
+	 * @return
+	 */
+	private String getFirstCode(DSETCD codes) {
+		String code = null;
+		if (codes != null && CollectionUtils.isNotEmpty(codes.getItem())) {
+			code = codes.getItem().get(0).getCode();
+		}
+		return code;
+	}
+
+	private Date convertToDate(TSDateTime tsDateTime) {
+		try {
+			if (tsDateTime != null) {
+				String value = tsDateTime.getValue();
+				if (value != null) {
+					return DateUtils.parseDate(value,
+							new String[] { TS_DATETIME_PATTERN });
+				}
+			}
+		} catch (ParseException e) {
+			throw exceptionHelper.getConversionException(WRONG_DATE_FORMAT,
+					new Object[] { tsDateTime.getValue() });
+		}
+		return null;
+	}
+
+	private void processIdentifiers(List<BiologicEntityIdentifier> identifiers,
+			Participant participant) {
+		for (BiologicEntityIdentifier bioId : identifiers) {
+			final II ii = bioId.getIdentifier();
+			final CD typeCode = bioId.getTypeCode();
+			Organization org = bioId.getAssigningOrganization();
+			if (ii == null || typeCode == null) {
+				throw exceptionHelper
+						.getConversionException(MISSING_SUBJECT_IDENTIFIER);
+			}
+			if (org == null) {
+				throw exceptionHelper
+						.getConversionException(SUBJECT_IDENTIFIER_MISSING_ORGANIZATION);
+			}
+			OrganizationAssignedIdentifier id = new OrganizationAssignedIdentifier();
+			id.setPrimaryIndicator(true);
+			id.setValue(ii.getExtension());
+			id.setTypeInternal(typeCode.getCode());
+			HealthcareSite healthcareSite = resolveHealthcareSite(org);
+			id.setHealthcareSite(healthcareSite);
+			participant.addIdentifier(id);
+		}
+	}
+
+	private HealthcareSite resolveHealthcareSite(Organization org) {
+		List<OrganizationIdentifier> idList = org.getOrganizationIdentifier();
+		if (CollectionUtils.isEmpty(idList)) {
+			throw exceptionHelper
+					.getConversionException(SUBJECT_IDENTIFIER_MISSING_ORGANIZATION);
+		}
+		OrganizationIdentifier orgId = idList.get(0);
+		II id = orgId.getIdentifier();
+		BL isPrimary = orgId.getPrimaryIndicator();
+		CD typeCode = orgId.getTypeCode();
+		if (id == null || StringUtils.isBlank(id.getExtension())) {
+			throw exceptionHelper
+					.getConversionException(SUBJECT_IDENTIFIER_MISSING_ORGANIZATION);
+		}
+		if (isPrimary != null && isPrimary.isValue()) {
+			return healthcareSiteDao.getByPrimaryIdentifier(id.getExtension());
+		}
+		if (typeCode == null || StringUtils.isBlank(typeCode.getCode())) {
+			throw exceptionHelper
+					.getConversionException(ORGANIZATION_IDENTIFIER_MISSING_TYPECODE);
+		}
+		if (typeCode.getCode().contains(CTEP)) {
+			return healthcareSiteDao.getByCtepCodeFromLocal(id.getExtension());
+		} else if (typeCode.getCode().contains(NCI)) {
+			return healthcareSiteDao.getByNciCodeFromLocal(id.getExtension());
+		}
+		throw exceptionHelper
+				.getConversionException(UNABLE_TO_FIND_ORGANIZATION);
+	}
+
+	private String getCity(AD ad) {
+		String city = null;
+		List<ADXP> adXps = ad.getPart();
+		for (ADXP adXp : adXps) {
+			if (adXp.getType().equals(AddressPartType.CTY)) {
+				city = adXp.getValue();
+			}
+		}
+		return city;
+	}
+
+	private String getCountry(AD ad) {
+		String ctry = null;
+		List<ADXP> adXps = ad.getPart();
+		for (ADXP adXp : adXps) {
+			if (adXp.getType().equals(AddressPartType.CNT)) {
+				ctry = adXp.getValue();
+			}
+		}
+		return ctry;
+	}
+
+	private String getState(AD ad) {
+		String state = null;
+		List<ADXP> adXps = ad.getPart();
+		for (ADXP adXp : adXps) {
+			if (adXp.getType().equals(AddressPartType.STA)) {
+				state = adXp.getValue();
+			}
+		}
+		return state;
+	}
+
+	private String getStreet(AD ad) {
+		String street = null;
+		List<ADXP> adXps = ad.getPart();
+		for (ADXP adXp : adXps) {
+			if (adXp.getType().equals(AddressPartType.AL)) {
+				street = adXp.getValue();
+			}
+		}
+		return street;
+	}
+
+	private String getZip(AD ad) {
+		String zip = null;
+		List<ADXP> adXps = ad.getPart();
+		for (ADXP adXp : adXps) {
+			if (adXp.getType().equals(AddressPartType.ZIP)) {
+				zip = adXp.getValue();
+			}
+		}
+		return zip;
 	}
 
 }

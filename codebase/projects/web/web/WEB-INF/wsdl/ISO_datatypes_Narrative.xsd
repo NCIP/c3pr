@@ -15,7 +15,7 @@
 	<xsd:annotation>
 		<xsd:appinfo>
 			<jaxb:schemaBindings>
-      			<jaxb:package name="org.iso._21090"/>
+      			<jaxb:package name="edu.duke.cabig.c3pr.webservice.iso21090"/>
     		</jaxb:schemaBindings>		
 		</xsd:appinfo>
 	</xsd:annotation>

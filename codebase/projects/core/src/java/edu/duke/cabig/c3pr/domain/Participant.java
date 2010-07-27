@@ -49,6 +49,10 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 
 	/** The birth date. */
 	private Date birthDate;
+	
+	private Date deathDate;
+	
+	private Boolean deathIndicator;
 
 
 	/** The administrative gender code. */
@@ -734,6 +738,26 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 			}
 		}
 		return null;
+	}
+
+
+	public Date getDeathDate() {
+		return deathDate;
+	}
+
+
+	public void setDeathDate(Date deathDate) {
+		this.deathDate = deathDate;
+	}
+
+
+	public Boolean getDeathIndicator() {
+		return deathIndicator;
+	}
+
+
+	public void setDeathIndicator(Boolean deathIndicator) {
+		this.deathIndicator = deathIndicator;
 	}
 	
 }

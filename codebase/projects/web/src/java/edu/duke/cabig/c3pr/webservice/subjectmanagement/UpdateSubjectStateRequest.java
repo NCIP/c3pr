@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import org.iso._21090.ST;
+import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 
 
 /**

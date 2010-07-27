@@ -158,6 +158,7 @@
 			</dependency>		
 			<dependency org="org.apache.ws.commons.schema" name="XmlSchema" rev="1.4.2" force="true"/>
 						
+			<!-- 						
 			<dependency org="ncicb" name="iso-datatypes-extensions" rev="2.1">
 				<exclude org="asm"></exclude>
 				<exclude org="stax"></exclude>
@@ -165,14 +166,16 @@
 				<exclude org="javax.xml.bind"></exclude>
 				<exclude org="javax.xml"></exclude>
 				<exclude org="com.sun.xml.bind"></exclude>
-			</dependency>						
+			</dependency>
+			 -->						
 			<!-- To prevent iso-datatypes from dragging incompatible version of asm -->			
 			<!--  
 			<exclude org="asm" name="asm" rev="3.1"/>
 			<exclude org="asm" name="asm-tree" rev="3.0"/>
-			 -->			 			
+			 -->
+			 <!-- 			 			
 			<dependency org="asm" name="asm" rev="2.2.3" force="true"/>
 			<dependency org="asm" name="asm-tree" rev="2.2.3" force="true"/>
-				 
+				  -->
         </dependencies>
 </ivy-module>
