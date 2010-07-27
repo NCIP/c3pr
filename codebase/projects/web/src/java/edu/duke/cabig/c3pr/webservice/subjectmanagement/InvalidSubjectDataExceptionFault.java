@@ -28,5 +28,11 @@ public class InvalidSubjectDataExceptionFault
     extends SubjectManagementFault
 {
 
+	public InvalidSubjectDataExceptionFault() {	
+	}
+
+	public InvalidSubjectDataExceptionFault(String message) {
+		setMessage(message);
+	}
 
 }

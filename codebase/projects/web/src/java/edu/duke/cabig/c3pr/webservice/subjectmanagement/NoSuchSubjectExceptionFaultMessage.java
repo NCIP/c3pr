@@ -12,7 +12,7 @@ import javax.xml.ws.WebFault;
  */
 @WebFault(name = "NoSuchSubjectExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class NoSuchSubjectExceptionFaultMessage
-    extends Exception
+    extends SubjectManagementException
 {
 
     /**

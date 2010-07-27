@@ -12,7 +12,7 @@ import javax.xml.ws.WebFault;
  */
 @WebFault(name = "UnableToCreateOrUpdateSubjectExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class UnableToCreateOrUpdateSubjectExceptionFaultMessage
-    extends Exception
+    extends SubjectManagementException
 {
 
     /**

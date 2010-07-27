@@ -12,7 +12,7 @@ import javax.xml.ws.WebFault;
  */
 @WebFault(name = "InvalidStateTransitionExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class InvalidStateTransitionExceptionFaultMessage
-    extends Exception
+    extends SubjectManagementException
 {
 
     /**

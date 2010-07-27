@@ -20,7 +20,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<bean id="subjectManagementService"
 		class="edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl"
-		p:converter-ref="jAXBToDomainObjectConverter" />
+		autowire="byType" />
 
 	<jaxws:endpoint id="subjectManagementEndpoint"
 		implementor="#subjectManagementService" address="/services/SubjectManagement" />

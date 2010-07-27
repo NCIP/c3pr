@@ -12,7 +12,7 @@ import javax.xml.ws.WebFault;
  */
 @WebFault(name = "SubjectAlreadyExistsExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class SubjectAlreadyExistsExceptionFaultMessage
-    extends Exception
+    extends SubjectManagementException
 {
 
     /**

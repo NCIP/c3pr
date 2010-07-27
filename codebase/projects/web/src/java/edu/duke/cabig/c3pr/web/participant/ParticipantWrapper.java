@@ -6,6 +6,14 @@ public class ParticipantWrapper {
 
 	private Participant participant;
 
+	public ParticipantWrapper() {
+	}
+
+	public ParticipantWrapper(Participant participant) {
+		super();
+		this.participant = participant;
+	}
+
 	public Participant getParticipant() {
 		return participant;
 	}

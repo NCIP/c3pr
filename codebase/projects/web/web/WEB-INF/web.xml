@@ -211,6 +211,10 @@
         <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
         <url-pattern>/j_acegi_cas_security_check</url-pattern>
     </filter-mapping> 
+    <filter-mapping>
+        <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
+        <url-pattern>/services/*</url-pattern>
+    </filter-mapping>
        
     <filter>
         <filter-name>AnonymousAuditInfoFilter</filter-name>
@@ -302,6 +306,10 @@
         <filter-name>AuditInfoFilter</filter-name>
         <url-pattern>/pages/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuditInfoFilter</filter-name>
+        <url-pattern>/services/*</url-pattern>
+    </filter-mapping>    
     <filter-mapping>
         <filter-name>AuditInfoFilter</filter-name>
         <url-pattern>/dwr/call/*</url-pattern>

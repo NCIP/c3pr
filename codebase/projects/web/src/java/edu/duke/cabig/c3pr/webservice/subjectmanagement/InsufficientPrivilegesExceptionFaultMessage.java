@@ -12,10 +12,14 @@ import javax.xml.ws.WebFault;
  */
 @WebFault(name = "InsufficientPrivilegesExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class InsufficientPrivilegesExceptionFaultMessage
-    extends Exception
+    extends SubjectManagementException
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7447947733548419895L;
+	/**
      * Java type that goes as soapenv:Fault detail element.
      * 
      */

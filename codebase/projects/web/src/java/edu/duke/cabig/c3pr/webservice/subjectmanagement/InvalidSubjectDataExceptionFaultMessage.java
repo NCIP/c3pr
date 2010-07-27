@@ -12,10 +12,14 @@ import javax.xml.ws.WebFault;
  */
 @WebFault(name = "InvalidSubjectDataExceptionFault", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 public class InvalidSubjectDataExceptionFaultMessage
-    extends Exception
+    extends SubjectManagementException
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6773391603856838050L;
+	/**
      * Java type that goes as soapenv:Fault detail element.
      * 
      */

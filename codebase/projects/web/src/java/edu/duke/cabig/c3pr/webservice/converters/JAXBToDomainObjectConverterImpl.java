@@ -11,6 +11,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -21,6 +22,7 @@ import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
+import edu.duke.cabig.c3pr.webservice.iso21090.BAGTEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.BL;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
@@ -29,6 +31,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
+import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Organization;
@@ -45,6 +48,9 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 public class JAXBToDomainObjectConverterImpl implements
 		JAXBToDomainObjectConverter {
 
+	private static final String X_TEXT_FAX = "x-text-fax";
+	private static final String TEL = "tel";
+	private static final String MAILTO = "mailto";
 	private static final String NAME_SEP = " ";
 	public static final String FAM = "FAM";
 	public static final String GIV = "GIV";
@@ -60,6 +66,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	private static final int ORGANIZATION_IDENTIFIER_MISSING_TYPECODE = 904;
 	private static final int UNABLE_TO_FIND_ORGANIZATION = 905;
 	private static final int WRONG_DATE_FORMAT = 906;
+	private static final int WRONG_RACE_CODE = 907;
 
 	/** The exception helper. */
 	protected C3PRExceptionHelper exceptionHelper;
@@ -95,47 +102,94 @@ public class JAXBToDomainObjectConverterImpl implements
 	public Participant convert(Subject subject) throws ConversionException {
 		if (subject != null && subject.getEntity() != null) {
 
-			Participant participant = new Participant();
-			// the following cast is reasonably safe: there is only one
-			// subclass
-			// of BiologicalEntity.
-			Person person = (Person) subject.getEntity();
-			// gender
-			CD gender = person.getAdministrativeGenderCode();
-			participant.setAdministrativeGenderCode(gender != null ? gender
-					.getCode() : null);
-			// ids
-			List<BiologicEntityIdentifier> identifiers = person
-					.getBiologicEntityIdentifier();
-			if (CollectionUtils.isNotEmpty(identifiers)) {
-				processIdentifiers(identifiers, participant);
-			} else {
-				throw exceptionHelper
-						.getConversionException(MISSING_SUBJECT_IDENTIFIER);
+			try {
+				Participant participant = new Participant();
+				// the following cast is reasonably safe: there is only one
+				// subclass
+				// of BiologicalEntity.
+				Person person = (Person) subject.getEntity();
+				// gender
+				CD gender = person.getAdministrativeGenderCode();
+				participant.setAdministrativeGenderCode(gender != null ? gender
+						.getCode() : null);
+				// ids
+				List<BiologicEntityIdentifier> identifiers = person
+						.getBiologicEntityIdentifier();
+				if (CollectionUtils.isNotEmpty(identifiers)) {
+					processIdentifiers(identifiers, participant);
+				} else {
+					throw exceptionHelper
+							.getConversionException(MISSING_SUBJECT_IDENTIFIER);
+				}
+				// birth date
+				participant.setBirthDate(convertToDate(person.getBirthDate()));
+				participant.setDeathDate(convertToDate(person.getDeathDate()));
+				participant
+						.setDeathIndicator(person.getDeathIndicator() != null ? person
+								.getDeathIndicator().isValue()
+								: null);
+				participant.setEthnicGroupCode(getEthnicGroupCode(person));
+				participant
+						.setMaritalStatusCode(person.getMaritalStatusCode() != null ? person
+								.getMaritalStatusCode().getCode()
+								: null);
+				participant.setFirstName(getFirstName(person));
+				participant.setLastName(getLastName(person));
+				participant.setMiddleName(getMiddleName(person));
+				participant.setAddress(getAddress(person));
+				participant.setRaceCodes(getRaceCodes(person));
+				participant.setEmail(getTelecomAddress(person, MAILTO));
+				participant.setPhone(getTelecomAddress(person, TEL));
+				participant.setFax(getTelecomAddress(person, X_TEXT_FAX));
+				return participant;
+			} catch (IllegalArgumentException e) {
+				throw exceptionHelper.getConversionException(
+						INVALID_SUBJECT_DATA_REPRESENTATION, new Object[] { e
+								.getMessage() });
 			}
-			// birth date
-			participant.setBirthDate(convertToDate(person.getBirthDate()));
-			participant.setDeathDate(convertToDate(person.getDeathDate()));
-			participant
-					.setDeathIndicator(person.getDeathIndicator() != null ? person
-							.getDeathIndicator().isValue()
-							: null);
-			participant.setEthnicGroupCode(getEthnicGroupCode(person));
-			participant
-					.setMaritalStatusCode(person.getMaritalStatusCode() != null ? person
-							.getMaritalStatusCode().getCode()
-							: null);
-			participant.setFirstName(getFirstName(person));
-			participant.setLastName(getLastName(person));
-			participant.setMiddleName(getMiddleName(person));
-			participant.setAddress(getAddress(person));
 
-			return participant;
-
-		} else {
-			throw exceptionHelper
-					.getConversionException(NO_SUBJECT_DATA_PROVIDED_CODE);
 		}
+		throw exceptionHelper
+				.getConversionException(NO_SUBJECT_DATA_PROVIDED_CODE);
+
+	}
+
+	private String getTelecomAddress(Person person, String type) {
+		type = type.toLowerCase();
+		String addr = null;
+		BAGTEL bagtel = person.getTelecomAddress();
+		if (bagtel != null && bagtel.getItem() != null) {
+			for (TEL tel : bagtel.getItem()) {
+				if (tel.getValue() != null
+						&& tel.getValue().toLowerCase().startsWith(type)) {
+					addr = tel.getValue().toLowerCase().replaceFirst(
+							"^" + type + ":", "");
+				}
+			}
+		}
+		return addr;
+	}
+
+	/**
+	 * @param person
+	 * @return
+	 */
+	private List<RaceCode> getRaceCodes(Person person) {
+		List<RaceCode> list = new ArrayList<RaceCode>();
+		DSETCD dsetcd = person.getRaceCode();
+		if (dsetcd != null && dsetcd.getItem() != null) {
+			for (CD cd : dsetcd.getItem()) {
+				String raceCodeStr = cd.getCode();
+				RaceCode raceCode = RaceCode.getByCode(raceCodeStr);
+				if (raceCode != null) {
+					list.add(raceCode);
+				} else {
+					throw exceptionHelper.getConversionException(
+							WRONG_RACE_CODE, new Object[] { raceCodeStr });
+				}
+			}
+		}
+		return list;
 	}
 
 	private Address getAddress(Person person) {
@@ -150,13 +204,6 @@ public class JAXBToDomainObjectConverterImpl implements
 			address.setStreetAddress(getStreet(addr));
 		}
 		return address;
-	}
-
-	/**
-	 * @param participant
-	 * @param addr
-	 */
-	private void processPostalAddress(Participant participant, final AD addr) {
 	}
 
 	private String getMiddleName(Person person) {
@@ -326,7 +373,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		String street = null;
 		List<ADXP> adXps = ad.getPart();
 		for (ADXP adXp : adXps) {
-			if (adXp.getType().equals(AddressPartType.AL)) {
+			if (adXp.getType().equals(AddressPartType.AL) || adXp.getType().equals(AddressPartType.SAL)) {
 				street = adXp.getValue();
 			}
 		}
