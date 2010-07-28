@@ -384,7 +384,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 		<td class="alt"><input
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="participant.systemAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
-			onfocus="javascript:clearField(this)" class="required validate-notEmpty" /></td>
+			 class="required validate-notEmpty" /></td>
 		<td>
 			<input type="hidden" name="participant.systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-hidden"/>
 			<input type="radio" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
@@ -425,7 +425,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 		<td class="alt"><input
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			name="participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
-			onfocus="javascript:clearField(this)" class="required validate-notEmpty" /></td>
+			 class="required validate-notEmpty" /></td>
 		<td>
 			<input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
 			name="participant.organizationAssignedIdentifiers.primaryIndicator-PAGE.ROW.INDEX" onclick="manageIdentifierRadio(this);"/>
