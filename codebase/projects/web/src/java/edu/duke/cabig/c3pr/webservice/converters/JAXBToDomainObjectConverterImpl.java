@@ -12,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.SubjectStateCode;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -117,6 +118,7 @@ public class JAXBToDomainObjectConverterImpl implements
 			}
 
 			convert(participant, subject);
+			participant.setStateCode(SubjectStateCode.ACTIVE.getCode());
 			return participant;
 
 		}

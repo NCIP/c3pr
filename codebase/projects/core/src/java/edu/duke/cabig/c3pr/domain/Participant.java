@@ -54,6 +54,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	
 	private Boolean deathIndicator;
 
+	private String stateCode;
 
 	/** The administrative gender code. */
 	private String administrativeGenderCode;
@@ -758,6 +759,16 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 
 	public void setDeathIndicator(Boolean deathIndicator) {
 		this.deathIndicator = deathIndicator;
+	}
+
+
+	public String getStateCode() {
+		return stateCode;
+	}
+
+
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
 	}
 	
 }

@@ -14,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
+import edu.duke.cabig.c3pr.constants.SubjectStateCode;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
@@ -144,6 +145,11 @@ public class SubjectManagementImpl implements SubjectManagement {
 			}
 
 			participant = existingList.get(0);
+			if (!SubjectStateCode.ACTIVE.getCode().equals(participant.getStateCode())) {
+				NoSuchSubjectExceptionFault fault = new NoSuchSubjectExceptionFault();
+				throw new NoSuchSubjectExceptionFaultMessage(
+						"Subject is inactive.", fault);				
+			}
 			converter.convert(participant, subject);
 			final ParticipantWrapper wrapper = new ParticipantWrapper(
 					participant);
