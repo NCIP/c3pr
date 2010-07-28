@@ -26,6 +26,13 @@ public class ContextTools {
 
         });
     }
+    
+    public static ApplicationContext createConfigPropertiesApplicationContext() {
+        return new ClassPathXmlApplicationContext(new String[] {
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-configProperties.xml",
+
+        });
+    }
 
     private ContextTools() {
     }
