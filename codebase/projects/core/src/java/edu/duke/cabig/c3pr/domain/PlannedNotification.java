@@ -236,7 +236,7 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
      * @return the scheduled notifications internal
      */
     @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.MERGE})
+    @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "planned_notfns_id", nullable = false)
     @Where(clause = "retired_indicator  = 'false'")
 //    @OrderBy(clause="date_sent desc")
