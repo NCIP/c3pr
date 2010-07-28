@@ -8,7 +8,9 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
             t.addColumn('rs_id', 'integer', nullable:false)
             t.addColumn('hcs_id', 'integer', nullable:false)
         }
-        
+        if (databaseMatches('oracle')) {
+		   	execute("RENAME SEQ_rs_hc_site_assocn_ID to rs_hc_site_assocn_ID_SEQ");
+	 	}
         //foreign key associations for new table
 		execute("ALTER TABLE rs_hc_site_assocn ADD CONSTRAINT FK_RS_HCS_ASSOCN_RS FOREIGN KEY (rs_id) REFERENCES research_staff (ID)");
 		execute("ALTER TABLE rs_hc_site_assocn ADD CONSTRAINT FK_RS_HCS_ASSOCN_HC_SITE FOREIGN KEY (hcs_id) REFERENCES organizations (ID)");
