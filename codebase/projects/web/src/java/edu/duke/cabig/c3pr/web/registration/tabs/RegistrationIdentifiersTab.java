@@ -2,6 +2,9 @@ package edu.duke.cabig.c3pr.web.registration.tabs;
 
 import java.util.Map;
 
+import org.springframework.validation.Errors;
+
+import edu.duke.cabig.c3pr.domain.validator.StudySubjectValidator;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
 /**
@@ -21,5 +24,23 @@ public class RegistrationIdentifiersTab<C extends StudySubjectWrapper> extends R
         refdata.put("orgIdentifiersTypeRefData", configurationProperty.getMap().get("orgIdentifiersTypeRefData"));
         return refdata;
     }
+    
+    private StudySubjectValidator studySubjectValidator;
+
+    public StudySubjectValidator getStudySubjectValidator() {
+		return studySubjectValidator;
+	}
+
+	public void setStudySubjectValidator(StudySubjectValidator studySubjectValidator) {
+		this.studySubjectValidator = studySubjectValidator;
+	}
+
+	@Override
+    public void validate(StudySubjectWrapper wrapper, Errors errors) {
+        this.studySubjectValidator.validateIdentifiers(wrapper.getStudySubject(), errors);
+
+    }
+
+   
     
 }

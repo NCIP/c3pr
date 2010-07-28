@@ -550,6 +550,7 @@
 
     <!--validators for domain objects   -->
     <bean id="studyValidator" class="edu.duke.cabig.c3pr.domain.validator.StudyValidator" autowire="byName"/>
+    <bean id="studySubjectValidator" class="edu.duke.cabig.c3pr.domain.validator.StudySubjectValidator" autowire="byName"/>
     <bean id="studySiteValidator" class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator" autowire="byName"/>
     <bean id="epochValidator" class="edu.duke.cabig.c3pr.domain.validator.EpochValidator" autowire="byName"/>
     <bean id="armValidator" class="edu.duke.cabig.c3pr.domain.validator.ArmValidator"/>
