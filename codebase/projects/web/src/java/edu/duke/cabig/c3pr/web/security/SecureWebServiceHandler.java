@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.web.security;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPEnvelope;
@@ -25,6 +26,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import edu.duke.cabig.c3pr.utils.web.AuditInfoFilter;
+
 /**
  * @author dkrylov
  * 
@@ -40,6 +43,7 @@ public final class SecureWebServiceHandler implements
 	}
 
 	public void close(MessageContext ctx) {
+		AuditInfoFilter.unsetAuditInfo();
 	}
 
 	public boolean handleFault(SOAPMessageContext ctx) {
@@ -50,7 +54,10 @@ public final class SecureWebServiceHandler implements
 		try {
 			Boolean response_p = (Boolean) ctx
 					.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
-			ServletContext servletContext = (ServletContext) ctx.get(MessageContext.SERVLET_CONTEXT);
+			ServletContext servletContext = (ServletContext) ctx
+					.get(MessageContext.SERVLET_CONTEXT);
+			HttpServletRequest request = (HttpServletRequest) ctx
+					.get(MessageContext.SERVLET_REQUEST);
 			// Handle the SOAP only if it's incoming.
 			if (!response_p) {
 				SOAPMessage msg = ctx.getMessage();
@@ -62,34 +69,38 @@ public final class SecureWebServiceHandler implements
 				}
 
 				/*
-				List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-				list.add(new GrantedAuthorityImpl("ROLE_c3pr_admin"));
-				list.add(new GrantedAuthorityImpl("c3pr_admin"));
-				list.add(new GrantedAuthorityImpl("study_coordinator"));
-				for (RoleTypes roleType : RoleTypes.values()) {
-					list.add(new GrantedAuthorityImpl(roleType.getCode()));
-				}
-
-				AuthorizedUser authorizedUser= new AuthorizedUser("c3pr_admin", "does_not_matter", true, true, true, true, 
-						list
-						.toArray(new GrantedAuthority[] {}), null, getAllRolePrivileges(list
-								.toArray(new GrantedAuthority[] {})), 
-						null);
-				
-				Authentication auth = new TestingAuthenticationToken(
-						"c3pr_admin", "does_not_matter", list
-								.toArray(new GrantedAuthority[] {}));
-				auth.setAuthenticated(true);
-				SecurityContextHolder.getContext().setAuthentication(auth);
-				*/
-				ApplicationContext springCtx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-				UserDetailsService userDetailsService = (UserDetailsService) springCtx.getBean(CSM_USER_DETAILS_SERVICE);
-				UserDetails user =  userDetailsService.loadUserByUsername("jdoe01");
+				 * List<GrantedAuthority> list = new
+				 * ArrayList<GrantedAuthority>(); list.add(new
+				 * GrantedAuthorityImpl("ROLE_c3pr_admin")); list.add(new
+				 * GrantedAuthorityImpl("c3pr_admin")); list.add(new
+				 * GrantedAuthorityImpl("study_coordinator")); for (RoleTypes
+				 * roleType : RoleTypes.values()) { list.add(new
+				 * GrantedAuthorityImpl(roleType.getCode())); }
+				 * 
+				 * AuthorizedUser authorizedUser= new
+				 * AuthorizedUser("c3pr_admin", "does_not_matter", true, true,
+				 * true, true, list .toArray(new GrantedAuthority[] {}), null,
+				 * getAllRolePrivileges(list .toArray(new GrantedAuthority[]
+				 * {})), null);
+				 * 
+				 * Authentication auth = new TestingAuthenticationToken(
+				 * "c3pr_admin", "does_not_matter", list .toArray(new
+				 * GrantedAuthority[] {})); auth.setAuthenticated(true);
+				 * SecurityContextHolder.getContext().setAuthentication(auth);
+				 */
+				ApplicationContext springCtx = WebApplicationContextUtils
+						.getWebApplicationContext(servletContext);
+				UserDetailsService userDetailsService = (UserDetailsService) springCtx
+						.getBean(CSM_USER_DETAILS_SERVICE);
+				UserDetails user = userDetailsService
+						.loadUserByUsername("jdoe01");
 				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
 						user, user.getPassword(), user.getAuthorities());
-				//token.setAuthenticated(true);
-				SecurityContextHolder.getContext().setAuthentication(token);			
-				
+				// token.setAuthenticated(true);
+				SecurityContextHolder.getContext().setAuthentication(token);
+
+				AuditInfoFilter.setAuditInfo(request);
+
 			}
 		} catch (SOAPException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
@@ -114,6 +125,5 @@ public final class SecureWebServiceHandler implements
 			throw new RuntimeException(e);
 		}
 	}
-	
 
 }

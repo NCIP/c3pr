@@ -136,6 +136,7 @@ public class JAXBToDomainObjectConverterImpl implements
 				participant.setFirstName(getFirstName(person));
 				participant.setLastName(getLastName(person));
 				participant.setMiddleName(getMiddleName(person));
+				participant.setMaidenName(StringUtils.EMPTY);
 				participant.setAddress(getAddress(person));
 				participant.setRaceCodes(getRaceCodes(person));
 				participant.setEmail(getTelecomAddress(person, MAILTO));
@@ -207,7 +208,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	}
 
 	private String getMiddleName(Person person) {
-		String name = null;
+		String name = "";
 		List<String> list = extractNameParts(person, EntityNamePartType.GIV);
 		if (CollectionUtils.isNotEmpty(list) && list.size() > 1) {
 			name = list.get(1);
@@ -216,7 +217,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	}
 
 	private String getLastName(Person person) {
-		String name = null;
+		String name = "";
 		List<String> list = extractNameParts(person, EntityNamePartType.FAM);
 		if (CollectionUtils.isNotEmpty(list)) {
 			name = StringUtils.join(list, NAME_SEP);
@@ -225,7 +226,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	}
 
 	private String getFirstName(Person person) {
-		String name = null;
+		String name = "";
 		List<String> list = extractNameParts(person, EntityNamePartType.GIV);
 		if (CollectionUtils.isNotEmpty(list)) {
 			name = list.get(0);

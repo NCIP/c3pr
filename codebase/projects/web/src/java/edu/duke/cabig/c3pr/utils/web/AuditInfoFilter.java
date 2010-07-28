@@ -13,28 +13,41 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
-import edu.duke.cabig.c3pr.utils.web.filter.PreAuthenticationSetupFilter;
 
 public class AuditInfoFilter extends
                 gov.nih.nci.cabig.ctms.web.filters.ContextRetainingFilterAdapter {
 
-	private Logger log = Logger.getLogger(PreAuthenticationSetupFilter.class);
+	private static Logger log = Logger.getLogger(AuditInfoFilter.class);
 	
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response,
                     final FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpReq = (HttpServletRequest) request;
-        String userName = SecurityUtils.getUserName();
+        setAuditInfo(httpReq);
+        chain.doFilter(request, response);
+        unsetAuditInfo();
+    }
+
+	/**
+	 * 
+	 */
+	public static void unsetAuditInfo() {
+		edu.nwu.bioinformatics.commons.DataAuditInfo.setLocal(null);
+	}
+
+	/**
+	 * @param httpReq
+	 */
+	public static void setAuditInfo(HttpServletRequest httpReq) {
+		String userName = SecurityUtils.getUserName();
         if (!StringUtils.isBlank(userName)) {
         	log.debug("setting audit info for "+ userName);
             gov.nih.nci.cabig.ctms.audit.DataAuditInfo
                             .setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
-                            		userName, request.getRemoteAddr(), new Date(),
+                            		userName, httpReq.getRemoteAddr(), new Date(),
                                             httpReq.getRequestURI()));
         }else{
         	log.debug("no authentication found in SecurityContext. Skipping audit info setup");
         }
-        chain.doFilter(request, response);
-        edu.nwu.bioinformatics.commons.DataAuditInfo.setLocal(null);
-    }
+	}
 }
