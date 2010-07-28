@@ -42,7 +42,7 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        context = ContextTools.createDeployedCoreApplicationContext();
+        context = ContextTools.createConfigPropertiesApplicationContext();
         participant = registerMockFor(Participant.class);
         participantDao = registerMockFor(ParticipantDao.class);
         controller.setParticipantDao(participantDao);
