@@ -308,9 +308,9 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			currentSiteStudyStatus = (SiteStudyStatus)currentState;
 		}
 		
-		
-		if(previousSiteStudyStatus != null && 
-				previousSiteStudyStatus.getCode().equals(currentSiteStudyStatus.getCode())){
+		// don't do anything when the study site is newly created in which case it's previous state will be null
+		if(previousSiteStudyStatus == null || (previousSiteStudyStatus != null && 
+				previousSiteStudyStatus.getCode().equals(currentSiteStudyStatus.getCode()))){
 			//no status change...do nothing
 		} else {
 			//there is some status change and event is configured in plannedNotifs
