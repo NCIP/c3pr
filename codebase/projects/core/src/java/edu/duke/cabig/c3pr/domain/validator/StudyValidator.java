@@ -149,7 +149,7 @@ public class StudyValidator implements Validator {
         List<SystemAssignedIdentifier> allSystemAssigedIdentitiers = study
                         .getSystemAssignedIdentifiers();
         try {
-            for (int sysIdentifierIndex = 0; sysIdentifierIndex < allOrganizationAssigedIdentitiers
+            for (int sysIdentifierIndex = 0; sysIdentifierIndex < allSystemAssigedIdentitiers
                             .size(); sysIdentifierIndex++) {
                 errors.pushNestedPath("study.systemAssignedIdentifiers[" + sysIdentifierIndex + "]");
                 errors.popNestedPath();
