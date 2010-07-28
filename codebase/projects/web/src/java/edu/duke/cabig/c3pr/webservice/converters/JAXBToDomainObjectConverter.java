@@ -14,11 +14,18 @@ public interface JAXBToDomainObjectConverter {
 	
 	
 	/**
-	 * Convert {@link Subject} to {@link Participant}.
+	 * Convert {@link Subject} to a new instance of {@link Participant}.
 	 * @param subject
 	 * @return
 	 * @throws ConversionException
 	 */
 	Participant convert(Subject subject) throws ConversionException;
+
+	/**
+	 * Updates the given instance of {@link Participant} with new values. Does not modify identifiers. 
+	 * @param participant
+	 * @param subject
+	 */
+	void convert(Participant participant, Subject subject);
 
 }

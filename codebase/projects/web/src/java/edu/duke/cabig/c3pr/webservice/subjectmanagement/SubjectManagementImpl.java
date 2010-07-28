@@ -1,12 +1,12 @@
 package edu.duke.cabig.c3pr.webservice.subjectmanagement;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,13 +14,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
-import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl;
 
 /**
  * Implementation of the Subject Management web service.
@@ -32,23 +32,23 @@ import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl
  * 
  */
 @WebService(targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement", portName = "SubjectManagement", serviceName = "SubjectManagementService")
-@HandlerChain(file="/ws-handlers.xml")
+@HandlerChain(file = "/ws-handlers.xml")
 public class SubjectManagementImpl implements SubjectManagement {
 
-	private static Log log = LogFactory
-			.getLog(SubjectManagementImpl.class);
+	private static Log log = LogFactory.getLog(SubjectManagementImpl.class);
 
 	private JAXBToDomainObjectConverter converter;
 
 	private ParticipantValidator participantValidator;
-	
+
 	private ParticipantRepository participantRepository;
 
 	public ParticipantRepository getParticipantRepository() {
 		return participantRepository;
 	}
 
-	public void setParticipantRepository(ParticipantRepository participantRepository) {
+	public void setParticipantRepository(
+			ParticipantRepository participantRepository) {
 		this.participantRepository = participantRepository;
 	}
 
@@ -69,43 +69,46 @@ public class SubjectManagementImpl implements SubjectManagement {
 		this.converter = converter;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement#createSubject(edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeedu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement#
+	 * createSubject
+	 * (edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest)
 	 */
 	public CreateSubjectResponse createSubject(CreateSubjectRequest request)
 			throws InsufficientPrivilegesExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage,
 			SubjectAlreadyExistsExceptionFaultMessage,
 			UnableToCreateOrUpdateSubjectExceptionFaultMessage {
+		CreateSubjectResponse response = new CreateSubjectResponse();
 		try {
 			Subject subject = request.getSubject();
 			Participant participant = converter.convert(subject);
-			final ParticipantWrapper wrapper = new ParticipantWrapper(participant);
-			participantValidator.validate(wrapper , new ExceptionBasedErrorsImpl(wrapper));
-			participantRepository.save(participant);
-			CreateSubjectResponse response = new CreateSubjectResponse();
-			response.setSubject(subject);
-			return response;
-		} catch (ConversionException e) {
-			log.error(ExceptionUtils.getFullStackTrace(e));
-			InvalidSubjectDataExceptionFault fault = new InvalidSubjectDataExceptionFault(
-					e.getMessage());
-			throw new InvalidSubjectDataExceptionFaultMessage(e.getMessage(),
-					fault);
-		} catch (ParticipantValidationError e) {
-			log.error(ExceptionUtils.getFullStackTrace(e));
-			InvalidSubjectDataExceptionFault fault = new InvalidSubjectDataExceptionFault(
-					e.getMessage());
-			throw new InvalidSubjectDataExceptionFaultMessage(e.getMessage(),
-					fault);
-		} catch (Exception e) {
-			log.error(ExceptionUtils.getFullStackTrace(e));
-			UnableToCreateOrUpdateSubjectExceptionFault fault = new UnableToCreateOrUpdateSubjectExceptionFault();
-			fault.setMessage(e.getMessage());
-			throw new UnableToCreateOrUpdateSubjectExceptionFaultMessage(e
-					.getMessage(), fault);
-		}
 
+			Identifier identifier = participant.getIdentifiers().get(0);
+			List<Participant> existingList = participantRepository
+					.searchByIdentifier(identifier);
+			if (CollectionUtils.isNotEmpty(existingList)) {
+				SubjectAlreadyExistsExceptionFault fault = new SubjectAlreadyExistsExceptionFault();
+				throw new SubjectAlreadyExistsExceptionFaultMessage(
+						"Subject already exists.", fault);
+			}
+
+			final ParticipantWrapper wrapper = new ParticipantWrapper(
+					participant);
+			participantValidator.validate(wrapper,
+					new ExceptionBasedErrorsImpl(wrapper));
+			participantRepository.save(participant);
+			response.setSubject(subject);
+		} catch (ConversionException e) {
+			handleInvalidSubjectData(e);
+		} catch (ParticipantValidationError e) {
+			handleInvalidSubjectData(e);
+		} catch (RuntimeException e) {
+			handleSubjectBackendProblem(e);
+		}
+		return response;
 	}
 
 	public QuerySubjectResponse querySubject(QuerySubjectRequest parameters)
@@ -115,13 +118,73 @@ public class SubjectManagementImpl implements SubjectManagement {
 		return null;
 	}
 
-	public UpdateSubjectResponse updateSubject(UpdateSubjectRequest parameters)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeedu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement#
+	 * updateSubject
+	 * (edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectRequest)
+	 */
+	public UpdateSubjectResponse updateSubject(UpdateSubjectRequest request)
 			throws InsufficientPrivilegesExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage,
 			NoSuchSubjectExceptionFaultMessage,
 			UnableToCreateOrUpdateSubjectExceptionFaultMessage {
-		// TODO Auto-generated method stub
-		return null;
+		UpdateSubjectResponse response = new UpdateSubjectResponse();
+		try {
+			Subject subject = request.getSubject();
+			Participant participant = converter.convert(subject);
+			Identifier identifier = participant.getIdentifiers().get(0);
+			List<Participant> existingList = participantRepository
+					.searchByIdentifier(identifier);
+			if (CollectionUtils.isEmpty(existingList)) {
+				NoSuchSubjectExceptionFault fault = new NoSuchSubjectExceptionFault();
+				throw new NoSuchSubjectExceptionFaultMessage(
+						"Subject does not exist.", fault);
+			}
+
+			participant = existingList.get(0);
+			converter.convert(participant, subject);
+			final ParticipantWrapper wrapper = new ParticipantWrapper(
+					participant);
+			participantValidator.validate(wrapper,
+					new ExceptionBasedErrorsImpl(wrapper));
+			participantRepository.save(participant);
+			response.setSubject(subject);
+
+		} catch (ConversionException e) {
+			handleInvalidSubjectData(e);
+		} catch (ParticipantValidationError e) {
+			handleInvalidSubjectData(e);
+		} catch (RuntimeException e) {
+			handleSubjectBackendProblem(e);
+		}
+		return response;
+	}
+
+	/**
+	 * @param e
+	 * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage
+	 */
+	private void handleSubjectBackendProblem(RuntimeException e)
+			throws UnableToCreateOrUpdateSubjectExceptionFaultMessage {
+		log.error(ExceptionUtils.getFullStackTrace(e));
+		UnableToCreateOrUpdateSubjectExceptionFault fault = new UnableToCreateOrUpdateSubjectExceptionFault();
+		fault.setMessage(e.getMessage());
+		throw new UnableToCreateOrUpdateSubjectExceptionFaultMessage(e
+				.getMessage(), fault);
+	}
+
+	/**
+	 * @param e
+	 * @throws InvalidSubjectDataExceptionFaultMessage
+	 */
+	private void handleInvalidSubjectData(Exception e)
+			throws InvalidSubjectDataExceptionFaultMessage {
+		log.error(ExceptionUtils.getFullStackTrace(e));
+		InvalidSubjectDataExceptionFault fault = new InvalidSubjectDataExceptionFault(
+				e.getMessage());
+		throw new InvalidSubjectDataExceptionFaultMessage(e.getMessage(), fault);
 	}
 
 	public UpdateSubjectStateResponse updateSubjectState(
@@ -171,7 +234,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 	 * 
 	 */
 	private static final class ExceptionBasedErrorsImpl implements Errors {
-		
+
 		private ParticipantWrapper participantWrapper;
 
 		public ExceptionBasedErrorsImpl(ParticipantWrapper participantWrapper) {
@@ -234,7 +297,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 				return PropertyUtils.getProperty(participantWrapper, field);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
-			} 
+			}
 		}
 
 		public ObjectError getGlobalError() {

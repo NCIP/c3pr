@@ -48,9 +48,9 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 public class JAXBToDomainObjectConverterImpl implements
 		JAXBToDomainObjectConverter {
 
-	private static final String X_TEXT_FAX = "x-text-fax";
-	private static final String TEL = "tel";
-	private static final String MAILTO = "mailto";
+	static final String X_TEXT_FAX = "x-text-fax";
+	static final String TEL = "tel";
+	static final String MAILTO = "mailto";
 	private static final String NAME_SEP = " ";
 	public static final String FAM = "FAM";
 	public static final String GIV = "GIV";
@@ -60,7 +60,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	private static final String TS_DATETIME_PATTERN = "yyyyMMddHHmmss";
 
 	public static final int NO_SUBJECT_DATA_PROVIDED_CODE = 900;
-	private static final int INVALID_SUBJECT_DATA_REPRESENTATION = 901;
+	static final int INVALID_SUBJECT_DATA_REPRESENTATION = 901;
 	private static final int MISSING_SUBJECT_IDENTIFIER = 902;
 	private static final int SUBJECT_IDENTIFIER_MISSING_ORGANIZATION = 903;
 	private static final int ORGANIZATION_IDENTIFIER_MISSING_TYPECODE = 904;
@@ -101,26 +101,46 @@ public class JAXBToDomainObjectConverterImpl implements
 	 */
 	public Participant convert(Subject subject) throws ConversionException {
 		if (subject != null && subject.getEntity() != null) {
+			Participant participant = new Participant();
+			// the following cast is reasonably safe: there is only one
+			// subclass
+			// of BiologicalEntity.
+			Person person = (Person) subject.getEntity();
+			// ids
+			List<BiologicEntityIdentifier> identifiers = person
+					.getBiologicEntityIdentifier();
+			if (CollectionUtils.isNotEmpty(identifiers)) {
+				processIdentifiers(identifiers, participant);
+			} else {
+				throw exceptionHelper
+						.getConversionException(MISSING_SUBJECT_IDENTIFIER);
+			}
 
+			convert(participant, subject);
+			return participant;
+
+		}
+		throw exceptionHelper
+				.getConversionException(NO_SUBJECT_DATA_PROVIDED_CODE);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert(edu.duke.cabig.c3pr.domain.Participant,
+	 * edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject)
+	 */
+	public void convert(Participant participant, Subject subject) {
+		if (subject != null && subject.getEntity() != null) {
 			try {
-				Participant participant = new Participant();
-				// the following cast is reasonably safe: there is only one
-				// subclass
-				// of BiologicalEntity.
 				Person person = (Person) subject.getEntity();
 				// gender
 				CD gender = person.getAdministrativeGenderCode();
 				participant.setAdministrativeGenderCode(gender != null ? gender
 						.getCode() : null);
-				// ids
-				List<BiologicEntityIdentifier> identifiers = person
-						.getBiologicEntityIdentifier();
-				if (CollectionUtils.isNotEmpty(identifiers)) {
-					processIdentifiers(identifiers, participant);
-				} else {
-					throw exceptionHelper
-							.getConversionException(MISSING_SUBJECT_IDENTIFIER);
-				}
 				// birth date
 				participant.setBirthDate(convertToDate(person.getBirthDate()));
 				participant.setDeathDate(convertToDate(person.getDeathDate()));
@@ -142,20 +162,18 @@ public class JAXBToDomainObjectConverterImpl implements
 				participant.setEmail(getTelecomAddress(person, MAILTO));
 				participant.setPhone(getTelecomAddress(person, TEL));
 				participant.setFax(getTelecomAddress(person, X_TEXT_FAX));
-				return participant;
 			} catch (IllegalArgumentException e) {
 				throw exceptionHelper.getConversionException(
 						INVALID_SUBJECT_DATA_REPRESENTATION, new Object[] { e
 								.getMessage() });
 			}
-
+		} else {
+			throw exceptionHelper
+					.getConversionException(NO_SUBJECT_DATA_PROVIDED_CODE);
 		}
-		throw exceptionHelper
-				.getConversionException(NO_SUBJECT_DATA_PROVIDED_CODE);
-
 	}
 
-	private String getTelecomAddress(Person person, String type) {
+	String getTelecomAddress(Person person, String type) {
 		type = type.toLowerCase();
 		String addr = null;
 		BAGTEL bagtel = person.getTelecomAddress();
@@ -175,7 +193,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	 * @param person
 	 * @return
 	 */
-	private List<RaceCode> getRaceCodes(Person person) {
+	List<RaceCode> getRaceCodes(Person person) {
 		List<RaceCode> list = new ArrayList<RaceCode>();
 		DSETCD dsetcd = person.getRaceCode();
 		if (dsetcd != null && dsetcd.getItem() != null) {
@@ -193,7 +211,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		return list;
 	}
 
-	private Address getAddress(Person person) {
+	Address getAddress(Person person) {
 		Address address = null;
 		AD addr = person.getPostalAddress();
 		if (addr != null) {
@@ -207,7 +225,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		return address;
 	}
 
-	private String getMiddleName(Person person) {
+	String getMiddleName(Person person) {
 		String name = "";
 		List<String> list = extractNameParts(person, EntityNamePartType.GIV);
 		if (CollectionUtils.isNotEmpty(list) && list.size() > 1) {
@@ -216,7 +234,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		return name;
 	}
 
-	private String getLastName(Person person) {
+	String getLastName(Person person) {
 		String name = "";
 		List<String> list = extractNameParts(person, EntityNamePartType.FAM);
 		if (CollectionUtils.isNotEmpty(list)) {
@@ -225,7 +243,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		return name;
 	}
 
-	private String getFirstName(Person person) {
+	String getFirstName(Person person) {
 		String name = "";
 		List<String> list = extractNameParts(person, EntityNamePartType.GIV);
 		if (CollectionUtils.isNotEmpty(list)) {
@@ -250,7 +268,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		return list;
 	}
 
-	private String getEthnicGroupCode(Person person) {
+	String getEthnicGroupCode(Person person) {
 		DSETCD codes = person.getEthnicGroupCode();
 		return getFirstCode(codes);
 	}
@@ -267,7 +285,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		return code;
 	}
 
-	private Date convertToDate(TSDateTime tsDateTime) {
+	Date convertToDate(TSDateTime tsDateTime) {
 		try {
 			if (tsDateTime != null) {
 				String value = tsDateTime.getValue();
@@ -374,7 +392,8 @@ public class JAXBToDomainObjectConverterImpl implements
 		String street = null;
 		List<ADXP> adXps = ad.getPart();
 		for (ADXP adXp : adXps) {
-			if (adXp.getType().equals(AddressPartType.AL) || adXp.getType().equals(AddressPartType.SAL)) {
+			if (adXp.getType().equals(AddressPartType.AL)
+					|| adXp.getType().equals(AddressPartType.SAL)) {
 				street = adXp.getValue();
 			}
 		}

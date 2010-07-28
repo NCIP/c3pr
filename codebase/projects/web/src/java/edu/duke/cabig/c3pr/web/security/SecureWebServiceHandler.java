@@ -68,26 +68,6 @@ public final class SecureWebServiceHandler implements
 					generateSOAPFault(msg, "No message header.");
 				}
 
-				/*
-				 * List<GrantedAuthority> list = new
-				 * ArrayList<GrantedAuthority>(); list.add(new
-				 * GrantedAuthorityImpl("ROLE_c3pr_admin")); list.add(new
-				 * GrantedAuthorityImpl("c3pr_admin")); list.add(new
-				 * GrantedAuthorityImpl("study_coordinator")); for (RoleTypes
-				 * roleType : RoleTypes.values()) { list.add(new
-				 * GrantedAuthorityImpl(roleType.getCode())); }
-				 * 
-				 * AuthorizedUser authorizedUser= new
-				 * AuthorizedUser("c3pr_admin", "does_not_matter", true, true,
-				 * true, true, list .toArray(new GrantedAuthority[] {}), null,
-				 * getAllRolePrivileges(list .toArray(new GrantedAuthority[]
-				 * {})), null);
-				 * 
-				 * Authentication auth = new TestingAuthenticationToken(
-				 * "c3pr_admin", "does_not_matter", list .toArray(new
-				 * GrantedAuthority[] {})); auth.setAuthenticated(true);
-				 * SecurityContextHolder.getContext().setAuthentication(auth);
-				 */
 				ApplicationContext springCtx = WebApplicationContextUtils
 						.getWebApplicationContext(servletContext);
 				UserDetailsService userDetailsService = (UserDetailsService) springCtx
