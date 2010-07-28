@@ -62,8 +62,8 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	public static final int NO_SUBJECT_DATA_PROVIDED_CODE = 900;
 	static final int INVALID_SUBJECT_DATA_REPRESENTATION = 901;
-	private static final int MISSING_SUBJECT_IDENTIFIER = 902;
-	private static final int SUBJECT_IDENTIFIER_MISSING_ORGANIZATION = 903;
+	static final int MISSING_SUBJECT_IDENTIFIER = 902;
+	static final int SUBJECT_IDENTIFIER_MISSING_ORGANIZATION = 903;
 	private static final int ORGANIZATION_IDENTIFIER_MISSING_TYPECODE = 904;
 	private static final int UNABLE_TO_FIND_ORGANIZATION = 905;
 	private static final int WRONG_DATE_FORMAT = 906;
@@ -306,28 +306,38 @@ public class JAXBToDomainObjectConverterImpl implements
 	private void processIdentifiers(List<BiologicEntityIdentifier> identifiers,
 			Participant participant) {
 		for (BiologicEntityIdentifier bioId : identifiers) {
-			final II ii = bioId.getIdentifier();
-			final CD typeCode = bioId.getTypeCode();
-			Organization org = bioId.getAssigningOrganization();
-			if (ii == null || typeCode == null) {
-				throw exceptionHelper
-						.getConversionException(MISSING_SUBJECT_IDENTIFIER);
-			}
-			if (org == null) {
-				throw exceptionHelper
-						.getConversionException(SUBJECT_IDENTIFIER_MISSING_ORGANIZATION);
-			}
-			OrganizationAssignedIdentifier id = new OrganizationAssignedIdentifier();
-			id.setPrimaryIndicator(true);
-			id.setValue(ii.getExtension());
-			id.setTypeInternal(typeCode.getCode());
-			HealthcareSite healthcareSite = resolveHealthcareSite(org);
-			id.setHealthcareSite(healthcareSite);
+			OrganizationAssignedIdentifier id = convert(bioId);
 			participant.addIdentifier(id);
 		}
 	}
 
-	private HealthcareSite resolveHealthcareSite(Organization org) {
+	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter#convert(edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier)
+	 */
+	public OrganizationAssignedIdentifier convert(BiologicEntityIdentifier bioId)
+			throws ConversionException {
+		final II ii = bioId.getIdentifier();
+		final CD typeCode = bioId.getTypeCode();
+		Organization org = bioId.getAssigningOrganization();
+		if (ii == null || typeCode == null) {
+			throw exceptionHelper
+					.getConversionException(MISSING_SUBJECT_IDENTIFIER);
+		}
+		if (org == null) {
+			throw exceptionHelper
+					.getConversionException(SUBJECT_IDENTIFIER_MISSING_ORGANIZATION);
+		}
+		OrganizationAssignedIdentifier id = new OrganizationAssignedIdentifier();
+		id.setPrimaryIndicator(true);
+		id.setValue(ii.getExtension());
+		id.setTypeInternal(typeCode.getCode());
+		HealthcareSite healthcareSite = resolveHealthcareSite(org);
+		id.setHealthcareSite(healthcareSite);
+		return id;
+	}
+
+	HealthcareSite resolveHealthcareSite(Organization org) {
 		List<OrganizationIdentifier> idList = org.getOrganizationIdentifier();
 		if (CollectionUtils.isEmpty(idList)) {
 			throw exceptionHelper

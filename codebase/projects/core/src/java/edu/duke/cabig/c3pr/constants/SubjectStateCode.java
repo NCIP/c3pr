@@ -13,7 +13,7 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
  */
 public enum SubjectStateCode implements CodedEnum<String> {
 
-	ACTIVE("Active"), INACTIVE("Inactive");
+	ACTIVE("ACTIVE"), INACTIVE("INACTIVE");
 
 	private String code;
 

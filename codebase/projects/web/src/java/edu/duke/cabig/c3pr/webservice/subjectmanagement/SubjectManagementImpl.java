@@ -16,12 +16,14 @@ import org.springframework.validation.ObjectError;
 
 import edu.duke.cabig.c3pr.constants.SubjectStateCode;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
+import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 
 /**
  * Implementation of the Subject Management web service.
@@ -35,6 +37,16 @@ import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 @WebService(targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement", portName = "SubjectManagement", serviceName = "SubjectManagementService")
 @HandlerChain(file = "/ws-handlers.xml")
 public class SubjectManagementImpl implements SubjectManagement {
+
+	private static final String SUBJECT_DOES_NOT_EXIST = "Subject does not exist.";
+
+	private static final String MISSING_EITHER_SUBJECT_IDENTIFIER_OR_NEW_STATE_VALUE = "Missing either subject identifier or new state value.";
+
+	private static final String WRONG_SUBJECT_STATE_VALUE = "Wrong subject state value.";
+
+	private static final String SUBJECT_IS_INACTIVE = "Subject is inactive.";
+
+	private static final String SUBJECT_ALREADY_EXISTS = "Subject already exists.";
 
 	private static Log log = LogFactory.getLog(SubjectManagementImpl.class);
 
@@ -92,8 +104,9 @@ public class SubjectManagementImpl implements SubjectManagement {
 					.searchByIdentifier(identifier);
 			if (CollectionUtils.isNotEmpty(existingList)) {
 				SubjectAlreadyExistsExceptionFault fault = new SubjectAlreadyExistsExceptionFault();
+				fault.setMessage(SUBJECT_ALREADY_EXISTS);
 				throw new SubjectAlreadyExistsExceptionFaultMessage(
-						"Subject already exists.", fault);
+						SUBJECT_ALREADY_EXISTS, fault);
 			}
 
 			final ParticipantWrapper wrapper = new ParticipantWrapper(
@@ -139,16 +152,16 @@ public class SubjectManagementImpl implements SubjectManagement {
 			List<Participant> existingList = participantRepository
 					.searchByIdentifier(identifier);
 			if (CollectionUtils.isEmpty(existingList)) {
-				NoSuchSubjectExceptionFault fault = new NoSuchSubjectExceptionFault();
-				throw new NoSuchSubjectExceptionFaultMessage(
-						"Subject does not exist.", fault);
+				handleUnexistentSubject();
 			}
 
 			participant = existingList.get(0);
-			if (!SubjectStateCode.ACTIVE.getCode().equals(participant.getStateCode())) {
+			if (!SubjectStateCode.ACTIVE.getCode().equals(
+					participant.getStateCode())) {
 				NoSuchSubjectExceptionFault fault = new NoSuchSubjectExceptionFault();
+				fault.setMessage(SUBJECT_IS_INACTIVE);
 				throw new NoSuchSubjectExceptionFaultMessage(
-						"Subject is inactive.", fault);				
+						SUBJECT_IS_INACTIVE, fault);
 			}
 			converter.convert(participant, subject);
 			final ParticipantWrapper wrapper = new ParticipantWrapper(
@@ -193,13 +206,63 @@ public class SubjectManagementImpl implements SubjectManagement {
 		throw new InvalidSubjectDataExceptionFaultMessage(e.getMessage(), fault);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeedu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement#
+	 * updateSubjectState
+	 * (edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectStateRequest
+	 * )
+	 */
 	public UpdateSubjectStateResponse updateSubjectState(
-			UpdateSubjectStateRequest parameters)
+			UpdateSubjectStateRequest request)
 			throws InsufficientPrivilegesExceptionFaultMessage,
 			InvalidStateTransitionExceptionFaultMessage,
 			NoSuchSubjectExceptionFaultMessage {
-		// TODO Auto-generated method stub
-		return null;
+		UpdateSubjectStateResponse response = new UpdateSubjectStateResponse();
+		BiologicEntityIdentifier entityIdentifier = request
+				.getBiologicEntityIdentifier();
+		ST newState = request.getNewState();
+		if (entityIdentifier != null && newState != null) {
+			OrganizationAssignedIdentifier orgAssId = converter
+					.convert(entityIdentifier);
+			List<Participant> existingList = participantRepository
+					.searchByIdentifier(orgAssId);
+			if (CollectionUtils.isEmpty(existingList)) {
+				handleUnexistentSubject();
+			}
+			Participant participant = existingList.get(0);
+			SubjectStateCode stateCode = SubjectStateCode.getByCode(newState.getValue());
+			if (stateCode==null) {
+				InvalidStateTransitionExceptionFault fault = new InvalidStateTransitionExceptionFault();
+				fault.setMessage(WRONG_SUBJECT_STATE_VALUE);
+				throw new InvalidStateTransitionExceptionFaultMessage(
+						WRONG_SUBJECT_STATE_VALUE,
+						fault);				
+			}
+			participant.setStateCode(stateCode.getCode());
+			participantRepository.save(participant);
+			response.setSubject(new Subject());			
+		} else {
+			InvalidStateTransitionExceptionFault fault = new InvalidStateTransitionExceptionFault();
+			fault.setMessage(MISSING_EITHER_SUBJECT_IDENTIFIER_OR_NEW_STATE_VALUE);
+			throw new InvalidStateTransitionExceptionFaultMessage(
+					MISSING_EITHER_SUBJECT_IDENTIFIER_OR_NEW_STATE_VALUE,
+					fault);
+
+		}
+		return response;
+	}
+
+	/**
+	 * @throws NoSuchSubjectExceptionFaultMessage
+	 */
+	private void handleUnexistentSubject()
+			throws NoSuchSubjectExceptionFaultMessage {
+		NoSuchSubjectExceptionFault fault = new NoSuchSubjectExceptionFault();
+		fault.setMessage(SUBJECT_DOES_NOT_EXIST);
+		throw new NoSuchSubjectExceptionFaultMessage(SUBJECT_DOES_NOT_EXIST,
+				fault);
 	}
 
 	private static final class ParticipantValidationError extends
