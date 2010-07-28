@@ -319,19 +319,17 @@
 
         	if(eventElement.value == 'NEW_REGISTRATION_EVENT_REPORT'){
 				//disable message fields and enable frequency element
-				frequencyElement.disabled = false;
 				if(frequencyElement.value == 'IMMEDIATE'){
 					frequencyElement.options[0].selected = true;
 				} else {
 					//messageElement.disabled = true;
 				}
 				messageElement.disabled = true;
-				frequencyElement.options[3].disabled = true;
+				//frequencyElement.options[3].disabled = true;
         	} else {
         		//set frequency to IMMEDIATE and disable it and enable message element.
         		frequencyElement.options[3].selected = true;
         		frequencyElement.value= 'IMMEDIATE';
-        		frequencyElement.disabled = true;
         		messageElement.disabled = false;
         	}
         }
@@ -423,7 +421,7 @@
 		        <tr><td align="right"><b><fmt:message key="notification.frequency"/></b></td>
 		            <td>
 		            <c:if test="${notification.eventName != 'NEW_REGISTRATION_EVENT_REPORT'}">
-						<form:select path="healthcareSite.plannedNotifications[${nStatus.index}].frequency" cssClass="required validate-notEmpty" disabled="true" onchange="runReportBasedLogic('${nStatus.index}');">
+						<form:select path="healthcareSite.plannedNotifications[${nStatus.index}].frequency" cssClass="required validate-notEmpty" onchange="runReportBasedLogic('${nStatus.index}');">
 		                    <form:options items="${notificationFrequencyRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
 		            </c:if>
