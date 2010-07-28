@@ -74,7 +74,7 @@ public class CreateNotificationController extends SimpleFormController {
     
     private UserDao userDao;
     
-    private InPlaceEditableTab<Organization> page;
+    private InPlaceEditableTab<NotificationWrapper> page;
     
     //constants for the Cron Triggers
     public static final String WEEKLY = "0 00 12 ? * FRI";
@@ -160,11 +160,12 @@ public class CreateNotificationController extends SimpleFormController {
     	if (isAjaxRequest(request)) {
 			request.getParameter("_asynchronous");
 			ModelAndView modelAndView = page.postProcessAsynchronous(request,
-					(Organization) command, errors);
+					(NotificationWrapper) command, errors);
 			if(healthcareSite.getId() != null){
-				command = organizationService.merge((Organization) command);
+				notificationWrapper.setHealthcareSite((HealthcareSite) organizationService.merge(((NotificationWrapper) command).getHealthcareSite()));
+				command= notificationWrapper;
 	        }else {
-	        	organizationService.saveNotification((Organization) command);
+	        	organizationService.saveNotification(((NotificationWrapper) command).getHealthcareSite());
 	        }
 			request.getSession().setAttribute(getFormSessionAttributeName(), command);
 			if (isAjaxResponseFreeText(modelAndView)) {
@@ -315,11 +316,11 @@ public class CreateNotificationController extends SimpleFormController {
 		this.configuration = configuration;
 	}
 
-	public InPlaceEditableTab<Organization> getPage() {
+	public InPlaceEditableTab<NotificationWrapper> getPage() {
 		return page;
 	}
 
-	public void setPage(InPlaceEditableTab<Organization> page) {
+	public void setPage(InPlaceEditableTab<NotificationWrapper> page) {
 		this.page = page;
 	}
 
@@ -374,7 +375,7 @@ public class CreateNotificationController extends SimpleFormController {
 	}
 
 	protected ModelAndView postProcessAsynchronous(HttpServletRequest request,
-			Organization command, Errors error) throws Exception {
+			NotificationWrapper command, Errors error) throws Exception {
 		return new ModelAndView(getAjaxViewName(request));
 	}
 
@@ -386,7 +387,7 @@ public class CreateNotificationController extends SimpleFormController {
 		return "_asyncViewName";
 	}
 
-	protected boolean shouldSave(HttpServletRequest request, Organization command) {
+	protected boolean shouldSave(HttpServletRequest request, NotificationWrapper command) {
 		return true;
 	}
 
