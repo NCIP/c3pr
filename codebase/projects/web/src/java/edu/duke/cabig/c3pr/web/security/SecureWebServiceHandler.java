@@ -1,11 +1,16 @@
 package edu.duke.cabig.c3pr.web.security;
 
+import java.lang.annotation.Annotation;
 import java.util.Set;
 
+import javax.jws.WebService;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
+import javax.xml.soap.Detail;
+import javax.xml.soap.DetailEntry;
 import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFault;
@@ -25,14 +30,14 @@ import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import edu.duke.cabig.c3pr.utils.web.AuditInfoFilter;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExceptionFault;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
 
 /**
  * @author dkrylov
@@ -68,7 +73,7 @@ public final class SecureWebServiceHandler implements
 			HttpServletRequest request = (HttpServletRequest) ctx
 					.get(MessageContext.SERVLET_REQUEST);
 			// Handle the SOAP only if it's incoming.
-			if (!response_p) {				
+			if (!response_p) {
 				SOAPEnvelope env = msg.getSOAPPart().getEnvelope();
 				SOAPHeader hdr = env.getHeader();
 				// Ensure that the SOAP message has a header.
@@ -131,12 +136,33 @@ public final class SecureWebServiceHandler implements
 			SOAPBody body = msg.getSOAPPart().getEnvelope().getBody();
 			SOAPFault fault = body.addFault();
 			fault.setFaultString(reason);
+			Detail detail = fault.addDetail();
+			DetailEntry detailEntry = detail.addDetailEntry(new QName(
+					getNameSpace(SubjectManagement.class),
+					InvalidSubjectDataExceptionFault.class.getSimpleName(),
+					"ent"));
+			SOAPElement message = detailEntry.addChildElement("message");
+			message.setValue(reason);
 			// wrapper for a SOAP 1.1 or SOAP 1.2 fault
 			throw new SOAPFaultException(fault);
 		} catch (SOAPException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
 			throw new RuntimeException(e);
 		}
+	}
+
+	/**
+	 * @param cls
+	 * @return
+	 */
+	private String getNameSpace(Class<SubjectManagement> cls) {
+		String ns = "";
+		for (Annotation ann: cls.getAnnotations()) {
+			if (WebService.class.equals(ann.annotationType())) {
+				ns = ((WebService)ann).targetNamespace();
+			}
+		}
+		return ns;
 	}
 
 }
