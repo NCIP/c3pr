@@ -629,7 +629,7 @@
 	</tr>
 </table>
 </div>
-<div id="HiddenPage" style="display:none;">
+<div style="display:none;">
 <div id="confirmationMessage" style="padding: 15px;">
 	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.CREATE.REDIRECT.EDITSUBJECT.WARNING"/>
 	<div id="actionButtons">
@@ -640,6 +640,7 @@
 		</span>
 		</div>
 	</div>
+</div>
 </div>
     <!--end of create subject div-->
 </tags:minimizablePanelBox>
