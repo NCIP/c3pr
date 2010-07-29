@@ -137,7 +137,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 		Subject subject = request.getSubject();
 		if (subject!=null && subject.getEntity()!=null) {
 			Participant participant = converter.convert(subject,false);
-			List<Participant> results = new ArrayList<Participant>(participantRepository.searchByExample(participant));
+			List<Participant> results = new ArrayList<Participant>(participantRepository.searchByFullExample(participant));
 			org.apache.commons.collections15.CollectionUtils.filter(results, new Predicate<Participant>() {
 				public boolean evaluate(Participant p) {
 					return !SubjectStateCode.INACTIVE.getCode().equals(p.getStateCode());

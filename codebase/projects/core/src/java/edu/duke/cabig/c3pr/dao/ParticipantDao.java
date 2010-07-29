@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -16,6 +18,8 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -49,7 +53,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     }
 
     /**
-     * /* Searches based on an example object. Typical usage from your service class: - If you want
+     * Searches based on an example object. Typical usage from your service class: - If you want
      * to search based on diseaseCode, monitorCode,
      * <li><code>Participant participant = new Participant();</li></code>
      * <li>code>participant.setLastName("last_namee");</li>
@@ -59,11 +63,11 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
      * 
      * @param participant the participant
      * @param isWildCard the is wild card
-     * 
+     * @param useAddress if set to true and {@link Address} is present, use it for the search.
+     * @param useContactInfo if set to true and {@link ContactMechanism} is present, use it for the search.
      * @return list of matching participant objects based on your sample participant object
-     */
-    
-    public List<Participant> searchByExample(Participant participant, boolean isWildCard) {
+     */    
+    public List<Participant> searchByExample(Participant participant, boolean isWildCard, boolean useAddress, boolean useContactInfo) {
         Example example = Example.create(participant).excludeZeroes().ignoreCase();
         Criteria participantCriteria = getSession().createCriteria(Participant.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) ;
         example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
@@ -85,6 +89,28 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
                                                 + participant.getIdentifiers().get(0).getValue()
                                                 + "%"));
             }
+            
+			final Address address = participant.getAddressInternal();
+			if (useAddress && address != null) {
+				final Criteria addrCrit = participantCriteria
+						.createCriteria("addressInternal");
+				if (StringUtils.isNotBlank(address.getStreetAddress()))
+					addrCrit.add(Restrictions.ilike("streetAddress", "%"
+							+ address.getStreetAddress() + "%"));
+				if (StringUtils.isNotBlank(address.getCity()))
+					addrCrit.add(Restrictions.ilike("city", "%"
+							+ address.getCity() + "%"));
+				if (StringUtils.isNotBlank(address.getStateCode()))
+					addrCrit.add(Restrictions.ilike("stateCode", "%"
+							+ address.getStateCode() + "%"));
+				if (StringUtils.isNotBlank(address.getCountryCode()))
+					addrCrit.add(Restrictions.ilike("countryCode", "%"
+							+ address.getCountryCode() + "%"));
+				if (StringUtils.isNotBlank(address.getPostalCode()))
+					addrCrit.add(Restrictions.ilike("postalCode", "%"
+							+ address.getPostalCode() + "%"));
+			}
+
             return participantCriteria.list();
         }
         return participantCriteria.add(example).list();
@@ -104,6 +130,16 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     }
 
     /**
+     * @see #searchByExample(Participant, boolean, boolean, boolean)
+     * @param participant
+     * @param isWildCard
+     * @return
+     */
+    public List<Participant> searchByExample(Participant participant, boolean isWildCard) {
+    	return searchByExample(participant, isWildCard, false, false);
+	}
+
+	/**
      * Search by org identifier.
      * 
      * @param identifier the id

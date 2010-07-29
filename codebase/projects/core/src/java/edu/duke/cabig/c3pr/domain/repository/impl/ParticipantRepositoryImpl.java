@@ -101,4 +101,12 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
 		return participantDao.searchByExample(participant);
 	}
 
+
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.repository.ParticipantRepository#searchByFullExample(edu.duke.cabig.c3pr.domain.Participant)
+	 */
+	public List<Participant> searchByFullExample(Participant participant) {
+		return participantDao.searchByExample(participant,true,true,true);
+	}
+
 }
