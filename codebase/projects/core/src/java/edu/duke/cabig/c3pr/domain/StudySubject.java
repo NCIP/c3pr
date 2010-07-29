@@ -1850,6 +1850,17 @@ public class StudySubject extends
 		this.getStudySubjectStudyVersions().remove(this.getStudySubjectStudyVersion());
 		this.addStudySubjectStudyVersion(studySubjectStudyVersion);
 		this.setStudySubjectStudyVersion(studySubjectStudyVersion);
+		// adding informed consent question answers
+		 for(int i=0; i<studySubjectStudyVersion.getStudySiteStudyVersion().getStudyVersion().getConsents().size();i++){
+			 studySubjectStudyVersion.getStudySubjectConsentVersions().get(i).
+			 setConsent(studySubjectStudyVersion.getStudySiteStudyVersion().getStudyVersion().getConsents().get(i));
+			 for(ConsentQuestion question:studySubjectStudyVersion.getStudySiteStudyVersion().getStudyVersion().getConsents().get(i).getQuestions()){
+	    			SubjectConsentQuestionAnswer subjectConsentQuestionAnswer = new SubjectConsentQuestionAnswer();
+	    			subjectConsentQuestionAnswer.setConsentQuestion(question);
+	    			studySubjectStudyVersion.getStudySubjectConsentVersions().get(i)
+	    			.addSubjectConsentAnswer(subjectConsentQuestionAnswer);
+	    		}
+	         }
 	}
 	
 	/**
