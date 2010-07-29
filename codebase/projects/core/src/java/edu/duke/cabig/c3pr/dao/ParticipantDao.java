@@ -11,6 +11,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
@@ -18,6 +21,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -109,6 +113,45 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
 				if (StringUtils.isNotBlank(address.getPostalCode()))
 					addrCrit.add(Restrictions.ilike("postalCode", "%"
 							+ address.getPostalCode() + "%"));
+			}
+			if (useContactInfo) {
+				final Criteria contactCrit = participantCriteria
+						.createCriteria("contactMechanisms");
+				List<Criterion> criterions = new ArrayList<Criterion>();
+				if (StringUtils.isNotBlank(participant.getEmail())) {
+					criterions.add(Example.create(
+							new ContactMechanism(ContactMechanismType.EMAIL,
+									participant.getEmail())).enableLike()
+							.ignoreCase());
+				}
+				if (StringUtils.isNotBlank(participant.getPhone())) {
+					criterions.add(Example.create(
+							new ContactMechanism(ContactMechanismType.PHONE,
+									participant.getPhone())).enableLike()
+							.ignoreCase());
+				}
+				if (StringUtils.isNotBlank(participant.getFax())) {
+					criterions.add(Example.create(
+							new ContactMechanism(ContactMechanismType.Fax,
+									participant.getFax())).enableLike()
+							.ignoreCase());
+				}
+				Disjunction disjunction = Restrictions.disjunction(); 
+				for (Criterion criterion : criterions) {
+					disjunction.add(criterion);
+				}
+				contactCrit.add(disjunction);
+				/*if (criterions.size() == 1) {
+					contactCrit.add(criterions.get(0));
+				} else if (criterions.size() == 2) {
+					contactCrit.add(Restrictions.or(criterions.get(0),
+							criterions.get(1)));
+				} else {
+					contactCrit.add(Restrictions.or(criterions.get(0),
+							Restrictions.or(criterions.get(1), criterions
+									.get(2))));
+				}*/
+				
 			}
 
             return participantCriteria.list();

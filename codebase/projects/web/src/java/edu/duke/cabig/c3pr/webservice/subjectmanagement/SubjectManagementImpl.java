@@ -136,17 +136,21 @@ public class SubjectManagementImpl implements SubjectManagement {
 		QuerySubjectResponse response = new QuerySubjectResponse();		
 		Subject subject = request.getSubject();
 		if (subject!=null && subject.getEntity()!=null) {
-			Participant participant = converter.convert(subject,false);
-			List<Participant> results = new ArrayList<Participant>(participantRepository.searchByFullExample(participant));
-			org.apache.commons.collections15.CollectionUtils.filter(results, new Predicate<Participant>() {
-				public boolean evaluate(Participant p) {
-					return !SubjectStateCode.INACTIVE.getCode().equals(p.getStateCode());
-				}				
-			});
-			DSETSUBJECT dsetsubject = new DSETSUBJECT();
-			response.setSubjects(dsetsubject);
-			for (Participant p : results) {
-				dsetsubject.getItem().add(converter.convert(p));
+			try {
+				Participant participant = converter.convert(subject,false);
+				List<Participant> results = new ArrayList<Participant>(participantRepository.searchByFullExample(participant));
+				org.apache.commons.collections15.CollectionUtils.filter(results, new Predicate<Participant>() {
+					public boolean evaluate(Participant p) {
+						return !SubjectStateCode.INACTIVE.getCode().equals(p.getStateCode());
+					}				
+				});
+				DSETSUBJECT dsetsubject = new DSETSUBJECT();
+				response.setSubjects(dsetsubject);
+				for (Participant p : results) {
+					dsetsubject.getItem().add(converter.convert(p));
+				}
+			} catch (ConversionException e) {
+				handleInvalidSubjectData(e);
 			}
 		} else {
 			handleInvalidSubjectData(new RuntimeException("Subject data required for search to be performed."));

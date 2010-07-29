@@ -30,8 +30,18 @@ public class ContactMechanism extends AbstractMutableDeletableDomainObject {
 
     /** The value. */
     private String value;
+    
+    public ContactMechanism() {}
+    
 
-    /**
+    public ContactMechanism(ContactMechanismType type, String value) {
+		super();
+		this.type = type;
+		this.value = value;
+	}
+
+
+	/**
      * Gets the type.
      * 
      * @return the type
