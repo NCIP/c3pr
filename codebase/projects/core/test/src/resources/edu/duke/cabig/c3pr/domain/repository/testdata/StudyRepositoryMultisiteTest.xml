@@ -126,10 +126,10 @@
     <RESEARCH_STAFF id="1003" version="1" first_name="Research JFK" last_name="Staff4" 
             dtype="Local" retired_indicator="false" assigned_identifier="x4"/>
 
-<rs_hc_site_assocn id="1000" rs_id="1000" hcs_id="1000" />
-    <rs_hc_site_assocn id="1001" rs_id="1001" hcs_id="1000" />
-    <rs_hc_site_assocn id="1002" rs_id="1002" hcs_id="1001" />
-    <rs_hc_site_assocn id="1003" rs_id="1003" hcs_id="1001" />
+<rs_hc_site_assocn rs_id="1000" hcs_id="1000" />
+    <rs_hc_site_assocn rs_id="1001" hcs_id="1000" />
+    <rs_hc_site_assocn rs_id="1002" hcs_id="1001" />
+    <rs_hc_site_assocn rs_id="1003" hcs_id="1001" />
     
         <INVESTIGATORS id="1000" version="1" assigned_identifier="bill" first_name="Investigator Bill" last_name="Staff1"
             dtype="Local" retired_indicator="false"/>

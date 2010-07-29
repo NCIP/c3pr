@@ -29,7 +29,7 @@
         
     <RESEARCH_STAFF id="1100" version="1" assigned_identifier="x1" first_name="Research Bill" last_name="Staff2" dtype="Local" />
     
-    <rs_hc_site_assocn id="1100" rs_id="1100" hcs_id="1100" />
+    <rs_hc_site_assocn rs_id="1100" hcs_id="1100" />
     
     <INVESTIGATORS id="1100" version="1" assigned_identifier="x1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" />
     

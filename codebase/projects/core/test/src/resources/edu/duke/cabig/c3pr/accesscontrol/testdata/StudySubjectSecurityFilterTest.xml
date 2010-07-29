@@ -163,15 +163,15 @@
     <RESEARCH_STAFF id="1006" version="1" dtype="Local" assigned_identifier="x7" first_name="Research John" last_name="Staff4" login_id="1006" retired_indicator = "false" />
     <RESEARCH_STAFF id="1007" version="1" dtype="Local" assigned_identifier="x8" first_name="Research Jessica" last_name="Staff4" login_id="1007" retired_indicator = "false" />
     
-    <rs_hc_site_assocn id="1000" rs_id="1000" hcs_id="1000" />
-    <rs_hc_site_assocn id="1001" rs_id="1001" hcs_id="1000" />
-    <rs_hc_site_assocn id="1002" rs_id="1002" hcs_id="1001" />
-    <rs_hc_site_assocn id="1003" rs_id="1003" hcs_id="1001" />
-    <rs_hc_site_assocn id="1004" rs_id="1004" hcs_id="1000" />
-    <rs_hc_site_assocn id="1005" rs_id="1005" hcs_id="1000" />
-    <rs_hc_site_assocn id="1006" rs_id="1006" hcs_id="1000" />
-    <rs_hc_site_assocn id="1007" rs_id="1007" hcs_id="1000" />
-    <rs_hc_site_assocn id="1008" rs_id="1007" hcs_id="1002" />
+    <rs_hc_site_assocn rs_id="1000" hcs_id="1000" />
+    <rs_hc_site_assocn rs_id="1001" hcs_id="1000" />
+    <rs_hc_site_assocn rs_id="1002" hcs_id="1001" />
+    <rs_hc_site_assocn rs_id="1003" hcs_id="1001" />
+    <rs_hc_site_assocn rs_id="1004" hcs_id="1000" />
+    <rs_hc_site_assocn rs_id="1005" hcs_id="1000" />
+    <rs_hc_site_assocn rs_id="1006" hcs_id="1000" />
+    <rs_hc_site_assocn rs_id="1007" hcs_id="1000" />
+    <rs_hc_site_assocn rs_id="1007" hcs_id="1002" />
     
     <INVESTIGATORS id="1000" version="1" assigned_identifier="x1" first_name="Bill" last_name="Murphy" dtype="Local" retired_indicator = "false" />
     <INVESTIGATORS id="1001" version="1" assigned_identifier="x2" first_name="George" last_name="Claire" dtype="Local" retired_indicator = "false" />
