@@ -16,6 +16,7 @@
 						top:35, scrollbar: false, left:100, 
 						zIndex:100, width:850, height:500 , 
 						minimizable:false, maximizable:false,
+						closable: true, destroyOnClose:true,
 						url: "<c:url value='/pages/registration/createEmbeddedCompanionRegistration?decorator=noheaderRegistrationflow'/>" +"&parentRegistrationId=" + parentRegistrationId +"&study=" + companionStudy, 
 					  showEffectOptions: {duration:1.5}
 					}
@@ -35,6 +36,7 @@
 						top:35, scrollbar: false, left:100, 
 						zIndex:100, width:850, height:500 , 
 						minimizable:false, maximizable:false,
+						closable: true, destroyOnClose:true,
 						url: "<c:url value='/pages/registration/editCompanionRegistration?decorator=noheaderRegistrationflow&companionRegistration=true&'/>" + url , 
 					 	 showEffectOptions: {duration:1.5}
 					}
