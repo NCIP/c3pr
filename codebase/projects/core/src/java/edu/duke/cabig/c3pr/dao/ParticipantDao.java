@@ -141,16 +141,6 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
 					disjunction.add(criterion);
 				}
 				contactCrit.add(disjunction);
-				/*if (criterions.size() == 1) {
-					contactCrit.add(criterions.get(0));
-				} else if (criterions.size() == 2) {
-					contactCrit.add(Restrictions.or(criterions.get(0),
-							criterions.get(1)));
-				} else {
-					contactCrit.add(Restrictions.or(criterions.get(0),
-							Restrictions.or(criterions.get(1), criterions
-									.get(2))));
-				}*/
 				
 			}
 
