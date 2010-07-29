@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
+import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.BAGTEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.BL;
@@ -149,20 +150,19 @@ public class JAXBToDomainObjectConverterImpl implements
 				Person person = (Person) subject.getEntity();
 				// gender
 				CD gender = person.getAdministrativeGenderCode();
-				participant.setAdministrativeGenderCode(gender != null ? gender
-						.getCode() : null);
+				participant
+						.setAdministrativeGenderCode(!isNull(gender) ? gender
+								.getCode() : null);
 				// birth date
 				participant.setBirthDate(convertToDate(person.getBirthDate()));
 				participant.setDeathDate(convertToDate(person.getDeathDate()));
-				participant
-						.setDeathIndicator(person.getDeathIndicator() != null ? person
-								.getDeathIndicator().isValue()
-								: null);
+				participant.setDeathIndicator(!isNull(person
+						.getDeathIndicator()) ? person.getDeathIndicator()
+						.isValue() : null);
 				participant.setEthnicGroupCode(getEthnicGroupCode(person));
-				participant
-						.setMaritalStatusCode(person.getMaritalStatusCode() != null ? person
-								.getMaritalStatusCode().getCode()
-								: null);
+				participant.setMaritalStatusCode(!isNull(person
+						.getMaritalStatusCode()) ? person
+						.getMaritalStatusCode().getCode() : null);
 				participant.setFirstName(getFirstName(person));
 				participant.setLastName(getLastName(person));
 				participant.setMiddleName(getMiddleName(person));
@@ -183,11 +183,15 @@ public class JAXBToDomainObjectConverterImpl implements
 		}
 	}
 
+	private boolean isNull(ANY cd) {
+		return cd == null || cd.getNullFlavor() != null;
+	}
+
 	String getTelecomAddress(Person person, String type) {
 		type = type.toLowerCase();
 		String addr = null;
 		BAGTEL bagtel = person.getTelecomAddress();
-		if (bagtel != null && bagtel.getItem() != null) {
+		if (!isNull(bagtel) && bagtel.getItem() != null) {
 			for (TEL tel : bagtel.getItem()) {
 				if (tel.getValue() != null
 						&& tel.getValue().toLowerCase().startsWith(type)) {
@@ -206,7 +210,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	List<RaceCode> getRaceCodes(Person person) {
 		List<RaceCode> list = new ArrayList<RaceCode>();
 		DSETCD dsetcd = person.getRaceCode();
-		if (dsetcd != null && dsetcd.getItem() != null) {
+		if (!isNull(dsetcd) && dsetcd.getItem() != null) {
 			for (CD cd : dsetcd.getItem()) {
 				String raceCodeStr = cd.getCode();
 				RaceCode raceCode = RaceCode.getByCode(raceCodeStr);
@@ -224,7 +228,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	private Address getAddress(Person person) {
 		Address address = null;
 		AD addr = person.getPostalAddress();
-		if (addr != null) {
+		if (!isNull(addr)) {
 			address = new Address();
 			address.setCity(getCity(addr));
 			address.setCountryCode(getCountry(addr));
@@ -297,7 +301,7 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	Date convertToDate(TSDateTime tsDateTime) {
 		try {
-			if (tsDateTime != null) {
+			if (tsDateTime != null && tsDateTime.getNullFlavor() == null) {
 				String value = tsDateTime.getValue();
 				if (value != null) {
 					return DateUtils.parseDate(value,

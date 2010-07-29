@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.webservice.subjectmanagement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.HandlerChain;
@@ -7,6 +8,7 @@ import javax.jws.WebService;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections15.Predicate;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -135,7 +137,12 @@ public class SubjectManagementImpl implements SubjectManagement {
 		Subject subject = request.getSubject();
 		if (subject!=null && subject.getEntity()!=null) {
 			Participant participant = converter.convert(subject,false);
-			List<Participant> results = participantRepository.searchByExample(participant);
+			List<Participant> results = new ArrayList<Participant>(participantRepository.searchByExample(participant));
+			org.apache.commons.collections15.CollectionUtils.filter(results, new Predicate<Participant>() {
+				public boolean evaluate(Participant p) {
+					return !SubjectStateCode.INACTIVE.getCode().equals(p.getStateCode());
+				}				
+			});
 			DSETSUBJECT dsetsubject = new DSETSUBJECT();
 			response.setSubjects(dsetsubject);
 			for (Participant p : results) {
