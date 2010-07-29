@@ -88,8 +88,28 @@ public class CD
     protected String id;
     @XmlAttribute
     protected List<CodingRationale> codingRationale;
+    
+    public CD() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    
 
-    /**
+    public CD(NullFlavor nullFlavor) {
+		super(nullFlavor);
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+	public CD(String code) {
+		super();
+		this.code = code;
+	}
+
+
+
+	/**
      * Gets the value of the displayName property.
      * 
      * @return

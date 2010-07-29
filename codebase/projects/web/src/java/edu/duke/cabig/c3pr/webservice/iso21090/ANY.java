@@ -279,7 +279,18 @@ public abstract class ANY
     @XmlAttribute
     protected UpdateMode updateMode;
 
-    /**
+    public ANY() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    
+    public ANY(NullFlavor nullFlavor) {
+		super();
+		this.nullFlavor = nullFlavor;
+	}
+
+
+	/**
      * Gets the value of the nullFlavor property.
      * 
      * @return

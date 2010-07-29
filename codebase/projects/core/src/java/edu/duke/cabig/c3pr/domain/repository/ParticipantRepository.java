@@ -14,4 +14,6 @@ public interface ParticipantRepository {
     
     public List<Participant> searchByIdentifier(Identifier identifier);
     
+    public List<Participant> searchByExample(Participant participant);
+    
 }

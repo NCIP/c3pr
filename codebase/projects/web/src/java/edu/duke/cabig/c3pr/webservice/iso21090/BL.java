@@ -36,8 +36,22 @@ public class BL
 
     @XmlAttribute
     protected Boolean value;
+    
+    public BL() {
+		// TODO Auto-generated constructor stub
+	}
 
-    /**
+    public BL(Boolean value) {
+		super();
+		this.value = value;
+	}
+
+	public BL(NullFlavor nullFlavor) {
+		super(nullFlavor);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
      * Gets the value of the value property.
      * 
      * @return

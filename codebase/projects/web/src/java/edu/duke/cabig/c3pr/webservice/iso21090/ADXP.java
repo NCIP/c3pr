@@ -43,7 +43,21 @@ public class ADXP {
     @XmlAttribute
     protected AddressPartType type;
 
-    /**
+    public ADXP() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    
+    
+    public ADXP(String value, AddressPartType type) {
+		super();
+		this.value = value;
+		this.type = type;
+	}
+
+
+
+	/**
      * Gets the value of the value property.
      * 
      * @return

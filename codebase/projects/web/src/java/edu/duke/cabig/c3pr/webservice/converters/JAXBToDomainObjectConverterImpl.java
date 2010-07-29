@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,6 +17,7 @@ import edu.duke.cabig.c3pr.constants.SubjectStateCode;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -32,6 +34,8 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
+import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
+import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
@@ -49,6 +53,7 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 public class JAXBToDomainObjectConverterImpl implements
 		JAXBToDomainObjectConverter {
 
+	private static final String SEMICOLON = ":";
 	static final String X_TEXT_FAX = "x-text-fax";
 	static final String TEL = "tel";
 	static final String MAILTO = "mailto";
@@ -100,7 +105,8 @@ public class JAXBToDomainObjectConverterImpl implements
 	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectCoverter#
 	 * convert(edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject)
 	 */
-	public Participant convert(Subject subject) throws ConversionException {
+	public Participant convert(Subject subject, boolean requireIdentifier)
+			throws ConversionException {
 		if (subject != null && subject.getEntity() != null) {
 			Participant participant = new Participant();
 			// the following cast is reasonably safe: there is only one
@@ -113,8 +119,10 @@ public class JAXBToDomainObjectConverterImpl implements
 			if (CollectionUtils.isNotEmpty(identifiers)) {
 				processIdentifiers(identifiers, participant);
 			} else {
-				throw exceptionHelper
-						.getConversionException(MISSING_SUBJECT_IDENTIFIER);
+				if (requireIdentifier) {
+					throw exceptionHelper
+							.getConversionException(MISSING_SUBJECT_IDENTIFIER);
+				}
 			}
 
 			convert(participant, subject);
@@ -184,7 +192,7 @@ public class JAXBToDomainObjectConverterImpl implements
 				if (tel.getValue() != null
 						&& tel.getValue().toLowerCase().startsWith(type)) {
 					addr = tel.getValue().toLowerCase().replaceFirst(
-							"^" + type + ":", "");
+							"^" + type + SEMICOLON, "");
 				}
 			}
 		}
@@ -213,7 +221,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		return list;
 	}
 
-	Address getAddress(Person person) {
+	private Address getAddress(Person person) {
 		Address address = null;
 		AD addr = person.getPostalAddress();
 		if (addr != null) {
@@ -311,9 +319,14 @@ public class JAXBToDomainObjectConverterImpl implements
 		}
 	}
 
-	
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter#convert(edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert
+	 * (edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier
+	 * )
 	 */
 	public OrganizationAssignedIdentifier convert(BiologicEntityIdentifier bioId)
 			throws ConversionException {
@@ -421,6 +434,159 @@ public class JAXBToDomainObjectConverterImpl implements
 			}
 		}
 		return zip;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert(edu.duke.cabig.c3pr.domain.Participant)
+	 */
+	public Subject convert(Participant p) {
+		Subject subject = new Subject();
+		if (p != null) {
+			Person person = new Person();
+			subject.setEntity(person);
+			for (Identifier id : p.getIdentifiers()) {
+				if (id instanceof OrganizationAssignedIdentifier) {
+					BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
+					bioId.setTypeCode(new CD(id.getTypeInternal()));
+					bioId.setIdentifier(new II(id.getValue()));
+					bioId
+							.setEffectiveDateRange(new IVLTSDateTime(
+									NullFlavor.NI));
+
+					HealthcareSite site = ((OrganizationAssignedIdentifier) id)
+							.getHealthcareSite();
+					Organization org = new Organization();
+
+					for (Identifier siteId : site
+							.getIdentifiersAssignedToOrganization()) {
+						OrganizationIdentifier orgId = new OrganizationIdentifier();
+						orgId.setTypeCode(new CD(siteId.getTypeInternal()));
+						orgId.setIdentifier(new II(siteId.getValue()));
+						orgId.setPrimaryIndicator(new BL(siteId
+								.getPrimaryIndicator()));
+						org.getOrganizationIdentifier().add(orgId);
+					}
+
+					bioId.setAssigningOrganization(org);
+					person.getBiologicEntityIdentifier().add(bioId);
+				}
+			}
+			person
+					.setAdministrativeGenderCode(p
+							.getAdministrativeGenderCode() != null ? new CD(p
+							.getAdministrativeGenderCode()) : new CD(
+							NullFlavor.NI));
+			person.setBirthDate(convertToTsDateTime(p.getBirthDate()));
+			person.setDeathDate(convertToTsDateTime(p.getDeathDate()));
+			person.setDeathIndicator(p.getDeathIndicator() != null ? new BL(p
+					.getDeathIndicator()) : new BL(NullFlavor.NI));
+			person.setEthnicGroupCode(getEthnicGroupCode(p));
+			person
+					.setMaritalStatusCode(p.getMaritalStatusCode() != null ? new CD(
+							p.getMaritalStatusCode())
+							: new CD(NullFlavor.NI));
+			person.setName(getName(p));
+			person.setPostalAddress(getPostalAddress(p));
+			person.setRaceCode(getRaceCodes(p));
+			person.setTelecomAddress(getTelecomAddress(p));
+		}
+		return subject;
+	}
+
+	private BAGTEL getTelecomAddress(Participant p) {
+		BAGTEL addr = new BAGTEL();
+		if (StringUtils.isNotBlank(p.getEmail()))
+			addr.getItem().add(new TEL(MAILTO + SEMICOLON + p.getEmail()));
+		if (StringUtils.isNotBlank(p.getPhone()))
+			addr.getItem().add(new TEL(TEL + SEMICOLON + p.getPhone()));
+		if (StringUtils.isNotBlank(p.getFax()))
+			addr.getItem().add(new TEL(X_TEXT_FAX + SEMICOLON + p.getFax()));
+		return addr;
+	}
+
+	private DSETCD getRaceCodes(Participant p) {
+		DSETCD dsetcd = new DSETCD();
+		for (RaceCode raceCode : p.getRaceCodes()) {
+			dsetcd.getItem().add(new CD(raceCode.getCode()));
+		}
+		return dsetcd;
+	}
+
+	/**
+	 * @param p
+	 * @return
+	 */
+	private AD getPostalAddress(Participant p) {
+		AD ad = new AD();
+		Address address = p.getAddress();
+		if (address != null) {
+			if (StringUtils.isNotBlank(address.getStreetAddress()))
+				ad.getPart().add(
+						new ADXP(address.getStreetAddress(),
+								AddressPartType.SAL));
+			if (StringUtils.isNotBlank(address.getCity()))
+				ad.getPart().add(
+						new ADXP(address.getCity(), AddressPartType.CTY));
+			if (StringUtils.isNotBlank(address.getStateCode()))
+				ad.getPart().add(
+						new ADXP(address.getStateCode(), AddressPartType.STA));
+			if (StringUtils.isNotBlank(address.getPostalCode()))
+				ad.getPart().add(
+						new ADXP(address.getPostalCode(), AddressPartType.ZIP));
+			if (StringUtils.isNotBlank(address.getCountryCode()))
+				ad.getPart()
+						.add(
+								new ADXP(address.getCountryCode(),
+										AddressPartType.CNT));
+		} else {
+			ad.setNullFlavor(NullFlavor.NI);
+		}
+		return ad;
+	}
+
+	private DSETENPN getName(Participant p) {
+		DSETENPN dsetenpn = new DSETENPN();
+		ENPN enpn = new ENPN();
+		if (StringUtils.isNotBlank(p.getFirstName()))
+			enpn.getPart()
+					.add(
+							new ENXP(p.getFirstName(), EntityNamePartType
+									.valueOf(GIV)));
+		if (StringUtils.isNotBlank(p.getMiddleName()))
+			enpn.getPart()
+					.add(
+							new ENXP(p.getMiddleName(), EntityNamePartType
+									.valueOf(GIV)));
+		if (StringUtils.isNotBlank(p.getLastName()))
+			enpn.getPart().add(
+					new ENXP(p.getLastName(), EntityNamePartType.valueOf(FAM)));
+		dsetenpn.getItem().add(enpn);
+		return dsetenpn;
+	}
+
+	private DSETCD getEthnicGroupCode(Participant p) {
+		DSETCD dsetcd = new DSETCD();
+		if (StringUtils.isNotBlank(p.getEthnicGroupCode())) {
+			dsetcd.getItem().add(new CD(p.getEthnicGroupCode()));
+		} else {
+			dsetcd.setNullFlavor(NullFlavor.NI);
+		}
+		return dsetcd;
+	}
+
+	private TSDateTime convertToTsDateTime(Date date) {
+		TSDateTime tsDateTime = new TSDateTime();
+		if (date != null) {
+			tsDateTime.setValue(DateFormatUtils.format(date,
+					TS_DATETIME_PATTERN));
+		} else {
+			tsDateTime.setNullFlavor(NullFlavor.NI);
+		}
+		return tsDateTime;
 	}
 
 }

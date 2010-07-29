@@ -97,7 +97,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 		CreateSubjectResponse response = new CreateSubjectResponse();
 		try {
 			Subject subject = request.getSubject();
-			Participant participant = converter.convert(subject);
+			Participant participant = converter.convert(subject,true);
 
 			Identifier identifier = participant.getIdentifiers().get(0);
 			List<Participant> existingList = participantRepository
@@ -125,11 +125,26 @@ public class SubjectManagementImpl implements SubjectManagement {
 		return response;
 	}
 
-	public QuerySubjectResponse querySubject(QuerySubjectRequest parameters)
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement#querySubject(edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest)
+	 */
+	public QuerySubjectResponse querySubject(QuerySubjectRequest request)
 			throws InsufficientPrivilegesExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage {
-		// TODO Auto-generated method stub
-		return null;
+		QuerySubjectResponse response = new QuerySubjectResponse();		
+		Subject subject = request.getSubject();
+		if (subject!=null && subject.getEntity()!=null) {
+			Participant participant = converter.convert(subject,false);
+			List<Participant> results = participantRepository.searchByExample(participant);
+			DSETSUBJECT dsetsubject = new DSETSUBJECT();
+			response.setSubjects(dsetsubject);
+			for (Participant p : results) {
+				dsetsubject.getItem().add(converter.convert(p));
+			}
+		} else {
+			handleInvalidSubjectData(new RuntimeException("Subject data required for search to be performed."));
+		}
+		return response;
 	}
 
 	/*
@@ -147,7 +162,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 		UpdateSubjectResponse response = new UpdateSubjectResponse();
 		try {
 			Subject subject = request.getSubject();
-			Participant participant = converter.convert(subject);
+			Participant participant = converter.convert(subject,true);
 			Identifier identifier = participant.getIdentifiers().get(0);
 			List<Participant> existingList = participantRepository
 					.searchByIdentifier(identifier);
@@ -232,23 +247,23 @@ public class SubjectManagementImpl implements SubjectManagement {
 				handleUnexistentSubject();
 			}
 			Participant participant = existingList.get(0);
-			SubjectStateCode stateCode = SubjectStateCode.getByCode(newState.getValue());
-			if (stateCode==null) {
+			SubjectStateCode stateCode = SubjectStateCode.getByCode(newState
+					.getValue());
+			if (stateCode == null) {
 				InvalidStateTransitionExceptionFault fault = new InvalidStateTransitionExceptionFault();
 				fault.setMessage(WRONG_SUBJECT_STATE_VALUE);
 				throw new InvalidStateTransitionExceptionFaultMessage(
-						WRONG_SUBJECT_STATE_VALUE,
-						fault);				
+						WRONG_SUBJECT_STATE_VALUE, fault);
 			}
 			participant.setStateCode(stateCode.getCode());
 			participantRepository.save(participant);
-			response.setSubject(new Subject());			
+			response.setSubject(new Subject());
 		} else {
 			InvalidStateTransitionExceptionFault fault = new InvalidStateTransitionExceptionFault();
-			fault.setMessage(MISSING_EITHER_SUBJECT_IDENTIFIER_OR_NEW_STATE_VALUE);
+			fault
+					.setMessage(MISSING_EITHER_SUBJECT_IDENTIFIER_OR_NEW_STATE_VALUE);
 			throw new InvalidStateTransitionExceptionFaultMessage(
-					MISSING_EITHER_SUBJECT_IDENTIFIER_OR_NEW_STATE_VALUE,
-					fault);
+					MISSING_EITHER_SUBJECT_IDENTIFIER_OR_NEW_STATE_VALUE, fault);
 
 		}
 		return response;

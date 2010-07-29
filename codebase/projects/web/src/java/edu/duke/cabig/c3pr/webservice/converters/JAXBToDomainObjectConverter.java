@@ -25,7 +25,7 @@ public interface JAXBToDomainObjectConverter {
 	 * @return
 	 * @throws ConversionException
 	 */
-	Participant convert(Subject subject) throws ConversionException;
+	Participant convert(Subject subject, boolean requireIdentifier) throws ConversionException;
 
 	/**
 	 * Updates the given instance of {@link Participant} with new values. Does not modify identifiers. 
@@ -40,6 +40,13 @@ public interface JAXBToDomainObjectConverter {
 	 * @return
 	 * @throws ConversionException
 	 */
-	public OrganizationAssignedIdentifier convert(BiologicEntityIdentifier bioId) throws ConversionException;
+	OrganizationAssignedIdentifier convert(BiologicEntityIdentifier bioId) throws ConversionException;
+
+	/**
+	 * Converts {@link Participant} into its XML {@link Subject} representation.
+	 * @param p
+	 * @return
+	 */
+	Subject convert(Participant p);
 
 }
