@@ -91,7 +91,7 @@
 						<c:if test="${companion.registrationStatus != 'Enrolled'}">
 							<c:choose>
 								<c:when test="${not empty companion.companionRegistrationUrl}">
-									<csmauthz:accesscontrol domainObject="${command.studySubject.studySite.study}"
+									<csmauthz:accesscontrol domainObject="${command.studySubject}"
 										hasPrivileges="UI_STUDYSUBJECT_UPDATE"
 										authorizationCheckName="studySubjectAuthorizationCheck">
 										<a href="javascript:editCompanionRegistration('${companion.companionRegistrationUrl}', '${status.index}');"><img src="<tags:imageUrl name="../templates/mocha/images/controlPanel/controlPanel_pencil.png" />" alt="" /> Edit</a>
