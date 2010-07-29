@@ -66,11 +66,10 @@ public class InformedConsentsTab extends RegistrationTab<StudySubjectWrapper> {
 				studySubject.changeStudyVersion(consentSignedDate);
 			} catch(C3PRCodedRuntimeException ex){
 				if(ex.getExceptionCode()==101){
-					errors.reject("tempProperty","Unable to find an epoch with same name in the study version");
+					errors.reject("tempProperty","Unable to find an epoch with name " + studySubject.getScheduledEpoch().getEpoch().getName()+" in the study version");
 				}
 			}
     		getRegistrationControllerUtils().buildCommandObject(studySubject);
-    		getRegistrationControllerUtils().addConsents(studySubject);
     		return;
     	}
     	
@@ -89,7 +88,7 @@ public class InformedConsentsTab extends RegistrationTab<StudySubjectWrapper> {
 					request.getSession().setAttribute("canEnroll",false);
 					StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getActiveStudyVersion(studySubjectConsentVersion.getInformedConsentSignedDate());
 					request.getSession().setAttribute("studyVersion",studyVersion);
-					errors.reject("tempProperty","Informed consent signed date does not correspond to the selected study version");
+					errors.reject("tempProperty","Consent:" +studySubjectConsentVersion.getConsent().getName()+ " signed date does not correspond to the selected study version");
 					break;
 				}
 			}
@@ -104,17 +103,17 @@ public class InformedConsentsTab extends RegistrationTab<StudySubjectWrapper> {
 				if (studySubjectConsentVersion
 						.getInformedConsentSignedDate() != null) {
 					if(studySubjectConsentVersion.getInformedConsentSignedDate().after(new Date())){
-						errors.reject("tempProperty", "Consent signed date cannot be a future date");
+						errors.reject("tempProperty",  "Consent:" +studySubjectConsentVersion.getConsent().getName()+ " signed date cannot be a future date");
 					}
 					if(studySubjectConsentVersion.getConsentDeliveryDate()!=null && studySubjectConsentVersion.
 							getInformedConsentSignedDate().before(studySubjectConsentVersion.getConsentDeliveryDate())){
-						errors.reject("tempProperty", "Consent signed date cannot be prior to the delivery date");
+						errors.reject("tempProperty",  "Consent:" +studySubjectConsentVersion.getConsent().getName()+ " signed date cannot be prior to the delivery date");
 					}
 				}
 				
 				if (studySubjectConsentVersion.getConsent().getMandatoryIndicator() && 
 						studySubjectConsentVersion.getInformedConsentSignedDate() == null) {
-						errors.reject("tempProperty", "Mandatory consent is not given");
+						errors.reject("tempProperty", "Consent:" +studySubjectConsentVersion.getConsent().getName()+  " is mandatory");
 				}
 			}
     }
