@@ -1,10 +1,18 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -52,6 +60,7 @@ public class BaseInvestigatorDataContainer extends AbstractMutableDeletableDomai
 	private String assignedIdentifier;
 	private String dtype;
 	private String externalId ;
+	private List<BaseContactMechanismDataContainer> contactMechanisms = new ArrayList<BaseContactMechanismDataContainer>();
 	
 
 	public String getAssignedIdentifier() {
@@ -66,5 +75,28 @@ public class BaseInvestigatorDataContainer extends AbstractMutableDeletableDomai
 	public String getExternalId() {
 		return externalId;
 	}
+	
+	 /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
+     */
+    @OneToMany
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name = "INV_ID")
+    @OrderBy("id")
+    public List<BaseContactMechanismDataContainer> getContactMechanisms() {
+        return contactMechanisms;
+    }
+
+    /* (non-Javadoc)
+     * @see edu.duke.cabig.c3pr.domain.Person#setContactMechanisms(java.util.List)
+     */
+    public void setContactMechanisms(List<BaseContactMechanismDataContainer> contactMechanisms) {
+        this.contactMechanisms = contactMechanisms;
+    }
+    
+    public void addContactMechanism(BaseContactMechanismDataContainer baseContactMechanismDataContainer){
+    	this.getContactMechanisms().add(baseContactMechanismDataContainer);
+    }
+	
 	
 }
