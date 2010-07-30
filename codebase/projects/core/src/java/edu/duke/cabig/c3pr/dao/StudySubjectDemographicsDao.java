@@ -18,9 +18,20 @@ public class StudySubjectDemographicsDao extends GridIdentifiableDao<StudySubjec
                 MutableDomainObjectDao<StudySubjectDemographics> {
 
     /** The log. */
-    private static Log log = LogFactory.getLog(StudySubjectDemographicsDao.class);
+    private static Log log = LogFactory.getLog(StudySubjectDemographicsDao.class); /** The participant dao. */
+    private ParticipantDao participantDao;
+    
+    public ParticipantDao getParticipantDao() {
+		return participantDao;
+	}
 
-    /* (non-Javadoc)
+	public void setParticipantDao(ParticipantDao participantDao) {
+		this.participantDao = participantDao;
+	}
+
+
+
+	/* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
      */
     public Class<StudySubjectDemographics> domainClass() {
@@ -48,7 +59,9 @@ public class StudySubjectDemographicsDao extends GridIdentifiableDao<StudySubjec
      */
     @Transactional(readOnly = false)
     public void initialize(StudySubjectDemographics studySubjectDemographics) throws DataAccessException {
-        getHibernateTemplate().initialize(studySubjectDemographics.getIdentifiers());
+    	participantDao.initialize(studySubjectDemographics.getMasterSubject());
+    	getHibernateTemplate().initialize(studySubjectDemographics.getIdentifiers());
+      
         for(OrganizationAssignedIdentifier identifier : studySubjectDemographics.getOrganizationAssignedIdentifiers()){
         	getHibernateTemplate().initialize(identifier.getHealthcareSite().getIdentifiersAssignedToOrganization());
         }
