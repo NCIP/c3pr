@@ -16,7 +16,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
-import edu.duke.cabig.c3pr.constants.SubjectStateCode;
+import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -116,7 +116,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 			participantValidator.validate(wrapper,
 					new ExceptionBasedErrorsImpl(wrapper));
 			participantRepository.save(participant);
-			response.setSubject(subject);
+			response.setSubject(converter.convert(participant));
 		} catch (ConversionException e) {
 			handleInvalidSubjectData(e);
 		} catch (ParticipantValidationError e) {
@@ -134,16 +134,16 @@ public class SubjectManagementImpl implements SubjectManagement {
 			throws InsufficientPrivilegesExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage {
 		QuerySubjectResponse response = new QuerySubjectResponse();		
-		Subject subject = request.getSubject();
+		final Subject subject = request.getSubject();
 		if (subject!=null && subject.getEntity()!=null) {
 			try {
 				Participant participant = converter.convert(subject,false);
 				List<Participant> results = new ArrayList<Participant>(participantRepository.searchByFullExample(participant));
-				org.apache.commons.collections15.CollectionUtils.filter(results, new Predicate<Participant>() {
+				/*org.apache.commons.collections15.CollectionUtils.filter(results, new Predicate<Participant>() {
 					public boolean evaluate(Participant p) {
 						return !SubjectStateCode.INACTIVE.getCode().equals(p.getStateCode());
 					}				
-				});
+				});*/
 				DSETSUBJECT dsetsubject = new DSETSUBJECT();
 				response.setSubjects(dsetsubject);
 				for (Participant p : results) {
@@ -182,7 +182,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 			}
 
 			participant = existingList.get(0);
-			if (!SubjectStateCode.ACTIVE.getCode().equals(
+			if (!ParticipantStateCode.ACTIVE.equals(
 					participant.getStateCode())) {
 				NoSuchSubjectExceptionFault fault = new NoSuchSubjectExceptionFault();
 				fault.setMessage(SUBJECT_IS_INACTIVE);
@@ -195,7 +195,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 			participantValidator.validate(wrapper,
 					new ExceptionBasedErrorsImpl(wrapper));
 			participantRepository.save(participant);
-			response.setSubject(subject);
+			response.setSubject(converter.convert(participant));
 
 		} catch (ConversionException e) {
 			handleInvalidSubjectData(e);
@@ -258,7 +258,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 				handleUnexistentSubject();
 			}
 			Participant participant = existingList.get(0);
-			SubjectStateCode stateCode = SubjectStateCode.getByCode(newState
+			ParticipantStateCode stateCode = ParticipantStateCode.getByCode(newState
 					.getValue());
 			if (stateCode == null) {
 				InvalidStateTransitionExceptionFault fault = new InvalidStateTransitionExceptionFault();
@@ -266,9 +266,9 @@ public class SubjectManagementImpl implements SubjectManagement {
 				throw new InvalidStateTransitionExceptionFaultMessage(
 						WRONG_SUBJECT_STATE_VALUE, fault);
 			}
-			participant.setStateCode(stateCode.getCode());
+			participant.setStateCode(stateCode);
 			participantRepository.save(participant);
-			response.setSubject(new Subject());
+			response.setSubject(converter.convert(participant));
 		} else {
 			InvalidStateTransitionExceptionFault fault = new InvalidStateTransitionExceptionFault();
 			fault

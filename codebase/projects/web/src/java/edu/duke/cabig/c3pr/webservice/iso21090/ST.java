@@ -48,8 +48,17 @@ public class ST
     protected String value;
     @XmlAttribute
     protected String language;
+    
+    public ST() {
+		// TODO Auto-generated constructor stub
+	}
 
-    /**
+    public ST(String value) {
+		super();
+		this.value = value;
+	}
+
+	/**
      * Gets the value of the translation property.
      * 
      * <p>

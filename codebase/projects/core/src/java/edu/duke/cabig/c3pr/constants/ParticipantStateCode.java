@@ -11,13 +11,13 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
  * @author dkrylov
  * 
  */
-public enum SubjectStateCode implements CodedEnum<String> {
+public enum ParticipantStateCode implements CodedEnum<String> {
 
 	ACTIVE("ACTIVE"), INACTIVE("INACTIVE");
 
 	private String code;
 
-	private SubjectStateCode(String code) {
+	private ParticipantStateCode(String code) {
 		this.code = code;
 		register(this);
 	}
@@ -34,8 +34,8 @@ public enum SubjectStateCode implements CodedEnum<String> {
 		return name();
 	}
 
-	public static SubjectStateCode getByCode(String code) {
-		return getByClassAndCode(SubjectStateCode.class, code);
+	public static ParticipantStateCode getByCode(String code) {
+		return getByClassAndCode(ParticipantStateCode.class, code);
 	}
 
 }

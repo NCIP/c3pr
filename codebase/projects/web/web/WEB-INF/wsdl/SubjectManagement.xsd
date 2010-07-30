@@ -153,6 +153,8 @@
 		<sequence>
 			<element name="entity" type="tns:BiologicEntity" minOccurs="1"
 				maxOccurs="1" />
+			<element name="stateCode" type="ISO:ST" minOccurs="0"
+				maxOccurs="1" />				
 		</sequence>
 	</complexType>
 	<complexType name="BiologicEntityIdentifier">

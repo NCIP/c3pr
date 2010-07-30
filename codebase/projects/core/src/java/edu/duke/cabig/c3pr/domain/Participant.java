@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -23,6 +25,7 @@ import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
@@ -54,7 +57,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	
 	private Boolean deathIndicator;
 
-	private String stateCode;
+	private ParticipantStateCode stateCode;
 
 	/** The administrative gender code. */
 	private String administrativeGenderCode;
@@ -761,13 +764,13 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		this.deathIndicator = deathIndicator;
 	}
 
-
-	public String getStateCode() {
+	@Enumerated(EnumType.STRING)
+	public ParticipantStateCode getStateCode() {
 		return stateCode;
 	}
 
 
-	public void setStateCode(String stateCode) {
+	public void setStateCode(ParticipantStateCode stateCode) {
 		this.stateCode = stateCode;
 	}
 	

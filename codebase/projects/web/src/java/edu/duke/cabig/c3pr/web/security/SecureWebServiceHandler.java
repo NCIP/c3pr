@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import edu.duke.cabig.c3pr.utils.web.AuditInfoFilter;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExceptionFault;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.InsufficientPrivilegesExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
 
 /**
@@ -46,6 +46,10 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
 public final class SecureWebServiceHandler implements
 		SOAPHandler<SOAPMessageContext> {
 
+	private static final String PASSWORD = "Password";
+	private static final String USERNAME = "Username";
+	private static final String USERNAME_TOKEN = "UsernameToken";
+	private static final String SECURITY = "Security";
 	public static final String AUTHENTICATION_MANAGER = "authenticationManager";
 	public static final String CSM_USER_DETAILS_SERVICE = "csmUserDetailsService";
 	public static final String TOKEN_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
@@ -81,13 +85,13 @@ public final class SecureWebServiceHandler implements
 					generateSecurityFault(msg, "No SOAP message header.");
 				}
 
-				Element security = getRequiredElement(msg, hdr, "Security");
+				Element security = getRequiredElement(msg, hdr, SECURITY);
 				Element usernameToken = getRequiredElement(msg, security,
-						"UsernameToken");
+						USERNAME_TOKEN);
 				Element username = getRequiredElement(msg, usernameToken,
-						"Username");
+						USERNAME);
 				Element password = getRequiredElement(msg, usernameToken,
-						"Password");
+						PASSWORD);
 
 				ApplicationContext springCtx = WebApplicationContextUtils
 						.getWebApplicationContext(servletContext);
@@ -139,9 +143,10 @@ public final class SecureWebServiceHandler implements
 			Detail detail = fault.addDetail();
 			DetailEntry detailEntry = detail.addDetailEntry(new QName(
 					getNameSpace(SubjectManagement.class),
-					InvalidSubjectDataExceptionFault.class.getSimpleName(),
+					InsufficientPrivilegesExceptionFault.class.getSimpleName(),
 					"ent"));
-			SOAPElement message = detailEntry.addChildElement("message");
+			SOAPElement message = detailEntry.addChildElement(new QName(
+					getNameSpace(SubjectManagement.class), "message"));
 			message.setValue(reason);
 			// wrapper for a SOAP 1.1 or SOAP 1.2 fault
 			throw new SOAPFaultException(fault);
@@ -157,9 +162,9 @@ public final class SecureWebServiceHandler implements
 	 */
 	private String getNameSpace(Class<SubjectManagement> cls) {
 		String ns = "";
-		for (Annotation ann: cls.getAnnotations()) {
+		for (Annotation ann : cls.getAnnotations()) {
 			if (WebService.class.equals(ann.annotationType())) {
-				ns = ((WebService)ann).targetNamespace();
+				ns = ((WebService) ann).targetNamespace();
 			}
 		}
 		return ns;

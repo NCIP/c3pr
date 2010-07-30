@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 
 
 /**
@@ -25,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="entity" type="{http://enterpriseservices.nci.nih.gov}BiologicEntity"/>
+ *         &lt;element name="stateCode" type="{uri:iso.org:21090}ST" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,12 +37,14 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Subject", namespace = "http://enterpriseservices.nci.nih.gov", propOrder = {
-    "entity"
+    "entity",
+    "stateCode"
 })
 public class Subject {
 
     @XmlElement(required = true)
     protected BiologicEntity entity;
+    protected ST stateCode;
 
     /**
      * Gets the value of the entity property.
@@ -64,6 +68,30 @@ public class Subject {
      */
     public void setEntity(BiologicEntity value) {
         this.entity = value;
+    }
+
+    /**
+     * Gets the value of the stateCode property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link ST }
+     *     
+     */
+    public ST getStateCode() {
+        return stateCode;
+    }
+
+    /**
+     * Sets the value of the stateCode property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ST }
+     *     
+     */
+    public void setStateCode(ST value) {
+        this.stateCode = value;
     }
 
 }

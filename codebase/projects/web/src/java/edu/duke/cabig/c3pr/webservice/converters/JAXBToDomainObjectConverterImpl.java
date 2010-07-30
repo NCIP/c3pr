@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.duke.cabig.c3pr.constants.RaceCode;
-import edu.duke.cabig.c3pr.constants.SubjectStateCode;
+import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -37,6 +37,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
 import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
+import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
@@ -74,6 +75,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	private static final int UNABLE_TO_FIND_ORGANIZATION = 905;
 	private static final int WRONG_DATE_FORMAT = 906;
 	private static final int WRONG_RACE_CODE = 907;
+	private static final int INVALID_SUBJECT_STATE_CODE = 908;
 
 	/** The exception helper. */
 	protected C3PRExceptionHelper exceptionHelper;
@@ -127,7 +129,20 @@ public class JAXBToDomainObjectConverterImpl implements
 			}
 
 			convert(participant, subject);
-			participant.setStateCode(SubjectStateCode.ACTIVE.getCode());
+
+			final ST subjectStCode = subject.getStateCode();
+			if (subjectStCode != null && subjectStCode.getValue() != null) {
+				String code = subjectStCode.getValue();
+				ParticipantStateCode subjectCode = ParticipantStateCode.getByCode(code);
+				if (subjectCode == null) {
+					throw exceptionHelper
+							.getConversionException(INVALID_SUBJECT_STATE_CODE);
+				} else {
+					participant.setStateCode(subjectCode);
+				}
+			} else {
+				participant.setStateCode(ParticipantStateCode.ACTIVE);
+			}
 			return participant;
 
 		}
@@ -497,6 +512,9 @@ public class JAXBToDomainObjectConverterImpl implements
 			person.setPostalAddress(getPostalAddress(p));
 			person.setRaceCode(getRaceCodes(p));
 			person.setTelecomAddress(getTelecomAddress(p));
+			if (p.getStateCode() != null) {
+				subject.setStateCode(new ST(p.getStateCode().getCode()));
+			}
 		}
 		return subject;
 	}
