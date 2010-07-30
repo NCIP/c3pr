@@ -773,7 +773,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				log.warn("No csm user exists for staff with first Name: "+researchStaff.getFirstName());
 				continue;
 			}
-			if (checkUserAccessForSite(user, healthcareSite, C3PRUserGroupType.REGISTRAR.getCode())) {
+			if (checkUserAccessForSite(user, healthcareSite, SecurityUtils.getStudyScopedRoles())) {
 				reducedHcsRsList.add(researchStaff);
 			}
 		}
@@ -790,16 +790,22 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 * @param role the role
 	 * @return true, if successful
 	 */
-	public boolean checkUserAccessForSite(User csmUser, HealthcareSite healthcareSite, String role) {
-		try {
-			return userProvisioningManager.checkPermission(csmUser.getLoginName(), 
-							"HealthcareSite."+healthcareSite.getPrimaryIdentifier(), role);
-		} catch (CSObjectNotFoundException e) {
-			log.error(e.getMessage());
-		} catch (CSException e) {
-			log.error(e.getMessage());
+	public boolean checkUserAccessForSite(User csmUser,
+			HealthcareSite healthcareSite, List<C3PRUserGroupType> roles) {
+		boolean hasAccessToSite = false;
+		for (C3PRUserGroupType role : roles) {
+			try {
+				if (userProvisioningManager.checkPermission( csmUser.getLoginName(), "HealthcareSite." + healthcareSite.getPrimaryIdentifier(), role.getCode())) {
+					hasAccessToSite = true;
+					break;
+				}
+			} catch (CSObjectNotFoundException e) {
+				log.error(e.getMessage());
+			} catch (CSException e) {
+				log.error(e.getMessage());
+			}
 		}
-		return false;
+		return hasAccessToSite;
 	}
 
 	/**
