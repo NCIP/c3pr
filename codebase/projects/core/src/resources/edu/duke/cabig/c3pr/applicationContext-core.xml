@@ -171,6 +171,7 @@
         		<value>edu.duke.cabig.c3pr.domain.BaseOrganizationDataContainer</value>
         		<value>edu.duke.cabig.c3pr.domain.BaseResearchStaffDataContainer</value>
         		<value>edu.duke.cabig.c3pr.domain.BaseInvestigatorDataContainer</value>
+        		<value>edu.duke.cabig.c3pr.domain.BaseContactMechanismDataContainer</value>
         	</list>
         </property>
     </bean>
