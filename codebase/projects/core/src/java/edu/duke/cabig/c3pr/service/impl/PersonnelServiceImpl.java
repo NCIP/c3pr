@@ -11,16 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.dao.BaseResearchStaffDataContainerDao;
 import edu.duke.cabig.c3pr.dao.BaseInvestigatorDataContainerDao;
+import edu.duke.cabig.c3pr.dao.BaseResearchStaffDataContainerDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.UserDao;
+import edu.duke.cabig.c3pr.domain.BaseContactMechanismDataContainer;
 import edu.duke.cabig.c3pr.domain.BaseInvestigatorDataContainer;
-import edu.duke.cabig.c3pr.domain.BaseOrganizationDataContainer;
 import edu.duke.cabig.c3pr.domain.BaseResearchStaffDataContainer;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
@@ -38,7 +39,6 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.utils.RecipientScheduledNotificationComparator;
 import gov.nih.nci.security.UserProvisioningManager;
-import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.User;
 
@@ -242,6 +242,13 @@ public class PersonnelServiceImpl implements PersonnelService {
 		baseResearchStaffDataContainer.setMiddleName(remoteResearchStaff.getMiddleName());
 		baseResearchStaffDataContainer.setMaidenName(remoteResearchStaff.getMaidenName());
 		baseResearchStaffDataContainer.setExternalId(remoteResearchStaff.getExternalId());
+		for(ContactMechanism cm : remoteResearchStaff.getContactMechanisms()){
+			BaseContactMechanismDataContainer baseContactMechanismDataContainer = new BaseContactMechanismDataContainer();
+			baseContactMechanismDataContainer.setDtype("Remote");
+			baseContactMechanismDataContainer.setType(cm.getType());
+			baseContactMechanismDataContainer.setValue(cm.getValue());
+			baseResearchStaffDataContainer.addContactMechanism(baseContactMechanismDataContainer);
+		}
 		baseResearchStaffDataContainerDao.save(baseResearchStaffDataContainer);
 		return baseResearchStaffDataContainer;
 	}
@@ -256,6 +263,13 @@ public class PersonnelServiceImpl implements PersonnelService {
 		baseInvestigatorDataContainer.setMiddleName(remoteInvestigator.getMiddleName());
 		baseInvestigatorDataContainer.setMaidenName(remoteInvestigator.getMaidenName());
 		baseInvestigatorDataContainer.setExternalId(remoteInvestigator.getExternalId());
+		for(ContactMechanism cm : remoteInvestigator.getContactMechanisms()){
+			BaseContactMechanismDataContainer baseContactMechanismDataContainer = new BaseContactMechanismDataContainer();
+			baseContactMechanismDataContainer.setDtype("Remote");
+			baseContactMechanismDataContainer.setType(cm.getType());
+			baseContactMechanismDataContainer.setValue(cm.getValue());
+			baseInvestigatorDataContainer.addContactMechanism(baseContactMechanismDataContainer);
+		}
 		baseInvestigatorDataContainerDao.save(baseInvestigatorDataContainer);
 		return baseInvestigatorDataContainer;
 	}
