@@ -31,6 +31,7 @@ import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.domain.repository.ResearchStaffRepository;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
@@ -46,8 +47,12 @@ public class CreateResearchStaffController extends SimpleFormController{
 
     protected ResearchStaffDao researchStaffDao;
     private HealthcareSiteDao healthcareSiteDao ;
+    private OrganizationService organizationService;
     
-    private PersonnelService personnelService ;
+    public void setOrganizationService(OrganizationService organizationService) {
+		this.organizationService = organizationService;
+	}
+	private PersonnelService personnelService ;
 
 	public PersonnelService getPersonnelService() {
 		return personnelService;
@@ -287,7 +292,7 @@ public class CreateResearchStaffController extends SimpleFormController{
     				//	get the corresponding hcs from the dto object and save that organization and then save this staff
         				HealthcareSite matchingHealthcareSiteFromDb = getHealthcareSiteDao().getByPrimaryIdentifier(hcSite.getPrimaryIdentifier());
         				if(matchingHealthcareSiteFromDb == null){
-        					getHealthcareSiteDao().save(hcSite);
+        					organizationService.save(hcSite);
         				} else{
     					//	we have the retrieved staff's Org in our db...link up with the same and persist
         					remoteRStaffSelected.removeHealthcareSite(hcSite);
@@ -306,7 +311,20 @@ public class CreateResearchStaffController extends SimpleFormController{
 					saveExternalResearchStaff = true;
 					remoteRStaffSelected = (RemoteResearchStaff) researchStaff.getExternalResearchStaff().get(Integer.parseInt(selectedParam));
 					personnelService.convertLocalResearchStaffToRemoteResearchStaff((LocalResearchStaff)researchStaff, remoteRStaffSelected);
+					// add organizations of selected remote research staff  to the remote research staff in Db( which is just converted from local)
+					//first load the remote research staff just converted
+					RemoteResearchStaff remoteResearchStaffFromDb = (RemoteResearchStaff) researchStaffDao.getByAssignedIdentifierFromLocal
+						(remoteRStaffSelected.getAssignedIdentifier());
+					
+					// add organizations from selected remote research staff that the converted research staff doesn't have
+					
+					for(HealthcareSite hcs: remoteRStaffSelected.getHealthcareSites()){
+						if(!remoteResearchStaffFromDb.getHealthcareSites().contains(hcs)){
+							remoteResearchStaffFromDb.addHealthcareSite(hcs);
+						}
+					}
 				}
+				
 			}  else {
 				boolean hasAccessToAllSites = wrapper.getHasAccessToAllSites() ;
 
