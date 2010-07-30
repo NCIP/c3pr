@@ -432,15 +432,15 @@ public class SecurityUtils {
 		studyScopedRoles.add(C3PRUserGroupType.DATA_ANALYST);
 		studyScopedRoles.add(C3PRUserGroupType.DATA_READER);
 		
-		studyScopedRoles.add(C3PRUserGroupType.AE_STUDY_DATA_REVIEWER);
-		studyScopedRoles.add(C3PRUserGroupType.AE_EXPEDITED_REPORT_REVIEWER);
-		studyScopedRoles.add(C3PRUserGroupType.AE_REPORTER);
-		
-		studyScopedRoles.add(C3PRUserGroupType.LAB_DATA_USER);
-		studyScopedRoles.add(C3PRUserGroupType.LAB_IMPACT_CALENDAR_NOTIFIER);
-		
-		studyScopedRoles.add(C3PRUserGroupType.STUDY_CALENDAR_TEMPLATE_BUILDER);
-		studyScopedRoles.add(C3PRUserGroupType.STUDY_SUBJECT_CALENDAR_MANAGER);
+//		studyScopedRoles.add(C3PRUserGroupType.AE_STUDY_DATA_REVIEWER);
+//		studyScopedRoles.add(C3PRUserGroupType.AE_EXPEDITED_REPORT_REVIEWER);
+//		studyScopedRoles.add(C3PRUserGroupType.AE_REPORTER);
+//		
+//		studyScopedRoles.add(C3PRUserGroupType.LAB_DATA_USER);
+//		studyScopedRoles.add(C3PRUserGroupType.LAB_IMPACT_CALENDAR_NOTIFIER);
+//		
+//		studyScopedRoles.add(C3PRUserGroupType.STUDY_CALENDAR_TEMPLATE_BUILDER);
+//		studyScopedRoles.add(C3PRUserGroupType.STUDY_SUBJECT_CALENDAR_MANAGER);
 		
 		return studyScopedRoles;
 	}
