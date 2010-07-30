@@ -505,7 +505,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					//This ensures the SRM doesn't have all-site access since the all site access chkbox was unchecked.
 					SuiteRoleMembership newSuiteRoleMembership= new SuiteRoleMembership(suiteRole, null, null);
 					if(!suiteRoleMembership.isAllSites()){
-						List<String> allSiteIds = suiteRoleMembership.getStudyIdentifiers();
+						List<String> allSiteIds = suiteRoleMembership.getSiteIdentifiers();
 						for(String siteId: allSiteIds){
 							newSuiteRoleMembership.addSite(siteId);
 						}
