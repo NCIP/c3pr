@@ -1,9 +1,14 @@
 package edu.duke.cabig.c3pr.web.security;
 
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.jws.WebService;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
@@ -11,10 +16,8 @@ import javax.xml.soap.Detail;
 import javax.xml.soap.DetailEntry;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFault;
-import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPHandler;
@@ -27,13 +30,18 @@ import org.acegisecurity.AuthenticationManager;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.providers.ProviderManager;
 import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+
+import com.sun.xml.wss.ProcessingContext;
+import com.sun.xml.wss.XWSSProcessor;
+import com.sun.xml.wss.XWSSProcessorFactory;
+import com.sun.xml.wss.XWSSecurityException;
+import com.sun.xml.wss.impl.callback.PasswordValidationCallback;
 
 import edu.duke.cabig.c3pr.utils.web.AuditInfoFilter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.InsufficientPrivilegesExceptionFault;
@@ -46,17 +54,41 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
 public final class SecureWebServiceHandler implements
 		SOAPHandler<SOAPMessageContext> {
 
-	private static final String PASSWORD = "Password";
-	private static final String USERNAME = "Username";
-	private static final String USERNAME_TOKEN = "UsernameToken";
-	private static final String SECURITY = "Security";
+	private static final String NS = "http://docs.oasis-open.org/wss/2004/01/"
+					+ "oasis-200401-wss-wssecurity-secext-1.0.xsd";
 	public static final String AUTHENTICATION_MANAGER = "authenticationManager";
 	public static final String CSM_USER_DETAILS_SERVICE = "csmUserDetailsService";
-	public static final String TOKEN_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
 	private static Log log = LogFactory.getLog(SecureWebServiceHandler.class);
 
+	private static final ThreadLocal<ServletContext> servletContextHolder = new ThreadLocal<ServletContext>();
+
+	private XWSSProcessor xwssProcessor = null;
+
+	public SecureWebServiceHandler() {
+
+		XWSSProcessorFactory fact = null;
+		InputStream config = null;
+		try {
+			fact = XWSSProcessorFactory.newInstance();
+			config = SecureWebServiceHandler.class
+					.getResourceAsStream("/xws-config.xml");
+			xwssProcessor = fact.createProcessorForSecurityConfiguration(
+					config, new Verifier());
+		} catch (Exception e) {
+			log.error(e);
+			throw new RuntimeException(e);
+		} finally {
+			IOUtils.closeQuietly(config);
+		}
+
+	}
+
 	public Set<QName> getHeaders() {
-		return null;
+		String uri = NS;
+		QName security_hdr = new QName(uri, "Security", "wsse");
+		Set<QName> headers = new HashSet<QName>();
+		headers.add(security_hdr);
+		return headers;
 	}
 
 	public void close(MessageContext ctx) {
@@ -76,59 +108,25 @@ public final class SecureWebServiceHandler implements
 					.get(MessageContext.SERVLET_CONTEXT);
 			HttpServletRequest request = (HttpServletRequest) ctx
 					.get(MessageContext.SERVLET_REQUEST);
+			servletContextHolder.set(servletContext);
 			// Handle the SOAP only if it's incoming.
 			if (!response_p) {
-				SOAPEnvelope env = msg.getSOAPPart().getEnvelope();
-				SOAPHeader hdr = env.getHeader();
-				// Ensure that the SOAP message has a header.
-				if (hdr == null) {
-					generateSecurityFault(msg, "No SOAP message header.");
-				}
-
-				Element security = getRequiredElement(msg, hdr, SECURITY);
-				Element usernameToken = getRequiredElement(msg, security,
-						USERNAME_TOKEN);
-				Element username = getRequiredElement(msg, usernameToken,
-						USERNAME);
-				Element password = getRequiredElement(msg, usernameToken,
-						PASSWORD);
-
-				ApplicationContext springCtx = WebApplicationContextUtils
-						.getWebApplicationContext(servletContext);
-				AuthenticationManager authenticationManager = (ProviderManager) springCtx
-						.getBean(AUTHENTICATION_MANAGER);
-				Authentication auth = authenticationManager
-						.authenticate(new UsernamePasswordAuthenticationToken(
-								username.getTextContent().trim(), password
-										.getTextContent().trim()));
-				SecurityContextHolder.getContext().setAuthentication(auth);
-
+				ProcessingContext p_ctx = xwssProcessor
+						.createProcessingContext(msg);
+				p_ctx.setSOAPMessage(msg);
+				SOAPMessage verified_msg = xwssProcessor
+						.verifyInboundMessage(p_ctx);
+				ctx.setMessage(verified_msg);
 				AuditInfoFilter.setAuditInfo(request);
-
 			}
 		} catch (AuthenticationException e) {
 			generateSecurityFault(msg, e.getMessage());
-		} catch (SOAPException e) {
-			log.error(ExceptionUtils.getFullStackTrace(e));
-			throw new RuntimeException(e);
+		} catch (XWSSecurityException e) {
+			generateSecurityFault(msg, e.getMessage());
+		} finally {
+			servletContextHolder.set(null);
 		}
 		return true;
-	}
-
-	/**
-	 * @param node
-	 * @param name
-	 * @return
-	 */
-	private Element getRequiredElement(SOAPMessage msg, Element node,
-			String name) {
-		NodeList nodeList = node.getElementsByTagNameNS(TOKEN_NS, name);
-		if (nodeList == null || nodeList.getLength() == 0) {
-			generateSecurityFault(msg,
-					"Message header does not contain security-related information. "
-							+ name + " element is missing.");
-		}
-		return (Element) nodeList.item(0);
 	}
 
 	/**
@@ -168,6 +166,46 @@ public final class SecureWebServiceHandler implements
 			}
 		}
 		return ns;
+	}
+
+	/**
+	 * @author dkrylov
+	 * 
+	 */
+	private static final class Verifier implements CallbackHandler {
+
+		// For password validation, set the validator to the inner class below.
+		public void handle(Callback[] callbacks)
+				throws UnsupportedCallbackException {
+			for (int i = 0; i < callbacks.length; i++) {
+				if (callbacks[i] instanceof PasswordValidationCallback) {
+					PasswordValidationCallback cb = (PasswordValidationCallback) callbacks[i];
+					if (cb.getRequest() instanceof PasswordValidationCallback.PlainTextPasswordRequest)
+						cb.setValidator(new PlainTextPasswordVerifier());
+				} else
+					throw new UnsupportedCallbackException(null, "Not needed");
+			}
+		}
+
+		// Encapsulated validate method verifies the username/password.
+		private class PlainTextPasswordVerifier implements
+				PasswordValidationCallback.PasswordValidator {
+			public boolean validate(PasswordValidationCallback.Request req)
+					throws PasswordValidationCallback.PasswordValidationException {
+				PasswordValidationCallback.PlainTextPasswordRequest plainPwd = (PasswordValidationCallback.PlainTextPasswordRequest) req;
+				final String username = plainPwd.getUsername();
+				final String password = plainPwd.getPassword();
+				ApplicationContext springCtx = WebApplicationContextUtils
+						.getWebApplicationContext(servletContextHolder.get());
+				AuthenticationManager authenticationManager = (ProviderManager) springCtx
+						.getBean(AUTHENTICATION_MANAGER);
+				Authentication auth = authenticationManager
+						.authenticate(new UsernamePasswordAuthenticationToken(
+								username.trim(), password.trim()));
+				SecurityContextHolder.getContext().setAuthentication(auth);
+				return true;
+			}
+		}
 	}
 
 }
