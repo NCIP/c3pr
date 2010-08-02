@@ -53,6 +53,8 @@ function updateStudyInvGroups() {
 }
 
 function showStudyInvestigators() {
+    $('siteInvestigatorIndicator').show();
+	
     var categoryId = $("study-inv-sub-category").value;
     var subCategorySelect = $("study-inv-sub-category")
 
@@ -71,6 +73,7 @@ function showStudyInvestigators() {
                 var opt = new Option(name, cat.id)
                 studyInvestigatorsSelect.options.add(opt)
             })
+            $('siteInvestigatorIndicator').hide();
         })
     }
     else {
@@ -85,6 +88,7 @@ function showStudyInvestigators() {
                 var opt = new Option(name, cat.id)
                 sel.options.add(opt)
             })
+            $('siteInvestigatorIndicator').hide();
         })
     }
 }
@@ -234,7 +238,9 @@ changed before submit in javascripts. The parameters need proper default values,
 			                <option value="">Please select a Group first</option>
 			            </select>
 
-			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.participatingSiteInv"/></b><br>
+			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.participatingSiteInv"/></b>
+			            <img id="siteInvestigatorIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none"/>
+			            <br>
 			            <select multiple size="1" style="width:400px" id="study-inv">
 			                <option value="">Please select a Group first</option>
 			            </select> <span id="study-inv-selected-name"></span>
