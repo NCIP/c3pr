@@ -42,6 +42,7 @@ function saveStudyPersonnel(){
 
 function showPersonnel() {
     <%--If all is selected--%>
+    $('sitePersonnelIndicator').show();
     var studyPersonnelSelect = $("study-personnel")
     studyPersonnelSelect.options.length = 0
     studyPersonnelSelect.size = 10
@@ -58,8 +59,11 @@ function showPersonnel() {
               var opt = new Option(name, cat.id)
               studyPersonnelSelect.options.add(opt)
           })
+          $('sitePersonnelIndicator').hide();
+            
       })   
-    }                                                          
+    } 
+    
 }
 
 /**
@@ -203,7 +207,9 @@ changed before submit in javascripts. The parameters need proper default values,
 		                    </c:forEach>
 		                </select>
 			            
-			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.participatingSitePersonnel"/></b><br>
+			            <br><br><b>&nbsp;<fmt:message key="c3pr.common.participatingSitePersonnel"/></b>
+   						<img id="sitePersonnelIndicator" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none"/>
+			            <br>
 			            <select multiple size="1" style="width:400px" id="study-personnel">
 			            </select> <span id="study-personnel-selected-name"></span>
 			            <select multiple size="10" id="study-personnel-sel">
