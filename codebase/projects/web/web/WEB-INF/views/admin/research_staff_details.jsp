@@ -562,7 +562,7 @@ function handleRoleCheckbox(roleCheckbox){
    					<tags:button  type="submit" id="save-no" color="red" value="Cancel" onclick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
    				</td>
    				<td align="right">
-   					<tags:button  type="submit" color="blue" disabled value="Ok" id="save-yes" onclick="javascript:window.parent.submitRemoteRsForSave();"/>
+   					<tags:button  type="submit" color="blue" disabled="disabled" value="Ok" id="save-yes" onclick="javascript:window.parent.submitRemoteRsForSave();"/>
    				</td>
    			</tr>	
    		</table>
