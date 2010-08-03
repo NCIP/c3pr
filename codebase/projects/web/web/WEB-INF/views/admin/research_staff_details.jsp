@@ -205,9 +205,26 @@ var healthcareSiteRowInserterProps = {
 RowManager.addRowInseter(healthcareSiteRowInserterProps);
 RowManager.registerRowInserters();
 
-function handleRoleCheckbox(roleCheckbox){
-	
-	
+function manageRoleGrouping(role, id, checkbox){
+	if(checkbox.checked){
+		if(role == 'STUDY_CREATOR'){
+			groupStudySpecificRoles(id);
+		}else if(role == 'REGISTRAR'){
+			groupRegistrarSpecificRoles(id);
+		}
+	}
+}
+
+function groupStudySpecificRoles(id){
+	var value = 'hcs-'+id+'-role-'
+	$(value+'STUDY_TEAM_ADMINISTRATOR').checked = true;
+	$(value+'STUDY_SITE_PARTICIPATION_ADMINISTRATOR').checked = true;
+	$(value+'SUPPLEMENTAL_STUDY_INFORMATION_MANAGER').checked = true;
+}
+
+function groupRegistrarSpecificRoles(id){
+	var value = 'hcs-'+id+'-role-'
+	$(value+'SUBJECT_MANAGER').checked = true;
 }
 </script>
 
@@ -382,7 +399,10 @@ function handleRoleCheckbox(roleCheckbox){
 				        	</c:choose>
 						</c:when>
 						<c:otherwise>
+							<form:checkbox id="global-role-${globalRole.name}" path="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}"/>
+							<!-- 
 							<input type="checkbox" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}" class="globalRoleCheckbox"  <c:if test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}"> checked </c:if>/>
+							 -->
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -446,10 +466,10 @@ function handleRoleCheckbox(roleCheckbox){
 				        <div class="value">
 				        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
 				       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
-								<input type="hidden" id="hcs-${status.index}-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}"  />
+								<input type="hidden" id="hcs-${status.index}-role-${role.name}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}"  />
 					    	</c:forEach>
 					    	<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
-								<input type="hidden" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${globalRole.name}" />
+								<input type="hidden" id="global-role-${globalRole.name}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${globalRole.name}" />
 							</c:forEach>
 				        </div>
 			    	</div>
@@ -476,7 +496,10 @@ function handleRoleCheckbox(roleCheckbox){
 						        	</c:choose>
 								</c:when>
 								<c:otherwise>
+									<form:checkbox id="hcs-${status.index}-role-${role.name}" path="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}" onclick="manageRoleGrouping('${role.name}', ${status.index}, this);"/>
+									<!--  
 									<input type="checkbox" id="hcs-${status.index}-role-${roleStatus.index}" onclick="handleRoleCheckbox(this);" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, role)}"> checked </c:if> />
+									 -->
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -559,10 +582,10 @@ function handleRoleCheckbox(roleCheckbox){
    		<table width="100%">	
    			<tr>
    				<td align="left">
-   					<tags:button  type="submit" id="save-no" color="red" value="Cancel" onclick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
+   					<tags:button type="submit" id="save-no" color="red" value="Cancel" onclick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
    				</td>
    				<td align="right">
-   					<tags:button  type="submit" color="blue" disabled="disabled" value="Ok" id="save-yes" onclick="javascript:window.parent.submitRemoteRsForSave();"/>
+   					<tags:button type="submit" color="blue" value="Ok" id="save-yes" onclick="javascript:window.parent.submitRemoteRsForSave();" disabled="disabled"/>
    				</td>
    			</tr>	
    		</table>
@@ -610,7 +633,7 @@ function handleRoleCheckbox(roleCheckbox){
 				        <div class="value">
 				        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
 				       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
-								<input type="hidden" id="hcs-PAGE.ROW.INDEX-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
+								<input type="hidden" id="hcs-PAGE.ROW.INDEX-role-${role.name}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
 					    	</c:forEach>
 				        </div>
 			    	</div>
@@ -625,7 +648,7 @@ function handleRoleCheckbox(roleCheckbox){
 						</td></tr><tr><td>						
 					</c:if>
 					<div class="newLabel"> 
-						<input type="checkbox" id="hcs-PAGE.ROW.INDEX-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
+						<input type="checkbox" id="hcs-PAGE.ROW.INDEX-role-${role.name}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
 					</div>
 					<div class="newValue">
 						${role.displayName}

@@ -332,7 +332,11 @@ public class CreateResearchStaffController extends SimpleFormController{
 				Map<HealthcareSite, List<C3PRUserGroupType>> associationMap = new HashMap<HealthcareSite, List<C3PRUserGroupType>>();
 				for(HealthcareSiteRolesHolder associationObject : listAssociation){
 					if(associationObject != null){
-					associationMap.put(associationObject.getHealthcareSite(), associationObject.getGroups());
+						List<C3PRUserGroupType> groups = associationObject.getGroups();
+						if(groups == null) {
+							groups = new ArrayList<C3PRUserGroupType>();
+						}
+					associationMap.put(associationObject.getHealthcareSite(), groups);
 						if(!researchStaff.getHealthcareSites().contains(associationObject.getHealthcareSite())){
 							researchStaff.addHealthcareSite(associationObject.getHealthcareSite());
 						}
