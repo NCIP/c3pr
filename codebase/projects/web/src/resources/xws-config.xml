@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xwss:SecurityConfiguration xmlns:xwss="http://java.sun.com/xml/ns/xwss/config"
-	dumpMessages="false">
-	<xwss:RequireUsernameToken nonceRequired="false"
-		passwordDigestRequired="false" />
+	dumpMessages="true">
+	<xwss:RequireSignature requireTimestamp="false">
+		<xwss:SAMLAssertion type="HOK" />
+		<xwss:Target type="qname">
+			{http://schemas.xmlsoap.org/soap/envelope/}Body
+          </xwss:Target>
+	</xwss:RequireSignature>
 </xwss:SecurityConfiguration>
