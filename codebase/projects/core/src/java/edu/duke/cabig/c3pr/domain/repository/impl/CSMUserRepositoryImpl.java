@@ -32,7 +32,7 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 	private MailSender mailSender;
 	private Logger log = Logger.getLogger(CSMUserRepositoryImpl.class);
 
-	private gov.nih.nci.security.authorization.domainobjects.User getCSMUserByName(String userName) {
+	public gov.nih.nci.security.authorization.domainobjects.User getCSMUserByName(String userName) {
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = userProvisioningManager.getUser(userName);
 		if (csmUser == null) throw new C3PRNoSuchUserException("No such CSM user.");
 		return csmUser;
