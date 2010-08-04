@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jackrabbit.uuid.UUID;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
@@ -48,6 +50,7 @@ public class CreateResearchStaffController extends SimpleFormController{
     protected ResearchStaffDao researchStaffDao;
     private HealthcareSiteDao healthcareSiteDao ;
     private OrganizationService organizationService;
+    private UserDao userDao;
     
     public void setOrganizationService(OrganizationService organizationService) {
 		this.organizationService = organizationService;
@@ -212,10 +215,11 @@ public class CreateResearchStaffController extends SimpleFormController{
 			String username = wrapper.getUserName();
 			if(StringUtils.isNotBlank(username) ){
 				try{
-					edu.duke.cabig.c3pr.domain.User user = csmUserRepository.getUserByName(username);
+					gov.nih.nci.security.authorization.domainobjects.User user = csmUserRepository.getCSMUserByName(username);
 					if(user != null){
 						errors.reject("duplicate.username.error");
 						request.setAttribute("duplicateUser", "true");
+						wrapper.setPreExistingUsersAssignedId(getResearchStaffsAssignedIdentifier(user));
 					}
 				}catch(C3PRNoSuchUserException e){
 				}
@@ -238,6 +242,48 @@ public class CreateResearchStaffController extends SimpleFormController{
 		}
 	}
 
+	/**
+	 * Gets the research staff. 
+	 * Creates one if the staff does not exist. This is for the suite use case of dynamic provisioning.
+	 * NOTE: Throws a runtime exception if unable to provision.
+	 * Since dynamic user provisioning failed, we show the error on the ui instead of working around it.
+	 * @param userId the user id
+	 * @return the research staff
+	 */
+	private String getResearchStaffsAssignedIdentifier(gov.nih.nci.security.authorization.domainobjects.User csmUser) {
+		edu.duke.cabig.c3pr.domain.User c3prUser = userDao.getByLoginId(csmUser.getUserId());
+		if(c3prUser == null){
+			ResearchStaff researchStaff = populateResearchStaff(csmUser);
+			try {
+				logger.debug("Attempting to dynamically provision the CSM user with user id: "+ csmUser.getLoginName() +" in C3PR as staff.");
+				researchStaffDao.createResearchStaff(researchStaff);
+			} catch(Exception e){
+				logger.error("Dynamic provisioning failed. Check user details in csm_user for invalid data.");
+				logger.error(e.getMessage());
+				throw new RuntimeException();
+			}
+			return researchStaff.getAssignedIdentifier();
+		}
+		return ((ResearchStaff)c3prUser).getAssignedIdentifier();
+	}
+
+	/**
+	 * Populate research staff.
+	 *
+	 * @param csmUser the csm user
+	 * @return the research staff
+	 */
+	private ResearchStaff populateResearchStaff(gov.nih.nci.security.authorization.domainobjects.User csmUser) {
+		ResearchStaff researchStaff = new LocalResearchStaff();
+		researchStaff.setFirstName(csmUser.getFirstName());
+		researchStaff.setLastName(csmUser.getLastName());
+		researchStaff.setLoginId(csmUser.getUserId().toString());
+		researchStaff.setEmail(csmUser.getEmailId());
+//		researchStaff.setPhone(csmUser.getPhoneNumber());
+		researchStaff.setAssignedIdentifier(UUID.randomUUID().toString());
+		return researchStaff;
+	}
+	
 	private boolean externalResearchStaffExists(ResearchStaff researchStaff) {
 		List<ResearchStaff> remoteResearchStaff = researchStaffRepository.getRemoteResearchStaff(researchStaff);
 		boolean matchingExternalResearchStaffPresent = false;
@@ -415,6 +461,14 @@ public class CreateResearchStaffController extends SimpleFormController{
 	}
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public UserDao getUserDao() {
+		return userDao;
+	}
+
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
 	}
 	
 }

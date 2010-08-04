@@ -13,6 +13,7 @@ public class ResearchStaffWrapper {
 	private ResearchStaff researchStaff ;
 	private String userName ;
 	private boolean hasAccessToAllSites ;
+	private String preExistingUsersAssignedId;
 	
 	
 	private List<HealthcareSiteRolesHolder> healthcareSiteRolesHolderList = LazyList.decorate(new ArrayList<HealthcareSiteRolesHolder>(), new InstantiateFactory<HealthcareSiteRolesHolder>(HealthcareSiteRolesHolder.class));
@@ -47,6 +48,12 @@ public class ResearchStaffWrapper {
 	
 	public void addHealthcareSiteRolesHolder(HealthcareSiteRolesHolder healthcareSiteRolesHolder){
 		getHealthcareSiteRolesHolderList().add(healthcareSiteRolesHolder);
+	}
+	public String getPreExistingUsersAssignedId() {
+		return preExistingUsersAssignedId;
+	}
+	public void setPreExistingUsersAssignedId(String preExistingUsersAsignedId) {
+		this.preExistingUsersAssignedId = preExistingUsersAsignedId;
 	}
 	
 }
