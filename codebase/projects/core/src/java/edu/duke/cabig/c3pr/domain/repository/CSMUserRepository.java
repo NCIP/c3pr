@@ -23,5 +23,7 @@ public interface CSMUserRepository {
 	public String getUsernameById(String loginId);
 	
 	public Set<gov.nih.nci.security.authorization.domainobjects.User> getCSMUsersByGroup(C3PRUserGroupType group);
+	
+	public gov.nih.nci.security.authorization.domainobjects.User getCSMUserByName(String userName);
 }
 
