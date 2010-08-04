@@ -238,5 +238,6 @@
          	<exclude org="org.slf4j" name="slf4j-log4j12" rev="1.3.0"/>
          	
          	<exclude org="org.globus" name="saaj" rev="4.0.3-globus"/>
+         	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="0.2" />
         </dependencies>
 </ivy-module>

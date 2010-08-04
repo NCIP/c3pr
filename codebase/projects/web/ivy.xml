@@ -141,8 +141,6 @@
 			<dependency org="displaytag" name="displaytag" rev="1.1" />
 			<!-- <dependency org="jboss" name="mvel-1.3.4-java1.4.2" rev="1.3.4" />-->
 			<dependency org="net.sf.ehcache" name="ehcache-web" rev="1.6.0-beta2" />
-			<!-- <dependency org="com.semanticbits.querybuilder" name="query-builder" rev="0.1" /> -->
-			
 			<exclude org="org.slf4j" name="slf4j-log4j12" rev="1.3.0"/>
 			
 			
@@ -179,5 +177,7 @@
 			<dependency org="asm" name="asm" rev="2.2.3" force="true"/>
 			<dependency org="asm" name="asm-tree" rev="2.2.3" force="true"/>
 				  -->
+				  
+		  	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="0.2" />
         </dependencies>
 </ivy-module>
