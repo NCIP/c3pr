@@ -233,6 +233,7 @@
 			<dependency org="gov.nih.nci.caxchange" name="coppa-commons" rev="1.2.3" />
             
             <dependency org="aspectj" name="aspectjtools" rev="1.5.3" />
+         	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="0.1" />
          	
          	<exclude org="org.slf4j" name="slf4j-log4j12" rev="1.3.0"/>
          	
