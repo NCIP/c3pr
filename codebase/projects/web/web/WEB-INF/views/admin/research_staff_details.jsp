@@ -79,10 +79,30 @@ function displayRemoteResearchStaff(){
  	Windows.addObserver(popupObserver);
 }
 
+function displayPreExistingCsmUser(){
+	var contentWin = new Window({className:"alphacube", destroyOnClose:true, id:"csmUser-popup-id", width:550,  height:200, top: 30, left: 300});
+	contentWin.setContent( 'display_csmUser' );
+  	contentWin.showCenter(true);
+ 	popupObserver = {
+			onDestroy: function(eventName, win) {
+				if (win == contentWin) {
+					$('display_csmUser').style.display='none';
+					contentWin = null;
+					Windows.removeObserver(this);
+				}
+			}
+		}
+ 	Windows.addObserver(popupObserver);
+}
+
 Event.observe(window, "load", function(){
 	if(${fn:length(command.researchStaff.externalResearchStaff) gt 0}){
 		displayRemoteResearchStaff();
 	}
+	
+	if(${!empty command.preExistingUsersAssignedId}){
+		displayPreExistingCsmUser();
+	}	
 });
 
 function submitRemoteRsForSave(){
@@ -214,14 +234,14 @@ function manageRoleGrouping(role, id, checkbox){
 		}
 	}
 }
-
+	
 function groupStudySpecificRoles(id){
 	var value = 'hcs-'+id+'-role-'
 	$(value+'STUDY_TEAM_ADMINISTRATOR').checked = true;
 	$(value+'STUDY_SITE_PARTICIPATION_ADMINISTRATOR').checked = true;
 	$(value+'SUPPLEMENTAL_STUDY_INFORMATION_MANAGER').checked = true;
 }
-
+	
 function groupRegistrarSpecificRoles(id){
 	var value = 'hcs-'+id+'-role-'
 	$(value+'SUBJECT_MANAGER').checked = true;
@@ -255,6 +275,7 @@ function groupRegistrarSpecificRoles(id){
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
+	<input type="hidden" name="_preExistingUsersAsignedId" value="">
 
 	<c:set var="noHealthcareSiteAssociated" value="${fn:length(command.researchStaff.healthcareSites) == 0}"></c:set>
 	<tags:instructions code="research_staff_details" />
@@ -591,6 +612,23 @@ function groupRegistrarSpecificRoles(id){
    		</table>
 	</chrome:box>
 </div>
+
+<div id="display_csmUser" style="display:none;text-align:left" >
+	<chrome:box title="Please select the user to be saved in C3PR" id="csm-popup-id">
+		This username already exists in the system. 
+		<a href='../researchStaff/editResearchStaff?assignedIdentifier=${command.preExistingUsersAssignedId}'>Click here</a>
+		to edit the pre-existing user or click cancel and select a different username.
+		<br><br>
+   		<table width="100%">	
+   			<tr>
+   				<td align="center">
+   					<tags:button type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('csmUser-popup-id');"/>
+   				</td>
+   			</tr>	
+   		</table>
+	</chrome:box>
+</div>
+
 <!-- Dummy Section -->
 <div id="dummy-healthcareSite" style="display: none"></div>
 <div id="genericHtml" style="display: none">
