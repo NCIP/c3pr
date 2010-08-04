@@ -233,37 +233,6 @@
 	</wsdl:portType>
 
 	<wsdl:binding name="SubjectManagementSOAP" type="tns:SubjectManagement">
-		<wsp:Policy xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"
-			xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
-			<wsp:ExactlyOne>
-				<wsp:All>
-					<sp:TransportBinding>
-						<wsp:Policy>
-							<sp:TransportToken>
-								<wsp:Policy>
-									<sp:HttpsToken RequireClientCertificate="false" />
-								</wsp:Policy>
-							</sp:TransportToken>
-							<sp:AlgorithmSuite>
-								<wsp:Policy>
-									<sp:Basic256Rsa15 />
-								</wsp:Policy>
-							</sp:AlgorithmSuite>
-						</wsp:Policy>
-					</sp:TransportBinding>
-					<sp:SignedSupportingTokens>
-						<wsp:Policy>
-							<sp:SamlToken
-								sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
-								<wsp:Policy>
-									<sp:WssSamlV20Token11 />
-								</wsp:Policy>
-							</sp:SamlToken>
-						</wsp:Policy>
-					</sp:SignedSupportingTokens>
-				</wsp:All>
-			</wsp:ExactlyOne>
-		</wsp:Policy>
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="createSubject">

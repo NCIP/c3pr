@@ -15,14 +15,28 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
 	<bean id="jAXBToDomainObjectConverter"
 		class="edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl"
-		autowire="byType"
-		/>
+		autowire="byType" />
 
 	<bean id="subjectManagementService"
 		class="edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl"
 		autowire="byType" />
 
+
 	<jaxws:endpoint id="subjectManagementEndpoint"
-		implementor="#subjectManagementService" address="/services/SubjectManagement" />
+		implementor="#subjectManagementService" address="/services/SubjectManagement">
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+				<constructor-arg>
+					<map>
+						<entry key="action" value="SAMLTokenSigned" />
+						<entry key="signaturePropFile" value="server_sign.properties" />
+					</map>
+				</constructor-arg>
+			</bean>
+		</jaxws:inInterceptors>
+
+	</jaxws:endpoint>
+
+
 
 </beans>

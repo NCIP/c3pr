@@ -3,8 +3,5 @@
 	dumpMessages="true">
 	<xwss:RequireSignature requireTimestamp="false">
 		<xwss:SAMLAssertion type="HOK" />
-		<xwss:Target type="qname">
-			{http://schemas.xmlsoap.org/soap/envelope/}Body
-          </xwss:Target>
 	</xwss:RequireSignature>
 </xwss:SecurityConfiguration>

@@ -153,7 +153,11 @@
 			<dependency org="org.apache.cxf" name="cxf-rt-transports-http" rev="2.1.10">			
 				<exclude org="org.springframework"></exclude>
 				<exclude org="stax"></exclude>				
-			</dependency>		
+			</dependency>
+			<dependency org="org.apache.cxf" name="cxf-rt-ws-security" rev="2.1.10">			
+				<exclude org="org.springframework"></exclude>
+				<exclude org="stax"></exclude>				
+			</dependency>
 			<dependency org="org.apache.ws.commons.schema" name="XmlSchema" rev="1.4.2" force="true"/>
 			<dependency org="com.sun.xml.wss" name="xws-security" rev="3.0"/>						
 			<dependency org="com.sun.org.apache.xml.security" name="xmlsec" rev="2.0"/>

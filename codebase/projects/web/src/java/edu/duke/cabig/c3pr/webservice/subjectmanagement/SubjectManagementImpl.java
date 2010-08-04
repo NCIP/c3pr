@@ -36,7 +36,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
  * 
  */
 @WebService(wsdlLocation="/WEB-INF/wsdl/SubjectManagement.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement", portName = "SubjectManagement", serviceName = "SubjectManagementService")
-@HandlerChain(file = "/ws-handlers.xml")
+/*@HandlerChain(file = "/ws-handlers.xml")*/
 public class SubjectManagementImpl implements SubjectManagement {
 
 	private static final String SUBJECT_DOES_NOT_EXIST = "Subject does not exist.";
