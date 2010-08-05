@@ -228,6 +228,14 @@
         <filter-name>AnonymousAuditInfoFilter</filter-name>
         <url-pattern>/public/user/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>AnonymousAuditInfoFilter</filter-name>
+        <url-pattern>/j_acegi_security_check</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AnonymousAuditInfoFilter</filter-name>
+        <url-pattern>/j_acegi_cas_security_check</url-pattern>
+    </filter-mapping>
     
     <filter>
         <filter-name>pre-authentication-setup-filter</filter-name>
