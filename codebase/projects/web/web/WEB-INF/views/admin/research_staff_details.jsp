@@ -622,7 +622,7 @@ function groupRegistrarSpecificRoles(id){
    		<table width="100%">	
    			<tr>
    				<td align="center">
-   					<tags:button type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('csmUser-popup-id');"/>
+   					<tags:button type="submit" value="Cancel" id="save-no" color="red" onclick="javascript:window.parent.Windows.close('csmUser-popup-id');"/>
    				</td>
    			</tr>	
    		</table>
