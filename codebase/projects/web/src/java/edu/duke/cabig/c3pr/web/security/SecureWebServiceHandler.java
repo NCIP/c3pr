@@ -1,47 +1,47 @@
 package edu.duke.cabig.c3pr.web.security;
 
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 
 import javax.jws.WebService;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.namespace.QName;
-import javax.xml.soap.Detail;
-import javax.xml.soap.DetailEntry;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFault;
-import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.handler.MessageContext;
-import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
-import javax.xml.ws.soap.SOAPFaultException;
 
-import org.acegisecurity.Authentication;
-import org.acegisecurity.AuthenticationException;
-import org.acegisecurity.AuthenticationManager;
 import org.acegisecurity.context.SecurityContextHolder;
-import org.acegisecurity.providers.ProviderManager;
 import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
+import org.acegisecurity.userdetails.UserDetails;
+import org.acegisecurity.userdetails.UserDetailsService;
+import org.acegisecurity.userdetails.UsernameNotFoundException;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.cxf.binding.soap.SoapMessage;
+import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
+import org.apache.cxf.helpers.CastUtils;
+import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.jaxws.handler.soap.SOAPMessageContextImpl;
+import org.apache.cxf.phase.Phase;
+import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
+import org.apache.ws.security.WSConstants;
+import org.apache.ws.security.WSSecurityEngineResult;
+import org.apache.ws.security.handler.WSHandlerConstants;
+import org.apache.ws.security.handler.WSHandlerResult;
+import org.apache.ws.security.util.WSSecurityUtil;
+import org.opensaml.SAMLAssertion;
+import org.opensaml.SAMLNameIdentifier;
+import org.opensaml.SAMLStatement;
+import org.opensaml.SAMLSubject;
+import org.opensaml.SAMLSubjectStatement;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.sun.xml.wss.ProcessingContext;
-import com.sun.xml.wss.XWSSProcessor;
-import com.sun.xml.wss.XWSSProcessorFactory;
-import com.sun.xml.wss.XWSSecurityException;
-import com.sun.xml.wss.impl.callback.PasswordValidationCallback;
+import org.w3c.dom.Element;
 
 import edu.duke.cabig.c3pr.utils.web.AuditInfoFilter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.InsufficientPrivilegesExceptionFault;
@@ -51,107 +51,150 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
  * @author dkrylov
  * 
  */
-public final class SecureWebServiceHandler implements
-		SOAPHandler<SOAPMessageContext> {
+public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 
-	private static final String NS = "http://docs.oasis-open.org/wss/2004/01/"
-					+ "oasis-200401-wss-wssecurity-secext-1.0.xsd";
+	private static final String SAML_TOKEN_HAS_NOT_BEEN_PRODUCED_BY_WSS4J_INTERCEPTOR = "SAMLToken has not been produced by WSS4J interceptor";
 	public static final String AUTHENTICATION_MANAGER = "authenticationManager";
 	public static final String CSM_USER_DETAILS_SERVICE = "csmUserDetailsService";
 	private static Log log = LogFactory.getLog(SecureWebServiceHandler.class);
 
-	private static final ThreadLocal<ServletContext> servletContextHolder = new ThreadLocal<ServletContext>();
-
-	private XWSSProcessor xwssProcessor = null;
-
 	public SecureWebServiceHandler() {
+		super(Phase.PRE_PROTOCOL);
+		addAfter(WSS4JInInterceptor.class.getName());
+	}
 
-		XWSSProcessorFactory fact = null;
-		InputStream config = null;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.apache.cxf.interceptor.Interceptor#handleMessage(org.apache.cxf.message
+	 * .Message)
+	 */
+	public void handleMessage(SoapMessage message) throws Fault {
+		SOAPMessageContext ctx = new SOAPMessageContextImpl(message);
 		try {
-			fact = XWSSProcessorFactory.newInstance();
-			config = SecureWebServiceHandler.class
-					.getResourceAsStream("/xws-config.xml");
-			xwssProcessor = fact.createProcessorForSecurityConfiguration(
-					config, new Verifier());
-		} catch (Exception e) {
-			log.error(e);
-			throw new RuntimeException(e);
-		} finally {
-			IOUtils.closeQuietly(config);
-		}
-
-	}
-
-	public Set<QName> getHeaders() {
-		String uri = NS;
-		QName security_hdr = new QName(uri, "Security", "wsse");
-		Set<QName> headers = new HashSet<QName>();
-		headers.add(security_hdr);
-		return headers;
-	}
-
-	public void close(MessageContext ctx) {
-		AuditInfoFilter.unsetAuditInfo();
-	}
-
-	public boolean handleFault(SOAPMessageContext ctx) {
-		return true;
-	}
-
-	public boolean handleMessage(SOAPMessageContext ctx) {
-		SOAPMessage msg = ctx.getMessage();
-		try {
-			Boolean response_p = (Boolean) ctx
-					.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
 			ServletContext servletContext = (ServletContext) ctx
 					.get(MessageContext.SERVLET_CONTEXT);
 			HttpServletRequest request = (HttpServletRequest) ctx
 					.get(MessageContext.SERVLET_REQUEST);
-			servletContextHolder.set(servletContext);
-			// Handle the SOAP only if it's incoming.
-			if (!response_p) {
-				ProcessingContext p_ctx = xwssProcessor
-						.createProcessingContext(msg);
-				p_ctx.setSOAPMessage(msg);
-				SOAPMessage verified_msg = xwssProcessor
-						.verifyInboundMessage(p_ctx);
-				ctx.setMessage(verified_msg);
-				AuditInfoFilter.setAuditInfo(request);
+
+			SAMLAssertion samlAssertion = extractSAMLAssertion(message);
+			samlAssertion.verify();
+
+			authenticateSubject(servletContext, samlAssertion);
+
+			if (SecurityContextHolder.getContext().getAuthentication() == null) {
+				throw new RuntimeException(
+						"Unable to authenticate service caller: perhaps, invalid SAML assertion?");
 			}
-		} catch (AuthenticationException e) {
-			generateSecurityFault(msg, e.getMessage());
-		} catch (XWSSecurityException e) {
-			generateSecurityFault(msg, e.getMessage());
-		} finally {
-			servletContextHolder.set(null);
+			AuditInfoFilter.setAuditInfo(request);
+		} catch (Exception e) {
+			log.error(e, e);
+			generateSecurityFault(e);
 		}
-		return true;
+	}
+
+	/**
+	 * @param servletContext
+	 * @param samlAssertion
+	 * @throws RuntimeException
+	 * @throws BeansException
+	 * @throws UsernameNotFoundException
+	 * @throws DataAccessException
+	 */
+	private void authenticateSubject(ServletContext servletContext,
+			SAMLAssertion samlAssertion) throws RuntimeException,
+			BeansException, UsernameNotFoundException, DataAccessException {
+		Iterator<SAMLStatement> it = samlAssertion.getStatements();
+		while (it.hasNext()) {
+			SAMLStatement st = it.next();
+			if (st instanceof SAMLSubjectStatement) {
+				SAMLSubjectStatement attrSt = (SAMLSubjectStatement) st;
+				SAMLSubject subject = attrSt.getSubject();
+				SAMLNameIdentifier nameID = subject.getName();
+				String loginId = nameID.getName();
+				if (StringUtils.isBlank(loginId)) {
+					throw new RuntimeException(
+							"SAML subject identifier contains an empty name.");
+				}
+				ApplicationContext springCtx = WebApplicationContextUtils
+						.getWebApplicationContext(servletContext);
+				UserDetailsService userDetailsService = (UserDetailsService) springCtx
+						.getBean(CSM_USER_DETAILS_SERVICE);
+				UserDetails user = userDetailsService
+						.loadUserByUsername(loginId.trim());
+				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+						user, user.getPassword(), user.getAuthorities());
+				// token.setAuthenticated(true);
+				SecurityContextHolder.getContext().setAuthentication(token);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * @param message
+	 * @return
+	 * @throws RuntimeException
+	 */
+	private SAMLAssertion extractSAMLAssertion(SoapMessage message)
+			throws RuntimeException {
+		List<Object> results = CastUtils.cast((List) message
+				.get(WSHandlerConstants.RECV_RESULTS));
+		if (CollectionUtils.isEmpty(results)) {
+			throw new RuntimeException(
+					SAML_TOKEN_HAS_NOT_BEEN_PRODUCED_BY_WSS4J_INTERCEPTOR);
+		}
+		WSHandlerResult wsHandlerResult = (WSHandlerResult) results.get(0);
+
+		// Note: when the outbound action is ST_SIGNED
+		// (SamlTokenSigned), the
+		// results list is a ST_UNSIGNED because the SAML processor and
+		// signature processors don't indicate if the assertion was used
+		// to
+		// sign the message or not so you get signature results and
+		// ST_UNSIGNED
+		// results even if the assertion was used to sign the message.
+		final Vector<WSSecurityEngineResult> samlResults = new Vector<WSSecurityEngineResult>();
+		WSSecurityUtil.fetchAllActionResults(wsHandlerResult.getResults(),
+				WSConstants.ST_UNSIGNED, samlResults);
+		if (CollectionUtils.isEmpty(samlResults)) {
+			throw new RuntimeException(
+					SAML_TOKEN_HAS_NOT_BEEN_PRODUCED_BY_WSS4J_INTERCEPTOR);
+		}
+
+		final WSSecurityEngineResult result = samlResults.get(0);
+		SAMLAssertion samlAssertion = (SAMLAssertion) result
+				.get(WSSecurityEngineResult.TAG_SAML_ASSERTION);
+		if (samlAssertion == null) {
+			throw new RuntimeException(
+					SAML_TOKEN_HAS_NOT_BEEN_PRODUCED_BY_WSS4J_INTERCEPTOR);
+		}
+		return samlAssertion;
 	}
 
 	/**
 	 * @param msg
 	 * @param reason
 	 */
-	private void generateSecurityFault(SOAPMessage msg, String reason) {
-		try {
-			SOAPBody body = msg.getSOAPPart().getEnvelope().getBody();
-			SOAPFault fault = body.addFault();
-			fault.setFaultString(reason);
-			Detail detail = fault.addDetail();
-			DetailEntry detailEntry = detail.addDetailEntry(new QName(
-					getNameSpace(SubjectManagement.class),
-					InsufficientPrivilegesExceptionFault.class.getSimpleName(),
-					"ent"));
-			SOAPElement message = detailEntry.addChildElement(new QName(
-					getNameSpace(SubjectManagement.class), "message"));
-			message.setValue(reason);
-			// wrapper for a SOAP 1.1 or SOAP 1.2 fault
-			throw new SOAPFaultException(fault);
-		} catch (SOAPException e) {
-			log.error(ExceptionUtils.getFullStackTrace(e));
-			throw new RuntimeException(e);
-		}
+	private void generateSecurityFault(Throwable ex) {
+
+		Fault fault = new Fault(ex);
+		fault.setMessage(ex.getMessage());
+
+		Element detail = fault.getOrCreateDetail();
+		final Element detailEntry = detail.getOwnerDocument().createElementNS(
+				getNameSpace(SubjectManagement.class),
+				InsufficientPrivilegesExceptionFault.class.getSimpleName());
+		detail.appendChild(detailEntry);
+
+		final Element detailMsg = detail.getOwnerDocument().createElementNS(
+				getNameSpace(SubjectManagement.class), "message");
+		detailMsg.setTextContent(ex.getMessage());
+		detailEntry.appendChild(detailMsg);
+
+		throw fault;
+
 	}
 
 	/**
@@ -166,46 +209,6 @@ public final class SecureWebServiceHandler implements
 			}
 		}
 		return ns;
-	}
-
-	/**
-	 * @author dkrylov
-	 * 
-	 */
-	private static final class Verifier implements CallbackHandler {
-
-		// For password validation, set the validator to the inner class below.
-		public void handle(Callback[] callbacks)
-				throws UnsupportedCallbackException {
-			for (int i = 0; i < callbacks.length; i++) {
-				if (callbacks[i] instanceof PasswordValidationCallback) {
-					PasswordValidationCallback cb = (PasswordValidationCallback) callbacks[i];
-					if (cb.getRequest() instanceof PasswordValidationCallback.PlainTextPasswordRequest)
-						cb.setValidator(new PlainTextPasswordVerifier());
-				} else
-					throw new UnsupportedCallbackException(null, "Not needed");
-			}
-		}
-
-		// Encapsulated validate method verifies the username/password.
-		private class PlainTextPasswordVerifier implements
-				PasswordValidationCallback.PasswordValidator {
-			public boolean validate(PasswordValidationCallback.Request req)
-					throws PasswordValidationCallback.PasswordValidationException {
-				PasswordValidationCallback.PlainTextPasswordRequest plainPwd = (PasswordValidationCallback.PlainTextPasswordRequest) req;
-				final String username = plainPwd.getUsername();
-				final String password = plainPwd.getPassword();
-				ApplicationContext springCtx = WebApplicationContextUtils
-						.getWebApplicationContext(servletContextHolder.get());
-				AuthenticationManager authenticationManager = (ProviderManager) springCtx
-						.getBean(AUTHENTICATION_MANAGER);
-				Authentication auth = authenticationManager
-						.authenticate(new UsernamePasswordAuthenticationToken(
-								username.trim(), password.trim()));
-				SecurityContextHolder.getContext().setAuthentication(auth);
-				return true;
-			}
-		}
 	}
 
 }
