@@ -347,7 +347,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     
     /**
      * Gets the site personnel. USed by study_personnel jsp.
-     * Note: we only the study scoped staff who are not already asigned to the study.
+     * Note: we only the study scoped staff who are not already assigned to the study.
      *
      * @param hcsId the hcs id
      * @param studyId the study id
@@ -357,8 +357,8 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     public List<ResearchStaff> getSitePersonnel(Integer hcsId, String studyId) throws Exception {
 		HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
 
-		//get all staff belonging o the org in question
-		List<ResearchStaff> hcsRSList = researchStaffDao.getResearchStaffByOrganizationCtepCodeFromLocal(hcs);
+		//get all staff belonging to the org in question
+		List<ResearchStaff> hcsRSList = researchStaffDao.getResearchStaffByOrganizationCtepCodeFromLocal(hcs, true);
 		//get the sub list of staff (from the above list) who are scoped by study
 		List<ResearchStaff> studyScopedRSList = researchStaffDao.getStaffScopedByStudy(hcsRSList, hcs);
 		removePreAssignedStaff(studyScopedRSList, studyId);
