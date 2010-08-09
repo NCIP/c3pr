@@ -330,10 +330,11 @@ public class CreateResearchStaffController extends SimpleFormController{
         boolean saveExternalResearchStaff = false;
 
         try {
-			if (!StringUtils.equals(EDIT_FLOW, flowVar) && StringUtils.equals("saveRemoteRStaff", actionParam)) {
-        		saveExternalResearchStaff = true;
-        		remoteRStaffSelected = (RemoteResearchStaff)researchStaff.getExternalResearchStaff().get(Integer.parseInt(selectedParam));
-        		if(remoteRStaffSelected.getHealthcareSites().size() > 0){
+			if (StringUtils.equals(EDIT_FLOW, flowVar) && StringUtils.equals("saveRemoteRStaff", actionParam)) {
+				if(researchStaff.getExternalResearchStaff()!= null && researchStaff.getExternalResearchStaff().size() > 0){
+					saveExternalResearchStaff = true;
+					remoteRStaffSelected = (RemoteResearchStaff) researchStaff.getExternalResearchStaff().get(Integer.parseInt(selectedParam));
+					if(remoteRStaffSelected.getHealthcareSites().size() > 0){
         			for(HealthcareSite hcSite : remoteRStaffSelected.getHealthcareSites()){
     				//	get the corresponding hcs from the dto object and save that organization and then save this staff
         				HealthcareSite matchingHealthcareSiteFromDb = getHealthcareSiteDao().getByPrimaryIdentifier(hcSite.getPrimaryIdentifier());
@@ -345,17 +346,7 @@ public class CreateResearchStaffController extends SimpleFormController{
         					remoteRStaffSelected.addHealthcareSite(matchingHealthcareSiteFromDb);
         				}
         			}
-        			//TODO create RS and assign organizations to it
-        			researchStaffRepository.createResearchStaff(remoteRStaffSelected);
-	      		}else{
-	      			errors.reject("REMOTE_RS_ORG_NULL","There is no Organization associated with the external Research Staff");
-	      		}
-          	
-        	}else if(StringUtils.equals(EDIT_FLOW, flowVar) && StringUtils.equals("saveRemoteRStaff", actionParam)) {
-        		researchStaffDao.evict(researchStaff);
-				if(researchStaff.getExternalResearchStaff()!= null && researchStaff.getExternalResearchStaff().size() > 0){
-					saveExternalResearchStaff = true;
-					remoteRStaffSelected = (RemoteResearchStaff) researchStaff.getExternalResearchStaff().get(Integer.parseInt(selectedParam));
+        			researchStaffDao.evict(researchStaff);
 					personnelService.convertLocalResearchStaffToRemoteResearchStaff((LocalResearchStaff)researchStaff, remoteRStaffSelected);
 					// add organizations of selected remote research staff  to the remote research staff in Db( which is just converted from local)
 					//first load the remote research staff just converted
@@ -369,6 +360,10 @@ public class CreateResearchStaffController extends SimpleFormController{
 							remoteResearchStaffFromDb.addHealthcareSite(hcs);
 						}
 					}
+	      		}else{
+	      			errors.reject("REMOTE_RS_ORG_NULL","There is no Organization associated with the external Research Staff");
+	      		}
+        		
 				}
 				
 			}  else {

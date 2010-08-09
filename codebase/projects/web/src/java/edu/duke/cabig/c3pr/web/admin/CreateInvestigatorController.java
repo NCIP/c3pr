@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -53,8 +54,14 @@ public class CreateInvestigatorController<C extends Investigator> extends
     private String FLOW = "FLOW";
     
     private Configuration configuration;
+    
+    private OrganizationService organizationService;
 
-    @Required
+    public void setOrganizationService(OrganizationService organizationService) {
+		this.organizationService = organizationService;
+	}
+
+	@Required
     public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
 	}
@@ -168,8 +175,6 @@ public class CreateInvestigatorController<C extends Investigator> extends
             		personnelService.save(investigator);
             	}
             } else if ("saveRemoteInvestigator".equals(request.getParameter("_action"))) {
-            	
-            	investigatorDao.evict(investigator);
 				
 				if(investigator.getExternalInvestigators()!=null && investigator.getExternalInvestigators().size()>0){
 					saveExternalInvestigator = true;
@@ -177,7 +182,37 @@ public class CreateInvestigatorController<C extends Investigator> extends
 							.getExternalInvestigators().get(
 									Integer.parseInt(request
 											.getParameter("_selected")));
-					personnelService.convertLocalInvestigatorToRemoteInvestigator((LocalInvestigator)investigator, remoteInvSelected);
+					if(remoteInvSelected.getHealthcareSiteInvestigators().size() > 0){
+					
+					for(HealthcareSiteInvestigator hcsInvestigator : remoteInvSelected.getHealthcareSiteInvestigators()){
+	    				//	get the corresponding hcs from the dto object and save that organization and then save this staff
+	        				HealthcareSite matchingHealthcareSiteFromDb = getHealthcareSiteDao().getByPrimaryIdentifier(hcsInvestigator.getHealthcareSite().getPrimaryIdentifier());
+	        				if(matchingHealthcareSiteFromDb == null){
+	        					organizationService.save(hcsInvestigator.getHealthcareSite());
+	        				} else{
+	    					//	we have the retrieved staff's Org in our db...link up with the same and persist
+	        					hcsInvestigator.setHealthcareSite(matchingHealthcareSiteFromDb);
+	        				}
+	        			}
+						investigatorDao.clear();
+	        			personnelService.convertLocalInvestigatorToRemoteInvestigator((LocalInvestigator)investigator, remoteInvSelected);
+						// add organizations of selected remote investigator  to the remote investigator in Db( which is just converted from local)
+						//first load the remote investigator just converted
+						RemoteInvestigator remoteInvestigatorFromDb = (RemoteInvestigator) investigatorDao.getByAssignedIdentifierFromLocal
+							(remoteInvSelected.getAssignedIdentifier());
+						
+						// add organizations from selected remote research staff that the converted research staff doesn't have
+						
+						for(HealthcareSite hcs: remoteInvSelected.getHealthcareSites()){
+							if(!remoteInvestigatorFromDb.getHealthcareSites().contains(hcs)){
+								HealthcareSiteInvestigator hcsInv= new HealthcareSiteInvestigator();
+								hcsInv.setHealthcareSite(hcs);
+								hcsInv.setInvestigator(remoteInvestigatorFromDb);
+							}
+						}
+					}else{
+		      			errors.reject("REMOTE_INV_ORG_NULL","There is no Organization associated with the external Investigator");
+		      		}
 				}
 			}
             else {
