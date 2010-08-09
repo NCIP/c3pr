@@ -29,11 +29,11 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 				<constructor-arg>
 					<map>
 						<entry key="action" value="SAMLTokenUnsigned" />
-						<entry key="signaturePropFile" value="server_sign.properties" />
 					</map>
 				</constructor-arg>
 			</bean>
-			<bean class="edu.duke.cabig.c3pr.web.security.SecureWebServiceHandler"/>
+			<bean class="edu.duke.cabig.c3pr.web.security.SecureWebServiceHandler"
+				p:cryptoPropFile="server_sign.properties" />
 		</jaxws:inInterceptors>
 	</jaxws:endpoint>
 

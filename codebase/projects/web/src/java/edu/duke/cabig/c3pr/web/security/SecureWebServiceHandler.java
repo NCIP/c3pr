@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.security;
 
 import java.lang.annotation.Annotation;
+import java.security.cert.X509Certificate;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -29,10 +30,14 @@ import org.apache.cxf.phase.Phase;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
 import org.apache.ws.security.WSConstants;
 import org.apache.ws.security.WSSecurityEngineResult;
+import org.apache.ws.security.WSSecurityException;
+import org.apache.ws.security.components.crypto.Crypto;
+import org.apache.ws.security.components.crypto.CryptoFactory;
 import org.apache.ws.security.handler.WSHandlerConstants;
 import org.apache.ws.security.handler.WSHandlerResult;
 import org.apache.ws.security.util.WSSecurityUtil;
 import org.opensaml.SAMLAssertion;
+import org.opensaml.SAMLException;
 import org.opensaml.SAMLNameIdentifier;
 import org.opensaml.SAMLStatement;
 import org.opensaml.SAMLSubject;
@@ -57,6 +62,10 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 	public static final String AUTHENTICATION_MANAGER = "authenticationManager";
 	public static final String CSM_USER_DETAILS_SERVICE = "csmUserDetailsService";
 	private static Log log = LogFactory.getLog(SecureWebServiceHandler.class);
+	
+	private String cryptoPropFile;
+	
+	private Crypto crypto;
 
 	public SecureWebServiceHandler() {
 		super(Phase.PRE_PROTOCOL);
@@ -79,7 +88,7 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 					.get(MessageContext.SERVLET_REQUEST);
 
 			SAMLAssertion samlAssertion = extractSAMLAssertion(message);
-			samlAssertion.verify();
+			verifyAssertion(samlAssertion);
 
 			authenticateSubject(servletContext, samlAssertion);
 
@@ -92,6 +101,38 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 			log.error(e, e);
 			generateSecurityFault(e);
 		}
+	}
+
+	/**
+	 * @param samlAssertion
+	 * @throws SAMLException
+	 * @throws WSSecurityException 
+	 */
+	private void verifyAssertion(SAMLAssertion samlAssertion)
+			throws SAMLException, WSSecurityException {
+		samlAssertion.verify();		
+		Iterator<X509Certificate> it = samlAssertion.getX509Certificates();
+		while (it.hasNext()) {
+			X509Certificate cert = (X509Certificate) it.next();
+			Crypto crypto = getCrypto();
+			String alias = crypto.getAliasForX509Cert(cert);
+			if (alias==null) {
+				throw new WSSecurityException("The issuer's certificate found in the SAML token is not trusted: "+cert);
+			} else {
+				log.debug("Certificate is trusted: "+cert);
+			}
+		}
+	}
+
+	/**
+	 * <pre>&lt;bean class="edu.duke.cabig.c3pr.web.security.SecureWebServiceHandler" p:cryptoPropFile="server_sign.properties"/&gt;</pre>
+	 * @return
+	 */
+	private synchronized Crypto getCrypto() {
+		if (crypto==null) {
+			crypto = CryptoFactory.getInstance(getCryptoPropFile());
+		}
+		return crypto;
 	}
 
 	/**
@@ -209,6 +250,14 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 			}
 		}
 		return ns;
+	}
+
+	public String getCryptoPropFile() {
+		return cryptoPropFile;
+	}
+
+	public void setCryptoPropFile(String cryptoPropFile) {
+		this.cryptoPropFile = cryptoPropFile;
 	}
 
 }
