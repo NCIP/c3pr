@@ -241,7 +241,9 @@ public class PersonnelServiceImpl implements PersonnelService {
 		baseResearchStaffDataContainer.setLastName(remoteResearchStaff.getLastName());
 		baseResearchStaffDataContainer.setMiddleName(remoteResearchStaff.getMiddleName());
 		baseResearchStaffDataContainer.setMaidenName(remoteResearchStaff.getMaidenName());
-		baseResearchStaffDataContainer.setExternalId(remoteResearchStaff.getExternalId());
+		baseResearchStaffDataContainer.setExternalId(remoteResearchStaff.getExternalId()); 
+		// delete all the existing contact mechanisms and add new ones from the remote Research Staff
+		baseResearchStaffDataContainer.removeContactMechanisms();
 		for(ContactMechanism cm : remoteResearchStaff.getContactMechanisms()){
 			BaseContactMechanismDataContainer baseContactMechanismDataContainer = new BaseContactMechanismDataContainer();
 			baseContactMechanismDataContainer.setDtype("Remote");
@@ -263,6 +265,9 @@ public class PersonnelServiceImpl implements PersonnelService {
 		baseInvestigatorDataContainer.setMiddleName(remoteInvestigator.getMiddleName());
 		baseInvestigatorDataContainer.setMaidenName(remoteInvestigator.getMaidenName());
 		baseInvestigatorDataContainer.setExternalId(remoteInvestigator.getExternalId());
+		// first remove all the existing contact mechanism of the investigator and add those from the
+		// remove investigator
+		baseInvestigatorDataContainer.removeContactMechanisms();
 		for(ContactMechanism cm : remoteInvestigator.getContactMechanisms()){
 			BaseContactMechanismDataContainer baseContactMechanismDataContainer = new BaseContactMechanismDataContainer();
 			baseContactMechanismDataContainer.setDtype("Remote");
