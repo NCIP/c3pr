@@ -87,6 +87,10 @@ public class BaseResearchStaffDataContainer extends AbstractMutableDeletableDoma
     public void addContactMechanism(BaseContactMechanismDataContainer baseContactMechanismDataContainer){
     	this.getContactMechanisms().add(baseContactMechanismDataContainer);
     }
+    
+    public void removeContactMechanisms(){
+    	this.getContactMechanisms().clear();
+    }
 	
 
 	public String getAssignedIdentifier() {

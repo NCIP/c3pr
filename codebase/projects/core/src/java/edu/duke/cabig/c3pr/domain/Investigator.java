@@ -127,7 +127,7 @@ public abstract class Investigator extends C3PRUser {
         hcsi.setInvestigator(this);
         lazyListHelper.getLazyList(HealthcareSiteInvestigator.class).add(hcsi);
     }
-
+    
     /**
      * Gets the healthcare site investigators internal.
      * 
@@ -263,6 +263,16 @@ public abstract class Investigator extends C3PRUser {
 	 */
 	public void setUserBasedRecipients(List<UserBasedRecipient> userBasedRecipients) {
 		this.userBasedRecipients = userBasedRecipients;
+	}
+	
+	@Transient
+	public List<HealthcareSite> getHealthcareSites(){
+		List<HealthcareSite> healthcareSites = new ArrayList<HealthcareSite>();
+		for(HealthcareSiteInvestigator hcsInvestigator : getHealthcareSiteInvestigators()){
+			healthcareSites.add(hcsInvestigator.getHealthcareSite());
+		}
+		
+		return healthcareSites;
 	}
 
 }
