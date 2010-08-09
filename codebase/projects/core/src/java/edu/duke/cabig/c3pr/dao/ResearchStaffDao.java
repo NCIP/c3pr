@@ -301,20 +301,25 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 		getRemoteResearchStaffFromResolverByExample(remoteResearchStaff);
 
 		//run a query against the updated database to get all research staff
-		return getResearchStaffByOrganizationCtepCodeFromLocal(healthcareSite);
+		return getResearchStaffByOrganizationCtepCodeFromLocal(healthcareSite, false);
 	}
 
 	/**
 	 * Gets the research staff by organization ctep code from local.
 	 *
 	 * @param healthcareSite the healthcare site
+	 * @param isUser returns staff who are users if passed as true else returns all staff
 	 * @return the research staff by organization ctep code from local
 	 */
 	public List<ResearchStaff> getResearchStaffByOrganizationCtepCodeFromLocal(
-			HealthcareSite healthcareSite) {
+			HealthcareSite healthcareSite, boolean isUser) {
 		//run a query against the updated database to get all research staff
 		Criteria researchStaffCriteria = getHibernateTemplate().getSessionFactory()
 				.getCurrentSession().createCriteria(ResearchStaff.class);
+		if(isUser){
+			researchStaffCriteria.add(Expression.isNotNull("loginId"));
+		}
+		
 		Criteria healthcareSiteCriteria = researchStaffCriteria.createCriteria("healthcareSites");
 		Criteria identifiersAssignedToOrganizationCriteria = healthcareSiteCriteria.createCriteria("identifiersAssignedToOrganization");
 		
@@ -768,18 +773,20 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			} catch (CSObjectNotFoundException e) {
 				logger.error("Failed to load user for :"+ researchStaff.getFirstName());
 				logger.error(e.getMessage());
-			}
-			if(user == null){
-				log.warn("No csm user exists for staff with first Name: "+researchStaff.getFirstName());
 				continue;
 			}
-			if (checkUserAccessForSite(user, healthcareSite, SecurityUtils.getStudyScopedRoles())) {
-				reducedHcsRsList.add(researchStaff);
+			if(user != null){
+				if (checkUserAccessForSite(user, healthcareSite, SecurityUtils.getStudyScopedRoles())) {
+					reducedHcsRsList.add(researchStaff);
+				}
+			} else {
+				log.warn("No csm user exists for staff with first Name: "+researchStaff.getFirstName());
 			}
 		}
 		return reducedHcsRsList;
 	}
 
+	
 
 
 	/**
@@ -792,12 +799,10 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	 */
 	public boolean checkUserAccessForSite(User csmUser,
 			HealthcareSite healthcareSite, List<C3PRUserGroupType> roles) {
-		boolean hasAccessToSite = false;
 		for (C3PRUserGroupType role : roles) {
 			try {
-				if (userProvisioningManager.checkPermission( csmUser.getLoginName(), "HealthcareSite." + healthcareSite.getPrimaryIdentifier(), role.getCode())) {
-					hasAccessToSite = true;
-					break;
+				if (userProvisioningManager.checkPermission(csmUser.getLoginName(), "HealthcareSite." + healthcareSite.getPrimaryIdentifier(), role.getCode())) {
+					return true;
 				}
 			} catch (CSObjectNotFoundException e) {
 				log.error(e.getMessage());
@@ -805,7 +810,7 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				log.error(e.getMessage());
 			}
 		}
-		return hasAccessToSite;
+		return false;
 	}
 
 	/**

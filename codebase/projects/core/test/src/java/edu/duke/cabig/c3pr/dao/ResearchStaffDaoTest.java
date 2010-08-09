@@ -169,7 +169,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     
     public void testGetResearchStaffByOrganizationNCIInstituteCode (){
     	HealthcareSite healthcareSite = healthcareSiteDao.getById(1001);
-    	List<ResearchStaff> rsList = getDao().getResearchStaffByOrganizationCtepCodeFromLocal(healthcareSite);
+    	List<ResearchStaff> rsList = getDao().getResearchStaffByOrganizationCtepCodeFromLocal(healthcareSite, false);
     	assertEquals(1, rsList.size());
     }
     
