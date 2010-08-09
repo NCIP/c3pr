@@ -1,14 +1,109 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <queryBuilder xmlns="http://semanticbits.com/querybuilder">
 	<target-object>
-		<class-name>edu.duke.cabig.c3pr.domain.Participant</class-name>
-		<display-name>Participant</display-name>
-		<table-name>participants</table-name>
-		<table-alias>Participant_xx</table-alias>
+		<class-name>edu.duke.cabig.c3pr.domain.StudySubject</class-name>
+		<display-name>Registration</display-name>
+		<table-name>study_subjects</table-name>
+		<table-alias>StudySubject_xx</table-alias>
 		<dependent-object>
-			<class-name>edu.duke.cabig.c3pr.domain.Participant</class-name>
-			<display-name>Subject</display-name>
-			<table-alias>Participant_xx</table-alias>
+			<class-name>edu.duke.cabig.c3pr.domain.StudySubject</class-name>
+			<display-name>StudySubject</display-name>
+			<table-alias>StudySubject_xx</table-alias>
+			<search-criteria>
+				<name>startDate</name>
+				<label>Registration Start Date</label>
+				<data-type>Date</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>regWorkflowStatus.code</name>
+				<label>Registration Work Flow Status</label>
+				<data-type>RegistrationWorkFlowStatus</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>regDataEntryStatus.code</name>
+				<label>Registration Data Entry Status</label>
+				<data-type>RegistrationDataEntryStatus</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>paymentMethod</name>
+				<label>Payment Method</label>
+				<data-type>String</data-type>
+			</search-criteria>
+		</dependent-object>
+		<!-- search by icd9 disease sites -->
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.ICD9DiseaseSite</class-name>
+			<display-name>ICD9DiseaseSite</display-name>
+			<table-alias>ICD9DiseaseSite_xx</table-alias>
+			<search-criteria>
+				<name>code</name>
+				<label>ICD 9 Disease Site Code</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.DiseaseHistory</name>
+				<role-name>diseaseHistoryInternal</role-name>
+				<table-alias>DiseaseHistory_xx</table-alias>
+				<joining-condition>StudySubject_xx.diseaseHistoryInternal = DiseaseHistory_xx</joining-condition>
+			</association>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.ICD9DiseaseSite</name>
+				<role-name>icd9DiseaseSite</role-name>
+				<table-alias>ICD9DiseaseSite_xx</table-alias>
+				<joining-condition>DiseaseHistory_xx.icd9DiseaseSite = ICD9DiseaseSite_xx</joining-condition>
+			</association>
+		</dependent-object>
+		<!-- search by investigator assigned identifier -->
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.Investigator</class-name>
+			<display-name>Investigator</display-name>
+			<table-alias>Investigator_xx</table-alias>
+			<search-criteria>
+				<name>assignedIdentifier</name>
+				<label>Investigator assigned identifier</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.StudyInvestigator</name>
+				<role-name>treatingPhysician</role-name>
+				<table-alias>StudyInvestigator_xx</table-alias>
+				<joining-condition>StudySubject_xx.treatingPhysician = StudyInvestigator_xx</joining-condition>
+			</association>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</name>
+				<role-name>healthcareSiteInvestigator</role-name>
+				<table-alias>HealthcareSiteInvestigator_xx</table-alias>
+				<joining-condition>StudyInvestigator_xx.healthcareSiteInvestigator = HealthcareSiteInvestigator_xx</joining-condition>
+			</association>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.Investigator</name>
+				<role-name>investigator</role-name>
+				<table-alias>Investigator_xx</table-alias>
+				<joining-condition>HealthcareSiteInvestigator_xx.investigator = Investigator_xx</joining-condition>
+			</association>
+		</dependent-object>
+		<!-- Adding identifier , because user can search registrations by identifier value parameters-->
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.Identifier</class-name>
+			<display-name>Identifier</display-name>
+			<table-alias>Identifier_xx</table-alias>
+			<search-criteria>
+				<name>value</name>
+				<label>Identifier</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.Identifier</name>
+				<role-name>identifiers</role-name>
+				<table-name>identifiers</table-name>
+				<table-alias>Identifier_xx</table-alias>
+				<joining-condition>Identifier_xx = any elements(StudySubject_xx.identifiers)</joining-condition>
+			</association>
+		</dependent-object>
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</class-name>
+			<display-name>StudySubjectDemographics</display-name>
+			<table-alias>StudySubjectDemographics_xx</table-alias>
 			<search-criteria>
 				<name>firstName</name>
 				<label>First Name</label>
@@ -25,7 +120,7 @@
 				<data-type>String</data-type>
 			</search-criteria>
 			<search-criteria>
-				<name>race</name>
+				<name>raceCode</name>
 				<label>Race</label>
 				<data-type>String</data-type>
 			</search-criteria>
@@ -39,8 +134,13 @@
 				<label>Birth Date</label>
 				<data-type>Date</data-type>
 			</search-criteria>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</name>
+				<role-name>studySubjectDemographics</role-name>
+				<table-alias>StudySubjectDemographics_xx</table-alias>
+				<joining-condition>StudySubject_xx.studySubjectDemographics = StudySubjectDemographics_xx</joining-condition>
+			</association>
 		</dependent-object>
-		<!-- Adding address , because user can search participant by address parameters-->
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.Address</class-name>
 			<display-name>Address</display-name>
@@ -66,14 +166,21 @@
 				<data-type>String</data-type>
 			</search-criteria>
 			<association>
+				<name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</name>
+				<role-name>studySubjectDemographics</role-name>
+				<table-alias>StudySubjectDemographics_xx</table-alias>
+				<joining-condition>StudySubject_xx.studySubjectDemographics = StudySubjectDemographics_xx</joining-condition>
+			</association>
+			<association>
 				<name>edu.duke.cabig.c3pr.domain.Address</name>
-				<role-name>address</role-name>
-				<table-name>addresses</table-name>
+				<role-name>addressInternal</role-name>
 				<table-alias>Address_xx</table-alias>
-				<joining-condition>Address_xx in Participant_xx.address</joining-condition>
+				<joining-condition>StudySubjectDemographics_xx.addressInternal = Address_xx</joining-condition>
 			</association>
 		</dependent-object>
-		<!-- Adding identifier , because user can search participant by identifier value parameters-->
+	
+		<!-- search by participant identifier -->
+		<!-- 
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.Identifier</class-name>
 			<display-name>Identifier</display-name>
@@ -84,12 +191,19 @@
 				<data-type>String</data-type>
 			</search-criteria>
 			<association>
+				<name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</name>
+				<role-name>studySubjectDemographics</role-name>
+				<table-alias>StudySubjectDemographics_xx</table-alias>
+				<joining-condition>StudySubject_xx.studySubjectDemographics = StudySubjectDemographics_xx</joining-condition>
+			</association>
+			<association>
 				<name>edu.duke.cabig.c3pr.domain.Identifier</name>
 				<role-name>identifiers</role-name>
 				<table-name>identifiers</table-name>
 				<table-alias>Identifier_xx</table-alias>
-				<joining-condition>Participant_xx.identifiers = Identifier_xx</joining-condition>
+				<joining-condition>Identifier_xx = any elements(StudySubjectDemographics_xx.identifiers)</joining-condition>
 			</association>
 		</dependent-object>
+		 -->
 	</target-object>
 </queryBuilder>
