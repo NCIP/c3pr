@@ -46,6 +46,10 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     public Class<Investigator> domainClass() {
         return Investigator.class;
     }
+    
+    public void clear(){
+    	getHibernateTemplate().clear();
+    }
 
     /**
      * Get All Investigators

@@ -24,5 +24,22 @@ public class BaseResearchStaffDataContainerDao extends GridIdentifiableDao<BaseR
         List<BaseResearchStaffDataContainer> results = getHibernateTemplate().find("from BaseResearchStaffDataContainer rs where rs.contactMechanisms.value = '" +email+ "'");
         return results.size() > 0 ? results.get(0) : null;
     }
+    
+    	/**
+	 * Initialize.
+	 *
+	 * @param baseResearchStaffDataContainer the research staff
+	 */
+	public void initialize(BaseResearchStaffDataContainer baseResearchStaffDataContainer){
+		getHibernateTemplate().initialize(baseResearchStaffDataContainer.getContactMechanisms());
+	}
+	
+	@Override
+	public BaseResearchStaffDataContainer getById(int id) {
+		BaseResearchStaffDataContainer baseResearchStaffDataContainer =  super.getById(id);
+		baseResearchStaffDataContainer.getBaseOrganizationDataContainers().size();
+		baseResearchStaffDataContainer.getContactMechanisms().size();
+		return baseResearchStaffDataContainer;
+	}
 }
 

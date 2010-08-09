@@ -24,5 +24,12 @@ public class BaseInvestigatorDataContainerDao extends GridIdentifiableDao<BaseIn
         List<BaseInvestigatorDataContainer> results = getHibernateTemplate().find("from BaseInvestigatorDataContainer ci where ci.contactMechanisms.value = '" +email+ "'");
         return results.size() > 0 ? results.get(0) : null;
     }
+    
+    @Override
+	public BaseInvestigatorDataContainer getById(int id) {
+    	BaseInvestigatorDataContainer baseInvestigatorDataContainer =  super.getById(id);
+		baseInvestigatorDataContainer.getContactMechanisms().size();
+		return baseInvestigatorDataContainer;
+	}
 }
 
