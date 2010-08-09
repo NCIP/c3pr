@@ -4,6 +4,7 @@
 	xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectManagementService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sm="http://enterpriseservices.nci.nih.gov"
 	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SubjectManagementService"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov SubjectManagement.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
 	targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectManagementService">
@@ -180,7 +181,8 @@
 		<wsdl:part name="fault" element="tns:SubjectAlreadyExistsExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="UnableToCreateOrUpdateSubjectExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:UnableToCreateOrUpdateSubjectExceptionFault"></wsdl:part>
+		<wsdl:part name="fault"
+			element="tns:UnableToCreateOrUpdateSubjectExceptionFault"></wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="InsufficientPrivilegesExceptionFaultMessage">
 		<wsdl:part name="fault" element="tns:InsufficientPrivilegesExceptionFault"></wsdl:part>
@@ -233,6 +235,38 @@
 	</wsdl:portType>
 
 	<wsdl:binding name="SubjectManagementSOAP" type="tns:SubjectManagement">
+		<wsp:Policy xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"
+			xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+			<wsp:ExactlyOne>
+				<wsp:All>
+					<sp:TransportBinding>
+						<wsp:Policy>
+							<sp:TransportToken>
+								<wsp:Policy>
+									<sp:HttpsToken RequireClientCertificate="false" />
+								</wsp:Policy>
+							</sp:TransportToken>
+							<sp:AlgorithmSuite>
+								<wsp:Policy>
+									<sp:Basic256Rsa15 />
+								</wsp:Policy>
+							</sp:AlgorithmSuite>
+						</wsp:Policy>
+					</sp:TransportBinding>
+					<sp:ProtectionToken>
+						<wsp:Policy>
+							<sp:IssuedToken
+								sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+								<sp:RequestSecurityTokenTemplate>
+									<t:TokenType>urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType>
+									<t:KeyType>http://schemas.xmlsoap.org/ws/2005/02/trust/PublicKey</t:KeyType>
+								</sp:RequestSecurityTokenTemplate>
+							</sp:IssuedToken>
+						</wsp:Policy>
+					</sp:ProtectionToken>
+				</wsp:All>
+			</wsp:ExactlyOne>
+		</wsp:Policy>
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
 		<wsdl:operation name="createSubject">
