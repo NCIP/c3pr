@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.web;
 
-import static org.easymock.EasyMock.expect;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +16,9 @@ import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.ContextTools;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
 
 /**
  * @author Ramakrishna
@@ -39,11 +39,14 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
     private ApplicationContext context;
 
     private Participant participant;
+    
+    private ParticipantWrapper participantWrapper = new ParticipantWrapper();
 
     protected void setUp() throws Exception {
         super.setUp();
         context = ContextTools.createConfigPropertiesApplicationContext();
         participant = registerMockFor(Participant.class);
+        participantWrapper.setParticipant(participant);
         participantDao = registerMockFor(ParticipantDao.class);
         controller.setParticipantDao(participantDao);
         healthcareSiteDao = registerMockFor(HealthCareSiteDaoMock.class);
@@ -62,7 +65,7 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
     public void testReferenceData() throws Exception {
 
       
-        Map<String, Object> refdata = controller.getFlow().getTab(0).referenceData(participant);
+        Map<String, Object> refdata = ((ParticipantDetailsTab)controller.getFlow().getTab(0)).referenceData(request,participantWrapper);
         List<Lov> genders = (List<Lov>) refdata.get("administrativeGenderCode");
         System.out.println(" Size of ref data : " + refdata.size());
         Iterator<Lov> genderIter = genders.iterator();
@@ -74,7 +77,6 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 
             }
         }
-
     }
 
     public void testViewOnGet() throws Exception {
