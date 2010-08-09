@@ -111,7 +111,7 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 			if (st instanceof SAMLSubjectStatement) {
 				SAMLSubjectStatement attrSt = (SAMLSubjectStatement) st;
 				SAMLSubject subject = attrSt.getSubject();
-				SAMLNameIdentifier nameID = subject.getName();
+				SAMLNameIdentifier nameID = subject.getNameIdentifier();
 				String loginId = nameID.getName();
 				if (StringUtils.isBlank(loginId)) {
 					throw new RuntimeException(
