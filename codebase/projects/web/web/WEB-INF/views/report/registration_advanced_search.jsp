@@ -369,9 +369,6 @@ color:white;
 <br>
 <div  align="center">
 	<tags:button id="searchRegistration" type="button" icon="search" size="small" color="blue" value="Search Registration" />
-	
-	
-	
 	<tags:button type="button" size="small" color="blue" value="Clear" />
 </div>
 </chrome:division>
