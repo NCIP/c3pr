@@ -122,9 +122,9 @@
 			</association>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.DiseaseCategory</name>
-				<role-name>diseaseCategory</role-name>
+				<role-name>category</role-name>
 				<table-alias>DiseaseCategory_xx</table-alias>
-				<joining-condition>DiseaseTerm_xx.diseaseCategory = DiseaseCategory_xx</joining-condition>
+				<joining-condition>DiseaseTerm_xx.category = DiseaseCategory_xx</joining-condition>
 			</association>
 		</dependent-object>
 		<!-- search by consent parameters -->
