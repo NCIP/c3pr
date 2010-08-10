@@ -290,7 +290,74 @@
 				<joining-condition>StudySubjectDemographics_xx.addressInternal = Address_xx</joining-condition>
 			</association>
 		</dependent-object>
-	
+		<!--  scheduled epoch specific criteria -->
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.ScheduledEpoch</class-name>
+			<display-name>ScheduledEpoch</display-name>
+			<table-alias>ScheduledEpoch_xx</table-alias>
+			<search-criteria>
+				<name>eligibilityIndicator</name>
+				<label>Eligibility Indicator</label>
+				<data-type>Boolean</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>scEpochDataEntryStatus.code</name>
+				<label>Scheduled epoch data entry status</label>
+				<data-type>ScheduledEpochDataEntryStatus</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>scEpochWorkFlowStatus.code</name>
+				<label>Scheduled epoch work flow status</label>
+				<data-type>ScheduledEpochWorkFlowStatus</data-type>
+			</search-criteria>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
+				<role-name>studySubjectStudyVersions</role-name>
+				<table-alias>StudySubjectStudyVersion_xx</table-alias>
+				<joining-condition>StudySubjectStudyVersion_xx = any elements(StudySubject_xx.studySubjectStudyVersions)</joining-condition>
+			</association>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.ScheduledEpoch</name>
+				<role-name>scheduledEpochs</role-name>
+				<table-alias>ScheduledEpoch_xx</table-alias>
+				<joining-condition>ScheduledEpoch_xx = any elements(StudySubjectStudyVersion_xx.scheduledEpochs)</joining-condition>
+			</association>
+		</dependent-object>
+		<!--  scheduled epoch off epoch reason  -->
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.Reason</class-name>
+			<display-name>Reason</display-name>
+			<table-alias>Reason_xx</table-alias>
+			<search-criteria>
+				<name>code</name>
+				<label>Off epoch reaon</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
+				<role-name>studySubjectStudyVersions</role-name>
+				<table-alias>StudySubjectStudyVersion_xx</table-alias>
+				<joining-condition>StudySubjectStudyVersion_xx = any elements(StudySubject_xx.studySubjectStudyVersions)</joining-condition>
+			</association>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.ScheduledEpoch</name>
+				<role-name>scheduledEpochs</role-name>
+				<table-alias>ScheduledEpoch_xx</table-alias>
+				<joining-condition>ScheduledEpoch_xx = any elements(StudySubjectStudyVersion_xx.scheduledEpochs)</joining-condition>
+			</association>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.OffEpochReason</name>
+				<role-name>offEpochReasons</role-name>
+				<table-alias>OffEpochReason_xx</table-alias>
+				<joining-condition>OffEpochReason_xx = any elements(ScheduledEpoch_xx.offEpochReasons)</joining-condition>
+			</association>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.Reason</name>
+				<role-name>reason</role-name>
+				<table-alias>Reason_xx</table-alias>
+				<joining-condition>OffEpochReason_xx.reason = Reason_xx</joining-condition>
+			</association>
+		</dependent-object>
 		<!-- Study Specific search parameters -->
 		<!-- study specific basic parameters for registration search -->
 		<dependent-object>
@@ -369,22 +436,16 @@
 				<joining-condition>StudySubjectStudyVersion_xx = any elements(StudySubject_xx.studySubjectStudyVersions)</joining-condition>
 			</association>
 			<association>
-				<name>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</name>
-				<role-name>studySiteStudyVersion</role-name>
-				<table-alias>StudySiteStudyVersion_xx</table-alias>
-				<joining-condition>StudySubjectStudyVersion_xx.studySiteStudyVersion = StudySiteStudyVersion_xx</joining-condition>
-			</association>
-			<association>
-				<name>edu.duke.cabig.c3pr.domain.StudyVersion</name>
-				<role-name>studyVersion</role-name>
-				<table-alias>StudyVersion_xx</table-alias>
-				<joining-condition>StudySiteStudyVersion_xx.studyVersion = StudyVersion_xx</joining-condition>
+				<name>edu.duke.cabig.c3pr.domain.ScheduledEpoch</name>
+				<role-name>scheduledEpochs</role-name>
+				<table-alias>ScheduledEpoch_xx</table-alias>
+				<joining-condition>ScheduledEpoch_xx = any elements(StudySubjectStudyVersion_xx.scheduledEpochs)</joining-condition>
 			</association>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.Epoch</name>
-				<role-name>epochsInternal</role-name>
+				<role-name>epoch</role-name>
 				<table-alias>Epoch_xx</table-alias>
-				<joining-condition>Epoch_xx = any elements(StudyVersion_xx.epochsInternal)</joining-condition>
+				<joining-condition>ScheduledEpoch_xx.epoch = Epoch_xx</joining-condition>
 			</association>
 		</dependent-object>
 		<!-- research staff specific search criteria -->
