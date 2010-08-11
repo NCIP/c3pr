@@ -40,7 +40,7 @@
 				<data-type>Date</data-type>
 			</search-criteria>
 		</dependent-object>
-		<!-- Adding address , because user can search participant by address parameters-->
+		<!-- Adding address , because user can search participant by address parameters -->
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.Address</class-name>
 			<display-name>Address</display-name>
@@ -65,14 +65,19 @@
 				<label>Zip</label>
 				<data-type>String</data-type>
 			</search-criteria>
-			<association>
-				<name>edu.duke.cabig.c3pr.domain.Address</name>
-				<role-name>addressInternal</role-name>
-				<table-alias>Address_xx</table-alias>
-				<joining-condition>Participant_xx.addressInternal = Address_xx</joining-condition>
-			</association>
+			<associations>
+				<name>participantAddressCriteria</name>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.Address</name>
+					<role-name>addressInternal</role-name>
+					<table-alias>Address_xx</table-alias>
+					<joining-condition>Participant_xx.addressInternal = Address_xx
+					</joining-condition>
+				</association>
+			</associations>
 		</dependent-object>
-		<!-- Adding identifier , because user can search participant by identifier value parameters-->
+		<!-- Adding identifier , because user can search participant by identifier 
+			value parameters -->
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.Identifier</class-name>
 			<display-name>Identifier</display-name>
@@ -82,13 +87,17 @@
 				<label>Identifier</label>
 				<data-type>String</data-type>
 			</search-criteria>
-			<association>
-				<name>edu.duke.cabig.c3pr.domain.Identifier</name>
-				<role-name>identifiers</role-name>
-				<table-name>identifiers</table-name>
-				<table-alias>Identifier_xx</table-alias>
-				<joining-condition>Identifier_xx = any elements(Participant_xx.identifiers)</joining-condition>
-			</association>
+			<associations>
+				<name>participantIdentifierCriteria</name>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.Identifier</name>
+					<role-name>identifiers</role-name>
+					<table-name>identifiers</table-name>
+					<table-alias>Identifier_xx</table-alias>
+					<joining-condition>Identifier_xx = any
+						elements(Participant_xx.identifiers)</joining-condition>
+				</association>
+			</associations>
 		</dependent-object>
 	</target-object>
 </queryBuilder>

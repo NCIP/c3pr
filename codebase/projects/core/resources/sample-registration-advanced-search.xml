@@ -40,6 +40,8 @@
 				<label>ICD 9 Disease Site Code</label>
 				<data-type>String</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationICD9DiseaseSiteCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.DiseaseHistory</name>
 				<role-name>diseaseHistoryInternal</role-name>
@@ -52,6 +54,7 @@
 				<table-alias>ICD9DiseaseSite_xx</table-alias>
 				<joining-condition>DiseaseHistory_xx.icd9DiseaseSite = ICD9DiseaseSite_xx</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!-- search by study disease term-->
 		<dependent-object>
@@ -73,6 +76,8 @@
 				<label>Medra Code</label>
 				<data-type>Long</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationDiseaseTermCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.DiseaseHistory</name>
 				<role-name>diseaseHistoryInternal</role-name>
@@ -91,6 +96,7 @@
 				<table-alias>DiseaseTerm_xx</table-alias>
 				<joining-condition>StudyDisease_xx.diseaseTerm = DiseaseTerm_xx</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!-- search by  disease category-->
 		<dependent-object>
@@ -102,6 +108,8 @@
 				<label>Disease Category Name</label>
 				<data-type>String</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationDiseaseCategoryCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.DiseaseHistory</name>
 				<role-name>diseaseHistoryInternal</role-name>
@@ -126,6 +134,7 @@
 				<table-alias>DiseaseCategory_xx</table-alias>
 				<joining-condition>DiseaseTerm_xx.category = DiseaseCategory_xx</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!-- search by consent parameters -->
 		<dependent-object>
@@ -152,6 +161,8 @@
 				<label>Consent Presenter</label>
 				<data-type>String</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationConsentCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
 				<role-name>studySubjectStudyVersions</role-name>
@@ -164,6 +175,7 @@
 				<table-alias>StudySubjectConsentVersion_xx</table-alias>
 				<joining-condition>StudySubjectConsentVersion_xx = any elements(StudySubjectStudyVersion_xx.studySubjectConsentVersionsInternal)</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!-- search by investigator assigned identifier -->
 		<dependent-object>
@@ -180,6 +192,8 @@
 				<label>Investigator assigned identifier</label>
 				<data-type>String</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationTreatingPhysicianCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.StudyInvestigator</name>
 				<role-name>treatingPhysician</role-name>
@@ -198,6 +212,7 @@
 				<table-alias>Investigator_xx</table-alias>
 				<joining-condition>HealthcareSiteInvestigator_xx.investigator = Investigator_xx</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!-- Adding identifier , because user can search registrations by identifier value parameters-->
 		<dependent-object>
@@ -209,6 +224,8 @@
 				<label>Identifier</label>
 				<data-type>String</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationIdentifierCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.Identifier</name>
 				<role-name>identifiers</role-name>
@@ -216,6 +233,23 @@
 				<table-alias>Identifier_xx</table-alias>
 				<joining-condition>Identifier_xx = any elements(StudySubject_xx.identifiers)</joining-condition>
 			</association>
+			</associations>
+			<associations>
+			<name>registrationParticipantIdentifierCriteria</name>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</name>
+				<role-name>studySubjectDemographics</role-name>
+				<table-alias>StudySubjectDemographics_xx</table-alias>
+				<joining-condition>StudySubject_xx.studySubjectDemographics = StudySubjectDemographics_xx</joining-condition>
+			</association>
+			<association>
+				<name>edu.duke.cabig.c3pr.domain.Identifier</name>
+				<role-name>identifiers</role-name>
+				<table-name>identifiers</table-name>
+				<table-alias>Identifier_xx</table-alias>
+				<joining-condition>Identifier_xx = any elements(StudySubjectDemographics_xx.identifiers)</joining-condition>
+			</association>
+			</associations>
 		</dependent-object>
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</class-name>
@@ -251,12 +285,15 @@
 				<label>Birth Date</label>
 				<data-type>Date</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationParticipantCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</name>
 				<role-name>studySubjectDemographics</role-name>
 				<table-alias>StudySubjectDemographics_xx</table-alias>
 				<joining-condition>StudySubject_xx.studySubjectDemographics = StudySubjectDemographics_xx</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.Address</class-name>
@@ -282,6 +319,8 @@
 				<label>Zip</label>
 				<data-type>String</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationParticipantAddressCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</name>
 				<role-name>studySubjectDemographics</role-name>
@@ -294,6 +333,7 @@
 				<table-alias>Address_xx</table-alias>
 				<joining-condition>StudySubjectDemographics_xx.addressInternal = Address_xx</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!--  scheduled epoch specific criteria -->
 		<dependent-object>
@@ -315,6 +355,8 @@
 				<label>Scheduled epoch work flow status</label>
 				<data-type>ScheduledEpochWorkFlowStatus</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationScheduledEpochCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
 				<role-name>studySubjectStudyVersions</role-name>
@@ -327,6 +369,7 @@
 				<table-alias>ScheduledEpoch_xx</table-alias>
 				<joining-condition>ScheduledEpoch_xx = any elements(StudySubjectStudyVersion_xx.scheduledEpochs)</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!--  scheduled epoch off epoch reason  -->
 		<dependent-object>
@@ -338,6 +381,8 @@
 				<label>Off epoch reaon</label>
 				<data-type>String</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationOffEpochReasonCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
 				<role-name>studySubjectStudyVersions</role-name>
@@ -362,6 +407,7 @@
 				<table-alias>Reason_xx</table-alias>
 				<joining-condition>OffEpochReason_xx.reason = Reason_xx</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!-- Study Specific search parameters -->
 		<!-- study specific basic parameters for registration search -->
@@ -394,6 +440,8 @@
 				<label>Study type</label>
 				<data-type>String</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationStudyCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
 				<role-name>studySubjectStudyVersions</role-name>
@@ -418,6 +466,7 @@
 				<table-alias>Study_xx</table-alias>
 				<joining-condition>StudyVersion_xx.study = Study_xx</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!-- Epoch specific search criteria -->
 		<dependent-object>
@@ -434,6 +483,8 @@
 				<label>Epoch type</label>
 				<data-type>EpochType</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationEpochCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
 				<role-name>studySubjectStudyVersions</role-name>
@@ -452,6 +503,7 @@
 				<table-alias>Epoch_xx</table-alias>
 				<joining-condition>ScheduledEpoch_xx.epoch = Epoch_xx</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!-- research staff specific search criteria -->
 		<dependent-object>
@@ -463,6 +515,8 @@
 				<label>Assigned Identifier</label>
 				<data-type>String</data-type>
 			</search-criteria>
+			<associations>
+			<name>registrationStudyPersonnelCriteria</name>
 			<association>
 				<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
 				<role-name>studySubjectStudyVersions</role-name>
@@ -493,6 +547,7 @@
 				<table-alias>ResearchStaff_xx</table-alias>
 				<joining-condition> StudyPersonnel_xx.researchStaff = ResearchStaff_xx</joining-condition>
 			</association>
+			</associations>
 		</dependent-object>
 		<!--  study site specific search patameters -->
 	</target-object>

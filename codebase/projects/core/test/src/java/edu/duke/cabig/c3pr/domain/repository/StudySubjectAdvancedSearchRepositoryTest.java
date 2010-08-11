@@ -50,8 +50,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubject", "edu.duke.cabig.c3pr.domain.StudySubject", "regWorkflowStatus.code",
-						"ENROLLED", "=");
+						"edu.duke.cabig.c3pr.domain.StudySubject", "regWorkflowStatus.code", "ENROLLED", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -67,8 +66,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubject", "edu.duke.cabig.c3pr.domain.StudySubject", "regDataEntryStatus.code",
-						"COMPLETE", "=");
+						"edu.duke.cabig.c3pr.domain.StudySubject", "regDataEntryStatus.code", "COMPLETE", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -83,9 +81,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubject", "edu.duke.cabig.c3pr.domain.StudySubject", "paymentMethod",
-						"medicare", "like");
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudySubject", "paymentMethod", "medicare", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -100,9 +96,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubject", "edu.duke.cabig.c3pr.domain.StudySubject", "startDate",
-						"01/01/2007", ">");
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudySubject", "startDate", "01/01/2007", ">");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -117,9 +111,22 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Identifier", "edu.duke.cabig.c3pr.domain.Identifier", "value",
-						"nci1%", "like");
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationIdentifierCriteria", "value", "nci1%", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForParticipantIdentifier() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationParticipantIdentifierCriteria", "value", "mrn%", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -134,9 +141,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Investigator", "edu.duke.cabig.c3pr.domain.Investigator", "assignedIdentifier",
-						"x1", "=");
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Investigator","registrationTreatingPhysicianCriteria" ,"assignedIdentifier", "x1", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -147,13 +152,12 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		assertEquals("2 registrations not found", 2,  registrations.size());
 	}
 	
-	public void testGetResultSetWithHQLForInvestigatorFullName() throws Exception {
+	public void testGetResultSetWithHQLForInvestigatorFirstName() throws Exception {
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Investigator", "edu.duke.cabig.c3pr.domain.Investigator", "fullName",
-						"Bill%", "like");
+						"edu.duke.cabig.c3pr.domain.Investigator", "registrationTreatingPhysicianCriteria", "firstName", "Bill%", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -161,7 +165,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
 		
 		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
-		assertEquals("1 registration not found", 1,  registrations.size());
+		assertEquals("2 registrations not found", 2,  registrations.size());
 	}
 	
 	public void testGetResultSetWithHQLForSubjectFirstName() throws Exception {
@@ -169,7 +173,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectDemographics", "edu.duke.cabig.c3pr.domain.StudySubjectDemographics", "firstName",
+						"edu.duke.cabig.c3pr.domain.StudySubjectDemographics", "registrationParticipantCriteria", "firstName",
 						"Rudo%", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -186,7 +190,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Address", "edu.duke.cabig.c3pr.domain.Address", "postalCode",
+						"edu.duke.cabig.c3pr.domain.Address", "registrationParticipantAddressCriteria", "postalCode",
 						"20171", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -203,7 +207,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ICD9DiseaseSite", "edu.duke.cabig.c3pr.domain.ICD9DiseaseSite", "code",
+						"edu.duke.cabig.c3pr.domain.ICD9DiseaseSite", "registrationICD9DiseaseSiteCriteria", "code",
 						"200", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -220,7 +224,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.DiseaseTerm", "edu.duke.cabig.c3pr.domain.DiseaseTerm", "term",
+						"edu.duke.cabig.c3pr.domain.DiseaseTerm", "registrationDiseaseTermCriteria", "term",
 						"%anal cancer%", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -237,7 +241,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.DiseaseCategory", "edu.duke.cabig.c3pr.domain.DiseaseCategory", "name",
+						"edu.duke.cabig.c3pr.domain.DiseaseCategory", "registrationDiseaseCategoryCriteria", "name",
 						"%Human Papillomavirus%", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -254,7 +258,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "consentDeliveryDate",
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "consentDeliveryDate",
 						"10/10/2010", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -271,7 +275,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "consentPresenter",
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "consentPresenter",
 						"Himanshu", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -288,7 +292,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "informedConsentSignedTimestamp",
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "informedConsentSignedTimestamp",
 						"11/10/2010", ">");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -305,7 +309,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "consentingMethod.code",
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "consentingMethod.code",
 						"WRITTEN", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -322,7 +326,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "edu.duke.cabig.c3pr.domain.ScheduledEpoch", "eligibilityIndicator",
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "registrationScheduledEpochCriteria", "eligibilityIndicator",
 						"true", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -339,7 +343,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "edu.duke.cabig.c3pr.domain.ScheduledEpoch", "scEpochDataEntryStatus.code",
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "registrationScheduledEpochCriteria", "scEpochDataEntryStatus.code",
 						"COMPLETE", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -356,7 +360,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "edu.duke.cabig.c3pr.domain.ScheduledEpoch", "scEpochWorkflowStatus.code",
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "registrationScheduledEpochCriteria", "scEpochWorkflowStatus.code",
 						"PENDING", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -373,7 +377,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Reason", "edu.duke.cabig.c3pr.domain.Reason", "code",
+						"edu.duke.cabig.c3pr.domain.Reason", "registrationOffEpochReasonCriteria", "code",
 						"test reason", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -390,7 +394,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Epoch", "edu.duke.cabig.c3pr.domain.Epoch", "type.code",
+						"edu.duke.cabig.c3pr.domain.Epoch", "registrationEpochCriteria", "type.code",
 						"SCREENING", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -407,7 +411,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Epoch", "edu.duke.cabig.c3pr.domain.Epoch", "name",
+						"edu.duke.cabig.c3pr.domain.Epoch", "registrationEpochCriteria", "name",
 						"NonTreatment%", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();

@@ -50,7 +50,7 @@ public class ParticipantAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Participant", "edu.duke.cabig.c3pr.domain.Participant", "firstName",
+						"edu.duke.cabig.c3pr.domain.Participant",  "firstName",
 						"%re%", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -67,7 +67,7 @@ public class ParticipantAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Address", "edu.duke.cabig.c3pr.domain.Address", "postalCode",
+						"edu.duke.cabig.c3pr.domain.Address", "participantAddressCriteria", "postalCode",
 						"20171", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -84,7 +84,7 @@ public class ParticipantAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Identifier", "edu.duke.cabig.c3pr.domain.Identifier", "value",
+						"edu.duke.cabig.c3pr.domain.Identifier", "participantIdentifierCriteria", "value",
 						"sub%", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -101,44 +101,44 @@ public class ParticipantAdvancedSearchRepositoryTest extends
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Participant", "edu.duke.cabig.c3pr.domain.Participant", "firstName",
+				"edu.duke.cabig.c3pr.domain.Participant",  "firstName",
 				"ru%", "like");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter2 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Participant", "edu.duke.cabig.c3pr.domain.Participant", "lastName",
+				"edu.duke.cabig.c3pr.domain.Participant",  "lastName",
 				"%oo%", "like");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter3 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Participant", "edu.duke.cabig.c3pr.domain.Participant", "administrativeGenderCode",
+				"edu.duke.cabig.c3pr.domain.Participant",  "administrativeGenderCode",
 				"Male", "=");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter4 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Participant", "edu.duke.cabig.c3pr.domain.Participant", "ethnicGroupCode",
+				"edu.duke.cabig.c3pr.domain.Participant",  "ethnicGroupCode",
 				"Unknown", "=");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter5 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Participant", "edu.duke.cabig.c3pr.domain.Participant", "raceCode",
+				"edu.duke.cabig.c3pr.domain.Participant", "raceCode",
 				"White", "like");
 		
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter6 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Address", "edu.duke.cabig.c3pr.domain.Address", "postalCode",
+				"edu.duke.cabig.c3pr.domain.Address", "participantAddressCriteria", "postalCode",
 				"20171", "=");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter7 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Address", "edu.duke.cabig.c3pr.domain.Address", "stateCode",
+				"edu.duke.cabig.c3pr.domain.Address", "participantAddressCriteria", "stateCode",
 				"VA", "like");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter8 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Address", "edu.duke.cabig.c3pr.domain.Address", "countryCode",
+				"edu.duke.cabig.c3pr.domain.Address", "participantAddressCriteria", "countryCode",
 				"USA", "like");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter9 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Address", "edu.duke.cabig.c3pr.domain.Address", "city",
+				"edu.duke.cabig.c3pr.domain.Address", "participantAddressCriteria", "city",
 				"Herndon", "like");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter10 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Identifier", "edu.duke.cabig.c3pr.domain.Identifier", "value",
+				"edu.duke.cabig.c3pr.domain.Identifier", "participantIdentifierCriteria", "value",
 				"sub%", "like");
 		
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
