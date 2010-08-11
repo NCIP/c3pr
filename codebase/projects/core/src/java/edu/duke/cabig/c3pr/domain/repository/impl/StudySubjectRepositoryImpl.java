@@ -202,14 +202,14 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		}
 		
 		//make sure there is atleast one primaryIdentifier
-		boolean hasPromaryIdentifier = false;
+		boolean hasPrimaryIdentifier = false;
 		for(Identifier identifier : studySubject.getIdentifiers()){
 			if(identifier.getPrimaryIndicator()){
-				hasPromaryIdentifier = true;
+				hasPrimaryIdentifier = true;
 				break;
 			}
 		}
-		if(!hasPromaryIdentifier){
+		if(!hasPrimaryIdentifier){
 			Identifier identifier = studySubject.getCoOrdinatingCenterIdentifier();
 			if(identifier != null){
 				identifier.setPrimaryIndicator(true);
