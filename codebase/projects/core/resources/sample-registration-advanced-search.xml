@@ -171,6 +171,11 @@
 			<display-name>Investigator</display-name>
 			<table-alias>Investigator_xx</table-alias>
 			<search-criteria>
+				<name>fullName</name>
+				<label>Investigator full name</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
 				<name>assignedIdentifier</name>
 				<label>Investigator assigned identifier</label>
 				<data-type>String</data-type>
@@ -306,7 +311,7 @@
 				<data-type>ScheduledEpochDataEntryStatus</data-type>
 			</search-criteria>
 			<search-criteria>
-				<name>scEpochWorkFlowStatus.code</name>
+				<name>scEpochWorkflowStatus</name>
 				<label>Scheduled epoch work flow status</label>
 				<data-type>ScheduledEpochWorkFlowStatus</data-type>
 			</search-criteria>
