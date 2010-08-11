@@ -155,9 +155,8 @@ public abstract class ResearchStaff extends User {
     @Override
     public int hashCode() {
         final int PRIME = 31;
-        // int result = super.hashCode();
         int result = 1;
-        result = PRIME * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
+        result = PRIME * result + ((this.assignedIdentifier == null) ? 0 : this.assignedIdentifier.hashCode());
         return result;
     }
 

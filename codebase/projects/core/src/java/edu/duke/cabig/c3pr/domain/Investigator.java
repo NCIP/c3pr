@@ -194,7 +194,6 @@ public abstract class Investigator extends C3PRUser {
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "INV_ID")
     @OrderBy("id")
-    @RemoteProperty
     public List<ContactMechanism> getContactMechanisms() {
         return contactMechanisms;
     }
@@ -225,7 +224,7 @@ public abstract class Investigator extends C3PRUser {
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
+        result = PRIME * result + ((this.assignedIdentifier == null) ? 0 : this.assignedIdentifier.hashCode());
         return result;
     }
 
