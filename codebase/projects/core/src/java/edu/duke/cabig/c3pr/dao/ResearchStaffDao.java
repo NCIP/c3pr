@@ -801,7 +801,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			HealthcareSite healthcareSite, List<C3PRUserGroupType> roles) {
 		for (C3PRUserGroupType role : roles) {
 			try {
-				if (userProvisioningManager.checkPermission(csmUser.getLoginName(), "HealthcareSite." + healthcareSite.getPrimaryIdentifier(), role.getCode())) {
+				if (userProvisioningManager.checkPermission(csmUser.getLoginName(), "HealthcareSite." + healthcareSite.getPrimaryIdentifier(), role.getCode()) ||
+						(userProvisioningManager.checkPermission(csmUser.getLoginName(), "HealthcareSite", role.getCode()))) {
 					return true;
 				}
 			} catch (CSObjectNotFoundException e) {
