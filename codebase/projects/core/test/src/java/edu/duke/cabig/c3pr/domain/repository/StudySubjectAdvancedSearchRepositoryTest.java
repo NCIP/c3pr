@@ -46,8 +46,6 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		}
 	}
 	
-	// Test cases for registration specific criteria
-	
 	public void testGetResultSetWithHQLForWorkFlowStatus() throws Exception {
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 
@@ -149,6 +147,23 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		assertEquals("2 registrations not found", 2,  registrations.size());
 	}
 	
+	public void testGetResultSetWithHQLForInvestigatorFullName() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Investigator", "edu.duke.cabig.c3pr.domain.Investigator", "fullName",
+						"Bill%", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
 	public void testGetResultSetWithHQLForSubjectFirstName() throws Exception {
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 
@@ -233,5 +248,178 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
 		assertEquals("1 registration not found", 1,  registrations.size());
 	}
+	
+	public void testGetResultSetWithHQLForConsentDeliveryDate() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "consentDeliveryDate",
+						"10/10/2010", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForConsentPresenter() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "consentPresenter",
+						"Himanshu", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForInformedConsentSignedDate() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "informedConsentSignedTimestamp",
+						"11/10/2010", ">");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForConsentMethod() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "consentingMethod.code",
+						"WRITTEN", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("3 registrations not found", 3,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForEligibilityIndicator() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "edu.duke.cabig.c3pr.domain.ScheduledEpoch", "eligibilityIndicator",
+						"true", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("4 registrations not found", 4,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForScheduledEpochDataEntryStatus() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "edu.duke.cabig.c3pr.domain.ScheduledEpoch", "scEpochDataEntryStatus.code",
+						"COMPLETE", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForScheduledEpochWorkFlowStatus() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "edu.duke.cabig.c3pr.domain.ScheduledEpoch", "scEpochWorkflowStatus.code",
+						"PENDING", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForOffEpochReasonCode() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Reason", "edu.duke.cabig.c3pr.domain.Reason", "code",
+						"test reason", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForEpochType() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Epoch", "edu.duke.cabig.c3pr.domain.Epoch", "type.code",
+						"SCREENING", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForEpochName() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Epoch", "edu.duke.cabig.c3pr.domain.Epoch", "name",
+						"NonTreatment%", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	
+	
 	
 }
