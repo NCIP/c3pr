@@ -242,6 +242,6 @@
 			<exclude org="org.globus" name="xmlsec" rev="1.2"/>
 			<exclude org="org.globus" name="wss4j" rev="4.0-cagrid1.0"/>
          	
-         	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="0.2" />
+         	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="0.3" />
         </dependencies>
 </ivy-module>
