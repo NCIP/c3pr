@@ -73,11 +73,9 @@ public class ResearchStaffTest extends AbstractTestCase{
 	public void testHashCode() throws Exception{
 		ResearchStaff researchStaff1 = new LocalResearchStaff();
 		assertEquals("Wrong hash code",31,researchStaff1.hashCode());
-		ContactMechanism contactMechanism = new ContactMechanism();
-		contactMechanism.setType(ContactMechanismType.EMAIL);
-		contactMechanism.setValue("john.doe@gmail.com");
-		researchStaff1.getContactMechanisms().add(contactMechanism);
-		assertEquals("Wrong hash code",31 + researchStaff1.getEmail().hashCode(),researchStaff1.hashCode());
+		String assignedIdentifier = "12298374983";
+		researchStaff1.setAssignedIdentifier(assignedIdentifier);
+		assertEquals("Wrong hash code",31 + assignedIdentifier.hashCode(),researchStaff1.hashCode());
 	}
 	
 	/**
