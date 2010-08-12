@@ -90,11 +90,9 @@ public class InvestigatorTest extends AbstractTestCase{
 	public void testHashCode() throws Exception{
 		Investigator investigator1 = new LocalInvestigator();
 		assertEquals("Wrong hash code",31,investigator1.hashCode());
-		ContactMechanism contactMechanism = new ContactMechanism();
-		contactMechanism.setType(ContactMechanismType.EMAIL);
-		contactMechanism.setValue("john.doe@gmail.com");
-		investigator1.getContactMechanisms().add(contactMechanism);
-		assertEquals("Wrong hash code",31 + investigator1.getEmail().hashCode(),investigator1.hashCode());
+		String assignedIdentifier = "9817379821";
+		investigator1.setAssignedIdentifier(assignedIdentifier);
+		assertEquals("Wrong hash code",31 + assignedIdentifier.hashCode(),investigator1.hashCode());
 	}
 	
 	/**
