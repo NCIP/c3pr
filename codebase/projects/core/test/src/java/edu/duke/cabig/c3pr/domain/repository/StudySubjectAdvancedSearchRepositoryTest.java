@@ -14,7 +14,6 @@ import com.semanticbits.querybuilder.QueryBuilderDao;
 import com.semanticbits.querybuilder.QueryGenerator;
 import com.semanticbits.querybuilder.TargetObject;
 
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
@@ -107,7 +106,7 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		assertEquals("2 registrations not found", 2,  registrations.size());
 	}
 	
-	public void testGetResultSetWithHQLForIdentifier() throws Exception {
+	public void testGetResultSetWithHQLForIdentifierValue() throws Exception {
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
@@ -120,6 +119,21 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		
 		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
 		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForIdentifierType() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationIdentifierCriteria", "typeInternal", "local", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("2 registrations not found", 2,  registrations.size());
 	}
 	
 	public void testGetResultSetWithHQLForParticipantIdentifier() throws Exception {
@@ -423,7 +437,124 @@ public class StudySubjectAdvancedSearchRepositoryTest extends
 		assertEquals("1 registration not found", 1,  registrations.size());
 	}
 	
+	public void testGetResultSetWithHQLForStudyShortTitle() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudyVersion", "registrationStudyVersionCriteria", "shortTitleText",
+						"%title_text1", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
 	
+	public void testGetResultSetWithHQLForStudyTherapeuticIntent() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Study", "registrationStudyCriteria", "therapeuticIntentIndicator",
+						"false", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("4 registrations not found", 4,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForStudyPhaseCode() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Study", "registrationStudyCriteria", "phaseCode",
+						"Ph", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("4 registrations not found", 4,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForStudyType() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Study", "registrationStudyCriteria", "type",
+						"Ty", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("5 registrations not found", 5,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForPersonnelFirstName() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "firstName",
+						"Research Bill%", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("1 registrations not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForPersonnelLastName() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "lastName",
+						"Staff2%", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForPersonnelAssignedIdentifier() throws Exception {
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "assignedIdentifier",
+						"x1", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		String hql = QueryGenerator.generateHQL(targetObject, criteriaParameters, true);
+		
+		List<StudySubject> registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		assertEquals("1 registrations not found", 1,  registrations.size());
+	}
 	
 	
 }

@@ -3,6 +3,10 @@
  */
 package edu.duke.cabig.c3pr.dao;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -10,6 +14,10 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,6 +31,12 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+import com.semanticbits.querybuilder.QueryBuilder;
+import com.semanticbits.querybuilder.QueryBuilderDao;
+import com.semanticbits.querybuilder.QueryGenerator;
+import com.semanticbits.querybuilder.TargetObject;
+
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -32,7 +46,6 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -59,6 +72,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     /** The study dao. */
     private StudyDao studyDao;
+    
+    private QueryBuilderDao queryBuilderDao;
 
     /** The study site dao. */
     private StudySiteDao studySiteDao;
@@ -735,5 +750,61 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     	return studies; 
     }
+	
+	public List<StudySubject> search(List<AdvancedSearchCriteriaParameter> searchParameters){
+		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("registration-advanced-search.xml");
+		Unmarshaller unmarshaller;
+		QueryBuilder queryBuilder = new QueryBuilder();
+		try {
+			unmarshaller = JAXBContext.newInstance("com.semanticbits.querybuilder").createUnmarshaller();
+			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		
+		List<StudySubject> registrations = new ArrayList<StudySubject>();
+		try {
+			String hql = QueryGenerator.generateHQL(targetObject, searchParameters, true);
+			registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return registrations;
+	}
+	
+	public List<StudySubject> search(List<AdvancedSearchCriteriaParameter> searchParameters, String fileLocation){
+		File file = new File(fileLocation);
+		InputStream inputStream ;
+		QueryBuilder queryBuilder = new QueryBuilder();
+		try {
+			inputStream = new FileInputStream(file);
+			Unmarshaller unmarshaller = JAXBContext.newInstance("com.semanticbits.querybuilder").createUnmarshaller();
+			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
+		}catch (JAXBException e) {
+			e.printStackTrace();
+		}catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+		List<StudySubject> registrations = new ArrayList<StudySubject>();
+		try {
+			String hql = QueryGenerator.generateHQL(targetObject, searchParameters, true);
+			registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return registrations;
+	}
+
+	public void setQueryBuilderDao(QueryBuilderDao queryBuilderDao) {
+		this.queryBuilderDao = queryBuilderDao;
+	}
+
+	public QueryBuilderDao getQueryBuilderDao() {
+		return queryBuilderDao;
+	}
 	
 }
