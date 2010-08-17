@@ -7,6 +7,7 @@ import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OffEpochReason;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
@@ -66,4 +67,6 @@ public interface StudySubjectRepository {
 	public StudySubject failScreening(Identifier studySubjectIdentifier, List<OffEpochReason> offScreeningReasons, Date failScreeningDate);
     
 	public StudySubject takeSubjectOffCurrentEpoch(Identifier studySubjectIdentifier, List<OffEpochReason> offEpochReasons, Date offEpochDate);
+	
+	public StudySubject reConsent(String studyVersionName, List<StudySubjectConsentVersion> studySubjectConsentVersionsHolder, Identifier studySubjectIdentifier);
 }
