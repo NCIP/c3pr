@@ -763,8 +763,6 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 		}
 
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
-		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
-		
 		List<StudySubject> registrations = new ArrayList<StudySubject>();
 		try {
 			String hql = QueryGenerator.generateHQL(targetObject, searchParameters, true);

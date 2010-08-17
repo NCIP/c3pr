@@ -148,8 +148,7 @@
 		</dependent-object>
 		<!-- search by consent parameters -->
 		<dependent-object>
-			<class-name>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion
-			</class-name>
+			<class-name>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</class-name>
 			<display-name>StudySubjectConsentVersion</display-name>
 			<table-alias>StudySubjectConsentVersion_xx</table-alias>
 			<search-criteria>
@@ -375,8 +374,7 @@
 			</association-context>
 		</dependent-object><!--search by study subject demographics -->
 		<dependent-object>
-			<class-name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics
-			</class-name>
+			<class-name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</class-name>
 			<display-name>StudySubjectDemographics</display-name>
 			<table-alias>StudySubjectDemographics_xx</table-alias>
 			<search-criteria>

@@ -1499,21 +1499,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		assertEquals("2 registrations not found", 2,  registrations.size());
 	}
 	
-	public void testGetResultSetWithHQLForIdentifierTypeCode() throws Exception {
-		List<String> values = new ArrayList<String>();
-       	values.add("CTEP");
- 
-		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationIdentifierCriteria",
-						"type.code", values, "like");
-
-		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
-		criteriaParameters.add(advancedSearchCriteriaParameter1);
-		
-		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
-		assertEquals("2 registrations not found", 2,  registrations.size());
-	}
-	
 	//test case for search by participant identifier 
  	public void testGetResultSetWithHQLForParticipantIdentifierValue() throws Exception {
  		List<String> values = new ArrayList<String>();
@@ -1543,21 +1528,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		
 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
 		assertEquals("2 registrations not found", 1,  registrations.size());
-	}
-	
-	public void testGetResultSetWithHQLForParticipantIdentifierTypeCode() throws Exception {
-		List<String> values = new ArrayList<String>();
-       	values.add("MRN");
- 
-		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationParticipantIdentifierCriteria",
-						"type.code", values, "like");
-
-		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
-		criteriaParameters.add(advancedSearchCriteriaParameter1);
-		
-		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
-		assertEquals("2 registrations not found", 2,  registrations.size());
 	}
 	
 	// test case for treating physician
@@ -1835,7 +1805,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	
 	public void testGetResultSetWithHQLForStudyShortTitle() throws Exception {
 		List<String> values = new ArrayList<String>();
-       	values.add("title_text1");
+       	values.add("short_title_text1");
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
@@ -1853,8 +1823,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		List<String> values = new ArrayList<String>();
        	values.add("false");
 
-
-		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+       	AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
 						"edu.duke.cabig.c3pr.domain.Study", "registrationStudyCriteria", "therapeuticIntentIndicator",
 						values, "=");
@@ -1869,7 +1838,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	public void testGetResultSetWithHQLForStudyPhaseCode() throws Exception {
 		List<String> values = new ArrayList<String>();
        	values.add("Ph");
-
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
@@ -1903,7 +1871,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		List<String> values = new ArrayList<String>();
        	values.add("Research Bill%");
 
-
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
 						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "firstName",
@@ -1920,7 +1887,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		List<String> values = new ArrayList<String>();
        	values.add("Staff2%");
 
-
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
 						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "lastName",
@@ -1936,7 +1902,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	public void testGetResultSetWithHQLForPersonnelAssignedIdentifier() throws Exception {
 		List<String> values = new ArrayList<String>();
        	values.add("x1");
-
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
