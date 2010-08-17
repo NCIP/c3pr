@@ -9,6 +9,7 @@ import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
+import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
@@ -70,7 +71,7 @@ public class StudySubjectTest extends AbstractTestCase {
 	StudyVersion studyVersion ;
 	
 	StudySubjectConsentVersion studySubjectConsentVersion;
-
+	
 	/* (non-Javadoc)
 	 * @see edu.nwu.bioinformatics.commons.testing.CoreTestCase#setUp()
 	 */
@@ -2608,4 +2609,384 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  verifyMocks();
 	}
   }
+  
+  public void testGetLastConsentedStudyVersion(){
+	  
+  }
+  
+ public void testGetAllSignedConsents(){
+	 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+	 studySubjectStudyVersions.add(studySubjectStudyVersion);
+	 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+	 
+	 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+ 		studySubjectConsentVersions.add(studySubjectConsentVersion);
+ 		
+	 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+	 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(new Date());
+	 replayMocks();
+	 
+	 assertEquals("Wrong number of study subject consents",1,studySubject.getAllSignedConsents().size());
+  }
+ 
+ public void testGetAllConsents(){
+	 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+	 studySubjectStudyVersions.add(studySubjectStudyVersion);
+	 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+	 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+ 		studySubjectConsentVersions.add(studySubjectConsentVersion);
+	 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+	 replayMocks();
+	 
+	 assertEquals("Wrong number of study subject consents",1,studySubject.getAllConsents().size());
+  }
+ 
+  public void testGetFirstConsentedStudyVersion(){
+	 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+	 studySubjectStudyVersions.add(studySubjectStudyVersion);
+	 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+	 Consent consent = registerMockFor(Consent.class);
+	 Consent consent2 = registerMockFor(Consent.class);
+	 
+	 StudyVersion studyVersion = EasyMock.createNiceMock(StudyVersion.class);
+	 StudyVersion studyVersion2 = EasyMock.createNiceMock(StudyVersion.class);
+	 
+	 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+ 		studySubjectConsentVersions.add(studySubjectConsentVersion);
+ 		
+ 	 StudySubjectConsentVersion studySubjectConsentVersion2 = registerMockFor(StudySubjectConsentVersion.class);
+ 	 studySubjectConsentVersions.add(studySubjectConsentVersion2);
+ 		
+	 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+	 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent);
+	 EasyMock.expect(consent.getStudyVersion()).andReturn(studyVersion);
+	 EasyMock.expect(studySubjectConsentVersion2.getConsent()).andReturn(consent2);
+	 EasyMock.expect(consent2.getStudyVersion()).andReturn(studyVersion2);
+	 EasyMock.expect(((StudyVersion) studyVersion2).compareTo(registerMockFor(StudyVersion.class))).andReturn(1);
+	 replayMocks();
+	 
+	 assertEquals("Wrong study version retrieved",studyVersion,studySubject.getFirstConsentedStudyVersion());
+	 verifyMocks();
+  }
+  
+  public void testGetOriginalSignedConsents(){
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+	 		studySubjectConsentVersions.add(studySubjectConsentVersion);
+	 		
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions).times(2);
+		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent).times(2);
+		 EasyMock.expect(consent.getStudyVersion()).andReturn(studyVersion).times(2);
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(new Date());
+		 replayMocks();
+		 
+		 assertEquals("Wrong consents returned",studySubjectConsentVersions,studySubject.getOriginalSignedConsents()); 
+		 verifyMocks();
+	  }
+
+ 
+	public void testGetOriginalConsents(){
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+	 		studySubjectConsentVersions.add(studySubjectConsentVersion);
+	 		
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions).times(2);
+		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent).times(2);
+		 EasyMock.expect(consent.getStudyVersion()).andReturn(studyVersion).times(2);
+		 replayMocks();
+		 
+		 assertEquals("Wrong consents returned",studySubjectConsentVersions,studySubject.getOriginalConsents()); 
+		 verifyMocks();
+	  }
+
+	public void testGetLatestConsents(){
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+			studySubjectConsentVersions.add(studySubjectConsentVersion);
+			
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions).times(2);
+		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent).times(2);
+		 EasyMock.expect(consent.getStudyVersion()).andReturn(studyVersion).times(2);
+		 replayMocks();
+		 
+		 assertEquals("Wrong consents returned",studySubjectConsentVersions,studySubject.getLatestConsents()); 
+		 verifyMocks();
+	}
+	
+	public void testGetLatestSignedConsents(){
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+			studySubjectConsentVersions.add(studySubjectConsentVersion);
+			
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions).times(2);
+		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent).times(2);
+		 EasyMock.expect(consent.getStudyVersion()).andReturn(studyVersion).times(2);
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(new Date());
+		 replayMocks();
+		 
+		 assertEquals("Wrong consents returned",studySubjectConsentVersions,studySubject.getLatestSignedConsents()); 
+		 verifyMocks();
+}
+	
+	public void testGetSignedConsents(){
+		 String studyVersionName = "Test Study Version 2";
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 List<Consent> consents = new ArrayList<Consent>();
+		 consents.add(consent);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+			studySubjectConsentVersions.add(studySubjectConsentVersion);
+		 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+		 
+		 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		 List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
+		 studyVersions.add(studyVersion);
+		 EasyMock.expect(studySite.getStudy()).andReturn(study);
+		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion);
+		 EasyMock.expect(studyVersion.getConsents()).andReturn(consents);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent);
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(new Date());
+		 replayMocks();
+		 
+		 studySubject.setStudySite(studySite);
+		 assertEquals("Wrong consents returned",studySubjectConsentVersions,studySubject.getSignedConsents(studyVersionName)); 
+		 verifyMocks();
+	}
+
+	public void testGetConsents(){
+		 String studyVersionName = "Test Study Version 2";
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 List<Consent> consents = new ArrayList<Consent>();
+		 consents.add(consent);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+			studySubjectConsentVersions.add(studySubjectConsentVersion);
+		 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+		 
+		 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		 List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
+		 studyVersions.add(studyVersion);
+		 EasyMock.expect(studySite.getStudy()).andReturn(study);
+		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion);
+		 EasyMock.expect(studyVersion.getConsents()).andReturn(consents);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent);
+		 replayMocks();
+		 
+		 studySubject.setStudySite(studySite);
+		 assertEquals("Wrong consents returned",studySubjectConsentVersions,studySubject.getConsents(studyVersionName)); 
+		 verifyMocks();
+	}
+	
+	public void testHasSignedConsents(){
+		 String studyVersionName = "Test Study Version 2";
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 List<Consent> consents = new ArrayList<Consent>();
+		 consents.add(consent);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+			studySubjectConsentVersions.add(studySubjectConsentVersion);
+		 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+		 
+		 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		 List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
+		 studyVersions.add(studyVersion);
+		 EasyMock.expect(studySite.getStudy()).andReturn(study);
+		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion);
+		 EasyMock.expect(studyVersion.getConsents()).andReturn(consents);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(null);
+		 replayMocks();
+		 
+		 studySubject.setStudySite(studySite);
+		 assertFalse("Did not expect signed consents",studySubject.hasSignedConsents(studyVersionName)); 
+		 verifyMocks();
+	}
+	
+	public void testHasSignedConsents1(){
+		 String studyVersionName = "Test Study Version 2";
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 List<Consent> consents = new ArrayList<Consent>();
+		 consents.add(consent);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+			studySubjectConsentVersions.add(studySubjectConsentVersion);
+		 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+		 
+		 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		 List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
+		 studyVersions.add(studyVersion);
+		 EasyMock.expect(studySite.getStudy()).andReturn(study);
+		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion);
+		 EasyMock.expect(studyVersion.getConsents()).andReturn(consents);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent);
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(new Date());
+		 replayMocks();
+		 
+		 studySubject.setStudySite(studySite);
+		 assertTrue("Expected signed consent",studySubject.hasSignedConsents(studyVersionName)); 
+		 verifyMocks();
+	}
+	
+	public void testCanReConsent(){
+		 String studyVersionName = "Test Study Version 2";
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 List<Consent> consents = new ArrayList<Consent>();
+		 consents.add(consent);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+			studySubjectConsentVersions.add(studySubjectConsentVersion);
+		 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+		 
+		 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		 List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
+		 studyVersions.add(studyVersion);
+		 EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion).times(2);
+		 EasyMock.expect(studyVersion.getConsents()).andReturn(consents);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(2);
+		 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent);
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(new Date());
+		 replayMocks();
+		 
+		 studySubject.setStudySite(studySite);
+		 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+		 
+		assertFalse("Should not be able to reconsent as there is already a signed consent",studySubject.canReConsent(studyVersionName));
+		 verifyMocks();
+	}
+	
+	public void testCanReConsent1(){
+		 String studyVersionName = "Test Study Version 2";
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 List<Consent> consents = new ArrayList<Consent>();
+		 consents.add(consent);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+			studySubjectConsentVersions.add(studySubjectConsentVersion);
+		 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+		 
+		 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+		 List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
+		 studyVersions.add(studyVersion);
+		 EasyMock.expect(study.getStudyVersions()).andReturn(studyVersions);
+		 EasyMock.expect(studySite.getStudy()).andReturn(study).times(3);
+		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion).times(2);
+		 EasyMock.expect(studyVersion.getConsents()).andReturn(consents);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(3);
+		 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(3);
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(null);
+		 EasyMock.expect(studyVersion.getVersionDate()).andReturn(new Date()).times(2);
+		 replayMocks();
+		 
+		 studySubject.setStudySite(studySite);
+		 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+		 
+		assertTrue("Should be able to reconsent ",studySubject.canReConsent(studyVersionName));
+		 verifyMocks();
+	}
+	
+	public void testReConsent(){
+		 String studyVersionName = "Test Study Version 2";
+		 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+		 studySubjectStudyVersions.add(studySubjectStudyVersion);
+		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+		 Consent consent = registerMockFor(Consent.class);
+		 List<Consent> consents = new ArrayList<Consent>();
+		 consents.add(consent);
+		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+			studySubjectConsentVersions.add(studySubjectConsentVersion);
+		 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+		 
+		 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(1);
+		 List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
+		 studyVersions.add(studyVersion);
+		 EasyMock.expect(study.getStudyVersions()).andReturn(studyVersions);
+		 EasyMock.expect(studySite.getStudy()).andReturn(study).times(4);
+		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion).times(3);
+		 EasyMock.expect(studyVersion.getConsents()).andReturn(consents).times(2);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(4);
+		 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(4);
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(null);
+		 EasyMock.expect(studyVersion.getVersionDate()).andReturn(new Date()).times(2);
+		 
+		 EasyMock.expect(studyVersion.getConsentByName("General consent")).andReturn(consent);
+		 List<ConsentingMethod> consentingMethods = new ArrayList<ConsentingMethod>();
+		 consentingMethods.add(ConsentingMethod.VERBAL);
+		 EasyMock.expect(consent.getMandatoryIndicator()).andReturn(true);
+		 studySubjectStudyVersion.addStudySubjectConsentVersion((StudySubjectConsentVersion)EasyMock.anyObject());
+		 
+		 EasyMock.expect(studySubjectStudyVersion.hasSignedConsent(consent)).andReturn(true);
+		 replayMocks();
+		 
+		 studySubject.setStudySite(studySite);
+		 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+		 
+		 List<StudySubjectConsentVersion> studySubjectConsentVersionHolder = new ArrayList<StudySubjectConsentVersion>();
+		 StudySubjectConsentVersion studySubjectConsentVersion1 = new StudySubjectConsentVersion();
+		 Consent consent1 = new Consent();
+		 consent1.setName("General consent");
+		 studySubjectConsentVersion1.setConsent(consent1);
+		 
+		 studySubjectConsentVersionHolder.add(studySubjectConsentVersion1);
+		 
+		try {
+			studySubject.reConsent(studyVersionName,studySubjectConsentVersionHolder);
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		 verifyMocks();
+	}
 }
