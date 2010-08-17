@@ -180,7 +180,8 @@
     <IDENTIFIERS id="1001" version="1" value="nci" type="local" system_name="nci" dtype="SAI" prt_id="1000" stu_id="1002" org_id="1000" hcs_id="1003" retired_indicator="false" spa_id="1000" primary_indicator="0" stu_sub_dmgphcs_id="1004"/>
     <IDENTIFIERS id="1002" version="1" value="grid" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator="false"  spa_id="1001"/>
     <IDENTIFIERS id="1000" version="1" value="nci1" type="local" system_name="nci" dtype="SAI" stu_id="1000" retired_indicator="false"/>
-    <IDENTIFIERS id="1007" version="1" value="nci2" type="CTEP" dtype="OAI" retired_indicator="false" stu_id="1001"  hcs_id="1003" primary_indicator="1"/>    
+    <IDENTIFIERS id="1007" version="1" value="nci2" type="CTEP" dtype="OAI" retired_indicator="false" stu_id="1001"  hcs_id="1003" primary_indicator="1"/>
+    <IDENTIFIERS id="1017" version="1" value="himanshu" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" retired_indicator="false" stu_id="1001"  hcs_id="1003" primary_indicator="1"/>    
     <IDENTIFIERS id="1003" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1004" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1005" version="1" value="code" type="NCI" dtype="OAI" retired_indicator="false" org_id="1002"  hcs_id="1003" primary_indicator="1"/>
@@ -192,6 +193,7 @@
     <IDENTIFIERS id="1010" version="1" value="nci1" type="CTEP" dtype="OAI" retired_indicator="false" spa_id="1001"  hcs_id="1003" primary_indicator="1"/>   
       
     <IDENTIFIERS id="1011" version="1" value="mrn" type="MRN" dtype="OAI" retired_indicator="false" stu_sub_dmgphcs_id="1000"  hcs_id="1003" primary_indicator="1"/>
+    <IDENTIFIERS id="1018" version="1" value="participant" type="MRN" dtype="OAI" retired_indicator="false" stu_sub_dmgphcs_id="1002"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1012" version="1" value="coperative" type="local" system_name="c3pr" dtype="SAI" stu_sub_dmgphcs_id="1001" retired_indicator="false"/> 
     
     <CONTACT_MECHANISMS/>
