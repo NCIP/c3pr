@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import com.semanticbits.querybuilder.QueryBuilder;
-import com.semanticbits.querybuilder.ResultsetFilter;
 import com.semanticbits.querybuilder.TargetObject;
 
 
@@ -21,7 +20,6 @@ public class AdvancedSearchCommand{
 	private String searchName;
 	private String searchDescription;
 	private String hql;
-	private List<ResultsetFilter> resultsViewColumnList;
 	private Integer numberOfResults;
 	
 	public AdvancedSearchCommand(){
@@ -115,12 +113,5 @@ public class AdvancedSearchCommand{
 		this.numberOfResults = numberOfResults;
 	}
 	
-	public List<ResultsetFilter> getResultsViewColumnList() {
-		return resultsViewColumnList;
-	}
-
-	public void setResultsViewColumnList(List<ResultsetFilter> resultsViewColumnList) {
-		this.resultsViewColumnList = resultsViewColumnList;
-	}
 
 }
