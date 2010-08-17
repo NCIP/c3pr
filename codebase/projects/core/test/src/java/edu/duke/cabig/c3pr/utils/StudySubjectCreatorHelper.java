@@ -123,6 +123,7 @@ public class StudySubjectCreatorHelper {
     public StudySite getLocalNonRandomizedStudySite(Boolean reserving, Boolean enrolling,
                     boolean makeStudysiteCoCenter) {
         Study study = studyCreationHelper.getLocalNonRandomizedStudy(reserving, enrolling);
+        study = studyCreationHelper.addConsent(study, "Parent Consent");
         addStudySiteAndCoCenter(study, makeStudysiteCoCenter);
         return study.getStudySites().get(0);
     }
