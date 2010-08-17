@@ -10,6 +10,7 @@ import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
@@ -19,7 +20,9 @@ import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
@@ -449,5 +452,37 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         		assertEquals("adverse event", offStudyReason.getDescription());
         	}
         }
+    }
+    
+    public void testStudySubjectReConsent() throws Exception{
+    	 studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(false, true, true);
+    	 SystemAssignedIdentifier studySubjectIdentifier = new SystemAssignedIdentifier();
+		 studySubjectIdentifier.setSystemName("C3PR");
+		 studySubjectIdentifier.setType("C3PR");
+		 studySubjectIdentifier.setValue("id1");
+		 studySubject.addIdentifier(studySubjectIdentifier);
+		 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+		 studySubjectDao.save(studySubject);
+		 Integer id = studySubject.getId();
+		 interruptSession();
+		 
+		StudySubject savedStudySubject = studySubjectDao.getById(id);
+		
+		Consent consent = new Consent();
+		consent.setName("Parent Consent");
+		StudySubjectConsentVersion studySubjectConsentVersion1 = new StudySubjectConsentVersion();
+		studySubjectConsentVersion1.setConsent(consent);
+		
+		studySubjectConsentVersion1.setInformedConsentSignedDate(new Date());
+		
+		List<StudySubjectConsentVersion> studySubjectConsentVersionsHolder = new ArrayList<StudySubjectConsentVersion>();
+		studySubjectConsentVersionsHolder.add(studySubjectConsentVersion1);
+		 
+		savedStudySubject = studySubjectRepository.reConsent(savedStudySubject.getStudySiteVersion().getStudyVersion().getName(), studySubjectConsentVersionsHolder, studySubjectIdentifier);
+    	
+    	assertEquals("Wrong number of consents",1,savedStudySubject.getLatestSignedConsents().size());
+    	assertEquals("Wrong consent","Parent Consent",savedStudySubject.getLatestSignedConsents().get(0).getConsent().getName());
+    	
+    	
     }
 }

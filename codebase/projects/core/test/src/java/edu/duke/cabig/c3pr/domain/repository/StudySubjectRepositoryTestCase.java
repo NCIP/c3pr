@@ -9,21 +9,30 @@ import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
+import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StratumGroupDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl;
@@ -33,6 +42,7 @@ import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
+import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 
@@ -64,6 +74,24 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     private IdentifierGenerator identifierGenerator ;
 
     private Logger log = Logger.getLogger(StudySubjectRepositoryTestCase.class.getName());
+    
+    /** The study. */
+	private Study study;
+
+	StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
+
+	/** The c3pr exception helper. */
+	private C3PRExceptionHelper c3prExceptionHelper;
+
+	private StudySiteStudyVersion studySiteStudyVersion;
+
+	private StudySubjectStudyVersion studySubjectStudyVersion;
+	
+	private StudySite studySite;
+	
+	private StudyVersion studyVersion ;
+	
+	private StudySubjectConsentVersion studySubjectConsentVersion;
 
     @Override
     protected void setUp() throws Exception {
@@ -77,6 +105,14 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         notificationEmailer=registerMockFor(StudyTargetAccrualNotificationEmail.class);
         exceptionHelper=registerMockFor(C3PRExceptionHelper.class);
         c3prErrorMessages=registerMockFor(MessageSource.class);
+        
+    	study = registerMockFor(Study.class);
+    	studySite = registerMockFor(StudySite.class);
+    	c3prExceptionHelper = registerMockFor(C3PRExceptionHelper.class);
+    	studySiteStudyVersion = registerMockFor(StudySiteStudyVersion.class);
+    	studySubjectStudyVersion = registerMockFor(StudySubjectStudyVersion.class);
+    	studyVersion = registerMockFor(StudyVersion.class);
+    	studySubjectConsentVersion = registerMockFor(StudySubjectConsentVersion.class);
         identifierGenerator = (IdentifierGenerator) ApplicationTestCase.getDeployedCoreApplicationContext().getBean("identifierGenerator");
         StudySubjectRepositoryImpl studySubjectRepositoryImpl=new StudySubjectRepositoryImpl();
         studySubjectRepositoryImpl.setC3prErrorMessages(c3prErrorMessages);
@@ -391,6 +427,76 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	       
 	        verifyMocks();
 	    }
+	  
+	  public void testReConsent() throws Exception{
+		  	String studyVersionName = "Test Study Version 2";
+			 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+			 
+			 
+			 studySubjectStudyVersions.add(studySubjectStudyVersion);
+			 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
+			 Consent consent = registerMockFor(Consent.class);
+			 List<Consent> consents = new ArrayList<Consent>();
+			 consents.add(consent);
+			 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+			 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+				studySubjectConsentVersions.add(studySubjectConsentVersion);
+			 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+			 
+			 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(1);
+			 List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
+			 studyVersions.add(studyVersion);
+			 EasyMock.expect(study.getStudyVersions()).andReturn(studyVersions);
+			 EasyMock.expect(studySite.getStudy()).andReturn(study).times(4);
+			 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion).times(3);
+			 EasyMock.expect(studyVersion.getConsents()).andReturn(consents).times(2);
+			 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+			 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(4);
+			 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(4);
+			 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(null);
+			 EasyMock.expect(studyVersion.getVersionDate()).andReturn(new Date()).times(2);
+			 
+			 EasyMock.expect(studyVersion.getConsentByName("General consent")).andReturn(consent);
+			 List<ConsentingMethod> consentingMethods = new ArrayList<ConsentingMethod>();
+			 consentingMethods.add(ConsentingMethod.VERBAL);
+			 EasyMock.expect(consent.getMandatoryIndicator()).andReturn(true);
+			 studySubjectStudyVersion.addStudySubjectConsentVersion((StudySubjectConsentVersion)EasyMock.anyObject());
+			 
+			 EasyMock.expect(studySubjectStudyVersion.hasSignedConsent(consent)).andReturn(true);
+			 SystemAssignedIdentifier studySubjectIdentifier = new SystemAssignedIdentifier();
+			 studySubjectIdentifier.setSystemName("C3PR");
+			 studySubjectIdentifier.setType("C3PR");
+			 studySubjectIdentifier.setValue("id1");
+			 
+			 List<Identifier> studySubjectIdentifiers = new ArrayList<Identifier>();
+			 studySubjectIdentifiers.add(studySubjectIdentifier);
+			 
+			 List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+			 studySubjects.add(studySubject);
+			 EasyMock.expect(studySubjectDao.getByIdentifiers(studySubjectIdentifiers)).andReturn(studySubjects);
+			 EasyMock.expect(studySubjectDao.merge(studySubject)).andReturn(studySubject);
+			 replayMocks();
+			 
+			 studySubject.setStudySite(studySite);
+			 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+			 
+			 List<StudySubjectConsentVersion> studySubjectConsentVersionHolder = new ArrayList<StudySubjectConsentVersion>();
+			 StudySubjectConsentVersion studySubjectConsentVersion1 = new StudySubjectConsentVersion();
+			 Consent consent1 = new Consent();
+			 consent1.setName("General consent");
+			 studySubjectConsentVersion1.setConsent(consent1);
+			 
+			 studySubjectConsentVersionHolder.add(studySubjectConsentVersion1);
+			
+			 
+			try {
+				studySubjectRepository.reConsent(studyVersionName,studySubjectConsentVersionHolder,studySubjectIdentifier);
+			} catch (Exception e) {
+				e.printStackTrace();
+				fail();
+			}
+			 verifyMocks();
+		}
 
 	public StudySubjectService getStudySubjectService() {
 		return studySubjectService;
