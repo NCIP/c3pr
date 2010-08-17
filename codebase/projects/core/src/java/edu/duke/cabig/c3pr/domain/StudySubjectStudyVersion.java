@@ -173,6 +173,17 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 	public int compareTo(StudySubjectStudyVersion studySubjectStudyVersion) {
 		return this.getStudySiteStudyVersion().getStudyVersion().compareTo(studySubjectStudyVersion.getStudySiteStudyVersion().getStudyVersion());
 	}
+	
+	
+	@Transient
+	public boolean hasSignedConsent(Consent consent){
+		for(StudySubjectConsentVersion studySubjectConsentVersion : getStudySubjectConsentVersions()){
+			if (studySubjectConsentVersion.getConsent().equals(consent) && studySubjectConsentVersion.getInformedConsentSignedDate()!=null){
+				return true;
+			}
+		}
+		return false;
+	}
 
 
 

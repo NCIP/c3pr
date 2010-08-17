@@ -239,9 +239,8 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return null;
 	}
 
-	@OneToMany
+	@OneToMany(mappedBy="studyVersion")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinColumn(name = "stu_version_id", nullable = false)
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy ("id")
 	public List<Consent> getConsentsInternal() {
@@ -262,6 +261,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 			throw new RuntimeException("Consent with same name already exists in study");
 		}else{
 			this.getConsents().add(consent);
+			consent.setStudyVersion(this);
 		}
 	}
 
@@ -744,5 +744,15 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 	public void setOriginalIndicator(Boolean originalIndicator) {
 		this.originalIndicator = originalIndicator;
 	}
-
+	
+	
+	@Transient
+	public Consent getConsentByName(String consentName){
+		for(Consent consent : this.getConsents()){
+			if(consent.getName().equalsIgnoreCase(consentName)){
+				return consent;
+			}
+		}
+		return null;
+	}
 }

@@ -33,6 +33,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
+import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
@@ -54,6 +55,7 @@ import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.emory.mathcs.backport.java.util.TreeSet;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 
@@ -2012,4 +2014,334 @@ public class StudySubject extends
 	public Identifier getUniqueIdentifier(){
 		return getSystemAssignedIdentifiers().get(0);
 	}
+	
+	
+	@Transient
+	public StudyVersion getLastConsentedStudyVersion(){
+		
+		TreeSet uniqueStudyVersions = new TreeSet();
+		List<StudySubjectConsentVersion> allStudySubjectConsentVersions = getAllConsents();
+		
+		for(StudySubjectConsentVersion studySubjectConsentVersion : allStudySubjectConsentVersions){
+			uniqueStudyVersions.add(studySubjectConsentVersion.getConsent().getStudyVersion());
+		}
+		
+		return uniqueStudyVersions.isEmpty()? null:(StudyVersion)uniqueStudyVersions.last();
+	}
+	
+	@Transient
+	public StudyVersion getFirstConsentedStudyVersion(){
+		
+		TreeSet uniqueStudyVersions = new TreeSet();
+		List<StudySubjectConsentVersion> allStudySubjectConsentVersions = getAllConsents();
+		for(StudySubjectConsentVersion studySubjectConsentVersion : allStudySubjectConsentVersions){
+			uniqueStudyVersions.add(studySubjectConsentVersion.getConsent().getStudyVersion());
+		}
+		
+		return uniqueStudyVersions.isEmpty()? null:(StudyVersion)uniqueStudyVersions.first();
+	}
+	
+	// returns all signed study subject consent versions across different study subject versions
+	@Transient
+	public List<StudySubjectConsentVersion> getAllSignedConsents(){
+		
+		List<StudySubjectConsentVersion> allStudySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+		for(StudySubjectStudyVersion studySubjectStudyVersion : getStudySubjectStudyVersions()){
+			for(StudySubjectConsentVersion studySubjectConsentVersion : studySubjectStudyVersion.getStudySubjectConsentVersions()){
+				if(studySubjectConsentVersion.getInformedConsentSignedDate()!=null){
+					allStudySubjectConsentVersions.add(studySubjectConsentVersion);
+				}
+			}
+		}
+		return allStudySubjectConsentVersions;
+	}
+	
+
+	// returns all signed and unsigned study subject consent versions across different study subject versions (thought there will
+	// be only 1 study subject version )
+	@Transient
+	public List<StudySubjectConsentVersion> getAllConsents(){
+		
+		List<StudySubjectConsentVersion> allStudySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
+		for(StudySubjectStudyVersion studySubjectStudyVersion : getStudySubjectStudyVersions()){
+			allStudySubjectConsentVersions.addAll(studySubjectStudyVersion.getStudySubjectConsentVersions());
+			}
+		return allStudySubjectConsentVersions;
+	}
+	
+	
+	
+	// ReConsent API
+	// Begin
+	
+	// gets original consents signed by a subject i.e. first time he/she is registered on a study.
+	@Transient
+	public List<StudySubjectConsentVersion> getOriginalSignedConsents() {
+		
+		StudyVersion firstConsentedStudyVersion = getFirstConsentedStudyVersion();
+		List<StudySubjectConsentVersion> originalStudySubjectConsnetVersions = new ArrayList<StudySubjectConsentVersion>();
+		
+		for(StudySubjectConsentVersion studySubjectConsentVersion :getAllSignedConsents()){
+			if(firstConsentedStudyVersion.equals(studySubjectConsentVersion.getConsent().getStudyVersion())){
+				originalStudySubjectConsnetVersions.add(studySubjectConsentVersion);
+			}
+		}
+		
+		return originalStudySubjectConsnetVersions;
+	}
+	
+	// gets original signed and unsigned consents first time he/she is registered on a study.
+	@Transient
+	public List<StudySubjectConsentVersion> getOriginalConsents() {
+		
+		StudyVersion firstConsentedStudyVersion = getFirstConsentedStudyVersion();
+		List<StudySubjectConsentVersion> originalStudySubjectConsnetVersions = new ArrayList<StudySubjectConsentVersion>();
+		
+		for(StudySubjectConsentVersion studySubjectConsentVersion :getAllConsents()){
+			if(firstConsentedStudyVersion.equals(studySubjectConsentVersion.getConsent().getStudyVersion())){
+				originalStudySubjectConsnetVersions.add(studySubjectConsentVersion);
+			}
+		}
+		
+		return originalStudySubjectConsnetVersions;
+	}
+	
+	// returns the study subject signed consent versions on latest study version
+	@Transient
+	public List<StudySubjectConsentVersion> getLatestSignedConsents() {
+		
+		StudyVersion lastConsentedStudyVersion = getLastConsentedStudyVersion();
+		List<StudySubjectConsentVersion> latestStudySubjectConsnetVersions = new ArrayList<StudySubjectConsentVersion>();
+		
+		for(StudySubjectConsentVersion studySubjectConsentVersion :getAllSignedConsents()){
+			if(lastConsentedStudyVersion.equals(studySubjectConsentVersion.getConsent().getStudyVersion())){
+				latestStudySubjectConsnetVersions.add(studySubjectConsentVersion);
+			}
+		}
+		
+		return latestStudySubjectConsnetVersions;
+	}
+	
+	// returns the study subject signed and unsigned consent versions on latest study version
+	@Transient
+	public List<StudySubjectConsentVersion> getLatestConsents() {
+		
+		StudyVersion lastConsentedStudyVersion = getLastConsentedStudyVersion();
+		List<StudySubjectConsentVersion> latestStudySubjectConsnetVersions = new ArrayList<StudySubjectConsentVersion>();
+		
+		for(StudySubjectConsentVersion studySubjectConsentVersion :getAllConsents()){
+			if(lastConsentedStudyVersion.equals(studySubjectConsentVersion.getConsent().getStudyVersion())){
+				latestStudySubjectConsnetVersions.add(studySubjectConsentVersion);
+			}
+		}
+		
+		return latestStudySubjectConsnetVersions;
+	}
+	
+	
+	// returns signed study subject consent versions on a given study version
+	@Transient
+	public List<StudySubjectConsentVersion> getSignedConsents(String studyVersionName) {
+		StudyVersion studyVersion = getStudySite().getStudy().getStudyVersion(studyVersionName);
+		
+		// throw exception when no study version with the name is found
+		if(studyVersion == null){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.VERSION_WITH_NAME_NOT_FOUND.CODE"),
+					new String[] {studyVersionName });
+		}
+		
+		List<Consent> consentsOnGivenStudyVersion = studyVersion.getConsents();
+		List<StudySubjectConsentVersion> informedConsentsOnStudyVersion = new ArrayList<StudySubjectConsentVersion>();
+		for(StudySubjectConsentVersion studySubjectConsentVersion :this.getAllSignedConsents()){
+			if(consentsOnGivenStudyVersion.contains(studySubjectConsentVersion.getConsent())){
+				informedConsentsOnStudyVersion.add(studySubjectConsentVersion);
+			}
+		}
+		
+		return informedConsentsOnStudyVersion;
+	}
+	
+	// returns signed and unsigned study subject consent versions on a given study version
+	@Transient
+	public List<StudySubjectConsentVersion> getConsents(String studyVersionName) {
+		StudyVersion studyVersion = getStudySite().getStudy().getStudyVersion(studyVersionName);
+		
+		// throw exception when no study version with the name is found
+		if(studyVersion == null){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.VERSION_WITH_NAME_NOT_FOUND.CODE"),
+					new String[] {studyVersionName });
+		}
+		
+		List<Consent> consentsOnGivenStudyVersion = studyVersion.getConsents();
+		List<StudySubjectConsentVersion> informedConsentsOnStudyVersion = new ArrayList<StudySubjectConsentVersion>();
+		for(StudySubjectConsentVersion studySubjectConsentVersion :this.getAllConsents()){
+			if(consentsOnGivenStudyVersion.contains(studySubjectConsentVersion.getConsent())){
+				informedConsentsOnStudyVersion.add(studySubjectConsentVersion);
+			}
+		}
+		
+		return informedConsentsOnStudyVersion;
+	}
+	
+	// returns null if a study version with the given name cannot be found in the study subject study version
+	@Transient
+	public Boolean hasSignedConsents(String studyVersionName) {
+		
+		return (getSignedConsents(studyVersionName).size() > 0);
+		
+	}
+
+	@Transient
+	public Boolean canReConsent(String studyVersionName) {
+		
+		// a subject cannot re consent only if his/her registration is in reserved, registered but not 
+		//enrolled or enrolled status. 
+		
+		if(getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING || getRegWorkflowStatus() == 
+			RegistrationWorkFlowStatus.NOT_REGISTERED || getRegWorkflowStatus() == RegistrationWorkFlowStatus.OFF_STUDY || 
+			getRegWorkflowStatus() == RegistrationWorkFlowStatus.INVALID ){
+				return false;
+			}
+		
+		// obtain the study version object from study based on study version name
+		StudyVersion reConsentingStudyVersion = this.getStudySite().getStudy().getStudyVersion(studyVersionName);
+		
+		// throw exception when no study version is found in study with given name
+		if(reConsentingStudyVersion == null){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.VERSION_WITH_NAME_NOT_FOUND.CODE"),
+					new String[] {studyVersionName });
+		}
+		
+		// Subject cannot re consent on a study version if he/she already signed consent forms on this version.
+				if(hasSignedConsents(studyVersionName)) {
+			return false;
+		}
+				
+		// Subject cannot re consent on a study version if he/she signed consent forms on a study version after this one.
+				for (StudyVersion studyVersion :this.getStudySite().getStudy().getStudyVersions()){
+			if(studyVersion.getVersionDate().after(reConsentingStudyVersion.getVersionDate()) && hasSignedConsents(studyVersion.getName()))
+				return false;
+		}
+		
+		return true;
+		
+	}
+	
+	@Transient
+	public void reConsent(String studyVersionName, List<StudySubjectConsentVersion> studySubjectConsentVersionsHolder) {
+		
+		log.debug("Calling ReConsent API");
+		if(studySubjectConsentVersionsHolder == null || studySubjectConsentVersionsHolder.size()==0){
+			throw new C3PRBaseRuntimeException("Null consent(s) passed in the arguments of reConsent() API");
+		}
+		if(canReConsent(studyVersionName)){
+			
+			// obtain the study version object from study based on study version name
+			StudyVersion reConsentingStudyVersion = this.getStudySite().getStudy().getStudyVersion(studyVersionName);
+		
+			for(StudySubjectConsentVersion studySubjectConsentVersionHolder :studySubjectConsentVersionsHolder){
+				
+				StudySubjectConsentVersion newStudySubjectConsentVersion = new StudySubjectConsentVersion();
+				
+				// retrieve consent in the study version based on name 
+				if(studySubjectConsentVersionHolder.getConsent() == null || StringUtils.isBlank(studySubjectConsentVersionHolder.getConsent().getName())){
+					throw new C3PRBaseRuntimeException("Null consent or consent name passed in arguments of reConsent() API");
+				}
+				Consent newConsent = reConsentingStudyVersion.getConsentByName(studySubjectConsentVersionHolder.getConsent().getName());
+				
+				// throw exception if no consent is found in study version with the given name
+				if(newConsent == null){
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.VERSION_CONSENT_WITH_NAME_NOT_FOUND.CODE"),
+							new String[] {studySubjectConsentVersionHolder.getConsent().getName(),studyVersionName });
+				}
+				
+				// set the retrieved consent to the new study subject consent version
+				newStudySubjectConsentVersion.setConsent(newConsent);
+				
+				// validate consenting method, consent delivery and signed dates
+				if(studySubjectConsentVersionHolder.getConsentingMethod()!=null){
+					validateConsentingMethod(reConsentingStudyVersion, newConsent, studySubjectConsentVersionHolder.getConsentingMethod());
+				}
+				validateInformedConsentSignedDateAndDeliveryDate(reConsentingStudyVersion, newConsent, studySubjectConsentVersionHolder
+						.getConsentDeliveryDate(), studySubjectConsentVersionHolder.getInformedConsentSignedDate());
+				
+				
+				// copy other information into new study subject consent version from the consent data holder
+				newStudySubjectConsentVersion.setConsentingMethod(studySubjectConsentVersionHolder.getConsentingMethod());
+				newStudySubjectConsentVersion.setConsentPresenter(studySubjectConsentVersionHolder.getConsentPresenter());
+				newStudySubjectConsentVersion.setConsentDeliveryDate(studySubjectConsentVersionHolder.getConsentDeliveryDate());
+				
+				newStudySubjectConsentVersion.setInformedConsentSignedDate(studySubjectConsentVersionHolder.getInformedConsentSignedDate());
+				
+				// add study subject consent version to the current study subject study version of the study subject
+				this.getStudySubjectStudyVersion().addStudySubjectConsentVersion(newStudySubjectConsentVersion);
+			}
+			// validate mandatory indicator
+			validateMandatoryInformedConsents(reConsentingStudyVersion);
+		} else{
+		
+			// throw exception when study subject cannot consent on the given study version.
+			throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.CANNOT_RECONSENT.CODE"),
+					new String[] {studyVersionName });
+		}
+		
+	}
+	
+	@Transient
+	private void validateConsentingMethod(StudyVersion studyVersion, Consent consent, ConsentingMethod consentingMethod){
+		if(!consent.getConsentingMethods().contains(consentingMethod)){
+			// throw exception when consenting method is not found in the consent from study version.
+			throw getC3PRExceptionHelper().getRuntimeException(getCode
+					("C3PR.EXCEPTION.REGISTRATION.CONSENTING_METHOD_NOT_FOUND_IN_STUDY_VERSION_CONSENT.CODE"),
+					new String[] {consentingMethod.getName(),consent.getName(),studyVersion.getName()}); 
+		}
+	
+	}
+	
+	@Transient
+	private void validateInformedConsentSignedDateAndDeliveryDate(StudyVersion studyVersion, Consent consent, Date consentDeliveryDate, Date
+			consentSignedDate){
+		
+		if (consentDeliveryDate !=null && consentDeliveryDate.after(new Date())){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode
+					("C3PR.EXCEPTION.REGISTRATION.CONSENT_DELIVERY_DATE_CANNOT_BE_IN_FUTURE.CODE"),
+					new String[] {consent.getName()}); 
+		}
+		
+		if (consentSignedDate !=null && consentSignedDate.after(new Date())){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode
+					("C3PR.EXCEPTION.REGISTRATION.CONSENT_SIGNED_DATE_CANNOT_BE_IN_FUTURE.CODE"),
+					new String[] {consent.getName()}); 
+		}
+		if(consentSignedDate !=null && consentDeliveryDate !=null && consentDeliveryDate.after(consentSignedDate)){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode
+					("C3PR.EXCEPTION.REGISTRATION.CONSENT_SIGNED_DATE_CANNOT_BE_BEFORE_DELIVERY_DATE.CODE"),
+					new String[] {consent.getName()}); 
+		}
+		
+		if(consentSignedDate !=null){
+			if (!getStudySite().canEnroll(studyVersion , consentSignedDate)){
+				throw getC3PRExceptionHelper().getRuntimeException(getCode
+						("C3PR.EXCEPTION.REGISTRATION.CONSENT_SIGNED_DATE_DOES_NOT_BELONG_TO_STUDY_SITE_VERSION.CODE"),
+						new String[] {consent.getName()}); 
+			}
+		}
+		
+	}
+	
+	@Transient
+	private void validateMandatoryInformedConsents(StudyVersion studyVersion){
+		for(Consent consent: studyVersion.getConsents()){
+			if(consent.getMandatoryIndicator()){
+				if(!getStudySubjectStudyVersion().hasSignedConsent(consent)){
+					throw getC3PRExceptionHelper().getRuntimeException(getCode
+							("C3PR.EXCEPTION.REGISTRATION.MANDATORY_CONSENT_NOT_SIGNED_IN_STUDY_VERSION.CODE"),
+							new String[] {consent.getName()}); 
+				}
+			}
+		}
+	}
+	
+	// END
+	// ReConsent API
 }

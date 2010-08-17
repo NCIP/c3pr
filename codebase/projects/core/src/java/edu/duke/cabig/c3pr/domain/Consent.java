@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -38,6 +39,18 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	
 	private List<ConsentingMethod> consentingMethods = new ArrayList<ConsentingMethod>();
 	
+	private StudyVersion studyVersion;
+	
+	@ManyToOne
+	@JoinColumn(name="stu_version_id", nullable = false)
+	public StudyVersion getStudyVersion() {
+		return studyVersion;
+	}
+
+	public void setStudyVersion(StudyVersion studyVersion) {
+		this.studyVersion = studyVersion;
+	}
+
 	@Transient
 	public List<ConsentingMethod> getConsentingMethods() {
 		return consentingMethods;
