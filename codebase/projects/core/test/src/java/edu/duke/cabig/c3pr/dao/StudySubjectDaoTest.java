@@ -11,6 +11,7 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.sql.Time;
@@ -20,10 +21,16 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+
+import com.semanticbits.querybuilder.QueryBuilder;
+import com.semanticbits.querybuilder.QueryBuilderDao;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
@@ -95,6 +102,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     private XmlMarshaller xmlUtilityStudy;
 
     private IdentifierGenerator identifierGenerator ;
+    private QueryBuilderDao  queryBuilderDao ;
 
     @Override
     protected void setUp() throws Exception {
@@ -118,6 +126,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         xmlUtilityStudy = new XmlMarshaller((String) getApplicationContext().getBean(
                         "c3pr-study-xml-castorMapping"));
         identifierGenerator = (IdentifierGenerator) getApplicationContext().getBean("identifierGenerator");
+        queryBuilderDao = (QueryBuilderDao) getApplicationContext().getBean("queryBuilderDao");
     }
     
     public void testDeleteStudySubjectStudyVersion() throws Exception {
@@ -211,7 +220,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(4, ssList.size());
+            assertEquals(5, ssList.size());
         }
         interruptSession();
         {
@@ -273,7 +282,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(4, ssList.size());
+            assertEquals(5, ssList.size());
         }
         interruptSession();
         {
@@ -358,7 +367,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(2, ssList.size());
+            assertEquals(3, ssList.size());
         }
         interruptSession();
         {
@@ -378,7 +387,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 
             ssList = studySubjectDao.advancedStudySearch(studySubject);
-            assertEquals(2, ssList.size());
+            assertEquals(3, ssList.size());
         }
         interruptSession();
     }
@@ -518,7 +527,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
      */
     public void testGetAll() throws Exception {
         List<StudySubject> actual = studySubjectDao.getAll();
-        assertEquals(4, actual.size());
+        assertEquals(5, actual.size());
         List<Integer> ids = collectIds(actual);
         assertContains("Wrong Study Subject found", ids, 1000);
         assertContains("Wrong Study Subject found", ids, 1004);
@@ -1095,7 +1104,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubject.addIdentifier(sysIdentifier);
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
     	studySubjects = studySubjectDao.searchByExample(studySubject, true, 10);
-    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
     }
 
     public void testForLazyInitialization() throws Exception{
@@ -1167,7 +1176,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     public void testIncompleteRegistrations() throws Exception{
     	 List<StudySubject> studySubjects = studySubjectDao.getIncompleteRegistrations();
-    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
     }
 
     public void testSearchByIdentifier() throws Exception{
@@ -1186,7 +1195,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubject.addIdentifier(sysIdentifier);
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
     	studySubjects = studySubjectDao.searchByExample(studySubject, true);
-    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
     }
 
     public void testSearchByExampleWithMaxResults() throws Exception{
@@ -1196,7 +1205,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubject.addIdentifier(sysIdentifier);
     	List<StudySubject> studySubjects = new ArrayList<StudySubject>();
     	studySubjects = studySubjectDao.searchByExample(studySubject, 15);
-    	assertEquals("Wrong number or study subjects retrieved",1,studySubjects.size());
+    	assertEquals("Wrong number or study subjects retrieved",2,studySubjects.size());
     }
 
     public void testDomainClass() throws Exception{
@@ -1286,9 +1295,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
      
      public void testGetMostEnrolledStudies() throws Exception {
     	 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-
-    	 Date startDate = simpleDateFormat.parse("01/08/2010");
-    	 Date endDate = simpleDateFormat.parse("01/18/2010");
+    	 Date startDate = simpleDateFormat.parse("06/01/2010");
+    	 Date endDate = simpleDateFormat.parse("08/18/2010");
     	 
     	 assertEquals("Only 1 record should be present",1,studySubjectDao.getMostEnrolledStudies(startDate, endDate).size());
      }
@@ -1325,7 +1333,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	List<StudySubject> registrations = studySubjectDao.searchByIdentifier(orgIdentifier, StudySubject.class);
     	assertEquals("Wrong number of registrations ",0, registrations.size());
     	 
-    	 orgIdentifier.setValue("code");
+    	 orgIdentifier.setValue("nci1");
     	 
     	 List<StudySubject> registrationsNew = studySubjectDao.searchByIdentifier(orgIdentifier, StudySubject.class);
     	 assertEquals("Wrong number of registrations ",1, registrationsNew.size());
@@ -1350,7 +1358,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
      
      public void testSaveStudySubjectConsentVersionWithSubjectConsentAnswers() throws Exception{
     	 StudySubject studySubject = studySubjectDao.getById(1000);
-    	 assertEquals("Unexpected study subject consents",0,studySubject.getStudySubjectStudyVersion()
+    	 assertEquals("study subject consents",1,studySubject.getStudySubjectStudyVersion()
     			 .getStudySubjectConsentVersions().size());
     	 
     	 StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
@@ -1375,15 +1383,21 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	 
     	 StudySubject reloadedStudySubject = studySubjectDao.getById(1000);
     	 
-    	 assertEquals("Wrong number of study subject consents",1,reloadedStudySubject.getStudySubjectStudyVersion()
+    	 assertEquals("Wrong number of study subject consents",2,reloadedStudySubject.getStudySubjectStudyVersion()
     			 .getStudySubjectConsentVersions().size());
     	 
     	 assertTrue("Wrong subject consent answer",reloadedStudySubject.getStudySubjectStudyVersion()
-    			 .getStudySubjectConsentVersions().get(0).getSubjectConsentAnswers().get(0).getAgreementIndicator());
+    			 .getStudySubjectConsentVersions().get(1).getSubjectConsentAnswers().get(0).getAgreementIndicator());
     	 assertEquals("Picked wrong study consent question","Are you willing to participate in tissue collection",
-    			 reloadedStudySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(0)
+    			 reloadedStudySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(1)
     			 .getSubjectConsentAnswers().get(0).getConsentQuestion().getText());
     	
      }
+     
+     
+     
+     // TEST CASES FOR ADVANCED QUERY
+     
+     
 
 }
