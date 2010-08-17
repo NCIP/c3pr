@@ -11,7 +11,6 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.sql.Time;
@@ -21,16 +20,15 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
-
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
-import com.semanticbits.querybuilder.QueryBuilder;
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+import com.semanticbits.querybuilder.AdvancedSearchHelper;
 import com.semanticbits.querybuilder.QueryBuilderDao;
+import com.semanticbits.querybuilder.QueryGenerator;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
@@ -1394,10 +1392,563 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	
      }
      
-     
-     
      // TEST CASES FOR ADVANCED QUERY
      
+     // Test cases for registration attributes
+     public void testGetResultSetWithHQLForWorkFlowStatus() throws Exception {
+    	List<String> values = new ArrayList<String>();
+    	values.add("ENROLLED");
+    	
+ 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.StudySubject", "regWorkflowStatus.code", values, "=");
+ 
+ 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+ 		criteriaParameters.add(advancedSearchCriteriaParameter1);
+ 		
+ 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+ 		
+ 		assertEquals("2 registrations not found", 2,  registrations.size());
+ 	}
+     
+     public void testGetResultSetWithHQLForDataEntryStatus() throws Exception {
+    	List<String> values = new ArrayList<String>();
+     	values.add("COMPLETE");
+ 
+ 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+ 				.buildAdvancedSearchCriteriaParameter(
+ 						"edu.duke.cabig.c3pr.domain.StudySubject", "regDataEntryStatus.code", values, "=");
+ 
+ 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+ 		criteriaParameters.add(advancedSearchCriteriaParameter1);
+ 		
+ 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+ 		assertEquals("1 registration not found", 1,  registrations.size());
+ 	}
+     
+     public void testGetResultSetWithHQLForPaymentMethod() throws Exception {
+    	 List<String> values = new ArrayList<String>();
+        	values.add("medicare");
+  
+ 
+ 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudySubject", "paymentMethod", values, "like");
+ 
+ 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+ 		criteriaParameters.add(advancedSearchCriteriaParameter1);
+ 		
+ 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+ 		assertEquals("2 registrations not found", 2,  registrations.size());
+ 	}
+     
+     public void testGetResultSetWithHQLForRegistrationStartDate() throws Exception {
+    	List<String> values = new ArrayList<String>();
+       	values.add("01/01/2007");
+ 		
+ 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudySubject", "startDate", values, ">");
+ 
+ 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+ 		criteriaParameters.add(advancedSearchCriteriaParameter1);
+ 		
+ 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+ 		assertEquals("2 registrations not found", 2,  registrations.size());
+ 	}
+     
+    //test case for search by registration identifier 
+ 	public void testGetResultSetWithHQLForIdentifierValue() throws Exception {
+ 		List<String> values = new ArrayList<String>();
+       	values.add("nci1%");
+ 
+ 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationIdentifierCriteria",
+ 						"value", values, "like");
+ 
+ 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+ 		criteriaParameters.add(advancedSearchCriteriaParameter1);
+ 		
+ 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+ 		assertEquals("1 registration not found", 1,  registrations.size());
+ 	}
+ 	
+ 	public void testGetResultSetWithHQLForIdentifierValueNegative() throws Exception {
+ 		List<String> values = new ArrayList<String>();
+       	values.add("nci5");
+ 
+ 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationIdentifierCriteria",
+ 						"value", values, "=");
+ 
+ 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+ 		criteriaParameters.add(advancedSearchCriteriaParameter1);
+ 		
+ 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+ 		assertEquals("0 registration not found", 0,  registrations.size());
+ 	}
+	
+	public void testGetResultSetWithHQLForIdentifierType() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("local");
+ 
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationIdentifierCriteria",
+						"typeInternal", values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForIdentifierTypeCode() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("CTEP");
+ 
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationIdentifierCriteria",
+						"type.code", values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	//test case for search by participant identifier 
+ 	public void testGetResultSetWithHQLForParticipantIdentifierValue() throws Exception {
+ 		List<String> values = new ArrayList<String>();
+       	values.add("mrn%");
+ 
+ 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationParticipantIdentifierCriteria",
+ 						"value", values, "like");
+ 
+ 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+ 		criteriaParameters.add(advancedSearchCriteriaParameter1);
+ 		
+ 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+ 		assertEquals("1 registration not found", 1,  registrations.size());
+ 	}
+	
+	public void testGetResultSetWithHQLForParticipantIdentifierType() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("mrn");
+ 
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationParticipantIdentifierCriteria",
+						"typeInternal", values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForParticipantIdentifierTypeCode() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("MRN");
+ 
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationParticipantIdentifierCriteria",
+						"type.code", values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	// test case for treating physician
+	public void testGetResultSetWithHQLForInvestigatorAssignedIdentifier() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("x1");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Investigator","registrationTreatingPhysicianCriteria" ,"assignedIdentifier", values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForInvestigatorFirstName() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("Bill%");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Investigator", "registrationTreatingPhysicianCriteria", "firstName", values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	// test case for subject
+	public void testGetResultSetWithHQLForSubjectFirstName() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("Rudo%");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectDemographics", "registrationParticipantCriteria", "firstName",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	//test case for subject address
+	public void testGetResultSetWithHQLForParticipantZipCode() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("20171");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Address", "registrationParticipantAddressCriteria", "postalCode",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("3 registrations not found", 3,  registrations.size());
+	}
+	
+	//test case for disease site
+	public void testGetResultSetWithHQLForDiseaseSite() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("200");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ICD9DiseaseSite", "registrationICD9DiseaseSiteCriteria", "code",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	//test cases for disease term
+	public void testGetResultSetWithHQLForStudyDiseaseTerm() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("%anal cancer%");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.DiseaseTerm", "registrationDiseaseTermCriteria", "term",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	//test vase for disease category name
+	public void testGetResultSetWithHQLForStudyDiseaseCategoryName() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("%Human Papillomavirus%");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.DiseaseCategory", "registrationDiseaseCategoryCriteria", "name",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForConsentDeliveryDate() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("10/10/2010");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "consentDeliveryDate",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForConsentPresenter() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("Himanshu");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "consentPresenter",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForInformedConsentSignedDate() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("11/10/2010");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "informedConsentSignedTimestamp",
+						values, ">");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForConsentMethod() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("WRITTEN");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "consentingMethod.code",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("3 registrations not found", 3,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForEligibilityIndicator() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("true");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "registrationScheduledEpochCriteria", "eligibilityIndicator",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("4 registrations not found", 4,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForScheduledEpochDataEntryStatus() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("COMPLETE");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "registrationScheduledEpochCriteria", "scEpochDataEntryStatus.code",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForScheduledEpochWorkFlowStatus() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("PENDING");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "registrationScheduledEpochCriteria", "scEpochWorkflowStatus.code",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForOffEpochReasonCode() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("test reason");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Reason", "registrationOffEpochReasonCriteria", "code",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForEpochType() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("SCREENING");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Epoch", "registrationEpochCriteria", "type.code",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForEpochName() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("NonTreatment%");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Epoch", "registrationEpochCriteria", "name",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForStudyShortTitle() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("title_text1");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudyVersion", "registrationStudyVersionCriteria", "shortTitleText",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForStudyTherapeuticIntent() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("false");
+
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Study", "registrationStudyCriteria", "therapeuticIntentIndicator",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("4 registrations not found", 4,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForStudyPhaseCode() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("Ph");
+
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Study", "registrationStudyCriteria", "phaseCode",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("4 registrations not found", 4,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForStudyType() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("Ty");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Study", "registrationStudyCriteria", "type",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("5 registrations not found", 5,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForPersonnelFirstName() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("Research Bill%");
+
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "firstName",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registrations not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForPersonnelLastName() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("Staff2%");
+
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "lastName",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("2 registrations not found", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForPersonnelAssignedIdentifier() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("x1");
+
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "assignedIdentifier",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registrations not found", 1,  registrations.size());
+	}
      
 
 }
