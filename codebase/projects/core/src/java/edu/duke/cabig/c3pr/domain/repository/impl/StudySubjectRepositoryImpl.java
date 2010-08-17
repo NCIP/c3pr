@@ -39,6 +39,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -640,5 +641,14 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
 	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
 		this.researchStaffDao = researchStaffDao;
+	}
+
+	public StudySubject reConsent(String studyVersionName,
+			List<StudySubjectConsentVersion> studySubjectConsentVersionsHolder,
+			Identifier studySubjectIdentifier) {
+		
+		StudySubject studySubject = getUniqueStudySubject(studySubjectIdentifier);
+		studySubject.reConsent(studyVersionName, studySubjectConsentVersionsHolder);
+		return studySubjectDao.merge(studySubject);
 	}
 }
