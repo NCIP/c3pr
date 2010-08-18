@@ -34,7 +34,7 @@
 <div id="waiveConfirm" style="display:none;">
 	<div id="flash-message" class="error">
 			<img src="<tags:imageUrl name="error-red.png" />" alt="" style="vertical-align:middle;" />
-			Its not a recommended action. Are you sure you want to allow eligibility waiver?
+			<fmt:message key="c3pr.registration.allowWaiverWarning"/>
 	</div>
 	<div class="flow-buttons">
 		<span class="next">
