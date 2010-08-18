@@ -225,7 +225,7 @@
 	<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="c3pr.registration.subjectOffStudy"/>Subject has been taken off study.</div>
 </div>
 <c:if test="${displayAllowWaiverSuccessMessage}">
-	<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="c3pr.registration.allowWaiverSucess"/></div>
+	<div id="flash-message" class="info"><img src="<tags:imageUrl name="check.png" />" alt="" style="vertical-align:middle;" /><fmt:message key="c3pr.registration.allowWaiverSuccess"/></div>
 </c:if>
 <div id="summary">
 <br/>
