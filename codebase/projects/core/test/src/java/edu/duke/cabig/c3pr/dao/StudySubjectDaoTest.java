@@ -1306,7 +1306,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	 StudySubjectDemographics studySubjectDemographics = participant1.createStudySubjectDemographics();
     	 StudySubjectStudyVersion studySubjectStudyVersion= new StudySubjectStudyVersion();
     	 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersionDao.getById(1000));
-    	 studySubject.addStudySubjectStudyVersion(studySubjectStudyVersion);
+    	 studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
     	 
     	 studySubject.setStudySubjectDemographics(studySubjectDemographics);
     	 studySubject.setStudySubjectDemographics(participant1.createStudySubjectDemographics());
@@ -1356,7 +1356,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
      
      public void testSaveStudySubjectConsentVersionWithSubjectConsentAnswers() throws Exception{
     	 StudySubject studySubject = studySubjectDao.getById(1000);
-    	 assertEquals("study subject consents",1,studySubject.getStudySubjectStudyVersion()
+    	 assertEquals("Expected study subject consents",1,studySubject.getStudySubjectStudyVersion()
     			 .getStudySubjectConsentVersions().size());
     	 
     	 StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
