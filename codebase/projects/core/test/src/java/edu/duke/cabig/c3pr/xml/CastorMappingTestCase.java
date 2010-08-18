@@ -224,7 +224,8 @@ public class CastorMappingTestCase extends AbstractTestCase{
 		assertHealthcareSite(expected.getStudySite().getHealthcareSite(), actual.getStudySite().getHealthcareSite());
 		assertIdentifiers(expected.getStudySite().getStudy().getIdentifiers(), actual.getStudySite().getStudy().getIdentifiers());
 		assertStudySubjectDemographics(actual.getStudySubjectDemographics());
-		assertInformedConsents(expected.getStudySubjectConsentVersions(), actual.getStudySubjectConsentVersions());
+		assertInformedConsents(expected.getStudySubjectStudyVersion().getStudySubjectConsentVersions(), actual.
+				getStudySubjectStudyVersion().getStudySubjectConsentVersions());
 		assertIdentifiers(expected.getIdentifiers(), actual.getIdentifiers());
 		assertScheduledEpochs(expected.getScheduledEpochs(), actual.getScheduledEpochs());
 		assertStudyInvestigator(expected.getTreatingPhysician(), actual.getTreatingPhysician());
