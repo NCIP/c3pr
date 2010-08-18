@@ -473,15 +473,18 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
 		StudySubjectConsentVersion studySubjectConsentVersion1 = new StudySubjectConsentVersion();
 		studySubjectConsentVersion1.setConsent(consent);
 		
-		studySubjectConsentVersion1.setInformedConsentSignedDate(new Date());
-		
 		List<StudySubjectConsentVersion> studySubjectConsentVersionsHolder = new ArrayList<StudySubjectConsentVersion>();
 		studySubjectConsentVersionsHolder.add(studySubjectConsentVersion1);
 		 
 		savedStudySubject = studySubjectRepository.reConsent(savedStudySubject.getStudySiteVersion().getStudyVersion().getName(), studySubjectConsentVersionsHolder, studySubjectIdentifier);
+    	assertEquals("Re consent should not be successful as informed consent signed date is not given",0,savedStudySubject.getLatestSignedConsents().size());
     	
+    	studySubjectConsentVersion1.setInformedConsentSignedDate(new Date());
+    	
+    	savedStudySubject = studySubjectRepository.reConsent(savedStudySubject.getStudySiteVersion().getStudyVersion().getName(), studySubjectConsentVersionsHolder, studySubjectIdentifier);
     	assertEquals("Wrong number of consents",1,savedStudySubject.getLatestSignedConsents().size());
     	assertEquals("Wrong consent","Parent Consent",savedStudySubject.getLatestSignedConsents().get(0).getConsent().getName());
+    	
     	
     	
     }

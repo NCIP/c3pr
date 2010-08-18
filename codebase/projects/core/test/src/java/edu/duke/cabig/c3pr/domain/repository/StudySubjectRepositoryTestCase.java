@@ -429,10 +429,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	    }
 	  
 	  public void testReConsent() throws Exception{
-		  	String studyVersionName = "Test Study Version 2";
+		  	 String studyVersionName = "Test Study Version 2";
 			 List<StudySubjectStudyVersion> studySubjectStudyVersions = new ArrayList<StudySubjectStudyVersion>();
-			 
-			 
 			 studySubjectStudyVersions.add(studySubjectStudyVersion);
 			 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
 			 Consent consent = registerMockFor(Consent.class);
@@ -441,7 +439,6 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 			 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
 			 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
 				studySubjectConsentVersions.add(studySubjectConsentVersion);
-			 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
 			 
 			 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(1);
 			 List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
@@ -451,8 +448,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 			 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion).times(3);
 			 EasyMock.expect(studyVersion.getConsents()).andReturn(consents).times(2);
 			 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
-			 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(4);
-			 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(4);
+			 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(5);
+			 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(5);
 			 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(null);
 			 EasyMock.expect(studyVersion.getVersionDate()).andReturn(new Date()).times(2);
 			 
@@ -463,6 +460,8 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 			 studySubjectStudyVersion.addStudySubjectConsentVersion((StudySubjectConsentVersion)EasyMock.anyObject());
 			 
 			 EasyMock.expect(studySubjectStudyVersion.hasSignedConsent(consent)).andReturn(true);
+			 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
+			 EasyMock.expect(studySite.getStudySiteStudyVersionGivenStudyVersionName(studyVersionName)).andReturn(studySiteStudyVersion);
 			 SystemAssignedIdentifier studySubjectIdentifier = new SystemAssignedIdentifier();
 			 studySubjectIdentifier.setSystemName("C3PR");
 			 studySubjectIdentifier.setType("C3PR");
