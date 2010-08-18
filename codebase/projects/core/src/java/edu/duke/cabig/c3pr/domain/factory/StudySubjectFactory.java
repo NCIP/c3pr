@@ -321,9 +321,9 @@ public class StudySubjectFactory {
 
     private void fillStudySubjectDetails(StudySubject studySubject, StudySubject source){
     	
-    	for (int i=0;i<source.getStudySubjectConsentVersions().size();i++){
+    	for (int i=0;i<source.getStudySubjectStudyVersion().getStudySubjectConsentVersions().size();i++){
     		studySubject.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(i).
-    		setInformedConsentSignedDate(source.getStudySubjectConsentVersions().get(i).getInformedConsentSignedDate());
+    		setInformedConsentSignedDate(source.getStudySubjectStudyVersion().getStudySubjectConsentVersions().get(i).getInformedConsentSignedDate());
     	}
         studySubject.setStartDate(source.getStartDate());
         studySubject.setPaymentMethod(source.getPaymentMethod());
