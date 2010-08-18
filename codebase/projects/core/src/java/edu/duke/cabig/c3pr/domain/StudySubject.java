@@ -228,13 +228,13 @@ public class StudySubject extends
 		return studySubjectStudyVersions;
 	}
 
-	public void addStudySubjectStudyVersion(StudySubjectStudyVersion studySubjectStudyVersion){
+	private void addStudySubjectStudyVersion(StudySubjectStudyVersion studySubjectStudyVersion){
 		studySubjectStudyVersion.setStudySubject(this);
 		getStudySubjectStudyVersions().add(studySubjectStudyVersion);
 	}
 
 	@Transient
-	public StudySubjectStudyVersion getLatestStudySubjectVersion(){
+	private StudySubjectStudyVersion getLatestStudySubjectVersion(){
         if( getStudySubjectStudyVersions().size() == 0){
         	StudySubjectStudyVersion studySubjectStudyVersion= new StudySubjectStudyVersion();
         	addStudySubjectStudyVersion(studySubjectStudyVersion);
@@ -246,18 +246,36 @@ public class StudySubject extends
 			return sortedSubejctStudyVersions.get(sortedSubejctStudyVersions.size() - 1 );
 		}
 	}
+	
+	
+	@Transient
+	public StudySubjectStudyVersion getFirstStudySubjectVersion(){
+        if( getStudySubjectStudyVersions().size() == 0){
+        	StudySubjectStudyVersion studySubjectStudyVersion= new StudySubjectStudyVersion();
+        	addStudySubjectStudyVersion(studySubjectStudyVersion);
+			return studySubjectStudyVersion;
+        }else{
+        	List<StudySubjectStudyVersion> sortedSubejctStudyVersions = new ArrayList<StudySubjectStudyVersion>();
+            sortedSubejctStudyVersions.addAll(this.getStudySubjectStudyVersions());
+            Collections.sort(sortedSubejctStudyVersions);
+			return sortedSubejctStudyVersions.get(0);
+		}
+	}
 
+	// The scheduled epochs are always created and attached only to the 1st study subject study version.
+	// The rest of the study subject study versions only capture consents
 	@Transient
 	public StudySubjectStudyVersion getStudySubjectStudyVersion() {
 		if(studySubjectStudyVersion == null){
-			studySubjectStudyVersion = getLatestStudySubjectVersion();
+			studySubjectStudyVersion = getFirstStudySubjectVersion();
 		}
 		return studySubjectStudyVersion;
 	}
 
-	public void setStudySubjectStudyVersion(
+	public void clearAllAndAddStudySubjectStudyVersion(
 			StudySubjectStudyVersion studySubjectStudyVersion) {
-		this.studySubjectStudyVersion = studySubjectStudyVersion;
+		this.studySubjectStudyVersions.clear();
+		this.addStudySubjectStudyVersion(studySubjectStudyVersion);
 	}
 
 	@Transient
@@ -1851,7 +1869,7 @@ public class StudySubject extends
 		studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
 		this.getStudySubjectStudyVersions().remove(this.getStudySubjectStudyVersion());
 		this.addStudySubjectStudyVersion(studySubjectStudyVersion);
-		this.setStudySubjectStudyVersion(studySubjectStudyVersion);
+		this.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 		// adding informed consent question answers
 		 for(int i=0; i<studySubjectStudyVersion.getStudySiteStudyVersion().getStudyVersion().getConsents().size();i++){
 			 studySubjectStudyVersion.getStudySubjectConsentVersions().get(i).
@@ -1951,10 +1969,10 @@ public class StudySubject extends
 		return false;
 	}
 	
-	@Transient
+	/*@Transient
 	public List<StudySubjectConsentVersion> getStudySubjectConsentVersions() {
 		return getStudySubjectStudyVersion().getStudySubjectConsentVersions();
-	}
+	}*/
 
 	public void addStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion) {
 		this.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
@@ -2273,8 +2291,11 @@ public class StudySubject extends
 				
 				newStudySubjectConsentVersion.setInformedConsentSignedDate(studySubjectConsentVersionHolder.getInformedConsentSignedDate());
 				
-				// add study subject consent version to the current study subject study version of the study subject
+				// Create new study subject study version and add study subject consent versions to it.
+				StudySubjectStudyVersion studySubjectStudyVersion = new StudySubjectStudyVersion();
+				studySubjectStudyVersion.setStudySiteStudyVersion(this.getStudySite().getStudySiteStudyVersionGivenStudyVersionName(studyVersionName));
 				this.getStudySubjectStudyVersion().addStudySubjectConsentVersion(newStudySubjectConsentVersion);
+				this.addStudySubjectStudyVersion(studySubjectStudyVersion);
 			}
 			// validate mandatory indicator
 			validateMandatoryInformedConsents(reConsentingStudyVersion);
