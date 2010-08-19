@@ -65,7 +65,7 @@
 				<label>Zip</label>
 				<data-type>String</data-type>
 			</search-criteria>
-			<associations>
+			<association-context>
 				<name>participantAddressCriteria</name>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.Address</name>
@@ -74,7 +74,7 @@
 					<joining-condition>Participant_xx.addressInternal = Address_xx
 					</joining-condition>
 				</association>
-			</associations>
+			</association-context>
 		</dependent-object>
 		<!-- Adding identifier , because user can search participant by identifier 
 			value parameters -->
@@ -87,7 +87,7 @@
 				<label>Identifier</label>
 				<data-type>String</data-type>
 			</search-criteria>
-			<associations>
+			<association-context>
 				<name>participantIdentifierCriteria</name>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.Identifier</name>
@@ -97,7 +97,7 @@
 					<joining-condition>Identifier_xx = any
 						elements(Participant_xx.identifiers)</joining-condition>
 				</association>
-			</associations>
+			</association-context>
 		</dependent-object>
 	</target-object>
 </queryBuilder>

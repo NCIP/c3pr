@@ -1430,7 +1430,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
   
  
  		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
- 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudySubject", "paymentMethod", values, "like");
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudySubject", "paymentMethod", values, "=");
  
  		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
  		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -1455,12 +1455,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
      
     //test case for search by registration identifier 
  	public void testGetResultSetWithHQLForIdentifierValue() throws Exception {
- 		List<String> values = new ArrayList<String>();
-       	values.add("nci1%");
- 
  		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
- 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationIdentifierCriteria",
- 						"value", values, "like");
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "StudySubject","value", "nci1%", "like");
  
  		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
  		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -1470,12 +1466,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
  	}
  	
  	public void testGetResultSetWithHQLForIdentifierValueNegative() throws Exception {
- 		List<String> values = new ArrayList<String>();
-       	values.add("nci5");
- 
  		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
- 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationIdentifierCriteria",
- 						"value", values, "=");
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier","StudySubject" ,"value", "nci5", "=");
  
  		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
  		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -1485,12 +1477,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
  	}
 	
 	public void testGetResultSetWithHQLForIdentifierType() throws Exception {
-		List<String> values = new ArrayList<String>();
-       	values.add("local");
- 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationIdentifierCriteria",
-						"typeInternal", values, "like");
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier","StudySubject" ,"typeInternal", "local", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -1501,12 +1489,9 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	
 	//test case for search by participant identifier 
  	public void testGetResultSetWithHQLForParticipantIdentifierValue() throws Exception {
- 		List<String> values = new ArrayList<String>();
-       	values.add("mrn%");
- 
  		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
- 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationParticipantIdentifierCriteria",
- 						"value", values, "like");
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "Subject",
+ 						"value", "mrn%", "like");
  
  		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
  		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -1515,12 +1500,38 @@ public class StudySubjectDaoTest extends DaoTestCase {
  		assertEquals("1 registration not found", 1,  registrations.size());
  	}
 	
+ 	//test case for search by participant race code 
+ 	public void testGetResultSetWithHQLForParticipantSingleRaceCode() throws Exception {
+ 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudySubjectDemographics", "raceCode", "White", "like");
+ 
+ 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+ 		criteriaParameters.add(advancedSearchCriteriaParameter1);
+ 		
+ 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+ 		assertEquals("2 registration not found", 2,  registrations.size());
+ 	}
+ 	
+ 	public void testGetResultSetWithHQLForParticipantMultipleRaceCode() throws Exception {
+	List<String> values = new ArrayList<String>();
+   	values.add("White");
+   	values.add("Native_Hawaiian_or_Pacific_Islander");
+ 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudySubjectDemographics", "raceCode", values, "in");
+ 
+ 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+ 		criteriaParameters.add(advancedSearchCriteriaParameter1);
+ 		
+ 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+ 		assertEquals("5 registration not found", 5,  registrations.size());
+ 	}
+ 	
 	public void testGetResultSetWithHQLForParticipantIdentifierType() throws Exception {
 		List<String> values = new ArrayList<String>();
        	values.add("mrn");
  
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationParticipantIdentifierCriteria",
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "Subject",
 						"typeInternal", values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1537,14 +1548,14 @@ public class StudySubjectDaoTest extends DaoTestCase {
        	values.add("CTEP");
  
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationStudyIdentifierCriteria",
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "Study",
 						"typeInternal", values, "like");
 		
 		List<String> values2 = new ArrayList<String>();
        	values2.add("nci2");
  
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter2 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationStudyIdentifierCriteria",
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "Study",
 						"value", values2, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1560,14 +1571,14 @@ public class StudySubjectDaoTest extends DaoTestCase {
        	values.add("COORDINATING_CENTER_IDENTIFIER");
  
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationStudyIdentifierCriteria",
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "Study",
 						"typeInternal", values, "like");
 		
 		List<String> values2 = new ArrayList<String>();
        	values2.add("himanshu");
  
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter2 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "registrationStudyIdentifierCriteria",
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Identifier", "Study",
 						"value", values2, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1669,7 +1680,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
        	values.add("x1");
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Investigator","registrationTreatingPhysicianCriteria" ,"assignedIdentifier", values, "=");
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Investigator","assignedIdentifier", values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -1684,7 +1695,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Investigator", "registrationTreatingPhysicianCriteria", "firstName", values, "like");
+						"edu.duke.cabig.c3pr.domain.Investigator",  "firstName", values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
@@ -1700,7 +1711,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectDemographics", "registrationParticipantCriteria", "firstName",
+						"edu.duke.cabig.c3pr.domain.StudySubjectDemographics", "firstName",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1717,7 +1728,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Address", "registrationParticipantAddressCriteria", "postalCode",
+						"edu.duke.cabig.c3pr.domain.Address", "postalCode",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1734,7 +1745,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ICD9DiseaseSite", "registrationICD9DiseaseSiteCriteria", "code",
+						"edu.duke.cabig.c3pr.domain.ICD9DiseaseSite",  "code",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1751,7 +1762,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.DiseaseTerm", "registrationDiseaseTermCriteria", "term",
+						"edu.duke.cabig.c3pr.domain.DiseaseTerm",  "term",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1768,7 +1779,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.DiseaseCategory", "registrationDiseaseCategoryCriteria", "name",
+						"edu.duke.cabig.c3pr.domain.DiseaseCategory",  "name",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1784,7 +1795,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "consentDeliveryDate",
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion",  "consentDeliveryDate",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1799,7 +1810,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
        	values.add("Himanshu");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "consentPresenter",
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion",  "consentPresenter",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1814,7 +1825,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
        	values.add("11/10/2010");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "informedConsentSignedTimestamp",
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion",  "informedConsentSignedTimestamp",
 						values, ">");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1830,7 +1841,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion", "registrationConsentCriteria", "consentingMethod.code",
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion",  "consentingMethod.code",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1846,7 +1857,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "registrationScheduledEpochCriteria", "eligibilityIndicator",
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch",  "eligibilityIndicator",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1862,7 +1873,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "registrationScheduledEpochCriteria", "scEpochDataEntryStatus.code",
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch",  "scEpochDataEntryStatus.code",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1878,7 +1889,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "registrationScheduledEpochCriteria", "scEpochWorkflowStatus.code",
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch",  "scEpochWorkflowStatus.code",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1894,7 +1905,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Reason", "registrationOffEpochReasonCriteria", "code",
+						"edu.duke.cabig.c3pr.domain.Reason",  "code",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1910,7 +1921,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Epoch", "registrationEpochCriteria", "type.code",
+						"edu.duke.cabig.c3pr.domain.Epoch",  "type.code",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1926,7 +1937,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Epoch", "registrationEpochCriteria", "name",
+						"edu.duke.cabig.c3pr.domain.Epoch",  "name",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1942,7 +1953,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudyVersion", "registrationStudyVersionCriteria", "shortTitleText",
+						"edu.duke.cabig.c3pr.domain.StudyVersion",  "shortTitleText",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1958,7 +1969,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
        	AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Study", "registrationStudyCriteria", "therapeuticIntentIndicator",
+						"edu.duke.cabig.c3pr.domain.Study",  "therapeuticIntentIndicator",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1974,7 +1985,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Study", "registrationStudyCriteria", "phaseCode",
+						"edu.duke.cabig.c3pr.domain.Study",  "phaseCode",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -1990,7 +2001,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Study", "registrationStudyCriteria", "type",
+						"edu.duke.cabig.c3pr.domain.Study",  "type",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -2006,7 +2017,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "firstName",
+						"edu.duke.cabig.c3pr.domain.ResearchStaff",  "firstName",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -2022,7 +2033,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "lastName",
+						"edu.duke.cabig.c3pr.domain.ResearchStaff",  "lastName",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -2038,7 +2049,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ResearchStaff", "registrationStudyPersonnelCriteria", "assignedIdentifier",
+						"edu.duke.cabig.c3pr.domain.ResearchStaff",  "assignedIdentifier",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();

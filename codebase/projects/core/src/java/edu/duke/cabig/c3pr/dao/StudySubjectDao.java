@@ -752,6 +752,16 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
     }
 	
 	public List<StudySubject> search(List<AdvancedSearchCriteriaParameter> searchParameters){
+		String hql = generateHQL(searchParameters);
+		return search(hql);
+	}
+	
+	public List<StudySubject> search(List<AdvancedSearchCriteriaParameter> searchParameters, String fileLocation){
+		String hql = generateHQL(searchParameters, fileLocation);
+		return search(hql);
+	}
+	
+	public String generateHQL(List<AdvancedSearchCriteriaParameter> searchParameters){
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("registration-advanced-search.xml");
 		Unmarshaller unmarshaller;
 		QueryBuilder queryBuilder = new QueryBuilder();
@@ -763,17 +773,15 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 		}
 
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
-		List<StudySubject> registrations = new ArrayList<StudySubject>();
 		try {
-			String hql = QueryGenerator.generateHQL(targetObject, searchParameters, true);
-			registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+			return QueryGenerator.generateHQL(targetObject, searchParameters, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return registrations;
+		return "";
 	}
 	
-	public List<StudySubject> search(List<AdvancedSearchCriteriaParameter> searchParameters, String fileLocation){
+	public String generateHQL(List<AdvancedSearchCriteriaParameter> searchParameters, String fileLocation){
 		File file = new File(fileLocation);
 		InputStream inputStream ;
 		QueryBuilder queryBuilder = new QueryBuilder();
@@ -787,14 +795,16 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 			e1.printStackTrace();
 		}
 		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
-		List<StudySubject> registrations = new ArrayList<StudySubject>();
 		try {
-			String hql = QueryGenerator.generateHQL(targetObject, searchParameters, true);
-			registrations = (List<StudySubject>)queryBuilderDao.search(hql);
+			return QueryGenerator.generateHQL(targetObject, searchParameters, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return registrations;
+		return "";
+	}
+	
+	public List<StudySubject> search(String hql){
+		return (List<StudySubject>)queryBuilderDao.search(hql);
 	}
 
 	public void setQueryBuilderDao(QueryBuilderDao queryBuilderDao) {
