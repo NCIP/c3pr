@@ -591,7 +591,7 @@
 				</association>
 			</association-context>
 		</dependent-object><!--Search by identifier, identifier can belong to study subject record, 
- subject, study, healthcare site --><dependent-object>
+ subject, study, Organization --><dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.Identifier</class-name>
 			<display-name>Identifier</display-name>
 			<table-alias>Identifier_xx</table-alias>
@@ -617,7 +617,7 @@
 					<role-name>identifiers</role-name>
 					<table-name>identifiers</table-name>
 					<table-alias>Identifier_xx</table-alias>
-					<joining-condition>Identifier_xx = any
+					<joining-condition>Identifier_xxStudySubject = any
 						elements(StudySubject_xx.identifiers)</joining-condition>
 				</association>
 			</association-context>
@@ -627,7 +627,7 @@
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
 					<role-name>studySubjectStudyVersions</role-name>
 					<table-alias>StudySubjectStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xx = any
+					<joining-condition>StudySubjectStudyVersion_xxStudy = any
 						elements(StudySubject_xx.studySubjectStudyVersions)
 					</joining-condition>
 				</association>
@@ -635,21 +635,21 @@
 					<name>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</name>
 					<role-name>studySiteStudyVersion</role-name>
 					<table-alias>StudySiteStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xx.studySiteStudyVersion
-						= StudySiteStudyVersion_xx</joining-condition>
+					<joining-condition>StudySubjectStudyVersion_xxStudy.studySiteStudyVersion
+						= StudySiteStudyVersion_xxStudy</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudyVersion</name>
 					<role-name>studyVersion</role-name>
 					<table-alias>StudyVersion_xx</table-alias>
-					<joining-condition>StudySiteStudyVersion_xx.studyVersion =
-						StudyVersion_xx</joining-condition>
+					<joining-condition>StudySiteStudyVersion_xxStudy.studyVersion =
+						StudyVersion_xxStudy</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.Study</name>
 					<role-name>study</role-name>
 					<table-alias>Study_xx</table-alias>
-					<joining-condition>StudyVersion_xx.study = Study_xx
+					<joining-condition>StudyVersion_xxStudy.study = Study_xxStudy
 					</joining-condition>
 				</association>
 				<association>
@@ -657,8 +657,8 @@
 					<role-name>identifiers</role-name>
 					<table-name>identifiers</table-name>
 					<table-alias>Identifier_xx</table-alias>
-					<joining-condition>Identifier_xx = any
-						elements(Study_xx.identifiers)</joining-condition>
+					<joining-condition>Identifier_xxStudy = any
+						elements(Study_xxStudy.identifiers)</joining-condition>
 				</association>
 			</association-context>
 			<association-context>
@@ -668,15 +668,15 @@
 					<role-name>studySubjectDemographics</role-name>
 					<table-alias>StudySubjectDemographics_xx</table-alias>
 					<joining-condition>StudySubject_xx.studySubjectDemographics =
-						StudySubjectDemographics_xx</joining-condition>
+						StudySubjectDemographics_xxSubject</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.Identifier</name>
 					<role-name>identifiers</role-name>
 					<table-name>identifiers</table-name>
 					<table-alias>Identifier_xx</table-alias>
-					<joining-condition>Identifier_xx = any
-						elements(StudySubjectDemographics_xx.identifiers)
+					<joining-condition>Identifier_xxSubject = any
+						elements(StudySubjectDemographics_xxSubject.identifiers)
 					</joining-condition>
 				</association>
 			</association-context>
@@ -686,7 +686,7 @@
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
 					<role-name>studySubjectStudyVersions</role-name>
 					<table-alias>StudySubjectStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xx = any
+					<joining-condition>StudySubjectStudyVersion_xxOrganization = any
 						elements(StudySubject_xx.studySubjectStudyVersions)
 					</joining-condition>
 				</association>
@@ -694,21 +694,21 @@
 					<name>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</name>
 					<role-name>studySiteStudyVersion</role-name>
 					<table-alias>StudySiteStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xx.studySiteStudyVersion
-						= StudySiteStudyVersion_xx</joining-condition>
+					<joining-condition>StudySubjectStudyVersion_xxOrganization.studySiteStudyVersion
+						= StudySiteStudyVersion_xxOrganization</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudySite</name>
 					<role-name>studySite</role-name>
 					<table-alias>StudySite_xx</table-alias>
-					<joining-condition>StudySiteStudyVersion_xx.studySite =
-						StudySite_xx</joining-condition>
+					<joining-condition>StudySiteStudyVersion_xxOrganization.studySite =
+						StudySite_xxOrganization</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.HealthcareSite</name>
 					<role-name>healthcareSite</role-name>
 					<table-alias>HealthcareSite_xx</table-alias>
-					<joining-condition>StudySite_xx.healthcareSite = HealthcareSite_xx
+					<joining-condition>StudySite_xxOrganization.healthcareSite = HealthcareSite_xxOrganization
 					</joining-condition>
 				</association>
 				<association>
@@ -716,8 +716,8 @@
 					<role-name>identifiers</role-name>
 					<table-name>identifiers</table-name>
 					<table-alias>Identifier_xx</table-alias>
-					<joining-condition>Identifier_xx = any
-						elements(HealthcareSite_xx.identifiers)</joining-condition>
+					<joining-condition>Identifier_xxOrganization = any
+						elements(HealthcareSite_xxOrganization.identifiers)</joining-condition>
 				</association>
 			</association-context>
 		</dependent-object>
