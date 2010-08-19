@@ -686,7 +686,7 @@ function groupRegistrarSpecificRoles(id){
 						</td></tr><tr><td>						
 					</c:if>
 					<div class="newLabel"> 
-						<input type="checkbox" id="hcs-PAGE.ROW.INDEX-role-${role.name}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
+						<input type="checkbox" id="hcs-PAGE.ROW.INDEX-role-${role.name}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  onclick="manageRoleGrouping('${role.name}', PAGE.ROW.INDEX, this);"/>
 					</div>
 					<div class="newValue">
 						${role.displayName}
