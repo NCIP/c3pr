@@ -279,11 +279,8 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
                     //The org related to the remoteInv does not exist...load it from COPPA and save it; then link it to the remoteInv
                     if(healthcareSite == null && healthcareSiteByExternalId == null){
                     	try {
-							healthcareSiteDao.createGroupForOrganization(healthcareSiteInvestigator.getHealthcareSite());
 							healthcareSiteDao.save(healthcareSiteInvestigator.getHealthcareSite());
 						} catch (C3PRBaseRuntimeException e) {
-							log.error(e.getMessage());
-						} catch (C3PRBaseException e) {
 							log.error(e.getMessage());
 						}
                     } else {

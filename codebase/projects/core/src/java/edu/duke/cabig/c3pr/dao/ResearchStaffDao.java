@@ -354,11 +354,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 					if (matchingHealthcareSiteFromDb == null) {
 						log.error("No Organization exists for the CTEP Code:" + hcs.getPrimaryIdentifier());
 						try {
-							healthcareSiteDao.createGroupForOrganization(hcs);
 							healthcareSiteDao.save(hcs);
 						} catch (C3PRBaseRuntimeException e) {
-							log.error(e.getMessage());
-						} catch (C3PRBaseException e) {
 							log.error(e.getMessage());
 						}
 					} else {

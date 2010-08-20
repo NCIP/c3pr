@@ -33,6 +33,8 @@ import gov.nih.nci.security.authorization.domainobjects.Application;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
+import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
+import gov.nih.nci.security.dao.SearchCriteria;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 
@@ -396,7 +398,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 							log.warn("Healthcare site with NCI: " + remoteHealthcareSiteTemp.getNCICode() + " already exists in database");
 						} else {
 							// this site doesn't exist
-							createGroupForOrganization(remoteHealthcareSiteTemp);
+//							createGroupForOrganization(remoteHealthcareSiteTemp);
 							getHibernateTemplate().save(remoteHealthcareSiteTemp);
 						}
 					} else {
@@ -413,8 +415,6 @@ public class HealthcareSiteDao extends OrganizationDao {
 			e.printStackTrace();
 		} catch (C3PRBaseRuntimeException e) {
 			e.printStackTrace();
-		} catch (C3PRBaseException e) {
-			e.printStackTrace();
 		} 
 	}
 
@@ -429,54 +429,6 @@ public class HealthcareSiteDao extends OrganizationDao {
 		}
 		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
 					.find("from RemoteHealthcareSite h where h.externalId = ?", externalId));
-	}
-
-	/**
-	 * Creates the group for organization.
-	 * 
-	 * @param organization the organization
-	 * 
-	 * @return the group
-	 * 
-	 * @throws C3PRBaseException the c3 pr base exception
-	 * @throws C3PRBaseRuntimeException the c3 pr base runtime exception
-	 */
-	public Group createGroupForOrganization(HealthcareSite organization)
-			throws C3PRBaseException, C3PRBaseRuntimeException {
-		Group org = new Group();
-		try {
-			String siteId = siteObjectIdGenerator.generateId(organization);
-			Application app = userProvisioningManager
-					.getApplication(csmApplicationContextName);
-
-			ProtectionGroup pg = new ProtectionGroup();
-			pg.setApplication(app);
-			pg.setProtectionGroupName(siteId);
-			log.debug("Creating protection group for new organization:"+ siteId);
-			userProvisioningManager.createProtectionGroup(pg);
-
-			log.debug("Creating Protection Element for new organization:"+ siteId);
-			ProtectionElement pe = new ProtectionElement();
-			pe.setApplication(app);
-			pe.setObjectId(siteId);
-			pe.setProtectionElementName(siteId);
-			pe.setProtectionElementDescription("Site Protection Element");
-			Set<ProtectionGroup> pgs = new HashSet<ProtectionGroup>();
-			pgs.add(pg);
-			pe.setProtectionGroups(pgs);
-			userProvisioningManager.createProtectionElement(pe);
-		} catch (CSObjectNotFoundException e) {
-			log.error("###Error getting info for" + csmApplicationContextName
-							+ " application from CSM. Application configuration exception###");
-			throw new C3PRBaseRuntimeException(
-					"Application configuration problem. Cannot find application '"
-							+ csmApplicationContextName + "' in CSM", e);
-		} catch (CSTransactionException e) {
-			log.warn("Could not create group for organization:"
-					+ organization.getPrimaryIdentifier());
-			throw new C3PRBaseException("Cannot create group for organization.", e);
-		}
-		return org;
 	}
 	
     /**
