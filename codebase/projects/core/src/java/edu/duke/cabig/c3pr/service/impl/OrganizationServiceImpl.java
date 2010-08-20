@@ -39,10 +39,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
     
     public void save(HealthcareSite site) throws C3PRBaseException, C3PRBaseRuntimeException {
-    	healthcareSiteDao.createGroupForOrganization(site);
-        healthcareSiteDao.save(site);
+    	Organization existingOrg = healthcareSiteDao.getByPrimaryIdentifierFromLocal(site.getPrimaryIdentifier());
+		if(existingOrg != null){
+			throw new C3PRBaseException("Duplicate Primary identifier detected.");
+		}
+    	healthcareSiteDao.save(site);
     }
-
 
     public String getSiteAccessRoleId() {
         return siteAccessRoleId;
