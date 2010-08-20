@@ -129,7 +129,16 @@ public class CreateOrganizationController extends SimpleFormController {
 	protected void onBindAndValidate(HttpServletRequest request,
 			Object command, BindException errors) throws Exception {
 		super.onBindAndValidate(request, command, errors);
+		
 		HealthcareSite healthcareSite = (HealthcareSite) command;
+		if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
+			Organization existingOrg = healthcareSiteDao.getByPrimaryIdentifierFromLocal(healthcareSite.getPrimaryIdentifier());
+			if(existingOrg != null){
+				errors.reject("duplicate.organizationname.error");
+				return;
+			}
+		}
+		
 		if ((!StringUtils.isBlank(request.getParameter("_action")) && !request.getParameter("_action").equals("saveRemoteOrg"))
 				|| (request.getParameter("_action").equals("syncOrganization") && request
 						.getSession().getAttribute(FLOW).equals(EDIT_FLOW))) {
