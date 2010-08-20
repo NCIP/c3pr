@@ -387,26 +387,26 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 			for (RemoteResearchStaff remoteResearchStaff : remoteResearchStaffList) {
 				List<ResearchStaff> researchStaffFromDatabase = getByExternalIdentifierFromLocal(remoteResearchStaff
 						.getExternalId());
+				ResearchStaff preExistingStaff = null;
 				if (researchStaffFromDatabase.size() > 0) {
-					// this guy already exists as remote staff...and should be up to date.
-					updateContactMechanisms(researchStaffFromDatabase.get(0), remoteResearchStaff);
+					// this guy already exists as remote staff...simply update the collections . i.e contact mech and orgs.
+					preExistingStaff = researchStaffFromDatabase.get(0);
+					updateContactMechanisms(preExistingStaff, remoteResearchStaff);
+					for(HealthcareSite healthcareSite: remoteResearchStaff.getHealthcareSites()){
+						if(!preExistingStaff.getHealthcareSites().contains(healthcareSite)){
+							preExistingStaff.addHealthcareSite(healthcareSite);
+						}
+					}
+					save(preExistingStaff);
 				} else {
 					// Ensure the staff has an organization and that its assignedId is unique.
 					if (remoteResearchStaff.getHealthcareSites().size() > 0) {
 						ResearchStaff researchStaffWithMatchingAssignedIdentifier = 
 								getByAssignedIdentifierFromLocal(remoteResearchStaff.getAssignedIdentifier());
 						if (researchStaffWithMatchingAssignedIdentifier == null) {
-							//First set up the login id for this new user before saving
-							if(userProvisioningManager.getUser(remoteResearchStaff.getEmail()) != null){
-								//this email is already being used as login so use the externalId
-								remoteResearchStaff.setLoginId(remoteResearchStaff.getExternalId());
-							} else {
-								//this email is not being used as login so use it as the loginId
-								remoteResearchStaff.setLoginId(remoteResearchStaff.getEmail());
-							}
 							createResearchStaff(remoteResearchStaff);
 						} else {
-							log.error("Unable to save Remote Staff: "	+ remoteResearchStaff.getFullName()
+							log.error("Unable to save Remote Staff : "	+ remoteResearchStaff.getFullName()
 									+ " as it's NCI Identifier: "+ remoteResearchStaff.getAssignedIdentifier() + " is already in the database.");
 						}
 					} else {
