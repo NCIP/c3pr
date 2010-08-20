@@ -67,7 +67,7 @@
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="informedConsents" type="edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion"
-               collection="collection" get-method="getStudySubjectConsentVersions" set-method="addStudySubjectConsentVersion">
+               collection="collection" get-method="getAllConsents" set-method="addOriginalStudySubjectConsentVersion">
             <bind-xml node="element"
                       name="informedConsent"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
