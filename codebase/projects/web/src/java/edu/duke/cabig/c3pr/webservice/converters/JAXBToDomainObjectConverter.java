@@ -1,13 +1,9 @@
 package edu.duke.cabig.c3pr.webservice.converters;
 
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.exception.ConversionException;
-import edu.duke.cabig.c3pr.webservice.iso21090.CD;
-import edu.duke.cabig.c3pr.webservice.iso21090.II;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Organization;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 
 /**

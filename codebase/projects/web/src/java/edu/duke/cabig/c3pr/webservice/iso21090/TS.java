@@ -38,8 +38,21 @@ public class TS
 
     @XmlAttribute
     protected String value;
+    
+    public TS() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    
 
-    /**
+    public TS(String value) {
+		super();
+		this.value = value;
+	}
+
+
+
+	/**
      * Gets the value of the value property.
      * 
      * @return

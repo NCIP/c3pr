@@ -39,6 +39,14 @@ import javax.xml.bind.annotation.XmlType;
 public class Organization {
 
     protected List<OrganizationIdentifier> organizationIdentifier;
+    
+    public Organization() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    public Organization(OrganizationIdentifier id) {    	
+    	getOrganizationIdentifier().add(id);
+	}
 
     /**
      * Gets the value of the organizationIdentifier property.

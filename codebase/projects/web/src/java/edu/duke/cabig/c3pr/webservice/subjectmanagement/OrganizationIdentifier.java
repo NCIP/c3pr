@@ -47,8 +47,24 @@ public class OrganizationIdentifier {
     protected BL primaryIndicator;
     @XmlElement(required = true)
     protected CD typeCode;
+    
+    public OrganizationIdentifier() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    
 
-    /**
+    public OrganizationIdentifier(II identifier, BL primaryIndicator,
+			CD typeCode) {
+		super();
+		this.identifier = identifier;
+		this.primaryIndicator = primaryIndicator;
+		this.typeCode = typeCode;
+	}
+
+
+
+	/**
      * Gets the value of the identifier property.
      * 
      * @return

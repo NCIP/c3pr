@@ -37,5 +37,15 @@ public class TSDateTime
     extends TS
 {
 
+	public TSDateTime() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public TSDateTime(String value) {
+		super(value);
+		// TODO Auto-generated constructor stub
+	}
+
 
 }
