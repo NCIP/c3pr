@@ -144,6 +144,7 @@
                <value>edu.duke.cabig.c3pr.domain.OffReservingReason</value>
                <value>edu.duke.cabig.c3pr.domain.OffFollowupReason</value>
                <value>edu.duke.cabig.c3pr.domain.OffEpochReason</value>
+               <value>edu.duke.cabig.c3pr.domain.RaceCode</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -298,6 +299,7 @@
                <value>edu.duke.cabig.c3pr.domain.OffReservingReason</value>
                <value>edu.duke.cabig.c3pr.domain.OffFollowupReason</value>
                <value>edu.duke.cabig.c3pr.domain.OffEpochReason</value>
+               <value>edu.duke.cabig.c3pr.domain.RaceCode</value>
             </list>
         </property>
     </bean>
@@ -444,6 +446,7 @@
 				   	<value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
 				   	<value>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</value>
    				   <value>edu.duke.cabig.c3pr.domain.RolePrivilege</value>
+   				   <value>edu.duke.cabig.c3pr.domain.RaceCode</value>
               </list>
         </property>
         <!--  <property name="auditAll">
