@@ -28,10 +28,10 @@ import org.jdom.output.XMLOutputter;
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import com.semanticbits.querybuilder.AdvancedSearchHelper;
 import com.semanticbits.querybuilder.QueryBuilderDao;
-import com.semanticbits.querybuilder.QueryGenerator;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
@@ -160,7 +160,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             outputStream.println("--- Retrieving the participant ---");
             outputStream.println("Name: " + participant.getFullName());
             outputStream.println("Gender: " + participant.getAdministrativeGenderCode());
-            outputStream.println("Race: " + participant.getRaceCode());
+            outputStream.println("Race: " + participant.getRaceCodes());
             outputStream.println("Address: " + participant.getAddress().getStreetAddress() + " "
                             + participant.getAddress().getCity() + " "
                             + participant.getAddress().getStateCode() + " "
@@ -1139,7 +1139,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         study.setShortTitleText(" ");
 
     	Participant participant = new Participant();
-    	participant.setRaceCode("White");
+    	participant.addRaceCode(RaceCode.White);
     	participant.setBirthDate(simpleDateFormat.parse("01/01/2000"));
 		id = new SystemAssignedIdentifier();
 	    id.setValue(null);

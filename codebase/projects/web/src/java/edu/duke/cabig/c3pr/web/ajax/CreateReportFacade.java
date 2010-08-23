@@ -21,6 +21,7 @@ import org.extremecomponents.table.core.TableConstants;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
@@ -173,7 +174,7 @@ public class CreateReportFacade {
         study.addStudySite(studySite);
 
         Participant participant = new Participant();
-        participant.setRaceCode(raceCode);
+        participant.addRaceCode(RaceCode.valueOf(raceCode));
 
         Date regStartDate = null;
         Date regEndDate = null;

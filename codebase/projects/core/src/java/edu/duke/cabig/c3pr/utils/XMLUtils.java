@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.utils;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
@@ -18,13 +17,11 @@ import org.apache.log4j.Logger;
 import org.apache.xerces.parsers.DOMParser;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
 import org.jdom.input.SAXBuilder;
-import org.jdom.output.DOMOutputter;
 import org.jdom.output.XMLOutputter;
 import org.xml.sax.InputSource;
 
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -88,8 +85,12 @@ public class XMLUtils {
         participant.addContent(new Element("lastName", "p1", ns).setText(StringUtils
                         .getBlankIfNull(stPart.getLastName())));
         participant.addContent(new Element("maritalStatusCode", "p1", ns).setText(""));
-        participant.addContent(new Element("raceCode", "p1", ns).setText(StringUtils
-                        .getBlankIfNull(stPart.getRaceCode())));
+        
+        for(RaceCode raceCode : stPart.getRaceCodes()){
+        	 participant.addContent(new Element("raceCode", "p1", ns).setText(StringUtils
+                     .getBlankIfNull(raceCode.getCode())));
+        }
+        
         List<SystemAssignedIdentifier> identifiers = stPart.getSystemAssignedIdentifiers();
         if (identifiers.size() == 0) {
             if (logger.isDebugEnabled()) {

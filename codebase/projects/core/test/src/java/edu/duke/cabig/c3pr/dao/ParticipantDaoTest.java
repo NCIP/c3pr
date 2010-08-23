@@ -199,7 +199,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         participant.setLastName("Lewis");
         participant.setFirstName("Carrol");
         participant.setAdministrativeGenderCode("Male");
-        participant.setRaceCode("Unknown");
+        participant.addRaceCode(RaceCode.Unknown);
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
         participant.getAddress().setCity("Charlotte");
@@ -233,7 +233,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         participant.setLastName("Ben");
         participant.setFirstName("Afflek");
         participant.setAdministrativeGenderCode("Male");
-        participant.setRaceCode("Unknown");
+        participant.addRaceCode(RaceCode.Unknown);
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
         SystemAssignedIdentifier systemIdentifier = new SystemAssignedIdentifier();
@@ -257,7 +257,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         participant.setLastName("Barry");
         participant.setFirstName("Bonds");
         participant.setAdministrativeGenderCode("Male");
-        participant.setRaceCode("Unknown");
+        participant.addRaceCode(RaceCode.Unknown);
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
         OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
@@ -316,7 +316,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 	    Participant participant = new Participant();
 	    participant.setLastName("Barry");
 	    participant.setFirstName("Bonds");
-	    participant.setRaceCode("Asian");
+	    participant.addRaceCode(RaceCode.Asian);
 	    participant.setAdministrativeGenderCode("Male");
 	    Date birthDate = new Date();
 	    participant.setBirthDate(birthDate);
@@ -497,7 +497,8 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	studySubjectDemographics.setMaidenName("Gerber");
     	studySubjectDemographics.setEthnicGroupCode("Non Hispanic");
     	studySubjectDemographics.setAdministrativeGenderCode("Not Reported");
-    	studySubjectDemographics.setRaceCode(RaceCode.Not_Reported + ":" + RaceCode.Unknown);
+    	studySubjectDemographics.addRaceCode(RaceCode.Not_Reported);
+    	studySubjectDemographics.addRaceCode(RaceCode.Unknown);
     	Date date = new Date("03/11/1890");
     	studySubjectDemographics.setBirthDate(date);
     	Address address = new Address();
@@ -515,6 +516,10 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	
     	participant.synchronizeWithStudySubjectDemographics(studySubjectDemographics);
     	
+    	List<RaceCode> raceCodes = new ArrayList<RaceCode>();
+    	raceCodes.add(RaceCode.Not_Reported);
+    	raceCodes.add(RaceCode.Unknown);
+    	
     	assertEquals("Wrong first name","John",participant.getFirstName());
     	assertEquals("Wrong last name","Doe",participant.getLastName());
     	assertEquals("Wrong middle name","JD",participant.getMiddleName());
@@ -522,7 +527,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	assertEquals("Wrong gener","Not Reported",participant.getAdministrativeGenderCode());
     	assertEquals("Wrong birth date","03/11/1890",participant.getBirthDateStr());
     	assertEquals("Wrong ethnicity","Non Hispanic",participant.getEthnicGroupCode());
-    	assertEquals("Wrong race code","Not_Reported : Unknown",participant.getRaceCode());
+    	assertEquals("Wrong race code",raceCodes,participant.getRaceCodes());
     	assertEquals("Wrong city code","Allen Town",participant.getAddress().getCity());
     	assertEquals("Wrong country code","USA",participant.getAddress().getCountryCode());
     	assertEquals("Wrong state code","Montana",participant.getAddress().getStateCode());
@@ -540,7 +545,8 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	participant.setMaidenName("Gerber");
     	participant.setEthnicGroupCode("Non Hispanic");
     	participant.setAdministrativeGenderCode("Not Reported");
-    	participant.setRaceCode(RaceCode.Not_Reported + ":" + RaceCode.Unknown);
+    	participant.addRaceCode(RaceCode.Not_Reported);
+    	participant.addRaceCode(RaceCode.Unknown);
     	Date date = new Date("03/11/1890");
     	participant.setBirthDate(date);
     	Address address = new Address();
@@ -554,6 +560,10 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	
     	StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
     	
+    	List<RaceCode> raceCodes = new ArrayList<RaceCode>();
+    	raceCodes.add(RaceCode.Not_Reported);
+    	raceCodes.add(RaceCode.Unknown);
+    	
     	assertEquals("Wrong first name","John",studySubjectDemographics.getFirstName());
     	assertEquals("Wrong last name","Doe",studySubjectDemographics.getLastName());
     	assertEquals("Wrong middle name","JD",studySubjectDemographics.getMiddleName());
@@ -561,7 +571,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	assertEquals("Wrong gener","Not Reported",studySubjectDemographics.getAdministrativeGenderCode());
     	assertEquals("Wrong birth date","03/11/1890",studySubjectDemographics.getBirthDateStr());
     	assertEquals("Wrong ethnicity","Non Hispanic",studySubjectDemographics.getEthnicGroupCode());
-    	assertEquals("Wrong race code","Not_Reported : Unknown",studySubjectDemographics.getRaceCode());
+    	assertEquals("Wrong race code",raceCodes,studySubjectDemographics.getRaceCodes());
     	assertEquals("Wrong city code","Allen Town",studySubjectDemographics.getAddress().getCity());
     	assertEquals("Wrong country code","USA",studySubjectDemographics.getAddress().getCountryCode());
     	assertEquals("Wrong state code","Montana",studySubjectDemographics.getAddress().getStateCode());

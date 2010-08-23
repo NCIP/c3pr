@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -24,8 +23,8 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
@@ -65,7 +64,6 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	/** The ethnic group code. */
 	private String ethnicGroupCode;
 
-	//private String raceCode;
 	/** The healthcare sites. */
 	private List<HealthcareSite> healthcareSites;
 
@@ -297,50 +295,59 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		this.ethnicGroupCode = ethnicGroupCode;
 	}
 
-	/**
-	 * Gets the race code.
-	 * 
-	 * @return the race code
-	 */
-	public String getRaceCode() {
-		String rCode = "" ;
-		for(RaceCode r : raceCodes){
-			if( r != null ){
-				if(rCode != "" ){
-					rCode =  rCode + " : " + r.getName();
-				}else{
-					rCode = rCode + r.getName();
-				}
-			}
-		}
-		return rCode;
-	}
-
-	/**
-	 * Sets the race code.
-	 * 
-	 * @param raceCode the new race code
-	 */
-	public void setRaceCode(String raceCode) {
-		raceCodes = new ArrayList<RaceCode>();
-		if (!StringUtils.isBlank(raceCode)) {
-			StringTokenizer tokenizer = new StringTokenizer(raceCode, " : ");
-			while (tokenizer.hasMoreTokens()) {
-				RaceCode r = (RaceCode) Enum.valueOf(RaceCode.class, tokenizer
-						.nextToken());
-				raceCodes.add(r);
-			};
-		}
-	}
+//	/**
+//	 * Gets the race code.
+//	 * 
+//	 * @return the race code
+//	 */
+//	public String getRaceCode() {
+//		String rCode = "" ;
+//		for(RaceCode r : raceCodes){
+//			if( r != null ){
+//				if(rCode != "" ){
+//					rCode =  rCode + " : " + r.getName();
+//				}else{
+//					rCode = rCode + r.getName();
+//				}
+//			}
+//		}
+//		return rCode;
+//	}
+//
+//	/**
+//	 * Sets the race code.
+//	 * 
+//	 * @param raceCode the new race code
+//	 */
+//	public void setRaceCode(String raceCode) {
+//		raceCodes = new ArrayList<RaceCode>();
+//		if (!StringUtils.isBlank(raceCode)) {
+//			StringTokenizer tokenizer = new StringTokenizer(raceCode, " : ");
+//			while (tokenizer.hasMoreTokens()) {
+//				RaceCode r = (RaceCode) Enum.valueOf(RaceCode.class, tokenizer
+//						.nextToken());
+//				raceCodes.add(r);
+//			};
+//		}
+//	}
 
 	/**
 	 * Gets the race codes.
 	 * 
 	 * @return the race codes
 	 */
-	@Transient
+	  @OneToMany
+	  @JoinTable(name = "race_code_assocn",
+	    joinColumns = {
+	      @JoinColumn(name="sub_id")           
+	    }
+	  )
 	public List<RaceCode> getRaceCodes() {
 		return raceCodes;
+	}
+	  
+	public void addRaceCode(RaceCode raceCode) {
+		getRaceCodes().add(raceCode);
 	}
 
 	/**
@@ -585,7 +592,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		studySubjectDemographics.setMaidenName(this.getMaidenName());
 		studySubjectDemographics.setAdministrativeGenderCode(this.getAdministrativeGenderCode());
 		studySubjectDemographics.setEthnicGroupCode(this.getEthnicGroupCode());
-		studySubjectDemographics.setRaceCode(this.getRaceCode());
+		studySubjectDemographics.setRaceCodes(this.getRaceCodes());
 		studySubjectDemographics.setBirthDate(this.getBirthDate());
 		
 		// copy address
@@ -680,7 +687,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		this.setMaidenName(studySubjectDemographics.getMaidenName());
 		this.setAdministrativeGenderCode(studySubjectDemographics.getAdministrativeGenderCode());
 		this.setEthnicGroupCode(studySubjectDemographics.getEthnicGroupCode());
-		this.setRaceCode(studySubjectDemographics.getRaceCode());
+		this.setRaceCodes(studySubjectDemographics.getRaceCodes());
 		this.setBirthDate(studySubjectDemographics.getBirthDate());
 		
 		// copy address

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -300,7 +301,8 @@ public class DomainObjectCreationHelper {
 		participant.setAdministrativeGenderCode("Male");
 		participant.setBirthDate(new Date());
 		participant.setEthnicGroupCode("Hispanic or Latino");
-		participant.setRaceCode("Asian : Unknown");
+		participant.addRaceCode(RaceCode.Asian);
+		participant.addRaceCode(RaceCode.Unknown);
 		OrganizationAssignedIdentifier organizationAssignedIdentifier= new OrganizationAssignedIdentifier();
 		organizationAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);
 		organizationAssignedIdentifier.setValue("org id value");

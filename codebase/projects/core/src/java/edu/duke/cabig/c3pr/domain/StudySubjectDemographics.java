@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -453,50 +454,59 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 		this.ethnicGroupCode = ethnicGroupCode;
 	}
 
-	/**
-	 * Gets the race code.
-	 * 
-	 * @return the race code
-	 */
-	public String getRaceCode() {
-		String rCode = "" ;
-		for(RaceCode r : raceCodes){
-			if( r != null ){
-				if(rCode != "" ){
-					rCode =  rCode + " : " + r.getName();
-				}else{
-					rCode = rCode + r.getName();
-				}
-			}
-		}
-		return rCode;
-	}
-
-	/**
-	 * Sets the race code.
-	 * 
-	 * @param raceCode the new race code
-	 */
-	public void setRaceCode(String raceCode) {
-		raceCodes = new ArrayList<RaceCode>();
-		if (!StringUtils.isBlank(raceCode)) {
-			StringTokenizer tokenizer = new StringTokenizer(raceCode, " : ");
-			while (tokenizer.hasMoreTokens()) {
-				RaceCode r = (RaceCode) Enum.valueOf(RaceCode.class, tokenizer
-						.nextToken());
-				raceCodes.add(r);
-			};
-		}
-	}
+//	/**
+//	 * Gets the race code.
+//	 * 
+//	 * @return the race code
+//	 */
+//	public String getRaceCode() {
+//		String rCode = "" ;
+//		for(RaceCode r : raceCodes){
+//			if( r != null ){
+//				if(rCode != "" ){
+//					rCode =  rCode + " : " + r.getName();
+//				}else{
+//					rCode = rCode + r.getName();
+//				}
+//			}
+//		}
+//		return rCode;
+//	}
+//
+//	/**
+//	 * Sets the race code.
+//	 * 
+//	 * @param raceCode the new race code
+//	 */
+//	public void setRaceCode(String raceCode) {
+//		raceCodes = new ArrayList<RaceCode>();
+//		if (!StringUtils.isBlank(raceCode)) {
+//			StringTokenizer tokenizer = new StringTokenizer(raceCode, " : ");
+//			while (tokenizer.hasMoreTokens()) {
+//				RaceCode r = (RaceCode) Enum.valueOf(RaceCode.class, tokenizer
+//						.nextToken());
+//				raceCodes.add(r);
+//			};
+//		}
+//	}
 
 	/**
 	 * Gets the race codes.
 	 * 
 	 * @return the race codes
 	 */
-	@Transient
+	  @OneToMany
+	  @JoinTable(name = "race_code_assocn",
+	    joinColumns = {
+	      @JoinColumn(name="stu_sub_dmgphcs_id")           
+	    }
+	  )
 	public List<RaceCode> getRaceCodes() {
 		return raceCodes;
+	}
+	  
+	public void addRaceCode(RaceCode raceCode) {
+		getRaceCodes().add(raceCode);
 	}
 
 	/**

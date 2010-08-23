@@ -42,7 +42,7 @@ public class StudySubjectCreatorHelper {
         participant.setLastName("lastName");
         participant.setAdministrativeGenderCode("M");
         participant.setBirthDate(new java.util.Date());
-        participant.setRaceCode(RaceCode.American_Indian_or_Alaska_Native.getName());
+        participant.addRaceCode(RaceCode.American_Indian_or_Alaska_Native);
         return participant;
     }
     

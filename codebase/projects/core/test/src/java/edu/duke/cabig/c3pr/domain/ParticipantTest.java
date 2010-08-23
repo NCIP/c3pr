@@ -50,12 +50,12 @@ public class ParticipantTest extends TestCase{
 	public void testGetRaceCode() throws Exception{
 		
 		Participant participant = new Participant();
-		assertEquals("Unexpected race code :should have been blank string","",participant.getRaceCode());
+		assertEquals("Unexpected race code :should have been blank string",0,participant.getRaceCodes().size());
 		
 		RaceCode raceCode = RaceCode.Asian;
-		participant.setRaceCode(raceCode.getCode());
+		participant.addRaceCode(raceCode);
 		
-		assertEquals("Wrong race code","Asian",participant.getRaceCode());
+		assertEquals("Wrong race code","Asian",participant.getRaceCodes().get(0));
 	}
 	
 	/**

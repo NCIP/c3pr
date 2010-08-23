@@ -218,14 +218,20 @@
       <xs:element minOccurs="1" maxOccurs="1" name="administrativeGenderCode" type="GenderCodeType" />
       <xs:element minOccurs="1" maxOccurs="1" name="birthDate" type="xs:date" />
       <xs:element minOccurs="1" maxOccurs="1" name="ethnicGroupCode" type="EthnicGroupCodeType" />
-      <xs:element minOccurs="1" maxOccurs="1" name="raceCode" type="RaceCodeType" />
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="raceCode" type="RaceCodeType" />
       <xs:element minOccurs="1" maxOccurs="unbounded" name="identifier" type="IdentifierType"/>
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
   <xs:simpleType name="RaceCodeType">
-    <xs:restriction base="xs:token">
-      <xs:pattern value="((Asian|Black_or_African_American|White|American_Indian_or_Alaska_Native|Native_Hawaiian_or_Pacific_Islander|Not_Reported|Asian|Unknown) : )*(Asian|Black_or_African_American|White|American_Indian_or_Alaska_Native|Native_Hawaiian_or_Pacific_Islander|Not_Reported|Asian|Unknown)"/>
+  	<xs:restriction base="xs:string">
+      <xs:enumeration value="Asian" />
+      <xs:enumeration value="White" />
+      <xs:enumeration value="Black_or_African_American" />
+      <xs:enumeration value="American_Indian_or_Alaska_Native" />
+      <xs:enumeration value="Native_Hawaiian_or_Pacific_Islander" />
+      <xs:enumeration value="Not_Reported" />
+      <xs:enumeration value="Unknown" />
     </xs:restriction>
   </xs:simpleType>
   <xs:simpleType name="EthnicGroupCodeType">

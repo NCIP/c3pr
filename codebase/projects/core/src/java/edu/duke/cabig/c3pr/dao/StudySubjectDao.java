@@ -184,11 +184,11 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
             participantCriteria.add(Expression.eq("birthDate", registration.getStudySubjectDemographics().getMasterSubject()
                             .getBirthDate()));
         }
-        if (registration.getStudySubjectDemographics().getMasterSubject().getRaceCode() != null
-                        && !registration.getStudySubjectDemographics().getMasterSubject().getRaceCode().equals("")) {
-            participantCriteria.add(Expression.ilike("raceCode", "%" + registration.getStudySubjectDemographics().getMasterSubject()
-                            .getRaceCode() + "%" )  );
-        }
+//        if (registration.getStudySubjectDemographics().getMasterSubject().getRaceCode() != null
+//                        && !registration.getStudySubjectDemographics().getMasterSubject().getRaceCode().equals("")) {
+//            participantCriteria.add(Expression.ilike("raceCode", "%" + registration.getStudySubjectDemographics().getMasterSubject()
+//                            .getRaceCode() + "%" )  );
+//        }
 
         if (ccId != null && !ccId.equals("")) {
             identifiersCriteria.add(Expression.ilike("value", "%" + ccId + "%"));
