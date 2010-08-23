@@ -1974,7 +1974,7 @@ public class StudySubject extends
 		return getStudySubjectStudyVersion().getStudySubjectConsentVersions();
 	}*/
 
-	public void addStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion) {
+	public void addOriginalStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion) {
 		this.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
 	}
 	
