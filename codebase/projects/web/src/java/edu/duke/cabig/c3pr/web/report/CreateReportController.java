@@ -22,7 +22,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
-import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
@@ -173,7 +173,7 @@ public class CreateReportController extends SimpleFormController {
         studySite.setHealthcareSite(hcs);
 
         Participant participant = new Participant();
-        participant.addRaceCode(RaceCode.valueOf(raceCode));
+        participant.addRaceCode(RaceCodeEnum.valueOf(raceCode));
 
         Date regStartDate = null;
         Date regEndDate = null;

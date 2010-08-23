@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
-import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 
 /**
  * @author Vinay Gangoli
@@ -29,7 +29,7 @@ public class ReportCommand {
 
     private String raceCode; // param[7]
 
-    private List<RaceCode> raceCodes;
+    private List<RaceCodeEnum> raceCodes;
     
     private String[] params;
 
@@ -106,11 +106,11 @@ public class ReportCommand {
     }
 
     @Transient
-	public List<RaceCode> getRaceCodes() {
+	public List<RaceCodeEnum> getRaceCodes() {
 		return raceCodes;
 	}
 
-	public void setRaceCodes(List<RaceCode> raceCodes) {
+	public void setRaceCodes(List<RaceCodeEnum> raceCodes) {
 		this.raceCodes = raceCodes;
 	}
 }

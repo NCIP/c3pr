@@ -12,7 +12,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -222,13 +222,13 @@ public class JAXBToDomainObjectConverterImpl implements
 	 * @param person
 	 * @return
 	 */
-	List<RaceCode> getRaceCodes(Person person) {
-		List<RaceCode> list = new ArrayList<RaceCode>();
+	List<RaceCodeEnum> getRaceCodes(Person person) {
+		List<RaceCodeEnum> list = new ArrayList<RaceCodeEnum>();
 		DSETCD dsetcd = person.getRaceCode();
 		if (!isNull(dsetcd) && dsetcd.getItem() != null) {
 			for (CD cd : dsetcd.getItem()) {
 				String raceCodeStr = cd.getCode();
-				RaceCode raceCode = RaceCode.getByCode(raceCodeStr);
+				RaceCodeEnum raceCode = RaceCodeEnum.getByCode(raceCodeStr);
 				if (raceCode != null) {
 					list.add(raceCode);
 				} else {
@@ -532,7 +532,7 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	private DSETCD getRaceCodes(Participant p) {
 		DSETCD dsetcd = new DSETCD();
-		for (RaceCode raceCode : p.getRaceCodes()) {
+		for (RaceCodeEnum raceCode : p.getRaceCodes()) {
 			dsetcd.getItem().add(new CD(raceCode.getCode()));
 		}
 		return dsetcd;
