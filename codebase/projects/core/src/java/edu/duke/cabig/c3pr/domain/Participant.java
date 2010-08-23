@@ -24,7 +24,6 @@ import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
-import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
@@ -336,12 +335,15 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	 * 
 	 * @return the race codes
 	 */
-	  @OneToMany
-	  @JoinTable(name = "race_code_assocn",
-	    joinColumns = {
-	      @JoinColumn(name="sub_id")           
-	    }
-	  )
+//	  @OneToMany
+//	  @JoinTable(name = "race_code_assocn",
+//	    joinColumns = {
+//	      @JoinColumn(name="sub_id")           
+//	    }
+//	  )
+	@ManyToMany
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinTable(name = "race_code_assocn", joinColumns = @JoinColumn(name = "sub_id"), inverseJoinColumns = @JoinColumn(name = "race_code_id")) 
 	public List<RaceCode> getRaceCodes() {
 		return raceCodes;
 	}

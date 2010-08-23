@@ -3,12 +3,12 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -24,7 +24,6 @@ import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
@@ -495,12 +494,15 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 	 * 
 	 * @return the race codes
 	 */
-	  @OneToMany
-	  @JoinTable(name = "race_code_assocn",
-	    joinColumns = {
-	      @JoinColumn(name="stu_sub_dmgphcs_id")           
-	    }
-	  )
+//	  @OneToMany
+//	  @JoinTable(name = "race_code_assocn",
+//	    joinColumns = {
+//	      @JoinColumn(name="stu_sub_dmgphcs_id")           
+//	    }
+//	  )
+	@ManyToMany
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinTable(name = "race_code_assocn", joinColumns = @JoinColumn(name = "stu_sub_dmgphcs_id"), inverseJoinColumns = @JoinColumn(name = "race_code_id")) 
 	public List<RaceCode> getRaceCodes() {
 		return raceCodes;
 	}
