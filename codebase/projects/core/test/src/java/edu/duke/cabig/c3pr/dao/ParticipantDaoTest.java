@@ -6,19 +6,19 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_SUBJECT;
 import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -199,7 +199,10 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         participant.setLastName("Lewis");
         participant.setFirstName("Carrol");
         participant.setAdministrativeGenderCode("Male");
-        participant.addRaceCode(RaceCode.Unknown);
+        
+        RaceCode raceCode = new RaceCode();
+        raceCode.setRaceCode(RaceCodeEnum.Unknown);
+        participant.addRaceCode(raceCode);
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
         participant.getAddress().setCity("Charlotte");
@@ -233,7 +236,9 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         participant.setLastName("Ben");
         participant.setFirstName("Afflek");
         participant.setAdministrativeGenderCode("Male");
-        participant.addRaceCode(RaceCode.Unknown);
+        RaceCode raceCode = new RaceCode();
+        raceCode.setRaceCode(RaceCodeEnum.Unknown);
+        participant.addRaceCode(raceCode);
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
         SystemAssignedIdentifier systemIdentifier = new SystemAssignedIdentifier();
@@ -257,7 +262,9 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         participant.setLastName("Barry");
         participant.setFirstName("Bonds");
         participant.setAdministrativeGenderCode("Male");
-        participant.addRaceCode(RaceCode.Unknown);
+        RaceCode raceCode = new RaceCode();
+        raceCode.setRaceCode(RaceCodeEnum.Unknown);
+        participant.addRaceCode(raceCode);
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
         OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
@@ -316,7 +323,11 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 	    Participant participant = new Participant();
 	    participant.setLastName("Barry");
 	    participant.setFirstName("Bonds");
-	    participant.addRaceCode(RaceCode.Asian);
+	    
+	  	 RaceCode raceCode = new RaceCode();
+         raceCode.setRaceCode(RaceCodeEnum.Asian);
+         participant.addRaceCode(raceCode);
+         
 	    participant.setAdministrativeGenderCode("Male");
 	    Date birthDate = new Date();
 	    participant.setBirthDate(birthDate);
@@ -497,8 +508,16 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	studySubjectDemographics.setMaidenName("Gerber");
     	studySubjectDemographics.setEthnicGroupCode("Non Hispanic");
     	studySubjectDemographics.setAdministrativeGenderCode("Not Reported");
-    	studySubjectDemographics.addRaceCode(RaceCode.Not_Reported);
-    	studySubjectDemographics.addRaceCode(RaceCode.Unknown);
+    	
+    	 RaceCode raceCode = new RaceCode();
+         raceCode.setRaceCode(RaceCodeEnum.Unknown);
+        
+         RaceCode raceCode1 = new RaceCode();
+         raceCode.setRaceCode(RaceCodeEnum.Not_Reported);
+         
+         participant.addRaceCode(raceCode);
+         participant.addRaceCode(raceCode1);
+         
     	Date date = new Date("03/11/1890");
     	studySubjectDemographics.setBirthDate(date);
     	Address address = new Address();
@@ -516,9 +535,9 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	
     	participant.synchronizeWithStudySubjectDemographics(studySubjectDemographics);
     	
-    	List<RaceCode> raceCodes = new ArrayList<RaceCode>();
-    	raceCodes.add(RaceCode.Not_Reported);
-    	raceCodes.add(RaceCode.Unknown);
+    	List<RaceCodeEnum> raceCodes = new ArrayList<RaceCodeEnum>();
+    	raceCodes.add(RaceCodeEnum.Not_Reported);
+    	raceCodes.add(RaceCodeEnum.Unknown);
     	
     	assertEquals("Wrong first name","John",participant.getFirstName());
     	assertEquals("Wrong last name","Doe",participant.getLastName());
@@ -545,8 +564,16 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	participant.setMaidenName("Gerber");
     	participant.setEthnicGroupCode("Non Hispanic");
     	participant.setAdministrativeGenderCode("Not Reported");
-    	participant.addRaceCode(RaceCode.Not_Reported);
-    	participant.addRaceCode(RaceCode.Unknown);
+    	
+    	RaceCode raceCode = new RaceCode();
+		raceCode.setRaceCode(RaceCodeEnum.Not_Reported);
+		RaceCode raceCode1 = new RaceCode();
+		raceCode.setRaceCode(RaceCodeEnum.Unknown);
+		participant.addRaceCode(raceCode);
+		
+		participant.addRaceCode(raceCode1);
+		
+    	
     	Date date = new Date("03/11/1890");
     	participant.setBirthDate(date);
     	Address address = new Address();
@@ -560,9 +587,9 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	
     	StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
     	
-    	List<RaceCode> raceCodes = new ArrayList<RaceCode>();
-    	raceCodes.add(RaceCode.Not_Reported);
-    	raceCodes.add(RaceCode.Unknown);
+    	List<RaceCodeEnum> raceCodes = new ArrayList<RaceCodeEnum>();
+    	raceCodes.add(RaceCodeEnum.Not_Reported);
+    	raceCodes.add(RaceCodeEnum.Unknown);
     	
     	assertEquals("Wrong first name","John",studySubjectDemographics.getFirstName());
     	assertEquals("Wrong last name","Doe",studySubjectDemographics.getLastName());

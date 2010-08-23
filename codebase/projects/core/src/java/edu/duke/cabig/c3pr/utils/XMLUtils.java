@@ -21,9 +21,9 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 import org.xml.sax.InputSource;
 
-import edu.duke.cabig.c3pr.constants.RaceCode;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -88,7 +88,7 @@ public class XMLUtils {
         
         for(RaceCode raceCode : stPart.getRaceCodes()){
         	 participant.addContent(new Element("raceCode", "p1", ns).setText(StringUtils
-                     .getBlankIfNull(raceCode.getCode())));
+                     .getBlankIfNull(raceCode.getRaceCode().getCode())));
         }
         
         List<SystemAssignedIdentifier> identifiers = stPart.getSystemAssignedIdentifiers();

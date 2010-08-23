@@ -5,7 +5,7 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -20,6 +20,7 @@ import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
@@ -42,7 +43,10 @@ public class StudySubjectCreatorHelper {
         participant.setLastName("lastName");
         participant.setAdministrativeGenderCode("M");
         participant.setBirthDate(new java.util.Date());
-        participant.addRaceCode(RaceCode.American_Indian_or_Alaska_Native);
+     	 RaceCode raceCode = new RaceCode();
+         raceCode.setRaceCode(RaceCodeEnum.American_Indian_or_Alaska_Native);
+         
+         participant.addRaceCode(raceCode);
         return participant;
     }
     

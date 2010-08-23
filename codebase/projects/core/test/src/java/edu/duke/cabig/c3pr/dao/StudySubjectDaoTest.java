@@ -31,7 +31,7 @@ import com.semanticbits.querybuilder.QueryBuilderDao;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
@@ -46,6 +46,7 @@ import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
@@ -1139,7 +1140,9 @@ public class StudySubjectDaoTest extends DaoTestCase {
         study.setShortTitleText(" ");
 
     	Participant participant = new Participant();
-    	participant.addRaceCode(RaceCode.White);
+    	RaceCode raceCode = new RaceCode();
+		raceCode.setRaceCode(RaceCodeEnum.White);
+		participant.addRaceCode(raceCode);
     	participant.setBirthDate(simpleDateFormat.parse("01/01/2000"));
 		id = new SystemAssignedIdentifier();
 	    id.setValue(null);

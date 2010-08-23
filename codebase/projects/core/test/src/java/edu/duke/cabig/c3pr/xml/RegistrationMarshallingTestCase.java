@@ -4,11 +4,12 @@ import java.io.ByteArrayInputStream;
 import java.io.Reader;
 import java.io.StringReader;
 
-import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -71,7 +72,11 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
         patient.setFirstName(strValue);
         patient.setLastName(strValue);
         patient.setMaritalStatusCode(strValue);
-        patient.addRaceCode(RaceCode.valueOf(strValue));
+        
+     	 RaceCode raceCode = new RaceCode();
+         raceCode.setRaceCode(RaceCodeEnum.valueOf(strValue));
+         
+        patient.addRaceCode(raceCode);
         patient.setIdentifiers(getIdentifiers());
 
         ScheduledEpoch epoch = new ScheduledEpoch();

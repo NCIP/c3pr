@@ -5,7 +5,7 @@ import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.register;
 import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
-public enum RaceCode implements CodedEnum<String> {
+public enum RaceCodeEnum implements CodedEnum<String> {
 	
 	Asian("Asian"), 
 	White("White"),
@@ -17,7 +17,7 @@ public enum RaceCode implements CodedEnum<String> {
 	
 	private String raceCode;
 
-    private RaceCode(String code) {
+    private RaceCodeEnum(String code) {
         this.raceCode = code;
         register(this);
     }
@@ -34,8 +34,8 @@ public enum RaceCode implements CodedEnum<String> {
         return name();
     }
 
-    public static RaceCode getByCode(String code) {
-        return getByClassAndCode(RaceCode.class, code);
+    public static RaceCodeEnum getByCode(String code) {
+        return getByClassAndCode(RaceCodeEnum.class, code);
     }
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 
@@ -52,7 +52,8 @@ public class ParticipantTest extends TestCase{
 		Participant participant = new Participant();
 		assertEquals("Unexpected race code :should have been blank string",0,participant.getRaceCodes().size());
 		
-		RaceCode raceCode = RaceCode.Asian;
+		RaceCode raceCode = new RaceCode();
+		raceCode.setRaceCode(RaceCodeEnum.Asian);
 		participant.addRaceCode(raceCode);
 		
 		assertEquals("Wrong race code","Asian",participant.getRaceCodes().get(0));
@@ -68,13 +69,19 @@ public class ParticipantTest extends TestCase{
 		Participant participant = new Participant();
 		assertEquals("Wrong number of race codes",0,participant.getRaceCodes().size());
 		
-		RaceCode raceCode1 = RaceCode.Asian;
-		RaceCode raceCode2 = RaceCode.Native_Hawaiian_or_Pacific_Islander;
-		RaceCode raceCode3 = RaceCode.American_Indian_or_Alaska_Native;
+	  	 RaceCode raceCode = new RaceCode();
+         raceCode.setRaceCode(RaceCodeEnum.Asian);
+        
+         RaceCode raceCode1 = new RaceCode();
+         raceCode.setRaceCode(RaceCodeEnum.Native_Hawaiian_or_Pacific_Islander);
+         
+         RaceCode raceCode2 = new RaceCode();
+         raceCode.setRaceCode(RaceCodeEnum.American_Indian_or_Alaska_Native);
+         
+         participant.addRaceCode(raceCode);
+         participant.addRaceCode(raceCode1);
+         participant.addRaceCode(raceCode2);
 		
-		List<RaceCode> raceCodes = new ArrayList<RaceCode>();
-		raceCodes.add(raceCode1);raceCodes.add(raceCode2);raceCodes.add(raceCode3);
-		participant.setRaceCodes(raceCodes);
 		assertEquals("Wrong number of race codes",3,participant.getRaceCodes().size());
 		
 	}
