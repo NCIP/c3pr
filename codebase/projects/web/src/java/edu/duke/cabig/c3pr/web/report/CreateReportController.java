@@ -28,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -173,7 +174,10 @@ public class CreateReportController extends SimpleFormController {
         studySite.setHealthcareSite(hcs);
 
         Participant participant = new Participant();
-        participant.addRaceCode(RaceCodeEnum.valueOf(raceCode));
+        RaceCode raceCodeObj = new RaceCode();
+        raceCodeObj.setRaceCode(RaceCodeEnum.valueOf(raceCode));
+		participant.addRaceCode(raceCodeObj);
+		
 
         Date regStartDate = null;
         Date regEndDate = null;

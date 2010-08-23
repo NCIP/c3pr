@@ -20,6 +20,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
@@ -222,15 +223,17 @@ public class JAXBToDomainObjectConverterImpl implements
 	 * @param person
 	 * @return
 	 */
-	List<RaceCodeEnum> getRaceCodes(Person person) {
-		List<RaceCodeEnum> list = new ArrayList<RaceCodeEnum>();
+	List<RaceCode> getRaceCodes(Person person) {
+		List<RaceCode> list = new ArrayList<RaceCode>();
 		DSETCD dsetcd = person.getRaceCode();
 		if (!isNull(dsetcd) && dsetcd.getItem() != null) {
 			for (CD cd : dsetcd.getItem()) {
 				String raceCodeStr = cd.getCode();
 				RaceCodeEnum raceCode = RaceCodeEnum.getByCode(raceCodeStr);
 				if (raceCode != null) {
-					list.add(raceCode);
+					RaceCode raceCodeObj = new RaceCode();
+			        raceCodeObj.setRaceCode(raceCode);
+					list.add(raceCodeObj);
 				} else {
 					throw exceptionHelper.getConversionException(
 							WRONG_RACE_CODE, new Object[] { raceCodeStr });
