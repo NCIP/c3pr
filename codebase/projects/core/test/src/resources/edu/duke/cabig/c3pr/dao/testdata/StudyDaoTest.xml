@@ -32,7 +32,7 @@
                country_code="USA" retired_indicator="false"/>
 
     <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01"
-                  administrative_gender_code="M" race_code="White" add_id="1000" retired_indicator="false"/>
+                  administrative_gender_code="M"  add_id="1000" retired_indicator="false"/>
 
 
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000"
@@ -108,9 +108,13 @@
     <IDENTIFIERS id="1010" version="1" value="3583138" type="NCI" dtype="OAI" retired_indicator="false" org_id="1003" hcs_id="1004" primary_indicator="1"/>
     <IDENTIFIERS id="1011" version="1" value="3583155" type="NCI" dtype="OAI" retired_indicator="false" org_id="1004" primary_indicator="1"/>
 	
-	<stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M" race_code="White" ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
-    <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M" race_code="White" ethnic_group_code="Not Reported" prt_id="1000" add_id="1001"  retired_indicator="false" />
+	<stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
+    <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M" ethnic_group_code="Not Reported" prt_id="1000" add_id="1001"  retired_indicator="false" />
     
+    <race_code_assocn sub_id="1000" race_code="White" />
+	<race_code_assocn stu_sub_dmgphcs_id="1000" race_code="White" />
+	<race_code_assocn stu_sub_dmgphcs_id="1001" race_code="White" />
+	
     <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1000" sti_id="1000" retired_indicator="false" reg_workflow_status="PENDING"/>
     <STUDY_SUBJECTS id="1001" version="1" start_date="2001-01-01" stu_sub_dmgphcs_id="1001" sti_id="1001" retired_indicator="false" reg_workflow_status="PENDING"/>
                     

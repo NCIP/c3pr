@@ -53,8 +53,8 @@
     
     <BOOK_RNDM_ENTRY id="1100" version="1" position="1" str_grp_id="1100" arms_id="1100" rndm_id="1100" />             
 
-   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="AAAAA11111GridID"/>
-   	<PARTICIPANTS id="1100" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID"/>   	
+   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  add_id="1100" grid_id="AAAAA11111GridID"/>
+   	<PARTICIPANTS id="1100" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  add_id="1100" grid_id="OTHERGRIDID"/>   	
 
 	<CONTACT_MECHANISMS id="1000" version="1"/>
 
@@ -62,8 +62,12 @@
 
     <DISEASE_HISTORY id="1100" version="1" icd9_disease_site_id="1100" retired_indicator = "false" />
     
-    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" ethnic_group_code="Not Reported" prt_id="1100" add_id="1001"  retired_indicator="false" />
+    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1100" add_id="1001"  retired_indicator="false" />
     
+   <race_code_assocn sub_id="1000" race_code="White" />
+	<race_code_assocn sub_id="1100" race_code="White" />
+	<race_code_assocn stu_sub_dmgphcs_id="1000" race_code="White" />
+	
     <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" disease_history_id="1100" stu_sub_dmgphcs_id="1000" sti_id="1100" retired_indicator = "false" />
 	
 	<study_subject_versions id="1100" version="1" study_site_ver_id="1100" spa_id="1100" retired_indicator = "false" />
