@@ -535,8 +535,8 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	private DSETCD getRaceCodes(Participant p) {
 		DSETCD dsetcd = new DSETCD();
-		for (RaceCodeEnum raceCode : p.getRaceCodes()) {
-			dsetcd.getItem().add(new CD(raceCode.getCode()));
+		for (RaceCode raceCode : p.getRaceCodes()) {
+			dsetcd.getItem().add(new CD(raceCode.getRaceCode().getCode()));
 		}
 		return dsetcd;
 	}
