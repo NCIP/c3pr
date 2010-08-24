@@ -9,7 +9,7 @@ import edu.duke.cabig.c3pr.domain.RaceCode;
  * @author c3pr
  *
  */
-public class RaceCodeDao extends GridIdentifiableDao {
+public class RaceCodeDao extends GridIdentifiableDao<RaceCode> {
 
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
