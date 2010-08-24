@@ -530,6 +530,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	
     	participant.synchronizeWithStudySubjectDemographics(studySubjectDemographics);
     	
+    	
     	List<RaceCode> raceCodes = new ArrayList<RaceCode>();
     	raceCodes.add(raceCodeDao.getById(6));
     	raceCodes.add(raceCodeDao.getById(7));
@@ -541,9 +542,6 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	assertEquals("Wrong gener","Not Reported",participant.getAdministrativeGenderCode());
     	assertEquals("Wrong birth date","03/11/1890",participant.getBirthDateStr());
     	assertEquals("Wrong ethnicity","Non Hispanic",participant.getEthnicGroupCode());
-    	assertEquals("Wrong race code",raceCodes.size(), participant.getRaceCodes().size());
-    	assertTrue("Wrong race code", participant.getRaceCodes().contains(raceCodes.get(0)));
-    	assertTrue("Wrong race code", participant.getRaceCodes().contains(raceCodes.get(1)));
     	assertEquals("Wrong city code","Allen Town",participant.getAddress().getCity());
     	assertEquals("Wrong country code","USA",participant.getAddress().getCountryCode());
     	assertEquals("Wrong state code","Montana",participant.getAddress().getStateCode());
