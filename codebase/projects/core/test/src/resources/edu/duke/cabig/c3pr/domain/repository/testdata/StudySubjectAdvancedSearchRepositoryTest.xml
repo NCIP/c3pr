@@ -1,6 +1,14 @@
 <dataset>
 	<reasons id="1000" version="1" retired_indicator="false" code="test reason" dtype="OFF_EPOCH_REASON" description="test reason desc"/> 
     
+        <race_codes version="1" id="1" race_code="White" />
+    <race_codes version="1" id="2" race_code="Asian" />
+    <race_codes version="1" id="3" race_code="Black_or_African_American" />
+    <race_codes version="1" id="4" race_code="American_Indian_or_Alaska_Native" />
+    <race_codes version="1" id="5" race_code="Native_Hawaiian_or_Pacific_Islander" />
+    <race_codes version="1" id="6" race_code="Not_Reported" />
+    <race_codes version="1" id="7" race_code="Unknown" />
+    
 	<STUDIES therapeutic_intent_indicator="0" id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN" consent_required="ONE"  retired_indicator = "false"  dtype="Local"/>
     <STUDIES therapeutic_intent_indicator="1" id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty"  status="OPEN" retired_indicator = "false"  dtype="Local"/>
     <STUDIES therapeutic_intent_indicator="0" id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false"  dtype="Local"/>
