@@ -543,7 +543,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	assertEquals("Wrong gener","Not Reported",participant.getAdministrativeGenderCode());
     	assertEquals("Wrong birth date","03/11/1890",participant.getBirthDateStr());
     	assertEquals("Wrong ethnicity","Non Hispanic",participant.getEthnicGroupCode());
-    	assertEquals("Wrong race code",raceCodes,participant.getRaceCodes());
+    	assertTrue("Wrong race code",participant.getRaceCodes().containsAll(raceCodes));
     	assertEquals("Wrong city code","Allen Town",participant.getAddress().getCity());
     	assertEquals("Wrong country code","USA",participant.getAddress().getCountryCode());
     	assertEquals("Wrong state code","Montana",participant.getAddress().getStateCode());
@@ -593,7 +593,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	assertEquals("Wrong gener","Not Reported",studySubjectDemographics.getAdministrativeGenderCode());
     	assertEquals("Wrong birth date","03/11/1890",studySubjectDemographics.getBirthDateStr());
     	assertEquals("Wrong ethnicity","Non Hispanic",studySubjectDemographics.getEthnicGroupCode());
-    	assertEquals("Wrong race code",raceCodes,studySubjectDemographics.getRaceCodes());
+    	assertTrue("Wrong race code",studySubjectDemographics.getRaceCodes().containsAll(raceCodes));
     	assertEquals("Wrong city code","Allen Town",studySubjectDemographics.getAddress().getCity());
     	assertEquals("Wrong country code","USA",studySubjectDemographics.getAddress().getCountryCode());
     	assertEquals("Wrong state code","Montana",studySubjectDemographics.getAddress().getStateCode());
