@@ -215,8 +215,6 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         List<HealthcareSite> hcsList = new ArrayList<HealthcareSite>();
         hcsList.add(hcs);
         participant.setHealthcareSites(hcsList);
-        Address add = new Address();
-
         participantDao.save(participant);
 
         interruptSession();
