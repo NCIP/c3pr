@@ -32,7 +32,25 @@ public class Address extends AbstractMutableDeletableDomainObject {
     public Address() {
     }
 
-    public void setStreetAddress(String streetAddress) {
+    /**
+     * Convenience constructor. Please use with care (watch parameters order).
+     * @param streetAddress
+     * @param city
+     * @param stateCode
+     * @param postalCode
+     * @param countryCode
+     */
+    public Address(String streetAddress, String city, String stateCode,
+			String postalCode, String countryCode) {
+		super();
+		this.streetAddress = streetAddress;
+		this.city = city;
+		this.stateCode = stateCode;
+		this.postalCode = postalCode;
+		this.countryCode = countryCode;
+	}
+
+	public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
     }
 
