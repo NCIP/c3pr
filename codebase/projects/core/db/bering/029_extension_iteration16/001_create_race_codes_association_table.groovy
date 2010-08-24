@@ -2,6 +2,8 @@ class CreateRaceCodeAssociationsTable extends edu.northwestern.bioinformatics.be
     void up() {
     	//creating race_codes table
     	createTable("race_codes") { t ->
+	       	t.addVersionColumn()
+            t.addColumn("grid_id", "string")
             t.addColumn("race_code", "string", nullable: false)
          }
          
