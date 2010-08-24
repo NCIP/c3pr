@@ -1,5 +1,5 @@
 <dataset>
-	    <race_codes version="1" id="1" race_code="White" />
+	<race_codes version="1" id="1" race_code="White" />
     <race_codes version="1" id="2" race_code="Asian" />
     <race_codes version="1" id="3" race_code="Black_or_African_American" />
     <race_codes version="1" id="4" race_code="American_Indian_or_Alaska_Native" />
@@ -74,7 +74,7 @@
 	
 	<race_code_assocn sub_id="1000" race_code_id="1" />
 	<race_code_assocn stu_sub_dmgphcs_id="1000" race_code_id="1" />
-	<race_code_assocn stu_sub_dmgphcs_id="1001" race_code="1" />
+	<race_code_assocn stu_sub_dmgphcs_id="1001" race_code_id="1" />
 	
     <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" stu_sub_dmgphcs_id="1000" sti_id="1000" retired_indicator="false" reg_workflow_status="PENDING"/>
     <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" stu_sub_dmgphcs_id="1001" sti_id="1001" retired_indicator="false" reg_workflow_status="PENDING"/>
