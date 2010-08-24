@@ -43,10 +43,10 @@ public class StudySubjectCreatorHelper {
         participant.setLastName("lastName");
         participant.setAdministrativeGenderCode("M");
         participant.setBirthDate(new java.util.Date());
-     	 RaceCode raceCode = new RaceCode();
-         raceCode.setRaceCode(RaceCodeEnum.American_Indian_or_Alaska_Native);
+//     	 RaceCode raceCode = new RaceCode();
+//         raceCode.setRaceCode(RaceCodeEnum.American_Indian_or_Alaska_Native);
          
-         participant.addRaceCode(raceCode);
+//         participant.addRaceCode(raceCode);
         return participant;
     }
     
