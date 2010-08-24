@@ -90,24 +90,6 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
         verifyMocks();
     }
 
-    public void testViewOnGoodSubmit() throws Exception {
-    	
-    	request.addParameter("firstName", "John");
-        request.addParameter("lastName", "Doe");
-        request.addParameter("birthDate", "02/11/1967");
-        request.addParameter("administrativeGenderCode", "Male");
-        request.addParameter("ethnicGroupCode", "Non Hispanic or Latino");
-        request.addParameter("raceCode", "Not Reported");
-        request.setParameter("_target1", "");
-    	
-    	//expect(healthcareSiteDao.getAll()).andReturn(null).times(2);
-        replayMocks();
-        ModelAndView mv = controller.handleRequest(request, response);
-        assertNotNull("Command not present in model: ", mv);
-        assertEquals("participant/participant", mv.getViewName());
-        request.setMethod("GET");
-        verifyMocks();
-    }
 
     public class HealthCareSiteDaoMock extends HealthcareSiteDao {
 
