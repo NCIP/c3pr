@@ -95,6 +95,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	private StudySiteStudyVersionDao studySiteStudyVersionDao;
 
     private StudySubjectStudyVersionDao studySubjectStudyVersionDao;
+    
+    private RaceCodeDao raceCodeDao;
 
     private XmlMarshaller xmlUtility;
 
@@ -110,6 +112,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         studySiteDao = (StudySiteDao) getApplicationContext().getBean("studySiteDao");
         epochDao = (EpochDao) getApplicationContext().getBean("epochDao");
         icd9DiseaseSiteDao = (ICD9DiseaseSiteDao) getApplicationContext().getBean("icd9DiseaseSiteDao");
+        raceCodeDao = (RaceCodeDao) getApplicationContext().getBean("raceCodeDao");
         studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
         studySubjectDao.setStudySiteDao(studySiteDao);
         studySubjectDao.setParticipantDao(dao);
@@ -1140,8 +1143,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         study.setShortTitleText(" ");
 
     	Participant participant = new Participant();
-    	RaceCode raceCode = new RaceCode();
-		raceCode.setRaceCode(RaceCodeEnum.White);
+    	RaceCode raceCode= (RaceCode) raceCodeDao.getById(1);
 		participant.addRaceCode(raceCode);
     	participant.setBirthDate(simpleDateFormat.parse("01/01/2000"));
 		id = new SystemAssignedIdentifier();

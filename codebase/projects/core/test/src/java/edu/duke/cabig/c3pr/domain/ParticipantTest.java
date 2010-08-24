@@ -1,8 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import junit.framework.TestCase;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;

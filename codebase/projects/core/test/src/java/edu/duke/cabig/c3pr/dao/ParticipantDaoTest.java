@@ -35,10 +35,12 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     private ParticipantDao participantDao;
 
     private HealthcareSiteDao healthcareSiteDao;
+    private RaceCodeDao raceCodeDao ;
 
     public ParticipantDaoTest() {
     	participantDao = (ParticipantDao) getApplicationContext().getBean("participantDao");
     	healthcareSiteDao = (HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
+    	raceCodeDao = (RaceCodeDao) getApplicationContext().getBean("raceCodeDao");
 	}
 
     /**
@@ -200,9 +202,9 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         participant.setFirstName("Carrol");
         participant.setAdministrativeGenderCode("Male");
         
-        RaceCode raceCode = new RaceCode();
-        raceCode.setRaceCode(RaceCodeEnum.Unknown);
+        RaceCode raceCode= (RaceCode) raceCodeDao.getById(7);
         participant.addRaceCode(raceCode);
+        
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
         participant.getAddress().setCity("Charlotte");
@@ -236,8 +238,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         participant.setLastName("Ben");
         participant.setFirstName("Afflek");
         participant.setAdministrativeGenderCode("Male");
-        RaceCode raceCode = new RaceCode();
-        raceCode.setRaceCode(RaceCodeEnum.Unknown);
+        RaceCode raceCode= (RaceCode) raceCodeDao.getById(7);
         participant.addRaceCode(raceCode);
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
@@ -262,8 +263,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         participant.setLastName("Barry");
         participant.setFirstName("Bonds");
         participant.setAdministrativeGenderCode("Male");
-        RaceCode raceCode = new RaceCode();
-        raceCode.setRaceCode(RaceCodeEnum.Unknown);
+        RaceCode raceCode= (RaceCode) raceCodeDao.getById(7);
         participant.addRaceCode(raceCode);
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
@@ -324,8 +324,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 	    participant.setLastName("Barry");
 	    participant.setFirstName("Bonds");
 	    
-	  	 RaceCode raceCode = new RaceCode();
-         raceCode.setRaceCode(RaceCodeEnum.Asian);
+	    RaceCode raceCode= (RaceCode) raceCodeDao.getById(2);
          participant.addRaceCode(raceCode);
          
 	    participant.setAdministrativeGenderCode("Male");
@@ -509,11 +508,9 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	studySubjectDemographics.setEthnicGroupCode("Non Hispanic");
     	studySubjectDemographics.setAdministrativeGenderCode("Not Reported");
     	
-    	 RaceCode raceCode = new RaceCode();
-         raceCode.setRaceCode(RaceCodeEnum.Unknown);
+    	RaceCode raceCode= (RaceCode) raceCodeDao.getById(7);
         
-         RaceCode raceCode1 = new RaceCode();
-         raceCode.setRaceCode(RaceCodeEnum.Not_Reported);
+    	RaceCode raceCode1= (RaceCode) raceCodeDao.getById(6);
          
          participant.addRaceCode(raceCode);
          participant.addRaceCode(raceCode1);
@@ -565,10 +562,8 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	participant.setEthnicGroupCode("Non Hispanic");
     	participant.setAdministrativeGenderCode("Not Reported");
     	
-    	RaceCode raceCode = new RaceCode();
-		raceCode.setRaceCode(RaceCodeEnum.Not_Reported);
-		RaceCode raceCode1 = new RaceCode();
-		raceCode.setRaceCode(RaceCodeEnum.Unknown);
+    	RaceCode raceCode= (RaceCode) raceCodeDao.getById(7);
+    	RaceCode raceCode1= (RaceCode) raceCodeDao.getById(6);
 		participant.addRaceCode(raceCode);
 		
 		participant.addRaceCode(raceCode1);

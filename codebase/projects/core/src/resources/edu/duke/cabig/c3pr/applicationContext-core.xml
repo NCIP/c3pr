@@ -628,7 +628,8 @@
 	<bean id="rolePrivilegeDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RolePrivilegeDao" autowire="byName"/>
     <bean id="reasonDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ReasonDao" autowire="byName"/>
     <bean id="offEpochReasonDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.OffEpochReasonDao" autowire="byName"/>
-
+	<bean id="raceCodeDap" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RaceCodeDao" autowire="byName"/>
+	
 	<!-- Multisite Request Handlers -->
     <!--  <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
     	<property name="studySubjectService" ref="studySubjectService"></property>
