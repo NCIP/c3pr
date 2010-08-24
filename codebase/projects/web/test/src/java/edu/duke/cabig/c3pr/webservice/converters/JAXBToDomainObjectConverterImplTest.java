@@ -8,8 +8,10 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
@@ -20,12 +22,13 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.test.AssertThrows;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-//import edu.duke.cabig.c3pr.constants.RaceCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
@@ -230,8 +233,8 @@ public class JAXBToDomainObjectConverterImplTest extends ApplicationTestCase {
 		assertEquals(TEST_STATE_CODE, p.getAddress().getStateCode());
 		assertEquals(TEST_ZIP_CODE, p.getAddress().getPostalCode());
 		assertEquals(TEST_COUNTRY, p.getAddress().getCountryCode());
-		/**assertEquals(Arrays.asList(new RaceCode[] { RaceCode.White,
-				RaceCode.Asian }), p.getRaceCodes()); **/
+		assertEquals(Arrays.asList(new RaceCodeEnum[] { RaceCodeEnum.White,
+				RaceCodeEnum.Asian }), toEnums(p.getRaceCodes())); 
 		assertEquals(TEST_EMAIL_ADDR, p.getEmail());
 		assertEquals(TEST_PHONE, p.getPhone());
 		assertEquals(TEST_FAX, p.getFax());
@@ -246,6 +249,14 @@ public class JAXBToDomainObjectConverterImplTest extends ApplicationTestCase {
 			}
 		}.runTest();
 
+	}
+
+	private List<RaceCodeEnum> toEnums(List<RaceCode> raceCodes) {
+		List<RaceCodeEnum> list = new ArrayList<RaceCodeEnum>();
+		for (RaceCode raceCode: raceCodes) {
+			list.add(raceCode.getRaceCode());
+		}
+		return list;
 	}
 
 	/**
