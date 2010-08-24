@@ -12,8 +12,7 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "race_codes")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "race_codes_id_seq") })
-public class RaceCode extends AbstractMutableDomainObject {
-
+public class RaceCode extends AbstractMutableDomainObject{
 	private RaceCodeEnum raceCode;
 
 	public void setRaceCode(RaceCodeEnum raceCode) {
