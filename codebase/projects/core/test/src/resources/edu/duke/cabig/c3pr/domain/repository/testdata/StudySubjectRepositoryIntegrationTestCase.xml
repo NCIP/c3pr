@@ -1,6 +1,6 @@
 <dataset>
       
-          <race_codes version="1" id="1" race_code="White" />
+    <race_codes version="1" id="1" race_code="White" />
     <race_codes version="1" id="2" race_code="Asian" />
     <race_codes version="1" id="3" race_code="Black_or_African_American" />
     <race_codes version="1" id="4" race_code="American_Indian_or_Alaska_Native" />
