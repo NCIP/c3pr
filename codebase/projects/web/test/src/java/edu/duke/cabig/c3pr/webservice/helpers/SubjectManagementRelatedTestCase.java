@@ -3,14 +3,27 @@
  */
 package edu.duke.cabig.c3pr.webservice.helpers;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceResolvable;
+import org.springframework.context.NoSuchMessageException;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImplTest;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
@@ -89,6 +102,61 @@ public abstract class SubjectManagementRelatedTestCase extends
 		} catch (ParseException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	protected JAXBToDomainObjectConverterImpl converter;
+
+	protected HealthcareSiteDao healthcareSiteDao;
+
+	protected HealthcareSite healthcareSite;
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see junit.framework.TestCase#setUp()
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		healthcareSiteDao = createMock(HealthcareSiteDao.class);
+		converter = new JAXBToDomainObjectConverterImpl();
+		C3PRExceptionHelper exceptionHelper = new C3PRExceptionHelper(
+				getMessageSourceMock());
+		converter.setExceptionHelper(exceptionHelper);
+		
+		converter.setHealthcareSiteDao(healthcareSiteDao);
+
+		healthcareSite = new LocalHealthcareSite();
+		healthcareSite.setCtepCode(TEST_ORG_ID, true);
+		expect(healthcareSiteDao.getByPrimaryIdentifier(TEST_ORG_ID))
+				.andReturn(healthcareSite).anyTimes();
+		replay(healthcareSiteDao);
+
+	}
+
+	/**
+	 * @return
+	 */
+	private MessageSource getMessageSourceMock() {
+		return new MessageSource() {
+			public String getMessage(String code, Object[] args,
+					String defaultMessage, Locale locale) {
+				// TODO Auto-generated method stub
+				return "";
+			}
+
+			public String getMessage(String code, Object[] args, Locale locale)
+					throws NoSuchMessageException {
+				// TODO Auto-generated method stub
+				return "";
+			}
+
+			public String getMessage(MessageSourceResolvable resolvable,
+					Locale locale) throws NoSuchMessageException {
+				// TODO Auto-generated method stub
+				return "";
+			}
+		};
 	}
 
 	/**

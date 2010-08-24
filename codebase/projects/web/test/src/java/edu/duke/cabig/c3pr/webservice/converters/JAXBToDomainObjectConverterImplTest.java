@@ -3,32 +3,20 @@
  */
 package edu.duke.cabig.c3pr.webservice.converters;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.replay;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceResolvable;
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.test.AssertThrows;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RaceCode;
-import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.helpers.SubjectManagementRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
@@ -43,71 +31,8 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
  * @author dkrylov
  * 
  */
-public class JAXBToDomainObjectConverterImplTest extends SubjectManagementRelatedTestCase {
-
-	private JAXBToDomainObjectConverterImpl converter;
-
-	private HealthcareSiteDao healthcareSiteDao;
-
-	private HealthcareSite healthcareSite;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	@Override
-	public void setUp() throws Exception {
-		super.setUp();
-		converter = new JAXBToDomainObjectConverterImpl();
-		C3PRExceptionHelper exceptionHelper = new C3PRExceptionHelper(
-				getMessageSourceMock());
-		converter.setExceptionHelper(exceptionHelper);
-		healthcareSiteDao = createMock(HealthcareSiteDao.class);
-		converter.setHealthcareSiteDao(healthcareSiteDao);
-
-		healthcareSite = new LocalHealthcareSite();
-		healthcareSite.setCtepCode(TEST_ORG_ID, true);
-		expect(healthcareSiteDao.getByPrimaryIdentifier(TEST_ORG_ID))
-				.andReturn(healthcareSite).anyTimes();
-		replay(healthcareSiteDao);
-
-	}
-
-	/**
-	 * @return
-	 */
-	private MessageSource getMessageSourceMock() {
-		return new MessageSource() {
-			public String getMessage(String code, Object[] args,
-					String defaultMessage, Locale locale) {
-				// TODO Auto-generated method stub
-				return "";
-			}
-
-			public String getMessage(String code, Object[] args, Locale locale)
-					throws NoSuchMessageException {
-				// TODO Auto-generated method stub
-				return "";
-			}
-
-			public String getMessage(MessageSourceResolvable resolvable,
-					Locale locale) throws NoSuchMessageException {
-				// TODO Auto-generated method stub
-				return "";
-			}
-		};
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
+public class JAXBToDomainObjectConverterImplTest extends
+		SubjectManagementRelatedTestCase {
 
 	/**
 	 * Test method for
