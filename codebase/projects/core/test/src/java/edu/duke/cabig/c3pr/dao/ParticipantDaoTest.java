@@ -599,7 +599,6 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	assertEquals("Wrong state code","Montana",studySubjectDemographics.getAddress().getStateCode());
     	assertEquals("Wrong street address","650 mountain drive",studySubjectDemographics.getAddress().getStreetAddress());
     	assertEquals("Wrong postal code","12321",studySubjectDemographics.getAddress().getPostalCode());
-    	
     }
 
 
