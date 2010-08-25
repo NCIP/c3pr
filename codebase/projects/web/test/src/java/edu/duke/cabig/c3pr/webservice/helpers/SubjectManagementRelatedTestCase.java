@@ -8,19 +8,28 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl;
@@ -61,7 +70,7 @@ public abstract class SubjectManagementRelatedTestCase extends
 
 	protected static final String BAD_STATE_CODE = "bad state code";
 	protected static final String BAD_RACE_CODE = "invalid race code";
-	protected static final String BAD_ISO_DATE = "1990-01-01";
+	protected static final String BAD_ISO_DATE = "1990-01-01";	
 	protected static final String TS_DATETIME_PATTERN = "yyyyMMddHHmmss";
 	protected static final String TEST_FAX = "555-555-5555";
 	protected static final String TEST_FAX_ISO = "x-text-fax:" + TEST_FAX;
@@ -87,7 +96,8 @@ public abstract class SubjectManagementRelatedTestCase extends
 	protected static final String TEST_BIRTH_DATE_ISO = "19800101000000";
 	protected static final Date TEST_BIRTH_DATE = parseISODate(TEST_BIRTH_DATE_ISO);
 	protected static final String GENDER_MALE = "Male";
-	protected static final String STATUS_ACTIVE = "ACTIVE";
+	protected static final String STATE_ACTIVE = "ACTIVE";
+	protected static final String STATE_INACTIVE = "INACTIVE";
 	protected static final String ORG_ID_TYPE_MRN = OrganizationIdentifierTypeEnum.MRN
 			.getName();
 	protected static final String TEST_BIO_ID = "001";
@@ -123,7 +133,7 @@ public abstract class SubjectManagementRelatedTestCase extends
 		C3PRExceptionHelper exceptionHelper = new C3PRExceptionHelper(
 				getMessageSourceMock());
 		converter.setExceptionHelper(exceptionHelper);
-		
+
 		converter.setHealthcareSiteDao(healthcareSiteDao);
 
 		healthcareSite = new LocalHealthcareSite();
@@ -172,7 +182,7 @@ public abstract class SubjectManagementRelatedTestCase extends
 	protected Subject createSubject(Person person) {
 		Subject s = new Subject();
 		s.setEntity(person);
-		s.setStateCode(new ST(STATUS_ACTIVE));
+		s.setStateCode(new ST(STATE_ACTIVE));
 		return s;
 	}
 
@@ -290,6 +300,53 @@ public abstract class SubjectManagementRelatedTestCase extends
 				.get(1).getValue());
 		assertEquals(TEST_FAX_ISO, person.getTelecomAddress().getItem().get(2)
 				.getValue());
+	}
+
+	/**
+	 * @return
+	 */
+	protected Participant createParticipant() {
+		Participant p = new Participant();
+
+		OrganizationAssignedIdentifier id = new OrganizationAssignedIdentifier();
+		id.setHealthcareSite(healthcareSite);
+		id.setPrimaryIndicator(true);
+		id.setType(OrganizationIdentifierTypeEnum.MRN);
+		id.setValue(TEST_BIO_ID);
+		p.addIdentifier(id);
+
+		p.setAdministrativeGenderCode(GENDER_MALE);
+		p.setBirthDate(TEST_BIRTH_DATE);
+		p.setDeathDate(TEST_DEATH_DATE);
+		p.setDeathIndicator(true);
+		p.setEthnicGroupCode(ETHNIC_CODE_NOT_REPORTED);
+		p.setMaritalStatusCode(MARITAL_STATUS_SINGLE);
+		p.setFirstName(TEST_FIRST_NAME);
+		p.setMaidenName(StringUtils.EMPTY);
+		p.setMiddleName(TEST_MID_NAME);
+		p.setLastName(TEST_LAST_NAME);
+		p.setAddress(new Address(TEST_STREET_ADDRESS, TEST_CITY_NAME,
+				TEST_STATE_CODE, TEST_ZIP_CODE, TEST_COUNTRY));
+		p.setRaceCodes(createRaceCodes());
+		p.setEmail(TEST_EMAIL_ADDR);
+		p.setPhone(TEST_PHONE);
+		p.setFax(TEST_FAX);
+		p.setStateCode(ParticipantStateCode.ACTIVE);
+		return p;
+	}
+
+	/**
+	 * @return
+	 */
+	protected List<RaceCode> createRaceCodes() {
+		List<RaceCode> list = new ArrayList<RaceCode>();
+		RaceCode rc1 = new RaceCode();
+		rc1.setRaceCode(RaceCodeEnum.White);
+		RaceCode rc2 = new RaceCode();
+		rc2.setRaceCode(RaceCodeEnum.Asian);
+		list.add(rc1);
+		list.add(rc2);
+		return list;
 	}
 
 }
