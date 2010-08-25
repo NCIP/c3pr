@@ -4,7 +4,6 @@
 
 	<property name="antfiles.dir" location="${basedir}/../../codebase/antfiles" />
 	<property name="lib.dir" location="${antfiles.dir}/lib" />
-	<property name="ant.lib.dir" location="${antfiles.dir}/lib" />
 
 	<property environment="env" />
 	<property name="catalina.home" value="${env.CATALINA_HOME}"/>
@@ -34,7 +33,7 @@
 	</condition>
 
 	<condition property="ant.contrib.available">
-		<available file="${ant.lib.dir}/ant-contrib-1.0b2.jar" />
+		<available file="${lib.dir}/ant-contrib-1.0b2.jar" />
 	</condition>
 	
 	<property name="offline" value="${env.offline}" />
@@ -195,7 +194,6 @@
 		description="This target will contain the intiailziation">
 		<echo message="Executing ${ant.project.name} : init" />
 		<mkdir dir="${lib.dir}"/>
-		<mkdir dir="${ant.lib.dir}"/>
 		<mkdir dir="${test.lib.dir}"/>
 		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${test.classes.dir}" />
