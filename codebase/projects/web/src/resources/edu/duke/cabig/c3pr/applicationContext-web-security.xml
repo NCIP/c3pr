@@ -98,10 +98,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
 	<bean id="loginAuthorizationCheck"
 		class="edu.duke.cabig.c3pr.accesscontrol.LoginAuthorizationCheck">
+		<property name="configuration" ref="configuration"/>
 	</bean>
 
 	<bean id="logoutAuthorizationCheck"
 		class="edu.duke.cabig.c3pr.accesscontrol.LogoutAuthorizationCheck">
+		<property name="configuration" ref="configuration"/>
 	</bean>
 
 	<bean id="studySiteAuthorizationCheck"

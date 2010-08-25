@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
+import edu.duke.cabig.c3pr.tools.Configuration;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 
 import org.acegisecurity.Authentication;
@@ -12,8 +13,17 @@ import org.acegisecurity.Authentication;
 
 public class LoginAuthorizationCheck implements CSMAuthorizationCheck {
 
-    public boolean checkAuthorization(Authentication authentication, String s, Object o) {
-       return (authentication != null);
+	private Configuration configuration;
+	
+    public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
+
+	public boolean checkAuthorization(Authentication authentication, String s, Object o) {
+		if(configuration.get(Configuration.AUTHENTICATION_MODEL).equalsIgnoreCase("webSSO")){
+			return true;
+		}
+		return (authentication != null);
     }
 
     public boolean checkAuthorizationForObjectId(Authentication authentication, String s, String s1) {
