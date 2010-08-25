@@ -11,8 +11,8 @@
 			<table>
 				<tags:tdNameValue name="Name" value="${studySubject.studySubject.participant.firstName} ${studySubject.studySubject.participant.lastName }" columnAttrName="class='labelR'"/>
 				<tags:tdNameValue name="Study" value="(${studySubject.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.study.primaryIdentifier}) ${ studySubject.studySubject.studySubjectStudyVersion.studySiteStudyVersion.studyVersion.shortTitleText}" columnAttrName="class='labelR'"/>
-				<tags:tdNameValue name="Epoch" value="${studySubject.studySubject.scheduledEpoch.epoch.name} (${studySubject.studySubject.scheduledEpoch.epoch.id}) (${studySubject.studySubject.scheduledEpoch.id})" columnAttrName="class='labelR'"/>
-				<tags:tdNameValue name="Registration status" value="${studySubject.studySubject.regWorkflowStatus.displayName} (${studySubject.studySubject.studySubjectStudyVersion.id})" columnAttrName="class='labelR'"/>
+				<tags:tdNameValue name="Epoch" value="${studySubject.studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>
+				<tags:tdNameValue name="Registration status" value="${studySubject.studySubject.regWorkflowStatus.displayName}" columnAttrName="class='labelR'"/>
 			</table>
 		</td>
 		<td valign="top">
