@@ -289,7 +289,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 				fault);
 	}
 
-	private static final class ParticipantValidationError extends
+	static final class ParticipantValidationError extends
 			RuntimeException {
 
 		/**
