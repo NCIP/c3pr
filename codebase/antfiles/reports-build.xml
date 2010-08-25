@@ -11,7 +11,7 @@
 	<target name="download-ant-contrib" depends="resolve" >
 		<echo message="Downloading ant-contrib....." />
 		<ivy:resolve inline="true" organisation="ant-contrib" module="ant-contrib" revision="1.0b2" />
-		<get src="${ant-contrib.jar.location}" dest="${lib.dir}/ant-contrib-1.0b2.jar" verbose="true" usetimestamp="true"/>
+		<get src="${ant-contrib.jar.location}" dest="${ant.lib.dir}/ant-contrib-1.0b2.jar" verbose="true" usetimestamp="true"/>
 	</target>
 	
 <!-- ==================================================================
@@ -29,7 +29,7 @@
         <taskdef resource="checkstyletask.properties"  classpathref="checkstyle.classpath" />
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
-                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+                <pathelement location="${ant.lib.dir}/ant-contrib-1.0b2.jar"/>
             </classpath>
         </taskdef>
         <for list="${checkstyle-reportable.projects.list}" parallel="false" param="project.name" trim="true">
@@ -72,7 +72,7 @@
     	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath"/>
     	<taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
-                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+                <pathelement location="${ant.lib.dir}/ant-contrib-1.0b2.jar"/>
             </classpath>
         </taskdef>
         <for list="${pmd-reportable.projects.list}" parallel="false" param="project.name" trim="true">
@@ -111,7 +111,7 @@
     	<taskdef resource="simiantask.properties" classpathref="simian.classpath"/>
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
-                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+                <pathelement location="${ant.lib.dir}/ant-contrib-1.0b2.jar"/>
             </classpath>
         </taskdef>
         <for list="${simian-reportable.projects.list}" parallel="false" param="project.name" trim="true">

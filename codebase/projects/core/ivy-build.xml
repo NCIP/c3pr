@@ -103,7 +103,7 @@
 	<target name="drop-and-create-existing-database" description="drop the database and create new database" depends="resolve, find-datasource">
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
 			<classpath>
-				<pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+				<pathelement location="${ant.lib.dir}/ant-contrib-1.0b2.jar"/>
 			</classpath>
 		</taskdef>
 		<property file="${dsFile}"/>
@@ -128,7 +128,7 @@
 	<target name="recreate-db-hudson" description="drop the database and create new database" depends="resolve, find-datasource">
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
 			<classpath>
-				<pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+				<pathelement location="${ant.lib.dir}/ant-contrib-1.0b2.jar"/>
 			</classpath>
 		</taskdef>
 		<property file="${dsFile}"/>
