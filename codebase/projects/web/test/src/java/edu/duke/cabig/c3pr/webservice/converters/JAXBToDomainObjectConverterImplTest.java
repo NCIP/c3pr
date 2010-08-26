@@ -3,17 +3,11 @@
  */
 package edu.duke.cabig.c3pr.webservice.converters;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.test.AssertThrows;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
-import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
-import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.exception.ConversionException;
