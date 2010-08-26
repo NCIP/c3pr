@@ -4,7 +4,8 @@
 
 	<property name="antfiles.dir" location="${basedir}/../../codebase/antfiles" />
 	<property name="lib.dir" location="${antfiles.dir}/lib" />
-
+	<property name="delete.failonerror" value="true"/>
+	
 	<property environment="env" />
 	<property name="catalina.home" value="${env.CATALINA_HOME}"/>
 	<!-- Ivy jar location -->
@@ -519,7 +520,7 @@
     <target name="clean-lib" description="--> clean the project libraries directory (dependencies)">
     	<echo message="Executing in ${ant.project.name}" />
     	<echo message="Executing in ${ant.project.name}" />
-    	<delete includeemptydirs="true" dir="${lib.dir}"/>
+    	<delete includeemptydirs="true" dir="${lib.dir}" failonerror="${delete.failonerror}"/>
     </target>
 
 	<!-- ====================================================
