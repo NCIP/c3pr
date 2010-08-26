@@ -22,18 +22,17 @@
 	<PARTICIPANTS id="1010" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="Male"  add_id="1000"  retired_indicator = "false" ethnic_group_code="Unknown"/>
    
    
-   	   
-   	<race_code_assocn sub_id="1000" race_code_id="1" />
-	<race_code_assocn sub_id="1001" race_code_id="1" />
-	<race_code_assocn sub_id="1002" race_code_id="2" />
-	<race_code_assocn sub_id="1003" race_code_id="1" />
-	<race_code_assocn sub_id="1004" race_code_id="1" />
-	<race_code_assocn sub_id="1005" race_code_id="2" />
-	<race_code_assocn sub_id="1006" race_code_id="1" />
-	<race_code_assocn sub_id="1007" race_code_id="1" />
-	<race_code_assocn sub_id="1008" race_code_id="1" />
-	<race_code_assocn sub_id="1009" race_code_id="1" />
-	<race_code_assocn sub_id="1010" race_code_id="2" />
+   	<race_code_assocn sub_id="1000" race_code="White" />
+	<race_code_assocn sub_id="1001" race_code="White" />
+	<race_code_assocn sub_id="1002" race_code="Asian" />
+	<race_code_assocn sub_id="1003" race_code="White" />
+	<race_code_assocn sub_id="1004" race_code="White" />
+	<race_code_assocn sub_id="1005" race_code="Asian" />
+	<race_code_assocn sub_id="1006" race_code="White" />
+	<race_code_assocn sub_id="1007" race_code="White" />
+	<race_code_assocn sub_id="1008" race_code="White" />
+	<race_code_assocn sub_id="1009" race_code="White" />
+	<race_code_assocn sub_id="1010" race_code="Asian" />
    
 	<IDENTIFIERS id="1000" version="1" value="sub1" type="local" system_name="nci" dtype="SAI" prt_id="1000" hcs_id="1000"  retired_indicator = "false" primary_indicator="0"/>
    	<IDENTIFIERS id="1001" version="1" value="sub2" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator = "false" primary_indicator="0"/>
