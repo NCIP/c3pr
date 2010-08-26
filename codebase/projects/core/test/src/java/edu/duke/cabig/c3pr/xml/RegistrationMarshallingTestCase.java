@@ -9,7 +9,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RaceCode;
+import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -73,10 +73,9 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
         patient.setLastName(strValue);
         patient.setMaritalStatusCode(strValue);
         
-     	 RaceCode raceCode = new RaceCode();
-         raceCode.setRaceCode(RaceCodeEnum.valueOf(strValue));
-         
-        patient.addRaceCode(raceCode);
+		 RaceCodeAssociation  raceCodeAssociation = new RaceCodeAssociation();
+         raceCodeAssociation.setRaceCode(RaceCodeEnum.valueOf(strValue));
+         patient.addRaceCodeAssociation(raceCodeAssociation);
         patient.setIdentifiers(getIdentifiers());
 
         ScheduledEpoch epoch = new ScheduledEpoch();

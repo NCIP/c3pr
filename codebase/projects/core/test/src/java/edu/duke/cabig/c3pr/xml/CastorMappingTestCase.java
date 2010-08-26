@@ -199,7 +199,7 @@ public class CastorMappingTestCase extends AbstractTestCase{
 		assertEquals(expected.getFullName(), actual.getFullName());
 		assertEquals(expected.getAdministrativeGenderCode(), actual.getAdministrativeGenderCode());
 		assertEquals(expected.getBirthDateStr(), actual.getBirthDateStr());
-		assertEquals(expected.getRaceCodes(), actual.getRaceCodes());
+		assertEquals(expected.getRaceCodeAssociations(), actual.getRaceCodeAssociations());
 		assertEquals(expected.getEthnicGroupCode(), actual.getEthnicGroupCode());
 		assertAddress(expected.getAddress(), actual.getAddress());
 		assertIdentifiers(expected.getIdentifiers(), actual.getIdentifiers());

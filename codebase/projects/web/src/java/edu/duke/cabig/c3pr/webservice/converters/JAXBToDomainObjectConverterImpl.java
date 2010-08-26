@@ -20,7 +20,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RaceCode;
+import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
@@ -184,7 +184,8 @@ public class JAXBToDomainObjectConverterImpl implements
 				participant.setMiddleName(getMiddleName(person));
 				participant.setMaidenName(StringUtils.EMPTY);
 				participant.setAddress(getAddress(person));
-				participant.setRaceCodes(getRaceCodes(person));
+				//FIXME : DENIS
+//				participant.setRaceCodes(getRaceCodes(person));
 				participant.setEmail(getTelecomAddress(person, MAILTO));
 				participant.setPhone(getTelecomAddress(person, TEL));
 				participant.setFax(getTelecomAddress(person, X_TEXT_FAX));
@@ -223,25 +224,25 @@ public class JAXBToDomainObjectConverterImpl implements
 	 * @param person
 	 * @return
 	 */
-	List<RaceCode> getRaceCodes(Person person) {
-		List<RaceCode> list = new ArrayList<RaceCode>();
-		DSETCD dsetcd = person.getRaceCode();
-		if (!isNull(dsetcd) && dsetcd.getItem() != null) {
-			for (CD cd : dsetcd.getItem()) {
-				String raceCodeStr = cd.getCode();
-				RaceCodeEnum raceCode = RaceCodeEnum.getByCode(raceCodeStr);
-				if (raceCode != null) {
-					RaceCode raceCodeObj = new RaceCode();
-			        raceCodeObj.setRaceCode(raceCode);
-					list.add(raceCodeObj);
-				} else {
-					throw exceptionHelper.getConversionException(
-							WRONG_RACE_CODE, new Object[] { raceCodeStr });
-				}
-			}
-		}
-		return list;
-	}
+//	List<RaceCodeAssociation> getRaceCodes(Person person) {
+//		List<RaceCodeAssociation> list = new ArrayList<RaceCodeAssociation>();
+//		DSETCD dsetcd = person.getRaceCode();
+//		if (!isNull(dsetcd) && dsetcd.getItem() != null) {
+//			for (CD cd : dsetcd.getItem()) {
+//				String raceCodeStr = cd.getCode();
+//				RaceCodeEnum raceCode = RaceCodeEnum.getByCode(raceCodeStr);
+//				if (raceCode != null) {
+//					RaceCode raceCodeObj = new RaceCode();
+//			        raceCodeObj.setRaceCode(raceCode);
+//					list.add(raceCodeObj);
+//				} else {
+//					throw exceptionHelper.getConversionException(
+//							WRONG_RACE_CODE, new Object[] { raceCodeStr });
+//				}
+//			}
+//		}
+//		return list;
+//	}
 
 	private Address getAddress(Person person) {
 		Address address = null;
@@ -513,7 +514,8 @@ public class JAXBToDomainObjectConverterImpl implements
 							: new CD(NullFlavor.NI));
 			person.setName(getName(p));
 			person.setPostalAddress(getPostalAddress(p));
-			person.setRaceCode(getRaceCodes(p));
+			// FIXME : DENIS
+//			person.setRaceCode(getRaceCodes(p));
 			person.setTelecomAddress(getTelecomAddress(p));
 			if (p.getStateCode() != null) {
 				subject.setStateCode(new ST(p.getStateCode().getCode()));
@@ -533,13 +535,13 @@ public class JAXBToDomainObjectConverterImpl implements
 		return addr;
 	}
 
-	private DSETCD getRaceCodes(Participant p) {
-		DSETCD dsetcd = new DSETCD();
-		for (RaceCode raceCode : p.getRaceCodes()) {
-			dsetcd.getItem().add(new CD(raceCode.getRaceCode().getCode()));
-		}
-		return dsetcd;
-	}
+//	private DSETCD getRaceCodes(Participant p) {
+//		DSETCD dsetcd = new DSETCD();
+//		for (RaceCode raceCode : p.getRaceCodes()) {
+//			dsetcd.getItem().add(new CD(raceCode.getRaceCode().getCode()));
+//		}
+//		return dsetcd;
+//	}
 
 	/**
 	 * @param p

@@ -50,7 +50,7 @@ public class EditParticipantController<C extends ParticipantWrapper> extends
     protected ConfigurationProperty configurationProperty;
     
     public ParticipantRepository participantRepository ;
-
+    
     public EditParticipantController() {
         setCommandClass(ParticipantWrapper.class);
         Flow<C> flow = new Flow<C>("Edit Subject");

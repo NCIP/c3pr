@@ -46,7 +46,7 @@ import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RaceCode;
+import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
@@ -96,8 +96,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     private StudySubjectStudyVersionDao studySubjectStudyVersionDao;
     
-    private RaceCodeDao raceCodeDao;
-
     private XmlMarshaller xmlUtility;
 
     private XmlMarshaller xmlUtilityStudy;
@@ -112,7 +110,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
         studySiteDao = (StudySiteDao) getApplicationContext().getBean("studySiteDao");
         epochDao = (EpochDao) getApplicationContext().getBean("epochDao");
         icd9DiseaseSiteDao = (ICD9DiseaseSiteDao) getApplicationContext().getBean("icd9DiseaseSiteDao");
-        raceCodeDao = (RaceCodeDao) getApplicationContext().getBean("raceCodeDao");
         studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
         studySubjectDao.setStudySiteDao(studySiteDao);
         studySubjectDao.setParticipantDao(dao);
@@ -164,7 +161,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
             outputStream.println("--- Retrieving the participant ---");
             outputStream.println("Name: " + participant.getFullName());
             outputStream.println("Gender: " + participant.getAdministrativeGenderCode());
-            outputStream.println("Race: " + participant.getRaceCodes());
+            //FIXME : HIMANSHU
+            outputStream.println("Race: " + participant.getRaceCodeAssociations());
             outputStream.println("Address: " + participant.getAddress().getStreetAddress() + " "
                             + participant.getAddress().getCity() + " "
                             + participant.getAddress().getStateCode() + " "
@@ -1143,8 +1141,11 @@ public class StudySubjectDaoTest extends DaoTestCase {
         study.setShortTitleText(" ");
 
     	Participant participant = new Participant();
-    	RaceCode raceCode= (RaceCode) raceCodeDao.getById(1);
-		participant.addRaceCode(raceCode);
+	   	 RaceCodeAssociation  raceCodeAssociation = new RaceCodeAssociation();
+	     raceCodeAssociation.setRaceCode(RaceCodeEnum.White);
+	     participant.addRaceCodeAssociation(raceCodeAssociation);
+     
+     
     	participant.setBirthDate(simpleDateFormat.parse("01/01/2000"));
 		id = new SystemAssignedIdentifier();
 	    id.setValue(null);

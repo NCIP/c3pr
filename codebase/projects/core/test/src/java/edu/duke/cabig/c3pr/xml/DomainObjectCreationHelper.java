@@ -26,7 +26,7 @@ import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
-import edu.duke.cabig.c3pr.domain.RaceCode;
+import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -303,14 +303,13 @@ public class DomainObjectCreationHelper {
 		participant.setBirthDate(new Date());
 		participant.setEthnicGroupCode("Hispanic or Latino");
 
-	  	 RaceCode raceCode = new RaceCode();
-         raceCode.setRaceCode(RaceCodeEnum.Asian);
-        
-         RaceCode raceCode1 = new RaceCode();
-         raceCode.setRaceCode(RaceCodeEnum.Unknown);
+		 RaceCodeAssociation  raceCodeAssociation = new RaceCodeAssociation();
+         raceCodeAssociation.setRaceCode(RaceCodeEnum.Unknown);
+         participant.addRaceCodeAssociation(raceCodeAssociation);
          
-         participant.addRaceCode(raceCode);
-         participant.addRaceCode(raceCode1);
+         RaceCodeAssociation  raceCodeAssociation1 = new RaceCodeAssociation();
+         raceCodeAssociation1.setRaceCode(RaceCodeEnum.Asian);
+         participant.addRaceCodeAssociation(raceCodeAssociation1);
          
 		OrganizationAssignedIdentifier organizationAssignedIdentifier= new OrganizationAssignedIdentifier();
 		organizationAssignedIdentifier.setType(OrganizationIdentifierTypeEnum.MRN);

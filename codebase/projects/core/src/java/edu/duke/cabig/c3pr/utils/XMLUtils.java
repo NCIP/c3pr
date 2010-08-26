@@ -23,7 +23,7 @@ import org.xml.sax.InputSource;
 
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RaceCode;
+import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -86,9 +86,9 @@ public class XMLUtils {
                         .getBlankIfNull(stPart.getLastName())));
         participant.addContent(new Element("maritalStatusCode", "p1", ns).setText(""));
         
-        for(RaceCode raceCode : stPart.getRaceCodes()){
+        for(RaceCodeAssociation raceCodeAssociation : stPart.getRaceCodeAssociations()){
         	 participant.addContent(new Element("raceCode", "p1", ns).setText(StringUtils
-                     .getBlankIfNull(raceCode.getRaceCode().getCode())));
+                     .getBlankIfNull(raceCodeAssociation.getRaceCode().getCode())));
         }
         
         List<SystemAssignedIdentifier> identifiers = stPart.getSystemAssignedIdentifiers();

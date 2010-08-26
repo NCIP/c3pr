@@ -48,13 +48,13 @@ public class ParticipantTest extends TestCase{
 	public void testGetRaceCode() throws Exception{
 		
 		Participant participant = new Participant();
-		assertEquals("Unexpected race code :should have been blank string",0,participant.getRaceCodes().size());
+		assertEquals("Unexpected race code :should have been blank string",0,participant.getRaceCodeAssociations().size());
 		
-		RaceCode raceCode = new RaceCode();
-		raceCode.setRaceCode(RaceCodeEnum.Asian);
-		participant.addRaceCode(raceCode);
+		 RaceCodeAssociation  raceCodeAssociation = new RaceCodeAssociation();
+         raceCodeAssociation.setRaceCode(RaceCodeEnum.Asian);
+         participant.addRaceCodeAssociation(raceCodeAssociation);
 		
-		assertEquals("Wrong race code","Asian",participant.getRaceCodes().get(0).getRaceCode().getCode());
+		assertEquals("Wrong race code","Asian",participant.getRaceCodeAssociations().get(0).getRaceCode().getCode());
 	}
 	
 	/**
@@ -65,22 +65,27 @@ public class ParticipantTest extends TestCase{
 	public void testSetRaceCodes() throws Exception{
 		
 		Participant participant = new Participant();
-		assertEquals("Wrong number of race codes",0,participant.getRaceCodes().size());
+		assertEquals("Wrong number of race codes",0,participant.getRaceCodeAssociations().size());
 		
-	  	 RaceCode raceCode = new RaceCode();
-         raceCode.setRaceCode(RaceCodeEnum.Asian);
+		 RaceCodeAssociation  raceCodeAssociation = new RaceCodeAssociation();
+         raceCodeAssociation.setRaceCode(RaceCodeEnum.Asian);
+         participant.addRaceCodeAssociation(raceCodeAssociation);
+         
+		 RaceCodeAssociation  raceCodeAssociation1 = new RaceCodeAssociation();
+         raceCodeAssociation.setRaceCode(RaceCodeEnum.American_Indian_or_Alaska_Native);
+         participant.addRaceCodeAssociation(raceCodeAssociation);
+         
+		 RaceCodeAssociation  raceCodeAssociation2 = new RaceCodeAssociation();
+         raceCodeAssociation.setRaceCode(RaceCodeEnum.Native_Hawaiian_or_Pacific_Islander);
+         participant.addRaceCodeAssociation(raceCodeAssociation);
         
-         RaceCode raceCode1 = new RaceCode();
-         raceCode.setRaceCode(RaceCodeEnum.Native_Hawaiian_or_Pacific_Islander);
+     
          
-         RaceCode raceCode2 = new RaceCode();
-         raceCode.setRaceCode(RaceCodeEnum.American_Indian_or_Alaska_Native);
-         
-         participant.addRaceCode(raceCode);
-         participant.addRaceCode(raceCode1);
-         participant.addRaceCode(raceCode2);
+         participant.addRaceCodeAssociation(raceCodeAssociation);
+         participant.addRaceCodeAssociation(raceCodeAssociation1);
+         participant.addRaceCodeAssociation(raceCodeAssociation2);
 		
-		assertEquals("Wrong number of race codes",3,participant.getRaceCodes().size());
+		assertEquals("Wrong number of race codes",3,participant.getRaceCodeAssociations().size());
 		
 	}
 	

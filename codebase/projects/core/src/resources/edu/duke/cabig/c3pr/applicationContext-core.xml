@@ -144,7 +144,7 @@
                <value>edu.duke.cabig.c3pr.domain.OffReservingReason</value>
                <value>edu.duke.cabig.c3pr.domain.OffFollowupReason</value>
                <value>edu.duke.cabig.c3pr.domain.OffEpochReason</value>
-               <value>edu.duke.cabig.c3pr.domain.RaceCode</value>
+               <value>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -299,7 +299,7 @@
                <value>edu.duke.cabig.c3pr.domain.OffReservingReason</value>
                <value>edu.duke.cabig.c3pr.domain.OffFollowupReason</value>
                <value>edu.duke.cabig.c3pr.domain.OffEpochReason</value>
-               <value>edu.duke.cabig.c3pr.domain.RaceCode</value>
+               <value>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</value>
             </list>
         </property>
     </bean>
@@ -446,7 +446,7 @@
 				   	<value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
 				   	<value>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</value>
    				   <value>edu.duke.cabig.c3pr.domain.RolePrivilege</value>
-   				   <value>edu.duke.cabig.c3pr.domain.RaceCode</value>
+   				   <value>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</value>
               </list>
         </property>
         <!--  <property name="auditAll">
@@ -628,7 +628,6 @@
 	<bean id="rolePrivilegeDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RolePrivilegeDao" autowire="byName"/>
     <bean id="reasonDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ReasonDao" autowire="byName"/>
     <bean id="offEpochReasonDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.OffEpochReasonDao" autowire="byName"/>
-	<bean id="raceCodeDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RaceCodeDao" autowire="byName"/>
 	
 	<!-- Multisite Request Handlers -->
     <!--  <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">

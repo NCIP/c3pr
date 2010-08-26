@@ -67,7 +67,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	private List<HealthcareSite> healthcareSites;
 
 	/** The race codes. */
-	private List<RaceCode> raceCodes;
+	private List<RaceCodeAssociation> raceCodeAssociations;
 
 	/** The marital status code. */
 	private String maritalStatusCode;
@@ -96,7 +96,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 						SystemAssignedIdentifier.class));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setIdentifiers(new ArrayList<Identifier>());
-		raceCodes =  new ArrayList<RaceCode>();
+		raceCodeAssociations =  new ArrayList<RaceCodeAssociation>();
 		healthcareSites = new ArrayList<HealthcareSite>();
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 	}
@@ -335,21 +335,18 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	 * 
 	 * @return the race codes
 	 */
-//	  @OneToMany
-//	  @JoinTable(name = "race_code_assocn",
-//	    joinColumns = {
-//	      @JoinColumn(name="sub_id")           
-//	    }
-//	  )
-	@ManyToMany
+//	@ManyToMany
+//	@Cascade(value = { CascadeType.EVICT, CascadeType.LOCK, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+//	@JoinTable(name = "race_code_assocn", joinColumns = @JoinColumn(name = "sub_id"), inverseJoinColumns = @JoinColumn(name = "race_code_id")) 
+	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinTable(name = "race_code_assocn", joinColumns = @JoinColumn(name = "sub_id"), inverseJoinColumns = @JoinColumn(name = "race_code_id")) 
-	public List<RaceCode> getRaceCodes() {
-		return raceCodes;
+    @JoinColumn(name="sub_id")
+	public List<RaceCodeAssociation> getRaceCodeAssociations() {
+		return raceCodeAssociations;
 	}
 	  
-	public void addRaceCode(RaceCode raceCode) {
-		getRaceCodes().add(raceCode);
+	public void addRaceCodeAssociation(RaceCodeAssociation raceCodeAssociation) {
+		getRaceCodeAssociations().add(raceCodeAssociation);
 	}
 
 	/**
@@ -357,8 +354,8 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	 * 
 	 * @param raceCodes the new race codes
 	 */
-	public void setRaceCodes(List<RaceCode> raceCodes) {
-		this.raceCodes = raceCodes;
+	public void setRaceCodeAssociations(List<RaceCodeAssociation> raceCodeAssociations) {
+		this.raceCodeAssociations = raceCodeAssociations;
 	}
 
 	/**
@@ -595,8 +592,8 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		studySubjectDemographics.setAdministrativeGenderCode(this.getAdministrativeGenderCode());
 		studySubjectDemographics.setEthnicGroupCode(this.getEthnicGroupCode());
 		
-		for(RaceCode raceCode : this.getRaceCodes()){
-			studySubjectDemographics.addRaceCode(raceCode);
+		for(RaceCodeAssociation raceCodeAssociation : this.getRaceCodeAssociations()){
+			studySubjectDemographics.addRaceCodeAssociation(raceCodeAssociation);
 		}
 //		studySubjectDemographics.setRaceCodes(this.getRaceCodes());
 		
@@ -695,7 +692,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		this.setMaidenName(studySubjectDemographics.getMaidenName());
 		this.setAdministrativeGenderCode(studySubjectDemographics.getAdministrativeGenderCode());
 		this.setEthnicGroupCode(studySubjectDemographics.getEthnicGroupCode());
-		this.setRaceCodes(studySubjectDemographics.getRaceCodes());
+		this.setRaceCodeAssociations(studySubjectDemographics.getRaceCodeAssociations());
 		this.setBirthDate(studySubjectDemographics.getBirthDate());
 		
 		// copy address

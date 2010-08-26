@@ -129,7 +129,7 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 	private String ethnicGroupCode;
 
 	/** The race codes. */
-	private List<RaceCode> raceCodes;
+	private List<RaceCodeAssociation> raceCodeAssociations;
 
 	/** The marital status code. */
 	private String maritalStatusCode;
@@ -173,7 +173,7 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 						SystemAssignedIdentifier.class));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setIdentifiers(new ArrayList<Identifier>());
-		raceCodes =  new ArrayList<RaceCode>();
+		raceCodeAssociations =  new ArrayList<RaceCodeAssociation>();
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 	}
 	
@@ -500,15 +500,18 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 //	      @JoinColumn(name="stu_sub_dmgphcs_id")           
 //	    }
 //	  )
-	@ManyToMany
+//	@ManyToMany
+//	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+//	@JoinTable(name = "race_code_assocn", joinColumns = @JoinColumn(name = "stu_sub_dmgphcs_id"), inverseJoinColumns = @JoinColumn(name = "race_code_id")) 
+	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinTable(name = "race_code_assocn", joinColumns = @JoinColumn(name = "stu_sub_dmgphcs_id"), inverseJoinColumns = @JoinColumn(name = "race_code_id")) 
-	public List<RaceCode> getRaceCodes() {
-		return raceCodes;
+    @JoinColumn(name="stu_sub_dmgphcs_id")
+	public List<RaceCodeAssociation> getRaceCodeAssociations() {
+		return raceCodeAssociations;
 	}
 	  
-	public void addRaceCode(RaceCode raceCode) {
-		getRaceCodes().add(raceCode);
+	public void addRaceCodeAssociation(RaceCodeAssociation raceCodeAssociation) {
+		getRaceCodeAssociations().add(raceCodeAssociation);
 	}
 
 	/**
@@ -516,8 +519,8 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 	 * 
 	 * @param raceCodes the new race codes
 	 */
-	public void setRaceCodes(List<RaceCode> raceCodes) {
-		this.raceCodes = raceCodes;
+	public void setRaceCodes(List<RaceCodeAssociation> raceCodeAssociations) {
+		this.raceCodeAssociations = raceCodeAssociations;
 	}
 
 	/**

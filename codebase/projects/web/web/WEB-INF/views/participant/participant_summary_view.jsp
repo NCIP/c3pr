@@ -67,7 +67,7 @@
 						<c:forEach items="${command.participant.raceCodes}" var="raceCode">
 				            <div class="row">
 				                <div class="left">
-				                        ${raceCode.displayName}
+				                        ${raceCode.raceCode.displayName}
 				                </div>
 				            </div>
 				        </c:forEach>

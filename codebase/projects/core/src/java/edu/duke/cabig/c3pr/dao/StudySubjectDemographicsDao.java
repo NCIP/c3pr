@@ -66,7 +66,7 @@ public class StudySubjectDemographicsDao extends GridIdentifiableDao<StudySubjec
         	getHibernateTemplate().initialize(identifier.getHealthcareSite().getIdentifiersAssignedToOrganization());
         }
         getHibernateTemplate().initialize(studySubjectDemographics.getContactMechanisms());
-        getHibernateTemplate().initialize(studySubjectDemographics.getRaceCodes());
+        getHibernateTemplate().initialize(studySubjectDemographics.getRaceCodeAssociations());
         getHibernateTemplate().initialize(studySubjectDemographics.getCustomFieldsInternal());
     }
 

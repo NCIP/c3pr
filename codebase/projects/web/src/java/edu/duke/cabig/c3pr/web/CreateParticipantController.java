@@ -18,7 +18,6 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
-import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -32,6 +31,7 @@ import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
@@ -51,7 +51,7 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
 
     private ParticipantDao participantDao;
 
-    protected ConfigurationProperty configurationProperty;
+	protected ConfigurationProperty configurationProperty;
 
     private PersonnelService personnelService;
 
@@ -128,7 +128,6 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
         binder.registerCustomEditor(ContactMechanismType.class, new EnumByNameEditor(ContactMechanismType.class));
-        binder.registerCustomEditor(RaceCodeEnum.class, new EnumByNameEditor(RaceCodeEnum.class));
         binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor(OrganizationIdentifierTypeEnum.class));
     }
 

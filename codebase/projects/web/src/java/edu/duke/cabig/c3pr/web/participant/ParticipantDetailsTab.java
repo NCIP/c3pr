@@ -17,8 +17,8 @@ public class ParticipantDetailsTab extends ParticipantTab {
     private ParticipantValidator participantValidator;
     
     private PersonnelService personnelService;
-
-    public void setPersonnelService(PersonnelService personnelService) {
+    
+	public void setPersonnelService(PersonnelService personnelService) {
 		this.personnelService = personnelService;
 	}
 
@@ -49,7 +49,6 @@ public class ParticipantDetailsTab extends ParticipantTab {
 
 	        refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
 	        refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
-	        refdata.put("raceCode", configMap.get("raceCode"));
 	        // refdata.put("source", healthcareSiteDao.getAll());
 	        refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
 	        refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));

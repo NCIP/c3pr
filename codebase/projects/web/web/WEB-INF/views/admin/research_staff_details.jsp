@@ -421,9 +421,6 @@ function groupRegistrarSpecificRoles(id){
 						</c:when>
 						<c:otherwise>
 							<form:checkbox id="global-role-${globalRole.name}" path="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}"/>
-							<!-- 
-							<input type="checkbox" id="global-role-${roleStatus.index}" name="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}" class="globalRoleCheckbox"  <c:if test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}"> checked </c:if>/>
-							 -->
 						</c:otherwise>
 					</c:choose>
 				</div>
