@@ -242,7 +242,9 @@
 	        <loadfile property="selenium.shutdown.results" srcfile="selenium-shutdown-result.txt"/>
 	        <echo message="selenium shutdown status: ${selenium.shutdown.results}"/>
 	    </target>
-
+	
+		<target name="test-integration" depends="resolve-test">			
+		</target>
 
   
 </project>
