@@ -8,9 +8,7 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -22,14 +20,12 @@ import org.springframework.context.NoSuchMessageException;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
-import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RaceCode;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl;
@@ -327,7 +323,8 @@ public abstract class SubjectManagementRelatedTestCase extends
 		p.setLastName(TEST_LAST_NAME);
 		p.setAddress(new Address(TEST_STREET_ADDRESS, TEST_CITY_NAME,
 				TEST_STATE_CODE, TEST_ZIP_CODE, TEST_COUNTRY));
-		p.setRaceCodes(createRaceCodes());
+//	FIXME : Denis
+//		p.setRaceCodes(createRaceCodes());
 		p.setEmail(TEST_EMAIL_ADDR);
 		p.setPhone(TEST_PHONE);
 		p.setFax(TEST_FAX);
@@ -338,15 +335,16 @@ public abstract class SubjectManagementRelatedTestCase extends
 	/**
 	 * @return
 	 */
-	protected List<RaceCode> createRaceCodes() {
-		List<RaceCode> list = new ArrayList<RaceCode>();
-		RaceCode rc1 = new RaceCode();
-		rc1.setRaceCode(RaceCodeEnum.White);
-		RaceCode rc2 = new RaceCode();
-		rc2.setRaceCode(RaceCodeEnum.Asian);
-		list.add(rc1);
-		list.add(rc2);
-		return list;
-	}
+//	FIXME : Denis
+//	protected List<RaceCode> createRaceCodes() {
+//		List<RaceCode> list = new ArrayList<RaceCode>();
+//		RaceCode rc1 = new RaceCode();
+//		rc1.setRaceCode(RaceCodeEnum.White);
+//		RaceCode rc2 = new RaceCode();
+//		rc2.setRaceCode(RaceCodeEnum.Asian);
+//		list.add(rc1);
+//		list.add(rc2);
+//		return list;
+//	}
 
 }
