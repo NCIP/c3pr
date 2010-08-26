@@ -519,7 +519,7 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 	 * 
 	 * @param raceCodes the new race codes
 	 */
-	public void setRaceCodes(List<RaceCodeAssociation> raceCodeAssociations) {
+	public void setRaceCodeAssociations(List<RaceCodeAssociation> raceCodeAssociations) {
 		this.raceCodeAssociations = raceCodeAssociations;
 	}
 
