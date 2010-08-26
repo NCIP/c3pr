@@ -131,11 +131,22 @@
         	<dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default" />
         	<dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
 			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
+			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
+				conf="test"/>
+			<!-- tomcat jars for embedded container -->
 			<dependency org="org.apache.tomcat" name="catalina" rev="6.0.29" conf="test->default" />
 			<dependency org="org.apache.tomcat" name="coyote" rev="6.0.29" conf="test->default" />
 			<dependency org="org.apache.tomcat" name="jasper" rev="6.0.29" conf="test->default" />
-			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
-				conf="test"/>
+			<!-- Following dependencies retrieve jars which normally go into Tomcat/common/lib.
+			     For embedded container, they need to be on the classpath.
+			-->
+			<dependency org="bouncycastle" name="bouncycastle-jce-jdk13" rev="125-cagrid1.0" conf="test->default" />
+			<dependency org="org.globus" name="cog-jglobus" rev="1.2" conf="test->default" />
+			<dependency org="cryptix" name="cryptix" rev="3.2-cagrid1.0" conf="test->default" />
+			<dependency org="cryptix" name="cryptix-impl" rev="3.2-cagrid1.0" conf="test->default" />
+			<dependency org="cryptix" name="cryptix-asn1" rev="3.2-cagrid1.0" conf="test->default" />
+			<dependency org="com.claymoresystems" name="puretls" rev="1.0-SNAPSHOT" conf="test->default"/>					
+			
 
 			<!-- Web specific dependencies -->
 			<dependency org="org.directwebremoting" name="dwr" rev="2.0.rc2" />
