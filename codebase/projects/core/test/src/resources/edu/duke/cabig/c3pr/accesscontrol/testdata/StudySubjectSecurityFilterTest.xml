@@ -233,15 +233,15 @@
    	<stu_sub_demographics id="1003" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M" ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />
    	<stu_sub_demographics id="1004" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M" ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />       
 	
-	<race_code_assocn sub_id="1000" race_code="White" />
-	<race_code_assocn sub_id="1001" race_code="White" />
-	<race_code_assocn sub_id="1002" race_code="Native_Hawaiian_or_Pacific_Islander" />
-	<race_code_assocn sub_id="1010" race_code="White" />
-	<race_code_assocn stu_sub_dmgphcs_id="1000" race_code="White" />
-	<race_code_assocn stu_sub_dmgphcs_id="1001" race_code="White" />
-	<race_code_assocn stu_sub_dmgphcs_id="1002" race_code="Native_Hawaiian_or_Pacific_Islander" />
-	<race_code_assocn stu_sub_dmgphcs_id="1003" race_code="Native_Hawaiian_or_Pacific_Islander" />
-	<race_code_assocn stu_sub_dmgphcs_id="1004" race_code="Native_Hawaiian_or_Pacific_Islander" />
+	<race_code_assocn version="1"  sub_id="1000" race_code="White" />
+	<race_code_assocn version="1"  sub_id="1001" race_code="White" />
+	<race_code_assocn version="1"  sub_id="1002" race_code="Native_Hawaiian_or_Pacific_Islander" />
+	<race_code_assocn version="1"  sub_id="1010" race_code="White" />
+	<race_code_assocn version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
+	<race_code_assocn version="1"  stu_sub_dmgphcs_id="1001" race_code="White" />
+	<race_code_assocn version="1"  stu_sub_dmgphcs_id="1002" race_code="Native_Hawaiian_or_Pacific_Islander" />
+	<race_code_assocn version="1"  stu_sub_dmgphcs_id="1003" race_code="Native_Hawaiian_or_Pacific_Islander" />
+	<race_code_assocn version="1"  stu_sub_dmgphcs_id="1004" race_code="Native_Hawaiian_or_Pacific_Islander" />
 
     <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1000" sti_id="1000" retired_indicator = "false" grid_id="1000"/>
     <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1001" sti_id="1001" retired_indicator = "false" grid_id="1001"/>

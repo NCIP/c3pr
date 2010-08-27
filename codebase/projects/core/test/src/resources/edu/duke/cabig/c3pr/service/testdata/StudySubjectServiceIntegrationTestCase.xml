@@ -49,8 +49,8 @@
    	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  add_id="1100" grid_id="AAAAA11111GridID"/>
    	<PARTICIPANTS id="1100" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" add_id="1100" grid_id="OTHERGRIDID"/>   	
 	
- 	<race_code_assocn sub_id="1000" race_code="White" />
-	<race_code_assocn sub_id="1100" race_code="White" />
+ 	<race_code_assocn version="1"  sub_id="1000" race_code="White" />
+	<race_code_assocn version="1"  sub_id="1100" race_code="White" />
 	
     <ANATOMIC_SITES id="1100" version="1" name="Skin" category="skin" />     
 

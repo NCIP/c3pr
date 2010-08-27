@@ -37,9 +37,9 @@
     <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="01-01-2000" administrative_gender_code="M"  add_id="1001"  retired_indicator = "false" />
     <PARTICIPANTS id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="M"  add_id="1001"  retired_indicator = "false" />
 	
-	<race_code_assocn sub_id="1000" race_code="White" />
-	<race_code_assocn sub_id="1001" race_code="White" />
-	<race_code_assocn sub_id="1002" race_code="Hispanic" />
+	<race_code_assocn version="1"  sub_id="1000" race_code="White" />
+	<race_code_assocn version="1"  sub_id="1001" race_code="White" />
+	<race_code_assocn version="1"  sub_id="1002" race_code="Hispanic" />
 	
     <prt_org_associations version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
    	<prt_org_associations version="1" prt_id="1001" org_id="1000"  retired_indicator = "false"/>
