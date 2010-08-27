@@ -103,6 +103,8 @@
             	 <exclude name="puretls*.jar"/>
             	<exclude name="jce-jdk*.jar"/>
             	<exclude name="*gss.jar"/>
+            	<exclude name="servlet-api*.jar"/>
+            	<exclude name="jsp-api*.jar"/>
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="**/*.jar"/>
