@@ -133,10 +133,12 @@
 			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
 				conf="test"/>
+			<dependency org="javax.servlet" name="servlet-api" rev="2.5" 
+				conf="test->default"/>				
 			<!-- tomcat jars for embedded container -->
 			<dependency org="org.apache.tomcat" name="catalina" rev="6.0.29" conf="test->default" />
 			<dependency org="org.apache.tomcat" name="coyote" rev="6.0.29" conf="test->default" />
-			<dependency org="org.apache.tomcat" name="jasper" rev="6.0.29" conf="test->default" />
+			<dependency org="org.apache.tomcat" name="jasper" rev="6.0.29" conf="test->default" />			
 			<!-- Following dependencies retrieve jars which normally go into Tomcat/common/lib.
 			     For embedded container, they need to be on the classpath.
 			-->
