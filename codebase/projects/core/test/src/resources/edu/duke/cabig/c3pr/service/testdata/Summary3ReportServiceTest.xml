@@ -82,10 +82,10 @@
     <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
     <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1100" add_id="1001"  retired_indicator="false" />
 	
-	<race_code_assocn version="1"  sub_id="1000" race_code="White" />
-	<race_code_assocn version="1"  sub_id="1100" race_code="White" />
-	<race_code_assocn version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
-	<race_code_assocn version="1"  stu_sub_dmgphcs_id="1001" race_code="White" />
+	<race_code_assocn retired_indicator="false"    version="1"  sub_id="1000" race_code="White" />
+	<race_code_assocn retired_indicator="false"    version="1"  sub_id="1100" race_code="White" />
+	<race_code_assocn retired_indicator="false"    version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
+	<race_code_assocn retired_indicator="false"    version="1"  stu_sub_dmgphcs_id="1001" race_code="White" />
 	
     <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="01-01-2000" disease_history_id="1000" stu_sub_dmgphcs_id="1000" sti_id="1100" retired_indicator = "false" />
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" disease_history_id="1100" stu_sub_dmgphcs_id="1001" sti_id="1100" retired_indicator = "false" />
