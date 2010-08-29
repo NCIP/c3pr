@@ -73,18 +73,13 @@ public class ParticipantTest extends TestCase{
          
 		 RaceCodeAssociation  raceCodeAssociation1 = new RaceCodeAssociation();
          raceCodeAssociation.setRaceCode(RaceCodeEnum.American_Indian_or_Alaska_Native);
-         participant.addRaceCodeAssociation(raceCodeAssociation);
+         participant.addRaceCodeAssociation(raceCodeAssociation1);
          
 		 RaceCodeAssociation  raceCodeAssociation2 = new RaceCodeAssociation();
          raceCodeAssociation.setRaceCode(RaceCodeEnum.Native_Hawaiian_or_Pacific_Islander);
-         participant.addRaceCodeAssociation(raceCodeAssociation);
+         participant.addRaceCodeAssociation(raceCodeAssociation2);
         
      
-         
-         participant.addRaceCodeAssociation(raceCodeAssociation);
-         participant.addRaceCodeAssociation(raceCodeAssociation1);
-         participant.addRaceCodeAssociation(raceCodeAssociation2);
-		
 		assertEquals("Wrong number of race codes",3,participant.getRaceCodeAssociations().size());
 		
 	}
