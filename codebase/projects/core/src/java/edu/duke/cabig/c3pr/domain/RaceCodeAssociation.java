@@ -12,7 +12,7 @@ import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 
 @Entity
 @Table(name = "race_code_assocn")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "race_codes_id_seq") })
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "race_code_assocn_id_seq") })
 public class RaceCodeAssociation extends AbstractMutableDeletableDomainObject {
 	private RaceCodeEnum raceCode;
 //	private Participant participant;
