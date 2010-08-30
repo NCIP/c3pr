@@ -615,6 +615,31 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	assertEquals("Wrong street address","650 mountain drive",studySubjectDemographics.getAddress().getStreetAddress());
     	assertEquals("Wrong postal code","12321",studySubjectDemographics.getAddress().getPostalCode());
     }
-
+    
+    public void testRaceCodeAssocnSave() throws Exception {
+    	Participant participant = new Participant();
+    	
+    	participant.setFirstName("John");
+    	participant.setLastName("Doe");
+    	participant.setMiddleName("JD");
+    	participant.setMaidenName("Gerber");
+    	participant.setEthnicGroupCode("Non Hispanic");
+    	participant.setAdministrativeGenderCode("Not Reported");
+    	
+	   	 RaceCodeAssociation  raceCodeAssociation = new RaceCodeAssociation();
+	     raceCodeAssociation.setRaceCode(RaceCodeEnum.Asian);
+	     participant.addRaceCodeAssociation(raceCodeAssociation);
+	     participant = participantDao.merge(participant);
+	     assertEquals("1 association",1, participant.getRaceCodeAssociations().size());
+	     
+	     participant.removeRaceCodeAssociation(raceCodeAssociation);
+	     
+	     RaceCodeAssociation  raceCodeAssociation1 = new RaceCodeAssociation();
+	     raceCodeAssociation1.setRaceCode(RaceCodeEnum.Unknown);
+	     participant.addRaceCodeAssociation(raceCodeAssociation1);
+	     
+	     participant = participantDao.merge(participant);
+	     assertEquals("1 association", 1, participant.getRaceCodeAssociations().size());
+    }
 
 }

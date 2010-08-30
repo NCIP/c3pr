@@ -39,9 +39,9 @@
 					<td><c:if test="${! empty participant.MRN}">${participant.MRN.healthcareSite.name}</c:if></td>
 					<td>${participant.administrativeGenderCode}</td>
 					<td>
-						<c:forEach items="${participant.raceCodes}" var="raceCode">
+						<c:forEach items="${participant.raceCodeAssociations}" var="raceCode">
 				            <div class="row">
-				                <div class="left">${raceCode.displayName}</div>
+				                <div class="left">${raceCode.raceCode.displayName}</div>
 				            </div>
 			        	</c:forEach>
 		        	</td>
@@ -110,7 +110,13 @@
 									</div>
 									<div class="row">
 										<div class="label"><fmt:message key="participant.race"/></div>
-										<div class="value">${participant.raceCode }</div>
+										<div class="value">
+										<c:forEach items="${participant.raceCodeAssociations}" var="raceCode">
+								            <div class="row">
+								                <div class="left">${raceCode.raceCode.displayName}</div>
+								            </div>
+							        	</c:forEach>
+										</div>
 									</div>
 								</div>
 							</chrome:division>

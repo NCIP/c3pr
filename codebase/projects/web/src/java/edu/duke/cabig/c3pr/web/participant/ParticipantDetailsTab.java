@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.web.RaceCodeHolder;
 
 public class ParticipantDetailsTab extends ParticipantTab {
@@ -56,8 +58,19 @@ public class ParticipantDetailsTab extends ParticipantTab {
 	        refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
 	        refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
 	        refdata.put("mandatory", "true");
-//	        refdata.put("raceCodes", configMap.get("raceCode"));
-	  	  
+	        refdata.put("raceCodes", WebUtils.collectOptions(RaceCodeEnum.values()));
+
+	        Participant participant = command.getParticipant();
+	        for(Object object : WebUtils.collectOptions(RaceCodeEnum.values())){
+	        	RaceCodeEnum raceCode = (RaceCodeEnum) object ;
+	        	RaceCodeHolder holder = new RaceCodeHolder();
+	        	if(participant.getRaceCodes().contains(raceCode)){
+	        		holder.setRaceCode(raceCode);
+	        	}else{
+	        		holder.setRaceCode(null);
+	        	}
+	        	command.addRaceCodeHolder(holder);
+	        }
 	        return refdata;
 	}
 
@@ -77,16 +90,19 @@ public class ParticipantDetailsTab extends ParticipantTab {
     
     @Override
     public void postProcess(HttpServletRequest request, ParticipantWrapper command, Errors errors) {
-    	Participant participant = (Participant) command.getParticipant();
-    	participant.setRaceCodeAssociations(null);
-    	List<RaceCodeHolder> raceCodeHolderList = command.getRaceCodeHolderList();
-		for(RaceCodeHolder raceCodeHolder : raceCodeHolderList){
-			if(raceCodeHolder != null && raceCodeHolder.getRaceCode() != null){
-				RaceCodeAssociation raceCodeAssociation = new RaceCodeAssociation();
-				raceCodeAssociation.setRaceCode(raceCodeHolder.getRaceCode());
+    	Participant participant = command.getParticipant();
+    	for(RaceCodeEnum raceCode : command.getRaceCodesFromHolder()){
+    		if(!participant.getRaceCodes().contains(raceCode)){
+    			RaceCodeAssociation raceCodeAssociation = new RaceCodeAssociation();
+				raceCodeAssociation.setRaceCode(raceCode);
 				participant.addRaceCodeAssociation(raceCodeAssociation);
-			}
-		}
+    		}
+    	}
+    	for(RaceCodeEnum raceCode : participant.getRaceCodes()){
+    		if(!command.getRaceCodesFromHolder().contains(raceCode)){
+    			participant.removeRaceCodeAssociation(participant.getRaceCodeAssociation(raceCode));
+    		}
+    	}
     	if(command.getParticipant().getId() == null){
     		gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
     		.getSession().getAttribute("userObject");

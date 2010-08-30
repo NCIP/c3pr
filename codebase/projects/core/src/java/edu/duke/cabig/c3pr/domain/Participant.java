@@ -24,6 +24,7 @@ import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
@@ -334,9 +335,6 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	 * 
 	 * @return the race codes
 	 */
-//	@ManyToMany
-//	@Cascade(value = { CascadeType.EVICT, CascadeType.LOCK, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-//	@JoinTable(name = "race_code_assocn", joinColumns = @JoinColumn(name = "sub_id"), inverseJoinColumns = @JoinColumn(name = "race_code_id")) 
 	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name="sub_id")
@@ -348,9 +346,23 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	}
 	  
 	public void addRaceCodeAssociation(RaceCodeAssociation raceCodeAssociation) {
-		getRaceCodeAssociations().add(raceCodeAssociation);
+		this.getRaceCodeAssociations().add(raceCodeAssociation);
 	}
-
+	
+	public void removeRaceCodeAssociation(RaceCodeAssociation raceCodeAssociation) {
+		this.getRaceCodeAssociations().remove(raceCodeAssociation);
+	}
+	
+	@Transient
+	public RaceCodeAssociation getRaceCodeAssociation(RaceCodeEnum raceCode) {
+		for(RaceCodeAssociation raceCodeAssociation : getRaceCodeAssociations()){
+			if(raceCode == raceCodeAssociation.getRaceCode()){
+				return raceCodeAssociation ;
+			}
+		}
+		return null ;
+	}
+	
 	/**
 	 * Sets the race codes.
 	 * 
@@ -361,10 +373,10 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	}
 	
 	@Transient
-	public List<String> getRaceCodes(){
-		List<String> raceCodes = new ArrayList<String>();
+	public List<RaceCodeEnum> getRaceCodes(){
+		List<RaceCodeEnum> raceCodes = new ArrayList<RaceCodeEnum>();
 		for(RaceCodeAssociation raceCodeAssociation : getRaceCodeAssociations()){
-			raceCodes.add(raceCodeAssociation.getRaceCode().getCode());
+			raceCodes.add(raceCodeAssociation.getRaceCode());
 		}
 		return raceCodes;
 	}

@@ -43,5 +43,16 @@ public class RaceCodeAssociation extends AbstractMutableDeletableDomainObject {
 	public RaceCodeEnum getRaceCode() {
 		return raceCode;
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final RaceCodeAssociation that = (RaceCodeAssociation) o;
+
+        if (raceCode != null ? !raceCode.equals(that.raceCode) : that.raceCode != null) return false;
+        return true;
+	}
 
 }

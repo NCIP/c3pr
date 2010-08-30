@@ -153,7 +153,7 @@
 		if(formElement.name == 'createSubForm'){
 			//for the create subject form we make an ajax submit and return false to avoid the html submit
 			var raceCodeFlag=false;
-			for(i=1 ; i<8 ; i++){
+			for(i=0 ; i<7 ; i++){
 				if($('raceCodes'+i).checked){
 					raceCodeFlag=true;
 					break;
@@ -362,20 +362,11 @@
                                                 <tags:requiredIndicator/><fmt:message key="participant.race"/>
                                             </div>
                                             <div class="value">
-                                                <input id="raceCodes1" name="participant.raceCodes" type="checkbox" value="Asian"/> Asian
-                                                <br>
-                                                <input id="raceCodes2" name="participant.raceCodes" type="checkbox" value="Black_or_African_American"/> Black or African American
-                                                <br>
-                                                <input id="raceCodes3" name="participant.raceCodes" type="checkbox" value="White"/> White
-                                                <br>
-                                                <input id="raceCodes4" name="participant.raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native
-                                                <br>
-                                                <input id="raceCodes5" name="participant.raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander
-                                                <br>
-                                                <input id="raceCodes6" name="participant.raceCodes" type="checkbox" value="Not_Reported"/> Not reported
-                                                <br>
-                                                <input id="raceCodes7" name="participant.raceCodes" type="checkbox" value="Unknown"/> Unknown
-                                                <br/><span id="raceCodes" style="display:inline"></span>
+                                            	<c:forEach items="${raceCodes}" var="raceCode" varStatus="raceCodeStatus">
+				                            		<input id="raceCodes${raceCodeStatus.index}" name="raceCodeHolderList[${raceCodeStatus.index}].raceCode" type="checkbox" value="${raceCode.name}"/> ${raceCode.displayName}
+                                                	<br>
+				                            	</c:forEach>
+                                                <span id="raceCodes" style="display:inline"></span>
                                             </div>
                                         </div>
                                     </div>

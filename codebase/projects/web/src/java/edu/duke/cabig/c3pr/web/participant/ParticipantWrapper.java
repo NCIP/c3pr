@@ -3,9 +3,12 @@ package edu.duke.cabig.c3pr.web.participant;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.apache.commons.collections15.list.LazyList;
 
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.web.RaceCodeHolder;
 
@@ -47,5 +50,16 @@ public class ParticipantWrapper {
 
 	public void setParticipant(Participant participant) {
 		this.participant = participant;
+	}
+	
+	@Transient
+	public List<RaceCodeEnum> getRaceCodesFromHolder(){
+		List<RaceCodeEnum> raceCodeList = new ArrayList<RaceCodeEnum>();
+		for(RaceCodeHolder raceCodeHolder : raceCodeHolderList){
+			if(raceCodeHolder != null && raceCodeHolder.getRaceCode() != null){
+				raceCodeList.add(raceCodeHolder.getRaceCode());
+			}
+		}
+		return raceCodeList ;
 	}
 }

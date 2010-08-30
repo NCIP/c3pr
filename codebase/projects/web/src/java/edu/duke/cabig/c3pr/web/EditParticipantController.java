@@ -113,11 +113,6 @@ public class EditParticipantController<C extends ParticipantWrapper> extends
         	identifiers.add(identifier);
         	participant=participantRepository.getUniqueParticipant(identifiers);
             participantDao.initialize(participant);
-            for(RaceCodeAssociation raceCodeAssociation : participant.getRaceCodeAssociations()){
-        		RaceCodeHolder object = new RaceCodeHolder();
-        		object.setRaceCode(raceCodeAssociation.getRaceCode());
-        		participantWrapper.addRaceCodeHolder(object);
-        	}
             log.debug(" Participant's ID is:" + participant.getId());
         }else{
         	participant =  new Participant();

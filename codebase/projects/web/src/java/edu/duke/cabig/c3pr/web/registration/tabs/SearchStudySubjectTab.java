@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.constants.EpochType;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
@@ -24,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
@@ -70,8 +70,9 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
         refdata.put("searchTypeRefDataStudy", configMap.get("studySearchTypeForRegistration"));
         refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
         refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
-        refdata.put("raceCode", configMap.get("raceCode"));
+        refdata.put("raceCodes", WebUtils.collectOptions(RaceCodeEnum.values()));
         refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
+        
         if (command.getStudySubject().getSystemAssignedIdentifiers()!= null && command.getStudySubject().getSystemAssignedIdentifiers().size()>0) {
             refdata.put("disableForm", new Boolean(true));
         }

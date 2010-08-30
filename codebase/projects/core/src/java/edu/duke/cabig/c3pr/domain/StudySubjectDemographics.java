@@ -507,6 +507,9 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name="stu_sub_dmgphcs_id")
 	public List<RaceCodeAssociation> getRaceCodeAssociations() {
+		if(raceCodeAssociations == null){
+			raceCodeAssociations = new ArrayList<RaceCodeAssociation>();
+		}
 		return raceCodeAssociations;
 	}
 	  
