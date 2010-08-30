@@ -18,10 +18,13 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.RaceCodeAssociationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.service.PersonnelService;
@@ -31,8 +34,8 @@ import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
+import edu.duke.cabig.c3pr.web.admin.HealthcareSiteRolesHolder;
 import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
@@ -56,8 +59,18 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
     private PersonnelService personnelService;
 
     private HealthcareSiteDao healthcareSiteDao;
+    private RaceCodeAssociationDao raceCodeAssociationDao;
     
-    private ParticipantValidator participantValidator;
+    public RaceCodeAssociationDao getRaceCodeAssociationDao() {
+		return raceCodeAssociationDao;
+	}
+
+	public void setRaceCodeAssociationDao(
+			RaceCodeAssociationDao raceCodeAssociationDao) {
+		this.raceCodeAssociationDao = raceCodeAssociationDao;
+	}
+
+	private ParticipantValidator participantValidator;
     
     private ParticipantRepository participantRepository;
     
@@ -100,6 +113,11 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
     		throws Exception {
     	ParticipantWrapper participantWrapper = new ParticipantWrapper();
     	participantWrapper.setParticipant(new Participant());
+    	for(RaceCodeAssociation raceCodeAssociation : participantWrapper.getParticipant().getRaceCodeAssociations()){
+    		RaceCodeHolder object = new RaceCodeHolder();
+    		object.setRaceCode(raceCodeAssociation.getRaceCode());
+    		participantWrapper.addRaceCodeHolder(object);
+    	}
     	return participantWrapper;
     }
     
@@ -129,6 +147,8 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
         binder.registerCustomEditor(ContactMechanismType.class, new EnumByNameEditor(ContactMechanismType.class));
         binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor(OrganizationIdentifierTypeEnum.class));
+        binder.registerCustomEditor(RaceCodeEnum.class, new EnumByNameEditor(RaceCodeEnum.class));
+        binder.registerCustomEditor(RaceCodeAssociation.class, new CustomDaoEditor(raceCodeAssociationDao));
     }
 
     @Override

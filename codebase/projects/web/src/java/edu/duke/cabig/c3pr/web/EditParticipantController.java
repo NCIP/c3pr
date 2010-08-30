@@ -18,11 +18,14 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.RaceCodeAssociationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
@@ -51,6 +54,17 @@ public class EditParticipantController<C extends ParticipantWrapper> extends
     
     public ParticipantRepository participantRepository ;
     
+    private RaceCodeAssociationDao raceCodeAssociationDao;
+    
+    public RaceCodeAssociationDao getRaceCodeAssociationDao() {
+		return raceCodeAssociationDao;
+	}
+
+	public void setRaceCodeAssociationDao(
+			RaceCodeAssociationDao raceCodeAssociationDao) {
+		this.raceCodeAssociationDao = raceCodeAssociationDao;
+	}
+
     public EditParticipantController() {
         setCommandClass(ParticipantWrapper.class);
         Flow<C> flow = new Flow<C>("Edit Subject");
@@ -99,6 +113,11 @@ public class EditParticipantController<C extends ParticipantWrapper> extends
         	identifiers.add(identifier);
         	participant=participantRepository.getUniqueParticipant(identifiers);
             participantDao.initialize(participant);
+            for(RaceCodeAssociation raceCodeAssociation : participant.getRaceCodeAssociations()){
+        		RaceCodeHolder object = new RaceCodeHolder();
+        		object.setRaceCode(raceCodeAssociation.getRaceCode());
+        		participantWrapper.addRaceCodeHolder(object);
+        	}
             log.debug(" Participant's ID is:" + participant.getId());
         }else{
         	participant =  new Participant();
@@ -115,6 +134,8 @@ public class EditParticipantController<C extends ParticipantWrapper> extends
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
         binder.registerCustomEditor(ContactMechanismType.class, new EnumByNameEditor(
                         ContactMechanismType.class));
+        binder.registerCustomEditor(RaceCodeEnum.class, new EnumByNameEditor(RaceCodeEnum.class));
+        binder.registerCustomEditor(RaceCodeAssociation.class, new CustomDaoEditor(raceCodeAssociationDao));
     }
     
     @Override

@@ -67,7 +67,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	private List<HealthcareSite> healthcareSites;
 
 	/** The race codes. */
-	private List<RaceCodeAssociation> raceCodeAssociations;
+	private List<RaceCodeAssociation> raceCodeAssociations ;
 
 	/** The marital status code. */
 	private String maritalStatusCode;
@@ -96,7 +96,6 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 						SystemAssignedIdentifier.class));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setIdentifiers(new ArrayList<Identifier>());
-		raceCodeAssociations =  new ArrayList<RaceCodeAssociation>();
 		healthcareSites = new ArrayList<HealthcareSite>();
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 	}
@@ -342,6 +341,9 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name="sub_id")
 	public List<RaceCodeAssociation> getRaceCodeAssociations() {
+		if(raceCodeAssociations == null){
+			raceCodeAssociations = new ArrayList<RaceCodeAssociation>();
+		}
 		return raceCodeAssociations;
 	}
 	  
@@ -356,6 +358,15 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	 */
 	public void setRaceCodeAssociations(List<RaceCodeAssociation> raceCodeAssociations) {
 		this.raceCodeAssociations = raceCodeAssociations;
+	}
+	
+	@Transient
+	public List<String> getRaceCodes(){
+		List<String> raceCodes = new ArrayList<String>();
+		for(RaceCodeAssociation raceCodeAssociation : getRaceCodeAssociations()){
+			raceCodes.add(raceCodeAssociation.getRaceCode().getCode());
+		}
+		return raceCodes;
 	}
 
 	/**
