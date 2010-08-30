@@ -64,7 +64,7 @@
 				<div class="row">
 					<div class="label"><fmt:message key="participant.race"/>:</div>
 						<div class="value">
-						<c:forEach items="${command.participant.raceCodes}" var="raceCode">
+						<c:forEach items="${command.raceCodeAssociations}" var="raceCode">
 				            <div class="row">
 				                <div class="left">
 				                        ${raceCode.raceCode.displayName}

@@ -168,20 +168,16 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 						<table>
 						<tr>
                             <td align="left" class="race">
-                            	<c:forEach items="${raceCodes}" var="raceCode" varStatus="raceCodeStatus">
-                            		<form:checkbox id="raceCodes${raceCodeStatus.index + 1}" path="participant.raceCodes" value="${raceCode.id}"/>${raceCode.raceCode.code}<br>
-                            	</c:forEach>
-		                       
+		                        <form:checkbox id="raceCodes1" path="raceCodeHolderList[0].raceCode" value="Asian"/> Asian<br>
+								<form:checkbox id="raceCodes2" path="raceCodeHolderList[1].raceCode" value="Black_or_African_American"/> Black or African American<br>
+                                <form:checkbox id="raceCodes3" path="raceCodeHolderList[2].raceCode" value="White"/> White<br>
+								<form:checkbox id="raceCodes4" path="raceCodeHolderList[3].raceCode" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native<br>
+		                        <form:checkbox id="raceCodes5" path="raceCodeHolderList[4].raceCode" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander<br>
+		                        <form:checkbox id="raceCodes6" path="raceCodeHolderList[5].raceCode" value="Not_Reported"/> Not Reported<br>
+	 							<form:checkbox id="raceCodes7" path="raceCodeHolderList[6].raceCode" value="Unknown"/> Unknown
 		                    </td><td align="left" id="raceCodes" style="display:inline"/>
 		                </tr>
 						</table>
-								<c:forEach items="${command.participant.raceCodes}" var="raceCode">
-				            <div class="row">
-				                <div class="left">
-				                        ${raceCode.raceCode.code}
-				                </div>
-				            </div>
-				        </c:forEach>
 					</div>
 					
 				</div>
