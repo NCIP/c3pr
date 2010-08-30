@@ -3,8 +3,10 @@ package edu.duke.cabig.c3pr.utils.web;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,14 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
 		for (int i = 0; i < codedEnumValues.length; i++) {
 			options.put(((Enum) codedEnumValues[i]).name(), codedEnumValues[i]
 					.getDisplayName());
+		}
+		return options;
+	}
+	
+	public static List<Object> collectOptions(CodedEnum<? extends Object>[] codedEnumValues) {
+		List<Object> options = new ArrayList<Object>();
+		for (int i = 0; i < codedEnumValues.length; i++) {
+			options.add(((Enum) codedEnumValues[i]));
 		}
 		return options;
 	}
