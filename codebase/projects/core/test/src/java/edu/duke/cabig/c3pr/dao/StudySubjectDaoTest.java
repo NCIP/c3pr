@@ -1556,13 +1556,13 @@ public class StudySubjectDaoTest extends DaoTestCase {
  	//test case for search by participant race code 
  	public void testGetResultSetWithHQLForParticipantSingleRaceCode() throws Exception {
  		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
- 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudySubjectDemographics", "raceCode", "White", "like");
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.RaceCodeAssociation", "raceCode.code", "White", "=");
  
  		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
  		criteriaParameters.add(advancedSearchCriteriaParameter1);
  		
  		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
- 		assertEquals("2 registration not found", 2,  registrations.size());
+ 		assertEquals("3 registration not found", 3,  registrations.size());
  	}
  	
  	public void testGetResultSetWithHQLForParticipantMultipleRaceCode() throws Exception {
@@ -1570,13 +1570,13 @@ public class StudySubjectDaoTest extends DaoTestCase {
    	values.add("White");
    	values.add("Native_Hawaiian_or_Pacific_Islander");
  		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
- 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudySubjectDemographics", "raceCode", values, "in");
+ 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.RaceCodeAssociation", "raceCode.code", values, "in");
  
  		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
  		criteriaParameters.add(advancedSearchCriteriaParameter1);
  		
  		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
- 		assertEquals("5 registration not found", 5,  registrations.size());
+ 		assertEquals("6 registration not found", 6,  registrations.size());
  	}
  	
 	public void testGetResultSetWithHQLForParticipantIdentifierType() throws Exception {

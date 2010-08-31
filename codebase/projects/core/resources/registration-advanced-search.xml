@@ -250,11 +250,6 @@
 				<data-type>String</data-type>
 			</search-criteria>
 			<search-criteria>
-				<name>raceCode</name>
-				<label>Race</label>
-				<data-type>String</data-type>
-			</search-criteria>
-			<search-criteria>
 				<name>ethnicity</name>
 				<label>Ethnicity</label>
 				<data-type>String</data-type>
@@ -315,8 +310,31 @@
 				</association>
 			</association-context>
 		</dependent-object>
-		
-		
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</class-name>
+			<display-name>RaceCodeAssociation</display-name>
+			<table-alias>RaceCodeAssociation_xx</table-alias>
+			<search-criteria>
+				<name>raceCode.code</name>
+				<label>Race Code</label>
+				<data-type>RaceCodeEnum</data-type>
+			</search-criteria>
+			<association-context>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</name>
+					<role-name>studySubjectDemographics</role-name>
+					<table-alias>StudySubjectDemographics_xx</table-alias>
+					<joining-condition>StudySubject_xx.studySubjectDemographics =
+						StudySubjectDemographics_xx</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</name>
+					<role-name>raceCodeAssociations</role-name>
+					<table-alias>RaceCodeAssociation_xx</table-alias>
+					<joining-condition>RaceCodeAssociation_xx = any elements(StudySubjectDemographics_xx.raceCodeAssociations)</joining-condition>
+				</association>
+			</association-context>
+		</dependent-object>
 		
 		<!-- scheduled epoch specific criteria -->
 		<dependent-object>
@@ -334,7 +352,7 @@
 				<data-type>ScheduledEpochDataEntryStatus</data-type>
 			</search-criteria>
 			<search-criteria>
-				<name>scEpochWorkflowStatus</name>
+				<name>scEpochWorkflowStatus.code</name>
 				<label>Scheduled epoch work flow status</label>
 				<data-type>ScheduledEpochWorkFlowStatus</data-type>
 			</search-criteria>

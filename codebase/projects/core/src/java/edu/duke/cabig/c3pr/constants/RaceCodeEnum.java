@@ -15,15 +15,15 @@ public enum RaceCodeEnum implements CodedEnum<String> {
 	Not_Reported("Not Reported"),
 	Unknown("Unknown");
 	
-	private String raceCode;
+	private String code;
 
     private RaceCodeEnum(String code) {
-        this.raceCode = code;
+        this.code = code;
         register(this);
     }
 
     public String getCode() {
-        return raceCode;
+        return code;
     }
 
     public String getDisplayName() {

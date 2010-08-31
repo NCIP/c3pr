@@ -616,10 +616,11 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		studySubjectDemographics.setEthnicGroupCode(this.getEthnicGroupCode());
 		
 		for(RaceCodeAssociation raceCodeAssociation : this.getRaceCodeAssociations()){
-			studySubjectDemographics.addRaceCodeAssociation(raceCodeAssociation);
+			RaceCodeAssociation raceCodeAssociationObj = new RaceCodeAssociation();
+			raceCodeAssociationObj.setRaceCode(raceCodeAssociation.getRaceCode());
+			studySubjectDemographics.addRaceCodeAssociation(raceCodeAssociationObj);
 		}
 //		studySubjectDemographics.setRaceCodes(this.getRaceCodes());
-		
 		
 		studySubjectDemographics.setBirthDate(this.getBirthDate());
 		
