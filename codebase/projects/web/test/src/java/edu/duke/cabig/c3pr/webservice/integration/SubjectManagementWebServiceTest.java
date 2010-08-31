@@ -5,11 +5,13 @@ package edu.duke.cabig.c3pr.webservice.integration;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSourceFactory;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -38,6 +40,8 @@ public class SubjectManagementWebServiceTest extends DbTestCase {
 	protected File catalinaHome;
 	protected File datasourceFile;
 	protected File warFile;
+	protected File webappsDir;
+	protected File confDir;
 
 	/**
 	 * @param name
@@ -54,12 +58,14 @@ public class SubjectManagementWebServiceTest extends DbTestCase {
 	 */
 	protected void setUp() throws Exception {
 		logger.info("SubjectManagementWebServiceTest starting up...");
-		initializeProperties();
-		logger.info(toString());
-		super.setUp();
+		initializeProperties();		
+		
+		// this call will initialize database data.
+		super.setUp();		
+		
 	}
 
-	private void initializeProperties() {
+	private void initializeProperties() throws IOException {
 		String catalinaHomeEnv = System.getenv(CATALINA_HOME);
 		if (StringUtils.isBlank(catalinaHomeEnv)) {
 			throw new RuntimeException(
@@ -74,6 +80,14 @@ public class SubjectManagementWebServiceTest extends DbTestCase {
 
 		datasourceFile = getFileFromProperty("test.datasource.file");
 		warFile = getFileFromProperty("test.war.file");
+		
+		webappsDir = new File(catalinaHome,"webapps");
+		FileUtils.forceMkdir(webappsDir);
+		
+		confDir = new File(catalinaHome,"conf");
+		FileUtils.forceMkdir(confDir);
+		
+		logger.info(toString());
 
 	}
 
