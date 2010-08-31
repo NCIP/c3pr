@@ -24,6 +24,7 @@ import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.Customizable;
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateFactory;
@@ -516,6 +517,16 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 	public void addRaceCodeAssociation(RaceCodeAssociation raceCodeAssociation) {
 		getRaceCodeAssociations().add(raceCodeAssociation);
 	}
+	
+	@Transient
+	public List<RaceCodeEnum> getRaceCodes(){
+		List<RaceCodeEnum> raceCodes = new ArrayList<RaceCodeEnum>();
+		for(RaceCodeAssociation raceCodeAssociation : getRaceCodeAssociations()){
+			raceCodes.add(raceCodeAssociation.getRaceCode());
+		}
+		return raceCodes;
+	}
+
 
 	/**
 	 * Sets the race codes.
