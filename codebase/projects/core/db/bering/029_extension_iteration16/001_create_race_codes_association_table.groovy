@@ -54,7 +54,7 @@ class CreateRaceCodeAssociationsTable extends edu.northwestern.bioinformatics.be
  	    }
 
 	 	execute("ALTER TABLE race_code_assocn ADD CONSTRAINT UK_RACE_CODE_SUB UNIQUE(race_code,sub_id)");
-	 	execute("ALTER TABLE race_code_assocn ADD CONSTRAINT UK_RACE_CODE_STU_SUB_DMGPHCS UNIQUE(race_code,sub_id)");
+	 	execute("ALTER TABLE race_code_assocn ADD CONSTRAINT UK_RACE_CODE_STU_SUB_DMGPHCS UNIQUE(race_code,stu_sub_dmgphcs_id)");
 	 	
 	 	// Drop existing columns
 	 	dropColumn('participants','race_code');
