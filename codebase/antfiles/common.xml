@@ -146,6 +146,14 @@
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
+	
+	<!-- This path will contain only libraries in /build/testlib -->
+	<path id="test.isolated.classpath">
+		<pathelement path="${jar.file}" />		
+		<fileset dir="${test.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
 
 	<!-- This path will contain all the classes that are required to
 		compile test cases -->
@@ -162,6 +170,11 @@
 		<path refid="test.classpath" />
 		<pathelement path="${test.classes.dir}" />
 	</path>
+	
+	<path id="test.isolated.run.classpath">
+		<path refid="test.isolated.classpath" />
+		<pathelement path="${test.classes.dir}" />
+	</path>	
 
 	<!-- refers to project root dir -->
 	<dirname file="${ant.file.common}" property="proj.root.dir"/>
@@ -688,6 +701,7 @@
 					<exclude name="edu/duke/cabig/**/C3PRRegistrationServiceImplTest.class"/>
 					<exclude name="edu/duke/cabig/**/SmokeTestGridService.class"/>
 					<exclude name="edu/duke/cabig/**/XMLTransformerTest.class"/>
+					<exclude name="edu/duke/cabig/**/SubjectManagementWebServiceTest.class"/>
 					
 					<!--commented until xsd for CCTS support is finalized -->
 

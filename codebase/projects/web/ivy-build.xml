@@ -245,8 +245,47 @@
 	        <echo message="selenium shutdown status: ${selenium.shutdown.results}"/>
 	    </target>
 	
-		<target name="test-integration" depends="resolve-test">			
-		</target>
+		<target name="test-integration" depends="clean-test-results, resolve-test, find-datasource, compile-test"> 
+			
+			<tstamp prefix="test.integration">
+				<format property="instant" pattern="yyMMddHHmmss"/>				
+			</tstamp>			
+			<property name="test.tomcat.location" value="${java.io.tmpdir}/${test.integration.instant}"/>
+			<property name="test.war.file" value="${war.dir}/${war.filename}"/>
+			 
+			<mkdir dir="${test.results.dir}" />
+			<mkdir dir="${test.tomcat.location}"/>
+			
+			<echo message="Executing in ${ant.project.name}" />
+			<echo message="Test results dir: ${test.results.dir}, with pattern ${testPattern} and classes from ${test.classes.dir}" />
+			<echo message="Tomcat's home will be set to ${test.tomcat.location}" /> 
+			<echo message="Datasource properties file to be used will be ${dsFile}" />
+			<echo message="WAR file to be used will be ${test.war.file}" />			
+			
+			<junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" 
+				showoutput="true" fork="true" timeout="900000" maxmemory="500m" >
+				
+				<!-- Set temporary tomcat location to prevent collision with any existent setup -->
+				<env key="TOMCAT_HOME" value="${test.tomcat.location}"/>
+				<env key="CATALINA_HOME" value="${test.tomcat.location}"/>
+				
+				<!-- Need to also pass a ref to the datasource properties. csm_jaas will be created by the test itself. -->
+				<sysproperty key="test.datasource.file" value="${dsFile}"/>
+				
+				<!-- Need to pass a ref to the WAR file that has been built. It will be deployed by the embedded Tomcat -->
+				<sysproperty key="test.war.file" value="${test.war.file}"/>
 
-  
+				<classpath refid="test.isolated.run.classpath" />		
+				
+				<formatter type="plain"/>
+				<formatter type="xml" />
+					
+				<batchtest fork="yes" todir="${test.results.dir}">
+					<fileset dir="${test.classes.dir}">						
+						<include name="edu/duke/cabig/**/SubjectManagementWebServiceTest.class"/>
+					</fileset>
+				</batchtest>
+				
+			</junit>			
+		</target>  
 </project>
