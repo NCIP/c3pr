@@ -15,5 +15,6 @@ public class ReasonDaoTest extends ContextDaoTestCase<ReasonDao> {
     	assertEquals(1000, getDao().getReasonByCode("ABCD").getId().intValue());
     	assertEquals(1002, getDao().getReasonByCode("EFG").getId().intValue());
     	assertEquals(1003, getDao().getReasonByCode("EFGH").getId().intValue());
+    	assertEquals(1004, getDao().getReasonByCode("PQR").getId().intValue());
     }
 }

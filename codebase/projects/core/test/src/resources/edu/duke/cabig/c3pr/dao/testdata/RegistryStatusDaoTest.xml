@@ -1,0 +1,12 @@
+<dataset>
+
+    <REGISTRY_STATUSES id="1000" version="1" code="Pre-Enrolled" description="Pre-Enrolled"/>
+    <REGISTRY_STATUSES id="1001" version="1" code="Enrolled" description="Enrolled"/>
+    <REGISTRY_STATUSES id="1002" version="1" code="Screen Failed" description="Screen Failed"/>
+    <REGISTRY_STATUSES id="1003" version="1" code="Accrued" description="Accrued"/>
+    <REGISTRY_STATUSES id="1004" version="1" code="Active Intervention" description="Active Intervention"/>
+    
+    <REASONS id="1000" version="1" dtype="REGISTRY_STATUS" code="FAILED INCLUSION" description="FAILED INCLUSION" primary_indicator="1" registry_st_id="1002"/>
+    <REASONS id="1001" version="1" dtype="REGISTRY_STATUS" code="FAILED EXCLUSION" description="FAILED EXCLUSION" primary_indicator="1" registry_st_id="1002"/>
+    <REASONS id="1002" version="1" dtype="REGISTRY_STATUS" code="DIED" description="DIED" primary_indicator="1" registry_st_id="1002"/>
+</dataset>

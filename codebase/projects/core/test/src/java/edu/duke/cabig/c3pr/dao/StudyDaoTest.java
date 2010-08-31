@@ -10,7 +10,10 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +45,9 @@ import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
+import edu.duke.cabig.c3pr.domain.RegistryStatusReason;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
@@ -94,6 +99,10 @@ public class StudyDaoTest extends DaoTestCase {
 
     /** The xml utility. */
     private XmlMarshaller xmlUtility;
+    
+    private RegistryStatusDao registryStatusDao;
+    
+    private ReasonDao reasonDao;
 
     StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
 
@@ -112,6 +121,10 @@ public class StudyDaoTest extends DaoTestCase {
         diseaseTermDao = (DiseaseTermDao) getApplicationContext().getBean("diseaseTermDao");
         diseaseCategoryDao = (DiseaseCategoryDao) getApplicationContext()
         	.getBean("diseaseCategoryDao");
+        registryStatusDao = (RegistryStatusDao) getApplicationContext()
+    	.getBean("registryStatusDao");
+        reasonDao = (ReasonDao) getApplicationContext()
+    	.getBean("reasonDao");
         xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean(
                         "c3pr-study-xml-castorMapping"));
     }
@@ -1929,5 +1942,115 @@ public class StudyDaoTest extends DaoTestCase {
     	assertEquals("Wrong consent saved","consent 1",reloaded.getConsents().get(0).getName());
     	assertEquals("Wrong consenting methods string","VERBAL : WRITTEN",reloaded.getConsents().get(0).getConsentingMethodsString());
     	
+    }
+    
+    /**
+     * Test Saving of a Study with Permissible Registry Statuses.
+     *
+     * @throws Exception the exception
+     */
+    public void testSaveStudyWithPrmissibleRegistryStatuses() throws Exception {
+        Integer savedId;
+        {
+            Study study = new LocalStudy();
+            study.setPrecisText("New study");
+            study.setShortTitleText("ShortTitleText");
+            study.setLongTitleText("LongTitleText");
+            study.setPhaseCode("PhaseCode");
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
+            study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+            study.setTargetAccrualNumber(150);
+            study.setType("Type");
+            study.setMultiInstitutionIndicator(Boolean.TRUE);
+            study.setOriginalIndicator(true);
+
+            createDefaultStudyWithDesign(study);
+            PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus1 = study.getPermissibleStudySubjectRegistryStatuses().get(0);
+            permissibleStudySubjectRegistryStatus1.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Pre-Enrolled"));
+            PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus2 = study.getPermissibleStudySubjectRegistryStatuses().get(1);
+            permissibleStudySubjectRegistryStatus2.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Enrolled"));
+            PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus3 = study.getPermissibleStudySubjectRegistryStatuses().get(2);
+            permissibleStudySubjectRegistryStatus3.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Screen Failed"));
+            RegistryStatusReason registryStatusReason1 = new RegistryStatusReason("lab out of rance1","lab out of range1", reasonDao.getReasonByCode("FAILED INCLUSION"), false);
+            RegistryStatusReason registryStatusReason2 = new RegistryStatusReason("lab out of rance2","lab out of range2", reasonDao.getReasonByCode("FAILED EXCLUSION"), false);
+            permissibleStudySubjectRegistryStatus3.setSecondaryReasons(Arrays.asList(new RegistryStatusReason[]{registryStatusReason1, registryStatusReason2}));
+            
+            PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus4 = study.getPermissibleStudySubjectRegistryStatuses().get(3);
+            permissibleStudySubjectRegistryStatus4.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Accrued"));
+            PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus5 = study.getPermissibleStudySubjectRegistryStatuses().get(4);
+            permissibleStudySubjectRegistryStatus5.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Consent Withdrawn"));
+            RegistryStatusReason registryStatusReason3 = new RegistryStatusReason("distance","distance", reasonDao.getReasonByCode("Unwilling"), false);
+            RegistryStatusReason registryStatusReason4 = new RegistryStatusReason("schedule","schedule", reasonDao.getReasonByCode("Unwilling"), false);
+            permissibleStudySubjectRegistryStatus5.setSecondaryReasons(Arrays.asList(new RegistryStatusReason[]{registryStatusReason3, registryStatusReason4}));
+            
+            dao.save(study);
+            savedId = study.getId();
+            assertNotNull("The saved study didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+            Study loaded = dao.getById(savedId);
+            assertNotNull("Could not reload study with id " + savedId, loaded);
+            assertEquals("Wrong name", "New study", loaded.getPrecisText());
+            assertEquals(5, loaded.getPermissibleStudySubjectRegistryStatuses().size());
+            Collections.sort(loaded.getPermissibleStudySubjectRegistryStatuses(), new Comparator<PermissibleStudySubjectRegistryStatus>(){
+            	public int compare(PermissibleStudySubjectRegistryStatus o1,
+            			PermissibleStudySubjectRegistryStatus o2) {
+            		return o1.getRegistryStaus().getId().compareTo(o2.getRegistryStaus().getId());
+            	}
+            });
+            assertEquals(1000, loaded.getPermissibleStudySubjectRegistryStatuses().get(0).getRegistryStaus().getId().intValue());
+            assertEquals(0, loaded.getPermissibleStudySubjectRegistryStatuses().get(0).getRegistryStaus().getPrimaryReasons().size());
+            assertEquals(0, loaded.getPermissibleStudySubjectRegistryStatuses().get(0).getSecondaryReasons().size());
+            
+            assertEquals(1001, loaded.getPermissibleStudySubjectRegistryStatuses().get(1).getRegistryStaus().getId().intValue());
+            assertEquals(0, loaded.getPermissibleStudySubjectRegistryStatuses().get(1).getRegistryStaus().getPrimaryReasons().size());
+            assertEquals(0, loaded.getPermissibleStudySubjectRegistryStatuses().get(1).getSecondaryReasons().size());
+            
+            assertEquals(1002, loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getRegistryStaus().getId().intValue());
+            assertEquals(3, loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getRegistryStaus().getPrimaryReasons().size());
+            assertEquals(2, loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().size());
+            assertNotNull(loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().get(0).getPrimaryReason());
+            assertFalse(loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().get(0).getPrimaryIndicator());
+            assertNotNull(loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().get(1).getPrimaryReason());
+            assertFalse(loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().get(1).getPrimaryIndicator());
+            Collections.sort(loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons(), new Comparator<RegistryStatusReason>(){
+            	public int compare(RegistryStatusReason o1,
+            			RegistryStatusReason o2) {
+            		return o1.getPrimaryReason().getId().compareTo(o2.getPrimaryReason().getId());
+            	}
+            });
+            assertEquals(1000, loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().get(0).getPrimaryReason().getId().intValue());
+            assertEquals("lab out of rance1", loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().get(0).getCode());
+            assertEquals("lab out of range1", loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().get(0).getDescription());
+            assertEquals(1001, loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().get(1).getPrimaryReason().getId().intValue());
+            assertEquals("lab out of rance2", loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().get(1).getCode());
+            assertEquals("lab out of range2", loaded.getPermissibleStudySubjectRegistryStatuses().get(2).getSecondaryReasons().get(1).getDescription());
+            
+            assertEquals(1003, loaded.getPermissibleStudySubjectRegistryStatuses().get(3).getRegistryStaus().getId().intValue());
+            assertEquals(0, loaded.getPermissibleStudySubjectRegistryStatuses().get(3).getRegistryStaus().getPrimaryReasons().size());
+            assertEquals(0, loaded.getPermissibleStudySubjectRegistryStatuses().get(3).getSecondaryReasons().size());
+            
+            assertEquals(1005, loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getRegistryStaus().getId().intValue());
+            assertEquals(1, loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getRegistryStaus().getPrimaryReasons().size());
+            assertEquals(2, loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().size());
+            assertNotNull(loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().get(0).getPrimaryReason());
+            assertFalse(loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().get(0).getPrimaryIndicator());
+            assertNotNull(loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().get(1).getPrimaryReason());
+            assertFalse(loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().get(1).getPrimaryIndicator());
+            Collections.sort(loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons(), new Comparator<RegistryStatusReason>(){
+            	public int compare(RegistryStatusReason o1,
+            			RegistryStatusReason o2) {
+            		return o1.getCode().compareTo(o2.getCode());
+            	}
+            });
+            assertEquals(1003, loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().get(0).getPrimaryReason().getId().intValue());
+            assertEquals("distance", loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().get(0).getCode());
+            assertEquals("distance", loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().get(0).getDescription());
+            assertEquals(1003, loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().get(1).getPrimaryReason().getId().intValue());
+            assertEquals("schedule", loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().get(1).getCode());
+            assertEquals("schedule", loaded.getPermissibleStudySubjectRegistryStatuses().get(4).getSecondaryReasons().get(1).getDescription());
+        }
     }
 }

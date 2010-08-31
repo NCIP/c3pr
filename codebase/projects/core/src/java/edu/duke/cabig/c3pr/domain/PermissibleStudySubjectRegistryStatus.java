@@ -1,0 +1,49 @@
+package edu.duke.cabig.c3pr.domain;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
+@Entity
+@Table(name = "PERMISSIBLE_REG_STATS")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "PERMISSIBLE_REG_STATS_id_seq") })
+public class PermissibleStudySubjectRegistryStatus extends AbstractMutableDeletableDomainObject{
+
+	private RegistryStatus registryStaus;
+	
+	private List<RegistryStatusReason> secondaryReasons;
+
+	@ManyToOne
+	@Cascade(value = { CascadeType.LOCK })
+	@JoinColumn(name = "registry_st_id", nullable = false)
+	public RegistryStatus getRegistryStaus() {
+		return registryStaus;
+	}
+
+	public void setRegistryStaus(RegistryStatus registryStaus) {
+		this.registryStaus = registryStaus;
+	}
+
+	@OneToMany
+	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@JoinColumn(name = "per_reg_st_id")
+	public List<RegistryStatusReason> getSecondaryReasons() {
+		return secondaryReasons;
+	}
+
+	public void setSecondaryReasons(List<RegistryStatusReason> secondaryReasons) {
+		this.secondaryReasons = secondaryReasons;
+	}
+	
+	
+
+}

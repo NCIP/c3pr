@@ -2125,4 +2125,94 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		assertEquals("5 registrations not found", 5,  registrations.size());
 	}
 
+	public void testCreateRegistrationRegistryStatusHistory() throws Exception {
+        Integer savedId;
+        {
+            StudySubject studySubject = new StudySubject();
+            Participant participant = dao.getById(1001);
+            StudySubjectDemographics studySubjectDemographics = participant.createStudySubjectDemographics();
+            studySubject.setStudySubjectDemographics(studySubjectDemographics);
+            StudySite studySite = studySubjectDao.getStudySiteDao().getById(1001);
+            studySubject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
+            studySubject.setStudySite(studySite);
+            ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
+            scheduledEpochFirst.setEpoch(epochDao.getById(1000));
+            studySubject.addScheduledEpoch(scheduledEpochFirst);
+            ScheduledEpoch scheduledTreatmentEpoch = studySubject
+                            .getScheduledEpoch();
+            List criterias = scheduledTreatmentEpoch.getEpoch()
+                            .getInclusionEligibilityCriteria();
+            for (int i = 0; i < criterias.size(); i++) {
+                SubjectEligibilityAnswer subjectEligibilityAnswer = new SubjectEligibilityAnswer();
+                subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria) criterias
+                                .get(i));
+                scheduledTreatmentEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+            }
+            criterias = scheduledTreatmentEpoch.getEpoch()
+                            .getExclusionEligibilityCriteria();
+            for (int i = 0; i < criterias.size(); i++) {
+                SubjectEligibilityAnswer subjectEligibilityAnswer = new SubjectEligibilityAnswer();
+                subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria) criterias
+                                .get(i));
+                scheduledTreatmentEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+            }
+            List<StratificationCriterion> stratifications = scheduledTreatmentEpoch
+                            .getEpoch().getStratificationCriteria();
+            for (StratificationCriterion stratificationCriterion : stratifications) {
+                stratificationCriterion.getPermissibleAnswers().size();
+                SubjectStratificationAnswer subjectStratificationAnswer = new SubjectStratificationAnswer();
+                subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
+                scheduledTreatmentEpoch
+                                .addSubjectStratificationAnswers(subjectStratificationAnswer);
+            }
+            studySubject.setTreatingPhysician(studySubject.getStudySite()
+                            .getStudyInvestigatorsInternal().get(0));
+            studySubject.getDiseaseHistory().setIcd9DiseaseSite(icd9DiseaseSiteDao.getById(1000));
+            studySubject.getDiseaseHistory().setOtherPrimaryDiseaseCode(
+                            "Other Primary Disease Code");
+            List<SubjectEligibilityAnswer> subList = (studySubject
+                            .getScheduledEpoch()).getSubjectEligibilityAnswers();
+            for (SubjectEligibilityAnswer subjectEligibilityAnswer : subList) {
+                if (subjectEligibilityAnswer.getEligibilityCriteria() instanceof InclusionEligibilityCriteria) {
+                    subjectEligibilityAnswer.setAnswerText("yes");
+                }
+                else {
+                    subjectEligibilityAnswer.setAnswerText("no");
+                }
+            }
+            (studySubject.getScheduledEpoch())
+                            .setEligibilityIndicator(evaluateEligibilityIndicator(studySubject));
+
+            List<SubjectStratificationAnswer> subList1 = (studySubject
+                            .getScheduledEpoch()).getSubjectStratificationAnswers();
+            for (SubjectStratificationAnswer subjectStratificationAnswer : subList1) {
+                subjectStratificationAnswer
+                                .setStratificationCriterionAnswer(subjectStratificationAnswer
+                                                .getStratificationCriterion()
+                                                .getPermissibleAnswers().get(0));
+            }
+            ScheduledEpoch scheduledEpoch = (studySubject
+                            .getScheduledEpoch());
+            scheduledEpoch.addScheduledArm(new ScheduledArm());
+            ScheduledArm scheduledArm = scheduledEpoch.getScheduledArm();
+            scheduledArm.setArm((scheduledEpoch.getEpoch()).getArms()
+                            .get(0));
+            studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
+            
+            
+            
+            
+            studySubject = studySubjectDao.merge(studySubject);
+
+            savedId = studySubject.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+            StudySubject loaded = studySubjectDao.getById(savedId);
+            assertNotNull("Could not reload registration with id " + savedId, loaded);
+            
+        }
+    }
 }

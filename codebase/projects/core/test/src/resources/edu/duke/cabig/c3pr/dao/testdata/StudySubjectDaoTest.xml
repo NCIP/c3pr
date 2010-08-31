@@ -207,4 +207,31 @@
     <IDENTIFIERS id="1012" version="1" value="coperative" type="local" system_name="c3pr" dtype="SAI" stu_sub_dmgphcs_id="1001" retired_indicator="false"/> 
     
     <CONTACT_MECHANISMS/>
+    
+    <REGISTRY_STATUSES id="-1000" version="1" code="Meta" description="Meta"/>
+    <REGISTRY_STATUSES id="1000" version="1" code="Pre-Enrolled" description="Pre-Enrolled"/>
+    <REGISTRY_STATUSES id="1001" version="1" code="Enrolled" description="Enrolled"/>
+    <REGISTRY_STATUSES id="1002" version="1" code="Screen Failed" description="Screen Failed"/>
+    <REGISTRY_STATUSES id="1003" version="1" code="Accrued" description="Accrued"/>
+    <REGISTRY_STATUSES id="1004" version="1" code="Active Intervention" description="Active Intervention"/>
+    <REGISTRY_STATUSES id="1005" version="1" code="Consent Withdrawn" description="Consent Withdrawn"/>
+    
+    <PERMISSIBLE_REG_STATS id="-1000" version="1" study_id="1002" registry_st_id="-1000"/>
+    <PERMISSIBLE_REG_STATS id="1000" version="1" study_id="1000" registry_st_id="1000"/>
+    <PERMISSIBLE_REG_STATS id="1001" version="1" study_id="1000" registry_st_id="1001"/>
+    <PERMISSIBLE_REG_STATS id="1002" version="1" study_id="1000" registry_st_id="1002"/>
+    <PERMISSIBLE_REG_STATS id="1003" version="1" study_id="1000" registry_st_id="1003"/>
+    <PERMISSIBLE_REG_STATS id="1004" version="1" study_id="1000" registry_st_id="1005"/>
+    
+    <STU_SUB_REG_STATUSES id="-1000" version="1" effective_date="01-01-2000" per_reg_st_id="-1000" stu_sub_id="1004"/>
+    
+    <REASONS id="-1000" version="1" dtype="REGISTRY_STATUS" code="Meta" description="Meta" primary_indicator="1" registry_st_id="-1000" parent_id="-1000" per_reg_st_id="-1000" stu_sub_reg_st_id="-1000"/>
+    <REASONS id="1000" version="1" dtype="REGISTRY_STATUS" code="FAILED INCLUSION" description="FAILED INCLUSION" primary_indicator="1" registry_st_id="1002"/>
+    <REASONS id="1001" version="1" dtype="REGISTRY_STATUS" code="FAILED EXCLUSION" description="FAILED EXCLUSION" primary_indicator="1" registry_st_id="1002"/>
+    <REASONS id="1002" version="1" dtype="REGISTRY_STATUS" code="DIED" description="DIED" primary_indicator="1" registry_st_id="1002"/>
+    <REASONS id="1003" version="1" dtype="REGISTRY_STATUS" code="Unwilling" description="Unwilling" primary_indicator="1" registry_st_id="1005"/>
+    <REASONS id="1004" version="1" dtype="REGISTRY_STATUS" code="lab out of rance1" description="lab out of rance1" primary_indicator="0" parent_id="1000" per_reg_st_id="1002"/>
+    <REASONS id="1005" version="1" dtype="REGISTRY_STATUS" code="lab out of rance2" description="lab out of rance2" primary_indicator="0" parent_id="1001" per_reg_st_id="1002"/>
+    <REASONS id="1006" version="1" dtype="REGISTRY_STATUS" code="distance" description="distance" primary_indicator="0" parent_id="1003" per_reg_st_id="1004"/>
+    <REASONS id="1007" version="1" dtype="REGISTRY_STATUS" code="schedule" description="schedule" primary_indicator="0" parent_id="1003" per_reg_st_id="1004"/>
 </dataset>

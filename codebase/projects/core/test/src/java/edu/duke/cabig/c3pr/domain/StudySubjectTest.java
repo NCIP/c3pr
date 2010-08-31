@@ -1,7 +1,9 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -3030,4 +3032,316 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		}
 		 verifyMocks();
 	}
+	
+	public void testUpdateRegistryStatusInvalidStatusCodeException(){
+	  	PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus1 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+	  	RegistryStatus registryStatus1 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus2 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus2 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus3 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus3 = registerMockFor(RegistryStatus.class);
+        
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus4 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus4 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus5 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus5 = registerMockFor(RegistryStatus.class);
+        
+        EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+
+		EasyMock.expect(studySite.getStudy()).andReturn(study);
+		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
+				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStaus()).andReturn(registryStatus3);
+		EasyMock.expect(registryStatus3.getCode()).andReturn("Screen Failed");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus4.getRegistryStaus()).andReturn(registryStatus4);
+		EasyMock.expect(registryStatus4.getCode()).andReturn("Accrued");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus5.getRegistryStaus()).andReturn(registryStatus5);
+		EasyMock.expect(registryStatus5.getCode()).andReturn("Consent Withdrawn");
+		
+	  	replayMocks();
+	  	studySubject.setStudySite(studySite);
+	  	Date date = new Date();
+	  	try {
+			studySubject.updateRegistryStatus("XYZ", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true)}));
+			fail();
+		} catch (C3PRCodedRuntimeException e) {
+			e.printStackTrace();
+			assertEquals(600, e.getExceptionCode());
+		}finally{
+			verifyMocks();
+		}
+  }
+	
+	public void testUpdateRegistryStatusPreEnrolled(){
+	  	PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus1 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+	  	RegistryStatus registryStatus1 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus2 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus3 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus4 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus5 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        
+        EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+
+		EasyMock.expect(studySite.getStudy()).andReturn(study);
+		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
+				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
+	  	replayMocks();
+	  	studySubject.setStudySite(studySite);
+	  	Date date = new Date();
+	  	studySubject.updateRegistryStatus("Pre-Enrolled", date, new ArrayList<RegistryStatusReason>());
+		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
+		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
+		assertEquals(permissibleStudySubjectRegistryStatus1, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getPermissibleStudySubjectRegistryStatus());
+		verifyMocks();
+  }
+	
+	public void testUpdateRegistryStatusEnrolled(){
+	  	PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus1 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+	  	RegistryStatus registryStatus1 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus2 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus2 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus3 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus4 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus5 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        
+        EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+
+		EasyMock.expect(studySite.getStudy()).andReturn(study);
+		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
+				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
+	  	replayMocks();
+	  	studySubject.setStudySite(studySite);
+	  	Date date = new Date();
+	  	studySubject.updateRegistryStatus("Enrolled", date, null);
+		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
+		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
+		assertEquals(permissibleStudySubjectRegistryStatus2, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getPermissibleStudySubjectRegistryStatus());
+		verifyMocks();
+  }
+	
+	public void testUpdateRegistryStatusScreenFailureWithInvalidPrimaryReason(){
+	  	PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus1 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+	  	RegistryStatus registryStatus1 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus2 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus2 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus3 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus3 = registerMockFor(RegistryStatus.class);
+        
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus4 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus5 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        
+        EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+
+		EasyMock.expect(studySite.getStudy()).andReturn(study);
+		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
+				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStaus()).andReturn(registryStatus3).times(2);
+		EasyMock.expect(registryStatus3.getCode()).andReturn("Screen Failed");
+		EasyMock.expect(registryStatus3.getPrimaryReasons()).andReturn(Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
+																					new RegistryStatusReason("B","B",null,true)}));
+	  	replayMocks();
+	  	studySubject.setStudySite(studySite);
+	  	Date date = new Date();
+	  	try {
+	  		studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("C","C",null,true)}));
+	  		fail();
+		} catch (C3PRCodedRuntimeException e) {
+			e.printStackTrace();
+			assertEquals(601, e.getExceptionCode());
+		}finally{
+		 verifyMocks();
+		}
+  }
+	
+	public void testUpdateRegistryStatusScreenFailureWithPrimaryReason(){
+	  	PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus1 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+	  	RegistryStatus registryStatus1 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus2 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus2 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus3 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus3 = registerMockFor(RegistryStatus.class);
+        
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus4 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus5 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        
+        EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+
+		EasyMock.expect(studySite.getStudy()).andReturn(study);
+		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
+				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStaus()).andReturn(registryStatus3).times(2);
+		EasyMock.expect(registryStatus3.getCode()).andReturn("Screen Failed");
+		EasyMock.expect(registryStatus3.getPrimaryReasons()).andReturn(Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
+																					new RegistryStatusReason("B","B",null,true)}));
+	  	replayMocks();
+	  	studySubject.setStudySite(studySite);
+	  	Date date = new Date();
+	  	studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("B","B",null,true)}));
+		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
+		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
+		assertEquals(permissibleStudySubjectRegistryStatus3, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getPermissibleStudySubjectRegistryStatus());
+		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getReasons().size());
+		assertEquals("B", studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getReasons().get(0).getCode());
+		verifyMocks();
+  }
+	
+	public void testUpdateRegistryStatusScreenFailureWithInvalidSecondaryReason(){
+	  	PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus1 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+	  	RegistryStatus registryStatus1 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus2 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus2 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus3 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus3 = registerMockFor(RegistryStatus.class);
+        
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus4 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus5 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        
+        EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+
+		EasyMock.expect(studySite.getStudy()).andReturn(study);
+		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
+				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStaus()).andReturn(registryStatus3).times(2);
+		EasyMock.expect(registryStatus3.getCode()).andReturn("Screen Failed");
+		EasyMock.expect(registryStatus3.getPrimaryReasons()).andReturn(Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
+																					new RegistryStatusReason("B","B",null,true)}));
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getSecondaryReasons()).andReturn(Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("P","P",null,false), 
+				new RegistryStatusReason("Q","Q",null,false)}));
+	  	replayMocks();
+	  	studySubject.setStudySite(studySite);
+	  	Date date = new Date();
+	  	try {
+	  		studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
+	  																											new RegistryStatusReason("C","C",null,false)}));
+	  		fail();
+		} catch (C3PRCodedRuntimeException e) {
+			e.printStackTrace();
+			assertEquals(601, e.getExceptionCode());
+		}finally{
+		 verifyMocks();
+		}
+  }
+	
+	public void testUpdateRegistryStatusScreenFailureWithSecondaryReason(){
+	  	PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus1 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+	  	RegistryStatus registryStatus1 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus2 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus2 = registerMockFor(RegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus3 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        RegistryStatus registryStatus3 = registerMockFor(RegistryStatus.class);
+        
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus4 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus5 = registerMockFor(PermissibleStudySubjectRegistryStatus.class);
+        
+        EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+
+		EasyMock.expect(studySite.getStudy()).andReturn(study);
+		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
+				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStaus()).andReturn(registryStatus3).times(2);
+		EasyMock.expect(registryStatus3.getCode()).andReturn("Screen Failed");
+		EasyMock.expect(registryStatus3.getPrimaryReasons()).andReturn(Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
+																					new RegistryStatusReason("B","B",null,true)}));
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getSecondaryReasons()).andReturn(Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("P","P",null,false), 
+				new RegistryStatusReason("Q","Q",null,false)}));
+		replayMocks();
+	  	studySubject.setStudySite(studySite);
+	  	Date date = new Date();
+	  	studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
+					new RegistryStatusReason("Q","Q",null,false)}));
+		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
+		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
+		assertEquals(permissibleStudySubjectRegistryStatus3, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getPermissibleStudySubjectRegistryStatus());
+		assertEquals(2, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getReasons().size());
+		assertEquals("A", studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getReasons().get(0).getCode());
+		assertEquals("Q", studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getReasons().get(1).getCode());
+		verifyMocks();
+  }
+	
+	public void testGetStudySubjectRegistryStatusHistory(){
+        Date date5= new GregorianCalendar(2010, 01, 30).getTime();
+        Date date4= new GregorianCalendar(2009, 01, 30).getTime();
+        Date date3= new GregorianCalendar(2008, 01, 30).getTime();
+        Date date2= new GregorianCalendar(2007, 01, 30).getTime();
+        Date date1= new GregorianCalendar(2006, 01, 30).getTime();
+        StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus(date2,null);
+        studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date4,null);
+        studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date3,null);
+        studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date5,null);
+        studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date1,null);
+        studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
+        
+        List<StudySubjectRegistryStatus> history = studySubject.getStudySubjectRegistryStatusHistory();
+        assertEquals(date5, history.get(0).getEffectiveDate());
+        assertEquals(date4, history.get(1).getEffectiveDate());
+        assertEquals(date3, history.get(2).getEffectiveDate());
+        assertEquals(date2, history.get(3).getEffectiveDate());
+        assertEquals(date1, history.get(4).getEffectiveDate());
+        
+        List<StudySubjectRegistryStatus> stored = studySubject.getStudySubjectRegistryStatusHistoryInternal();
+        assertEquals(date2, stored.get(0).getEffectiveDate());
+        assertEquals(date4, stored.get(1).getEffectiveDate());
+        assertEquals(date3, stored.get(2).getEffectiveDate());
+        assertEquals(date5, stored.get(3).getEffectiveDate());
+        assertEquals(date1, stored.get(4).getEffectiveDate());
+  }
+	
+	public void testGetStudySubjectRegistryStatus(){
+        Date date5= new GregorianCalendar(2010, 01, 30).getTime();
+        Date date4= new GregorianCalendar(2009, 01, 30).getTime();
+        Date date3= new GregorianCalendar(2008, 01, 30).getTime();
+        Date date2= new GregorianCalendar(2007, 01, 30).getTime();
+        Date date1= new GregorianCalendar(2006, 01, 30).getTime();
+        StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus(date2,null);
+        studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date4,null);
+        studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date3,null);
+        studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date5,null);
+        studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date1,null);
+        studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
+        
+        assertEquals(date5, studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
+  }
 }

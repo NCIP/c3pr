@@ -132,6 +132,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
 		lazyListHelper.add(PlannedNotification.class,new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
+		lazyListHelper.add(PermissibleStudySubjectRegistryStatus.class,new InstantiateFactory<PermissibleStudySubjectRegistryStatus>(PermissibleStudySubjectRegistryStatus.class));
 
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
@@ -154,6 +155,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		lazyListHelper.add(SystemAssignedIdentifier.class,new ParameterizedInstantiateFactory<SystemAssignedIdentifier>( SystemAssignedIdentifier.class));
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
 		lazyListHelper.add(PlannedNotification.class,new InstantiateFactory<PlannedNotification>(PlannedNotification.class));
+		lazyListHelper.add(PermissibleStudySubjectRegistryStatus.class,new InstantiateFactory<PermissibleStudySubjectRegistryStatus>(PermissibleStudySubjectRegistryStatus.class));
 
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setIdentifiers(new ArrayList<Identifier>());
@@ -1123,7 +1125,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	public void setStudyVersionsInternal(List<StudyVersion> studyVersions) {
 		lazyListHelper.setInternalList(StudyVersion.class,studyVersions);
 	}
-
+	
 	public void addStudyVersion(StudyVersion studyVersion) {
 		this.lazyListHelper.getInternalList(StudyVersion.class).add(studyVersion);
 		studyVersion.setStudy(this);
@@ -1160,6 +1162,22 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	   return null;
 	}
 
+	@OneToMany
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "study_id", nullable=false)
+	public List<PermissibleStudySubjectRegistryStatus> getPermissibleStudySubjectRegistryStatusesInternal() {
+		return lazyListHelper.getInternalList(PermissibleStudySubjectRegistryStatus.class);
+	}
+
+	@Transient
+	public List<PermissibleStudySubjectRegistryStatus> getPermissibleStudySubjectRegistryStatuses() {
+		return lazyListHelper.getLazyList(PermissibleStudySubjectRegistryStatus.class);
+	}
+
+	public void setPermissibleStudySubjectRegistryStatusesInternal(List<PermissibleStudySubjectRegistryStatus> permissibleStudySubjectRegistryStatuses) {
+		lazyListHelper.setInternalList(PermissibleStudySubjectRegistryStatus.class,permissibleStudySubjectRegistryStatuses);
+	}
+	
 	public void setShortTitleText(String shortTitleText){
 		this.getStudyVersion().setShortTitleText(shortTitleText);
 	}

@@ -1,10 +1,10 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
@@ -13,41 +13,37 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
-@Table(name = "Reasons")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "reasons_id_seq") })
-public abstract class Reason extends AbstractMutableDeletableDomainObject{
+@Table(name = "REGISTRY_STATUSES")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "registry_statuses_id_seq") })
+public class RegistryStatus extends AbstractMutableDeletableDomainObject{
 
 	private String code;
 	
 	private String description;
 	
-	private Reason primaryReason;
+	private List<RegistryStatusReason> primaryReasons;
 	
-	private Boolean primaryIndicator;
-	
-	public Reason(String code, String description, Reason primaryReason,
-			Boolean primaryIndicator) {
+	public RegistryStatus() {
+		super();
+	}
+
+	public RegistryStatus(String code, String description,
+			List<RegistryStatusReason> primaryReasons) {
 		super();
 		this.code = code;
 		this.description = description;
-		this.primaryReason = primaryReason;
-		this.primaryIndicator = primaryIndicator;
-	}
-	
-	public Reason() {
-		super();
+		this.primaryReasons = primaryReasons;
 	}
 
-	@ManyToOne
-	@Cascade(value = { CascadeType.LOCK })
-	@JoinColumn(name = "parent_id")
-	public Reason getPrimaryReason() {
-		return primaryReason;
+	@OneToMany
+	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "registry_st_id")
+	public List<RegistryStatusReason> getPrimaryReasons() {
+		return primaryReasons;
 	}
 
-	public void setPrimaryReason(Reason primaryReason) {
-		this.primaryReason = primaryReason;
+	public void setPrimaryReasons(List<RegistryStatusReason> primaryReasons) {
+		this.primaryReasons = primaryReasons;
 	}
 
 	public String getCode() {
@@ -71,7 +67,7 @@ public abstract class Reason extends AbstractMutableDeletableDomainObject{
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
-        final Reason other = (Reason) obj;
+        final RegistryStatus other = (RegistryStatus) obj;
         if (code == null) {
             if (other.code != null) return false;
         }
@@ -86,12 +82,4 @@ public abstract class Reason extends AbstractMutableDeletableDomainObject{
         result = PRIME * result + ((code == null) ? 0 : code.hashCode());
         return result;
     }
-
-	public Boolean getPrimaryIndicator() {
-		return primaryIndicator;
-	}
-
-	public void setPrimaryIndicator(Boolean primaryIndicator) {
-		this.primaryIndicator = primaryIndicator;
-	}
 }

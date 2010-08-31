@@ -118,33 +118,37 @@
                 <value>edu.duke.cabig.c3pr.domain.GridEndPoint</value>
                 <value>edu.duke.cabig.c3pr.domain.EndPoint</value>
                 <value>edu.duke.cabig.c3pr.domain.Error</value>
-               <value>edu.duke.cabig.c3pr.domain.customfield.CustomField</value>
-               <value>edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField</value>
-               <value>edu.duke.cabig.c3pr.domain.customfield.StringCustomField</value>
-               <value>edu.duke.cabig.c3pr.domain.customfield.DateCustomField</value>
-               <value>edu.duke.cabig.c3pr.domain.customfield.IntegerCustomField</value>
-               <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition</value>
-               <value>edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition</value>
-               <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
-               <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
-               <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
-			   <value>edu.duke.cabig.c3pr.domain.StudyVersion</value>
-			   <value>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</value>
-			   <value>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</value>
-			   <value>edu.duke.cabig.c3pr.domain.Consent</value>
-			   <value>edu.duke.cabig.c3pr.domain.ConsentQuestion</value>
-			   <value>edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer</value>
-			   <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
-			   <value>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</value>
-			   <value>edu.duke.cabig.c3pr.domain.RolePrivilege</value>
-               <value>edu.duke.cabig.c3pr.domain.Reason</value>
-               <value>edu.duke.cabig.c3pr.domain.OffStudyReason</value>
-               <value>edu.duke.cabig.c3pr.domain.OffTreatmentReason</value>
-               <value>edu.duke.cabig.c3pr.domain.OffScreeningReason</value>
-               <value>edu.duke.cabig.c3pr.domain.OffReservingReason</value>
-               <value>edu.duke.cabig.c3pr.domain.OffFollowupReason</value>
-               <value>edu.duke.cabig.c3pr.domain.OffEpochReason</value>
-               <value>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</value>
+                <value>edu.duke.cabig.c3pr.domain.customfield.CustomField</value>
+                <value>edu.duke.cabig.c3pr.domain.customfield.BooleanCustomField</value>
+                <value>edu.duke.cabig.c3pr.domain.customfield.StringCustomField</value>
+                <value>edu.duke.cabig.c3pr.domain.customfield.DateCustomField</value>
+                <value>edu.duke.cabig.c3pr.domain.customfield.IntegerCustomField</value>
+                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition</value>
+                <value>edu.duke.cabig.c3pr.domain.customfield.StudyCustomFieldDefinition</value>
+                <value>edu.duke.cabig.c3pr.domain.customfield.StudySubjectCustomFieldDefinition</value>
+                <value>edu.duke.cabig.c3pr.domain.customfield.SubjectCustomFieldDefinition</value>
+                <value>edu.duke.cabig.c3pr.domain.customfield.CustomFieldPermissibleValue</value>
+			    <value>edu.duke.cabig.c3pr.domain.StudyVersion</value>
+			    <value>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</value>
+			    <value>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</value>
+			    <value>edu.duke.cabig.c3pr.domain.Consent</value>
+			    <value>edu.duke.cabig.c3pr.domain.ConsentQuestion</value>
+			    <value>edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer</value>
+			    <value>edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion</value>
+			    <value>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</value>
+			    <value>edu.duke.cabig.c3pr.domain.RolePrivilege</value>
+                <value>edu.duke.cabig.c3pr.domain.Reason</value>
+                <value>edu.duke.cabig.c3pr.domain.OffStudyReason</value>
+                <value>edu.duke.cabig.c3pr.domain.OffTreatmentReason</value>
+                <value>edu.duke.cabig.c3pr.domain.OffScreeningReason</value>
+                <value>edu.duke.cabig.c3pr.domain.OffReservingReason</value>
+                <value>edu.duke.cabig.c3pr.domain.OffFollowupReason</value>
+                <value>edu.duke.cabig.c3pr.domain.OffEpochReason</value>
+                <value>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</value>
+                <value>edu.duke.cabig.c3pr.domain.RegistryStatus</value>
+                <value>edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus</value>
+                <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
+                <value>edu.duke.cabig.c3pr.domain.RegistryStatusReason</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -300,6 +304,10 @@
                <value>edu.duke.cabig.c3pr.domain.OffFollowupReason</value>
                <value>edu.duke.cabig.c3pr.domain.OffEpochReason</value>
                <value>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</value>
+                <value>edu.duke.cabig.c3pr.domain.RegistryStatus</value>
+                <value>edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus</value>
+                <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
+                <value>edu.duke.cabig.c3pr.domain.RegistryStatusReason</value>
             </list>
         </property>
     </bean>
@@ -447,6 +455,9 @@
 				   	<value>edu.duke.cabig.c3pr.domain.StudySubjectDemographics</value>
    				   <value>edu.duke.cabig.c3pr.domain.RolePrivilege</value>
    				   <value>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</value>
+                  <value>edu.duke.cabig.c3pr.domain.RegistryStatus</value>
+                  <value>edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus</value>
+                  <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
               </list>
         </property>
         <!--  <property name="auditAll">
@@ -633,7 +644,7 @@
     <bean id="reasonDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ReasonDao" autowire="byName"/>
     <bean id="offEpochReasonDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.OffEpochReasonDao" autowire="byName"/>
 	<bean id="raceCodeAssociationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RaceCodeAssociationDao" autowire="byName"/>
-	
+    <bean id="registryStatusDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.RegistryStatusDao" autowire="byName"/>
 	
 	
 	<!-- Multisite Request Handlers -->

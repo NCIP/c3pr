@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,6 +32,7 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.util.CollectionUtils;
 
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.ConsentingMethod;
@@ -143,6 +145,8 @@ public class StudySubject extends
 	public static final String MEDIDATA_SYSTME_NAME="Medidata";
 	
 	public static final String MEDIDATA_IDENTIFIER_TYPE="Medidata Patient Position";
+	
+	private List<StudySubjectRegistryStatus> studySubjectRegistryStatusHistory = new ArrayList<StudySubjectRegistryStatus>();
 	
 	public String getBackDatedReasonText() {
 		return backDatedReasonText;
@@ -2362,7 +2366,76 @@ public class StudySubject extends
 			}
 		}
 	}
-	
 	// END
 	// ReConsent API
+
+	@OneToMany
+	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "stu_sub_id")
+	public List<StudySubjectRegistryStatus> getStudySubjectRegistryStatusHistoryInternal() {
+		return studySubjectRegistryStatusHistory;
+	}
+
+	public void setStudySubjectRegistryStatusHistoryInternal(
+			List<StudySubjectRegistryStatus> studySubjectRegistryStatusHistory) {
+		this.studySubjectRegistryStatusHistory = studySubjectRegistryStatusHistory;
+	}
+	
+	@Transient
+	public void updateRegistryStatus(String code, Date effectiveDate, List<RegistryStatusReason> reasons){
+		PermissibleStudySubjectRegistryStatus status = null;
+		for(PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus : getStudySite().getStudy().getPermissibleStudySubjectRegistryStatuses()){
+			if(permissibleStudySubjectRegistryStatus.getRegistryStaus().getCode().equals(code)){
+				status = permissibleStudySubjectRegistryStatus;
+				break;
+			}
+		}
+		if(status == null){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode
+					("C3PR.EXCEPTION.REGISTRY.INVALID_STATUS.CODE"),
+					new String[] {code});
+		}
+		if(reasons!=null && reasons.size()>0){
+			List<RegistryStatusReason> primaryReasons = new ArrayList<RegistryStatusReason>();
+			List<RegistryStatusReason> secondaryReasons = new ArrayList<RegistryStatusReason>();
+			for(RegistryStatusReason reason : reasons){
+				if(reason.getPrimaryIndicator()){
+					primaryReasons.add(reason);
+				}else{
+					secondaryReasons.add(reason);
+				}
+			}
+			if(primaryReasons.size()!=0 && !status.getRegistryStaus().getPrimaryReasons().containsAll(primaryReasons)){
+				throw getC3PRExceptionHelper().getRuntimeException(getCode
+						("C3PR.EXCEPTION.REGISTRY.INVALID_STATUS_REASON.CODE"),
+						new String[] {code});
+			}else if(secondaryReasons.size()!=0 && !status.getSecondaryReasons().containsAll(secondaryReasons)){
+				throw getC3PRExceptionHelper().getRuntimeException(getCode
+						("C3PR.EXCEPTION.REGISTRY.INVALID_STATUS_REASON.CODE"),
+						new String[] {code});
+			}
+			studySubjectRegistryStatusHistory.add(new StudySubjectRegistryStatus(effectiveDate, status, reasons));
+		}else{
+			studySubjectRegistryStatusHistory.add(new StudySubjectRegistryStatus(effectiveDate, status));
+		}
+	}
+	
+	@Transient
+	public StudySubjectRegistryStatus getStudySubjectRegistryStatus(){
+		return getStudySubjectRegistryStatusHistory().get(0);
+	}
+	
+	@Transient
+	public List<StudySubjectRegistryStatus> getStudySubjectRegistryStatusHistory() {
+		List<StudySubjectRegistryStatus> sorted = new ArrayList<StudySubjectRegistryStatus>(studySubjectRegistryStatusHistory);
+		Collections.sort(sorted, new Comparator<StudySubjectRegistryStatus>(){
+			public int compare(StudySubjectRegistryStatus o1,
+					StudySubjectRegistryStatus o2) {
+				return o1.getEffectiveDate().compareTo(o2.getEffectiveDate());
+			}
+		});
+		Collections.reverse(sorted);
+		return sorted;
+	} 
+	
 }
