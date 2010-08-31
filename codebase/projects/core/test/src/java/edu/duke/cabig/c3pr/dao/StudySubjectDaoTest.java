@@ -1562,7 +1562,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
  		criteriaParameters.add(advancedSearchCriteriaParameter1);
  		
  		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
- 		assertEquals("3 registration not found", 3,  registrations.size());
+ 		assertEquals("2 registration not found", 2,  registrations.size());
  	}
  	
  	public void testGetResultSetWithHQLForParticipantMultipleRaceCode() throws Exception {
@@ -1576,7 +1576,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
  		criteriaParameters.add(advancedSearchCriteriaParameter1);
  		
  		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
- 		assertEquals("6 registration not found", 6,  registrations.size());
+ 		assertEquals("5 registration not found", 5,  registrations.size());
  	}
  	
 	public void testGetResultSetWithHQLForParticipantIdentifierType() throws Exception {
