@@ -305,7 +305,7 @@
             <bind-xml name="ethnicGroupCode" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="raceCodeAssociations" type="string" collection="collection" handler="edu.duke.cabig.c3pr.xml.RaceCodeHandler">
+        <field name="raceCodeAssociations" type="string" collection="collection" handler="edu.duke.cabig.c3pr.xml.RaceCodeFieldHandler">
             <bind-xml name="raceCode" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
