@@ -99,10 +99,16 @@
             <xsl:copy-of select="./c3pr:administrativeGenderCode"/>
             <xsl:copy-of select="./c3pr:birthDate"/>
             <xsl:copy-of select="./c3pr:ethnicGroupCode"/>
-            <xsl:copy-of select="./c3pr:raceCode"/>
+            <raceCode>
+               <xsl:call-template name="join">
+			      <xsl:with-param name="valueList" select="c3pr:raceCode"/>
+			      <xsl:with-param name="separator" select="' : '"/>
+			    </xsl:call-template>
+            </raceCode>
             <xsl:apply-templates select="./c3pr:identifier"/>
         </participant>
     </xsl:template>
+   
     <xsl:template match="c3pr:scheduledEpoch">
         <scheduledEpoch
             xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
@@ -123,4 +129,18 @@
             <xsl:copy-of select="./c3pr:eligibilityIndicator"/>
         </scheduledEpoch>
     </xsl:template>
+    <xsl:template name="join">
+		<xsl:param name="valueList" select="''" />
+		<xsl:param name="separator" select="','" />
+		<xsl:for-each select="$valueList">
+			<xsl:choose>
+				<xsl:when test="position() = 1">
+					<xsl:value-of select="." />
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="concat($separator, .) " />
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:for-each>
+	</xsl:template>
 </xsl:stylesheet>
