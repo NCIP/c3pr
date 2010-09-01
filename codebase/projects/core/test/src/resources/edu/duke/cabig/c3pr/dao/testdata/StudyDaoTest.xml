@@ -111,9 +111,9 @@
 	<stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
     <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M" ethnic_group_code="Not Reported" prt_id="1000" add_id="1001"  retired_indicator="false" />
     
-    <race_code_assocn retired_indicator="false"    version="1"  sub_id="1000" race_code="White" />
-	<race_code_assocn retired_indicator="false"    version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
-	<race_code_assocn retired_indicator="false"    version="1"  stu_sub_dmgphcs_id="1001" race_code="White" />
+    <race_code_assocn retired_indicator="false"  id="1000"  version="1"  sub_id="1000" race_code="White" />
+	<race_code_assocn retired_indicator="false"  id="1001"  version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
+	<race_code_assocn retired_indicator="false"  id="1002"  version="1"  stu_sub_dmgphcs_id="1001" race_code="White" />
 	
     <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1000" sti_id="1000" retired_indicator="false" reg_workflow_status="PENDING"/>
     <STUDY_SUBJECTS id="1001" version="1" start_date="2001-01-01" stu_sub_dmgphcs_id="1001" sti_id="1001" retired_indicator="false" reg_workflow_status="PENDING"/>
@@ -238,18 +238,4 @@
 
     <CONTACT_MECHANISMS id="1000" version="1" />
     <prt_org_associations version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
-                     <REGISTRY_STATUSES id="1000" version="1" code="Pre-Enrolled" description="Pre-Enrolled"/>
-                     <REGISTRY_STATUSES id="1001" version="1" code="Enrolled" description="Enrolled"/>
-                     <REGISTRY_STATUSES id="1002" version="1" code="Screen Failed" description="Screen Failed"/>
-                     <REGISTRY_STATUSES id="1003" version="1" code="Accrued" description="Accrued"/>
-                     <REGISTRY_STATUSES id="1004" version="1" code="Active Intervention" description="Active Intervention"/>
-                     <REGISTRY_STATUSES id="1005" version="1" code="Consent Withdrawn" description="Consent Withdrawn"/>
-                     
-                     <PERMISSIBLE_REG_STATS id="1003" version="1" study_id="1003" registry_st_id="1003"/>
-                     
-                     <REASONS id="1000" version="1" dtype="REGISTRY_STATUS" code="FAILED INCLUSION" description="FAILED INCLUSION" primary_indicator="1" registry_st_id="1002"/>
-                     <REASONS id="1001" version="1" dtype="REGISTRY_STATUS" code="FAILED EXCLUSION" description="FAILED EXCLUSION" primary_indicator="1" registry_st_id="1002"/>
-                     <REASONS id="1002" version="1" dtype="REGISTRY_STATUS" code="DIED" description="DIED" primary_indicator="1" registry_st_id="1002"/>
-                     <REASONS id="1003" version="1" dtype="REGISTRY_STATUS" code="Unwilling" description="Unwilling" primary_indicator="1" registry_st_id="1005"/>
-                     
 </dataset>
