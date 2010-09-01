@@ -33,7 +33,7 @@
 			<address />
 			<administrativeGenderCode>M</administrativeGenderCode>
 			<birthDate>2009-08-14</birthDate>
-			<raceCode></raceCode>
+			<raceCode>Asian</raceCode>
 			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				xsi:type="OrganizationAssignedIdentifierType">
 				<value>test id0.19187658675850972</value>
@@ -118,7 +118,7 @@
 		<address />
 		<administrativeGenderCode>M</administrativeGenderCode>
 		<birthDate>2008-08-28</birthDate>
-		<raceCode />
+		<raceCode>Asian</raceCode>
 		<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			type="test id0.30306858374150003" xsi:type="OrganizationAssignedIdentifierType">
 			<type>MRN</type>
