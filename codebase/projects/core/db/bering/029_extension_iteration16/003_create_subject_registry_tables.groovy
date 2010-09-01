@@ -21,7 +21,7 @@ class CreateSubjectRegistryTables extends edu.northwestern.bioinformatics.bering
          }
 		
 		if (databaseMatches('oracle')) {
-	   		execute("RENAME SEQ_registry_statuses_id to registry_statuses_id_seq");
+	   		execute("RENAME SEQ_PERMISSIBLE_REG_STATS_id to PERMISSIBLE_REG_STATS_id_seq");
 	 	}
 		
 		execute('ALTER TABLE PERMISSIBLE_REG_STATS ADD CONSTRAINT FK_REG_STATUS FOREIGN KEY (registry_st_id) REFERENCES REGISTRY_STATUSES(ID)');
