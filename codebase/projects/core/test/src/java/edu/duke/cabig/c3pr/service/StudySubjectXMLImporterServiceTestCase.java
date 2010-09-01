@@ -97,6 +97,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
                             RegistrationWorkFlowStatus.ENROLLED, loaded.getRegWorkflowStatus());
             assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.REGISTERED,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
+            assertEquals("2 race codes not found", 2,
+                    loaded.getStudySubjectDemographics().getRaceCodeAssociations().size());
         }
         interruptSession();
 
