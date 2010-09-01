@@ -50,7 +50,8 @@
 			<administrativeGenderCode>Male</administrativeGenderCode>
 			<birthDate>2009-09-17</birthDate>
 			<ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>
-			<raceCode>Asian : Unknown</raceCode>
+			<raceCode>Asian</raceCode>
+			<raceCode>Unknown</raceCode>
 			<identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 				xsi:type="OrganizationAssignedIdentifierType">
 				<value>org id value</value>
