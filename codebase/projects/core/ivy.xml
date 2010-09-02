@@ -214,7 +214,7 @@
 			<dependency name="jackrabbit-jcr-rmi" org="org.apache.jackrabbit" rev="1.2.1" />
 			<dependency name="jackrabbit-jcr-server" org="org.apache.jackrabbit" rev="1.2.1" />		
 			<!-- COPPA Common dependencies --> 
-        	<dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="1.0" >
+        	<dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="1.2" >
         		<exclude org="dbunit" module="dbunit" rev="2.1" conf="*"/>
         	</dependency>
         	
