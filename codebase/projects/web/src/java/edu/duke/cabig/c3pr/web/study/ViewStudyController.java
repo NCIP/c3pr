@@ -13,6 +13,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyIdentifiersTab;
 import edu.duke.cabig.c3pr.web.study.tabs.StudyInvestigatorsTab;
@@ -51,6 +54,7 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
         StudyWrapper wrapper = new StudyWrapper();
         Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
         studyDao.initialize(study);
+        studyDao.initializeContactMechanisms(study);
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }

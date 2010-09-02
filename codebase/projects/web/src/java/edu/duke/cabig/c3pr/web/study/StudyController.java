@@ -33,6 +33,9 @@ import edu.duke.cabig.c3pr.dao.StudyVersionDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
@@ -187,6 +190,8 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     		study = studyDao.merge(wrapper.getStudy());
     	}
         studyDao.initialize(study);
+        studyDao.initializeContactMechanisms(study);
+       
         study.getParentStudyAssociations().size();
         wrapper.setStudy(study);
         return (C) wrapper;

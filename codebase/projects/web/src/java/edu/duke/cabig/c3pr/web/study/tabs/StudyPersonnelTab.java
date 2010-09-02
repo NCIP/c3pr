@@ -116,6 +116,7 @@ public class StudyPersonnelTab extends StudyTab {
                     }
                     StudyPersonnel sPersonnel = new StudyPersonnel();
                     researchStaff = researchStaffDao.getById(researchStaffId);
+                    researchStaff.getContactMechanisms().size();
                     if (researchStaff != null) {
                         sPersonnel.setResearchStaff(researchStaff);
                         sPersonnel.setStatusCode("Active");
