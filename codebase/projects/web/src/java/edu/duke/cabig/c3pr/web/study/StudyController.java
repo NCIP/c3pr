@@ -190,8 +190,6 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
     		study = studyDao.merge(wrapper.getStudy());
     	}
         studyDao.initialize(study);
-        studyDao.initializeContactMechanisms(study);
-       
         study.getParentStudyAssociations().size();
         wrapper.setStudy(study);
         return (C) wrapper;

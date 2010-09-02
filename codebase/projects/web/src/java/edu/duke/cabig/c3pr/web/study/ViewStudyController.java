@@ -54,7 +54,6 @@ public class ViewStudyController extends StudyController<StudyWrapper> {
         StudyWrapper wrapper = new StudyWrapper();
         Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
         studyDao.initialize(study);
-        studyDao.initializeContactMechanisms(study);
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
