@@ -5,7 +5,6 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;

@@ -67,8 +67,9 @@
 
 	<stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
     <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
+    <stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />       
     
-    <race_code_assocn retired_indicator="false"   id="1000" version="1"  sub_id="1000" race_code="White" />
+    <race_code_assocn retired_indicator="false"   id="1000" version="1"  sub_id="1000" race_code="White" stu_sub_dmgphcs_id="1005"/>
 	<race_code_assocn retired_indicator="false"   id="1001" version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
 	<race_code_assocn retired_indicator="false"   id="1002" version="1"  stu_sub_dmgphcs_id="1001" race_code="White" />
 	
