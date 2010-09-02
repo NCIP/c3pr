@@ -37,6 +37,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
@@ -73,7 +74,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     private StudyVersionDao studyVersionDao ;
     private StudySiteDao studySiteDao ;
     
-	public StudySiteDao getStudySiteDao() {
+    public StudySiteDao getStudySiteDao() {
 		return studySiteDao;
 	}
 
@@ -740,6 +741,19 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 	public void setHealthcareSiteInvestigatorDao(
 			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
 		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+	}
+
+	@Transactional(readOnly = false)
+	public void initializeContactMechanisms(Study study) {
+		//initializing the contact mechanisms for inv/staff here as it will need to be loaded for the study broadcast
+        for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
+            for(StudyInvestigator studyInvestigator:studyOrganization.getStudyInvestigatorsInternal()){
+            	getHibernateTemplate().initialize(studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getContactMechanisms());
+            }
+            for(StudyPersonnel studyPersonnel:studyOrganization.getStudyPersonnelInternal()){
+            	getHibernateTemplate().initialize(studyPersonnel.getResearchStaff().getContactMechanisms());
+            }
+        }
 	}
 
 }
