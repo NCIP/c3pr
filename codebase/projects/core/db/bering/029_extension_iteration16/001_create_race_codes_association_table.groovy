@@ -52,10 +52,11 @@ class CreateRaceCodeAssociationsTable extends edu.northwestern.bioinformatics.be
 	   		execute("INSERT INTO race_code_assocn (id,version,stu_sub_dmgphcs_id,race_code) (select race_code_assocn_id_SEQ.nextval,1, stu_sub_demographics.id,  'Not_Reported' from dual, stu_sub_demographics where race_code like '%Not_Reported%')")
 	   		execute("INSERT INTO race_code_assocn (id,version,stu_sub_dmgphcs_id,race_code) (select race_code_assocn_id_SEQ.nextval,1, stu_sub_demographics.id,  'Unknown' from dual, stu_sub_demographics where race_code like '%Unknown%')")
  	    }
-
-	 	execute("ALTER TABLE race_code_assocn ADD CONSTRAINT UK_RACE_CODE_SUB UNIQUE(race_code,sub_id)");
-	 	execute("ALTER TABLE race_code_assocn ADD CONSTRAINT UK_RACE_CODE_STU_SUB_DMGPHCS UNIQUE(race_code,stu_sub_dmgphcs_id)");
-	 	
+		
+		if (databaseMatches('postgres')) {
+		 	execute("ALTER TABLE race_code_assocn ADD CONSTRAINT UK_RACE_CODE_SUB UNIQUE(race_code,sub_id)");
+		 	execute("ALTER TABLE race_code_assocn ADD CONSTRAINT UK_RACE_CODE_STU_SUB_DMGPHCS UNIQUE(race_code,stu_sub_dmgphcs_id)");
+	 	}
 	 	// Drop existing columns
 	 	dropColumn('participants','race_code');
 	 	dropColumn('stu_sub_demographics','race_code');
