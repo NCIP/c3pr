@@ -174,7 +174,30 @@
 	<path id="test.isolated.run.classpath">
 		<path refid="test.isolated.classpath" />
 		<pathelement path="${test.classes.dir}" />
-	</path>	
+	</path>
+	
+	<path id="test.tomcat.embedded.run.classpath">
+		<pathelement path="${test.classes.dir}" />	
+		<fileset dir="${test.lib.dir}">
+			<include name="**/*6.0.29.jar" />
+			<include name="**/bouncycastle*.jar" />
+			<include name="**/cog-jglobus*.jar" />
+			<include name="**/commons-collections*.jar" />
+			<include name="**/commons-dbcp*.jar" />
+			<include name="**/commons-io*.jar" />
+			<include name="**/commons-lang*.jar" />
+			<include name="**/commons-pool*.jar" />
+			<include name="**/core-commons-testing*.jar" />
+			<include name="**/cryptix*.jar" />
+			<include name="**/dbunit*.jar" />
+			<include name="**/junit*.jar" />
+			<include name="**/log4j*.jar" />
+			<include name="**/postgresql*.jar" />
+			<include name="**/puretls*.jar" />
+			<include name="**/slf4j*.jar" />
+		</fileset>		
+	</path>
+	
 
 	<!-- refers to project root dir -->
 	<dirname file="${ant.file.common}" property="proj.root.dir"/>

@@ -275,7 +275,7 @@
 				<!-- Need to pass a ref to the WAR file that has been built. It will be deployed by the embedded Tomcat -->
 				<sysproperty key="test.war.file" value="${test.war.file}"/>
 
-				<classpath refid="test.isolated.run.classpath" />		
+				<classpath refid="test.tomcat.embedded.run.classpath" />		
 				
 				<formatter type="plain"/>
 				<formatter type="xml" />
