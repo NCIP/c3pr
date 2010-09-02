@@ -138,7 +138,7 @@ public abstract class BaseResolver {
             List<Object> remoteRoleList = getRemoteRolesFromCorrelationNodesList(correlationNodeList, null, null);
             return remoteRoleList;
     	}
-        return null;
+        return new ArrayList<Object>();
     }
     
     /** returns false if input values are %'s or blanks
