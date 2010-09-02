@@ -8,20 +8,20 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.catalina.Engine;
-import org.apache.catalina.Host;
 import org.apache.catalina.LifecycleException;
-import org.apache.catalina.connector.Connector;
-import org.apache.catalina.core.StandardContext;
-import org.apache.catalina.startup.Embedded;
 import org.apache.commons.dbcp.BasicDataSourceFactory;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.dbunit.DefaultDatabaseTester;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.database.IDatabaseConnection;
+import org.springframework.util.ReflectionUtils;
 
 import edu.nwu.bioinformatics.commons.testing.DbTestCase;
 
@@ -45,11 +46,22 @@ import edu.nwu.bioinformatics.commons.testing.DbTestCase;
  */
 public class SubjectManagementWebServiceTest extends DbTestCase {
 
+	private static final String TOMCAT_FACADE_CLASS = "edu.duke.cabig.c3pr.webservice.integration.C3PRTomcatLifecycleFacade";
+
+	private static final String STOP_TOMCAT = "stopTomcat";
+
 	private static final String KEYSTORE_FILE = "/etc/c3pr/publicstore.jks";
 
 	private static final String CSM_JAAS_CONFIG_FILENAME = "csm_jaas.config";
 
 	private static final String CATALINA_HOME = "CATALINA_HOME";
+
+	private static final String START_TOMCAT = "startTomcat";
+
+	private static final String[] TOMCAT_CLASS_PATH_ALLOWABLE_JAR_REGEXP = new String[] {
+			"annotations-api-6.*", "bouncycastle-jce.*", "catalina-6.*",
+			"cog-jglobus-.*", "coyote-6.*", "cryptix.*", "el-api-6.*",
+			"jasper-.*", "jsp-api-6.*", "juli-6.*", "servlet-api-6.*" };
 
 	private Logger logger = Logger
 			.getLogger(SubjectManagementWebServiceTest.class);
@@ -61,7 +73,7 @@ public class SubjectManagementWebServiceTest extends DbTestCase {
 	protected File confDir;
 	protected File tmpDir;
 
-	private Embedded container;
+	private Object container;
 
 	private int port = 9090;
 
@@ -88,11 +100,11 @@ public class SubjectManagementWebServiceTest extends DbTestCase {
 			prepareDatasourcePropertiesFile();
 			prepareKeystore();
 
-			// at this point, everything is ready for c3pr to start up.
-			startTomcat();
-
 			// this call will initialize database data.
 			super.setUp();
+
+			// at this point, everything is ready for c3pr to start up.
+			startTomcat();
 		} catch (Exception e) {
 			logger.error(ExceptionUtils.getFullStackTrace(e));
 			throw new RuntimeException(e);
@@ -106,55 +118,23 @@ public class SubjectManagementWebServiceTest extends DbTestCase {
 	 * @throws LifecycleException
 	 * @throws IOException
 	 */
-	private void startTomcat() throws LifecycleException, IOException {
+	private void startTomcat() throws Exception {
 		logger.info("Starting Tomcat...");
 
 		File defaultWebXml = new File(tmpDir, "web.xml");
 		FileUtils.copyURLToFile(SubjectManagementWebServiceTest.class
 				.getResource("testdata/web.xml"), defaultWebXml);
 
-		container = new Embedded();
-		container.setCatalinaHome(catalinaHome.getCanonicalPath());
+		ClassLoader loader = buildTomcatSafeClassLoader();
+		Thread.currentThread().setContextClassLoader(loader);
 
-		Engine engine = container.createEngine();
-		engine.setName("TestEngine");
-
-		Host localHost = container.createHost("localhost", webappsDir
-				.getCanonicalPath());
-		localHost.setDeployOnStartup(true);
-		localHost.setAutoDeploy(true);
-		engine.setDefaultHost(localHost.getName());
-		engine.addChild(localHost);
-
-		StandardContext rootContext = (StandardContext) container
-				.createContext("", new File(webappsDir, "ROOT")
-						.getAbsolutePath());
-		rootContext.setReloadable(false);
-		rootContext.setDefaultWebXml(defaultWebXml.getCanonicalPath());
-
-		StandardContext context = (StandardContext) container.createContext(
-				"/c3pr", warFile.getAbsolutePath());
-		context.setReloadable(false);
-		context.setDefaultWebXml(defaultWebXml.getCanonicalPath());
-
-		localHost.addChild(rootContext);
-		localHost.addChild(context);
-
-		container.addEngine(engine);
-
-		Connector httpConnector = container.createConnector((InetAddress) null,
-				port, false);
-		httpConnector.setRedirectPort(sslPort);
-
-		Connector httpsConnector = container.createConnector(
-				(InetAddress) null, sslPort, true);
-		httpsConnector.setScheme("https");
-		container.addConnector(httpConnector);
-		container.addConnector(httpsConnector);
-		container.setAwait(true);
-
-		// start server
-		container.start();
+		container = Class.forName(TOMCAT_FACADE_CLASS, true, loader)
+				.getConstructors()[0].newInstance(catalinaHome
+				.getCanonicalPath(), webappsDir.getCanonicalPath(), warFile
+				.getCanonicalPath(), defaultWebXml.getCanonicalPath(), port,
+				sslPort);
+		ReflectionUtils.invokeMethod(ReflectionUtils.findMethod(container
+				.getClass(), START_TOMCAT), container);
 
 		// add shutdown hook to stop server
 		Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -166,6 +146,45 @@ public class SubjectManagementWebServiceTest extends DbTestCase {
 		logger.info("Tomcat has been started.");
 	}
 
+	private ClassLoader buildTomcatSafeClassLoader()
+			throws MalformedURLException {
+
+		return new URLClassLoader(getTomcatSafeFilteredClassPath());
+	}
+
+	private URL[] getTomcatSafeFilteredClassPath() throws MalformedURLException {
+		List<URL> list = new ArrayList<URL>();
+
+		// add bootstrap class path first
+		String[] bstrapEntries = System.getProperty("sun.boot.class.path")
+				.split(SystemUtils.PATH_SEPARATOR);
+		for (String cpEntry : bstrapEntries) {
+			list.add(new File(cpEntry).toURL());
+		}
+
+		String[] cpEntries = SystemUtils.JAVA_CLASS_PATH
+				.split(SystemUtils.PATH_SEPARATOR);
+		for (String cpEntry : cpEntries) {
+			if (StringUtils.isNotBlank(cpEntry)) {
+				if (!cpEntry.toLowerCase().endsWith(".jar")
+						|| !excludedJar(cpEntry)) {
+					list.add(new File(cpEntry).toURL());
+				}
+			}
+		}
+		return list.toArray(new URL[0]);
+	}
+
+	private boolean excludedJar(String fullPathToJar) {
+		String jarName = FilenameUtils.getBaseName(fullPathToJar).toLowerCase();
+		for (String regexp : TOMCAT_CLASS_PATH_ALLOWABLE_JAR_REGEXP) {
+			if (jarName.matches(regexp)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * 
 	 */
@@ -173,7 +192,8 @@ public class SubjectManagementWebServiceTest extends DbTestCase {
 		try {
 			if (container != null) {
 				logger.info("Stopping Tomcat...");
-				container.stop();
+				ReflectionUtils.invokeMethod(ReflectionUtils.findMethod(
+						container.getClass(), STOP_TOMCAT), container);
 				logger.info("Tomcat has been stopped.");
 			}
 		} catch (Exception e) {
@@ -257,11 +277,12 @@ public class SubjectManagementWebServiceTest extends DbTestCase {
 					"CATALINA_HOME is not set by the Ant script.");
 		}
 		catalinaHome = new File(catalinaHomeEnv);
-		if (!catalinaHome.exists() || !catalinaHome.isDirectory()
-				|| catalinaHome.list().length > 0) {
-			throw new RuntimeException(
-					"CATALINA_HOME must point to an existent and empty directory.");
-		}
+		catalinaHome.mkdir(); // TODO: Remove and uncomment below.
+		/**
+		 * if (!catalinaHome.exists() || !catalinaHome.isDirectory() ||
+		 * catalinaHome.list().length > 0) { throw new RuntimeException(
+		 * "CATALINA_HOME must point to an existent and empty directory."); }
+		 **/
 
 		datasourceFile = getFileFromProperty("test.datasource.file");
 		warFile = getFileFromProperty("test.war.file");
@@ -306,7 +327,7 @@ public class SubjectManagementWebServiceTest extends DbTestCase {
 			stopContainer();
 			FileUtils.cleanDirectory(catalinaHome);
 		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
+
 		}
 		super.tearDown();
 	}
