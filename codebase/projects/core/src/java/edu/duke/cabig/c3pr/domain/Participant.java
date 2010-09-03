@@ -380,6 +380,18 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 		}
 		return raceCodes;
 	}
+	
+	/**
+	 * @param list
+	 */
+	@Transient
+	public void setRaceCodes(List<RaceCodeEnum> list) {
+		for (RaceCodeEnum raceCodeEnum : list) {
+			RaceCodeAssociation association  = new RaceCodeAssociation();
+			association.setRaceCode(raceCodeEnum);
+			addRaceCodeAssociation(association);			
+		}
+	}
 
 	/**
 	 * Gets the birth date str.

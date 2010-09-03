@@ -3,11 +3,14 @@
  */
 package edu.duke.cabig.c3pr.webservice.converters;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.test.AssertThrows;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.exception.ConversionException;
@@ -122,20 +125,13 @@ public class JAXBToDomainObjectConverterImplTest extends
 		assertEquals(TEST_STATE_CODE, participant.getAddress().getStateCode());
 		assertEquals(TEST_ZIP_CODE, participant.getAddress().getPostalCode());
 		assertEquals(TEST_COUNTRY, participant.getAddress().getCountryCode());
-//		assertEquals(Arrays.asList(new RaceCodeEnum[] { RaceCodeEnum.White,
-//				RaceCodeEnum.Asian }), toEnums(participant.getRaceCodes()));
+		assertEquals(Arrays.asList(new RaceCodeEnum[] { RaceCodeEnum.White,
+				RaceCodeEnum.Asian }), (participant.getRaceCodes()));
 		assertEquals(TEST_EMAIL_ADDR, participant.getEmail());
 		assertEquals(TEST_PHONE, participant.getPhone());
 		assertEquals(TEST_FAX, participant.getFax());
 	}
 
-//	protected List<RaceCodeEnum> toEnums(List<RaceCode> raceCodes) {
-//		List<RaceCodeEnum> list = new ArrayList<RaceCodeEnum>();
-//		for (RaceCode raceCode : raceCodes) {
-//			list.add(raceCode.getRaceCode());
-//		}
-//		return list;
-//	}
 
 	/**
 	 * Test method for

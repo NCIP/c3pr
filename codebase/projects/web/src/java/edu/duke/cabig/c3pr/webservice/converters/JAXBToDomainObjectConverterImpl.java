@@ -184,8 +184,7 @@ public class JAXBToDomainObjectConverterImpl implements
 				participant.setMiddleName(getMiddleName(person));
 				participant.setMaidenName(StringUtils.EMPTY);
 				participant.setAddress(getAddress(person));
-				//FIXME : DENIS
-//				participant.setRaceCodes(getRaceCodes(person));
+				participant.setRaceCodes(getRaceCodes(person));
 				participant.setEmail(getTelecomAddress(person, MAILTO));
 				participant.setPhone(getTelecomAddress(person, TEL));
 				participant.setFax(getTelecomAddress(person, X_TEXT_FAX));
@@ -224,25 +223,23 @@ public class JAXBToDomainObjectConverterImpl implements
 	 * @param person
 	 * @return
 	 */
-//	List<RaceCodeAssociation> getRaceCodes(Person person) {
-//		List<RaceCodeAssociation> list = new ArrayList<RaceCodeAssociation>();
-//		DSETCD dsetcd = person.getRaceCode();
-//		if (!isNull(dsetcd) && dsetcd.getItem() != null) {
-//			for (CD cd : dsetcd.getItem()) {
-//				String raceCodeStr = cd.getCode();
-//				RaceCodeEnum raceCode = RaceCodeEnum.getByCode(raceCodeStr);
-//				if (raceCode != null) {
-//					RaceCode raceCodeObj = new RaceCode();
-//			        raceCodeObj.setRaceCode(raceCode);
-//					list.add(raceCodeObj);
-//				} else {
-//					throw exceptionHelper.getConversionException(
-//							WRONG_RACE_CODE, new Object[] { raceCodeStr });
-//				}
-//			}
-//		}
-//		return list;
-//	}
+	List<RaceCodeEnum> getRaceCodes(Person person) {
+		List<RaceCodeEnum> list = new ArrayList<RaceCodeEnum>();
+		DSETCD dsetcd = person.getRaceCode();
+		if (!isNull(dsetcd) && dsetcd.getItem() != null) {
+			for (CD cd : dsetcd.getItem()) {
+				String raceCodeStr = cd.getCode();
+				RaceCodeEnum raceCode = RaceCodeEnum.getByCode(raceCodeStr);
+				if (raceCode != null) {					
+					list.add(raceCode);
+				} else {
+					throw exceptionHelper.getConversionException(
+							WRONG_RACE_CODE, new Object[] { raceCodeStr });
+				}
+			}
+		}
+		return list;
+	}
 
 	private Address getAddress(Person person) {
 		Address address = null;
@@ -514,8 +511,7 @@ public class JAXBToDomainObjectConverterImpl implements
 							: new CD(NullFlavor.NI));
 			person.setName(getName(p));
 			person.setPostalAddress(getPostalAddress(p));
-			// FIXME : DENIS
-//			person.setRaceCode(getRaceCodes(p));
+			person.setRaceCode(getRaceCodes(p));
 			person.setTelecomAddress(getTelecomAddress(p));
 			if (p.getStateCode() != null) {
 				subject.setStateCode(new ST(p.getStateCode().getCode()));
@@ -535,13 +531,13 @@ public class JAXBToDomainObjectConverterImpl implements
 		return addr;
 	}
 
-//	private DSETCD getRaceCodes(Participant p) {
-//		DSETCD dsetcd = new DSETCD();
-//		for (RaceCode raceCode : p.getRaceCodes()) {
-//			dsetcd.getItem().add(new CD(raceCode.getRaceCode().getCode()));
-//		}
-//		return dsetcd;
-//	}
+	private DSETCD getRaceCodes(Participant p) {
+		DSETCD dsetcd = new DSETCD();
+		for (RaceCodeEnum raceCode : p.getRaceCodes()) {
+			dsetcd.getItem().add(new CD(raceCode.getCode()));
+		}
+		return dsetcd;
+	}
 
 	/**
 	 * @param p
