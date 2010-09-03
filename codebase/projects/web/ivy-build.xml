@@ -245,7 +245,7 @@
 	        <echo message="selenium shutdown status: ${selenium.shutdown.results}"/>
 	    </target>
 	
-		<target name="test-integration" depends="clean-test-results, resolve-test, find-datasource, compile-test"> 
+		<target name="test-integration" depends="find-datasource"> 
 			
 			<tstamp prefix="test.integration">
 				<format property="instant" pattern="yyMMddHHmmss"/>				
@@ -263,7 +263,15 @@
 			<echo message="WAR file to be used will be ${test.war.file}" />			
 			
 			<junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" 
-				showoutput="true" fork="true" timeout="900000" maxmemory="500m" >
+				showoutput="true" fork="true" timeout="600000" maxmemory="500m" >
+		
+				<!--
+				<jvmarg value="-Dcom.sun.management.jmxremote"/>
+				<jvmarg value="-Dcom.sun.management.jmxremote.port=8000"/>
+				<jvmarg value="-Dcom.sun.management.jmxremote.ssl=false"/>
+				<jvmarg value="-Dcom.sun.management.jmxremote.authenticate=false"/>
+				--> 
+				<jvmarg value="-XX:MaxPermSize=350M"/> 
 				
 				<!-- Set temporary tomcat location to prevent collision with any existent setup -->
 				<env key="TOMCAT_HOME" value="${test.tomcat.location}"/>

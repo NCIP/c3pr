@@ -6,12 +6,26 @@ package edu.duke.cabig.c3pr.webservice.integration;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.Date;
 import java.util.Properties;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.sql.DataSource;
 
 import org.apache.catalina.Engine;
@@ -28,8 +42,6 @@ import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.dbunit.DefaultDatabaseTester;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.database.IDatabaseConnection;
@@ -44,6 +56,14 @@ import org.dbunit.database.IDatabaseConnection;
  */
 public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
+	private static final int TOMCAT_SHUTDOWN_TIMEOUT = 60;
+
+	public static final String C3PR_CONTEXT = "/c3pr";
+
+	public static final String ROOT = "ROOT";
+
+	public static final String WEB_XML_FILENAME = "web.xml";
+
 	public static final String KEYSTORE_BASE_FILENAME = "publicstore.jks";
 
 	public static final String KEYSTORE_FILE = "/etc/c3pr/"
@@ -53,7 +73,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 	public static final String CATALINA_HOME = "CATALINA_HOME";
 
-	protected Logger logger = Logger.getLogger(this.getClass());
+	protected Logger logger = Logger.getLogger(this.getClass().getName());
 
 	protected File catalinaHome;
 	protected File datasourceFile;
@@ -61,6 +81,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	protected File webappsDir;
 	protected File confDir;
 	protected File tmpDir;
+	protected File rulesDir;
 
 	protected Embedded container;
 
@@ -90,16 +111,65 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 			prepareDatasourcePropertiesFile();
 			prepareKeystore();
 			addShutdownHook();
+			// at this point, everything is ready for c3pr to start up.
+			startTomcat();
+
+			// Subclasses will likely make HTTPS requests to this instance.
+			// We need to disable SSL verification for testing purposes.
+			disableSSLVerification();
 
 			// this call will initialize database data.
 			super.setUp();
-
-			// at this point, everything is ready for c3pr to start up.
-			startTomcat();
 		} catch (Exception e) {
-			logger.error(ExceptionUtils.getFullStackTrace(e));
+			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			throw new RuntimeException(e);
 		}
+
+	}
+
+	/**
+	 * Code of this method was simply Googled.
+	 */
+	void disableSSLVerification() {
+		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+
+			public void checkClientTrusted(
+					java.security.cert.X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(
+					java.security.cert.X509Certificate[] certs, String authType) {
+			}
+		} };
+
+		try {
+			SSLContext sc = SSLContext.getInstance("SSL");
+			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+			HttpsURLConnection
+					.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		com.sun.net.ssl.HostnameVerifier hv = new com.sun.net.ssl.HostnameVerifier() {
+
+			public boolean verify(String urlHostname, String certHostname) {
+				return true;
+			}
+		};
+		com.sun.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(hv);
+
+		HostnameVerifier hv2 = new HostnameVerifier() {
+
+			public boolean verify(String urlHostName, SSLSession session) {
+				return true;
+			}
+		};
+		HttpsURLConnection.setDefaultHostnameVerifier(hv2);
 
 	}
 
@@ -122,11 +192,11 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	private void startTomcat() throws LifecycleException, IOException {
 		logger.info("Starting Tomcat...");
 
-		File defaultWebXml = new File(tmpDir, "web.xml");
+		File defaultWebXml = new File(tmpDir, WEB_XML_FILENAME);
 		FileUtils.copyURLToFile(C3PREmbeddedTomcatTestBase.class
-				.getResource("testdata/web.xml"), defaultWebXml);
+				.getResource(TESTDATA + "/" + WEB_XML_FILENAME), defaultWebXml);
 
-		final File rootContextDir = new File(webappsDir, "ROOT");
+		final File rootContextDir = new File(webappsDir, ROOT);
 		rootContextDir.mkdir();
 
 		container = new Embedded();
@@ -148,7 +218,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		rootContext.setDefaultWebXml(defaultWebXml.getCanonicalPath());
 
 		StandardContext context = (StandardContext) container.createContext(
-				"/c3pr", warFile.getAbsolutePath());
+				C3PR_CONTEXT, warFile.getAbsolutePath());
 		context.setReloadable(false);
 		context.setDefaultWebXml(defaultWebXml.getCanonicalPath());
 
@@ -180,11 +250,30 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		try {
 			if (container != null) {
 				logger.info("Stopping Tomcat...");
-				container.stop();
-				logger.info("Tomcat has been stopped.");
+				// stopping Tomcat may block, so we need to do it in another
+				// thread and join.
+				final ExecutorService executor = Executors
+						.newSingleThreadExecutor();
+				try {
+					Future future = executor.submit(new Runnable() {
+						public void run() {
+							try {
+								container.stop();
+								container = null;
+								logger.info("Tomcat has been stopped.");
+							} catch (LifecycleException e) {
+								logger.severe(ExceptionUtils
+										.getFullStackTrace(e));
+							}
+						}
+					});
+					future.get(TOMCAT_SHUTDOWN_TIMEOUT, TimeUnit.SECONDS);
+				} finally {
+					executor.shutdownNow();
+				}				
 			}
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			logger.severe(ExceptionUtils.getFullStackTrace(e));
 		}
 
 	}
@@ -210,7 +299,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		File keystoreFile = new File(KEYSTORE_FILE);
 		logger.info("Creating " + keystoreFile.getCanonicalPath());
 		FileUtils.copyURLToFile(C3PREmbeddedTomcatTestBase.class
-				.getResource("testdata/" + KEYSTORE_BASE_FILENAME),
+				.getResource(TESTDATA + "/" + KEYSTORE_BASE_FILENAME),
 				keystoreFile);
 
 	}
@@ -218,6 +307,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	private void backupKeystoreFileIfNeeded() throws IOException {
 		File keystoreFile = new File(KEYSTORE_FILE);
 		if (keystoreFile.exists() && keystoreFile.isFile()) {
+			logger.info("Backing up existent keystore file...");
 			FileUtils.copyFile(keystoreFile,
 					getTemporaryFileForKeystoreBackup());
 		}
@@ -227,6 +317,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		File keystoreFile = new File(KEYSTORE_FILE);
 		File backupFile = getTemporaryFileForKeystoreBackup();
 		if (backupFile.exists() && backupFile.isFile()) {
+			logger.info("Restoring keystore file to the original version...");
 			FileUtils.copyFile(backupFile, keystoreFile);
 		}
 	}
@@ -248,7 +339,21 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		File dsFile = new File(confDir, "c3pr/datasource.properties");
 		dsFile.getParentFile().mkdir();
 		logger.info("Creating " + dsFile.getCanonicalPath());
-		FileUtils.copyFile(datasourceFile, dsFile);
+
+		// we need to change path for the rules repository.
+		Properties props = new Properties();
+		final FileInputStream is = new FileInputStream(datasourceFile);
+		props.load(is);
+		IOUtils.closeQuietly(is);
+
+		final String rulesRepURL = rulesDir.toURL().toString();
+		props.setProperty("rules.repository", rulesRepURL);
+		final FileOutputStream os = new FileOutputStream(dsFile);
+		props.store(os, "");
+		os.flush();
+		os.close();
+
+		logger.info("Rules repository will be at " + rulesRepURL);
 
 	}
 
@@ -261,8 +366,10 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	private void prepareCsmJaasConfig() throws IOException {
 		final File csmJaasConf = new File(tmpDir, CSM_JAAS_CONFIG_FILENAME);
 
-		String template = IOUtils.toString(C3PREmbeddedTomcatTestBase.class
-				.getResourceAsStream("testdata/" + CSM_JAAS_CONFIG_FILENAME));
+		String template = IOUtils
+				.toString(C3PREmbeddedTomcatTestBase.class
+						.getResourceAsStream(TESTDATA + "/"
+								+ CSM_JAAS_CONFIG_FILENAME));
 		Properties dsProps = loadDataSourceProperties();
 		template = injectPropertyValue(template, "driverClassName", dsProps);
 		template = injectPropertyValue(template, "url", dsProps);
@@ -297,13 +404,13 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 					"CATALINA_HOME is not set by the Ant script.");
 		}
 		catalinaHome = new File(catalinaHomeEnv);
-		catalinaHome.mkdir(); // TODO: Remove
-		// TODO: Uncomment
-		/**
-		 * if (!catalinaHome.exists() || !catalinaHome.isDirectory() ||
-		 * catalinaHome.list().length > 0) { throw new RuntimeException(
-		 * "CATALINA_HOME must point to an existent and empty directory."); }
-		 **/
+		// catalinaHome.mkdir(); // TODO: Remove
+
+		if (!catalinaHome.exists() || !catalinaHome.isDirectory()
+				|| catalinaHome.list().length > 0) {
+			throw new RuntimeException(
+					"CATALINA_HOME must point to an existent and empty directory.");
+		}
 
 		datasourceFile = getFileFromProperty("test.datasource.file");
 		warFile = getFileFromProperty("test.war.file");
@@ -319,6 +426,9 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		tmpDir = new File(SystemUtils.JAVA_IO_TMPDIR, DateFormatUtils.format(
 				new Date(), "yyyy_MM_dd_HH_mm_ss_SSS"));
 		FileUtils.forceMkdir(tmpDir);
+
+		rulesDir = new File(tmpDir, "rules");
+		FileUtils.forceMkdir(rulesDir);
 
 		logger.info(toString());
 
@@ -356,9 +466,13 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		try {
 			restoreKeystoreFileIfNeeded();
 			stopContainer();
+			System.out.println("Cleaning up after ourselves: "
+					+ catalinaHome.getAbsolutePath() + " and "
+					+ tmpDir.getAbsolutePath());
 			FileUtils.cleanDirectory(catalinaHome);
+			FileUtils.cleanDirectory(tmpDir);
 		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
+			logger.severe(ExceptionUtils.getFullStackTrace(e));
 		}
 	}
 
@@ -374,7 +488,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 			logger.info("Creating data source using properties:\r\n" + dsProps);
 			return BasicDataSourceFactory.createDataSource(dsProps);
 		} catch (Exception e) {
-			logger.error(ExceptionUtils.getFullStackTrace(e));
+			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			throw new RuntimeException(e);
 		}
 	}
@@ -417,7 +531,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	 */
 	@Override
 	protected IDatabaseTester newDatabaseTester() throws Exception {
-		logger.debug("newDatabaseTester() - start");
+		logger.fine("newDatabaseTester() - start");
 
 		final IDatabaseConnection connection = getConnection();
 		final IDatabaseTester tester = new DefaultDatabaseTester(connection) {

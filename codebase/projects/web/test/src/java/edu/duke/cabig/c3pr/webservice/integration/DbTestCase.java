@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.webservice.integration;
 
 
-import org.apache.log4j.Logger;
+
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
@@ -16,6 +16,7 @@ import edu.nwu.bioinformatics.commons.testing.HsqlDataTypeFactory;
 import javax.sql.DataSource;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.logging.Logger;
 
 /**
  * This class has been modified from its original version in nwu's package to make it possible to run c3pr in embedded Tomcat from
@@ -31,18 +32,19 @@ import java.io.InputStream;
  * Revision:        $Revision: 1.2 $
  */
 public abstract class DbTestCase extends org.dbunit.DatabaseTestCase {
-    private Logger log = Logger.getLogger(DbTestCase.class);
+    public static final String TESTDATA = "testdata";
+	private Logger log = Logger.getLogger(DbTestCase.class.getName());
 
     protected abstract DataSource getDataSource();
 
     protected void setUp() throws Exception {
-        log.debug("---- Begin test " + getName() + " ----");
+        log.fine("---- Begin test " + getName() + " ----");
         super.setUp();
     }
 
     protected void tearDown() throws Exception {
         super.tearDown();
-        log.debug("----  End  test " + getName() + " ----");
+        log.fine("----  End  test " + getName() + " ----");
     }
 
     protected IDataSet getDataSet() throws Exception {
@@ -77,13 +79,13 @@ public abstract class DbTestCase extends org.dbunit.DatabaseTestCase {
     }
 
     protected String getClassSpecificTestDataFileName() {
-        return new StringBuffer("testdata/").append(getClassNameWithoutPackage()).append(".xml").toString();
+        return new StringBuffer(TESTDATA+"/").append(getClassNameWithoutPackage()).append(".xml").toString();
     }
 
     /** Use this method to override getTestDataFileName when you want test specific data */
     protected String getMethodSpecificTestDataFileName() {
         StringBuffer result = new StringBuffer()
-            .append("testdata/")
+            .append(TESTDATA+"/")
             .append(getClassNameWithoutPackage())
             .append("_")
             .append(getName())

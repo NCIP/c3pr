@@ -57,15 +57,15 @@
    		<subant target="publish-local" buildpathref="build-path" />
   	</target>
 	
-  	<target name="autobuild-ci-c3pr-webservices" depends="buildlist, clean" 
+  	<target name="autobuild-ci-c3pr-webservices" depends="buildlist, clean, build-war" 
   			description="">  		
   		<ant target="autobuild-ci-drop-and-create-existing-database" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
 		<ant target="autobuild-ci-recreate-db-hudson" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>		
 		<ant target="migrate" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false" dir="${projects.dir}/core">
 				<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
-		</ant>
+		</ant>  		
   		<ant target="test-integration" antfile="${projects.dir}/web/ivy-build.xml" inheritall="false"/>  		
-  	</target>
+  	</target> 
 	
 	
 	<!-- ==================================================================
