@@ -20,6 +20,7 @@ import java.io.InputStream;
 /**
  * This class has been modified from its original version in nwu's package to make it possible to run c3pr in embedded Tomcat from
  * a DBUnit test case. Original version had dependencies, such as dependency on Spring, which prevented c3pr from running properly.
+ * Unnecessary dependencies have been removed.
  * @author dkrylov
  *  
  * Author: mmhohman
