@@ -403,11 +403,11 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 			throw new RuntimeException(
 					"CATALINA_HOME is not set by the Ant script.");
 		}
+		
 		catalinaHome = new File(catalinaHomeEnv);
-		// catalinaHome.mkdir(); // TODO: Remove
-
 		if (!catalinaHome.exists() || !catalinaHome.isDirectory()
 				|| catalinaHome.list().length > 0) {
+			catalinaHome = null;
 			throw new RuntimeException(
 					"CATALINA_HOME must point to an existent and empty directory.");
 		}
