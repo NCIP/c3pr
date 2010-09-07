@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.Date;
 import java.util.Properties;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -64,14 +63,16 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 	public static final String WEB_XML_FILENAME = "web.xml";
 
-	public static final String KEYSTORE_BASE_FILENAME = "publicstore.jks";
+	public static final String SERVICE_KEYSTORE_BASENAME = "publicstore.jks";
 
-	public static final String KEYSTORE_FILE = "/etc/c3pr/"
-			+ KEYSTORE_BASE_FILENAME;
+	public static final String SERVICE_KEYSTORE_FILE = "/etc/c3pr/"
+			+ SERVICE_KEYSTORE_BASENAME;
 
 	public static final String CSM_JAAS_CONFIG_FILENAME = "csm_jaas.config";
 
 	public static final String CATALINA_HOME = "CATALINA_HOME";
+
+	public static final String TOMCAT_KEYSTORE_BASENAME = "tomcat.jks";
 
 	protected Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -82,6 +83,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	protected File confDir;
 	protected File tmpDir;
 	protected File rulesDir;
+	protected File tomcatKeystore;
 
 	protected Embedded container;
 
@@ -109,7 +111,8 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 			initializeProperties();
 			prepareCsmJaasConfig();
 			prepareDatasourcePropertiesFile();
-			prepareKeystore();
+			prepareServiceKeystore();
+			prepareTomcatKeystore();
 			addShutdownHook();
 			// at this point, everything is ready for c3pr to start up.
 			startTomcat();
@@ -124,6 +127,15 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			throw new RuntimeException(e);
 		}
+
+	}
+
+	private void prepareTomcatKeystore() throws IOException {
+		tomcatKeystore = new File(tmpDir, TOMCAT_KEYSTORE_BASENAME);
+		logger.info("Creating " + tomcatKeystore.getCanonicalPath());
+		FileUtils.copyURLToFile(C3PREmbeddedTomcatTestBase.class
+				.getResource(TESTDATA + "/" + TOMCAT_KEYSTORE_BASENAME),
+				tomcatKeystore);
 
 	}
 
@@ -234,6 +246,9 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		Connector httpsConnector = container.createConnector(
 				(InetAddress) null, sslPort, true);
 		httpsConnector.setScheme("https");
+		httpsConnector.setProperty("keystoreFile", tomcatKeystore
+				.getCanonicalPath());
+
 		container.addConnector(httpConnector);
 		container.addConnector(httpsConnector);
 		container.setAwait(true);
@@ -270,7 +285,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 					future.get(TOMCAT_SHUTDOWN_TIMEOUT, TimeUnit.SECONDS);
 				} finally {
 					executor.shutdownNow();
-				}				
+				}
 			}
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
@@ -284,7 +299,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	 * 
 	 * @throws IOException
 	 */
-	private void prepareKeystore() throws IOException {
+	private void prepareServiceKeystore() throws IOException {
 		// In case this test is running on a developer's machine, keystore file
 		// might already be present
 		// and this test will overwrite it because the keystore file path at
@@ -296,16 +311,16 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 		backupKeystoreFileIfNeeded();
 
-		File keystoreFile = new File(KEYSTORE_FILE);
+		File keystoreFile = new File(SERVICE_KEYSTORE_FILE);
 		logger.info("Creating " + keystoreFile.getCanonicalPath());
 		FileUtils.copyURLToFile(C3PREmbeddedTomcatTestBase.class
-				.getResource(TESTDATA + "/" + KEYSTORE_BASE_FILENAME),
+				.getResource(TESTDATA + "/" + SERVICE_KEYSTORE_BASENAME),
 				keystoreFile);
 
 	}
 
 	private void backupKeystoreFileIfNeeded() throws IOException {
-		File keystoreFile = new File(KEYSTORE_FILE);
+		File keystoreFile = new File(SERVICE_KEYSTORE_FILE);
 		if (keystoreFile.exists() && keystoreFile.isFile()) {
 			logger.info("Backing up existent keystore file...");
 			FileUtils.copyFile(keystoreFile,
@@ -314,7 +329,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	}
 
 	private void restoreKeystoreFileIfNeeded() throws IOException {
-		File keystoreFile = new File(KEYSTORE_FILE);
+		File keystoreFile = new File(SERVICE_KEYSTORE_FILE);
 		File backupFile = getTemporaryFileForKeystoreBackup();
 		if (backupFile.exists() && backupFile.isFile()) {
 			logger.info("Restoring keystore file to the original version...");
@@ -326,7 +341,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	 * @return
 	 */
 	private File getTemporaryFileForKeystoreBackup() {
-		return new File(tmpDir, KEYSTORE_BASE_FILENAME);
+		return new File(tmpDir, SERVICE_KEYSTORE_BASENAME);
 	}
 
 	/**
@@ -403,7 +418,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 			throw new RuntimeException(
 					"CATALINA_HOME is not set by the Ant script.");
 		}
-		
+
 		catalinaHome = new File(catalinaHomeEnv);
 		if (!catalinaHome.exists() || !catalinaHome.isDirectory()
 				|| catalinaHome.list().length > 0) {
