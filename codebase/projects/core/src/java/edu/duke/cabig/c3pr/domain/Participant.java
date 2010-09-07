@@ -386,6 +386,7 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	 */
 	@Transient
 	public void setRaceCodes(List<RaceCodeEnum> list) {
+		this.getRaceCodeAssociations().clear();
 		for (RaceCodeEnum raceCodeEnum : list) {
 			RaceCodeAssociation association  = new RaceCodeAssociation();
 			association.setRaceCode(raceCodeEnum);

@@ -23,6 +23,7 @@ import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -189,6 +190,9 @@ public class SubjectManagementImplTest extends SubjectManagementRelatedTestCase 
 		final UpdateSubjectRequest request = new UpdateSubjectRequest();
 		request.setSubject(subject);
 		Participant existentSubject = createParticipantWithIdAndStateOnly();
+		
+		// to test proper race code handling
+		existentSubject.setRaceCodes(Arrays.asList(new RaceCodeEnum[] {RaceCodeEnum.American_Indian_or_Alaska_Native}));
 
 		expect(participantRepository.searchByIdentifier(isA(Identifier.class)))
 				.andReturn(Arrays.asList(new Participant[] { existentSubject }));
