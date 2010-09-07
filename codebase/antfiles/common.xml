@@ -88,6 +88,13 @@
 					<exclude name="applicationContext-test.xml"/>
 				</fileset>
 			</copy>
+			<!-- The "copy" above breaks binary resources because of the filtering, .jks in particular.
+				 That's why we need to re-copy as below. -->
+			<copy todir="@{dest}" overwrite="true">
+				<fileset dir="@{src}" includes="**/*.jks">
+					<exclude name=".svn"/>					
+				</fileset>
+			</copy>			
 		</sequential>
 	</macrodef>
 
