@@ -30,13 +30,11 @@ import org.apache.commons.lang.exception.ExceptionUtils;
  * @author dkrylov
  * @version 1.0
  */
-public class SubjectManagementWebServiceTest extends
-		C3PREmbeddedTomcatTestBase {
+public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	public static final int THREE_MINUTES = 1000 * 60 * 3;
 	public static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/SubjectManagement";
-	private final String CREATE_SUBJECT_ID = RandomStringUtils
-			.randomAlphanumeric(16);
+	private final String SUBJECT_ID = RandomStringUtils.randomAlphanumeric(16);
 
 	private URL endpointURL;
 
@@ -54,36 +52,98 @@ public class SubjectManagementWebServiceTest extends
 	 * @throws IOException
 	 * 
 	 */
-	public void testCreateSubject() throws InterruptedException, IOException {
-		logger.info("Testing createSubject with ID " + CREATE_SUBJECT_ID
-				+ "; endpoint is at " + endpointURL);
-		HttpURLConnection urlConn = null;
+	public void testSubjectManagement() throws InterruptedException,
+			IOException {
+
 		try {
-			String soapRequest = getTestSOAPEnvelope("CreateSubjectRequest.xml");
-			String expectedSoapResponse = getTestSOAPEnvelope("CreateSubjectResponse.xml");
+			testSuccessfulWebServiceOperation("CreateSubject");
+			testSuccessfulWebServiceOperation("UpdateSubject");
+			testSuccessfulWebServiceOperation("QuerySubject");
+			testSuccessfulWebServiceOperation("QueryUnexistentSubject");
+			testSuccessfulWebServiceOperation("UpdateSubjectState");
 
-			urlConn = createEndpointConnection();			
-			sendSoapRequest(urlConn, soapRequest);
-			String soapResponse = getSoapResponse(urlConn);
-			logger.info("SOAP response:\r\n" + soapResponse);
+			// next call will fail due to duplicate subject
+			testUnsuccessfulWebServiceOperation("CreateDuplicateSubject");
 
-			// response must be successful.
-			assertEquals(HttpURLConnection.HTTP_OK, urlConn.getResponseCode());
-
-			// we're comparing response with the expected result literally. This
-			// is
-			// fragile because even a minor XML formatting change
-			// could break the test. Using XPath queries would probably be a
-			// better solution. However, the current approach is extremely
-			// simple, and we will keep it for now until we need a more
-			// flexible solution.
-			assertEquals(expectedSoapResponse, soapResponse);
+			// next call will test XML schema validation by the web service.
+			testUnsuccessfulWebServiceOperation("BadCreateSubject");
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
-			dumpHttpErrorStream(urlConn);
 			fail(ExceptionUtils.getFullStackTrace(e));
 		}
 
+	}
+
+	/**
+	 * @param operation
+	 * @return
+	 * @throws IOException
+	 * @throws ProtocolException
+	 */
+	private void testSuccessfulWebServiceOperation(final String operation)
+			throws IOException, ProtocolException {
+		HttpURLConnection urlConn;
+		logger.info("Testing " + operation + " with ID " + SUBJECT_ID
+				+ "; endpoint is at " + endpointURL);
+		String soapRequest = getTestSOAPEnvelope(operation + "Request.xml");
+		String expectedSoapResponse = getTestSOAPEnvelope(operation
+				+ "Response.xml");
+
+		urlConn = createEndpointConnection();
+		sendSoapRequest(urlConn, soapRequest);
+		String soapResponse = getSoapResponse(urlConn);
+		logger.info("SOAP response:\r\n" + soapResponse);
+
+		// response must be successful.
+		assertEquals(HttpURLConnection.HTTP_OK, urlConn.getResponseCode());
+
+		// we're comparing response with the expected result literally. This
+		// is
+		// fragile because even a minor XML formatting change
+		// could break the test. Using XPath queries would probably be a
+		// better solution. However, the current approach is extremely
+		// simple, and we will keep it for now until we need a more
+		// flexible solution.
+		assertEquals(expectedSoapResponse, soapResponse);
+	}
+
+	/**
+	 * @param operation
+	 * @return
+	 * @throws IOException
+	 * @throws ProtocolException
+	 */
+	private void testUnsuccessfulWebServiceOperation(final String operation)
+			throws IOException, ProtocolException {
+		HttpURLConnection urlConn;
+		logger.info("Testing " + operation + " with ID " + SUBJECT_ID
+				+ "; endpoint is at " + endpointURL);
+		String soapRequest = getTestSOAPEnvelope(operation + "Request.xml");
+		String expectedSoapResponse = getTestSOAPEnvelope(operation
+				+ "Response.xml");
+
+		urlConn = createEndpointConnection();
+		sendSoapRequest(urlConn, soapRequest);
+		try {
+			getSoapResponse(urlConn);
+			fail("IOException expected.");
+		} catch (IOException e) {
+		}
+		String soapResponse = getSoapErrorResponse(urlConn);
+		logger.info("SOAP response:\r\n" + soapResponse);
+
+		// response must be successful.
+		assertEquals(HttpURLConnection.HTTP_INTERNAL_ERROR, urlConn
+				.getResponseCode());
+
+		// we're comparing response with the expected result literally. This
+		// is
+		// fragile because even a minor XML formatting change
+		// could break the test. Using XPath queries would probably be a
+		// better solution. However, the current approach is extremely
+		// simple, and we will keep it for now until we need a more
+		// flexible solution.
+		assertEquals(expectedSoapResponse, soapResponse);
 	}
 
 	/**
@@ -94,6 +154,19 @@ public class SubjectManagementWebServiceTest extends
 	private String getSoapResponse(HttpURLConnection urlConn)
 			throws IOException {
 		InputStream respStream = urlConn.getInputStream();
+		String soapResponse = IOUtils.toString(respStream, "UTF-8");
+		IOUtils.closeQuietly(respStream);
+		return soapResponse;
+	}
+
+	/**
+	 * @param urlConn
+	 * @return
+	 * @throws IOException
+	 */
+	private String getSoapErrorResponse(HttpURLConnection urlConn)
+			throws IOException {
+		InputStream respStream = urlConn.getErrorStream();
 		String soapResponse = IOUtils.toString(respStream, "UTF-8");
 		IOUtils.closeQuietly(respStream);
 		return soapResponse;
@@ -127,26 +200,15 @@ public class SubjectManagementWebServiceTest extends
 		urlConn.setUseCaches(false);
 		urlConn.setConnectTimeout(THREE_MINUTES);
 		urlConn.setReadTimeout(THREE_MINUTES);
-		urlConn
-				.setRequestProperty("Content-Type",
-						"text/xml;charset=UTF-8");
+		urlConn.setRequestProperty("Content-Type", "text/xml;charset=UTF-8");
 		return urlConn;
 	}
 
 	private String getTestSOAPEnvelope(String fileName) throws IOException {
 		String soap = IOUtils.toString(SubjectManagementWebServiceTest.class
 				.getResourceAsStream(TESTDATA + "/" + fileName));
-		soap = StringUtils.replace(soap, "${identifier}", CREATE_SUBJECT_ID);
+		soap = StringUtils.replace(soap, "${identifier}", SUBJECT_ID);
 		return soap;
 	}
-
-	private void dumpHttpErrorStream(HttpURLConnection urlConn)
-			throws IOException {		
-		final InputStream errorStream = urlConn.getErrorStream();
-		logger.severe("HTTP Error Page follows:");
-		logger.severe(IOUtils.toString(errorStream));
-		IOUtils.closeQuietly(errorStream);
-	}
-
 
 }

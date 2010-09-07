@@ -1,0 +1,1 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><soap:Fault><faultcode>soap:Client</faultcode><faultstring>Unmarshalling Error: cvc-enumeration-valid: Value 'GIIV' is not facet-valid with respect to enumeration '[FAM, GIV, PFX, SFX, DEL]'. It must be a value from the enumeration. </faultstring></soap:Fault></soap:Body></soap:Envelope>
