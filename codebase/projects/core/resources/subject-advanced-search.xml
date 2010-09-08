@@ -25,11 +25,6 @@
 				<data-type>String</data-type>
 			</search-criteria>
 			<search-criteria>
-				<name>raceCode</name>
-				<label>Race</label>
-				<data-type>String</data-type>
-			</search-criteria>
-			<search-criteria>
 				<name>ethnicity</name>
 				<label>Ethnicity</label>
 				<data-type>String</data-type>
@@ -66,13 +61,30 @@
 				<data-type>String</data-type>
 			</search-criteria>
 			<association-context>
-				<name>participantAddressCriteria</name>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.Address</name>
 					<role-name>addressInternal</role-name>
 					<table-alias>Address_xx</table-alias>
 					<joining-condition>Participant_xx.addressInternal = Address_xx
 					</joining-condition>
+				</association>
+			</association-context>
+		</dependent-object>
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</class-name>
+			<display-name>RaceCodeAssociation</display-name>
+			<table-alias>RaceCodeAssociation_xx</table-alias>
+			<search-criteria>
+				<name>raceCode.code</name>
+				<label>Race Code</label>
+				<data-type>RaceCodeEnum</data-type>
+			</search-criteria>
+			<association-context>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</name>
+					<role-name>raceCodeAssociations</role-name>
+					<table-alias>RaceCodeAssociation_xx</table-alias>
+					<joining-condition>RaceCodeAssociation_xx = any elements(Participant_xx.raceCodeAssociations)</joining-condition>
 				</association>
 			</association-context>
 		</dependent-object>
@@ -88,7 +100,6 @@
 				<data-type>String</data-type>
 			</search-criteria>
 			<association-context>
-				<name>participantIdentifierCriteria</name>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.Identifier</name>
 					<role-name>identifiers</role-name>
