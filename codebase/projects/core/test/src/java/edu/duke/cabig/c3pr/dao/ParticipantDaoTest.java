@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+import com.semanticbits.querybuilder.AdvancedSearchHelper;
+import com.semanticbits.querybuilder.QueryGenerator;
+import com.semanticbits.querybuilder.TargetObject;
+
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
@@ -66,7 +71,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
      */
     public void testGetAll() throws Exception {
         List<Participant> actual = participantDao.getAll();
-        assertEquals(4, actual.size());
+        assertEquals(11, actual.size());
         List<Integer> ids = collectIds(actual);
         assertContains("Wrong Participant found", ids, 1000);
         assertContains("Wrong Participant found", ids, 1001);
@@ -125,7 +130,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         Participant searchCriteria = new Participant();
         searchCriteria.setLastName("Clo%ey");
         List<Participant> results = participantDao.searchByExample(searchCriteria);
-        assertEquals("Wrong number of Participants", 1, results.size());
+        assertEquals("Wrong number of Participants", 2, results.size());
     }
 
     /**
@@ -162,7 +167,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 		String[] namesArray = new String[] {"Rudo"};
     	List<Participant> participantList = getDao().getBySubnames(namesArray, 6);
 
-    	assertEquals(1, participantList.size());
+    	assertEquals(2, participantList.size());
     	assertEquals("Rudolph", participantList.get(0).getFirstName());
 	}
 
@@ -174,7 +179,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     	List<Participant> participantList = getDao().getBySubnames(namesArray, 0);
 
     	assertEquals(1, participantList.size());
-    	assertEquals("Andrez", participantList.get(0).getFirstName());
+    	assertEquals("Aldrez", participantList.get(0).getFirstName());
 	}
 
     /**
@@ -641,5 +646,140 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 	     participant = participantDao.merge(participant);
 	     assertEquals("1 association", 1, participant.getRaceCodeAssociations().size());
     }
+    
+    public void testGetResultSetWithHQLForFirstName() throws Exception {
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Participant",  "firstName", "%re%", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Participant> subjects = participantDao.search(criteriaParameters);
+		assertEquals("2 participants not found", 2,  subjects.size());
+	}
+	
+	public void testGetResultSetWithHQLForRaceCode() throws Exception {
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.RaceCodeAssociation",  "raceCode.code",
+						"Asian", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Participant> subjects = participantDao.search(criteriaParameters);
+		assertEquals("3 participants not found", 3,  subjects.size());
+	}
+	
+	public void testGetResultSetWithHQLForMultipleRaceCodeNotIn() throws Exception {
+		List<String> values = new ArrayList<String>();
+		values.add("White");
+		values.add("Asian");
+		
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.RaceCodeAssociation",  "raceCode.code",
+						values, "not in");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Participant> subjects = participantDao.search(criteriaParameters);
+		assertEquals("0 participants not found", 0,  subjects.size());
+	}
+	
+	public void testGetResultSetWithHQLForMultipleRaceCodeIn() throws Exception {
+		List<String> values = new ArrayList<String>();
+		values.add("White");
+		values.add("Asian");
+		
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.RaceCodeAssociation",  "raceCode.code",
+						values, "in");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Participant> subjects = participantDao.search(criteriaParameters);
+		assertEquals("11 participants not found", 11,  subjects.size());
+	}
+	
+	
+	public void testGetResultSetWithHQLForZipcode() throws Exception {
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Address",  "postalCode",
+						"20171", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Participant> subjects = participantDao.search(criteriaParameters);
+		assertEquals("2 participants not found", 2,  subjects.size());
+	}
+	
+	public void testGetResultSetWithHQLForIdentifier() throws Exception {
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Identifier", "value", "sub%", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Participant> subjects = participantDao.search(criteriaParameters);
+		assertEquals("2 participants not found", 3,  subjects.size());
+	}
+	
+	public void testGetResultSetWithAllSearchCriterion() throws Exception {
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.Participant",  "firstName", "Ru%", "like");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter2 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Participant",  "lastName", "%oo%", "like");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter3 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.Participant",  "administrativeGenderCode", "Male", "=");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter4 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.Participant",  "ethnicGroupCode", "Unknown", "=");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter5 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.RaceCodeAssociation", "raceCode.code", "White", "=");
+		
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter6 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.Address",  "postalCode", "20171", "=");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter7 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.Address", "stateCode", "VA", "like");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter8 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.Address",  "countryCode", "USA", "like");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter9 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.Address", "city", "Herndon", "like");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter10 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.Identifier", "value", "sub%", "like");
+		
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		criteriaParameters.add(advancedSearchCriteriaParameter2);
+		criteriaParameters.add(advancedSearchCriteriaParameter3);
+		criteriaParameters.add(advancedSearchCriteriaParameter4);
+		criteriaParameters.add(advancedSearchCriteriaParameter5);
+		criteriaParameters.add(advancedSearchCriteriaParameter6);
+		criteriaParameters.add(advancedSearchCriteriaParameter7);
+		criteriaParameters.add(advancedSearchCriteriaParameter8);
+		criteriaParameters.add(advancedSearchCriteriaParameter9);
+		criteriaParameters.add(advancedSearchCriteriaParameter10);
+		
+		List<Participant> subjects = participantDao.search(criteriaParameters);
+		assertEquals("Only one subject expected", 1, subjects.size());
+		assertEquals("First name should be Ru", "Ru", subjects.get(0).getFirstName());
+		assertEquals("Last name should be Cloon", "Cloon", subjects.get(0).getLastName());
+	}
 
 }

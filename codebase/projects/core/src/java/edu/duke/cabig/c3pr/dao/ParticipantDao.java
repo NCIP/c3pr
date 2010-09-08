@@ -1,17 +1,23 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.ObjectUtils;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Example;
@@ -20,6 +26,12 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+import com.semanticbits.querybuilder.QueryBuilder;
+import com.semanticbits.querybuilder.QueryBuilderDao;
+import com.semanticbits.querybuilder.QueryGenerator;
+import com.semanticbits.querybuilder.TargetObject;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -418,4 +430,70 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
                                + " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
                                    new Object[] { id.getSystemName(), id.getValue(), id.getTypeInternal() });
     }
+    
+    private QueryBuilderDao queryBuilderDao;
+	public List<Participant> search(List<AdvancedSearchCriteriaParameter> searchParameters){
+		String hql = generateHQL(searchParameters);
+		return search(hql);
+	}
+	
+	public List<Participant> search(List<AdvancedSearchCriteriaParameter> searchParameters, String fileLocation){
+		String hql = generateHQL(searchParameters, fileLocation);
+		return search(hql);
+	}
+	
+	public String generateHQL(List<AdvancedSearchCriteriaParameter> searchParameters){
+		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("subject-advanced-search.xml");
+		Unmarshaller unmarshaller;
+		QueryBuilder queryBuilder = new QueryBuilder();
+		try {
+			unmarshaller = JAXBContext.newInstance("com.semanticbits.querybuilder").createUnmarshaller();
+			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+		try {
+			return QueryGenerator.generateHQL(targetObject, searchParameters, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public String generateHQL(List<AdvancedSearchCriteriaParameter> searchParameters, String fileLocation){
+		File file = new File(fileLocation);
+		InputStream inputStream ;
+		QueryBuilder queryBuilder = new QueryBuilder();
+		try {
+			inputStream = new FileInputStream(file);
+			Unmarshaller unmarshaller = JAXBContext.newInstance("com.semanticbits.querybuilder").createUnmarshaller();
+			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
+		}catch (JAXBException e) {
+			e.printStackTrace();
+		}catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+		try {
+			return QueryGenerator.generateHQL(targetObject, searchParameters, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public List<Participant> search(String hql){
+		return (List<Participant>)queryBuilderDao.search(hql);
+	}
+
+	public void setQueryBuilderDao(QueryBuilderDao queryBuilderDao) {
+		this.queryBuilderDao = queryBuilderDao;
+	}
+
+	public QueryBuilderDao getQueryBuilderDao() {
+		return queryBuilderDao;
+	}
+	
 }
