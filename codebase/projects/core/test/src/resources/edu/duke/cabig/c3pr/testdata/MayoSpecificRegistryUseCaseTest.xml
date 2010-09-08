@@ -1,0 +1,73 @@
+<dataset>
+    
+    <STUDIES therapeutic_intent_indicator="0" id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" dtype="Local"/>
+    
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1000" study_id="1000" long_title_text="long_title_text" name="1.0" version_date="2001-01-01" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    
+    <CONSENTS/>
+    
+    <CONSENT_QUESTIONS/>
+    
+    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA"
+        postal_code="20191" country_code="USA" retired_indicator="false"/>
+    
+    <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01"
+        administrative_gender_code="M"  add_id="1000" retired_indicator="false"/>
+    
+    <PARTICIPANTS id="1001" version="1" first_name="Jack" last_name="Sparrow" birth_date="2000-01-01"
+        administrative_gender_code="M"  add_id="1000" retired_indicator="false"/>
+    
+    
+    <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000"
+        retired_indicator="false"/>
+    
+    <STUDY_ORGANIZATIONS id="1000" version="1"
+        study_id="1000"
+        hcs_id="1000" type="SST"   retired_indicator="false"/>
+    
+    <STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="2001-01-01" />
+    
+    <study_site_versions id="1000" version="1" start_date="2001-01-01" irb_approval_date="2001-01-01"
+        stu_version_id="1000" sto_id="1000" retired_indicator="false"/>
+    
+    <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" hcs_id="1000" org_id="1000"
+        retired_indicator="false" primary_indicator="0"/>
+    
+    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
+    
+    <race_code_assocn retired_indicator="false"    version="1"  sub_id="1000" race_code="White" />
+    <race_code_assocn retired_indicator="false"    version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
+    <race_code_assocn retired_indicator="false"    version="1"  sub_id="1001" race_code="White" />
+    
+    <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1000" sti_id="1000" retired_indicator="false" reg_workflow_status="PENDING"/>
+    
+    <study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
+    
+    <study_subject_consents />
+    <sub_con_que_ans />
+    
+    <CONTACT_MECHANISMS id="1000" version="1" />
+    <prt_org_associations version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
+    <prt_org_associations version="1" prt_id="1001" org_id="1000"  retired_indicator = "false"/>
+    
+    <REGISTRY_STATUSES id="1000" version="1" code="Pre-Enrolled" description="Pre-Enrolled"/>
+    <REGISTRY_STATUSES id="1001" version="1" code="Enrolled" description="Enrolled"/>
+    <REGISTRY_STATUSES id="1002" version="1" code="Screen Failed" description="Screen Failed"/>
+    <REGISTRY_STATUSES id="1003" version="1" code="Accrued" description="Accrued"/>
+    <REGISTRY_STATUSES id="1004" version="1" code="Active Intervention" description="Active Intervention"/>
+    <REGISTRY_STATUSES id="1005" version="1" code="Long-Term Followup" description="Consent Withdrawn"/>
+    <REGISTRY_STATUSES id="1006" version="1" code="Observation" description="Consent Withdrawn"/>
+    <REGISTRY_STATUSES id="1007" version="1" code="Withdrawn" description="Consent Withdrawn"/>
+    <REGISTRY_STATUSES id="1008" version="1" code="Declined Consent" description="Consent Withdrawn"/>
+    <REGISTRY_STATUSES id="1009" version="1" code="Completed" description="Consent Withdrawn"/>
+    
+    <PERMISSIBLE_REG_STATS id="1000" version="1" study_id="1000" registry_st_id="1000"/>
+    
+    <STU_SUB_REG_STATUSES id="1000" version="1" effective_date="01-01-2000" per_reg_st_id="1000" stu_sub_id="1000"/>
+    
+    <REASONS id="1000" version="1" dtype="REGISTRY_STATUS" code="FAILED INCLUSION" description="FAILED INCLUSION" primary_indicator="1" registry_st_id="1002"/>
+    <REASONS id="1001" version="1" dtype="REGISTRY_STATUS" code="FAILED EXCLUSION" description="FAILED EXCLUSION" primary_indicator="1" registry_st_id="1002"/>
+    <REASONS id="1002" version="1" dtype="REGISTRY_STATUS" code="DIED" description="DIED" primary_indicator="1" registry_st_id="1009"/>
+    <REASONS id="1003" version="1" dtype="REGISTRY_STATUS" code="UNWILLING" description="UNWILLING" primary_indicator="1" registry_st_id="1007"/>
+    
+</dataset>

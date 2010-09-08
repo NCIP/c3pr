@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -60,6 +61,16 @@ public class RegistryStatus extends AbstractMutableDeletableDomainObject{
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	@Transient
+	public RegistryStatusReason getPrimaryReason(String code){
+		for(RegistryStatusReason reason : primaryReasons){
+			if(reason.getCode().equals(code)){
+				return reason;
+			}
+		}
+		return null;
 	}
 	
 	@Override

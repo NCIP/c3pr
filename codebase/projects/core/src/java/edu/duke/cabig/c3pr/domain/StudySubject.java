@@ -2370,7 +2370,7 @@ public class StudySubject extends
 
 	@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinColumn(name = "stu_sub_id")
+	@JoinColumn(name = "stu_sub_id", nullable=false)
 	public List<StudySubjectRegistryStatus> getStudySubjectRegistryStatusHistoryInternal() {
 		return studySubjectRegistryStatusHistory;
 	}
