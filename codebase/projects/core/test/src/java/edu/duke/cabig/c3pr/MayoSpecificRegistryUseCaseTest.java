@@ -54,32 +54,13 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     /** The healthcare sitedao. */
     private HealthcareSiteDao healthcareSitedao;
 
-    /** The hcsidao. */
-    private HealthcareSiteInvestigatorDao hcsidao;
-
-    /** The investigator dao. */
-    private InvestigatorDao investigatorDao;
-
-    /** The disease term dao. */
-    private DiseaseTermDao diseaseTermDao;
-
-    /** The disease category dao. */
-    private DiseaseCategoryDao diseaseCategoryDao;
-
-    /** The xml utility. */
-    private XmlMarshaller xmlUtility;
-    
     private RegistryStatusDao registryStatusDao;
     
     private ReasonDao reasonDao;
     
     private ParticipantDao participantDao;
 
-    private StudySiteDao studySiteDao;
-    
     private StudySubjectDao studySubjectDao;
-    
-    private StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
     
     private StudySubject studySubject;
     private Study study;
@@ -99,21 +80,11 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
         studyDao = (StudyDao) getApplicationContext().getBean("studyDao");
         healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
         	.getBean("healthcareSiteDao");
-        hcsidao = (HealthcareSiteInvestigatorDao) getApplicationContext()
-        	.getBean("healthcareSiteInvestigatorDao");
-        investigatorDao = (InvestigatorDao) getApplicationContext().getBean("investigatorDao");
-        diseaseTermDao = (DiseaseTermDao) getApplicationContext().getBean("diseaseTermDao");
-        diseaseCategoryDao = (DiseaseCategoryDao) getApplicationContext()
-        	.getBean("diseaseCategoryDao");
         registryStatusDao = (RegistryStatusDao) getApplicationContext()
     	.getBean("registryStatusDao");
         reasonDao = (ReasonDao) getApplicationContext()
     	.getBean("reasonDao");
         participantDao = (ParticipantDao) getApplicationContext().getBean("participantDao");
-        studySiteDao = (StudySiteDao) getApplicationContext().getBean("studySiteDao");
-        studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
-        xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean(
-                        "c3pr-study-xml-castorMapping"));
     }
     
     private Study createStudyForRegistry() {
