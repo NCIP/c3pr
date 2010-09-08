@@ -322,9 +322,8 @@ div.row div.label {
 		<c:forEach items="${command.externalOrganizations}" var="remOrg"
 			varStatus="rdStatus">
 			<tr>
-				<td><input "type="radio" name="remoteorgradio"
-					value=${rdStatus.index } id="remoteorg-radio"
-					onClick="javascript:selectOrg('${rdStatus.index}');" /></td>
+				<td><input type="radio" name="remoteorgradio"
+					id="remoteorg-radio" onClick="javascript:selectOrg('${rdStatus.index}');" /></td>
 				<td align="left">${remOrg.name}</td>
 				<td align="left">${remOrg.ctepCode}</td>
 			</tr>
