@@ -463,8 +463,8 @@
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</name>
 					<role-name>studySubjectRegistryStatusHistoryInternal</role-name>
-					<table-alias>StudySubjectRegistryStatusHistory_xx</table-alias>
-					<joining-condition>studySubjectRegistryStatusHistory_xxRegistryStatusReason = any
+					<table-alias>StudySubjectRegistryStatus_xx</table-alias>
+					<joining-condition>studySubjectRegistryStatus_xxRegistryStatusReason = any
 						elements(StudySubject_xx.studySubjectRegistryStatusHistoryInternal)
 					</joining-condition>
 				</association>
