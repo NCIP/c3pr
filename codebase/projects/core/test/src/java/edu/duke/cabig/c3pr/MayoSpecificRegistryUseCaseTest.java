@@ -147,31 +147,31 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
         study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 
         PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus1 = study.getPermissibleStudySubjectRegistryStatuses().get(0);
-        permissibleStudySubjectRegistryStatus1.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Pre-Enrolled"));
+        permissibleStudySubjectRegistryStatus1.setRegistryStatus(registryStatusDao.getRegistryStatusByCode("Pre-Enrolled"));
         PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus2 = study.getPermissibleStudySubjectRegistryStatuses().get(1);
-        permissibleStudySubjectRegistryStatus2.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Enrolled"));
+        permissibleStudySubjectRegistryStatus2.setRegistryStatus(registryStatusDao.getRegistryStatusByCode("Enrolled"));
         PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus3 = study.getPermissibleStudySubjectRegistryStatuses().get(2);
-        permissibleStudySubjectRegistryStatus3.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Screen Failed"));
+        permissibleStudySubjectRegistryStatus3.setRegistryStatus(registryStatusDao.getRegistryStatusByCode("Screen Failed"));
         registryStatusReason1 = new RegistryStatusReason("lab1","lab out of range1", reasonDao.getReasonByCode("FAILED INCLUSION"), false);
         registryStatusReason2 = new RegistryStatusReason("lab2","lab out of range2", reasonDao.getReasonByCode("FAILED EXCLUSION"), false);
         permissibleStudySubjectRegistryStatus3.setSecondaryReasons(Arrays.asList(new RegistryStatusReason[]{registryStatusReason1, registryStatusReason2}));
         PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus4 = study.getPermissibleStudySubjectRegistryStatuses().get(3);
-        permissibleStudySubjectRegistryStatus4.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Accrued"));
+        permissibleStudySubjectRegistryStatus4.setRegistryStatus(registryStatusDao.getRegistryStatusByCode("Accrued"));
         PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus5 = study.getPermissibleStudySubjectRegistryStatuses().get(4);
-        permissibleStudySubjectRegistryStatus5.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Withdrawn"));
+        permissibleStudySubjectRegistryStatus5.setRegistryStatus(registryStatusDao.getRegistryStatusByCode("Withdrawn"));
         registryStatusReason3 = new RegistryStatusReason("distance","distance", reasonDao.getReasonByCode("UNWILLING"), false);
         registryStatusReason4 = new RegistryStatusReason("schedule","schedule", reasonDao.getReasonByCode("UNWILLING"), false);
         permissibleStudySubjectRegistryStatus5.setSecondaryReasons(Arrays.asList(new RegistryStatusReason[]{registryStatusReason3, registryStatusReason4}));
         PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus6 = study.getPermissibleStudySubjectRegistryStatuses().get(5);
-        permissibleStudySubjectRegistryStatus6.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Active Intervention"));
+        permissibleStudySubjectRegistryStatus6.setRegistryStatus(registryStatusDao.getRegistryStatusByCode("Active Intervention"));
         PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus7 = study.getPermissibleStudySubjectRegistryStatuses().get(6);
-        permissibleStudySubjectRegistryStatus7.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Long-Term Followup"));
+        permissibleStudySubjectRegistryStatus7.setRegistryStatus(registryStatusDao.getRegistryStatusByCode("Long-Term Followup"));
         PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus8 = study.getPermissibleStudySubjectRegistryStatuses().get(7);            
-        permissibleStudySubjectRegistryStatus8.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Observation"));
+        permissibleStudySubjectRegistryStatus8.setRegistryStatus(registryStatusDao.getRegistryStatusByCode("Observation"));
         PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus9 = study.getPermissibleStudySubjectRegistryStatuses().get(8);
-        permissibleStudySubjectRegistryStatus9.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Declined Consent"));
+        permissibleStudySubjectRegistryStatus9.setRegistryStatus(registryStatusDao.getRegistryStatusByCode("Declined Consent"));
         PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus10 = study.getPermissibleStudySubjectRegistryStatuses().get(9);
-        permissibleStudySubjectRegistryStatus10.setRegistryStaus(registryStatusDao.getRegistryStatusByCode("Completed"));
+        permissibleStudySubjectRegistryStatus10.setRegistryStatus(registryStatusDao.getRegistryStatusByCode("Completed"));
         
         studyDao.save(study);
         return study;
@@ -206,7 +206,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(1, studySubject.getLatestConsents().size());
     	assertEquals("general1", studySubject.getLatestConsents().get(0).getConsent().getName());
     	assertEquals(new GregorianCalendar(2006, 02,20).getTime(), studySubject.getLatestConsents().get(0).getConsentDeliveryDate());
@@ -231,10 +231,10 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 03,20).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(2, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 01,31).getTime(), studySubject.getStudySubjectRegistryStatusHistory().get(1).getEffectiveDate());
     	assertEquals(new GregorianCalendar(2006, 03,20).getTime(), studySubject.getLatestConsents().get(0).getInformedConsentSignedDate());
     	
@@ -257,11 +257,11 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Screen Failed", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Screen Failed", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 05,12).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(3, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(4, studySubject.getStudySubjectRegistryStatus().getReasons().size());
     }
     
@@ -286,7 +286,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(1, studySubject.getLatestConsents().size());
     	assertEquals("general1", studySubject.getLatestConsents().get(0).getConsent().getName());
     	assertEquals(new GregorianCalendar(2006, 02,20).getTime(), studySubject.getLatestConsents().get(0).getConsentDeliveryDate());
@@ -311,10 +311,10 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 03,20).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(2, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 01,31).getTime(), studySubject.getStudySubjectRegistryStatusHistory().get(1).getEffectiveDate());
     	assertEquals(new GregorianCalendar(2006, 03,20).getTime(), studySubject.getLatestConsents().get(0).getInformedConsentSignedDate());
     	
@@ -328,11 +328,11 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 04,26).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(3, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	
     	// Active Intervention
     	//add new consent delivery date
@@ -353,12 +353,12 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 05,10).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(4, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(2, studySubject.getLatestConsents().size());
     	
     	//Observation
@@ -371,13 +371,13 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2007, 01,05).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(5, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	
     	//Long-Term Followup
     	interruptSession();
@@ -389,14 +389,14 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Long-Term Followup", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Long-Term Followup", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2009, 03,13).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(6, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(5).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(5).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	
     	//Completed
     	interruptSession();
@@ -414,15 +414,15 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Completed", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Completed", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2010, 07,22).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(7, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Long-Term Followup", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(5).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(6).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Long-Term Followup", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(5).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(6).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(1, studySubject.getStudySubjectRegistryStatus().getReasons().size());
     }
     
@@ -447,7 +447,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(1, studySubject.getLatestConsents().size());
     	assertEquals("general1", studySubject.getLatestConsents().get(0).getConsent().getName());
     	assertEquals(new GregorianCalendar(2006, 02,20).getTime(), studySubject.getLatestConsents().get(0).getConsentDeliveryDate());
@@ -472,10 +472,10 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 03,20).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(2, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 01,31).getTime(), studySubject.getStudySubjectRegistryStatusHistory().get(1).getEffectiveDate());
     	assertEquals(new GregorianCalendar(2006, 03,20).getTime(), studySubject.getLatestConsents().get(0).getInformedConsentSignedDate());
     	
@@ -489,11 +489,11 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 04,26).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(3, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	
     	// Active Intervention
     	//add new consent delivery date
@@ -514,12 +514,12 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 05,10).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(4, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(2, studySubject.getLatestConsents().size());
     	
     	//Observation
@@ -532,13 +532,13 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2007, 01,05).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(5, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	
     	//Long-Term Followup
     	interruptSession();
@@ -550,14 +550,14 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Long-Term Followup", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Long-Term Followup", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2009, 03,13).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(6, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(5).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(5).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	
     	//Withdrawn
     	interruptSession();
@@ -577,15 +577,15 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Withdrawn", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Withdrawn", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2010, 07,22).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(7, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Long-Term Followup", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(5).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(6).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Long-Term Followup", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Observation", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Active Intervention", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(4).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(5).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(6).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(3, studySubject.getStudySubjectRegistryStatus().getReasons().size());
     }
     
@@ -610,7 +610,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(1, studySubject.getLatestConsents().size());
     	assertEquals("general1", studySubject.getLatestConsents().get(0).getConsent().getName());
     	assertEquals(new GregorianCalendar(2006, 02,20).getTime(), studySubject.getLatestConsents().get(0).getConsentDeliveryDate());
@@ -635,10 +635,10 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 03,20).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(2, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 01,31).getTime(), studySubject.getStudySubjectRegistryStatusHistory().get(1).getEffectiveDate());
     	assertEquals(new GregorianCalendar(2006, 03,20).getTime(), studySubject.getLatestConsents().get(0).getInformedConsentSignedDate());
     	
@@ -652,11 +652,11 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 04,26).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(3, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	
     	// Declined Consent
     	//add new consent delivery date
@@ -676,12 +676,12 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
     	
     	studySubject = studySubjectDao.getById(studySubject.getId());
     	
-    	assertEquals("Declined Consent", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Declined Consent", studySubject.getStudySubjectRegistryStatus().getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(new GregorianCalendar(2006, 05,10).getTime(), studySubject.getStudySubjectRegistryStatus().getEffectiveDate());
     	assertEquals(4, studySubject.getStudySubjectRegistryStatusHistory().size());
-    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
-    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStaus().getCode());
+    	assertEquals("Accrued", studySubject.getStudySubjectRegistryStatusHistory().get(1).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(2).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
+    	assertEquals("Pre-Enrolled", studySubject.getStudySubjectRegistryStatusHistory().get(3).getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode());
     	assertEquals(2, studySubject.getLatestConsents().size());
     	
     }

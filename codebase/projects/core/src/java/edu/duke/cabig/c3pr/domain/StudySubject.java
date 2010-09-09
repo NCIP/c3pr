@@ -2384,7 +2384,7 @@ public class StudySubject extends
 	public void updateRegistryStatus(String code, Date effectiveDate, List<RegistryStatusReason> reasons){
 		PermissibleStudySubjectRegistryStatus status = null;
 		for(PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus : getStudySite().getStudy().getPermissibleStudySubjectRegistryStatuses()){
-			if(permissibleStudySubjectRegistryStatus.getRegistryStaus().getCode().equals(code)){
+			if(permissibleStudySubjectRegistryStatus.getRegistryStatus().getCode().equals(code)){
 				status = permissibleStudySubjectRegistryStatus;
 				break;
 			}
@@ -2404,7 +2404,7 @@ public class StudySubject extends
 					secondaryReasons.add(reason);
 				}
 			}
-			if(primaryReasons.size()!=0 && !status.getRegistryStaus().getPrimaryReasons().containsAll(primaryReasons)){
+			if(primaryReasons.size()!=0 && !status.getRegistryStatus().getPrimaryReasons().containsAll(primaryReasons)){
 				throw getC3PRExceptionHelper().getRuntimeException(getCode
 						("C3PR.EXCEPTION.REGISTRY.INVALID_STATUS_REASON.CODE"),
 						new String[] {code});

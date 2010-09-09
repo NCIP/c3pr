@@ -3052,15 +3052,15 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		EasyMock.expect(studySite.getStudy()).andReturn(study);
 		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
 				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
-		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStatus()).andReturn(registryStatus1);
 		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStatus()).andReturn(registryStatus2);
 		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStaus()).andReturn(registryStatus3);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStatus()).andReturn(registryStatus3);
 		EasyMock.expect(registryStatus3.getCode()).andReturn("Screen Failed");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus4.getRegistryStaus()).andReturn(registryStatus4);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus4.getRegistryStatus()).andReturn(registryStatus4);
 		EasyMock.expect(registryStatus4.getCode()).andReturn("Accrued");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus5.getRegistryStaus()).andReturn(registryStatus5);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus5.getRegistryStatus()).andReturn(registryStatus5);
 		EasyMock.expect(registryStatus5.getCode()).andReturn("Consent Withdrawn");
 		
 	  	replayMocks();
@@ -3092,7 +3092,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		EasyMock.expect(studySite.getStudy()).andReturn(study);
 		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
 				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
-		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStatus()).andReturn(registryStatus1);
 		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
 	  	replayMocks();
 	  	studySubject.setStudySite(studySite);
@@ -3120,9 +3120,9 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		EasyMock.expect(studySite.getStudy()).andReturn(study);
 		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
 				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
-		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStatus()).andReturn(registryStatus1);
 		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStatus()).andReturn(registryStatus2);
 		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
 	  	replayMocks();
 	  	studySubject.setStudySite(studySite);
@@ -3151,11 +3151,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		EasyMock.expect(studySite.getStudy()).andReturn(study);
 		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
 				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
-		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStatus()).andReturn(registryStatus1);
 		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStatus()).andReturn(registryStatus2);
 		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStaus()).andReturn(registryStatus3).times(2);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStatus()).andReturn(registryStatus3).times(2);
 		EasyMock.expect(registryStatus3.getCode()).andReturn("Screen Failed");
 		EasyMock.expect(registryStatus3.getPrimaryReasons()).andReturn(Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
 																					new RegistryStatusReason("B","B",null,true)}));
@@ -3190,11 +3190,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		EasyMock.expect(studySite.getStudy()).andReturn(study);
 		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
 				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
-		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStatus()).andReturn(registryStatus1);
 		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStatus()).andReturn(registryStatus2);
 		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStaus()).andReturn(registryStatus3).times(2);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStatus()).andReturn(registryStatus3).times(2);
 		EasyMock.expect(registryStatus3.getCode()).andReturn("Screen Failed");
 		EasyMock.expect(registryStatus3.getPrimaryReasons()).andReturn(Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
 																					new RegistryStatusReason("B","B",null,true)}));
@@ -3227,11 +3227,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		EasyMock.expect(studySite.getStudy()).andReturn(study);
 		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
 				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
-		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStatus()).andReturn(registryStatus1);
 		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStatus()).andReturn(registryStatus2);
 		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStaus()).andReturn(registryStatus3).times(2);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStatus()).andReturn(registryStatus3).times(2);
 		EasyMock.expect(registryStatus3.getCode()).andReturn("Screen Failed");
 		EasyMock.expect(registryStatus3.getPrimaryReasons()).andReturn(Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
 																					new RegistryStatusReason("B","B",null,true)}));
@@ -3269,11 +3269,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		EasyMock.expect(studySite.getStudy()).andReturn(study);
 		EasyMock.expect(study.getPermissibleStudySubjectRegistryStatuses()).andReturn(Arrays.asList(new PermissibleStudySubjectRegistryStatus[]{permissibleStudySubjectRegistryStatus1,
 				permissibleStudySubjectRegistryStatus2, permissibleStudySubjectRegistryStatus3, permissibleStudySubjectRegistryStatus4, permissibleStudySubjectRegistryStatus5}));
-		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStaus()).andReturn(registryStatus1);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus1.getRegistryStatus()).andReturn(registryStatus1);
 		EasyMock.expect(registryStatus1.getCode()).andReturn("Pre-Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStaus()).andReturn(registryStatus2);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus2.getRegistryStatus()).andReturn(registryStatus2);
 		EasyMock.expect(registryStatus2.getCode()).andReturn("Enrolled");
-		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStaus()).andReturn(registryStatus3).times(2);
+		EasyMock.expect(permissibleStudySubjectRegistryStatus3.getRegistryStatus()).andReturn(registryStatus3).times(2);
 		EasyMock.expect(registryStatus3.getCode()).andReturn("Screen Failed");
 		EasyMock.expect(registryStatus3.getPrimaryReasons()).andReturn(Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
 																					new RegistryStatusReason("B","B",null,true)}));

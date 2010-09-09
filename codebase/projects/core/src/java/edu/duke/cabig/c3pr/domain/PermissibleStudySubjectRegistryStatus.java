@@ -19,19 +19,19 @@ import org.hibernate.annotations.Parameter;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "PERMISSIBLE_REG_STATS_id_seq") })
 public class PermissibleStudySubjectRegistryStatus extends AbstractMutableDeletableDomainObject{
 
-	private RegistryStatus registryStaus;
+	private RegistryStatus registryStatus;
 	
 	private List<RegistryStatusReason> secondaryReasons;
 
 	@ManyToOne
 	@Cascade(value = { CascadeType.LOCK })
 	@JoinColumn(name = "registry_st_id", nullable = false)
-	public RegistryStatus getRegistryStaus() {
-		return registryStaus;
+	public RegistryStatus getRegistryStatus() {
+		return registryStatus;
 	}
 
-	public void setRegistryStaus(RegistryStatus registryStaus) {
-		this.registryStaus = registryStaus;
+	public void setRegistryStatus(RegistryStatus registryStatus) {
+		this.registryStatus = registryStatus;
 	}
 
 	@OneToMany
