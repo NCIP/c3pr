@@ -464,7 +464,7 @@
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</name>
 					<role-name>studySubjectRegistryStatusHistoryInternal</role-name>
 					<table-alias>StudySubjectRegistryStatus_xx</table-alias>
-					<joining-condition>studySubjectRegistryStatus_xxRegistryStatusReason = any
+					<joining-condition>StudySubjectRegistryStatus_xxRegistryStatusReason = any
 						elements(StudySubject_xx.studySubjectRegistryStatusHistoryInternal)
 					</joining-condition>
 				</association>
@@ -473,7 +473,7 @@
 					<role-name>reasons</role-name>
 					<table-alias>Reason_xx</table-alias>
 					<joining-condition>Reason_xxRegistryStatusReason = any
-						elements(StudySubjectRegistrationStatus_xxRegistryStatusReason.reasons)</joining-condition>
+						elements(StudySubjectRegistryStatus_xxRegistryStatusReason.reasons)</joining-condition>
 				</association>
 			</association-context>
 		</dependent-object>
@@ -793,7 +793,7 @@
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</name>
 					<role-name>studySubjectRegistryStatusHistoryInternal</role-name>
 					<table-alias>StudySubjectRegistryStatus_xx</table-alias>
-					<joining-condition>studySubjectRegistryStatus_xx = any
+					<joining-condition>StudySubjectRegistryStatus_xx = any
 						elements(StudySubject_xx.studySubjectRegistryStatusHistoryInternal)
 					</joining-condition>
 				</association>
