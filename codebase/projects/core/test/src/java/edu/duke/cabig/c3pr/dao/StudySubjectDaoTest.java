@@ -2191,4 +2191,36 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
 		assertEquals("1 registration not found", 1,  registrations.size());
 	}
+	
+	public void testGetResultSetWithHQLForRegistryStatus() throws Exception {
+		List<String> values = new ArrayList<String>();
+		values.add("test code");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.RegistryStatus", "code",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForRegistryStatusReasonCode() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("test registry reason");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Reason", "RegistryStatusReason", "code",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
 }

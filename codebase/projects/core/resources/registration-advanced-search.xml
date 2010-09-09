@@ -791,17 +791,17 @@
 			<association-context>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</name>
-					<role-name>studySubjectRegistryStatusHistory</role-name>
-					<table-alias>StudySubjectRegistryStatusHistory_xx</table-alias>
-					<joining-condition>studySubjectRegistryStatusHistory_xx = any
-						elements(StudySubject_xx.studySubjectRegistryStatusHistory)
+					<role-name>studySubjectRegistryStatusHistoryInternal</role-name>
+					<table-alias>StudySubjectRegistryStatus_xx</table-alias>
+					<joining-condition>studySubjectRegistryStatus_xx = any
+						elements(StudySubject_xx.studySubjectRegistryStatusHistoryInternal)
 					</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus</name>
 					<role-name>permissibleStudySubjectRegistryStatus</role-name>
 					<table-alias>PermissibleStudySubjectRegistryStatus_xx</table-alias>
-					<joining-condition>StudySubjectRegistryStatusHistory_xx.permissibleStudySubjectRegistryStatus = PermissibleStudySubjectRegistryStatus_xx
+					<joining-condition>StudySubjectRegistryStatus_xx.permissibleStudySubjectRegistryStatus = PermissibleStudySubjectRegistryStatus_xx
 					</joining-condition>
 				</association>
 				<association>
