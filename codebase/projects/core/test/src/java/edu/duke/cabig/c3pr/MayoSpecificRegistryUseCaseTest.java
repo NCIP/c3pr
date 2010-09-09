@@ -85,6 +85,7 @@ public class MayoSpecificRegistryUseCaseTest extends DaoTestCase {
         reasonDao = (ReasonDao) getApplicationContext()
     	.getBean("reasonDao");
         participantDao = (ParticipantDao) getApplicationContext().getBean("participantDao");
+        studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
     }
     
     private Study createStudyForRegistry() {
