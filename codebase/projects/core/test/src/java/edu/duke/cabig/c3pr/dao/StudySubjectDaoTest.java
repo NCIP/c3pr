@@ -2124,5 +2124,71 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
 		assertEquals("5 registrations not found", 5,  registrations.size());
 	}
+	
+	public void testGetResultSetWithHQLForRegistryEffectiveDate() throws Exception {
+		List<String> values = new ArrayList<String>();
+		values.add("01/01/2000");
 
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus", "effectiveDate",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForRegistryEffectiveDateIn() throws Exception {
+		List<String> values = new ArrayList<String>();
+		values.add("01/01/2000");
+		values.add("01/11/2000");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus", "effectiveDate",
+						values, "in");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForRegistryEffectiveDateNotIn() throws Exception {
+		List<String> values = new ArrayList<String>();
+		values.add("01/01/2000");
+		values.add("01/11/2000");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus", "effectiveDate",
+						values, "not in");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForRegistryEffectiveDateBetween() throws Exception {
+		List<String> values = new ArrayList<String>();
+		values.add("01/01/2000");
+		values.add("01/11/2000");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus", "effectiveDate",
+						values, "between");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
 }

@@ -462,10 +462,10 @@
 				<name>RegistryStatusReason</name>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</name>
-					<role-name>studySubjectRegistryStatusHistory</role-name>
+					<role-name>studySubjectRegistryStatusHistoryInternal</role-name>
 					<table-alias>StudySubjectRegistryStatusHistory_xx</table-alias>
 					<joining-condition>studySubjectRegistryStatusHistory_xxRegistryStatusReason = any
-						elements(StudySubject_xx.studySubjectRegistryStatusHistory)
+						elements(StudySubject_xx.studySubjectRegistryStatusHistoryInternal)
 					</joining-condition>
 				</association>
 				<association>
@@ -771,10 +771,10 @@
 			<association-context>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</name>
-					<role-name>studySubjectRegistryStatusHistory</role-name>
-					<table-alias>StudySubjectRegistryStatusHistory_xx</table-alias>
-					<joining-condition>StudySubjectRegistryStatusHistory_xx = any
-						elements(StudySubject_xx.studySubjectRegistryStatusHistory)
+					<role-name>studySubjectRegistryStatusHistoryInternal</role-name>
+					<table-alias>StudySubjectRegistryStatus_xx</table-alias>
+					<joining-condition>StudySubjectRegistryStatus_xx = any
+						elements(StudySubject_xx.studySubjectRegistryStatusHistoryInternal)
 					</joining-condition>
 				</association>
 			</association-context>
