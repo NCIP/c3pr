@@ -1901,6 +1901,7 @@ public class StudyDaoTest extends DaoTestCase {
     	
     	ConsentQuestion consentQuestion = new ConsentQuestion();
     	consentQuestion.setText("Question1");
+    	consentQuestion.setCode("Question1");
     	
     	consent.addQuestion(consentQuestion);
     	

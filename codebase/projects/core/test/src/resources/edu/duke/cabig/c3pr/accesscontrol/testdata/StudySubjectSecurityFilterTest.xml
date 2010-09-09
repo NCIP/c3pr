@@ -105,7 +105,7 @@
     
     <CONSENTS id="1000" version="0" name="consent 1" stu_version_id="1000" version_id="version 1" retired_indicator="false" mandatory_indicator="1" consenting_methods="WRITTEN"/>
     
-    <CONSENT_QUESTIONS id="1000" version="0" text="Are you willing to participate in tissue collection" con_id="1000" retired_indicator="false" />
+    <CONSENT_QUESTIONS id="1000" version="0" code="abc" text="Are you willing to participate in tissue collection" con_id="1000" retired_indicator="false" />
    
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" />
