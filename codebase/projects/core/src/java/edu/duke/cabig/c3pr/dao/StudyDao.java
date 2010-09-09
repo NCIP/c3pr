@@ -1,11 +1,19 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,6 +27,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.semanticbits.coppa.infrastructure.RemoteSession;
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+import com.semanticbits.querybuilder.QueryBuilder;
+import com.semanticbits.querybuilder.QueryBuilderDao;
+import com.semanticbits.querybuilder.QueryGenerator;
+import com.semanticbits.querybuilder.TargetObject;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
@@ -747,6 +760,71 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 	public void setHealthcareSiteInvestigatorDao(
 			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
 		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+	}
+	
+	private QueryBuilderDao queryBuilderDao;
+	public List<Study> search(List<AdvancedSearchCriteriaParameter> searchParameters){
+		String hql = generateHQL(searchParameters);
+		return search(hql);
+	}
+	
+	public List<Study> search(List<AdvancedSearchCriteriaParameter> searchParameters, String fileLocation){
+		String hql = generateHQL(searchParameters, fileLocation);
+		return search(hql);
+	}
+	
+	public String generateHQL(List<AdvancedSearchCriteriaParameter> searchParameters){
+		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("study-advanced-search.xml");
+		Unmarshaller unmarshaller;
+		QueryBuilder queryBuilder = new QueryBuilder();
+		try {
+			unmarshaller = JAXBContext.newInstance("com.semanticbits.querybuilder").createUnmarshaller();
+			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+		try {
+			return QueryGenerator.generateHQL(targetObject, searchParameters, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public String generateHQL(List<AdvancedSearchCriteriaParameter> searchParameters, String fileLocation){
+		File file = new File(fileLocation);
+		InputStream inputStream ;
+		QueryBuilder queryBuilder = new QueryBuilder();
+		try {
+			inputStream = new FileInputStream(file);
+			Unmarshaller unmarshaller = JAXBContext.newInstance("com.semanticbits.querybuilder").createUnmarshaller();
+			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
+		}catch (JAXBException e) {
+			e.printStackTrace();
+		}catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
+		try {
+			return QueryGenerator.generateHQL(targetObject, searchParameters, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
+	public List<Study> search(String hql){
+		return (List<Study>)queryBuilderDao.search(hql);
+	}
+
+	public void setQueryBuilderDao(QueryBuilderDao queryBuilderDao) {
+		this.queryBuilderDao = queryBuilderDao;
+	}
+
+	public QueryBuilderDao getQueryBuilderDao() {
+		return queryBuilderDao;
 	}
 
 }
