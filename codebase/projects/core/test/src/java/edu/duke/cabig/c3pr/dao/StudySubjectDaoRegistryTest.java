@@ -105,7 +105,7 @@ public class StudySubjectDaoRegistryTest extends DaoTestCase {
 	
 	public void testGetResultSetWithHQLForRegistryStatus() throws Exception {
 		List<String> values = new ArrayList<String>();
-		values.add("FAILED INCLUSION");
+		values.add("Pre-Enrolled");
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
@@ -121,7 +121,7 @@ public class StudySubjectDaoRegistryTest extends DaoTestCase {
 	
 	public void testGetResultSetWithHQLForRegistryStatusReasonCode() throws Exception {
 		List<String> values = new ArrayList<String>();
-       	values.add("test registry reason");
+       	values.add("FAILED INCLUSION");
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
