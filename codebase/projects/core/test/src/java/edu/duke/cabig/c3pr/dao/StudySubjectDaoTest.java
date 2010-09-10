@@ -101,7 +101,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
     private XmlMarshaller xmlUtilityStudy;
 
     private IdentifierGenerator identifierGenerator ;
-    private QueryBuilderDao  queryBuilderDao ;
 
     @Override
     protected void setUp() throws Exception {
@@ -125,7 +124,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
         xmlUtilityStudy = new XmlMarshaller((String) getApplicationContext().getBean(
                         "c3pr-study-xml-castorMapping"));
         identifierGenerator = (IdentifierGenerator) getApplicationContext().getBean("identifierGenerator");
-        queryBuilderDao = (QueryBuilderDao) getApplicationContext().getBean("queryBuilderDao");
     }
     
     public void testDeleteStudySubjectStudyVersion() throws Exception {
@@ -2125,102 +2123,4 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		assertEquals("5 registrations not found", 5,  registrations.size());
 	}
 	
-	public void testGetResultSetWithHQLForRegistryEffectiveDate() throws Exception {
-		List<String> values = new ArrayList<String>();
-		values.add("01/01/2000");
-
-		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus", "effectiveDate",
-						values, "=");
-
-		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
-		criteriaParameters.add(advancedSearchCriteriaParameter1);
-		
-		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
-		assertEquals("1 registration not found", 1,  registrations.size());
-	}
-	
-	public void testGetResultSetWithHQLForRegistryEffectiveDateIn() throws Exception {
-		List<String> values = new ArrayList<String>();
-		values.add("01/01/2000");
-		values.add("01/11/2000");
-
-		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus", "effectiveDate",
-						values, "in");
-
-		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
-		criteriaParameters.add(advancedSearchCriteriaParameter1);
-		
-		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
-		assertEquals("1 registration not found", 1,  registrations.size());
-	}
-	
-	public void testGetResultSetWithHQLForRegistryEffectiveDateNotIn() throws Exception {
-		List<String> values = new ArrayList<String>();
-		values.add("01/01/2000");
-		values.add("01/11/2000");
-
-		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus", "effectiveDate",
-						values, "not in");
-
-		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
-		criteriaParameters.add(advancedSearchCriteriaParameter1);
-		
-		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
-		assertEquals("1 registration not found", 1,  registrations.size());
-	}
-	
-	public void testGetResultSetWithHQLForRegistryEffectiveDateBetween() throws Exception {
-		List<String> values = new ArrayList<String>();
-		values.add("01/01/2000");
-		values.add("01/11/2000");
-
-		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus", "effectiveDate",
-						values, "between");
-
-		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
-		criteriaParameters.add(advancedSearchCriteriaParameter1);
-		
-		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
-		assertEquals("1 registration not found", 1,  registrations.size());
-	}
-	
-	public void testGetResultSetWithHQLForRegistryStatus() throws Exception {
-		List<String> values = new ArrayList<String>();
-		values.add("test code");
-
-		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.RegistryStatus", "code",
-						values, "=");
-
-		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
-		criteriaParameters.add(advancedSearchCriteriaParameter1);
-		
-		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
-		assertEquals("1 registration not found", 1,  registrations.size());
-	}
-	
-	public void testGetResultSetWithHQLForRegistryStatusReasonCode() throws Exception {
-		List<String> values = new ArrayList<String>();
-       	values.add("test registry reason");
-
-		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Reason", "RegistryStatusReason", "code",
-						values, "like");
-
-		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
-		criteriaParameters.add(advancedSearchCriteriaParameter1);
-		
-		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
-		assertEquals("1 registration not found", 1,  registrations.size());
-	}
 }
