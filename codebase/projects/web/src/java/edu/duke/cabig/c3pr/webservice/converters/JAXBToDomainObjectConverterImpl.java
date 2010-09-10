@@ -186,7 +186,7 @@ public class JAXBToDomainObjectConverterImpl implements
 				participant.setLastName(getLastName(person));
 				participant.setMiddleName(getMiddleName(person));
 				participant.setMaidenName(StringUtils.EMPTY);
-				participant.setAddresses(getAddresses(person));
+				participant.replaceAddresses(getAddresses(person));
 				participant.setRaceCodes(getRaceCodes(person));
 				participant.setEmail(getTelecomAddress(person, MAILTO));
 				participant.setPhone(getTelecomAddress(person, TEL));

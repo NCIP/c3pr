@@ -97,11 +97,20 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 						</iso:item>
 					</ent:name>
 					<ent:postalAddress>
-						<iso:part value="2029 N Stuart St Unit 999" type="SAL" />
-						<iso:part value="Vienna" type="CTY" />
-						<iso:part value="PA" type="STA" />
-						<iso:part value="12203-9292" type="ZIP" />
-						<iso:part value="RU" type="CNT" />
+						<iso:item>
+							<iso:part value="3029 N Stuart St Unit 999" type="SAL" />
+							<iso:part value="AArlington" type="CTY" />
+							<iso:part value="GA" type="STA" />
+							<iso:part value="52203-9292" type="ZIP" />
+							<iso:part value="USA" type="CNT" />
+						</iso:item>
+						<iso:item>
+							<iso:part value="3029 N Stuart St Unit 999" type="SAL" />
+							<iso:part value="Mclean" type="CTY" />
+							<iso:part value="DC" type="STA" />
+							<iso:part value="52203-9292" type="ZIP" />
+							<iso:part value="USA" type="CNT" />
+						</iso:item>
 					</ent:postalAddress>
 					<ent:raceCode>
 						<iso:item code="Unknown" />						

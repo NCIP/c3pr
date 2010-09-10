@@ -843,9 +843,29 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	}
 
 
+	/**
+	 * <b>Avoid calling this method directly from your code because it might
+	 * lead to problems with Hibernate upon saving due to usage of
+	 * CascadeType.DELETE_ORPHAN in {@link #getAddresses()}. See <a
+	 * href="http://www.sleberknight.com/blog/sleberkn/entry/20070329"
+	 * >http://www.sleberknight.com/blog/sleberkn/entry/20070329</a>. </b> <br>
+	 * <br>
+	 * Use {@link #replaceAddresses(Set)} instead.
+	 * 
+	 * @param addresses
+	 */
 	public void setAddresses(Set<Address> addresses) {
 		this.addresses = addresses;
-	}	
+	}
+	
+	/**
+	 * Erases all current addresses and inserts new ones. 
+	 * @param addresses
+	 */
+	public void replaceAddresses(Set<Address> addresses) {
+		this.addresses.clear();
+		this.addresses.addAll(addresses);
+	}
 	
 	// The following set of methods is kept for backward compatibility only.
 	// See http://jira.semanticbits.com/browse/CPR-2098.
