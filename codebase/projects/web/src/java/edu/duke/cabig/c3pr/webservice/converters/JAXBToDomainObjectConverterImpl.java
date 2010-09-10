@@ -3,7 +3,9 @@ package edu.duke.cabig.c3pr.webservice.converters;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -12,15 +14,14 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
@@ -30,6 +31,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.BAGTEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.BL;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
+import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
@@ -134,7 +136,8 @@ public class JAXBToDomainObjectConverterImpl implements
 			final ST subjectStCode = subject.getStateCode();
 			if (subjectStCode != null && subjectStCode.getValue() != null) {
 				String code = subjectStCode.getValue();
-				ParticipantStateCode subjectCode = ParticipantStateCode.getByCode(code);
+				ParticipantStateCode subjectCode = ParticipantStateCode
+						.getByCode(code);
 				if (subjectCode == null) {
 					throw exceptionHelper
 							.getConversionException(INVALID_SUBJECT_STATE_CODE);
@@ -183,7 +186,7 @@ public class JAXBToDomainObjectConverterImpl implements
 				participant.setLastName(getLastName(person));
 				participant.setMiddleName(getMiddleName(person));
 				participant.setMaidenName(StringUtils.EMPTY);
-				participant.setAddress(getAddress(person));
+				participant.setAddresses(getAddresses(person));
 				participant.setRaceCodes(getRaceCodes(person));
 				participant.setEmail(getTelecomAddress(person, MAILTO));
 				participant.setPhone(getTelecomAddress(person, TEL));
@@ -230,7 +233,7 @@ public class JAXBToDomainObjectConverterImpl implements
 			for (CD cd : dsetcd.getItem()) {
 				String raceCodeStr = cd.getCode();
 				RaceCodeEnum raceCode = RaceCodeEnum.getByCode(raceCodeStr);
-				if (raceCode != null) {					
+				if (raceCode != null) {
 					list.add(raceCode);
 				} else {
 					throw exceptionHelper.getConversionException(
@@ -241,18 +244,23 @@ public class JAXBToDomainObjectConverterImpl implements
 		return list;
 	}
 
-	private Address getAddress(Person person) {
-		Address address = null;
-		AD addr = person.getPostalAddress();
-		if (!isNull(addr)) {
-			address = new Address();
-			address.setCity(getCity(addr));
-			address.setCountryCode(getCountry(addr));
-			address.setPostalCode(getZip(addr));
-			address.setStateCode(getState(addr));
-			address.setStreetAddress(getStreet(addr));
+	private Set<Address> getAddresses(Person person) {
+		Set<Address> set = new LinkedHashSet<Address>();
+		if (person.getPostalAddress() != null
+				&& person.getPostalAddress().getItem() != null) {
+			for (AD addr : person.getPostalAddress().getItem()) {
+				if (!isNull(addr)) {
+					Address address = new Address();
+					address.setCity(getCity(addr));
+					address.setCountryCode(getCountry(addr));
+					address.setPostalCode(getZip(addr));
+					address.setStateCode(getState(addr));
+					address.setStreetAddress(getStreet(addr));
+					set.add(address);
+				}
+			}
 		}
-		return address;
+		return set;
 	}
 
 	String getMiddleName(Person person) {
@@ -543,32 +551,36 @@ public class JAXBToDomainObjectConverterImpl implements
 	 * @param p
 	 * @return
 	 */
-	private AD getPostalAddress(Participant p) {
-		AD ad = new AD();
-		Address address = p.getAddress();
-		if (address != null) {
-			if (StringUtils.isNotBlank(address.getStreetAddress()))
-				ad.getPart().add(
-						new ADXP(address.getStreetAddress(),
-								AddressPartType.SAL));
-			if (StringUtils.isNotBlank(address.getCity()))
-				ad.getPart().add(
-						new ADXP(address.getCity(), AddressPartType.CTY));
-			if (StringUtils.isNotBlank(address.getStateCode()))
-				ad.getPart().add(
-						new ADXP(address.getStateCode(), AddressPartType.STA));
-			if (StringUtils.isNotBlank(address.getPostalCode()))
-				ad.getPart().add(
-						new ADXP(address.getPostalCode(), AddressPartType.ZIP));
-			if (StringUtils.isNotBlank(address.getCountryCode()))
-				ad.getPart()
-						.add(
-								new ADXP(address.getCountryCode(),
-										AddressPartType.CNT));
-		} else {
-			ad.setNullFlavor(NullFlavor.NI);
+	private DSETAD getPostalAddress(Participant p) {
+		DSETAD set = new DSETAD();
+		for (Address address : p.getAddresses()) {
+			AD ad = new AD();
+			if (address != null && !address.isBlank()) {
+				if (StringUtils.isNotBlank(address.getStreetAddress()))
+					ad.getPart().add(
+							new ADXP(address.getStreetAddress(),
+									AddressPartType.SAL));
+				if (StringUtils.isNotBlank(address.getCity()))
+					ad.getPart().add(
+							new ADXP(address.getCity(), AddressPartType.CTY));
+				if (StringUtils.isNotBlank(address.getStateCode()))
+					ad.getPart().add(
+							new ADXP(address.getStateCode(),
+									AddressPartType.STA));
+				if (StringUtils.isNotBlank(address.getPostalCode()))
+					ad.getPart().add(
+							new ADXP(address.getPostalCode(),
+									AddressPartType.ZIP));
+				if (StringUtils.isNotBlank(address.getCountryCode()))
+					ad.getPart().add(
+							new ADXP(address.getCountryCode(),
+									AddressPartType.CNT));
+			} else {
+				ad.setNullFlavor(NullFlavor.NI);
+			}
+			set.getItem().add(ad);
 		}
-		return ad;
+		return set;
 	}
 
 	private DSETENPN getName(Participant p) {

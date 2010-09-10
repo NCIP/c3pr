@@ -5,10 +5,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import edu.duke.cabig.c3pr.webservice.iso21090.AD;
 import edu.duke.cabig.c3pr.webservice.iso21090.BAGTEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.BL;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
+import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
 
@@ -29,7 +29,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
  *         &lt;element name="ethnicGroupCode" type="{uri:iso.org:21090}DSET_CD"/>
  *         &lt;element name="maritalStatusCode" type="{uri:iso.org:21090}CD"/>
  *         &lt;element name="name" type="{uri:iso.org:21090}DSET_EN.PN"/>
- *         &lt;element name="postalAddress" type="{uri:iso.org:21090}AD"/>
+ *         &lt;element name="postalAddress" type="{uri:iso.org:21090}DSET_AD"/>
  *         &lt;element name="raceCode" type="{uri:iso.org:21090}DSET_CD"/>
  *         &lt;element name="telecomAddress" type="{uri:iso.org:21090}BAG_TEL"/>
  *       &lt;/sequence>
@@ -63,7 +63,7 @@ public class Person
     @XmlElement(required = true)
     protected DSETENPN name;
     @XmlElement(required = true)
-    protected AD postalAddress;
+    protected DSETAD postalAddress;
     @XmlElement(required = true)
     protected DSETCD raceCode;
     @XmlElement(required = true)
@@ -170,10 +170,10 @@ public class Person
      * 
      * @return
      *     possible object is
-     *     {@link AD }
+     *     {@link DSETAD }
      *     
      */
-    public AD getPostalAddress() {
+    public DSETAD getPostalAddress() {
         return postalAddress;
     }
 
@@ -182,10 +182,10 @@ public class Person
      * 
      * @param value
      *     allowed object is
-     *     {@link AD }
+     *     {@link DSETAD }
      *     
      */
-    public void setPostalAddress(AD value) {
+    public void setPostalAddress(DSETAD value) {
         this.postalAddress = value;
     }
 

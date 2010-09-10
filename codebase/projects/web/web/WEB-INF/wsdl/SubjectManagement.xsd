@@ -104,7 +104,7 @@
 						</annotation>
 					</element>
 
-					<element name="postalAddress" type="ISO:AD">
+					<element name="postalAddress" type="ISO:DSET_AD">
 						<annotation>
 							<documentation>A contact point used to send physical forms of
 								communication to the person.

@@ -39,6 +39,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.BAGTEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.BL;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
+import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
@@ -201,12 +202,12 @@ public abstract class SubjectManagementRelatedTestCase extends
 				EntityNamePartType.GIV), new ENXP(TEST_MID_NAME,
 				EntityNamePartType.GIV), new ENXP(TEST_LAST_NAME,
 				EntityNamePartType.FAM))));
-		person.setPostalAddress(new AD(new ADXP(TEST_STREET_ADDRESS,
+		person.setPostalAddress(new DSETAD(new AD(new ADXP(TEST_STREET_ADDRESS,
 				AddressPartType.SAL), new ADXP(TEST_CITY_NAME,
 				AddressPartType.CTY), new ADXP(TEST_STATE_CODE,
 				AddressPartType.STA), new ADXP(TEST_ZIP_CODE,
 				AddressPartType.ZIP), new ADXP(TEST_COUNTRY,
-				AddressPartType.CNT)));
+				AddressPartType.CNT))));
 		person.setRaceCode(new DSETCD(new CD(RACE_WHITE), new CD(RACE_ASIAN)));
 		person.setTelecomAddress(new BAGTEL(new TEL(TEST_EMAIL_ADDR_ISO),
 				new TEL(TEST_PHONE_ISO), new TEL(TEST_FAX_ISO)));
@@ -269,25 +270,25 @@ public abstract class SubjectManagementRelatedTestCase extends
 				.getPart().get(2).getValue());
 		assertEquals(EntityNamePartType.FAM, person.getName().getItem().get(0)
 				.getPart().get(2).getType());
-		assertEquals(TEST_STREET_ADDRESS, person.getPostalAddress().getPart()
+		assertEquals(TEST_STREET_ADDRESS, person.getPostalAddress().getItem().get(0).getPart()
 				.get(0).getValue());
-		assertEquals(TEST_CITY_NAME, person.getPostalAddress().getPart().get(1)
+		assertEquals(TEST_CITY_NAME, person.getPostalAddress().getItem().get(0).getPart().get(1)
 				.getValue());
-		assertEquals(TEST_STATE_CODE, person.getPostalAddress().getPart()
+		assertEquals(TEST_STATE_CODE, person.getPostalAddress().getItem().get(0).getPart()
 				.get(2).getValue());
-		assertEquals(TEST_ZIP_CODE, person.getPostalAddress().getPart().get(3)
+		assertEquals(TEST_ZIP_CODE, person.getPostalAddress().getItem().get(0).getPart().get(3)
 				.getValue());
-		assertEquals(TEST_COUNTRY, person.getPostalAddress().getPart().get(4)
+		assertEquals(TEST_COUNTRY, person.getPostalAddress().getItem().get(0).getPart().get(4)
 				.getValue());
-		assertEquals(AddressPartType.SAL, person.getPostalAddress().getPart()
+		assertEquals(AddressPartType.SAL, person.getPostalAddress().getItem().get(0).getPart()
 				.get(0).getType());
-		assertEquals(AddressPartType.CTY, person.getPostalAddress().getPart()
+		assertEquals(AddressPartType.CTY, person.getPostalAddress().getItem().get(0).getPart()
 				.get(1).getType());
-		assertEquals(AddressPartType.STA, person.getPostalAddress().getPart()
+		assertEquals(AddressPartType.STA, person.getPostalAddress().getItem().get(0).getPart()
 				.get(2).getType());
-		assertEquals(AddressPartType.ZIP, person.getPostalAddress().getPart()
+		assertEquals(AddressPartType.ZIP, person.getPostalAddress().getItem().get(0).getPart()
 				.get(3).getType());
-		assertEquals(AddressPartType.CNT, person.getPostalAddress().getPart()
+		assertEquals(AddressPartType.CNT, person.getPostalAddress().getItem().get(0).getPart()
 				.get(4).getType());
 		assertEquals(RACE_WHITE, person.getRaceCode().getItem().get(0)
 				.getCode());
