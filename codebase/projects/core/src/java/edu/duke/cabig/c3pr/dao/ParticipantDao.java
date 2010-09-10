@@ -109,7 +109,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
 			final Address address = participant.getAddressInternal();
 			if (useAddress && address != null) {
 				final Criteria addrCrit = participantCriteria
-						.createCriteria("addressInternal");
+						.createCriteria("addresses");
 				if (StringUtils.isNotBlank(address.getStreetAddress()))
 					addrCrit.add(Restrictions.ilike("streetAddress", "%"
 							+ address.getStreetAddress() + "%"));

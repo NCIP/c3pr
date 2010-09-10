@@ -128,4 +128,78 @@ public class Address extends AbstractMutableDeletableDomainObject {
 	     }
 		return address ;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result
+				+ ((countryCode == null) ? 0 : countryCode.hashCode());
+		result = prime * result
+				+ ((postalCode == null) ? 0 : postalCode.hashCode());
+		result = prime * result
+				+ ((stateCode == null) ? 0 : stateCode.hashCode());
+		result = prime * result
+				+ ((streetAddress == null) ? 0 : streetAddress.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof Address)) {
+			return false;
+		}
+		Address other = (Address) obj;
+		if (city == null) {
+			if (other.city != null) {
+				return false;
+			}
+		} else if (!city.equals(other.city)) {
+			return false;
+		}
+		if (countryCode == null) {
+			if (other.countryCode != null) {
+				return false;
+			}
+		} else if (!countryCode.equals(other.countryCode)) {
+			return false;
+		}
+		if (postalCode == null) {
+			if (other.postalCode != null) {
+				return false;
+			}
+		} else if (!postalCode.equals(other.postalCode)) {
+			return false;
+		}
+		if (stateCode == null) {
+			if (other.stateCode != null) {
+				return false;
+			}
+		} else if (!stateCode.equals(other.stateCode)) {
+			return false;
+		}
+		if (streetAddress == null) {
+			if (other.streetAddress != null) {
+				return false;
+			}
+		} else if (!streetAddress.equals(other.streetAddress)) {
+			return false;
+		}
+		return true;
+	}
+	
+	
 }

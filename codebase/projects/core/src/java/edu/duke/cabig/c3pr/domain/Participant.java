@@ -2,7 +2,9 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,10 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -47,7 +51,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @Table(name = "participants")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "participants_id_seq") })
-public class Participant extends Person implements Comparable<Participant> , Customizable,IdentifiableObject{
+public class Participant extends PersonBase implements Comparable<Participant> , Customizable,IdentifiableObject{
 
 	/** The birth date. */
 	private Date birthDate;
@@ -83,6 +87,10 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 	private List<Identifier> identifiers;
 	
 	private List<StudySubjectDemographics> studySubjectDemographics = new ArrayList<StudySubjectDemographics>();
+	
+	private Set<Address> addresses = new HashSet<Address>();
+	
+	private Address address;
 	
 	/**
 	 * Instantiates a new participant.
@@ -821,6 +829,62 @@ public class Participant extends Person implements Comparable<Participant> , Cus
 
 	public void setStateCode(ParticipantStateCode stateCode) {
 		this.stateCode = stateCode;
+	}
+
+	@OneToMany(fetch=FetchType.EAGER)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "participant_id")
+	@OrderBy("id")
+	public Set<Address> getAddresses() {
+		if (this.address!=null && !this.address.isBlank() && !addresses.contains(this.address)) {
+			addresses.add(this.address);
+		}
+		return addresses;
+	}
+
+
+	public void setAddresses(Set<Address> addresses) {
+		this.addresses = addresses;
+	}	
+	
+	// The following set of methods is kept for backward compatibility only.
+	// See http://jira.semanticbits.com/browse/CPR-2098.
+	// Methods will be removed eventually.
+	// -- dkrylov
+
+	@Transient
+	@Deprecated
+	public Address getAddress() {
+		if (this.address == null) {
+			if (CollectionUtils.isNotEmpty(addresses)) {
+				this.address = addresses.iterator().next();
+			} else {			
+				this.address = new Address();
+			}
+		}
+		return this.address;
+	}
+
+	@Transient
+	@Deprecated
+	public Address getAddressInternal() {
+
+		if (this.getAddress().isBlank())
+			return null;
+		return this.address;
+
+	}
+	
+	@Transient
+	@Deprecated
+	public void setAddressInternal(Address address) {
+		this.address = address;
+	}
+
+	@Transient
+	@Deprecated	
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 	
 }
