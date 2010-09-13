@@ -62,6 +62,8 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
 
     /** The log. */
     private static Log log = LogFactory.getLog(ParticipantDao.class);
+    
+    private QueryBuilderDao queryBuilderDao;
 
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
@@ -433,7 +435,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
                                    new Object[] { id.getSystemName(), id.getValue(), id.getTypeInternal() });
     }
     
-    private QueryBuilderDao queryBuilderDao;
+    
 	public List<Participant> search(List<AdvancedSearchCriteriaParameter> searchParameters){
 		String hql = generateHQL(searchParameters);
 		return search(hql);

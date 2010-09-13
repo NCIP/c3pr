@@ -93,4 +93,20 @@ public interface SubjectManagement {
         throws InsufficientPrivilegesExceptionFaultMessage, InvalidStateTransitionExceptionFaultMessage, NoSuchSubjectExceptionFaultMessage
     ;
 
+    /**
+     * 
+     * @param parameters
+     * @return
+     *     returns edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectResponse
+     * @throws InvalidSubjectDataExceptionFaultMessage
+     * @throws InsufficientPrivilegesExceptionFaultMessage
+     */
+    @WebMethod
+    @WebResult(name = "AdvancedQuerySubjectResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", partName = "parameters")
+    public AdvancedQuerySubjectResponse advancedQuerySubject(
+        @WebParam(name = "AdvancedQuerySubjectRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", partName = "parameters")
+        AdvancedQuerySubjectRequest parameters)
+        throws InsufficientPrivilegesExceptionFaultMessage, InvalidSubjectDataExceptionFaultMessage
+    ;
+
 }

@@ -14,6 +14,9 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+import com.semanticbits.querybuilder.AdvancedSearchHelper;
+
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -43,6 +46,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Organization;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.OrganizationIdentifier;
@@ -79,6 +83,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	private static final int WRONG_DATE_FORMAT = 906;
 	private static final int WRONG_RACE_CODE = 907;
 	private static final int INVALID_SUBJECT_STATE_CODE = 908;
+	private static final int MISSING_ELEMENT = 909;
 
 	/** The exception helper. */
 	protected C3PRExceptionHelper exceptionHelper;
@@ -622,6 +627,52 @@ public class JAXBToDomainObjectConverterImpl implements
 			tsDateTime.setNullFlavor(NullFlavor.NI);
 		}
 		return tsDateTime;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert(edu.duke.cabig.c3pr.webservice.subjectmanagement.
+	 * AdvanceSearchCriterionParameter)
+	 */
+	public AdvancedSearchCriteriaParameter convert(
+			AdvanceSearchCriterionParameter param) {
+		String contextObjectName = (isNull(param.getObjectContextName()) || StringUtils
+				.isBlank(param.getObjectContextName().getValue())) ? StringUtils.EMPTY : param
+				.getObjectContextName().getValue();
+		String objectName = convertAndErrorIfBlank(param.getObjectName(),
+				"objectName");
+		String attributeName = convertAndErrorIfBlank(param.getAttributeName(),
+				"attributeName");
+		String predicate = convertAndErrorIfBlank(param.getPredicate(),
+				"predicate");
+		List<String> values = new ArrayList<String>();
+		for (ST st : param.getValues().getItem()) {
+			values.add(st.getValue());
+		}
+		return AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(objectName,
+						contextObjectName, attributeName, values, predicate);
+	}
+
+	private String convertAndErrorIfBlank(ST st, String elementName) {
+		if (isNull(st) || StringUtils.isBlank(st.getValue())) {
+			throw exceptionHelper.getConversionException(MISSING_ELEMENT,
+					new Object[] { elementName });
+		} else {
+			return st.getValue();
+		}
+	}
+
+	private String convertAndErrorIfBlank(CD st, String elementName) {
+		if (isNull(st) || StringUtils.isBlank(st.getCode())) {
+			throw exceptionHelper.getConversionException(MISSING_ELEMENT,
+					new Object[] { elementName });
+		} else {
+			return st.getCode();
+		}
 	}
 
 }

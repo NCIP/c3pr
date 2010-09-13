@@ -40,19 +40,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Person }
+     * Create an instance of {@link AdvanceSearchCriterionParameter }
      * 
      */
-    public Person createPerson() {
-        return new Person();
-    }
-
-    /**
-     * Create an instance of {@link UpdateSubjectResponse }
-     * 
-     */
-    public UpdateSubjectResponse createUpdateSubjectResponse() {
-        return new UpdateSubjectResponse();
+    public AdvanceSearchCriterionParameter createAdvanceSearchCriterionParameter() {
+        return new AdvanceSearchCriterionParameter();
     }
 
     /**
@@ -64,35 +56,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Organization }
-     * 
-     */
-    public Organization createOrganization() {
-        return new Organization();
-    }
-
-    /**
      * Create an instance of {@link InvalidStateTransitionExceptionFault }
      * 
      */
     public InvalidStateTransitionExceptionFault createInvalidStateTransitionExceptionFault() {
         return new InvalidStateTransitionExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link UpdateSubjectRequest }
-     * 
-     */
-    public UpdateSubjectRequest createUpdateSubjectRequest() {
-        return new UpdateSubjectRequest();
-    }
-
-    /**
-     * Create an instance of {@link SubjectAlreadyExistsExceptionFault }
-     * 
-     */
-    public SubjectAlreadyExistsExceptionFault createSubjectAlreadyExistsExceptionFault() {
-        return new SubjectAlreadyExistsExceptionFault();
     }
 
     /**
@@ -104,11 +72,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link NoSuchSubjectExceptionFault }
+     * Create an instance of {@link QuerySubjectRequest }
      * 
      */
-    public NoSuchSubjectExceptionFault createNoSuchSubjectExceptionFault() {
-        return new NoSuchSubjectExceptionFault();
+    public QuerySubjectRequest createQuerySubjectRequest() {
+        return new QuerySubjectRequest();
+    }
+
+    /**
+     * Create an instance of {@link CreateSubjectResponse }
+     * 
+     */
+    public CreateSubjectResponse createCreateSubjectResponse() {
+        return new CreateSubjectResponse();
+    }
+
+    /**
+     * Create an instance of {@link UnableToCreateOrUpdateSubjectExceptionFault }
+     * 
+     */
+    public UnableToCreateOrUpdateSubjectExceptionFault createUnableToCreateOrUpdateSubjectExceptionFault() {
+        return new UnableToCreateOrUpdateSubjectExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link UpdateSubjectResponse }
+     * 
+     */
+    public UpdateSubjectResponse createUpdateSubjectResponse() {
+        return new UpdateSubjectResponse();
+    }
+
+    /**
+     * Create an instance of {@link InsufficientPrivilegesExceptionFault }
+     * 
+     */
+    public InsufficientPrivilegesExceptionFault createInsufficientPrivilegesExceptionFault() {
+        return new InsufficientPrivilegesExceptionFault();
     }
 
     /**
@@ -117,6 +117,38 @@ public class ObjectFactory {
      */
     public QuerySubjectResponse createQuerySubjectResponse() {
         return new QuerySubjectResponse();
+    }
+
+    /**
+     * Create an instance of {@link AdvancedQuerySubjectRequest }
+     * 
+     */
+    public AdvancedQuerySubjectRequest createAdvancedQuerySubjectRequest() {
+        return new AdvancedQuerySubjectRequest();
+    }
+
+    /**
+     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
+     * 
+     */
+    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
+        return new DSETAdvanceSearchCriterionParameter();
+    }
+
+    /**
+     * Create an instance of {@link Organization }
+     * 
+     */
+    public Organization createOrganization() {
+        return new Organization();
+    }
+
+    /**
+     * Create an instance of {@link Person }
+     * 
+     */
+    public Person createPerson() {
+        return new Person();
     }
 
     /**
@@ -136,11 +168,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UnableToCreateOrUpdateSubjectExceptionFault }
+     * Create an instance of {@link DSETSUBJECT }
      * 
      */
-    public UnableToCreateOrUpdateSubjectExceptionFault createUnableToCreateOrUpdateSubjectExceptionFault() {
-        return new UnableToCreateOrUpdateSubjectExceptionFault();
+    public DSETSUBJECT createDSETSUBJECT() {
+        return new DSETSUBJECT();
     }
 
     /**
@@ -152,11 +184,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QuerySubjectRequest }
+     * Create an instance of {@link CreateSubjectRequest }
      * 
      */
-    public QuerySubjectRequest createQuerySubjectRequest() {
-        return new QuerySubjectRequest();
+    public CreateSubjectRequest createCreateSubjectRequest() {
+        return new CreateSubjectRequest();
     }
 
     /**
@@ -168,43 +200,43 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link NoSuchSubjectExceptionFault }
+     * 
+     */
+    public NoSuchSubjectExceptionFault createNoSuchSubjectExceptionFault() {
+        return new NoSuchSubjectExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link AdvancedQuerySubjectResponse }
+     * 
+     */
+    public AdvancedQuerySubjectResponse createAdvancedQuerySubjectResponse() {
+        return new AdvancedQuerySubjectResponse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateSubjectRequest }
+     * 
+     */
+    public UpdateSubjectRequest createUpdateSubjectRequest() {
+        return new UpdateSubjectRequest();
+    }
+
+    /**
+     * Create an instance of {@link SubjectAlreadyExistsExceptionFault }
+     * 
+     */
+    public SubjectAlreadyExistsExceptionFault createSubjectAlreadyExistsExceptionFault() {
+        return new SubjectAlreadyExistsExceptionFault();
+    }
+
+    /**
      * Create an instance of {@link SubjectManagementFault }
      * 
      */
     public SubjectManagementFault createSubjectManagementFault() {
         return new SubjectManagementFault();
-    }
-
-    /**
-     * Create an instance of {@link DSETSUBJECT }
-     * 
-     */
-    public DSETSUBJECT createDSETSUBJECT() {
-        return new DSETSUBJECT();
-    }
-
-    /**
-     * Create an instance of {@link InsufficientPrivilegesExceptionFault }
-     * 
-     */
-    public InsufficientPrivilegesExceptionFault createInsufficientPrivilegesExceptionFault() {
-        return new InsufficientPrivilegesExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link CreateSubjectRequest }
-     * 
-     */
-    public CreateSubjectRequest createCreateSubjectRequest() {
-        return new CreateSubjectRequest();
-    }
-
-    /**
-     * Create an instance of {@link CreateSubjectResponse }
-     * 
-     */
-    public CreateSubjectResponse createCreateSubjectResponse() {
-        return new CreateSubjectResponse();
     }
 
     /**

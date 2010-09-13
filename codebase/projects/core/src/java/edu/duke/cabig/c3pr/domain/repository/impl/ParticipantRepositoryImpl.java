@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDemographicsDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -107,6 +109,14 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
 	 */
 	public List<Participant> searchByFullExample(Participant participant) {
 		return participantDao.searchByExample(participant,true,true,true);
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.repository.ParticipantRepository#search(java.util.List)
+	 */
+	public List<Participant> search(
+			List<AdvancedSearchCriteriaParameter> searchParameters) {
+		return participantDao.search(searchParameters);
 	}
 
 }

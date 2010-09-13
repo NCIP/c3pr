@@ -1,8 +1,11 @@
 package edu.duke.cabig.c3pr.webservice.converters;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.exception.ConversionException;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 
@@ -44,5 +47,12 @@ public interface JAXBToDomainObjectConverter {
 	 * @return
 	 */
 	Subject convert(Participant p);
+
+	/**
+	 * @param param
+	 * @return
+	 */
+	AdvancedSearchCriteriaParameter convert(
+			AdvanceSearchCriterionParameter param);
 
 }

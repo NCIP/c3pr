@@ -57,6 +57,21 @@
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
+			<xsd:element name="AdvancedQuerySubjectRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="parameters" type="sm:DSET_AdvanceSearchCriterionParameter"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="AdvancedQuerySubjectResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="subjects" type="sm:DSET_SUBJECT"
+							minOccurs="1" maxOccurs="1"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>			
 			<xsd:element name="UpdateSubjectRequest">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -154,6 +169,12 @@
 	<wsdl:message name="QuerySubjectResponseMessage">
 		<wsdl:part name="parameters" element="tns:QuerySubjectResponse" />
 	</wsdl:message>
+	<wsdl:message name="AdvancedQuerySubjectRequestMessage">
+		<wsdl:part name="parameters" element="tns:AdvancedQuerySubjectRequest" />
+	</wsdl:message>
+	<wsdl:message name="AdvancedQuerySubjectResponseMessage">
+		<wsdl:part name="parameters" element="tns:AdvancedQuerySubjectResponse" />
+	</wsdl:message>	
 	<wsdl:message name="UpdateSubjectRequestMessage">
 		<wsdl:part name="parameters" element="tns:UpdateSubjectRequest" />
 	</wsdl:message>
@@ -210,6 +231,14 @@
 			<wsdl:fault message="tns:InvalidSubjectDataExceptionFaultMessage"
 				name="InvalidSubjectDataException" />
 		</wsdl:operation>
+		<wsdl:operation name="advancedQuerySubject">
+			<wsdl:input message="tns:AdvancedQuerySubjectRequestMessage" />
+			<wsdl:output message="tns:AdvancedQuerySubjectResponseMessage" />
+			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage"
+				name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:InvalidSubjectDataExceptionFaultMessage"
+				name="InvalidSubjectDataException" />
+		</wsdl:operation>		
 		<wsdl:operation name="updateSubject">
 			<wsdl:input message="tns:UpdateSubjectRequestMessage" />
 			<wsdl:output message="tns:UpdateSubjectResponseMessage" />
@@ -290,7 +319,6 @@
 				<soap:fault name="UnableToCreateOrUpdateSubjectException" />
 			</wsdl:fault>
 		</wsdl:operation>
-
 		<wsdl:operation name="querySubject">
 			<soap:operation style="document" />
 			<wsdl:input>
@@ -306,6 +334,21 @@
 				<soap:fault name="InvalidSubjectDataException" />
 			</wsdl:fault>
 		</wsdl:operation>
+		<wsdl:operation name="advancedQuerySubject">
+			<soap:operation style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="InsufficientPrivilegesException">
+				<soap:fault name="InsufficientPrivilegesException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidSubjectDataException">
+				<soap:fault name="InvalidSubjectDataException" />
+			</wsdl:fault>
+		</wsdl:operation>		
 		<wsdl:operation name="updateSubject">
 			<soap:operation style="document" />
 			<wsdl:input>

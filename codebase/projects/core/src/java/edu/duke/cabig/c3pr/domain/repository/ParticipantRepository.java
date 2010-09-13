@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.domain.repository;
 
 import java.util.List;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -31,5 +33,14 @@ public interface ParticipantRepository {
      * @return
      */
     public List<Participant> searchByFullExample(Participant participant);
+    
+	/**
+	 * Search using advanced query builder.
+	 * 
+	 * @param searchParameters
+	 * @return
+	 */
+	public List<Participant> search(
+			List<AdvancedSearchCriteriaParameter> searchParameters);
     
 }

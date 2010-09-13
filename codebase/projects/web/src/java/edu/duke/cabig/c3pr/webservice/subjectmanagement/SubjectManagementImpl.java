@@ -15,6 +15,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -35,7 +37,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
  * @author dkrylov
  * 
  */
-@WebService(wsdlLocation="/WEB-INF/wsdl/SubjectManagement.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement", portName = "SubjectManagement", serviceName = "SubjectManagementService")
+@WebService(wsdlLocation = "/WEB-INF/wsdl/SubjectManagement.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement", portName = "SubjectManagement", serviceName = "SubjectManagementService")
 public class SubjectManagementImpl implements SubjectManagement {
 
 	private static final String SUBJECT_DOES_NOT_EXIST = "Subject does not exist.";
@@ -97,7 +99,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 		CreateSubjectResponse response = new CreateSubjectResponse();
 		try {
 			Subject subject = request.getSubject();
-			Participant participant = converter.convert(subject,true);
+			Participant participant = converter.convert(subject, true);
 
 			Identifier identifier = participant.getIdentifiers().get(0);
 			List<Participant> existingList = participantRepository
@@ -125,23 +127,30 @@ public class SubjectManagementImpl implements SubjectManagement {
 		return response;
 	}
 
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement#querySubject(edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeedu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement#
+	 * querySubject
+	 * (edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest)
 	 */
 	public QuerySubjectResponse querySubject(QuerySubjectRequest request)
 			throws InsufficientPrivilegesExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage {
-		QuerySubjectResponse response = new QuerySubjectResponse();		
+		QuerySubjectResponse response = new QuerySubjectResponse();
 		final Subject subject = request.getSubject();
-		if (subject!=null && subject.getEntity()!=null) {
+		if (subject != null && subject.getEntity() != null) {
 			try {
-				Participant participant = converter.convert(subject,false);
-				List<Participant> results = new ArrayList<Participant>(participantRepository.searchByFullExample(participant));
-				/*org.apache.commons.collections15.CollectionUtils.filter(results, new Predicate<Participant>() {
-					public boolean evaluate(Participant p) {
-						return !SubjectStateCode.INACTIVE.getCode().equals(p.getStateCode());
-					}				
-				});*/
+				Participant participant = converter.convert(subject, false);
+				List<Participant> results = new ArrayList<Participant>(
+						participantRepository.searchByFullExample(participant));
+				/*
+				 * org.apache.commons.collections15.CollectionUtils.filter(results
+				 * , new Predicate<Participant>() { public boolean
+				 * evaluate(Participant p) { return
+				 * !SubjectStateCode.INACTIVE.getCode
+				 * ().equals(p.getStateCode()); } });
+				 */
 				DSETSUBJECT dsetsubject = new DSETSUBJECT();
 				response.setSubjects(dsetsubject);
 				for (Participant p : results) {
@@ -151,7 +160,45 @@ public class SubjectManagementImpl implements SubjectManagement {
 				handleInvalidSubjectData(e);
 			}
 		} else {
-			handleInvalidSubjectData(new RuntimeException("Subject data required for search to be performed."));
+			handleInvalidSubjectData(new RuntimeException(
+					"Subject data required for search to be performed."));
+		}
+		return response;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeedu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement#
+	 * advancedQuerySubject
+	 * (edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectRequest
+	 * )
+	 */
+	public AdvancedQuerySubjectResponse advancedQuerySubject(
+			AdvancedQuerySubjectRequest parameters)
+			throws InsufficientPrivilegesExceptionFaultMessage,
+			InvalidSubjectDataExceptionFaultMessage {
+
+		AdvancedQuerySubjectResponse response = new AdvancedQuerySubjectResponse();
+		DSETSUBJECT subjects = new DSETSUBJECT();
+		response.setSubjects(subjects);
+
+		try {
+			List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			for (AdvanceSearchCriterionParameter param : parameters
+					.getParameters().getItem()) {
+				AdvancedSearchCriteriaParameter advParam = converter
+						.convert(param);
+				advParameters.add(advParam);
+			}
+
+			List<Participant> results = new ArrayList<Participant>(
+					participantRepository.search(advParameters));
+			for (Participant p : results) {
+				subjects.getItem().add(converter.convert(p));
+			}
+		} catch (ConversionException e) {
+			handleInvalidSubjectData(e);
 		}
 		return response;
 	}
@@ -171,7 +218,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 		UpdateSubjectResponse response = new UpdateSubjectResponse();
 		try {
 			Subject subject = request.getSubject();
-			Participant participant = converter.convert(subject,true);
+			Participant participant = converter.convert(subject, true);
 			Identifier identifier = participant.getIdentifiers().get(0);
 			List<Participant> existingList = participantRepository
 					.searchByIdentifier(identifier);
@@ -180,8 +227,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 			}
 
 			participant = existingList.get(0);
-			if (!ParticipantStateCode.ACTIVE.equals(
-					participant.getStateCode())) {
+			if (!ParticipantStateCode.ACTIVE.equals(participant.getStateCode())) {
 				NoSuchSubjectExceptionFault fault = new NoSuchSubjectExceptionFault();
 				fault.setMessage(SUBJECT_IS_INACTIVE);
 				throw new NoSuchSubjectExceptionFaultMessage(
@@ -256,8 +302,8 @@ public class SubjectManagementImpl implements SubjectManagement {
 				handleUnexistentSubject();
 			}
 			Participant participant = existingList.get(0);
-			ParticipantStateCode stateCode = ParticipantStateCode.getByCode(newState
-					.getValue());
+			ParticipantStateCode stateCode = ParticipantStateCode
+					.getByCode(newState.getValue());
 			if (stateCode == null) {
 				InvalidStateTransitionExceptionFault fault = new InvalidStateTransitionExceptionFault();
 				fault.setMessage(WRONG_SUBJECT_STATE_VALUE);
@@ -289,8 +335,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 				fault);
 	}
 
-	static final class ParticipantValidationError extends
-			RuntimeException {
+	static final class ParticipantValidationError extends RuntimeException {
 
 		/**
 		 * 
