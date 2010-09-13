@@ -14,7 +14,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -444,44 +446,38 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
 	
 	public String generateHQL(List<AdvancedSearchCriteriaParameter> searchParameters){
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("subject-advanced-search.xml");
-		Unmarshaller unmarshaller;
-		QueryBuilder queryBuilder = new QueryBuilder();
+		return generateHQL(searchParameters, inputStream);
+	}
+	
+	private String generateHQL(
+			List<AdvancedSearchCriteriaParameter> searchParameters,
+			InputStream inputStream) {
 		try {
-			unmarshaller = JAXBContext.newInstance("com.semanticbits.querybuilder").createUnmarshaller();
+			QueryBuilder queryBuilder = new QueryBuilder();
+			Unmarshaller unmarshaller = JAXBContext.newInstance(
+					"com.semanticbits.querybuilder").createUnmarshaller();
 			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}
-
-		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
-		try {
-			return QueryGenerator.generateHQL(targetObject, searchParameters, true);
+			TargetObject targetObject = (TargetObject) queryBuilder
+					.getTargetObject().get(0);
+			return QueryGenerator.generateHQL(targetObject, searchParameters,
+					true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error(ExceptionUtils.getFullStackTrace(e));
+		} finally {
+			IOUtils.closeQuietly(inputStream);
 		}
 		return "";
 	}
 	
-	public String generateHQL(List<AdvancedSearchCriteriaParameter> searchParameters, String fileLocation){
-		File file = new File(fileLocation);
-		InputStream inputStream ;
-		QueryBuilder queryBuilder = new QueryBuilder();
+	public String generateHQL(
+			List<AdvancedSearchCriteriaParameter> searchParameters,
+			String fileLocation) {
 		try {
-			inputStream = new FileInputStream(file);
-			Unmarshaller unmarshaller = JAXBContext.newInstance("com.semanticbits.querybuilder").createUnmarshaller();
-			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
-		}catch (JAXBException e) {
-			e.printStackTrace();
-		}catch (FileNotFoundException e1) {
-			e1.printStackTrace();
+			return generateHQL(searchParameters, new FileInputStream(new File(
+					fileLocation)));
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
 		}
-		TargetObject targetObject = (TargetObject) queryBuilder.getTargetObject().get(0);
-		try {
-			return QueryGenerator.generateHQL(targetObject, searchParameters, true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "";
 	}
 	
 	public List<Participant> search(String hql){
