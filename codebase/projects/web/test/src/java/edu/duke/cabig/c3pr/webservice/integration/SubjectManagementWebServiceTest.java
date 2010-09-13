@@ -32,7 +32,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
  */
 public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
-	public static final int THREE_MINUTES = 1000 * 60 * 3;
+	public static final int TIMEOUT = 1000 * 60 * 3;
 	public static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/SubjectManagement";
 	private final String SUBJECT_ID = RandomStringUtils.randomAlphanumeric(16);
 
@@ -198,8 +198,8 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		urlConn.setDoInput(true);
 		urlConn.setDoOutput(true);
 		urlConn.setUseCaches(false);
-		urlConn.setConnectTimeout(THREE_MINUTES);
-		urlConn.setReadTimeout(THREE_MINUTES);
+		urlConn.setConnectTimeout(TIMEOUT);
+		urlConn.setReadTimeout(TIMEOUT);
 		urlConn.setRequestProperty("Content-Type", "text/xml;charset=UTF-8");
 		return urlConn;
 	}
