@@ -59,6 +59,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 			testSuccessfulWebServiceOperation("CreateSubject");
 			testSuccessfulWebServiceOperation("UpdateSubject");
 			testSuccessfulWebServiceOperation("QuerySubject");
+			testSuccessfulWebServiceOperation("AdvancedQuerySubject");
 			testSuccessfulWebServiceOperation("QueryUnexistentSubject");
 			testSuccessfulWebServiceOperation("UpdateSubjectState");
 
