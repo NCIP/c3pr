@@ -21,6 +21,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.test.AssertThrows;
 import org.springframework.validation.Errors;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
@@ -139,10 +141,13 @@ public class SubjectManagementImplTest extends SubjectManagementRelatedTestCase 
 	 * Test method for
 	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl#querySubject(edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest)}
 	 * .
-	 * @throws InvalidSubjectDataExceptionFaultMessage 
-	 * @throws InsufficientPrivilegesExceptionFaultMessage 
+	 * 
+	 * @throws InvalidSubjectDataExceptionFaultMessage
+	 * @throws InsufficientPrivilegesExceptionFaultMessage
 	 */
-	public void testQuerySubject() throws InsufficientPrivilegesExceptionFaultMessage, InvalidSubjectDataExceptionFaultMessage {
+	public void testQuerySubject()
+			throws InsufficientPrivilegesExceptionFaultMessage,
+			InvalidSubjectDataExceptionFaultMessage {
 		final QuerySubjectRequest request = new QuerySubjectRequest();
 
 		Person person = createPerson();
@@ -155,17 +160,53 @@ public class SubjectManagementImplTest extends SubjectManagementRelatedTestCase 
 						.searchByFullExample(isA(Participant.class)))
 				.andReturn(Arrays.asList(new Participant[] { searchResult }));
 		replay(participantRepository);
-		
+
 		QuerySubjectResponse response = service.querySubject(request);
 		DSETSUBJECT subjects = response.getSubjects();
 		List<Subject> listOfSubjects = subjects.getItem();
 		assertTrue(CollectionUtils.isNotEmpty(listOfSubjects));
-		assertEquals(1,listOfSubjects.size());
+		assertEquals(1, listOfSubjects.size());
 		assertTrue(BeanUtils.deepCompare(subject, listOfSubjects.get(0)));
-		
+
 		verify(participantRepository);
 		reset(participantRepository);
-		
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl#advancedQuerySubject(AdvancedQuerySubjectRequest)}
+	 * 
+	 * @throws InsufficientPrivilegesExceptionFaultMessage
+	 * @throws InvalidSubjectDataExceptionFaultMessage
+	 */
+	public void testAdvancedQuerySubject()
+			throws InsufficientPrivilegesExceptionFaultMessage,
+			InvalidSubjectDataExceptionFaultMessage {
+
+		final AdvancedQuerySubjectRequest request = new AdvancedQuerySubjectRequest();
+
+		Person person = createPerson();
+		Subject subject = createSubject(person);
+		Participant searchResult = createParticipant();
+		AdvanceSearchCriterionParameter param = createAdvaceSearchParam();
+		request.setParameters(new DSETAdvanceSearchCriterionParameter());
+		request.getParameters().getItem().add(param);
+
+		expect(participantRepository.search(isA(List.class))).andReturn(
+				Arrays.asList(new Participant[] { searchResult }));
+		replay(participantRepository);
+
+		AdvancedQuerySubjectResponse response = service.advancedQuerySubject(request);
+		DSETSUBJECT subjects = response.getSubjects();
+		List<Subject> listOfSubjects = subjects.getItem();
+		assertTrue(CollectionUtils.isNotEmpty(listOfSubjects));
+		assertEquals(1, listOfSubjects.size());
+		assertTrue(BeanUtils.deepCompare(subject, listOfSubjects.get(0)));
+
+		verify(participantRepository);
+		reset(participantRepository);
+
 	}
 
 	/**
@@ -190,9 +231,11 @@ public class SubjectManagementImplTest extends SubjectManagementRelatedTestCase 
 		final UpdateSubjectRequest request = new UpdateSubjectRequest();
 		request.setSubject(subject);
 		Participant existentSubject = createParticipantWithIdAndStateOnly();
-		
+
 		// to test proper race code handling
-		existentSubject.setRaceCodes(Arrays.asList(new RaceCodeEnum[] {RaceCodeEnum.American_Indian_or_Alaska_Native}));
+		existentSubject
+				.setRaceCodes(Arrays
+						.asList(new RaceCodeEnum[] { RaceCodeEnum.American_Indian_or_Alaska_Native }));
 
 		expect(participantRepository.searchByIdentifier(isA(Identifier.class)))
 				.andReturn(Arrays.asList(new Participant[] { existentSubject }));

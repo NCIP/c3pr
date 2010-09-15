@@ -19,7 +19,6 @@ import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.helpers.SubjectManagementRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
-import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvanceSearchCriterionParameter;
@@ -33,13 +32,6 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
  */
 public class JAXBToDomainObjectConverterImplTest extends
 		SubjectManagementRelatedTestCase {
-
-	public static final String TEST_VALUE2 = "v2";
-	public static final String TEST_VALUE1 = "v1";
-	public static final String TEST_PREDICATE = "Predicate";
-	public static final String TEST_OBJ_NAME = "objName";
-	public static final String TEST_OBJ_CTX_NAME = "objCtxName";
-	public static final String TEST_ATTRIBUTE_NAME = "attribute_name";
 
 	/**
 	 * Test method for
@@ -207,13 +199,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 	 * {@link edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl#convert(AdvanceSearchCriterionParameter)}
 	 */
 	public void testConvertAdvanceSearchCriterionParameter() {
-		AdvanceSearchCriterionParameter param = new AdvanceSearchCriterionParameter();
-		param.setAttributeName(new ST(TEST_ATTRIBUTE_NAME));
-		param.setObjectContextName(new ST(TEST_OBJ_CTX_NAME));
-		param.setObjectName(new ST(TEST_OBJ_NAME));
-		param.setPredicate(new CD(TEST_PREDICATE));
-		param.setValues(new DSETST(Arrays.asList(new ST[] {
-				new ST(TEST_VALUE1), new ST(TEST_VALUE2) })));
+		AdvanceSearchCriterionParameter param = createAdvaceSearchParam();
 
 		AdvancedSearchCriteriaParameter convParam = converter.convert(param);
 		assertEquals(TEST_ATTRIBUTE_NAME, convParam.getAttributeName());

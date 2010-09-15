@@ -9,6 +9,7 @@ import static org.easymock.classextension.EasyMock.replay;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -42,6 +43,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
+import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
@@ -51,6 +53,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Organization;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.OrganizationIdentifier;
@@ -104,6 +107,12 @@ public abstract class SubjectManagementRelatedTestCase extends
 	protected static final String ORG_ID_TYPE_CTEP = OrganizationIdentifierTypeEnum.CTEP
 			.getName();
 	protected static final String TEST_ORG_ID = "MN026";
+	public static final String TEST_VALUE2 = "v2";
+	public static final String TEST_VALUE1 = "v1";
+	public static final String TEST_PREDICATE = "Predicate";
+	public static final String TEST_OBJ_NAME = "objName";
+	public static final String TEST_OBJ_CTX_NAME = "objCtxName";
+	public static final String TEST_ATTRIBUTE_NAME = "attribute_name";
 
 	protected static Date parseISODate(String isoDate) {
 		try {
@@ -344,6 +353,20 @@ public abstract class SubjectManagementRelatedTestCase extends
 		list.add(RaceCodeEnum.White);		
 		list.add(RaceCodeEnum.Asian);
 		return list;
+	}
+
+	/**
+	 * @return
+	 */
+	protected AdvanceSearchCriterionParameter createAdvaceSearchParam() {
+		AdvanceSearchCriterionParameter param = new AdvanceSearchCriterionParameter();
+		param.setAttributeName(new ST(TEST_ATTRIBUTE_NAME));
+		param.setObjectContextName(new ST(TEST_OBJ_CTX_NAME));
+		param.setObjectName(new ST(TEST_OBJ_NAME));
+		param.setPredicate(new CD(TEST_PREDICATE));
+		param.setValues(new DSETST(Arrays.asList(new ST[] {
+				new ST(TEST_VALUE1), new ST(TEST_VALUE2) })));
+		return param;
 	}
 
 }
