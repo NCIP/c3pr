@@ -8,6 +8,8 @@ import java.util.Arrays;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.test.AssertThrows;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
@@ -17,8 +19,10 @@ import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.helpers.SubjectManagementRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
+import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Person;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
@@ -29,6 +33,13 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
  */
 public class JAXBToDomainObjectConverterImplTest extends
 		SubjectManagementRelatedTestCase {
+
+	public static final String TEST_VALUE2 = "v2";
+	public static final String TEST_VALUE1 = "v1";
+	public static final String TEST_PREDICATE = "Predicate";
+	public static final String TEST_OBJ_NAME = "objName";
+	public static final String TEST_OBJ_CTX_NAME = "objCtxName";
+	public static final String TEST_ATTRIBUTE_NAME = "attribute_name";
 
 	/**
 	 * Test method for
@@ -132,7 +143,6 @@ public class JAXBToDomainObjectConverterImplTest extends
 		assertEquals(TEST_FAX, participant.getFax());
 	}
 
-
 	/**
 	 * Test method for
 	 * {@link edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl#convert(edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier)}
@@ -190,6 +200,29 @@ public class JAXBToDomainObjectConverterImplTest extends
 		Participant p = createParticipant();
 		Subject s = converter.convert(p);
 		assertSubject(s);
+	}
+
+	/**
+	 * Test for
+	 * {@link edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl#convert(AdvanceSearchCriterionParameter)}
+	 */
+	public void testConvertAdvanceSearchCriterionParameter() {
+		AdvanceSearchCriterionParameter param = new AdvanceSearchCriterionParameter();
+		param.setAttributeName(new ST(TEST_ATTRIBUTE_NAME));
+		param.setObjectContextName(new ST(TEST_OBJ_CTX_NAME));
+		param.setObjectName(new ST(TEST_OBJ_NAME));
+		param.setPredicate(new CD(TEST_PREDICATE));
+		param.setValues(new DSETST(Arrays.asList(new ST[] {
+				new ST(TEST_VALUE1), new ST(TEST_VALUE2) })));
+
+		AdvancedSearchCriteriaParameter convParam = converter.convert(param);
+		assertEquals(TEST_ATTRIBUTE_NAME, convParam.getAttributeName());
+		assertEquals(TEST_OBJ_CTX_NAME, convParam.getContextObjectName());
+		assertEquals(TEST_OBJ_NAME, convParam.getObjectName());
+		assertEquals(TEST_PREDICATE, convParam.getPredicate());
+		assertEquals(Arrays.asList(new String[] { TEST_VALUE1, TEST_VALUE2 }),
+				convParam.getValues());
+
 	}
 
 }
