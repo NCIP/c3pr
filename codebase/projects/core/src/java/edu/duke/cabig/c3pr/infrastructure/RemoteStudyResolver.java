@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.iso._21090.DSETII;
+import org.iso._21090.NullFlavor;
 
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
@@ -316,7 +317,11 @@ public class RemoteStudyResolver implements RemoteResolver {
 			for (String result:results) {
 				plannedEligibility = CoppaPAObjectFactory.getPlannedEligibilityCriterion(result);
 				if(plannedEligibility != null){
-					if(plannedEligibility.getInclusionIndicator().isValue()){
+					boolean isNull =(plannedEligibility.getInclusionIndicator() == null || plannedEligibility.getInclusionIndicator().isValue() == null )
+									&& (plannedEligibility.getInclusionIndicator().getNullFlavor() == null 
+					  				|| plannedEligibility.getInclusionIndicator().getNullFlavor().equals(NullFlavor.NI));
+					
+					if(!isNull && plannedEligibility.getInclusionIndicator().isValue()){
 						//its an inclusion criteria
 						inclusionEligibilityCriteria = new InclusionEligibilityCriteria();
 						if(plannedEligibility.getDisplayOrder() != null){
