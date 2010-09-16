@@ -416,8 +416,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 								} else if (organizationAssignedIdentifier.getType().equals(OrganizationIdentifierTypeEnum.CTEP)){
 									organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getCTEPOrganization());
 								} else if(organizationAssignedIdentifier.getHealthcareSite() instanceof RemoteHealthcareSite){
-									HealthcareSite remoteHealthcareSite = healthcareSiteDao.getByUniqueIdentifier
-														(((RemoteHealthcareSite)organizationAssignedIdentifier.getHealthcareSite()).getExternalId());
+									HealthcareSite remoteHealthcareSite = healthcareSiteDao.getByPrimaryIdentifierFromLocal
+														(((RemoteHealthcareSite)organizationAssignedIdentifier.getHealthcareSite()).getPrimaryIdentifier());
 									if(remoteHealthcareSite != null){
 										organizationAssignedIdentifier.setHealthcareSite(remoteHealthcareSite);
 									}
@@ -425,7 +425,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 							}
 						}
 						for(int i = 0 ; i < remoteStudyTemp.getOrganizationAssignedIdentifiers().size() ; i++){
-							if(remoteStudyTemp.getOrganizationAssignedIdentifiers().get(i).getHealthcareSite().getId() == null){
+							if(remoteStudyTemp.getOrganizationAssignedIdentifiers().get(i).getHealthcareSite() == null){
 								remoteStudyTemp.getOrganizationAssignedIdentifiers().remove(i);
 							}
 						}
