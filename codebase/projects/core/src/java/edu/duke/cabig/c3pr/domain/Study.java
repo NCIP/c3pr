@@ -566,23 +566,23 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		return getStudyVersion().getDataEntryStatus();
 	}
 
-	@Transient
-	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
-		return this.getCoordinatingCenterStudyStatusInternal();
-	}
-
-	public void setCoordinatingCenterStudyStatus(
-		CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
-        this.setCoordinatingCenterStudyStatusInternal(coordinatingCenterStudyStatus);
-	}
+//	@Transient
+//	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
+//		return this.getCoordinatingCenterStudyStatusInternal();
+//	}
+//
+//	public void setCoordinatingCenterStudyStatus(
+//		CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
+//        this.setCoordinatingCenterStudyStatusInternal(coordinatingCenterStudyStatus);
+//	}
 
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
-	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatusInternal() {
+	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
 		return coordinatingCenterStudyStatus;
 	}
 
-	public void setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
+	public void setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
 		this.coordinatingCenterStudyStatus=coordinatingCenterStudyStatus;
  	}
 

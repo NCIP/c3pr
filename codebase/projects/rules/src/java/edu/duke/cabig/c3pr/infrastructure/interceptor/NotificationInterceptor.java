@@ -182,7 +182,7 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		//Study status changes are spotted here for activating rules.
 		if(entity instanceof Study){
 				for (int i = 0; i < propertyNames.length; i++) {
-					if (propertyNames[i].equals("coordinatingCenterStudyStatusInternal") && previousState != null && currentState != null ){		
+					if (propertyNames[i].equals("coordinatingCenterStudyStatus") && previousState != null && currentState != null ){		
 							handleStudyStatusChange(previousState[i], currentState[i], entity);
 					}
 				}

@@ -161,7 +161,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
 
     public void testOpenClosedStudy() throws C3PRCodedException {
-    	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
+    	study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         replayMocks();
         try {
@@ -274,7 +274,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
 
     public void testActivateStudySiteClosedStudySite() {
-    	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
+    	study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
     	studySite.handleStudySiteStatusChange(new Date(),SiteStudyStatus.CLOSED_TO_ACCRUAL);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
         replayMocks();
@@ -304,7 +304,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
 //    	EasyMock.expect(studySite.getIrbApprovalDate()).andReturn(new Date());
 //    	EasyMock.expect(studySiteStudyVersion.getStudyVersion()).andReturn(studyVersion);
 //    	EasyMock.expect(studyVersion.getVersionDate()).andReturn(new Date());
-    	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
+    	study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
         //EasyMock.expect(studyService.getLocalNCIInstituteCode()).andReturn("Duke");
@@ -316,7 +316,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     public void testActivateAffiliateStudySite() throws C3PRCodedException {
     	studySite.setHostedMode(false);
     	study.getStudyCoordinatingCenter().setHostedMode(false);
-    	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
+    	study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list).times(2);
         EasyMock.expect(studySiteDao.merge(studySite)).andReturn(studySite);
         replayMocks();
@@ -325,7 +325,7 @@ public class StudyRepositoryUnitTest extends AbstractTestCase {
     }
 
     public void testCloseStudyHosted() throws C3PRCodedException {
-    	study.setCoordinatingCenterStudyStatusInternal(CoordinatingCenterStudyStatus.OPEN);
+    	study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.OPEN);
         EasyMock.expect(studyDao.getByIdentifiers(ids)).andReturn(list);
         EasyMock.expect(studyDao.merge(study)).andReturn(study);
         replayMocks();
