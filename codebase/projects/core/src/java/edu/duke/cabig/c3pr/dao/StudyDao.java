@@ -637,7 +637,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 
     public List<Study> getStudiesByStatus(CoordinatingCenterStudyStatus coordinatingCenterStudyStatus){
     	List<Study> studies =  getHibernateTemplate().find(
-                "select s from Study s where s.coordinatingCenterStudyStatusInternal=? order by s.id desc", new Object[]{coordinatingCenterStudyStatus});
+                "select s from Study s where s.coordinatingCenterStudyStatus=? order by s.id desc", new Object[]{coordinatingCenterStudyStatus});
     	return studies;
     }
     
