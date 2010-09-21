@@ -34,7 +34,7 @@ function createReg(studyId,studySiteName, studySiteVersionId){
 	<form id="manage" name="manage" action="../registration/manageRegistration" method="get" style="display:inline;">
 		<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
 		<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Register another subject" linkhref="javascript:doManage('create',paramString)"/>
-		<c:if test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus != 'REGISTERED'}">
+		<c:if test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus != 'ON_EPOCH'}">
 			<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit registration" linkhref="javascript:doManage('edit',paramString)"/>
 		</c:if>
 		<c:if test="${command.studySubject.regWorkflowStatus != 'PENDING'}">

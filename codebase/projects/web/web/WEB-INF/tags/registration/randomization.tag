@@ -9,9 +9,9 @@
         .labelL { text-align: left; padding: 4px; font-weight: bold;}
         .labelC { text-align: center; padding: 4px; font-weight: bold;}
 </style>
-<c:if test="${requiresRandomization}">
+<c:if test="${requiresRandomization && command.shouldRandomize}">
 <chrome:box title="Randomization">
-			<c:if test="${registration.scheduledEpoch.requiresRandomization}">
+			<c:if test="${registration.scheduledEpoch.requiresRandomization }">
 			<chrome:division title="(${registration.studySite.study.primaryIdentifier}) ${registration.studySite.study.shortTitleText}">
 			<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
 		      	<tags:instructions code="REGISTRATION.RANDOMIZATION.PHONE_CALL"/>
@@ -68,7 +68,7 @@
 			</chrome:division>
 			</c:if>
 			<c:forEach items="${registration.childStudySubjects}" var="childStudySubject" varStatus="status">
-				<c:if test="${childStudySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
+				<c:if test="${childStudySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending Randomizaiton on Epoch'}">
 					<chrome:division title="(${childStudySubject.studySite.study.primaryIdentifier}) ${childStudySubject.studySite.study.shortTitleText}">
 						<c:if test="${childStudySubject.studySite.study.randomizationType.name == 'PHONE_CALL' && childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
 				      		<tags:instructions code="REGISTRATION.RANDOMIZATION.PHONE_CALL"/>

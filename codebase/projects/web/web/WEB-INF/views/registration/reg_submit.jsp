@@ -47,7 +47,7 @@ function redirectToTab(tabNumber){
 		</c:if>
 	</c:forEach>
 	<tags:instructions code="reg_submit" />
-	<c:if test="${requiresRandomization && command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkflowStatus=='ENROLLED') && empty armNotAvailable}">
+	<c:if test="${requiresRandomization && command.shouldRandomize && command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkflowStatus=='ON_STUDY') && empty armNotAvailable}">
 			<div style="border:1px solid #f00; height:100px; padding:9px; margin-bottom:10px;">
 				<img src="<tags:imageUrl name="stop_sign.png" />" alt="Stop!" style="float:left; margin-right:30px; margin-left:80px;" />
 				<div style="font-size:20px; margin-bottom:5px;">Almost done...</div>
@@ -370,16 +370,16 @@ function redirectToTab(tabNumber){
 										<c:when test="${empty companion.registrationStatus}">
 											<font color="Red"><i><fmt:message key="c3pr.common.notStarted" /></i></font>
 										</c:when>
-										<c:when test="${!(companion.registrationStatus == 'Registered but not enrolled'|| companion.registrationStatus == 'Enrolled') }">
-											<font color="Red"><i>${(companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</i></font>
+										<c:when test="${!(companion.registrationStatus == 'Registered but not ON_STUDY'|| companion.registrationStatus == 'ON_STUDY') }">
+											<font color="Red"><i>${(companion.registrationStatus == 'PENDING_ON_STUDY')?'Pending':companion.registrationStatus}</i></font>
 										</c:when>
 										<c:otherwise>
-											${(companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}
+											${(companion.registrationStatus == 'PENDING_ON_STUDY')?'Pending':companion.registrationStatus}
 										</c:otherwise>
 									</c:choose>
 								</c:when>
 								<c:otherwise>
-									${empty companion.registrationStatus? 'Not Started': (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}
+									${empty companion.registrationStatus? 'Not Started': (companion.registrationStatus == 'PENDING_ON_STUDY')?'Pending':companion.registrationStatus}
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -389,9 +389,9 @@ function redirectToTab(tabNumber){
 	</chrome:division>
 	</div>
 	</div>
-	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${(not empty command.studySubject.parentStudySubject && command.studySubject.parentStudySubject.regWorkflowStatus != 'ENROLLED')?'Save & Done': (empty actionLabel? '' : actionLabel)}"  isSummaryPage="true">
+	<tags:formPanelWithoutBox tab="${tab}" flow="${flow}" title="${tabTitle}" continueLabel="${(not empty command.studySubject.parentStudySubject && command.studySubject.parentStudySubject.regWorkflowStatus != 'ON_STUDY')?'Save & Done': (empty actionLabel? '' : actionLabel)}"  isSummaryPage="true">
 		<input type="hidden" name="_finish" value="true"/>
-		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkflowStatus=='ENROLLED')}">
+		<c:if test="${command.studySubject.dataEntryStatusString == 'Complete' && ( command.studySubject.parentStudySubject == null || command.studySubject.parentStudySubject.regWorkflowStatus=='ON_STUDY')}">
 			<a name="randomize"></a>
 			<registrationTags:randomization registration="${command.studySubject}"></registrationTags:randomization>
 		</c:if> 

@@ -20,7 +20,7 @@
 </style>
 <script>
 function submitRandomization(){
-	if(${registration.regWorkflowStatus!='ENROLLED' && !empty registration.studySite.targetAccrualNumber && registration.studySite.targetAccrualNumber<=registration.studySite.currentAccrualCount}){
+	if(${registration.regWorkflowStatus!='ON_STUDY' && !empty registration.studySite.targetAccrualNumber && registration.studySite.targetAccrualNumber<=registration.studySite.currentAccrualCount}){
 		confirmFlag=confirm("This registration will exceed the accrual ceiling at ${command.studySubject.studySite.healthcareSite.name}. Do you want to continue?");
 		if(!confirmFlag)
 			return;
@@ -41,7 +41,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 			Please click on the button to send registration request. 
 		</c:when>
 		<c:otherwise>
-		<chrome:division title="${(fn:length(registration.childStudySubjects) > 0 && registration.scheduledEpoch.scEpochWorkflowStatus.code != 'Registered But Not Randomized')?'':registration.studySite.study.shortTitleText}">
+		<chrome:division title="${(fn:length(registration.childStudySubjects) > 0 && registration.scheduledEpoch.scEpochWorkflowStatus.code != 'Pending Randomizaiton on Epoch')?'':registration.studySite.study.shortTitleText}">
             <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL' && registration.scheduledEpoch.epoch.randomizedIndicator}">
                 <strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
             </c:if>
@@ -80,7 +80,7 @@ paramString="<tags:identifierParameterString identifier='${registration.systemAs
 			</chrome:division>
 			<br>
 			<c:forEach items="${registration.childStudySubjects}" var="childStudySubject" varStatus="status">
-				<c:if test="${childStudySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Registered But Not Randomized'}">
+				<c:if test="${childStudySubject.scheduledEpoch.scEpochWorkflowStatus.code == 'Pending Randomizaiton on Epoch'}">
 				<chrome:division title="${childStudySubject.studySite.study.shortTitleText}">
 					<c:if test="${childStudySubject.studySite.study.randomizationType.name == 'PHONE_CALL' && childStudySubject.scheduledEpoch.epoch.randomizedIndicator}">
 		                <strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>

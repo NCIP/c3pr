@@ -88,9 +88,9 @@
 							${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})
 						</td>
 						<td class="alt">${companion.mandatoryIndicator=="true"?"Yes":"No"}</td>
-						<td class="alt">${empty companion.companionRegistrationUrl ?"Not Started": (companion.registrationStatus == 'Registered but not enrolled')?'Pending':companion.registrationStatus}</td>
+						<td class="alt">${empty companion.companionRegistrationUrl ?"Not Started": (companion.registrationStatus == 'PENDING_ON_STUDY')?'Pending':companion.registrationStatus}</td>
 						<td class="alt">
-						<c:if test="${companion.registrationStatus != 'Enrolled'}">
+						<c:if test="${companion.registrationStatus != 'ON_STUDY'}">
 							<c:choose>
 								<c:when test="${not empty companion.companionRegistrationUrl}">
 									<csmauthz:accesscontrol domainObject="${command.studySubject}"

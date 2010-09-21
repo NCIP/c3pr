@@ -196,7 +196,7 @@
 <body>
 <c:set var="canEditRegistrationRecord" value="false"/>
 <c3pr:checkprivilege hasPrivileges="STUDYSUBJECT_OVERRIDE">
-	<c:if test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus == 'REGISTERED'}">
+	<c:if test="${command.studySubject.scheduledEpoch.scEpochWorkflowStatus == 'ON_EPOCH'}">
 		<c:set var="canEditRegistrationRecord" value="true"/>
 	</c:if>
 </c3pr:checkprivilege>
@@ -805,10 +805,10 @@
 					<th scope="20%" align="left"><b><fmt:message key="c3pr.common.status"/></b></th>
 				</tr>
 				<c:forEach items="${companions}" var="companion" varStatus="status">
-					<tr class="results" <c:if test="${companion.registrationStatus == 'Enrolled'}">onclick="manageCompanionRegistration('${companion.companionRegistrationUrl}');"</c:if>>
+					<tr class="results" <c:if test="${companion.registrationStatus == 'ON_STUDY'}">onclick="manageCompanionRegistration('${companion.companionRegistrationUrl}');"</c:if>>
 						<td class="alt"><c:if test="${companion.mandatoryIndicator}"><tags:requiredIndicator /></c:if>
 							<c:choose>
-								<c:when test="${companion.registrationStatus == 'Enrolled'}">
+								<c:when test="${companion.registrationStatus == 'ON_STUDY'}">
 									<a href="javascript:manageCompanionRegistration('${companion.companionRegistrationUrl}');">
 										${companion.companionStudyShortTitle}(${companion.companionStudyPrimaryIdentifier})
 									</a>
