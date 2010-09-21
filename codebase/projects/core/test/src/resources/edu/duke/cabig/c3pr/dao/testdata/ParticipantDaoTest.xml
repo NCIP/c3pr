@@ -7,19 +7,35 @@
     <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1000" study_id="1000" name="1.0" version_date="01-01-2001" long_title_text="long_title_text" short_title_text="short_title_text"  description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1001" study_id="1001" name="1.0" version_date="01-01-2001" long_title_text="long_title_text2" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1002" study_id="1002" name="1.0" version_date="01-01-2001" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
-    
-    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
+ 
+               
+    <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/>
+    <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="01-01-2000" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/>
+    <PARTICIPANTS id="1002" version="1" first_name="Aldrez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/> 
+   	<PARTICIPANTS id="1003" version="1" first_name="Ru" last_name="Clo" birth_date="01-01-2000" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/> 
+   	<PARTICIPANTS id="1004" version="1" first_name="Ru" last_name="Cloon" birth_date="01-01-2000" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/>  
+	<PARTICIPANTS id="1005" version="1" first_name="Rup" last_name="Cloon" birth_date="01-01-2000" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/>  
+	<PARTICIPANTS id="1006" version="1" first_name="Rupe" last_name="Cloon" birth_date="01-01-2000" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Hispanic or Latino"/>
+   	<PARTICIPANTS id="1007" version="1" first_name="Ruper" last_name="Cloone" birth_date="01-01-2000" administrative_gender_code="Female"  retired_indicator = "false" ethnic_group_code="Unknown"/>
+   	<PARTICIPANTS id="1008" version="1" first_name="Ruper" last_name="Cloone" birth_date="01-01-2000" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/>
+    <PARTICIPANTS id="1009" version="1" first_name="Rupert" last_name="Roonie" birth_date="01-01-2000" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/>
+	<PARTICIPANTS id="1010" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/>
+   
+   	<ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" participant_id="1004"/>
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" />
-  	
   	<ADDRESSES id="1002" version="1" street_address="12359 sunrise valley drive" city="San Jose" state_code="CA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
     <ADDRESSES id="1003" version="1" street_address="Gautam Marg" city="Jaipur" state_code="RAJ" postal_code="302021" country_code="INDIA"  retired_indicator = "false" />
-	
-  	
-  	
+    <ADDRESSES id="1004" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" participant_id="1007"/>
+	   	 	
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000" retired_indicator = "false" />
     <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1001" retired_indicator = "false" />  
     <ORGANIZATIONS id="1002" version="1" name="wake forest" description_text="wake forest" dtype="Local" address_id="1001" retired_indicator = "false" />  
     
+    <prt_org_associations version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
+   	<prt_org_associations version="1" prt_id="1001" org_id="1000"  retired_indicator = "false"/>
+   	<prt_org_associations version="1" prt_id="1002" org_id="1000"  retired_indicator = "false"/>
+   	<prt_org_associations version="1" prt_id="1010" org_id="1000"  retired_indicator = "false"/>
+   	
     <STUDY_ORGANIZATIONS id="1000" version="1"  study_id="1000"
     hcs_id="1000" type="SST"   retired_indicator = "false" />
     <STUDY_ORGANIZATIONS id="1001" version="1" study_id="1000"
@@ -102,24 +118,8 @@
     
     <STRAT_CRITERIA id="1000" version="1" question_text="question" question_number="1" retired_indicator = "false" />
     <STRAT_CRI_PER_ANS id="1000" version="1" permissible_answer="answer" str_cri_id="1000" retired_indicator = "false" />  
-              
-    <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="Male"  add_id="1000"  retired_indicator = "false" ethnic_group_code="Unknown"/>
-    <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="01-01-2000" administrative_gender_code="Male"  add_id="1000"  retired_indicator = "false" ethnic_group_code="Unknown"/>
-    <PARTICIPANTS id="1002" version="1" first_name="Aldrez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="Male"  add_id="1002"  retired_indicator = "false" ethnic_group_code="Unknown"/> 
-   	<PARTICIPANTS id="1003" version="1" first_name="Ru" last_name="Clo" birth_date="01-01-2000" administrative_gender_code="Male"  add_id="1002"  retired_indicator = "false" ethnic_group_code="Unknown"/> 
-   	<PARTICIPANTS id="1004" version="1" first_name="Ru" last_name="Cloon" birth_date="01-01-2000" administrative_gender_code="Male"  add_id="1001"  retired_indicator = "false" ethnic_group_code="Unknown"/>  
-	<PARTICIPANTS id="1005" version="1" first_name="Rup" last_name="Cloon" birth_date="01-01-2000" administrative_gender_code="Male" add_id="1002"  retired_indicator = "false" ethnic_group_code="Unknown"/>  
-	<PARTICIPANTS id="1006" version="1" first_name="Rupe" last_name="Cloon" birth_date="01-01-2000" administrative_gender_code="Male"  add_id="1003"  retired_indicator = "false" ethnic_group_code="Hispanic or Latino"/>
-   	<PARTICIPANTS id="1007" version="1" first_name="Ruper" last_name="Cloone" birth_date="01-01-2000" administrative_gender_code="Female"  add_id="1001"  retired_indicator = "false" ethnic_group_code="Unknown"/>
-   	<PARTICIPANTS id="1008" version="1" first_name="Ruper" last_name="Cloone" birth_date="01-01-2000" administrative_gender_code="Male"  add_id="1003"  retired_indicator = "false" ethnic_group_code="Unknown"/>
-    <PARTICIPANTS id="1009" version="1" first_name="Rupert" last_name="Roonie" birth_date="01-01-2000" administrative_gender_code="Male"  add_id="1000"  retired_indicator = "false" ethnic_group_code="Unknown"/>
-	<PARTICIPANTS id="1010" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="Male"  add_id="1000"  retired_indicator = "false" ethnic_group_code="Unknown"/>
    
-   	<prt_org_associations version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
-   	<prt_org_associations version="1" prt_id="1001" org_id="1000"  retired_indicator = "false"/>
-   	<prt_org_associations version="1" prt_id="1002" org_id="1000"  retired_indicator = "false"/>
-   	<prt_org_associations version="1" prt_id="1010" org_id="1000"  retired_indicator = "false"/>
-   	
+    
    	<IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" prt_id="1000" stu_id="1000" hcs_id="1000" org_id="1000" retired_indicator = "false" primary_indicator="0"/>
    	<IDENTIFIERS id="1001" version="1" value="nci" type="local" system_name="nci" dtype="SAI" prt_id="1000" retired_indicator = "false" />
     <IDENTIFIERS id="1002" version="1" value="grid" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator = "false" />   

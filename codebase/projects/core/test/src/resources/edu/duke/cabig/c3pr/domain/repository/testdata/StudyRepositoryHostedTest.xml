@@ -10,14 +10,13 @@
 
      <comp_stu_associations id="1000" mandatory_indicator="1" parent_version_id='1001' companion_study_id='1002' retired_indicator='false'/>
 
+    <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000"
+                  administrative_gender_code="M"  retired_indicator="false"/>
+   
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA"
                postal_code="20191" country_code="USA" retired_indicator="false"/>
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171"
                country_code="USA" retired_indicator="false"/>
-
-    <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000"
-                  administrative_gender_code="M"  add_id="1000" retired_indicator="false"/>
-
 
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000"
                    retired_indicator="false"/>

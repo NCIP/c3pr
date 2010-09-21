@@ -11,7 +11,7 @@
     
     <CONSENTS id="1000" version="0" name="consent 1" stu_version_id="1000" version_id="version 1" retired_indicator="false" mandatory_indicator="1" consenting_methods="WRITTEN"/>
     
-    <CONSENT_QUESTIONS id="1000" version="0" code="abc" text="Are yong to participate in tissue collection" con_id="1000" retired_indicator="false" />
+    <CONSENT_QUESTIONS id="1000" version="0" code="abc" text="Are you willing to participate in tissue collection" con_id="1000" retired_indicator="false" />
    
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" />
@@ -153,8 +153,8 @@
     <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1000" sti_id="1000" retired_indicator = "false" grid_id="1000" payment_method="medicare" disease_history_id="1000"/>
     <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="2001-04-01" stu_sub_dmgphcs_id="1001" sti_id="1000" retired_indicator = "false" grid_id="1001"  payment_method="self"/>
     <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1002" version="1" start_date="2003-09-01" stu_sub_dmgphcs_id="1002" sti_id="1001" retired_indicator = "false" grid_id="1002" payment_method="mediclaim"/>
-    <STUDY_SUBJECTS reg_workflow_status="ENROLLED" reg_data_entry_status="INCOMPLETE" id="1003" version="1" start_date="2007-05-01" stu_sub_dmgphcs_id="1003" sti_id="1001" retired_indicator = "false" grid_id="1003" payment_method="medicare"/>
-    <STUDY_SUBJECTS reg_workflow_status="ENROLLED" reg_data_entry_status="COMPLETE" id="1004" version="1" start_date="2010-07-01" stu_sub_dmgphcs_id="1004" sti_id="1001" retired_indicator = "false" grid_id="1004" payment_method="test payment"/>
+    <STUDY_SUBJECTS reg_workflow_status="ON_STUDY" reg_data_entry_status="INCOMPLETE" id="1003" version="1" start_date="2007-05-01" stu_sub_dmgphcs_id="1003" sti_id="1001" retired_indicator = "false" grid_id="1003" payment_method="medicare"/>
+    <STUDY_SUBJECTS reg_workflow_status="ON_STUDY" reg_data_entry_status="COMPLETE" id="1004" version="1" start_date="2010-07-01" stu_sub_dmgphcs_id="1004" sti_id="1001" retired_indicator = "false" grid_id="1004" payment_method="test payment"/>
 	
 	<study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false"/>
     <study_subject_versions id="1001" version="1" study_site_ver_id="1001" spa_id="1001" retired_indicator = "false" />
@@ -171,10 +171,10 @@
  	
 	<stu_sub_associations parent_stu_sub_id="1000" child_stu_sub_id="1001" />
     
-    <SCHEDULED_EPOCHS id="1000" version="1" start_date="2006-03-05" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1000" sc_epoch_workflow_status="REGISTERED" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
-    <SCHEDULED_EPOCHS id="1001" version="1" start_date="2007-01-02" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1005" sc_epoch_workflow_status="REGISTERED" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
-	<SCHEDULED_EPOCHS id="1002" version="1" start_date="2008-11-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1001" sc_epoch_workflow_status="PENDING" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
-    <SCHEDULED_EPOCHS id="1003" version="1" start_date="01-01-2000" eligibility_indicator="0" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1003"  eph_id="1000" sc_epoch_workflow_status="PENDING" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
+    <SCHEDULED_EPOCHS id="1000" version="1" start_date="2006-03-05" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1000" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
+    <SCHEDULED_EPOCHS id="1001" version="1" start_date="2007-01-02" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1005" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
+	<SCHEDULED_EPOCHS id="1002" version="1" start_date="2008-11-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1001" sc_epoch_workflow_status="PENDING_ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
+    <SCHEDULED_EPOCHS id="1003" version="1" start_date="01-01-2000" eligibility_indicator="0" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1003"  eph_id="1000" sc_epoch_workflow_status="PENDING_ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
     <SCHEDULED_EPOCHS id="1004" version="1" start_date="2010-01-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1004"  eph_id="1000" sc_epoch_workflow_status="OFF_EPOCH" sc_epoch_data_entry_status="COMPLETE" retired_indicator = "false" />
     
     <off_epoch_reasons id="1000" version="1" retired_indicator="false"  sceph_id="1004" reason_id="1000" />
