@@ -110,7 +110,7 @@ public class RegistrationControllerUtils {
 		}
 		if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
 			count--;
-		} else if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) {
+		} else if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.ON_EPOCH) {
 			reg_nonenrolled = true;
 			epoch_nonenrolled = true;
 		}
@@ -121,12 +121,12 @@ public class RegistrationControllerUtils {
 		if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
 				&& studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE
 				&& studySubject.getScheduledEpoch().getRequiresRandomization()
-				&& studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+				&& studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH) {
 			reg_unrandomized = true;
 			epoch_unrandomized = true;
 		}
 		switch (studySubject.getRegWorkflowStatus()) {
-		case ENROLLED:
+		case ON_STUDY:
 			reg_registered = true;
 			break;
 		case PENDING:
@@ -137,13 +137,13 @@ public class RegistrationControllerUtils {
 			break;
 		}
 		switch (studySubject.getScheduledEpoch().getScEpochWorkflowStatus()) {
-		case PENDING:
+		case PENDING_ON_EPOCH:
 			epoch_unapproved = true;
 			break;
-		case REGISTERED_BUT_NOT_RANDOMIZED:
+		case PENDING_RANDOMIZATION_ON_EPOCH:
 			epoch_disapproved = true;
 			break;
-		case REGISTERED:
+		case ON_EPOCH:
 			epoch_approved = true;
 			break;
 		}
@@ -219,8 +219,8 @@ public class RegistrationControllerUtils {
 				}
 			}
 			Set<RegistrationWorkFlowStatus> status = new HashSet<RegistrationWorkFlowStatus>();
-			status.add(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
-			status.add(RegistrationWorkFlowStatus.ENROLLED);
+			status.add(RegistrationWorkFlowStatus.PENDING_ON_STUDY);
+			status.add(RegistrationWorkFlowStatus.ON_STUDY);
 			for (StudySubject stSubject : studySubject.getChildStudySubjects()) {
 				if (!status.contains(stSubject.getRegWorkflowStatus())) {
 					return false;
@@ -239,8 +239,8 @@ public class RegistrationControllerUtils {
 		studySubject.getScheduledEpoch().setEligibilityIndicator(studySubject.getScheduledEpoch().evaluateEligibilityIndicator());
 		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(studySubject.evaluateScheduledEpochDataEntryStatus((List)new ArrayList<Error>()));
 		if(studySubject.getParentStudySubject()!=null && studySubject.isDataEntryComplete()){
-        	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
-        	studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+        	studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING_ON_STUDY);
+        	studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.ON_EPOCH);
 		}
 	}
 	
@@ -318,7 +318,7 @@ public class RegistrationControllerUtils {
     	StudySubject studySubject = wrapper.getStudySubject();
     	
     	String actionLabel = "" ;
-    	if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+    	if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY) {
     		if(wrapper.getShouldReserve()){
 	    		actionLabel = "Reserve" ;
 	    	}else if(wrapper.getShouldRegister()){
@@ -344,7 +344,7 @@ public class RegistrationControllerUtils {
     public String getTabTitle(StudySubjectWrapper wrapper){
     	StudySubject studySubject = wrapper.getStudySubject();
     	String tabTitle = "" ;
-    	if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+    	if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY) {
     		if(wrapper.getShouldReserve()){
 	    		tabTitle = "Review & Reserve" ;
 	    	}else if(wrapper.getShouldRegister()){
@@ -416,20 +416,20 @@ public class RegistrationControllerUtils {
 			isTransfer = true ;
 		}
 		if(!hasCompanion){
-			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED){
+			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.ON_EPOCH){
 				imageAndMessage.add("info");
-				if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
+				if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ON_STUDY){
 					if(isTransfer){
 						imageAndMessage.add("TRANSFER.ENROLLING.EPOCH.SUCCESS") ;
 						return imageAndMessage ;
 					}else{
-						imageAndMessage.add("REGISTRATION.ENROLLED") ;
+						imageAndMessage.add("REGISTRATION.ON_STUDY") ;
 						return imageAndMessage ;
 					}
 				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED){
 					imageAndMessage.add("REGISTRATION.RESERVED") ;
 					return imageAndMessage ;
-				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED){
+				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING_ON_STUDY){
 					if(isTransfer){
 						imageAndMessage.add("TRANSFER.NONENROLLED") ;
 						return imageAndMessage ;
@@ -438,7 +438,7 @@ public class RegistrationControllerUtils {
 						return imageAndMessage ;
 					}
 				}
-			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING){
+			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH){
 				imageAndMessage.add("error");
 				EndPoint endpoint= studySubject.getStudySite().getStudy().getStudyCoordinatingCenter().getLastAttemptedRegistrationEndpoint();
 				if(isTransfer){
@@ -458,32 +458,32 @@ public class RegistrationControllerUtils {
 					}
 					return imageAndMessage ;
 				}
-			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED && studySubject.getParentStudySubject() != null){
+			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_RANDOMIZATION_ON_EPOCH && studySubject.getParentStudySubject() != null){
 				imageAndMessage.add("error");
 				imageAndMessage.add("REGISTRATION.COMPANION.PARENTINCOMPLETE") ;
 				return imageAndMessage ;
 			}
 		}else{
-			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED){
+			if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.ON_EPOCH){
 				imageAndMessage.add("info");
-				if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
+				if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ON_STUDY){
 					if(isTransfer){
 						ScheduledEpoch previousScheduledEpoch = studySubject.getScheduledEpochs().get(epochs - 2);
 						if(previousScheduledEpoch.getEpoch().getEnrollmentIndicator()){
 							imageAndMessage.add("TRANSFER.ENROLLING.EPOCH.SUCCESS") ;
 							return imageAndMessage ;
 						}else{
-							imageAndMessage.add("REGISTRATION.COMPANION.ENROLLED") ;
+							imageAndMessage.add("REGISTRATION.COMPANION.ON_STUDY") ;
 							return imageAndMessage ;
 						}
 					}else{
-						imageAndMessage.add("REGISTRATION.COMPANION.ENROLLED") ;
+						imageAndMessage.add("REGISTRATION.COMPANION.ON_STUDY") ;
 						return imageAndMessage ;
 					}
 				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED){
 					imageAndMessage.add("REGISTRATION.RESERVED") ;
 					return imageAndMessage ;
-				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED){
+				}else if(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING_ON_STUDY){
 					if(isTransfer){
 						imageAndMessage.add("TRANSFER.NONENROLLED") ;
 						return imageAndMessage ;
@@ -492,7 +492,7 @@ public class RegistrationControllerUtils {
 						return imageAndMessage ;
 					}
 				}
-			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING){
+			}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH){
 				imageAndMessage.add("error");
 				if(isTransfer){
 					if(studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){

@@ -157,6 +157,6 @@ public class RegistrationConfirmAndRandomizeController extends
 		this.armDao = armDao;
 	}
 	private boolean validSubmit(StudySubject studySubject) {
-		return studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED;
+		return studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_RANDOMIZATION_ON_EPOCH;
 	}
 }

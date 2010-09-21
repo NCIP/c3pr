@@ -31,9 +31,9 @@ public class ManageCompanionRegistrationTab<C extends StudySubjectWrapper> exten
 		map.put("companions", getCompanionStudySubject(request));
 		boolean actionRequired = false;
 		String actionLabel = "";
-		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING && studySubject.isDataEntryComplete()) {
+		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH && studySubject.isDataEntryComplete()) {
 			actionRequired = true;
-			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY) {
 				if (studySubject.getScheduledEpoch().getEpoch().isEnrolling())
 					actionLabel = "Enroll";
 				else

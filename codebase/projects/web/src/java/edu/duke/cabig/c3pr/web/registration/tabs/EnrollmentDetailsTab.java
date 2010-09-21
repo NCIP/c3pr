@@ -59,13 +59,13 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     	 
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command ;
     	StudySubject studySubject = wrapper.getStudySubject();
-    	if(studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED && studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
+    	if(studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY && studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
     		studySubject.getScheduledEpoch().setStartDate(studySubject.getStartDate());
     	}
     	
     	// set the scheduled epoch start date to registration start date for first time enrollment
     	if(command.getStudySubject().getScheduledEpoch().getEpoch().getEnrollmentIndicator() &&
-    			command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
+    			command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY){
     		command.getStudySubject().getScheduledEpoch().setStartDate(command.getStudySubject().getStartDate());
     	}
     		

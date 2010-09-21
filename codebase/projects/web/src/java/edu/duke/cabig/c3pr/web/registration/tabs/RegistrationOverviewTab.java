@@ -123,7 +123,7 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 
 		}
 		
-		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING
+		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH
 				&& studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
 				&& studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE) {
 			actionRequired = true;
@@ -247,9 +247,9 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 			if(epoch.getType() == EpochType.RESERVING){
 				return "RESERVED" ;
 			}else if(epoch.getEnrollmentIndicator()) {
-				return "ENROLLED" ;
+				return "ON_STUDY" ;
 			}else {
-				return "REGISTERED_BUT_NOT_ENROLLED" ;
+				return "PENDING_ON_STUDY" ;
 			}
 		}
 		return "flow";
@@ -295,14 +295,14 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 			if(!childStudySubject.getDataEntryStatus()){
 				return true ;
 			}
-			if(childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.ENROLLED){
+			if(childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.ON_STUDY){
 				CompanionStudyAssociation studyAssociation = studySubject.getMatchingCompanionStudyAssociation(childStudySubject);
 				if (studyAssociation != null) {
 					if (studyAssociation.getMandatoryIndicator()) {
 						if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
 							return true;
 						}
-						if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
+						if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.PENDING_ON_STUDY || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH){
 							return true;
 						}
 						

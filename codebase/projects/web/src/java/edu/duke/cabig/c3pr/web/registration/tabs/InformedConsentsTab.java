@@ -51,7 +51,7 @@ public class InformedConsentsTab extends RegistrationTab<StudySubjectWrapper> {
        if(request.getSession().getAttribute("canEnroll") !=null ){
        	request.getSession().removeAttribute("canEnroll");
        }
-    	if(studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED && studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
+    	if(studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY && studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
     		studySubject.getScheduledEpoch().setStartDate(studySubject.getStartDate());
     	}
     	if(WebUtils.hasSubmitParameter(request, "updateStudyVersion") && request.getParameter("updateStudyVersion").equals("true")){
@@ -75,7 +75,7 @@ public class InformedConsentsTab extends RegistrationTab<StudySubjectWrapper> {
     	
     	// set the scheduled epoch start date to registration start date for first time enrollment
     	if(command.getStudySubject().getScheduledEpoch().getEpoch().getEnrollmentIndicator() &&
-    			command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED){
+    			command.getStudySubject().getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY){
     		command.getStudySubject().getScheduledEpoch().setStartDate(command.getStudySubject().getStartDate());
     	}
     		

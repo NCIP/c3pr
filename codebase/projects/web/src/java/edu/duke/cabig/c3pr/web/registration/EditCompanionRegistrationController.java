@@ -37,7 +37,7 @@ public class EditCompanionRegistrationController<C extends StudySubjectWrapper> 
                     Object command, BindException errors) throws Exception {
     	StudySubjectWrapper wrapper = (StudySubjectWrapper) command;
         StudySubject studySubject = wrapper.getStudySubject();
-        if(!(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED)){
+        if(!(studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING_ON_STUDY || studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED)){
 	        if(wrapper.getShouldReserve()){
 	        	studySubject=studySubjectRepository.reserve(studySubject.getUniqueIdentifier());
 	        }else if(wrapper.getShouldRegister() ||(wrapper.getShouldEnroll() && wrapper.getShouldRandomize()) ){

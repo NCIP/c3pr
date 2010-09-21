@@ -67,7 +67,7 @@ public class StudySubjectWrapper {
 			return false;
 		}
 		return (this.studySubject.getScheduledEpoch().getEpoch().getType() == EpochType.RESERVING
-				&& (this.studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) 
+				&& (this.studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH) 
 				&& (this.studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING));
 	}
 	
@@ -80,7 +80,7 @@ public class StudySubjectWrapper {
 		boolean enrollmentIndicator = this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator() ;
 		
 		if(this.studySubject.getParentStudySubject() != null){
-			if((reservationIndicator || enrollmentIndicator) && this.studySubject.getParentStudySubject().getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
+			if((reservationIndicator || enrollmentIndicator) && this.studySubject.getParentStudySubject().getRegWorkflowStatus() == RegistrationWorkFlowStatus.ON_STUDY){
 				return false;
 			}else{
 				return true;
@@ -94,10 +94,12 @@ public class StudySubjectWrapper {
 		if(!this.studySubject.getDataEntryStatus()){
 			return false;
 		}
-		
+		if(this.studySubject.getStartDate() == null){
+			return false;
+		}
 		boolean enrollmentIndicator  = this.studySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator() ;
 		if(this.studySubject.getParentStudySubject() != null && enrollmentIndicator){
-			if(this.studySubject.getParentStudySubject().getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
+			if(this.studySubject.getParentStudySubject().getRegWorkflowStatus() == RegistrationWorkFlowStatus.ON_STUDY){
 				return true ;
 			}else{
 				return false ;
@@ -111,11 +113,15 @@ public class StudySubjectWrapper {
 		if(!this.studySubject.getDataEntryStatus()){
 			return false;
 		}
+		
+		if(this.studySubject.getStartDate() == null){
+			return false;
+		}
 
 		Boolean requiresRandomization = this.getStudySubject().getScheduledEpoch().getRequiresRandomization();
 
 		if(this.studySubject.getParentStudySubject() != null && requiresRandomization){
-			if(this.studySubject.getParentStudySubject().getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED){
+			if(this.studySubject.getParentStudySubject().getRegWorkflowStatus() == RegistrationWorkFlowStatus.ON_STUDY){
 				return true ;
 			}else{
 				return false ;
@@ -126,7 +132,7 @@ public class StudySubjectWrapper {
 	}
 	
 	public Boolean getShouldTransfer(){
-		if (this.studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.ENROLLED){
+		if (this.studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.ON_STUDY){
 			if(this.studySubject.getDataEntryStatus()){
 				return true;
 			}
