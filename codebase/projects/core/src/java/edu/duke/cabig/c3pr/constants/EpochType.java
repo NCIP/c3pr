@@ -6,7 +6,8 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum EpochType implements CodedEnum<String>{
-	RESERVING("Reserving"), SCREENING("Screening"), TREATMENT("Treatment"), FOLLOWUP("Follow-up");
+	RESERVING("Reserving"), SCREENING("Screening"), TREATMENT("Treatment"), FOLLOWUP("Follow-up"),
+	OBSERVATION("Observation"), OTHER("Other");
 
 	private String code;
 
