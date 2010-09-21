@@ -178,5 +178,6 @@
 	<classpathentry kind="lib" path="build/lib/RegistrationService-stubs-2.9.2-local-20100921165449.jar"/>
 	<classpathentry kind="lib" path="build/lib/RegistrationService-tests-2.9.2-local-20100921165449.jar"/>
 	<classpathentry kind="lib" path="build/lib/remoteentitymanager-1.2.jar"/>
+	<classpathentry kind="lib" path="build/lib/slf4j-nop-1.4.3.jar"/>
 	<classpathentry kind="output" path="bin1"/>
 </classpath>
