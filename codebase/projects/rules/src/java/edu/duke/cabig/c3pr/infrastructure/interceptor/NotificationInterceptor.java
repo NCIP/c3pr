@@ -252,9 +252,9 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		} else {
 			//if the prev status is null or pendign and current status is registered then its a new registration
 			//else its a reg status change.
-			if(currentRegStatus.equals(RegistrationWorkFlowStatus.ENROLLED) &&
+			if(currentRegStatus.equals(RegistrationWorkFlowStatus.ON_STUDY) &&
 				(previousRegStatus == null || previousRegStatus.equals(RegistrationWorkFlowStatus.PENDING) ||
-						previousRegStatus.equals(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED) || previousRegStatus.equals(RegistrationWorkFlowStatus.RESERVED)) ){
+						previousRegStatus.equals(RegistrationWorkFlowStatus.PENDING_ON_STUDY) || previousRegStatus.equals(RegistrationWorkFlowStatus.RESERVED)) ){
 				event = NotificationEventTypeEnum.NEW_REGISTRATION_EVENT;
 				//run rules seperately for the accruals use case
 				activateRulesForAccruals(studySubject);
