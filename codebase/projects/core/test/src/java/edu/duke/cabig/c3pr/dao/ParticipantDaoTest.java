@@ -710,7 +710,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
 						"edu.duke.cabig.c3pr.domain.Address",  "postalCode",
-						"20171", "=");
+						"20191", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
