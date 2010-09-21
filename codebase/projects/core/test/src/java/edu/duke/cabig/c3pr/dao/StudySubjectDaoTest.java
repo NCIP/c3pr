@@ -850,7 +850,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
             }
         }
         // evaluate status
-        if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+        if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH) {
             manageSchEpochWorkFlowStatusIfUnApp(studySubject);
         }
 //        if (studySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.UNREGISTERED) {
@@ -906,12 +906,12 @@ public class StudySubjectDaoTest extends DaoTestCase {
             if (studySubject.getStudySite().getStudy().getMultiInstitutionIndicator()) {
                 // broadcase message to co-ordinating center
                 try {
-                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
                     scheduledEpoch
-                                    .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+                                    .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH);
                 }
             }
             else {
@@ -919,16 +919,16 @@ public class StudySubjectDaoTest extends DaoTestCase {
                                 && (studySubject.getScheduledEpoch())
                                                 .getScheduledArm() == null) {
                     scheduledEpoch
-                                    .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+                                    .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH);
                 }
                 else {
                     // logic for accrual ceiling check
-                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.ON_EPOCH);
                 }
             }
         }
         else {
-            scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+            scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH);
         }
     }
 
@@ -937,15 +937,15 @@ public class StudySubjectDaoTest extends DaoTestCase {
 //        if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.DISAPPROVED) {
 //            studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
 //        }
-        if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+        if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH) {
             studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
         }
-        else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) {
+        else if (scheduledEpoch.getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.ON_EPOCH) {
             if (scheduledEpoch.isReserving()) {
                 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
             }
             else {
-                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ON_STUDY);
             }
         }
     }
@@ -1401,7 +1401,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
      // Test cases for registration attributes
      public void testGetResultSetWithHQLForWorkFlowStatus() throws Exception {
     	List<String> values = new ArrayList<String>();
-    	values.add("ENROLLED");
+    	values.add("ON_STUDY");
     	
  		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.StudySubject", "regWorkflowStatus.code", values, "=");
  
@@ -1936,7 +1936,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	
 	public void testGetResultSetWithHQLForScheduledEpochWorkFlowStatus() throws Exception {
 		List<String> values = new ArrayList<String>();
-       	values.add("PENDING");
+       	values.add("PENDING_ON_EPOCH");
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(

@@ -533,7 +533,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	 * @return the incomplete registrations
 	 */
     public List<StudySubject> getIncompleteRegistrations(){
-    	List<StudySubject> studySubjects = (List<StudySubject>) getHibernateTemplate().find( "select distinct ss from StudySubject ss join ss.studySubjectStudyVersions sssv join sssv.scheduledEpochs se where  (se.scEpochWorkflowStatus = 'PENDING' OR se.scEpochWorkflowStatus = 'REGISTERED_BUT_NOT_RANDOMIZED')");
+    	List<StudySubject> studySubjects = (List<StudySubject>) getHibernateTemplate().find( "select distinct ss from StudySubject ss join ss.studySubjectStudyVersions sssv join sssv.scheduledEpochs se where  (se.scEpochWorkflowStatus = 'PENDING_ON_EPOCH' OR se.scEpochWorkflowStatus = 'PENDING_RANDOMIZATION_ON_EPOCH')");
     	return studySubjects ;
     }
 
@@ -729,7 +729,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 	public List<Study> getMostEnrolledStudies(Date startDate, Date endDate){
     	List<Study> listStudies = new ArrayList<Study>();
 		
-		List<StudySubject> studySubjects =  getHibernateTemplate().find("select ss from StudySubject ss where ss.regWorkflowStatus=? and ss.startDate between ? and ? order by ss.id desc", new Object[]{RegistrationWorkFlowStatus.ENROLLED, startDate, endDate});
+		List<StudySubject> studySubjects =  getHibernateTemplate().find("select ss from StudySubject ss where ss.regWorkflowStatus=? and ss.startDate between ? and ? order by ss.id desc", new Object[]{RegistrationWorkFlowStatus.ON_STUDY, startDate, endDate});
     	for(StudySubject ss : studySubjects){
     		Study s = ss.getStudySite().getStudy();
     		listStudies.add(s);

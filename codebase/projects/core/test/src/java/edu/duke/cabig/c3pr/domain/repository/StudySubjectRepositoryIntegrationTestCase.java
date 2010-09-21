@@ -180,8 +180,8 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
             return;
         }
         
-        assertEquals("Wrong registration status",RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED,studySubject.getRegWorkflowStatus());
-        assertEquals("Wrong scheduled epoch status",ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED,studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong registration status",RegistrationWorkFlowStatus.PENDING_ON_STUDY,studySubject.getRegWorkflowStatus());
+        assertEquals("Wrong scheduled epoch status",ScheduledEpochWorkFlowStatus.PENDING_RANDOMIZATION_ON_EPOCH,studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
     
 //    public void testDoLocalRegistrationRandomizedStudyArmAssignedPhoneCall() throws Exception{
@@ -218,8 +218,8 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
            e.printStackTrace();
            fail();
         }
-        assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ENROLLED,studySubject.getRegWorkflowStatus());
-        assertEquals("Wrong scheduled epoch status",ScheduledEpochWorkFlowStatus.REGISTERED,studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong registration status",RegistrationWorkFlowStatus.ON_STUDY,studySubject.getRegWorkflowStatus());
+        assertEquals("Wrong scheduled epoch status",ScheduledEpochWorkFlowStatus.ON_EPOCH,studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
     }
     
 //    public void testDoLocalRegistrationRandomizedStudyBookStratumGroupPresent() throws Exception{
@@ -461,7 +461,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
 		 studySubjectIdentifier.setType("C3PR");
 		 studySubjectIdentifier.setValue("id1");
 		 studySubject.addIdentifier(studySubjectIdentifier);
-		 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+		 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING_ON_STUDY);
 		 studySubjectDao.save(studySubject);
 		 Integer id = studySubject.getId();
 		 interruptSession();

@@ -6,8 +6,8 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum ScheduledEpochWorkFlowStatus implements CodedEnum<String> {
-     PENDING("Pending"), REGISTERED_BUT_NOT_RANDOMIZED("Registered But Not Randomized"),REGISTERED("Registered"),
-     OFF_EPOCH("Off Epoch");
+     PENDING_ON_EPOCH("Pending On-Epoch"), PENDING_RANDOMIZATION_ON_EPOCH("Pending Randomizaiton On-Epoch"),ON_EPOCH("On-Epoch"),
+     OFF_EPOCH("Off-Epoch");
 
     private String code;
 

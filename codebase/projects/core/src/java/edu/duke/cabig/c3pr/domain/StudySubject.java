@@ -855,39 +855,12 @@ public class StudySubject extends
 	 * @param errors the errors
 	 */
 	public void evaluateRegistrationDataEntryStatus(List<Error> errors) {
-		if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ALL){
-			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-				if(studySubjectConsentVersion.getConsent() == null){
-					errors.add(new Error("Informed consent version is missing"));
-				}
-				if(StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
-					errors.add(new Error("Informed consent signed date is missing"));
-				}
-			}
-		}else if(this.getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
-			boolean consentDataEntryInComplete = true ;
-			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-				if(studySubjectConsentVersion.getConsent() != null ){
-					consentDataEntryInComplete = false ;
-					break;
-				}
-			}
-			if(consentDataEntryInComplete){
-				errors.add(new Error("Informed consent version is missing"));
-			}
-			
-			boolean consentSignedDataEntryInComplete = true ;
-			
-			for(StudySubjectConsentVersion studySubjectConsentVersion : this.getStudySubjectStudyVersion().getStudySubjectConsentVersions()){
-				if(!StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
-					consentSignedDataEntryInComplete = false ;
-					break;
-				}
-			}
-			if(consentSignedDataEntryInComplete){
-				errors.add(new Error("Informed consent signed date is missing"));
-			}
+		
+	for(StudySubjectConsentVersion studySubjectConsentVersion : this.getLatestStudySubjectVersion().getStudySubjectConsentVersions()){
+		if(studySubjectConsentVersion.getConsent().getMandatoryIndicator() && StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+			errors.add(new Error("Mandatory informed consent signed date for consent " + studySubjectConsentVersion.getConsent().getName() + " is missing."));
 		}
+	}
 		// register errors for child registrations 
 		for(StudySubject childStudySubject : this.getChildStudySubjects()){
 			childStudySubject.evaluateRegistrationDataEntryStatus(errors);
@@ -895,7 +868,6 @@ public class StudySubject extends
 		if(this.getParentStudySubject() == null && getWorkPendingOnMandatoryCompanionRegistrations()){
 			errors.add(new Error("Mandatory companion is not registered"));
 		}
-
 	}
 
 	/**
@@ -1179,7 +1151,7 @@ public class StudySubject extends
 	public void register() {
 		ScheduledEpoch scheduledEpoch = getScheduledEpoch();
 		Epoch epoch = scheduledEpoch.getEpoch();
-		if (scheduledEpoch.getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
+		if (scheduledEpoch.getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH) {
 			throw new C3PRBaseRuntimeException("StudySubject already registered on the epoch :" + epoch.getName());
 		} else {
 			// This returns errors
@@ -1193,20 +1165,20 @@ public class StudySubject extends
 				if (epoch.getRandomizedIndicator()) {
 					scheduledEpoch
 							.setScEpochWorkflowStatus(
-									ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED);
+									ScheduledEpochWorkFlowStatus.PENDING_RANDOMIZATION_ON_EPOCH);
 					// only if the study subject is still unregistered(i.e. for
 					// the 1st epoch), we update it's status.
 					// else, the study subject continues to have his/her
 					// previous registration status.
 					if (this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING || this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED) {
 						this
-								.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+								.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING_ON_STUDY);
 					}
 
 				} else {
 					if(!epoch.getEnrollmentIndicator()){
 						scheduledEpoch.setScEpochWorkflowStatus(
-							ScheduledEpochWorkFlowStatus.REGISTERED);
+							ScheduledEpochWorkFlowStatus.ON_EPOCH);
 					}
 					// only if the study subject is still unregistered(i.e. for
 					// the 1st epoch), we update it's status.
@@ -1214,9 +1186,9 @@ public class StudySubject extends
 					// previous registration status.
 					if (this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING || this.getRegWorkflowStatus() == RegistrationWorkFlowStatus.RESERVED) {
 						this
-								.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+								.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING_ON_STUDY);
 						if(this.getParentStudySubject()!=null){
-							this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+							this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.ON_EPOCH);
 						}
 					}
 				}
@@ -1250,7 +1222,7 @@ public class StudySubject extends
 							" Cannot reserve a spot because data entry is not complete",
 							errors);
 				} else {
-					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.ON_EPOCH);
 					this.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 				}
 			}
@@ -1359,7 +1331,7 @@ public class StudySubject extends
 	}
 
 	public void takeSubjectOffStudy(List<OffEpochReason> offStudyReasons, Date offStudyDate) {
-		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY) {
 			throw new C3PRBaseRuntimeException(
 					"The subject has to be enrolled before being taken off study");
 		}
@@ -1374,7 +1346,7 @@ public class StudySubject extends
 	}
 	
 	public void takeSubjectOffCurrentEpoch(List<OffEpochReason> offEpochReasons, Date offEpochDate) {
-		if (this.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
+		if (this.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.ON_EPOCH) {
 			throw new C3PRBaseRuntimeException(
 					"The subject has to be successfully registered on the epoch before being taken off epoch");
 		}
@@ -1399,7 +1371,7 @@ public class StudySubject extends
 	 * @return the study subject
 	 */
 	public StudySubject transfer() {
-		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY) {
 			throw new C3PRBaseRuntimeException(
 					"The subject has to be enrolled before being transferred");
 		}
@@ -1410,11 +1382,11 @@ public class StudySubject extends
 							getCode("C3PR.EXCEPTION.REGISTRATION.TRANSFER.CANNOT_TO_LOWER_ORDER_EPOCH.CODE"));
 		}
 
-		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
-			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.ON_EPOCH) {
+			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH) {
 				register();
 			}
-			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED) {
+			if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_RANDOMIZATION_ON_EPOCH) {
 				if (!isRandomizedOnScheduledEpoch()) {
 					if (!getStudySite().getHostedMode()
 							&& !this.getStudySite().getStudy()
@@ -1443,7 +1415,7 @@ public class StudySubject extends
 				}
 			}
 			getScheduledEpoch().setScEpochWorkflowStatus(
-					ScheduledEpochWorkFlowStatus.REGISTERED);
+					ScheduledEpochWorkFlowStatus.ON_EPOCH);
 		}
 		return this;
 	}
@@ -1560,7 +1532,7 @@ public class StudySubject extends
 	 */
 	public void prepareForEnrollment() {
 
-		if (!this.getStudySite().getStudy().getStandaloneIndicator() && this.getParentStudySubject() != null && this.getParentStudySubject().regWorkflowStatus!=RegistrationWorkFlowStatus.ENROLLED) {
+		if (!this.getStudySite().getStudy().getStandaloneIndicator() && this.getParentStudySubject() != null && this.getParentStudySubject().regWorkflowStatus!=RegistrationWorkFlowStatus.ON_STUDY) {
 			throw new C3PRBaseRuntimeException(" Cannot directly register on the embedded study. The registration can happen only through the parent");
 		}
 
@@ -1587,7 +1559,7 @@ public class StudySubject extends
 			this.getScheduledEpoch().setStartDate(this.getStartDate());
 			log.debug("Setting the registration start date to scheduled epoch start date");
 
-		if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+		if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH) {
 			register();
 			
 			canEnroll(errors);
@@ -1603,13 +1575,13 @@ public class StudySubject extends
 	 */
 	public void doLocalEnrollment() {
 		ScheduledEpochWorkFlowStatus scEpochWorkflowStatus = getScheduledEpoch().getScEpochWorkflowStatus();
-		if (scEpochWorkflowStatus != ScheduledEpochWorkFlowStatus.REGISTERED) {
-			if (scEpochWorkflowStatus == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED){
+		if (scEpochWorkflowStatus != ScheduledEpochWorkFlowStatus.ON_EPOCH) {
+			if (scEpochWorkflowStatus == ScheduledEpochWorkFlowStatus.PENDING_RANDOMIZATION_ON_EPOCH){
 				doLocalRandomization();
 			}
-			this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+			this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.ON_EPOCH);
 		}
-		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ON_STUDY);
 	}
 
 	/**
@@ -1635,8 +1607,8 @@ public class StudySubject extends
 		organizationAssignedIdentifier.setType(coordinatingCenterAssignedIdentifier.getType());
 		organizationAssignedIdentifier.setValue(coordinatingCenterAssignedIdentifier.getValue());
 		this.addIdentifier(organizationAssignedIdentifier);
-		this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
-		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+		this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.ON_EPOCH);
+		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ON_STUDY);
 
 		// TODO This should also set all the child studysubjects which are in
 		// 'REGISTERED_BUT_NOT_ENROLLED' state to enrolled"
@@ -1657,28 +1629,28 @@ public class StudySubject extends
 			ScheduledArm scheduledArm= scheduledEpoch.getScheduledArm()==null?scheduledEpoch.getScheduledArms().get(0):scheduledEpoch.getScheduledArm();
 			scheduledArm.setArm(arm);
 		}
-		this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+		this.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.ON_EPOCH);
 	}
 
 	/**
 	 * Do local transfer.
 	 */
 	public void doLocalTransfer() {
-		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
-				if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED_BUT_NOT_RANDOMIZED){
+		if (getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.ON_EPOCH) {
+				if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_RANDOMIZATION_ON_EPOCH){
 					doLocalRandomization();
 				}
 			this.getScheduledEpoch().setScEpochWorkflowStatus(
-					ScheduledEpochWorkFlowStatus.REGISTERED);
+					ScheduledEpochWorkFlowStatus.ON_EPOCH);
 		}
-		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+		this.setRegWorkflowStatus(RegistrationWorkFlowStatus.ON_STUDY);
 	}
 
 	/**
 	 * Prepare for transfer.
 	 */
 	public void prepareForTransfer() {
-		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+		if (getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY) {
 			throw new C3PRBaseRuntimeException(
 					"The subject has to be enrolled before being transferred");
 		}
@@ -1689,7 +1661,7 @@ public class StudySubject extends
 							getCode("C3PR.EXCEPTION.REGISTRATION.TRANSFER.CANNOT_TO_LOWER_ORDER_EPOCH.CODE"));
 		}
 
-		if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING) {
+		if (getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH) {
 			register();
 		}
 
@@ -1703,6 +1675,10 @@ public class StudySubject extends
 	 * @return the list< error>
 	 */
 	public List<Error> canEnroll(List<Error> errors){
+		
+		if(this.startDate == null){
+			errors.add(new Error("Registration start date is missing"));
+		}
 		
 		StudySiteStudyVersion studySiteStudyVersion = this.getStudySubjectStudyVersion().getStudySiteStudyVersion();
 		
@@ -1794,14 +1770,14 @@ public class StudySubject extends
 			if(!childStudySubject.getDataEntryStatus()){
 				return true ;
 			}
-			if(childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.ENROLLED){
+			if(childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.ON_STUDY){
 				CompanionStudyAssociation studyAssociation = getMatchingCompanionStudyAssociation(childStudySubject);
 				if (studyAssociation != null) {
 					if (studyAssociation.getMandatoryIndicator()) {
 						if (!childStudySubject.getScheduledEpoch().getEpoch().getEnrollmentIndicator()) {
 							return true;
 						}
-						if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
+						if (childStudySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.PENDING_ON_STUDY || childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH){
 							return true;
 						}
 
@@ -1940,7 +1916,7 @@ public class StudySubject extends
 	
 	@Transient
 	public boolean isCurrentEpochWorkflowComplete(){
-		return getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED || 
+		return getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.ON_EPOCH || 
 		getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.OFF_EPOCH;
 	}
 	
@@ -1955,7 +1931,7 @@ public class StudySubject extends
 	
 	@Transient
 	public boolean canTakeSubjectOffStudy() {
-		if (regWorkflowStatus == RegistrationWorkFlowStatus.ENROLLED) {
+		if (regWorkflowStatus == RegistrationWorkFlowStatus.ON_STUDY) {
 			return true;
 		}
 		return false;
@@ -1963,26 +1939,21 @@ public class StudySubject extends
 	
 	@Transient
 	public boolean canFailScreening() {
-		if (regWorkflowStatus != RegistrationWorkFlowStatus.ENROLLED &&
+		if (regWorkflowStatus != RegistrationWorkFlowStatus.ON_STUDY &&
 				regWorkflowStatus != RegistrationWorkFlowStatus.OFF_STUDY &&
 				getScheduledEpoch().getEpoch().getType() == EpochType.SCREENING &&
-				getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.REGISTERED) {
+				getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.ON_EPOCH) {
 			return true;
 		}
 		return false;
 	}
 	
-	/*@Transient
-	public List<StudySubjectConsentVersion> getStudySubjectConsentVersions() {
-		return getStudySubjectStudyVersion().getStudySubjectConsentVersions();
-	}*/
-
 	public void addOriginalStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion) {
 		this.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
 	}
 	
 	public boolean canAllowEligibilityWaiver(){
-		if(getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING
+		if(getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH
 				&& getScheduledEpoch().hasWaivableEligibilityAnswers()){
 			return true;
 		}
@@ -2215,7 +2186,7 @@ public class StudySubject extends
 	@Transient
 	public Boolean canReConsent(String studyVersionName) {
 		
-		// a subject cannot re consent only if his/her registration is in reserved, registered but not 
+		// a subject can re consent only if his/her registration is in reserved, registered but not 
 		//enrolled or enrolled status. 
 		
 		if(getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING || getRegWorkflowStatus() == 
@@ -2365,10 +2336,30 @@ public class StudySubject extends
 			}
 		}
 	}
+	
 	// END
 	// ReConsent API
-
-	@OneToMany
+	
+	@Transient
+	public boolean canDiscontinueEnrollment(){
+		return (this.regWorkflowStatus==RegistrationWorkFlowStatus.PENDING || this.regWorkflowStatus
+				==RegistrationWorkFlowStatus.RESERVED || this.regWorkflowStatus==RegistrationWorkFlowStatus.PENDING_ON_STUDY);
+	}
+	
+	@Transient
+	public void discontinueEnrollment(List<OffEpochReason> discontinueEpochReasons, Date discontinueEpochDate) {
+		ScheduledEpoch scheduledEpoch = getScheduledEpoch();
+		if(canDiscontinueEnrollment()){
+			scheduledEpoch.takeSubjectOffEpoch(discontinueEpochReasons, discontinueEpochDate);
+			setRegWorkflowStatus(RegistrationWorkFlowStatus.NOT_REGISTERED);
+		}else{
+			throw new C3PRBaseRuntimeException(
+					"The subject is not on-study yet. The subject cannot discontinue registration but only be taken off study.");
+		}
+		
+	}
+	
+		@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "stu_sub_id", nullable=false)
 	public List<StudySubjectRegistryStatus> getStudySubjectRegistryStatusHistoryInternal() {
@@ -2436,5 +2427,5 @@ public class StudySubject extends
 		Collections.reverse(sorted);
 		return sorted;
 	} 
-	
-}
+		
+	}

@@ -69,4 +69,6 @@ public interface StudySubjectRepository {
 	public StudySubject takeSubjectOffCurrentEpoch(Identifier studySubjectIdentifier, List<OffEpochReason> offEpochReasons, Date offEpochDate);
 	
 	public StudySubject reConsent(String studyVersionName, List<StudySubjectConsentVersion> studySubjectConsentVersionsHolder, Identifier studySubjectIdentifier);
+	
+	public StudySubject discontinueEnrollment(Identifier studySubjectIdentifier, List<OffEpochReason> discontinueEpochReasons, Date discontinueEpochDate);
 }

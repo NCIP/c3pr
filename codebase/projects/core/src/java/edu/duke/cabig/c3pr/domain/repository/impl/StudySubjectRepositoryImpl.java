@@ -192,14 +192,14 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		if(!hasC3PRAssignedIdentifier){
 			studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
 		}
-		studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.REGISTERED);
+		studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.ON_EPOCH);
 		if (studySubject.getScheduledEpoch().isReserving()) {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 		} else if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
-			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ENROLLED);
+			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.ON_STUDY);
 			
 		} else {
-			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING_ON_STUDY);
 		}
 		
 		//make sure there is atleast one primaryIdentifier
@@ -352,7 +352,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	}
 	
 	public void continueEnrollment(StudySubject studySubject) throws C3PRCodedException {
-		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
+		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.ON_EPOCH) {
 			studySubject.prepareForEnrollment();
 		}
 		
@@ -368,14 +368,14 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			//StudySubject multisiteReturnedStudySubject = studySubjectServiceImpl.getArmAndCoordinatingAssignedIdentifier(studySubject);
 			studySubject.doMutiSiteEnrollment(multisiteReturnedStudySubject.getScheduledEpoch(),multisiteReturnedStudySubject.getCoOrdinatingCenterIdentifier());
 		}else{
-			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ENROLLED) {
+			if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.ON_STUDY) {
 				studySubject.addIdentifier(identifierGenerator.generateOrganizationAssignedIdentifier(studySubject));
 			}
 			studySubject.doLocalEnrollment();
 		}
 		
 		for (StudySubject childStudySubject : studySubject.getChildStudySubjects()) {
-			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED && childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING) {
+			if (childStudySubject.getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING_ON_STUDY && childStudySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH) {
 				continueEnrollment(childStudySubject);
 			}
 		}
@@ -403,7 +403,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public StudySubject transferSubject(Identifier studySubjectIdentifier) {
 		StudySubject studySubject = getUniqueStudySubject(studySubjectIdentifier);
 		
-		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
+		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.ON_EPOCH) {
 			studySubject.prepareForTransfer();
 		}
 		
@@ -432,7 +432,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		if (studySubjects.size() > 1) {
             throw this.exceptionHelper.getRuntimeException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE_STUDYSUBJECTS_FOUND.CODE"));
         }
-		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.REGISTERED) {
+		if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() != ScheduledEpochWorkFlowStatus.ON_EPOCH) {
 			studySubject.prepareForTransfer();
 		}
 		
@@ -650,5 +650,20 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		StudySubject studySubject = getUniqueStudySubject(studySubjectIdentifier);
 		studySubject.reConsent(studyVersionName, studySubjectConsentVersionsHolder);
 		return studySubjectDao.merge(studySubject);
+	}
+
+	public StudySubject discontinueEnrollment(
+			Identifier studySubjectIdentifier,
+			List<OffEpochReason> discontinueEpochReasons, Date discontinueEpochDate) {
+			StudySubject studySubject = getUniqueStudySubject(studySubjectIdentifier);
+			for(OffEpochReason offEpochReason : discontinueEpochReasons){
+				if(offEpochReason.getReason().getId() != null){
+					offEpochReason.setReason(reasonDao.getById(offEpochReason.getReason().getId()));
+				}else{
+					offEpochReason.setReason(reasonDao.getReasonByCode(offEpochReason.getReason().getCode()));
+				}
+			}
+			studySubject.discontinueEnrollment(discontinueEpochReasons, discontinueEpochDate);
+			return studySubjectDao.merge(studySubject);
 	}
 }

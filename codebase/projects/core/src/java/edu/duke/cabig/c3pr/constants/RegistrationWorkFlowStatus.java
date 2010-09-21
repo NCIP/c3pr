@@ -7,8 +7,8 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum RegistrationWorkFlowStatus implements CodedEnum<String> {
    PENDING("Pending"),  RESERVED(
-                    "Reserved"),  OFF_STUDY("Off-Study"),  
-                    REGISTERED_BUT_NOT_ENROLLED("Registered but not enrolled"),ENROLLED("Enrolled") ,INVALID("Invalid"),
+                    "Reserved"),OFF_STUDY("Off-Study"),  
+                    PENDING_ON_STUDY("Pending On-Study"),ON_STUDY("On-Study") ,INVALID("Invalid"),
                     NOT_REGISTERED("Not Registered");
    
    // TODO

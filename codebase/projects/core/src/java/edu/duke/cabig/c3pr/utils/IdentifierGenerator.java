@@ -31,7 +31,7 @@ public class IdentifierGenerator {
 		List<StudySubject> studySubjects = studyDao.getStudySubjectsForStudy(studySubject.getStudySite().getStudy().getId());
 		int count = 1 ;
 		for(StudySubject s : studySubjects){
-			if (s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ENROLLED ||
+			if (s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.ON_STUDY ||
 					s.getRegWorkflowStatus() == RegistrationWorkFlowStatus.OFF_STUDY) {
 				count++;
 			}

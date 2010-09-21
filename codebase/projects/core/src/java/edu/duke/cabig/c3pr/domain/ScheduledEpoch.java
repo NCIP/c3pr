@@ -157,7 +157,7 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
      */
     public ScheduledEpoch() {
         this.startDate = new Date();
-        this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.PENDING;
+        this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH;
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(SubjectEligibilityAnswer.class,
                         new InstantiateFactory<SubjectEligibilityAnswer>(
@@ -180,7 +180,7 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
     public ScheduledEpoch(boolean forExample) {
         if (!forExample) {
             this.startDate = new Date();
-            this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.PENDING;
+            this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH;
 
         }
     }

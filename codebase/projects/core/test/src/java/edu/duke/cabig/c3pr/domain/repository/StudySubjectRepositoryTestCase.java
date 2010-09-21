@@ -398,7 +398,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 	        studySubjectCreatorHelper.bindEligibility(studySubject);
 	        studySubjectCreatorHelper.bindStratification(studySubject);
 	        studySubjectRepository.transferSubject(studySubject.getUniqueIdentifier());
-	        assertSame("The subject should have been successfully transferred",ScheduledEpochWorkFlowStatus.REGISTERED,studySubject.getScheduledEpochs().get(1).getScEpochWorkflowStatus());
+	        assertSame("The subject should have been successfully transferred",ScheduledEpochWorkFlowStatus.ON_EPOCH,studySubject.getScheduledEpochs().get(1).getScEpochWorkflowStatus());
 	        verifyMocks();
 	    }
 	  
@@ -477,7 +477,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 			 replayMocks();
 			 
 			 studySubject.setStudySite(studySite);
-			 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED_BUT_NOT_ENROLLED);
+			 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING_ON_STUDY);
 			 
 			 List<StudySubjectConsentVersion> studySubjectConsentVersionHolder = new ArrayList<StudySubjectConsentVersion>();
 			 StudySubjectConsentVersion studySubjectConsentVersion1 = new StudySubjectConsentVersion();

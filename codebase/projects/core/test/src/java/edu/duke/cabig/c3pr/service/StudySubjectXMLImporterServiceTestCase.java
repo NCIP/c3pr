@@ -94,8 +94,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
             assertEquals("Wrong registration work flow status",
-                            RegistrationWorkFlowStatus.ENROLLED, loaded.getRegWorkflowStatus());
-            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.REGISTERED,
+                            RegistrationWorkFlowStatus.ON_STUDY, loaded.getRegWorkflowStatus());
+            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.ON_EPOCH,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
             assertEquals("2 race codes not found", 2,
                     loaded.getStudySubjectDemographics().getRaceCodeAssociations().size());
@@ -184,7 +184,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
                             RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
-            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.REGISTERED,
+            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.ON_EPOCH,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
         interruptSession();
@@ -238,8 +238,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
             assertEquals("Wrong registration work flow status",
-                            RegistrationWorkFlowStatus.ENROLLED, loaded.getRegWorkflowStatus());
-            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.REGISTERED,
+                            RegistrationWorkFlowStatus.ON_STUDY, loaded.getRegWorkflowStatus());
+            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.ON_EPOCH,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
         interruptSession();
@@ -323,7 +323,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
             assertEquals("Wrong registration work flow status",
                             RegistrationWorkFlowStatus.RESERVED, loaded.getRegWorkflowStatus());
-            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.REGISTERED,
+            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.ON_EPOCH,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
         interruptSession();
@@ -373,8 +373,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
             assertEquals("Wrong registration work flow status",
-                            RegistrationWorkFlowStatus.ENROLLED, loaded.getRegWorkflowStatus());
-            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.REGISTERED,
+                            RegistrationWorkFlowStatus.ON_STUDY, loaded.getRegWorkflowStatus());
+            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.ON_EPOCH,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
         interruptSession();
@@ -424,7 +424,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
                             RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
-            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.REGISTERED,
+            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.ON_EPOCH,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
         interruptSession();
@@ -479,8 +479,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
             assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE,
                             loaded.getScheduledEpoch().getScEpochDataEntryStatus());
             assertEquals("Wrong registration work flow status",
-                            RegistrationWorkFlowStatus.ENROLLED, loaded.getRegWorkflowStatus());
-            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.REGISTERED,
+                            RegistrationWorkFlowStatus.ON_STUDY, loaded.getRegWorkflowStatus());
+            assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.ON_EPOCH,
                             loaded.getScheduledEpoch().getScEpochWorkflowStatus());
         }
         interruptSession();
