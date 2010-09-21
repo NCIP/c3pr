@@ -38,7 +38,7 @@
 			<table>
 				<tags:tdNameValue name="Coordinating center" value="${studyCommand.study.coordinatingCenterAssignedIdentifier.healthcareSite.name}" columnAttrName="class='labelR'"/>				
 				<tags:tdNameValue name="Principal investigator" value="${studyCommand.study.principalInvestigatorFullName} (${studyCommand.study.principalInvestigatorStudyOrganization.healthcareSite.name })" columnAttrName="width='50%' class='labelR'"/>
-				<c:if test="${fn:length(studyCommand.study.parentStudyAssociations) == 1}">
+				<c:if test="${studyCommand.study.companionIndicator && fn:length(studyCommand.study.parentStudyAssociations) == 1}">
 					<tags:tdNameValue name="Parent study" value="${studyCommand.study.parentStudy.shortTitleText} (${studyCommand.study.parentStudy.primaryIdentifier})" columnAttrName="class='labelR'" link="${link}"/>
 				</c:if>
 			</table>
