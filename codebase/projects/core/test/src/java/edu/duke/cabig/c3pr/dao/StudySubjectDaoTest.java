@@ -462,6 +462,9 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             // binding process
             Object afterBind = bind(command);
+            
+            // build and add study subject consent versions
+            buildAndAddStudySubjectConsentVersions(command);
 
             // select study & subject
             Object onBindFormObject = bindSelectSubjectStudy(afterBind);
@@ -690,6 +693,22 @@ public class StudySubjectDaoTest extends DaoTestCase {
     	studySubject.setStudySubjectDemographics(studySubjectDemographics);
         studySubject.setStudySite(studySiteDao.getById(1010));
         return studySubject;
+    }
+    
+    private Object buildAndAddStudySubjectConsentVersions(Object command){
+    	StudySite studySite = ((StudySubject) command).getStudySite();
+    	for (Consent consent :studySite.getStudySiteStudyVersion().getStudyVersion().getConsents()){
+    		StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
+    		studySubjectConsentVersion.setConsent(consent);
+    		for(ConsentQuestion question:consent.getQuestions()){
+    			SubjectConsentQuestionAnswer subjectConsentQuestionAnswer = new SubjectConsentQuestionAnswer();
+    			subjectConsentQuestionAnswer.setConsentQuestion(question);
+    			studySubjectConsentVersion.addSubjectConsentAnswer(subjectConsentQuestionAnswer);
+    		}
+    		((StudySubject) command).getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
+    	}
+    	
+    	return command;
     }
 
     protected StudySubject bindSelectSubjectStudy(Object command) {
@@ -963,6 +982,9 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             // binding process
             Object afterBind = bind(command);
+            
+            // build and add study subject consent versions
+            buildAndAddStudySubjectConsentVersions(command);
 
             // select study & subject
             Object onBindFormObject = bindSelectSubjectStudy(afterBind);
