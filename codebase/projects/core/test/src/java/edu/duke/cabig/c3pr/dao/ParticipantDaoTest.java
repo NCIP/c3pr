@@ -750,7 +750,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 		
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter6 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Address",  "postalCode", "20171", "=");
+				"edu.duke.cabig.c3pr.domain.Address",  "postalCode", "20191", "=");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter7 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
 				"edu.duke.cabig.c3pr.domain.Address", "stateCode", "VA", "like");
@@ -759,7 +759,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 				"edu.duke.cabig.c3pr.domain.Address",  "countryCode", "USA", "like");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter9 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
-				"edu.duke.cabig.c3pr.domain.Address", "city", "Herndon", "like");
+				"edu.duke.cabig.c3pr.domain.Address", "city", "Reston", "like");
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter10 = AdvancedSearchHelper
 		.buildAdvancedSearchCriteriaParameter(
 				"edu.duke.cabig.c3pr.domain.Identifier", "value", "sub%", "like");
