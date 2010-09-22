@@ -1376,11 +1376,11 @@ public class StudyDaoTest extends DaoTestCase {
      */
     public void testEpochOrder() {
         Study study = dao.getById(1000);
-        assertEquals("Wrong Epoch order", "Treatment1000", study.getEpochs().get(0).getName());
+        assertEquals("Wrong Epoch order", "epoch 1", study.getEpochs().get(0).getName());
         assertEquals("Wrong Epoch order", "NonTreatment1004", study.getEpochs().get(1).getName());
         assertEquals("Wrong Epoch order", "Treatment1003", study.getEpochs().get(2).getName());
         assertEquals("Wrong Epoch order", "NonTreatment1005", study.getEpochs().get(3).getName());
-        assertEquals("Wrong Epoch order", "Treatment1001", study.getEpochs().get(4).getName());
+        assertEquals("Wrong Epoch order", "Test epoch", study.getEpochs().get(4).getName());
         assertEquals("Wrong Epoch order", "Treatment1002", study.getEpochs().get(5).getName());
     }
 
@@ -1896,9 +1896,9 @@ public class StudyDaoTest extends DaoTestCase {
     
     public void testSaveStudyWithConsentQuestion() throws Exception{
     	Study study = dao.getById(1000);
-    	assertEquals("expected no consent",0,study.getConsents().size());
+    	assertEquals("expected 1 consent",1,study.getConsents().size());
     	Consent consent = new Consent();
-    	consent.setName("consent 1");
+    	consent.setName("1 consent 1");
     	consent.setMandatoryIndicator(true);
     	consent.setVersionId("version 1");
     	
@@ -1914,20 +1914,20 @@ public class StudyDaoTest extends DaoTestCase {
     	
     	Study reloaded = dao.getById(1000);
     	
-    	assertEquals("Consent not saved",1,reloaded.getConsents().size());
-    	assertEquals("Wrong consent saved","consent 1",reloaded.getConsents().get(0).getName());
-    	assertEquals("Wrong consent version id","version 1",reloaded.getConsents().get(0).getVersionId());
+    	assertEquals("Consent not saved",2,reloaded.getConsents().size());
+    	assertEquals("Wrong consent saved","1 consent 1",reloaded.getConsents().get(1).getName());
+    	assertEquals("Wrong consent version id","version 1",reloaded.getConsents().get(1).getVersionId());
     	
-    	assertEquals("Consent question not saved",1,reloaded.getConsents().get(0).getQuestions().size());
-    	assertEquals("Wrong consent question saved","Question1",reloaded.getConsents().get(0).getQuestions().get(0).getText());
+    	assertEquals("Consent question not saved",1,reloaded.getConsents().get(1).getQuestions().size());
+    	assertEquals("Wrong consent question saved","Question1",reloaded.getConsents().get(1).getQuestions().get(0).getText());
     
     }
     
     public void testSaveWithConsentingMethods() throws Exception{
     	Study study = dao.getById(1000);
-    	assertEquals("expected no consent",0,study.getConsents().size());
+    	assertEquals("expected 1 consent",1,study.getConsents().size());
     	Consent consent = new Consent();
-    	consent.setName("consent 1");
+    	consent.setName("1 consent 1");
     	consent.setMandatoryIndicator(true);
     	consent.setVersionId("version 1");
     	
@@ -1942,9 +1942,9 @@ public class StudyDaoTest extends DaoTestCase {
     	
     	Study reloaded = dao.getById(1000);
     	
-    	assertEquals("Consent not saved",1,reloaded.getConsents().size());
-    	assertEquals("Wrong consent saved","consent 1",reloaded.getConsents().get(0).getName());
-    	assertEquals("Wrong consenting methods string","VERBAL : WRITTEN",reloaded.getConsents().get(0).getConsentingMethodsString());
+    	assertEquals("Consent not saved",2,reloaded.getConsents().size());
+    	assertEquals("Wrong consent saved","1 consent 1",reloaded.getConsents().get(1).getName());
+    	assertEquals("Wrong consenting methods string","VERBAL : WRITTEN",reloaded.getConsents().get(1).getConsentingMethodsString());
     	
     }
     
@@ -2251,13 +2251,13 @@ public class StudyDaoTest extends DaoTestCase {
     
     public void testGetResultSetWithConsentMandatoryIndicator() throws Exception {
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Consent",  "mandatoryIndicator", "true", "like");
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Consent",  "mandatoryIndicator", "true", "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("4 studies not found", 4,  studies.size());
+		assertEquals("1 studies not found", 1,  studies.size());
 	}
     
     public void testGetResultSetWithConsentMethod() throws Exception {
@@ -2268,18 +2268,18 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("4 studies not found", 4,  studies.size());
+		assertEquals("1 studies not found", 1,  studies.size());
 	}
     
     public void testGetResultSetWithConsentName() throws Exception {
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Consent",  "name", "%consent%", "like");
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Consent",  "name", "consent%", "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("4 studies not found", 4,  studies.size());
+		assertEquals("1 studies not found", 1,  studies.size());
 	}
     
     public void testGetResultSetWithConsentVersionId() throws Exception {
@@ -2290,7 +2290,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("4 studies not found", 4,  studies.size());
+		assertEquals("1 studies not found", 1,  studies.size());
 	}
     
     public void testGetResultSetWithEpochName() throws Exception {
@@ -2301,7 +2301,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("4 studies not found", 4,  studies.size());
+		assertEquals("2 studies not found", 2,  studies.size());
 	}
     
     public void testGetResultSetWithEpochType() throws Exception {
