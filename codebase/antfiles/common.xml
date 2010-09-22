@@ -732,6 +732,7 @@
 					<exclude name="edu/duke/cabig/**/SmokeTestGridService.class"/>
 					<exclude name="edu/duke/cabig/**/XMLTransformerTest.class"/>
 					<exclude name="edu/duke/cabig/**/SubjectManagementWebServiceTest.class"/>
+					<exclude name="edu/duke/cabig/**/SubjectManagementRelatedTestCase.class"/>
 					
 					<!--commented until xsd for CCTS support is finalized -->
 
