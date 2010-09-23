@@ -592,6 +592,21 @@ public class StudySubject extends
 		}
 		return null;
 	}
+	
+	/**
+	 * Gets the primary identifier object. Currently used only in Subject Registry Code
+	 *
+	 * @return the primary identifier
+	 */
+	@Transient
+	public Identifier getPrimaryIdentifierObject() {
+		for (Identifier identifier : getIdentifiers()) {
+			if (identifier.getPrimaryIndicator().booleanValue() == true) {
+				return identifier;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Gets the treating physician.

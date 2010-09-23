@@ -116,6 +116,16 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	public List<ConsentQuestion> getQuestions() {
 		return lazyListHelper.getLazyList(ConsentQuestion.class);
 	}
+	
+	@Transient
+	public ConsentQuestion getQuestion(String code) {
+		for(ConsentQuestion consentQuestion : getQuestions()){
+			if(consentQuestion.getCode().equalsIgnoreCase(code)){
+				return consentQuestion;
+			}
+		}
+		return null;
+	}
 
 	public void setQuestions(List<ConsentQuestion> questions) {
 		setQuestionsInternal(questions);

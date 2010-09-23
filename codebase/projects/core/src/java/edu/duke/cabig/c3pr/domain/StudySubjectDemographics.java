@@ -7,8 +7,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -537,6 +535,19 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 		this.raceCodeAssociations = raceCodeAssociations;
 	}
 
+	/**
+	 * @param list
+	 */
+	@Transient
+	public void setRaceCodes(List<RaceCodeEnum> list) {
+		this.getRaceCodeAssociations().clear();
+		for (RaceCodeEnum raceCodeEnum : list) {
+			RaceCodeAssociation association  = new RaceCodeAssociation();
+			association.setRaceCode(raceCodeEnum);
+			addRaceCodeAssociation(association);			
+		}
+	}
+	
 	/**
 	 * Gets the birth date str.
 	 * 

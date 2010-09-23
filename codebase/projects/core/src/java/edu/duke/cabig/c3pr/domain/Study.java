@@ -533,6 +533,24 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	public List<Consent> getConsents() {
 		return getStudyVersion().getConsents();
 	}
+	
+	@Transient
+	public Consent getConsent(String name, String versionId) {
+		for(Consent consent : getConsents()){
+			if(consent.getName().equalsIgnoreCase(name)){ 
+				if(StringUtils.isBlank(consent.getVersionId())){
+					if(StringUtils.isBlank(versionId)){
+						return consent;
+					}
+				}else{
+					if(!StringUtils.isBlank(versionId) && consent.getVersionId().equalsIgnoreCase(versionId)){
+						return consent;
+					}
+				}
+			}
+		}
+		return null;
+	}
 
 	public void addConsent(Consent consent) {
 		getStudyVersion().addConsent(consent);
@@ -1172,6 +1190,16 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	@Transient
 	public List<PermissibleStudySubjectRegistryStatus> getPermissibleStudySubjectRegistryStatuses() {
 		return lazyListHelper.getLazyList(PermissibleStudySubjectRegistryStatus.class);
+	}
+	
+	@Transient
+	public PermissibleStudySubjectRegistryStatus getPermissibleStudySubjectRegistryStatus(String statusCode) {
+		for(PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus : getPermissibleStudySubjectRegistryStatuses()){
+			if(permissibleStudySubjectRegistryStatus.getRegistryStatus().getCode().equalsIgnoreCase(statusCode)){
+				return permissibleStudySubjectRegistryStatus;
+			}
+		}
+		return null;
 	}
 
 	public void setPermissibleStudySubjectRegistryStatusesInternal(List<PermissibleStudySubjectRegistryStatus> permissibleStudySubjectRegistryStatuses) {
