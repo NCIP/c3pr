@@ -773,6 +773,10 @@
           autowire="byName">
           <property name="c3PRExceptionHelper" ref="exceptionHelper"/>
     </bean>
+    
+    <bean id="advancedSearchRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.AdvancedSearchRepositoryImpl"
+          autowire="byName">
+    </bean>
 
     <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
           autowire="byName"/>

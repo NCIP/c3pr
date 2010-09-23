@@ -1,108 +1,47 @@
 package edu.duke.cabig.c3pr.web.report;
 
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
+import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.dao.DataAccessException;
-import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
 
-import com.semanticbits.querybuilder.QueryBuilder;
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
-import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
-import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.domain.Participant;
 
-/*
- * @author Himanshu Gupta 
- * 
- */
-public class SubjectAdvancedSearchController extends SimpleFormController {
-	
-	private QueryBuilder queryBuilder ;
-	
-	public SubjectAdvancedSearchController(){
-		setBindOnNewForm(true);
-		setCommandClass(AdvancedSearchCommand.class);
-		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("participant-advanced-search.xml");
-        Unmarshaller unmarshaller;
-		try {
-			unmarshaller = JAXBContext.newInstance("com.semanticbits.querybuilder").createUnmarshaller();
-			queryBuilder = (QueryBuilder) unmarshaller.unmarshal(inputStream);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-    private static Log log = LogFactory.getLog(SubjectAdvancedSearchController.class);
-    private ConfigurationProperty configurationProperty;
-    private AdvancedSearchCommand subjectAdvancedSearchCommand;
-    private ParticipantDao participantDao;
-
-	public ParticipantDao getParticipantDao() {
-		return participantDao;
-	}
-	public void setParticipantDao(ParticipantDao participantDao) {
-		this.participantDao = participantDao;
-	}
-	public AdvancedSearchCommand getSubjectAdvancedSearchCommand() {
-		return subjectAdvancedSearchCommand;
-	}
-	public void setSubjectAdvancedSearchCommand(
-			AdvancedSearchCommand subjectAdvancedSearchCommand) {
-		this.subjectAdvancedSearchCommand = subjectAdvancedSearchCommand;
-	}
-
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-    
-	public ConfigurationProperty getConfigurationProperty() {
-		return configurationProperty;
-	}
-	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
-		this.configurationProperty = configurationProperty;
-	}
+public class SubjectAdvancedSearchController extends AdvancedSearchController{
 	
 	@Override
-	protected Map referenceData(HttpServletRequest request) throws Exception {
-		Map<String, List<Lov>> configMap = configurationProperty.getMap();
+	protected Map<String, Object> referenceData(HttpServletRequest request) {
+        Map<String, Object> configMap = getConfigurationProperty().getMap();
         Map<String, Object> refdata = new HashMap<String, Object>();
-
         refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
         refdata.put("ethnicGroupCodes", configMap.get("ethnicGroupCode"));
         refdata.put("raceCodes", configMap.get("raceCode"));
-
         return refdata;
-	}
-	
-	@Override
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
-        super.initBinder(request, binder);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
     }
 	
-	
 	@Override
-	protected ModelAndView onSubmit(Object command) throws Exception {
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		try{
-			map.put("subjectList", participantDao.getAll());
-		}catch (DataAccessException e) {
+	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
+			throws Exception {
+		AdvancedSearchWrapper wrapper  = (AdvancedSearchWrapper) command ;
+		List<AdvancedSearchCriteriaParameter> criteriaList = new ArrayList<AdvancedSearchCriteriaParameter>();
+		for(AdvancedSearchCriteriaParameter searchCriteria : wrapper.getSearchCriteriaList()){
+			if(searchCriteria.getValues().size() != 0){
+				criteriaList.add(searchCriteria);
+			}
 		}
+		List<Participant> subjects = getAdvancedSearchRepository().searchSubjects(criteriaList);
+		
+		Map map = errors.getModel();
+		map.put("subjects", subjects);
 		ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
-        return modelAndView ;
+		return modelAndView;
 	}
-	
 }
