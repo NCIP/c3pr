@@ -784,13 +784,13 @@
 		<xsd:schema
 			targetNamespace="http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice/Imports">
 			<xsd:import
-				schemaLocation="https://r0177808idm.mayoid.gps.org/adfs/services/trust/mex?xsd=xsd0"
+				schemaLocation="file:///C:/Projects/C3PR/projects/ws-client/misc/0.xsd"
 				namespace="http://schemas.microsoft.com/Message" />
 			<xsd:import
-				schemaLocation="https://r0177808idm.mayoid.gps.org/adfs/services/trust/mex?xsd=xsd1"
+				schemaLocation="file:///C:/Projects/C3PR/projects/ws-client/misc/1.xsd"
 				namespace="http://schemas.xmlsoap.org/ws/2005/02/trust" />
 			<xsd:import
-				schemaLocation="https://r0177808idm.mayoid.gps.org/adfs/services/trust/mex?xsd=xsd2"
+				schemaLocation="file:///C:/Projects/C3PR/projects/ws-client/misc/2.xsd"
 				namespace="http://docs.oasis-open.org/ws-sx/ws-trust/200512" />
 		</xsd:schema>
 	</wsdl:types>
@@ -1128,10 +1128,9 @@
 		<wsdl:port name="UserNameWSTrustBinding_IWSTrust13Async"
 			binding="tns:UserNameWSTrustBinding_IWSTrust13Async">
 			<soap12:address
-				location="https://r0177808idm.mayoid.gps.org/adfs/services/trust/13/usernamemixed" />
+				location="https://dkrylov-PC:8181/STS/SecureTokenServiceService" />
 			<wsa10:EndpointReference>
-				<wsa10:Address>https://r0177808idm.mayoid.gps.org/adfs/services/trust/13/usernamemixed
-				</wsa10:Address>
+				<wsa10:Address>https://dkrylov-PC:8181/STS/SecureTokenServiceService</wsa10:Address>
 			</wsa10:EndpointReference>
 		</wsdl:port>
 		<wsdl:port name="IssuedTokenWSTrustBinding_IWSTrust13Async"
