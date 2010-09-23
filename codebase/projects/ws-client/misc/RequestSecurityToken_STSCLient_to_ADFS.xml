@@ -1,0 +1,43 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+	<soap:Header>
+		<Action xmlns="http://www.w3.org/2005/08/addressing">http://schemas.xmlsoap.org/ws/2005/02/trust/RST/Issue
+		</Action>
+		<MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:22dbaafa-afe2-420f-b514-3fb55bc43927
+		</MessageID>
+		<To xmlns="http://www.w3.org/2005/08/addressing">https://r0177808idm.mayoid.gps.org/adfs/services/trust/13/usernamemixed
+		</To>
+		<ReplyTo xmlns="http://www.w3.org/2005/08/addressing">
+			<Address>http://www.w3.org/2005/08/addressing/anonymous</Address>
+		</ReplyTo>
+		<wsse:Security
+			xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+			soap:mustUnderstand="true">
+			<wsu:Timestamp
+				xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+				wsu:Id="Timestamp-1">
+				<wsu:Created>2010-09-23T15:50:22.607Z</wsu:Created>
+				<wsu:Expires>2010-09-23T15:55:22.607Z</wsu:Expires>
+			</wsu:Timestamp>
+			<wsse:UsernameToken
+				xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+				xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+				wsu:Id="UsernameToken-2">
+				<wsse:Username>user</wsse:Username>
+				<wsse:Password
+					Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">password</wsse:Password>
+			</wsse:UsernameToken>
+		</wsse:Security>
+	</soap:Header>
+	<soap:Body>
+		<wst:RequestSecurityToken
+			xmlns:wst="http://schemas.xmlsoap.org/ws/2005/02/trust">
+			<t:TokenType xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">urn:oasis:names:tc:SAML:1.0:assertion
+			</t:TokenType>
+			<t:KeyType xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust">http://schemas.xmlsoap.org/ws/2005/02/trust/SymmetricKey
+			</t:KeyType>
+			<wst:RequestType>http://schemas.xmlsoap.org/ws/2005/02/trust/Issue
+			</wst:RequestType>
+			<wst:KeySize>256</wst:KeySize>
+		</wst:RequestSecurityToken>
+	</soap:Body>
+</soap:Envelope>
