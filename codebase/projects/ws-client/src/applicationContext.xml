@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xsi:schemaLocation="
+	http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<cxf:bus>
+		<cxf:features>
+			<cxf:logging />
+		</cxf:features>
+	</cxf:bus>
+
+	<!--
+		"localhost" and "dkrylov-PC" below must match CN names on
+		corresponding SSL certificates. Won't work otherwise.
+	-->
+	<jaxws:client id="subjectManagementClient"
+		serviceClass="edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement"
+		wsdlLocation="https://localhost:8443/c3pr/services/services/SubjectManagement?wsdl"
+		address="https://localhost:8443/c3pr/services/services/SubjectManagement">
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+		</jaxws:features>
+		<jaxws:properties>
+			<entry key="ws-security.sts.client">
+				<bean class="org.apache.cxf.ws.security.trust.STSClient" id="stsClient">
+					<constructor-arg ref="cxf" />
+
+					<property name="inInterceptors">
+						<list>
+							<ref bean="logInbound" />
+						</list>
+					</property>
+					<property name="outInterceptors">
+						<list>
+							<ref bean="logOutbound" />
+						</list>
+					</property>
+					<property name="outFaultInterceptors">
+						<list>
+							<ref bean="logOutbound" />
+						</list>
+					</property>
+					<property name="inFaultInterceptors">
+						<list>
+							<ref bean="logInbound" />
+						</list>
+					</property>
+
+					<property name="wsdlLocation"
+						value="https://dkrylov-PC:8181/STS/SecureTokenServiceService?wsdl" />
+
+					<!-- Next two values come from STS's WSDL. -->
+					<property name="serviceName"
+						value="{http://tempuri.org/}SecureTokenServiceService" />
+					<property name="endpointName"
+						value="{http://tempuri.org/}ISecureTokenServiceService_Port" />
+
+					<!--
+						STS must authenticate using Username Token profile and plain text
+						username/password.
+					-->
+					<property name="properties">
+						<map>
+							<entry key="ws-security.username" value="jdoe01" />
+							<entry key="ws-security.password" value="Aa_111111" />
+						</map>
+					</property>
+				</bean>
+			</entry>
+		</jaxws:properties>
+	</jaxws:client>
+
+	<bean id="logInbound" class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+	<bean id="logOutbound" class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+
+</beans>
