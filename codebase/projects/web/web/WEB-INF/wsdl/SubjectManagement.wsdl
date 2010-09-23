@@ -4,7 +4,7 @@
 	xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectManagementService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sm="http://enterpriseservices.nci.nih.gov"
 	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	name="SubjectManagementService"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov SubjectManagement.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
 	targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectManagementService">
@@ -265,7 +265,7 @@
 	</wsdl:portType>
 
 	<wsdl:binding name="SubjectManagementSOAP" type="tns:SubjectManagement">
-		<wsp:Policy xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"
+		<wsp:Policy xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
 			xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
 			<wsp:ExactlyOne>
 				<wsp:All>
@@ -286,15 +286,15 @@
 					<sp:SupportingTokens>
 						<wsp:Policy>
 							<sp:IssuedToken
-								sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+								sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
 								<sp:RequestSecurityTokenTemplate>
 									<t:TokenType>urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType>
-									<t:KeyType>http://schemas.xmlsoap.org/ws/2005/02/trust/SymmetricKey</t:KeyType>
+									<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey</t:KeyType>
 								</sp:RequestSecurityTokenTemplate>
 							</sp:IssuedToken>
 						</wsp:Policy>
 					</sp:SupportingTokens>
-					<sp:Trust10>
+					<sp:Trust13>
 						<wsp:Policy>
 							<wsp:ExactlyOne>
 								<wsp:All>
@@ -302,7 +302,7 @@
 								</wsp:All>
 							</wsp:ExactlyOne>
 						</wsp:Policy>
-					</sp:Trust10>
+					</sp:Trust13>
 				</wsp:All>
 			</wsp:ExactlyOne>
 		</wsp:Policy>
