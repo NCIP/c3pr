@@ -4,24 +4,24 @@
 	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:cxf="http://cxf.apache.org/core"
 	xsi:schemaLocation="http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
-http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
-http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
-
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+	http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+	
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-
+	
 	<bean id="jAXBToDomainObjectConverter"
 		class="edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl"
 		autowire="byType" />
-
+	
 	<bean id="subjectManagementService"
 		class="edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl"
 		autowire="byType" />
-
-
+	
+	
 	<jaxws:endpoint id="subjectManagementEndpoint"
 		implementor="#subjectManagementService" address="/services/SubjectManagement">
 		<jaxws:properties>
@@ -39,11 +39,60 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 				p:cryptoPropFile="server_sign.properties" />
 		</jaxws:inInterceptors>
 	</jaxws:endpoint>
-
+	
+	<bean id="subjectRegistrationService"
+		class="edu.duke.cabig.c3pr.webservice.subjectregistration.SubjectRegistrationImpl"
+		autowire="byType" />
+	
+	
+	<jaxws:endpoint id="subjectRegistrationEndpoint"
+		implementor="#subjectRegistrationService" address="/services/SubjectRegistration">
+		<jaxws:properties>
+			<entry key="schema-validation-enabled" value="true" />
+		</jaxws:properties>
+		<!--<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+			<constructor-arg>
+			<map>
+			<entry key="action" value="SAMLTokenUnsigned" />
+			</map>
+			</constructor-arg>
+			</bean>
+			<bean class="edu.duke.cabig.c3pr.web.security.SecureWebServiceHandler"
+			p:cryptoPropFile="server_sign.properties" />
+			</jaxws:inInterceptors>-->
+	</jaxws:endpoint>
+	
+	<bean id="subjectRegistryJAXBToDomainObjectConverter"
+		class="edu.duke.cabig.c3pr.webservice.subjectregistry.convertes.SubjectRegistryJAXBToDomainObjectConverterImpl"
+		autowire="byType" />
+	
+	<bean id="subjectRegistryService"
+		class="edu.duke.cabig.c3pr.webservice.subjectregistry.impl.SubjectRegistryImpl"
+		autowire="byType" />
+	
+	<jaxws:endpoint id="subjectRegistryEndpoint"
+		implementor="#subjectRegistryService" address="/services/SubjectRegistry">
+		<jaxws:properties>
+			<entry key="schema-validation-enabled" value="true" />
+		</jaxws:properties>
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+			<constructor-arg>
+			<map>
+			<entry key="action" value="SAMLTokenUnsigned" />
+			</map>
+			</constructor-arg>
+			</bean>
+			<bean class="edu.duke.cabig.c3pr.web.security.SecureWebServiceHandler"
+			p:cryptoPropFile="server_sign.properties" />
+		</jaxws:inInterceptors>
+	</jaxws:endpoint>
+	
 	<cxf:bus>
 		<cxf:features>
 			<cxf:logging />
 		</cxf:features>
 	</cxf:bus>
-
+	
 </beans>
