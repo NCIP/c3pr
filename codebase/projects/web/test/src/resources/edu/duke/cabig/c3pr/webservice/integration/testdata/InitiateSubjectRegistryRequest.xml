@@ -67,12 +67,12 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 					<ns4:birthDate value="19800101000000"/>
 					<ns4:biologicEntityIdentifier>
 						<ns4:effectiveDateRange nullFlavor="NI"/>
-						<ns4:identifier extension="345ER67"/>
+						<ns4:identifier extension="mayo-1122"/>
 						<ns4:primaryIndicator value="true"/>
 						<ns4:typeCode code="MRN"/>
 						<ns4:assigningOrganization>
 							<ns4:organizationIdentifier>
-								<ns4:identifier extension="NC010"/>
+								<ns4:identifier extension="MN026"/>
 								<ns4:primaryIndicator value="true"/>
 								<ns4:typeCode code="CTEP"/>
 							</ns4:organizationIdentifier>
@@ -109,25 +109,25 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 					</ns4:telecomAddress>
 				</ns4:entity>
 				<ns4:subjectIdentifier>
-					<ns4:identifier extension="service1"/>
+					<ns4:identifier extension="service2"/>
 					<ns4:primaryIndicator value="true"/>
 					<ns4:typeCode code="COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER"/>
 					<ns4:assigningOrganization>
 						<ns4:organizationIdentifier>
-							<ns4:identifier extension="NC010"/>
+							<ns4:identifier extension="MN026"/>
 							<ns4:primaryIndicator value="true"/>
 							<ns4:typeCode code="CTEP"/>
 						</ns4:organizationIdentifier>
 					</ns4:assigningOrganization>
 				</ns4:subjectIdentifier>
 				<ns4:paymentMethodCode code="private insurance"/>
-				<ns4:statusCode code="Incomplete"/>
+				<ns4:statusCode code="Complete"/>
 				<ns4:studySubjectProtocolVersion>
 					<ns4:studySiteProtocolVersion>
 						<ns4:studySite>
 							<ns4:organization>
 								<ns4:organizationIdentifier>
-									<ns4:identifier extension="NC010"/>
+									<ns4:identifier extension="MN026"/>
 									<ns4:primaryIndicator value="true"/>
 									<ns4:typeCode code="CTEP"/>
 								</ns4:organizationIdentifier>
@@ -138,12 +138,12 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 								<ns4:officialTitle value="short"/>
 								<ns4:document>
 									<ns4:documentIdentifier>
-										<ns4:identifier extension="TestKruttikWessPankaj"/>
+										<ns4:identifier extension="test_service2"/>
 										<ns4:primaryIndicator value="true"/>
 										<ns4:typeCode code="COORDINATING_CENTER_IDENTIFIER"/>
 										<ns4:assigningOrganization>
 											<ns4:organizationIdentifier>
-												<ns4:identifier extension="NC010"/>
+												<ns4:identifier extension="MN026"/>
 												<ns4:primaryIndicator value="true"/>
 												<ns4:typeCode code="CTEP"/>
 											</ns4:organizationIdentifier>
@@ -158,32 +158,45 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 					<ns4:studySubjectConsentVersion>
 						<ns4:informedConsentDate value="20100101000000"/>
 						<ns4:consent>
-							<ns4:officialTitle value="General"/>
+							<ns4:officialTitle value="General1"/>
+							<ns4:versionNumberText value="1.0"/>
 						</ns4:consent>
 						<ns4:consentDeliveryDate value="20090101000000"/>
 						<ns4:consentingMethod code="Written"/>
 						<ns4:consentPresenter value="John Doe"/>
-						<!--<ns4:subjectConsentAnswer>
+						<ns4:subjectConsentAnswer>
 							<ns4:missedIndicator value="true"/>
 							<ns4:consentQuestion>
-								<ns4:officialTitle value="Q11"/>
+								<ns4:officialTitle value="q1"/>
 							</ns4:consentQuestion>
 						</ns4:subjectConsentAnswer>
 						<ns4:subjectConsentAnswer>
 							<ns4:missedIndicator value="false"/>
 							<ns4:consentQuestion>
-								<ns4:officialTitle value="Q12"/>
+								<ns4:officialTitle value="q2"/>
 							</ns4:consentQuestion>
-						</ns4:subjectConsentAnswer>-->
+						</ns4:subjectConsentAnswer>
 					</ns4:studySubjectConsentVersion>
 					<ns4:studySubjectConsentVersion>
-						<ns4:informedConsentDate value="20070101000000"/>
+						<ns4:informedConsentDate value="20080101000000"/>
 						<ns4:consent>
-							<ns4:officialTitle value="Male"/>
+							<ns4:officialTitle value="General2"/>
 						</ns4:consent>
-						<ns4:consentDeliveryDate value="20060101000000"/>
-						<ns4:consentingMethod code="Verbal"/>
-						<ns4:consentPresenter value="Deep Singh"/>
+						<ns4:consentDeliveryDate value="20070101000000"/>
+						<ns4:consentingMethod code="Written"/>
+						<ns4:consentPresenter value="Deepali Sen"/>
+						<ns4:subjectConsentAnswer>
+							<ns4:missedIndicator value="false"/>
+							<ns4:consentQuestion>
+								<ns4:officialTitle value="q1"/>
+							</ns4:consentQuestion>
+						</ns4:subjectConsentAnswer>
+						<ns4:subjectConsentAnswer>
+							<ns4:missedIndicator value="true"/>
+							<ns4:consentQuestion>
+								<ns4:officialTitle value="q2"/>
+							</ns4:consentQuestion>
+						</ns4:subjectConsentAnswer>
 					</ns4:studySubjectConsentVersion>
 				</ns4:studySubjectProtocolVersion>
 			</studySubject>

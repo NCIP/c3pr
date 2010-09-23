@@ -267,7 +267,7 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		} catch (C3PRCodedRuntimeException e) {
 			handleNoStudySubjectFound(e);
 		}
-		domainObject.getStudySubjectRegistryStatusHistory().clear();
+		domainObject.getStudySubjectRegistryStatusHistoryInternal().clear();
 		for(PerformedStudySubjectMilestone status : parameters.getStudySubjectStatusHistory().getItem()){
 			StudySubjectRegistryStatus studySubjectRegistryStatus = getStudySubjectRegistryStatus(status, domainObject.getStudySite().getStudy());
 			domainObject.updateRegistryStatus(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode(), studySubjectRegistryStatus.getEffectiveDate(), studySubjectRegistryStatus.getReasons());
@@ -340,7 +340,11 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		}
 		StudySite studySite = null;
 		try {
-			studySite = study.getStudySite(converter.convertHealthcareSitePrimaryIdentifier(studySubjectProtocol.getStudySiteProtocolVersion().getStudySite().getOrganization()));
+			String siteId = converter.convertHealthcareSitePrimaryIdentifier(studySubjectProtocol.getStudySiteProtocolVersion().getStudySite().getOrganization());
+			studySite = study.getStudySite(siteId);
+			if(studySite == null){
+				throw exceptionHelper.getRuntimeException(212, new Object[]{siteId});
+			}
 		} catch (C3PRCodedRuntimeException e) {
 			handleInvalidSiteData(e);
 		}

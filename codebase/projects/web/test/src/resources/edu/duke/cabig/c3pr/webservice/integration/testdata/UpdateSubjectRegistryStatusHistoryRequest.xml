@@ -56,7 +56,7 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 </ds:KeyInfo></ds:Signature></Assertion></wsse:Security>
 	</soapenv:Header>
 	<soapenv:Body>
-	    <ns4:UpdateSubjectRegistryStatusRequest xmlns:ns5="http://enterpriseservices.nci.nih.gov" xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectRegistryService" xmlns:ns3="http://enterpriseservices.nci.nih.gov/SubjectRegistry" xmlns:ns2="uri:iso.org:21090">
+	    <ns4:UpdateSubjectRegistryStatusHistoryRequest xmlns:ns5="http://enterpriseservices.nci.nih.gov" xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectRegistryService" xmlns:ns3="http://enterpriseservices.nci.nih.gov/SubjectRegistry" xmlns:ns2="uri:iso.org:21090">
          <studySubjectIdentifier>
              <ns3:identifier extension="service2"/>
              <ns3:primaryIndicator value="true"/>
@@ -69,14 +69,20 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
                  </ns3:organizationIdentifier>
              </ns3:assigningOrganization>
          </studySubjectIdentifier>
-         <studySubjectStatus>
-             <ns3:reasonCode>
-                 <ns2:item code="Lab_Out_Of_Range1"/>
-                 <ns2:item code="FAILED_INCLUSION"/>
-             </ns3:reasonCode>
-             <ns3:statusCode code="Screen Failed"/>
-             <ns3:statusDate value="20080101000000"/>
-         </studySubjectStatus>
-      </ns4:UpdateSubjectRegistryStatusRequest>
+	     <studySubjectStatusHistory>
+	         <ns3:item>
+                 <ns3:statusCode code="Pre-Enrolled"/>
+                 <ns3:statusDate value="20070101000000"/>
+	         </ns3:item>
+	         <ns3:item>
+    	         <ns3:reasonCode>
+    	             <ns2:item code="Lab_Out_Of_Range1"/>
+    	             <ns2:item code="FAILED_INCLUSION"/>
+    	         </ns3:reasonCode>
+    	         <ns3:statusCode code="Screen Failed"/>
+    	         <ns3:statusDate value="20080101000000"/>
+	         </ns3:item>
+	     </studySubjectStatusHistory>
+      </ns4:UpdateSubjectRegistryStatusHistoryRequest>
    </soapenv:Body>
 </soapenv:Envelope>

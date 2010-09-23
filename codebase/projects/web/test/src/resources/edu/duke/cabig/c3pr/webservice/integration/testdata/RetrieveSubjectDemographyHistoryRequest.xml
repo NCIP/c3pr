@@ -56,11 +56,12 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 </ds:KeyInfo></ds:Signature></Assertion></wsse:Security>
 	</soapenv:Header>
 	<soapenv:Body>
-	    <ns4:UpdateSubjectRegistryStatusRequest xmlns:ns5="http://enterpriseservices.nci.nih.gov" xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectRegistryService" xmlns:ns3="http://enterpriseservices.nci.nih.gov/SubjectRegistry" xmlns:ns2="uri:iso.org:21090">
-         <studySubjectIdentifier>
-             <ns3:identifier extension="service2"/>
+	    <ns4:RetrieveSubjectDemographyHistoryRequest xmlns:ns5="http://enterpriseservices.nci.nih.gov" xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectRegistryService" xmlns:ns3="http://enterpriseservices.nci.nih.gov/SubjectRegistry" xmlns:ns2="uri:iso.org:21090">
+	        <patientIdentifier>
+             <ns3:effectiveDateRange nullFlavor="NI"/>
+             <ns3:identifier extension="mayo-1122"/>
              <ns3:primaryIndicator value="true"/>
-             <ns3:typeCode code="COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER"/>
+             <ns3:typeCode code="MRN"/>
              <ns3:assigningOrganization>
                  <ns3:organizationIdentifier>
                      <ns3:identifier extension="MN026"/>
@@ -68,15 +69,7 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
                      <ns3:typeCode code="CTEP"/>
                  </ns3:organizationIdentifier>
              </ns3:assigningOrganization>
-         </studySubjectIdentifier>
-         <studySubjectStatus>
-             <ns3:reasonCode>
-                 <ns2:item code="Lab_Out_Of_Range1"/>
-                 <ns2:item code="FAILED_INCLUSION"/>
-             </ns3:reasonCode>
-             <ns3:statusCode code="Screen Failed"/>
-             <ns3:statusDate value="20080101000000"/>
-         </studySubjectStatus>
-      </ns4:UpdateSubjectRegistryStatusRequest>
+	        </patientIdentifier>
+      </ns4:RetrieveSubjectDemographyHistoryRequest>
    </soapenv:Body>
 </soapenv:Envelope>

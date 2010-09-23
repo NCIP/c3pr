@@ -56,27 +56,18 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 </ds:KeyInfo></ds:Signature></Assertion></wsse:Security>
 	</soapenv:Header>
 	<soapenv:Body>
-	    <ns4:UpdateSubjectRegistryStatusRequest xmlns:ns5="http://enterpriseservices.nci.nih.gov" xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectRegistryService" xmlns:ns3="http://enterpriseservices.nci.nih.gov/SubjectRegistry" xmlns:ns2="uri:iso.org:21090">
-         <studySubjectIdentifier>
-             <ns3:identifier extension="service2"/>
-             <ns3:primaryIndicator value="true"/>
-             <ns3:typeCode code="COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER"/>
-             <ns3:assigningOrganization>
-                 <ns3:organizationIdentifier>
-                     <ns3:identifier extension="MN026"/>
-                     <ns3:primaryIndicator value="true"/>
-                     <ns3:typeCode code="CTEP"/>
-                 </ns3:organizationIdentifier>
-             </ns3:assigningOrganization>
-         </studySubjectIdentifier>
-         <studySubjectStatus>
-             <ns3:reasonCode>
-                 <ns2:item code="Lab_Out_Of_Range1"/>
-                 <ns2:item code="FAILED_INCLUSION"/>
-             </ns3:reasonCode>
-             <ns3:statusCode code="Screen Failed"/>
-             <ns3:statusDate value="20080101000000"/>
-         </studySubjectStatus>
-      </ns4:UpdateSubjectRegistryStatusRequest>
+	    <ns4:QuerySubjectRegistryRequest xmlns:ns5="http://enterpriseservices.nci.nih.gov" xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectRegistryService" xmlns:ns3="http://enterpriseservices.nci.nih.gov/SubjectRegistry" xmlns:ns2="uri:iso.org:21090">
+	        <searchParameter>
+	            <ns3:item>
+	                <ns3:objectName value="edu.duke.cabig.c3pr.domain.Identifier"/>
+	                <ns3:attributeName value="value"/>
+	                <ns3:values>
+	                    <ns2:item value="%service%"/>
+	                </ns3:values>
+	                <ns3:predicate code="like"/>
+	                <ns3:objectContextName value="StudySubject"/>
+	            </ns3:item>
+	        </searchParameter>
+      </ns4:QuerySubjectRegistryRequest>
    </soapenv:Body>
 </soapenv:Envelope>
