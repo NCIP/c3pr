@@ -11,14 +11,14 @@
 			<display-name>Study</display-name>
 			<table-alias>Study_xx</table-alias>
 			<search-criteria>
-				<name>blindedIndicator</name>
-				<label>Blinded Indicator</label>
-				<data-type>Boolean</data-type>
-			</search-criteria>
-			<search-criteria>
 				<name>phaseCode</name>
 				<label>Phase Code</label>
 				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>blindedIndicator</name>
+				<label>Blinded Indicator</label>
+				<data-type>Boolean</data-type>
 			</search-criteria>
 			<search-criteria>
 				<name>randomizedIndicator</name>

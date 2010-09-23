@@ -48,6 +48,7 @@ import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RegistryStatusReason;
@@ -2324,6 +2325,12 @@ public class StudyDaoTest extends DaoTestCase {
 		
 		List<Study> studies = dao.search(criteriaParameters);
 		assertEquals("4 studies not found", 4,  studies.size());
+	}
+    
+    public void testGetResultSetWithHQLForWildSearch() throws Exception {
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		List<Study> studies = dao.search(criteriaParameters);
+		assertEquals("5 study not found", 5,  studies.size());
 	}
     
 }

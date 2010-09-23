@@ -728,7 +728,13 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Participant> subjects = participantDao.search(criteriaParameters);
-		assertEquals("2 participants not found", 3,  subjects.size());
+		assertEquals("3 participants not found", 3,  subjects.size());
+	}
+	
+	public void testGetResultSetWithHQLForWildSearch() throws Exception {
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		List<Participant> subjects = participantDao.search(criteriaParameters);
+		assertEquals("11 participants not found", 11,  subjects.size());
 	}
 	
 	public void testGetResultSetWithAllSearchCriterion() throws Exception {
