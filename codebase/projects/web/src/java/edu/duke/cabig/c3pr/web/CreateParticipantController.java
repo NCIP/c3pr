@@ -18,6 +18,7 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
@@ -35,7 +36,6 @@ import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
-import edu.duke.cabig.c3pr.web.admin.HealthcareSiteRolesHolder;
 import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
@@ -112,7 +112,9 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
     protected Object formBackingObject(HttpServletRequest request)
     		throws Exception {
     	ParticipantWrapper participantWrapper = new ParticipantWrapper();
-    	participantWrapper.setParticipant(new Participant());
+    	final Participant participant = new Participant();
+    	participant.setStateCode(ParticipantStateCode.ACTIVE);
+		participantWrapper.setParticipant(participant);
     	for(RaceCodeAssociation raceCodeAssociation : participantWrapper.getParticipant().getRaceCodeAssociations()){
     		RaceCodeHolder object = new RaceCodeHolder();
     		object.setRaceCode(raceCodeAssociation.getRaceCode());
