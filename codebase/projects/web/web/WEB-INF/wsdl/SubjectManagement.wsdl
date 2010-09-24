@@ -4,7 +4,8 @@
 	xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectManagementService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sm="http://enterpriseservices.nci.nih.gov"
 	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:a="http://www.w3.org/2005/08/addressing"
+	xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:xsd="http://www.w3.org/2001/XMLSchema"	
 	name="SubjectManagementService"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov SubjectManagement.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
 	targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectManagementService">
@@ -287,10 +288,15 @@
 						<wsp:Policy>
 							<sp:IssuedToken
 								sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
-								<sp:RequestSecurityTokenTemplate>
+								<sp:RequestSecurityTokenTemplate>								
 									<t:TokenType>urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType>
-									<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey</t:KeyType>
-								</sp:RequestSecurityTokenTemplate>
+									<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</t:KeyType>
+									<t:AppliesTo>
+										<a:EndpointReference>
+											<a:Address>http://www.sample.com/</a:Address>
+										</a:EndpointReference>
+    								</t:AppliesTo>									
+								</sp:RequestSecurityTokenTemplate>								
 							</sp:IssuedToken>
 						</wsp:Policy>
 					</sp:SupportingTokens>
