@@ -5,9 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.easymock.EasyMock;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -63,8 +65,9 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
     }
 
     public void testReferenceData() throws Exception {
-
-      
+    	List<RaceCodeEnum> raceCodes = new ArrayList<RaceCodeEnum>();
+    	EasyMock.expect(participant.getRaceCodes()).andReturn(raceCodes).times(7);
+    	replayMocks();
         Map<String, Object> refdata = ((ParticipantDetailsTab)controller.getFlow().getTab(0)).referenceData(request,participantWrapper);
         List<Lov> genders = (List<Lov>) refdata.get("administrativeGenderCode");
         System.out.println(" Size of ref data : " + refdata.size());
@@ -77,6 +80,8 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 
             }
         }
+        
+        verifyMocks();
     }
 
     public void testViewOnGet() throws Exception {
