@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="SubjectManagementService" targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectManagementService" xmlns:ISO="uri:iso.org:21090" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:sm="http://enterpriseservices.nci.nih.gov" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectManagementService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov SubjectManagement.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd">
+  <wsdl:types>
+<xsd:schema jaxb:version="2.1" targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectManagementService" xmlns:ISO="uri:iso.org:21090" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:sm="http://enterpriseservices.nci.nih.gov" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectManagementService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<jaxb:schemaBindings>
+						<jaxb:package name="edu.duke.cabig.c3pr.webservice.subjectmanagement" />
+					</jaxb:schemaBindings>
+				</xsd:appinfo>
+			</xsd:annotation>
+
+			<xsd:import namespace="http://enterpriseservices.nci.nih.gov" schemaLocation="https://localhost:8443/c3pr/services/services/SubjectManagement?xsd=SubjectManagement.xsd" />
+			<xsd:import namespace="uri:iso.org:21090" schemaLocation="https://localhost:8443/c3pr/services/services/SubjectManagement?xsd=ISO_datatypes_Narrative.xsd" />
+			<xsd:element name="CreateSubjectRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="1" name="subject" type="sm:Subject" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+			<xsd:element name="CreateSubjectResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="1" name="subject" type="sm:Subject" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="QuerySubjectRequest">
+				<xsd:complexType>
+
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="1" name="subject" type="sm:Subject" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="QuerySubjectResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="1" name="subjects" type="sm:DSET_SUBJECT" />
+
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="AdvancedQuerySubjectRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="parameters" type="sm:DSET_AdvanceSearchCriterionParameter" />
+					</xsd:sequence>
+				</xsd:complexType>
+
+			</xsd:element>
+			<xsd:element name="AdvancedQuerySubjectResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="1" name="subjects" type="sm:DSET_SUBJECT" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="UpdateSubjectRequest">
+
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="1" name="subject" type="sm:Subject" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="UpdateSubjectResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element maxOccurs="1" minOccurs="1" name="subject" type="sm:Subject" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="UpdateSubjectStateRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="1" name="biologicEntityIdentifier" type="sm:BiologicEntityIdentifier" />
+						<xsd:element maxOccurs="1" minOccurs="1" name="newState" type="ISO:ST" />
+
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="UpdateSubjectStateResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element maxOccurs="1" minOccurs="1" name="subject" type="sm:Subject" />
+					</xsd:sequence>
+				</xsd:complexType>
+
+			</xsd:element>
+
+			<xsd:element name="SubjectManagementFault" type="tns:SubjectManagementFault" />
+			<xsd:element name="InvalidSubjectDataExceptionFault" type="tns:InvalidSubjectDataExceptionFault" />
+			<xsd:element name="InvalidStateTransitionExceptionFault" type="tns:InvalidStateTransitionExceptionFault" />
+			<xsd:element name="NoSuchSubjectExceptionFault" type="tns:NoSuchSubjectExceptionFault" />
+			<xsd:element name="SubjectAlreadyExistsExceptionFault" type="tns:SubjectAlreadyExistsExceptionFault" />
+			<xsd:element name="UnableToCreateOrUpdateSubjectExceptionFault" type="tns:UnableToCreateOrUpdateSubjectExceptionFault" />
+			<xsd:element name="InsufficientPrivilegesExceptionFault" type="tns:InsufficientPrivilegesExceptionFault" />
+
+			<xsd:complexType name="SubjectManagementFault">
+				<xsd:sequence>
+					<xsd:element name="message" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="InvalidSubjectDataExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault" />
+				</xsd:complexContent>
+
+			</xsd:complexType>
+			<xsd:complexType name="InvalidStateTransitionExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault" />
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="NoSuchSubjectExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault" />
+
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="SubjectAlreadyExistsExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault" />
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="UnableToCreateOrUpdateSubjectExceptionFault">
+				<xsd:complexContent>
+
+					<xsd:extension base="tns:SubjectManagementFault" />
+				</xsd:complexContent>
+			</xsd:complexType>
+			<xsd:complexType name="InsufficientPrivilegesExceptionFault">
+				<xsd:complexContent>
+					<xsd:extension base="tns:SubjectManagementFault" />
+				</xsd:complexContent>
+			</xsd:complexType>
+		</xsd:schema>
+
+  </wsdl:types>
+  <wsdl:message name="AdvancedQuerySubjectRequestMessage">
+    <wsdl:part element="tns:AdvancedQuerySubjectRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InsufficientPrivilegesExceptionFaultMessage">
+    <wsdl:part element="tns:InsufficientPrivilegesExceptionFault" name="fault">
+    </wsdl:part>
+  </wsdl:message>
+
+  <wsdl:message name="QuerySubjectResponseMessage">
+    <wsdl:part element="tns:QuerySubjectResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateSubjectResponseMessage">
+    <wsdl:part element="tns:UpdateSubjectResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidStateTransitionExceptionFaultMessage">
+
+    <wsdl:part element="tns:InvalidStateTransitionExceptionFault" name="fault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateSubjectRequestMessage">
+    <wsdl:part element="tns:CreateSubjectRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateSubjectRequestMessage">
+    <wsdl:part element="tns:UpdateSubjectRequest" name="parameters">
+
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="NoSuchSubjectExceptionFaultMessage">
+    <wsdl:part element="tns:NoSuchSubjectExceptionFault" name="fault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SubjectAlreadyExistsExceptionFaultMessage">
+    <wsdl:part element="tns:SubjectAlreadyExistsExceptionFault" name="fault">
+    </wsdl:part>
+
+  </wsdl:message>
+  <wsdl:message name="UnableToCreateOrUpdateSubjectExceptionFaultMessage">
+    <wsdl:part element="tns:UnableToCreateOrUpdateSubjectExceptionFault" name="fault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateSubjectStateResponseMessage">
+    <wsdl:part element="tns:UpdateSubjectStateResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+
+  <wsdl:message name="InvalidSubjectDataExceptionFaultMessage">
+    <wsdl:part element="tns:InvalidSubjectDataExceptionFault" name="fault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AdvancedQuerySubjectResponseMessage">
+    <wsdl:part element="tns:AdvancedQuerySubjectResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateSubjectStateRequestMessage">
+
+    <wsdl:part element="tns:UpdateSubjectStateRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateSubjectResponseMessage">
+    <wsdl:part element="tns:CreateSubjectResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="QuerySubjectRequestMessage">
+    <wsdl:part element="tns:QuerySubjectRequest" name="parameters">
+
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SubjectManagement">
+    <wsdl:operation name="createSubject">
+      <wsdl:input message="tns:CreateSubjectRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:CreateSubjectResponseMessage">
+    </wsdl:output>
+      <wsdl:fault message="tns:SubjectAlreadyExistsExceptionFaultMessage" name="SubjectAlreadyExistsException">
+
+    </wsdl:fault>
+      <wsdl:fault message="tns:UnableToCreateOrUpdateSubjectExceptionFaultMessage" name="UnableToCreateOrUpdateSubjectException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:InvalidSubjectDataExceptionFaultMessage" name="InvalidSubjectDataException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="querySubject">
+
+      <wsdl:input message="tns:QuerySubjectRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:QuerySubjectResponseMessage">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidSubjectDataExceptionFaultMessage" name="InvalidSubjectDataException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException">
+    </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="advancedQuerySubject">
+      <wsdl:input message="tns:AdvancedQuerySubjectRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:AdvancedQuerySubjectResponseMessage">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidSubjectDataExceptionFaultMessage" name="InvalidSubjectDataException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException">
+    </wsdl:fault>
+
+    </wsdl:operation>
+    <wsdl:operation name="updateSubject">
+      <wsdl:input message="tns:UpdateSubjectRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:UpdateSubjectResponseMessage">
+    </wsdl:output>
+      <wsdl:fault message="tns:InvalidSubjectDataExceptionFaultMessage" name="InvalidSubjectDataException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:UnableToCreateOrUpdateSubjectExceptionFaultMessage" name="UnableToCreateOrUpdateSubjectException">
+
+    </wsdl:fault>
+      <wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:NoSuchSubjectExceptionFaultMessage" name="NoSuchSubjectException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateSubjectState">
+      <wsdl:input message="tns:UpdateSubjectStateRequestMessage">
+    </wsdl:input>
+
+      <wsdl:output message="tns:UpdateSubjectStateResponseMessage">
+    </wsdl:output>
+      <wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage" name="InsufficientPrivilegesException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:InvalidStateTransitionExceptionFaultMessage" name="InvalidStateTransitionException">
+    </wsdl:fault>
+      <wsdl:fault message="tns:NoSuchSubjectExceptionFaultMessage" name="NoSuchSubjectException">
+    </wsdl:fault>
+    </wsdl:operation>
+
+  </wsdl:portType>
+  <wsdl:binding name="SubjectManagementSOAP" type="tns:SubjectManagement">
+    <wsp:Policy xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+			<wsp:ExactlyOne>
+				<wsp:All>
+					<sp:TransportBinding>
+						<wsp:Policy>
+							<sp:TransportToken>
+								<wsp:Policy>
+
+									<sp:HttpsToken RequireClientCertificate="false" />
+								</wsp:Policy>
+							</sp:TransportToken>
+							<sp:AlgorithmSuite>
+								<wsp:Policy>
+									<sp:Basic256Rsa15 />
+								</wsp:Policy>
+							</sp:AlgorithmSuite>
+						</wsp:Policy>
+					</sp:TransportBinding>
+					
+					<sp:SupportingTokens>
+						<wsp:Policy>
+							<sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+								<sp:RequestSecurityTokenTemplate>
+									<t:TokenType>urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType>
+									<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</t:KeyType>								
+								</sp:RequestSecurityTokenTemplate>								
+							</sp:IssuedToken>
+						</wsp:Policy>
+					</sp:SupportingTokens>
+					
+					<sp:Trust13>
+						<wsp:Policy>
+							<wsp:ExactlyOne>
+								<wsp:All>
+									<sp:MustSupportIssuedTokens />
+								</wsp:All>
+							</wsp:ExactlyOne>
+						</wsp:Policy>
+					</sp:Trust13>
+				</wsp:All>
+
+			</wsp:ExactlyOne>
+		</wsp:Policy>
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="createSubject">
+      <soap:operation style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="SubjectAlreadyExistsException">
+        <soap:fault name="SubjectAlreadyExistsException" />
+      </wsdl:fault>
+      <wsdl:fault name="UnableToCreateOrUpdateSubjectException">
+        <soap:fault name="UnableToCreateOrUpdateSubjectException" />
+      </wsdl:fault>
+      <wsdl:fault name="InvalidSubjectDataException">
+
+        <soap:fault name="InvalidSubjectDataException" />
+      </wsdl:fault>
+      <wsdl:fault name="InsufficientPrivilegesException">
+        <soap:fault name="InsufficientPrivilegesException" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="querySubject">
+      <soap:operation style="document" />
+      <wsdl:input>
+
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="InvalidSubjectDataException">
+        <soap:fault name="InvalidSubjectDataException" />
+      </wsdl:fault>
+      <wsdl:fault name="InsufficientPrivilegesException">
+
+        <soap:fault name="InsufficientPrivilegesException" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="advancedQuerySubject">
+      <soap:operation style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="InvalidSubjectDataException">
+        <soap:fault name="InvalidSubjectDataException" />
+      </wsdl:fault>
+      <wsdl:fault name="InsufficientPrivilegesException">
+        <soap:fault name="InsufficientPrivilegesException" />
+      </wsdl:fault>
+    </wsdl:operation>
+
+    <wsdl:operation name="updateSubject">
+      <soap:operation style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="UnableToCreateOrUpdateSubjectException">
+
+        <soap:fault name="UnableToCreateOrUpdateSubjectException" />
+      </wsdl:fault>
+      <wsdl:fault name="InvalidSubjectDataException">
+        <soap:fault name="InvalidSubjectDataException" />
+      </wsdl:fault>
+      <wsdl:fault name="InsufficientPrivilegesException">
+        <soap:fault name="InsufficientPrivilegesException" />
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchSubjectException">
+
+        <soap:fault name="NoSuchSubjectException" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateSubjectState">
+      <soap:operation style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="InsufficientPrivilegesException">
+        <soap:fault name="InsufficientPrivilegesException" />
+      </wsdl:fault>
+      <wsdl:fault name="InvalidStateTransitionException">
+        <soap:fault name="InvalidStateTransitionException" />
+      </wsdl:fault>
+      <wsdl:fault name="NoSuchSubjectException">
+
+        <soap:fault name="NoSuchSubjectException" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SubjectManagementService">
+    <wsdl:port binding="tns:SubjectManagementSOAP" name="SubjectManagement">
+      <soap:address location="https://localhost:8443/c3pr/services/services/SubjectManagement" />
+    </wsdl:port>
+  </wsdl:service>
+
+    <jaxws:bindings>
+		<jaxws:package name="edu.duke.cabig.c3pr.webservice.subjectmanagement" />
+	</jaxws:bindings>
+</wsdl:definitions>

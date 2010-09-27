@@ -7,6 +7,7 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.ws.soap.Addressing;
 
 
 /**
@@ -21,6 +22,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
     edu.duke.cabig.c3pr.webservice.iso21090.ObjectFactory.class,
     edu.duke.cabig.c3pr.webservice.subjectmanagement.ObjectFactory.class
 })
+@Addressing(enabled=true, required=true)
 public interface SubjectManagement {
 
 

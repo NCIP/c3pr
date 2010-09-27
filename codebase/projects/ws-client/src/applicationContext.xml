@@ -19,16 +19,16 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	-->
 	<jaxws:client id="subjectManagementClient"
 		serviceClass="edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement"
-		wsdlLocation="https://localhost:8443/c3pr/services/services/SubjectManagement?wsdl"
+		wsdlLocation="file:///C:/Projects/C3PR/projects/ws-client/misc/SubjectManagement.wsdl"
 		address="https://localhost:8443/c3pr/services/services/SubjectManagement">
 		<jaxws:features>
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
 		</jaxws:features>
 		<jaxws:properties>
 			<entry key="ws-security.sts.client">
-				<bean class="org.apache.cxf.ws.security.trust.STSClient" id="stsClient">
+				<bean class="edu.duke.cabig.c3pr.webservice.subjectmanagement.client.STSClient" id="stsClient">
 					<constructor-arg ref="cxf" />
-
+					<property name="forceAppliesTo" value="http://www.sample.com/"/>
 					<property name="inInterceptors">
 						<list>
 							<ref bean="logInbound" />
@@ -51,13 +51,13 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 					</property>
 
 					<property name="wsdlLocation"
-						value="https://dkrylov-PC:8181/STS/SecureTokenServiceService?wsdl" />
+						value="file:///C:/Projects/C3PR/projects/ws-client/misc/ADFS_STS.wsdl" />
 
 					<!-- Next two values come from STS's WSDL. -->
 					<property name="serviceName"
-						value="{http://tempuri.org/}SecureTokenServiceService" />
+						value="{http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice}SecurityTokenService" />
 					<property name="endpointName"
-						value="{http://tempuri.org/}ISecureTokenServiceService_Port" />
+						value="{http://schemas.microsoft.com/ws/2008/06/identity/securitytokenservice}UserNameWSTrustBinding_IWSTrust13Async" />
 
 					<!--
 						STS must authenticate using Username Token profile and plain text
@@ -65,8 +65,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 					-->
 					<property name="properties">
 						<map>
-							<entry key="ws-security.username" value="jdoe01" />
-							<entry key="ws-security.password" value="Aa_111111" />
+							<entry key="ws-security.username" value="user" />
+							<entry key="ws-security.password" value="password" />
 						</map>
 					</property>
 				</bean>

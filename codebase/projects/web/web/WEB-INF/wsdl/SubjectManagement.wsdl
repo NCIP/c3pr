@@ -288,15 +288,11 @@
 						<wsp:Policy>
 							<sp:IssuedToken
 								sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
-								<sp:RequestSecurityTokenTemplate>								
+								<!-- <sp:RequestSecurityTokenTemplate>
 									<t:TokenType>urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType>
-									<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</t:KeyType>
-									<t:AppliesTo>
-										<a:EndpointReference>
-											<a:Address>http://www.sample.com/</a:Address>
-										</a:EndpointReference>
-    								</t:AppliesTo>									
-								</sp:RequestSecurityTokenTemplate>								
+									<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</t:KeyType>								
+								</sp:RequestSecurityTokenTemplate>
+								-->
 							</sp:IssuedToken>
 						</wsp:Policy>
 					</sp:SupportingTokens>

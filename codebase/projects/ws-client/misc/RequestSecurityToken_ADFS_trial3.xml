@@ -1,20 +1,13 @@
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
-	<soap:Header>
-		<Action xmlns="http://www.w3.org/2005/08/addressing">http://docs.oasis-open.org/ws-sx/ws-trust/200512/RST/Issue</Action>
-		<MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:45b73f10-4b20-41d3-aa46-15dfb38c8256</MessageID>
-		<To xmlns="http://www.w3.org/2005/08/addressing">https://dkrylov-PC:8181/STS/SecureTokenServiceService</To>
+	<soap:Header>		
+		<MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:02240d0b-95c3-47f2-bab7-22de3491a28e</MessageID>
+		<To xmlns="http://www.w3.org/2005/08/addressing">https://r0177808idm.mayoid.gps.org/adfs/services/trust/2005/usernamemixed</To>
 		<ReplyTo xmlns="http://www.w3.org/2005/08/addressing">
 			<Address>http://www.w3.org/2005/08/addressing/anonymous</Address>
 		</ReplyTo>
 		<wsse:Security
 			xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
 			soap:mustUnderstand="true">
-			<wsu:Timestamp
-				xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
-				wsu:Id="Timestamp-1">
-				<wsu:Created>2010-09-27T15:19:04.309Z</wsu:Created>
-				<wsu:Expires>2010-09-27T15:24:04.309Z</wsu:Expires>
-			</wsu:Timestamp>
 			<wsse:UsernameToken
 				xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
 				xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
@@ -27,10 +20,9 @@
 	</soap:Header>
 	<soap:Body>
 		<wst:RequestSecurityToken
-			xmlns:wst="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
-			<t:TokenType xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512">urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType>
-			<t:KeyType xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512">http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</t:KeyType>
-			<wst:RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue</wst:RequestType>
+			xmlns:wst="http://schemas.xmlsoap.org/ws/2005/02/trust">			
+			<wst:KeyType>http://schemas.xmlsoap.org/ws/2005/02/trust/Bearer</wst:KeyType>			
+			<wst:RequestType>http://schemas.xmlsoap.org/ws/2005/02/trust/Issue</wst:RequestType>
 			<wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
 				<wsa:EndpointReference xmlns:wsa="http://www.w3.org/2005/08/addressing">
 					<wsa:Address>http://www.sample.com/</wsa:Address>
