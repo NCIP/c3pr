@@ -16,13 +16,14 @@
 <script>
 YAHOO.example.Data = {
 	    subjectList: [
-					<c:forEach items="${subjectList}" var="subject" varStatus="status">
+					<c:forEach items="${subjects}" var="subject" varStatus="status">
 					        {
 					            subjectFullName: "${subject.fullName}",
 					            identifier: "${subject.primaryIdentifierValue}",
 					            subjectGender: "${subject.administrativeGenderCode}",
 					            subjectEthnicity: "${subject.ethnicGroupCode}",
-						        subjectBirthDate:  "${subject.birthDate}"	            
+						        subjectBirthDate:  "${subject.birthDate}",
+						        identifierStr:  "<tags:identifierParameterString identifier='${subject.systemAssignedIdentifiers[0] }'/>"
 					         }
 					         <c:if test="${!status.last}">,</c:if>
 					</c:forEach>
@@ -38,20 +39,30 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"subjectEthnicity",      label:"Ethnicity",       sortable:true,      resizeable:true},
             {key:"subjectBirthDate",      label:"Birthdate",       sortable:true,      resizeable:true}
         ];
-
+        
         var subjectDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.subjectList);
         subjectDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
         subjectDataSource.responseSchema = {
-            fields: ["subjectFullName", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate"]
+            fields: ["subjectFullName", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate", "identifierStr"]
         };
 
         //Create config
         var oConfigs = {
-        		paginator: new YAHOO.widget.Paginator({ rowsPerPage: 10 }), 
+        		paginator: new YAHOO.widget.Paginator({ 
+        			rowsPerPage: 10, 
+        			rowsPerPageOptions : [10,25,50,  {value:100000000,text:'All'}], 
+        			template : "{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown} {ShowAllLink}" 
+        			}), 
 				draggableColumns:true
 			};
         var subjectDataTable = new YAHOO.widget.DataTable("subjectTable", myColumnDefs, subjectDataSource, oConfigs);
-
+        subjectDataTable.subscribe("rowMouseoverEvent", subjectDataTable.onEventHighlightRow); 
+        subjectDataTable.subscribe("rowMouseoutEvent", subjectDataTable.onEventUnhighlightRow); 
+        subjectDataTable.subscribe("rowClickEvent", function (oArgs) {
+        	var elTarget = oArgs.target;
+        	var oRecord = this.getRecord(elTarget);
+        	document.location='/c3pr/pages/personAndOrganization/participant/viewParticipant?'+ oRecord.getData("identifierStr");
+        }); 
         return {
             oDS: subjectDataSource,
             oDT: subjectDataTable
@@ -73,10 +84,12 @@ color:white;
 <chrome:box title="Subject Search Results">
 <chrome:division>
 	<div align="right">
-		<tags:button color="blue" value="print" size="small" icon="print"/>
-		<tags:button color="blue" value="export" size="small" icon="export"/>
+		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
+		<tags:button color="blue" value="export" size="small" icon="export" onclick=""/>
 	</div>
+	<div id="printable">
 	<div id="subjectTable" class="yui-skin-sam"></div>
+	</div>
 	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print"/>
 		<tags:button color="blue" value="export" size="small" icon="export"/>

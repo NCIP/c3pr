@@ -20,12 +20,12 @@
 				<data-type>String</data-type>
 			</search-criteria>
 			<search-criteria>
-				<name>gender</name>
+				<name>administrativeGenderCode</name>
 				<label>Gender</label>
 				<data-type>String</data-type>
 			</search-criteria>
 			<search-criteria>
-				<name>ethnicity</name>
+				<name>ethnicGroupCode</name>
 				<label>Ethnicity</label>
 				<data-type>String</data-type>
 			</search-criteria>

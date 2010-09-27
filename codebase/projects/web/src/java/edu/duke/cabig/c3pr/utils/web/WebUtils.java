@@ -64,5 +64,15 @@ public class WebUtils extends org.springframework.web.util.WebUtils{
 		}
 		return -1;
 	}
+	
+	public static List<String> removeEmptyStrings(List<String> collection){
+		List<String> newList = new ArrayList<String>();
+		for(String str : collection){
+			if(!StringUtils.isBlank(str)){
+				newList.add(str);
+			}
+		}
+		return newList ;
+	}
 
 }

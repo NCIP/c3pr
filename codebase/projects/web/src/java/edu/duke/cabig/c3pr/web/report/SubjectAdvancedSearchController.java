@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.utils.web.WebUtils;
 
 public class SubjectAdvancedSearchController extends AdvancedSearchController{
 	
@@ -33,12 +34,12 @@ public class SubjectAdvancedSearchController extends AdvancedSearchController{
 		AdvancedSearchWrapper wrapper  = (AdvancedSearchWrapper) command ;
 		List<AdvancedSearchCriteriaParameter> criteriaList = new ArrayList<AdvancedSearchCriteriaParameter>();
 		for(AdvancedSearchCriteriaParameter searchCriteria : wrapper.getSearchCriteriaList()){
-			if(searchCriteria.getValues().size() != 0){
+			searchCriteria.setValues(WebUtils.removeEmptyStrings(searchCriteria.getValues()));
+			if(searchCriteria.getValues().size() != 0 ){
 				criteriaList.add(searchCriteria);
 			}
 		}
 		List<Participant> subjects = getAdvancedSearchRepository().searchSubjects(criteriaList);
-		
 		Map map = errors.getModel();
 		map.put("subjects", subjects);
 		ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
