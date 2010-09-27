@@ -19,7 +19,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	-->
 	<jaxws:client id="subjectManagementClient"
 		serviceClass="edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement"
-		wsdlLocation="file:///C:/Projects/C3PR/projects/ws-client/misc/SubjectManagement.wsdl"
+		wsdlLocation="https://localhost:8443/c3pr/services/services/SubjectManagement?wsdl"
 		address="https://localhost:8443/c3pr/services/services/SubjectManagement">
 		<jaxws:features>
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
