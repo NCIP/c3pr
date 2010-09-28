@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:oasis:names:tc:SAML:1.0:assertion file:///c:/temp/oasis-sstc-saml-schema-assertion-1.0.xsd">
+	<soap:Header>
+		<Action xmlns="http://www.w3.org/2005/08/addressing">http://enterpriseservices.nci.nih.gov/SubjectManagementService/SubjectManagement/querySubjectRequest
+		</Action>
+		<MessageID xmlns="http://www.w3.org/2005/08/addressing">urn:uuid:8f196943-0f57-4a1b-afed-ba718a78817c
+		</MessageID>
+		<To xmlns="http://www.w3.org/2005/08/addressing">https://roectm800a:21443/c3pr/services/services/SubjectManagement
+		</To>
+		<ReplyTo xmlns="http://www.w3.org/2005/08/addressing">
+			<Address>http://www.w3.org/2005/08/addressing/anonymous</Address>
+		</ReplyTo>
+		<wsse:Security
+			xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+			soap:mustUnderstand="1">
+			<saml:Assertion AssertionID="_1aa1e970-8dc8-4472-b119-67e19e93f2b1"
+				IssueInstant="2010-09-27T21:11:46.278Z" Issuer="http://R0177808IDM.mayoid.gps.org/adfs/services/trust"
+				MajorVersion="1" MinorVersion="1">
+				<saml:Conditions NotBefore="2010-09-27T21:11:46.275Z"
+					NotOnOrAfter="2010-09-27T22:11:46.275Z">
+					<saml:AudienceRestrictionCondition>
+						<saml:Audience>http://www.sample.com</saml:Audience>
+					</saml:AudienceRestrictionCondition>
+				</saml:Conditions>
+				<saml:AttributeStatement>
+					<saml:Subject>
+						<saml:SubjectConfirmationn>
+							<saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer</saml:ConfirmationMethod>
+						</saml:SubjectConfirmationn>
+					</saml:Subject>
+					<saml:Attribute AttributeName="windowsaccountname"
+						AttributeNamespace="http://schemas.microsoft.com/ws/2008/06/identity/claims">
+						<saml:AttributeValue>jhurt</saml:AttributeValue>
+					</saml:Attribute>
+				</saml:AttributeStatement>
+				<saml:AuthenticationStatement
+					AuthenticationInstant="2010-09-27T21:11:46.266Z"
+					AuthenticationMethod="urn:oasis:names:tc:SAML:1.0:am:password">
+					<saml:Subject>
+						<saml:SubjectConfirmation>
+							<saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer</saml:ConfirmationMethod>
+						</saml:SubjectConfirmation>
+					</saml:Subject>
+				</saml:AuthenticationStatement>
+				<ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+					<ds:SignedInfo>
+						<ds:CanonicalizationMethod
+							Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+						<ds:SignatureMethod
+							Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+						<ds:Reference URI="#_1aa1e970-8dc8-4472-b119-67e19e93f2b1">
+							<ds:Transforms>
+								<ds:Transform
+									Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+								<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
+							</ds:Transforms>
+							<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+							<ds:DigestValue>WqqecYqR+zHSpLfLt6jzPN47mfcAVAiWBdT7ouCpuSg=</ds:DigestValue>
+						</ds:Reference>
+					</ds:SignedInfo>
+					<ds:SignatureValue>NeAx/dq/yVJMbjnmwl4avzhZkRDQWE53Qd7RoxRfrX2bliksclfwACwFp+12wJW5wWKM93yya5Of+htkgT1BjGCHP0vD1rh2WkG0A1Gvv/ybyZRPZLphnRHfR1Chj0PEaXYuzIPJCmoUIGxutLL96sizdRw6usqxKANyauT7fwuldsm+uRAqP0BvW0kFGrANNdJc26NbwVsz0yfOtG1kxpK5618bMfoujevaTJQebeFnondySlmqXAjvwZgwppNoj8cfC8WJWSXkuKW4Wq1oJErD1JlzCmiBFgpYnBFEuCIKdf9e00qSPIKxdPWInv5FtzVa1zQUaIY5IEsEOZysTA==</ds:SignatureValue>
+					<KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+						<X509Data>
+							<X509Certificate>MIIC8DCCAdigAwIBAgIQTW25K22MyJNP4syRgr/DIjANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQDEylBREZTIFNpZ25pbmcgLSBSMDE3NzgwOElETS5tYXlvaWQuZ3BzLm9yZzAeFw0xMDA2MDgxOTQ2MzhaFw0xMTA2MDgxOTQ2MzhaMDQxMjAwBgNVBAMTKUFERlMgU2lnbmluZyAtIFIwMTc3ODA4SURNLm1heW9pZC5ncHMub3JnMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtFmXd9CzRu7uzgmh28KLB4R+Ue/PYt1viyloT/OYXG8enLTOBdjgV4U68mfM6QQyyfWLmBtcf8/MlyBB3kJWexO34fig7Yy6VcFMfJC0i3Ut+UYjub+ZzyuTAAkpiyW7OXIQeFN11BGiJHCwqwPZw/mdLpIIjt2yV6tdWDB8OlM+EnQH9pvavnb0eeExmgTuzeIC+I1EtJLtp9c3F4kIEvN4I9crxE8955PJ1xXEC7emfES/yG+40Zvin4QYJVa4EcdHxKnepIpdv15tOt7Lacl9gDoQY+vq7Ch7gLFsoZhN3gSW83UNqA3Aegb3hbsD/1HiPqYenTbbhoItZqq7TwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQA5z203SUxqGEDWhxa+RN1c5XH93miOmPJHdMOdCeIL2nNYkMUatpDMR6ZGJ3eZl0DlZWGdq4wl4ldyv8OpUpJlnFGbxMpsPrJCngayyvX00TuGD2kkFusXzEId+Hho6/9cv6FBthowTBjOcLszEkuIrJ9XOeYYrs3pUSZE5XgWIRV1CmAI1/QoZg+GzMvP8g/N3KIu8aVCwjTIBrpcMQtO+yKzak6HCPyayYRjgPSZ15MRGcQzdtYTvKNLEyta7q2lb4ZVXTWaYiGreC6pBlsF0pxT7tpDVriGOYlyoI24qva3F+y8SpiHMXt8fjqovcXx2iSZFeuM7FOYlSElmDH/</X509Certificate>
+						</X509Data>
+					</KeyInfo>
+				</ds:Signature>
+			</saml:Assertion>
+		</wsse:Security>
+	</soap:Header>
+	<soap:Body>
+		<ns4:QuerySubjectRequest xmlns:ns2="http://enterpriseservices.nci.nih.gov"
+			xmlns:ns3="uri:iso.org:21090"
+			xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectManagementService">
+			<subject>
+				<ns2:entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+					xsi:type="ns2:Person">
+					<ns2:administrativeGenderCode />
+					<ns2:birthDate />
+					<ns2:deathDate />
+					<ns2:deathIndicator />
+					<ns2:ethnicGroupCode />
+					<ns2:maritalStatusCode />
+					<ns2:name />
+					<ns2:postalAddress />
+					<ns2:raceCode />
+					<ns2:telecomAddress />
+				</ns2:entity>
+			</subject>
+		</ns4:QuerySubjectRequest>
+	</soap:Body>
+</soap:Envelope>

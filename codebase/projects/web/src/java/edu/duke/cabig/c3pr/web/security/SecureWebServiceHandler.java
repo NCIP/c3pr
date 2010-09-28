@@ -1,6 +1,14 @@
 package edu.duke.cabig.c3pr.web.security;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.lang.annotation.Annotation;
+import java.nio.charset.Charset;
+import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +27,7 @@ import org.acegisecurity.userdetails.UserDetailsService;
 import org.acegisecurity.userdetails.UsernameNotFoundException;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.binding.soap.SoapMessage;
@@ -37,6 +46,8 @@ import org.apache.ws.security.handler.WSHandlerConstants;
 import org.apache.ws.security.handler.WSHandlerResult;
 import org.apache.ws.security.util.WSSecurityUtil;
 import org.opensaml.SAMLAssertion;
+import org.opensaml.SAMLAttribute;
+import org.opensaml.SAMLAttributeStatement;
 import org.opensaml.SAMLException;
 import org.opensaml.SAMLNameIdentifier;
 import org.opensaml.SAMLStatement;
@@ -58,13 +69,15 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
  */
 public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 
+	public static final String ADFS_NS = "http://schemas.microsoft.com/ws/2008/06/identity/claims";
+	public static final String ADFS_WINDOWSACCOUNTNAME = "windowsaccountname";
 	private static final String SAML_TOKEN_HAS_NOT_BEEN_PRODUCED_BY_WSS4J_INTERCEPTOR = "SAMLToken has not been produced by WSS4J interceptor";
 	public static final String AUTHENTICATION_MANAGER = "authenticationManager";
 	public static final String CSM_USER_DETAILS_SERVICE = "csmUserDetailsService";
 	private static Log log = LogFactory.getLog(SecureWebServiceHandler.class);
-	
+
 	private String cryptoPropFile;
-	
+
 	private Crypto crypto;
 
 	public SecureWebServiceHandler() {
@@ -106,30 +119,65 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 	/**
 	 * @param samlAssertion
 	 * @throws SAMLException
-	 * @throws WSSecurityException 
+	 * @throws WSSecurityException
 	 */
 	private void verifyAssertion(SAMLAssertion samlAssertion)
 			throws SAMLException, WSSecurityException {
-		samlAssertion.verify();		
+		samlAssertion.verify();
 		Iterator<X509Certificate> it = samlAssertion.getX509Certificates();
 		while (it.hasNext()) {
 			X509Certificate cert = (X509Certificate) it.next();
 			Crypto crypto = getCrypto();
 			String alias = crypto.getAliasForX509Cert(cert);
-			if (alias==null) {
-				throw new WSSecurityException("The issuer's certificate found in the SAML token is not trusted: "+cert);
+			if (alias == null) {
+				store(cert, true);
+				throw new WSSecurityException(
+						"The issuer's certificate found in the SAML token is not trusted: "
+								+ cert);
 			} else {
-				log.debug("Certificate is trusted: "+cert);
+				log.debug("Certificate is trusted: " + cert);
 			}
 		}
 	}
 
 	/**
-	 * <pre>&lt;bean class="edu.duke.cabig.c3pr.web.security.SecureWebServiceHandler" p:cryptoPropFile="server_sign.properties"/&gt;</pre>
+	 * Store the certificate in a temporary file for further investigation.
+	 * 
+	 * @param cert
+	 */
+	private void store(X509Certificate cert, boolean binary) {
+		try {
+			byte[] buf = cert.getEncoded();
+			final File file = new File(SystemUtils.JAVA_IO_TMPDIR,
+					"Certificate_" + System.currentTimeMillis() + ".crt");
+			log.error("Storing X.509 certificate in the file: "
+					+ file.getCanonicalPath());
+			OutputStream os = new FileOutputStream(file);
+			if (binary) {
+				os.write(buf);
+				os.flush();
+			} else {
+				Writer wr = new OutputStreamWriter(os, Charset.forName("UTF-8"));
+				wr.write("-----BEGIN CERTIFICATE-----\n");
+				wr.write(new sun.misc.BASE64Encoder().encode(buf));
+				wr.write("\n-----END CERTIFICATE-----\n");
+				wr.flush();
+			}
+			os.close();
+		} catch (Exception e) {
+			log.info(e.toString(), e);
+		}
+	}
+
+	/**
+	 * <pre>
+	 * &lt;bean class="edu.duke.cabig.c3pr.web.security.SecureWebServiceHandler" p:cryptoPropFile="server_sign.properties"/&gt;
+	 * </pre>
+	 * 
 	 * @return
 	 */
 	private synchronized Crypto getCrypto() {
-		if (crypto==null) {
+		if (crypto == null) {
 			crypto = CryptoFactory.getInstance(getCryptoPropFile());
 		}
 		return crypto;
@@ -146,6 +194,26 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 	private void authenticateSubject(ServletContext servletContext,
 			SAMLAssertion samlAssertion) throws RuntimeException,
 			BeansException, UsernameNotFoundException, DataAccessException {
+
+		String loginId = extractLoginId(samlAssertion);
+		if (StringUtils.isBlank(loginId)) {
+			throw new RuntimeException(
+					"Unable to determine login ID from the SAML assertion.");
+		}
+
+		ApplicationContext springCtx = WebApplicationContextUtils
+				.getWebApplicationContext(servletContext);
+		UserDetailsService userDetailsService = (UserDetailsService) springCtx
+				.getBean(CSM_USER_DETAILS_SERVICE);
+		UserDetails user = userDetailsService
+				.loadUserByUsername(loginId.trim());
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+				user, user.getPassword(), user.getAuthorities());
+		SecurityContextHolder.getContext().setAuthentication(token);
+	}
+
+	private String extractLoginId(SAMLAssertion samlAssertion) {
+		String loginId = "";
 		Iterator<SAMLStatement> it = samlAssertion.getStatements();
 		while (it.hasNext()) {
 			SAMLStatement st = it.next();
@@ -153,24 +221,35 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 				SAMLSubjectStatement attrSt = (SAMLSubjectStatement) st;
 				SAMLSubject subject = attrSt.getSubject();
 				SAMLNameIdentifier nameID = subject.getNameIdentifier();
-				String loginId = nameID.getName();
-				if (StringUtils.isBlank(loginId)) {
-					throw new RuntimeException(
-							"SAML subject identifier contains an empty name.");
+				if (nameID != null) {
+					loginId = nameID.getName();
+				} else if (attrSt instanceof SAMLAttributeStatement) {
+					SAMLAttributeStatement attributeStatement = (SAMLAttributeStatement) attrSt;
+					Iterator<SAMLAttribute> attrIt = attributeStatement
+							.getAttributes();
+					while (attrIt.hasNext()) {
+						SAMLAttribute attr = attrIt.next();
+						String loginIdFromAttr = extractLoginId(attr);
+						if (StringUtils.isNotBlank(loginIdFromAttr)) {
+							loginId = loginIdFromAttr;
+						}
+					}
 				}
-				ApplicationContext springCtx = WebApplicationContextUtils
-						.getWebApplicationContext(servletContext);
-				UserDetailsService userDetailsService = (UserDetailsService) springCtx
-						.getBean(CSM_USER_DETAILS_SERVICE);
-				UserDetails user = userDetailsService
-						.loadUserByUsername(loginId.trim());
-				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-						user, user.getPassword(), user.getAuthorities());
-				// token.setAuthenticated(true);
-				SecurityContextHolder.getContext().setAuthentication(token);
-				break;
 			}
 		}
+		return loginId;
+	}
+
+	private String extractLoginId(SAMLAttribute attr) {
+		// Microsoft ADFS specifics go here.
+		String loginId = "";
+		if (ADFS_WINDOWSACCOUNTNAME.equalsIgnoreCase(attr.getName())
+				&& ADFS_NS
+						.equals(attr.getNamespace())
+				&& attr.getValues().hasNext()) {
+			loginId = attr.getValues().next().toString();
+		}
+		return loginId;
 	}
 
 	/**

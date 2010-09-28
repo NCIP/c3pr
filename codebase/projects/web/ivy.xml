@@ -191,7 +191,7 @@
 			<dependency org="org.apache.santuario" name="xmlsec" rev="1.4.3" force="true">
 				<artifact name="xmlsec" type="jar" ext="jar"/>				
 			</dependency>		
-			<dependency org="org.opensaml" name="opensaml" rev="1.1"/>
+			<dependency org="com.semanticbits" name="opensaml" rev="1.1"/>
 				
 			<exclude org="xml-security" name="xmlsec" rev="1.3.0"/>
 			<exclude org="org.globus" name="xmlsec" rev="1.2"/>
