@@ -361,7 +361,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		props.load(is);
 		IOUtils.closeQuietly(is);
 
-		final String rulesRepURL = rulesDir.toURL().toString();
+		final String rulesRepURL = encodeURL(rulesDir.toURL().toString());
 		props.setProperty("rules.repository", rulesRepURL);
 		final FileOutputStream os = new FileOutputStream(dsFile);
 		props.store(os, "");
@@ -370,6 +370,11 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 		logger.info("Rules repository will be at " + rulesRepURL);
 
+	}
+
+	private String encodeURL(String url) {
+		// TODO Auto-generated method stub
+		return url.replaceAll("\\+", "%2B");
 	}
 
 	/**
