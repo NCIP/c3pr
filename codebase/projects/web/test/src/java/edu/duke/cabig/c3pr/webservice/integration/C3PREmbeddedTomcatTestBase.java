@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -372,9 +373,21 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 	}
 
+	/**
+	 * Quick fix for URLEncoding problem. Will resive to a fuller solution later.
+	 * @param url
+	 * @return
+	 */
 	private String encodeURL(String url) {
-		// TODO Auto-generated method stub
-		return url.replaceAll("\\+", "%2B");
+		StringBuilder sb = new StringBuilder();
+		for (char c: url.toCharArray()) {
+			if (c!=':' && c!='/') {
+				sb.append(URLEncoder.encode(String.valueOf(c)));
+			} else {
+				sb.append(c);
+			}
+		}
+		return sb.toString();
 	}
 
 	/**
