@@ -17,14 +17,23 @@ import org.apache.commons.logging.LogFactory;
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import com.semanticbits.querybuilder.AdvancedSearchHelper;
 
+import edu.duke.cabig.c3pr.constants.ConsentRequired;
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
+import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
+import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
@@ -46,6 +55,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.studyutility.StudyIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Organization;
@@ -62,6 +72,10 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 public class JAXBToDomainObjectConverterImpl implements
 		JAXBToDomainObjectConverter {
 
+	private static final String STUDY_VERSION_NAME = "Original Version";
+	private static final String STUDY_TYPE = "Basic Science";
+	private static final int STUDY_TARGET_ACCRUAL = 100;
+	public static final String STUDY_PHASE = "Phase 0 Trial";
 	private static final String SEMICOLON = ":";
 	static final String X_TEXT_FAX = "x-text-fax";
 	static final String TEL = "tel";
@@ -84,6 +98,8 @@ public class JAXBToDomainObjectConverterImpl implements
 	private static final int WRONG_RACE_CODE = 907;
 	private static final int INVALID_SUBJECT_STATE_CODE = 908;
 	private static final int MISSING_ELEMENT = 909;
+	private static final int INVALID_STUDY_IDENTIFIER = 925;
+	private static final int UNSUPPORTED_ORG_ID_TYPE = 926;
 
 	/** The exception helper. */
 	protected C3PRExceptionHelper exceptionHelper;
@@ -393,6 +409,17 @@ public class JAXBToDomainObjectConverterImpl implements
 		II id = orgId.getIdentifier();
 		BL isPrimary = orgId.getPrimaryIndicator();
 		CD typeCode = orgId.getTypeCode();
+		return resolveHealthcareSite(id, isPrimary, typeCode);
+	}
+
+	/**
+	 * @param id
+	 * @param isPrimary
+	 * @param typeCode
+	 * @throws ConversionException
+	 */
+	private HealthcareSite resolveHealthcareSite(II id, BL isPrimary,
+			CD typeCode) throws ConversionException {
 		if (id == null || StringUtils.isBlank(id.getExtension())) {
 			throw exceptionHelper
 					.getConversionException(SUBJECT_IDENTIFIER_MISSING_ORGANIZATION);
@@ -640,8 +667,8 @@ public class JAXBToDomainObjectConverterImpl implements
 	public AdvancedSearchCriteriaParameter convert(
 			AdvanceSearchCriterionParameter param) {
 		String contextObjectName = (isNull(param.getObjectContextName()) || StringUtils
-				.isBlank(param.getObjectContextName().getValue())) ? StringUtils.EMPTY : param
-				.getObjectContextName().getValue();
+				.isBlank(param.getObjectContextName().getValue())) ? StringUtils.EMPTY
+				: param.getObjectContextName().getValue();
 		String objectName = convertAndErrorIfBlank(param.getObjectName(),
 				"objectName");
 		String attributeName = convertAndErrorIfBlank(param.getAttributeName(),
@@ -673,6 +700,131 @@ public class JAXBToDomainObjectConverterImpl implements
 		} else {
 			return st.getCode();
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert(java.util.List)
+	 */
+	public List<OrganizationAssignedIdentifier> convert(
+			List<StudyIdentifier> xmlStudyIds) {
+		List<OrganizationAssignedIdentifier> list = new ArrayList<OrganizationAssignedIdentifier>();
+		for (StudyIdentifier studyIdentifier : xmlStudyIds) {
+			list.add(convert(studyIdentifier));
+		}
+		return list;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert(edu.duke.cabig.c3pr.webservice.studyutility.StudyIdentifier)
+	 */
+	public OrganizationAssignedIdentifier convert(StudyIdentifier si) {
+		II ii = si.getIdentifier();
+		CD typeCode = si.getTypeCode();
+		BL primInd = si.getPrimaryIndicator();
+		edu.duke.cabig.c3pr.webservice.studyutility.OrganizationIdentifier orgId = si
+				.getAssigningOrganization();
+		if (isNull(ii) || isNull(typeCode) || orgId == null) {
+			throw exceptionHelper
+					.getConversionException(INVALID_STUDY_IDENTIFIER);
+		}
+		try {
+			OrganizationIdentifierTypeEnum.valueOf(typeCode.getCode());
+		} catch (IllegalArgumentException e) {
+			throw exceptionHelper
+					.getConversionException(UNSUPPORTED_ORG_ID_TYPE);
+		}
+		OrganizationAssignedIdentifier id = new OrganizationAssignedIdentifier();
+		id.setPrimaryIndicator(primInd != null
+				&& Boolean.TRUE.equals(primInd.isValue()));
+		id.setValue(ii.getExtension());
+		id.setTypeInternal(typeCode.getCode());
+		HealthcareSite healthcareSite = resolveHealthcareSite(orgId
+				.getIdentifier(), orgId.getPrimaryIndicator(), orgId
+				.getTypeCode());
+		if (healthcareSite == null) {
+			throw exceptionHelper
+					.getConversionException(UNABLE_TO_FIND_ORGANIZATION);
+		}
+		id.setHealthcareSite(healthcareSite);
+		return id;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert(edu.duke.cabig.c3pr.webservice.studyutility.Study)
+	 */
+	public Study convert(
+			edu.duke.cabig.c3pr.webservice.studyutility.Study xmlStudy) {
+
+		// study
+		Study study = new LocalStudy();
+		study.setBlindedIndicator(false);
+		study.setMultiInstitutionIndicator(true);
+		study.setPhaseCode(STUDY_PHASE);
+		study.setRandomizedIndicator(false);
+		study.setTargetAccrualNumber(STUDY_TARGET_ACCRUAL);
+		study.setType(STUDY_TYPE);
+		study.setRetiredIndicatorAsFalse();
+		study.setStratificationIndicator(false);
+		study.setStandaloneIndicator(true);
+		study.setCompanionIndicator(false);
+		study.setConsentRequired(ConsentRequired.ONE);
+		study.setTherapeuticIntentIndicator(false);
+
+		// study version
+		study.setPrecisText(StringUtils.EMPTY);
+		study.setShortTitleText(isNull(xmlStudy.getTitle()) ? "" : xmlStudy
+				.getTitle().getValue());
+		study.setLongTitleText(isNull(xmlStudy.getTitle()) ? "" : xmlStudy
+				.getTitle().getValue());
+		study
+				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		study.setDataEntryStatus(StudyDataEntryStatus.INCOMPLETE);
+		study.setDescriptionText(isNull(xmlStudy.getDescription()) ? ""
+				: xmlStudy.getDescription().getValue());
+		study.setOriginalIndicator(true);
+		study.getStudyVersion().setName(STUDY_VERSION_NAME);
+
+		// identifiers and study organizations
+		for (OrganizationAssignedIdentifier id : convert(xmlStudy
+				.getStudyIdentifier())) {
+			HealthcareSite healthcareSite = id.getHealthcareSite();
+			if (OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER
+					.equals(id.getType())) {
+				StudyCoordinatingCenter scc = new StudyCoordinatingCenter();
+				scc.setHealthcareSite(healthcareSite);
+				study.addStudyOrganization(scc);
+			} else if (OrganizationIdentifierTypeEnum.STUDY_FUNDING_SPONSOR
+					.equals(id.getType())) {
+				StudyFundingSponsor sfs = new StudyFundingSponsor();
+				sfs.setHealthcareSite(healthcareSite);
+				study.addStudyOrganization(sfs);
+			} else if (OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER
+					.equals(id.getType())) {
+				// nothing to do here, I believe.
+			} else if (OrganizationIdentifierTypeEnum.SITE_IDENTIFIER.equals(id
+					.getType())) {
+				StudySite studySite = new StudySite();				
+				studySite.setHealthcareSite(healthcareSite);
+				study.addStudySite(studySite);
+			} else {
+				throw exceptionHelper
+						.getConversionException(UNSUPPORTED_ORG_ID_TYPE);
+			}
+			study.addIdentifier(id);
+		}
+		return study;
 	}
 
 }

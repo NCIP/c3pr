@@ -1,10 +1,15 @@
 package edu.duke.cabig.c3pr.webservice.converters;
 
+import java.util.List;
+
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.ConversionException;
+import edu.duke.cabig.c3pr.webservice.studyutility.StudyIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
@@ -54,5 +59,11 @@ public interface JAXBToDomainObjectConverter {
 	 */
 	AdvancedSearchCriteriaParameter convert(
 			AdvanceSearchCriterionParameter param);
+
+	List<OrganizationAssignedIdentifier> convert(List<StudyIdentifier> xmlIds);
+	
+	OrganizationAssignedIdentifier convert(StudyIdentifier studyIdentifier);
+
+	Study convert(edu.duke.cabig.c3pr.webservice.studyutility.Study xmlStudy); 
 
 }

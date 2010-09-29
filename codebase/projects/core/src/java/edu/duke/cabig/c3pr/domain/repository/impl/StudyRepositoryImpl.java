@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -325,6 +327,20 @@ public class StudyRepositoryImpl implements StudyRepository {
 		study.applyAmendment(studyVersion);
 		return this.merge(study);
 	}
+	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.repository.StudyRepository#getByIdentifiers(java.util.List)
+	 */
+	public List<Study> getByIdentifiers(List<Identifier> studyIdentifiers) {
+		return studyDao.getByIdentifiers(studyIdentifiers); 
+	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.repository.StudyRepository#search(java.util.List)
+	 */
+	public List<Study> search(
+			List<AdvancedSearchCriteriaParameter> searchParameters) {
+		return studyDao.search(searchParameters);
+	}
 
 }

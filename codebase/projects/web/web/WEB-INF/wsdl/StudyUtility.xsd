@@ -31,6 +31,7 @@
 		<sequence>
 			<element name="identifier" type="ISO:II"></element>
 			<element name="typeCode" type="ISO:CD"></element>
+			<element name="primaryIndicator" type="ISO:BL" />
 			<element name="assigningOrganization" type="tns:OrganizationIdentifier" />
 		</sequence>
 	</complexType>

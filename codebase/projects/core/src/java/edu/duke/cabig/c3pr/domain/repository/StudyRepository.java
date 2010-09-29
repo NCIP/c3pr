@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.domain.repository;
 import java.util.Date;
 import java.util.List;
 
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -76,5 +78,9 @@ public interface StudyRepository {
 	public Study applyAmendment(List<Identifier> identifiers);
 
 	public Study applyAmendment(List<Identifier> identifiers, StudyVersion studyVersion);
+	
+	public List<Study> getByIdentifiers(List<Identifier> studyIdentifiers);
+	
+	public List<Study> search(List<AdvancedSearchCriteriaParameter> searchParameters);
 
 }
