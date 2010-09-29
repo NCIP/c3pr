@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:tns="http://enterpriseservices.nci.nih.gov/StudyUtilityService"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sm="http://enterpriseservices.nci.nih.gov/StudyUtilitySchema"
+	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="StudyUtilityService"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov/StudyUtilitySchema StudyUtility.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
+	targetNamespace="http://enterpriseservices.nci.nih.gov/StudyUtilityService">
+	<jaxws:bindings>
+		<jaxws:package name="edu.duke.cabig.c3pr.webservice.studyutility"></jaxws:package>
+	</jaxws:bindings>
+	<wsdl:types>
+		<xsd:schema xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+			jaxb:version="2.1"
+			targetNamespace="http://enterpriseservices.nci.nih.gov/StudyUtilityService">
+			<xsd:annotation>
+				<xsd:appinfo>
+					<jaxb:schemaBindings>
+						<jaxb:package name="edu.duke.cabig.c3pr.webservice.studyutility" />
+					</jaxb:schemaBindings>
+				</xsd:appinfo>
+			</xsd:annotation>
+			<xsd:import namespace="http://enterpriseservices.nci.nih.gov/StudyUtilitySchema"
+				schemaLocation="StudyUtility.xsd" />
+			<xsd:import namespace="uri:iso.org:21090" schemaLocation="ISO_datatypes_Narrative.xsd" />
+
+			<xsd:element name="CreateStudyRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="study" type="sm:Study" minOccurs="1"
+							maxOccurs="1"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CreateStudyResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="study" type="sm:Study" minOccurs="1"
+							maxOccurs="1"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="AdvancedQueryStudyRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="parameters"
+							type="sm:DSET_AdvanceSearchCriterionParameter" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="AdvancedQueryStudyResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studies" type="sm:DSET_Study"
+							minOccurs="1" maxOccurs="1"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="UpdateStudyRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="study" type="sm:Study" minOccurs="1"
+							maxOccurs="1"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="UpdateStudyResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="study" type="sm:Study" minOccurs="1"
+							maxOccurs="1"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="StudyUtilityFault" type="tns:StudyUtilityFault"></xsd:element>
+			<xsd:complexType name="StudyUtilityFault">
+				<xsd:sequence>
+					<xsd:element name="message" type="xsd:string" />
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="CreateStudyRequestMessage">
+		<wsdl:part name="parameters" element="tns:CreateStudyRequest" />
+	</wsdl:message>
+	<wsdl:message name="CreateStudyResponseMessage">
+		<wsdl:part name="parameters" element="tns:CreateStudyResponse" />
+	</wsdl:message>
+	<wsdl:message name="AdvancedQueryStudyRequestMessage">
+		<wsdl:part name="parameters" element="tns:AdvancedQueryStudyRequest" />
+	</wsdl:message>
+	<wsdl:message name="AdvancedQueryStudyResponseMessage">
+		<wsdl:part name="parameters" element="tns:AdvancedQueryStudyResponse" />
+	</wsdl:message>
+	<wsdl:message name="UpdateStudyRequestMessage">
+		<wsdl:part name="parameters" element="tns:UpdateStudyRequest" />
+	</wsdl:message>
+	<wsdl:message name="UpdateStudyResponseMessage">
+		<wsdl:part name="parameters" element="tns:UpdateStudyResponse" />
+	</wsdl:message>
+
+	<!-- Fault Messages -->
+	<wsdl:message name="StudyUtilityFaultMessage">
+		<wsdl:part name="fault" element="tns:StudyUtilityFault"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:portType name="StudyUtility">
+		<wsdl:operation name="createStudy">
+			<wsdl:input message="tns:CreateStudyRequestMessage" />
+			<wsdl:output message="tns:CreateStudyResponseMessage" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage"
+				name="StudyUtilityException" />
+		</wsdl:operation>
+		<wsdl:operation name="advancedQueryStudy">
+			<wsdl:input message="tns:AdvancedQueryStudyRequestMessage" />
+			<wsdl:output message="tns:AdvancedQueryStudyResponseMessage" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage"
+				name="StudyUtilityException" />
+		</wsdl:operation>
+		<wsdl:operation name="updateStudy">
+			<wsdl:input message="tns:UpdateStudyRequestMessage" />
+			<wsdl:output message="tns:UpdateStudyResponseMessage" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage"
+				name="StudyUtilityException" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="StudyUtilitySOAP" type="tns:StudyUtility">
+		<wsp:Policy
+			xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
+			xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+			<wsp:ExactlyOne>
+				<wsp:All>
+					<sp:TransportBinding>
+						<wsp:Policy>
+							<sp:TransportToken>
+								<wsp:Policy>
+									<sp:HttpsToken RequireClientCertificate="false" />
+								</wsp:Policy>
+							</sp:TransportToken>
+							<sp:AlgorithmSuite>
+								<wsp:Policy>
+									<sp:Basic256Rsa15 />
+								</wsp:Policy>
+							</sp:AlgorithmSuite>
+						</wsp:Policy>
+					</sp:TransportBinding>
+
+					<sp:SupportingTokens>
+						<wsp:Policy>
+							<sp:IssuedToken
+								sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+								<sp:RequestSecurityTokenTemplate>
+									<t:TokenType>urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType>
+									<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</t:KeyType>
+								</sp:RequestSecurityTokenTemplate>
+							</sp:IssuedToken>
+						</wsp:Policy>
+					</sp:SupportingTokens>
+
+					<sp:Trust13>
+						<wsp:Policy>
+							<wsp:ExactlyOne>
+								<wsp:All>
+									<sp:MustSupportIssuedTokens />
+								</wsp:All>
+							</wsp:ExactlyOne>
+						</wsp:Policy>
+					</sp:Trust13>
+				</wsp:All>
+			</wsp:ExactlyOne>
+		</wsp:Policy>
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="createStudy">
+			<soap:operation style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="StudyUtilityException">
+				<soap:fault name="StudyUtilityException" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="advancedQueryStudy">
+			<soap:operation style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="StudyUtilityException">
+				<soap:fault name="StudyUtilityException" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="updateStudy">
+			<soap:operation style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="StudyUtilityException">
+				<soap:fault name="StudyUtilityException" />
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="StudyUtilityService">
+		<wsdl:port name="StudyUtility" binding="tns:StudyUtilitySOAP">
+			<soap:address location="REPLACE_WITH_ACTUAL_URL" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

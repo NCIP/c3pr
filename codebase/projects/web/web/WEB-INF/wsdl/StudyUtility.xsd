@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://enterpriseservices.nci.nih.gov/StudyUtilitySchema"
+	xmlns:ISO="uri:iso.org:21090" xmlns:tns="http://enterpriseservices.nci.nih.gov/StudyUtilitySchema"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
+	xmlns:sch="http://www.ascc.net/xml/schematron" elementFormDefault="qualified">
+
+	<annotation>
+		<appinfo>
+			<jaxb:schemaBindings>
+				<jaxb:package name="edu.duke.cabig.c3pr.webservice.studyutility" />
+			</jaxb:schemaBindings>
+		</appinfo>
+		<documentation>XML Schema defining types and faults for NCI Enterprise
+			Services
+			implementation.
+        </documentation>
+	</annotation>
+
+	<import schemaLocation="ISO_datatypes_Narrative.xsd" namespace="uri:iso.org:21090" />
+
+	<complexType name="Study">
+		<sequence>
+			<element name="studyIdentifier" type="tns:StudyIdentifier"
+				minOccurs="0" maxOccurs="unbounded" />
+			<element name="title" type="ISO:ST" minOccurs="0" />
+			<element name="description" type="ISO:ST" minOccurs="0" />
+		</sequence>
+	</complexType>
+
+	<complexType name="StudyIdentifier">
+		<sequence>
+			<element name="identifier" type="ISO:II"></element>
+			<element name="typeCode" type="ISO:CD"></element>
+			<element name="assigningOrganization" type="tns:OrganizationIdentifier" />
+		</sequence>
+	</complexType>
+
+	<complexType name="OrganizationIdentifier">
+		<annotation>
+			<documentation>Identifier of an organization.</documentation>
+		</annotation>
+		<sequence>
+			<element name="identifier" type="ISO:II">
+				<annotation>
+					<documentation>The unique symbol that establishes identity of the
+						organization.</documentation>
+				</annotation>
+			</element>
+			<element name="primaryIndicator" type="ISO:BL" />
+			<element name="typeCode" type="ISO:CD">
+				<annotation>
+					<documentation>A coded value specifying the kind of organization
+						identifier.</documentation>
+				</annotation>
+			</element>
+		</sequence>
+	</complexType>
+
+	<!-- Collections returned as search results. -->
+	<complexType name="DSET_Study">
+		<complexContent>
+			<extension base="tns:COLL_Study">
+				<sequence>
+					<element name="item" type="tns:Study" minOccurs="0"
+						maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType abstract="true" name="COLL_Study">
+		<complexContent>
+			<extension base="ISO:ANY" />
+		</complexContent>
+	</complexType>
+
+
+	<!-- Advanced Search -->
+	<complexType name="AdvanceSearchCriterionParameter">
+		<sequence>
+			<element name="objectName" type="ISO:ST" />
+			<element name="attributeName" type="ISO:ST" />
+			<element name="values" type="ISO:DSET_ST" />
+			<element name="predicate" type="ISO:CD" />
+			<element name="objectContextName" type="ISO:ST" minOccurs="0" />
+		</sequence>
+	</complexType>
+
+	<complexType name="DSET_AdvanceSearchCriterionParameter">
+		<annotation>
+			<appinfo>
+				<sch:pattern name="null or not empty">
+					<sch:rule abstract="true"
+						id="DSET_AdvanceSearchCriterionParameter-0">
+						<sch:assert test="(@nullFlavor or item) and not(@nullFlavor and item)" />
+					</sch:rule>
+				</sch:pattern>
+				<sch:pattern name="no null members">
+					<sch:rule abstract="true"
+						id="DSET_AdvanceSearchCriterionParameter-1">
+						<sch:assert test="@nullFlavor or not(item\@nullFlavor)" />
+					</sch:rule>
+				</sch:pattern>
+			</appinfo>
+		</annotation>
+		<complexContent>
+			<extension base="tns:COLL_AdvanceSearchCriterionParameter">
+				<sequence>
+					<element name="item" type="tns:AdvanceSearchCriterionParameter"
+						minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType abstract="true"
+		name="COLL_AdvanceSearchCriterionParameter">
+		<complexContent>
+			<extension base="ISO:ANY" />
+		</complexContent>
+	</complexType>
+
+</schema>
