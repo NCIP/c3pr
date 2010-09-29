@@ -767,8 +767,10 @@ public class JAXBToDomainObjectConverterImpl implements
 	public Study convert(
 			edu.duke.cabig.c3pr.webservice.studyutility.Study xmlStudy) {
 
-		// study
 		Study study = new LocalStudy();
+		convert(study, xmlStudy);
+		
+		// study		
 		study.setBlindedIndicator(false);
 		study.setMultiInstitutionIndicator(true);
 		study.setPhaseCode(STUDY_PHASE);
@@ -784,15 +786,10 @@ public class JAXBToDomainObjectConverterImpl implements
 
 		// study version
 		study.setPrecisText(StringUtils.EMPTY);
-		study.setShortTitleText(isNull(xmlStudy.getTitle()) ? "" : xmlStudy
-				.getTitle().getValue());
-		study.setLongTitleText(isNull(xmlStudy.getTitle()) ? "" : xmlStudy
-				.getTitle().getValue());
 		study
 				.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		study.setDataEntryStatus(StudyDataEntryStatus.INCOMPLETE);
-		study.setDescriptionText(isNull(xmlStudy.getDescription()) ? ""
-				: xmlStudy.getDescription().getValue());
+
 		study.setOriginalIndicator(true);
 		study.getStudyVersion().setName(STUDY_VERSION_NAME);
 
@@ -815,7 +812,7 @@ public class JAXBToDomainObjectConverterImpl implements
 				// nothing to do here, I believe.
 			} else if (OrganizationIdentifierTypeEnum.SITE_IDENTIFIER.equals(id
 					.getType())) {
-				StudySite studySite = new StudySite();				
+				StudySite studySite = new StudySite();
 				studySite.setHealthcareSite(healthcareSite);
 				study.addStudySite(studySite);
 			} else {
@@ -825,6 +822,24 @@ public class JAXBToDomainObjectConverterImpl implements
 			study.addIdentifier(id);
 		}
 		return study;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert(edu.duke.cabig.c3pr.domain.Study,
+	 * edu.duke.cabig.c3pr.webservice.studyutility.Study)
+	 */
+	public void convert(Study study,
+			edu.duke.cabig.c3pr.webservice.studyutility.Study xmlStudy) {
+		study.setShortTitleText(isNull(xmlStudy.getTitle()) ? "" : xmlStudy
+				.getTitle().getValue());
+		study.setLongTitleText(isNull(xmlStudy.getTitle()) ? "" : xmlStudy
+				.getTitle().getValue());
+		study.setDescriptionText(isNull(xmlStudy.getDescription()) ? ""
+				: xmlStudy.getDescription().getValue());
 	}
 
 }

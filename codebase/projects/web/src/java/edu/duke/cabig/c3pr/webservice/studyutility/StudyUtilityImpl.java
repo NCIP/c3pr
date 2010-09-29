@@ -31,6 +31,8 @@ public class StudyUtilityImpl implements StudyUtility {
 
 	private static final String STUDY_ALREADY_EXISTS = "A study with the given identifier(s) already exists.";
 
+	private static final String STUDY_DOES_NOT_EXIST = "A study with the given identifier(s) does not exist.";
+
 	private static Log log = LogFactory.getLog(SubjectManagementImpl.class);
 
 	private JAXBToDomainObjectConverter converter;
@@ -109,9 +111,35 @@ public class StudyUtilityImpl implements StudyUtility {
 	 * edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#updateStudy(
 	 * edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyRequest)
 	 */
-	public UpdateStudyResponse updateStudy(UpdateStudyRequest parameters)
+	public UpdateStudyResponse updateStudy(UpdateStudyRequest request)
 			throws StudyUtilityFaultMessage {
-		return null;
+		UpdateStudyResponse response = new UpdateStudyResponse();
+		try {
+			Study xmlStudy = request.getStudy();
+			List<StudyIdentifier> xmlIds = xmlStudy.getStudyIdentifier();
+			if (CollectionUtils.isEmpty(xmlIds)) {
+				fail(STUDY_IDENTIFIER_REQUIRED);
+			}
+			List<OrganizationAssignedIdentifier> ids = converter
+					.convert(xmlIds);
+			List<edu.duke.cabig.c3pr.domain.Study> existentStudies = studyRepository
+					.getByIdentifiers((List) ids);
+			if (CollectionUtils.isEmpty(existentStudies)) {
+				fail(STUDY_DOES_NOT_EXIST);
+			}
+			edu.duke.cabig.c3pr.domain.Study study = existentStudies.get(0);
+			converter.convert(study, xmlStudy);
+			studyRepository.save(study);
+			response.setStudy(xmlStudy);
+		} catch (RuntimeException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		} catch (C3PRCodedException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		}
+		return response;
+
 	}
 
 	/**
