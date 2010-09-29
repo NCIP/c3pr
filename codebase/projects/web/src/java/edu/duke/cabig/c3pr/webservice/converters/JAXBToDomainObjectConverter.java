@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
-import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -91,12 +90,25 @@ public interface JAXBToDomainObjectConverter {
 	 * Unlike {
 	 * {@link #convert(edu.duke.cabig.c3pr.webservice.studyutility.Study)}
 	 * method, this one will only update the given {@link Study} instance by
-	 * transferring field values from the JAXB object. Identifiers won't be transferred.
+	 * transferring field values from the JAXB object. Identifiers won't be
+	 * transferred.
 	 * 
 	 * @param study
 	 * @param xmlStudy
 	 */
 	void convert(Study study,
 			edu.duke.cabig.c3pr.webservice.studyutility.Study xmlStudy);
+
+	/**
+	 * Does the same thing as {{@link #convert(AdvanceSearchCriterionParameter)}
+	 * . TODO: Will need to refactor to a single common method!
+	 * 
+	 * @param param
+	 * @return
+	 */
+	AdvancedSearchCriteriaParameter convert(
+			edu.duke.cabig.c3pr.webservice.studyutility.AdvanceSearchCriterionParameter param);
+
+	edu.duke.cabig.c3pr.webservice.studyutility.Study convert(Study study);
 
 }

@@ -684,6 +684,35 @@ public class JAXBToDomainObjectConverterImpl implements
 						contextObjectName, attributeName, values, predicate);
 	}
 
+	// TODO: Duplicate code, refactor!
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert(edu.duke.cabig.c3pr.webservice.subjectmanagement.
+	 * AdvanceSearchCriterionParameter)
+	 */
+	public AdvancedSearchCriteriaParameter convert(
+			edu.duke.cabig.c3pr.webservice.studyutility.AdvanceSearchCriterionParameter param) {
+		String contextObjectName = (isNull(param.getObjectContextName()) || StringUtils
+				.isBlank(param.getObjectContextName().getValue())) ? StringUtils.EMPTY
+				: param.getObjectContextName().getValue();
+		String objectName = convertAndErrorIfBlank(param.getObjectName(),
+				"objectName");
+		String attributeName = convertAndErrorIfBlank(param.getAttributeName(),
+				"attributeName");
+		String predicate = convertAndErrorIfBlank(param.getPredicate(),
+				"predicate");
+		List<String> values = new ArrayList<String>();
+		for (ST st : param.getValues().getItem()) {
+			values.add(st.getValue());
+		}
+		return AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(objectName,
+						contextObjectName, attributeName, values, predicate);
+	}
+
 	private String convertAndErrorIfBlank(ST st, String elementName) {
 		if (isNull(st) || StringUtils.isBlank(st.getValue())) {
 			throw exceptionHelper.getConversionException(MISSING_ELEMENT,
@@ -769,8 +798,8 @@ public class JAXBToDomainObjectConverterImpl implements
 
 		Study study = new LocalStudy();
 		convert(study, xmlStudy);
-		
-		// study		
+
+		// study
 		study.setBlindedIndicator(false);
 		study.setMultiInstitutionIndicator(true);
 		study.setPhaseCode(STUDY_PHASE);
@@ -840,6 +869,46 @@ public class JAXBToDomainObjectConverterImpl implements
 				.getTitle().getValue());
 		study.setDescriptionText(isNull(xmlStudy.getDescription()) ? ""
 				: xmlStudy.getDescription().getValue());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert(edu.duke.cabig.c3pr.webservice.studyutility.Study)
+	 */
+	public edu.duke.cabig.c3pr.webservice.studyutility.Study convert(Study study) {
+		edu.duke.cabig.c3pr.webservice.studyutility.Study xmlStudy = new edu.duke.cabig.c3pr.webservice.studyutility.Study();
+		xmlStudy.setDescription(new ST(study.getDescriptionText()));
+		xmlStudy.setTitle(new ST(study.getShortTitleText()));
+
+		for (OrganizationAssignedIdentifier id : study
+				.getOrganizationAssignedIdentifiers()) {
+			xmlStudy.getStudyIdentifier().add(convert(id));
+		}
+		return xmlStudy;
+	}
+
+	private StudyIdentifier convert(OrganizationAssignedIdentifier id) {
+		StudyIdentifier studyId = new StudyIdentifier();
+		studyId.setTypeCode(new CD(id.getTypeInternal()));
+		studyId.setIdentifier(new II(id.getValue()));
+		studyId.setPrimaryIndicator(new BL(id.getPrimaryIndicator()));
+
+		HealthcareSite site = ((OrganizationAssignedIdentifier) id)
+				.getHealthcareSite();
+		for (Identifier siteId : site.getIdentifiersAssignedToOrganization()) {
+			if (siteId.isPrimary()) {
+				edu.duke.cabig.c3pr.webservice.studyutility.OrganizationIdentifier orgId = new edu.duke.cabig.c3pr.webservice.studyutility.OrganizationIdentifier();
+				orgId.setTypeCode(new CD(siteId.getTypeInternal()));
+				orgId.setIdentifier(new II(siteId.getValue()));
+				orgId.setPrimaryIndicator(new BL(siteId.getPrimaryIndicator()));
+				studyId.setAssigningOrganization(orgId);
+			}
+		}
+		return studyId;
+
 	}
 
 }

@@ -3,6 +3,7 @@
  */
 package edu.duke.cabig.c3pr.webservice.studyutility;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -12,11 +13,11 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.duke.cabig.c3pr.domain.Identifier;
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl;
 
@@ -55,7 +56,30 @@ public class StudyUtilityImpl implements StudyUtility {
 	public AdvancedQueryStudyResponse advancedQueryStudy(
 			AdvancedQueryStudyRequest parameters)
 			throws StudyUtilityFaultMessage {
-		return null;
+
+		AdvancedQueryStudyResponse response = new AdvancedQueryStudyResponse();
+		DSETStudy studies = new DSETStudy();
+		response.setStudies(studies);
+		try {
+			List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			for (AdvanceSearchCriterionParameter param : parameters
+					.getParameters().getItem()) {
+				AdvancedSearchCriteriaParameter advParam = converter
+						.convert(param);
+				advParameters.add(advParam);
+			}
+
+			List<edu.duke.cabig.c3pr.domain.Study> results = new ArrayList<edu.duke.cabig.c3pr.domain.Study>(
+					studyRepository.search(advParameters));
+			for (edu.duke.cabig.c3pr.domain.Study s : results) {
+				studies.getItem().add(converter.convert(s));
+			}
+		} catch (RuntimeException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		}
+		return response;
+
 	}
 
 	/*
