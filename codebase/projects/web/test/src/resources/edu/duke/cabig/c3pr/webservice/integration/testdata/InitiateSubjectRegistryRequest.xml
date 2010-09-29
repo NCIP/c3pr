@@ -67,7 +67,7 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 					<ns4:birthDate value="19800101000000"/>
 					<ns4:biologicEntityIdentifier>
 						<ns4:effectiveDateRange nullFlavor="NI"/>
-						<ns4:identifier extension="mayo-1122"/>
+						<ns4:identifier extension="test_subject_id"/>
 						<ns4:primaryIndicator value="true"/>
 						<ns4:typeCode code="MRN"/>
 						<ns4:assigningOrganization>
@@ -109,7 +109,7 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 					</ns4:telecomAddress>
 				</ns4:entity>
 				<ns4:subjectIdentifier>
-					<ns4:identifier extension="service2"/>
+					<ns4:identifier extension="test_studysubject_id"/>
 					<ns4:primaryIndicator value="true"/>
 					<ns4:typeCode code="COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER"/>
 					<ns4:assigningOrganization>
@@ -138,7 +138,7 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 								<ns4:officialTitle value="short"/>
 								<ns4:document>
 									<ns4:documentIdentifier>
-										<ns4:identifier extension="test_service2"/>
+										<ns4:identifier extension="test_study_id"/>
 										<ns4:primaryIndicator value="true"/>
 										<ns4:typeCode code="COORDINATING_CENTER_IDENTIFIER"/>
 										<ns4:assigningOrganization>
@@ -183,7 +183,7 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 							<ns4:officialTitle value="General2"/>
 						</ns4:consent>
 						<ns4:consentDeliveryDate value="20070101000000"/>
-						<ns4:consentingMethod code="Written"/>
+						<ns4:consentingMethod code="Verbal"/>
 						<ns4:consentPresenter value="Deepali Sen"/>
 						<ns4:subjectConsentAnswer>
 							<ns4:missedIndicator value="false"/>

@@ -1,0 +1,145 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <ns4:InitiateSubjectRegistryResponse xmlns:ns5="http://enterpriseservices.nci.nih.gov" xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectRegistryService" xmlns:ns3="http://enterpriseservices.nci.nih.gov/SubjectRegistry" xmlns:ns2="uri:iso.org:21090">
+            <studySubject>
+                <ns3:entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns3:Person">
+                    <ns3:administrativeGenderCode code="M" />
+                    <ns3:birthDate value="20000101000000" />
+                    <ns3:biologicEntityIdentifier>
+                        <ns3:effectiveDateRange nullFlavor="NI" />
+                        <ns3:identifier extension="test_subject_id" />
+                        <ns3:primaryIndicator value="true" />
+                        <ns3:typeCode code="MRN" />
+                        <ns3:assigningOrganization>
+                            <ns3:organizationIdentifier>
+                                <ns3:identifier extension="MN026" />
+                                <ns3:primaryIndicator value="true" />
+                                <ns3:typeCode code="CTEP" />
+                            </ns3:organizationIdentifier>
+                        </ns3:assigningOrganization>
+                    </ns3:biologicEntityIdentifier>
+                    <ns3:ethnicGroupCode>
+                        <ns2:item code="Unknown" />
+                    </ns3:ethnicGroupCode>
+                    <ns3:maritalStatusCode nullFlavor="NI" />
+                    <ns3:name>
+                        <ns2:item>
+                            <ns2:part type="GIV" value="Rudolph" />
+                            <ns2:part type="FAM" value="Clooney" />
+                        </ns2:item>
+                    </ns3:name>
+                    <ns3:postalAddress>
+                        <ns2:item>
+                            <ns2:part type="SAL" value="12359 sunrise valley drive" />
+                            <ns2:part type="CTY" value="Reston" />
+                            <ns2:part type="STA" value="VA" />
+                            <ns2:part type="ZIP" value="20191" />
+                            <ns2:part type="CNT" value="USA" />
+                        </ns2:item>
+                    </ns3:postalAddress>
+                    <ns3:raceCode>
+                        <ns2:item code="White" />
+                        <ns2:item code="Asian" />
+                    </ns3:raceCode>
+                    <ns3:telecomAddress>
+                        <ns2:item value="mailto:test@mail.com" />
+                        <ns2:item value="tel:333-444-5555" />
+                        <ns2:item value="x-text-fax:000-111-2222" />
+                    </ns3:telecomAddress>
+                </ns3:entity>
+                <ns3:subjectIdentifier>
+                    <ns3:identifier extension="test_studysubject_id" />
+                    <ns3:primaryIndicator value="true" />
+                    <ns3:typeCode code="COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER" />
+                    <ns3:assigningOrganization>
+                        <ns3:organizationIdentifier>
+                            <ns3:identifier extension="MN026" />
+                            <ns3:primaryIndicator value="true" />
+                            <ns3:typeCode code="CTEP" />
+                        </ns3:organizationIdentifier>
+                    </ns3:assigningOrganization>
+                </ns3:subjectIdentifier>
+                <ns3:paymentMethodCode code="private insurance" />
+                <ns3:statusCode code="Complete" />
+                <ns3:studySubjectProtocolVersion>
+                    <ns3:studySiteProtocolVersion>
+                        <ns3:studySite>
+                            <ns3:organization>
+                                <ns3:organizationIdentifier>
+                                    <ns3:identifier extension="MN026" />
+                                    <ns3:primaryIndicator value="true" />
+                                    <ns3:typeCode code="CTEP" />
+                                </ns3:organizationIdentifier>
+                            </ns3:organization>
+                        </ns3:studySite>
+                        <ns3:studyProtocolVersion>
+                            <ns3:studyProtocolDocument>
+                                <ns3:officialTitle value="short_title_text" />
+                                <ns3:document>
+                                    <ns3:documentIdentifier>
+                                        <ns3:identifier extension="test_study_id" />
+                                        <ns3:primaryIndicator value="true" />
+                                        <ns3:typeCode code="COORDINATING_CENTER_IDENTIFIER" />
+                                        <ns3:assigningOrganization>
+                                            <ns3:organizationIdentifier>
+                                                <ns3:identifier extension="MN026" />
+                                                <ns3:primaryIndicator value="true" />
+                                                <ns3:typeCode code="CTEP" />
+                                            </ns3:organizationIdentifier>
+                                        </ns3:assigningOrganization>
+                                    </ns3:documentIdentifier>
+                                </ns3:document>
+                                <ns3:publicTitle value="long_title" />
+                                <ns3:publicDescription value="description" />
+                            </ns3:studyProtocolDocument>
+                        </ns3:studyProtocolVersion>
+                    </ns3:studySiteProtocolVersion>
+                    <ns3:studySubjectConsentVersion>
+                        <ns3:informedConsentDate value="20100101000000" />
+                        <ns3:consent>
+                            <ns3:officialTitle value="General1" />
+                            <ns3:versionNumberText value="1.0" />
+                        </ns3:consent>
+                        <ns3:consentDeliveryDate value="20090101000000" />
+                        <ns3:consentingMethod code="Written" />
+                        <ns3:consentPresenter value="John Doe" />
+                        <ns3:subjectConsentAnswer>
+                            <ns3:missedIndicator value="true" />
+                            <ns3:consentQuestion>
+                                <ns3:officialTitle value="q1" />
+                            </ns3:consentQuestion>
+                        </ns3:subjectConsentAnswer>
+                        <ns3:subjectConsentAnswer>
+                            <ns3:missedIndicator value="false" />
+                            <ns3:consentQuestion>
+                                <ns3:officialTitle value="q2" />
+                            </ns3:consentQuestion>
+                        </ns3:subjectConsentAnswer>
+                    </ns3:studySubjectConsentVersion>
+                    <ns3:studySubjectConsentVersion>
+                        <ns3:informedConsentDate value="20080101000000" />
+                        <ns3:consent>
+                            <ns3:officialTitle value="General2" />
+                            <ns3:versionNumberText />
+                        </ns3:consent>
+                        <ns3:consentDeliveryDate value="20070101000000" />
+                        <ns3:consentingMethod code="Verbal" />
+                        <ns3:consentPresenter value="Deepali Sen" />
+                        <ns3:subjectConsentAnswer>
+                            <ns3:missedIndicator value="false" />
+                            <ns3:consentQuestion>
+                                <ns3:officialTitle value="q1" />
+                            </ns3:consentQuestion>
+                        </ns3:subjectConsentAnswer>
+                        <ns3:subjectConsentAnswer>
+                            <ns3:missedIndicator value="true" />
+                            <ns3:consentQuestion>
+                                <ns3:officialTitle value="q2" />
+                            </ns3:consentQuestion>
+                        </ns3:subjectConsentAnswer>
+                    </ns3:studySubjectConsentVersion>
+                </ns3:studySubjectProtocolVersion>
+            </studySubject>
+        </ns4:InitiateSubjectRegistryResponse>
+    </soap:Body>
+</soap:Envelope>
