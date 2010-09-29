@@ -1,5 +1,5 @@
 
-package edu.duke.cabig.c3pr.webservice.subjectmanagement;
+package edu.duke.cabig.c3pr.webservice.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
  * <pre>
  * &lt;complexType name="DSET_AdvanceSearchCriterionParameter">
  *   &lt;complexContent>
- *     &lt;extension base="{http://enterpriseservices.nci.nih.gov}COLL_AdvanceSearchCriterionParameter">
+ *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/Common}COLL_AdvanceSearchCriterionParameter">
  *       &lt;sequence>
- *         &lt;element name="item" type="{http://enterpriseservices.nci.nih.gov}AdvanceSearchCriterionParameter" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="item" type="{http://enterpriseservices.nci.nih.gov/Common}AdvanceSearchCriterionParameter" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DSET_AdvanceSearchCriterionParameter", namespace = "http://enterpriseservices.nci.nih.gov", propOrder = {
+@XmlType(name = "DSET_AdvanceSearchCriterionParameter", propOrder = {
     "item"
 })
 public class DSETAdvanceSearchCriterionParameter

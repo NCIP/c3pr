@@ -3,6 +3,7 @@
 	xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:tns="http://enterpriseservices.nci.nih.gov/StudyUtilityService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sm="http://enterpriseservices.nci.nih.gov/StudyUtilitySchema"
 	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:common="http://enterpriseservices.nci.nih.gov/Common"
 	xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="StudyUtilityService"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov/StudyUtilitySchema StudyUtility.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
@@ -24,6 +25,7 @@
 			<xsd:import namespace="http://enterpriseservices.nci.nih.gov/StudyUtilitySchema"
 				schemaLocation="StudyUtility.xsd" />
 			<xsd:import namespace="uri:iso.org:21090" schemaLocation="ISO_datatypes_Narrative.xsd" />
+			<xsd:import namespace="http://enterpriseservices.nci.nih.gov/Common" schemaLocation="Common.xsd"/>
 
 			<xsd:element name="CreateStudyRequest">
 				<xsd:complexType>
@@ -45,7 +47,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="parameters"
-							type="sm:DSET_AdvanceSearchCriterionParameter" />
+							type="common:DSET_AdvanceSearchCriterionParameter" />
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>

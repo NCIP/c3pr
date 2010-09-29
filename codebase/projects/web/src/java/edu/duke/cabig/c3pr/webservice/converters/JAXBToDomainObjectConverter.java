@@ -8,8 +8,8 @@ import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.ConversionException;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 
@@ -99,15 +99,6 @@ public interface JAXBToDomainObjectConverter {
 	void convert(Study study,
 			edu.duke.cabig.c3pr.webservice.studyutility.Study xmlStudy);
 
-	/**
-	 * Does the same thing as {{@link #convert(AdvanceSearchCriterionParameter)}
-	 * . TODO: Will need to refactor to a single common method!
-	 * 
-	 * @param param
-	 * @return
-	 */
-	AdvancedSearchCriteriaParameter convert(
-			edu.duke.cabig.c3pr.webservice.studyutility.AdvanceSearchCriterionParameter param);
 
 	edu.duke.cabig.c3pr.webservice.studyutility.Study convert(Study study);
 

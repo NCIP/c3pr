@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.webservice.subjectmanagement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jws.HandlerChain;
 import javax.jws.WebService;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -25,6 +24,7 @@ import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 
@@ -271,8 +271,8 @@ public class SubjectManagementImpl implements SubjectManagement {
 	private void handleInvalidSubjectData(Exception e)
 			throws InvalidSubjectDataExceptionFaultMessage {
 		log.error(ExceptionUtils.getFullStackTrace(e));
-		InvalidSubjectDataExceptionFault fault = new InvalidSubjectDataExceptionFault(
-				e.getMessage());
+		InvalidSubjectDataExceptionFault fault = new InvalidSubjectDataExceptionFault();
+		fault.setMessage(e.getMessage());
 		throw new InvalidSubjectDataExceptionFaultMessage(e.getMessage(), fault);
 	}
 

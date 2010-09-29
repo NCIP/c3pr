@@ -18,6 +18,7 @@ import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl;
 

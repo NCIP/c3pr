@@ -21,8 +21,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.test.AssertThrows;
 import org.springframework.validation.Errors;
 
-import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
-
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
@@ -32,6 +30,8 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.BeanUtils;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.helpers.SubjectManagementRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl.ParticipantValidationError;

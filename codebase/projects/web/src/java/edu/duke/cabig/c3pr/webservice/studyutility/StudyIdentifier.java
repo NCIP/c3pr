@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.BL;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
@@ -23,7 +24,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.II;
  *         &lt;element name="identifier" type="{uri:iso.org:21090}II"/>
  *         &lt;element name="typeCode" type="{uri:iso.org:21090}CD"/>
  *         &lt;element name="primaryIndicator" type="{uri:iso.org:21090}BL"/>
- *         &lt;element name="assigningOrganization" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}OrganizationIdentifier"/>
+ *         &lt;element name="assigningOrganization" type="{http://enterpriseservices.nci.nih.gov/Common}OrganizationIdentifier"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,7 +34,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.II;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StudyIdentifier", propOrder = {
+@XmlType(name = "StudyIdentifier", namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilitySchema", propOrder = {
     "identifier",
     "typeCode",
     "primaryIndicator",

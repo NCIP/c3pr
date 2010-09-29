@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
 
 
 /**
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="parameters" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}DSET_AdvanceSearchCriterionParameter"/>
+ *         &lt;element name="parameters" type="{http://enterpriseservices.nci.nih.gov/Common}DSET_AdvanceSearchCriterionParameter"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -31,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "parameters"
 })
-@XmlRootElement(name = "AdvancedQueryStudyRequest", namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService")
+@XmlRootElement(name = "AdvancedQueryStudyRequest")
 public class AdvancedQueryStudyRequest {
 
     @XmlElement(namespace = "", required = true)

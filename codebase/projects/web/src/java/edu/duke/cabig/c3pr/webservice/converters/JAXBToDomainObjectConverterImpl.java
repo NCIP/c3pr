@@ -36,6 +36,8 @@ import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
@@ -56,10 +58,8 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Organization;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Person;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 
@@ -684,34 +684,7 @@ public class JAXBToDomainObjectConverterImpl implements
 						contextObjectName, attributeName, values, predicate);
 	}
 
-	// TODO: Duplicate code, refactor!
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
-	 * #convert(edu.duke.cabig.c3pr.webservice.subjectmanagement.
-	 * AdvanceSearchCriterionParameter)
-	 */
-	public AdvancedSearchCriteriaParameter convert(
-			edu.duke.cabig.c3pr.webservice.studyutility.AdvanceSearchCriterionParameter param) {
-		String contextObjectName = (isNull(param.getObjectContextName()) || StringUtils
-				.isBlank(param.getObjectContextName().getValue())) ? StringUtils.EMPTY
-				: param.getObjectContextName().getValue();
-		String objectName = convertAndErrorIfBlank(param.getObjectName(),
-				"objectName");
-		String attributeName = convertAndErrorIfBlank(param.getAttributeName(),
-				"attributeName");
-		String predicate = convertAndErrorIfBlank(param.getPredicate(),
-				"predicate");
-		List<String> values = new ArrayList<String>();
-		for (ST st : param.getValues().getItem()) {
-			values.add(st.getValue());
-		}
-		return AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter(objectName,
-						contextObjectName, attributeName, values, predicate);
-	}
+	
 
 	private String convertAndErrorIfBlank(ST st, String elementName) {
 		if (isNull(st) || StringUtils.isBlank(st.getValue())) {
@@ -758,7 +731,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		II ii = si.getIdentifier();
 		CD typeCode = si.getTypeCode();
 		BL primInd = si.getPrimaryIndicator();
-		edu.duke.cabig.c3pr.webservice.studyutility.OrganizationIdentifier orgId = si
+		OrganizationIdentifier orgId = si
 				.getAssigningOrganization();
 		if (isNull(ii) || isNull(typeCode) || orgId == null) {
 			throw exceptionHelper
@@ -900,7 +873,7 @@ public class JAXBToDomainObjectConverterImpl implements
 				.getHealthcareSite();
 		for (Identifier siteId : site.getIdentifiersAssignedToOrganization()) {
 			if (siteId.isPrimary()) {
-				edu.duke.cabig.c3pr.webservice.studyutility.OrganizationIdentifier orgId = new edu.duke.cabig.c3pr.webservice.studyutility.OrganizationIdentifier();
+				OrganizationIdentifier orgId = new OrganizationIdentifier();
 				orgId.setTypeCode(new CD(siteId.getTypeInternal()));
 				orgId.setIdentifier(new II(siteId.getValue()));
 				orgId.setPrimaryIndicator(new BL(siteId.getPrimaryIndicator()));

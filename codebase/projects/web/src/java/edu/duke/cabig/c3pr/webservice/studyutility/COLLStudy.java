@@ -25,7 +25,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "COLL_Study")
+@XmlType(name = "COLL_Study", namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilitySchema")
 @XmlSeeAlso({
     DSETStudy.class
 })

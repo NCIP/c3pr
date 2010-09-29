@@ -4,6 +4,7 @@
 	xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectManagementService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sm="http://enterpriseservices.nci.nih.gov"
 	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:common="http://enterpriseservices.nci.nih.gov/Common"
 	xmlns:a="http://www.w3.org/2005/08/addressing"
 	xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512" xmlns:xsd="http://www.w3.org/2001/XMLSchema"	
 	name="SubjectManagementService"
@@ -26,6 +27,7 @@
 			<xsd:import namespace="http://enterpriseservices.nci.nih.gov"
 				schemaLocation="SubjectManagement.xsd" />
 			<xsd:import namespace="uri:iso.org:21090" schemaLocation="ISO_datatypes_Narrative.xsd" />
+			<xsd:import namespace="http://enterpriseservices.nci.nih.gov/Common" schemaLocation="Common.xsd"/>
 			<xsd:element name="CreateSubjectRequest">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -62,7 +64,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="parameters"
-							type="sm:DSET_AdvanceSearchCriterionParameter" />
+							type="common:DSET_AdvanceSearchCriterionParameter" />
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>

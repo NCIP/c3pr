@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "study"
 })
-@XmlRootElement(name = "CreateStudyRequest", namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService")
+@XmlRootElement(name = "CreateStudyRequest")
 public class CreateStudyRequest {
 
     @XmlElement(namespace = "", required = true)

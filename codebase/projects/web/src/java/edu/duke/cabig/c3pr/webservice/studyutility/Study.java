@@ -31,7 +31,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Study", propOrder = {
+@XmlType(name = "Study", namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilitySchema", propOrder = {
     "studyIdentifier",
     "title",
     "description"

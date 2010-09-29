@@ -1,5 +1,5 @@
 
-package edu.duke.cabig.c3pr.webservice.studyutility;
+package edu.duke.cabig.c3pr.webservice.common;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

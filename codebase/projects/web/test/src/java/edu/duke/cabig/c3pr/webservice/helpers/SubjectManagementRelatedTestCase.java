@@ -32,6 +32,8 @@ import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImplTest;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
@@ -53,10 +55,8 @@ import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Organization;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Person;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImplTest;
@@ -73,7 +73,7 @@ public abstract class SubjectManagementRelatedTestCase extends
 
 	protected static final String BAD_STATE_CODE = "bad state code";
 	protected static final String BAD_RACE_CODE = "invalid race code";
-	protected static final String BAD_ISO_DATE = "1990-01-01";	
+	protected static final String BAD_ISO_DATE = "1990-01-01";
 	protected static final String TS_DATETIME_PATTERN = "yyyyMMddHHmmss";
 	protected static final String TEST_FAX = "555-555-5555";
 	protected static final String TEST_FAX_ISO = "x-text-fax:" + TEST_FAX;
@@ -227,10 +227,16 @@ public abstract class SubjectManagementRelatedTestCase extends
 	 * @return
 	 */
 	protected BiologicEntityIdentifier createBioEntityId() {
+		OrganizationIdentifier orgId = new OrganizationIdentifier();
+		orgId.setIdentifier(new II(TEST_ORG_ID));
+		orgId.setPrimaryIndicator(new BL(true));
+		orgId.setTypeCode(new CD(ORG_ID_TYPE_CTEP));
+
+		Organization org = new Organization();
+		org.getOrganizationIdentifier().add(orgId);
+
 		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
-		bioId.setAssigningOrganization(new Organization(
-				new OrganizationIdentifier(new II(TEST_ORG_ID), new BL(true),
-						new CD(ORG_ID_TYPE_CTEP))));
+		bioId.setAssigningOrganization(org);
 		bioId.setIdentifier(new II(TEST_BIO_ID));
 		bioId.setTypeCode(new CD(ORG_ID_TYPE_MRN));
 		bioId.setEffectiveDateRange(new IVLTSDateTime(NullFlavor.NI));
@@ -279,26 +285,26 @@ public abstract class SubjectManagementRelatedTestCase extends
 				.getPart().get(2).getValue());
 		assertEquals(EntityNamePartType.FAM, person.getName().getItem().get(0)
 				.getPart().get(2).getType());
-		assertEquals(TEST_STREET_ADDRESS, person.getPostalAddress().getItem().get(0).getPart()
-				.get(0).getValue());
-		assertEquals(TEST_CITY_NAME, person.getPostalAddress().getItem().get(0).getPart().get(1)
-				.getValue());
-		assertEquals(TEST_STATE_CODE, person.getPostalAddress().getItem().get(0).getPart()
-				.get(2).getValue());
-		assertEquals(TEST_ZIP_CODE, person.getPostalAddress().getItem().get(0).getPart().get(3)
-				.getValue());
-		assertEquals(TEST_COUNTRY, person.getPostalAddress().getItem().get(0).getPart().get(4)
-				.getValue());
-		assertEquals(AddressPartType.SAL, person.getPostalAddress().getItem().get(0).getPart()
-				.get(0).getType());
-		assertEquals(AddressPartType.CTY, person.getPostalAddress().getItem().get(0).getPart()
-				.get(1).getType());
-		assertEquals(AddressPartType.STA, person.getPostalAddress().getItem().get(0).getPart()
-				.get(2).getType());
-		assertEquals(AddressPartType.ZIP, person.getPostalAddress().getItem().get(0).getPart()
-				.get(3).getType());
-		assertEquals(AddressPartType.CNT, person.getPostalAddress().getItem().get(0).getPart()
-				.get(4).getType());
+		assertEquals(TEST_STREET_ADDRESS, person.getPostalAddress().getItem()
+				.get(0).getPart().get(0).getValue());
+		assertEquals(TEST_CITY_NAME, person.getPostalAddress().getItem().get(0)
+				.getPart().get(1).getValue());
+		assertEquals(TEST_STATE_CODE, person.getPostalAddress().getItem()
+				.get(0).getPart().get(2).getValue());
+		assertEquals(TEST_ZIP_CODE, person.getPostalAddress().getItem().get(0)
+				.getPart().get(3).getValue());
+		assertEquals(TEST_COUNTRY, person.getPostalAddress().getItem().get(0)
+				.getPart().get(4).getValue());
+		assertEquals(AddressPartType.SAL, person.getPostalAddress().getItem()
+				.get(0).getPart().get(0).getType());
+		assertEquals(AddressPartType.CTY, person.getPostalAddress().getItem()
+				.get(0).getPart().get(1).getType());
+		assertEquals(AddressPartType.STA, person.getPostalAddress().getItem()
+				.get(0).getPart().get(2).getType());
+		assertEquals(AddressPartType.ZIP, person.getPostalAddress().getItem()
+				.get(0).getPart().get(3).getType());
+		assertEquals(AddressPartType.CNT, person.getPostalAddress().getItem()
+				.get(0).getPart().get(4).getType());
 		assertEquals(RACE_WHITE, person.getRaceCode().getItem().get(0)
 				.getCode());
 		assertEquals(RACE_ASIAN, person.getRaceCode().getItem().get(1)
@@ -349,8 +355,8 @@ public abstract class SubjectManagementRelatedTestCase extends
 	 * @return
 	 */
 	protected List<RaceCodeEnum> createRaceCodes() {
-		List<RaceCodeEnum> list = new ArrayList<RaceCodeEnum>();		
-		list.add(RaceCodeEnum.White);		
+		List<RaceCodeEnum> list = new ArrayList<RaceCodeEnum>();
+		list.add(RaceCodeEnum.White);
 		list.add(RaceCodeEnum.Asian);
 		return list;
 	}
