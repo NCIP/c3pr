@@ -22,7 +22,8 @@ YAHOO.example.Data = {
 					            identifier: "${subject.primaryIdentifierValue}",
 					            subjectGender: "${subject.administrativeGenderCode}",
 					            subjectEthnicity: "${subject.ethnicGroupCode}",
-						        subjectBirthDate:  "${subject.birthDate}",
+						        subjectBirthDate:  "${subject.birthDateStr}",
+						        subjectBirthDateSort:  "${subject.birthDate}",
 						        identifierStr:  "<tags:identifierParameterString identifier='${subject.systemAssignedIdentifiers[0] }'/>"
 					         }
 					         <c:if test="${!status.last}">,</c:if>
@@ -37,13 +38,13 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"identifier",         label:"Primary Identifier", sortable:true,      resizeable:true},
             {key:"subjectGender",         label:"Gender",          sortable:true,      resizeable:true},
             {key:"subjectEthnicity",      label:"Ethnicity",       sortable:true,      resizeable:true},
-            {key:"subjectBirthDate",      label:"Birthdate",       sortable:true,      resizeable:true}
+            {key:"subjectBirthDate",      label:"Birthdate",       sortable:true,    sortOptions: { field: "subjectBirthDateSort" },   resizeable:true}
         ];
         
         var subjectDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.subjectList);
         subjectDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
         subjectDataSource.responseSchema = {
-            fields: ["subjectFullName", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate", "identifierStr"]
+            fields: ["subjectFullName", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate", "subjectBirthDateSort", "identifierStr"]
         };
 
         //Create config
