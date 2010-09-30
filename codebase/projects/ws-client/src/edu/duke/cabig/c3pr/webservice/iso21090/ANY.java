@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.COLLAdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.COLLAdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.COLLSUBJECT;
 
 
@@ -32,7 +32,6 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.COLLSUBJECT;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ANY")
 @XmlSeeAlso({
-    COLLAdvanceSearchCriterionParameter.class,
     COLLSUBJECT.class,
     SLISTTSDate.class,
     NPPDTSDateFull.class,
@@ -268,7 +267,8 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.COLLSUBJECT;
     QSETTSDateTimeFull.class,
     QSETCO.class,
     QSETTSDateFull.class,
-    QSETINTNonNeg.class
+    QSETINTNonNeg.class,
+    COLLAdvanceSearchCriterionParameter.class
 })
 public abstract class ANY
     extends HXIT

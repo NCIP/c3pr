@@ -1,5 +1,5 @@
 
-package edu.duke.cabig.c3pr.webservice.subjectmanagement;
+package edu.duke.cabig.c3pr.webservice.common;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,7 +34,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AdvanceSearchCriterionParameter", namespace = "http://enterpriseservices.nci.nih.gov", propOrder = {
+@XmlType(name = "AdvanceSearchCriterionParameter", propOrder = {
     "objectName",
     "attributeName",
     "values",

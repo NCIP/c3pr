@@ -1,5 +1,5 @@
 
-package edu.duke.cabig.c3pr.webservice.subjectmanagement;
+package edu.duke.cabig.c3pr.webservice.common;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,7 +25,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "COLL_AdvanceSearchCriterionParameter", namespace = "http://enterpriseservices.nci.nih.gov")
+@XmlType(name = "COLL_AdvanceSearchCriterionParameter")
 @XmlSeeAlso({
     DSETAdvanceSearchCriterionParameter.class
 })
