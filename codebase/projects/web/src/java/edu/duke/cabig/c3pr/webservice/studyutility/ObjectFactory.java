@@ -34,19 +34,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link AdvancedQueryStudyResponse }
+     * Create an instance of {@link CreateStudyResponse }
      * 
      */
-    public AdvancedQueryStudyResponse createAdvancedQueryStudyResponse() {
-        return new AdvancedQueryStudyResponse();
-    }
-
-    /**
-     * Create an instance of {@link Study }
-     * 
-     */
-    public Study createStudy() {
-        return new Study();
+    public CreateStudyResponse createCreateStudyResponse() {
+        return new CreateStudyResponse();
     }
 
     /**
@@ -58,43 +50,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateStudyRequest }
-     * 
-     */
-    public CreateStudyRequest createCreateStudyRequest() {
-        return new CreateStudyRequest();
-    }
-
-    /**
-     * Create an instance of {@link StudyUtilityFault }
-     * 
-     */
-    public StudyUtilityFault createStudyUtilityFault() {
-        return new StudyUtilityFault();
-    }
-
-    /**
-     * Create an instance of {@link UpdateStudyRequest }
-     * 
-     */
-    public UpdateStudyRequest createUpdateStudyRequest() {
-        return new UpdateStudyRequest();
-    }
-
-    /**
-     * Create an instance of {@link CreateStudyResponse }
-     * 
-     */
-    public CreateStudyResponse createCreateStudyResponse() {
-        return new CreateStudyResponse();
-    }
-
-    /**
      * Create an instance of {@link DSETStudy }
      * 
      */
     public DSETStudy createDSETStudy() {
         return new DSETStudy();
+    }
+
+    /**
+     * Create an instance of {@link AdvancedQueryStudyResponse }
+     * 
+     */
+    public AdvancedQueryStudyResponse createAdvancedQueryStudyResponse() {
+        return new AdvancedQueryStudyResponse();
     }
 
     /**
@@ -111,6 +79,38 @@ public class ObjectFactory {
      */
     public StudyIdentifier createStudyIdentifier() {
         return new StudyIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link StudyUtilityFault }
+     * 
+     */
+    public StudyUtilityFault createStudyUtilityFault() {
+        return new StudyUtilityFault();
+    }
+
+    /**
+     * Create an instance of {@link Study }
+     * 
+     */
+    public Study createStudy() {
+        return new Study();
+    }
+
+    /**
+     * Create an instance of {@link CreateStudyRequest }
+     * 
+     */
+    public CreateStudyRequest createCreateStudyRequest() {
+        return new CreateStudyRequest();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStudyRequest }
+     * 
+     */
+    public UpdateStudyRequest createUpdateStudyRequest() {
+        return new UpdateStudyRequest();
     }
 
     /**

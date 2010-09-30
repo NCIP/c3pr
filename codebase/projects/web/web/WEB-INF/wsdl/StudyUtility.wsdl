@@ -107,6 +107,9 @@
 	<wsdl:message name="StudyUtilityFaultMessage">
 		<wsdl:part name="fault" element="tns:StudyUtilityFault"></wsdl:part>
 	</wsdl:message>
+	<wsdl:message name="SecurityExceptionFaultMessage">
+		<wsdl:part name="fault" element="common:SecurityExceptionFault"></wsdl:part>
+	</wsdl:message>	
 
 	<wsdl:portType name="StudyUtility">
 		<wsdl:operation name="createStudy">
@@ -114,18 +117,24 @@
 			<wsdl:output message="tns:CreateStudyResponseMessage" />
 			<wsdl:fault message="tns:StudyUtilityFaultMessage"
 				name="StudyUtilityException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
+				name="SecurityException" />				
 		</wsdl:operation>
 		<wsdl:operation name="advancedQueryStudy">
 			<wsdl:input message="tns:AdvancedQueryStudyRequestMessage" />
 			<wsdl:output message="tns:AdvancedQueryStudyResponseMessage" />
 			<wsdl:fault message="tns:StudyUtilityFaultMessage"
 				name="StudyUtilityException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
+				name="SecurityException" />
 		</wsdl:operation>
 		<wsdl:operation name="updateStudy">
 			<wsdl:input message="tns:UpdateStudyRequestMessage" />
 			<wsdl:output message="tns:UpdateStudyResponseMessage" />
 			<wsdl:fault message="tns:StudyUtilityFaultMessage"
 				name="StudyUtilityException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
+				name="SecurityException" />
 		</wsdl:operation>
 	</wsdl:portType>
 
@@ -184,6 +193,9 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>			
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>
@@ -196,6 +208,9 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>			
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>
@@ -208,6 +223,9 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>			
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>

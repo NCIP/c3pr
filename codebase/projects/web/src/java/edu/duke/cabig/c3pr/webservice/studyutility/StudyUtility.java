@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @WebService(name = "StudyUtility", wsdlLocation="/WEB-INF/wsdl/StudyUtility.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
+    edu.duke.cabig.c3pr.webservice.common.ObjectFactory.class,
     edu.duke.cabig.c3pr.webservice.studyutility.ObjectFactory.class,
     edu.duke.cabig.c3pr.webservice.iso21090.ObjectFactory.class
 })
@@ -29,6 +30,7 @@ public interface StudyUtility {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyResponse
+     * @throws SecurityExceptionFaultMessage
      * @throws StudyUtilityFaultMessage
      */
     @WebMethod
@@ -36,7 +38,7 @@ public interface StudyUtility {
     public CreateStudyResponse createStudy(
         @WebParam(name = "CreateStudyRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
         CreateStudyRequest parameters)
-        throws StudyUtilityFaultMessage
+        throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
     ;
 
     /**
@@ -44,6 +46,7 @@ public interface StudyUtility {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.studyutility.AdvancedQueryStudyResponse
+     * @throws SecurityExceptionFaultMessage
      * @throws StudyUtilityFaultMessage
      */
     @WebMethod
@@ -51,7 +54,7 @@ public interface StudyUtility {
     public AdvancedQueryStudyResponse advancedQueryStudy(
         @WebParam(name = "AdvancedQueryStudyRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
         AdvancedQueryStudyRequest parameters)
-        throws StudyUtilityFaultMessage
+        throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
     ;
 
     /**
@@ -59,6 +62,7 @@ public interface StudyUtility {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyResponse
+     * @throws SecurityExceptionFaultMessage
      * @throws StudyUtilityFaultMessage
      */
     @WebMethod
@@ -66,7 +70,7 @@ public interface StudyUtility {
     public UpdateStudyResponse updateStudy(
         @WebParam(name = "UpdateStudyRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
         UpdateStudyRequest parameters)
-        throws StudyUtilityFaultMessage
+        throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
     ;
 
 }
