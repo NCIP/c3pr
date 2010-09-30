@@ -110,7 +110,7 @@ public class StudyUtilityImpl implements StudyUtility {
 			edu.duke.cabig.c3pr.domain.Study study = converter
 					.convert(xmlStudy);
 			studyRepository.save(study);
-			response.setStudy(xmlStudy);
+			response.setStudy(converter.convert(study));
 		} catch (RuntimeException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
 			fail(e.getMessage());
@@ -155,7 +155,7 @@ public class StudyUtilityImpl implements StudyUtility {
 			edu.duke.cabig.c3pr.domain.Study study = existentStudies.get(0);
 			converter.convert(study, xmlStudy);
 			studyRepository.save(study);
-			response.setStudy(xmlStudy);
+			response.setStudy(converter.convert(study));
 		} catch (RuntimeException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
 			fail(e.getMessage());
