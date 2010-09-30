@@ -208,7 +208,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	private String getTestSOAPEnvelope(String fileName) throws IOException {
 		String soap = IOUtils.toString(SubjectManagementWebServiceTest.class
 				.getResourceAsStream(TESTDATA + "/" + fileName));
-		soap = StringUtils.replace(soap, "${identifier}", SUBJECT_ID);
+		soap = StringUtils.replace(soap, "#{identifier}", SUBJECT_ID);
 		return soap;
 	}
 

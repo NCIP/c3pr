@@ -1,7 +1,10 @@
 
 package edu.duke.cabig.c3pr.webservice.common;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.namespace.QName;
 
 
 /**
@@ -21,20 +24,13 @@ import javax.xml.bind.annotation.XmlRegistry;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _SecurityExceptionFault_QNAME = new QName("http://enterpriseservices.nci.nih.gov/Common", "SecurityExceptionFault");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: edu.duke.cabig.c3pr.webservice.common
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link OrganizationIdentifier }
-     * 
-     */
-    public OrganizationIdentifier createOrganizationIdentifier() {
-        return new OrganizationIdentifier();
     }
 
     /**
@@ -46,11 +42,36 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link OrganizationIdentifier }
+     * 
+     */
+    public OrganizationIdentifier createOrganizationIdentifier() {
+        return new OrganizationIdentifier();
+    }
+
+    /**
      * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
      * 
      */
     public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
         return new DSETAdvanceSearchCriterionParameter();
+    }
+
+    /**
+     * Create an instance of {@link SecurityExceptionFault }
+     * 
+     */
+    public SecurityExceptionFault createSecurityExceptionFault() {
+        return new SecurityExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link SecurityExceptionFault }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://enterpriseservices.nci.nih.gov/Common", name = "SecurityExceptionFault")
+    public JAXBElement<SecurityExceptionFault> createSecurityExceptionFault(SecurityExceptionFault value) {
+        return new JAXBElement<SecurityExceptionFault>(_SecurityExceptionFault_QNAME, SecurityExceptionFault.class, null, value);
     }
 
 }

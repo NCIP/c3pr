@@ -79,4 +79,11 @@
 		</complexContent>
 	</complexType>
 
+	<!-- Common faults. -->
+	<element name="SecurityExceptionFault" type="tns:SecurityExceptionFault"></element>
+	<complexType name="SecurityExceptionFault">
+		<sequence>
+			<element name="message" type="string" />
+		</sequence>
+	</complexType>
 </schema>

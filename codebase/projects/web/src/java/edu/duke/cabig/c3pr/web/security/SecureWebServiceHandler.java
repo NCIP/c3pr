@@ -2,19 +2,15 @@ package edu.duke.cabig.c3pr.web.security;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.lang.annotation.Annotation;
 import java.nio.charset.Charset;
-import java.security.cert.CertificateEncodingException;
 import java.security.cert.X509Certificate;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import javax.jws.WebService;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.handler.MessageContext;
@@ -60,8 +56,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.w3c.dom.Element;
 
 import edu.duke.cabig.c3pr.utils.web.AuditInfoFilter;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.InsufficientPrivilegesExceptionFault;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
+import edu.duke.cabig.c3pr.webservice.common.SecurityExceptionFault;
 
 /**
  * @author dkrylov
@@ -69,6 +64,7 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
  */
 public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 
+	public static final String NS_COMMON = "http://enterpriseservices.nci.nih.gov/Common";
 	public static final String ADFS_NS = "http://schemas.microsoft.com/ws/2008/06/identity/claims";
 	public static final String ADFS_WINDOWSACCOUNTNAME = "windowsaccountname";
 	private static final String SAML_TOKEN_HAS_NOT_BEEN_PRODUCED_BY_WSS4J_INTERCEPTOR = "SAMLToken has not been produced by WSS4J interceptor";
@@ -244,8 +240,7 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 		// Microsoft ADFS specifics go here.
 		String loginId = "";
 		if (ADFS_WINDOWSACCOUNTNAME.equalsIgnoreCase(attr.getName())
-				&& ADFS_NS
-						.equals(attr.getNamespace())
+				&& ADFS_NS.equals(attr.getNamespace())
 				&& attr.getValues().hasNext()) {
 			loginId = attr.getValues().next().toString();
 		}
@@ -304,32 +299,19 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 
 		Element detail = fault.getOrCreateDetail();
 		final Element detailEntry = detail.getOwnerDocument().createElementNS(
-				getNameSpace(SubjectManagement.class),
-				InsufficientPrivilegesExceptionFault.class.getSimpleName());
+				NS_COMMON,
+				SecurityExceptionFault.class.getSimpleName());
 		detail.appendChild(detailEntry);
 
 		final Element detailMsg = detail.getOwnerDocument().createElementNS(
-				getNameSpace(SubjectManagement.class), "message");
+				NS_COMMON, "message");
 		detailMsg.setTextContent(ex.getMessage());
 		detailEntry.appendChild(detailMsg);
 
 		throw fault;
 
 	}
-
-	/**
-	 * @param cls
-	 * @return
-	 */
-	private String getNameSpace(Class<SubjectManagement> cls) {
-		String ns = "";
-		for (Annotation ann : cls.getAnnotations()) {
-			if (WebService.class.equals(ann.annotationType())) {
-				ns = ((WebService) ann).targetNamespace();
-			}
-		}
-		return ns;
-	}
+	
 
 	public String getCryptoPropFile() {
 		return cryptoPropFile;

@@ -92,7 +92,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 	 * (edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest)
 	 */
 	public CreateSubjectResponse createSubject(CreateSubjectRequest request)
-			throws InsufficientPrivilegesExceptionFaultMessage,
+			throws SecurityExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage,
 			SubjectAlreadyExistsExceptionFaultMessage,
 			UnableToCreateOrUpdateSubjectExceptionFaultMessage {
@@ -135,7 +135,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 	 * (edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest)
 	 */
 	public QuerySubjectResponse querySubject(QuerySubjectRequest request)
-			throws InsufficientPrivilegesExceptionFaultMessage,
+			throws SecurityExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage {
 		QuerySubjectResponse response = new QuerySubjectResponse();
 		final Subject subject = request.getSubject();
@@ -176,7 +176,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 	 */
 	public AdvancedQuerySubjectResponse advancedQuerySubject(
 			AdvancedQuerySubjectRequest parameters)
-			throws InsufficientPrivilegesExceptionFaultMessage,
+			throws SecurityExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage {
 
 		AdvancedQuerySubjectResponse response = new AdvancedQuerySubjectResponse();
@@ -211,7 +211,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 	 * (edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectRequest)
 	 */
 	public UpdateSubjectResponse updateSubject(UpdateSubjectRequest request)
-			throws InsufficientPrivilegesExceptionFaultMessage,
+			throws SecurityExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage,
 			NoSuchSubjectExceptionFaultMessage,
 			UnableToCreateOrUpdateSubjectExceptionFaultMessage {
@@ -286,7 +286,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 	 */
 	public UpdateSubjectStateResponse updateSubjectState(
 			UpdateSubjectStateRequest request)
-			throws InsufficientPrivilegesExceptionFaultMessage,
+			throws SecurityExceptionFaultMessage,
 			InvalidStateTransitionExceptionFaultMessage,
 			NoSuchSubjectExceptionFaultMessage {
 		UpdateSubjectStateResponse response = new UpdateSubjectStateResponse();

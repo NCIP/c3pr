@@ -146,7 +146,7 @@ public class SubjectManagementImplTest extends SubjectManagementRelatedTestCase 
 	 * @throws InsufficientPrivilegesExceptionFaultMessage
 	 */
 	public void testQuerySubject()
-			throws InsufficientPrivilegesExceptionFaultMessage,
+			throws SecurityExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage {
 		final QuerySubjectRequest request = new QuerySubjectRequest();
 
@@ -181,7 +181,7 @@ public class SubjectManagementImplTest extends SubjectManagementRelatedTestCase 
 	 * @throws InvalidSubjectDataExceptionFaultMessage
 	 */
 	public void testAdvancedQuerySubject()
-			throws InsufficientPrivilegesExceptionFaultMessage,
+			throws SecurityExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage {
 
 		final AdvancedQuerySubjectRequest request = new AdvancedQuerySubjectRequest();
@@ -220,7 +220,7 @@ public class SubjectManagementImplTest extends SubjectManagementRelatedTestCase 
 	 * @throws InsufficientPrivilegesExceptionFaultMessage
 	 */
 	public void testUpdateSubject()
-			throws InsufficientPrivilegesExceptionFaultMessage,
+			throws SecurityExceptionFaultMessage,
 			InvalidSubjectDataExceptionFaultMessage,
 			NoSuchSubjectExceptionFaultMessage,
 			UnableToCreateOrUpdateSubjectExceptionFaultMessage {
@@ -332,7 +332,7 @@ public class SubjectManagementImplTest extends SubjectManagementRelatedTestCase 
 	 * @throws InsufficientPrivilegesExceptionFaultMessage
 	 */
 	public void testUpdateSubjectState()
-			throws InsufficientPrivilegesExceptionFaultMessage,
+			throws SecurityExceptionFaultMessage,
 			InvalidStateTransitionExceptionFaultMessage,
 			NoSuchSubjectExceptionFaultMessage {
 		final UpdateSubjectStateRequest request = new UpdateSubjectStateRequest();

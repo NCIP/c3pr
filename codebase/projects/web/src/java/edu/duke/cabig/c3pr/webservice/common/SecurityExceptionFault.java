@@ -1,20 +1,19 @@
 
-package edu.duke.cabig.c3pr.webservice.subjectmanagement;
+package edu.duke.cabig.c3pr.webservice.common;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for SubjectManagementFault complex type.
+ * <p>Java class for SecurityExceptionFault complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="SubjectManagementFault">
+ * &lt;complexType name="SecurityExceptionFault">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -28,19 +27,12 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SubjectManagementFault", propOrder = {
+@XmlType(name = "SecurityExceptionFault", propOrder = {
     "message"
 })
-@XmlSeeAlso({
-    NoSuchSubjectExceptionFault.class,
-    UnableToCreateOrUpdateSubjectExceptionFault.class,
-    SubjectAlreadyExistsExceptionFault.class,
-    InvalidStateTransitionExceptionFault.class,
-    InvalidSubjectDataExceptionFault.class
-})
-public class SubjectManagementFault {
+public class SecurityExceptionFault {
 
-    @XmlElement(namespace = "", required = true)
+    @XmlElement(required = true)
     protected String message;
 
     /**

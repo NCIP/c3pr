@@ -121,8 +121,7 @@
 				type="tns:SubjectAlreadyExistsExceptionFault"></xsd:element>
 			<xsd:element name="UnableToCreateOrUpdateSubjectExceptionFault"
 				type="tns:UnableToCreateOrUpdateSubjectExceptionFault"></xsd:element>
-			<xsd:element name="InsufficientPrivilegesExceptionFault"
-				type="tns:InsufficientPrivilegesExceptionFault"></xsd:element>
+
 			<xsd:complexType name="SubjectManagementFault">
 				<xsd:sequence>
 					<xsd:element name="message" type="xsd:string" />
@@ -149,11 +148,6 @@
 				</xsd:complexContent>
 			</xsd:complexType>
 			<xsd:complexType name="UnableToCreateOrUpdateSubjectExceptionFault">
-				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
-				</xsd:complexContent>
-			</xsd:complexType>
-			<xsd:complexType name="InsufficientPrivilegesExceptionFault">
 				<xsd:complexContent>
 					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
 				</xsd:complexContent>
@@ -209,17 +203,16 @@
 		<wsdl:part name="fault"
 			element="tns:UnableToCreateOrUpdateSubjectExceptionFault"></wsdl:part>
 	</wsdl:message>
-	<wsdl:message name="InsufficientPrivilegesExceptionFaultMessage">
-		<wsdl:part name="fault" element="tns:InsufficientPrivilegesExceptionFault"></wsdl:part>
+	<wsdl:message name="SecurityExceptionFaultMessage">
+		<wsdl:part name="fault" element="common:SecurityExceptionFault"></wsdl:part>
 	</wsdl:message>
-
 
 	<wsdl:portType name="SubjectManagement">
 		<wsdl:operation name="createSubject">
 			<wsdl:input message="tns:CreateSubjectRequestMessage" />
 			<wsdl:output message="tns:CreateSubjectResponseMessage" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage"
-				name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
+				name="SecurityException" />
 			<wsdl:fault message="tns:InvalidSubjectDataExceptionFaultMessage"
 				name="InvalidSubjectDataException" />
 			<wsdl:fault message="tns:SubjectAlreadyExistsExceptionFaultMessage"
@@ -230,24 +223,24 @@
 		<wsdl:operation name="querySubject">
 			<wsdl:input message="tns:QuerySubjectRequestMessage" />
 			<wsdl:output message="tns:QuerySubjectResponseMessage" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage"
-				name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
+				name="SecurityException" />
 			<wsdl:fault message="tns:InvalidSubjectDataExceptionFaultMessage"
 				name="InvalidSubjectDataException" />
 		</wsdl:operation>
 		<wsdl:operation name="advancedQuerySubject">
 			<wsdl:input message="tns:AdvancedQuerySubjectRequestMessage" />
 			<wsdl:output message="tns:AdvancedQuerySubjectResponseMessage" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage"
-				name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
+				name="SecurityException" />
 			<wsdl:fault message="tns:InvalidSubjectDataExceptionFaultMessage"
 				name="InvalidSubjectDataException" />
 		</wsdl:operation>
 		<wsdl:operation name="updateSubject">
 			<wsdl:input message="tns:UpdateSubjectRequestMessage" />
 			<wsdl:output message="tns:UpdateSubjectResponseMessage" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage"
-				name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
+				name="SecurityException" />
 			<wsdl:fault message="tns:NoSuchSubjectExceptionFaultMessage"
 				name="NoSuchSubjectException" />
 			<wsdl:fault message="tns:UnableToCreateOrUpdateSubjectExceptionFaultMessage"
@@ -258,8 +251,8 @@
 		<wsdl:operation name="updateSubjectState">
 			<wsdl:input message="tns:UpdateSubjectStateRequestMessage" />
 			<wsdl:output message="tns:UpdateSubjectStateResponseMessage" />
-			<wsdl:fault message="tns:InsufficientPrivilegesExceptionFaultMessage"
-				name="InsufficientPrivilegesException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
+				name="SecurityException" />
 			<wsdl:fault message="tns:InvalidStateTransitionExceptionFaultMessage"
 				name="InvalidStateTransitionException" />
 			<wsdl:fault message="tns:NoSuchSubjectExceptionFaultMessage"
@@ -320,8 +313,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidSubjectDataException">
 				<soap:fault name="InvalidSubjectDataException" />
@@ -341,8 +334,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidSubjectDataException">
 				<soap:fault name="InvalidSubjectDataException" />
@@ -356,8 +349,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidSubjectDataException">
 				<soap:fault name="InvalidSubjectDataException" />
@@ -371,8 +364,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidSubjectDataException">
 				<soap:fault name="InvalidSubjectDataException" />
@@ -392,8 +385,8 @@
 			<wsdl:output>
 				<soap:body use="literal" />
 			</wsdl:output>
-			<wsdl:fault name="InsufficientPrivilegesException">
-				<soap:fault name="InsufficientPrivilegesException" />
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
 			</wsdl:fault>
 			<wsdl:fault name="InvalidStateTransitionException">
 				<soap:fault name="InvalidStateTransitionException" />
