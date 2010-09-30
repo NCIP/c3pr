@@ -3,6 +3,7 @@
     xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
 	xmlns:sub="http://enterpriseservices.nci.nih.gov/SubjectManagementService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:c="http://enterpriseservices.nci.nih.gov/Common"
         xmlns:ent="http://enterpriseservices.nci.nih.gov"
 	xmlns:iso="uri:iso.org:21090"
 	xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
@@ -66,15 +67,15 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 	<soapenv:Body>
         <sub:AdvancedQuerySubjectRequest>
         	<parameters>
-        		<ent:item>
-        			<ent:objectName value="edu.duke.cabig.c3pr.domain.Identifier"/>
-        			<ent:attributeName value="value"/>
-        			<ent:values>
-        				<iso:item value="${identifier}"/>
-        			</ent:values>
-        			<ent:predicate code="like"/>
-        			<ent:objectContextName nullFlavor="NI"/>
-        		</ent:item>
+        		<c:item>
+        			<c:objectName value="edu.duke.cabig.c3pr.domain.Identifier"/>
+        			<c:attributeName value="value"/>
+        			<c:values>
+        				<iso:item value="#{identifier}"/>
+        			</c:values>
+        			<c:predicate code="like"/>
+        			<c:objectContextName nullFlavor="NI"/>
+        		</c:item>
         	</parameters>
 		</sub:AdvancedQuerySubjectRequest>
 	</soapenv:Body>

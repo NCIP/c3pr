@@ -3,7 +3,8 @@
     xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
 	xmlns:sub="http://enterpriseservices.nci.nih.gov/SubjectManagementService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xmlns:ent="http://enterpriseservices.nci.nih.gov"
+    xmlns:ent="http://enterpriseservices.nci.nih.gov"
+    xmlns:common="http://enterpriseservices.nci.nih.gov/Common"
 	xmlns:iso="uri:iso.org:21090"
 	xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
 	xsi:schemaLocation="uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov SubjectManagement.xsd">
@@ -73,13 +74,13 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 
 					<ent:biologicEntityIdentifier>
 						<ent:effectiveDateRange nullFlavor="NI" />
-						<ent:identifier extension="${identifier}" identifierName="MRN" />
+						<ent:identifier extension="#{identifier}" identifierName="MRN" />
 						<ent:typeCode code="MRN" />
 						<ent:assigningOrganization>
 							<ent:organizationIdentifier>
-								<ent:identifier extension="MN026" />
-								<ent:primaryIndicator value="true" />
-								<ent:typeCode code="CTEP" />
+								<common:identifier extension="MN026" />
+								<common:primaryIndicator value="true" />
+								<common:typeCode code="CTEP" />
 							</ent:organizationIdentifier>
 						</ent:assigningOrganization>
 					</ent:biologicEntityIdentifier>
