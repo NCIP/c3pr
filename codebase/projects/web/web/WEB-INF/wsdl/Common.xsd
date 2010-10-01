@@ -13,7 +13,8 @@
 	</annotation>
 
 	<import schemaLocation="ISO_datatypes_Narrative.xsd" namespace="uri:iso.org:21090" />
-
+	
+	<element name="study" type="tns:StudyProtocolVersion"></element>
 	<complexType name="StudyProtocolVersion">
 		<sequence>
 			<element name="studyProtocolDocument" type="tns:StudyProtocolDocumentVersion" />
@@ -27,7 +28,7 @@
 	<complexType name="PermissibleStudySubjectRegistryStatus">
 		<sequence>
 			<element name="registryStatus" type="tns:RegistryStatus" />
-			<element name="secondaryReasons" type="tns:RegistryStatusReason"
+			<element name="secondaryReason" type="tns:RegistryStatusReason"
 				minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
 	</complexType>
@@ -35,7 +36,7 @@
 	<complexType name="RegistryStatus">
 		<sequence>
 			<element name="code" type="ISO:CD"></element>
-			<element name="primaryReasons" type="tns:RegistryStatusReason"
+			<element name="primaryReason" type="tns:RegistryStatusReason"
 				minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
 	</complexType>

@@ -25,6 +25,7 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _SecurityExceptionFault_QNAME = new QName("http://enterpriseservices.nci.nih.gov/Common", "SecurityExceptionFault");
+    private final static QName _Study_QNAME = new QName("http://enterpriseservices.nci.nih.gov/Common", "study");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: edu.duke.cabig.c3pr.webservice.common
@@ -34,11 +35,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link AdvanceSearchCriterionParameter }
+     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
      * 
      */
-    public AdvanceSearchCriterionParameter createAdvanceSearchCriterionParameter() {
-        return new AdvanceSearchCriterionParameter();
+    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
+        return new PermissibleStudySubjectRegistryStatus();
+    }
+
+    /**
+     * Create an instance of {@link Organization }
+     * 
+     */
+    public Organization createOrganization() {
+        return new Organization();
     }
 
     /**
@@ -50,11 +59,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
+     * Create an instance of {@link DocumentVersionRelationship }
      * 
      */
-    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
-        return new DSETAdvanceSearchCriterionParameter();
+    public DocumentVersionRelationship createDocumentVersionRelationship() {
+        return new DocumentVersionRelationship();
+    }
+
+    /**
+     * Create an instance of {@link Document }
+     * 
+     */
+    public Document createDocument() {
+        return new Document();
+    }
+
+    /**
+     * Create an instance of {@link StudyProtocolDocumentVersion }
+     * 
+     */
+    public StudyProtocolDocumentVersion createStudyProtocolDocumentVersion() {
+        return new StudyProtocolDocumentVersion();
+    }
+
+    /**
+     * Create an instance of {@link DocumentIdentifier }
+     * 
+     */
+    public DocumentIdentifier createDocumentIdentifier() {
+        return new DocumentIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link AdvanceSearchCriterionParameter }
+     * 
+     */
+    public AdvanceSearchCriterionParameter createAdvanceSearchCriterionParameter() {
+        return new AdvanceSearchCriterionParameter();
+    }
+
+    /**
+     * Create an instance of {@link RegistryStatus }
+     * 
+     */
+    public RegistryStatus createRegistryStatus() {
+        return new RegistryStatus();
+    }
+
+    /**
+     * Create an instance of {@link DocumentVersion }
+     * 
+     */
+    public DocumentVersion createDocumentVersion() {
+        return new DocumentVersion();
     }
 
     /**
@@ -66,12 +123,53 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Reason }
+     * 
+     */
+    public Reason createReason() {
+        return new Reason();
+    }
+
+    /**
+     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
+     * 
+     */
+    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
+        return new DSETAdvanceSearchCriterionParameter();
+    }
+
+    /**
+     * Create an instance of {@link StudyProtocolVersion }
+     * 
+     */
+    public StudyProtocolVersion createStudyProtocolVersion() {
+        return new StudyProtocolVersion();
+    }
+
+    /**
+     * Create an instance of {@link RegistryStatusReason }
+     * 
+     */
+    public RegistryStatusReason createRegistryStatusReason() {
+        return new RegistryStatusReason();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SecurityExceptionFault }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://enterpriseservices.nci.nih.gov/Common", name = "SecurityExceptionFault")
     public JAXBElement<SecurityExceptionFault> createSecurityExceptionFault(SecurityExceptionFault value) {
         return new JAXBElement<SecurityExceptionFault>(_SecurityExceptionFault_QNAME, SecurityExceptionFault.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link StudyProtocolVersion }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://enterpriseservices.nci.nih.gov/Common", name = "study")
+    public JAXBElement<StudyProtocolVersion> createStudy(StudyProtocolVersion value) {
+        return new JAXBElement<StudyProtocolVersion>(_Study_QNAME, StudyProtocolVersion.class, null, value);
     }
 
 }

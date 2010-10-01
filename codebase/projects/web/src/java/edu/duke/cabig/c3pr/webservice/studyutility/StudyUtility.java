@@ -15,12 +15,12 @@ import javax.xml.bind.annotation.XmlSeeAlso;
  * Generated source version: 2.1
  * 
  */
-@WebService(name = "StudyUtility", wsdlLocation="/WEB-INF/wsdl/StudyUtility.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService")
+@WebService(name = "StudyUtility", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
     edu.duke.cabig.c3pr.webservice.common.ObjectFactory.class,
-    edu.duke.cabig.c3pr.webservice.studyutility.ObjectFactory.class,
-    edu.duke.cabig.c3pr.webservice.iso21090.ObjectFactory.class
+    edu.duke.cabig.c3pr.webservice.iso21090.ObjectFactory.class,
+    edu.duke.cabig.c3pr.webservice.studyutility.ObjectFactory.class
 })
 public interface StudyUtility {
 

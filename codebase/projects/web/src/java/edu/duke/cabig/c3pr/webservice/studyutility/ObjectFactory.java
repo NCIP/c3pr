@@ -34,51 +34,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateStudyResponse }
+     * Create an instance of {@link UpdateStudyRequest }
      * 
      */
-    public CreateStudyResponse createCreateStudyResponse() {
-        return new CreateStudyResponse();
-    }
-
-    /**
-     * Create an instance of {@link UpdateStudyResponse }
-     * 
-     */
-    public UpdateStudyResponse createUpdateStudyResponse() {
-        return new UpdateStudyResponse();
-    }
-
-    /**
-     * Create an instance of {@link DSETStudy }
-     * 
-     */
-    public DSETStudy createDSETStudy() {
-        return new DSETStudy();
-    }
-
-    /**
-     * Create an instance of {@link AdvancedQueryStudyResponse }
-     * 
-     */
-    public AdvancedQueryStudyResponse createAdvancedQueryStudyResponse() {
-        return new AdvancedQueryStudyResponse();
-    }
-
-    /**
-     * Create an instance of {@link AdvancedQueryStudyRequest }
-     * 
-     */
-    public AdvancedQueryStudyRequest createAdvancedQueryStudyRequest() {
-        return new AdvancedQueryStudyRequest();
-    }
-
-    /**
-     * Create an instance of {@link StudyIdentifier }
-     * 
-     */
-    public StudyIdentifier createStudyIdentifier() {
-        return new StudyIdentifier();
+    public UpdateStudyRequest createUpdateStudyRequest() {
+        return new UpdateStudyRequest();
     }
 
     /**
@@ -90,14 +50,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Study }
-     * 
-     */
-    public Study createStudy() {
-        return new Study();
-    }
-
-    /**
      * Create an instance of {@link CreateStudyRequest }
      * 
      */
@@ -106,11 +58,59 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpdateStudyRequest }
+     * Create an instance of {@link DSETStudy }
      * 
      */
-    public UpdateStudyRequest createUpdateStudyRequest() {
-        return new UpdateStudyRequest();
+    public DSETStudy createDSETStudy() {
+        return new DSETStudy();
+    }
+
+    /**
+     * Create an instance of {@link CreateStudyResponse }
+     * 
+     */
+    public CreateStudyResponse createCreateStudyResponse() {
+        return new CreateStudyResponse();
+    }
+
+    /**
+     * Create an instance of {@link AdvancedQueryStudyRequest }
+     * 
+     */
+    public AdvancedQueryStudyRequest createAdvancedQueryStudyRequest() {
+        return new AdvancedQueryStudyRequest();
+    }
+
+    /**
+     * Create an instance of {@link AdvancedQueryStudyResponse }
+     * 
+     */
+    public AdvancedQueryStudyResponse createAdvancedQueryStudyResponse() {
+        return new AdvancedQueryStudyResponse();
+    }
+
+    /**
+     * Create an instance of {@link Study }
+     * 
+     */
+    public Study createStudy() {
+        return new Study();
+    }
+
+    /**
+     * Create an instance of {@link StudyIdentifier }
+     * 
+     */
+    public StudyIdentifier createStudyIdentifier() {
+        return new StudyIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStudyResponse }
+     * 
+     */
+    public UpdateStudyResponse createUpdateStudyResponse() {
+        return new UpdateStudyResponse();
     }
 
     /**
