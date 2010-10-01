@@ -14,6 +14,161 @@
 
 	<import schemaLocation="ISO_datatypes_Narrative.xsd" namespace="uri:iso.org:21090" />
 
+	<complexType name="StudyProtocolVersion">
+		<sequence>
+			<element name="studyProtocolDocument" type="tns:StudyProtocolDocumentVersion" />
+			<element name="targetRegistrationSystem" type="ISO:ST"
+				minOccurs="0" />
+			<element name="permissibleStudySubjectRegistryStatus" type="tns:PermissibleStudySubjectRegistryStatus"
+				minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="PermissibleStudySubjectRegistryStatus">
+		<sequence>
+			<element name="registryStatus" type="tns:RegistryStatus" />
+			<element name="secondaryReasons" type="tns:RegistryStatusReason"
+				minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="RegistryStatus">
+		<sequence>
+			<element name="code" type="ISO:CD"></element>
+			<element name="primaryReasons" type="tns:RegistryStatusReason"
+				minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="RegistryStatusReason">
+		<complexContent>
+			<extension base="tns:Reason">
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="Reason">
+		<sequence>
+			<element name="code" type="ISO:CD"></element>
+			<element name="description" type="ISO:ST"></element>
+			<element name="primaryIndicator" type="ISO:BL"></element>
+			<element name="primaryReason" type="tns:Reason" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="StudyProtocolDocumentVersion">
+		<complexContent>
+			<extension base="tns:DocumentVersion">
+				<sequence>
+					<element name="publicTitle" type="ISO:ST" minOccurs="0" />
+					<element name="publicDescription" type="ISO:ST" minOccurs="0" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="DocumentVersion">
+		<sequence>
+			<element name="officialTitle" type="ISO:ST" minOccurs="0" />
+			<element name="versionDate" type="ISO:TS.DateTime" minOccurs="0" />
+			<element name="versionNumberText" type="ISO:ST" minOccurs="0" />
+			<element name="text" type="ISO:ED" minOccurs="0" />
+			<element name="document" type="tns:Document" minOccurs="1" />
+			<element name="documentVersionRelationship" type="tns:DocumentVersionRelationship"
+				minOccurs="0" maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="DocumentVersionRelationship">
+		<sequence>
+			<element name="typeCode" type="ISO:CD" minOccurs="1"
+				maxOccurs="1" />
+			<element name="source" type="tns:DocumentVersion" minOccurs="0"
+				maxOccurs="1" />
+			<element name="target" type="tns:DocumentVersion" minOccurs="1"
+				maxOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Document">
+		<annotation>
+			<documentation>A collection (physical or logical) of data with the
+				following characteristics:
+				1) Stewardship, 2) Potential for
+				authentication, 3) Wholeness, 4)
+				Human readability, 5) Persistence,
+				6) Global vs local context (the
+				person that signs it is the author
+				of
+				all sections unless otherwise
+				noted).
+
+				For example, regulatory
+				processes require the submission of documents
+				from the Applicant to
+				the Regulatory Authority. These documents are
+				varied in focus and
+				are
+				often defined by the field of study or by
+				the regulatory
+				application
+				requirements of the region or Regulatory
+				Authority (e.g.,
+				Integrated
+				Summary of Safety, Pharmacokinetics
+				Written Summary).
+
+				For
+				example,
+				Adverse Event Report, Expedited Adverse Event Report,
+				Institutional
+				Review Board (IRB) Report, X-Ray Report, Lab Summary
+				Report, Autopsy
+				Report, etc.</documentation>
+		</annotation>
+		<sequence>
+			<element name="documentIdentifier" type="tns:DocumentIdentifier"
+				minOccurs="1" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="DocumentIdentifier">
+		<annotation>
+			<documentation>Identifier of an organization.</documentation>
+		</annotation>
+		<sequence>
+			<element name="identifier" type="ISO:II">
+				<annotation>
+					<documentation>The unique symbol that establishes identity of the
+						organization.</documentation>
+				</annotation>
+			</element>
+			<element name="primaryIndicator" type="ISO:BL" />
+			<element name="typeCode" type="ISO:CD">
+				<annotation>
+					<documentation>A coded value specifying the kind of organization
+						identifier.</documentation>
+				</annotation>
+			</element>
+			<element name="assigningOrganization" type="tns:Organization"
+				minOccurs="1" maxOccurs="1" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Organization">
+		<annotation>
+			<documentation>A formalized group of persons or other organizations
+				collected together for a common purpose (such as administrative,
+				legal, political) and the infrastructure to carry out that purpose.
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="organizationIdentifier" type="tns:OrganizationIdentifier"
+				minOccurs="1" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+
 	<complexType name="OrganizationIdentifier">
 		<annotation>
 			<documentation>Identifier of an organization.</documentation>
