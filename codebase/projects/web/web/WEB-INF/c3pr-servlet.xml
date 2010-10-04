@@ -364,6 +364,13 @@
         autowire="byName">
     </bean>
     
+    <bean name="/registration/reConsent"
+        id="reConsentController"
+        class="edu.duke.cabig.c3pr.web.registration.ReConsentController"
+        parent="parentRegistrationController"
+        autowire="byName">
+    </bean>
+    
     <bean name="/registration/confirm"
           id="confirmRegistrationCoStudyntroller"
           class="edu.duke.cabig.c3pr.web.registration.RegistrationConfirmAndRandomizeController" autowire="byName">
