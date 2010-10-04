@@ -47,6 +47,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
     "documentVersionRelationship"
 })
 @XmlSeeAlso({
+    Consent.class,
     StudyProtocolDocumentVersion.class
 })
 public class DocumentVersion {

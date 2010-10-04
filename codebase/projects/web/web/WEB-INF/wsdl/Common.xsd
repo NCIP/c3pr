@@ -155,6 +155,16 @@
 				minOccurs="1" maxOccurs="1" />
 		</sequence>
 	</complexType>
+	
+	<complexType name="Consent">
+		<complexContent>
+			<extension base="tns:DocumentVersion">
+				<sequence>
+					<element name="mandatoryIndicator" type="ISO:BL" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>	
 
 	<complexType name="Organization">
 		<annotation>

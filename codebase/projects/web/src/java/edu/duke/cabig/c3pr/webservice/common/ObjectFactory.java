@@ -35,43 +35,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
+     * Create an instance of {@link DocumentVersion }
      * 
      */
-    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
-        return new PermissibleStudySubjectRegistryStatus();
-    }
-
-    /**
-     * Create an instance of {@link Organization }
-     * 
-     */
-    public Organization createOrganization() {
-        return new Organization();
-    }
-
-    /**
-     * Create an instance of {@link OrganizationIdentifier }
-     * 
-     */
-    public OrganizationIdentifier createOrganizationIdentifier() {
-        return new OrganizationIdentifier();
-    }
-
-    /**
-     * Create an instance of {@link DocumentVersionRelationship }
-     * 
-     */
-    public DocumentVersionRelationship createDocumentVersionRelationship() {
-        return new DocumentVersionRelationship();
-    }
-
-    /**
-     * Create an instance of {@link Document }
-     * 
-     */
-    public Document createDocument() {
-        return new Document();
+    public DocumentVersion createDocumentVersion() {
+        return new DocumentVersion();
     }
 
     /**
@@ -83,14 +51,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DocumentIdentifier }
-     * 
-     */
-    public DocumentIdentifier createDocumentIdentifier() {
-        return new DocumentIdentifier();
-    }
-
-    /**
      * Create an instance of {@link AdvanceSearchCriterionParameter }
      * 
      */
@@ -99,27 +59,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RegistryStatus }
+     * Create an instance of {@link Consent }
      * 
      */
-    public RegistryStatus createRegistryStatus() {
-        return new RegistryStatus();
+    public Consent createConsent() {
+        return new Consent();
     }
 
     /**
-     * Create an instance of {@link DocumentVersion }
+     * Create an instance of {@link DocumentIdentifier }
      * 
      */
-    public DocumentVersion createDocumentVersion() {
-        return new DocumentVersion();
-    }
-
-    /**
-     * Create an instance of {@link SecurityExceptionFault }
-     * 
-     */
-    public SecurityExceptionFault createSecurityExceptionFault() {
-        return new SecurityExceptionFault();
+    public DocumentIdentifier createDocumentIdentifier() {
+        return new DocumentIdentifier();
     }
 
     /**
@@ -131,11 +83,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
+     * Create an instance of {@link RegistryStatus }
      * 
      */
-    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
-        return new DSETAdvanceSearchCriterionParameter();
+    public RegistryStatus createRegistryStatus() {
+        return new RegistryStatus();
+    }
+
+    /**
+     * Create an instance of {@link Organization }
+     * 
+     */
+    public Organization createOrganization() {
+        return new Organization();
     }
 
     /**
@@ -147,11 +107,59 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link OrganizationIdentifier }
+     * 
+     */
+    public OrganizationIdentifier createOrganizationIdentifier() {
+        return new OrganizationIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link SecurityExceptionFault }
+     * 
+     */
+    public SecurityExceptionFault createSecurityExceptionFault() {
+        return new SecurityExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link Document }
+     * 
+     */
+    public Document createDocument() {
+        return new Document();
+    }
+
+    /**
+     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
+     * 
+     */
+    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
+        return new DSETAdvanceSearchCriterionParameter();
+    }
+
+    /**
      * Create an instance of {@link RegistryStatusReason }
      * 
      */
     public RegistryStatusReason createRegistryStatusReason() {
         return new RegistryStatusReason();
+    }
+
+    /**
+     * Create an instance of {@link DocumentVersionRelationship }
+     * 
+     */
+    public DocumentVersionRelationship createDocumentVersionRelationship() {
+        return new DocumentVersionRelationship();
+    }
+
+    /**
+     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
+     * 
+     */
+    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
+        return new PermissibleStudySubjectRegistryStatus();
     }
 
     /**
