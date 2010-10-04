@@ -2204,8 +2204,11 @@ public class StudySubject extends
 		// a subject can re consent only if his/her registration is in reserved, registered but not 
 		//enrolled or enrolled status. 
 		
-		if(getRegWorkflowStatus() == RegistrationWorkFlowStatus.PENDING || getRegWorkflowStatus() == 
-			RegistrationWorkFlowStatus.NOT_REGISTERED || getRegWorkflowStatus() == RegistrationWorkFlowStatus.OFF_STUDY || 
+		if(this.getAllSignedConsents().size()==0){
+			return false;
+		}
+		
+		if(getRegWorkflowStatus() == RegistrationWorkFlowStatus.OFF_STUDY || 
 			getRegWorkflowStatus() == RegistrationWorkFlowStatus.INVALID ){
 				return false;
 			}
@@ -2221,7 +2224,8 @@ public class StudySubject extends
 		
 		// Subject cannot re consent on a study version if he/she already signed consent forms on this version.
 				if(hasSignedConsents(studyVersionName)) {
-			return false;
+					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.SUBJECT.CANNOT_RECONSENT_ON_SAME_STUDY_VERSION.CODE"),
+							new String[] {studyVersionName });
 		}
 				
 		// Subject cannot re consent on a study version if he/she signed consent forms on a study version after this one.
@@ -2237,7 +2241,7 @@ public class StudySubject extends
 	@Transient
 	public void reConsent(String studyVersionName, List<StudySubjectConsentVersion> studySubjectConsentVersionsHolder) {
 		
-		log.debug("Calling ReConsent API");
+		log.debug("Calling reConsent API");
 		if(studySubjectConsentVersionsHolder == null || studySubjectConsentVersionsHolder.size()==0){
 			throw new C3PRBaseRuntimeException("Null consent(s) passed in the arguments of reConsent() API");
 		}
@@ -2283,7 +2287,7 @@ public class StudySubject extends
 				// Create new study subject study version and add study subject consent versions to it.
 				StudySubjectStudyVersion studySubjectStudyVersion = new StudySubjectStudyVersion();
 				studySubjectStudyVersion.setStudySiteStudyVersion(this.getStudySite().getStudySiteStudyVersionGivenStudyVersionName(studyVersionName));
-				this.getStudySubjectStudyVersion().addStudySubjectConsentVersion(newStudySubjectConsentVersion);
+				studySubjectStudyVersion.addStudySubjectConsentVersion(newStudySubjectConsentVersion);
 				this.addStudySubjectStudyVersion(studySubjectStudyVersion);
 			}
 			// validate mandatory indicator
@@ -2341,9 +2345,15 @@ public class StudySubject extends
 	
 	@Transient
 	private void validateMandatoryInformedConsents(StudyVersion studyVersion){
+		StudySubjectStudyVersion studySubjectStudyVersionGivenStudyVersion = getStudySubjectStudyVersion(studyVersion);
+		if(studySubjectStudyVersionGivenStudyVersion == null){
+			throw getC3PRExceptionHelper().getRuntimeException(getCode
+					("C3PR.EXCEPTION.REGISTRATION.STUDY_SUBJECT_VERSION_NOT_FOUND_FOR_STUDY_VERSION.CODE"),
+					new String[] {studyVersion.getName()}); 
+		}
 		for(Consent consent: studyVersion.getConsents()){
 			if(consent.getMandatoryIndicator()){
-				if(!getStudySubjectStudyVersion().hasSignedConsent(consent)){
+				if(!studySubjectStudyVersionGivenStudyVersion.hasSignedConsent(consent)){
 					throw getC3PRExceptionHelper().getRuntimeException(getCode
 							("C3PR.EXCEPTION.REGISTRATION.MANDATORY_CONSENT_NOT_SIGNED_IN_STUDY_VERSION.CODE"),
 							new String[] {consent.getName()}); 
@@ -2442,5 +2452,15 @@ public class StudySubject extends
 		Collections.reverse(sorted);
 		return sorted;
 	} 
+	
+	@Transient
+	public StudySubjectStudyVersion getStudySubjectStudyVersion(StudyVersion studyVersion) {
+		for(StudySubjectStudyVersion localStudySubjectStudyVersion: this.getStudySubjectStudyVersions()){
+			if(localStudySubjectStudyVersion.getStudySiteStudyVersion().getStudyVersion().getName().equals(studyVersion.getName())){
+				return localStudySubjectStudyVersion;
+			}
+		}
+		return null;
+	} 
 		
-	}
+}
