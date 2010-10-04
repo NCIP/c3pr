@@ -22,6 +22,10 @@
 	function gotoOffEpoch(location){
 		document.location = location + "&<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
 	}
+
+	function gotoReConsent(location){
+		document.location = location + "?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>";
+	}
 </script>
 <tags:controlPanel>
 	<csmauthz:accesscontrol domainObject="${command.studySubject}" hasPrivileges="UI_STUDYSUBJECT_UPDATE" authorizationCheckName="studySubjectAuthorizationCheck">
@@ -43,6 +47,10 @@
 			<%--<tags:oneControlPanelItem linkhref="javascript:changeEpochPopup();" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />--%>
 			<tags:oneControlPanelItem linkhref="javascript:gotoOffEpoch('offEpoch?operationType=changeEpochAssignment')"
 				 imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_changeEpoch.png" linktext="Change Epoch" />
+		</c:if>
+		<c:if test="${command.canReConsent}">
+			<tags:oneControlPanelItem linkhref="javascript:gotoReConsent('reConsent')"
+				 imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Re-Consent" />
 		</c:if>
     	<c:if test="${takeSubjectOffStudy}">
 			<tags:oneControlPanelItem linkhref="javascript:gotoOffEpoch('offEpoch?operationType=takeSubjectOffStudy')"
