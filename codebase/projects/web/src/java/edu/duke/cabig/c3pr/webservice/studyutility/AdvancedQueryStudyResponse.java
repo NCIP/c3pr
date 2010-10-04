@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="studies" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}DSET_Study"/>
+ *         &lt;element name="studies" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}DSET_StudyProtocolVersion"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,18 +34,18 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "AdvancedQueryStudyResponse")
 public class AdvancedQueryStudyResponse {
 
-    @XmlElement(namespace = "", required = true)
-    protected DSETStudy studies;
+    @XmlElement(required = true)
+    protected DSETStudyProtocolVersion studies;
 
     /**
      * Gets the value of the studies property.
      * 
      * @return
      *     possible object is
-     *     {@link DSETStudy }
+     *     {@link DSETStudyProtocolVersion }
      *     
      */
-    public DSETStudy getStudies() {
+    public DSETStudyProtocolVersion getStudies() {
         return studies;
     }
 
@@ -54,10 +54,10 @@ public class AdvancedQueryStudyResponse {
      * 
      * @param value
      *     allowed object is
-     *     {@link DSETStudy }
+     *     {@link DSETStudyProtocolVersion }
      *     
      */
-    public void setStudies(DSETStudy value) {
+    public void setStudies(DSETStudyProtocolVersion value) {
         this.studies = value;
     }
 

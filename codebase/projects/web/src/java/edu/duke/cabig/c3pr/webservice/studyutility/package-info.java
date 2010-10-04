@@ -1,2 +1,2 @@
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService")
 package edu.duke.cabig.c3pr.webservice.studyutility;

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://enterpriseservices.nci.nih.gov/StudyUtilitySchema"
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://enterpriseservices.nci.nih.gov/StudyUtilitySchema"
 	xmlns:ISO="uri:iso.org:21090" xmlns:tns="http://enterpriseservices.nci.nih.gov/StudyUtilitySchema"
 	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
-	xmlns:common="http://enterpriseservices.nci.nih.gov/Common"
-	xmlns:sch="http://www.ascc.net/xml/schematron" elementFormDefault="qualified">
+	xmlns:common="http://enterpriseservices.nci.nih.gov/Common" xmlns:sch="http://www.ascc.net/xml/schematron"
+	elementFormDefault="qualified">
 
 	<annotation>
 		<appinfo>
@@ -18,38 +19,21 @@
 	</annotation>
 
 	<import schemaLocation="ISO_datatypes_Narrative.xsd" namespace="uri:iso.org:21090" />
-	<import schemaLocation="Common.xsd" namespace="http://enterpriseservices.nci.nih.gov/Common" />
-
-	<complexType name="Study">
-		<sequence>
-			<element name="studyIdentifier" type="tns:StudyIdentifier"
-				minOccurs="0" maxOccurs="unbounded" />
-			<element name="title" type="ISO:ST" minOccurs="0" />
-			<element name="description" type="ISO:ST" minOccurs="0" />
-		</sequence>
-	</complexType>
-
-	<complexType name="StudyIdentifier">
-		<sequence>
-			<element name="identifier" type="ISO:II"></element>
-			<element name="typeCode" type="ISO:CD"></element>
-			<element name="primaryIndicator" type="ISO:BL" />
-			<element name="assigningOrganization" type="common:OrganizationIdentifier" />
-		</sequence>
-	</complexType>
+	<import schemaLocation="Common.xsd"
+		namespace="http://enterpriseservices.nci.nih.gov/Common" />
 
 	<!-- Collections returned as search results. -->
-	<complexType name="DSET_Study">
+	<complexType name="DSET_StudyProtocolVersion">
 		<complexContent>
-			<extension base="tns:COLL_Study">
+			<extension base="tns:COLL_StudyProtocolVersion">
 				<sequence>
-					<element name="item" type="tns:Study" minOccurs="0"
-						maxOccurs="unbounded" />
+					<element name="item" type="common:StudyProtocolVersion"
+						minOccurs="0" maxOccurs="unbounded" />
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
-	<complexType abstract="true" name="COLL_Study">
+	<complexType abstract="true" name="COLL_StudyProtocolVersion">
 		<complexContent>
 			<extension base="ISO:ANY" />
 		</complexContent>

@@ -244,7 +244,7 @@ public class StudyUtilityImplTest extends TestCase {
 	public static void main(String[] args) throws JAXBException {
 		JAXBContext jc = JAXBContext.newInstance(StudyProtocolVersion.class);
 		Marshaller m = jc.createMarshaller();
-		m.setProperty(m.JAXB_FORMATTED_OUTPUT , true);
+		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT , true);
 		final StudyProtocolVersion study = new StudyUtilityImplTest("")
 				.createStudy();
 		JAXBElement<StudyProtocolVersion> jaxbElement = new JAXBElement<StudyProtocolVersion>(

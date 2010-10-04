@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class StudyUtilityFault {
 
-    @XmlElement(namespace = "", required = true)
+    @XmlElement(required = true)
     protected String message;
 
     /**

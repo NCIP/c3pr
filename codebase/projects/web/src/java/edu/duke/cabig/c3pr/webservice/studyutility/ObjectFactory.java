@@ -42,11 +42,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link StudyUtilityFault }
+     * Create an instance of {@link AdvancedQueryStudyRequest }
      * 
      */
-    public StudyUtilityFault createStudyUtilityFault() {
-        return new StudyUtilityFault();
+    public AdvancedQueryStudyRequest createAdvancedQueryStudyRequest() {
+        return new AdvancedQueryStudyRequest();
     }
 
     /**
@@ -58,30 +58,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DSETStudy }
-     * 
-     */
-    public DSETStudy createDSETStudy() {
-        return new DSETStudy();
-    }
-
-    /**
-     * Create an instance of {@link CreateStudyResponse }
-     * 
-     */
-    public CreateStudyResponse createCreateStudyResponse() {
-        return new CreateStudyResponse();
-    }
-
-    /**
-     * Create an instance of {@link AdvancedQueryStudyRequest }
-     * 
-     */
-    public AdvancedQueryStudyRequest createAdvancedQueryStudyRequest() {
-        return new AdvancedQueryStudyRequest();
-    }
-
-    /**
      * Create an instance of {@link AdvancedQueryStudyResponse }
      * 
      */
@@ -90,19 +66,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Study }
+     * Create an instance of {@link DSETStudyProtocolVersion }
      * 
      */
-    public Study createStudy() {
-        return new Study();
+    public DSETStudyProtocolVersion createDSETStudyProtocolVersion() {
+        return new DSETStudyProtocolVersion();
     }
 
     /**
-     * Create an instance of {@link StudyIdentifier }
+     * Create an instance of {@link StudyUtilityFault }
      * 
      */
-    public StudyIdentifier createStudyIdentifier() {
-        return new StudyIdentifier();
+    public StudyUtilityFault createStudyUtilityFault() {
+        return new StudyUtilityFault();
+    }
+
+    /**
+     * Create an instance of {@link CreateStudyResponse }
+     * 
+     */
+    public CreateStudyResponse createCreateStudyResponse() {
+        return new CreateStudyResponse();
     }
 
     /**

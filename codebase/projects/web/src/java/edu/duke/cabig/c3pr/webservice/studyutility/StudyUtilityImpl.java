@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl;
 
@@ -59,7 +60,7 @@ public class StudyUtilityImpl implements StudyUtility {
 			throws StudyUtilityFaultMessage {
 
 		AdvancedQueryStudyResponse response = new AdvancedQueryStudyResponse();
-		DSETStudy studies = new DSETStudy();
+		/*DSETStudyProtocolVersion studies = new DSETStudyProtocolVersion();
 		response.setStudies(studies);
 		try {
 			List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -78,7 +79,7 @@ public class StudyUtilityImpl implements StudyUtility {
 		} catch (RuntimeException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
 			fail(e.getMessage());
-		}
+		}*/
 		return response;
 
 	}
@@ -95,20 +96,17 @@ public class StudyUtilityImpl implements StudyUtility {
 
 		CreateStudyResponse response = new CreateStudyResponse();
 		try {
-			Study xmlStudy = request.getStudy();
-			List<StudyIdentifier> xmlIds = xmlStudy.getStudyIdentifier();
-			if (CollectionUtils.isEmpty(xmlIds)) {
+			StudyProtocolVersion xmlStudy = request.getStudy();
+			edu.duke.cabig.c3pr.domain.Study study = converter
+				.convert(xmlStudy);
+			if (CollectionUtils.isEmpty(study.getIdentifiers())) {
 				fail(STUDY_IDENTIFIER_REQUIRED);
 			}
-			List<OrganizationAssignedIdentifier> ids = converter
-					.convert(xmlIds);
 			List<edu.duke.cabig.c3pr.domain.Study> existentStudies = studyRepository
-					.getByIdentifiers((List) ids);
+					.getByIdentifiers(study.getIdentifiers());
 			if (CollectionUtils.isNotEmpty(existentStudies)) {
 				fail(STUDY_ALREADY_EXISTS);
 			}
-			edu.duke.cabig.c3pr.domain.Study study = converter
-					.convert(xmlStudy);
 			studyRepository.save(study);
 			response.setStudy(converter.convert(study));
 		} catch (RuntimeException e) {
@@ -140,7 +138,8 @@ public class StudyUtilityImpl implements StudyUtility {
 			throws StudyUtilityFaultMessage {
 		UpdateStudyResponse response = new UpdateStudyResponse();
 		try {
-			Study xmlStudy = request.getStudy();
+			/**
+			StudyProtocolVersion xmlStudy = request.getStudy();
 			List<StudyIdentifier> xmlIds = xmlStudy.getStudyIdentifier();
 			if (CollectionUtils.isEmpty(xmlIds)) {
 				fail(STUDY_IDENTIFIER_REQUIRED);
@@ -156,13 +155,11 @@ public class StudyUtilityImpl implements StudyUtility {
 			converter.convert(study, xmlStudy);
 			studyRepository.save(study);
 			response.setStudy(converter.convert(study));
+			**/
 		} catch (RuntimeException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
 			fail(e.getMessage());
-		} catch (C3PRCodedException e) {
-			log.error(ExceptionUtils.getFullStackTrace(e));
-			fail(e.getMessage());
-		}
+		} 
 		return response;
 
 	}

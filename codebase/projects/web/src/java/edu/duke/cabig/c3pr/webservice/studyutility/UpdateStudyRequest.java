@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 
 
 /**
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="study" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}Study"/>
+ *         &lt;element name="study" type="{http://enterpriseservices.nci.nih.gov/Common}StudyProtocolVersion"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,18 +35,18 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "UpdateStudyRequest")
 public class UpdateStudyRequest {
 
-    @XmlElement(namespace = "", required = true)
-    protected Study study;
+    @XmlElement(required = true)
+    protected StudyProtocolVersion study;
 
     /**
      * Gets the value of the study property.
      * 
      * @return
      *     possible object is
-     *     {@link Study }
+     *     {@link StudyProtocolVersion }
      *     
      */
-    public Study getStudy() {
+    public StudyProtocolVersion getStudy() {
         return study;
     }
 
@@ -54,10 +55,10 @@ public class UpdateStudyRequest {
      * 
      * @param value
      *     allowed object is
-     *     {@link Study }
+     *     {@link StudyProtocolVersion }
      *     
      */
-    public void setStudy(Study value) {
+    public void setStudy(StudyProtocolVersion value) {
         this.study = value;
     }
 

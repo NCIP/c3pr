@@ -41,7 +41,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 	public void testConvertSubjectBoolean() {
 		Person person = createPerson();
 		Subject subject = createSubject(person);
-		Participant participant = converter.convert(subject, true);
+		Participant participant = converter.convert(subject, true,false);
 
 		assertParticipant(participant);
 		assertNotNull(participant.getPrimaryIdentifier());
@@ -57,7 +57,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 		final Subject badDataSubject1 = createSubject(badDataPerson1);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convert(badDataSubject1, true);
+				converter.convert(badDataSubject1, true,false);
 			}
 		}.runTest();
 
@@ -66,7 +66,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 		badDataSubject2.setStateCode(new ST(BAD_STATE_CODE));
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convert(badDataSubject2, true);
+				converter.convert(badDataSubject2, true,false);
 			}
 		}.runTest();
 	}
@@ -81,7 +81,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 		Person person = createPerson();
 		Subject subject = createSubject(person);
 
-		converter.convert(participant, subject);
+		converter.convert(participant, subject,false);
 
 		assertParticipant(participant);
 
@@ -91,7 +91,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 		badDataPerson1.setBirthDate(new TSDateTime(BAD_ISO_DATE));
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convert(participant, badDataSubj1);
+				converter.convert(participant, badDataSubj1,false);
 			}
 		}.runTest();
 
@@ -101,7 +101,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 				BAD_RACE_CODE)));
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convert(participant, badDataSubj2);
+				converter.convert(participant, badDataSubj2,false);
 			}
 		}.runTest();
 

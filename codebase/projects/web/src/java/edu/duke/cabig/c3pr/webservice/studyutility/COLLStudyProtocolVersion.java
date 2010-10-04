@@ -9,12 +9,12 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
 
 
 /**
- * <p>Java class for COLL_Study complex type.
+ * <p>Java class for COLL_StudyProtocolVersion complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="COLL_Study">
+ * &lt;complexType name="COLL_StudyProtocolVersion">
  *   &lt;complexContent>
  *     &lt;extension base="{uri:iso.org:21090}ANY">
  *     &lt;/extension>
@@ -25,11 +25,11 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "COLL_Study", namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilitySchema")
+@XmlType(name = "COLL_StudyProtocolVersion", namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilitySchema")
 @XmlSeeAlso({
-    DSETStudy.class
+    DSETStudyProtocolVersion.class
 })
-public abstract class COLLStudy
+public abstract class COLLStudyProtocolVersion
     extends ANY
 {
 

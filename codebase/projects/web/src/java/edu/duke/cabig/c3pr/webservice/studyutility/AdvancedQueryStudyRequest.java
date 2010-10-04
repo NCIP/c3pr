@@ -35,7 +35,7 @@ import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter
 @XmlRootElement(name = "AdvancedQueryStudyRequest")
 public class AdvancedQueryStudyRequest {
 
-    @XmlElement(namespace = "", required = true)
+    @XmlElement(required = true)
     protected DSETAdvanceSearchCriterionParameter parameters;
 
     /**

@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.webservice.converters;
 
-import java.util.List;
-
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
@@ -9,7 +7,7 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.studyutility.StudyIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 
@@ -27,11 +25,14 @@ public interface JAXBToDomainObjectConverter {
 	 * Convert {@link Subject} to a new instance of {@link Participant}.
 	 * 
 	 * @param subject
+	 * @param skipEmptyNameParts
+	 *            use null instead of empty string for omitted name parts. Used
+	 *            for search-by-example operations.
 	 * @return
 	 * @throws ConversionException
 	 */
-	Participant convert(Subject subject, boolean requireIdentifier)
-			throws ConversionException;
+	Participant convert(Subject subject, boolean requireIdentifier,
+			boolean skipEmptyNameParts) throws ConversionException;
 
 	/**
 	 * Updates the given instance of {@link Participant} with new values. Does
@@ -39,8 +40,12 @@ public interface JAXBToDomainObjectConverter {
 	 * 
 	 * @param participant
 	 * @param subject
+	 * @param skipEmptyNameParts
+	 *            use null instead of empty string for omitted name parts. Used
+	 *            for search-by-example operations.
 	 */
-	void convert(Participant participant, Subject subject);
+	void convert(Participant participant, Subject subject,
+			boolean skipEmptyNameParts);
 
 	/**
 	 * Converts {@link BiologicEntityIdentifier} into
@@ -68,10 +73,6 @@ public interface JAXBToDomainObjectConverter {
 	AdvancedSearchCriteriaParameter convert(
 			AdvanceSearchCriterionParameter param);
 
-	List<OrganizationAssignedIdentifier> convert(List<StudyIdentifier> xmlIds);
-
-	OrganizationAssignedIdentifier convert(StudyIdentifier studyIdentifier);
-
 	/**
 	 * Will convert given JAXB study definition to a brand new {@link Study}
 	 * domain object. JAXB study definition contains only a limited set of
@@ -84,7 +85,7 @@ public interface JAXBToDomainObjectConverter {
 	 * @param xmlStudy
 	 * @return
 	 */
-	Study convert(edu.duke.cabig.c3pr.webservice.studyutility.Study xmlStudy);
+	Study convert(StudyProtocolVersion xmlStudy);
 
 	/**
 	 * Unlike {
@@ -96,10 +97,8 @@ public interface JAXBToDomainObjectConverter {
 	 * @param study
 	 * @param xmlStudy
 	 */
-	void convert(Study study,
-			edu.duke.cabig.c3pr.webservice.studyutility.Study xmlStudy);
+	void convert(Study study, StudyProtocolVersion xmlStudy);
 
-
-	edu.duke.cabig.c3pr.webservice.studyutility.Study convert(Study study);
+	StudyProtocolVersion convert(Study study);
 
 }

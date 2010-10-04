@@ -30,7 +30,7 @@
 			<xsd:element name="CreateStudyRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="study" type="sm:Study" minOccurs="1"
+						<xsd:element name="study" type="common:StudyProtocolVersion" minOccurs="1"
 							maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -38,7 +38,7 @@
 			<xsd:element name="CreateStudyResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="study" type="sm:Study" minOccurs="1"
+						<xsd:element name="study" type="common:StudyProtocolVersion" minOccurs="1"
 							maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -54,7 +54,7 @@
 			<xsd:element name="AdvancedQueryStudyResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studies" type="sm:DSET_Study"
+						<xsd:element name="studies" type="sm:DSET_StudyProtocolVersion"
 							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -62,7 +62,7 @@
 			<xsd:element name="UpdateStudyRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="study" type="sm:Study" minOccurs="1"
+						<xsd:element name="study" type="common:StudyProtocolVersion" minOccurs="1"
 							maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -70,7 +70,7 @@
 			<xsd:element name="UpdateStudyResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="study" type="sm:Study" minOccurs="1"
+						<xsd:element name="study" type="common:StudyProtocolVersion" minOccurs="1"
 							maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>

@@ -99,7 +99,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 		CreateSubjectResponse response = new CreateSubjectResponse();
 		try {
 			Subject subject = request.getSubject();
-			Participant participant = converter.convert(subject, true);
+			Participant participant = converter.convert(subject, true,false);
 
 			Identifier identifier = participant.getIdentifiers().get(0);
 			List<Participant> existingList = participantRepository
@@ -141,7 +141,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 		final Subject subject = request.getSubject();
 		if (subject != null && subject.getEntity() != null) {
 			try {
-				Participant participant = converter.convert(subject, false);
+				Participant participant = converter.convert(subject, false, true);
 				List<Participant> results = new ArrayList<Participant>(
 						participantRepository.searchByFullExample(participant));
 				/*
@@ -218,7 +218,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 		UpdateSubjectResponse response = new UpdateSubjectResponse();
 		try {
 			Subject subject = request.getSubject();
-			Participant participant = converter.convert(subject, true);
+			Participant participant = converter.convert(subject, true,false);
 			Identifier identifier = participant.getIdentifiers().get(0);
 			List<Participant> existingList = participantRepository
 					.searchByIdentifier(identifier);
@@ -233,7 +233,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 				throw new NoSuchSubjectExceptionFaultMessage(
 						SUBJECT_IS_INACTIVE, fault);
 			}
-			converter.convert(participant, subject);
+			converter.convert(participant, subject,false);
 			final ParticipantWrapper wrapper = new ParticipantWrapper(
 					participant);
 			participantValidator.validate(wrapper,

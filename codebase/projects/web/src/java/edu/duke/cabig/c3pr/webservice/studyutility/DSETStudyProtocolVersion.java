@@ -5,20 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 
 
 /**
- * <p>Java class for DSET_Study complex type.
+ * <p>Java class for DSET_StudyProtocolVersion complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="DSET_Study">
+ * &lt;complexType name="DSET_StudyProtocolVersion">
  *   &lt;complexContent>
- *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}COLL_Study">
+ *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}COLL_StudyProtocolVersion">
  *       &lt;sequence>
- *         &lt;element name="item" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}Study" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="item" type="{http://enterpriseservices.nci.nih.gov/Common}StudyProtocolVersion" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -28,14 +30,15 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DSET_Study", namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilitySchema", propOrder = {
+@XmlType(name = "DSET_StudyProtocolVersion", namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilitySchema", propOrder = {
     "item"
 })
-public class DSETStudy
-    extends COLLStudy
+public class DSETStudyProtocolVersion
+    extends COLLStudyProtocolVersion
 {
 
-    protected List<Study> item;
+    @XmlElement(namespace = "http://enterpriseservices.nci.nih.gov/StudyUtilitySchema")
+    protected List<StudyProtocolVersion> item;
 
     /**
      * Gets the value of the item property.
@@ -55,13 +58,13 @@ public class DSETStudy
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Study }
+     * {@link StudyProtocolVersion }
      * 
      * 
      */
-    public List<Study> getItem() {
+    public List<StudyProtocolVersion> getItem() {
         if (item == null) {
-            item = new ArrayList<Study>();
+            item = new ArrayList<StudyProtocolVersion>();
         }
         return this.item;
     }
