@@ -262,10 +262,18 @@
 			</search-criteria>
 			<association-context>
 				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudyVersion</name>
+					<role-name>studyVersionsInternal</role-name>
+					<table-alias>StudyVersion_xx</table-alias>
+					<joining-condition>StudyVersion_xx = any
+						elements(Study_xx.studyVersionsInternal)
+					</joining-condition>
+				</association>
+				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudyDisease</name>
 					<role-name>studyDisease</role-name>
 					<table-alias>StudyDisease_xx</table-alias>
-					<joining-condition>DiseaseHistory_xx.studyDisease = StudyDisease_xx
+					<joining-condition>StudyVersion_xx.studyDisease = StudyDisease_xx
 					</joining-condition>
 				</association>
 				<association>
@@ -306,18 +314,17 @@
 			</search-criteria>
 			<association-context>
 				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudySite</name>
-					<role-name>studySite</role-name>
-					<table-alias>StudySite_xx</table-alias>
-					<joining-condition>StudyVersion_xx.studySite =
-						StudySite_xx</joining-condition>
+					<name>edu.duke.cabig.c3pr.domain.StudyOrganization</name>
+					<role-name>studyOrganizations</role-name>
+					<table-alias>StudyOrganization_xx</table-alias>
+					<joining-condition>StudyOrganization_xx = any elements(Study_xx.studyOrganizations)</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudyPersonnel</name>
 					<role-name>studyPersonnelInternal</role-name>
 					<table-alias>StudyPersonnel_xx</table-alias>
 					<joining-condition>StudyPersonnel_xx = any
-						elements(StudySite_xx.studyPersonnelInternal)</joining-condition>
+						elements(StudyOrganization_xx.studyPersonnelInternal)</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.ResearchStaff</name>
@@ -350,11 +357,17 @@
 			</search-criteria>
 			<association-context>
 				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudyOrganization</name>
+					<role-name>studyOrganizations</role-name>
+					<table-alias>StudyOrganization_xx</table-alias>
+					<joining-condition>StudyOrganization_xx = any elements(Study_xx.studyOrganizations)</joining-condition>
+				</association>
+				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudyInvestigator</name>
-					<role-name>treatingPhysician</role-name>
+					<role-name>studyInvestigatorsInternal</role-name>
 					<table-alias>StudyInvestigator_xx</table-alias>
-					<joining-condition>StudySubject_xx.treatingPhysician =
-						StudyInvestigator_xx</joining-condition>
+					<joining-condition>StudyInvestigator_xx = any
+						elements(StudyOrganization_xx.studyInvestigatorsInternal)</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</name>
@@ -395,32 +408,16 @@
 			<association-context>
 				<name>Organization</name>
 				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
-					<role-name>studySubjectStudyVersions</role-name>
-					<table-alias>StudySubjectStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xxOrganization = any
-						elements(StudySubject_xx.studySubjectStudyVersions)
-					</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</name>
-					<role-name>studySiteStudyVersion</role-name>
-					<table-alias>StudySiteStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xxOrganization.studySiteStudyVersion
-						= StudySiteStudyVersion_xxOrganization</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudySite</name>
-					<role-name>studySite</role-name>
-					<table-alias>StudySite_xx</table-alias>
-					<joining-condition>StudySiteStudyVersion_xxOrganization.studySite =
-						StudySite_xxOrganization</joining-condition>
+					<name>edu.duke.cabig.c3pr.domain.StudyOrganization</name>
+					<role-name>studyOrganizations</role-name>
+					<table-alias>StudyOrganization_xx</table-alias>
+					<joining-condition>StudyOrganization_xxOrganization = any elements(Study_xx.studyOrganizations)</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.HealthcareSite</name>
 					<role-name>healthcareSite</role-name>
 					<table-alias>HealthcareSite_xx</table-alias>
-					<joining-condition>StudySite_xxOrganization.healthcareSite = HealthcareSite_xxOrganization
+					<joining-condition>StudyOrganization_xxOrganization.healthcareSite = HealthcareSite_xxOrganization
 					</joining-condition>
 				</association>
 				<association>
@@ -432,92 +429,8 @@
 						elements(HealthcareSite_xxOrganization.identifiers)</joining-condition>
 				</association>
 			</association-context>
-		</dependent-object>
-		<!-- search by health care site criterion-->
-		<dependent-object>
-			<class-name>edu.duke.cabig.c3pr.domain.Organization</class-name>
-			<display-name>Organization</display-name>
-			<table-alias>Organization_xx</table-alias>
-			<search-criteria>
-				<name>name</name>
-				<label>Organization Name</label>
-				<data-type>String</data-type>
-			</search-criteria>
-			<association-context>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudyDisease</name>
-					<role-name>studyDisease</role-name>
-					<table-alias>StudyDisease_xx</table-alias>
-					<joining-condition>DiseaseHistory_xx.studyDisease = StudyDisease_xx
-					</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.DiseaseTerm</name>
-					<role-name>diseaseTerm</role-name>
-					<table-alias>DiseaseTerm_xx</table-alias>
-					<joining-condition>StudyDisease_xx.diseaseTerm = DiseaseTerm_xx
-					</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.DiseaseCategory</name>
-					<role-name>category</role-name>
-					<table-alias>DiseaseCategory_xx</table-alias>
-					<joining-condition>DiseaseTerm_xx.category = DiseaseCategory_xx
-					</joining-condition>
-				</association>
-			</association-context>
-		</dependent-object>
-		<!-- search by identifier specific criteria -->
-		<dependent-object>
-			<class-name>edu.duke.cabig.c3pr.domain.Identifier</class-name>
-			<display-name>Identifier</display-name>
-			<table-alias>Identifier_xx</table-alias>
-			<search-criteria>
-				<name>value</name>
-				<label>Identifier Value</label>
-				<data-type>String</data-type>
-			</search-criteria>
-			<search-criteria>
-				<name>typeInternal</name>
-				<label>Identifier Type</label>
-				<data-type>String</data-type>
-			</search-criteria>
-			<search-criteria>
-				<name>systemName</name>
-				<label>System name for system assigned identifiers</label>
-				<data-type>String</data-type>
-			</search-criteria>
 			<association-context>
 				<name>Study</name>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
-					<role-name>studySubjectStudyVersions</role-name>
-					<table-alias>StudySubjectStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xxStudy = any
-						elements(StudySubject_xx.studySubjectStudyVersions)
-					</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</name>
-					<role-name>studySiteStudyVersion</role-name>
-					<table-alias>StudySiteStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xxStudy.studySiteStudyVersion
-						= StudySiteStudyVersion_xxStudy</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudyVersion</name>
-					<role-name>studyVersion</role-name>
-					<table-alias>StudyVersion_xx</table-alias>
-					<joining-condition>StudySiteStudyVersion_xxStudy.studyVersion =
-						StudyVersion_xxStudy</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.Study</name>
-					<role-name>study</role-name>
-					<table-alias>Study_xx</table-alias>
-					<joining-condition>StudyVersion_xxStudy.study = Study_xxStudy
-					</joining-condition>
-				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.Identifier</name>
 					<role-name>identifiers</role-name>
@@ -525,46 +438,6 @@
 					<table-alias>Identifier_xx</table-alias>
 					<joining-condition>Identifier_xxStudy = any
 						elements(Study_xxStudy.identifiers)</joining-condition>
-				</association>
-			</association-context>
-			<association-context>
-				<name>Organization</name>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
-					<role-name>studySubjectStudyVersions</role-name>
-					<table-alias>StudySubjectStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xxOrganization = any
-						elements(StudySubject_xx.studySubjectStudyVersions)
-					</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</name>
-					<role-name>studySiteStudyVersion</role-name>
-					<table-alias>StudySiteStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xxOrganization.studySiteStudyVersion
-						= StudySiteStudyVersion_xxOrganization</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.StudySite</name>
-					<role-name>studySite</role-name>
-					<table-alias>StudySite_xx</table-alias>
-					<joining-condition>StudySiteStudyVersion_xxOrganization.studySite =
-						StudySite_xxOrganization</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.HealthcareSite</name>
-					<role-name>healthcareSite</role-name>
-					<table-alias>HealthcareSite_xx</table-alias>
-					<joining-condition>StudySite_xxOrganization.healthcareSite = HealthcareSite_xxOrganization
-					</joining-condition>
-				</association>
-				<association>
-					<name>edu.duke.cabig.c3pr.domain.Identifier</name>
-					<role-name>identifiers</role-name>
-					<table-name>identifiers</table-name>
-					<table-alias>Identifier_xx</table-alias>
-					<joining-condition>Identifier_xxOrganization = any
-						elements(HealthcareSite_xxOrganization.identifiers)</joining-condition>
 				</association>
 			</association-context>
 		</dependent-object>
