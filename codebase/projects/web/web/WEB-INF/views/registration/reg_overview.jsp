@@ -183,6 +183,16 @@
         										$("diseaseSite-hidden").value=selectedChoice.id;
         									}
         	}
+
+        function showInformedConsentHistory(){
+    		win = new Window({className :"mac_os_x", title: "Informed Consents",
+    								hideEffect:Element.hide,
+    								zIndex:100, width:600, height:250 , minimizable:false, maximizable:false,
+    								showEffect:Element.show
+    								})
+    		win.setContent($('informedConsentsHistoryTable')) ;
+    		win.showCenter(true);
+    	}
 		
     </script>
     <style type="text/css">
@@ -606,6 +616,8 @@
     
 </chrome:division>
 <chrome:division title="Informed Consents" inPlaceLinkId="editInPlaceForInformedConsent" condition="${canEditRegistrationRecord}">
+		<table><tr><td>
+		
 		<table class="tablecontent">
 					<tr>
 						<th><fmt:message key="study.consentName"/></th>
@@ -614,7 +626,7 @@
 						<th><fmt:message key="registration.consentMethod"/></th>
 						<th><fmt:message key="registration.consentPresenter"/></th>
 					</tr>
-					<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
+					<c:forEach items="${command.studySubject.latestConsents}" var="studySubjectConsentVersion" varStatus="status">
 						<tr>
 							<td>${studySubjectConsentVersion.consent.name}</td>
 								
@@ -642,12 +654,18 @@
 						</tr>
 					</c:forEach>
 				</table>
+				
+				</td>
+				<td><c:if test="${fn:length(command.studySubject.studySubjectStudyVersions) > 1}"> &nbsp;&nbsp;<a href="#" onclick="showInformedConsentHistory();"><b>All Informed Consents</b></a></c:if>
+				</td>
+				</tr></table>
 	 <script>
  		var informedConsentArray = new Array();
 	    <c:forEach var="informedConsent" items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" varStatus="informedConsentStatus">
 	    	informedConsentArray.push(editor_informedConsentSignedDate_${informedConsentStatus.index});	
 	    </c:forEach>
  	</script>
+ 	
 </chrome:division>
 </div>
 <chrome:division id="Eligibility" title="Eligibility" inPlaceLinkId="editInPlaceForEligibilityCriteria" condition="${canEditRegistrationRecord}">
@@ -1062,6 +1080,42 @@
 			</c:when>
 		</c:choose>
 	</div>
+	<div id="informedConsentsHistoryTable" style="display:none">
+		<table class="tablecontent">
+					<tr>
+						<th width="30%"><fmt:message key="study.consentName"/></th>
+						<th width="15%"><fmt:message key="registration.consentSignedDate"/></th>
+						<th width="15%"><fmt:message key="registration.consentDeliveredDate"/></th>
+						<th width="20%"><fmt:message key="registration.consentMethod"/></th>
+						<th width="20%"><fmt:message key="registration.consentPresenter"/></th>
+					</tr>
+					<c:forEach items="${command.studySubject.allSignedConsents}" var="studySubjectConsentVersion" varStatus="status">
+						<tr>
+							<td>${studySubjectConsentVersion.consent.name}</td>
+								
+								<c:choose>
+									<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null && studySubjectConsentVersion.informedConsentSignedDateStr != ''}"> 
+										<td><tags:noDataAvailable value="${studySubjectConsentVersion.informedConsentSignedDateStr}"/></td>
+										<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentDeliveryDateStr}"/></td>
+										<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentingMethod.displayName}"/></td>
+										<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentPresenter}"/></td>
+									</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${studySubjectConsentVersion.consent.mandatoryIndicator == true}"> 
+												<td colspan="4"><span class="red"><fmt:message key="registartion.consentRequired"/></span></td>
+											</c:when>
+											<c:otherwise>
+												<td colspan="4"><span class="no-selection"><fmt:message key="c3pr.common.noDataAvailable"/></span></td>
+											</c:otherwise>
+										</c:choose>
+									</c:otherwise>
+								</c:choose>
+						</tr>
+					</c:forEach>
+		</table>
+	</div>
+	
 	<div id="broadcastWait" align="center" style="display: none;">
 		<div style="padding-top: 5px"><img src="/c3pr/images/broadcast_animation.gif"><div style="font-size: 15pt; padding-top: 5px">Please Wait... Sending</div></div>
 	</div>

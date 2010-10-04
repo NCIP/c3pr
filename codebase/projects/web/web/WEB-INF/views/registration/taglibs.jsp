@@ -13,4 +13,5 @@
 <%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 <%@ page import="java.util.Calendar" %>
 <%@taglib prefix="c3pr" uri="http://edu.duke.cabig.c3pr.web/c3pr" %>
+<%@ taglib prefix="layout" tagdir="/WEB-INF/tags/layout" %>
 
