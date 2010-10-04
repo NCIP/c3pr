@@ -25,7 +25,7 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.iso21090.BL;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
-import edu.duke.cabig.c3pr.webservice.iso21090.EDText;
+import edu.duke.cabig.c3pr.webservice.iso21090.ED;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
@@ -139,7 +139,7 @@ public class StudyUtilityImplTest extends TestCase {
 		doc.setOfficialTitle(new ST(TEST_STUDY_DESCR));
 		doc.setPublicDescription(new ST(TEST_STUDY_DESCR));
 		doc.setPublicTitle(new ST(TEST_STUDY_DESCR));
-		doc.setText(new EDText(TEST_STUDY_DESCR));
+		doc.setText(new ED(TEST_STUDY_DESCR));
 		doc.setVersionDate(new TSDateTime(TEST_VERSION_DATE));
 		doc.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
 		doc.setDocument(createStudyDocument());
@@ -158,7 +158,7 @@ public class StudyUtilityImplTest extends TestCase {
 		Consent consent = new Consent();
 		consent.setMandatoryIndicator(new BL(false));
 		consent.setOfficialTitle(new ST(TEST_CONSENT_TITLE));
-		consent.setText(new EDText(TEST_CONSENT_TEXT));
+		consent.setText(new ED(TEST_CONSENT_TEXT));
 		consent.setVersionDate(new TSDateTime(TEST_VERSION_DATE));
 		consent.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
 		consent.setDocument(new Document());
@@ -180,7 +180,7 @@ public class StudyUtilityImplTest extends TestCase {
 	private DocumentVersion createConsentQuestion(String text) {
 		DocumentVersion q = new DocumentVersion();
 		q.setOfficialTitle(new ST(text));
-		q.setText(new EDText(text));
+		q.setText(new ED(text));
 		q.setVersionDate(new TSDateTime(TEST_VERSION_DATE));
 		q.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
 		q.setDocument(new Document());
@@ -242,7 +242,7 @@ public class StudyUtilityImplTest extends TestCase {
 	}
 
 	public static void main(String[] args) throws JAXBException {
-		JAXBContext jc = JAXBContext.newInstance(StudyProtocolVersion.class);
+		JAXBContext jc = JAXBContext.newInstance(StudyProtocolVersion.class, CD.class);
 		Marshaller m = jc.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT , true);
 		final StudyProtocolVersion study = new StudyUtilityImplTest("")

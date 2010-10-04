@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.webservice.converters;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -18,6 +19,7 @@ import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import com.semanticbits.querybuilder.AdvancedSearchHelper;
 
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
+import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
@@ -25,6 +27,8 @@ import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.ConsentQuestion;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
@@ -39,7 +43,10 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.Document;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
@@ -77,6 +84,8 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 public class JAXBToDomainObjectConverterImpl implements
 		JAXBToDomainObjectConverter {
 
+	public static final String CONSENT_QUESTION = "CONSENT_QUESTION";
+	public static final String CONSENT = "CONSENT";
 	private static final String STUDY_VERSION_NAME = "Original Version";
 	private static final String STUDY_TYPE = "Basic Science";
 	private static final int STUDY_TARGET_ACCRUAL = 100;
@@ -106,6 +115,8 @@ public class JAXBToDomainObjectConverterImpl implements
 	private static final int INVALID_STUDY_IDENTIFIER = 925;
 	private static final int UNSUPPORTED_ORG_ID_TYPE = 926;
 	private static final int INVALID_STUDY_REPRESENTATION = 927;
+	private static final int UNSUPPORTED_DOC_REL_TYPE = 928;
+	private static final int INVALID_CONSENT_REPRESENTATION = 929;
 
 	/** The exception helper. */
 	protected C3PRExceptionHelper exceptionHelper;
@@ -834,17 +845,13 @@ public class JAXBToDomainObjectConverterImpl implements
 	 * edu.duke.cabig.c3pr.webservice.studyutility.Study)
 	 */
 	public void convert(Study study, StudyProtocolVersion version) {
-		StudyProtocolDocumentVersion docVer = version
-				.getStudyProtocolDocument();
+		StudyProtocolDocumentVersion doc = version.getStudyProtocolDocument();
 
-		// TODO: Target Reg System, add.
+		study.setTargetRegistrationSystem(isNull(version
+				.getTargetRegistrationSystem()) ? null : version
+				.getTargetRegistrationSystem().getValue());
 
-		study.setShortTitleText(isNull(docVer.getPublicTitle()) ? "" : docVer
-				.getPublicTitle().getValue());
-		study.setLongTitleText(isNull(docVer.getPublicTitle()) ? "" : docVer
-				.getPublicTitle().getValue());
-		study.setDescriptionText(isNull(docVer.getPublicDescription()) ? ""
-				: docVer.getPublicDescription().getValue());
+		convert(study, doc);
 
 		List<edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus> statuses = new ArrayList<edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus>();
 		for (PermissibleStudySubjectRegistryStatus status : version
@@ -852,6 +859,71 @@ public class JAXBToDomainObjectConverterImpl implements
 			statuses.add(convert(status));
 		}
 		study.setPermissibleStudySubjectRegistryStatusesInternal(statuses);
+	}
+
+	/**
+	 * @param study
+	 * @param ver
+	 */
+	private void convert(Study study, StudyProtocolDocumentVersion ver) {
+		study.setShortTitleText(isNull(ver.getPublicTitle()) ? "" : ver
+				.getPublicTitle().getValue());
+		study.setLongTitleText(isNull(ver.getPublicTitle()) ? "" : ver
+				.getPublicTitle().getValue());
+		study.setDescriptionText(isNull(ver.getPublicDescription()) ? "" : ver
+				.getPublicDescription().getValue());
+
+		Document doc = ver.getDocument();
+		study.setIdentifiers((List) convert(doc.getDocumentIdentifier()));
+
+		// consent
+		for (DocumentVersionRelationship rel : ver
+				.getDocumentVersionRelationship()) {
+			if (isNull(rel.getTypeCode())
+					|| !CONSENT.equals(rel.getTypeCode().getCode())) {
+				throw exceptionHelper
+						.getConversionException(UNSUPPORTED_DOC_REL_TYPE);
+			}
+			study.addConsent(convertConsent(rel.getTarget()));
+		}
+	}
+
+	private Consent convertConsent(DocumentVersion doc) {
+		if (!(doc instanceof edu.duke.cabig.c3pr.webservice.common.Consent)) {
+			throw exceptionHelper
+					.getConversionException(INVALID_CONSENT_REPRESENTATION);
+		}
+		edu.duke.cabig.c3pr.webservice.common.Consent xml = (edu.duke.cabig.c3pr.webservice.common.Consent) doc;
+		Consent consent = new Consent();
+		consent.setMandatoryIndicator(xml.getMandatoryIndicator().isValue());
+		consent.setConsentingMethods(Arrays
+				.asList(new ConsentingMethod[] { ConsentingMethod.WRITTEN }));
+		consent.setName(isNull(xml.getOfficialTitle()) ? "" : xml
+				.getOfficialTitle().getValue());
+
+		// consent questions
+		for (DocumentVersionRelationship rel : xml
+				.getDocumentVersionRelationship()) {
+			if (isNull(rel.getTypeCode())
+					|| !CONSENT_QUESTION.equals(rel.getTypeCode().getCode())) {
+				throw exceptionHelper
+						.getConversionException(UNSUPPORTED_DOC_REL_TYPE);
+			}
+			consent.addQuestion(convertConsentQuestion(rel.getTarget()));
+		}
+		return consent;
+
+	}
+
+	private ConsentQuestion convertConsentQuestion(DocumentVersion doc) {
+		if (doc == null) {
+			throw exceptionHelper
+					.getConversionException(INVALID_CONSENT_REPRESENTATION);
+		}
+		ConsentQuestion question = new ConsentQuestion();
+		question.setCode(doc.getOfficialTitle().getValue());
+		question.setText(doc.getText().getValue());
+		return question;
 	}
 
 	private edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus convert(

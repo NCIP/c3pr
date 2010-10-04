@@ -129,7 +129,7 @@
 		</annotation>
 		<sequence>
 			<element name="documentIdentifier" type="tns:DocumentIdentifier"
-				minOccurs="1" maxOccurs="unbounded" />
+				minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
 	</complexType>
 
@@ -160,7 +160,7 @@
 		<complexContent>
 			<extension base="tns:DocumentVersion">
 				<sequence>
-					<element name="mandatoryIndicator" type="ISO:BL" minOccurs="0"/>
+					<element name="mandatoryIndicator" type="ISO:BL"/>
 				</sequence>
 			</extension>
 		</complexContent>

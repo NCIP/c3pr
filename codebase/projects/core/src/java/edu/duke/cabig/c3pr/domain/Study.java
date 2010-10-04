@@ -106,6 +106,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	private Integer targetAccrualNumber;
 	
 	private Boolean therapeuticIntentIndicator;
+	
+	private String targetRegistrationSystem;
 
 	/** The parent study associations. */
 	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
@@ -1471,4 +1473,20 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	public boolean getHasRandomizedEpoch(){
 		return this.getStudyVersion().hasRandomizedEpoch();
 	}
+
+	/**
+	 * @return the targetRegistrationSystem
+	 */
+	public String getTargetRegistrationSystem() {
+		return targetRegistrationSystem;
+	}
+
+	/**
+	 * @param targetRegistrationSystem the targetRegistrationSystem to set
+	 */
+	public void setTargetRegistrationSystem(String targetRegistrationSystem) {
+		this.targetRegistrationSystem = targetRegistrationSystem;
+	}
+	
+	
 }
