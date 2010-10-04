@@ -19,6 +19,8 @@ import edu.duke.cabig.c3pr.domain.OffEpochReason;
 import edu.duke.cabig.c3pr.domain.OffTreatmentReason;
 import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 
 /**
  * @author Himanshu
@@ -35,6 +37,26 @@ public class StudySubjectWrapper {
 	
 	private Reason[] reasons;
 	
+	private List<StudySubjectConsentVersion> reConsentingStudySubjectConsentVersons =
+		new ArrayList<StudySubjectConsentVersion>();
+	
+	public List<StudySubjectConsentVersion> getReConsentingStudySubjectConsentVersons() {
+		return reConsentingStudySubjectConsentVersons;
+	}
+
+	public void setReConsentingStudySubjectConsentVersons(
+			List<StudySubjectConsentVersion> reConsentingStudySubjectConsentVersons) {
+		this.reConsentingStudySubjectConsentVersons = reConsentingStudySubjectConsentVersons;
+	}
+	
+	public void addReConsentingStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion){
+		this.getReConsentingStudySubjectConsentVersons().add(studySubjectConsentVersion);
+	}
+	
+	public void removeReConsentingStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion){
+		this.getReConsentingStudySubjectConsentVersons().remove(studySubjectConsentVersion);
+	}
+
 	private List<OffEpochReason> offEpochReasons = LazyList.decorate(new ArrayList<OffEpochReason>(), new InstantiateFactory<OffEpochReason>(OffEpochReason.class){
 		@Override
 		public OffEpochReason create() {
@@ -46,6 +68,16 @@ public class StudySubjectWrapper {
 	
 	private Date offEpochDate;
 	
+	private StudyVersion reConsentingVersion;
+	
+	public StudyVersion getReConsentingVersion() {
+		return reConsentingVersion;
+	}
+
+	public void setReConsentingVersion(StudyVersion reConsentingVersion) {
+		this.reConsentingVersion = reConsentingVersion;
+	}
+
 	public Object getParticipant() {
 		return participant;
 	}
@@ -138,6 +170,23 @@ public class StudySubjectWrapper {
 			}
 		}
 		return false;
+	}
+	
+	
+	public Boolean getCanReConsent(){
+		
+		return getReConsentableStudyVersions().size() > 0;
+	}
+	
+	public List<StudyVersion> getReConsentableStudyVersions(){
+		List<StudyVersion> reConsentableStudyVersions = new ArrayList<StudyVersion>();
+		
+		for(StudyVersion studyVersion : this.studySubject.getStudySite().getStudy().getStudyVersions()){
+			if (this.studySubject.canReConsent(studyVersion.getName())){
+				reConsentableStudyVersions.add(studyVersion);
+			}
+		}
+		return reConsentableStudyVersions;
 	}
 	
 	public boolean getCanAllowEligibilityWaiver(){

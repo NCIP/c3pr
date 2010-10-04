@@ -97,7 +97,6 @@ public class InformedConsentsTab extends RegistrationTab<StudySubjectWrapper> {
     
     @Override
     public void validate(StudySubjectWrapper command, Errors errors) {
-	    	Date date = command.getStudySubject().getStartDate();
 	    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().
 	    			getStudySubjectConsentVersions()){
 				if (studySubjectConsentVersion
