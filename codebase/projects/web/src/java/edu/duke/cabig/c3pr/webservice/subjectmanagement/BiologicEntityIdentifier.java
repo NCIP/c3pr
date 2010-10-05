@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
 import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
@@ -34,7 +35,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
  *         &lt;element name="effectiveDateRange" type="{uri:iso.org:21090}IVL_TS.DateTime"/>
  *         &lt;element name="identifier" type="{uri:iso.org:21090}II"/>
  *         &lt;element name="typeCode" type="{uri:iso.org:21090}CD"/>
- *         &lt;element name="assigningOrganization" type="{http://enterpriseservices.nci.nih.gov}Organization"/>
+ *         &lt;element name="assigningOrganization" type="{http://enterpriseservices.nci.nih.gov/Common}Organization"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>

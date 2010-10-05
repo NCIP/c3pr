@@ -201,20 +201,7 @@
 					</documentation>
 				</annotation>
 			</element>
-			<element name="assigningOrganization" type="tns:Organization" />
-		</sequence>
-	</complexType>
-
-	<complexType name="Organization">
-		<annotation>
-			<documentation>A formalized group of persons or other organizations
-				collected together for a common purpose (such as administrative,
-				legal, political) and the infrastructure to carry out that purpose.
-			</documentation>
-		</annotation>
-		<sequence>
-			<element name="organizationIdentifier" type="common:OrganizationIdentifier"
-				minOccurs="0" maxOccurs="unbounded" />
+			<element name="assigningOrganization" type="common:Organization" />
 		</sequence>
 	</complexType>
 

@@ -19,9 +19,9 @@ import javax.xml.ws.soap.Addressing;
 @WebService(name = "SubjectManagement", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
-    edu.duke.cabig.c3pr.webservice.iso21090.ObjectFactory.class,
+    edu.duke.cabig.c3pr.webservice.common.ObjectFactory.class,
     edu.duke.cabig.c3pr.webservice.subjectmanagement.ObjectFactory.class,
-    edu.duke.cabig.c3pr.webservice.common.ObjectFactory.class
+    edu.duke.cabig.c3pr.webservice.iso21090.ObjectFactory.class
 })
 @Addressing(enabled=true, required=true)
 public interface SubjectManagement {
@@ -32,10 +32,10 @@ public interface SubjectManagement {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectResponse
-     * @throws SubjectAlreadyExistsExceptionFaultMessage
      * @throws InvalidSubjectDataExceptionFaultMessage
-     * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage
      * @throws SecurityExceptionFaultMessage
+     * @throws SubjectAlreadyExistsExceptionFaultMessage
+     * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage
      */
     @WebMethod
     @WebResult(name = "CreateSubjectResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", partName = "parameters")
@@ -82,10 +82,10 @@ public interface SubjectManagement {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectResponse
-     * @throws NoSuchSubjectExceptionFaultMessage
      * @throws InvalidSubjectDataExceptionFaultMessage
-     * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage
      * @throws SecurityExceptionFaultMessage
+     * @throws NoSuchSubjectExceptionFaultMessage
+     * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage
      */
     @WebMethod
     @WebResult(name = "UpdateSubjectResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", partName = "parameters")
@@ -100,9 +100,9 @@ public interface SubjectManagement {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectStateResponse
-     * @throws InvalidStateTransitionExceptionFaultMessage
-     * @throws NoSuchSubjectExceptionFaultMessage
      * @throws SecurityExceptionFaultMessage
+     * @throws NoSuchSubjectExceptionFaultMessage
+     * @throws InvalidStateTransitionExceptionFaultMessage
      */
     @WebMethod
     @WebResult(name = "UpdateSubjectStateResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", partName = "parameters")

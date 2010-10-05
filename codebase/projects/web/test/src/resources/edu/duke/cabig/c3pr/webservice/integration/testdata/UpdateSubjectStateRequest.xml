@@ -71,11 +71,11 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 				<ent:identifier extension="#{identifier}" identifierName="MRN" />
 				<ent:typeCode code="MRN" />
 				<ent:assigningOrganization>
-					<ent:organizationIdentifier>
+					<c:organizationIdentifier>
 						<c:identifier extension="MN026" />
 						<c:primaryIndicator value="true" />
 						<c:typeCode code="CTEP ID" />
-					</ent:organizationIdentifier>
+					</c:organizationIdentifier>
 				</ent:assigningOrganization>
 			</biologicEntityIdentifier>
 			<newState value="INACTIVE">

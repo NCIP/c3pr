@@ -76,11 +76,11 @@ gjRXybQuhiDEp9baBjMCFQCBuvPoXWRi3wgYshBzxI0ebaLMiQ==
 						<ent:identifier extension="#{identifier}" identifierName="MRN" />
 						<ent:typeCode code="MRN" />
 						<ent:assigningOrganization>
-							<ent:organizationIdentifier>
+							<common:organizationIdentifier>
 								<common:identifier extension="MN026" />
 								<common:primaryIndicator value="true" />
 								<common:typeCode code="CTEP" />
-							</ent:organizationIdentifier>
+							</common:organizationIdentifier>
 						</ent:assigningOrganization>
 					</ent:biologicEntityIdentifier>
 					<ent:deathIndicator/>
