@@ -236,9 +236,9 @@
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudyDisease</name>
-					<role-name>studyDisease</role-name>
+					<role-name>studyDiseases</role-name>
 					<table-alias>StudyDisease_xx</table-alias>
-					<joining-condition>StudyVersion_xx.studyDisease = StudyDisease_xx
+					<joining-condition>StudyDisease_xx = any elements(StudyVersion_xx.studyDiseases)
 					</joining-condition>
 				</association>
 				<association>
@@ -271,9 +271,9 @@
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudyDisease</name>
-					<role-name>studyDisease</role-name>
+					<role-name>studyDiseases</role-name>
 					<table-alias>StudyDisease_xx</table-alias>
-					<joining-condition>StudyVersion_xx.studyDisease = StudyDisease_xx
+					<joining-condition>StudyDisease_xx = any elements(StudyVersion_xx.studyDiseases)
 					</joining-condition>
 				</association>
 				<association>
@@ -437,7 +437,7 @@
 					<table-name>identifiers</table-name>
 					<table-alias>Identifier_xx</table-alias>
 					<joining-condition>Identifier_xxStudy = any
-						elements(Study_xxStudy.identifiers)</joining-condition>
+						elements(Study_xx.identifiers)</joining-condition>
 				</association>
 			</association-context>
 		</dependent-object>
