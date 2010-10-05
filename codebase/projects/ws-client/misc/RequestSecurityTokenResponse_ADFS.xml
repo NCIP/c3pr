@@ -4,12 +4,13 @@
 	<s:Header>
 		<a:Action s:mustUnderstand="1">http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTRC/IssueFinal
 		</a:Action>
-		<a:RelatesTo>urn:uuid:bca7d170-1ed2-4015-a95d-7ca3873815aa</a:RelatesTo>
+		<a:RelatesTo>urn:uuid:9df11d97-bb27-4c7a-a015-9861b6c3be1c
+		</a:RelatesTo>
 		<o:Security s:mustUnderstand="1"
 			xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 			<u:Timestamp u:Id="_0">
-				<u:Created>2010-09-27T18:51:06.111Z</u:Created>
-				<u:Expires>2010-09-27T18:56:06.111Z</u:Expires>
+				<u:Created>2010-10-05T18:33:40.953Z</u:Created>
+				<u:Expires>2010-10-05T18:38:40.953Z</u:Expires>
 			</u:Timestamp>
 		</o:Security>
 	</s:Header>
@@ -19,9 +20,9 @@
 			<trust:RequestSecurityTokenResponse>
 				<trust:Lifetime>
 					<wsu:Created
-						xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2010-09-27T18:51:06.104Z</wsu:Created>
+						xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2010-10-05T18:33:40.938Z</wsu:Created>
 					<wsu:Expires
-						xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2010-09-27T19:51:06.104Z</wsu:Expires>
+						xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">2010-10-05T19:33:40.938Z</wsu:Expires>
 				</trust:Lifetime>
 				<wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
 					<wsa:EndpointReference xmlns:wsa="http://www.w3.org/2005/08/addressing">
@@ -30,32 +31,36 @@
 				</wsp:AppliesTo>
 				<trust:RequestedSecurityToken>
 					<saml:Assertion MajorVersion="1" MinorVersion="1"
-						AssertionID="_9eda990e-7af7-43e1-8b48-9dff384a3ea1"
-						Issuer="http://R0177808IDM.mayoid.gps.org/adfs/services/trust"
-						IssueInstant="2010-09-27T18:51:06.111Z" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion">
-						<saml:Conditions NotBefore="2010-09-27T18:51:06.104Z"
-							NotOnOrAfter="2010-09-27T19:51:06.104Z">
+						AssertionID="_ae7e24a5-d8ae-4274-9515-b62a7f1408be"
+						Issuer="http://R0177808MFADIDM.mfad.mfroot.org/adfs/services/trust"
+						IssueInstant="2010-10-05T18:33:40.953Z" xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion">
+						<saml:Conditions NotBefore="2010-10-05T18:33:40.938Z"
+							NotOnOrAfter="2010-10-05T19:33:40.938Z">
 							<saml:AudienceRestrictionCondition>
 								<saml:Audience>http://www.sample.com</saml:Audience>
 							</saml:AudienceRestrictionCondition>
 						</saml:Conditions>
 						<saml:AttributeStatement>
 							<saml:Subject>
+								<saml:NameIdentifier>Johnson.Thomas@mayo.edu</saml:NameIdentifier>
 								<saml:SubjectConfirmation>
-									<saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer</saml:ConfirmationMethod>
+									<saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer
+									</saml:ConfirmationMethod>
 								</saml:SubjectConfirmation>
 							</saml:Subject>
 							<saml:Attribute AttributeName="windowsaccountname"
 								AttributeNamespace="http://schemas.microsoft.com/ws/2008/06/identity/claims">
-								<saml:AttributeValue>jhurt</saml:AttributeValue>
+								<saml:AttributeValue>JOHNT1</saml:AttributeValue>
 							</saml:Attribute>
 						</saml:AttributeStatement>
 						<saml:AuthenticationStatement
 							AuthenticationMethod="urn:oasis:names:tc:SAML:1.0:am:password"
-							AuthenticationInstant="2010-09-27T18:51:06.057Z">
+							AuthenticationInstant="2010-10-05T18:33:40.928Z">
 							<saml:Subject>
+								<saml:NameIdentifier>Johnson.Thomas@mayo.edu</saml:NameIdentifier>
 								<saml:SubjectConfirmation>
-									<saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer</saml:ConfirmationMethod>
+									<saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer
+									</saml:ConfirmationMethod>
 								</saml:SubjectConfirmation>
 							</saml:Subject>
 						</saml:AuthenticationStatement>
@@ -65,20 +70,23 @@
 									Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
 								<ds:SignatureMethod
 									Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
-								<ds:Reference URI="#_9eda990e-7af7-43e1-8b48-9dff384a3ea1">
+								<ds:Reference URI="#_ae7e24a5-d8ae-4274-9515-b62a7f1408be">
 									<ds:Transforms>
 										<ds:Transform
 											Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
 										<ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" />
 									</ds:Transforms>
 									<ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
-									<ds:DigestValue>pH/ANsCbl6YJbpOD2ME2tRCJ4kH62PzcerKZTRtP6R4=</ds:DigestValue>
+									<ds:DigestValue>0vvCAZ4mYaO2DurWClcxsYhjdrgoAuW+MTIo2MC7aio=
+									</ds:DigestValue>
 								</ds:Reference>
 							</ds:SignedInfo>
-							<ds:SignatureValue>idQMaMSDtynN5H7jcAPeZ2meEmVjLmorkvq5gdufc9wwALtjw/vsAH2YK3ux7StIGImeK3xMb8cK+Mg+jDOhdRc4nF4Ibyi1zGk7GQZObP/XlQFp4jL/RNAPDKlxXKZS1zqGUScTXf02GxgaWxA/9OgTHFQCbPuz7y2LO4kVHjSP8PI//tFzYH0/qQ/R+7x3N2QSKNs/qvF/FQYJ8n88+BvUJFQRYPDklPu8XPgGTDQkfhJK8mnnYpZbxJD0DXvSZPJKT3nD1pqwlB4h+PbSVOLE/DXeDFTT+15Fq80arnezwxbjJAKYEjqC3NwGRHqK0JjuDsrBQBIyuxNuGy31qA==</ds:SignatureValue>
+							<ds:SignatureValue>juvA2DBBjQwllMzPv5nfaLHLecB+ZNse47OM9n+XgEng0oGBcRsmKztoNeYDLEuckPEr4MtTwTnt25v2FminZqfHwuLblX4IVa92fDCJhax7byJMhA27IDlVH1n1LFvkLWOU+cxJhQneXUOr1OLoMEGobZJsOFtshbUxqrJgrLO+vYlHhNK/Quzc/GvCgYK3G21uJkN0Y4dcePpXlMHSsScSikafKC2MReSQiMZIlGZ/11xN05SWq/qxmJtsMpldOQeCN2x+Pgqx9Q3rOK5TA6q6jT581T8+n3WbFoDUOT3Ja8vS8qOH7N1cMeTKwaWILYwTnVR/s61B9i3cAqAsQg==
+							</ds:SignatureValue>
 							<KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
 								<X509Data>
-									<X509Certificate>MIIC8DCCAdigAwIBAgIQTW25K22MyJNP4syRgr/DIjANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQDEylBREZTIFNpZ25pbmcgLSBSMDE3NzgwOElETS5tYXlvaWQuZ3BzLm9yZzAeFw0xMDA2MDgxOTQ2MzhaFw0xMTA2MDgxOTQ2MzhaMDQxMjAwBgNVBAMTKUFERlMgU2lnbmluZyAtIFIwMTc3ODA4SURNLm1heW9pZC5ncHMub3JnMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtFmXd9CzRu7uzgmh28KLB4R+Ue/PYt1viyloT/OYXG8enLTOBdjgV4U68mfM6QQyyfWLmBtcf8/MlyBB3kJWexO34fig7Yy6VcFMfJC0i3Ut+UYjub+ZzyuTAAkpiyW7OXIQeFN11BGiJHCwqwPZw/mdLpIIjt2yV6tdWDB8OlM+EnQH9pvavnb0eeExmgTuzeIC+I1EtJLtp9c3F4kIEvN4I9crxE8955PJ1xXEC7emfES/yG+40Zvin4QYJVa4EcdHxKnepIpdv15tOt7Lacl9gDoQY+vq7Ch7gLFsoZhN3gSW83UNqA3Aegb3hbsD/1HiPqYenTbbhoItZqq7TwIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQA5z203SUxqGEDWhxa+RN1c5XH93miOmPJHdMOdCeIL2nNYkMUatpDMR6ZGJ3eZl0DlZWGdq4wl4ldyv8OpUpJlnFGbxMpsPrJCngayyvX00TuGD2kkFusXzEId+Hho6/9cv6FBthowTBjOcLszEkuIrJ9XOeYYrs3pUSZE5XgWIRV1CmAI1/QoZg+GzMvP8g/N3KIu8aVCwjTIBrpcMQtO+yKzak6HCPyayYRjgPSZ15MRGcQzdtYTvKNLEyta7q2lb4ZVXTWaYiGreC6pBlsF0pxT7tpDVriGOYlyoI24qva3F+y8SpiHMXt8fjqovcXx2iSZFeuM7FOYlSElmDH/</X509Certificate>
+									<X509Certificate>MIIC+jCCAeKgAwIBAgIQLnO5KcVRlpVH6adxv5WNjTANBgkqhkiG9w0BAQsFADA5MTcwNQYDVQQDEy5BREZTIFNpZ25pbmcgLSBSMDE3NzgwOE1GQURJRE0ubWZhZC5tZnJvb3Qub3JnMB4XDTEwMDUwNjIwNTIxN1oXDTExMDUwNjIwNTIxN1owOTE3MDUGA1UEAxMuQURGUyBTaWduaW5nIC0gUjAxNzc4MDhNRkFESURNLm1mYWQubWZyb290Lm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMPxJ3V+g5DN9CaPfeMGNVwk6b/4ypx8qL92ks8QEssXl6olcvSjhK3AqF7uUS65gojSRpBw1ZzkspSjFL9xanGDONLbDe+xN7QPkAFqb4UsrNz6/pjxA8mB52qJEG8vFwTTJ1mviO0ui4kr+DDe9YMPdth1TALMAG44z1YFYvz08jmYgf3UdupIisMIzaN8VV0O9hvsnlqFrmR0elRIIRbaD9ISr16aT8ARf9uDbs89Xkd23xemhBrfwTRgu+2r2rNb06XYiRK5rAU5o982uBHAyuS3sxqOVnVCDabf9alf5MTjEyrcRqKyS0uCAj+ALDVph1BEaWFbMW4B19zSDb0CAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAGZ/oIydNeWqiepYZp9R5HV9KnIhA9srIA8JSve0oM9z60VpFSlxdzPLqaowQu5q9/1HeVQRdm8Dbers2rHFTZoptNjXrvQO6w7P9poYv+MlYj+16/1ERYNelCXy3W5dKNIcvoX5T7y/iOxEKpy7qE5Llb1IzW+GUNLnwWKcxoJNqkVwU1etL/oXRTOsP1zh3cMyYLRW+9GgAanioZ4vBrd5NtEQ+s39m9SRawfMa7AxLRzk8epihUgEGI0wSVsvc9lbksgKP7U6cwgU2p4n4B8agdVOHocMKy1eF9R8QdeFyFEliO0t5AXk+RWr7V2cQscVDqCsRKXwIDhSkzJgREg==
+									</X509Certificate>
 								</X509Data>
 							</KeyInfo>
 						</ds:Signature>
@@ -88,14 +96,14 @@
 					<o:SecurityTokenReference
 						xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 						<o:KeyIdentifier
-							ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.0#SAMLAssertionID">_9eda990e-7af7-43e1-8b48-9dff384a3ea1</o:KeyIdentifier>
+							ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.0#SAMLAssertionID">_ae7e24a5-d8ae-4274-9515-b62a7f1408be</o:KeyIdentifier>
 					</o:SecurityTokenReference>
 				</trust:RequestedAttachedReference>
 				<trust:RequestedUnattachedReference>
 					<o:SecurityTokenReference
 						xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
 						<o:KeyIdentifier
-							ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.0#SAMLAssertionID">_9eda990e-7af7-43e1-8b48-9dff384a3ea1</o:KeyIdentifier>
+							ValueType="http://docs.oasis-open.org/wss/oasis-wss-saml-token-profile-1.0#SAMLAssertionID">_ae7e24a5-d8ae-4274-9515-b62a7f1408be</o:KeyIdentifier>
 					</o:SecurityTokenReference>
 				</trust:RequestedUnattachedReference>
 				<trust:TokenType>urn:oasis:names:tc:SAML:1.0:assertion

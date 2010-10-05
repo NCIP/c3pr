@@ -3,12 +3,14 @@ package edu.duke.cabig.c3pr.webservice.converters;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -62,6 +64,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
+import edu.duke.cabig.c3pr.webservice.iso21090.ED;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
@@ -806,7 +809,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		study.setDataEntryStatus(StudyDataEntryStatus.INCOMPLETE);
 
 		study.setOriginalIndicator(true);
-		study.getStudyVersion().setName(STUDY_VERSION_NAME);
+		// study.getStudyVersion().setName(STUDY_VERSION_NAME);
 
 		// identifiers and study organizations
 		for (OrganizationAssignedIdentifier id : convert(xmlStudy
@@ -862,7 +865,8 @@ public class JAXBToDomainObjectConverterImpl implements
 				.getPermissibleStudySubjectRegistryStatus()) {
 			statuses.add(convert(status));
 		}
-		study.setPermissibleStudySubjectRegistryStatusesInternal(statuses);
+		study.getPermissibleStudySubjectRegistryStatusesInternal().clear();
+		study.getPermissibleStudySubjectRegistryStatusesInternal().addAll(statuses);
 	}
 
 	/**
@@ -876,11 +880,14 @@ public class JAXBToDomainObjectConverterImpl implements
 				.getPublicTitle().getValue());
 		study.setDescriptionText(isNull(ver.getPublicDescription()) ? "" : ver
 				.getPublicDescription().getValue());
-
-		Document doc = ver.getDocument();
-		// study.setIdentifiers((List) convert(doc.getDocumentIdentifier()));
+		study.getStudyVersion().setVersionDate(
+				convertToDate(ver.getVersionDate()));
+		study.getStudyVersion().setName(
+				isNull(ver.getVersionNumberText()) ? "" : ver
+						.getVersionNumberText().getValue());
 
 		// consent
+		study.getConsents().clear();
 		for (DocumentVersionRelationship rel : ver
 				.getDocumentVersionRelationship()) {
 			if (isNull(rel.getTypeCode())
@@ -982,15 +989,126 @@ public class JAXBToDomainObjectConverterImpl implements
 	 */
 	public StudyProtocolVersion convert(Study study) {
 		StudyProtocolVersion xmlStudy = new StudyProtocolVersion();
-		/*
-		 * xmlStudy.setDescription(new ST(study.getDescriptionText()));
-		 * xmlStudy.setTitle(new ST(study.getShortTitleText()));
-		 * 
-		 * for (OrganizationAssignedIdentifier id : study
-		 * .getOrganizationAssignedIdentifiers()) {
-		 * xmlStudy.getStudyIdentifier().add(convert(id)); }
-		 */
+		if (study.getTargetRegistrationSystem() != null) {
+			xmlStudy.setTargetRegistrationSystem(new ST(study
+					.getTargetRegistrationSystem()));
+		}
+		xmlStudy.setStudyProtocolDocument(convertStudyProtocolDocument(study));
+		xmlStudy.getPermissibleStudySubjectRegistryStatus().addAll(
+				convertPermissibleStudySubjectRegistryStatus(study));
 		return xmlStudy;
+	}
+
+	private StudyProtocolDocumentVersion convertStudyProtocolDocument(
+			Study study) {
+		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
+		doc.setOfficialTitle(new ST(study.getShortTitleText()));
+		doc.setPublicDescription(new ST(study.getDescriptionText()));
+		doc.setPublicTitle(new ST(study.getShortTitleText()));
+		doc.setText(new ED(study.getDescriptionText()));
+		doc.setVersionDate(convertToTsDateTime(study.getVersionDate()));
+		doc.setVersionNumberText(new ST(study.getVersionName()));
+		doc.setDocument(convertStudyDocument(study));
+		doc.getDocumentVersionRelationship().addAll(
+				convertConsentRelationships(study));
+		return doc;
+	}
+
+	private Collection<DocumentVersionRelationship> convertConsentRelationships(
+			Study study) {
+		Collection<DocumentVersionRelationship> list = new ArrayList<DocumentVersionRelationship>();
+		for (Consent c : study.getConsents()) {
+			list.add(convertConsentRelationship(c));
+		}
+		return list;
+	}
+
+	private DocumentVersionRelationship convertConsentRelationship(Consent c) {
+		DocumentVersionRelationship rel = new DocumentVersionRelationship();
+		rel.setTypeCode(new CD(CONSENT));
+		rel.setTarget(convertConsent(c));
+		return rel;
+	}
+
+	private edu.duke.cabig.c3pr.webservice.common.Consent convertConsent(
+			Consent c) {
+		edu.duke.cabig.c3pr.webservice.common.Consent consent = new edu.duke.cabig.c3pr.webservice.common.Consent();
+		consent.setMandatoryIndicator(new BL(c.getMandatoryIndicator()));
+		consent.setOfficialTitle(new ST(c.getName()));
+		consent.setText(new ED(c.getName()));
+		consent.setVersionNumberText(new ST(c.getVersionId()));
+		consent.setDocument(new Document());
+		for (ConsentQuestion q : c.getQuestions()) {
+			consent.getDocumentVersionRelationship().add(
+					convertConsentQuestionRelationship(q));
+		}
+		return consent;
+	}
+
+	private DocumentVersionRelationship convertConsentQuestionRelationship(
+			ConsentQuestion q) {
+		DocumentVersionRelationship rel = new DocumentVersionRelationship();
+		rel.setTypeCode(new CD(CONSENT_QUESTION));
+		rel.setTarget(convertConsentQuestion(q));
+		return rel;
+
+	}
+
+	private DocumentVersion convertConsentQuestion(ConsentQuestion cq) {
+		DocumentVersion q = new DocumentVersion();
+		q.setOfficialTitle(new ST(cq.getCode()));
+		q.setText(new ED(cq.getText()));
+		q.setVersionNumberText(new ST(cq.getVersion().toString()));
+		q.setDocument(new Document());
+		return q;
+	}
+
+	private Document convertStudyDocument(Study study) {
+		Document doc = new Document();
+		for (OrganizationAssignedIdentifier oai : study
+				.getOrganizationAssignedIdentifiers()) {
+			doc.getDocumentIdentifier().add(convert(oai));
+		}
+		return doc;
+	}
+
+	private Collection<PermissibleStudySubjectRegistryStatus> convertPermissibleStudySubjectRegistryStatus(
+			Study study) {
+		Collection<PermissibleStudySubjectRegistryStatus> list = new ArrayList<PermissibleStudySubjectRegistryStatus>();
+		for (edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus status : study
+				.getPermissibleStudySubjectRegistryStatuses()) {
+			PermissibleStudySubjectRegistryStatus stat = new PermissibleStudySubjectRegistryStatus();
+			stat.setRegistryStatus(convertRegistryStatus(status
+					.getRegistryStatus()));
+			stat.getSecondaryReason().addAll(
+					convertDomainRegistryStatusReasons(status
+							.getSecondaryReasons()));
+			list.add(stat);
+		}
+		return list;
+	}
+
+	private Collection<edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason> convertDomainRegistryStatusReasons(
+			List<RegistryStatusReason> reasons) {
+		Collection<edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason> list = new ArrayList<edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason>();
+		for (RegistryStatusReason domainObj : reasons) {
+			edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason r = new edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason();
+			r.setCode(new CD(domainObj.getCode()));
+			r.setDescription(new ST(domainObj.getDescription()));
+			r.setPrimaryIndicator(new BL(domainObj.getPrimaryIndicator()));
+			list.add(r);
+		}
+		return list;
+	}
+
+	private edu.duke.cabig.c3pr.webservice.common.RegistryStatus convertRegistryStatus(
+			RegistryStatus domainObj) {
+		edu.duke.cabig.c3pr.webservice.common.RegistryStatus status = null;
+		if (domainObj != null) {
+			status = new edu.duke.cabig.c3pr.webservice.common.RegistryStatus();
+			status.setCode(new CD(domainObj.getCode()));
+		}
+		return status;
 	}
 
 	private DocumentIdentifier convert(OrganizationAssignedIdentifier id) {
