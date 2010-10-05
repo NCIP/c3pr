@@ -27,7 +27,6 @@ import org.jdom.output.XMLOutputter;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import com.semanticbits.querybuilder.AdvancedSearchHelper;
-import com.semanticbits.querybuilder.QueryBuilderDao;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
@@ -1937,7 +1936,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
-		assertEquals("4 registrations not found", 4,  registrations.size());
+		assertEquals("2 registrations not found", 2,  registrations.size());
 	}
 	
 	public void testGetResultSetWithHQLForScheduledEpochDataEntryStatus() throws Exception {
@@ -2113,7 +2112,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
-		assertEquals("2 registrations not found", 2,  registrations.size());
+		assertEquals("1 registrations not found", 1,  registrations.size());
 	}
 	
 	public void testGetResultSetWithHQLForPersonnelAssignedIdentifier() throws Exception {

@@ -2302,7 +2302,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("2 studies not found", 2,  studies.size());
+		assertEquals("1 studies not found", 1,  studies.size());
 	}
     
     public void testGetResultSetWithEpochType() throws Exception {
@@ -2313,7 +2313,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("4 studies not found", 4,  studies.size());
+		assertEquals("1 studies not found", 1,  studies.size());
 	}
     
     public void testGetResultSetWithEpochEnrollmentIndicator() throws Exception {
@@ -2324,7 +2324,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("4 studies not found", 4,  studies.size());
+		assertEquals("1 studies not found", 1,  studies.size());
 	}
     
     public void testGetResultSetWithDiseaseCategory() throws Exception {
@@ -2357,7 +2357,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("4 studies not found", 4,  studies.size());
+		assertEquals("3 studies not found", 3,  studies.size());
 	}
     
     public void testGetResultSetWithHQLForStudyIdentifier() throws Exception {
@@ -2368,7 +2368,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("4 studies not found", 4,  studies.size());
+		assertEquals("3 studies not found", 3,  studies.size());
 	}
     
   //test cases for disease term
