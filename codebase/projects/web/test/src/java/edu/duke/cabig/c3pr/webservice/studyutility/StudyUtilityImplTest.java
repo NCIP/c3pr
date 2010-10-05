@@ -36,7 +36,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
  */
 public class StudyUtilityImplTest extends TestCase {
 
-	public static final String TEST_REGISTRY_STATUS = "Active";
+	public static final String TEST_REGISTRY_STATUS = "ACTIVE";
 	public static final String TEST_CONSENT_QUESTION_2 = "Question 2";
 	public static final String TEST_CONSENT_QUESTION_1 = "Question 1";
 	public static final String TEST_CONSENT_TEXT = "Consent text";
@@ -121,8 +121,7 @@ public class StudyUtilityImplTest extends TestCase {
 
 	private RegistryStatus createRegistryStatus() {
 		RegistryStatus stat = new RegistryStatus();
-		stat.setCode(new CD(TEST_REGISTRY_STATUS));
-		stat.getPrimaryReason().add(createRegistryStatusReason());
+		stat.setCode(new CD(TEST_REGISTRY_STATUS));		
 		return stat;
 	}
 

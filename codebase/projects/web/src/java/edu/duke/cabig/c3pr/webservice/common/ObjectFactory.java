@@ -35,35 +35,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DocumentVersion }
-     * 
-     */
-    public DocumentVersion createDocumentVersion() {
-        return new DocumentVersion();
-    }
-
-    /**
      * Create an instance of {@link StudyProtocolDocumentVersion }
      * 
      */
     public StudyProtocolDocumentVersion createStudyProtocolDocumentVersion() {
         return new StudyProtocolDocumentVersion();
-    }
-
-    /**
-     * Create an instance of {@link AdvanceSearchCriterionParameter }
-     * 
-     */
-    public AdvanceSearchCriterionParameter createAdvanceSearchCriterionParameter() {
-        return new AdvanceSearchCriterionParameter();
-    }
-
-    /**
-     * Create an instance of {@link Consent }
-     * 
-     */
-    public Consent createConsent() {
-        return new Consent();
     }
 
     /**
@@ -75,59 +51,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Reason }
+     * Create an instance of {@link DocumentVersionRelationship }
      * 
      */
-    public Reason createReason() {
-        return new Reason();
-    }
-
-    /**
-     * Create an instance of {@link RegistryStatus }
-     * 
-     */
-    public RegistryStatus createRegistryStatus() {
-        return new RegistryStatus();
-    }
-
-    /**
-     * Create an instance of {@link Organization }
-     * 
-     */
-    public Organization createOrganization() {
-        return new Organization();
-    }
-
-    /**
-     * Create an instance of {@link StudyProtocolVersion }
-     * 
-     */
-    public StudyProtocolVersion createStudyProtocolVersion() {
-        return new StudyProtocolVersion();
-    }
-
-    /**
-     * Create an instance of {@link OrganizationIdentifier }
-     * 
-     */
-    public OrganizationIdentifier createOrganizationIdentifier() {
-        return new OrganizationIdentifier();
-    }
-
-    /**
-     * Create an instance of {@link SecurityExceptionFault }
-     * 
-     */
-    public SecurityExceptionFault createSecurityExceptionFault() {
-        return new SecurityExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link Document }
-     * 
-     */
-    public Document createDocument() {
-        return new Document();
+    public DocumentVersionRelationship createDocumentVersionRelationship() {
+        return new DocumentVersionRelationship();
     }
 
     /**
@@ -139,6 +67,70 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
+     * 
+     */
+    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
+        return new PermissibleStudySubjectRegistryStatus();
+    }
+
+    /**
+     * Create an instance of {@link Consent }
+     * 
+     */
+    public Consent createConsent() {
+        return new Consent();
+    }
+
+    /**
+     * Create an instance of {@link Reason }
+     * 
+     */
+    public Reason createReason() {
+        return new Reason();
+    }
+
+    /**
+     * Create an instance of {@link StudyProtocolVersion }
+     * 
+     */
+    public StudyProtocolVersion createStudyProtocolVersion() {
+        return new StudyProtocolVersion();
+    }
+
+    /**
+     * Create an instance of {@link Document }
+     * 
+     */
+    public Document createDocument() {
+        return new Document();
+    }
+
+    /**
+     * Create an instance of {@link DocumentVersion }
+     * 
+     */
+    public DocumentVersion createDocumentVersion() {
+        return new DocumentVersion();
+    }
+
+    /**
+     * Create an instance of {@link RegistryStatus }
+     * 
+     */
+    public RegistryStatus createRegistryStatus() {
+        return new RegistryStatus();
+    }
+
+    /**
+     * Create an instance of {@link SecurityExceptionFault }
+     * 
+     */
+    public SecurityExceptionFault createSecurityExceptionFault() {
+        return new SecurityExceptionFault();
+    }
+
+    /**
      * Create an instance of {@link RegistryStatusReason }
      * 
      */
@@ -147,19 +139,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DocumentVersionRelationship }
+     * Create an instance of {@link AdvanceSearchCriterionParameter }
      * 
      */
-    public DocumentVersionRelationship createDocumentVersionRelationship() {
-        return new DocumentVersionRelationship();
+    public AdvanceSearchCriterionParameter createAdvanceSearchCriterionParameter() {
+        return new AdvanceSearchCriterionParameter();
     }
 
     /**
-     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
+     * Create an instance of {@link OrganizationIdentifier }
      * 
      */
-    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
-        return new PermissibleStudySubjectRegistryStatus();
+    public OrganizationIdentifier createOrganizationIdentifier() {
+        return new OrganizationIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link Organization }
+     * 
+     */
+    public Organization createOrganization() {
+        return new Organization();
     }
 
     /**

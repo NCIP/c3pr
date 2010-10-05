@@ -26,6 +26,7 @@ import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.RegistryStatusDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.ConsentQuestion;
@@ -122,6 +123,8 @@ public class JAXBToDomainObjectConverterImpl implements
 	protected C3PRExceptionHelper exceptionHelper;
 
 	private HealthcareSiteDao healthcareSiteDao;
+
+	private RegistryStatusDao registryStatusDao;
 
 	private static Log log = LogFactory
 			.getLog(JAXBToDomainObjectConverterImpl.class);
@@ -937,11 +940,10 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	private RegistryStatus convert(
 			edu.duke.cabig.c3pr.webservice.common.RegistryStatus xml) {
-		RegistryStatus status = new RegistryStatus();
-		status.setCode(xml.getCode().getCode());
-		status.setPrimaryReasons(convertRegistryStatusReasons(xml
-				.getPrimaryReason()));
-		return status;
+
+		RegistryStatus rs = registryStatusDao.getRegistryStatusByCode(xml
+				.getCode().getCode());
+		return rs;
 	}
 
 	private List<RegistryStatusReason> convertRegistryStatusReasons(
@@ -1001,6 +1003,21 @@ public class JAXBToDomainObjectConverterImpl implements
 		}
 		return studyId;
 
+	}
+
+	/**
+	 * @return the registryStatusDao
+	 */
+	public RegistryStatusDao getRegistryStatusDao() {
+		return registryStatusDao;
+	}
+
+	/**
+	 * @param registryStatusDao
+	 *            the registryStatusDao to set
+	 */
+	public void setRegistryStatusDao(RegistryStatusDao registryStatusDao) {
+		this.registryStatusDao = registryStatusDao;
 	}
 
 }

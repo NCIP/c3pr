@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.webservice.common;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import edu.duke.cabig.c3pr.webservice.iso21090.BL;
 
@@ -17,7 +18,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.BL;
  *   &lt;complexContent>
  *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/Common}DocumentVersion">
  *       &lt;sequence>
- *         &lt;element name="mandatoryIndicator" type="{uri:iso.org:21090}BL" minOccurs="0"/>
+ *         &lt;element name="mandatoryIndicator" type="{uri:iso.org:21090}BL"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -34,6 +35,7 @@ public class Consent
     extends DocumentVersion
 {
 
+    @XmlElement(required = true)
     protected BL mandatoryIndicator;
 
     /**

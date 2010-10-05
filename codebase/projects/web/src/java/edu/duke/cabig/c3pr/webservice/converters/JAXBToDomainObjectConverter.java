@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.webservice.converters;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
+import edu.duke.cabig.c3pr.dao.RegistryStatusDao;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -100,5 +101,9 @@ public interface JAXBToDomainObjectConverter {
 	void convert(Study study, StudyProtocolVersion xmlStudy);
 
 	StudyProtocolVersion convert(Study study);
+
+	void setRegistryStatusDao(RegistryStatusDao registryStatusDao);
+
+	RegistryStatusDao getRegistryStatusDao();
 
 }
