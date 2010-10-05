@@ -123,7 +123,7 @@
 			<bind-xml auto-naming="deriveByClass" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
 		</field>
 		<field name="consents" type="edu.duke.cabig.c3pr.domain.Consent"
-			collection="collection">
+			collection="collection" get-method="getConsents" set-method="addConsent">
 			<bind-xml auto-naming="deriveByClass" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
 		</field>
     </class>
