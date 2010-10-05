@@ -98,7 +98,7 @@ public interface JAXBToDomainObjectConverter {
 	 * @param study
 	 * @param xmlStudy
 	 */
-	void convert(Study study, StudyProtocolVersion xmlStudy);
+	void convert(Study study, StudyProtocolVersion xmlStudy, boolean updateConsents);
 
 	StudyProtocolVersion convert(Study study);
 

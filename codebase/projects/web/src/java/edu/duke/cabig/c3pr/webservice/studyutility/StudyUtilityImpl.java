@@ -150,7 +150,7 @@ public class StudyUtilityImpl implements StudyUtility {
 				fail(STUDY_DOES_NOT_EXIST);
 			}
 			edu.duke.cabig.c3pr.domain.Study study = existentStudies.get(0);
-			converter.convert(study, xmlStudy);
+			converter.convert(study, xmlStudy,false);
 			studyRepository.save(study);
 			response.setStudy(converter.convert(study));
 		} catch (RuntimeException e) {

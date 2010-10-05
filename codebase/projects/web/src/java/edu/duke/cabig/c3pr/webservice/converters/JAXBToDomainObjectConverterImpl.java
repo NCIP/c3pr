@@ -787,7 +787,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		}
 
 		Study study = new LocalStudy();
-		convert(study, xmlStudy);
+		convert(study, xmlStudy, true);
 
 		// study
 		study.setBlindedIndicator(false);
@@ -851,14 +851,15 @@ public class JAXBToDomainObjectConverterImpl implements
 	 * #convert(edu.duke.cabig.c3pr.domain.Study,
 	 * edu.duke.cabig.c3pr.webservice.studyutility.Study)
 	 */
-	public void convert(Study study, StudyProtocolVersion version) {
+	public void convert(Study study, StudyProtocolVersion version,
+			boolean updateConsents) {
 		StudyProtocolDocumentVersion doc = version.getStudyProtocolDocument();
 
 		study.setTargetRegistrationSystem(isNull(version
 				.getTargetRegistrationSystem()) ? null : version
 				.getTargetRegistrationSystem().getValue());
 
-		convert(study, doc);
+		convert(study, doc, updateConsents);
 
 		List<edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus> statuses = new ArrayList<edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus>();
 		for (PermissibleStudySubjectRegistryStatus status : version
@@ -866,14 +867,16 @@ public class JAXBToDomainObjectConverterImpl implements
 			statuses.add(convert(status));
 		}
 		study.getPermissibleStudySubjectRegistryStatusesInternal().clear();
-		study.getPermissibleStudySubjectRegistryStatusesInternal().addAll(statuses);
+		study.getPermissibleStudySubjectRegistryStatusesInternal().addAll(
+				statuses);
 	}
 
 	/**
 	 * @param study
 	 * @param ver
 	 */
-	private void convert(Study study, StudyProtocolDocumentVersion ver) {
+	private void convert(Study study, StudyProtocolDocumentVersion ver,
+			boolean updateConsents) {
 		study.setShortTitleText(isNull(ver.getPublicTitle()) ? "" : ver
 				.getPublicTitle().getValue());
 		study.setLongTitleText(isNull(ver.getPublicTitle()) ? "" : ver
@@ -887,15 +890,17 @@ public class JAXBToDomainObjectConverterImpl implements
 						.getVersionNumberText().getValue());
 
 		// consent
-		study.getConsents().clear();
-		for (DocumentVersionRelationship rel : ver
-				.getDocumentVersionRelationship()) {
-			if (isNull(rel.getTypeCode())
-					|| !CONSENT.equals(rel.getTypeCode().getCode())) {
-				throw exceptionHelper
-						.getConversionException(UNSUPPORTED_DOC_REL_TYPE);
+		if (updateConsents) {
+			study.getConsents().clear();
+			for (DocumentVersionRelationship rel : ver
+					.getDocumentVersionRelationship()) {
+				if (isNull(rel.getTypeCode())
+						|| !CONSENT.equals(rel.getTypeCode().getCode())) {
+					throw exceptionHelper
+							.getConversionException(UNSUPPORTED_DOC_REL_TYPE);
+				}
+				study.addConsent(convertConsent(rel.getTarget()));
 			}
-			study.addConsent(convertConsent(rel.getTarget()));
 		}
 	}
 
