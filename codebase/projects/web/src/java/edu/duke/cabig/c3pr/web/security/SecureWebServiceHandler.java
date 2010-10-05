@@ -211,7 +211,7 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 	private String extractLoginId(SAMLAssertion samlAssertion) {
 		String loginId = "";
 		Iterator<SAMLStatement> it = samlAssertion.getStatements();
-		while (it.hasNext()) {
+		l1: while (it.hasNext()) {
 			SAMLStatement st = it.next();
 			if (st instanceof SAMLSubjectStatement) {
 				SAMLSubjectStatement attrSt = (SAMLSubjectStatement) st;
@@ -219,7 +219,8 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 				SAMLNameIdentifier nameID = subject.getNameIdentifier();
 				if (nameID != null) {
 					loginId = nameID.getName();
-				} else if (attrSt instanceof SAMLAttributeStatement) {
+				}
+				if (attrSt instanceof SAMLAttributeStatement) {
 					SAMLAttributeStatement attributeStatement = (SAMLAttributeStatement) attrSt;
 					Iterator<SAMLAttribute> attrIt = attributeStatement
 							.getAttributes();
@@ -228,6 +229,8 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 						String loginIdFromAttr = extractLoginId(attr);
 						if (StringUtils.isNotBlank(loginIdFromAttr)) {
 							loginId = loginIdFromAttr;
+							// no need to look further, we have a definite value here.
+							break l1;
 						}
 					}
 				}
