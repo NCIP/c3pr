@@ -10,7 +10,6 @@ import java.util.Map;
 import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
-import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.EpochType;
@@ -2803,11 +2802,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		 EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
 		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion).times(2);
 		 EasyMock.expect(studyVersion.getConsents()).andReturn(consents);
-		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions).times(2);
 		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(2);
 		 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
 		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent);
-		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(new Date());
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(new Date()).times(2);
 		 replayMocks();
 		 
 		 studySubject.setStudySite(studySite);
@@ -2823,9 +2822,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		 studySubjectStudyVersions.add(studySubjectStudyVersion);
 		 studySubject.setStudySubjectStudyVersions(studySubjectStudyVersions);
 		 Consent consent = registerMockFor(Consent.class);
+		 Consent consent1 = registerMockFor(Consent.class);
 		 List<Consent> consents = new ArrayList<Consent>();
 		 consents.add(consent);
+		 List<Consent> consents1 = new ArrayList<Consent>();
+		 consents1.add(consent1);
 		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 StudyVersion studyVersion1 = registerMockFor(StudyVersion.class);
 		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
 			studySubjectConsentVersions.add(studySubjectConsentVersion);
 		 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
@@ -2833,15 +2836,21 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		 EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
 		 List<StudyVersion> studyVersions = new ArrayList<StudyVersion>();
 		 studyVersions.add(studyVersion);
+		 studyVersions.add(studyVersion1);
 		 EasyMock.expect(study.getStudyVersions()).andReturn(studyVersions);
 		 EasyMock.expect(studySite.getStudy()).andReturn(study).times(3);
-		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion).times(2);
-		 EasyMock.expect(studyVersion.getConsents()).andReturn(consents);
-		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
+		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion1).times(2);
+	//	 EasyMock.expect(studyVersion.getConsents()).andReturn(consents);
+		 EasyMock.expect(studyVersion1.getConsents()).andReturn(consents1);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions).times(2);
 		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(3);
 		 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(3);
-		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(null);
-		 EasyMock.expect(studyVersion.getVersionDate()).andReturn(new Date()).times(2);
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(new Date()).times(2);
+		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent);
+		 Date version1Date = new Date();
+		 version1Date.setYear(version1Date.getYear()-1);
+		 EasyMock.expect(studyVersion.getVersionDate()).andReturn(version1Date);
+		 EasyMock.expect(studyVersion1.getVersionDate()).andReturn(new Date()).times(3);
 		 replayMocks();
 		 
 		 studySubject.setStudySite(studySite);
@@ -2859,7 +2868,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		 Consent consent = registerMockFor(Consent.class);
 		 List<Consent> consents = new ArrayList<Consent>();
 		 consents.add(consent);
+		 Consent consent1 = registerMockFor(Consent.class);
+		 List<Consent> consents1 = new ArrayList<Consent>();
+		 consents1.add(consent1);
 		 StudyVersion studyVersion = registerMockFor(StudyVersion.class);
+		 StudyVersion studyVersion1 = registerMockFor(StudyVersion.class);
+		 EasyMock.expect(studyVersion1.getConsents()).andReturn(consents1).times(2);
+		
 		 List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
 			studySubjectConsentVersions.add(studySubjectConsentVersion);
 		 
@@ -2868,23 +2883,30 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		 studyVersions.add(studyVersion);
 		 EasyMock.expect(study.getStudyVersions()).andReturn(studyVersions);
 		 EasyMock.expect(studySite.getStudy()).andReturn(study).times(4);
-		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion).times(3);
-		 EasyMock.expect(studyVersion.getConsents()).andReturn(consents).times(2);
-		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions);
-		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(5);
+		 EasyMock.expect(study.getStudyVersion(studyVersionName)).andReturn(studyVersion1).times(3);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySubjectConsentVersions()).andReturn(studySubjectConsentVersions).times(2);
+		 EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(6);
 		 EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(5);
-		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(null);
-		 EasyMock.expect(studyVersion.getVersionDate()).andReturn(new Date()).times(2);
-		 
-		 EasyMock.expect(studyVersion.getConsentByName("General consent")).andReturn(consent);
+		 Date consentDate = new Date();
+		 consentDate.setMonth(consentDate.getMonth()-1);
+		 EasyMock.expect(studySubjectConsentVersion.getInformedConsentSignedDate()).andReturn(consentDate).times(2);
+		 EasyMock.expect(studySubjectConsentVersion.getConsent()).andReturn(consent);
 		 List<ConsentingMethod> consentingMethods = new ArrayList<ConsentingMethod>();
 		 consentingMethods.add(ConsentingMethod.VERBAL);
-		 EasyMock.expect(consent.getMandatoryIndicator()).andReturn(true);
-		 studySubjectStudyVersion.addStudySubjectConsentVersion((StudySubjectConsentVersion)EasyMock.anyObject());
 		 
-		 EasyMock.expect(studySubjectStudyVersion.hasSignedConsent(consent)).andReturn(true);
+		 EasyMock.expect(studySubjectStudyVersion.hasSignedConsent(consent1)).andReturn(true);
 		 studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
 		 EasyMock.expect(studySite.getStudySiteStudyVersionGivenStudyVersionName(studyVersionName)).andReturn(studySiteStudyVersion);
+		 Date version1Date = new Date();
+		 version1Date.setYear(version1Date.getYear()-1);
+		 EasyMock.expect(studyVersion.getVersionDate()).andReturn(version1Date);
+		 EasyMock.expect(studyVersion1.getVersionDate()).andReturn(new Date()).times(1);
+		 EasyMock.expect(studyVersion1.getConsentByName("New consent")).andReturn(consent1);
+		 EasyMock.expect(studySiteStudyVersion.getStudyVersion()).andReturn(studyVersion1);
+		 EasyMock.expect(studyVersion1.getName()).andReturn(studyVersionName).times(2);
+		 EasyMock.expect(consent1.getMandatoryIndicator()).andReturn(true);
+		 
+		 
 		 replayMocks();
 		 
 		 studySubject.setStudySite(studySite);
@@ -2892,12 +2914,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		 
 		 List<StudySubjectConsentVersion> studySubjectConsentVersionHolder = new ArrayList<StudySubjectConsentVersion>();
 		 StudySubjectConsentVersion studySubjectConsentVersion1 = new StudySubjectConsentVersion();
-		 Consent consent1 = new Consent();
-		 consent1.setName("General consent");
-		 studySubjectConsentVersion1.setConsent(consent1);
+		 Consent consent1copy = new Consent();
+		 consent1copy.setName("New consent");
+		 studySubjectConsentVersion1.setConsent(consent1copy);
 		 
 		 studySubjectConsentVersionHolder.add(studySubjectConsentVersion1);
-		 
+		
 		try {
 			studySubject.reConsent(studyVersionName,studySubjectConsentVersionHolder);
 		} catch (Exception e) {

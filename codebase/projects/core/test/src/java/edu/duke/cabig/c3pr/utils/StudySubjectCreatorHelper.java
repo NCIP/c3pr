@@ -8,6 +8,7 @@ import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
+import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Consent;
@@ -23,15 +24,19 @@ import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.SiteStatusHistory;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
+import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 
 public class StudySubjectCreatorHelper {
     
@@ -132,6 +137,40 @@ public class StudySubjectCreatorHelper {
         study = studyCreationHelper.addConsent(study, "Parent Consent");
         addStudySiteAndCoCenter(study, makeStudysiteCoCenter);
         return study.getStudySites().get(0);
+    }
+    
+    public void successfullyAmendStudyOneMonthBack(Study study){
+    	Date originalVersionDate = new Date();
+    	originalVersionDate.setYear(originalVersionDate.getYear()-1);
+    	study.getStudyVersion().setVersionDate(originalVersionDate);
+    	StudyVersion studyVersion = new StudyVersion();
+    	try{
+    		studyVersion = (StudyVersion) study.getStudyVersion().clone();
+    	}catch(CloneNotSupportedException ex){
+    		ex.printStackTrace();
+    	}
+    	Date amendmentDate = new Date();
+    	amendmentDate.setMonth(amendmentDate.getMonth()-1);
+    	studyVersion.setName("Amended version 1");
+    	studyVersion.getConsents().get(0).setName("consent 1");
+    	studyVersion.getConsents().get(0).setMandatoryIndicator(true);
+    	studyVersion.setVersionDate(amendmentDate);
+    	studyVersion.setVersionStatus(StatusType.AC);
+    	study.addStudyVersion(studyVersion);
+        }
+    
+    public void applyLatestStudyAmendmentToStudySite(Study study, StudySite studySite){
+    	StudyVersion latestStudyVersion = study.getStudyVersion(new Date());
+    	StudySite actualStudySite = study.getStudySite(studySite.getHealthcareSite().getPrimaryIdentifier());
+    	if(actualStudySite== null){
+    		throw new C3PRBaseRuntimeException("Study site with organization primary identifier " + studySite.getHealthcareSite().
+    				getPrimaryIdentifier() + "could not be found");
+    	}
+    	
+    	StudySiteStudyVersion studySiteStudyVersion = new StudySiteStudyVersion();
+    	studySiteStudyVersion.setStudySite(actualStudySite);
+    	studySiteStudyVersion.setStudyVersion(latestStudyVersion);
+    	actualStudySite.applyStudyAmendment(latestStudyVersion.getName(), new Date());
     }
 
     public StudySite getLocalNonRandomizedTreatmentWithArmStudySite(boolean makeStudysiteCoCenter) {

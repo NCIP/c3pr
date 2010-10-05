@@ -99,6 +99,15 @@ public class PersistedStudySubjectCreator extends StudySubjectCreatorHelper {
         return studySubject;
     }
     
+    public StudySubject getLocalNonRandomizedStudySubjectWithAmendedStudy(Boolean reserving, Boolean enrolling,
+            boolean makeStudysiteCoCenter) {
+		studySubject.setStudySite(getLocalNonRandomizedStudySite(reserving, enrolling, makeStudysiteCoCenter));
+		successfullyAmendStudyOneMonthBack(studySubject.getStudySite().getStudy());
+		applyLatestStudyAmendmentToStudySite(studySubject.getStudySite().getStudy(), studySubject.getStudySite());
+		prepareToPersistNewStudySubject(studySubject);
+		return studySubject;
+    }
+    
     public StudySubject getLocalNonRandomizedTrestmentWithArmStudySubject(boolean makeStudysiteCoCenter) {
         studySubject.setStudySite(getLocalNonRandomizedTreatmentWithArmStudySite( makeStudysiteCoCenter));
         prepareToPersistNewStudySubject(studySubject);

@@ -455,13 +455,19 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     }
     
     public void testStudySubjectReConsent() throws Exception{
-    	 studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(false, true, true);
+    	 studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubjectWithAmendedStudy(false, true, true);
     	 SystemAssignedIdentifier studySubjectIdentifier = new SystemAssignedIdentifier();
 		 studySubjectIdentifier.setSystemName("C3PR");
 		 studySubjectIdentifier.setType("C3PR");
 		 studySubjectIdentifier.setValue("id1");
 		 studySubject.addIdentifier(studySubjectIdentifier);
 		 studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING_ON_STUDY);
+		 StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
+		 studySubjectConsentVersion.setConsent(studySubject.getStudySite().getStudy().getStudyVersion().getConsents().get(0));
+		 Date consentSignedDate = new Date();
+		 consentSignedDate.setMonth(consentSignedDate.getMonth()-2);
+		 studySubjectConsentVersion.setInformedConsentSignedDate(consentSignedDate);
+		 studySubject.getStudySubjectStudyVersion().addStudySubjectConsentVersion(studySubjectConsentVersion);
 		 studySubjectDao.save(studySubject);
 		 Integer id = studySubject.getId();
 		 interruptSession();
@@ -469,21 +475,26 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
 		StudySubject savedStudySubject = studySubjectDao.getById(id);
 		
 		Consent consent = new Consent();
-		consent.setName("Parent Consent");
+		consent.setName("consent 1");
 		StudySubjectConsentVersion studySubjectConsentVersion1 = new StudySubjectConsentVersion();
 		studySubjectConsentVersion1.setConsent(consent);
 		
 		List<StudySubjectConsentVersion> studySubjectConsentVersionsHolder = new ArrayList<StudySubjectConsentVersion>();
 		studySubjectConsentVersionsHolder.add(studySubjectConsentVersion1);
-		 
-		savedStudySubject = studySubjectRepository.reConsent(savedStudySubject.getStudySiteVersion().getStudyVersion().getName(), studySubjectConsentVersionsHolder, studySubjectIdentifier);
-    	assertEquals("Re consent should not be successful as informed consent signed date is not given",0,savedStudySubject.getLatestSignedConsents().size());
+		try{
+			savedStudySubject = studySubjectRepository.reConsent(savedStudySubject.getStudySite().getStudy().
+					getStudyVersion().getName(), studySubjectConsentVersionsHolder, studySubjectIdentifier);
+		}catch(C3PRBaseRuntimeException ex){
+			assert(ex.getMessage().contains("249:Informed consent signed date is mandatory"));
+		}
+    	
+			assertEquals("Re consent should not be successful as informed consent signed date is not given",0,savedStudySubject.getLatestSignedConsents().size());
     	
     	studySubjectConsentVersion1.setInformedConsentSignedDate(new Date());
     	
-    	savedStudySubject = studySubjectRepository.reConsent(savedStudySubject.getStudySiteVersion().getStudyVersion().getName(), studySubjectConsentVersionsHolder, studySubjectIdentifier);
+    	savedStudySubject = studySubjectRepository.reConsent(savedStudySubject.getStudySite().getStudy().getStudyVersion().getName(), studySubjectConsentVersionsHolder, studySubjectIdentifier);
     	assertEquals("Wrong number of consents",1,savedStudySubject.getLatestSignedConsents().size());
-    	assertEquals("Wrong consent","Parent Consent",savedStudySubject.getLatestSignedConsents().get(0).getConsent().getName());
+    	assertEquals("Wrong consent","consent 1",savedStudySubject.getLatestSignedConsents().get(0).getConsent().getName());
     	
     	
     	

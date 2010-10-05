@@ -2224,12 +2224,11 @@ public class StudySubject extends
 		
 		// Subject cannot re consent on a study version if he/she already signed consent forms on this version.
 				if(hasSignedConsents(studyVersionName)) {
-					throw getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.SUBJECT.CANNOT_RECONSENT_ON_SAME_STUDY_VERSION.CODE"),
-							new String[] {studyVersionName });
+					return false;
 		}
 				
 		// Subject cannot re consent on a study version if he/she signed consent forms on a study version after this one.
-				for (StudyVersion studyVersion :this.getStudySite().getStudy().getStudyVersions()){
+		for (StudyVersion studyVersion :this.getStudySite().getStudy().getStudyVersions()){
 			if(studyVersion.getVersionDate().after(reConsentingStudyVersion.getVersionDate()) && hasSignedConsents(studyVersion.getName()))
 				return false;
 		}
