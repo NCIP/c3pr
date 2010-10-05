@@ -118,6 +118,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	private static final int INVALID_STUDY_REPRESENTATION = 927;
 	private static final int UNSUPPORTED_DOC_REL_TYPE = 928;
 	private static final int INVALID_CONSENT_REPRESENTATION = 929;
+	private static final int INVALID_REGISTRY_STATUS_CODE = 930;
 
 	/** The exception helper. */
 	protected C3PRExceptionHelper exceptionHelper;
@@ -877,7 +878,7 @@ public class JAXBToDomainObjectConverterImpl implements
 				.getPublicDescription().getValue());
 
 		Document doc = ver.getDocument();
-		study.setIdentifiers((List) convert(doc.getDocumentIdentifier()));
+		// study.setIdentifiers((List) convert(doc.getDocumentIdentifier()));
 
 		// consent
 		for (DocumentVersionRelationship rel : ver
@@ -903,6 +904,8 @@ public class JAXBToDomainObjectConverterImpl implements
 				.asList(new ConsentingMethod[] { ConsentingMethod.WRITTEN }));
 		consent.setName(isNull(xml.getOfficialTitle()) ? "" : xml
 				.getOfficialTitle().getValue());
+		consent.setVersionId(isNull(xml.getVersionNumberText()) ? "" : xml
+				.getVersionNumberText().getValue());
 
 		// consent questions
 		for (DocumentVersionRelationship rel : xml
@@ -940,9 +943,15 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	private RegistryStatus convert(
 			edu.duke.cabig.c3pr.webservice.common.RegistryStatus xml) {
-
-		RegistryStatus rs = registryStatusDao.getRegistryStatusByCode(xml
-				.getCode().getCode());
+		RegistryStatus rs = null;
+		if (xml != null && !isNull(xml.getCode())) {
+			rs = registryStatusDao.getRegistryStatusByCode(xml.getCode()
+					.getCode());
+			if (rs == null) {
+				throw exceptionHelper
+						.getConversionException(INVALID_REGISTRY_STATUS_CODE);
+			}
+		}
 		return rs;
 	}
 

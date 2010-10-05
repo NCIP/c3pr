@@ -59,7 +59,7 @@
 		<complexContent>
 			<extension base="tns:DocumentVersion">
 				<sequence>
-					<element name="publicTitle" type="ISO:ST" minOccurs="0" />
+					<element name="publicTitle" type="ISO:ST" minOccurs="1" />
 					<element name="publicDescription" type="ISO:ST" minOccurs="0" />
 				</sequence>
 			</extension>

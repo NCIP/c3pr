@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.RegistryStatus;
 
@@ -22,7 +24,13 @@ public class RegistryStatusDao extends GridIdentifiableDao<RegistryStatus> {
         return getHibernateTemplate().find("from RegistryStatus");
     }
     
-    public RegistryStatus getRegistryStatusByCode(String code){
-    	return (RegistryStatus)getHibernateTemplate().find("from RegistryStatus where code = ?",code).get(0);
-    } 
+	public RegistryStatus getRegistryStatusByCode(String code) {
+		final List results = getHibernateTemplate().find(
+				"from RegistryStatus where code = ?", code);
+		if (CollectionUtils.isEmpty(results)) {
+			return null;
+		} else {
+			return (RegistryStatus) results.get(0);
+		}
+	}
 }

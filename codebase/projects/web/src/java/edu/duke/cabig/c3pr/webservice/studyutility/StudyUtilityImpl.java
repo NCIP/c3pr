@@ -108,7 +108,7 @@ public class StudyUtilityImpl implements StudyUtility {
 				fail(STUDY_ALREADY_EXISTS);
 			}
 			studyRepository.save(study);
-			response.setStudy(converter.convert(study));
+			response.setStudy(xmlStudy/*converter.convert(study)*/);
 		} catch (RuntimeException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
 			fail(e.getMessage());
