@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @WebService(name = "StudyUtility", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
-    edu.duke.cabig.c3pr.webservice.iso21090.ObjectFactory.class,
     edu.duke.cabig.c3pr.webservice.common.ObjectFactory.class,
+    edu.duke.cabig.c3pr.webservice.iso21090.ObjectFactory.class,
     edu.duke.cabig.c3pr.webservice.studyutility.ObjectFactory.class
 })
 public interface StudyUtility {
@@ -134,6 +134,22 @@ public interface StudyUtility {
     public QueryRegistryStatusResponse queryRegistryStatus(
         @WebParam(name = "QueryRegistryStatusRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
         QueryRegistryStatusRequest parameters)
+        throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
+    ;
+
+    /**
+     * 
+     * @param parameters
+     * @return
+     *     returns edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyRegistryStatusResponse
+     * @throws StudyUtilityFaultMessage
+     * @throws SecurityExceptionFaultMessage
+     */
+    @WebMethod
+    @WebResult(name = "QueryStudyRegistryStatusResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+    public QueryStudyRegistryStatusResponse queryStudyRegistryStatus(
+        @WebParam(name = "QueryStudyRegistryStatusRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+        QueryStudyRegistryStatusRequest parameters)
         throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
     ;
 

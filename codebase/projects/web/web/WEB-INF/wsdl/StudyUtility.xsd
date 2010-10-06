@@ -68,5 +68,21 @@
 			<extension base="ISO:ANY" />
 		</complexContent>
 	</complexType>
+	<complexType name="DSET_PermissibleStudySubjectRegistryStatus">
+		<complexContent>
+			<extension base="tns:COLL_PermissibleStudySubjectRegistryStatus">
+				<sequence>
+					<element name="item" type="common:PermissibleStudySubjectRegistryStatus"
+						minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType abstract="true" name="COLL_PermissibleStudySubjectRegistryStatus">
+		<complexContent>
+			<extension base="ISO:ANY" />
+		</complexContent>
+	</complexType>
+	
 
 </schema>

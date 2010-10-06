@@ -35,83 +35,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Reason }
-     * 
-     */
-    public Reason createReason() {
-        return new Reason();
-    }
-
-    /**
-     * Create an instance of {@link StudyProtocolVersion }
-     * 
-     */
-    public StudyProtocolVersion createStudyProtocolVersion() {
-        return new StudyProtocolVersion();
-    }
-
-    /**
-     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
-     * 
-     */
-    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
-        return new DSETAdvanceSearchCriterionParameter();
-    }
-
-    /**
-     * Create an instance of {@link DocumentVersionRelationship }
-     * 
-     */
-    public DocumentVersionRelationship createDocumentVersionRelationship() {
-        return new DocumentVersionRelationship();
-    }
-
-    /**
      * Create an instance of {@link Consent }
      * 
      */
     public Consent createConsent() {
         return new Consent();
-    }
-
-    /**
-     * Create an instance of {@link Organization }
-     * 
-     */
-    public Organization createOrganization() {
-        return new Organization();
-    }
-
-    /**
-     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
-     * 
-     */
-    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
-        return new PermissibleStudySubjectRegistryStatus();
-    }
-
-    /**
-     * Create an instance of {@link SecurityExceptionFault }
-     * 
-     */
-    public SecurityExceptionFault createSecurityExceptionFault() {
-        return new SecurityExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link RegistryStatusReason }
-     * 
-     */
-    public RegistryStatusReason createRegistryStatusReason() {
-        return new RegistryStatusReason();
-    }
-
-    /**
-     * Create an instance of {@link StudyProtocolDocumentVersion }
-     * 
-     */
-    public StudyProtocolDocumentVersion createStudyProtocolDocumentVersion() {
-        return new StudyProtocolDocumentVersion();
     }
 
     /**
@@ -131,11 +59,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Document }
+     * Create an instance of {@link Organization }
      * 
      */
-    public Document createDocument() {
-        return new Document();
+    public Organization createOrganization() {
+        return new Organization();
+    }
+
+    /**
+     * Create an instance of {@link StudyProtocolVersion }
+     * 
+     */
+    public StudyProtocolVersion createStudyProtocolVersion() {
+        return new StudyProtocolVersion();
+    }
+
+    /**
+     * Create an instance of {@link Reason }
+     * 
+     */
+    public Reason createReason() {
+        return new Reason();
     }
 
     /**
@@ -147,11 +91,51 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link OrganizationIdentifier }
+     * Create an instance of {@link DocumentVersionRelationship }
      * 
      */
-    public OrganizationIdentifier createOrganizationIdentifier() {
-        return new OrganizationIdentifier();
+    public DocumentVersionRelationship createDocumentVersionRelationship() {
+        return new DocumentVersionRelationship();
+    }
+
+    /**
+     * Create an instance of {@link Document }
+     * 
+     */
+    public Document createDocument() {
+        return new Document();
+    }
+
+    /**
+     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
+     * 
+     */
+    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
+        return new PermissibleStudySubjectRegistryStatus();
+    }
+
+    /**
+     * Create an instance of {@link RegistryStatusReason }
+     * 
+     */
+    public RegistryStatusReason createRegistryStatusReason() {
+        return new RegistryStatusReason();
+    }
+
+    /**
+     * Create an instance of {@link SecurityExceptionFault }
+     * 
+     */
+    public SecurityExceptionFault createSecurityExceptionFault() {
+        return new SecurityExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link StudyProtocolDocumentVersion }
+     * 
+     */
+    public StudyProtocolDocumentVersion createStudyProtocolDocumentVersion() {
+        return new StudyProtocolDocumentVersion();
     }
 
     /**
@@ -160,6 +144,22 @@ public class ObjectFactory {
      */
     public AdvanceSearchCriterionParameter createAdvanceSearchCriterionParameter() {
         return new AdvanceSearchCriterionParameter();
+    }
+
+    /**
+     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
+     * 
+     */
+    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
+        return new DSETAdvanceSearchCriterionParameter();
+    }
+
+    /**
+     * Create an instance of {@link OrganizationIdentifier }
+     * 
+     */
+    public OrganizationIdentifier createOrganizationIdentifier() {
+        return new OrganizationIdentifier();
     }
 
     /**

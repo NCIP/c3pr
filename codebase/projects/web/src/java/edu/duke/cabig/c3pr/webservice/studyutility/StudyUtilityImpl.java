@@ -217,7 +217,7 @@ public class StudyUtilityImpl implements StudyUtility {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
 			Consent consent = request.getConsent();
 
-			Study study = getStudyForConsentOperations(studyId);
+			Study study = getSingleStudy(studyId);
 			edu.duke.cabig.c3pr.domain.Consent domainConsent = converter
 					.convertConsent(consent);
 			study.getConsents().clear();
@@ -243,7 +243,7 @@ public class StudyUtilityImpl implements StudyUtility {
 		try {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
 			Consent consent = request.getConsent();
-			Study study = getStudyForConsentOperations(studyId);
+			Study study = getSingleStudy(studyId);
 
 			if (consent == null) {
 				domainConsents.addAll(study.getConsents());
@@ -268,7 +268,7 @@ public class StudyUtilityImpl implements StudyUtility {
 	 * @return
 	 * @throws StudyUtilityFaultMessage
 	 */
-	private Study getStudyForConsentOperations(DocumentIdentifier studyId)
+	private Study getSingleStudy(DocumentIdentifier studyId)
 			throws StudyUtilityFaultMessage {
 		Identifier oai = converter.convert(studyId);
 		List<Study> studies = studyRepository.getByIdentifiers(Arrays
@@ -306,7 +306,7 @@ public class StudyUtilityImpl implements StudyUtility {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
 			PermissibleStudySubjectRegistryStatus status = request.getStatus();
 
-			Study study = getStudyForConsentOperations(studyId);
+			Study study = getSingleStudy(studyId);
 			edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus domainStatus = converter
 					.convert(status);
 			study.getPermissibleStudySubjectRegistryStatusesInternal().clear();
@@ -357,6 +357,25 @@ public class StudyUtilityImpl implements StudyUtility {
 	 */
 	public void setRegistryStatusDao(RegistryStatusDao registryStatusDao) {
 		this.registryStatusDao = registryStatusDao;
+	}
+
+	public QueryStudyRegistryStatusResponse queryStudyRegistryStatus(
+			QueryStudyRegistryStatusRequest request)
+			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+		QueryStudyRegistryStatusResponse response = new QueryStudyRegistryStatusResponse();
+		response.setStatuses(new DSETPermissibleStudySubjectRegistryStatus());
+		try {
+			DocumentIdentifier studyId = request.getStudyIdentifier();
+			Study study = getSingleStudy(studyId);
+			for (edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus status : study
+					.getPermissibleStudySubjectRegistryStatuses()) {
+				response.getStatuses().getItem().add(converter.convert(status));
+			}
+		} catch (RuntimeException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		}
+		return response;
 	}
 
 }
