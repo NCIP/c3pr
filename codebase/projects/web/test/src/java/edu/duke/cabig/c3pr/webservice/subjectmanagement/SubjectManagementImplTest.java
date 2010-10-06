@@ -32,7 +32,7 @@ import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.BeanUtils;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.helpers.SubjectManagementRelatedTestCase;
+import edu.duke.cabig.c3pr.webservice.helpers.WebServiceRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl.ParticipantValidationError;
 
@@ -40,7 +40,7 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl.Pa
  * @author dkrylov
  * 
  */
-public class SubjectManagementImplTest extends SubjectManagementRelatedTestCase {
+public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 	private SubjectManagementImpl service;
 	private ParticipantValidator validator;

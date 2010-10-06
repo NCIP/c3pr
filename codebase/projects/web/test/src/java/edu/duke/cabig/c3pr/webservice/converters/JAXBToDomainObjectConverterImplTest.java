@@ -10,14 +10,19 @@ import org.springframework.test.AssertThrows;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
+import edu.duke.cabig.c3pr.constants.ConsentRequired;
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.helpers.SubjectManagementRelatedTestCase;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.helpers.WebServiceRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
@@ -31,7 +36,27 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
  * 
  */
 public class JAXBToDomainObjectConverterImplTest extends
-		SubjectManagementRelatedTestCase {
+		WebServiceRelatedTestCase {
+
+	public void testConvertStudyProtocolVersion() {
+		StudyProtocolVersion xmlStudy = createStudy();
+		Study s = converter.convert(xmlStudy);
+		assertTrue(s instanceof LocalStudy);
+		assertEquals(TEST_STUDY_DESCR, s.getShortTitleText());
+		assertFalse(s.getBlindedIndicator());
+		assertTrue(s.getMultiInstitutionIndicator());
+		assertEquals("Phase 0 Trial", s.getPhaseCode());
+		assertFalse(s.getRandomizedIndicator());
+		assertEquals(100, s.getTargetAccrualNumber().intValue());
+		assertEquals("Basic Science",s.getType());
+		assertEquals(CoordinatingCenterStudyStatus.PENDING, s.getCoordinatingCenterStudyStatus());
+		assertFalse(s.getStratificationIndicator());
+		assertTrue(s.getStandaloneIndicator());
+		assertFalse(s.getCompanionIndicator());
+		assertEquals(ConsentRequired.ONE, s.getConsentRequired());
+		assertFalse(s.getTherapeuticIntentIndicator());
+		assertEquals(TEST_TARGET_REG_SYS,s.getTargetRegistrationSystem());
+	}
 
 	/**
 	 * Test method for
@@ -41,7 +66,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 	public void testConvertSubjectBoolean() {
 		Person person = createPerson();
 		Subject subject = createSubject(person);
-		Participant participant = converter.convert(subject, true,false);
+		Participant participant = converter.convert(subject, true, false);
 
 		assertParticipant(participant);
 		assertNotNull(participant.getPrimaryIdentifier());
@@ -57,7 +82,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 		final Subject badDataSubject1 = createSubject(badDataPerson1);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convert(badDataSubject1, true,false);
+				converter.convert(badDataSubject1, true, false);
 			}
 		}.runTest();
 
@@ -66,7 +91,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 		badDataSubject2.setStateCode(new ST(BAD_STATE_CODE));
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convert(badDataSubject2, true,false);
+				converter.convert(badDataSubject2, true, false);
 			}
 		}.runTest();
 	}
@@ -81,7 +106,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 		Person person = createPerson();
 		Subject subject = createSubject(person);
 
-		converter.convert(participant, subject,false);
+		converter.convert(participant, subject, false);
 
 		assertParticipant(participant);
 
@@ -91,7 +116,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 		badDataPerson1.setBirthDate(new TSDateTime(BAD_ISO_DATE));
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convert(participant, badDataSubj1,false);
+				converter.convert(participant, badDataSubj1, false);
 			}
 		}.runTest();
 
@@ -101,7 +126,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 				BAD_RACE_CODE)));
 		new AssertThrows(ConversionException.class) {
 			public void test() {
-				converter.convert(participant, badDataSubj2,false);
+				converter.convert(participant, badDataSubj2, false);
 			}
 		}.runTest();
 
@@ -128,8 +153,9 @@ public class JAXBToDomainObjectConverterImplTest extends
 		assertEquals(TEST_STATE_CODE, participant.getAddress().getStateCode());
 		assertEquals(TEST_ZIP_CODE, participant.getAddress().getPostalCode());
 		assertEquals(TEST_COUNTRY, participant.getAddress().getCountryCode());
-		assertEquals(Arrays.asList(new RaceCodeEnum[] { RaceCodeEnum.White,
-				RaceCodeEnum.Asian }), (participant.getRaceCodes()));
+		assertEquals(
+				Arrays.asList(new RaceCodeEnum[] { RaceCodeEnum.White,
+						RaceCodeEnum.Asian }), (participant.getRaceCodes()));
 		assertEquals(TEST_EMAIL_ADDR, participant.getEmail());
 		assertEquals(TEST_PHONE, participant.getPhone());
 		assertEquals(TEST_FAX, participant.getFax());

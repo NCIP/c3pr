@@ -732,7 +732,7 @@
 					<exclude name="edu/duke/cabig/**/SmokeTestGridService.class"/>
 					<exclude name="edu/duke/cabig/**/XMLTransformerTest.class"/>
 					<exclude name="edu/duke/cabig/**/SubjectManagementWebServiceTest.class"/>
-					<exclude name="edu/duke/cabig/**/SubjectManagementRelatedTestCase.class"/>
+					<exclude name="edu/duke/cabig/**/WebServiceRelatedTestCase.class"/>
 					<exclude name="edu/duke/cabig/**/SubjectRegistryWebServiceTest.class"/>
 					<exclude name="edu/duke/cabig/**/SubjectRegistryRelatedTestCase.class"/>
 					<exclude name="edu/duke/cabig/**/C3PREmbeddedTomcatTestBase.class"/>

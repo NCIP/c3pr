@@ -14,6 +14,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -25,6 +31,7 @@ import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.RegistryStatusDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
@@ -33,7 +40,18 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.Consent;
+import edu.duke.cabig.c3pr.webservice.common.Document;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersionRelationship;
+import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
+import edu.duke.cabig.c3pr.webservice.common.RegistryStatus;
+import edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImplTest;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
@@ -46,6 +64,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
+import edu.duke.cabig.c3pr.webservice.iso21090.ED;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
@@ -55,8 +74,8 @@ import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityImplTest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Person;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImplTest;
@@ -68,8 +87,7 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImplTes
  * @see JAXBToDomainObjectConverterImplTest
  * @see SubjectManagementImplTest
  */
-public abstract class SubjectManagementRelatedTestCase extends
-		ApplicationTestCase {
+public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 
 	protected static final String BAD_STATE_CODE = "bad state code";
 	protected static final String BAD_RACE_CODE = "invalid race code";
@@ -114,6 +132,21 @@ public abstract class SubjectManagementRelatedTestCase extends
 	public static final String TEST_OBJ_CTX_NAME = "objCtxName";
 	public static final String TEST_ATTRIBUTE_NAME = "attribute_name";
 
+	// study utility
+	public static final String TEST_REGISTRY_STATUS = "ACTIVE";
+	public static final String TEST_CONSENT_QUESTION_2 = "Question 2";
+	public static final String TEST_CONSENT_QUESTION_1 = "Question 1";
+	public static final String TEST_CONSENT_TEXT = "Consent text";
+	public static final String TEST_CONSENT_TITLE = "Consent";
+	public static final String TEST_CONSENT_QUESTION_RELATIONSHIP = "CONSENT_QUESTION";
+	public static final String TEST_CONSENT_RELATIONSHIP = "CONSENT";
+	public static final String TEST_STUDY_ID = "Study_01";
+	public static final String TEST_CTEP = "CTEP";
+	public static final String TEST_VERSION_NUMBER = "1.0";
+	public static final String TEST_VERSION_DATE = "20101005000000";
+	public static final String TEST_STUDY_DESCR = "Test Study";
+	public static final String TEST_TARGET_REG_SYS = "C3PR";
+
 	protected static Date parseISODate(String isoDate) {
 		try {
 			return DateUtils.parseDate(isoDate,
@@ -126,8 +159,12 @@ public abstract class SubjectManagementRelatedTestCase extends
 	protected JAXBToDomainObjectConverterImpl converter;
 
 	protected HealthcareSiteDao healthcareSiteDao;
+	
+	protected RegistryStatusDao registryStatusDao;
 
 	protected HealthcareSite healthcareSite;
+	
+	protected edu.duke.cabig.c3pr.domain.RegistryStatus registryStatus;
 
 	/*
 	 * (non-Javadoc)
@@ -138,18 +175,26 @@ public abstract class SubjectManagementRelatedTestCase extends
 	protected void setUp() throws Exception {
 		super.setUp();
 		healthcareSiteDao = createMock(HealthcareSiteDao.class);
+		registryStatusDao = createMock(RegistryStatusDao.class);
+		
 		converter = new JAXBToDomainObjectConverterImpl();
 		C3PRExceptionHelper exceptionHelper = new C3PRExceptionHelper(
 				getMessageSourceMock());
 		converter.setExceptionHelper(exceptionHelper);
-
 		converter.setHealthcareSiteDao(healthcareSiteDao);
+		converter.setRegistryStatusDao(registryStatusDao);
 
 		healthcareSite = new LocalHealthcareSite();
 		healthcareSite.setCtepCode(TEST_ORG_ID, true);
 		expect(healthcareSiteDao.getByPrimaryIdentifier(TEST_ORG_ID))
 				.andReturn(healthcareSite).anyTimes();
 		replay(healthcareSiteDao);
+		
+		registryStatus = new edu.duke.cabig.c3pr.domain.RegistryStatus();
+		registryStatus.setCode(TEST_REGISTRY_STATUS);
+		registryStatus.setDescription(TEST_REGISTRY_STATUS);
+		expect(registryStatusDao.getRegistryStatusByCode(TEST_REGISTRY_STATUS)).andReturn(registryStatus);
+		replay(registryStatusDao);
 
 	}
 
@@ -181,7 +226,7 @@ public abstract class SubjectManagementRelatedTestCase extends
 	/**
 	 * 
 	 */
-	public SubjectManagementRelatedTestCase() {
+	public WebServiceRelatedTestCase() {
 	}
 
 	/**
@@ -373,6 +418,156 @@ public abstract class SubjectManagementRelatedTestCase extends
 		param.setValues(new DSETST(Arrays.asList(new ST[] {
 				new ST(TEST_VALUE1), new ST(TEST_VALUE2) })));
 		return param;
+	}
+
+	public StudyProtocolVersion createStudy() {
+		StudyProtocolVersion study = new StudyProtocolVersion();
+		study.setTargetRegistrationSystem(new ST(TEST_TARGET_REG_SYS));
+		study.setStudyProtocolDocument(createStudyProtocolDocument());
+		study.getPermissibleStudySubjectRegistryStatus().add(
+				createPermissibleStudySubjectRegistryStatus());
+		return study;
+	}
+
+	private PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
+		PermissibleStudySubjectRegistryStatus stat = new PermissibleStudySubjectRegistryStatus();
+		stat.setRegistryStatus(createRegistryStatus());
+		stat.getSecondaryReason().add(createRegistryStatusReason());
+		return stat;
+	}
+
+	private RegistryStatus createRegistryStatus() {
+		RegistryStatus stat = new RegistryStatus();
+		stat.setCode(new CD(TEST_REGISTRY_STATUS));
+		return stat;
+	}
+
+	private RegistryStatusReason createRegistryStatusReason() {
+		RegistryStatusReason r = new RegistryStatusReason();
+		r.setCode(new CD("OTHER"));
+		r.setDescription(new ST("Other"));
+		r.setPrimaryIndicator(new BL(false));
+		return r;
+	}
+
+	private StudyProtocolDocumentVersion createStudyProtocolDocument() {
+		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
+		doc.setOfficialTitle(new ST(TEST_STUDY_DESCR));
+		doc.setPublicDescription(new ST(TEST_STUDY_DESCR));
+		doc.setPublicTitle(new ST(TEST_STUDY_DESCR));
+		doc.setText(new ED(TEST_STUDY_DESCR));
+		doc.setVersionDate(new TSDateTime(TEST_VERSION_DATE));
+		doc.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		doc.setDocument(createStudyDocument());
+		doc.getDocumentVersionRelationship().add(createConsentRelationship());
+		return doc;
+	}
+
+	private DocumentVersionRelationship createConsentRelationship() {
+		DocumentVersionRelationship rel = new DocumentVersionRelationship();
+		rel.setTypeCode(new CD(TEST_CONSENT_RELATIONSHIP));
+		rel.setTarget(createConsent());
+		return rel;
+	}
+
+	private Consent createConsent() {
+		Consent consent = new Consent();
+		consent.setMandatoryIndicator(new BL(false));
+		consent.setOfficialTitle(new ST(TEST_CONSENT_TITLE));
+		consent.setText(new ED(TEST_CONSENT_TEXT));
+		consent.setVersionDate(new TSDateTime(TEST_VERSION_DATE));
+		consent.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		consent.setDocument(new Document());
+		consent.getDocumentVersionRelationship().add(
+				createConsentQuestionRelationship(TEST_CONSENT_QUESTION_1));
+		consent.getDocumentVersionRelationship().add(
+				createConsentQuestionRelationship(TEST_CONSENT_QUESTION_2));
+		return consent;
+	}
+
+	private DocumentVersionRelationship createConsentQuestionRelationship(
+			String text) {
+		DocumentVersionRelationship rel = new DocumentVersionRelationship();
+		rel.setTypeCode(new CD(TEST_CONSENT_QUESTION_RELATIONSHIP));
+		rel.setTarget(createConsentQuestion(text));
+		return rel;
+	}
+
+	private DocumentVersion createConsentQuestion(String text) {
+		DocumentVersion q = new DocumentVersion();
+		q.setOfficialTitle(new ST(text));
+		q.setText(new ED(text));
+		q.setVersionDate(new TSDateTime(TEST_VERSION_DATE));
+		q.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		q.setDocument(new Document());
+		return q;
+	}
+
+	private Document createStudyDocument() {
+		Document doc = new Document();
+		doc.getDocumentIdentifier().add(createStudyPrimaryIdentifier());
+		doc.getDocumentIdentifier().add(createStudyProtocolAuthIdentifier());
+		doc.getDocumentIdentifier().add(createStudyFundingSponsorIdentifier());
+		return doc;
+	}
+
+	private DocumentIdentifier createStudyFundingSponsorIdentifier() {
+		DocumentIdentifier docId = new DocumentIdentifier();
+		docId.setIdentifier(new II(TEST_STUDY_ID));
+		docId.setPrimaryIndicator(new BL(false));
+		docId.setTypeCode(new CD(
+				OrganizationIdentifierTypeEnum.STUDY_FUNDING_SPONSOR.name()));
+		docId.setAssigningOrganization(createOrganization());
+		return docId;
+	}
+
+	private DocumentIdentifier createStudyPrimaryIdentifier() {
+		DocumentIdentifier docId = new DocumentIdentifier();
+		docId.setIdentifier(new II(TEST_STUDY_ID));
+		docId.setPrimaryIndicator(new BL(true));
+		docId.setTypeCode(new CD(
+				OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER
+						.name()));
+		docId.setAssigningOrganization(createOrganization());
+		return docId;
+	}
+
+	private DocumentIdentifier createStudyProtocolAuthIdentifier() {
+		DocumentIdentifier docId = new DocumentIdentifier();
+		docId.setIdentifier(new II(TEST_STUDY_ID));
+		docId.setPrimaryIndicator(new BL(false));
+		docId.setTypeCode(new CD(
+				OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER
+						.name()));
+		docId.setAssigningOrganization(createOrganization());
+		return docId;
+	}
+
+	private Organization createOrganization() {
+		Organization org = new Organization();
+		org.getOrganizationIdentifier().add(createOrganizationIdentifier());
+		return org;
+	}
+
+	private OrganizationIdentifier createOrganizationIdentifier() {
+		OrganizationIdentifier orgId = new OrganizationIdentifier();
+		orgId.setIdentifier(new II(TEST_ORG_ID));
+		orgId.setPrimaryIndicator(new BL(true));
+		orgId.setTypeCode(new CD(TEST_CTEP));
+		return orgId;
+	}
+
+	public static void main(String[] args) throws JAXBException {
+		JAXBContext jc = JAXBContext.newInstance(StudyProtocolVersion.class,
+				CD.class);
+		Marshaller m = jc.createMarshaller();
+		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		final StudyProtocolVersion study = new StudyUtilityImplTest()
+				.createStudy();
+		JAXBElement<StudyProtocolVersion> jaxbElement = new JAXBElement<StudyProtocolVersion>(
+				new QName("http://enterpriseservices.nci.nih.gov/Common",
+						"study"), StudyProtocolVersion.class, study);
+		m.marshal(jaxbElement, System.out);
 	}
 
 }
