@@ -35,11 +35,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
+     * Create an instance of {@link Reason }
      * 
      */
-    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
-        return new PermissibleStudySubjectRegistryStatus();
+    public Reason createReason() {
+        return new Reason();
     }
 
     /**
@@ -51,35 +51,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Reason }
-     * 
-     */
-    public Reason createReason() {
-        return new Reason();
-    }
-
-    /**
      * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
      * 
      */
     public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
         return new DSETAdvanceSearchCriterionParameter();
-    }
-
-    /**
-     * Create an instance of {@link AdvanceSearchCriterionParameter }
-     * 
-     */
-    public AdvanceSearchCriterionParameter createAdvanceSearchCriterionParameter() {
-        return new AdvanceSearchCriterionParameter();
-    }
-
-    /**
-     * Create an instance of {@link OrganizationIdentifier }
-     * 
-     */
-    public OrganizationIdentifier createOrganizationIdentifier() {
-        return new OrganizationIdentifier();
     }
 
     /**
@@ -91,11 +67,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Consent }
+     * 
+     */
+    public Consent createConsent() {
+        return new Consent();
+    }
+
+    /**
      * Create an instance of {@link Organization }
      * 
      */
     public Organization createOrganization() {
         return new Organization();
+    }
+
+    /**
+     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
+     * 
+     */
+    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
+        return new PermissibleStudySubjectRegistryStatus();
     }
 
     /**
@@ -107,43 +99,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RegistryStatus }
-     * 
-     */
-    public RegistryStatus createRegistryStatus() {
-        return new RegistryStatus();
-    }
-
-    /**
      * Create an instance of {@link RegistryStatusReason }
      * 
      */
     public RegistryStatusReason createRegistryStatusReason() {
         return new RegistryStatusReason();
-    }
-
-    /**
-     * Create an instance of {@link Consent }
-     * 
-     */
-    public Consent createConsent() {
-        return new Consent();
-    }
-
-    /**
-     * Create an instance of {@link DocumentVersion }
-     * 
-     */
-    public DocumentVersion createDocumentVersion() {
-        return new DocumentVersion();
-    }
-
-    /**
-     * Create an instance of {@link Document }
-     * 
-     */
-    public Document createDocument() {
-        return new Document();
     }
 
     /**
@@ -155,11 +115,51 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DocumentVersion }
+     * 
+     */
+    public DocumentVersion createDocumentVersion() {
+        return new DocumentVersion();
+    }
+
+    /**
+     * Create an instance of {@link RegistryStatus }
+     * 
+     */
+    public RegistryStatus createRegistryStatus() {
+        return new RegistryStatus();
+    }
+
+    /**
+     * Create an instance of {@link Document }
+     * 
+     */
+    public Document createDocument() {
+        return new Document();
+    }
+
+    /**
      * Create an instance of {@link DocumentIdentifier }
      * 
      */
     public DocumentIdentifier createDocumentIdentifier() {
         return new DocumentIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link OrganizationIdentifier }
+     * 
+     */
+    public OrganizationIdentifier createOrganizationIdentifier() {
+        return new OrganizationIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link AdvanceSearchCriterionParameter }
+     * 
+     */
+    public AdvanceSearchCriterionParameter createAdvanceSearchCriterionParameter() {
+        return new AdvanceSearchCriterionParameter();
     }
 
     /**

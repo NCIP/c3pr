@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
+import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 
 
 /**
@@ -21,6 +22,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.CD;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="code" type="{uri:iso.org:21090}CD"/>
+ *         &lt;element name="description" type="{uri:iso.org:21090}ST"/>
  *         &lt;element name="primaryReason" type="{http://enterpriseservices.nci.nih.gov/Common}RegistryStatusReason" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -33,12 +35,15 @@ import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistryStatus", propOrder = {
     "code",
+    "description",
     "primaryReason"
 })
 public class RegistryStatus {
 
     @XmlElement(required = true)
     protected CD code;
+    @XmlElement(required = true)
+    protected ST description;
     protected List<RegistryStatusReason> primaryReason;
 
     /**
@@ -63,6 +68,30 @@ public class RegistryStatus {
      */
     public void setCode(CD value) {
         this.code = value;
+    }
+
+    /**
+     * Gets the value of the description property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link ST }
+     *     
+     */
+    public ST getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the value of the description property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ST }
+     *     
+     */
+    public void setDescription(ST value) {
+        this.description = value;
     }
 
     /**

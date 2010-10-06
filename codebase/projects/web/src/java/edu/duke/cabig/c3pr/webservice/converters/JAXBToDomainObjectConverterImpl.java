@@ -1176,6 +1176,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		if (domainObj != null) {
 			status = new edu.duke.cabig.c3pr.webservice.common.RegistryStatus();
 			status.setCode(new CD(domainObj.getCode()));
+			status.setDescription(new ST(domainObj.getDescription()));
 			for (RegistryStatusReason reason : domainObj.getPrimaryReasons()) {
 				status.getPrimaryReason().add(convert(reason));
 			}
