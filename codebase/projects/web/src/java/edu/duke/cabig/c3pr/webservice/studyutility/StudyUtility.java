@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @WebService(name = "StudyUtility", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
+    edu.duke.cabig.c3pr.webservice.studyutility.ObjectFactory.class,
     edu.duke.cabig.c3pr.webservice.iso21090.ObjectFactory.class,
-    edu.duke.cabig.c3pr.webservice.common.ObjectFactory.class,
-    edu.duke.cabig.c3pr.webservice.studyutility.ObjectFactory.class
+    edu.duke.cabig.c3pr.webservice.common.ObjectFactory.class
 })
 public interface StudyUtility {
 

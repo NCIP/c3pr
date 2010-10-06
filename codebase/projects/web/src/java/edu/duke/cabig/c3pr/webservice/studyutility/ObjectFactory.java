@@ -34,6 +34,62 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link UpdateStudyStatusRequest }
+     * 
+     */
+    public UpdateStudyStatusRequest createUpdateStudyStatusRequest() {
+        return new UpdateStudyStatusRequest();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStudyRequest }
+     * 
+     */
+    public UpdateStudyRequest createUpdateStudyRequest() {
+        return new UpdateStudyRequest();
+    }
+
+    /**
+     * Create an instance of {@link UpdateConsentRequest }
+     * 
+     */
+    public UpdateConsentRequest createUpdateConsentRequest() {
+        return new UpdateConsentRequest();
+    }
+
+    /**
+     * Create an instance of {@link DSETConsent }
+     * 
+     */
+    public DSETConsent createDSETConsent() {
+        return new DSETConsent();
+    }
+
+    /**
+     * Create an instance of {@link DSETStudyProtocolVersion }
+     * 
+     */
+    public DSETStudyProtocolVersion createDSETStudyProtocolVersion() {
+        return new DSETStudyProtocolVersion();
+    }
+
+    /**
+     * Create an instance of {@link UpdateConsentResponse }
+     * 
+     */
+    public UpdateConsentResponse createUpdateConsentResponse() {
+        return new UpdateConsentResponse();
+    }
+
+    /**
+     * Create an instance of {@link QueryConsentRequest }
+     * 
+     */
+    public QueryConsentRequest createQueryConsentRequest() {
+        return new QueryConsentRequest();
+    }
+
+    /**
      * Create an instance of {@link QueryConsentResponse }
      * 
      */
@@ -47,62 +103,6 @@ public class ObjectFactory {
      */
     public CreateStudyRequest createCreateStudyRequest() {
         return new CreateStudyRequest();
-    }
-
-    /**
-     * Create an instance of {@link DSETConsent }
-     * 
-     */
-    public DSETConsent createDSETConsent() {
-        return new DSETConsent();
-    }
-
-    /**
-     * Create an instance of {@link UpdateConsentResponse }
-     * 
-     */
-    public UpdateConsentResponse createUpdateConsentResponse() {
-        return new UpdateConsentResponse();
-    }
-
-    /**
-     * Create an instance of {@link UpdateStudyStatusRequest }
-     * 
-     */
-    public UpdateStudyStatusRequest createUpdateStudyStatusRequest() {
-        return new UpdateStudyStatusRequest();
-    }
-
-    /**
-     * Create an instance of {@link UpdateConsentRequest }
-     * 
-     */
-    public UpdateConsentRequest createUpdateConsentRequest() {
-        return new UpdateConsentRequest();
-    }
-
-    /**
-     * Create an instance of {@link StudyUtilityFault }
-     * 
-     */
-    public StudyUtilityFault createStudyUtilityFault() {
-        return new StudyUtilityFault();
-    }
-
-    /**
-     * Create an instance of {@link UpdateStudyStatusResponse }
-     * 
-     */
-    public UpdateStudyStatusResponse createUpdateStudyStatusResponse() {
-        return new UpdateStudyStatusResponse();
-    }
-
-    /**
-     * Create an instance of {@link DSETStudyProtocolVersion }
-     * 
-     */
-    public DSETStudyProtocolVersion createDSETStudyProtocolVersion() {
-        return new DSETStudyProtocolVersion();
     }
 
     /**
@@ -122,11 +122,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpdateStudyRequest }
+     * Create an instance of {@link UpdateStudyStatusResponse }
      * 
      */
-    public UpdateStudyRequest createUpdateStudyRequest() {
-        return new UpdateStudyRequest();
+    public UpdateStudyStatusResponse createUpdateStudyStatusResponse() {
+        return new UpdateStudyStatusResponse();
     }
 
     /**
@@ -146,11 +146,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QueryConsentRequest }
+     * Create an instance of {@link StudyUtilityFault }
      * 
      */
-    public QueryConsentRequest createQueryConsentRequest() {
-        return new QueryConsentRequest();
+    public StudyUtilityFault createStudyUtilityFault() {
+        return new StudyUtilityFault();
     }
 
     /**
