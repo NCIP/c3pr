@@ -27,6 +27,7 @@ import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.dao.ConsentDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.RegistryStatusDao;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -132,6 +133,7 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	private static Log log = LogFactory
 			.getLog(JAXBToDomainObjectConverterImpl.class);
+
 
 	public HealthcareSiteDao getHealthcareSiteDao() {
 		return healthcareSiteDao;
@@ -734,7 +736,14 @@ public class JAXBToDomainObjectConverterImpl implements
 		return list;
 	}
 
-	private OrganizationAssignedIdentifier convert(DocumentIdentifier docId) {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert(DocumentIdentifier)
+	 */
+	public OrganizationAssignedIdentifier convert(DocumentIdentifier docId) {
 		II ii = docId.getIdentifier();
 		CD typeCode = docId.getTypeCode();
 		BL primInd = docId.getPrimaryIndicator();
@@ -904,7 +913,14 @@ public class JAXBToDomainObjectConverterImpl implements
 		}
 	}
 
-	private Consent convertConsent(DocumentVersion doc) {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convertConsent(edu.duke.cabig.c3pr.webservice.common.DocumentVersion)
+	 */
+	public Consent convertConsent(DocumentVersion doc) {
 		if (!(doc instanceof edu.duke.cabig.c3pr.webservice.common.Consent)) {
 			throw exceptionHelper
 					.getConversionException(INVALID_CONSENT_REPRESENTATION);
@@ -931,6 +947,21 @@ public class JAXBToDomainObjectConverterImpl implements
 		}
 		return consent;
 
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter#convertConsentForSearchByExample(edu.duke.cabig.c3pr.webservice.common.Consent)
+	 */
+	public Consent convertConsentForSearchByExample(
+			edu.duke.cabig.c3pr.webservice.common.Consent xml) {
+		Consent consent = new Consent();
+		consent.setMandatoryIndicator(xml.getMandatoryIndicator().isValue());
+		consent.setName(isNull(xml.getOfficialTitle()) ? null : xml
+				.getOfficialTitle().getValue());
+		consent.setVersionId(isNull(xml.getVersionNumberText()) ? null : xml
+				.getVersionNumberText().getValue());
+		return consent;
 	}
 
 	private ConsentQuestion convertConsentQuestion(DocumentVersion doc) {
@@ -1035,12 +1066,19 @@ public class JAXBToDomainObjectConverterImpl implements
 		return rel;
 	}
 
-	private edu.duke.cabig.c3pr.webservice.common.Consent convertConsent(
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convertConsent(edu.duke.cabig.c3pr.domain.Consent)
+	 */
+	public edu.duke.cabig.c3pr.webservice.common.Consent convertConsent(
 			Consent c) {
 		edu.duke.cabig.c3pr.webservice.common.Consent consent = new edu.duke.cabig.c3pr.webservice.common.Consent();
 		consent.setMandatoryIndicator(new BL(c.getMandatoryIndicator()));
 		consent.setOfficialTitle(new ST(c.getName()));
-		consent.setText(new ED(c.getName()));
+		//consent.setText(new ED(c.getName()));
 		consent.setVersionNumberText(new ST(c.getVersionId()));
 		consent.setDocument(new Document());
 		for (ConsentQuestion q : c.getQuestions()) {

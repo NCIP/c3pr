@@ -38,5 +38,20 @@
 			<extension base="ISO:ANY" />
 		</complexContent>
 	</complexType>
+	<complexType name="DSET_Consent">
+		<complexContent>
+			<extension base="tns:COLL_Consent">
+				<sequence>
+					<element name="item" type="common:Consent"
+						minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType abstract="true" name="COLL_Consent">
+		<complexContent>
+			<extension base="ISO:ANY" />
+		</complexContent>
+	</complexType>
 
 </schema>

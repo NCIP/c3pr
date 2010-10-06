@@ -35,83 +35,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Reason }
+     * Create an instance of {@link OrganizationIdentifier }
      * 
      */
-    public Reason createReason() {
-        return new Reason();
-    }
-
-    /**
-     * Create an instance of {@link RegistryStatusReason }
-     * 
-     */
-    public RegistryStatusReason createRegistryStatusReason() {
-        return new RegistryStatusReason();
-    }
-
-    /**
-     * Create an instance of {@link Document }
-     * 
-     */
-    public Document createDocument() {
-        return new Document();
-    }
-
-    /**
-     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
-     * 
-     */
-    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
-        return new PermissibleStudySubjectRegistryStatus();
-    }
-
-    /**
-     * Create an instance of {@link StudyProtocolDocumentVersion }
-     * 
-     */
-    public StudyProtocolDocumentVersion createStudyProtocolDocumentVersion() {
-        return new StudyProtocolDocumentVersion();
-    }
-
-    /**
-     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
-     * 
-     */
-    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
-        return new DSETAdvanceSearchCriterionParameter();
-    }
-
-    /**
-     * Create an instance of {@link SecurityExceptionFault }
-     * 
-     */
-    public SecurityExceptionFault createSecurityExceptionFault() {
-        return new SecurityExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link DocumentVersionRelationship }
-     * 
-     */
-    public DocumentVersionRelationship createDocumentVersionRelationship() {
-        return new DocumentVersionRelationship();
-    }
-
-    /**
-     * Create an instance of {@link DocumentIdentifier }
-     * 
-     */
-    public DocumentIdentifier createDocumentIdentifier() {
-        return new DocumentIdentifier();
-    }
-
-    /**
-     * Create an instance of {@link DocumentVersion }
-     * 
-     */
-    public DocumentVersion createDocumentVersion() {
-        return new DocumentVersion();
+    public OrganizationIdentifier createOrganizationIdentifier() {
+        return new OrganizationIdentifier();
     }
 
     /**
@@ -123,11 +51,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link OrganizationIdentifier }
+     * Create an instance of {@link StudyProtocolVersion }
      * 
      */
-    public OrganizationIdentifier createOrganizationIdentifier() {
-        return new OrganizationIdentifier();
+    public StudyProtocolVersion createStudyProtocolVersion() {
+        return new StudyProtocolVersion();
+    }
+
+    /**
+     * Create an instance of {@link Reason }
+     * 
+     */
+    public Reason createReason() {
+        return new Reason();
+    }
+
+    /**
+     * Create an instance of {@link StudyProtocolDocumentVersion }
+     * 
+     */
+    public StudyProtocolDocumentVersion createStudyProtocolDocumentVersion() {
+        return new StudyProtocolDocumentVersion();
+    }
+
+    /**
+     * Create an instance of {@link Document }
+     * 
+     */
+    public Document createDocument() {
+        return new Document();
+    }
+
+    /**
+     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
+     * 
+     */
+    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
+        return new DSETAdvanceSearchCriterionParameter();
     }
 
     /**
@@ -139,11 +99,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link StudyProtocolVersion }
+     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
      * 
      */
-    public StudyProtocolVersion createStudyProtocolVersion() {
-        return new StudyProtocolVersion();
+    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
+        return new PermissibleStudySubjectRegistryStatus();
     }
 
     /**
@@ -152,6 +112,46 @@ public class ObjectFactory {
      */
     public AdvanceSearchCriterionParameter createAdvanceSearchCriterionParameter() {
         return new AdvanceSearchCriterionParameter();
+    }
+
+    /**
+     * Create an instance of {@link RegistryStatusReason }
+     * 
+     */
+    public RegistryStatusReason createRegistryStatusReason() {
+        return new RegistryStatusReason();
+    }
+
+    /**
+     * Create an instance of {@link DocumentIdentifier }
+     * 
+     */
+    public DocumentIdentifier createDocumentIdentifier() {
+        return new DocumentIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link DocumentVersionRelationship }
+     * 
+     */
+    public DocumentVersionRelationship createDocumentVersionRelationship() {
+        return new DocumentVersionRelationship();
+    }
+
+    /**
+     * Create an instance of {@link SecurityExceptionFault }
+     * 
+     */
+    public SecurityExceptionFault createSecurityExceptionFault() {
+        return new SecurityExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link DocumentVersion }
+     * 
+     */
+    public DocumentVersion createDocumentVersion() {
+        return new DocumentVersion();
     }
 
     /**

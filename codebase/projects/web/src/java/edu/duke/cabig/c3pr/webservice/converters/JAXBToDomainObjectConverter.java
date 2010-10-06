@@ -3,11 +3,14 @@ package edu.duke.cabig.c3pr.webservice.converters;
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.dao.RegistryStatusDao;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
@@ -105,5 +108,13 @@ public interface JAXBToDomainObjectConverter {
 	void setRegistryStatusDao(RegistryStatusDao registryStatusDao);
 
 	RegistryStatusDao getRegistryStatusDao();
+
+	OrganizationAssignedIdentifier convert(DocumentIdentifier docId);
+
+	Consent convertConsent(DocumentVersion doc);
+
+	public abstract edu.duke.cabig.c3pr.webservice.common.Consent convertConsent(Consent c);
+
+	public abstract Consent convertConsentForSearchByExample(edu.duke.cabig.c3pr.webservice.common.Consent xml);
 
 }

@@ -4,6 +4,7 @@
 package edu.duke.cabig.c3pr.webservice.studyutility;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -15,10 +16,14 @@ import org.apache.commons.logging.LogFactory;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
+import edu.duke.cabig.c3pr.dao.ConsentDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.Consent;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl;
@@ -36,11 +41,15 @@ public class StudyUtilityImpl implements StudyUtility {
 
 	private static final String STUDY_DOES_NOT_EXIST = "A study with the given identifier(s) does not exist.";
 
+	private static final String MORE_THAN_ONE_STUDY = "More than one study with the given identifier found.";
+
 	private static Log log = LogFactory.getLog(SubjectManagementImpl.class);
 
 	private JAXBToDomainObjectConverter converter;
 
 	private StudyRepository studyRepository;
+	
+	private ConsentDao consentDao;
 
 	/**
 	 * 
@@ -150,7 +159,7 @@ public class StudyUtilityImpl implements StudyUtility {
 				fail(STUDY_DOES_NOT_EXIST);
 			}
 			edu.duke.cabig.c3pr.domain.Study study = existentStudies.get(0);
-			converter.convert(study, xmlStudy,false);
+			converter.convert(study, xmlStudy, false);
 			studyRepository.save(study);
 			response.setStudy(converter.convert(study));
 		} catch (RuntimeException e) {
@@ -192,6 +201,91 @@ public class StudyUtilityImpl implements StudyUtility {
 	 */
 	public void setStudyRepository(StudyRepository studyRepository) {
 		this.studyRepository = studyRepository;
+	}
+
+	public UpdateConsentResponse updateConsent(UpdateConsentRequest request)
+			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+		UpdateConsentResponse response = new UpdateConsentResponse();
+		try {
+			DocumentIdentifier studyId = request.getStudyIdentifier();
+			Consent consent = request.getConsent();
+
+			Study study = getStudyForConsentOperations(studyId);
+			edu.duke.cabig.c3pr.domain.Consent domainConsent = converter
+					.convertConsent(consent);
+			study.getConsents().clear();
+			study.addConsent(domainConsent);
+			studyRepository.save(study);
+			response.setConsent(converter.convertConsent(domainConsent));
+		} catch (RuntimeException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		} catch (C3PRCodedException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		}
+		return response;
+	}
+
+	public QueryConsentResponse queryConsent(QueryConsentRequest request)
+			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+		QueryConsentResponse response = new QueryConsentResponse();
+		DSETConsent consents = new DSETConsent();
+		response.setConsents(consents);
+		List<edu.duke.cabig.c3pr.domain.Consent> domainConsents = new ArrayList<edu.duke.cabig.c3pr.domain.Consent>();
+		try {
+			DocumentIdentifier studyId = request.getStudyIdentifier();
+			Consent consent = request.getConsent();
+			Study study = getStudyForConsentOperations(studyId);
+
+			if (consent == null) {
+				domainConsents.addAll(study.getConsents());
+			} else {
+				domainConsents.addAll(consentDao.searchByExampleAndStudy(converter.convertConsentForSearchByExample(consent), study));
+			}
+			for (edu.duke.cabig.c3pr.domain.Consent c : domainConsents) {
+				consents.getItem().add(converter.convertConsent(c));
+			}
+		} catch (RuntimeException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		}
+		return response;
+
+	}
+
+	/**
+	 * @param studyId
+	 * @return
+	 * @throws StudyUtilityFaultMessage
+	 */
+	private Study getStudyForConsentOperations(DocumentIdentifier studyId)
+			throws StudyUtilityFaultMessage {
+		Identifier oai = converter.convert(studyId);
+		List<Study> studies = studyRepository.getByIdentifiers(Arrays
+				.asList(new Identifier[] { oai }));
+		if (CollectionUtils.isEmpty(studies)) {
+			fail(STUDY_DOES_NOT_EXIST);
+		}
+		if (studies.size() > 1) {
+			fail(MORE_THAN_ONE_STUDY);
+		}
+		Study study = studies.get(0);
+		return study;
+	}
+
+	/**
+	 * @return the consentDao
+	 */
+	public ConsentDao getConsentDao() {
+		return consentDao;
+	}
+
+	/**
+	 * @param consentDao the consentDao to set
+	 */
+	public void setConsentDao(ConsentDao consentDao) {
+		this.consentDao = consentDao;
 	}
 
 }

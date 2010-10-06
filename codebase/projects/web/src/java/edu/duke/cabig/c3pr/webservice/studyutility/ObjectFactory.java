@@ -34,43 +34,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpdateStudyRequest }
+     * Create an instance of {@link DSETConsent }
      * 
      */
-    public UpdateStudyRequest createUpdateStudyRequest() {
-        return new UpdateStudyRequest();
-    }
-
-    /**
-     * Create an instance of {@link AdvancedQueryStudyRequest }
-     * 
-     */
-    public AdvancedQueryStudyRequest createAdvancedQueryStudyRequest() {
-        return new AdvancedQueryStudyRequest();
-    }
-
-    /**
-     * Create an instance of {@link CreateStudyRequest }
-     * 
-     */
-    public CreateStudyRequest createCreateStudyRequest() {
-        return new CreateStudyRequest();
-    }
-
-    /**
-     * Create an instance of {@link AdvancedQueryStudyResponse }
-     * 
-     */
-    public AdvancedQueryStudyResponse createAdvancedQueryStudyResponse() {
-        return new AdvancedQueryStudyResponse();
-    }
-
-    /**
-     * Create an instance of {@link DSETStudyProtocolVersion }
-     * 
-     */
-    public DSETStudyProtocolVersion createDSETStudyProtocolVersion() {
-        return new DSETStudyProtocolVersion();
+    public DSETConsent createDSETConsent() {
+        return new DSETConsent();
     }
 
     /**
@@ -87,6 +55,78 @@ public class ObjectFactory {
      */
     public CreateStudyResponse createCreateStudyResponse() {
         return new CreateStudyResponse();
+    }
+
+    /**
+     * Create an instance of {@link DSETStudyProtocolVersion }
+     * 
+     */
+    public DSETStudyProtocolVersion createDSETStudyProtocolVersion() {
+        return new DSETStudyProtocolVersion();
+    }
+
+    /**
+     * Create an instance of {@link QueryConsentResponse }
+     * 
+     */
+    public QueryConsentResponse createQueryConsentResponse() {
+        return new QueryConsentResponse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateConsentResponse }
+     * 
+     */
+    public UpdateConsentResponse createUpdateConsentResponse() {
+        return new UpdateConsentResponse();
+    }
+
+    /**
+     * Create an instance of {@link QueryConsentRequest }
+     * 
+     */
+    public QueryConsentRequest createQueryConsentRequest() {
+        return new QueryConsentRequest();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStudyRequest }
+     * 
+     */
+    public UpdateStudyRequest createUpdateStudyRequest() {
+        return new UpdateStudyRequest();
+    }
+
+    /**
+     * Create an instance of {@link AdvancedQueryStudyResponse }
+     * 
+     */
+    public AdvancedQueryStudyResponse createAdvancedQueryStudyResponse() {
+        return new AdvancedQueryStudyResponse();
+    }
+
+    /**
+     * Create an instance of {@link CreateStudyRequest }
+     * 
+     */
+    public CreateStudyRequest createCreateStudyRequest() {
+        return new CreateStudyRequest();
+    }
+
+    /**
+     * Create an instance of {@link UpdateConsentRequest }
+     * 
+     */
+    public UpdateConsentRequest createUpdateConsentRequest() {
+        return new UpdateConsentRequest();
+    }
+
+    /**
+     * Create an instance of {@link AdvancedQueryStudyRequest }
+     * 
+     */
+    public AdvancedQueryStudyRequest createAdvancedQueryStudyRequest() {
+        return new AdvancedQueryStudyRequest();
     }
 
     /**
