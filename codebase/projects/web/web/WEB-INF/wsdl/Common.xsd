@@ -36,6 +36,8 @@
 	<complexType name="RegistryStatus">
 		<sequence>
 			<element name="code" type="ISO:CD"></element>
+			<element name="primaryReason" type="tns:RegistryStatusReason"
+				minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
 	</complexType>
 
