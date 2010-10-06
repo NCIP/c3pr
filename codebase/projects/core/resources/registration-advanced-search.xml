@@ -11,6 +11,11 @@
 			<display-name>StudySubject</display-name>
 			<table-alias>StudySubject_xx</table-alias>
 			<search-criteria>
+				<name>paymentMethod</name>
+				<label>Payment Method</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
 				<name>startDate</name>
 				<label>Registration Start Date</label>
 				<data-type>Date</data-type>
@@ -24,11 +29,6 @@
 				<name>regDataEntryStatus.code</name>
 				<label>Registration Data Entry Status</label>
 				<data-type>RegistrationDataEntryStatus</data-type>
-			</search-criteria>
-			<search-criteria>
-				<name>paymentMethod</name>
-				<label>Payment Method</label>
-				<data-type>String</data-type>
 			</search-criteria>
 		</dependent-object>
 		<!-- search by icd9 disease sites -->
