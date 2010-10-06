@@ -11,6 +11,7 @@ import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
@@ -116,5 +117,9 @@ public interface JAXBToDomainObjectConverter {
 	public abstract edu.duke.cabig.c3pr.webservice.common.Consent convertConsent(Consent c);
 
 	public abstract Consent convertConsentForSearchByExample(edu.duke.cabig.c3pr.webservice.common.Consent xml);
+
+	PermissibleStudySubjectRegistryStatus convert(edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus status);
+
+	public abstract edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus convert(PermissibleStudySubjectRegistryStatus xml);
 
 }

@@ -980,7 +980,15 @@ public class JAXBToDomainObjectConverterImpl implements
 		return question;
 	}
 
-	private edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus convert(
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convert
+	 * (edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus)
+	 */
+	public edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus convert(
 			PermissibleStudySubjectRegistryStatus xml) {
 		edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus status = new edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus();
 		status.setRegistryStatus(convert(xml.getRegistryStatus()));
@@ -1125,15 +1133,24 @@ public class JAXBToDomainObjectConverterImpl implements
 		Collection<PermissibleStudySubjectRegistryStatus> list = new ArrayList<PermissibleStudySubjectRegistryStatus>();
 		for (edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus status : study
 				.getPermissibleStudySubjectRegistryStatuses()) {
-			PermissibleStudySubjectRegistryStatus stat = new PermissibleStudySubjectRegistryStatus();
-			stat.setRegistryStatus(convertRegistryStatus(status
-					.getRegistryStatus()));
-			stat.getSecondaryReason().addAll(
-					convertDomainRegistryStatusReasons(status
-							.getSecondaryReasons()));
+			PermissibleStudySubjectRegistryStatus stat = convert(status);
 			list.add(stat);
 		}
 		return list;
+	}
+
+	/**
+	 * @param status
+	 * @return
+	 */
+	public PermissibleStudySubjectRegistryStatus convert(
+			edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus status) {
+		PermissibleStudySubjectRegistryStatus stat = new PermissibleStudySubjectRegistryStatus();
+		stat.setRegistryStatus(convertRegistryStatus(status.getRegistryStatus()));
+		stat.getSecondaryReason()
+				.addAll(convertDomainRegistryStatusReasons(status
+						.getSecondaryReasons()));
+		return stat;
 	}
 
 	private Collection<edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason> convertDomainRegistryStatusReasons(

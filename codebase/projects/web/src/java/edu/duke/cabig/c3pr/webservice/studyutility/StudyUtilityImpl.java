@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.Consent;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl;
@@ -48,7 +49,7 @@ public class StudyUtilityImpl implements StudyUtility {
 	private JAXBToDomainObjectConverter converter;
 
 	private StudyRepository studyRepository;
-	
+
 	private ConsentDao consentDao;
 
 	/**
@@ -241,7 +242,9 @@ public class StudyUtilityImpl implements StudyUtility {
 			if (consent == null) {
 				domainConsents.addAll(study.getConsents());
 			} else {
-				domainConsents.addAll(consentDao.searchByExampleAndStudy(converter.convertConsentForSearchByExample(consent), study));
+				domainConsents.addAll(consentDao.searchByExampleAndStudy(
+						converter.convertConsentForSearchByExample(consent),
+						study));
 			}
 			for (edu.duke.cabig.c3pr.domain.Consent c : domainConsents) {
 				consents.getItem().add(converter.convertConsent(c));
@@ -282,10 +285,37 @@ public class StudyUtilityImpl implements StudyUtility {
 	}
 
 	/**
-	 * @param consentDao the consentDao to set
+	 * @param consentDao
+	 *            the consentDao to set
 	 */
 	public void setConsentDao(ConsentDao consentDao) {
 		this.consentDao = consentDao;
+	}
+
+	public UpdateStudyStatusResponse updateStudyStatus(
+			UpdateStudyStatusRequest request)
+			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+		UpdateStudyStatusResponse response = new UpdateStudyStatusResponse();
+		try {
+			DocumentIdentifier studyId = request.getStudyIdentifier();
+			PermissibleStudySubjectRegistryStatus status = request.getStatus();
+
+			Study study = getStudyForConsentOperations(studyId);
+			edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus domainStatus = converter
+					.convert(status);
+			study.getPermissibleStudySubjectRegistryStatusesInternal().clear();
+			study.getPermissibleStudySubjectRegistryStatusesInternal().add(
+					domainStatus);
+			studyRepository.save(study);
+			response.setStatus(converter.convert(domainStatus));
+		} catch (RuntimeException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		} catch (C3PRCodedException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		}
+		return response;
 	}
 
 }

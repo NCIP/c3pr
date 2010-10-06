@@ -77,6 +77,22 @@ public interface StudyUtility {
      * 
      * @param parameters
      * @return
+     *     returns edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusResponse
+     * @throws SecurityExceptionFaultMessage
+     * @throws StudyUtilityFaultMessage
+     */
+    @WebMethod
+    @WebResult(name = "UpdateStudyStatusResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+    public UpdateStudyStatusResponse updateStudyStatus(
+        @WebParam(name = "UpdateStudyStatusRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+        UpdateStudyStatusRequest parameters)
+        throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
+    ;
+
+    /**
+     * 
+     * @param parameters
+     * @return
      *     returns edu.duke.cabig.c3pr.webservice.studyutility.UpdateConsentResponse
      * @throws SecurityExceptionFaultMessage
      * @throws StudyUtilityFaultMessage
