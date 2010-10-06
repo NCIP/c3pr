@@ -17,7 +17,9 @@ import org.apache.commons.logging.LogFactory;
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.dao.ConsentDao;
+import edu.duke.cabig.c3pr.dao.RegistryStatusDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.RegistryStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -27,7 +29,9 @@ import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
+import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl;
+import gov.nih.nci.logging.api.util.StringUtils;
 
 /**
  * @author dkrylov
@@ -51,6 +55,8 @@ public class StudyUtilityImpl implements StudyUtility {
 	private StudyRepository studyRepository;
 
 	private ConsentDao consentDao;
+
+	private RegistryStatusDao registryStatusDao;
 
 	/**
 	 * 
@@ -316,6 +322,41 @@ public class StudyUtilityImpl implements StudyUtility {
 			fail(e.getMessage());
 		}
 		return response;
+	}
+
+	public QueryRegistryStatusResponse queryRegistryStatus(
+			QueryRegistryStatusRequest request)
+			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+		QueryRegistryStatusResponse response = new QueryRegistryStatusResponse();
+		response.setRegistryStatuses(new DSETRegistryStatus());
+		List<RegistryStatus> list = new ArrayList<RegistryStatus>();
+		CD cd = request.getStatusCode();
+		if (cd == null || cd.getNullFlavor() != null
+				|| StringUtils.isBlank(cd.getCode())) {
+			list.addAll(registryStatusDao.getAll());
+		} else {
+			list.add(registryStatusDao.getRegistryStatusByCode(cd.getCode()));
+		}
+		for (RegistryStatus registryStatus : list) {
+			response.getRegistryStatuses().getItem()
+					.add(converter.convert(registryStatus));
+		}
+		return response;
+	}
+
+	/**
+	 * @return the registryStatusDao
+	 */
+	public RegistryStatusDao getRegistryStatusDao() {
+		return registryStatusDao;
+	}
+
+	/**
+	 * @param registryStatusDao
+	 *            the registryStatusDao to set
+	 */
+	public void setRegistryStatusDao(RegistryStatusDao registryStatusDao) {
+		this.registryStatusDao = registryStatusDao;
 	}
 
 }

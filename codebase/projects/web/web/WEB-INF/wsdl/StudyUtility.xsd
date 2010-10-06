@@ -53,5 +53,20 @@
 			<extension base="ISO:ANY" />
 		</complexContent>
 	</complexType>
+	<complexType name="DSET_RegistryStatus">
+		<complexContent>
+			<extension base="tns:COLL_RegistryStatus">
+				<sequence>
+					<element name="item" type="common:RegistryStatus"
+						minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType abstract="true" name="COLL_RegistryStatus">
+		<complexContent>
+			<extension base="ISO:ANY" />
+		</complexContent>
+	</complexType>
 
 </schema>

@@ -38,6 +38,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.RegistryStatus;
 import edu.duke.cabig.c3pr.domain.RegistryStatusReason;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -1146,7 +1147,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	public PermissibleStudySubjectRegistryStatus convert(
 			edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus status) {
 		PermissibleStudySubjectRegistryStatus stat = new PermissibleStudySubjectRegistryStatus();
-		stat.setRegistryStatus(convertRegistryStatus(status.getRegistryStatus()));
+		stat.setRegistryStatus(convert(status.getRegistryStatus()));
 		stat.getSecondaryReason()
 				.addAll(convertDomainRegistryStatusReasons(status
 						.getSecondaryReasons()));
@@ -1157,23 +1158,41 @@ public class JAXBToDomainObjectConverterImpl implements
 			List<RegistryStatusReason> reasons) {
 		Collection<edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason> list = new ArrayList<edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason>();
 		for (RegistryStatusReason domainObj : reasons) {
-			edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason r = new edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason();
-			r.setCode(new CD(domainObj.getCode()));
-			r.setDescription(new ST(domainObj.getDescription()));
-			r.setPrimaryIndicator(new BL(domainObj.getPrimaryIndicator()));
-			list.add(r);
+			list.add(convert(domainObj));
 		}
 		return list;
 	}
 
-	private edu.duke.cabig.c3pr.webservice.common.RegistryStatus convertRegistryStatus(
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
+	 * #convertRegistryStatus(RegistryStatus)
+	 */
+	public edu.duke.cabig.c3pr.webservice.common.RegistryStatus convert(
 			RegistryStatus domainObj) {
 		edu.duke.cabig.c3pr.webservice.common.RegistryStatus status = null;
 		if (domainObj != null) {
 			status = new edu.duke.cabig.c3pr.webservice.common.RegistryStatus();
 			status.setCode(new CD(domainObj.getCode()));
+			for (RegistryStatusReason reason : domainObj.getPrimaryReasons()) {
+				status.getPrimaryReason().add(convert(reason));
+			}
 		}
 		return status;
+	}
+
+	private edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason convert(
+			Reason reason) {
+		edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason xml = new edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason();
+		xml.setCode(new CD(reason.getCode()));
+		xml.setDescription(new ST(reason.getDescription()));
+		xml.setPrimaryIndicator(new BL(reason.getPrimaryIndicator()));
+		if (reason.getPrimaryReason() != null) {
+			xml.setPrimaryReason(convert(reason.getPrimaryReason()));
+		}
+		return xml;
 	}
 
 	private DocumentIdentifier convert(OrganizationAssignedIdentifier id) {

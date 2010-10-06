@@ -6,6 +6,7 @@ import edu.duke.cabig.c3pr.dao.RegistryStatusDao;
 import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RegistryStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
@@ -121,5 +122,7 @@ public interface JAXBToDomainObjectConverter {
 	PermissibleStudySubjectRegistryStatus convert(edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus status);
 
 	public abstract edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus convert(PermissibleStudySubjectRegistryStatus xml);
+
+	public abstract edu.duke.cabig.c3pr.webservice.common.RegistryStatus convert(RegistryStatus domainObj);
 
 }

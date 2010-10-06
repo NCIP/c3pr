@@ -130,6 +130,22 @@
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
+			<xsd:element name="QueryRegistryStatusRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="statusCode" type="ISO:CD" minOccurs="0"
+							maxOccurs="1"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="QueryRegistryStatusResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="registryStatuses" type="sm:DSET_RegistryStatus" minOccurs="1"
+							maxOccurs="1"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>			
 			<xsd:element name="StudyUtilityFault" type="tns:StudyUtilityFault"></xsd:element>
 			<xsd:complexType name="StudyUtilityFault">
 				<xsd:sequence>
@@ -175,6 +191,12 @@
 	<wsdl:message name="QueryConsentResponseMessage">
 		<wsdl:part name="parameters" element="tns:QueryConsentResponse" />
 	</wsdl:message>
+	<wsdl:message name="QueryRegistryStatusRequestMessage">
+		<wsdl:part name="parameters" element="tns:QueryRegistryStatusRequest" />
+	</wsdl:message>
+	<wsdl:message name="QueryRegistryStatusResponseMessage">
+		<wsdl:part name="parameters" element="tns:QueryRegistryStatusResponse" />
+	</wsdl:message>	
 
 	<!-- Fault Messages -->
 	<wsdl:message name="StudyUtilityFaultMessage">
@@ -233,6 +255,14 @@
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
 				name="SecurityException" />
 		</wsdl:operation>
+		<wsdl:operation name="queryRegistryStatus">
+			<wsdl:input message="tns:QueryRegistryStatusRequestMessage" />
+			<wsdl:output message="tns:QueryRegistryStatusResponseMessage" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage"
+				name="StudyUtilityException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
+				name="SecurityException" />
+		</wsdl:operation>		
 	</wsdl:portType>
 
 	<wsdl:binding name="StudyUtilitySOAP" type="tns:StudyUtility">
@@ -372,6 +402,21 @@
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>
 		</wsdl:operation>
+		<wsdl:operation name="queryRegistryStatus">
+			<soap:operation style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>			
+			<wsdl:fault name="StudyUtilityException">
+				<soap:fault name="StudyUtilityException" />
+			</wsdl:fault>
+		</wsdl:operation>		
 	</wsdl:binding>
 	<wsdl:service name="StudyUtilityService">
 		<wsdl:port name="StudyUtility" binding="tns:StudyUtilitySOAP">
