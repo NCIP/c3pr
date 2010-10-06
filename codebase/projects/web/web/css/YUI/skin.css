@@ -1593,17 +1593,18 @@ tbody .yui-dt-editable {
 }
 
 .yui-skin-sam tr.yui-dt-odd {
-	background-color: #EDF5FF;
+	background-color: #fdf4da;
+	text-shadow: 0 1px white;
 }
 
 .yui-skin-sam tr.yui-dt-even td.yui-dt-asc,.yui-skin-sam tr.yui-dt-even td.yui-dt-desc
 	{
-	background-color: #EDF5FF;
+	background-color: #fdf4da;
 }
 
 .yui-skin-sam tr.yui-dt-odd td.yui-dt-asc,.yui-skin-sam tr.yui-dt-odd td.yui-dt-desc
 	{
-	background-color: #DBEAFF;
+	background-color: #f7e9c0;
 }
 
 .yui-skin-sam .yui-dt-list tr.yui-dt-even {
@@ -1616,34 +1617,42 @@ tbody .yui-dt-editable {
 
 .yui-skin-sam .yui-dt-list tr.yui-dt-even td.yui-dt-asc,.yui-skin-sam .yui-dt-list tr.yui-dt-even td.yui-dt-desc
 	{
-	background-color: #EDF5FF;
+	background-color: #fdf4da;
 }
 
 .yui-skin-sam .yui-dt-list tr.yui-dt-odd td.yui-dt-asc,.yui-skin-sam .yui-dt-list tr.yui-dt-odd td.yui-dt-desc
 	{
-	background-color: #EDF5FF;
+	background-color: #fdf4da;
 }
 
 .yui-skin-sam th.yui-dt-highlighted,.yui-skin-sam th.yui-dt-highlighted a
 	{
-	background-color: #B2D2FF;
+	background-color: #dcb063;
+	color: white;
+	text-shadow: 0 -1px #8c7a46
 }
 
 .yui-skin-sam tr.yui-dt-highlighted,.yui-skin-sam tr.yui-dt-highlighted td.yui-dt-asc,.yui-skin-sam tr.yui-dt-highlighted td.yui-dt-desc,.yui-skin-sam tr.yui-dt-even td.yui-dt-highlighted,.yui-skin-sam tr.yui-dt-odd td.yui-dt-highlighted
 	{
 	cursor: pointer;
-	background-color: #B2D2FF;
+	background-color: #dcb063;
+	color: white;
+	text-shadow: 0 -1px #9e7b3f
 }
 
 .yui-skin-sam .yui-dt-list th.yui-dt-highlighted,.yui-skin-sam .yui-dt-list th.yui-dt-highlighted a
 	{
-	background-color: #B2D2FF;
+	background-color: #dcb063;
+	color: white;
+	text-shadow: 0 -1px #9e7b3f
 }
 
 .yui-skin-sam .yui-dt-list tr.yui-dt-highlighted,.yui-skin-sam .yui-dt-list tr.yui-dt-highlighted td.yui-dt-asc,.yui-skin-sam .yui-dt-list tr.yui-dt-highlighted td.yui-dt-desc,.yui-skin-sam .yui-dt-list tr.yui-dt-even td.yui-dt-highlighted,.yui-skin-sam .yui-dt-list tr.yui-dt-odd td.yui-dt-highlighted
 	{
 	cursor: pointer;
-	background-color: #B2D2FF;
+	background-color: #dcb063;
+	color: white;
+	text-shadow: 0 -1px #8c7a46
 }
 
 .yui-skin-sam th.yui-dt-selected,.yui-skin-sam th.yui-dt-selected a {
@@ -3782,41 +3791,64 @@ body.yui-layout {
 	font-family: arial, helvetica, clean, sans-serif;
 	padding: 3px 6px;
 	zoom: 1;
+	color: #fff;
+	text-shadow: 0 -1px #000;
+	background-color: #666;
+	-moz-border-radius: 6px;
+	border: #000 1px solid
+	
 }
 
 .yui-skin-sam .yui-pg-pages {
-	padding: 0;
+	background-color: #dcb063;
+	padding: 2px;
+	-moz-border-radius: 6px;
+	text-decoration: none;
+	color: #fff;
+	text-shadow: 0 -1px #8c7a46;
+	border: #B0853B 1px solid
 }
 
 .yui-skin-sam .yui-pg-current {
-	padding: 3px 0;
+	
 }
 
 .yui-skin-sam a.yui-pg-first:link,.yui-skin-sam a.yui-pg-first:visited,.yui-skin-sam a.yui-pg-first:active,.yui-skin-sam a.yui-pg-first:hover,.yui-skin-sam a.yui-pg-previous:link,.yui-skin-sam a.yui-pg-previous:visited,.yui-skin-sam a.yui-pg-previous:active,.yui-skin-sam a.yui-pg-previous:hover,.yui-skin-sam a.yui-pg-next:link,.yui-skin-sam a.yui-pg-next:visited,.yui-skin-sam a.yui-pg-next:active,.yui-skin-sam a.yui-pg-next:hover,.yui-skin-sam a.yui-pg-last:link,.yui-skin-sam a.yui-pg-last:visited,.yui-skin-sam a.yui-pg-last:active,.yui-skin-sam a.yui-pg-last:hover,.yui-skin-sam a.yui-pg-page:link,.yui-skin-sam a.yui-pg-page:visited,.yui-skin-sam a.yui-pg-page:active,.yui-skin-sam a.yui-pg-page:hover
 	{
-	color: #b0853b;
+	
 	text-decoration: none;
 	outline: 0;
+	
 }
 
 .yui-skin-sam span.yui-pg-first,.yui-skin-sam span.yui-pg-previous,.yui-skin-sam span.yui-pg-next,.yui-skin-sam span.yui-pg-last
 	{
-	color: #a6a6a6;
+	color: #e2d2a5;
+	text-shadow: 0 1px white;
+	background-color: #fdf4da;
+	border: 1px solid #f8ebc7;
 }
 
 .yui-skin-sam .yui-pg-page {
-	background-color: #fff;
-	border: 1px solid #CBCBCB;
+	border: none;
 	padding: 2px 6px;
 	-moz-border-radius: 4px;
 	text-decoration: none;
+	background-color: #dcb063;
+	color: #fff;
+	text-shadow: 0 -1px #8c7a46;
+	
 }
 
 .yui-skin-sam .yui-pg-current-page {
-	background-color: transparent;
-	border: none;
-	font-weight: bold;
-	padding: 3px 6px;
+	background-color: #fff;
+	padding: 2px 6px;
+	-moz-border-radius: 4px;
+	text-decoration: none;
+	color: #B0853B;
+	text-shadow: none;
+	border: #B0853B 1px solid
+	
 }
 
 .yui-skin-sam .yui-pg-page {
@@ -3825,12 +3857,12 @@ body.yui-layout {
 }
 
 .yui-skin-sam .yui-pg-first,.yui-skin-sam .yui-pg-previous {
-	padding-left: 0;
+	
 	font-size: 11px;
 }
 
 .yui-skin-sam .yui-pg-next,.yui-skin-sam .yui-pg-last {
-	padding-right: 0;
+	
 	font-size: 11px;
 }
 

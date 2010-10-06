@@ -198,6 +198,6 @@
 			<exclude org="org.globus" name="wss4j" rev="4.0-cagrid1.0"/>
 			<exclude org="gov.nih.nci.cagrid" name="cagrid-opensaml" rev="1.0"/>
 				  
-		  	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="1.2" />
+		  	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="1.3" />
         </dependencies>
 </ivy-module>

@@ -31,6 +31,7 @@ import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * @author Vinay Gangoli
@@ -175,11 +176,12 @@ public class CreateReportFacade {
         study.addStudySite(studySite);
 
         Participant participant = new Participant();
-
-        RaceCodeAssociation  raceCodeAssociation = new RaceCodeAssociation();
-         raceCodeAssociation.setRaceCode(RaceCodeEnum.valueOf(raceCode));
-         participant.addRaceCodeAssociation(raceCodeAssociation);
-		
+        
+        if(StringUtils.isNotBlank(raceCode)){
+        	RaceCodeAssociation  raceCodeAssociation = new RaceCodeAssociation();
+        	raceCodeAssociation.setRaceCode(RaceCodeEnum.valueOf(raceCode));
+        	participant.addRaceCodeAssociation(raceCodeAssociation);
+        }
 
         Date regStartDate = null;
         Date regEndDate = null;

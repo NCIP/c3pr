@@ -37,7 +37,7 @@ a {text-decoration: none}
 
 .yui-skin-sam thead .yui-dt-sortable {
 	cursor: pointer;
-	color: white
+	color: white;
 }
 
 .yui-skin-sam thead .yui-dt-draggable {
@@ -58,11 +58,19 @@ th.yui-dt-resizeable .yui-dt-resizerliner {
 	background-color: #b0853b;
 	font-size: 14px;
 	font-weight: bold;
-	text-shadow: -1px -2px #896322;
+	text-shadow: 0 -1px 1px #362303;
 	text-transform: uppercase;
 	margin: 0px;
 	color: white;
-	padding: 5px 0;
+	padding: 2px 0;
+	-moz-border-radius: 7px 7px 0 0;
+	-webkit-border-radius: 7px 7px 0 0;
+	border-radius: 7px 7px 0 0;
+	border: 1px solid #deb267;
+	border-bottom: 1px solid #654714;
+	border-right: 1px solid #654714;
+	
+	
 }
 
 .yui-dt-resizer {
@@ -277,12 +285,12 @@ tbody .yui-dt-editable {
 }
 
 .yui-skin-sam tr.yui-dt-odd {
-	background-color: #EDF5FF;
+	background-color: #e7d2ad;
 }
 
 .yui-skin-sam tr.yui-dt-even td.yui-dt-asc,.yui-skin-sam tr.yui-dt-even td.yui-dt-desc
 	{
-	background-color: #EDF5FF;
+	background-color: #e7d2ad;
 }
 
 .yui-skin-sam tr.yui-dt-odd td.yui-dt-asc,.yui-skin-sam tr.yui-dt-odd td.yui-dt-desc
@@ -300,12 +308,12 @@ tbody .yui-dt-editable {
 
 .yui-skin-sam .yui-dt-list tr.yui-dt-even td.yui-dt-asc,.yui-skin-sam .yui-dt-list tr.yui-dt-even td.yui-dt-desc
 	{
-	background-color: #EDF5FF;
+	background-color: #e7d2ad;
 }
 
 .yui-skin-sam .yui-dt-list tr.yui-dt-odd td.yui-dt-asc,.yui-skin-sam .yui-dt-list tr.yui-dt-odd td.yui-dt-desc
 	{
-	background-color: #EDF5FF;
+	background-color: #e7d2ad;
 }
 
 .yui-skin-sam th.yui-dt-highlighted,.yui-skin-sam th.yui-dt-highlighted a

@@ -55,11 +55,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<entry key="/pages/report/summary3Report" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />	
 		<entry key="/pages/report/createParticipantReport" value="edu.duke.cabig.c3pr.domain.Summary3Report:CREATE" />
 			
-			<!-- Entries related to advance search  
+			<!-- Entries related to advance search  	-->
          	<entry key="/pages/report/advancedSearch/registrationAdvancedSearch" value="edu.duke.cabig.c3pr.domain.StudySubject:READ"/>
         	<entry key="/pages/report/advancedSearch/studyAdvancedSearch" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
        		<entry key="/pages/report/advancedSearch/subjectAdvancedSearch" value="edu.duke.cabig.c3pr.domain.Subject:READ"/>
-       		-->
+       	
 		<!--  Reports End -->
 		
 		<!-- Start Registration -->

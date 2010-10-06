@@ -10,19 +10,23 @@
 
 <html>
 <head>
-    <title>Subject Search Results</title>
+    <title>Search Results</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>${tab.longTitle}</title>
 <script>
 YAHOO.example.Data = {
-	    subjectList: [
-					<c:forEach items="${subjectList}" var="subject" varStatus="status">
+	    registrationList: [
+					<c:forEach items="${registrations}" var="registration" varStatus="status">
 					        {
-					            subjectFullName: "${subject.fullName}",
-					            identifier: "${subject.primaryIdentifierValue}",
-					            subjectGender: "${subject.administrativeGenderCode}",
-					            subjectEthnicity: "${subject.ethnicGroupCode}",
-						        subjectBirthDate:  "${subject.formattedBirthDate}"	            
+					            studyIdentifier: "${registration.studySite.study.primaryIdentifier}",
+					            subjectFullName: "${registration.participant.fullName}",
+					            subjectPrimaryIdentifier: "${registration.participant.primaryIdentifierValue}",
+						        studySite:  "${registration.studySite.healthcareSite.name}",
+						        registrationStatus:  "${registration.regWorkflowStatus.code}",
+						        registrationDate:  "${registration.startDateStr}", 
+						        registrationDateSort:  "${registration.startDate}",
+						        registrationTreatingPhysician:  "${registration.treatingPhysicianFullName}",
+						        identifierStr:  "<tags:identifierParameterString identifier='${registration.systemAssignedIdentifiers[0] }'/>"
 					         }
 					         <c:if test="${!status.last}">,</c:if>
 					</c:forEach>
@@ -32,29 +36,43 @@ YAHOO.example.Data = {
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.CustomSort = function() {
         var myColumnDefs = [
-            {key:"subjectFullName",       label:"Full Name",       sortable:true,      resizeable:true , minWidth:250},
-            {key:"identifier",         label:"Primary Identifier", sortable:true,      resizeable:true},
-            {key:"subjectGender",         label:"Gender",          sortable:true,      resizeable:true},
-            {key:"subjectEthnicity",      label:"Ethnicity",       sortable:true,      resizeable:true},
-            {key:"subjectBirthDate",      label:"Birthdate",       sortable:true,      resizeable:true}
+            {key:"studyIdentifier",         	label:"Study Title", 		sortable:true,      resizeable:true},
+            {key:"studyIdentifier",         	label:"Study Identifier", 	sortable:true,      resizeable:true},
+            {key:"subjectFullName",         	label:"Subject Name",       sortable:true,      resizeable:true},
+            {key:"subjectPrimaryIdentifier",    label:"Subject Identifier", sortable:true,      resizeable:true},
+            {key:"studySite",      				label:"Study Site",       	sortable:true,     	resizeable:true},
+            {key:"registrationStatus",        	label:"Registration Status",sortable:true,      resizeable:true}//,
+            
+            //{key:"registrationDate",         	label:"Registration Date",  sortable:true,      resizeable:true , sortOptions: { field: "registrationDateSort" }  },
+            //{key:"registrationTreatingPhysician",label:"Treating Physician",sortable:true,      resizeable:true}
         ];
-
-        var subjectDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.subjectList);
-        subjectDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
-        subjectDataSource.responseSchema = {
-            fields: ["subjectFullName", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate"]
+        
+        var registrationDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.registrationList);
+        registrationDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+        registrationDataSource.responseSchema = {
+            fields: [ "studyIdentifier", "subjectFullName", "subjectPrimaryIdentifier", "studySite", "registrationStatus", "registrationDate", "registrationTreatingPhysician", "identifierStr", "registrationDateSort"]
         };
 
         //Create config
         var oConfigs = {
-        		paginator: new YAHOO.widget.Paginator({ rowsPerPage: 10 }), 
+        		paginator: new YAHOO.widget.Paginator({ 
+        			rowsPerPage: 10, 
+        			rowsPerPageOptions : [10,25,50,  {value:100000000,text:'All'}], 
+        			template : "{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown} {ShowAllLink}" 
+        			}), 
 				draggableColumns:true
 			};
-        var subjectDataTable = new YAHOO.widget.DataTable("subjectTable", myColumnDefs, subjectDataSource, oConfigs);
-
+        var registrationDataTable = new YAHOO.widget.DataTable("registrationTable", myColumnDefs, registrationDataSource, oConfigs);
+        registrationDataTable.subscribe("rowMouseoverEvent", registrationDataTable.onEventHighlightRow); 
+        registrationDataTable.subscribe("rowMouseoutEvent", registrationDataTable.onEventUnhighlightRow); 
+        registrationDataTable.subscribe("rowClickEvent", function (oArgs) {
+        	var elTarget = oArgs.target;
+        	var oRecord = this.getRecord(elTarget);
+        	document.location='/c3pr/pages/registration/manageRegistration?'+ oRecord.getData("identifierStr");
+        }); 
         return {
-            oDS: subjectDataSource,
-            oDT: subjectDataTable
+            oDS: registrationDataSource,
+            oDT: registrationDataTable
         };
     }();
     
@@ -70,15 +88,17 @@ color:white;
 </head>
 <body>
 <!--  tags:instructions code="participant_search_report"/>  -->
-<chrome:box title="Subject Search Results">
+<chrome:box title="Search Results">
 <chrome:division>
 	<div align="right">
-		<tags:button color="blue" value="print" size="small" icon="print"/>
-		<tags:button color="blue" value="export" size="small" icon="export"/>
+		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
+		<tags:button color="blue" value="export" size="small" icon="export" onclick=""/>
 	</div>
-	<div id="subjectTable" class="yui-skin-sam"></div>
+	<div id="printable">
+	<div id="registrationTable" class="yui-skin-sam"></div>
+	</div>
 	<div align="right">
-		<tags:button color="blue" value="print" size="small" icon="print"/>
+		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
 		<tags:button color="blue" value="export" size="small" icon="export"/>
 	</div>
 </chrome:division>

@@ -72,13 +72,20 @@ color:white;
         <div class="row" >
         	<div class="label"><fmt:message key="c3pr.common.title"/></div>
           	<div class="value">
-        		<input type="text"  size="25">
+        		<input type="hidden" name="searchCriteriaList[0].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+          		<input type="hidden" name="searchCriteriaList[0].attributeName" value="shortTitleText" />
+          		<input type="hidden" name="searchCriteriaList[0].predicate" value="like"/>
+        		<input type="text"  size="25" name="searchCriteriaList[0].values" />
         	</div>
         </div>
         <div class="row" >
         	<div class="label"><fmt:message key="c3pr.common.identifier"/></div>
           	<div class="value">
-        		<input type="text"  size="25">
+        		<input type="hidden" name="searchCriteriaList[1].objectName" value="edu.duke.cabig.c3pr.domain.Identifier"/>
+        		<input type="hidden" name="searchCriteriaList[1].contextObjectName" value="Study" />
+          		<input type="hidden" name="searchCriteriaList[1].attributeName" value="value" />
+          		<input type="hidden" name="searchCriteriaList[1].predicate" value="like"/>
+        		<input type="text"  size="25" name="searchCriteriaList[1].values" />
         	</div>
         </div>
         <div class="row" id="showStudyOptions">
@@ -90,7 +97,10 @@ color:white;
         <div class="row" >
         	<div class="label"><fmt:message key="c3pr.common.type"/></div>
         	<div class="value">
-  	            <select id="studyType" size="4" multiple="multiple">
+        		<input type="hidden" name="searchCriteriaList[2].objectName" value="edu.duke.cabig.c3pr.domain.Identifier"/>
+          		<input type="hidden" name="searchCriteriaList[2].predicate" value="like"/>
+          		<input type="hidden" name="searchCriteriaList[2].attributeName" value="type" />
+  	            <select id="studyType" size="4" multiple="multiple" name="searchCriteriaList[2].values" >
                    <option value="" selected="selected">All</option>
                    <c:forEach items="${typeRefData}" var="studyType">
                        <c:if test="${!empty studyType.desc}">
@@ -103,7 +113,11 @@ color:white;
          <div class="row" >
         	<div class="label"><fmt:message key="dashboard.coordinatingCenter"/></div>
           	<div class="value">
-        		<input type="text"  size="35" class="autocomplete">
+          		<input type="hidden" name="searchCriteriaList[3].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+          		<input type="hidden" name="searchCriteriaList[3].contextObjectName" value="Organization" />
+          		<input type="hidden" name="searchCriteriaList[3].attributeName" value="value" />
+          		<input type="hidden" name="searchCriteriaList[3].predicate" value="="/>
+        		<input type="text"  size="35" name="searchCriteriaList[3].values" class="autocomplete">
         	</div>
         </div>
         <div class="row" >
@@ -368,7 +382,7 @@ color:white;
 <chrome:division>
 <br>
 <div  align="center">
-	<tags:button id="searchRegistration" type="button" icon="search" size="small" color="blue" value="Search Registration" />
+	<tags:button id="searchRegistration" type="submit" icon="search" size="small" color="blue" value="Search Registration" />
 	<tags:button type="button" size="small" color="blue" value="Clear" />
 </div>
 </chrome:division>

@@ -10,19 +10,21 @@
 
 <html>
 <head>
-    <title>Subject Search Results</title>
+    <title>Study Search Results</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>${tab.longTitle}</title>
 <script>
 YAHOO.example.Data = {
-	    subjectList: [
-					<c:forEach items="${subjectList}" var="subject" varStatus="status">
+	    studyList: [
+					<c:forEach items="${studies}" var="study" varStatus="status">
 					        {
-					            subjectFullName: "${subject.fullName}",
-					            identifier: "${subject.primaryIdentifierValue}",
-					            subjectGender: "${subject.administrativeGenderCode}",
-					            subjectEthnicity: "${subject.ethnicGroupCode}",
-						        subjectBirthDate:  "${subject.formattedBirthDate}"	            
+					            studyFullName: "${study.shortTitleText}",
+					            identifier: "${study.study}",
+					            studyGender: "${study.administrativeGenderCode}",
+					            studyEthnicity: "${study.ethnicGroupCode}",
+						        studyBirthDate:  "${study.birthDateStr}",
+						        studyBirthDateSort:  "${study.birthDate}",
+						        identifierStr:  "<tags:identifierParameterString identifier='${study.systemAssignedIdentifiers[0] }'/>"
 					         }
 					         <c:if test="${!status.last}">,</c:if>
 					</c:forEach>
@@ -32,29 +34,39 @@ YAHOO.example.Data = {
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.CustomSort = function() {
         var myColumnDefs = [
-            {key:"subjectFullName",       label:"Full Name",       sortable:true,      resizeable:true , minWidth:250},
+            {key:"studyFullName",       label:"Full Name",       sortable:true,      resizeable:true , minWidth:250},
             {key:"identifier",         label:"Primary Identifier", sortable:true,      resizeable:true},
-            {key:"subjectGender",         label:"Gender",          sortable:true,      resizeable:true},
-            {key:"subjectEthnicity",      label:"Ethnicity",       sortable:true,      resizeable:true},
-            {key:"subjectBirthDate",      label:"Birthdate",       sortable:true,      resizeable:true}
+            {key:"studyGender",         label:"Gender",          sortable:true,      resizeable:true},
+            {key:"studyEthnicity",      label:"Ethnicity",       sortable:true,      resizeable:true},
+            {key:"studyBirthDate",      label:"Birthdate",       sortable:true,    sortOptions: { field: "studyBirthDateSort" },   resizeable:true}
         ];
-
-        var subjectDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.subjectList);
-        subjectDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
-        subjectDataSource.responseSchema = {
-            fields: ["subjectFullName", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate"]
+        
+        var studyDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.studyList);
+        studyDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+        studyDataSource.responseSchema = {
+            fields: ["studyFullName", "identifier", "studyGender", "studyEthnicity", "studyBirthDate", "studyBirthDateSort", "identifierStr"]
         };
 
         //Create config
         var oConfigs = {
-        		paginator: new YAHOO.widget.Paginator({ rowsPerPage: 10 }), 
+        		paginator: new YAHOO.widget.Paginator({ 
+        			rowsPerPage: 10, 
+        			rowsPerPageOptions : [10,25,50,  {value:100000000,text:'All'}], 
+        			template : "{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown} {ShowAllLink}" 
+        			}), 
 				draggableColumns:true
 			};
-        var subjectDataTable = new YAHOO.widget.DataTable("subjectTable", myColumnDefs, subjectDataSource, oConfigs);
-
+        var studyDataTable = new YAHOO.widget.DataTable("studyTable", myColumnDefs, studyDataSource, oConfigs);
+        studyDataTable.subscribe("rowMouseoverEvent", studyDataTable.onEventHighlightRow); 
+        studyDataTable.subscribe("rowMouseoutEvent", studyDataTable.onEventUnhighlightRow); 
+        studyDataTable.subscribe("rowClickEvent", function (oArgs) {
+        	var elTarget = oArgs.target;
+        	var oRecord = this.getRecord(elTarget);
+        	document.location='/c3pr/pages/personAndOrganization/participant/viewParticipant?'+ oRecord.getData("identifierStr");
+        }); 
         return {
-            oDS: subjectDataSource,
-            oDT: subjectDataTable
+            oDS: studyDataSource,
+            oDT: studyDataTable
         };
     }();
     
@@ -70,15 +82,17 @@ color:white;
 </head>
 <body>
 <!--  tags:instructions code="participant_search_report"/>  -->
-<chrome:box title="Subject Search Results">
+<chrome:box title="study Search Results">
 <chrome:division>
 	<div align="right">
-		<tags:button color="blue" value="print" size="small" icon="print"/>
-		<tags:button color="blue" value="export" size="small" icon="export"/>
+		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
+		<tags:button color="blue" value="export" size="small" icon="export" onclick=""/>
 	</div>
-	<div id="subjectTable" class="yui-skin-sam"></div>
+	<div id="printable">
+	<div id="studyTable" class="yui-skin-sam"></div>
+	</div>
 	<div align="right">
-		<tags:button color="blue" value="print" size="small" icon="print"/>
+		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
 		<tags:button color="blue" value="export" size="small" icon="export"/>
 	</div>
 </chrome:division>
