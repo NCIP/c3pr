@@ -4,7 +4,9 @@
 package edu.duke.cabig.c3pr.webservice.converters;
 
 import java.util.Arrays;
+import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.test.AssertThrows;
 
@@ -15,12 +17,18 @@ import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
+import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.helpers.WebServiceRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
@@ -48,14 +56,146 @@ public class JAXBToDomainObjectConverterImplTest extends
 		assertEquals("Phase 0 Trial", s.getPhaseCode());
 		assertFalse(s.getRandomizedIndicator());
 		assertEquals(100, s.getTargetAccrualNumber().intValue());
-		assertEquals("Basic Science",s.getType());
-		assertEquals(CoordinatingCenterStudyStatus.PENDING, s.getCoordinatingCenterStudyStatus());
+		assertEquals("Basic Science", s.getType());
+		assertEquals(CoordinatingCenterStudyStatus.PENDING,
+				s.getCoordinatingCenterStudyStatus());
 		assertFalse(s.getStratificationIndicator());
 		assertTrue(s.getStandaloneIndicator());
 		assertFalse(s.getCompanionIndicator());
 		assertEquals(ConsentRequired.ONE, s.getConsentRequired());
 		assertFalse(s.getTherapeuticIntentIndicator());
-		assertEquals(TEST_TARGET_REG_SYS,s.getTargetRegistrationSystem());
+		assertEquals(TEST_TARGET_REG_SYS, s.getTargetRegistrationSystem());
+
+		// study orgs
+		assertEquals(2, s.getStudyOrganizations().size());
+		assertEquals(TEST_ORG_ID, s.getStudyCoordinatingCenter()
+				.getHealthcareSite().getCtepCode());
+		assertEquals(TEST_ORG_ID, s.getStudyFundingSponsors().get(0)
+				.getHealthcareSite().getCtepCode());
+
+		// study version
+		assertEquals(TEST_STUDY_DESCR, s.getShortTitleText());
+		assertEquals(TEST_STUDY_DESCR, s.getLongTitleText());
+		assertEquals(TEST_STUDY_DESCR, s.getDescriptionText());
+		assertEquals(s.getDataEntryStatus(), StudyDataEntryStatus.INCOMPLETE);
+		assertEquals(s.getVersionDateStr(), "10/05/2010");
+
+		// registry status
+		assertEquals(TEST_REGISTRY_STATUS, s
+				.getPermissibleStudySubjectRegistryStatuses().get(0)
+				.getRegistryStatus().getCode());
+		assertEquals(TEST_SECONDARY_REASON_CODE, s
+				.getPermissibleStudySubjectRegistryStatuses().get(0)
+				.getSecondaryReasons().get(0).getCode());
+
+		// consent and questions
+		final Consent con = s.getConsents().get(0);
+		assertEquals(TEST_CONSENT_TITLE, con.getName());
+		assertTrue(con.getMandatoryIndicator());
+		assertEquals(TEST_VERSION_NUMBER, con.getVersionId());
+		assertEquals(2, con.getQuestions().size());
+		assertEquals(TEST_CONSENT_QUESTION_1, con.getQuestions().get(0)
+				.getCode());
+		assertEquals(TEST_CONSENT_QUESTION_1, con.getQuestions().get(0)
+				.getText());
+		assertEquals(TEST_CONSENT_QUESTION_2, con.getQuestions().get(1)
+				.getCode());
+		assertEquals(TEST_CONSENT_QUESTION_2, con.getQuestions().get(1)
+				.getText());
+
+	}
+
+	public void testConvertStudy() {
+		Study study = createDomainStudy();
+		StudyProtocolVersion s = converter.convert(study);
+		assertEquals(TEST_TARGET_REG_SYS, s.getTargetRegistrationSystem()
+				.getValue());
+
+		final PermissibleStudySubjectRegistryStatus regSt = s
+				.getPermissibleStudySubjectRegistryStatus().get(0);
+		assertEquals(TEST_REGISTRY_STATUS, regSt.getRegistryStatus().getCode()
+				.getCode());
+		assertEquals(TEST_REGISTRY_STATUS, regSt.getRegistryStatus()
+				.getDescription().getValue());
+		assertEquals(TEST_PRIMARY_REASON_CODE, regSt.getRegistryStatus()
+				.getPrimaryReason().get(0).getCode().getCode());
+		assertEquals(TEST_PRIMARY_REASON_DESCR, regSt.getRegistryStatus()
+				.getPrimaryReason().get(0).getDescription().getValue());
+		assertEquals(TEST_SECONDARY_REASON_CODE, regSt.getSecondaryReason()
+				.get(0).getCode().getCode());
+		assertEquals(TEST_SECONDARY_REASON_DESCR, regSt.getSecondaryReason()
+				.get(0).getDescription().getValue());
+
+		final StudyProtocolDocumentVersion doc = s.getStudyProtocolDocument();
+		assertEquals(TEST_STUDY_DESCR, doc.getOfficialTitle().getValue());
+		assertEquals(TEST_STUDY_DESCR, doc.getPublicTitle().getValue());
+		assertEquals(TEST_STUDY_DESCR, doc.getPublicDescription().getValue());
+		assertEquals(TEST_VERSION_DATE, parseISODate(doc.getVersionDate()
+				.getValue()));
+		assertEquals(TEST_CONSENT_RELATIONSHIP, doc
+				.getDocumentVersionRelationship().get(0).getTypeCode()
+				.getCode());
+		final DocumentVersion consent = doc.getDocumentVersionRelationship()
+				.get(0).getTarget();
+		assertEquals(TEST_CONSENT_TITLE, consent.getOfficialTitle().getValue());
+		assertEquals(2, consent.getDocumentVersionRelationship().size());
+		assertEquals(TEST_CONSENT_QUESTION_1, consent
+				.getDocumentVersionRelationship().get(0).getTarget()
+				.getOfficialTitle().getValue());
+		assertEquals(TEST_CONSENT_QUESTION_2, consent
+				.getDocumentVersionRelationship().get(1).getTarget()
+				.getOfficialTitle().getValue());
+
+		List<DocumentIdentifier> ids = doc.getDocument()
+				.getDocumentIdentifier();
+		assertEquals(2, ids.size());
+		final DocumentIdentifier id1 = doc.getDocument()
+				.getDocumentIdentifier().get(0);
+		assertEquals(TEST_STUDY_ID, id1.getIdentifier().getExtension());
+		assertTrue(id1.getPrimaryIndicator().isValue());
+		assertEquals(
+				OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER
+						.name(),
+				id1.getTypeCode().getCode());
+		assertEquals(TEST_ORG_ID, id1.getAssigningOrganization()
+				.getOrganizationIdentifier().get(0).getIdentifier()
+				.getExtension());
+		assertTrue(id1.getAssigningOrganization().getOrganizationIdentifier()
+				.get(0).getPrimaryIndicator().isValue());
+		assertEquals(TEST_CTEP, id1.getAssigningOrganization()
+				.getOrganizationIdentifier().get(0).getTypeCode().getCode());
+
+		final DocumentIdentifier id2 = doc.getDocument()
+				.getDocumentIdentifier().get(1);
+		assertEquals(TEST_STUDY_ID, id2.getIdentifier().getExtension());
+		assertFalse(id2.getPrimaryIndicator().isValue());
+		assertEquals(
+				OrganizationIdentifierTypeEnum.STUDY_FUNDING_SPONSOR.name(),
+				id2.getTypeCode().getCode());
+		assertEquals(TEST_ORG_ID, id2.getAssigningOrganization()
+				.getOrganizationIdentifier().get(0).getIdentifier()
+				.getExtension());
+		assertTrue(id2.getAssigningOrganization().getOrganizationIdentifier()
+				.get(0).getPrimaryIndicator().isValue());
+		assertEquals(TEST_CTEP, id2.getAssigningOrganization()
+				.getOrganizationIdentifier().get(0).getTypeCode().getCode());
+
+	}
+
+	public void testConvertConsentForSearchByExample() {
+		edu.duke.cabig.c3pr.webservice.common.Consent xml = createConsent();
+		Consent c = converter.convertConsentForSearchByExample(xml);
+		assertTrue(c.getMandatoryIndicator());
+		assertEquals(TEST_CONSENT_TITLE, c.getName());
+		assertEquals(TEST_VERSION_NUMBER, c.getVersionId());
+		assertTrue(CollectionUtils.isEmpty(c.getQuestions()));
+
+		xml.setOfficialTitle(null);
+		xml.setVersionNumberText(null);
+		c = converter.convertConsentForSearchByExample(xml);
+		assertNull(c.getName());
+		assertNull(c.getVersionId());
+
 	}
 
 	/**
