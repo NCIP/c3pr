@@ -117,6 +117,24 @@ public abstract class Investigator extends C3PRUser {
         }
         return name.toString();
     }
+    
+    /**
+     * This was created to be used by the SearchInvAjaxFacade.build(extremeConponents)
+     * This assists in the filtering by org name.
+     * @return a html break(<br/>) separated list of organization names to which the inv belongs.
+     */
+    @Transient
+    public String getOrganizationNames() {
+        StringBuilder name = new StringBuilder();
+        for(HealthcareSiteInvestigator hcsi: getHealthcareSiteInvestigators()){
+        	name.append(hcsi.getHealthcareSite().getName());
+        	if(hcsi.getHealthcareSite() instanceof RemoteHealthcareSite){
+        		name.append("&nbsp;<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='17' height='16' border='0' align='middle'/>");
+            }
+        	name.append("<br/>");
+        }
+        return name.toString();
+    }
 
     /**
      * Adds the healthcare site investigator.
