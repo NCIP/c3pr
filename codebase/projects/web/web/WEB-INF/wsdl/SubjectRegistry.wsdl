@@ -4,7 +4,8 @@
 	xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectRegistryService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sr="http://enterpriseservices.nci.nih.gov/SubjectRegistry"
 	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust"
+	xmlns:a="http://www.w3.org/2005/08/addressing"
+	xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SubjectRegistryService"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov/SubjectRegistry SubjectRegistry.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
 	targetNamespace="http://enterpriseservices.nci.nih.gov/SubjectRegistryService">
@@ -306,7 +307,7 @@
 	</wsdl:portType>
 
 	<wsdl:binding name="SubjectRegistrySOAP" type="tns:SubjectRegistry">
-		<wsp:Policy xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy"
+		<wsp:Policy xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702"
 			xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
 			<wsp:ExactlyOne>
 				<wsp:All>
@@ -324,17 +325,27 @@
 							</sp:AlgorithmSuite>
 						</wsp:Policy>
 					</sp:TransportBinding>
-					<sp:ProtectionToken>
+					
+					<sp:SupportingTokens>
 						<wsp:Policy>
-							<sp:IssuedToken
-								sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+							<sp:IssuedToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
 								<sp:RequestSecurityTokenTemplate>
 									<t:TokenType>urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType>
-									<t:KeyType>http://schemas.xmlsoap.org/ws/2005/02/trust/PublicKey</t:KeyType>
-								</sp:RequestSecurityTokenTemplate>
+									<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</t:KeyType>								
+								</sp:RequestSecurityTokenTemplate>								
 							</sp:IssuedToken>
 						</wsp:Policy>
-					</sp:ProtectionToken>
+					</sp:SupportingTokens>
+					
+					<sp:Trust13>
+						<wsp:Policy>
+							<wsp:ExactlyOne>
+								<wsp:All>
+									<sp:MustSupportIssuedTokens />
+								</wsp:All>
+							</wsp:ExactlyOne>
+						</wsp:Policy>
+					</sp:Trust13>
 				</wsp:All>
 			</wsp:ExactlyOne>
 		</wsp:Policy>
