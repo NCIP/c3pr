@@ -27,7 +27,6 @@
                 
             },
             valueSelector: function(obj) {
-            	testHimanshu(obj);
             	if(obj.externalId != null){
             		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
             	} else {
@@ -40,10 +39,6 @@
 	    							$(hiddenField).value=selectedChoice.id;
 	    							$('healthcareSite-indicator').style.display='none';
 			 }
-        }
-        
-        function testHimanshu(obj){
-        
         }
 
      AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
