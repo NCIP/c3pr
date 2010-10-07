@@ -64,8 +64,8 @@ public class SearchInvestigatorAjaxFacade {
         
         Column organizations = model.getColumnInstance();
         organizations.setTitle("Organization(s)");
-        organizations.setProperty("healthcareSiteInvestigators");
-        organizations.setCell((HealthcareSiteInvestigatorLinkDisplayCell.class).getName());
+        organizations.setProperty("organizationNames");
+//        organizations.setCell((HealthcareSiteInvestigatorLinkDisplayCell.class).getName());
         model.addColumn(organizations);
 
         Column columnCtep = model.getColumnInstance();
