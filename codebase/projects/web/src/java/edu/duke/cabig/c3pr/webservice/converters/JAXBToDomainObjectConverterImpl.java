@@ -1050,7 +1050,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	private StudyProtocolDocumentVersion convertStudyProtocolDocument(
 			Study study) {
 		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
-		doc.setOfficialTitle(new ST(study.getShortTitleText()));
+		//doc.setOfficialTitle(new ST(study.getShortTitleText()));
 		doc.setPublicDescription(new ST(study.getDescriptionText()));
 		doc.setPublicTitle(new ST(study.getShortTitleText()));
 		doc.setText(new ED(study.getDescriptionText()));

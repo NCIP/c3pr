@@ -135,7 +135,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 				.get(0).getDescription().getValue());
 
 		final StudyProtocolDocumentVersion doc = s.getStudyProtocolDocument();
-		assertEquals(TEST_STUDY_DESCR, doc.getOfficialTitle().getValue());
+		assertNull(doc.getOfficialTitle());
 		assertEquals(TEST_STUDY_DESCR, doc.getPublicTitle().getValue());
 		assertEquals(TEST_STUDY_DESCR, doc.getPublicDescription().getValue());
 		assertEquals(TEST_VERSION_DATE, parseISODate(doc.getVersionDate()

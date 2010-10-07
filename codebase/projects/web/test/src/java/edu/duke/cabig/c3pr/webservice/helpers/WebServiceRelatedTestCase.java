@@ -145,7 +145,7 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 	// study utility
 	public static final String TEST_REGISTRY_STATUS = "ACTIVE";
 	public static final String TEST_CONSENT_QUESTION_2 = "Question 2";
-	public static final String TEST_CONSENT_QUESTION_1 = "Question 1";	
+	public static final String TEST_CONSENT_QUESTION_1 = "Question 1";
 	public static final String TEST_CONSENT_TITLE = "Consent";
 	public static final String TEST_CONSENT_QUESTION_RELATIONSHIP = "CONSENT_QUESTION";
 	public static final String TEST_CONSENT_RELATIONSHIP = "CONSENT";
@@ -181,6 +181,8 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 
 	protected edu.duke.cabig.c3pr.domain.RegistryStatus registryStatus;
 
+	protected edu.duke.cabig.c3pr.domain.RegistryStatus registryStatus2;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -215,6 +217,18 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 								TEST_PRIMARY_REASON_DESCR, null, true) }));
 		expect(registryStatusDao.getRegistryStatusByCode(TEST_REGISTRY_STATUS))
 				.andReturn(registryStatus).anyTimes();
+
+		registryStatus2 = new edu.duke.cabig.c3pr.domain.RegistryStatus();
+		registryStatus2.setCode(TEST_REGISTRY_STATUS + "2");
+		registryStatus2.setDescription(TEST_REGISTRY_STATUS + "2");
+		registryStatus2
+				.setPrimaryReasons(Arrays
+						.asList(new edu.duke.cabig.c3pr.domain.RegistryStatusReason[] { new edu.duke.cabig.c3pr.domain.RegistryStatusReason(
+								TEST_PRIMARY_REASON_CODE,
+								TEST_PRIMARY_REASON_DESCR, null, true) }));
+		expect(registryStatusDao.getAll()).andReturn(
+				Arrays.asList(new edu.duke.cabig.c3pr.domain.RegistryStatus[] {
+						registryStatus, registryStatus2 })).anyTimes();
 		replay(registryStatusDao);
 
 	}
@@ -451,14 +465,8 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 		study.getStudyVersion().setVersionDate(TEST_VERSION_DATE);
 
 		// consent
-		edu.duke.cabig.c3pr.domain.Consent c = new edu.duke.cabig.c3pr.domain.Consent();
-		c.setMandatoryIndicator(true);
-		c.setName(TEST_CONSENT_TITLE);
+		edu.duke.cabig.c3pr.domain.Consent c = createDomainConsent();
 		c.setStudyVersion(study.getStudyVersion());
-		c.addQuestion(new ConsentQuestion(TEST_CONSENT_QUESTION_1,
-				TEST_CONSENT_QUESTION_1));
-		c.addQuestion(new ConsentQuestion(TEST_CONSENT_QUESTION_2,
-				TEST_CONSENT_QUESTION_2));
 		study.addConsent(c);
 
 		// statuses
@@ -516,6 +524,20 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 		return study;
 	}
 
+	/**
+	 * @return
+	 */
+	protected edu.duke.cabig.c3pr.domain.Consent createDomainConsent() {
+		edu.duke.cabig.c3pr.domain.Consent c = new edu.duke.cabig.c3pr.domain.Consent();
+		c.setMandatoryIndicator(true);
+		c.setName(TEST_CONSENT_TITLE);		
+		c.addQuestion(new ConsentQuestion(TEST_CONSENT_QUESTION_1,
+				TEST_CONSENT_QUESTION_1));
+		c.addQuestion(new ConsentQuestion(TEST_CONSENT_QUESTION_2,
+				TEST_CONSENT_QUESTION_2));
+		return c;
+	}
+
 	public StudyProtocolVersion createStudy() {
 		StudyProtocolVersion study = new StudyProtocolVersion();
 		study.setTargetRegistrationSystem(new ST(TEST_TARGET_REG_SYS));
@@ -547,18 +569,18 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 		r.setPrimaryIndicator(new BL(false));
 		return r;
 	}
-	
+
 	protected RegistryStatusReason createPrimaryRegistryStatusReason() {
 		RegistryStatusReason r = new RegistryStatusReason();
 		r.setCode(new CD(TEST_PRIMARY_REASON_CODE));
 		r.setDescription(new ST(TEST_PRIMARY_REASON_DESCR));
 		r.setPrimaryIndicator(new BL(true));
 		return r;
-	}	
+	}
 
 	protected StudyProtocolDocumentVersion createStudyProtocolDocument() {
 		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
-		doc.setOfficialTitle(new ST(TEST_STUDY_DESCR));
+		// doc.setOfficialTitle(new ST(TEST_STUDY_DESCR));
 		doc.setPublicDescription(new ST(TEST_STUDY_DESCR));
 		doc.setPublicTitle(new ST(TEST_STUDY_DESCR));
 		doc.setText(new ED(TEST_STUDY_DESCR));
@@ -579,8 +601,8 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 	protected Consent createConsent() {
 		Consent consent = new Consent();
 		consent.setMandatoryIndicator(new BL(true));
-		consent.setOfficialTitle(new ST(TEST_CONSENT_TITLE));		
-		//consent.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
+		consent.setOfficialTitle(new ST(TEST_CONSENT_TITLE));
+		// consent.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
 		consent.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
 		consent.setDocument(new Document());
 		consent.getDocumentVersionRelationship().add(
@@ -602,8 +624,8 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 		DocumentVersion q = new DocumentVersion();
 		q.setOfficialTitle(new ST(text));
 		q.setText(new ED(text));
-		//q.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
-		//q.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		// q.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
+		// q.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
 		q.setDocument(new Document());
 		return q;
 	}
