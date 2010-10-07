@@ -49,6 +49,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 
         //Create config
         var oConfigs = {
+        		width:"70em" 
         		paginator: new YAHOO.widget.Paginator({ 
         			rowsPerPage: 10, 
         			rowsPerPageOptions : [10,25,50,  {value:100000000,text:'All'}], 
@@ -56,7 +57,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
         			}), 
 				draggableColumns:true
 			};
-        var subjectDataTable = new YAHOO.widget.DataTable("subjectTable", myColumnDefs, subjectDataSource, oConfigs);
+        var subjectDataTable = new YAHOO.widget.ScrollingDataTable("subjectTable", myColumnDefs, subjectDataSource, oConfigs);
         subjectDataTable.subscribe("rowMouseoverEvent", subjectDataTable.onEventHighlightRow); 
         subjectDataTable.subscribe("rowMouseoutEvent", subjectDataTable.onEventUnhighlightRow); 
         subjectDataTable.subscribe("rowClickEvent", function (oArgs) {

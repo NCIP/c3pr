@@ -55,14 +55,16 @@ YAHOO.util.Event.addListener(window, "load", function() {
 
         //Create config
         var oConfigs = {
+        		width:"70em" ,
         		paginator: new YAHOO.widget.Paginator({ 
-        			rowsPerPage: 10, 
+        			rowsPerPage: 20, 
         			rowsPerPageOptions : [10,25,50,  {value:100000000,text:'All'}], 
-        			template : "{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown} {ShowAllLink}" 
+        			template : "{PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {ShowAllLink}" 
         			}), 
 				draggableColumns:true
 			};
-        var registrationDataTable = new YAHOO.widget.DataTable("registrationTable", myColumnDefs, registrationDataSource, oConfigs);
+        var registrationDataTable = new YAHOO.widget.ScrollingDataTable("registrationTable", myColumnDefs, registrationDataSource, oConfigs);
+        
         registrationDataTable.subscribe("rowMouseoverEvent", registrationDataTable.onEventHighlightRow); 
         registrationDataTable.subscribe("rowMouseoutEvent", registrationDataTable.onEventUnhighlightRow); 
         registrationDataTable.subscribe("rowClickEvent", function (oArgs) {
