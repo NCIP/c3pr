@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.ConversionException;
+import edu.duke.cabig.c3pr.utils.BeanUtils;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
@@ -45,6 +46,13 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
  */
 public class JAXBToDomainObjectConverterImplTest extends
 		WebServiceRelatedTestCase {
+
+	public void testTwoWayConversion() {
+		StudyProtocolVersion xmlStudy = createStudy();
+		Study study = converter.convert(xmlStudy);
+		StudyProtocolVersion xmlStudy2 = converter.convert(study);
+		assertTrue(BeanUtils.deepCompare(xmlStudy, xmlStudy2));
+	}
 
 	public void testConvertStudyProtocolVersion() {
 		StudyProtocolVersion xmlStudy = createStudy();

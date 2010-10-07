@@ -214,7 +214,7 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 								TEST_PRIMARY_REASON_CODE,
 								TEST_PRIMARY_REASON_DESCR, null, true) }));
 		expect(registryStatusDao.getRegistryStatusByCode(TEST_REGISTRY_STATUS))
-				.andReturn(registryStatus);
+				.andReturn(registryStatus).anyTimes();
 		replay(registryStatusDao);
 
 	}
@@ -528,23 +528,33 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 	protected PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
 		PermissibleStudySubjectRegistryStatus stat = new PermissibleStudySubjectRegistryStatus();
 		stat.setRegistryStatus(createRegistryStatus());
-		stat.getSecondaryReason().add(createRegistryStatusReason());
+		stat.getSecondaryReason().add(createSecondaryRegistryStatusReason());
 		return stat;
 	}
 
 	protected RegistryStatus createRegistryStatus() {
 		RegistryStatus stat = new RegistryStatus();
 		stat.setCode(new CD(TEST_REGISTRY_STATUS));
+		stat.setDescription(new ST(TEST_REGISTRY_STATUS));
+		stat.getPrimaryReason().add(createPrimaryRegistryStatusReason());
 		return stat;
 	}
 
-	protected RegistryStatusReason createRegistryStatusReason() {
+	protected RegistryStatusReason createSecondaryRegistryStatusReason() {
 		RegistryStatusReason r = new RegistryStatusReason();
 		r.setCode(new CD(TEST_SECONDARY_REASON_CODE));
 		r.setDescription(new ST(TEST_SECONDARY_REASON_DESCR));
 		r.setPrimaryIndicator(new BL(false));
 		return r;
 	}
+	
+	protected RegistryStatusReason createPrimaryRegistryStatusReason() {
+		RegistryStatusReason r = new RegistryStatusReason();
+		r.setCode(new CD(TEST_PRIMARY_REASON_CODE));
+		r.setDescription(new ST(TEST_PRIMARY_REASON_DESCR));
+		r.setPrimaryIndicator(new BL(true));
+		return r;
+	}	
 
 	protected StudyProtocolDocumentVersion createStudyProtocolDocument() {
 		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
@@ -570,7 +580,7 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 		Consent consent = new Consent();
 		consent.setMandatoryIndicator(new BL(true));
 		consent.setOfficialTitle(new ST(TEST_CONSENT_TITLE));		
-		consent.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
+		//consent.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
 		consent.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
 		consent.setDocument(new Document());
 		consent.getDocumentVersionRelationship().add(
@@ -592,8 +602,8 @@ public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
 		DocumentVersion q = new DocumentVersion();
 		q.setOfficialTitle(new ST(text));
 		q.setText(new ED(text));
-		q.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
-		q.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		//q.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
+		//q.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
 		q.setDocument(new Document());
 		return q;
 	}
