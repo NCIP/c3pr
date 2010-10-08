@@ -41,6 +41,16 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	
 	private StudyVersion studyVersion;
 	
+	private String descriptionText;
+	
+	public String getDescriptionText() {
+		return descriptionText;
+	}
+
+	public void setDescriptionText(String descriptionText) {
+		this.descriptionText = descriptionText;
+	}
+
 	@ManyToOne
 	@JoinColumn(name="stu_version_id", nullable = false)
 	public StudyVersion getStudyVersion() {
