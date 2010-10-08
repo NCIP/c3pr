@@ -91,13 +91,19 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImplTest;
 
 /**
- * This class encapsulates methods common to subject management testing.
+ * This class encapsulates methods common to web service testing. Methods of
+ * this class are used in both unit and integration testing. <BR>
+ * <BR>
+ * It probably makes more sense to move object creation methods, such as {
+ * {@link #createStudy()}, into a separate helper class not tied to a JUnit test
+ * case. Will revisit this later.
  * 
  * @author dkrylov
  * @see JAXBToDomainObjectConverterImplTest
  * @see SubjectManagementImplTest
  */
-public abstract class WebServiceRelatedTestCase extends TestCase {
+public class WebServiceRelatedTestCase extends TestCase implements
+		TestDataCreationHelper {
 
 	public static final String TEST_SECONDARY_REASON_DESCR = "Other";
 	public static final String TEST_SECONDARY_REASON_CODE = "OTHER";
@@ -532,7 +538,7 @@ public abstract class WebServiceRelatedTestCase extends TestCase {
 	protected edu.duke.cabig.c3pr.domain.Consent createDomainConsent() {
 		edu.duke.cabig.c3pr.domain.Consent c = new edu.duke.cabig.c3pr.domain.Consent();
 		c.setMandatoryIndicator(true);
-		c.setName(TEST_CONSENT_TITLE);		
+		c.setName(TEST_CONSENT_TITLE);
 		c.addQuestion(new ConsentQuestion(TEST_CONSENT_QUESTION_1,
 				TEST_CONSENT_QUESTION_1));
 		c.addQuestion(new ConsentQuestion(TEST_CONSENT_QUESTION_2,
@@ -540,6 +546,10 @@ public abstract class WebServiceRelatedTestCase extends TestCase {
 		return c;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.helpers.TestDataCreationHelper#createStudy()
+	 */
 	public StudyProtocolVersion createStudy() {
 		StudyProtocolVersion study = new StudyProtocolVersion();
 		study.setTargetRegistrationSystem(new ST(TEST_TARGET_REG_SYS));

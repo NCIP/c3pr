@@ -290,7 +290,9 @@
 					
 				<batchtest fork="yes" todir="${test.results.dir}">
 					<fileset dir="${test.classes.dir}">						
-						<include name="edu/duke/cabig/**/*WebServiceTest.class"/>
+						<include name="edu/duke/cabig/**/SubjectManagementWebServiceTest.class"/>
+						<include name="edu/duke/cabig/**/StudyUtilityWebServiceTest.class"/>
+						<include name="edu/duke/cabig/**/SubjectRegistryWebServiceTest.class"/>
 					</fileset>
 				</batchtest>
 				

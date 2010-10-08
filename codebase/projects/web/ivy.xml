@@ -141,11 +141,20 @@
         	</dependency>	
         	<dependency org="org.slf4j" name="slf4j-api" rev="1.4.3" conf="test->default"/>			
 			<dependency org="javax.servlet" name="servlet-api" rev="2.5" 
-				conf="test->default"/>				
+				conf="test->default"/>			
+				
+			<dependency org="javax.xml.ws" name="jaxws-api" rev="2.1" conf="test->default"/>
+			<dependency org="jaxb" name="jaxb-xjc" rev="2.0-SNAPSHOT" conf="test->default"/>			
+			<dependency org="org.apache.geronimo.specs" name="geronimo-activation_1.1_spec" rev="1.0.2" conf="test->default"/>
+			<dependency org="com.sun.xml.ws" name="jaxws-rt" rev="2.1.7" conf="test->default"/>
+			<dependency org="com.sun.xml.bind" name="jaxb-impl" rev="2.1.9" force="true" conf="test->default"/>
+								
+				
 			<!-- tomcat jars for embedded container -->
 			<dependency org="org.apache.tomcat" name="catalina" rev="6.0.29" conf="test->default" />
 			<dependency org="org.apache.tomcat" name="coyote" rev="6.0.29" conf="test->default" />
-			<dependency org="org.apache.tomcat" name="jasper" rev="6.0.29" conf="test->default" />			
+			<dependency org="org.apache.tomcat" name="jasper" rev="6.0.29" conf="test->default" />
+						
 			<!-- Following dependencies retrieve jars which normally go into Tomcat/common/lib.
 			     For embedded container, they need to be on the classpath.
 			-->
@@ -155,7 +164,7 @@
 			<dependency org="cryptix" name="cryptix-impl" rev="3.2-cagrid1.0" conf="test->default" />
 			<dependency org="cryptix" name="cryptix-asn1" rev="3.2-cagrid1.0" conf="test->default" />
 			<dependency org="com.claymoresystems" name="puretls" rev="1.0-SNAPSHOT" conf="test->default"/>					
-			
+			<!-- End of test-only dependencies. -->
 
 			<!-- Web specific dependencies -->
 			<dependency org="org.directwebremoting" name="dwr" rev="2.0.rc2" />

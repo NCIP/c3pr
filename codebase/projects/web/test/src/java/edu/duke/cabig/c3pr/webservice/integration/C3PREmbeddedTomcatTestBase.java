@@ -108,7 +108,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		try {
-			logger.info(getClass().getSimpleName()+" starting up...");
+			logger.info(getClass().getSimpleName() + " starting up...");
 			initializeProperties();
 			prepareCsmJaasConfig();
 			prepareDatasourcePropertiesFile();
@@ -134,9 +134,9 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	private void prepareTomcatKeystore() throws IOException {
 		tomcatKeystore = new File(tmpDir, TOMCAT_KEYSTORE_BASENAME);
 		logger.info("Creating " + tomcatKeystore.getCanonicalPath());
-		FileUtils.copyURLToFile(C3PREmbeddedTomcatTestBase.class
-				.getResource(TESTDATA + "/" + TOMCAT_KEYSTORE_BASENAME),
-				tomcatKeystore);
+		FileUtils.copyURLToFile(
+				C3PREmbeddedTomcatTestBase.class.getResource(TESTDATA + "/"
+						+ TOMCAT_KEYSTORE_BASENAME), tomcatKeystore);
 
 	}
 
@@ -206,8 +206,9 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		logger.info("Starting Tomcat...");
 
 		File defaultWebXml = new File(tmpDir, WEB_XML_FILENAME);
-		FileUtils.copyURLToFile(C3PREmbeddedTomcatTestBase.class
-				.getResource(TESTDATA + "/" + WEB_XML_FILENAME), defaultWebXml);
+		FileUtils.copyURLToFile(
+				C3PREmbeddedTomcatTestBase.class.getResource(TESTDATA + "/"
+						+ WEB_XML_FILENAME), defaultWebXml);
 
 		final File rootContextDir = new File(webappsDir, ROOT);
 		rootContextDir.mkdir();
@@ -218,8 +219,8 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		Engine engine = container.createEngine();
 		engine.setName("TestEngine");
 
-		Host localHost = container.createHost("localhost", webappsDir
-				.getCanonicalPath());
+		Host localHost = container.createHost("localhost",
+				webappsDir.getCanonicalPath());
 		localHost.setDeployOnStartup(true);
 		localHost.setAutoDeploy(true);
 		engine.setDefaultHost(localHost.getName());
@@ -247,8 +248,8 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		Connector httpsConnector = container.createConnector(
 				(InetAddress) null, sslPort, true);
 		httpsConnector.setScheme("https");
-		httpsConnector.setProperty("keystoreFile", tomcatKeystore
-				.getCanonicalPath());
+		httpsConnector.setProperty("keystoreFile",
+				tomcatKeystore.getCanonicalPath());
 
 		container.addConnector(httpConnector);
 		container.addConnector(httpsConnector);
@@ -314,9 +315,9 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 		File keystoreFile = new File(SERVICE_KEYSTORE_FILE);
 		logger.info("Creating " + keystoreFile.getCanonicalPath());
-		FileUtils.copyURLToFile(C3PREmbeddedTomcatTestBase.class
-				.getResource(TESTDATA + "/" + SERVICE_KEYSTORE_BASENAME),
-				keystoreFile);
+		FileUtils.copyURLToFile(
+				C3PREmbeddedTomcatTestBase.class.getResource(TESTDATA + "/"
+						+ SERVICE_KEYSTORE_BASENAME), keystoreFile);
 
 	}
 
@@ -374,14 +375,16 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	}
 
 	/**
-	 * Quick fix for URLEncoding problem. Will revise to a fuller solution later.
+	 * Quick fix for URLEncoding problem. Will revise to a fuller solution
+	 * later.
+	 * 
 	 * @param url
 	 * @return
 	 */
 	private String encodeURL(String url) {
 		StringBuilder sb = new StringBuilder();
-		for (char c: url.toCharArray()) {
-			if (c!=':' && c!='/') {
+		for (char c : url.toCharArray()) {
+			if (c != ':' && c != '/') {
 				sb.append(URLEncoder.encode(String.valueOf(c)));
 			} else {
 				sb.append(c);
@@ -414,15 +417,15 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 		FileUtils.writeStringToFile(csmJaasConf, template, "UTF-8");
 
-		System.setProperty("java.security.auth.login.config", csmJaasConf
-				.getCanonicalPath());
+		System.setProperty("java.security.auth.login.config",
+				csmJaasConf.getCanonicalPath());
 
 	}
 
 	private String injectPropertyValue(String template, String propName,
 			Properties props) {
-		return StringUtils.replace(template, "${" + propName + "}", props
-				.getProperty(propName));
+		return StringUtils.replace(template, "${" + propName + "}",
+				props.getProperty(propName));
 	}
 
 	/**
@@ -431,19 +434,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	 * @throws IOException
 	 */
 	private void initializeProperties() throws IOException {
-		String catalinaHomeEnv = System.getenv(CATALINA_HOME);
-		if (StringUtils.isBlank(catalinaHomeEnv)) {
-			throw new RuntimeException(
-					"CATALINA_HOME is not set by the Ant script.");
-		}
-
-		catalinaHome = new File(catalinaHomeEnv);
-		if (!catalinaHome.exists() || !catalinaHome.isDirectory()
-				|| catalinaHome.list().length > 0) {
-			catalinaHome = null;
-			throw new RuntimeException(
-					"CATALINA_HOME must point to an existent and empty directory.");
-		}
+		initCatalinaHome();
 
 		datasourceFile = getFileFromProperty("test.datasource.file");
 		warFile = getFileFromProperty("test.war.file");
@@ -465,6 +456,39 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 		logger.info(toString());
 
+	}
+
+	/**
+	 * @throws RuntimeException
+	 */
+	private void initCatalinaHome() throws RuntimeException {
+		String catalinaHomeEnv = System.getenv(CATALINA_HOME);
+		if (StringUtils.isBlank(catalinaHomeEnv)) {
+			throw new RuntimeException(
+					"CATALINA_HOME is not set by the Ant script.");
+		}
+
+		catalinaHome = new File(catalinaHomeEnv);
+		if (!catalinaHome.exists() || !catalinaHome.isDirectory()
+				|| (catalinaHome.list().length > 0 && !isCatalinaHomeSafe())) {
+			catalinaHome = null;
+			throw new RuntimeException(
+					"CATALINA_HOME must point to an existent and empty directory.");
+		}
+		try {
+			FileUtils.cleanDirectory(catalinaHome);
+		} catch (IOException e) {
+		}
+	}
+
+	private boolean isCatalinaHomeSafe() {
+		if (catalinaHome.getParentFile() != null
+				&& (catalinaHome.getParentFile().equals(
+						new File(SystemUtils.JAVA_IO_TMPDIR)) || catalinaHome
+						.getParentFile().equals(new File("c:/temp")))) {
+			return true;
+		}
+		return false;
 	}
 
 	private File getFileFromProperty(String propertyName) {
@@ -543,12 +567,12 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 			Properties dsProps = new Properties();
 			dsProps.setProperty("url", props.getProperty("datasource.url"));
-			dsProps.setProperty("username", props
-					.getProperty("datasource.username"));
-			dsProps.setProperty("password", props
-					.getProperty("datasource.password"));
-			dsProps.setProperty("driverClassName", props
-					.getProperty("datasource.driver"));
+			dsProps.setProperty("username",
+					props.getProperty("datasource.username"));
+			dsProps.setProperty("password",
+					props.getProperty("datasource.password"));
+			dsProps.setProperty("driverClassName",
+					props.getProperty("datasource.driver"));
 			dsProps.setProperty("initialSize", "1");
 			dsProps.setProperty("minIdle", "1");
 			return dsProps;

@@ -202,6 +202,15 @@
 			<include name="**/postgresql*.jar" />
 			<include name="**/puretls*.jar" />
 			<include name="**/slf4j*.jar" />
+			<include name="**/activation*.jar" />
+			<include name="**/jaxb*.jar" />
+			<include name="**/jaxws*.jar" />
+			<include name="**/jsr*.jar" />
+			<include name="**/mimepull*.jar" />
+			<include name="**/saaj*.jar" />
+			<include name="**/stax*.jar" />
+			<include name="**/streambuffer*.jar" />
+			<include name="**/wstx*.jar" />
 		</fileset>		
 	</path>
 	
