@@ -4,10 +4,26 @@
 package edu.duke.cabig.c3pr.webservice.integration;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
+import javax.xml.soap.Name;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPHeader;
+import javax.xml.soap.SOAPHeaderElement;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.ws.handler.Handler;
+import javax.xml.ws.handler.HandlerResolver;
+import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.handler.PortInfo;
+import javax.xml.ws.handler.soap.SOAPHandler;
+import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -60,10 +76,12 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	@Override
 	protected void setUp() throws Exception {
-		super.setUp();
-		endpointURL = new URL("https://"
-				+ InetAddress.getLocalHost().getHostName() + ":" + sslPort
-				+ C3PR_CONTEXT + WS_ENDPOINT_SERVLET_PATH);
+		// super.setUp();
+		// endpointURL = new URL("https://"
+		// + InetAddress.getLocalHost().getHostName() + ":" + sslPort
+		// + C3PR_CONTEXT + WS_ENDPOINT_SERVLET_PATH);
+		endpointURL = new URL(
+				"https://localhost:8443/c3pr/services/services/StudyUtility");
 		wsdlLocation = new URL(endpointURL.toString() + "?wsdl");
 
 		logger.info("endpointURL: " + endpointURL);
@@ -71,6 +89,11 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		System.setProperty("sun.net.client.defaultConnectTimeout", "" + TIMEOUT);
 		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
+
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
 
 	}
 
@@ -96,9 +119,9 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		CreateStudyRequest request = new CreateStudyRequest();
 		StudyProtocolVersion study = createStudy();
 		request.setStudy(study);
-		// StudyProtocolVersion createdStudy = service.createStudy(request)
-		// .getStudy();
-		// assertNotNull(createdStudy);
+		StudyProtocolVersion createdStudy = service.createStudy(request)
+				.getStudy();
+		assertNotNull(createdStudy);
 
 	}
 
@@ -108,8 +131,70 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private StudyUtility getService() {
 		StudyUtilityService service = new StudyUtilityService(wsdlLocation,
 				SERVICE_NAME);
+		service.setHandlerResolver(new HandlerResolver() {
+			public List<Handler> getHandlerChain(PortInfo arg0) {
+				List<Handler> list = new ArrayList<Handler>();
+				list.add(getSecurityHandler());
+				return list;
+			}
+		});
 		StudyUtility client = service.getStudyUtility();
 		return client;
+	}
+
+	/**
+	 * @return
+	 */
+	private SOAPHandler<SOAPMessageContext> getSecurityHandler() {
+		return new SOAPHandler<SOAPMessageContext>() {
+			public void close(MessageContext arg0) {
+			}
+
+			public boolean handleFault(SOAPMessageContext arg0) {
+				return true;
+			}
+
+			public boolean handleMessage(SOAPMessageContext ctx) {
+				// Is this an outbound message, i.e., a request?
+				Boolean isOut = (Boolean) ctx
+						.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
+				if (isOut) {
+					SOAPMessage msg = ctx.getMessage();
+					try {
+						addSAMLToken(msg);
+					} catch (SOAPException e) {
+						throw new RuntimeException(e);
+					}
+				}
+				return true;
+			}
+
+			public Set<QName> getHeaders() {
+				return new HashSet();
+			}
+		};
+	}
+
+	private void addSAMLToken(SOAPMessage msg) throws SOAPException {
+		SOAPEnvelope env = msg.getSOAPPart().getEnvelope();
+		SOAPHeader hdr = env.getHeader();
+		// Ensure that the SOAP message has a header.
+		if (hdr == null) {
+			hdr = env.addHeader();
+		}
+		Name qname = env
+				.createName(
+						"Security",
+						"wsse",
+						"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
+		SOAPHeaderElement security = hdr.addHeaderElement(qname);
+		//security.addChildElement(null);
+		msg.saveChanges();
+		// For tracking, write to standard output.
+		try {
+			msg.writeTo(System.out);
+		} catch (IOException e) {
+		}
 	}
 
 	// copy-and-paste from WebServiceRelatedTestCase, unfortunately.

@@ -102,8 +102,7 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImplTes
  * @see JAXBToDomainObjectConverterImplTest
  * @see SubjectManagementImplTest
  */
-public class WebServiceRelatedTestCase extends TestCase implements
-		TestDataCreationHelper {
+public class WebServiceRelatedTestCase extends TestCase  {
 
 	public static final String TEST_SECONDARY_REASON_DESCR = "Other";
 	public static final String TEST_SECONDARY_REASON_CODE = "OTHER";
