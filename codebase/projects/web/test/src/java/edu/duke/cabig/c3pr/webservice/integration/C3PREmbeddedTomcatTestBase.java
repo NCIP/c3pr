@@ -108,7 +108,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		try {
-			logger.info("SubjectManagementWebServiceTest starting up...");
+			logger.info(getClass().getSimpleName()+" starting up...");
 			initializeProperties();
 			prepareCsmJaasConfig();
 			prepareDatasourcePropertiesFile();
@@ -374,7 +374,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	}
 
 	/**
-	 * Quick fix for URLEncoding problem. Will resive to a fuller solution later.
+	 * Quick fix for URLEncoding problem. Will revise to a fuller solution later.
 	 * @param url
 	 * @return
 	 */

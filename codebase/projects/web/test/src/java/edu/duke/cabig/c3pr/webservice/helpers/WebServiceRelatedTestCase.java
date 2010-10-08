@@ -20,6 +20,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -95,46 +97,46 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImplTes
  * @see JAXBToDomainObjectConverterImplTest
  * @see SubjectManagementImplTest
  */
-public abstract class WebServiceRelatedTestCase extends ApplicationTestCase {
+public abstract class WebServiceRelatedTestCase extends TestCase {
 
 	public static final String TEST_SECONDARY_REASON_DESCR = "Other";
 	public static final String TEST_SECONDARY_REASON_CODE = "OTHER";
-	protected static final String BAD_STATE_CODE = "bad state code";
-	protected static final String BAD_RACE_CODE = "invalid race code";
-	protected static final String BAD_ISO_DATE = "1990-01-01";
-	protected static final String TS_DATETIME_PATTERN = "yyyyMMddHHmmss";
-	protected static final String TEST_FAX = "555-555-5555";
-	protected static final String TEST_FAX_ISO = "x-text-fax:" + TEST_FAX;
-	protected static final String TEST_PHONE = "555-555-5555";
-	protected static final String TEST_PHONE_ISO = "tel:" + TEST_PHONE;
-	protected static final String TEST_EMAIL_ADDR = "johndoe@semanticbits.com";
-	protected static final String TEST_EMAIL_ADDR_ISO = "mailto:"
+	public static final String BAD_STATE_CODE = "bad state code";
+	public static final String BAD_RACE_CODE = "invalid race code";
+	public static final String BAD_ISO_DATE = "1990-01-01";
+	public static final String TS_DATETIME_PATTERN = "yyyyMMddHHmmss";
+	public static final String TEST_FAX = "555-555-5555";
+	public static final String TEST_FAX_ISO = "x-text-fax:" + TEST_FAX;
+	public static final String TEST_PHONE = "555-555-5555";
+	public static final String TEST_PHONE_ISO = "tel:" + TEST_PHONE;
+	public static final String TEST_EMAIL_ADDR = "johndoe@semanticbits.com";
+	public static final String TEST_EMAIL_ADDR_ISO = "mailto:"
 			+ TEST_EMAIL_ADDR;
-	protected static final String RACE_ASIAN = "Asian";
-	protected static final String RACE_WHITE = "White";
-	protected static final String TEST_COUNTRY = "USA";
-	protected static final String TEST_ZIP_CODE = "22203-5555";
-	protected static final String TEST_STATE_CODE = "VA";
-	protected static final String TEST_CITY_NAME = "Arlington";
-	protected static final String TEST_STREET_ADDRESS = "1029 N Stuart St Unit 999";
-	protected static final String TEST_LAST_NAME = "Doe";
-	protected static final String TEST_MID_NAME = "Z";
-	protected static final String TEST_FIRST_NAME = "John";
-	protected static final String MARITAL_STATUS_SINGLE = "Single";
-	protected static final String ETHNIC_CODE_NOT_REPORTED = "Not Reported";
-	protected static final String TEST_DEATH_DATE_ISO = "19900101000000";
-	protected static final Date TEST_DEATH_DATE = parseISODate(TEST_DEATH_DATE_ISO);
-	protected static final String TEST_BIRTH_DATE_ISO = "19800101000000";
-	protected static final Date TEST_BIRTH_DATE = parseISODate(TEST_BIRTH_DATE_ISO);
-	protected static final String GENDER_MALE = "Male";
-	protected static final String STATE_ACTIVE = "ACTIVE";
-	protected static final String STATE_INACTIVE = "INACTIVE";
-	protected static final String ORG_ID_TYPE_MRN = OrganizationIdentifierTypeEnum.MRN
+	public static final String RACE_ASIAN = "Asian";
+	public static final String RACE_WHITE = "White";
+	public static final String TEST_COUNTRY = "USA";
+	public static final String TEST_ZIP_CODE = "22203-5555";
+	public static final String TEST_STATE_CODE = "VA";
+	public static final String TEST_CITY_NAME = "Arlington";
+	public static final String TEST_STREET_ADDRESS = "1029 N Stuart St Unit 999";
+	public static final String TEST_LAST_NAME = "Doe";
+	public static final String TEST_MID_NAME = "Z";
+	public static final String TEST_FIRST_NAME = "John";
+	public static final String MARITAL_STATUS_SINGLE = "Single";
+	public static final String ETHNIC_CODE_NOT_REPORTED = "Not Reported";
+	public static final String TEST_DEATH_DATE_ISO = "19900101000000";
+	public static final Date TEST_DEATH_DATE = parseISODate(TEST_DEATH_DATE_ISO);
+	public static final String TEST_BIRTH_DATE_ISO = "19800101000000";
+	public static final Date TEST_BIRTH_DATE = parseISODate(TEST_BIRTH_DATE_ISO);
+	public static final String GENDER_MALE = "Male";
+	public static final String STATE_ACTIVE = "ACTIVE";
+	public static final String STATE_INACTIVE = "INACTIVE";
+	public static final String ORG_ID_TYPE_MRN = OrganizationIdentifierTypeEnum.MRN
 			.getName();
-	protected static final String TEST_BIO_ID = "001";
-	protected static final String ORG_ID_TYPE_CTEP = OrganizationIdentifierTypeEnum.CTEP
+	public static final String TEST_BIO_ID = "001";
+	public static final String ORG_ID_TYPE_CTEP = OrganizationIdentifierTypeEnum.CTEP
 			.getName();
-	protected static final String TEST_ORG_ID = "MN026";
+	public static final String TEST_ORG_ID = "MN026";
 	public static final String TEST_VALUE2 = "v2";
 	public static final String TEST_VALUE1 = "v1";
 	public static final String TEST_PREDICATE = "Predicate";
