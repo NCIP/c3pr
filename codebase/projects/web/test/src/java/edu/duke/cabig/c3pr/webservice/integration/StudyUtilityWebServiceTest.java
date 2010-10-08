@@ -4,6 +4,8 @@
 package edu.duke.cabig.c3pr.webservice.integration;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,8 +13,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.Name;
-import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPHeader;
@@ -27,6 +30,9 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.dbunit.operation.DatabaseOperation;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 import edu.duke.cabig.c3pr.webservice.testclient.common.Consent;
 import edu.duke.cabig.c3pr.webservice.testclient.common.Document;
@@ -62,6 +68,8 @@ import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityServic
  */
 public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
+	private static final String WSS_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
+	private static final String PATH_TO_SAML_TOKEN = "/edu/duke/cabig/c3pr/webservice/integration/testdata/SAMLToken.xml";
 	private static final QName SERVICE_NAME = new QName(
 			"http://enterpriseservices.nci.nih.gov/StudyUtilityService",
 			"StudyUtilityService");
@@ -76,12 +84,14 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	@Override
 	protected void setUp() throws Exception {
-		// super.setUp();
-		// endpointURL = new URL("https://"
-		// + InetAddress.getLocalHost().getHostName() + ":" + sslPort
-		// + C3PR_CONTEXT + WS_ENDPOINT_SERVLET_PATH);
-		endpointURL = new URL(
-				"https://localhost:8443/c3pr/services/services/StudyUtility");
+		super.setUp();
+		endpointURL = new URL("https://"
+				+ InetAddress.getLocalHost().getHostName() + ":" + sslPort
+				+ C3PR_CONTEXT + WS_ENDPOINT_SERVLET_PATH);
+		/*
+		 * endpointURL = new URL(
+		 * "https://localhost:8443/c3pr/services/services/StudyUtility");
+		 */
 		wsdlLocation = new URL(endpointURL.toString() + "?wsdl");
 
 		logger.info("endpointURL: " + endpointURL);
@@ -94,7 +104,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	@Override
 	protected void tearDown() throws Exception {
-
+		super.tearDown();
 	}
 
 	/**
@@ -116,12 +126,43 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private void executeCreateStudy() throws SecurityExceptionFaultMessage,
 			StudyUtilityFaultMessage {
 		StudyUtility service = getService();
-		CreateStudyRequest request = new CreateStudyRequest();
+
+		// successful creation
+		final CreateStudyRequest request = new CreateStudyRequest();
 		StudyProtocolVersion study = createStudy();
 		request.setStudy(study);
 		StudyProtocolVersion createdStudy = service.createStudy(request)
 				.getStudy();
 		assertNotNull(createdStudy);
+
+		// duplicate study
+		try {
+			service.createStudy(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Duplicate study creation passed.");
+		}
+
+		// missing identifiers
+		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
+				.clear();
+		try {
+			service.createStudy(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Missing identifiers testing passed.");
+		}
+
+		// malformed data
+		study = createStudy();
+		study.getStudyProtocolDocument().getVersionDate().setValue("ZZZ");
+		request.setStudy(study);
+		try {
+			service.createStudy(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Malformed data testing passed.");
+		}
 
 	}
 
@@ -162,7 +203,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 					SOAPMessage msg = ctx.getMessage();
 					try {
 						addSAMLToken(msg);
-					} catch (SOAPException e) {
+					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}
 				}
@@ -175,26 +216,27 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		};
 	}
 
-	private void addSAMLToken(SOAPMessage msg) throws SOAPException {
+	private void addSAMLToken(SOAPMessage msg) throws SOAPException,
+			SAXException, IOException, ParserConfigurationException {
+		InputStream xml = getClass().getResourceAsStream(PATH_TO_SAML_TOKEN);
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		dbf.setNamespaceAware(true);
+		org.w3c.dom.Document doc = dbf.newDocumentBuilder().parse(xml);
+		xml.close();
+
+		Node samlToken = doc.getChildNodes().item(0);
+
 		SOAPEnvelope env = msg.getSOAPPart().getEnvelope();
 		SOAPHeader hdr = env.getHeader();
-		// Ensure that the SOAP message has a header.
 		if (hdr == null) {
 			hdr = env.addHeader();
 		}
-		Name qname = env
-				.createName(
-						"Security",
-						"wsse",
-						"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
+
+		Name qname = env.createName("Security", "wsse", WSS_NS);
 		SOAPHeaderElement security = hdr.addHeaderElement(qname);
-		//security.addChildElement(null);
+		security.appendChild(security.getOwnerDocument().importNode(samlToken,
+				true));
 		msg.saveChanges();
-		// For tracking, write to standard output.
-		try {
-			msg.writeTo(System.out);
-		} catch (IOException e) {
-		}
 	}
 
 	// copy-and-paste from WebServiceRelatedTestCase, unfortunately.
