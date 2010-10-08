@@ -37,24 +37,24 @@ public class StudySubjectWrapper {
 	
 	private Reason[] reasons;
 	
-	private List<StudySubjectConsentVersion> reConsentingStudySubjectConsentVersons =
+	private List<StudySubjectConsentVersion> reConsentingStudySubjectConsentVersions =
 		new ArrayList<StudySubjectConsentVersion>();
 	
-	public List<StudySubjectConsentVersion> getReConsentingStudySubjectConsentVersons() {
-		return reConsentingStudySubjectConsentVersons;
+	public List<StudySubjectConsentVersion> getReConsentingStudySubjectConsentVersions() {
+		return reConsentingStudySubjectConsentVersions;
 	}
 
 	public void setReConsentingStudySubjectConsentVersons(
 			List<StudySubjectConsentVersion> reConsentingStudySubjectConsentVersons) {
-		this.reConsentingStudySubjectConsentVersons = reConsentingStudySubjectConsentVersons;
+		this.reConsentingStudySubjectConsentVersions = reConsentingStudySubjectConsentVersons;
 	}
 	
 	public void addReConsentingStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion){
-		this.getReConsentingStudySubjectConsentVersons().add(studySubjectConsentVersion);
+		this.getReConsentingStudySubjectConsentVersions().add(studySubjectConsentVersion);
 	}
 	
 	public void removeReConsentingStudySubjectConsentVersion(StudySubjectConsentVersion studySubjectConsentVersion){
-		this.getReConsentingStudySubjectConsentVersons().remove(studySubjectConsentVersion);
+		this.getReConsentingStudySubjectConsentVersions().remove(studySubjectConsentVersion);
 	}
 
 	private List<OffEpochReason> offEpochReasons = LazyList.decorate(new ArrayList<OffEpochReason>(), new InstantiateFactory<OffEpochReason>(OffEpochReason.class){
