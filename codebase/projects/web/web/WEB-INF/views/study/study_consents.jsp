@@ -58,7 +58,7 @@
 		<c:when test="${fn:length(command.study.consents) == 0}">
 			<tr>
 				<td id="addconsentsMessage"><fmt:message key="study.noConsents" /></td>
-			<tr>
+			</tr>
 		</c:when>
 		<c:otherwise>
 		    <c:forEach items="${command.study.consents}" var="consent"  varStatus="consentCount">
@@ -120,9 +120,13 @@
 									  <td align="left" colspan="2">
 									      <table id="question" class="tablecontent" border="0">
 										      <tr id="h-${consentCount.index}" >
+										      	   <th>
+										          	<fmt:message key="study.consent.question.code"/>
+										          	<tags:hoverHint id="study.consent.question.code-${consentCount.index}" keyProp="study.consent.question.code" />
+										          </th>
 										          <th>
-										          	<fmt:message key="study.consent.question"/>
-										          	<tags:hoverHint id="study.consent.question-${consentCount.index}" keyProp="study.consent.question" />
+										          	<fmt:message key="study.consent.question.text"/>
+										          	<tags:hoverHint id="study.consent.question.text-${consentCount.index}" keyProp="study.consent.question.text" />
 										          </th>
 										          <th></th>
 										      </tr>
@@ -135,8 +139,12 @@
 											      	<c:otherwise>
 											      		<c:forEach items="${consent.questions}" var="question" varStatus="statusQuestions">
 												            <tr id="question-${statusQuestions.index}">
+												            	<td valign="top">
+												                	<form:input path="study.consents[${consentCount.index}].questions[${statusQuestions.index}].code" size="40" 
+												                	 cssClass="required validate-notEmpty" />
+												                </td>
 												                <td valign="top">
-												                	<form:input path="study.consents[${consentCount.index}].questions[${statusQuestions.index}].text" size="100" 
+												                	<form:input path="study.consents[${consentCount.index}].questions[${statusQuestions.index}].text" size="80" 
 												                	 cssClass="required validate-notEmpty" />
 												                </td>
 												                <td valign="top" align="left">
@@ -232,8 +240,11 @@
 								<td colspan="2" align="left">
 									<table id="question" class="tablecontent">
 										<tr id="h-PAGE.ROW.INDEX">
-											<th><fmt:message key="study.consent.question"/><tags:hoverHint
-												id="study.consent.question-PAGE.ROW.INDEX" keyProp="study.consent.question" /></th>
+											<th> <fmt:message key="study.consent.question.code"/>
+										          <tags:hoverHint id="study.consent.question.code-PAGE.ROW.INDEX" keyProp="study.consent.question.code" />
+										    </th>
+											<th><fmt:message key="study.consent.question.text"/><tags:hoverHint
+												id="study.consent.question.text-PAGE.ROW.INDEX" keyProp="study.consent.question.text" /></th>
 											<th></th>
 										</tr>
 										<tr>
@@ -257,7 +268,8 @@
 <div id="dummy-row-consent-question" style="display:none;">
 <table id="question" class="tablecontent" width="50%">
 	<tr>
-		<td><input id="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX]" name="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX].text" type="text" size="100" class="required validate-notEmpty" /></td>
+		<td><input id="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX]" name="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX].code" type="text" size="40" class="required validate-notEmpty" /></td>
+		<td><input id="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX]" name="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX].text" type="text" size="80" class="required validate-notEmpty" /></td>
 		<td valign="top" align="left"><a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(consentRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
