@@ -35,7 +35,7 @@ public class ReConsentTab extends RegistrationTab<StudySubjectWrapper> {
 	
 	@Override
 	public void validate(StudySubjectWrapper command, Errors errors) {
-    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getReConsentingStudySubjectConsentVersons()){
+    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getReConsentingStudySubjectConsentVersions()){
 			if (studySubjectConsentVersion
 					.getInformedConsentSignedDate() != null) {
 				if(studySubjectConsentVersion.getInformedConsentSignedDate().after(new Date())){
@@ -63,7 +63,7 @@ public class ReConsentTab extends RegistrationTab<StudySubjectWrapper> {
 	public void postProcess(HttpServletRequest request, StudySubjectWrapper command, Errors errors) {
 		if(!errors.hasErrors()){
 			List<StudySubjectConsentVersion> consentedStudySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
-			for(StudySubjectConsentVersion studySubjectConsentVersion : command.getReConsentingStudySubjectConsentVersons()){
+			for(StudySubjectConsentVersion studySubjectConsentVersion : command.getReConsentingStudySubjectConsentVersions()){
 				if (studySubjectConsentVersion
 						.getInformedConsentSignedDate() != null) {
 					consentedStudySubjectConsentVersions.add(studySubjectConsentVersion);
