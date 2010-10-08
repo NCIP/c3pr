@@ -28,6 +28,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import edu.duke.cabig.c3pr.constants.AmendmentType;
+import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
@@ -506,6 +507,20 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
         for(Consent consent : this.getConsents()){
         	Consent cloneConsent =  new Consent();
         	cloneConsent.setName(consent.getName());
+        	cloneConsent.setMandatoryIndicator(consent.getMandatoryIndicator());
+        	cloneConsent.setVersionId(consent.getVersionId());
+        	cloneConsent.setDescriptionText(consent.getDescriptionText());
+        	for(ConsentQuestion consentQuestion : consent.getQuestions()){
+        		ConsentQuestion cloneConsentQuestion = new ConsentQuestion();
+        		cloneConsentQuestion.setCode(consentQuestion.getCode());
+        		cloneConsentQuestion.setText(consentQuestion.getText());
+        		cloneConsent.addQuestion(cloneConsentQuestion);
+        	}
+        	List<ConsentingMethod> cloneConsentingMethods = new ArrayList<ConsentingMethod>();
+        	for(ConsentingMethod consentingMethod : consent.getConsentingMethods()){
+        		cloneConsentingMethods.add(consentingMethod);
+        	}
+        	cloneConsent.setConsentingMethods(cloneConsentingMethods);
         	clone.addConsent(cloneConsent);
         }
 
