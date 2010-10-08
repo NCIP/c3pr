@@ -28,7 +28,7 @@ public class InformedConsentsTab extends RegistrationTab<StudySubjectWrapper> {
 	
 
 	public InformedConsentsTab() {
-        super("Informed Consent", "Informed Consent", "registration/reg_registration_informed_consent");
+        super("Informed Consents", "Informed Consents", "registration/reg_registration_informed_consent");
     }
     
     @Override
