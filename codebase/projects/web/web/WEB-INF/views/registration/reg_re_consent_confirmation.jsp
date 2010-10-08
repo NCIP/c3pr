@@ -59,7 +59,7 @@
 <chrome:box title="Re-Consent: ${tab.longTitle}">
 	<div id="flash-message" class="info">
 		<img src="<tags:imageUrl name='check.png'/>" alt="" style="vertical-align:top;" /> 
-	   	 	Subject successfully re consented on study version : ${command.reConsentingVersion.name }
+	   	 	Subject successfully Re-Consented on study version : ${command.reConsentingVersion.name }
 	</div>
 </chrome:box>
 

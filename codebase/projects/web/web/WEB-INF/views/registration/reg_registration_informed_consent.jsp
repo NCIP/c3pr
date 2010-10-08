@@ -97,21 +97,31 @@ function changeStudyVersion(){
 		</c:otherwise>
 	</c:choose>
 	
-<c:if test="${fn:length(command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions) > 0}">
-<c:forEach items="${command.studySubject.studySubjectStudyVersion.studySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
-<chrome:division title="Consent: ${studySubjectConsentVersion.consent.name}">
+<c:if test="${fn:length(command.studySubject.allConsents) > 0}">
+<c:forEach items="${command.studySubject.allConsents}" var="subjectConsentVersion" varStatus="status">
+<chrome:division title="Consent: ${subjectConsentVersion.consent.name}">
 	<table width="100%" cellpadding="2" cellspacing="4">
 		<tr>
 			<td width="50%">
 				<table>
 					<tr>
-					  <td align="right"><c:if test="${studySubjectConsentVersion.consent.mandatoryIndicator == 'true'}"><tags:requiredIndicator/></c:if>
+					  <td align="right"><c:if test="${subjectConsentVersion.consent.mandatoryIndicator == 'true'}"><tags:requiredIndicator/></c:if>
 			          	<b><fmt:message key="registration.consentSignedDate"/></b>
 			          	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
 			          </td>
-			         <td align="left"><tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" 
-			         	 size="14" />
-			         </td>
+			          
+			          <c:choose>
+			          	<c:when test="${not empty subjectConsentVersion.informedConsentSignedDate &&(fn:length(command.studySubject.studySubjectStudyVersions) > 1
+			          	|| fn:length(command.studySubject.scheduledEpochs) > 1)}">
+			          		<td align="left">${command.studySubject.allConsents[status.index].informedConsentSignedDateStr}
+			         		</td>
+			          	</c:when>
+			          	<c:otherwise>
+			          		<td align="left"><tags:dateInput path="studySubject.allConsents[${status.index}].informedConsentSignedDate" 
+			         			 size="14" />
+			         		</td>
+			          	</c:otherwise>
+			          </c:choose>
 					</tr>
 					<tr>
 					  <td align="right">
@@ -119,20 +129,20 @@ function changeStudyVersion(){
 			          	<tags:hoverHint keyProp="studySubject.informedConsentingMethod" />
 			          </td>
 			          
-	                     <c:if test="${fn:length(studySubjectConsentVersion.consent.consentingMethods) > 1}">
-	                     	<td align="left"><form:select id="consetingMethod" path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentingMethod">
+	                     <c:if test="${fn:length(subjectConsentVersion.consent.consentingMethods) > 1}">
+	                     	<td align="left"><form:select id="consetingMethod" path="studySubject.allConsents[${status.index}].consentingMethod">
 		                    	<form:option label="Please Select" value=""/>
 		                    	<form:option label="Written" value="WRITTEN"/>
 		                    	<form:option label="Verbal" value="VERBAL"/>
 	                    	</form:select></td>
 	                    </c:if>
-	                    <c:if test="${fn:length(studySubjectConsentVersion.consent.consentingMethods) == 1}">
-	                    	<td align="left"><form:select id="consetingMethod" path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentingMethod"
+	                    <c:if test="${fn:length(subjectConsentVersion.consent.consentingMethods) == 1}">
+	                    	<td align="left"><form:select id="consetingMethod" path="studySubject.allConsents[${status.index}].consentingMethod"
 	                    		disabled="true">
-	                    		<form:options items="${studySubjectConsentVersion.consent.consentingMethods}" itemLabel="code" itemValue="name"/>
+	                    		<form:options items="${subjectConsentVersion.consent.consentingMethods}" itemLabel="code" itemValue="name"/>
 	                    	</form:select></td>
-	                    	<input type="hidden" name="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentingMethod" 
-	                    		value="${studySubjectConsentVersion.consent.consentingMethods[0]}"/>
+	                    	<input type="hidden" name="studySubject.allConsents[${status.index}].consentingMethod" 
+	                    		value="${subjectConsentVersion.consent.consentingMethods[0]}"/>
 	                    </c:if>
 					</tr>
 				</table>
@@ -144,20 +154,30 @@ function changeStudyVersion(){
 			          	<b><fmt:message key="registration.consentDeliveredDate"/></b>
 			          	<tags:hoverHint keyProp="studySubject.informedConsentFormDeliveredDate" />
 			          </td>
-			          <td align="left"><tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentDeliveryDate"
-			          	size="14" /></td>
+			          <c:choose>
+			          		<c:when test="${not empty subjectConsentVersion.informedConsentSignedDate &&(fn:length(command.studySubject.studySubjectStudyVersions) > 1
+			          	|| fn:length(command.studySubject.scheduledEpochs) > 1)}">
+			          		<td align="left">${command.studySubject.allConsents[status.index].consentDeliveryDateStr}
+			         		</td>
+			          	</c:when>
+			          	<c:otherwise>
+			          		<td align="left"><tags:dateInput path="studySubject.allConsents[${status.index}].consentDeliveryDate" 
+			         			 size="14" />
+			         		</td>
+			          	</c:otherwise>
+			          </c:choose>
 					</tr>
 					<tr>
 					  <td align="right">
 			          	<b><fmt:message key="registration.consentPresenter"/></b>
 			          	<tags:hoverHint keyProp="studySubject.informedConsentFormPresenter" />
 			          </td>
-			          <td align="left"><form:input path ="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index}].consentPresenter" size="14"></form:input></td>
+			          <td align="left"><form:input path ="studySubject.allConsents[${status.index}].consentPresenter" size="14"></form:input></td>
 					</tr>
 				</table>
 			</td>
 		</tr>
-		<c:if test="${fn:length(studySubjectConsentVersion.subjectConsentAnswers) > 0}">
+		<c:if test="${fn:length(subjectConsentVersion.subjectConsentAnswers) > 0}">
 			<tr>
 				<td colspan="2">
 					<table class="tablecontent">
@@ -171,11 +191,11 @@ function changeStudyVersion(){
 							<tags:hoverHint id="studySubject.informedConsentQuestion.answer" keyProp="studySubject.informedConsentQuestion.answer" />
 						</th>
 					</tr>
-					<c:forEach items="${studySubjectConsentVersion.subjectConsentAnswers}" var="subjectConsentAnswer" varStatus="answerStatus">
+					<c:forEach items="${subjectConsentVersion.subjectConsentAnswers}" var="subjectConsentAnswer" varStatus="answerStatus">
 						<tr> 
 							<td align="right" width="80%">${subjectConsentAnswer.consentQuestion.text}</td>
-			         		<td align="left" width="20%"><form:select id="studySubjectConsentVersions[${status.index }].subjectConsentAnswers[${answerStatus.index}].agreementIndicator" 
-			         			path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[${status.index }].subjectConsentAnswers[${answerStatus.index}].agreementIndicator">
+			         		<td align="left" width="20%"><form:select id="allConsents[${status.index }].subjectConsentAnswers[${answerStatus.index}].agreementIndicator" 
+			         			path="studySubject.allConsents[${status.index }].subjectConsentAnswers[${answerStatus.index}].agreementIndicator">
 									<option value="">Please Select</option>
 									<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 								</form:select>
@@ -195,11 +215,5 @@ function changeStudyVersion(){
 
 </c:otherwise>
 </c:choose>
-<script type="text/javascript">
-if($('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value == null ||
-		$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value == ''){
-		$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value = '${consentSignedDate}';
-	}
-</script>
 </body>
 </html>

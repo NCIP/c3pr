@@ -101,8 +101,8 @@ function submitReConsentForm(){
 <tags:errors path="*"/>
 <input type="hidden" name="_validateForm" id="_validateForm"/>
 
-<c:if test="${fn:length(command.reConsentingStudySubjectConsentVersons) > 0}">
-<c:forEach items="${command.reConsentingStudySubjectConsentVersons}" var="studySubjectConsentVersion" varStatus="status">
+<c:if test="${fn:length(command.reConsentingStudySubjectConsentVersions) > 0}">
+<c:forEach items="${command.reConsentingStudySubjectConsentVersions}" var="studySubjectConsentVersion" varStatus="status">
 <chrome:division title="Consent: ${studySubjectConsentVersion.consent.name}">
 	<table width="100%" cellpadding="2" cellspacing="4">
 		<tr>
@@ -113,7 +113,7 @@ function submitReConsentForm(){
 			          	<b><fmt:message key="registration.consentSignedDate"/></b>
 			          	<tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate" />
 			          </td>
-			         <td align="left"><tags:dateInput path="reConsentingStudySubjectConsentVersons[${status.index}].informedConsentSignedDate" 
+			         <td align="left"><tags:dateInput path="reConsentingStudySubjectConsentVersions[${status.index}].informedConsentSignedDate" 
 			         	 size="14" />
 			         </td>
 					</tr>
@@ -124,18 +124,18 @@ function submitReConsentForm(){
 			          </td>
 			          
 	                     <c:if test="${fn:length(studySubjectConsentVersion.consent.consentingMethods) > 1}">
-	                     	<td align="left"><form:select id="consetingMethod" path="reConsentingStudySubjectConsentVersons[${status.index}].consentingMethod">
+	                     	<td align="left"><form:select id="consetingMethod" path="reConsentingStudySubjectConsentVersions[${status.index}].consentingMethod">
 		                    	<form:option label="Please Select" value=""/>
 		                    	<form:option label="Written" value="WRITTEN"/>
 		                    	<form:option label="Verbal" value="VERBAL"/>
 	                    	</form:select></td>
 	                    </c:if>
 	                    <c:if test="${fn:length(studySubjectConsentVersion.consent.consentingMethods) == 1}">
-	                    	<td align="left"><form:select id="consetingMethod" path="reConsentingStudySubjectConsentVersons[${status.index}].consentingMethod"
+	                    	<td align="left"><form:select id="consetingMethod" path="reConsentingStudySubjectConsentVersions[${status.index}].consentingMethod"
 	                    		disabled="true">
 	                    		<form:options items="${studySubjectConsentVersion.consent.consentingMethods}" itemLabel="code" itemValue="name"/>
 	                    	</form:select></td>
-	                    	<input type="hidden" name="reConsentingStudySubjectConsentVersons[${status.index}].consentingMethod" 
+	                    	<input type="hidden" name="reConsentingStudySubjectConsentVersions[${status.index}].consentingMethod" 
 	                    		value="${studySubjectConsentVersion.consent.consentingMethods[0]}"/>
 	                    </c:if>
 					</tr>
@@ -148,7 +148,7 @@ function submitReConsentForm(){
 			          	<b><fmt:message key="registration.consentDeliveredDate"/></b>
 			          	<tags:hoverHint keyProp="studySubject.informedConsentFormDeliveredDate" />
 			          </td>
-			          <td align="left"><tags:dateInput path="reConsentingStudySubjectConsentVersons[${status.index}].consentDeliveryDate"
+			          <td align="left"><tags:dateInput path="reConsentingStudySubjectConsentVersions[${status.index}].consentDeliveryDate"
 			          	size="14" /></td>
 					</tr>
 					<tr>
@@ -156,7 +156,7 @@ function submitReConsentForm(){
 			          	<b><fmt:message key="registration.consentPresenter"/></b>
 			          	<tags:hoverHint keyProp="studySubject.informedConsentFormPresenter" />
 			          </td>
-			          <td align="left"><form:input path ="reConsentingStudySubjectConsentVersons[${status.index}].consentPresenter" size="14"></form:input></td>
+			          <td align="left"><form:input path ="reConsentingStudySubjectConsentVersions[${status.index}].consentPresenter" size="14"></form:input></td>
 					</tr>
 				</table>
 			</td>
@@ -179,7 +179,7 @@ function submitReConsentForm(){
 						<tr> 
 							<td align="right" width="80%">${subjectConsentAnswer.consentQuestion.text}</td>
 			         		<td align="left" width="20%"><form:select id="studySubjectConsentVersions[${status.index }].subjectConsentAnswers[${answerStatus.index}].agreementIndicator" 
-			         			path="reConsentingStudySubjectConsentVersons[${status.index }].subjectConsentAnswers[${answerStatus.index}].agreementIndicator">
+			         			path="reConsentingStudySubjectConsentVersions[${status.index }].subjectConsentAnswers[${answerStatus.index}].agreementIndicator">
 									<option value="">Please Select</option>
 									<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 								</form:select>
