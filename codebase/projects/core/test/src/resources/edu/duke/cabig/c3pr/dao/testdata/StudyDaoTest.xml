@@ -125,17 +125,17 @@
     <RANDOMIZATIONS id="1001" version="1" dtype="BR" retired_indicator="false"/>
 
     <EPOCHS id="1000" version="1" name="epoch 1" description_text="treatement desc" stu_version_id="1000" type="SCREENING"
-            retired_indicator="false" epoch_order="0" enrollment_indicator="false"/>
+            retired_indicator="false" epoch_order="0" enrollment_indicator="0"/>
     <EPOCHS id="1001" version="1" name="Test epoch" description_text="cancer desc" stu_version_id="1000" type="SCREENING"
-            retired_indicator="false" epoch_order="4" enrollment_indicator="false"/>
+            retired_indicator="false" epoch_order="4" enrollment_indicator="0"/>
     <EPOCHS id="1002" version="1" name="Treatment1002" description_text="treatement desc" stu_version_id="1000" type="TREATMENT"
-            retired_indicator="false" epoch_order="5" enrollment_indicator="true"/>
+            retired_indicator="false" epoch_order="5" enrollment_indicator="1"/>
     <EPOCHS id="1003" version="1" name="Treatment1003" description_text="cancer desc" stu_version_id="1000" type="TREATMENT"
-            retired_indicator="false" epoch_order="2" enrollment_indicator="true"/>
+            retired_indicator="false" epoch_order="2" enrollment_indicator="1"/>
     <EPOCHS id="1004" version="1" name="NonTreatment1004" description_text="non treatement desc" stu_version_id="1000"
-            type="TREATMENT" retired_indicator="false" epoch_order="1" enrollment_indicator="true"/>
+            type="TREATMENT" retired_indicator="false" epoch_order="1" enrollment_indicator="1"/>
     <EPOCHS id="1005" version="1" name="NonTreatment1005" description_text="non treatment cancer desc" stu_version_id="1000"
-            type="TREATMENT" retired_indicator="false" epoch_order="3" enrollment_indicator="true"/>
+            type="TREATMENT" retired_indicator="false" epoch_order="3" enrollment_indicator="1"/>
 
     <SCHEDULED_EPOCHS id="1000" version="1" start_date="2000-01-01" eligibility_indicator="1"
                       ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000" eph_id="1000"
