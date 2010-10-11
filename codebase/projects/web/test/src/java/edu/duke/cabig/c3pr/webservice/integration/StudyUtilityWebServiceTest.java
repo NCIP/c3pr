@@ -31,6 +31,7 @@ import javax.xml.ws.handler.PortInfo;
 import javax.xml.ws.handler.soap.SOAPHandler;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.dbunit.Assertion;
@@ -65,6 +66,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyRequest
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityService;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyRequest;
 
 /**
  * This test will run C3PR in embedded Tomcat and test Study Utility web service
@@ -76,6 +78,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityServic
  */
 public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
+	private static final String DBUNIT_DATASET_PREFIX = "/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_";
 	private static final String WSS_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
 	private static final String PATH_TO_SAML_TOKEN = "/edu/duke/cabig/c3pr/webservice/integration/testdata/SAMLToken.xml";
 	private static final QName SERVICE_NAME = new QName(
@@ -83,6 +86,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			"StudyUtilityService");
 	private static final long TIMEOUT = 1000 * 60 * 10;
 	private static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/StudyUtility";
+	private static final String UPDATE_DISCRIMINATOR = " UPDATED";
 
 	private final String STUDY_ID = RandomStringUtils.randomAlphanumeric(16);
 
@@ -140,6 +144,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		try {
 			executeCreateStudyTest();
+			executeUpdateStudyTest();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
@@ -152,14 +157,14 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// successful creation
 		final CreateStudyRequest request = new CreateStudyRequest();
-		StudyProtocolVersion study = createStudy();
+		StudyProtocolVersion study = createStudy("");
 		request.setStudy(study);
 		StudyProtocolVersion createdStudy = service.createStudy(request)
 				.getStudy();
 		assertNotNull(createdStudy);
 
 		// check that the study data exists in the database
-		verifyStudyDatabaseData(createdStudy);
+		verifyStudyDatabaseData(createdStudy, "");
 
 		// duplicate study
 		try {
@@ -180,7 +185,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		}
 
 		// malformed data
-		study = createStudy();
+		study = createStudy("");
 		study.getStudyProtocolDocument().getVersionDate().setValue("ZZZ");
 		request.setStudy(study);
 		try {
@@ -192,48 +197,91 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 
-	private void verifyStudyDatabaseData(StudyProtocolVersion study)
-			throws SQLException, Exception {
-		verifyData(
-				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_Identifiers.xml",
-				"identifiers",
-				"SELECT type, dtype FROM identifiers WHERE value='" + STUDY_ID
+	private void executeUpdateStudyTest() throws SQLException, Exception {
+		StudyUtility service = getService();
+
+		// successful creation
+		final UpdateStudyRequest request = new UpdateStudyRequest();
+		StudyProtocolVersion study = createStudy(UPDATE_DISCRIMINATOR);
+		request.setStudy(study);
+		StudyProtocolVersion updatedStudy = service.updateStudy(request)
+				.getStudy();
+		assertNotNull(updatedStudy);
+
+		// check that the study data exists in the database
+		verifyStudyDatabaseData(updatedStudy, "_Updated");
+
+		// missing identifiers
+		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
+				.clear();
+		try {
+			service.updateStudy(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Missing identifiers testing passed.");
+		}
+
+		// malformed data
+		study = createStudy(UPDATE_DISCRIMINATOR);
+		study.getStudyProtocolDocument().getVersionDate().setValue("ZZZ");
+		request.setStudy(study);
+		try {
+			service.updateStudy(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Malformed data testing passed.");
+		}
+
+	}
+
+	private void verifyStudyDatabaseData(StudyProtocolVersion study,
+			String fileNameAppendix) throws SQLException, Exception {
+		final String id = study.getStudyProtocolDocument().getDocument()
+				.getDocumentIdentifier().get(0).getIdentifier().getExtension();
+		verifyData("Identifiers", fileNameAppendix, "identifiers",
+				"SELECT type, dtype FROM identifiers WHERE value='" + id
 						+ "' ORDER BY id");
 		verifyData(
-				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_Studies.xml",
+				"Studies",
+				fileNameAppendix,
 				"studies",
 				"SELECT * FROM studies WHERE EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ STUDY_ID + "')");
+						+ id + "')");
 		verifyData(
-				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_StudyVersions.xml",
+				"StudyVersions",
+				fileNameAppendix,
 				"study_versions",
 				"SELECT * FROM study_versions WHERE EXISTS (SELECT Id FROM studies where studies.id=study_versions.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ STUDY_ID + "'))");
+						+ id + "'))");
 		verifyData(
-				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_StudyOrganizations.xml",
+				"StudyOrganizations",
+				fileNameAppendix,
 				"study_organizations",
 				"SELECT * FROM study_organizations WHERE EXISTS (SELECT Id FROM studies where studies.id=study_organizations.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ STUDY_ID + "')) ORDER BY id");
+						+ id + "')) ORDER BY id");
 		verifyData(
-				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_PermissibleRegStats.xml",
+				"PermissibleRegStats",
+				fileNameAppendix,
 				"permissible_reg_stats",
 				"SELECT * FROM permissible_reg_stats WHERE EXISTS (SELECT Id FROM studies where studies.id=permissible_reg_stats.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ STUDY_ID + "')) ORDER BY id");
+						+ id + "')) ORDER BY id");
 		verifyData(
-				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_Consents.xml",
+				"Consents",
+				fileNameAppendix,
 				"consents",
 				"SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ STUDY_ID + "')))");
+						+ id + "')))");
 		verifyData(
-				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_ConsentQuestions.xml",
+				"ConsentQuestions",
+				fileNameAppendix,
 				"consent_questions",
 				"SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ STUDY_ID + "'))))");
+						+ id + "'))))");
 
 	}
 
 	/**
-	 * @param xmlDataSet
+	 * @param xmlDataSetBaseName
 	 * @param tableName
 	 * @param querySql
 	 * @throws IOException
@@ -242,17 +290,37 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	 * @throws Exception
 	 * @throws DatabaseUnitException
 	 */
-	protected void verifyData(final String xmlDataSet, final String tableName,
-			final String querySql) throws IOException, DataSetException,
-			SQLException, Exception, DatabaseUnitException {
-		IDataSet expectedDataSet = new FlatXmlDataSet(getClass()
-				.getResourceAsStream(xmlDataSet));
+	protected void verifyData(final String xmlDataSetBaseName, String appendix,
+			final String tableName, final String querySql) throws IOException,
+			DataSetException, SQLException, Exception, DatabaseUnitException {
+		IDataSet expectedDataSet = getExpectedDataSet(xmlDataSetBaseName,
+				appendix);
 		ITable expectedTable = expectedDataSet.getTable(tableName);
 		ITable actualData = getConnection().createQueryTable(tableName,
 				querySql);
 		ITable filteredTable = DefaultColumnFilter.includedColumnsTable(
 				actualData, expectedTable.getTableMetaData().getColumns());
 		Assertion.assertEquals(expectedTable, filteredTable);
+	}
+
+	/**
+	 * @param xmlDataSetBaseName
+	 * @return
+	 * @throws IOException
+	 * @throws DataSetException
+	 */
+	private IDataSet getExpectedDataSet(final String xmlDataSetBaseName,
+			String appendix) throws IOException, DataSetException {
+		final String prefix = DBUNIT_DATASET_PREFIX;
+		IDataSet expectedDataSet = new FlatXmlDataSet(
+				(InputStream) ObjectUtils.defaultIfNull(
+						getClass()
+								.getResourceAsStream(
+										prefix + xmlDataSetBaseName + appendix
+												+ ".xml"),
+						getClass().getResourceAsStream(
+								prefix + xmlDataSetBaseName + ".xml")));
+		return expectedDataSet;
 	}
 
 	/**
@@ -348,10 +416,10 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String TEST_PRIMARY_REASON_CODE = "OTHER";
 	private static final String TEST_PRIMARY_REASON_DESCR = "Other Description";
 
-	public StudyProtocolVersion createStudy() {
+	public StudyProtocolVersion createStudy(String appendix) {
 		StudyProtocolVersion study = new StudyProtocolVersion();
-		study.setTargetRegistrationSystem(new ST(TEST_TARGET_REG_SYS));
-		study.setStudyProtocolDocument(createStudyProtocolDocument());
+		study.setTargetRegistrationSystem(new ST(TEST_TARGET_REG_SYS + appendix));
+		study.setStudyProtocolDocument(createStudyProtocolDocument(appendix));
 		study.getPermissibleStudySubjectRegistryStatus().add(
 				createPermissibleStudySubjectRegistryStatus());
 		return study;
@@ -388,37 +456,42 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		return r;
 	}
 
-	protected StudyProtocolDocumentVersion createStudyProtocolDocument() {
+	protected StudyProtocolDocumentVersion createStudyProtocolDocument(
+			String appendix) {
 		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
 		// doc.setOfficialTitle(new ST(TEST_STUDY_DESCR));
-		doc.setPublicDescription(new ST(TEST_STUDY_DESCR));
-		doc.setPublicTitle(new ST(TEST_STUDY_DESCR));
-		doc.setText(new ED(TEST_STUDY_DESCR));
+		doc.setPublicDescription(new ST(TEST_STUDY_DESCR + appendix));
+		doc.setPublicTitle(new ST(TEST_STUDY_DESCR + appendix));
+		doc.setText(new ED(TEST_STUDY_DESCR + appendix));
 		doc.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
 		doc.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
-		doc.setDocument(createStudyDocument());
-		doc.getDocumentVersionRelationship().add(createConsentRelationship());
+		doc.setDocument(createStudyDocument(appendix));
+		doc.getDocumentVersionRelationship().add(
+				createConsentRelationship(appendix));
 		return doc;
 	}
 
-	protected DocumentVersionRelationship createConsentRelationship() {
+	protected DocumentVersionRelationship createConsentRelationship(
+			String appendix) {
 		DocumentVersionRelationship rel = new DocumentVersionRelationship();
 		rel.setTypeCode(new CD(TEST_CONSENT_RELATIONSHIP));
-		rel.setTarget(createConsent());
+		rel.setTarget(createConsent(appendix));
 		return rel;
 	}
 
-	protected Consent createConsent() {
+	protected Consent createConsent(String appendix) {
 		Consent consent = new Consent();
 		consent.setMandatoryIndicator(new BL(true));
-		consent.setOfficialTitle(new ST(TEST_CONSENT_TITLE));
+		consent.setOfficialTitle(new ST(TEST_CONSENT_TITLE + appendix));
 		// consent.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
 		consent.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
 		consent.setDocument(new Document());
 		consent.getDocumentVersionRelationship().add(
-				createConsentQuestionRelationship(TEST_CONSENT_QUESTION_1));
+				createConsentQuestionRelationship(TEST_CONSENT_QUESTION_1
+						+ appendix));
 		consent.getDocumentVersionRelationship().add(
-				createConsentQuestionRelationship(TEST_CONSENT_QUESTION_2));
+				createConsentQuestionRelationship(TEST_CONSENT_QUESTION_2
+						+ appendix));
 		return consent;
 	}
 
@@ -440,7 +513,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		return q;
 	}
 
-	protected Document createStudyDocument() {
+	protected Document createStudyDocument(String appendix) {
 		Document doc = new Document();
 		doc.getDocumentIdentifier().add(createStudyPrimaryIdentifier());
 		doc.getDocumentIdentifier().add(createStudyProtocolAuthIdentifier());
