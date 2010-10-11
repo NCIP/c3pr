@@ -8,10 +8,10 @@
     <CSM_PROTECTION_ELEMENT protection_element_id="1000" protection_element_name="dbunit" application_id="-1" object_id="temp" attribute="" />
 
 	<INVESTIGATORS id="1005" version="1" first_name="Investigator Brady" last_name="Bunch" assigned_identifier="NCIID_1255" dtype="Remote" retired_indicator = "false" external_id="brady@bunch.com"/>
-<INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1" assigned_identifier="NCIID_1232" dtype="Local" retired_indicator = "false" />
-<INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2" assigned_identifier="NCIID_1232a" dtype="Local" retired_indicator = "false" />
-<INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3" assigned_identifier="NCIID_c45a" dtype="Local" retired_indicator = "false" />
-<INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4" assigned_identifier="NCIID_c238" dtype="Local" retired_indicator = "false" />
+	<INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1" assigned_identifier="NCIID_1232" dtype="Local" retired_indicator = "false" />
+	<INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2" assigned_identifier="NCIID_1232a" dtype="Local" retired_indicator = "false" />
+	<INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3" assigned_identifier="NCIID_c45a" dtype="Local" retired_indicator = "false" />
+	<INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4" assigned_identifier="NCIID_c238" dtype="Local" retired_indicator = "false" />
 
     <CONTACT_MECHANISMS id="1000" inv_id ="1000" version="1" type="EMAIL" value="test@mail.com" retired_indicator = "false" dtype="Local"/>
 
@@ -58,7 +58,7 @@
 	
 	<STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="2000-01-01" />
 	
-	<STUDY_SITE_VERSIONS id="1000" start_date="2000-01-01" stu_version_id="1000" irb_approval_date="2000-01-01" sto_id="1100"/>
+	<STUDY_SITE_VERSIONS id="1000" start_date="2000-01-01" stu_version_id="1000" irb_approval_date="2000-01-01" sto_id="1000"/>
 
     <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01"
                          role_code="role1" status_code="AC" retired_indicator="false"/>

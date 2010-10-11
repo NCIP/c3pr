@@ -60,8 +60,8 @@
 	<race_code_assocn retired_indicator="false"  id="1003"  version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
 	<race_code_assocn retired_indicator="false"  id="1004"  version="1"  stu_sub_dmgphcs_id="1001" race_code="White" />
 	
-    <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" stu_sub_dmgphcs_id="1000" sti_id="1000" retired_indicator = "false" reg_workflow_status="PENDING"/>
-    <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" stu_sub_dmgphcs_id="1001" sti_id="1001" retired_indicator = "false" reg_workflow_status="PENDING"/>
+    <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" stu_sub_dmgphcs_id="1000" retired_indicator = "false" reg_workflow_status="PENDING"/>
+    <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" stu_sub_dmgphcs_id="1001" retired_indicator = "false" reg_workflow_status="PENDING"/>
     
 	<study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
     <study_subject_versions id="1001" version="1" study_site_ver_id="1000" spa_id="1001" retired_indicator = "false" />

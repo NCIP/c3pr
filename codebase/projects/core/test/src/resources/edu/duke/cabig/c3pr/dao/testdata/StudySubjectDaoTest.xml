@@ -21,11 +21,11 @@
     <ORGANIZATIONS id="1002" version="1" name="wake forest" description_text="wake forest" dtype="Local" address_id="1001" retired_indicator = "false" />
     <ORGANIZATIONS id="1003" version="1" name="nci" description_text="nci" dtype="Local" address_id="1001" retired_indicator = "false" />  
     
-    <STUDY_ORGANIZATIONS id="1000" version="1"  study_id="1000" hcs_id="1000" type="SST"   retired_indicator = "false" />
-    <STUDY_ORGANIZATIONS id="1001" version="1" study_id="1000" hcs_id="1001" type="SST"   retired_indicator = "false" />
-    <STUDY_ORGANIZATIONS id="1002" version="1"  study_id="1001" hcs_id="1000" type="SST"   retired_indicator = "false" />
-    <STUDY_ORGANIZATIONS id="1003" version="1" study_id="1001" hcs_id="1001" type="SST"   retired_indicator = "false" />
-    <STUDY_ORGANIZATIONS id="1010" version="1" study_id="1000" hcs_id="1002" type="SST"   retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1000" version="1"  study_id="1000" hcs_id="1000" type="SST" retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1001" version="1" study_id="1000" hcs_id="1001" type="SST" retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1002" version="1"  study_id="1001" hcs_id="1000" type="SST" retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1003" version="1" study_id="1001" hcs_id="1001" type="SST" retired_indicator = "false" />
+    <STUDY_ORGANIZATIONS id="1010" version="1" study_id="1000" hcs_id="1002" type="SST" retired_indicator = "false" />
     
     <STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="01-01-2000" />
 	<STU_SITE_STATUS_HISTORY id="1002" version="1" sto_id="1002" site_study_status="ACTIVE"  start_date="01-01-2000" />

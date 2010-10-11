@@ -30,8 +30,8 @@
 	<STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="01-01-2000" />
 	<STU_SITE_STATUS_HISTORY id="1001" version="1" sto_id="1001" site_study_status="ACTIVE"  start_date="01-01-2000" />
 	
-	<STUDY_SITE_VERSIONS id="1000" start_date="01-01-2000" stu_version_id="1000" irb_approval_date="01-01-2000" sto_id="1100"/>
-	<STUDY_SITE_VERSIONS id="1001" start_date="01-01-2002" stu_version_id="1000" irb_approval_date="01-01-2000" sto_id="1200"/>
+	<STUDY_SITE_VERSIONS id="1000" start_date="01-01-2000" stu_version_id="1000" irb_approval_date="01-01-2000" sto_id="1000"/>
+	<STUDY_SITE_VERSIONS id="1001" start_date="01-01-2002" stu_version_id="1000" irb_approval_date="01-01-2000" sto_id="1001"/>
 
     <ENDPOINTS id="1000" version="0" service_name="REGISTRATION" api_name="ENROLL_SUBJECT" endpoint_prop_id="1000" dtype="GRID"/>
 

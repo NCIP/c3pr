@@ -116,11 +116,6 @@
 	<race_code_assocn retired_indicator="false"  id="1001"  version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
 	<race_code_assocn retired_indicator="false"  id="1002"  version="1"  stu_sub_dmgphcs_id="1001" race_code="White" />
 	
-    <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1000" sti_id="1000" retired_indicator="false" reg_workflow_status="PENDING"/>
-    <STUDY_SUBJECTS id="1001" version="1" start_date="2001-01-01" stu_sub_dmgphcs_id="1001" sti_id="1001" retired_indicator="false" reg_workflow_status="PENDING"/>
-                    
-    <study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
-    <study_subject_versions id="1001" version="1" study_site_ver_id="1000" spa_id="1001" retired_indicator = "false" />
 
     <RANDOMIZATIONS id="1001" version="1" dtype="BR" retired_indicator="false"/>
 
@@ -136,10 +131,6 @@
             type="TREATMENT" retired_indicator="false" epoch_order="1" enrollment_indicator="1"/>
     <EPOCHS id="1005" version="1" name="NonTreatment1005" description_text="non treatment cancer desc" stu_version_id="1000"
             type="TREATMENT" retired_indicator="false" epoch_order="3" enrollment_indicator="1"/>
-
-    <SCHEDULED_EPOCHS id="1000" version="1" start_date="2000-01-01" eligibility_indicator="1"
-                      ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000" eph_id="1000"
-                      retired_indicator="false"/>
 
     <ARMS id="1000" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000"
           eph_id="1000" retired_indicator="false"/>
@@ -222,6 +213,16 @@
                           dtype="I" retired_indicator="false"/>
     <ELIGIBILITY_CRITERIA id="2002" version="1" question_number="3" eph_id="1000" question_text="exclusion question 1"
                           dtype="E" retired_indicator="false"/>
+                          
+                          <STUDY_SUBJECTS id="1000" version="1" start_date="2000-01-01" stu_sub_dmgphcs_id="1000" sti_id="1000" retired_indicator="false" reg_workflow_status="PENDING"/>
+    <STUDY_SUBJECTS id="1001" version="1" start_date="2001-01-01" stu_sub_dmgphcs_id="1001" sti_id="1001" retired_indicator="false" reg_workflow_status="PENDING"/>
+                    
+    <study_subject_versions id="1000" version="1" study_site_ver_id="1000" spa_id="1000" retired_indicator = "false" />
+    <study_subject_versions id="1001" version="1" study_site_ver_id="1000" spa_id="1001" retired_indicator = "false" />
+    
+    <SCHEDULED_EPOCHS id="1000" version="1" start_date="2000-01-01" eligibility_indicator="1"
+                      ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000" eph_id="1000"
+                      retired_indicator="false"/>
 
     <SUBJECT_ELIGIBILITY_ANS id="1000" version="1" sceph_id="1000" elgct_id="2000" retired_indicator="false"/>
 
