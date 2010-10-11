@@ -67,6 +67,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.AdvancedQueryStudyRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyRequest;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryConsentRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.SecurityExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityFaultMessage;
@@ -150,12 +151,46 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		try {
 			executeCreateStudyTest();
 			executeQueryStudyTest();
-			executeUpdateStudyTest();
+			executeQueryConsentTest();
+			executeUpdateStudyTest();			
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
 		}
 
+	}
+
+	private void executeQueryConsentTest() throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+		StudyUtility service = getService();
+		
+		// all consents of the study
+		final QueryConsentRequest request = new QueryConsentRequest();
+		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
+		request.setStudyIdentifier(studyId);
+		List<Consent> list = service.queryConsent(request).getConsents().getItem();
+		assertEquals(1, list.size());
+		
+		// consent with data
+		Consent example = createConsent("");
+		request.setConsent(example);
+		list = service.queryConsent(request).getConsents().getItem();
+		assertEquals(1, list.size());	
+		assertTrue(BeanUtils.deepCompare(example, list.get(0)));
+		
+		// consent does not exist
+		example.setOfficialTitle(new ST(RandomStringUtils.randomAlphanumeric(256)));
+		list = service.queryConsent(request).getConsents().getItem();
+		assertEquals(0, list.size());
+		
+		// study does not exist.
+		studyId.getIdentifier().setExtension(RandomStringUtils.randomAlphanumeric(32));		
+		try {
+			service.queryConsent(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Unexistent study creation passed.");
+		}		
+		
 	}
 
 	private void executeQueryStudyTest() throws SecurityExceptionFaultMessage,
