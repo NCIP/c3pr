@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<study_versions retired_indicator="false"
+		short_title_text="Test Study" long_title_text="Test Study"
+		description_text="Test Study" data_entry_status="INCOMPLETE"
+		version_date="2010-10-05" version_status="IN" amendment_type="IMMEDIATE"
+		name="1.0" original_indicator="true" />
+</dataset>

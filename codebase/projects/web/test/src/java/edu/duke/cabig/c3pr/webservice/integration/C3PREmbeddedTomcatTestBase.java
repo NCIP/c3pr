@@ -436,7 +436,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 	private void initializeProperties() throws IOException {
 		initCatalinaHome();
 
-		datasourceFile = getFileFromProperty("test.datasource.file");
+		initDataSourceFile();
 		warFile = getFileFromProperty("test.war.file");
 
 		webappsDir = new File(catalinaHome, "webapps");
@@ -456,6 +456,13 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 		logger.info(toString());
 
+	}
+
+	/**
+	 * 
+	 */
+	protected void initDataSourceFile() {
+		datasourceFile = getFileFromProperty("test.datasource.file");
 	}
 
 	/**

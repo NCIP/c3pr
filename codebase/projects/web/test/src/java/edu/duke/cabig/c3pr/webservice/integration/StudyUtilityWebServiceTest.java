@@ -33,6 +33,13 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.dbunit.Assertion;
+import org.dbunit.DatabaseUnitException;
+import org.dbunit.dataset.DataSetException;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.ITable;
+import org.dbunit.dataset.filter.DefaultColumnFilter;
+import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -55,7 +62,6 @@ import edu.duke.cabig.c3pr.webservice.testclient.iso21090.II;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.SecurityExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityService;
@@ -84,17 +90,22 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	private URL wsdlLocation;
 
+	private boolean noEmbeddedTomcat = Boolean.valueOf(System.getProperty(
+			"noEmbeddedTomcat", "false"));
+
 	@Override
 	protected void setUp() throws Exception {
-		super.setUp();
-		finishDatabaseSetup();
-		endpointURL = new URL("https://"
-				+ InetAddress.getLocalHost().getHostName() + ":" + sslPort
-				+ C3PR_CONTEXT + WS_ENDPOINT_SERVLET_PATH);
-		/*
-		 * endpointURL = new URL(
-		 * "https://localhost:8443/c3pr/services/services/StudyUtility");
-		 */
+		if (noEmbeddedTomcat) {
+			endpointURL = new URL(
+					"https://localhost:8443/c3pr/services/services/StudyUtility");
+			initDataSourceFile();
+		} else {
+			super.setUp();
+			finishDatabaseSetup();
+			endpointURL = new URL("https://"
+					+ InetAddress.getLocalHost().getHostName() + ":" + sslPort
+					+ C3PR_CONTEXT + WS_ENDPOINT_SERVLET_PATH);
+		}
 		wsdlLocation = new URL(endpointURL.toString() + "?wsdl");
 
 		logger.info("endpointURL: " + endpointURL);
@@ -115,7 +126,9 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		super.tearDown();
+		if (!noEmbeddedTomcat) {
+			super.tearDown();
+		}
 	}
 
 	/**
@@ -126,7 +139,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	public void testStudyUtility() throws InterruptedException, IOException {
 
 		try {
-			executeCreateStudy();
+			executeCreateStudyTest();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
@@ -134,8 +147,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 
-	private void executeCreateStudy() throws SecurityExceptionFaultMessage,
-			StudyUtilityFaultMessage {
+	private void executeCreateStudyTest() throws SQLException, Exception {
 		StudyUtility service = getService();
 
 		// successful creation
@@ -145,6 +157,9 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		StudyProtocolVersion createdStudy = service.createStudy(request)
 				.getStudy();
 		assertNotNull(createdStudy);
+
+		// check that the study data exists in the database
+		verifyStudyDatabaseData(createdStudy);
 
 		// duplicate study
 		try {
@@ -175,6 +190,69 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			logger.info("Malformed data testing passed.");
 		}
 
+	}
+
+	private void verifyStudyDatabaseData(StudyProtocolVersion study)
+			throws SQLException, Exception {
+		verifyData(
+				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_Identifiers.xml",
+				"identifiers",
+				"SELECT type, dtype FROM identifiers WHERE value='" + STUDY_ID
+						+ "' ORDER BY id");
+		verifyData(
+				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_Studies.xml",
+				"studies",
+				"SELECT * FROM studies WHERE EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
+						+ STUDY_ID + "')");
+		verifyData(
+				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_StudyVersions.xml",
+				"study_versions",
+				"SELECT * FROM study_versions WHERE EXISTS (SELECT Id FROM studies where studies.id=study_versions.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
+						+ STUDY_ID + "'))");
+		verifyData(
+				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_StudyOrganizations.xml",
+				"study_organizations",
+				"SELECT * FROM study_organizations WHERE EXISTS (SELECT Id FROM studies where studies.id=study_organizations.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
+						+ STUDY_ID + "')) ORDER BY id");
+		verifyData(
+				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_PermissibleRegStats.xml",
+				"permissible_reg_stats",
+				"SELECT * FROM permissible_reg_stats WHERE EXISTS (SELECT Id FROM studies where studies.id=permissible_reg_stats.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
+						+ STUDY_ID + "')) ORDER BY id");
+		verifyData(
+				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_Consents.xml",
+				"consents",
+				"SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
+						+ STUDY_ID + "')))");
+		verifyData(
+				"/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_ConsentQuestions.xml",
+				"consent_questions",
+				"SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
+						+ STUDY_ID + "'))))");
+
+	}
+
+	/**
+	 * @param xmlDataSet
+	 * @param tableName
+	 * @param querySql
+	 * @throws IOException
+	 * @throws DataSetException
+	 * @throws SQLException
+	 * @throws Exception
+	 * @throws DatabaseUnitException
+	 */
+	protected void verifyData(final String xmlDataSet, final String tableName,
+			final String querySql) throws IOException, DataSetException,
+			SQLException, Exception, DatabaseUnitException {
+		IDataSet expectedDataSet = new FlatXmlDataSet(getClass()
+				.getResourceAsStream(xmlDataSet));
+		ITable expectedTable = expectedDataSet.getTable(tableName);
+		ITable actualData = getConnection().createQueryTable(tableName,
+				querySql);
+		ITable filteredTable = DefaultColumnFilter.includedColumnsTable(
+				actualData, expectedTable.getTableMetaData().getColumns());
+		Assertion.assertEquals(expectedTable, filteredTable);
 	}
 
 	/**
