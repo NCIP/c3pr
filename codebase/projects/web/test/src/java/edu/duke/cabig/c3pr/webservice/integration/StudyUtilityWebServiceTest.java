@@ -75,6 +75,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityFaultM
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityService;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateConsentRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyRequest;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyStatusRequest;
 
 /**
  * This test will run C3PR in embedded Tomcat and test Study Utility web service
@@ -93,7 +94,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String SQL_STUDY_VERSIONS = "SELECT * FROM study_versions WHERE EXISTS (SELECT Id FROM studies where studies.id=study_versions.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}'))";
 	private static final String SQL_STUDIES = "SELECT * FROM studies WHERE EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')";
 	private static final String SQL_IDENTIFIERS = "SELECT type, dtype FROM identifiers WHERE value='${STUDY_ID}' ORDER BY id";
-	
+
 	private static final String DBUNIT_DATASET_PREFIX = "/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_";
 	private static final String WSS_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
 	private static final String PATH_TO_SAML_TOKEN = "/edu/duke/cabig/c3pr/webservice/integration/testdata/SAMLToken.xml";
@@ -141,6 +142,9 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Statement st = conn.createStatement();
 		st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
 				+ System.currentTimeMillis() + "','ACTIVE','ACTIVE','false')");
+		st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
+				+ System.currentTimeMillis()
+				+ "','INACTIVE','INACTIVE','false')");
 		st.close();
 	}
 
@@ -163,11 +167,49 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			executeQueryStudyTest();
 			executeQueryConsentTest();
 			executeUpdateStudyTest();
+			executeUpdateStudyStatusTest();
 			executeUpdateConsentTest();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
 		}
+
+	}
+
+	private void executeUpdateStudyStatusTest() throws DataSetException,
+			IOException, SQLException, DatabaseUnitException, Exception {
+		StudyUtility service = getService();
+
+		// successful update
+		UpdateStudyStatusRequest request = new UpdateStudyStatusRequest();
+		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
+		request.setStudyIdentifier(studyId);
+		PermissibleStudySubjectRegistryStatus status = createPermissibleStudySubjectRegistryStatus();
+		status.getRegistryStatus().getCode().setCode("INACTIVE");
+		request.setStatus(status);
+		PermissibleStudySubjectRegistryStatus updatedStatus = service
+				.updateStudyStatus(request).getStatus();
+		assertEquals("INACTIVE", updatedStatus.getRegistryStatus().getCode()
+				.getCode());
+		
+		// invalid status code
+		status.getRegistryStatus().getCode().setCode("WRONG");
+		try {
+			service.updateStudyStatus(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Invalid status code testing passed.");
+		}
+		
+		// study does not exist.
+		studyId.getIdentifier().setExtension(
+				RandomStringUtils.randomAlphanumeric(32));
+		try {
+			service.updateStudyStatus(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Unexistent study creation passed.");
+		}		
 
 	}
 
