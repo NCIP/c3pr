@@ -69,6 +69,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.AdvancedQueryStudyRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryConsentRequest;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryRegistryStatusRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.SecurityExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityFaultMessage;
@@ -140,11 +141,19 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private void finishDatabaseSetup() throws SQLException, Exception {
 		Connection conn = getConnection().getConnection();
 		Statement st = conn.createStatement();
-		st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
-				+ System.currentTimeMillis() + "','ACTIVE','ACTIVE','false')");
-		st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
-				+ System.currentTimeMillis()
-				+ "','INACTIVE','INACTIVE','false')");
+		boolean containsActive = st.executeQuery(
+				"SELECT id FROM registry_statuses WHERE code='ACTIVE'").next();
+		boolean containsInactive = st.executeQuery(
+				"SELECT id FROM registry_statuses WHERE code='INACTIVE'")
+				.next();
+		if (!containsActive)
+			st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
+					+ System.currentTimeMillis()
+					+ "','ACTIVE','ACTIVE','false')");
+		if (!containsInactive)
+			st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
+					+ System.currentTimeMillis()
+					+ "','INACTIVE','INACTIVE','false')");
 		st.close();
 	}
 
@@ -169,11 +178,38 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			executeUpdateStudyTest();
 			executeUpdateStudyStatusTest();
 			executeUpdateConsentTest();
+			executeQueryRegistryStatusTest();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
 		}
 
+	}
+
+	private void executeQueryRegistryStatusTest()
+			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+		StudyUtility service = getService();
+
+		// all statuses
+		QueryRegistryStatusRequest request = new QueryRegistryStatusRequest();
+		List<RegistryStatus> list = service.queryRegistryStatus(request)
+				.getRegistryStatuses().getItem();
+		assertEquals(2, list.size());
+		assertEquals("ACTIVE", list.get(0).getCode().getCode());
+		assertEquals("INACTIVE", list.get(1).getCode().getCode());
+
+		// no statuses
+		request.setStatusCode(new CD("DOES NOT EXIST"));
+		list = service.queryRegistryStatus(request).getRegistryStatuses()
+				.getItem();
+		assertEquals(0, list.size());
+
+		// one status
+		request.setStatusCode(new CD("ACTIVE"));
+		list = service.queryRegistryStatus(request).getRegistryStatuses()
+				.getItem();
+		assertEquals(1, list.size());
+		assertEquals("ACTIVE", list.get(0).getCode().getCode());
 	}
 
 	private void executeUpdateStudyStatusTest() throws DataSetException,
@@ -191,7 +227,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 				.updateStudyStatus(request).getStatus();
 		assertEquals("INACTIVE", updatedStatus.getRegistryStatus().getCode()
 				.getCode());
-		
+
 		// invalid status code
 		status.getRegistryStatus().getCode().setCode("WRONG");
 		try {
@@ -200,7 +236,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Invalid status code testing passed.");
 		}
-		
+
 		// study does not exist.
 		studyId.getIdentifier().setExtension(
 				RandomStringUtils.randomAlphanumeric(32));
@@ -209,7 +245,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			fail();
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Unexistent study creation passed.");
-		}		
+		}
 
 	}
 
