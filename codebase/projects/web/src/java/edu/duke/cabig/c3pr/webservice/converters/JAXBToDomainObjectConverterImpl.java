@@ -1113,8 +1113,8 @@ public class JAXBToDomainObjectConverterImpl implements
 		DocumentVersion q = new DocumentVersion();
 		q.setOfficialTitle(new ST(cq.getCode()));
 		q.setText(new ED(cq.getText()));
-		q.setVersionNumberText(cq.getVersion() != null ? new ST(cq.getVersion()
-				.toString()) : null);
+		//q.setVersionNumberText(cq.getVersion() != null ? new ST(cq.getVersion()
+		//		.toString()) : null);
 		q.setDocument(new Document());
 		return q;
 	}

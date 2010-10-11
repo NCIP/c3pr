@@ -194,6 +194,8 @@
 			<include name="**/commons-io*.jar" />
 			<include name="**/commons-lang*.jar" />
 			<include name="**/commons-pool*.jar" />
+			<include name="**/commons-beanutils-1*.jar" />
+			<include name="**/commons-logging*.jar" />
 			<include name="**/core-commons-testing*.jar" />
 			<include name="**/cryptix*.jar" />
 			<include name="**/dbunit*.jar" />

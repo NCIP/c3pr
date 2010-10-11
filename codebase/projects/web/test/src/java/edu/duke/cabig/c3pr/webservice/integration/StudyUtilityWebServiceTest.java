@@ -44,7 +44,9 @@ import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import edu.duke.cabig.c3pr.webservice.testclient.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.testclient.common.Consent;
+import edu.duke.cabig.c3pr.webservice.testclient.common.DSETAdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.testclient.common.Document;
 import edu.duke.cabig.c3pr.webservice.testclient.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.testclient.common.DocumentVersion;
@@ -58,11 +60,14 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolDocumentVer
 import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.BL;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.CD;
+import edu.duke.cabig.c3pr.webservice.testclient.iso21090.DSETST;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ED;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.II;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.AdvancedQueryStudyRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyRequest;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.SecurityExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityService;
@@ -105,11 +110,11 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			initDataSourceFile();
 		} else {
 			super.setUp();
-			finishDatabaseSetup();
 			endpointURL = new URL("https://"
 					+ InetAddress.getLocalHost().getHostName() + ":" + sslPort
 					+ C3PR_CONTEXT + WS_ENDPOINT_SERVLET_PATH);
 		}
+		finishDatabaseSetup();
 		wsdlLocation = new URL(endpointURL.toString() + "?wsdl");
 
 		logger.info("endpointURL: " + endpointURL);
@@ -144,11 +149,56 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		try {
 			executeCreateStudyTest();
+			executeQueryStudyTest();
 			executeUpdateStudyTest();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
 		}
+
+	}
+
+	private void executeQueryStudyTest() throws SecurityExceptionFaultMessage,
+			StudyUtilityFaultMessage {
+		StudyUtility service = getService();
+		AdvancedQueryStudyRequest request = new AdvancedQueryStudyRequest();
+		DSETAdvanceSearchCriterionParameter params = new DSETAdvanceSearchCriterionParameter();
+		request.setParameters(params);
+
+		AdvanceSearchCriterionParameter param = new AdvanceSearchCriterionParameter();
+		params.getItem().add(param);
+
+		ST objName = new ST();
+		objName.setValue("edu.duke.cabig.c3pr.domain.Identifier");
+		param.setObjectName(objName);
+
+		ST attrName = new ST();
+		attrName.setValue("value");
+		param.setAttributeName(attrName);
+
+		ST value = new ST();
+		value.setValue(STUDY_ID);
+		param.setValues(new DSETST());
+		param.getValues().getItem().add(value);
+
+		CD pred = new CD();
+		pred.setCode("=");
+		param.setPredicate(pred);
+
+		ST ctxName = new ST();
+		ctxName.setValue("Study");
+		param.setObjectContextName(ctxName);
+
+		List<StudyProtocolVersion> list = service.advancedQueryStudy(request)
+				.getStudies().getItem();
+		assertEquals(1, list.size());
+		StudyProtocolVersion foundStudy = list.get(0);
+		assertTrue(BeanUtils.deepCompare(createStudy(""), foundStudy));
+
+		// nothing found
+		value.setValue(RandomStringUtils.randomAlphanumeric(32));
+		list = service.advancedQueryStudy(request).getStudies().getItem();
+		assertEquals(0, list.size());
 
 	}
 
@@ -436,7 +486,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		RegistryStatus stat = new RegistryStatus();
 		stat.setCode(new CD(TEST_REGISTRY_STATUS));
 		stat.setDescription(new ST(TEST_REGISTRY_STATUS));
-		stat.getPrimaryReason().add(createPrimaryRegistryStatusReason());
+		// stat.getPrimaryReason().add(createPrimaryRegistryStatusReason());
 		return stat;
 	}
 
