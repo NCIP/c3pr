@@ -33,6 +33,7 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.dbunit.Assertion;
 import org.dbunit.DatabaseUnitException;
@@ -72,6 +73,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.studyutility.SecurityExceptionF
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityService;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateConsentRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyRequest;
 
 /**
@@ -84,6 +86,14 @@ import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyRequest
  */
 public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
+	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}'))))";
+	private static final String SQL_CONSENTS = "SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))";
+	private static final String SQL_PERM_REG_STATS = "SELECT * FROM permissible_reg_stats WHERE EXISTS (SELECT Id FROM studies where studies.id=permissible_reg_stats.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')) ORDER BY id";
+	private static final String SQL_STUDY_ORGS = "SELECT * FROM study_organizations WHERE EXISTS (SELECT Id FROM studies where studies.id=study_organizations.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')) ORDER BY id";
+	private static final String SQL_STUDY_VERSIONS = "SELECT * FROM study_versions WHERE EXISTS (SELECT Id FROM studies where studies.id=study_versions.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}'))";
+	private static final String SQL_STUDIES = "SELECT * FROM studies WHERE EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')";
+	private static final String SQL_IDENTIFIERS = "SELECT type, dtype FROM identifiers WHERE value='${STUDY_ID}' ORDER BY id";
+	
 	private static final String DBUNIT_DATASET_PREFIX = "/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_";
 	private static final String WSS_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
 	private static final String PATH_TO_SAML_TOKEN = "/edu/duke/cabig/c3pr/webservice/integration/testdata/SAMLToken.xml";
@@ -152,7 +162,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			executeCreateStudyTest();
 			executeQueryStudyTest();
 			executeQueryConsentTest();
-			executeUpdateStudyTest();			
+			executeUpdateStudyTest();
+			executeUpdateConsentTest();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
@@ -160,37 +171,70 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 
-	private void executeQueryConsentTest() throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+	private void executeUpdateConsentTest() throws DataSetException,
+			IOException, SQLException, DatabaseUnitException, Exception {
 		StudyUtility service = getService();
-		
+		final Consent consent = createConsent(UPDATE_DISCRIMINATOR);
+
+		UpdateConsentRequest request = new UpdateConsentRequest();
+		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
+		request.setStudyIdentifier(studyId);
+		request.setConsent(consent);
+		Consent updatedConsent = service.updateConsent(request).getConsent();
+		assertTrue(BeanUtils.deepCompare(consent, updatedConsent));
+
+		// check database data
+		verifyData("Consents_UpdateConsent", "", "consents", SQL_CONSENTS);
+		verifyData("ConsentQuestions_UpdateConsent", "", "consent_questions",
+				SQL_CONSENT_QUESTIONS);
+
+		// study does not exist.
+		studyId.getIdentifier().setExtension(
+				RandomStringUtils.randomAlphanumeric(32));
+		try {
+			service.updateConsent(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Unexistent study creation passed.");
+		}
+
+	}
+
+	private void executeQueryConsentTest()
+			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+		StudyUtility service = getService();
+
 		// all consents of the study
 		final QueryConsentRequest request = new QueryConsentRequest();
 		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
 		request.setStudyIdentifier(studyId);
-		List<Consent> list = service.queryConsent(request).getConsents().getItem();
+		List<Consent> list = service.queryConsent(request).getConsents()
+				.getItem();
 		assertEquals(1, list.size());
-		
+
 		// consent with data
 		Consent example = createConsent("");
 		request.setConsent(example);
 		list = service.queryConsent(request).getConsents().getItem();
-		assertEquals(1, list.size());	
+		assertEquals(1, list.size());
 		assertTrue(BeanUtils.deepCompare(example, list.get(0)));
-		
+
 		// consent does not exist
-		example.setOfficialTitle(new ST(RandomStringUtils.randomAlphanumeric(256)));
+		example.setOfficialTitle(new ST(RandomStringUtils
+				.randomAlphanumeric(256)));
 		list = service.queryConsent(request).getConsents().getItem();
 		assertEquals(0, list.size());
-		
+
 		// study does not exist.
-		studyId.getIdentifier().setExtension(RandomStringUtils.randomAlphanumeric(32));		
+		studyId.getIdentifier().setExtension(
+				RandomStringUtils.randomAlphanumeric(32));
 		try {
 			service.queryConsent(request);
 			fail();
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Unexistent study creation passed.");
-		}		
-		
+		}
+
 	}
 
 	private void executeQueryStudyTest() throws SecurityExceptionFaultMessage,
@@ -324,44 +368,17 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		final String id = study.getStudyProtocolDocument().getDocument()
 				.getDocumentIdentifier().get(0).getIdentifier().getExtension();
 		verifyData("Identifiers", fileNameAppendix, "identifiers",
-				"SELECT type, dtype FROM identifiers WHERE value='" + id
-						+ "' ORDER BY id");
-		verifyData(
-				"Studies",
-				fileNameAppendix,
-				"studies",
-				"SELECT * FROM studies WHERE EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ id + "')");
-		verifyData(
-				"StudyVersions",
-				fileNameAppendix,
-				"study_versions",
-				"SELECT * FROM study_versions WHERE EXISTS (SELECT Id FROM studies where studies.id=study_versions.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ id + "'))");
-		verifyData(
-				"StudyOrganizations",
-				fileNameAppendix,
-				"study_organizations",
-				"SELECT * FROM study_organizations WHERE EXISTS (SELECT Id FROM studies where studies.id=study_organizations.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ id + "')) ORDER BY id");
-		verifyData(
-				"PermissibleRegStats",
-				fileNameAppendix,
-				"permissible_reg_stats",
-				"SELECT * FROM permissible_reg_stats WHERE EXISTS (SELECT Id FROM studies where studies.id=permissible_reg_stats.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ id + "')) ORDER BY id");
-		verifyData(
-				"Consents",
-				fileNameAppendix,
-				"consents",
-				"SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ id + "')))");
-		verifyData(
-				"ConsentQuestions",
-				fileNameAppendix,
-				"consent_questions",
-				"SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='"
-						+ id + "'))))");
+				SQL_IDENTIFIERS);
+		verifyData("Studies", fileNameAppendix, "studies", SQL_STUDIES);
+		verifyData("StudyVersions", fileNameAppendix, "study_versions",
+				SQL_STUDY_VERSIONS);
+		verifyData("StudyOrganizations", fileNameAppendix,
+				"study_organizations", SQL_STUDY_ORGS);
+		verifyData("PermissibleRegStats", fileNameAppendix,
+				"permissible_reg_stats", SQL_PERM_REG_STATS);
+		verifyData("Consents", fileNameAppendix, "consents", SQL_CONSENTS);
+		verifyData("ConsentQuestions", fileNameAppendix, "consent_questions",
+				SQL_CONSENT_QUESTIONS);
 
 	}
 
@@ -376,8 +393,9 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	 * @throws DatabaseUnitException
 	 */
 	protected void verifyData(final String xmlDataSetBaseName, String appendix,
-			final String tableName, final String querySql) throws IOException,
+			final String tableName, String querySql) throws IOException,
 			DataSetException, SQLException, Exception, DatabaseUnitException {
+		querySql = StringUtils.replace(querySql, "${STUDY_ID}", STUDY_ID);
 		IDataSet expectedDataSet = getExpectedDataSet(xmlDataSetBaseName,
 				appendix);
 		ITable expectedTable = expectedDataSet.getTable(tableName);
