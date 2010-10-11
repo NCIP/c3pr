@@ -70,6 +70,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.studyutility.AdvancedQueryStudy
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryConsentRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryRegistryStatusRequest;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryStudyRegistryStatusRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.SecurityExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityFaultMessage;
@@ -87,6 +88,9 @@ import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyStatusR
  * @version 1.0
  */
 public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
+
+	private static final String STATUS_INACTIVE = "INACTIVE";
+	private static final String STATUS_ACTIVE = "ACTIVE";
 
 	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}'))))";
 	private static final String SQL_CONSENTS = "SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))";
@@ -112,6 +116,11 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	private URL wsdlLocation;
 
+	/**
+	 * Set this JVM property to true if this test should not bring up an
+	 * instance of embedded Tomcat and use one already running locally at
+	 * <b>https://localhost:8443/c3pr.
+	 */
 	private boolean noEmbeddedTomcat = Boolean.valueOf(System.getProperty(
 			"noEmbeddedTomcat", "false"));
 
@@ -133,27 +142,41 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		logger.info("endpointURL: " + endpointURL);
 		logger.info("wsdlLocation: " + wsdlLocation);
 
+		// just to make sure we don't lock ourselves out on I/O to service
+		// calls.
 		System.setProperty("sun.net.client.defaultConnectTimeout", "" + TIMEOUT);
 		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
 
 	}
 
+	/**
+	 * Inserting data into registry_statuses via DbUnit was problematic; hence
+	 * this method with raw SQL.
+	 * 
+	 * @throws SQLException
+	 * @throws Exception
+	 */
 	private void finishDatabaseSetup() throws SQLException, Exception {
 		Connection conn = getConnection().getConnection();
 		Statement st = conn.createStatement();
 		boolean containsActive = st.executeQuery(
-				"SELECT id FROM registry_statuses WHERE code='ACTIVE'").next();
+				"SELECT id FROM registry_statuses WHERE code='" + STATUS_ACTIVE
+						+ "'").next();
 		boolean containsInactive = st.executeQuery(
-				"SELECT id FROM registry_statuses WHERE code='INACTIVE'")
-				.next();
+				"SELECT id FROM registry_statuses WHERE code='"
+						+ STATUS_INACTIVE + "'").next();
 		if (!containsActive)
 			st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
 					+ System.currentTimeMillis()
-					+ "','ACTIVE','ACTIVE','false')");
+					+ "','"
+					+ STATUS_ACTIVE
+					+ "','" + STATUS_ACTIVE + "','false')");
 		if (!containsInactive)
 			st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
 					+ System.currentTimeMillis()
-					+ "','INACTIVE','INACTIVE','false')");
+					+ "','"
+					+ STATUS_INACTIVE
+					+ "','" + STATUS_INACTIVE + "','false')");
 		st.close();
 	}
 
@@ -179,9 +202,36 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			executeUpdateStudyStatusTest();
 			executeUpdateConsentTest();
 			executeQueryRegistryStatusTest();
+			executeQueryStudyRegistryStatusTest();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
+		}
+
+	}
+
+	private void executeQueryStudyRegistryStatusTest()
+			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+		StudyUtility service = getService();
+
+		// return study status
+		QueryStudyRegistryStatusRequest request = new QueryStudyRegistryStatusRequest();
+		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
+		request.setStudyIdentifier(studyId);
+		List<PermissibleStudySubjectRegistryStatus> list = service
+				.queryStudyRegistryStatus(request).getStatuses().getItem();
+		assertEquals(1, list.size());
+		assertEquals(STATUS_INACTIVE, list.get(0).getRegistryStatus().getCode()
+				.getCode());
+
+		// study does not exist.
+		studyId.getIdentifier().setExtension(
+				RandomStringUtils.randomAlphanumeric(32));
+		try {
+			service.queryStudyRegistryStatus(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Unexistent study creation passed.");
 		}
 
 	}
@@ -195,8 +245,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		List<RegistryStatus> list = service.queryRegistryStatus(request)
 				.getRegistryStatuses().getItem();
 		assertEquals(2, list.size());
-		assertEquals("ACTIVE", list.get(0).getCode().getCode());
-		assertEquals("INACTIVE", list.get(1).getCode().getCode());
+		assertEquals(STATUS_ACTIVE, list.get(0).getCode().getCode());
+		assertEquals(STATUS_INACTIVE, list.get(1).getCode().getCode());
 
 		// no statuses
 		request.setStatusCode(new CD("DOES NOT EXIST"));
@@ -205,11 +255,11 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		assertEquals(0, list.size());
 
 		// one status
-		request.setStatusCode(new CD("ACTIVE"));
+		request.setStatusCode(new CD(STATUS_ACTIVE));
 		list = service.queryRegistryStatus(request).getRegistryStatuses()
 				.getItem();
 		assertEquals(1, list.size());
-		assertEquals("ACTIVE", list.get(0).getCode().getCode());
+		assertEquals(STATUS_ACTIVE, list.get(0).getCode().getCode());
 	}
 
 	private void executeUpdateStudyStatusTest() throws DataSetException,
@@ -221,12 +271,12 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
 		request.setStudyIdentifier(studyId);
 		PermissibleStudySubjectRegistryStatus status = createPermissibleStudySubjectRegistryStatus();
-		status.getRegistryStatus().getCode().setCode("INACTIVE");
+		status.getRegistryStatus().getCode().setCode(STATUS_INACTIVE);
 		request.setStatus(status);
 		PermissibleStudySubjectRegistryStatus updatedStatus = service
 				.updateStudyStatus(request).getStatus();
-		assertEquals("INACTIVE", updatedStatus.getRegistryStatus().getCode()
-				.getCode());
+		assertEquals(STATUS_INACTIVE, updatedStatus.getRegistryStatus()
+				.getCode().getCode());
 
 		// invalid status code
 		status.getRegistryStatus().getCode().setCode("WRONG");
@@ -522,6 +572,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	}
 
 	/**
+	 * We need a handler to insert a SAML token into SOAP header.
 	 * @return
 	 */
 	private SOAPHandler<SOAPMessageContext> getSecurityHandler() {
@@ -549,7 +600,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			}
 
 			public Set<QName> getHeaders() {
-				return new HashSet();
+				return new HashSet<QName>();
 			}
 		};
 	}
@@ -583,7 +634,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String TEST_ORG_ID = "MN026";
 
 	// study utility
-	private static final String TEST_REGISTRY_STATUS = "ACTIVE";
+	private static final String TEST_REGISTRY_STATUS = STATUS_ACTIVE;
 	private static final String TEST_CONSENT_QUESTION_2 = "Question 2";
 	private static final String TEST_CONSENT_QUESTION_1 = "Question 1";
 	private static final String TEST_CONSENT_TITLE = "Consent";
