@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,7 +33,6 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.dbunit.operation.DatabaseOperation;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -85,6 +87,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		finishDatabaseSetup();
 		endpointURL = new URL("https://"
 				+ InetAddress.getLocalHost().getHostName() + ":" + sslPort
 				+ C3PR_CONTEXT + WS_ENDPOINT_SERVLET_PATH);
@@ -100,6 +103,14 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		System.setProperty("sun.net.client.defaultConnectTimeout", "" + TIMEOUT);
 		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
 
+	}
+
+	private void finishDatabaseSetup() throws SQLException, Exception {
+		Connection conn = getConnection().getConnection();
+		Statement st = conn.createStatement();
+		st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
+				+ System.currentTimeMillis() + "','ACTIVE','ACTIVE','false')");
+		st.close();
 	}
 
 	@Override

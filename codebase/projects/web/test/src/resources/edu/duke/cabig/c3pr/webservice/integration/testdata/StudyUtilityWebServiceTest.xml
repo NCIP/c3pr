@@ -43,5 +43,5 @@
   <csm_user_group_role_pg user_group_role_pg_id="17" user_id="4" role_id="20" protection_group_id="-1" update_date="2010-08-30"/>
   <csm_user_group_role_pg user_group_role_pg_id="18" user_id="4" role_id="21" protection_group_id="-1" update_date="2010-08-30"/>
   <csm_user_group_role_pg user_group_role_pg_id="19" user_id="4" role_id="3" protection_group_id="-1" update_date="2010-08-30"/>
-  <registry_statuses version="0" grid_id="GRID_ID" code="ACTIVE" description="Active description" retired_indicator="false"/>
+  <!-- <registry_statuses version="0" grid_id="GRID_ID" code="ACTIVE" description="Active description" retired_indicator="false"/> -->
 </dataset>
