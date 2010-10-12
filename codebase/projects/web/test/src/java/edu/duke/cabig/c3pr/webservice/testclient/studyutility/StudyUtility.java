@@ -29,15 +29,15 @@ public interface StudyUtility {
      * 
      * @param parameters
      * @return
-     *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyResponse
-     * @throws StudyUtilityFaultMessage
+     *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyAbstractResponse
      * @throws SecurityExceptionFaultMessage
+     * @throws StudyUtilityFaultMessage
      */
     @WebMethod
-    @WebResult(name = "CreateStudyResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
-    public CreateStudyResponse createStudy(
-        @WebParam(name = "CreateStudyRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
-        CreateStudyRequest parameters)
+    @WebResult(name = "CreateStudyAbstractResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+    public CreateStudyAbstractResponse createStudyAbstract(
+        @WebParam(name = "CreateStudyAbstractRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+        CreateStudyAbstractRequest parameters)
         throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
     ;
 
@@ -45,15 +45,15 @@ public interface StudyUtility {
      * 
      * @param parameters
      * @return
-     *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.AdvancedQueryStudyResponse
-     * @throws StudyUtilityFaultMessage
+     *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryStudyAbstractResponse
      * @throws SecurityExceptionFaultMessage
+     * @throws StudyUtilityFaultMessage
      */
     @WebMethod
-    @WebResult(name = "AdvancedQueryStudyResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
-    public AdvancedQueryStudyResponse advancedQueryStudy(
-        @WebParam(name = "AdvancedQueryStudyRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
-        AdvancedQueryStudyRequest parameters)
+    @WebResult(name = "QueryStudyAbstractResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+    public QueryStudyAbstractResponse queryStudyAbstract(
+        @WebParam(name = "QueryStudyAbstractRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+        QueryStudyAbstractRequest parameters)
         throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
     ;
 
@@ -61,15 +61,15 @@ public interface StudyUtility {
      * 
      * @param parameters
      * @return
-     *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyResponse
-     * @throws StudyUtilityFaultMessage
+     *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyAbstractResponse
      * @throws SecurityExceptionFaultMessage
+     * @throws StudyUtilityFaultMessage
      */
     @WebMethod
-    @WebResult(name = "UpdateStudyResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
-    public UpdateStudyResponse updateStudy(
-        @WebParam(name = "UpdateStudyRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
-        UpdateStudyRequest parameters)
+    @WebResult(name = "UpdateStudyAbstractResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+    public UpdateStudyAbstractResponse updateStudyAbstract(
+        @WebParam(name = "UpdateStudyAbstractRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+        UpdateStudyAbstractRequest parameters)
         throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
     ;
 
@@ -78,8 +78,8 @@ public interface StudyUtility {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyStatusResponse
-     * @throws StudyUtilityFaultMessage
      * @throws SecurityExceptionFaultMessage
+     * @throws StudyUtilityFaultMessage
      */
     @WebMethod
     @WebResult(name = "UpdateStudyStatusResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
@@ -93,15 +93,15 @@ public interface StudyUtility {
      * 
      * @param parameters
      * @return
-     *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateConsentResponse
-     * @throws StudyUtilityFaultMessage
+     *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyConsentResponse
      * @throws SecurityExceptionFaultMessage
+     * @throws StudyUtilityFaultMessage
      */
     @WebMethod
-    @WebResult(name = "UpdateConsentResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
-    public UpdateConsentResponse updateConsent(
-        @WebParam(name = "UpdateConsentRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
-        UpdateConsentRequest parameters)
+    @WebResult(name = "UpdateStudyConsentResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+    public UpdateStudyConsentResponse updateStudyConsent(
+        @WebParam(name = "UpdateStudyConsentRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+        UpdateStudyConsentRequest parameters)
         throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
     ;
 
@@ -109,15 +109,15 @@ public interface StudyUtility {
      * 
      * @param parameters
      * @return
-     *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryConsentResponse
-     * @throws StudyUtilityFaultMessage
+     *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryStudyConsentResponse
      * @throws SecurityExceptionFaultMessage
+     * @throws StudyUtilityFaultMessage
      */
     @WebMethod
-    @WebResult(name = "QueryConsentResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
-    public QueryConsentResponse queryConsent(
-        @WebParam(name = "QueryConsentRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
-        QueryConsentRequest parameters)
+    @WebResult(name = "QueryStudyConsentResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+    public QueryStudyConsentResponse queryStudyConsent(
+        @WebParam(name = "QueryStudyConsentRequest", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
+        QueryStudyConsentRequest parameters)
         throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage
     ;
 
@@ -126,8 +126,8 @@ public interface StudyUtility {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryRegistryStatusResponse
-     * @throws StudyUtilityFaultMessage
      * @throws SecurityExceptionFaultMessage
+     * @throws StudyUtilityFaultMessage
      */
     @WebMethod
     @WebResult(name = "QueryRegistryStatusResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")
@@ -142,8 +142,8 @@ public interface StudyUtility {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryStudyRegistryStatusResponse
-     * @throws StudyUtilityFaultMessage
      * @throws SecurityExceptionFaultMessage
+     * @throws StudyUtilityFaultMessage
      */
     @WebMethod
     @WebResult(name = "QueryStudyRegistryStatusResponse", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", partName = "parameters")

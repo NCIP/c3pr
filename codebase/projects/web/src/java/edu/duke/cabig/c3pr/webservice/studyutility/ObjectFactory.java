@@ -34,131 +34,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpdateStudyStatusResponse }
+     * Create an instance of {@link QueryStudyAbstractResponse }
      * 
      */
-    public UpdateStudyStatusResponse createUpdateStudyStatusResponse() {
-        return new UpdateStudyStatusResponse();
-    }
-
-    /**
-     * Create an instance of {@link CreateStudyResponse }
-     * 
-     */
-    public CreateStudyResponse createCreateStudyResponse() {
-        return new CreateStudyResponse();
-    }
-
-    /**
-     * Create an instance of {@link QueryConsentResponse }
-     * 
-     */
-    public QueryConsentResponse createQueryConsentResponse() {
-        return new QueryConsentResponse();
-    }
-
-    /**
-     * Create an instance of {@link DSETRegistryStatus }
-     * 
-     */
-    public DSETRegistryStatus createDSETRegistryStatus() {
-        return new DSETRegistryStatus();
-    }
-
-    /**
-     * Create an instance of {@link UpdateStudyRequest }
-     * 
-     */
-    public UpdateStudyRequest createUpdateStudyRequest() {
-        return new UpdateStudyRequest();
-    }
-
-    /**
-     * Create an instance of {@link DSETStudyProtocolVersion }
-     * 
-     */
-    public DSETStudyProtocolVersion createDSETStudyProtocolVersion() {
-        return new DSETStudyProtocolVersion();
-    }
-
-    /**
-     * Create an instance of {@link QueryRegistryStatusRequest }
-     * 
-     */
-    public QueryRegistryStatusRequest createQueryRegistryStatusRequest() {
-        return new QueryRegistryStatusRequest();
-    }
-
-    /**
-     * Create an instance of {@link QueryStudyRegistryStatusRequest }
-     * 
-     */
-    public QueryStudyRegistryStatusRequest createQueryStudyRegistryStatusRequest() {
-        return new QueryStudyRegistryStatusRequest();
-    }
-
-    /**
-     * Create an instance of {@link UpdateStudyStatusRequest }
-     * 
-     */
-    public UpdateStudyStatusRequest createUpdateStudyStatusRequest() {
-        return new UpdateStudyStatusRequest();
-    }
-
-    /**
-     * Create an instance of {@link QueryStudyRegistryStatusResponse }
-     * 
-     */
-    public QueryStudyRegistryStatusResponse createQueryStudyRegistryStatusResponse() {
-        return new QueryStudyRegistryStatusResponse();
-    }
-
-    /**
-     * Create an instance of {@link UpdateConsentRequest }
-     * 
-     */
-    public UpdateConsentRequest createUpdateConsentRequest() {
-        return new UpdateConsentRequest();
-    }
-
-    /**
-     * Create an instance of {@link AdvancedQueryStudyRequest }
-     * 
-     */
-    public AdvancedQueryStudyRequest createAdvancedQueryStudyRequest() {
-        return new AdvancedQueryStudyRequest();
-    }
-
-    /**
-     * Create an instance of {@link QueryConsentRequest }
-     * 
-     */
-    public QueryConsentRequest createQueryConsentRequest() {
-        return new QueryConsentRequest();
-    }
-
-    /**
-     * Create an instance of {@link CreateStudyRequest }
-     * 
-     */
-    public CreateStudyRequest createCreateStudyRequest() {
-        return new CreateStudyRequest();
-    }
-
-    /**
-     * Create an instance of {@link StudyUtilityFault }
-     * 
-     */
-    public StudyUtilityFault createStudyUtilityFault() {
-        return new StudyUtilityFault();
-    }
-
-    /**
-     * Create an instance of {@link UpdateConsentResponse }
-     * 
-     */
-    public UpdateConsentResponse createUpdateConsentResponse() {
-        return new UpdateConsentResponse();
+    public QueryStudyAbstractResponse createQueryStudyAbstractResponse() {
+        return new QueryStudyAbstractResponse();
     }
 
     /**
@@ -170,27 +50,107 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QueryRegistryStatusResponse }
+     * Create an instance of {@link UpdateStudyStatusResponse }
      * 
      */
-    public QueryRegistryStatusResponse createQueryRegistryStatusResponse() {
-        return new QueryRegistryStatusResponse();
+    public UpdateStudyStatusResponse createUpdateStudyStatusResponse() {
+        return new UpdateStudyStatusResponse();
     }
 
     /**
-     * Create an instance of {@link AdvancedQueryStudyResponse }
+     * Create an instance of {@link QueryStudyConsentResponse }
      * 
      */
-    public AdvancedQueryStudyResponse createAdvancedQueryStudyResponse() {
-        return new AdvancedQueryStudyResponse();
+    public QueryStudyConsentResponse createQueryStudyConsentResponse() {
+        return new QueryStudyConsentResponse();
     }
 
     /**
-     * Create an instance of {@link UpdateStudyResponse }
+     * Create an instance of {@link QueryRegistryStatusRequest }
      * 
      */
-    public UpdateStudyResponse createUpdateStudyResponse() {
-        return new UpdateStudyResponse();
+    public QueryRegistryStatusRequest createQueryRegistryStatusRequest() {
+        return new QueryRegistryStatusRequest();
+    }
+
+    /**
+     * Create an instance of {@link StudyUtilityFault }
+     * 
+     */
+    public StudyUtilityFault createStudyUtilityFault() {
+        return new StudyUtilityFault();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStudyStatusRequest }
+     * 
+     */
+    public UpdateStudyStatusRequest createUpdateStudyStatusRequest() {
+        return new UpdateStudyStatusRequest();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStudyAbstractResponse }
+     * 
+     */
+    public UpdateStudyAbstractResponse createUpdateStudyAbstractResponse() {
+        return new UpdateStudyAbstractResponse();
+    }
+
+    /**
+     * Create an instance of {@link DSETRegistryStatus }
+     * 
+     */
+    public DSETRegistryStatus createDSETRegistryStatus() {
+        return new DSETRegistryStatus();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStudyAbstractRequest }
+     * 
+     */
+    public UpdateStudyAbstractRequest createUpdateStudyAbstractRequest() {
+        return new UpdateStudyAbstractRequest();
+    }
+
+    /**
+     * Create an instance of {@link QueryStudyRegistryStatusResponse }
+     * 
+     */
+    public QueryStudyRegistryStatusResponse createQueryStudyRegistryStatusResponse() {
+        return new QueryStudyRegistryStatusResponse();
+    }
+
+    /**
+     * Create an instance of {@link DSETStudyProtocolVersion }
+     * 
+     */
+    public DSETStudyProtocolVersion createDSETStudyProtocolVersion() {
+        return new DSETStudyProtocolVersion();
+    }
+
+    /**
+     * Create an instance of {@link CreateStudyAbstractResponse }
+     * 
+     */
+    public CreateStudyAbstractResponse createCreateStudyAbstractResponse() {
+        return new CreateStudyAbstractResponse();
+    }
+
+    /**
+     * Create an instance of {@link QueryStudyConsentRequest }
+     * 
+     */
+    public QueryStudyConsentRequest createQueryStudyConsentRequest() {
+        return new QueryStudyConsentRequest();
+    }
+
+    /**
+     * Create an instance of {@link CreateStudyAbstractRequest }
+     * 
+     */
+    public CreateStudyAbstractRequest createCreateStudyAbstractRequest() {
+        return new CreateStudyAbstractRequest();
     }
 
     /**
@@ -199,6 +159,46 @@ public class ObjectFactory {
      */
     public DSETPermissibleStudySubjectRegistryStatus createDSETPermissibleStudySubjectRegistryStatus() {
         return new DSETPermissibleStudySubjectRegistryStatus();
+    }
+
+    /**
+     * Create an instance of {@link QueryStudyAbstractRequest }
+     * 
+     */
+    public QueryStudyAbstractRequest createQueryStudyAbstractRequest() {
+        return new QueryStudyAbstractRequest();
+    }
+
+    /**
+     * Create an instance of {@link QueryStudyRegistryStatusRequest }
+     * 
+     */
+    public QueryStudyRegistryStatusRequest createQueryStudyRegistryStatusRequest() {
+        return new QueryStudyRegistryStatusRequest();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStudyConsentResponse }
+     * 
+     */
+    public UpdateStudyConsentResponse createUpdateStudyConsentResponse() {
+        return new UpdateStudyConsentResponse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateStudyConsentRequest }
+     * 
+     */
+    public UpdateStudyConsentRequest createUpdateStudyConsentRequest() {
+        return new UpdateStudyConsentRequest();
+    }
+
+    /**
+     * Create an instance of {@link QueryRegistryStatusResponse }
+     * 
+     */
+    public QueryRegistryStatusResponse createQueryRegistryStatusResponse() {
+        return new QueryRegistryStatusResponse();
     }
 
     /**

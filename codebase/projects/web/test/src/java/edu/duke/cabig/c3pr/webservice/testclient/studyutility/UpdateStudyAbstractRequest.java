@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
 
 
 /**
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="consents" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}DSET_Consent"/>
+ *         &lt;element name="study" type="{http://enterpriseservices.nci.nih.gov/Common}StudyProtocolVersion"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,36 +30,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "consents"
+    "study"
 })
-@XmlRootElement(name = "QueryConsentResponse")
-public class QueryConsentResponse {
+@XmlRootElement(name = "UpdateStudyAbstractRequest")
+public class UpdateStudyAbstractRequest {
 
     @XmlElement(required = true)
-    protected DSETConsent consents;
+    protected StudyProtocolVersion study;
 
     /**
-     * Gets the value of the consents property.
+     * Gets the value of the study property.
      * 
      * @return
      *     possible object is
-     *     {@link DSETConsent }
+     *     {@link StudyProtocolVersion }
      *     
      */
-    public DSETConsent getConsents() {
-        return consents;
+    public StudyProtocolVersion getStudy() {
+        return study;
     }
 
     /**
-     * Sets the value of the consents property.
+     * Sets the value of the study property.
      * 
      * @param value
      *     allowed object is
-     *     {@link DSETConsent }
+     *     {@link StudyProtocolVersion }
      *     
      */
-    public void setConsents(DSETConsent value) {
-        this.consents = value;
+    public void setStudy(StudyProtocolVersion value) {
+        this.study = value;
     }
 
 }

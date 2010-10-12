@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import edu.duke.cabig.c3pr.webservice.common.Consent;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 
 
 /**
@@ -19,6 +20,7 @@ import edu.duke.cabig.c3pr.webservice.common.Consent;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="studyIdentifier" type="{http://enterpriseservices.nci.nih.gov/Common}DocumentIdentifier"/>
  *         &lt;element name="consent" type="{http://enterpriseservices.nci.nih.gov/Common}Consent"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -30,13 +32,40 @@ import edu.duke.cabig.c3pr.webservice.common.Consent;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
+    "studyIdentifier",
     "consent"
 })
-@XmlRootElement(name = "UpdateConsentResponse")
-public class UpdateConsentResponse {
+@XmlRootElement(name = "UpdateStudyConsentRequest")
+public class UpdateStudyConsentRequest {
 
     @XmlElement(required = true)
+    protected DocumentIdentifier studyIdentifier;
+    @XmlElement(required = true)
     protected Consent consent;
+
+    /**
+     * Gets the value of the studyIdentifier property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DocumentIdentifier }
+     *     
+     */
+    public DocumentIdentifier getStudyIdentifier() {
+        return studyIdentifier;
+    }
+
+    /**
+     * Sets the value of the studyIdentifier property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DocumentIdentifier }
+     *     
+     */
+    public void setStudyIdentifier(DocumentIdentifier value) {
+        this.studyIdentifier = value;
+    }
 
     /**
      * Gets the value of the consent property.

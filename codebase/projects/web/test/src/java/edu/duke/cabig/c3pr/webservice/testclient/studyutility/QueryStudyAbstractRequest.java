@@ -1,11 +1,12 @@
 
-package edu.duke.cabig.c3pr.webservice.studyutility;
+package edu.duke.cabig.c3pr.webservice.testclient.studyutility;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.testclient.common.DSETAdvanceSearchCriterionParameter;
 
 
 /**
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="consents" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}DSET_Consent"/>
+ *         &lt;element name="parameters" type="{http://enterpriseservices.nci.nih.gov/Common}DSET_AdvanceSearchCriterionParameter"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,36 +30,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "consents"
+    "parameters"
 })
-@XmlRootElement(name = "QueryConsentResponse")
-public class QueryConsentResponse {
+@XmlRootElement(name = "QueryStudyAbstractRequest")
+public class QueryStudyAbstractRequest {
 
     @XmlElement(required = true)
-    protected DSETConsent consents;
+    protected DSETAdvanceSearchCriterionParameter parameters;
 
     /**
-     * Gets the value of the consents property.
+     * Gets the value of the parameters property.
      * 
      * @return
      *     possible object is
-     *     {@link DSETConsent }
+     *     {@link DSETAdvanceSearchCriterionParameter }
      *     
      */
-    public DSETConsent getConsents() {
-        return consents;
+    public DSETAdvanceSearchCriterionParameter getParameters() {
+        return parameters;
     }
 
     /**
-     * Sets the value of the consents property.
+     * Sets the value of the parameters property.
      * 
      * @param value
      *     allowed object is
-     *     {@link DSETConsent }
+     *     {@link DSETAdvanceSearchCriterionParameter }
      *     
      */
-    public void setConsents(DSETConsent value) {
-        this.consents = value;
+    public void setParameters(DSETAdvanceSearchCriterionParameter value) {
+        this.parameters = value;
     }
 
 }

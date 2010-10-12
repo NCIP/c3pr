@@ -66,13 +66,13 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 
 		// successful study creation
 		StudyProtocolVersion version = createStudy();
-		final CreateStudyRequest request = new CreateStudyRequest();
+		final CreateStudyAbstractRequest request = new CreateStudyAbstractRequest();
 		request.setStudy(version);
 		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
 				new ArrayList<Study>());
 		studyRepository.save(isA(Study.class));
 		replay(studyRepository);
-		CreateStudyResponse response = service.createStudy(request);
+		CreateStudyAbstractResponse response = service.createStudyAbstract(request);
 		assertNotNull(response.getStudy());
 		assertTrue(BeanUtils.deepCompare(version, response.getStudy()));
 		verify(studyRepository);
@@ -85,7 +85,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		new AssertThrows(StudyUtilityFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
-				service.createStudy(request);
+				service.createStudyAbstract(request);
 			}
 		}.runTest();
 		verify(studyRepository);
@@ -97,17 +97,17 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		new AssertThrows(StudyUtilityFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
-				service.createStudy(request);
+				service.createStudyAbstract(request);
 			}
 		}.runTest();
 		reset(studyRepository);
 
 	}
 
-	public void testAdvancedQueryStudy() throws StudyUtilityFaultMessage {
+	public void testQueryStudyAbstract() throws StudyUtilityFaultMessage {
 
 		// successful search
-		AdvancedQueryStudyRequest request = new AdvancedQueryStudyRequest();
+		QueryStudyAbstractRequest request = new QueryStudyAbstractRequest();
 		AdvanceSearchCriterionParameter param = createAdvaceSearchParam();
 		request.setParameters(new DSETAdvanceSearchCriterionParameter());
 		request.getParameters().getItem().add(param);
@@ -117,8 +117,8 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 				Arrays.asList(new Study[] { study }));
 		replay(studyRepository);
 
-		AdvancedQueryStudyResponse response = service
-				.advancedQueryStudy(request);
+		QueryStudyAbstractResponse response = service
+				.queryStudyAbstract(request);
 		DSETStudyProtocolVersion subjects = response.getStudies();
 		List<StudyProtocolVersion> listOfSubjects = subjects.getItem();
 		assertTrue(CollectionUtils.isNotEmpty(listOfSubjects));
@@ -262,7 +262,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 				.getConsents();
 
 		// consent by example.
-		final QueryConsentRequest request = new QueryConsentRequest();
+		final QueryStudyConsentRequest request = new QueryStudyConsentRequest();
 		DocumentIdentifier studyId = createStudyPrimaryIdentifier();
 		Consent consent = createConsent();
 		request.setStudyIdentifier(studyId);
@@ -276,7 +276,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 						isA(Study.class))).andReturn(domainConsents);
 		replay(studyRepository, consentDao);
 
-		List<Consent> list = service.queryConsent(request).getConsents()
+		List<Consent> list = service.queryStudyConsent(request).getConsents()
 				.getItem();
 		assertEquals(1, list.size());
 		assertTrue(BeanUtils.deepCompare(list.get(0),
@@ -290,7 +290,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
 				Arrays.asList(new Study[] { study }));
 		replay(studyRepository);
-		list = service.queryConsent(request).getConsents().getItem();
+		list = service.queryStudyConsent(request).getConsents().getItem();
 		assertEquals(2, list.size());
 		assertTrue(BeanUtils.deepCompare(list.get(0),
 				converter.convertConsent(domainConsents.get(0))));
@@ -303,7 +303,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 				StudyUtilityFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
-				service.queryConsent(request);
+				service.queryStudyConsent(request);
 			}
 		};
 		testGetSingleStudySemantics(assertThrows);
@@ -321,7 +321,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		Study study = createDomainStudy();
 
 		// successful update.
-		final UpdateConsentRequest request = new UpdateConsentRequest();
+		final UpdateStudyConsentRequest request = new UpdateStudyConsentRequest();
 		DocumentIdentifier studyId = createStudyPrimaryIdentifier();
 		Consent consent = createConsent();
 		request.setStudyIdentifier(studyId);
@@ -332,7 +332,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		studyRepository.save(study);
 		replay(studyRepository);
 
-		Consent updatedConsent = service.updateConsent(request).getConsent();
+		Consent updatedConsent = service.updateStudyConsent(request).getConsent();
 		assertTrue(BeanUtils.deepCompare(updatedConsent, consent));
 		assertEquals(1, study.getConsents().size());
 		assertTrue(BeanUtils.deepCompare(
@@ -345,7 +345,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 				StudyUtilityFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
-				service.updateConsent(request);
+				service.updateStudyConsent(request);
 			}
 		};
 		testGetSingleStudySemantics(assertThrows);
@@ -359,13 +359,13 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		final Study existentStudy = converter.convert(version);
 		version.getStudyProtocolDocument().setPublicTitle(
 				new ST(TEST_STUDY_DESCR + "CHANGED"));
-		final UpdateStudyRequest request = new UpdateStudyRequest();
+		final UpdateStudyAbstractRequest request = new UpdateStudyAbstractRequest();
 		request.setStudy(version);
 		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
 				Arrays.asList(new Study[] { existentStudy }));
 		studyRepository.save(isA(Study.class));
 		replay(studyRepository);
-		UpdateStudyResponse response = service.updateStudy(request);
+		UpdateStudyAbstractResponse response = service.updateStudyAbstract(request);
 		assertNotNull(response.getStudy());
 		assertTrue(BeanUtils.deepCompare(version, response.getStudy()));
 		verify(studyRepository);
@@ -376,7 +376,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 				StudyUtilityFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
-				service.updateStudy(request);
+				service.updateStudyAbstract(request);
 			}
 		};
 		testStudyNotFound(assertThrows);
@@ -387,7 +387,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		new AssertThrows(StudyUtilityFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
-				service.updateStudy(request);
+				service.updateStudyAbstract(request);
 			}
 		}.runTest();
 		reset(studyRepository);

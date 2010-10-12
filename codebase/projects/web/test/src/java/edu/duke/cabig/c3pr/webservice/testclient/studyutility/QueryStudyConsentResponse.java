@@ -6,7 +6,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
 
 
 /**
@@ -19,7 +18,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="study" type="{http://enterpriseservices.nci.nih.gov/Common}StudyProtocolVersion"/>
+ *         &lt;element name="consents" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}DSET_Consent"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -30,36 +29,36 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "study"
+    "consents"
 })
-@XmlRootElement(name = "CreateStudyRequest")
-public class CreateStudyRequest {
+@XmlRootElement(name = "QueryStudyConsentResponse")
+public class QueryStudyConsentResponse {
 
     @XmlElement(required = true)
-    protected StudyProtocolVersion study;
+    protected DSETConsent consents;
 
     /**
-     * Gets the value of the study property.
+     * Gets the value of the consents property.
      * 
      * @return
      *     possible object is
-     *     {@link StudyProtocolVersion }
+     *     {@link DSETConsent }
      *     
      */
-    public StudyProtocolVersion getStudy() {
-        return study;
+    public DSETConsent getConsents() {
+        return consents;
     }
 
     /**
-     * Sets the value of the study property.
+     * Sets the value of the consents property.
      * 
      * @param value
      *     allowed object is
-     *     {@link StudyProtocolVersion }
+     *     {@link DSETConsent }
      *     
      */
-    public void setStudy(StudyProtocolVersion value) {
-        this.study = value;
+    public void setConsents(DSETConsent value) {
+        this.consents = value;
     }
 
 }

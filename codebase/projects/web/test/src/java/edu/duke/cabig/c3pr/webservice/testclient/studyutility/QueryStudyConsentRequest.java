@@ -21,7 +21,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.DocumentIdentifier;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="studyIdentifier" type="{http://enterpriseservices.nci.nih.gov/Common}DocumentIdentifier"/>
- *         &lt;element name="consent" type="{http://enterpriseservices.nci.nih.gov/Common}Consent"/>
+ *         &lt;element name="consent" type="{http://enterpriseservices.nci.nih.gov/Common}Consent" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,12 +35,11 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.DocumentIdentifier;
     "studyIdentifier",
     "consent"
 })
-@XmlRootElement(name = "UpdateConsentRequest")
-public class UpdateConsentRequest {
+@XmlRootElement(name = "QueryStudyConsentRequest")
+public class QueryStudyConsentRequest {
 
     @XmlElement(required = true)
     protected DocumentIdentifier studyIdentifier;
-    @XmlElement(required = true)
     protected Consent consent;
 
     /**

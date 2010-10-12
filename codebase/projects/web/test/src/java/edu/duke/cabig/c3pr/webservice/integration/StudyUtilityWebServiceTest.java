@@ -66,18 +66,19 @@ import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ED;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.II;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.testclient.iso21090.TSDateTime;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.AdvancedQueryStudyRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryConsentRequest;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyAbstractRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryRegistryStatusRequest;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryStudyAbstractRequest;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryStudyConsentRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryStudyRegistryStatusRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.SecurityExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityFaultMessage;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityService;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateConsentRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyRequest;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyAbstractRequest;
+import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyConsentRequest;
 import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyStatusRequest;
+
 
 /**
  * This test will run C3PR in embedded Tomcat and test Study Utility web service
@@ -304,11 +305,11 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		StudyUtility service = getService();
 		final Consent consent = createConsent(UPDATE_DISCRIMINATOR);
 
-		UpdateConsentRequest request = new UpdateConsentRequest();
+		UpdateStudyConsentRequest request = new UpdateStudyConsentRequest();
 		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
 		request.setStudyIdentifier(studyId);
 		request.setConsent(consent);
-		Consent updatedConsent = service.updateConsent(request).getConsent();
+		Consent updatedConsent = service.updateStudyConsent(request).getConsent();
 		assertTrue(BeanUtils.deepCompare(consent, updatedConsent));
 
 		// check database data
@@ -320,7 +321,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studyId.getIdentifier().setExtension(
 				RandomStringUtils.randomAlphanumeric(32));
 		try {
-			service.updateConsent(request);
+			service.updateStudyConsent(request);
 			fail();
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Unexistent study creation passed.");
@@ -333,31 +334,31 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		StudyUtility service = getService();
 
 		// all consents of the study
-		final QueryConsentRequest request = new QueryConsentRequest();
+		final QueryStudyConsentRequest request = new QueryStudyConsentRequest();
 		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
 		request.setStudyIdentifier(studyId);
-		List<Consent> list = service.queryConsent(request).getConsents()
+		List<Consent> list = service.queryStudyConsent(request).getConsents()
 				.getItem();
 		assertEquals(1, list.size());
 
 		// consent with data
 		Consent example = createConsent("");
 		request.setConsent(example);
-		list = service.queryConsent(request).getConsents().getItem();
+		list = service.queryStudyConsent(request).getConsents().getItem();
 		assertEquals(1, list.size());
 		assertTrue(BeanUtils.deepCompare(example, list.get(0)));
 
 		// consent does not exist
 		example.setOfficialTitle(new ST(RandomStringUtils
 				.randomAlphanumeric(256)));
-		list = service.queryConsent(request).getConsents().getItem();
+		list = service.queryStudyConsent(request).getConsents().getItem();
 		assertEquals(0, list.size());
 
 		// study does not exist.
 		studyId.getIdentifier().setExtension(
 				RandomStringUtils.randomAlphanumeric(32));
 		try {
-			service.queryConsent(request);
+			service.queryStudyConsent(request);
 			fail();
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Unexistent study creation passed.");
@@ -368,7 +369,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private void executeQueryStudyTest() throws SecurityExceptionFaultMessage,
 			StudyUtilityFaultMessage {
 		StudyUtility service = getService();
-		AdvancedQueryStudyRequest request = new AdvancedQueryStudyRequest();
+		QueryStudyAbstractRequest request = new QueryStudyAbstractRequest();
 		DSETAdvanceSearchCriterionParameter params = new DSETAdvanceSearchCriterionParameter();
 		request.setParameters(params);
 
@@ -396,7 +397,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		ctxName.setValue("Study");
 		param.setObjectContextName(ctxName);
 
-		List<StudyProtocolVersion> list = service.advancedQueryStudy(request)
+		List<StudyProtocolVersion> list = service.queryStudyAbstract(request)
 				.getStudies().getItem();
 		assertEquals(1, list.size());
 		StudyProtocolVersion foundStudy = list.get(0);
@@ -404,7 +405,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// nothing found
 		value.setValue(RandomStringUtils.randomAlphanumeric(32));
-		list = service.advancedQueryStudy(request).getStudies().getItem();
+		list = service.queryStudyAbstract(request).getStudies().getItem();
 		assertEquals(0, list.size());
 
 	}
@@ -413,10 +414,10 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		StudyUtility service = getService();
 
 		// successful creation
-		final CreateStudyRequest request = new CreateStudyRequest();
+		final CreateStudyAbstractRequest request = new CreateStudyAbstractRequest();
 		StudyProtocolVersion study = createStudy("");
 		request.setStudy(study);
-		StudyProtocolVersion createdStudy = service.createStudy(request)
+		StudyProtocolVersion createdStudy = service.createStudyAbstract(request)
 				.getStudy();
 		assertNotNull(createdStudy);
 
@@ -425,7 +426,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// duplicate study
 		try {
-			service.createStudy(request);
+			service.createStudyAbstract(request);
 			fail();
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Duplicate study creation passed.");
@@ -435,7 +436,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
 				.clear();
 		try {
-			service.createStudy(request);
+			service.createStudyAbstract(request);
 			fail();
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Missing identifiers testing passed.");
@@ -446,7 +447,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		study.getStudyProtocolDocument().getVersionDate().setValue("ZZZ");
 		request.setStudy(study);
 		try {
-			service.createStudy(request);
+			service.createStudyAbstract(request);
 			fail();
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Malformed data testing passed.");
@@ -458,10 +459,10 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		StudyUtility service = getService();
 
 		// successful creation
-		final UpdateStudyRequest request = new UpdateStudyRequest();
+		final UpdateStudyAbstractRequest request = new UpdateStudyAbstractRequest();
 		StudyProtocolVersion study = createStudy(UPDATE_DISCRIMINATOR);
 		request.setStudy(study);
-		StudyProtocolVersion updatedStudy = service.updateStudy(request)
+		StudyProtocolVersion updatedStudy = service.updateStudyAbstract(request)
 				.getStudy();
 		assertNotNull(updatedStudy);
 
@@ -472,7 +473,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
 				.clear();
 		try {
-			service.updateStudy(request);
+			service.updateStudyAbstract(request);
 			fail();
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Missing identifiers testing passed.");
@@ -483,7 +484,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		study.getStudyProtocolDocument().getVersionDate().setValue("ZZZ");
 		request.setStudy(study);
 		try {
-			service.updateStudy(request);
+			service.updateStudyAbstract(request);
 			fail();
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Malformed data testing passed.");

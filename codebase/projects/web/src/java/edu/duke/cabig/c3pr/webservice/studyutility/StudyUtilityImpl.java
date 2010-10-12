@@ -71,11 +71,11 @@ public class StudyUtilityImpl implements StudyUtility {
 	 * edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#advancedQueryStudy
 	 * (edu.duke.cabig.c3pr.webservice.studyutility.AdvancedQueryStudyRequest)
 	 */
-	public AdvancedQueryStudyResponse advancedQueryStudy(
-			AdvancedQueryStudyRequest parameters)
+	public QueryStudyAbstractResponse queryStudyAbstract(
+			QueryStudyAbstractRequest parameters)
 			throws StudyUtilityFaultMessage {
 
-		AdvancedQueryStudyResponse response = new AdvancedQueryStudyResponse();
+		QueryStudyAbstractResponse response = new QueryStudyAbstractResponse();
 		DSETStudyProtocolVersion studies = new DSETStudyProtocolVersion();
 		response.setStudies(studies);
 		try {
@@ -107,10 +107,10 @@ public class StudyUtilityImpl implements StudyUtility {
 	 * edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#createStudy(
 	 * edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyRequest)
 	 */
-	public CreateStudyResponse createStudy(CreateStudyRequest request)
+	public CreateStudyAbstractResponse createStudyAbstract(CreateStudyAbstractRequest request)
 			throws StudyUtilityFaultMessage {
 
-		CreateStudyResponse response = new CreateStudyResponse();
+		CreateStudyAbstractResponse response = new CreateStudyAbstractResponse();
 		try {
 			StudyProtocolVersion xmlStudy = request.getStudy();
 			edu.duke.cabig.c3pr.domain.Study study = converter
@@ -150,9 +150,9 @@ public class StudyUtilityImpl implements StudyUtility {
 	 * edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#updateStudy(
 	 * edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyRequest)
 	 */
-	public UpdateStudyResponse updateStudy(UpdateStudyRequest request)
+	public UpdateStudyAbstractResponse updateStudyAbstract(UpdateStudyAbstractRequest request)
 			throws StudyUtilityFaultMessage {
-		UpdateStudyResponse response = new UpdateStudyResponse();
+		UpdateStudyAbstractResponse response = new UpdateStudyAbstractResponse();
 		try {
 			StudyProtocolVersion xmlStudy = request.getStudy();
 			List<Identifier> idList = converter.convert(xmlStudy)
@@ -210,9 +210,12 @@ public class StudyUtilityImpl implements StudyUtility {
 		this.studyRepository = studyRepository;
 	}
 
-	public UpdateConsentResponse updateConsent(UpdateConsentRequest request)
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#updateStudyConsent(edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentRequest)
+	 */
+	public UpdateStudyConsentResponse updateStudyConsent(UpdateStudyConsentRequest request)
 			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
-		UpdateConsentResponse response = new UpdateConsentResponse();
+		UpdateStudyConsentResponse response = new UpdateStudyConsentResponse();
 		try {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
 			Consent consent = request.getConsent();
@@ -234,9 +237,12 @@ public class StudyUtilityImpl implements StudyUtility {
 		return response;
 	}
 
-	public QueryConsentResponse queryConsent(QueryConsentRequest request)
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#queryStudyConsent(edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyConsentRequest)
+	 */
+	public QueryStudyConsentResponse queryStudyConsent(QueryStudyConsentRequest request)
 			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
-		QueryConsentResponse response = new QueryConsentResponse();
+		QueryStudyConsentResponse response = new QueryStudyConsentResponse();
 		DSETConsent consents = new DSETConsent();
 		response.setConsents(consents);
 		List<edu.duke.cabig.c3pr.domain.Consent> domainConsents = new ArrayList<edu.duke.cabig.c3pr.domain.Consent>();
@@ -298,6 +304,9 @@ public class StudyUtilityImpl implements StudyUtility {
 		this.consentDao = consentDao;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#updateStudyStatus(edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusRequest)
+	 */
 	public UpdateStudyStatusResponse updateStudyStatus(
 			UpdateStudyStatusRequest request)
 			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
@@ -324,6 +333,9 @@ public class StudyUtilityImpl implements StudyUtility {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#queryRegistryStatus(edu.duke.cabig.c3pr.webservice.studyutility.QueryRegistryStatusRequest)
+	 */
 	public QueryRegistryStatusResponse queryRegistryStatus(
 			QueryRegistryStatusRequest request)
 			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
@@ -359,6 +371,9 @@ public class StudyUtilityImpl implements StudyUtility {
 		this.registryStatusDao = registryStatusDao;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#queryStudyRegistryStatus(edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyRegistryStatusRequest)
+	 */
 	public QueryStudyRegistryStatusResponse queryStudyRegistryStatus(
 			QueryStudyRegistryStatusRequest request)
 			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {

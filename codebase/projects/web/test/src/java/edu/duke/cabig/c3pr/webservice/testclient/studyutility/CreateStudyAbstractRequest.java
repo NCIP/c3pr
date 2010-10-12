@@ -32,8 +32,8 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
 @XmlType(name = "", propOrder = {
     "study"
 })
-@XmlRootElement(name = "UpdateStudyResponse")
-public class UpdateStudyResponse {
+@XmlRootElement(name = "CreateStudyAbstractRequest")
+public class CreateStudyAbstractRequest {
 
     @XmlElement(required = true)
     protected StudyProtocolVersion study;

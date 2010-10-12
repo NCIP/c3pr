@@ -1,12 +1,11 @@
 
-package edu.duke.cabig.c3pr.webservice.testclient.studyutility;
+package edu.duke.cabig.c3pr.webservice.studyutility;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
 
 
 /**
@@ -19,7 +18,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="study" type="{http://enterpriseservices.nci.nih.gov/Common}StudyProtocolVersion"/>
+ *         &lt;element name="studies" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}DSET_StudyProtocolVersion"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -30,36 +29,36 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "study"
+    "studies"
 })
-@XmlRootElement(name = "UpdateStudyRequest")
-public class UpdateStudyRequest {
+@XmlRootElement(name = "QueryStudyAbstractResponse")
+public class QueryStudyAbstractResponse {
 
     @XmlElement(required = true)
-    protected StudyProtocolVersion study;
+    protected DSETStudyProtocolVersion studies;
 
     /**
-     * Gets the value of the study property.
+     * Gets the value of the studies property.
      * 
      * @return
      *     possible object is
-     *     {@link StudyProtocolVersion }
+     *     {@link DSETStudyProtocolVersion }
      *     
      */
-    public StudyProtocolVersion getStudy() {
-        return study;
+    public DSETStudyProtocolVersion getStudies() {
+        return studies;
     }
 
     /**
-     * Sets the value of the study property.
+     * Sets the value of the studies property.
      * 
      * @param value
      *     allowed object is
-     *     {@link StudyProtocolVersion }
+     *     {@link DSETStudyProtocolVersion }
      *     
      */
-    public void setStudy(StudyProtocolVersion value) {
-        this.study = value;
+    public void setStudies(DSETStudyProtocolVersion value) {
+        this.studies = value;
     }
 
 }

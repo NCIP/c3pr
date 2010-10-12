@@ -1,12 +1,12 @@
 
-package edu.duke.cabig.c3pr.webservice.testclient.studyutility;
+package edu.duke.cabig.c3pr.webservice.studyutility;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 
 
 /**
@@ -32,8 +32,8 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
 @XmlType(name = "", propOrder = {
     "study"
 })
-@XmlRootElement(name = "CreateStudyResponse")
-public class CreateStudyResponse {
+@XmlRootElement(name = "UpdateStudyAbstractResponse")
+public class UpdateStudyAbstractResponse {
 
     @XmlElement(required = true)
     protected StudyProtocolVersion study;

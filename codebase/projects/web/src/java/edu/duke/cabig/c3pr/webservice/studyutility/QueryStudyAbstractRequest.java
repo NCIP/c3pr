@@ -1,11 +1,12 @@
 
-package edu.duke.cabig.c3pr.webservice.testclient.studyutility;
+package edu.duke.cabig.c3pr.webservice.studyutility;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
 
 
 /**
@@ -18,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="studies" type="{http://enterpriseservices.nci.nih.gov/StudyUtilitySchema}DSET_StudyProtocolVersion"/>
+ *         &lt;element name="parameters" type="{http://enterpriseservices.nci.nih.gov/Common}DSET_AdvanceSearchCriterionParameter"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,36 +30,36 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "studies"
+    "parameters"
 })
-@XmlRootElement(name = "AdvancedQueryStudyResponse")
-public class AdvancedQueryStudyResponse {
+@XmlRootElement(name = "QueryStudyAbstractRequest")
+public class QueryStudyAbstractRequest {
 
     @XmlElement(required = true)
-    protected DSETStudyProtocolVersion studies;
+    protected DSETAdvanceSearchCriterionParameter parameters;
 
     /**
-     * Gets the value of the studies property.
+     * Gets the value of the parameters property.
      * 
      * @return
      *     possible object is
-     *     {@link DSETStudyProtocolVersion }
+     *     {@link DSETAdvanceSearchCriterionParameter }
      *     
      */
-    public DSETStudyProtocolVersion getStudies() {
-        return studies;
+    public DSETAdvanceSearchCriterionParameter getParameters() {
+        return parameters;
     }
 
     /**
-     * Sets the value of the studies property.
+     * Sets the value of the parameters property.
      * 
      * @param value
      *     allowed object is
-     *     {@link DSETStudyProtocolVersion }
+     *     {@link DSETAdvanceSearchCriterionParameter }
      *     
      */
-    public void setStudies(DSETStudyProtocolVersion value) {
-        this.studies = value;
+    public void setParameters(DSETAdvanceSearchCriterionParameter value) {
+        this.parameters = value;
     }
 
 }

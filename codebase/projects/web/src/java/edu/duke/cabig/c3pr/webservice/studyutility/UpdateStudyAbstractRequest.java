@@ -1,12 +1,12 @@
 
-package edu.duke.cabig.c3pr.webservice.testclient.studyutility;
+package edu.duke.cabig.c3pr.webservice.studyutility;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import edu.duke.cabig.c3pr.webservice.testclient.common.Consent;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 
 
 /**
@@ -19,7 +19,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.Consent;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="consent" type="{http://enterpriseservices.nci.nih.gov/Common}Consent"/>
+ *         &lt;element name="study" type="{http://enterpriseservices.nci.nih.gov/Common}StudyProtocolVersion"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -30,36 +30,36 @@ import edu.duke.cabig.c3pr.webservice.testclient.common.Consent;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "consent"
+    "study"
 })
-@XmlRootElement(name = "UpdateConsentResponse")
-public class UpdateConsentResponse {
+@XmlRootElement(name = "UpdateStudyAbstractRequest")
+public class UpdateStudyAbstractRequest {
 
     @XmlElement(required = true)
-    protected Consent consent;
+    protected StudyProtocolVersion study;
 
     /**
-     * Gets the value of the consent property.
+     * Gets the value of the study property.
      * 
      * @return
      *     possible object is
-     *     {@link Consent }
+     *     {@link StudyProtocolVersion }
      *     
      */
-    public Consent getConsent() {
-        return consent;
+    public StudyProtocolVersion getStudy() {
+        return study;
     }
 
     /**
-     * Sets the value of the consent property.
+     * Sets the value of the study property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Consent }
+     *     {@link StudyProtocolVersion }
      *     
      */
-    public void setConsent(Consent value) {
-        this.consent = value;
+    public void setStudy(StudyProtocolVersion value) {
+        this.study = value;
     }
 
 }
