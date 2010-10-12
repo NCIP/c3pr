@@ -2143,5 +2143,52 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
 		assertEquals("5 registrations not found", 5,  registrations.size());
 	}
+	public void testGetResultSetWithHQLForConsentName() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("consent 1");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Consent",  "name",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("Expected 2 registrations", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForConsentingMethod() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("WRITTEN");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Consent",  "consentingMethodsString",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("Expected 2 registrations", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForConsentVersionId() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("version 1");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Consent",  "versionId",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("Expected 2 registrations", 2,  registrations.size());
+	}
 	
 }
