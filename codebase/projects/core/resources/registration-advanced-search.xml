@@ -569,6 +569,64 @@
 				</association>
 			</association-context>
 		</dependent-object>
+			<!--Search by consent specific criterion-->
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.Consent</class-name>
+			<display-name>Consent</display-name>
+			<table-alias>Consent_xx</table-alias>
+			<search-criteria>
+				<name>mandatoryIndicator</name>
+				<label>Mandatory Indicator</label>
+				<data-type>Boolean</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>consentingMethodsString</name>
+				<label>Consenting Methods</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>name</name>
+				<label>Consent Name</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>versionId</name>
+				<label>Consent Version ID</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<association-context>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
+					<role-name>studySubjectStudyVersions</role-name>
+					<table-alias>StudySubjectStudyVersion_xx</table-alias>
+					<joining-condition>StudySubjectStudyVersion_xx = any
+						elements(StudySubject_xx.studySubjectStudyVersions)
+					</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</name>
+					<role-name>studySiteStudyVersion</role-name>
+					<table-alias>StudySiteStudyVersion_xx</table-alias>
+					<joining-condition>StudySubjectStudyVersion_xx.studySiteStudyVersion
+						= StudySiteStudyVersion_xx</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudyVersion</name>
+					<role-name>studyVersion</role-name>
+					<table-alias>StudyVersion_xx</table-alias>
+					<joining-condition>StudySiteStudyVersion_xx.studyVersion =
+						StudyVersion_xx</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.Consent</name>
+					<role-name>consentsInternal</role-name>
+					<table-alias>Consent_xx</table-alias>
+					<joining-condition>Consent_xx = any
+						elements(StudyVersion_xx.consentsInternal)
+					</joining-condition>
+				</association>
+			</association-context>
+		</dependent-object>
 		<!--study personnel specific search criteria -->
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.ResearchStaff</class-name>
