@@ -58,15 +58,15 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Paragraph {
 
     @XmlElementRefs({
-        @XmlElementRef(name = "renderMultiMedia", namespace = "uri:iso.org:21090", type = RenderMultiMedia.class),
         @XmlElementRef(name = "br", namespace = "uri:iso.org:21090", type = Br.class),
         @XmlElementRef(name = "content", namespace = "uri:iso.org:21090", type = Content.class),
-        @XmlElementRef(name = "footnote", namespace = "uri:iso.org:21090", type = Footnote.class),
-        @XmlElementRef(name = "caption", namespace = "uri:iso.org:21090", type = Caption.class),
-        @XmlElementRef(name = "sup", namespace = "uri:iso.org:21090", type = JAXBElement.class),
         @XmlElementRef(name = "footnoteRef", namespace = "uri:iso.org:21090", type = FootnoteRef.class),
-        @XmlElementRef(name = "linkHtml", namespace = "uri:iso.org:21090", type = LinkHtml.class),
-        @XmlElementRef(name = "sub", namespace = "uri:iso.org:21090", type = JAXBElement.class)
+        @XmlElementRef(name = "renderMultiMedia", namespace = "uri:iso.org:21090", type = RenderMultiMedia.class),
+        @XmlElementRef(name = "caption", namespace = "uri:iso.org:21090", type = Caption.class),
+        @XmlElementRef(name = "footnote", namespace = "uri:iso.org:21090", type = Footnote.class),
+        @XmlElementRef(name = "sub", namespace = "uri:iso.org:21090", type = JAXBElement.class),
+        @XmlElementRef(name = "sup", namespace = "uri:iso.org:21090", type = JAXBElement.class),
+        @XmlElementRef(name = "linkHtml", namespace = "uri:iso.org:21090", type = LinkHtml.class)
     })
     @XmlMixed
     protected List<Object> content;
@@ -101,16 +101,16 @@ public class Paragraph {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link RenderMultiMedia }
      * {@link Br }
+     * {@link FootnoteRef }
      * {@link Content }
+     * {@link String }
+     * {@link RenderMultiMedia }
      * {@link Footnote }
      * {@link Caption }
      * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link FootnoteRef }
      * {@link JAXBElement }{@code <}{@link String }{@code >}
      * {@link LinkHtml }
-     * {@link String }
      * 
      * 
      */

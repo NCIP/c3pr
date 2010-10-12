@@ -36,6 +36,15 @@ public class DSETAD
 {
 
     protected List<AD> item;
+    
+    public DSETAD() {	
+	}
+    
+    public DSETAD(AD ad) {
+    	item = new ArrayList<AD>();
+    	item.add(ad);
+	}
+    
 
     /**
      * Gets the value of the item property.

@@ -10,26 +10,9 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPHeaderElement;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.ws.handler.Handler;
-import javax.xml.ws.handler.HandlerResolver;
-import javax.xml.ws.handler.MessageContext;
-import javax.xml.ws.handler.PortInfo;
-import javax.xml.ws.handler.soap.SOAPHandler;
-import javax.xml.ws.handler.soap.SOAPMessageContext;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -42,8 +25,6 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 import edu.duke.cabig.c3pr.webservice.testclient.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.testclient.common.Consent;
@@ -102,8 +83,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String SQL_IDENTIFIERS = "SELECT type, dtype FROM identifiers WHERE value='${STUDY_ID}' ORDER BY id";
 
 	private static final String DBUNIT_DATASET_PREFIX = "/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_";
-	private static final String WSS_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
-	private static final String PATH_TO_SAML_TOKEN = "/edu/duke/cabig/c3pr/webservice/integration/testdata/SAMLToken.xml";
+		
 	private static final QName SERVICE_NAME = new QName(
 			"http://enterpriseservices.nci.nih.gov/StudyUtilityService",
 			"StudyUtilityService");
@@ -494,8 +474,6 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	private void verifyStudyDatabaseData(StudyProtocolVersion study,
 			String fileNameAppendix) throws SQLException, Exception {
-		final String id = study.getStudyProtocolDocument().getDocument()
-				.getDocumentIdentifier().get(0).getIdentifier().getExtension();
 		verifyData("Identifiers", fileNameAppendix, "identifiers",
 				SQL_IDENTIFIERS);
 		verifyData("Studies", fileNameAppendix, "studies", SQL_STUDIES);
@@ -561,73 +539,11 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private StudyUtility getService() {
 		StudyUtilityService service = new StudyUtilityService(wsdlLocation,
 				SERVICE_NAME);
-		service.setHandlerResolver(new HandlerResolver() {
-			public List<Handler> getHandlerChain(PortInfo arg0) {
-				List<Handler> list = new ArrayList<Handler>();
-				list.add(getSecurityHandler());
-				return list;
-			}
-		});
+		SOAPUtils.installSecurityHandler(service);
 		StudyUtility client = service.getStudyUtility();
 		return client;
 	}
 
-	/**
-	 * We need a handler to insert a SAML token into SOAP header.
-	 * @return
-	 */
-	private SOAPHandler<SOAPMessageContext> getSecurityHandler() {
-		return new SOAPHandler<SOAPMessageContext>() {
-			public void close(MessageContext arg0) {
-			}
-
-			public boolean handleFault(SOAPMessageContext arg0) {
-				return true;
-			}
-
-			public boolean handleMessage(SOAPMessageContext ctx) {
-				// Is this an outbound message, i.e., a request?
-				Boolean isOut = (Boolean) ctx
-						.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
-				if (isOut) {
-					SOAPMessage msg = ctx.getMessage();
-					try {
-						addSAMLToken(msg);
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-				}
-				return true;
-			}
-
-			public Set<QName> getHeaders() {
-				return new HashSet<QName>();
-			}
-		};
-	}
-
-	private void addSAMLToken(SOAPMessage msg) throws SOAPException,
-			SAXException, IOException, ParserConfigurationException {
-		InputStream xml = getClass().getResourceAsStream(PATH_TO_SAML_TOKEN);
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		dbf.setNamespaceAware(true);
-		org.w3c.dom.Document doc = dbf.newDocumentBuilder().parse(xml);
-		xml.close();
-
-		Node samlToken = doc.getChildNodes().item(0);
-
-		SOAPEnvelope env = msg.getSOAPPart().getEnvelope();
-		SOAPHeader hdr = env.getHeader();
-		if (hdr == null) {
-			hdr = env.addHeader();
-		}
-
-		Name qname = env.createName("Security", "wsse", WSS_NS);
-		SOAPHeaderElement security = hdr.addHeaderElement(qname);
-		security.appendChild(security.getOwnerDocument().importNode(samlToken,
-				true));
-		msg.saveChanges();
-	}
 
 	// copy-and-paste from WebServiceRelatedTestCase, unfortunately.
 	private static final String TEST_SECONDARY_REASON_DESCR = "Other";

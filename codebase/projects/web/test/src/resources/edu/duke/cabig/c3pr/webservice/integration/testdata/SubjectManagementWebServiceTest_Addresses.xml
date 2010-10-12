@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<addresses street_address="1029 N Stuart St Unit 999" city="Arlington"
+		state_code="VA" country_code="USA" postal_code="22203-5555"
+		retired_indicator="false" />
+</dataset>

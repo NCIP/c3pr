@@ -48,12 +48,13 @@ public class II
     @XmlAttribute
     protected IdentifierReliability reliability;
 
-    public II(String s) {
-		extension =s;
-	}
-    
     public II() {
 		// TODO Auto-generated constructor stub
+	}
+    
+    public II(String extension) {
+		super();
+		this.extension = extension;
 	}
 
 	/**

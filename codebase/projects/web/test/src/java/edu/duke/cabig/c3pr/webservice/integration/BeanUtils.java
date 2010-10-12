@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <b style="text-transform:uppercase;font-size:16px;font-family:Arial Black;">
@@ -36,6 +38,8 @@ public abstract class BeanUtils extends org.apache.commons.beanutils.BeanUtils {
 
 	private static final List<Class<?>> SKIP_TYPES = Arrays
 			.asList(new Class<?>[] { Class.class });
+	
+	private static Log log = LogFactory.getLog(BeanUtils.class);
 
 	/**
 	 * Cannot instantiate me, can you?
@@ -67,6 +71,7 @@ public abstract class BeanUtils extends org.apache.commons.beanutils.BeanUtils {
 		for (Class<?> cls : DIRECTLY_COMPARABLE_TYPES) {
 			if (cls.isAssignableFrom(obj1.getClass())) {
 				if (!obj1.equals(obj2)) {
+					log.info("Values don't match: "+obj1+" and "+obj2);
 					return false;
 				} else {
 					return true;
@@ -92,6 +97,7 @@ public abstract class BeanUtils extends org.apache.commons.beanutils.BeanUtils {
 					}
 					if ((v1 == null && v2 != null)
 							|| (v1 != null && v2 == null)) {
+						log.info("Values don't match: "+v1+" and "+v2);
 						return false;
 					}
 					// Collections need special handling.
@@ -99,6 +105,7 @@ public abstract class BeanUtils extends org.apache.commons.beanutils.BeanUtils {
 						List l1 = new ArrayList((Collection) v1);
 						List l2 = new ArrayList((Collection) v2);
 						if (l1.size() != l2.size()) {
+							log.info("Collection sizes don't match:"+l1+l2);
 							return false;
 						}
 						for (int i = 0; i < l1.size(); i++) {

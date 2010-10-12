@@ -78,13 +78,13 @@ public class ED
     protected Compression compression;
     @XmlAttribute
     protected IntegrityCheckAlgorithm integrityCheckAlgorithm;
-
-    public ED(String s) {
-		value = s;
-	}
     
-    public ED() {
-		// TODO Auto-generated constructor stub
+    public ED() {		
+	}
+
+    public ED(String value) {
+		super();
+		this.value = value;
 	}
 
 	/**

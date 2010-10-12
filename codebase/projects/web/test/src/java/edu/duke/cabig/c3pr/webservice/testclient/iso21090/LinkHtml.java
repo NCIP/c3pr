@@ -53,8 +53,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class LinkHtml {
 
     @XmlElementRefs({
-        @XmlElementRef(name = "footnote", namespace = "uri:iso.org:21090", type = Footnote.class),
-        @XmlElementRef(name = "footnoteRef", namespace = "uri:iso.org:21090", type = FootnoteRef.class)
+        @XmlElementRef(name = "footnoteRef", namespace = "uri:iso.org:21090", type = FootnoteRef.class),
+        @XmlElementRef(name = "footnote", namespace = "uri:iso.org:21090", type = Footnote.class)
     })
     @XmlMixed
     protected List<Object> content;

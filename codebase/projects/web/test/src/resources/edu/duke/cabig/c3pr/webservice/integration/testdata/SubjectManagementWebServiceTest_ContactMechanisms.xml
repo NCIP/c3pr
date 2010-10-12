@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<contact_mechanisms type="EMAIL" value="johndoe@semanticbits.com"
+		retired_indicator="false" dtype="Local" />
+	<contact_mechanisms type="PHONE" value="555-555-5555"
+		prt_id="50" retired_indicator="false" dtype="Local" />
+	<contact_mechanisms type="Fax" value="555-555-5555"
+		prt_id="50" retired_indicator="false" dtype="Local" />
+</dataset>

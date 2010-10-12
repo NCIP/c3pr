@@ -48,13 +48,14 @@ public class ST
     protected String value;
     @XmlAttribute
     protected String language;
-
-    public ST(String v) {
-		this.value = v;
-	}
     
     public ST() {
 		// TODO Auto-generated constructor stub
+	}
+
+    public ST(String value) {
+		super();
+		this.value = value;
 	}
 
 	/**

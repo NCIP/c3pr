@@ -2,6 +2,7 @@
 package edu.duke.cabig.c3pr.webservice.testclient.iso21090;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,8 +37,24 @@ public class DSETCD
 {
 
     protected List<CD> item;
+    
+    public DSETCD() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    
 
-    /**
+    public DSETCD(List<CD> item) {
+		super();
+		this.item = item;
+	}
+
+    public DSETCD(CD... item) {
+		super();
+		this.item = Arrays.asList(item);
+	}
+
+	/**
      * Gets the value of the item property.
      * 
      * <p>

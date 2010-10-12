@@ -52,9 +52,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Caption {
 
     @XmlElementRefs({
+        @XmlElementRef(name = "footnoteRef", namespace = "uri:iso.org:21090", type = FootnoteRef.class),
         @XmlElementRef(name = "footnote", namespace = "uri:iso.org:21090", type = Footnote.class),
         @XmlElementRef(name = "sup", namespace = "uri:iso.org:21090", type = JAXBElement.class),
-        @XmlElementRef(name = "footnoteRef", namespace = "uri:iso.org:21090", type = FootnoteRef.class),
         @XmlElementRef(name = "sub", namespace = "uri:iso.org:21090", type = JAXBElement.class),
         @XmlElementRef(name = "linkHtml", namespace = "uri:iso.org:21090", type = LinkHtml.class)
     })
@@ -91,12 +91,12 @@ public class Caption {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link FootnoteRef }
-     * {@link LinkHtml }
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
      * {@link String }
      * {@link Footnote }
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link LinkHtml }
+     * {@link FootnoteRef }
      * 
      * 
      */

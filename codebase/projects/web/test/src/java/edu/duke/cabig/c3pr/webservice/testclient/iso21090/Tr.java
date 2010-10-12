@@ -70,8 +70,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Tr {
 
     @XmlElements({
-        @XmlElement(name = "th", type = Th.class),
-        @XmlElement(name = "td", type = Td.class)
+        @XmlElement(name = "td", type = Td.class),
+        @XmlElement(name = "th", type = Th.class)
     })
     protected List<Object> thOrTd;
     @XmlAttribute(name = "ID")
@@ -115,8 +115,8 @@ public class Tr {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Th }
      * {@link Td }
+     * {@link Th }
      * 
      * 
      */

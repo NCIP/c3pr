@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<race_code_assocn race_code="White" retired_indicator="false" />
+	<race_code_assocn race_code="Asian" retired_indicator="false" />
+</dataset>

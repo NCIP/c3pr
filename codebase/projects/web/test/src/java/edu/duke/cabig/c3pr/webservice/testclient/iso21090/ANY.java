@@ -6,11 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
-import edu.duke.cabig.c3pr.webservice.testclient.common.COLLAdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.COLLConsent;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.COLLPermissibleStudySubjectRegistryStatus;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.COLLRegistryStatus;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.COLLStudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.COLLSUBJECT;
 
 
 /**
@@ -35,10 +31,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.studyutility.COLLStudyProtocolV
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ANY")
 @XmlSeeAlso({
-    COLLStudyProtocolVersion.class,
-    COLLPermissibleStudySubjectRegistryStatus.class,
-    COLLConsent.class,
-    COLLRegistryStatus.class,
+    COLLSUBJECT.class,
     SLISTTSDate.class,
     NPPDTSDateFull.class,
     SLISTTSBirth.class,
@@ -273,8 +266,7 @@ import edu.duke.cabig.c3pr.webservice.testclient.studyutility.COLLStudyProtocolV
     QSETTSDateTimeFull.class,
     QSETCO.class,
     QSETTSDateFull.class,
-    QSETINTNonNeg.class,
-    COLLAdvanceSearchCriterionParameter.class
+    QSETINTNonNeg.class
 })
 public abstract class ANY
     extends HXIT
@@ -287,7 +279,18 @@ public abstract class ANY
     @XmlAttribute
     protected UpdateMode updateMode;
 
-    /**
+    public ANY() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    
+    public ANY(NullFlavor nullFlavor) {
+		super();
+		this.nullFlavor = nullFlavor;
+	}
+
+
+	/**
      * Gets the value of the nullFlavor property.
      * 
      * @return

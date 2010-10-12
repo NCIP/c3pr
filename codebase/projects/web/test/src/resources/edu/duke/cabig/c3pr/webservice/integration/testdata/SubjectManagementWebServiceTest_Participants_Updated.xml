@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<participants first_name="Johnny" last_name="Doe2"
+		maiden_name="" birth_date="1981-01-01 00:00:00.0"
+		administrative_gender_code="Female" ethnic_group_code="Hispanic or Latino"
+		marital_status_code="Married" middle_name="A" retired_indicator="false"
+		death_date="1991-01-01 00:00:00.0" death_indicator="true" state_code="ACTIVE" />
+</dataset>

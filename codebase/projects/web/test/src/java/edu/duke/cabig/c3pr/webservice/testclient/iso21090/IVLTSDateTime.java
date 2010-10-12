@@ -53,6 +53,15 @@ public class IVLTSDateTime
     protected Boolean lowClosed;
     @XmlAttribute
     protected Boolean highClosed;
+    
+    public IVLTSDateTime() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    public IVLTSDateTime(NullFlavor nullFlavor) {
+    	this();
+    	setNullFlavor(nullFlavor);
+	}
 
     /**
      * Gets the value of the low property.
