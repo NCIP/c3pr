@@ -36,20 +36,8 @@ public class DSETST
 {
 
     protected List<ST> item;
-    
-    public DSETST() {	
-	}
-    
-    
 
-    public DSETST(List<ST> item) {
-		super();
-		this.item = item;
-	}
-
-
-
-	/**
+    /**
      * Gets the value of the item property.
      * 
      * <p>

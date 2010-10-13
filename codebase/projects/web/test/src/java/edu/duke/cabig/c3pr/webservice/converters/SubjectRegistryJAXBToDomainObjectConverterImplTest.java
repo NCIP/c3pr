@@ -311,7 +311,7 @@ public class SubjectRegistryJAXBToDomainObjectConverterImplTest extends SubjectR
 		final Person badDataPerson1 = createPerson();
 		final Subject badDataSubj1 = new Subject();
 		badDataSubj1.setEntity(badDataPerson1);
-		badDataPerson1.setBirthDate(new TSDateTime(BAD_ISO_DATE));
+		badDataPerson1.setBirthDate(iso.TSDateTime(BAD_ISO_DATE));
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 				converter.convertToSubjectDemographics(actual, badDataSubj1);
@@ -321,7 +321,7 @@ public class SubjectRegistryJAXBToDomainObjectConverterImplTest extends SubjectR
 		final Person badDataPerson2 = createPerson();
 		final Subject badDataSubj2 = new Subject();
 		badDataSubj2.setEntity(badDataPerson2);
-		badDataPerson2.setRaceCode(new DSETCD(new CD(RACE_WHITE), new CD(
+		badDataPerson2.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(
 				BAD_RACE_CODE)));
 		new AssertThrows(ConversionException.class) {
 			public void test() {

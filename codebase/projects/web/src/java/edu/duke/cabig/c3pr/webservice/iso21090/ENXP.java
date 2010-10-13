@@ -48,19 +48,7 @@ public class ENXP {
     @XmlAttribute
     protected List<EntityNamePartQualifier> qualifier;
 
-    public ENXP() {
-		// TODO Auto-generated constructor stub
-	}
-    
-    
-    public ENXP(String value, EntityNamePartType type) {
-		super();
-		this.value = value;
-		this.type = type;
-	}
-
-
-	/**
+    /**
      * Gets the value of the value property.
      * 
      * @return

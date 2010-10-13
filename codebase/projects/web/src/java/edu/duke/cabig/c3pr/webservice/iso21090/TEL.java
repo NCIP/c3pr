@@ -45,17 +45,8 @@ public class TEL
     protected QSETTS useablePeriod;
     @XmlAttribute
     protected List<TelecommunicationAddressUse> use;
-    
-    public TEL() {
-		// TODO Auto-generated constructor stub
-	}
 
-    public TEL(String value) {
-		super(value);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
+    /**
      * Gets the value of the useablePeriod property.
      * 
      * @return

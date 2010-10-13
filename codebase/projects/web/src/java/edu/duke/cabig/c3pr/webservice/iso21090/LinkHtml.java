@@ -99,9 +99,9 @@ public class LinkHtml {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link String }
      * {@link Footnote }
      * {@link FootnoteRef }
+     * {@link String }
      * 
      * 
      */

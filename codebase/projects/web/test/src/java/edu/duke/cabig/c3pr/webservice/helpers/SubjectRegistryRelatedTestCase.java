@@ -42,25 +42,11 @@ import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
-import edu.duke.cabig.c3pr.webservice.iso21090.AD;
-import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
-import edu.duke.cabig.c3pr.webservice.iso21090.BAGTEL;
-import edu.duke.cabig.c3pr.webservice.iso21090.BL;
-import edu.duke.cabig.c3pr.webservice.iso21090.CD;
-import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
-import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
-import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
-import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
-import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
-import edu.duke.cabig.c3pr.webservice.iso21090.II;
-import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
-import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
-import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.Document;
@@ -165,6 +151,8 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	public static final String TEST_OBJ_CTX_NAME = "objCtxName";
 	public static final String TEST_ATTRIBUTE_NAME = "attribute_name";
 	
+	protected static final ISO21090Helper iso = new ISO21090Helper();
+	
 	protected static Date parseISODate(String isoDate) {
 		try {
 			return DateUtils.parseDate(isoDate,
@@ -216,10 +204,10 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	protected BiologicEntityIdentifier createBioEntityId() {
 		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
 		bioId.setAssigningOrganization(createOrganization());
-		bioId.setIdentifier(new II(TEST_BIO_ID));
-		bioId.setTypeCode(new CD(ORG_ID_TYPE_MRN));
-		bioId.setEffectiveDateRange(new IVLTSDateTime(NullFlavor.NI));
-		bioId.setPrimaryIndicator(new BL(TEST_BIO_ID_PRIMARYINDICATOR));
+		bioId.setIdentifier(iso.II(TEST_BIO_ID));
+		bioId.setTypeCode(iso.CD(ORG_ID_TYPE_MRN));
+		bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
+		bioId.setPrimaryIndicator(iso.BL(TEST_BIO_ID_PRIMARYINDICATOR));
 		return bioId;
 	}
 	
@@ -229,9 +217,9 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	protected DocumentIdentifier createDocumentId() {
 		DocumentIdentifier docId = new DocumentIdentifier();
 		docId.setAssigningOrganization(createOrganization());
-		docId.setIdentifier(new II(TEST_STUDY_ID));
-		docId.setTypeCode(new CD(ORG_ID_TYPE_STUDY));
-		docId.setPrimaryIndicator(new BL(TEST_STUDY_ID_PRIMARYINDICATOR));
+		docId.setIdentifier(iso.II(TEST_STUDY_ID));
+		docId.setTypeCode(iso.CD(ORG_ID_TYPE_STUDY));
+		docId.setPrimaryIndicator(iso.BL(TEST_STUDY_ID_PRIMARYINDICATOR));
 		return docId;
 	}
 	
@@ -241,9 +229,9 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	protected SubjectIdentifier createSubjectId() {
 		SubjectIdentifier subId = new SubjectIdentifier();
 		subId.setAssigningOrganization(createOrganization());
-		subId.setIdentifier(new II(TEST_STUDYSUBJECT_ID));
-		subId.setTypeCode(new CD(ORG_ID_TYPE_STUDYSUBJECT));
-		subId.setPrimaryIndicator(new BL(TEST_STUDYSUBJECT_ID_PRIMARYINDICATOR));
+		subId.setIdentifier(iso.II(TEST_STUDYSUBJECT_ID));
+		subId.setTypeCode(iso.CD(ORG_ID_TYPE_STUDYSUBJECT));
+		subId.setPrimaryIndicator(iso.BL(TEST_STUDYSUBJECT_ID_PRIMARYINDICATOR));
 		return subId;
 	}
 	
@@ -281,55 +269,55 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	
 	protected OrganizationIdentifier createOrgId(){
 		OrganizationIdentifier oid = new OrganizationIdentifier();
-		oid.setIdentifier(new II(TEST_ORG_ID));
-		oid.setPrimaryIndicator(new BL(true));
-		oid.setTypeCode(new CD(ORG_ID_TYPE_CTEP));
+		oid.setIdentifier(iso.II(TEST_ORG_ID));
+		oid.setPrimaryIndicator(iso.BL(true));
+		oid.setTypeCode(iso.CD(ORG_ID_TYPE_CTEP));
 		return oid;
 	}
 	
 	protected void addSubjectConsent(StudySubjectProtocolVersionRelationship studySubjectProtocolVersionRelationship){
 		//add 1st consent
 		StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
-		studySubjectConsentVersion.setConsentDeliveryDate(new TSDateTime(TEST_CONSENT_DELIVERY_DATE1));
-		studySubjectConsentVersion.setInformedConsentDate(new TSDateTime(TEST_CONSENT_SIGNED_DATE1));
-		studySubjectConsentVersion.setConsentingMethod(new CD(TEST_CONSENTING_METHOD1));
-		studySubjectConsentVersion.setConsentPresenter(new ST(TEST_CONSENT_PRESENTER1));
+		studySubjectConsentVersion.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE1));
+		studySubjectConsentVersion.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE1));
+		studySubjectConsentVersion.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD1));
+		studySubjectConsentVersion.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER1));
 		studySubjectConsentVersion.setConsent(new DocumentVersion());
-		studySubjectConsentVersion.getConsent().setOfficialTitle(new ST(TEST_CONSENT_NAME1));
-		studySubjectConsentVersion.getConsent().setVersionNumberText(new ST(TEST_CONSENT_VERSION1));
+		studySubjectConsentVersion.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME1));
+		studySubjectConsentVersion.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
 		
 		PerformedStudySubjectMilestone subjectAnswer = new PerformedStudySubjectMilestone();
-		subjectAnswer.setMissedIndicator(new BL(TEST_CONSENT_ANS11));
+		subjectAnswer.setMissedIndicator(iso.BL(TEST_CONSENT_ANS11));
 		subjectAnswer.setConsentQuestion(new DocumentVersion());
-		subjectAnswer.getConsentQuestion().setOfficialTitle(new ST(TEST_CONSENT_QUES11));
+		subjectAnswer.getConsentQuestion().setOfficialTitle(iso.ST(TEST_CONSENT_QUES11));
 		studySubjectConsentVersion.getSubjectConsentAnswer().add(subjectAnswer);
 		subjectAnswer = new PerformedStudySubjectMilestone();
-		subjectAnswer.setMissedIndicator(new BL(TEST_CONSENT_ANS12));
+		subjectAnswer.setMissedIndicator(iso.BL(TEST_CONSENT_ANS12));
 		subjectAnswer.setConsentQuestion(new DocumentVersion());
-		subjectAnswer.getConsentQuestion().setOfficialTitle(new ST(TEST_CONSENT_QUES12));
+		subjectAnswer.getConsentQuestion().setOfficialTitle(iso.ST(TEST_CONSENT_QUES12));
 		studySubjectConsentVersion.getSubjectConsentAnswer().add(subjectAnswer);
 		
 		studySubjectProtocolVersionRelationship.getStudySubjectConsentVersion().add(studySubjectConsentVersion);
 		
 		//add 2nd consent
 		studySubjectConsentVersion = new StudySubjectConsentVersion();
-		studySubjectConsentVersion.setConsentDeliveryDate(new TSDateTime(TEST_CONSENT_DELIVERY_DATE2));
-		studySubjectConsentVersion.setInformedConsentDate(new TSDateTime(TEST_CONSENT_SIGNED_DATE2));
-		studySubjectConsentVersion.setConsentingMethod(new CD(TEST_CONSENTING_METHOD2));
-		studySubjectConsentVersion.setConsentPresenter(new ST(TEST_CONSENT_PRESENTER2));
+		studySubjectConsentVersion.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE2));
+		studySubjectConsentVersion.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE2));
+		studySubjectConsentVersion.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD2));
+		studySubjectConsentVersion.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER2));
 		studySubjectConsentVersion.setConsent(new DocumentVersion());
-		studySubjectConsentVersion.getConsent().setOfficialTitle(new ST(TEST_CONSENT_NAME2));
-		studySubjectConsentVersion.getConsent().setVersionNumberText(new ST(TEST_CONSENT_VERSION2));
+		studySubjectConsentVersion.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME2));
+		studySubjectConsentVersion.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION2));
 		
 		subjectAnswer = new PerformedStudySubjectMilestone();
-		subjectAnswer.setMissedIndicator(new BL(TEST_CONSENT_ANS21));
+		subjectAnswer.setMissedIndicator(iso.BL(TEST_CONSENT_ANS21));
 		subjectAnswer.setConsentQuestion(new DocumentVersion());
-		subjectAnswer.getConsentQuestion().setOfficialTitle(new ST(TEST_CONSENT_QUES21));
+		subjectAnswer.getConsentQuestion().setOfficialTitle(iso.ST(TEST_CONSENT_QUES21));
 		studySubjectConsentVersion.getSubjectConsentAnswer().add(subjectAnswer);
 		subjectAnswer = new PerformedStudySubjectMilestone();
-		subjectAnswer.setMissedIndicator(new BL(TEST_CONSENT_ANS22));
+		subjectAnswer.setMissedIndicator(iso.BL(TEST_CONSENT_ANS22));
 		subjectAnswer.setConsentQuestion(new DocumentVersion());
-		subjectAnswer.getConsentQuestion().setOfficialTitle(new ST(TEST_CONSENT_QUES22));
+		subjectAnswer.getConsentQuestion().setOfficialTitle(iso.ST(TEST_CONSENT_QUES22));
 		studySubjectConsentVersion.getSubjectConsentAnswer().add(subjectAnswer);
 		
 		studySubjectProtocolVersionRelationship.getStudySubjectConsentVersion().add(studySubjectConsentVersion);
@@ -364,22 +352,22 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	 */
 	protected AdvanceSearchCriterionParameter createAdvaceSearchParam() {
 		AdvanceSearchCriterionParameter param = new AdvanceSearchCriterionParameter();
-		param.setAttributeName(new ST(TEST_ATTRIBUTE_NAME));
-		param.setObjectContextName(new ST(TEST_OBJ_CTX_NAME));
-		param.setObjectName(new ST(TEST_OBJ_NAME));
-		param.setPredicate(new CD(TEST_PREDICATE));
-		param.setValues(new DSETST(Arrays.asList(new ST[] {
-				new ST(TEST_VALUE1), new ST(TEST_VALUE2) })));
+		param.setAttributeName(iso.ST(TEST_ATTRIBUTE_NAME));
+		param.setObjectContextName(iso.ST(TEST_OBJ_CTX_NAME));
+		param.setObjectName(iso.ST(TEST_OBJ_NAME));
+		param.setPredicate(iso.CD(TEST_PREDICATE));
+		param.setValues(iso.DSETST(Arrays.asList(new ST[] {
+				iso.ST(TEST_VALUE1), iso.ST(TEST_VALUE2) })));
 		return param;
 	}
 	
 	protected PerformedStudySubjectMilestone createStatus(){
 		PerformedStudySubjectMilestone status = new PerformedStudySubjectMilestone();
-		status.setStatusCode(new CD(TEST_REGISTRYSTATUS_CODE1));
-		status.setStatusDate(new TSDateTime(TEST_REGISTRYSTATUS_DATE1));
+		status.setStatusCode(iso.CD(TEST_REGISTRYSTATUS_CODE1));
+		status.setStatusDate(iso.TSDateTime(TEST_REGISTRYSTATUS_DATE1));
 		status.setReasonCode(new DSETCD());
-		status.getReasonCode().getItem().add(new CD(TEST_REGISTRYSTATUS_REASON11));
-		status.getReasonCode().getItem().add(new CD(TEST_REGISTRYSTATUS_REASON12));
+		status.getReasonCode().getItem().add(iso.CD(TEST_REGISTRYSTATUS_REASON11));
+		status.getReasonCode().getItem().add(iso.CD(TEST_REGISTRYSTATUS_REASON12));
 		return status;
 	}
 	
@@ -514,8 +502,8 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	protected edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject createStudySubjectJAXBObject(){
 		edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject studySubject = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject();
 		studySubject.setEntity(createPerson());
-		studySubject.setPaymentMethodCode(new CD(TEST_PAYMENT_METHOD));
-		studySubject.setStatusCode(new CD(TEST_DATA_ENTRY_STATUS));
+		studySubject.setPaymentMethodCode(iso.CD(TEST_PAYMENT_METHOD));
+		studySubject.setStatusCode(iso.CD(TEST_DATA_ENTRY_STATUS));
 		
 		studySubject.getSubjectIdentifier().add(createSubjectId());
 		
@@ -526,9 +514,9 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		//setup study
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudyProtocolVersion(new StudyProtocolVersion());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().setStudyProtocolDocument(new StudyProtocolDocumentVersion());
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicTitle(new ST(TEST_LONGTITLE));
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setOfficialTitle(new ST(TEST_SHORTTITLE));
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(new ST(TEST_DESC));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicTitle(iso.ST(TEST_LONGTITLE));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setOfficialTitle(iso.ST(TEST_SHORTTITLE));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(iso.ST(TEST_DESC));
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setDocument(new Document());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createDocumentId());
 		
@@ -538,42 +526,42 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier().add(createOrgId());
 		
 		edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion target = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion();
-		target.setConsentDeliveryDate(new TSDateTime(TEST_CONSENT_DELIVERY_DATE1));
-		target.setConsentingMethod(new CD(TEST_CONSENTING_METHOD1));
-		target.setConsentPresenter(new ST(TEST_CONSENT_PRESENTER1));
-		target.setInformedConsentDate(new TSDateTime(TEST_CONSENT_SIGNED_DATE1));
+		target.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE1));
+		target.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD1));
+		target.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER1));
+		target.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE1));
 		target.setConsent(new DocumentVersion());
-		target.getConsent().setOfficialTitle(new ST(TEST_CONSENT_NAME1));
-		target.getConsent().setVersionNumberText(new ST(TEST_CONSENT_VERSION1));
+		target.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME1));
+		target.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
 		PerformedStudySubjectMilestone subjectAnswerTarget = new PerformedStudySubjectMilestone();
-		subjectAnswerTarget.setMissedIndicator(new BL(TEST_CONSENT_ANS11));
+		subjectAnswerTarget.setMissedIndicator(iso.BL(TEST_CONSENT_ANS11));
 		subjectAnswerTarget.setConsentQuestion(new DocumentVersion());
-		subjectAnswerTarget.getConsentQuestion().setOfficialTitle(new ST(TEST_CONSENT_QUES11));
+		subjectAnswerTarget.getConsentQuestion().setOfficialTitle(iso.ST(TEST_CONSENT_QUES11));
 		target.getSubjectConsentAnswer().add(subjectAnswerTarget);
 		subjectAnswerTarget = new PerformedStudySubjectMilestone();
-		subjectAnswerTarget.setMissedIndicator(new BL(TEST_CONSENT_ANS12));
+		subjectAnswerTarget.setMissedIndicator(iso.BL(TEST_CONSENT_ANS12));
 		subjectAnswerTarget.setConsentQuestion(new DocumentVersion());
-		subjectAnswerTarget.getConsentQuestion().setOfficialTitle(new ST(TEST_CONSENT_QUES12));
+		subjectAnswerTarget.getConsentQuestion().setOfficialTitle(iso.ST(TEST_CONSENT_QUES12));
 		target.getSubjectConsentAnswer().add(subjectAnswerTarget);
 		studySubjectProtocolVersion.getStudySubjectConsentVersion().add(target);
 		
 		target = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion();
-		target.setConsentDeliveryDate(new TSDateTime(TEST_CONSENT_DELIVERY_DATE2));
-		target.setConsentingMethod(new CD(TEST_CONSENTING_METHOD2));
-		target.setConsentPresenter(new ST(TEST_CONSENT_PRESENTER2));
-		target.setInformedConsentDate(new TSDateTime(TEST_CONSENT_SIGNED_DATE2));
+		target.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE2));
+		target.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD2));
+		target.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER2));
+		target.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE2));
 		target.setConsent(new DocumentVersion());
-		target.getConsent().setOfficialTitle(new ST(TEST_CONSENT_NAME2));
-		target.getConsent().setVersionNumberText(new ST(TEST_CONSENT_VERSION2));
+		target.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME2));
+		target.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION2));
 		subjectAnswerTarget = new PerformedStudySubjectMilestone();
-		subjectAnswerTarget.setMissedIndicator(new BL(TEST_CONSENT_ANS21));
+		subjectAnswerTarget.setMissedIndicator(iso.BL(TEST_CONSENT_ANS21));
 		subjectAnswerTarget.setConsentQuestion(new DocumentVersion());
-		subjectAnswerTarget.getConsentQuestion().setOfficialTitle(new ST(TEST_CONSENT_QUES21));
+		subjectAnswerTarget.getConsentQuestion().setOfficialTitle(iso.ST(TEST_CONSENT_QUES21));
 		target.getSubjectConsentAnswer().add(subjectAnswerTarget);
 		subjectAnswerTarget = new PerformedStudySubjectMilestone();
-		subjectAnswerTarget.setMissedIndicator(new BL(TEST_CONSENT_ANS22));
+		subjectAnswerTarget.setMissedIndicator(iso.BL(TEST_CONSENT_ANS22));
 		subjectAnswerTarget.setConsentQuestion(new DocumentVersion());
-		subjectAnswerTarget.getConsentQuestion().setOfficialTitle(new ST(TEST_CONSENT_QUES22));
+		subjectAnswerTarget.getConsentQuestion().setOfficialTitle(iso.ST(TEST_CONSENT_QUES22));
 		target.getSubjectConsentAnswer().add(subjectAnswerTarget);
 		studySubjectProtocolVersion.getStudySubjectConsentVersion().add(target);
 		
@@ -665,23 +653,23 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	protected Person createPerson() {
 		Person person = new Person();
 		person.getBiologicEntityIdentifier().add(createBioEntityId());
-		person.setAdministrativeGenderCode(new CD(GENDER_MALE));
-		person.setBirthDate(new TSDateTime(TEST_BIRTH_DATE_ISO));
-		person.setEthnicGroupCode(new DSETCD(new CD(ETHNIC_CODE_NOT_REPORTED)));
-		person.setMaritalStatusCode(new CD(MARITAL_STATUS_SINGLE));
-		person.setName(new DSETENPN(new ENPN(new ENXP(TEST_FIRST_NAME,
-				EntityNamePartType.GIV), new ENXP(TEST_MID_NAME,
-				EntityNamePartType.GIV), new ENXP(TEST_LAST_NAME,
+		person.setAdministrativeGenderCode(iso.CD(GENDER_MALE));
+		person.setBirthDate(iso.TSDateTime(TEST_BIRTH_DATE_ISO));
+		person.setEthnicGroupCode(iso.DSETCD(iso.CD(ETHNIC_CODE_NOT_REPORTED)));
+		person.setMaritalStatusCode(iso.CD(MARITAL_STATUS_SINGLE));
+		person.setName(iso.DSETENPN(iso.ENPN(iso.ENXP(TEST_FIRST_NAME,
+				EntityNamePartType.GIV), iso.ENXP(TEST_MID_NAME,
+				EntityNamePartType.GIV), iso.ENXP(TEST_LAST_NAME,
 				EntityNamePartType.FAM))));
-		person.setPostalAddress(new DSETAD(new AD(new ADXP(TEST_STREET_ADDRESS,
-				AddressPartType.SAL), new ADXP(TEST_CITY_NAME,
-				AddressPartType.CTY), new ADXP(TEST_STATE_CODE,
-				AddressPartType.STA), new ADXP(TEST_ZIP_CODE,
-				AddressPartType.ZIP), new ADXP(TEST_COUNTRY,
+		person.setPostalAddress(iso.DSETAD(iso.AD(iso.ADXP(TEST_STREET_ADDRESS,
+				AddressPartType.SAL), iso.ADXP(TEST_CITY_NAME,
+				AddressPartType.CTY), iso.ADXP(TEST_STATE_CODE,
+				AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE,
+				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
 				AddressPartType.CNT))));
-		person.setRaceCode(new DSETCD(new CD(RACE_WHITE), new CD(RACE_ASIAN)));
-		person.setTelecomAddress(new BAGTEL(new TEL(TEST_EMAIL_ADDR_ISO),
-				new TEL(TEST_PHONE_ISO), new TEL(TEST_FAX_ISO)));
+		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(RACE_ASIAN)));
+		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
+				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)));
 		return person;
 	}
 	

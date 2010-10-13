@@ -38,21 +38,8 @@ public class URL
     @XmlAttribute
     @XmlSchemaType(name = "anyURI")
     protected String value;
-    
-    public URL() {
-		// TODO Auto-generated constructor stub
-	}
-    
-    
 
-    public URL(String value) {
-		super();
-		this.value = value;
-	}
-
-
-
-	/**
+    /**
      * Gets the value of the value property.
      * 
      * @return

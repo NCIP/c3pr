@@ -1,8 +1,6 @@
 
 package edu.duke.cabig.c3pr.webservice.iso21090;
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -29,21 +27,6 @@ import javax.xml.bind.annotation.XmlType;
 public class ENPN
     extends EN
 {
-
-	public ENPN() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public ENPN(ENXP... part) {
-		super(part);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ENPN(List<ENXP> part, List<EntityNameUse> use) {
-		super(part, use);
-		// TODO Auto-generated constructor stub
-	}
 
 
 }

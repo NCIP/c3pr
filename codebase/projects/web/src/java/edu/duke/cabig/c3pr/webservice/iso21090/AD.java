@@ -2,7 +2,6 @@
 package edu.duke.cabig.c3pr.webservice.iso21090;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -47,21 +46,8 @@ public class AD
     protected List<PostalAddressUse> use;
     @XmlAttribute
     protected Boolean isNotOrdered;
-    
-    public AD() {
-		// TODO Auto-generated constructor stub
-	}
-    
-    
 
-    public AD(ADXP... part) {
-		super();
-		this.part = Arrays.asList(part);
-	}
-
-
-
-	/**
+    /**
      * Gets the value of the part property.
      * 
      * <p>

@@ -54,17 +54,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Narrative {
 
     @XmlElementRefs({
-        @XmlElementRef(name = "br", namespace = "uri:iso.org:21090", type = Br.class),
+        @XmlElementRef(name = "linkHtml", namespace = "uri:iso.org:21090", type = LinkHtml.class),
         @XmlElementRef(name = "table", namespace = "uri:iso.org:21090", type = Table.class),
-        @XmlElementRef(name = "content", namespace = "uri:iso.org:21090", type = Content.class),
         @XmlElementRef(name = "footnoteRef", namespace = "uri:iso.org:21090", type = FootnoteRef.class),
-        @XmlElementRef(name = "renderMultiMedia", namespace = "uri:iso.org:21090", type = RenderMultiMedia.class),
-        @XmlElementRef(name = "paragraph", namespace = "uri:iso.org:21090", type = Paragraph.class),
-        @XmlElementRef(name = "footnote", namespace = "uri:iso.org:21090", type = Footnote.class),
+        @XmlElementRef(name = "content", namespace = "uri:iso.org:21090", type = Content.class),
         @XmlElementRef(name = "sub", namespace = "uri:iso.org:21090", type = JAXBElement.class),
         @XmlElementRef(name = "sup", namespace = "uri:iso.org:21090", type = JAXBElement.class),
+        @XmlElementRef(name = "renderMultiMedia", namespace = "uri:iso.org:21090", type = RenderMultiMedia.class),
+        @XmlElementRef(name = "br", namespace = "uri:iso.org:21090", type = Br.class),
         @XmlElementRef(name = "list", namespace = "uri:iso.org:21090", type = edu.duke.cabig.c3pr.webservice.iso21090.List.class),
-        @XmlElementRef(name = "linkHtml", namespace = "uri:iso.org:21090", type = LinkHtml.class)
+        @XmlElementRef(name = "footnote", namespace = "uri:iso.org:21090", type = Footnote.class),
+        @XmlElementRef(name = "paragraph", namespace = "uri:iso.org:21090", type = Paragraph.class)
     })
     @XmlMixed
     protected java.util.List<Object> content;
@@ -95,18 +95,18 @@ public class Narrative {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Br }
-     * {@link FootnoteRef }
+     * {@link LinkHtml }
      * {@link Content }
+     * {@link FootnoteRef }
      * {@link Table }
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
      * {@link String }
      * {@link RenderMultiMedia }
+     * {@link Br }
      * {@link Footnote }
-     * {@link Paragraph }
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
      * {@link edu.duke.cabig.c3pr.webservice.iso21090.List }
-     * {@link LinkHtml }
+     * {@link Paragraph }
      * 
      * 
      */

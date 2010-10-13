@@ -2,7 +2,6 @@
 package edu.duke.cabig.c3pr.webservice.iso21090;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -37,25 +36,8 @@ public class BAGTEL
 {
 
     protected List<TEL> item;
-    
-    public BAGTEL() {
-		// TODO Auto-generated constructor stub
-	}
-    
-    
 
-    public BAGTEL(List<TEL> item) {
-		super();
-		this.item = item;
-	}
-    
-    
-    public BAGTEL(TEL... item) {
-		this(Arrays.asList(item));
-	}
-
-
-	/**
+    /**
      * Gets the value of the item property.
      * 
      * <p>

@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
@@ -110,6 +111,8 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 	/** The exception helper. */
 	private C3PRExceptionHelper exceptionHelper;
 	private HealthcareSiteDao healthcareSiteDao;
+	
+	private static final ISO21090Helper iso = new ISO21090Helper();
 	
 	private static Log log = LogFactory
 			.getLog(SubjectRegistryJAXBToDomainObjectConverterImpl.class);
@@ -268,8 +271,8 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		for (Identifier source : identifiers) {
 			if (source instanceof OrganizationAssignedIdentifier) {
 				SubjectIdentifier id = new SubjectIdentifier();
-				id.setTypeCode(new CD(((OrganizationAssignedIdentifier)source).getType().getName()));
-				id.setIdentifier(new II(source.getValue()));
+				id.setTypeCode(iso.CD(((OrganizationAssignedIdentifier)source).getType().getName()));
+				id.setIdentifier(iso.II(source.getValue()));
 
 				HealthcareSite site = ((OrganizationAssignedIdentifier) source)
 						.getHealthcareSite();
@@ -278,15 +281,15 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 				for (Identifier siteId : site
 						.getIdentifiersAssignedToOrganization()) {
 					OrganizationIdentifier orgId = new OrganizationIdentifier();
-					orgId.setTypeCode(new CD(siteId.getTypeInternal()));
-					orgId.setIdentifier(new II(siteId.getValue()));
-					orgId.setPrimaryIndicator(new BL(siteId
+					orgId.setTypeCode(iso.CD(siteId.getTypeInternal()));
+					orgId.setIdentifier(iso.II(siteId.getValue()));
+					orgId.setPrimaryIndicator(iso.BL(siteId
 							.getPrimaryIndicator()));
 					org.getOrganizationIdentifier().add(orgId);
 				}
 
 				id.setAssigningOrganization(org);
-				id.setPrimaryIndicator(new BL(source.getPrimaryIndicator()));
+				id.setPrimaryIndicator(iso.BL(source.getPrimaryIndicator()));
 				result.add(id);
 			}
 		}
@@ -299,8 +302,8 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		for (Identifier source : identifiers) {
 			if (source instanceof OrganizationAssignedIdentifier) {
 				DocumentIdentifier id = new DocumentIdentifier();
-				id.setTypeCode(new CD(((OrganizationAssignedIdentifier)source).getType().getName()));
-				id.setIdentifier(new II(source.getValue()));
+				id.setTypeCode(iso.CD(((OrganizationAssignedIdentifier)source).getType().getName()));
+				id.setIdentifier(iso.II(source.getValue()));
 
 				HealthcareSite site = ((OrganizationAssignedIdentifier) source)
 						.getHealthcareSite();
@@ -309,15 +312,15 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 				for (Identifier siteId : site
 						.getIdentifiersAssignedToOrganization()) {
 					OrganizationIdentifier orgId = new OrganizationIdentifier();
-					orgId.setTypeCode(new CD(siteId.getTypeInternal()));
-					orgId.setIdentifier(new II(siteId.getValue()));
-					orgId.setPrimaryIndicator(new BL(siteId
+					orgId.setTypeCode(iso.CD(siteId.getTypeInternal()));
+					orgId.setIdentifier(iso.II(siteId.getValue()));
+					orgId.setPrimaryIndicator(iso.BL(siteId
 							.getPrimaryIndicator()));
 					org.getOrganizationIdentifier().add(orgId);
 				}
 
 				id.setAssigningOrganization(org);
-				id.setPrimaryIndicator(new BL(source.getPrimaryIndicator()));
+				id.setPrimaryIndicator(iso.BL(source.getPrimaryIndicator()));
 				result.add(id);
 			}
 		}
@@ -330,9 +333,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		for (Identifier source : identifiers) {
 			if (source instanceof OrganizationAssignedIdentifier) {
 				OrganizationIdentifier id = new OrganizationIdentifier();
-				id.setTypeCode(new CD(source.getTypeInternal()));
-				id.setIdentifier(new II(source.getValue()));
-				id.setPrimaryIndicator(new BL(source
+				id.setTypeCode(iso.CD(source.getTypeInternal()));
+				id.setIdentifier(iso.II(source.getValue()));
+				id.setPrimaryIndicator(iso.BL(source
 						.getPrimaryIndicator()));
 				result.add(id);
 			}
@@ -348,8 +351,8 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		
 		//copy enrollment
 		studySubject.setEntity(person);
-		studySubject.setPaymentMethodCode(new CD(domainObject.getPaymentMethod()));
-		studySubject.setStatusCode(new CD(domainObject.getRegDataEntryStatus().getCode()));
+		studySubject.setPaymentMethodCode(iso.CD(domainObject.getPaymentMethod()));
+		studySubject.setStatusCode(iso.CD(domainObject.getRegDataEntryStatus().getCode()));
 		
 		//copy identifiers
 		studySubject.getSubjectIdentifier().addAll(convertToSubjectIdentifier(domainObject.getIdentifiers()));
@@ -423,10 +426,10 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 			for (Identifier id : studySubjectDemographics.getIdentifiers()) {
 				if (id instanceof OrganizationAssignedIdentifier) {
 					BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
-					bioId.setTypeCode(new CD(((OrganizationAssignedIdentifier)id).getType().getName()));
-					bioId.setIdentifier(new II(id.getValue()));
+					bioId.setTypeCode(iso.CD(((OrganizationAssignedIdentifier)id).getType().getName()));
+					bioId.setIdentifier(iso.II(id.getValue()));
 					bioId
-							.setEffectiveDateRange(new IVLTSDateTime(
+							.setEffectiveDateRange(iso.IVLTSDateTime(
 									NullFlavor.NI));
 
 					HealthcareSite site = ((OrganizationAssignedIdentifier) id)
@@ -436,29 +439,29 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 					for (Identifier siteId : site
 							.getIdentifiersAssignedToOrganization()) {
 						OrganizationIdentifier orgId = new OrganizationIdentifier();
-						orgId.setTypeCode(new CD(siteId.getTypeInternal()));
-						orgId.setIdentifier(new II(siteId.getValue()));
-						orgId.setPrimaryIndicator(new BL(siteId
+						orgId.setTypeCode(iso.CD(siteId.getTypeInternal()));
+						orgId.setIdentifier(iso.II(siteId.getValue()));
+						orgId.setPrimaryIndicator(iso.BL(siteId
 								.getPrimaryIndicator()));
 						org.getOrganizationIdentifier().add(orgId);
 					}
 
 					bioId.setAssigningOrganization(org);
-					bioId.setPrimaryIndicator(new BL(id.getPrimaryIndicator()));
+					bioId.setPrimaryIndicator(iso.BL(id.getPrimaryIndicator()));
 					person.getBiologicEntityIdentifier().add(bioId);
 				}
 			}
 			person
 					.setAdministrativeGenderCode(studySubjectDemographics
-							.getAdministrativeGenderCode() != null ? new CD(studySubjectDemographics
-							.getAdministrativeGenderCode()) : new CD(
+							.getAdministrativeGenderCode() != null ? iso.CD(studySubjectDemographics
+							.getAdministrativeGenderCode()) : iso.CD(
 							NullFlavor.NI));
 			person.setBirthDate(convertToTsDateTime(studySubjectDemographics.getBirthDate()));
 			person.setEthnicGroupCode(getEthnicGroupCode(studySubjectDemographics));
 			person
-					.setMaritalStatusCode(studySubjectDemographics.getMaritalStatusCode() != null ? new CD(
+					.setMaritalStatusCode(studySubjectDemographics.getMaritalStatusCode() != null ? iso.CD(
 							studySubjectDemographics.getMaritalStatusCode())
-							: new CD(NullFlavor.NI));
+							: iso.CD(NullFlavor.NI));
 			person.setName(getName(studySubjectDemographics));
 			person.setPostalAddress(getPostalAddress(studySubjectDemographics));
 			person.setRaceCode(getRaceCodes(studySubjectDemographics));
@@ -511,9 +514,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		//setup study
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudyProtocolVersion(new StudyProtocolVersion());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().setStudyProtocolDocument(new StudyProtocolDocumentVersion());
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicTitle(new ST(studySite.getStudy().getLongTitleText()));
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setOfficialTitle(new ST(studySite.getStudy().getShortTitleText()));
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(new ST(studySite.getStudy().getDescriptionText()));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicTitle(iso.ST(studySite.getStudy().getLongTitleText()));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setOfficialTitle(iso.ST(studySite.getStudy().getShortTitleText()));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(iso.ST(studySite.getStudy().getDescriptionText()));
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setDocument(new Document());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().addAll(convertToDocumentIdentifier(studySite.getStudy().getIdentifiers()));
 		
@@ -526,17 +529,17 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		for(StudySubjectConsentVersion studySubjectConsentVersion : studySubjectStudyVersion.getStudySubjectConsentVersions()){
 			edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion target = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion();
 			target.setConsentDeliveryDate(convertToTsDateTime(studySubjectConsentVersion.getConsentDeliveryDate()));
-			target.setConsentingMethod(new CD(studySubjectConsentVersion.getConsentingMethod().getCode()));
-			target.setConsentPresenter(new ST(studySubjectConsentVersion.getConsentPresenter()));
+			target.setConsentingMethod(iso.CD(studySubjectConsentVersion.getConsentingMethod().getCode()));
+			target.setConsentPresenter(iso.ST(studySubjectConsentVersion.getConsentPresenter()));
 			target.setInformedConsentDate(convertToTsDateTime(studySubjectConsentVersion.getInformedConsentSignedDate()));
 			target.setConsent(new DocumentVersion());
-			target.getConsent().setOfficialTitle(new ST(studySubjectConsentVersion.getConsent().getName()));
-			target.getConsent().setVersionNumberText(new ST(studySubjectConsentVersion.getConsent().getVersionId()));
+			target.getConsent().setOfficialTitle(iso.ST(studySubjectConsentVersion.getConsent().getName()));
+			target.getConsent().setVersionNumberText(iso.ST(studySubjectConsentVersion.getConsent().getVersionId()));
 			for(SubjectConsentQuestionAnswer subjectAnswer : studySubjectConsentVersion.getSubjectConsentAnswers()){
 				PerformedStudySubjectMilestone subjectAnswerTarget = new PerformedStudySubjectMilestone();
-				subjectAnswerTarget.setMissedIndicator(new BL(subjectAnswer.getAgreementIndicator()));
+				subjectAnswerTarget.setMissedIndicator(iso.BL(subjectAnswer.getAgreementIndicator()));
 				subjectAnswerTarget.setConsentQuestion(new DocumentVersion());
-				subjectAnswerTarget.getConsentQuestion().setOfficialTitle(new ST(subjectAnswer.getConsentQuestion().getCode()));
+				subjectAnswerTarget.getConsentQuestion().setOfficialTitle(iso.ST(subjectAnswer.getConsentQuestion().getCode()));
 				target.getSubjectConsentAnswer().add(subjectAnswerTarget);
 			}
 			studySubjectProtocolVersion.getStudySubjectConsentVersion().add(target);
@@ -548,12 +551,12 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		List<PerformedStudySubjectMilestone> result = new ArrayList<PerformedStudySubjectMilestone>();
 		for(StudySubjectRegistryStatus studySubjectRegistryStatus : statuses){
 			PerformedStudySubjectMilestone target = new PerformedStudySubjectMilestone();
-			target.setStatusCode(new CD(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode()));
+			target.setStatusCode(iso.CD(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode()));
 			target.setStatusDate(convertToTsDateTime(studySubjectRegistryStatus.getEffectiveDate()));
 			if(CollectionUtils.isNotEmpty(studySubjectRegistryStatus.getReasons())){
 				target.setReasonCode(new DSETCD());
 				for(RegistryStatusReason reason : studySubjectRegistryStatus.getReasons()){
-					target.getReasonCode().getItem().add(new CD(reason.getCode()));
+					target.getReasonCode().getItem().add(iso.CD(reason.getCode()));
 				}
 			}
 			result.add(target);
@@ -760,7 +763,7 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 	private DSETCD getEthnicGroupCode(StudySubjectDemographics p) {
 		DSETCD dsetcd = new DSETCD();
 		if (StringUtils.isNotBlank(p.getEthnicGroupCode())) {
-			dsetcd.getItem().add(new CD(p.getEthnicGroupCode()));
+			dsetcd.getItem().add(iso.CD(p.getEthnicGroupCode()));
 		} else {
 			dsetcd.setNullFlavor(NullFlavor.NI);
 		}
@@ -773,16 +776,16 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		if (StringUtils.isNotBlank(p.getFirstName()))
 			enpn.getPart()
 					.add(
-							new ENXP(p.getFirstName(), EntityNamePartType
+							iso.ENXP(p.getFirstName(), EntityNamePartType
 									.valueOf(GIV)));
 		if (StringUtils.isNotBlank(p.getMiddleName()))
 			enpn.getPart()
 					.add(
-							new ENXP(p.getMiddleName(), EntityNamePartType
+							iso.ENXP(p.getMiddleName(), EntityNamePartType
 									.valueOf(GIV)));
 		if (StringUtils.isNotBlank(p.getLastName()))
 			enpn.getPart().add(
-					new ENXP(p.getLastName(), EntityNamePartType.valueOf(FAM)));
+					iso.ENXP(p.getLastName(), EntityNamePartType.valueOf(FAM)));
 		dsetenpn.getItem().add(enpn);
 		return dsetenpn;
 	}
@@ -790,18 +793,18 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 	private BAGTEL getTelecomAddress(StudySubjectDemographics p) {
 		BAGTEL addr = new BAGTEL();
 		if (StringUtils.isNotBlank(p.getEmail()))
-			addr.getItem().add(new TEL(MAILTO + SEMICOLON + p.getEmail()));
+			addr.getItem().add(iso.TEL(MAILTO + SEMICOLON + p.getEmail()));
 		if (StringUtils.isNotBlank(p.getPhone()))
-			addr.getItem().add(new TEL(TEL + SEMICOLON + p.getPhone()));
+			addr.getItem().add(iso.TEL(TEL + SEMICOLON + p.getPhone()));
 		if (StringUtils.isNotBlank(p.getFax()))
-			addr.getItem().add(new TEL(X_TEXT_FAX + SEMICOLON + p.getFax()));
+			addr.getItem().add(iso.TEL(X_TEXT_FAX + SEMICOLON + p.getFax()));
 		return addr;
 	}
 
 	private DSETCD getRaceCodes(StudySubjectDemographics p) {
 		DSETCD dsetcd = new DSETCD();
 		for (RaceCodeEnum raceCode : p.getRaceCodes()) {
-			dsetcd.getItem().add(new CD(raceCode.getCode()));
+			dsetcd.getItem().add(iso.CD(raceCode.getCode()));
 		}
 		return dsetcd;
 	}
@@ -817,22 +820,22 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		if (address != null && !address.isBlank()) {
 			if (StringUtils.isNotBlank(address.getStreetAddress()))
 				ad.getPart().add(
-						new ADXP(address.getStreetAddress(),
+						iso.ADXP(address.getStreetAddress(),
 								AddressPartType.SAL));
 			if (StringUtils.isNotBlank(address.getCity()))
 				ad.getPart().add(
-						new ADXP(address.getCity(), AddressPartType.CTY));
+						iso.ADXP(address.getCity(), AddressPartType.CTY));
 			if (StringUtils.isNotBlank(address.getStateCode()))
 				ad.getPart().add(
-						new ADXP(address.getStateCode(),
+						iso.ADXP(address.getStateCode(),
 								AddressPartType.STA));
 			if (StringUtils.isNotBlank(address.getPostalCode()))
 				ad.getPart().add(
-						new ADXP(address.getPostalCode(),
+						iso.ADXP(address.getPostalCode(),
 								AddressPartType.ZIP));
 			if (StringUtils.isNotBlank(address.getCountryCode()))
 				ad.getPart().add(
-						new ADXP(address.getCountryCode(),
+						iso.ADXP(address.getCountryCode(),
 								AddressPartType.CNT));
 		} else {
 			ad.setNullFlavor(NullFlavor.NI);

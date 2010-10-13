@@ -48,16 +48,7 @@ public class II
     @XmlAttribute
     protected IdentifierReliability reliability;
 
-    public II() {
-		// TODO Auto-generated constructor stub
-	}
-    
-    public II(String extension) {
-		super();
-		this.extension = extension;
-	}
-
-	/**
+    /**
      * Gets the value of the root property.
      * 
      * @return

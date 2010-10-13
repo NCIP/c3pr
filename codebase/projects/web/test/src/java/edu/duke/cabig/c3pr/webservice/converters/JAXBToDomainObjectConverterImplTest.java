@@ -31,6 +31,7 @@ import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper;
 import edu.duke.cabig.c3pr.webservice.helpers.WebServiceRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
@@ -46,6 +47,8 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
  */
 public class JAXBToDomainObjectConverterImplTest extends
 		WebServiceRelatedTestCase {
+	
+	
 
 	public void testTwoWayConversion() {
 		StudyProtocolVersion xmlStudy = createStudy();
@@ -236,7 +239,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 
 		Person badDataPerson2 = createPerson();
 		final Subject badDataSubject2 = createSubject(badDataPerson2);
-		badDataSubject2.setStateCode(new ST(BAD_STATE_CODE));
+		badDataSubject2.setStateCode(iso.ST(BAD_STATE_CODE));
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 				converter.convert(badDataSubject2, true, false);
@@ -261,7 +264,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 		// test exceptions
 		final Person badDataPerson1 = createPerson();
 		final Subject badDataSubj1 = createSubject(badDataPerson1);
-		badDataPerson1.setBirthDate(new TSDateTime(BAD_ISO_DATE));
+		badDataPerson1.setBirthDate(iso.TSDateTime(BAD_ISO_DATE));
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 				converter.convert(participant, badDataSubj1, false);
@@ -270,7 +273,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 
 		final Person badDataPerson2 = createPerson();
 		final Subject badDataSubj2 = createSubject(badDataPerson2);
-		badDataPerson2.setRaceCode(new DSETCD(new CD(RACE_WHITE), new CD(
+		badDataPerson2.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(
 				BAD_RACE_CODE)));
 		new AssertThrows(ConversionException.class) {
 			public void test() {

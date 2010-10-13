@@ -32,6 +32,7 @@ import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.BeanUtils;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper;
 import edu.duke.cabig.c3pr.webservice.helpers.WebServiceRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl;
@@ -339,7 +340,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 		final UpdateSubjectStateRequest request = new UpdateSubjectStateRequest();
 
 		BiologicEntityIdentifier bioId = createBioEntityId();
-		ST newState = new ST(STATE_INACTIVE);
+		ST newState = ISO21090Helper.ST(STATE_INACTIVE);
 		request.setBiologicEntityIdentifier(bioId);
 		request.setNewState(newState);
 
@@ -357,7 +358,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 		// handle non-existent subject.
 		bioId = createBioEntityId();
-		newState = new ST(STATE_INACTIVE);
+		newState = ISO21090Helper.ST(STATE_INACTIVE);
 		request.setBiologicEntityIdentifier(bioId);
 		request.setNewState(newState);
 
@@ -376,7 +377,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 		// handle wrong state code
 		bioId = createBioEntityId();
-		newState = new ST(BAD_STATE_CODE);
+		newState = ISO21090Helper.ST(BAD_STATE_CODE);
 		request.setBiologicEntityIdentifier(bioId);
 		request.setNewState(newState);
 

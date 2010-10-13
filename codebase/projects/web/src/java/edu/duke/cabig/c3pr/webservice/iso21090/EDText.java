@@ -36,11 +36,6 @@ import javax.xml.bind.annotation.XmlType;
 public class EDText
     extends ED
 {
-	public EDText(String value) {
-		super(value);		
-	}
-	
-	public EDText() {	
-	}
+
 
 }

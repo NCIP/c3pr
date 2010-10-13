@@ -197,7 +197,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 
 		// single status by code
 		final QueryRegistryStatusRequest request = new QueryRegistryStatusRequest();
-		CD cd = new CD(TEST_REGISTRY_STATUS);
+		CD cd = iso.CD(TEST_REGISTRY_STATUS);
 		request.setStatusCode(cd);
 		DSETRegistryStatus list = service.queryRegistryStatus(request)
 				.getRegistryStatuses();
@@ -359,7 +359,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		StudyProtocolVersion version = createStudy();
 		final Study existentStudy = converter.convert(version);
 		version.getStudyProtocolDocument().setPublicTitle(
-				new ST(TEST_STUDY_DESCR + "CHANGED"));
+				iso.ST(TEST_STUDY_DESCR + "CHANGED"));
 		final UpdateStudyAbstractRequest request = new UpdateStudyAbstractRequest();
 		request.setStudy(version);
 		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(

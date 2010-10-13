@@ -48,7 +48,6 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
-import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.Consent;
 import edu.duke.cabig.c3pr.webservice.common.Document;
@@ -64,26 +63,11 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImplTest;
-import edu.duke.cabig.c3pr.webservice.iso21090.AD;
-import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
-import edu.duke.cabig.c3pr.webservice.iso21090.BAGTEL;
-import edu.duke.cabig.c3pr.webservice.iso21090.BL;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
-import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
-import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
-import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
-import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
-import edu.duke.cabig.c3pr.webservice.iso21090.ED;
-import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
-import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
-import edu.duke.cabig.c3pr.webservice.iso21090.II;
-import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
-import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
-import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityImplTest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Person;
@@ -168,6 +152,8 @@ public class WebServiceRelatedTestCase extends TestCase  {
 	public static final String TEST_STUDY_TYPE = "Basic Science";
 	public static final String TEST_PRIMARY_REASON_CODE = "OTHER";
 	public static final String TEST_PRIMARY_REASON_DESCR = "Other Description";
+	
+	protected static final ISO21090Helper iso = new ISO21090Helper();
 
 	protected static Date parseISODate(String isoDate) {
 		try {
@@ -278,7 +264,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 	protected Subject createSubject(Person person) {
 		Subject s = new Subject();
 		s.setEntity(person);
-		s.setStateCode(new ST(STATE_ACTIVE));
+		s.setStateCode(iso.ST(STATE_ACTIVE));
 		return s;
 	}
 
@@ -288,25 +274,25 @@ public class WebServiceRelatedTestCase extends TestCase  {
 	protected Person createPerson() {
 		Person person = new Person();
 		person.getBiologicEntityIdentifier().add(createBioEntityId());
-		person.setAdministrativeGenderCode(new CD(GENDER_MALE));
-		person.setBirthDate(new TSDateTime(TEST_BIRTH_DATE_ISO));
-		person.setDeathDate(new TSDateTime(TEST_DEATH_DATE_ISO));
-		person.setDeathIndicator(new BL(true));
-		person.setEthnicGroupCode(new DSETCD(new CD(ETHNIC_CODE_NOT_REPORTED)));
-		person.setMaritalStatusCode(new CD(MARITAL_STATUS_SINGLE));
-		person.setName(new DSETENPN(new ENPN(new ENXP(TEST_FIRST_NAME,
-				EntityNamePartType.GIV), new ENXP(TEST_MID_NAME,
-				EntityNamePartType.GIV), new ENXP(TEST_LAST_NAME,
+		person.setAdministrativeGenderCode(iso.CD(GENDER_MALE));
+		person.setBirthDate(iso.TSDateTime(TEST_BIRTH_DATE_ISO));
+		person.setDeathDate(iso.TSDateTime(TEST_DEATH_DATE_ISO));
+		person.setDeathIndicator(iso.BL(true));
+		person.setEthnicGroupCode(iso.DSETCD(iso.CD(ETHNIC_CODE_NOT_REPORTED)));
+		person.setMaritalStatusCode(iso.CD(MARITAL_STATUS_SINGLE));
+		person.setName(iso.DSETENPN(iso.ENPN(iso.ENXP(TEST_FIRST_NAME,
+				EntityNamePartType.GIV), iso.ENXP(TEST_MID_NAME,
+				EntityNamePartType.GIV), iso.ENXP(TEST_LAST_NAME,
 				EntityNamePartType.FAM))));
-		person.setPostalAddress(new DSETAD(new AD(new ADXP(TEST_STREET_ADDRESS,
-				AddressPartType.SAL), new ADXP(TEST_CITY_NAME,
-				AddressPartType.CTY), new ADXP(TEST_STATE_CODE,
-				AddressPartType.STA), new ADXP(TEST_ZIP_CODE,
-				AddressPartType.ZIP), new ADXP(TEST_COUNTRY,
+		person.setPostalAddress(iso.DSETAD(iso.AD(iso.ADXP(TEST_STREET_ADDRESS,
+				AddressPartType.SAL), iso.ADXP(TEST_CITY_NAME,
+				AddressPartType.CTY), iso.ADXP(TEST_STATE_CODE,
+				AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE,
+				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
 				AddressPartType.CNT))));
-		person.setRaceCode(new DSETCD(new CD(RACE_WHITE), new CD(RACE_ASIAN)));
-		person.setTelecomAddress(new BAGTEL(new TEL(TEST_EMAIL_ADDR_ISO),
-				new TEL(TEST_PHONE_ISO), new TEL(TEST_FAX_ISO)));
+		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(RACE_ASIAN)));
+		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
+				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)));
 		return person;
 	}
 
@@ -315,18 +301,18 @@ public class WebServiceRelatedTestCase extends TestCase  {
 	 */
 	protected BiologicEntityIdentifier createBioEntityId() {
 		OrganizationIdentifier orgId = new OrganizationIdentifier();
-		orgId.setIdentifier(new II(TEST_ORG_ID));
-		orgId.setPrimaryIndicator(new BL(true));
-		orgId.setTypeCode(new CD(ORG_ID_TYPE_CTEP));
+		orgId.setIdentifier(iso.II(TEST_ORG_ID));
+		orgId.setPrimaryIndicator(iso.BL(true));
+		orgId.setTypeCode(iso.CD(ORG_ID_TYPE_CTEP));
 
 		Organization org = new Organization();
 		org.getOrganizationIdentifier().add(orgId);
 
 		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
 		bioId.setAssigningOrganization(org);
-		bioId.setIdentifier(new II(TEST_BIO_ID));
-		bioId.setTypeCode(new CD(ORG_ID_TYPE_MRN));
-		bioId.setEffectiveDateRange(new IVLTSDateTime(NullFlavor.NI));
+		bioId.setIdentifier(iso.II(TEST_BIO_ID));
+		bioId.setTypeCode(iso.CD(ORG_ID_TYPE_MRN));
+		bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
 		return bioId;
 	}
 
@@ -453,12 +439,12 @@ public class WebServiceRelatedTestCase extends TestCase  {
 	 */
 	protected AdvanceSearchCriterionParameter createAdvaceSearchParam() {
 		AdvanceSearchCriterionParameter param = new AdvanceSearchCriterionParameter();
-		param.setAttributeName(new ST(TEST_ATTRIBUTE_NAME));
-		param.setObjectContextName(new ST(TEST_OBJ_CTX_NAME));
-		param.setObjectName(new ST(TEST_OBJ_NAME));
-		param.setPredicate(new CD(TEST_PREDICATE));
-		param.setValues(new DSETST(Arrays.asList(new ST[] {
-				new ST(TEST_VALUE1), new ST(TEST_VALUE2) })));
+		param.setAttributeName(iso.ST(TEST_ATTRIBUTE_NAME));
+		param.setObjectContextName(iso.ST(TEST_OBJ_CTX_NAME));
+		param.setObjectName(iso.ST(TEST_OBJ_NAME));
+		param.setPredicate(iso.CD(TEST_PREDICATE));
+		param.setValues(iso.DSETST(Arrays.asList(new ST[] {
+				iso.ST(TEST_VALUE1), iso.ST(TEST_VALUE2) })));
 		return param;
 	}
 
@@ -551,7 +537,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 	 */
 	public StudyProtocolVersion createStudy() {
 		StudyProtocolVersion study = new StudyProtocolVersion();
-		study.setTargetRegistrationSystem(new ST(TEST_TARGET_REG_SYS));
+		study.setTargetRegistrationSystem(iso.ST(TEST_TARGET_REG_SYS));
 		study.setStudyProtocolDocument(createStudyProtocolDocument());
 		study.getPermissibleStudySubjectRegistryStatus().add(
 				createPermissibleStudySubjectRegistryStatus());
@@ -567,36 +553,36 @@ public class WebServiceRelatedTestCase extends TestCase  {
 
 	protected RegistryStatus createRegistryStatus() {
 		RegistryStatus stat = new RegistryStatus();
-		stat.setCode(new CD(TEST_REGISTRY_STATUS));
-		stat.setDescription(new ST(TEST_REGISTRY_STATUS));
+		stat.setCode(iso.CD(TEST_REGISTRY_STATUS));
+		stat.setDescription(iso.ST(TEST_REGISTRY_STATUS));
 		stat.getPrimaryReason().add(createPrimaryRegistryStatusReason());
 		return stat;
 	}
 
 	protected RegistryStatusReason createSecondaryRegistryStatusReason() {
 		RegistryStatusReason r = new RegistryStatusReason();
-		r.setCode(new CD(TEST_SECONDARY_REASON_CODE));
-		r.setDescription(new ST(TEST_SECONDARY_REASON_DESCR));
-		r.setPrimaryIndicator(new BL(false));
+		r.setCode(iso.CD(TEST_SECONDARY_REASON_CODE));
+		r.setDescription(iso.ST(TEST_SECONDARY_REASON_DESCR));
+		r.setPrimaryIndicator(iso.BL(false));
 		return r;
 	}
 
 	protected RegistryStatusReason createPrimaryRegistryStatusReason() {
 		RegistryStatusReason r = new RegistryStatusReason();
-		r.setCode(new CD(TEST_PRIMARY_REASON_CODE));
-		r.setDescription(new ST(TEST_PRIMARY_REASON_DESCR));
-		r.setPrimaryIndicator(new BL(true));
+		r.setCode(iso.CD(TEST_PRIMARY_REASON_CODE));
+		r.setDescription(iso.ST(TEST_PRIMARY_REASON_DESCR));
+		r.setPrimaryIndicator(iso.BL(true));
 		return r;
 	}
 
 	protected StudyProtocolDocumentVersion createStudyProtocolDocument() {
 		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
-		// doc.setOfficialTitle(new ST(TEST_STUDY_DESCR));
-		doc.setPublicDescription(new ST(TEST_STUDY_DESCR));
-		doc.setPublicTitle(new ST(TEST_STUDY_DESCR));
-		doc.setText(new ED(TEST_STUDY_DESCR));
-		doc.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
-		doc.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		// doc.setOfficialTitle(iso.ST(TEST_STUDY_DESCR));
+		doc.setPublicDescription(iso.ST(TEST_STUDY_DESCR));
+		doc.setPublicTitle(iso.ST(TEST_STUDY_DESCR));
+		doc.setText(iso.ED(TEST_STUDY_DESCR));
+		doc.setVersionDate(iso.TSDateTime(TEST_VERSION_DATE_ISO));
+		doc.setVersionNumberText(iso.ST(TEST_VERSION_NUMBER));
 		doc.setDocument(createStudyDocument());
 		doc.getDocumentVersionRelationship().add(createConsentRelationship());
 		return doc;
@@ -604,17 +590,17 @@ public class WebServiceRelatedTestCase extends TestCase  {
 
 	protected DocumentVersionRelationship createConsentRelationship() {
 		DocumentVersionRelationship rel = new DocumentVersionRelationship();
-		rel.setTypeCode(new CD(TEST_CONSENT_RELATIONSHIP));
+		rel.setTypeCode(iso.CD(TEST_CONSENT_RELATIONSHIP));
 		rel.setTarget(createConsent());
 		return rel;
 	}
 
 	protected Consent createConsent() {
 		Consent consent = new Consent();
-		consent.setMandatoryIndicator(new BL(true));
-		consent.setOfficialTitle(new ST(TEST_CONSENT_TITLE));
-		// consent.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
-		consent.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		consent.setMandatoryIndicator(iso.BL(true));
+		consent.setOfficialTitle(iso.ST(TEST_CONSENT_TITLE));
+		// consent.setVersionDate(iso.TSDateTime(TEST_VERSION_DATE_ISO));
+		consent.setVersionNumberText(iso.ST(TEST_VERSION_NUMBER));
 		consent.setDocument(new Document());
 		consent.getDocumentVersionRelationship().add(
 				createConsentQuestionRelationship(TEST_CONSENT_QUESTION_1));
@@ -626,17 +612,17 @@ public class WebServiceRelatedTestCase extends TestCase  {
 	protected DocumentVersionRelationship createConsentQuestionRelationship(
 			String text) {
 		DocumentVersionRelationship rel = new DocumentVersionRelationship();
-		rel.setTypeCode(new CD(TEST_CONSENT_QUESTION_RELATIONSHIP));
+		rel.setTypeCode(iso.CD(TEST_CONSENT_QUESTION_RELATIONSHIP));
 		rel.setTarget(createConsentQuestion(text));
 		return rel;
 	}
 
 	protected DocumentVersion createConsentQuestion(String text) {
 		DocumentVersion q = new DocumentVersion();
-		q.setOfficialTitle(new ST(text));
-		q.setText(new ED(text));
-		// q.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
-		// q.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		q.setOfficialTitle(iso.ST(text));
+		q.setText(iso.ED(text));
+		// q.setVersionDate(iso.TSDateTime(TEST_VERSION_DATE_ISO));
+		// q.setVersionNumberText(iso.ST(TEST_VERSION_NUMBER));
 		q.setDocument(new Document());
 		return q;
 	}
@@ -651,9 +637,9 @@ public class WebServiceRelatedTestCase extends TestCase  {
 
 	protected DocumentIdentifier createStudyFundingSponsorIdentifier() {
 		DocumentIdentifier docId = new DocumentIdentifier();
-		docId.setIdentifier(new II(TEST_STUDY_ID));
-		docId.setPrimaryIndicator(new BL(false));
-		docId.setTypeCode(new CD(
+		docId.setIdentifier(iso.II(TEST_STUDY_ID));
+		docId.setPrimaryIndicator(iso.BL(false));
+		docId.setTypeCode(iso.CD(
 				OrganizationIdentifierTypeEnum.STUDY_FUNDING_SPONSOR.name()));
 		docId.setAssigningOrganization(createOrganization());
 		return docId;
@@ -661,9 +647,9 @@ public class WebServiceRelatedTestCase extends TestCase  {
 
 	protected DocumentIdentifier createStudyPrimaryIdentifier() {
 		DocumentIdentifier docId = new DocumentIdentifier();
-		docId.setIdentifier(new II(TEST_STUDY_ID));
-		docId.setPrimaryIndicator(new BL(true));
-		docId.setTypeCode(new CD(
+		docId.setIdentifier(iso.II(TEST_STUDY_ID));
+		docId.setPrimaryIndicator(iso.BL(true));
+		docId.setTypeCode(iso.CD(
 				OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER
 						.name()));
 		docId.setAssigningOrganization(createOrganization());
@@ -672,9 +658,9 @@ public class WebServiceRelatedTestCase extends TestCase  {
 
 	protected DocumentIdentifier createStudyProtocolAuthIdentifier() {
 		DocumentIdentifier docId = new DocumentIdentifier();
-		docId.setIdentifier(new II(TEST_STUDY_ID));
-		docId.setPrimaryIndicator(new BL(false));
-		docId.setTypeCode(new CD(
+		docId.setIdentifier(iso.II(TEST_STUDY_ID));
+		docId.setPrimaryIndicator(iso.BL(false));
+		docId.setTypeCode(iso.CD(
 				OrganizationIdentifierTypeEnum.PROTOCOL_AUTHORITY_IDENTIFIER
 						.name()));
 		docId.setAssigningOrganization(createOrganization());
@@ -689,9 +675,9 @@ public class WebServiceRelatedTestCase extends TestCase  {
 
 	protected OrganizationIdentifier createOrganizationIdentifier() {
 		OrganizationIdentifier orgId = new OrganizationIdentifier();
-		orgId.setIdentifier(new II(TEST_ORG_ID));
-		orgId.setPrimaryIndicator(new BL(true));
-		orgId.setTypeCode(new CD(TEST_CTEP));
+		orgId.setIdentifier(iso.II(TEST_ORG_ID));
+		orgId.setPrimaryIndicator(iso.BL(true));
+		orgId.setTypeCode(iso.CD(TEST_CTEP));
 		return orgId;
 	}
 

@@ -35,51 +35,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Consent }
+     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
      * 
      */
-    public Consent createConsent() {
-        return new Consent();
+    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
+        return new DSETAdvanceSearchCriterionParameter();
     }
 
     /**
-     * Create an instance of {@link DocumentVersion }
+     * Create an instance of {@link StudyProtocolDocumentVersion }
      * 
      */
-    public DocumentVersion createDocumentVersion() {
-        return new DocumentVersion();
-    }
-
-    /**
-     * Create an instance of {@link RegistryStatus }
-     * 
-     */
-    public RegistryStatus createRegistryStatus() {
-        return new RegistryStatus();
-    }
-
-    /**
-     * Create an instance of {@link Organization }
-     * 
-     */
-    public Organization createOrganization() {
-        return new Organization();
-    }
-
-    /**
-     * Create an instance of {@link StudyProtocolVersion }
-     * 
-     */
-    public StudyProtocolVersion createStudyProtocolVersion() {
-        return new StudyProtocolVersion();
-    }
-
-    /**
-     * Create an instance of {@link Reason }
-     * 
-     */
-    public Reason createReason() {
-        return new Reason();
+    public StudyProtocolDocumentVersion createStudyProtocolDocumentVersion() {
+        return new StudyProtocolDocumentVersion();
     }
 
     /**
@@ -91,11 +59,59 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link RegistryStatusReason }
+     * 
+     */
+    public RegistryStatusReason createRegistryStatusReason() {
+        return new RegistryStatusReason();
+    }
+
+    /**
      * Create an instance of {@link DocumentVersionRelationship }
      * 
      */
     public DocumentVersionRelationship createDocumentVersionRelationship() {
         return new DocumentVersionRelationship();
+    }
+
+    /**
+     * Create an instance of {@link OrganizationIdentifier }
+     * 
+     */
+    public OrganizationIdentifier createOrganizationIdentifier() {
+        return new OrganizationIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link StudyProtocolVersion }
+     * 
+     */
+    public StudyProtocolVersion createStudyProtocolVersion() {
+        return new StudyProtocolVersion();
+    }
+
+    /**
+     * Create an instance of {@link Organization }
+     * 
+     */
+    public Organization createOrganization() {
+        return new Organization();
+    }
+
+    /**
+     * Create an instance of {@link SecurityExceptionFault }
+     * 
+     */
+    public SecurityExceptionFault createSecurityExceptionFault() {
+        return new SecurityExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link Consent }
+     * 
+     */
+    public Consent createConsent() {
+        return new Consent();
     }
 
     /**
@@ -115,27 +131,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RegistryStatusReason }
+     * Create an instance of {@link DocumentVersion }
      * 
      */
-    public RegistryStatusReason createRegistryStatusReason() {
-        return new RegistryStatusReason();
+    public DocumentVersion createDocumentVersion() {
+        return new DocumentVersion();
     }
 
     /**
-     * Create an instance of {@link SecurityExceptionFault }
+     * Create an instance of {@link Reason }
      * 
      */
-    public SecurityExceptionFault createSecurityExceptionFault() {
-        return new SecurityExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link StudyProtocolDocumentVersion }
-     * 
-     */
-    public StudyProtocolDocumentVersion createStudyProtocolDocumentVersion() {
-        return new StudyProtocolDocumentVersion();
+    public Reason createReason() {
+        return new Reason();
     }
 
     /**
@@ -147,19 +155,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
+     * Create an instance of {@link RegistryStatus }
      * 
      */
-    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
-        return new DSETAdvanceSearchCriterionParameter();
-    }
-
-    /**
-     * Create an instance of {@link OrganizationIdentifier }
-     * 
-     */
-    public OrganizationIdentifier createOrganizationIdentifier() {
-        return new OrganizationIdentifier();
+    public RegistryStatus createRegistryStatus() {
+        return new RegistryStatus();
     }
 
     /**

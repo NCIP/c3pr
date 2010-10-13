@@ -78,16 +78,8 @@ public class ED
     protected Compression compression;
     @XmlAttribute
     protected IntegrityCheckAlgorithm integrityCheckAlgorithm;
-    
-    public ED() {		
-	}
 
-    public ED(String value) {
-		super();
-		this.value = value;
-	}
-
-	/**
+    /**
      * Gets the value of the data property.
      * 
      * @return

@@ -55,6 +55,7 @@ import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
@@ -65,12 +66,10 @@ import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
-import edu.duke.cabig.c3pr.webservice.iso21090.ED;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
-import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
@@ -122,6 +121,8 @@ public class JAXBToDomainObjectConverterImpl implements
 	private static final int UNSUPPORTED_DOC_REL_TYPE = 928;
 	private static final int INVALID_CONSENT_REPRESENTATION = 929;
 	private static final int INVALID_REGISTRY_STATUS_CODE = 930;
+	
+	private static final ISO21090Helper iso = new ISO21090Helper();
 
 	/** The exception helper. */
 	protected C3PRExceptionHelper exceptionHelper;
@@ -543,9 +544,9 @@ public class JAXBToDomainObjectConverterImpl implements
 			for (Identifier id : p.getIdentifiers()) {
 				if (id instanceof OrganizationAssignedIdentifier) {
 					BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
-					bioId.setTypeCode(new CD(id.getTypeInternal()));
-					bioId.setIdentifier(new II(id.getValue()));
-					bioId.setEffectiveDateRange(new IVLTSDateTime(NullFlavor.NI));
+					bioId.setTypeCode(iso.CD(id.getTypeInternal()));
+					bioId.setIdentifier(iso.II(id.getValue()));
+					bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
 
 					HealthcareSite site = ((OrganizationAssignedIdentifier) id)
 							.getHealthcareSite();
@@ -554,9 +555,9 @@ public class JAXBToDomainObjectConverterImpl implements
 					for (Identifier siteId : site
 							.getIdentifiersAssignedToOrganization()) {
 						OrganizationIdentifier orgId = new OrganizationIdentifier();
-						orgId.setTypeCode(new CD(siteId.getTypeInternal()));
-						orgId.setIdentifier(new II(siteId.getValue()));
-						orgId.setPrimaryIndicator(new BL(siteId
+						orgId.setTypeCode(iso.CD(siteId.getTypeInternal()));
+						orgId.setIdentifier(iso.II(siteId.getValue()));
+						orgId.setPrimaryIndicator(iso.BL(siteId
 								.getPrimaryIndicator()));
 						org.getOrganizationIdentifier().add(orgId);
 					}
@@ -565,21 +566,21 @@ public class JAXBToDomainObjectConverterImpl implements
 					person.getBiologicEntityIdentifier().add(bioId);
 				}
 			}
-			person.setAdministrativeGenderCode(p.getAdministrativeGenderCode() != null ? new CD(
-					p.getAdministrativeGenderCode()) : new CD(NullFlavor.NI));
+			person.setAdministrativeGenderCode(p.getAdministrativeGenderCode() != null ? iso.CD(
+					p.getAdministrativeGenderCode()) : iso.CD(NullFlavor.NI));
 			person.setBirthDate(convertToTsDateTime(p.getBirthDate()));
 			person.setDeathDate(convertToTsDateTime(p.getDeathDate()));
-			person.setDeathIndicator(p.getDeathIndicator() != null ? new BL(p
-					.getDeathIndicator()) : new BL(NullFlavor.NI));
+			person.setDeathIndicator(p.getDeathIndicator() != null ? iso.BL(p
+					.getDeathIndicator()) : iso.BL(NullFlavor.NI));
 			person.setEthnicGroupCode(getEthnicGroupCode(p));
-			person.setMaritalStatusCode(p.getMaritalStatusCode() != null ? new CD(
-					p.getMaritalStatusCode()) : new CD(NullFlavor.NI));
+			person.setMaritalStatusCode(p.getMaritalStatusCode() != null ? iso.CD(
+					p.getMaritalStatusCode()) : iso.CD(NullFlavor.NI));
 			person.setName(getName(p));
 			person.setPostalAddress(getPostalAddress(p));
 			person.setRaceCode(getRaceCodes(p));
 			person.setTelecomAddress(getTelecomAddress(p));
 			if (p.getStateCode() != null) {
-				subject.setStateCode(new ST(p.getStateCode().getCode()));
+				subject.setStateCode(iso.ST(p.getStateCode().getCode()));
 			}
 		}
 		return subject;
@@ -588,18 +589,18 @@ public class JAXBToDomainObjectConverterImpl implements
 	private BAGTEL getTelecomAddress(Participant p) {
 		BAGTEL addr = new BAGTEL();
 		if (StringUtils.isNotBlank(p.getEmail()))
-			addr.getItem().add(new TEL(MAILTO + SEMICOLON + p.getEmail()));
+			addr.getItem().add(iso.TEL(MAILTO + SEMICOLON + p.getEmail()));
 		if (StringUtils.isNotBlank(p.getPhone()))
-			addr.getItem().add(new TEL(TEL + SEMICOLON + p.getPhone()));
+			addr.getItem().add(iso.TEL(TEL + SEMICOLON + p.getPhone()));
 		if (StringUtils.isNotBlank(p.getFax()))
-			addr.getItem().add(new TEL(X_TEXT_FAX + SEMICOLON + p.getFax()));
+			addr.getItem().add(iso.TEL(X_TEXT_FAX + SEMICOLON + p.getFax()));
 		return addr;
 	}
 
 	private DSETCD getRaceCodes(Participant p) {
 		DSETCD dsetcd = new DSETCD();
 		for (RaceCodeEnum raceCode : p.getRaceCodes()) {
-			dsetcd.getItem().add(new CD(raceCode.getCode()));
+			dsetcd.getItem().add(iso.CD(raceCode.getCode()));
 		}
 		return dsetcd;
 	}
@@ -615,22 +616,22 @@ public class JAXBToDomainObjectConverterImpl implements
 			if (address != null && !address.isBlank()) {
 				if (StringUtils.isNotBlank(address.getStreetAddress()))
 					ad.getPart().add(
-							new ADXP(address.getStreetAddress(),
+							iso.ADXP(address.getStreetAddress(),
 									AddressPartType.SAL));
 				if (StringUtils.isNotBlank(address.getCity()))
 					ad.getPart().add(
-							new ADXP(address.getCity(), AddressPartType.CTY));
+							iso.ADXP(address.getCity(), AddressPartType.CTY));
 				if (StringUtils.isNotBlank(address.getStateCode()))
 					ad.getPart().add(
-							new ADXP(address.getStateCode(),
+							iso.ADXP(address.getStateCode(),
 									AddressPartType.STA));
 				if (StringUtils.isNotBlank(address.getPostalCode()))
 					ad.getPart().add(
-							new ADXP(address.getPostalCode(),
+							iso.ADXP(address.getPostalCode(),
 									AddressPartType.ZIP));
 				if (StringUtils.isNotBlank(address.getCountryCode()))
 					ad.getPart().add(
-							new ADXP(address.getCountryCode(),
+							iso.ADXP(address.getCountryCode(),
 									AddressPartType.CNT));
 			} else {
 				ad.setNullFlavor(NullFlavor.NI);
@@ -645,15 +646,15 @@ public class JAXBToDomainObjectConverterImpl implements
 		ENPN enpn = new ENPN();
 		if (StringUtils.isNotBlank(p.getFirstName()))
 			enpn.getPart()
-					.add(new ENXP(p.getFirstName(), EntityNamePartType
+					.add(iso.ENXP(p.getFirstName(), EntityNamePartType
 							.valueOf(GIV)));
 		if (StringUtils.isNotBlank(p.getMiddleName()))
 			enpn.getPart()
-					.add(new ENXP(p.getMiddleName(), EntityNamePartType
+					.add(iso.ENXP(p.getMiddleName(), EntityNamePartType
 							.valueOf(GIV)));
 		if (StringUtils.isNotBlank(p.getLastName()))
 			enpn.getPart().add(
-					new ENXP(p.getLastName(), EntityNamePartType.valueOf(FAM)));
+					iso.ENXP(p.getLastName(), EntityNamePartType.valueOf(FAM)));
 		dsetenpn.getItem().add(enpn);
 		return dsetenpn;
 	}
@@ -661,7 +662,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	private DSETCD getEthnicGroupCode(Participant p) {
 		DSETCD dsetcd = new DSETCD();
 		if (StringUtils.isNotBlank(p.getEthnicGroupCode())) {
-			dsetcd.getItem().add(new CD(p.getEthnicGroupCode()));
+			dsetcd.getItem().add(iso.CD(p.getEthnicGroupCode()));
 		} else {
 			dsetcd.setNullFlavor(NullFlavor.NI);
 		}
@@ -1038,7 +1039,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	public StudyProtocolVersion convert(Study study) {
 		StudyProtocolVersion xmlStudy = new StudyProtocolVersion();
 		if (study.getTargetRegistrationSystem() != null) {
-			xmlStudy.setTargetRegistrationSystem(new ST(study
+			xmlStudy.setTargetRegistrationSystem(iso.ST(study
 					.getTargetRegistrationSystem()));
 		}
 		xmlStudy.setStudyProtocolDocument(convertStudyProtocolDocument(study));
@@ -1050,12 +1051,12 @@ public class JAXBToDomainObjectConverterImpl implements
 	private StudyProtocolDocumentVersion convertStudyProtocolDocument(
 			Study study) {
 		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
-		//doc.setOfficialTitle(new ST(study.getShortTitleText()));
-		doc.setPublicDescription(new ST(study.getDescriptionText()));
-		doc.setPublicTitle(new ST(study.getShortTitleText()));
-		doc.setText(new ED(study.getDescriptionText()));
+		//doc.setOfficialTitle(iso.ST(study.getShortTitleText()));
+		doc.setPublicDescription(iso.ST(study.getDescriptionText()));
+		doc.setPublicTitle(iso.ST(study.getShortTitleText()));
+		doc.setText(iso.ED(study.getDescriptionText()));
 		doc.setVersionDate(convertToTsDateTime(study.getVersionDate()));
-		doc.setVersionNumberText(new ST(study.getVersionName()));
+		doc.setVersionNumberText(iso.ST(study.getVersionName()));
 		doc.setDocument(convertStudyDocument(study));
 		doc.getDocumentVersionRelationship().addAll(
 				convertConsentRelationships(study));
@@ -1073,7 +1074,7 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	private DocumentVersionRelationship convertConsentRelationship(Consent c) {
 		DocumentVersionRelationship rel = new DocumentVersionRelationship();
-		rel.setTypeCode(new CD(CONSENT));
+		rel.setTypeCode(iso.CD(CONSENT));
 		rel.setTarget(convertConsent(c));
 		return rel;
 	}
@@ -1088,10 +1089,10 @@ public class JAXBToDomainObjectConverterImpl implements
 	public edu.duke.cabig.c3pr.webservice.common.Consent convertConsent(
 			Consent c) {
 		edu.duke.cabig.c3pr.webservice.common.Consent consent = new edu.duke.cabig.c3pr.webservice.common.Consent();
-		consent.setMandatoryIndicator(new BL(c.getMandatoryIndicator()));
-		consent.setOfficialTitle(new ST(c.getName()));
+		consent.setMandatoryIndicator(iso.BL(c.getMandatoryIndicator()));
+		consent.setOfficialTitle(iso.ST(c.getName()));
 		// consent.setText(new ED(c.getName()));
-		consent.setVersionNumberText(new ST(c.getVersionId()));
+		consent.setVersionNumberText(iso.ST(c.getVersionId()));
 		consent.setDocument(new Document());
 		for (ConsentQuestion q : c.getQuestions()) {
 			consent.getDocumentVersionRelationship().add(
@@ -1103,7 +1104,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	private DocumentVersionRelationship convertConsentQuestionRelationship(
 			ConsentQuestion q) {
 		DocumentVersionRelationship rel = new DocumentVersionRelationship();
-		rel.setTypeCode(new CD(CONSENT_QUESTION));
+		rel.setTypeCode(iso.CD(CONSENT_QUESTION));
 		rel.setTarget(convertConsentQuestion(q));
 		return rel;
 
@@ -1111,9 +1112,9 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	private DocumentVersion convertConsentQuestion(ConsentQuestion cq) {
 		DocumentVersion q = new DocumentVersion();
-		q.setOfficialTitle(new ST(cq.getCode()));
-		q.setText(new ED(cq.getText()));
-		//q.setVersionNumberText(cq.getVersion() != null ? new ST(cq.getVersion()
+		q.setOfficialTitle(iso.ST(cq.getCode()));
+		q.setText(iso.ED(cq.getText()));
+		//q.setVersionNumberText(cq.getVersion() != null ? iso.ST(cq.getVersion()
 		//		.toString()) : null);
 		q.setDocument(new Document());
 		return q;
@@ -1174,8 +1175,8 @@ public class JAXBToDomainObjectConverterImpl implements
 		edu.duke.cabig.c3pr.webservice.common.RegistryStatus status = null;
 		if (domainObj != null) {
 			status = new edu.duke.cabig.c3pr.webservice.common.RegistryStatus();
-			status.setCode(new CD(domainObj.getCode()));
-			status.setDescription(new ST(domainObj.getDescription()));
+			status.setCode(iso.CD(domainObj.getCode()));
+			status.setDescription(iso.ST(domainObj.getDescription()));
 			for (RegistryStatusReason reason : domainObj.getPrimaryReasons()) {
 				status.getPrimaryReason().add(convert(reason));
 			}
@@ -1186,9 +1187,9 @@ public class JAXBToDomainObjectConverterImpl implements
 	private edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason convert(
 			Reason reason) {
 		edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason xml = new edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason();
-		xml.setCode(new CD(reason.getCode()));
-		xml.setDescription(new ST(reason.getDescription()));
-		xml.setPrimaryIndicator(new BL(reason.getPrimaryIndicator()));
+		xml.setCode(iso.CD(reason.getCode()));
+		xml.setDescription(iso.ST(reason.getDescription()));
+		xml.setPrimaryIndicator(iso.BL(reason.getPrimaryIndicator()));
 		if (reason.getPrimaryReason() != null) {
 			xml.setPrimaryReason(convert(reason.getPrimaryReason()));
 		}
@@ -1197,9 +1198,9 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	private DocumentIdentifier convert(OrganizationAssignedIdentifier id) {
 		DocumentIdentifier studyId = new DocumentIdentifier();
-		studyId.setTypeCode(new CD(id.getTypeInternal()));
-		studyId.setIdentifier(new II(id.getValue()));
-		studyId.setPrimaryIndicator(new BL(id.getPrimaryIndicator()));
+		studyId.setTypeCode(iso.CD(id.getTypeInternal()));
+		studyId.setIdentifier(iso.II(id.getValue()));
+		studyId.setPrimaryIndicator(iso.BL(id.getPrimaryIndicator()));
 
 		HealthcareSite site = ((OrganizationAssignedIdentifier) id)
 				.getHealthcareSite();
@@ -1207,9 +1208,9 @@ public class JAXBToDomainObjectConverterImpl implements
 		studyId.setAssigningOrganization(org);
 		for (Identifier siteId : site.getIdentifiersAssignedToOrganization()) {
 			OrganizationIdentifier orgId = new OrganizationIdentifier();
-			orgId.setTypeCode(new CD(siteId.getTypeInternal()));
-			orgId.setIdentifier(new II(siteId.getValue()));
-			orgId.setPrimaryIndicator(new BL(siteId.getPrimaryIndicator()));
+			orgId.setTypeCode(iso.CD(siteId.getTypeInternal()));
+			orgId.setIdentifier(iso.II(siteId.getValue()));
+			orgId.setPrimaryIndicator(iso.BL(siteId.getPrimaryIndicator()));
 			org.getOrganizationIdentifier().add(orgId);
 		}
 		return studyId;
