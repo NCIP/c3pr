@@ -13,6 +13,13 @@
     <title>Search Results</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>${tab.longTitle}</title>
+	<style type="text/css">
+		#search td {
+			color:white;
+		}
+		
+		
+	</style>
 <script>
 YAHOO.example.Data = {
 	    registrationList: [
@@ -162,80 +169,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
     
 });
 
-
 </script>
-<style>
-
-/* custom styles for this example */
-#dt-example {width:45em;margin:0 auto;}
-#dt-options {text-align:right;margin:1em 0;}
-#dt-dlg {visibility:hidden;border:1px solid #808080;background-color:#E3E3E3;}
-#dt-dlg .hd {font-weight:bold;padding:1em;background:none;background-color:#E3E3E3;border-bottom:0;}
-#dt-dlg .ft {text-align:right;padding:.5em;background-color:#E3E3E3;}
-#dt-dlg .bd {height:10em;margin:0 1em;overflow:auto;border:1px solid black;background-color:white;}
-#dt-dlg .dt-dlg-pickercol {clear:both;padding:.5em 1em 3em;border-bottom:1px solid gray;}
-#dt-dlg .dt-dlg-pickerkey {float:left;}
-#dt-dlg .dt-dlg-pickerbtns {float:right;}
-
-/* Container workarounds for Mac Gecko scrollbar issues */
-.yui-panel-container.hide-scrollbars #dt-dlg .bd {
-    /* Hide scrollbars by default for Gecko on OS X */
-    overflow: hidden;
-}
-.yui-panel-container.show-scrollbars #dt-dlg .bd {
-    /* Show scrollbars for Gecko on OS X when the Panel is visible  */
-    overflow: auto;
-}
-#dt-dlg_c .underlay {overflow:hidden;}
-
-
-
-/* rounded corners */
-#dt-dlg .corner_tr {
-    background-image: url( assets/img/tr.gif);
-    position: absolute;
-    background-repeat: no-repeat;
-    top: -1px;
-    right: -1px;
-    height: 4px;
-    width: 4px;
-}
-#dt-dlg .corner_tl {
-    background-image: url( assets/img/tl.gif);
-    background-repeat: no-repeat;
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    height: 4px;
-    width: 4px;
-}
-#dt-dlg .corner_br {
-    background-image: url( assets/img/br.gif);
-    position: absolute;
-    background-repeat: no-repeat;
-    bottom: -1px;
-    right: -1px;
-    height: 4px;
-    width: 4px;
-}
-#dt-dlg .corner_bl {
-    background-image: url( assets/img/bl.gif);
-    background-repeat: no-repeat;
-    position: absolute;
-    bottom: -1px;
-    left: -1px;
-    height: 4px;
-    width: 4px;
-}
-
-.inprogress {position:absolute;} /* transitional progressive enhancement state */
-
-</style>	
-<style type="text/css">
-#search td {
-color:white;
-}
-</style>
 </head>
 <body>
 <!--  tags:instructions code="participant_search_report"/>  -->
@@ -251,7 +185,7 @@ color:white;
 		</div>
 		<div id="registrationTable" class="yui-skin-sam"></div>
 		
-		<div id="dt-dlg">
+		<div id="dt-dlg" class="yui-skin-sam">
 		    <span class="corner_tr"></span>
 		    <span class="corner_tl"></span>
 		    <span class="corner_br"></span>

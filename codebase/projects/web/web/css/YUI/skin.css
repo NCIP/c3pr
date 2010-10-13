@@ -104,8 +104,9 @@ version: 2.7.0
 	border-width: 1px 0;
 	border-style: solid;
 	border-color: #808080;
-	background: url(sprite.png) repeat-x 0 0;
+	background: url(../../images/yui/sprite.png) repeat-x 0 0;
 	margin: auto .25em;
+	
 }
 
 .yui-skin-sam .yui-button .first-child {
@@ -124,6 +125,8 @@ version: 2.7.0
 	min-height: 2em; *
 	min-height: auto;
 	color: #000;
+	text-shadow: 0 1px white;
+	
 }
 
 .yui-skin-sam .yui-button a { *
@@ -147,12 +150,12 @@ version: 2.7.0
 }
 
 .yui-skin-sam .yui-button-focus {
-	border-color: #7D98B8;
+	border-color: #ab7a32;
 	background-position: 0 -1300px;
 }
 
 .yui-skin-sam .yui-button-focus .first-child {
-	border-color: #7D98B8;
+	border-color: #ab7a32;
 }
 
 .yui-skin-sam .yui-button-focus button,.yui-skin-sam .yui-button-focus a
@@ -165,12 +168,12 @@ version: 2.7.0
 }
 
 .yui-skin-sam .yui-button-hover {
-	border-color: #7D98B8;
+	border-color: #ab7a32;
 	background-position: 0 -1300px;
 }
 
 .yui-skin-sam .yui-button-hover .first-child {
-	border-color: #7D98B8;
+	border-color: #ab7a32;
 }
 
 .yui-skin-sam .yui-button-hover button,.yui-skin-sam .yui-button-hover a
@@ -183,12 +186,12 @@ version: 2.7.0
 }
 
 .yui-skin-sam .yui-button-active {
-	border-color: #7D98B8;
+	border-color: #ab7a32;
 	background-position: 0 -1700px;
 }
 
 .yui-skin-sam .yui-button-active .first-child {
-	border-color: #7D98B8;
+	border-color: #ab7a32;
 }
 
 .yui-skin-sam .yui-button-active button,.yui-skin-sam .yui-button-active a
@@ -211,18 +214,19 @@ version: 2.7.0
 
 .yui-skin-sam .yui-radio-button-checked,.yui-skin-sam .yui-checkbox-button-checked
 	{
-	border-color: #304369;
+	border-color: #855b1e;
 	background-position: 0 -1400px;
 }
 
 .yui-skin-sam .yui-radio-button-checked .first-child,.yui-skin-sam .yui-checkbox-button-checked .first-child
 	{
-	border-color: #304369;
+	border-color: #855b1e;
 }
 
 .yui-skin-sam .yui-radio-button-checked button,.yui-skin-sam .yui-checkbox-button-checked button
 	{
 	color: #fff;
+	text-shadow: 0 -1px #855b1e;
 }
 
 .yui-skin-sam .yui-button-disabled {
@@ -377,7 +381,7 @@ p#clear {
 }
 
 .yui-skin-sam .yui-calcontainer .title {
-	background: url(sprite.png) repeat-x 0 0;
+	background: url(../../images/yui/sprite.png) repeat-x 0 0;
 	border-bottom: 1px solid #ccc;
 	font: 100% sans-serif;
 	color: #000;
@@ -399,7 +403,7 @@ p#clear {
 }
 
 .yui-skin-sam .yui-calcontainer .calclose {
-	background: url(sprite.png) no-repeat 0 -300px;
+	background: url(../../images/yui/sprite.png) no-repeat 0 -300px;
 	width: 25px;
 	height: 15px;
 	top: .4em;
@@ -434,7 +438,7 @@ p#clear {
 }
 
 .yui-skin-sam .yui-calendar .calnavleft {
-	background: url(sprite.png) no-repeat 0 -450px;
+	background: url(../../images/yui/sprite.png) no-repeat 0 -450px;
 	width: 25px;
 	height: 15px;
 	top: 0;
@@ -445,7 +449,7 @@ p#clear {
 }
 
 .yui-skin-sam .yui-calendar .calnavright {
-	background: url(sprite.png) no-repeat 0 -500px;
+	background: url(../../images/yui/sprite.png) no-repeat 0 -500px;
 	width: 25px;
 	height: 15px;
 	top: 0;
@@ -579,7 +583,7 @@ p#clear {
 }
 
 .yui-skin-sam .yui-calendar a.calnav:hover {
-	background: url(sprite.png) repeat-x 0 0;
+	background: url(../../images/yui/sprite.png) repeat-x 0 0;
 	border-color: #A0A0A0;
 	cursor: pointer;
 }
@@ -649,7 +653,7 @@ p#clear {
 
 .yui-skin-sam .yui-calcontainer .yui-cal-nav .yui-cal-nav-btn {
 	border: 1px solid #808080;
-	background: url(sprite.png) repeat-x 0 0;
+	background: url(../../images/yui/sprite.png) repeat-x 0 0;
 	background-color: #ccc;
 	margin: auto .15em;
 }
@@ -668,7 +672,7 @@ p#clear {
 	{
 	border: 1px solid #304369;
 	background-color: #426fd9;
-	background: url(sprite.png) repeat-x 0 -1400px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -1400px;
 }
 
 .yui-skin-sam .yui-calcontainer .yui-cal-nav .yui-cal-nav-btn.yui-default button
@@ -763,13 +767,13 @@ p#clear {
 }
 
 .yui-skin-sam .yui-carousel-nav {
-	background: url(sprite.png) repeat-x 0 0;
+	background: url(../../images/yui/sprite.png) repeat-x 0 0;
 	padding: 3px;
 	text-align: right;
 }
 
 .yui-skin-sam .yui-carousel-button {
-	background: url(sprite.png) no-repeat 0 -600px;
+	background: url(../../images/yui/sprite.png) no-repeat 0 -600px;
 	float: right;
 	height: 19px;
 	margin: 5px;
@@ -849,7 +853,7 @@ p#clear {
 }
 
 .yui-skin-sam .yui-carousel-nav ul li {
-	background: url(sprite.png) no-repeat 0 -650px;
+	background: url(../../images/yui/sprite.png) no-repeat 0 -650px;
 	cursor: pointer;
 	float: left;
 	height: 9px;
@@ -1175,7 +1179,7 @@ p#clear {
 	line-height: 1.9;
 	font-weight: bold;
 	color: #000;
-	background: url(sprite.png) repeat-x 0 -200px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -200px;
 }
 
 .yui-skin-sam .yui-panel .bd {
@@ -1194,7 +1198,7 @@ p#clear {
 	right: 6px;
 	width: 25px;
 	height: 15px;
-	background: url(sprite.png) no-repeat 0 -300px;
+	background: url(../../images/yui/sprite.png) no-repeat 0 -300px;
 	cursor: pointer;
 }
 
@@ -1275,7 +1279,7 @@ p#clear {
 }
 
 .yui-skin-sam .yui-simple-dialog .bd .yui-icon {
-	background: url(sprite.png) no-repeat 0 0;
+	background: url(../../images/yui/sprite.png) no-repeat 0 0;
 	width: 16px;
 	height: 16px;
 	margin-right: 10px;
@@ -1443,7 +1447,7 @@ th.yui-dt-hidden .yui-dt-liner,td.yui-dt-hidden .yui-dt-liner,th.yui-dt-hidden .
 }
 
 .yui-skin-sam .yui-dt th {
-	background: #D8D8DA url(sprite.png) repeat-x 0 0;
+	background: #D8D8DA url(../../images/yui/sprite.png) repeat-x 0 0;
 }
 
 .yui-skin-sam .yui-dt th,.yui-skin-sam .yui-dt th a {
@@ -1527,7 +1531,7 @@ th.yui-dt-hidden .yui-dt-liner,td.yui-dt-hidden .yui-dt-liner,th.yui-dt-hidden .
 }
 
 .yui-skin-sam th.yui-dt-asc,.yui-skin-sam th.yui-dt-desc {
-	background: url(sprite.png) repeat-x 0 -100px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -100px;
 }
 
 .yui-skin-sam th.yui-dt-sortable .yui-dt-label {
@@ -1564,7 +1568,7 @@ tbody .yui-dt-editable {
 }
 
 .yui-dt-editor .yui-dt-button button {
-	background: url(sprite.png) repeat-x 0 0;
+	background: url(../images/../../images/yui/sprite.png) repeat-x 0 0;
 	border: 1px solid #999;
 	width: 4em;
 	height: 1.8em;
@@ -1572,19 +1576,19 @@ tbody .yui-dt-editable {
 }
 
 .yui-dt-editor .yui-dt-button button.yui-dt-default {
-	background: url(sprite.png) repeat-x 0 -1400px;
+	background: url(../images/../../images/yui/sprite.png) repeat-x 0 -1400px;
 	background-color: #5584E0;
 	border: 1px solid #304369;
 	color: #FFF;
 }
 
 .yui-dt-editor .yui-dt-button button:hover {
-	background: url(sprite.png) repeat-x 0 -1300px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -1300px;
 	color: #000;
 }
 
 .yui-dt-editor .yui-dt-button button:active {
-	background: url(sprite.png) repeat-x 0 -1700px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -1700px;
 	color: #000;
 }
 
@@ -2325,7 +2329,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 }
 
 .yui-skin-sam .yui-toolbar-container .yui-toolbar-titlebar {
-	background: url(sprite.png) repeat-x 0 -200px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -200px;
 	position: relative;
 }
 
@@ -2401,7 +2405,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 }
 
 .yui-skin-sam .yui-toolbar-container .collapse {
-	background: url(sprite.png) no-repeat 0 -400px;
+	background: url(../../images/yui/sprite.png) no-repeat 0 -400px;
 }
 
 .yui-skin-sam .yui-toolbar-container .yui-toolbar-titlebar span.collapse
@@ -2419,7 +2423,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 
 .yui-skin-sam .yui-toolbar-container .yui-push-button,.yui-skin-sam .yui-toolbar-container .yui-color-button,.yui-skin-sam .yui-toolbar-container .yui-menu-button
 	{
-	background: url(sprite.png) repeat-x 0 0;
+	background: url(../../images/yui/sprite.png) repeat-x 0 0;
 	position: relative;
 	display: block;
 	height: 22px;
@@ -2490,12 +2494,12 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 }
 
 .yui-skin-sam .yui-toolbar-container .yui-button-hover {
-	background: url(sprite.png) repeat-x 0 -1300px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -1300px;
 	border-color: #808080;
 }
 
 .yui-skin-sam .yui-toolbar-container .yui-button-selected {
-	background: url(sprite.png) repeat-x 0 -1700px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -1700px;
 	border-color: #808080;
 }
 
@@ -2794,7 +2798,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 .yui-skin-sam .yui-editor-panel .hd h3 {
 	color: #000;
 	border: 1px solid #808080;
-	background: url(sprite.png) repeat-x 0 -200px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -200px;
 	width: 99%;
 	position: relative;
 	margin: 0;
@@ -2929,7 +2933,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 }
 
 .yui-skin-sam .yui-editor-panel .hd span.close {
-	background: url(sprite.png) no-repeat 0 -300px;
+	background: url(../../images/yui/sprite.png) no-repeat 0 -300px;
 	cursor: pointer;
 	display: block;
 	height: 16px;
@@ -3240,55 +3244,55 @@ body.yui-layout {
 
 .yui-skin-sam .yui-layout .yui-layout-unit-left div.yui-layout-hd .collapse
 	{
-	background: transparent url(layout_sprite.png) no-repeat -20px -160px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px -160px;
 	border: 1px solid #808080;
 }
 
 .yui-skin-sam .yui-layout .yui-layout-clip-left .collapse {
-	background: transparent url(layout_sprite.png) no-repeat -20px -140px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px -140px;
 	border: 1px solid #808080;
 }
 
 .yui-skin-sam .yui-layout .yui-layout-unit-right div.yui-layout-hd .collapse
 	{
-	background: transparent url(layout_sprite.png) no-repeat -20px -200px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px -200px;
 	border: 1px solid #808080;
 }
 
 .yui-skin-sam .yui-layout .yui-layout-clip-right .collapse {
-	background: transparent url(layout_sprite.png) no-repeat -20px -120px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px -120px;
 	border: 1px solid #808080;
 }
 
 .yui-skin-sam .yui-layout .yui-layout-unit-top div.yui-layout-hd .collapse
 	{
-	background: transparent url(layout_sprite.png) no-repeat -20px -220px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px -220px;
 	border: 1px solid #808080;
 }
 
 .yui-skin-sam .yui-layout .yui-layout-clip-top .collapse {
-	background: transparent url(layout_sprite.png) no-repeat -20px -240px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px -240px;
 	border: 1px solid #808080;
 }
 
 .yui-skin-sam .yui-layout .yui-layout-unit-bottom div.yui-layout-hd .collapse
 	{
-	background: transparent url(layout_sprite.png) no-repeat -20px -260px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px -260px;
 	border: 1px solid #808080;
 }
 
 .yui-skin-sam .yui-layout .yui-layout-clip-bottom .collapse {
-	background: transparent url(layout_sprite.png) no-repeat -20px -180px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px -180px;
 	border: 1px solid #808080;
 }
 
 .yui-skin-sam .yui-layout .yui-layout-unit div.yui-layout-hd .close {
-	background: transparent url(layout_sprite.png) no-repeat -20px -100px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px -100px;
 	border: 1px solid #808080;
 }
 
 .yui-skin-sam .yui-layout .yui-layout-hd {
-	background: url(sprite.png) repeat-x 0 -1400px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -1400px;
 	border: 1px solid #808080;
 }
 
@@ -3370,7 +3374,7 @@ body.yui-layout {
 	width: 6px;
 	top: 45%;
 	left: 0px;
-	background: transparent url(layout_sprite.png) no-repeat 0 -5px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat 0 -5px;
 }
 
 .yui-skin-sam .yui-layout-unit .yui-resize-handle-t .yui-layout-resize-knob,.yui-skin-sam .yui-layout-unit .yui-resize-handle-b .yui-layout-resize-knob
@@ -3379,7 +3383,7 @@ body.yui-layout {
 	height: 6px;
 	width: 16px;
 	left: 45%;
-	background: transparent url(layout_sprite.png) no-repeat -20px 0;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px 0;
 }
 
 .yui-skin-sam .yui-log {
@@ -3597,7 +3601,7 @@ body.yui-layout {
 	line-height: 2; *
 	line-height: 1.9;
 	border: solid 1px #808080;
-	background: url(sprite.png) repeat-x 0 0;
+	background: url(../../images/yui/sprite.png) repeat-x 0 0;
 }
 
 .yui-skin-sam .yuimenubarnav .yuimenubaritem {
@@ -3627,7 +3631,7 @@ body.yui-layout {
 }
 
 .yui-skin-sam .yuimenubaritem-selected {
-	background: url(sprite.png) repeat-x 0 -1700px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -1700px;
 }
 
 .yui-skin-sam .yuimenubaritemlabel-selected {
@@ -3704,7 +3708,7 @@ body.yui-layout {
 	{
 	height: 16px;
 	border: solid 1px #808080;
-	background: #fff url(sprite.png) no-repeat 0 0;
+	background: #fff url(../../images/yui/sprite.png) no-repeat 0 0;
 }
 
 .yui-skin-sam .yuimenu .topscrollbar {
@@ -4271,7 +4275,7 @@ body.yui-layout {
 
 .yui-skin-sam .yui-resize .yui-resize-handle-inner-r,.yui-skin-sam .yui-resize .yui-resize-handle-inner-l
 	{
-	background: transparent url(layout_sprite.png) no-repeat 0 -5px;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat 0 -5px;
 	height: 16px;
 	width: 5px;
 	position: absolute;
@@ -4280,7 +4284,7 @@ body.yui-layout {
 
 .yui-skin-sam .yui-resize .yui-resize-handle-inner-t,.yui-skin-sam .yui-resize .yui-resize-handle-inner-b
 	{
-	background: transparent url(layout_sprite.png) no-repeat -20px 0;
+	background: transparent url(layout_../../images/yui/sprite.png) no-repeat -20px 0;
 	height: 5px;
 	width: 16px;
 	position: absolute;
@@ -4288,25 +4292,25 @@ body.yui-layout {
 }
 
 .yui-skin-sam .yui-resize .yui-resize-handle-br {
-	background-image: url(layout_sprite.png);
+	background-image: url(layout_../../images/yui/sprite.png);
 	background-repeat: no-repeat;
 	background-position: -22px -62px;
 }
 
 .yui-skin-sam .yui-resize .yui-resize-handle-tr {
-	background-image: url(layout_sprite.png);
+	background-image: url(layout_../../images/yui/sprite.png);
 	background-repeat: no-repeat;
 	background-position: -22px -42px;
 }
 
 .yui-skin-sam .yui-resize .yui-resize-handle-tl {
-	background-image: url(layout_sprite.png);
+	background-image: url(layout_../../images/yui/sprite.png);
 	background-repeat: no-repeat;
 	background-position: -22px -82px;
 }
 
 .yui-skin-sam .yui-resize .yui-resize-handle-bl {
-	background-image: url(layout_sprite.png);
+	background-image: url(layout_../../images/yui/sprite.png);
 	background-repeat: no-repeat;
 	background-position: -22px -23px;
 }
@@ -4937,7 +4941,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 }
 
 .yui-skin-sam .yui-toolbar-container .yui-toolbar-titlebar {
-	background: url(sprite.png) repeat-x 0 -200px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -200px;
 	position: relative;
 }
 
@@ -5013,7 +5017,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 }
 
 .yui-skin-sam .yui-toolbar-container .collapse {
-	background: url(sprite.png) no-repeat 0 -400px;
+	background: url(../../images/yui/sprite.png) no-repeat 0 -400px;
 }
 
 .yui-skin-sam .yui-toolbar-container .yui-toolbar-titlebar span.collapse
@@ -5031,7 +5035,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 
 .yui-skin-sam .yui-toolbar-container .yui-push-button,.yui-skin-sam .yui-toolbar-container .yui-color-button,.yui-skin-sam .yui-toolbar-container .yui-menu-button
 	{
-	background: url(sprite.png) repeat-x 0 0;
+	background: url(../../images/yui/sprite.png) repeat-x 0 0;
 	position: relative;
 	display: block;
 	height: 22px;
@@ -5102,12 +5106,12 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 }
 
 .yui-skin-sam .yui-toolbar-container .yui-button-hover {
-	background: url(sprite.png) repeat-x 0 -1300px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -1300px;
 	border-color: #808080;
 }
 
 .yui-skin-sam .yui-toolbar-container .yui-button-selected {
-	background: url(sprite.png) repeat-x 0 -1700px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -1700px;
 	border-color: #808080;
 }
 
@@ -5406,7 +5410,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 .yui-skin-sam .yui-editor-panel .hd h3 {
 	color: #000;
 	border: 1px solid #808080;
-	background: url(sprite.png) repeat-x 0 -200px;
+	background: url(../../images/yui/sprite.png) repeat-x 0 -200px;
 	width: 99%;
 	position: relative;
 	margin: 0;
@@ -5541,7 +5545,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 }
 
 .yui-skin-sam .yui-editor-panel .hd span.close {
-	background: url(sprite.png) no-repeat 0 -300px;
+	background: url(../../images/yui/sprite.png) no-repeat 0 -300px;
 	cursor: pointer;
 	display: block;
 	height: 16px;
@@ -5782,7 +5786,7 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 
 .yui-skin-sam .yui-navset .yui-nav a,.yui-skin-sam .yui-navset .yui-navset-top .yui-nav a
 	{
-	background: #d8d8d8 url(sprite.png) repeat-x;
+	background: #d8d8d8 url(../../images/yui/sprite.png) repeat-x;
 	border: solid #a3a3a3;
 	border-width: 0 1px;
 	color: #000;
@@ -5805,13 +5809,13 @@ h2.yui-editor-skipheader,h3.yui-editor-skipheader {
 
 .yui-skin-sam .yui-navset .yui-nav .selected a,.yui-skin-sam .yui-navset .yui-nav .selected a:focus,.yui-skin-sam .yui-navset .yui-nav .selected a:hover
 	{
-	background: #2647a0 url(sprite.png) repeat-x left -1400px;
+	background: #2647a0 url(../../images/yui/sprite.png) repeat-x left -1400px;
 	color: #fff;
 }
 
 .yui-skin-sam .yui-navset .yui-nav a:hover,.yui-skin-sam .yui-navset .yui-nav a:focus
 	{
-	background: #bfdaff url(sprite.png) repeat-x left -1300px;
+	background: #bfdaff url(../../images/yui/sprite.png) repeat-x left -1300px;
 	outline: 0;
 }
 
