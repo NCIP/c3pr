@@ -34,7 +34,8 @@ import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.helpers.WebServiceRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl.ParticipantValidationError;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl.ParticipantValidationError;
 
 /**
  * @author dkrylov
@@ -73,7 +74,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 	/**
 	 * Test method for
-	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl#createSubject(edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest)}
+	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl#createSubject(edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest)}
 	 * .
 	 */
 	public void testCreateSubject() throws Exception {
@@ -139,7 +140,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 	/**
 	 * Test method for
-	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl#querySubject(edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest)}
+	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl#querySubject(edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest)}
 	 * .
 	 * 
 	 * @throws InvalidSubjectDataExceptionFaultMessage
@@ -175,7 +176,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 	/**
 	 * Test method for
-	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl#advancedQuerySubject(AdvancedQuerySubjectRequest)}
+	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl#advancedQuerySubject(AdvancedQuerySubjectRequest)}
 	 * 
 	 * @throws InsufficientPrivilegesExceptionFaultMessage
 	 * @throws InvalidSubjectDataExceptionFaultMessage
@@ -211,7 +212,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 	/**
 	 * Test method for
-	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl#updateSubject(edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectRequest)}
+	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl#updateSubject(edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectRequest)}
 	 * .
 	 * 
 	 * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage
@@ -324,7 +325,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 	/**
 	 * Test method for
-	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl#updateSubjectState(edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectStateRequest)}
+	 * {@link edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl#updateSubjectState(edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectStateRequest)}
 	 * .
 	 * 
 	 * @throws NoSuchSubjectExceptionFaultMessage

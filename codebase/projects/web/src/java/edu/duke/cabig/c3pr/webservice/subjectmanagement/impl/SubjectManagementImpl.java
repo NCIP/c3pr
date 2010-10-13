@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.webservice.subjectmanagement;
+package edu.duke.cabig.c3pr.webservice.subjectmanagement.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,31 @@ import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectRequest;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectResponse;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectResponse;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.DSETSUBJECT;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidStateTransitionExceptionFault;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidStateTransitionExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExceptionFault;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.NoSuchSubjectExceptionFault;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.NoSuchSubjectExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectResponse;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.SecurityExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectAlreadyExistsExceptionFault;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectAlreadyExistsExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.UnableToCreateOrUpdateSubjectExceptionFault;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.UnableToCreateOrUpdateSubjectExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectRequest;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectResponse;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectStateRequest;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectStateResponse;
 
 /**
  * Implementation of the Subject Management web service.
@@ -335,7 +360,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 				fault);
 	}
 
-	static final class ParticipantValidationError extends RuntimeException {
+	public static final class ParticipantValidationError extends RuntimeException {
 
 		/**
 		 * 

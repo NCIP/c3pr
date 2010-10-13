@@ -19,7 +19,7 @@
 		
 
 	<bean id="studyUtilityService"
-		class="edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityImpl"
+		class="edu.duke.cabig.c3pr.webservice.studyutility.impl.StudyUtilityImpl"
 		autowire="byType" />	
 	
 	<jaxws:endpoint id="studyUtilityEndpoint"
@@ -41,7 +41,7 @@
 	</jaxws:endpoint>		
 	
 	<bean id="subjectManagementService"
-		class="edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl"
+		class="edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl"
 		autowire="byType" />
 	
 	

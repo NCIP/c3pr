@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.duke.cabig.c3pr.webservice.studyutility;
+package edu.duke.cabig.c3pr.webservice.studyutility.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +30,31 @@ import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStat
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImpl;
+import edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyAbstractRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyAbstractResponse;
+import edu.duke.cabig.c3pr.webservice.studyutility.DSETConsent;
+import edu.duke.cabig.c3pr.webservice.studyutility.DSETPermissibleStudySubjectRegistryStatus;
+import edu.duke.cabig.c3pr.webservice.studyutility.DSETRegistryStatus;
+import edu.duke.cabig.c3pr.webservice.studyutility.DSETStudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryRegistryStatusRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryRegistryStatusResponse;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyAbstractRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyAbstractResponse;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyConsentRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyConsentResponse;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyRegistryStatusRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyRegistryStatusResponse;
+import edu.duke.cabig.c3pr.webservice.studyutility.SecurityExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility;
+import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityFault;
+import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityFaultMessage;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyAbstractRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyAbstractResponse;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentResponse;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusResponse;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl;
 import gov.nih.nci.logging.api.util.StringUtils;
 
 /**
