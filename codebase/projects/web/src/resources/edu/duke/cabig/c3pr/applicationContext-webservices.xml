@@ -118,4 +118,10 @@
 		</cxf:features>
 	</cxf:bus>
 	
+	<!-- Cache -->
+    <bean id="webservice-usercache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+	    <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheName" value="webservice-usercache"/>
+    </bean>
+	
 </beans>

@@ -7,11 +7,8 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 
-	<cxf:bus>
-		<cxf:features>
-			<cxf:logging />
-		</cxf:features>
-	</cxf:bus>
+	<cxf:bus></cxf:bus>
+	
 
 	<!--
 		"localhost" and "dkrylov-PC" below must match CN names on
@@ -29,6 +26,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 				<bean class="org.apache.cxf.ws.security.trust.STSClient" id="stsClient">
 					<constructor-arg ref="cxf" />
 
+					<!-- 
 					<property name="inInterceptors">
 						<list>
 							<ref bean="logInbound" />
@@ -39,6 +37,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 							<ref bean="logOutbound" />
 						</list>
 					</property>
+					
 					<property name="outFaultInterceptors">
 						<list>
 							<ref bean="logOutbound" />
@@ -49,7 +48,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 							<ref bean="logInbound" />
 						</list>
 					</property>
-
+					-->
+					
 					<property name="wsdlLocation"
 						value="https://dkrylov-PC:8181/STS/SecureTokenServiceService?wsdl" />
 

@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.handler.MessageContext;
 import javax.xml.ws.handler.soap.SOAPMessageContext;
 
+import net.sf.ehcache.Ehcache;
+
 import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.acegisecurity.userdetails.UserDetails;
@@ -201,11 +203,36 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 				.getWebApplicationContext(servletContext);
 		UserDetailsService userDetailsService = (UserDetailsService) springCtx
 				.getBean(CSM_USER_DETAILS_SERVICE);
-		UserDetails user = userDetailsService
-				.loadUserByUsername(loginId.trim());
+		UserDetails user = loadUserDetails(loginId, userDetailsService,
+				springCtx);
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
 				user, user.getPassword(), user.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(token);
+	}
+
+	/**
+	 * @param loginId
+	 * @param userDetailsService
+	 * @param ctx
+	 * @return
+	 * @throws UsernameNotFoundException
+	 * @throws DataAccessException
+	 */
+	private UserDetails loadUserDetails(String loginId,
+			UserDetailsService userDetailsService, ApplicationContext ctx)
+			throws UsernameNotFoundException, DataAccessException {
+		UserDetails user = null;
+
+		Ehcache cache = (Ehcache) ctx.getBean("webservice-usercache");
+		net.sf.ehcache.Element element = cache.get(loginId);
+		if (element != null) {
+			user = (UserDetails) element.getObjectValue();
+		} else {
+			user = userDetailsService.loadUserByUsername(loginId.trim());
+			element = new net.sf.ehcache.Element(loginId, user);
+			cache.put(element);
+		}
+		return user;
 	}
 
 	private String extractLoginId(SAMLAssertion samlAssertion) {
@@ -229,7 +256,8 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 						String loginIdFromAttr = extractLoginId(attr);
 						if (StringUtils.isNotBlank(loginIdFromAttr)) {
 							loginId = loginIdFromAttr;
-							// no need to look further, we have a definite value here.
+							// no need to look further, we have a definite value
+							// here.
 							break l1;
 						}
 					}
@@ -302,8 +330,7 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 
 		Element detail = fault.getOrCreateDetail();
 		final Element detailEntry = detail.getOwnerDocument().createElementNS(
-				NS_COMMON,
-				SecurityExceptionFault.class.getSimpleName());
+				NS_COMMON, SecurityExceptionFault.class.getSimpleName());
 		detail.appendChild(detailEntry);
 
 		final Element detailMsg = detail.getOwnerDocument().createElementNS(
@@ -314,7 +341,6 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 		throw fault;
 
 	}
-	
 
 	public String getCryptoPropFile() {
 		return cryptoPropFile;

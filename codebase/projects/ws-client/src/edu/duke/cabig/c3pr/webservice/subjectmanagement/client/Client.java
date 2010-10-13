@@ -18,9 +18,11 @@ import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Person;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectResponse;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.SecurityExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
 
@@ -55,7 +57,7 @@ public final class Client {
 		subject.setEntity(person);
 
 		// We need to set these to empties in order to pass schema validation on the server side
-		// Need to revisit this issue and perhaps change the XDS: setting fields to empties each time
+		// Need to revisit this issue and perhaps change the XSD: setting fields to empties each time
 		// does not make a lot of sense.
 		person.setAdministrativeGenderCode(new CD());
 		person.setBirthDate(new TSDateTime());
@@ -67,14 +69,40 @@ public final class Client {
 		person.setPostalAddress(new DSETAD());
 		person.setRaceCode(new DSETCD());
 		person.setTelecomAddress(new BAGTEL());
+		
+		// make repeated requests in a loop to cache things, reduce swapping.
+		for (int i=0;i<1;i++) {
+			client.querySubject(request);
+		}
 
-		QuerySubjectResponse response = client.querySubject(request);
+		long start = System.currentTimeMillis();
+		QuerySubjectResponse response = executeAndGetResponse(client, request);
+		long end = System.currentTimeMillis();
+		
 		for (Subject subj : response.getSubjects().getItem()) {
 			log.info("Found subject with ID: "
 					+ subj.getEntity().getBiologicEntityIdentifier().get(0)
 							.getIdentifier().getExtension());
 		}
+		log.info("Processing time: "+((end-start)/1000.0)+" seconds.");
 
+	}
+
+	/**
+	 * Isolated the call in this separate method in order to measure with profiler.
+	 * @param client
+	 * @param request
+	 * @return
+	 * @throws InvalidSubjectDataExceptionFaultMessage
+	 * @throws SecurityExceptionFaultMessage
+	 * @throws InterruptedException 
+	 */
+	public static QuerySubjectResponse executeAndGetResponse(
+			SubjectManagement client, QuerySubjectRequest request)
+			throws InvalidSubjectDataExceptionFaultMessage,
+			SecurityExceptionFaultMessage, InterruptedException {		
+		QuerySubjectResponse response = client.querySubject(request);
+		return response;
 	}
 
 	private static void disableSSLVerification() {
