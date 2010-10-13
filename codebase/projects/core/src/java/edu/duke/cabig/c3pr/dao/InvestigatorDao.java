@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.dao;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -17,6 +18,7 @@ import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
@@ -26,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 
 /**
@@ -381,5 +384,10 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
 		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
 	}
-
+	
+	private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("assignedIdentifier");
+    private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
+	public List<Investigator> getBySubnames(String[] subnames) {
+        return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+    }
 }

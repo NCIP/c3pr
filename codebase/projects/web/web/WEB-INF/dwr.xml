@@ -10,6 +10,9 @@
         <create creator="spring" javascript="StudyAjaxFacade">
             <param name="beanName" value="studyAjaxFacade"/>
         </create>
+        <create creator="spring" javascript="CommonAjaxFacade">
+            <param name="beanName" value="commonAjaxFacade"/>
+        </create>
         <create creator="spring" javascript="registrationDetails">
             <param name="beanName" value="registrationAjaxFacade"/>
         </create>

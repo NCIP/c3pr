@@ -11,6 +11,8 @@
 		class="edu.duke.cabig.c3pr.web.ajax.BookRandomizationAjaxFacade" />
 	<bean id="studyAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.StudyAjaxFacade" />
+	<bean id="commonAjaxFacade" autowire="byName"
+		class="edu.duke.cabig.c3pr.web.ajax.CommonAjaxFacade" />
 	<bean id="participantAjaxFacade" autowire="byName"
 		class="edu.duke.cabig.c3pr.web.ajax.ParticipantAjaxFacade" />
 	<bean id="investigatorAjaxFacade" autowire="byName"

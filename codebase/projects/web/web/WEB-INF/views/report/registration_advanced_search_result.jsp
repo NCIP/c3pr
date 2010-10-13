@@ -13,13 +13,6 @@
     <title>Search Results</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>${tab.longTitle}</title>
-	<style type="text/css">
-		#search td {
-			color:white;
-		}
-		
-		
-	</style>
 <script>
 YAHOO.example.Data = {
 	    registrationList: [
