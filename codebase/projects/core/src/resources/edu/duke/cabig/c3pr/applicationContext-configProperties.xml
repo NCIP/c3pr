@@ -636,22 +636,70 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                	<!-- Study Investigators -->
                  <entry key="studyPersonnelRoleRefData">
                     <list>
-                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="REG" />
-                            <property name="desc" value="Registrar" />
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SYSTEM_ADMINISTRATOR" />
+                            <property name="desc" value="System Administrator" />
+                        </bean>  
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="BUSINESS_ADMINISTRATOR" />
+                            <property name="desc" value="Business Administrator" />
                         </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="StCo" />
-                            <property name="desc" value="Study Coordinator" />
+                            <property name="code" value="PERSON_AND_ORGANIZATION_INFORMATION_MANAGER" />
+                            <property name="desc" value="Person And Organization Information Manager" />
+                        </bean>  
+                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="DATA_IMPORTER" />
+                            <property name="desc" value="Data Importer" />
+                        </bean>     
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="USER_ADMINISTRATOR" />
+                            <property name="desc" value="User Administrator" />
+                        </bean>  
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="DATA_IMPORTER" />
+                            <property name="desc" value="Data Importer" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_QA_MANAGER" />
+                            <property name="desc" value="Study QA Manager" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_CREATOR" />
+                            <property name="desc" value="Study Creator" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SUPPLEMENTAL_STUDY_INFORMATION_MANAGER" />
+                            <property name="desc" value="Supplemental Study Information Manager" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_TEAM_ADMINISTRATOR" />
+                            <property name="desc" value="Study Team Administrator" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_SITE_PARTICIPATION_ADMINISTRATOR" />
+                            <property name="desc" value="Study Site Participation Manager" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="REGISTRATION_QA_MANAGER" />
+                            <property name="desc" value="Registration QA Manager" />
+                        </bean>     
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SUBJECT_MANAGER" />
+                            <property name="desc" value="Subject Manager" />
                         </bean> 
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="SiCo" />
-                            <property name="desc" value="Site Coordinator" />
-                        </bean>   
+                            <property name="code" value="REGISTRAR" />
+                            <property name="desc" value="Registrar" />
+                        </bean> 
+                      	 <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="DATA_READER" />
+                            <property name="desc" value="Data Reader" />
+                        </bean> 
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="Ad" />
-                            <property name="desc" value="C3PR Admin" />
-                        </bean>                     
+                            <property name="code" value="DATA_ANALYST" />
+                            <property name="desc" value="Data Analyst" />
+                        </bean>                               
                		</list>
                	</entry>
                	<entry key="studyPersonnelStatusRefData">
@@ -669,27 +717,71 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                 
                 <!-- Notifications List  -->
                 <entry key="notificationPersonnelRoleRefData">
-                    <list>
-                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="REGISTRAR" />
-                            <property name="desc" value="Registrar" />
-                        </bean>   
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="STUDY_COORDINATOR" />
-                            <property name="desc" value="Study Coordinator" />
+					<list>
+					    <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SYSTEM_ADMINISTRATOR" />
+                            <property name="desc" value="System Administrator" />
                         </bean>  
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="SITE_COORDINATOR" />
-                            <property name="desc" value="Site Coordinator" />
+                            <property name="code" value="BUSINESS_ADMINISTRATOR" />
+                            <property name="desc" value="Business Administrator" />
                         </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="C3PR_ADMIN" />
-                            <property name="desc" value="C3PR Admin" />
+                            <property name="code" value="PERSON_AND_ORGANIZATION_INFORMATION_MANAGER" />
+                            <property name="desc" value="Person And Organization Information Manager" />
                         </bean>  
                          <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="SI" />
-                            <property name="desc" value="Site Investigator" />
-                        </bean>                   
+                            <property name="code" value="DATA_IMPORTER" />
+                            <property name="desc" value="Data Importer" />
+                        </bean>     
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="USER_ADMINISTRATOR" />
+                            <property name="desc" value="User Administrator" />
+                        </bean>  
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="DATA_IMPORTER" />
+                            <property name="desc" value="Data Importer" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_QA_MANAGER" />
+                            <property name="desc" value="Study QA Manager" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_CREATOR" />
+                            <property name="desc" value="Study Creator" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SUPPLEMENTAL_STUDY_INFORMATION_MANAGER" />
+                            <property name="desc" value="Supplemental Study Information Manager" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_TEAM_ADMINISTRATOR" />
+                            <property name="desc" value="Study Team Administrator" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="STUDY_SITE_PARTICIPATION_ADMINISTRATOR" />
+                            <property name="desc" value="Study Site Participation Manager" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="REGISTRATION_QA_MANAGER" />
+                            <property name="desc" value="Registration QA Manager" />
+                        </bean>     
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SUBJECT_MANAGER" />
+                            <property name="desc" value="Subject Manager" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="REGISTRAR" />
+                            <property name="desc" value="Registrar" />
+                        </bean> 
+                      	 <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="DATA_READER" />
+                            <property name="desc" value="Data Reader" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="DATA_ANALYST" />
+                            <property name="desc" value="Data Analyst" />
+                        </bean>                                                                                          
                		</list>
                	</entry>
           	    <entry key="paymentMethods">
