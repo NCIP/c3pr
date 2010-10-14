@@ -36,15 +36,13 @@ YAHOO.example.Data = {
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.CustomSort = function() {
         var myColumnDefs = [
-            {key:"studyIdentifier",         	label:"Study Title", 		sortable:true,      resizeable:true},
             {key:"studyIdentifier",         	label:"Study Identifier", 	sortable:true,      resizeable:true},
             {key:"subjectFullName",         	label:"Subject Name",       sortable:true,      resizeable:true},
             {key:"subjectPrimaryIdentifier",    label:"Subject Identifier", sortable:true,      resizeable:true},
             {key:"studySite",      				label:"Study Site",       	sortable:true,     	resizeable:true},
-            {key:"registrationStatus",        	label:"Registration Status",sortable:true,      resizeable:true}//,
-            
-            //{key:"registrationDate",         	label:"Registration Date",  sortable:true,      resizeable:true , sortOptions: { field: "registrationDateSort" }  },
-            //{key:"registrationTreatingPhysician",label:"Treating Physician",sortable:true,      resizeable:true}
+            {key:"registrationStatus",        	label:"Registration Status",sortable:true,      resizeable:true},
+            {key:"registrationDate",         	label:"Registration Date",  sortable:true,      resizeable:true , sortOptions: { field: "registrationDateSort" }  },
+            {key:"registrationTreatingPhysician",label:"Treating Physician",sortable:true,      resizeable:true}
         ];
         
         var registrationDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.registrationList);
@@ -98,7 +96,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
                     elColumn = elTemplateCol.cloneNode(true);
                     // Write the Column key
                     elKey = elColumn.firstChild;
-                    elKey.innerHTML = oColumn.getKey();
+                    elKey.innerHTML = oColumn.label;
                     // Create a ButtonGroup
                     oButtonGrp = new YAHOO.widget.ButtonGroup({ 
                                     id: "buttongrp"+i, 

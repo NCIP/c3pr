@@ -90,7 +90,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
                     elColumn = elTemplateCol.cloneNode(true);
                     // Write the Column key
                     elKey = elColumn.firstChild;
-                    elKey.innerHTML = oColumn.getKey();
+                    elKey.innerHTML = oColumn.label;
                     // Create a ButtonGroup
                     oButtonGrp = new YAHOO.widget.ButtonGroup({ 
                                     id: "buttongrp"+i, 
