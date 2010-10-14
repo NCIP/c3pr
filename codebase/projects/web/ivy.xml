@@ -20,6 +20,8 @@
         		description="The dependencies that are needed for runtime" extends="build" />
         	<conf name="test" visibility="public" 
         		description="Dependencies needed for testing purposes"/>
+        	<conf name="ws" visibility="public" 
+        		description="Dependencies needed solely for generating web service artifacts."/>        		
         </configurations>
         
         <!--  Items to be published  -->
@@ -123,6 +125,12 @@
         	<dependency org="org.dbunit" name="dbunit" rev="2.2.1" conf="build->default;test->default">
         		<exclude org="org.slf4j" module="slf4j-api" rev="1.4.3"/>
         	</dependency>
+        	
+        	<!-- Web service codegen dependencies -->
+        	<!-- <dependency org="com.sun.xml.ws" name="webservices-api" rev="1.5" conf="ws->default" /> -->
+			<dependency org="com.sun.xml.ws" name="webservices-rt" rev="1.5" conf="ws->default" />        	
+			<dependency org="com.sun.tools.ws" name="webservices-tools" rev="1.5" conf="ws->default" /> 
+			<dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" transitive="false" conf="ws->default" />
 						
 			<!-- Test only dependencies -->
 			<dependency org="org.springframework" name="spring-mock" rev="2.0.2" force="true" conf="test->default" />

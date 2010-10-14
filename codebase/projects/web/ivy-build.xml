@@ -12,6 +12,7 @@
     <property name="webinfviews.dir" value="${web.dir}/WEB-INF/views"/>
 	<property name="webinftags.dir" value="${web.dir}/WEB-INF/tags"/>
 	<property name="webinfdec.dir" value="${web.dir}/WEB-INF/decorators"/>
+	<property name="webinf.wsdl.dir" value="${web.dir}/WEB-INF/wsdl"/>
 	<property name="webinfimages.dir" value="${web.dir}/images"/>
     <property name="webinf.lib.dir" value="${webinf.dir}/lib"/>
     <property name="webinf.classes.dir" value="${webinf.dir}/classes"/>
@@ -19,7 +20,7 @@
 	<property name="webapp.name" value="c3pr"/>
 	<property name="deploy.path" value="${catalina.home}/webapps"/>
 	
-	<target name="module-specific-flow" description="Copy resources into classpath">
+	<target name="module-specific-flow" description="Copy resources into classpath" depends="build-ws">
 		<property name="build.context.dir" location="${classes.dir}/context"/>
 		<copy file="${antfiles.dir}/selenium.properties"
 								              tofile="${build.context.dir}/selenium.properties" overwrite="true"/>
@@ -110,6 +111,9 @@
                 <include name="**/*.jar"/>
                 <exclude name="*-tests*.jar"/>
             </fileset>
+        	<fileset dir="${ws.lib.dir}">
+        		<include name="**/${ws.jar.file.name}"/>
+        	</fileset>
         </copy>
 
         <!--copy jglobus to $CATALINA_HOME/common-->
@@ -297,5 +301,65 @@
 				</batchtest>
 				
 			</junit>			
-		</target>  
+		</target>
+	
+		<target name="build-ws" depends="compile-ws">	
+			<makeJar dir="${ws.lib.dir}" dir.classes="${ws.classes.dir}" file.name="${ws.jar.file}"/>
+			<!--<copy file="${ws.jar.file}" todir="${lib.dir}" overwrite="true"/>
+			<copy file="${ws.jar.file}" todir="${test.lib.dir}" overwrite="true"/> -->
+		</target>
+	
+		<target name="compile-ws" depends="clean-classes-ws, resolve-ws">
+			<taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+				  <classpath>
+					<fileset dir="${ws.lib.dir}">
+						<include name="**/*.jar" />
+					</fileset>				  	
+				  </classpath>			      
+			</taskdef>
+			<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+				  <classpath>
+				  	<fileset dir="${ws.lib.dir}">
+				  		<include name="**/ant-contrib*.jar" />
+				  	</fileset>	
+				  </classpath>
+			</taskdef>
+			<foreach param="wsdlFile" target="run-wsimport">
+				<path>
+					<fileset dir="${webinf.wsdl.dir}" includes="*.wsdl"/>
+				</path>
+			</foreach>
+		</target>
+	
+		<target name="run-wsimport">
+			<wsimport           
+			      wsdl="${wsdlFile}"      
+			      destdir="${ws.classes.dir}"
+			      sourcedestdir="${ws.classes.src}"
+			      keep="true"			      
+			      verbose="true">		      
+			</wsimport>			
+		</target>
+	
+		<target name="resolve-ws" depends="clean-lib-ws, init, load-ivy" unless="already.resolved-ws"
+	    	description="--> resolve and retrieve 'ws' dependencies with ivy">
+	    	<echo message="Executing ${ant.project.name} : resolve-ws" />
+	    	<ivyResolve confs="ws" libdir="${ws.lib.dir}" resolveid="[org]-[module]-ws"/>
+	    	<property name="already.resolved-ws" value="true"/>
+	    </target>
+	
+	    <target name="clean-lib-ws" description="--> clean the project libraries directory (dependencies)">
+    		<echo message="Executing in ${ant.project.name}" />
+        	<delete includeemptydirs="true" dir="${ws.lib.dir}" failonerror="false"/>
+	    	<mkdir dir="${ws.lib.dir}"/>
+    	</target>
+	
+		<target name="clean-classes-ws">
+	    	<echo message="Executing in ${ant.project.name}" />
+        	<delete includeemptydirs="true" dir="${ws.classes.dir}" failonerror="false"/>
+			<delete includeemptydirs="true" dir="${ws.classes.src}" failonerror="false"/>
+	    	<mkdir dir="${ws.classes.dir}"/>
+			<mkdir dir="${ws.classes.src}"/>
+	    </target>	
+	
 </project>

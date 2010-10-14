@@ -152,6 +152,7 @@
 		<fileset dir="${lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
+		<pathelement path="${ws.jar.file}"/>
 	</path>
 	
 	<!-- This path will contain only libraries in /build/testlib -->
@@ -165,7 +166,7 @@
 	<!-- This path will contain all the classes that are required to
 		compile test cases -->
 	<path id="test.classpath">
-		<pathelement path="${jar.file}" />
+		<pathelement path="${jar.file}" />		
 		<path refid="main.classpath" />
 		<fileset dir="${test.lib.dir}">
 			<include name="**/*.jar" />
@@ -184,7 +185,7 @@
 	</path>
 	
 	<path id="test.tomcat.embedded.run.classpath">
-		<pathelement path="${test.classes.dir}" />	
+		<pathelement path="${test.classes.dir}" />		
 		<fileset dir="${test.lib.dir}">
 			<include name="**/*6.0.29.jar" />
 			<include name="**/bouncycastle*.jar" />
@@ -212,8 +213,9 @@
 			<include name="**/saaj*.jar" />
 			<include name="**/stax*.jar" />
 			<include name="**/streambuffer*.jar" />
-			<include name="**/wstx*.jar" />
+			<include name="**/wstx*.jar" />			
 		</fileset>		
+		<pathelement path="${ws.jar.file}"/>
 	</path>
 	
 

@@ -28,45 +28,32 @@ import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 
-import edu.duke.cabig.c3pr.webservice.testclient.common.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.testclient.common.DSETAdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.testclient.common.Organization;
-import edu.duke.cabig.c3pr.webservice.testclient.common.OrganizationIdentifier;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.AD;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ADXP;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.AddressPartType;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.BAGTEL;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.BL;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.CD;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.DSETAD;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.DSETCD;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.DSETENPN;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.DSETST;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ENPN;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ENXP;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.EntityNamePartType;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.II;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.IVLTSDateTime;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.NullFlavor;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ST;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.TEL;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.TSDateTime;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.AdvancedQuerySubjectRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.CreateSubjectRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.InvalidStateTransitionExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.InvalidSubjectDataExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.NoSuchSubjectExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.Person;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.QuerySubjectRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.SecurityExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.Subject;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.SubjectAlreadyExistsExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.SubjectManagement;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.SubjectManagementService;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.UnableToCreateOrUpdateSubjectExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.UpdateSubjectRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.subjectmanagement.UpdateSubjectStateRequest;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.Organization;
+import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
+import edu.duke.cabig.c3pr.webservice.iso21090.CD;
+import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
+import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
+import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
+import edu.duke.cabig.c3pr.webservice.iso21090.ST;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectRequest;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidStateTransitionExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.NoSuchSubjectExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.Person;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.SecurityExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectAlreadyExistsExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementService;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.UnableToCreateOrUpdateSubjectExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectRequest;
+import edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectStateRequest;
 
 /**
  * This test will run C3PR in embedded Tomcat and test Subject Management web
@@ -97,6 +84,8 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 	private URL endpointURL;
 	private URL wsdlLocation;
+	
+	private static final ISO21090Helper iso = new ISO21090Helper();
 
 	/**
 	 * Set this JVM property to true if this test should not bring up an
@@ -165,7 +154,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		// successful subject state update.
 		final UpdateSubjectStateRequest request = new UpdateSubjectStateRequest();
 		request.setBiologicEntityIdentifier(createBioEntityId());
-		request.setNewState(new ST(STATE_INACTIVE));
+		request.setNewState(iso.ST(STATE_INACTIVE));
 
 		Subject updatedSubject = service.updateSubjectState(request)
 				.getSubject();
@@ -185,7 +174,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 		// wrong state code.
 		request.setBiologicEntityIdentifier(createBioEntityId());
-		request.setNewState(new ST(BAD_STATE_CODE));
+		request.setNewState(iso.ST(BAD_STATE_CODE));
 		try {
 			service.updateSubjectState(request);
 			fail();
@@ -209,15 +198,15 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		AdvanceSearchCriterionParameter param = new AdvanceSearchCriterionParameter();
 		params.getItem().add(param);
 
-		ST objName = new ST();
+		ST objName = iso.ST();
 		objName.setValue("edu.duke.cabig.c3pr.domain.Identifier");
 		param.setObjectName(objName);
 
-		ST attrName = new ST();
+		ST attrName = iso.ST();
 		attrName.setValue("value");
 		param.setAttributeName(attrName);
 
-		ST value = new ST();
+		ST value = iso.ST();
 		value.setValue(SUBJECT_ID);
 		param.setValues(new DSETST());
 		param.getValues().getItem().add(value);
@@ -226,7 +215,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		pred.setCode("=");
 		param.setPredicate(pred);
 
-		ST ctxName = new ST();
+		ST ctxName = iso.ST();
 		ctxName.setNullFlavor(NullFlavor.NI);
 		param.setObjectContextName(ctxName);
 
@@ -541,7 +530,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	protected Subject createSubject(boolean useAlternativeDataSet) {
 		Subject s = new Subject();
 		s.setEntity(createPerson(useAlternativeDataSet));
-		s.setStateCode(new ST(STATE_ACTIVE));
+		s.setStateCode(iso.ST(STATE_ACTIVE));
 		return s;
 	}
 
@@ -551,42 +540,42 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	protected Person createPerson(boolean a) {
 		Person person = new Person();
 		person.getBiologicEntityIdentifier().add(createBioEntityId());
-		person.setAdministrativeGenderCode(!a ? new CD(GENDER_MALE) : new CD(
+		person.setAdministrativeGenderCode(!a ? iso.CD(GENDER_MALE) : iso.CD(
 				GENDER_FEMALE));
-		person.setBirthDate(!a ? new TSDateTime(TEST_BIRTH_DATE_ISO)
-				: new TSDateTime(TEST_BIRTH_DATE_ISO_2));
-		person.setDeathDate(!a ? new TSDateTime(TEST_DEATH_DATE_ISO)
-				: new TSDateTime(TEST_DEATH_DATE_ISO_2));
-		person.setDeathIndicator(new BL(true));
-		person.setEthnicGroupCode(!a ? new DSETCD(new CD(
-				ETHNIC_CODE_NOT_REPORTED)) : new DSETCD(new CD(
+		person.setBirthDate(!a ? iso.TSDateTime(TEST_BIRTH_DATE_ISO)
+				: iso.TSDateTime(TEST_BIRTH_DATE_ISO_2));
+		person.setDeathDate(!a ? iso.TSDateTime(TEST_DEATH_DATE_ISO)
+				: iso.TSDateTime(TEST_DEATH_DATE_ISO_2));
+		person.setDeathIndicator(iso.BL(true));
+		person.setEthnicGroupCode(!a ? iso.DSETCD(iso.CD(
+				ETHNIC_CODE_NOT_REPORTED)) : iso.DSETCD(iso.CD(
 				ETHNIC_CODE_HISPANIC_OR_LATINO)));
-		person.setMaritalStatusCode(!a ? new CD(MARITAL_STATUS_SINGLE)
-				: new CD(MARITAL_STATUS_MARRIED));
-		person.setName(!a ? new DSETENPN(new ENPN(new ENXP(TEST_FIRST_NAME,
-				EntityNamePartType.GIV), new ENXP(TEST_MID_NAME,
-				EntityNamePartType.GIV), new ENXP(TEST_LAST_NAME,
-				EntityNamePartType.FAM))) : new DSETENPN(new ENPN(new ENXP(
-				TEST_FIRST_NAME_2, EntityNamePartType.GIV), new ENXP(
-				TEST_MID_NAME_2, EntityNamePartType.GIV), new ENXP(
+		person.setMaritalStatusCode(!a ? iso.CD(MARITAL_STATUS_SINGLE)
+				: iso.CD(MARITAL_STATUS_MARRIED));
+		person.setName(!a ? iso.DSETENPN(iso.ENPN(iso.ENXP(TEST_FIRST_NAME,
+				EntityNamePartType.GIV), iso.ENXP(TEST_MID_NAME,
+				EntityNamePartType.GIV), iso.ENXP(TEST_LAST_NAME,
+				EntityNamePartType.FAM))) : iso.DSETENPN(iso.ENPN(iso.ENXP(
+				TEST_FIRST_NAME_2, EntityNamePartType.GIV), iso.ENXP(
+				TEST_MID_NAME_2, EntityNamePartType.GIV), iso.ENXP(
 				TEST_LAST_NAME_2, EntityNamePartType.FAM))));
-		person.setPostalAddress(!a ? new DSETAD(new AD(new ADXP(
-				TEST_STREET_ADDRESS, AddressPartType.SAL), new ADXP(
-				TEST_CITY_NAME, AddressPartType.CTY), new ADXP(TEST_STATE_CODE,
-				AddressPartType.STA), new ADXP(TEST_ZIP_CODE,
-				AddressPartType.ZIP), new ADXP(TEST_COUNTRY,
-				AddressPartType.CNT))) : new DSETAD(new AD(new ADXP(
-				TEST_STREET_ADDRESS_2, AddressPartType.SAL), new ADXP(
-				TEST_CITY_NAME_2, AddressPartType.CTY), new ADXP(
-				TEST_STATE_CODE_2, AddressPartType.STA), new ADXP(
-				TEST_ZIP_CODE_2, AddressPartType.ZIP), new ADXP(TEST_COUNTRY_2,
+		person.setPostalAddress(!a ? iso.DSETAD(iso.AD(iso.ADXP(
+				TEST_STREET_ADDRESS, AddressPartType.SAL), iso.ADXP(
+				TEST_CITY_NAME, AddressPartType.CTY), iso.ADXP(TEST_STATE_CODE,
+				AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE,
+				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
+				AddressPartType.CNT))) : iso.DSETAD(iso.AD(iso.ADXP(
+				TEST_STREET_ADDRESS_2, AddressPartType.SAL), iso.ADXP(
+				TEST_CITY_NAME_2, AddressPartType.CTY), iso.ADXP(
+				TEST_STATE_CODE_2, AddressPartType.STA), iso.ADXP(
+				TEST_ZIP_CODE_2, AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY_2,
 				AddressPartType.CNT))));
-		person.setRaceCode(!a ? new DSETCD(new CD(RACE_WHITE), new CD(
-				RACE_ASIAN)) : new DSETCD((new CD(RACE_BLACK))));
-		person.setTelecomAddress(!a ? new BAGTEL(new TEL(TEST_EMAIL_ADDR_ISO),
-				new TEL(TEST_PHONE_ISO), new TEL(TEST_FAX_ISO)) : new BAGTEL(
-				new TEL(TEST_EMAIL_ADDR_ISO_2), new TEL(TEST_PHONE_ISO_2),
-				new TEL(TEST_FAX_ISO_2)));
+		person.setRaceCode(!a ? iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(
+				RACE_ASIAN)) : iso.DSETCD((iso.CD(RACE_BLACK))));
+		person.setTelecomAddress(!a ? iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
+				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)) : iso.BAGTEL(
+				iso.TEL(TEST_EMAIL_ADDR_ISO_2), iso.TEL(TEST_PHONE_ISO_2),
+				iso.TEL(TEST_FAX_ISO_2)));
 		return person;
 	}
 
@@ -595,18 +584,18 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	 */
 	protected BiologicEntityIdentifier createBioEntityId() {
 		OrganizationIdentifier orgId = new OrganizationIdentifier();
-		orgId.setIdentifier(new II(TEST_ORG_ID));
-		orgId.setPrimaryIndicator(new BL(true));
-		orgId.setTypeCode(new CD(ORG_ID_TYPE_CTEP));
+		orgId.setIdentifier(iso.II(TEST_ORG_ID));
+		orgId.setPrimaryIndicator(iso.BL(true));
+		orgId.setTypeCode(iso.CD(ORG_ID_TYPE_CTEP));
 
 		Organization org = new Organization();
 		org.getOrganizationIdentifier().add(orgId);
 
 		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
 		bioId.setAssigningOrganization(org);
-		bioId.setIdentifier(new II(SUBJECT_ID));
-		bioId.setTypeCode(new CD(ORG_ID_TYPE_MRN));
-		bioId.setEffectiveDateRange(new IVLTSDateTime(NullFlavor.NI));
+		bioId.setIdentifier(iso.II(SUBJECT_ID));
+		bioId.setTypeCode(iso.CD(ORG_ID_TYPE_MRN));
+		bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
 		return bioId;
 	}
 

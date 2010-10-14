@@ -26,39 +26,35 @@ import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.filter.DefaultColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 
-import edu.duke.cabig.c3pr.webservice.testclient.common.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.testclient.common.Consent;
-import edu.duke.cabig.c3pr.webservice.testclient.common.DSETAdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.testclient.common.Document;
-import edu.duke.cabig.c3pr.webservice.testclient.common.DocumentIdentifier;
-import edu.duke.cabig.c3pr.webservice.testclient.common.DocumentVersion;
-import edu.duke.cabig.c3pr.webservice.testclient.common.DocumentVersionRelationship;
-import edu.duke.cabig.c3pr.webservice.testclient.common.Organization;
-import edu.duke.cabig.c3pr.webservice.testclient.common.OrganizationIdentifier;
-import edu.duke.cabig.c3pr.webservice.testclient.common.PermissibleStudySubjectRegistryStatus;
-import edu.duke.cabig.c3pr.webservice.testclient.common.RegistryStatus;
-import edu.duke.cabig.c3pr.webservice.testclient.common.RegistryStatusReason;
-import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolDocumentVersion;
-import edu.duke.cabig.c3pr.webservice.testclient.common.StudyProtocolVersion;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.BL;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.CD;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.DSETST;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ED;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.II;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.ST;
-import edu.duke.cabig.c3pr.webservice.testclient.iso21090.TSDateTime;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.CreateStudyAbstractRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryRegistryStatusRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryStudyAbstractRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryStudyConsentRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.QueryStudyRegistryStatusRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.SecurityExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtility;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityFaultMessage;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.StudyUtilityService;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyAbstractRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyConsentRequest;
-import edu.duke.cabig.c3pr.webservice.testclient.studyutility.UpdateStudyStatusRequest;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.Consent;
+import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.Document;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersionRelationship;
+import edu.duke.cabig.c3pr.webservice.common.Organization;
+import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
+import edu.duke.cabig.c3pr.webservice.common.RegistryStatus;
+import edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.iso21090.CD;
+import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
+import edu.duke.cabig.c3pr.webservice.iso21090.ST;
+import edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyAbstractRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryRegistryStatusRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyAbstractRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyConsentRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyRegistryStatusRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.SecurityExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility;
+import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityFaultMessage;
+import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityService;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyAbstractRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusRequest;
 
 
 /**
@@ -92,6 +88,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String UPDATE_DISCRIMINATOR = " UPDATED";
 
 	private final String STUDY_ID = RandomStringUtils.randomAlphanumeric(16);
+	
+	private static final ISO21090Helper iso = new ISO21090Helper();
 
 	private URL endpointURL;
 
@@ -230,13 +228,13 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		assertEquals(STATUS_INACTIVE, list.get(1).getCode().getCode());
 
 		// no statuses
-		request.setStatusCode(new CD("DOES NOT EXIST"));
+		request.setStatusCode(iso.CD("DOES NOT EXIST"));
 		list = service.queryRegistryStatus(request).getRegistryStatuses()
 				.getItem();
 		assertEquals(0, list.size());
 
 		// one status
-		request.setStatusCode(new CD(STATUS_ACTIVE));
+		request.setStatusCode(iso.CD(STATUS_ACTIVE));
 		list = service.queryRegistryStatus(request).getRegistryStatuses()
 				.getItem();
 		assertEquals(1, list.size());
@@ -329,7 +327,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		assertTrue(BeanUtils.deepCompare(example, list.get(0)));
 
 		// consent does not exist
-		example.setOfficialTitle(new ST(RandomStringUtils
+		example.setOfficialTitle(iso.ST(RandomStringUtils
 				.randomAlphanumeric(256)));
 		list = service.queryStudyConsent(request).getConsents().getItem();
 		assertEquals(0, list.size());
@@ -356,15 +354,15 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		AdvanceSearchCriterionParameter param = new AdvanceSearchCriterionParameter();
 		params.getItem().add(param);
 
-		ST objName = new ST();
+		ST objName = iso.ST();
 		objName.setValue("edu.duke.cabig.c3pr.domain.Identifier");
 		param.setObjectName(objName);
 
-		ST attrName = new ST();
+		ST attrName = iso.ST();
 		attrName.setValue("value");
 		param.setAttributeName(attrName);
 
-		ST value = new ST();
+		ST value = iso.ST();
 		value.setValue(STUDY_ID);
 		param.setValues(new DSETST());
 		param.getValues().getItem().add(value);
@@ -373,7 +371,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		pred.setCode("=");
 		param.setPredicate(pred);
 
-		ST ctxName = new ST();
+		ST ctxName = iso.ST();
 		ctxName.setValue("Study");
 		param.setObjectContextName(ctxName);
 
@@ -567,7 +565,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	public StudyProtocolVersion createStudy(String appendix) {
 		StudyProtocolVersion study = new StudyProtocolVersion();
-		study.setTargetRegistrationSystem(new ST(TEST_TARGET_REG_SYS + appendix));
+		study.setTargetRegistrationSystem(iso.ST(TEST_TARGET_REG_SYS + appendix));
 		study.setStudyProtocolDocument(createStudyProtocolDocument(appendix));
 		study.getPermissibleStudySubjectRegistryStatus().add(
 				createPermissibleStudySubjectRegistryStatus());
@@ -583,37 +581,37 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	protected RegistryStatus createRegistryStatus() {
 		RegistryStatus stat = new RegistryStatus();
-		stat.setCode(new CD(TEST_REGISTRY_STATUS));
-		stat.setDescription(new ST(TEST_REGISTRY_STATUS));
+		stat.setCode(iso.CD(TEST_REGISTRY_STATUS));
+		stat.setDescription(iso.ST(TEST_REGISTRY_STATUS));
 		// stat.getPrimaryReason().add(createPrimaryRegistryStatusReason());
 		return stat;
 	}
 
 	protected RegistryStatusReason createSecondaryRegistryStatusReason() {
 		RegistryStatusReason r = new RegistryStatusReason();
-		r.setCode(new CD(TEST_SECONDARY_REASON_CODE));
-		r.setDescription(new ST(TEST_SECONDARY_REASON_DESCR));
-		r.setPrimaryIndicator(new BL(false));
+		r.setCode(iso.CD(TEST_SECONDARY_REASON_CODE));
+		r.setDescription(iso.ST(TEST_SECONDARY_REASON_DESCR));
+		r.setPrimaryIndicator(iso.BL(false));
 		return r;
 	}
 
 	protected RegistryStatusReason createPrimaryRegistryStatusReason() {
 		RegistryStatusReason r = new RegistryStatusReason();
-		r.setCode(new CD(TEST_PRIMARY_REASON_CODE));
-		r.setDescription(new ST(TEST_PRIMARY_REASON_DESCR));
-		r.setPrimaryIndicator(new BL(true));
+		r.setCode(iso.CD(TEST_PRIMARY_REASON_CODE));
+		r.setDescription(iso.ST(TEST_PRIMARY_REASON_DESCR));
+		r.setPrimaryIndicator(iso.BL(true));
 		return r;
 	}
 
 	protected StudyProtocolDocumentVersion createStudyProtocolDocument(
 			String appendix) {
 		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
-		// doc.setOfficialTitle(new ST(TEST_STUDY_DESCR));
-		doc.setPublicDescription(new ST(TEST_STUDY_DESCR + appendix));
-		doc.setPublicTitle(new ST(TEST_STUDY_DESCR + appendix));
-		doc.setText(new ED(TEST_STUDY_DESCR + appendix));
-		doc.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
-		doc.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		// doc.setOfficialTitle(iso.ST(TEST_STUDY_DESCR));
+		doc.setPublicDescription(iso.ST(TEST_STUDY_DESCR + appendix));
+		doc.setPublicTitle(iso.ST(TEST_STUDY_DESCR + appendix));
+		doc.setText(iso.ED(TEST_STUDY_DESCR + appendix));
+		doc.setVersionDate(iso.TSDateTime(TEST_VERSION_DATE_ISO));
+		doc.setVersionNumberText(iso.ST(TEST_VERSION_NUMBER));
 		doc.setDocument(createStudyDocument(appendix));
 		doc.getDocumentVersionRelationship().add(
 				createConsentRelationship(appendix));
@@ -623,17 +621,17 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected DocumentVersionRelationship createConsentRelationship(
 			String appendix) {
 		DocumentVersionRelationship rel = new DocumentVersionRelationship();
-		rel.setTypeCode(new CD(TEST_CONSENT_RELATIONSHIP));
+		rel.setTypeCode(iso.CD(TEST_CONSENT_RELATIONSHIP));
 		rel.setTarget(createConsent(appendix));
 		return rel;
 	}
 
 	protected Consent createConsent(String appendix) {
 		Consent consent = new Consent();
-		consent.setMandatoryIndicator(new BL(true));
-		consent.setOfficialTitle(new ST(TEST_CONSENT_TITLE + appendix));
+		consent.setMandatoryIndicator(iso.BL(true));
+		consent.setOfficialTitle(iso.ST(TEST_CONSENT_TITLE + appendix));
 		// consent.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
-		consent.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		consent.setVersionNumberText(iso.ST(TEST_VERSION_NUMBER));
 		consent.setDocument(new Document());
 		consent.getDocumentVersionRelationship().add(
 				createConsentQuestionRelationship(TEST_CONSENT_QUESTION_1
@@ -647,17 +645,17 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected DocumentVersionRelationship createConsentQuestionRelationship(
 			String text) {
 		DocumentVersionRelationship rel = new DocumentVersionRelationship();
-		rel.setTypeCode(new CD(TEST_CONSENT_QUESTION_RELATIONSHIP));
+		rel.setTypeCode(iso.CD(TEST_CONSENT_QUESTION_RELATIONSHIP));
 		rel.setTarget(createConsentQuestion(text));
 		return rel;
 	}
 
 	protected DocumentVersion createConsentQuestion(String text) {
 		DocumentVersion q = new DocumentVersion();
-		q.setOfficialTitle(new ST(text));
-		q.setText(new ED(text));
+		q.setOfficialTitle(iso.ST(text));
+		q.setText(iso.ED(text));
 		// q.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
-		// q.setVersionNumberText(new ST(TEST_VERSION_NUMBER));
+		// q.setVersionNumberText(iso.ST(TEST_VERSION_NUMBER));
 		q.setDocument(new Document());
 		return q;
 	}
@@ -672,27 +670,27 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	protected DocumentIdentifier createStudyFundingSponsorIdentifier() {
 		DocumentIdentifier docId = new DocumentIdentifier();
-		docId.setIdentifier(new II(STUDY_ID));
-		docId.setPrimaryIndicator(new BL(false));
-		docId.setTypeCode(new CD("STUDY_FUNDING_SPONSOR"));
+		docId.setIdentifier(iso.II(STUDY_ID));
+		docId.setPrimaryIndicator(iso.BL(false));
+		docId.setTypeCode(iso.CD("STUDY_FUNDING_SPONSOR"));
 		docId.setAssigningOrganization(createOrganization());
 		return docId;
 	}
 
 	protected DocumentIdentifier createStudyPrimaryIdentifier() {
 		DocumentIdentifier docId = new DocumentIdentifier();
-		docId.setIdentifier(new II(STUDY_ID));
-		docId.setPrimaryIndicator(new BL(true));
-		docId.setTypeCode(new CD("COORDINATING_CENTER_IDENTIFIER"));
+		docId.setIdentifier(iso.II(STUDY_ID));
+		docId.setPrimaryIndicator(iso.BL(true));
+		docId.setTypeCode(iso.CD("COORDINATING_CENTER_IDENTIFIER"));
 		docId.setAssigningOrganization(createOrganization());
 		return docId;
 	}
 
 	protected DocumentIdentifier createStudyProtocolAuthIdentifier() {
 		DocumentIdentifier docId = new DocumentIdentifier();
-		docId.setIdentifier(new II(STUDY_ID));
-		docId.setPrimaryIndicator(new BL(false));
-		docId.setTypeCode(new CD("PROTOCOL_AUTHORITY_IDENTIFIER"));
+		docId.setIdentifier(iso.II(STUDY_ID));
+		docId.setPrimaryIndicator(iso.BL(false));
+		docId.setTypeCode(iso.CD("PROTOCOL_AUTHORITY_IDENTIFIER"));
 		docId.setAssigningOrganization(createOrganization());
 		return docId;
 	}
@@ -705,9 +703,9 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	protected OrganizationIdentifier createOrganizationIdentifier() {
 		OrganizationIdentifier orgId = new OrganizationIdentifier();
-		orgId.setIdentifier(new II(TEST_ORG_ID));
-		orgId.setPrimaryIndicator(new BL(true));
-		orgId.setTypeCode(new CD(TEST_CTEP));
+		orgId.setIdentifier(iso.II(TEST_ORG_ID));
+		orgId.setPrimaryIndicator(iso.BL(true));
+		orgId.setTypeCode(iso.CD(TEST_CTEP));
 		return orgId;
 	}
 
