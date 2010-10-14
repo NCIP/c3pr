@@ -1,6 +1,6 @@
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Body>
-        <ns4:InitiateSubjectRegistryResponse xmlns:ns5="http://enterpriseservices.nci.nih.gov" xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectRegistryService" xmlns:ns3="http://enterpriseservices.nci.nih.gov/SubjectRegistry" xmlns:ns2="uri:iso.org:21090">
+        <ns4:InitiateSubjectRegistryResponse xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectRegistryService" xmlns:ns3="http://enterpriseservices.nci.nih.gov/SubjectRegistry" xmlns:ns2="uri:iso.org:21090">
             <studySubject>
                 <ns3:entity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns3:Person">
                     <ns3:administrativeGenderCode code="M" />
