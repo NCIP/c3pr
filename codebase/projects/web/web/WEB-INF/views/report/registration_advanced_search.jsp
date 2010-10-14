@@ -511,20 +511,30 @@ color:white;
     	<div class="row" >
 	       	<div class="label"><fmt:message key="registration.consentSignedDate"/></div>
    	        <div class="value">
-   	        	<select id="consentSignedDate" name="searchCriteriaList[21].predicate">
+   	        	<select id="consentDate" name="searchCriteriaList[21].predicate">
                    <option value="" selected="selected">Please Select</option>
-                   <option value="<">Later than</option>
-                   <option value="<=">Later than and Equal to</option>
-                   <option value=">">Prior to</option>
-                   <option value=">=">Prior to and Equal to</option>
+                   <option value=">">Later than</option>
+                   <option value=">=">Later than and Equal to</option>
+                   <option value="<">Prior to</option>
+                   <option value="<=">Prior to and Equal to</option>
                    <option value="=">Equal to</option>
                 </select>
        			<input type="hidden" name="searchCriteriaList[21].objectName" value="edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion"/>
           		<input type="hidden" name="searchCriteriaList[21].attributeName" value="informedConsentSignedTimestamp" />
-          		<input type="text" name="searchCriteriaList[21].values" size="10"/>
-       			<a href="#" id="calbutton">
-    				<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a>
+          		<input type="text" name="searchCriteriaList[21].values" size="10" id="consentSignedDate" class="date validate-DATE" />
+            	<a href="#" id="consentSignedDate-calbutton">
+           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+           		</a>
+           		<script type="text/javascript">
+					Calendar.setup(
+			            {
+			                inputField  : "consentSignedDate",
+			                button      : "consentSignedDate-calbutton",
+			                ifFormat    : "%m/%d/%Y", 
+			                weekNumbers : false
+			            }
+			        );
+				</script>
    	    	</div>
         </div>
         <div class="row" >
@@ -532,18 +542,28 @@ color:white;
    	        <div class="value">
    	        	<select id="startDate" name="searchCriteriaList[22].predicate">
                    <option value="" selected="selected">Please Select</option>
-                   <option value="<">Later than</option>
-                   <option value="<=">Later than and Equal to</option>
-                   <option value=">">Prior to</option>
-                   <option value=">=">Prior to and Equal to</option>
+                   <option value=">">Later than</option>
+                   <option value=">=">Later than and Equal to</option>
+                   <option value="<">Prior to</option>
+                   <option value="<=">Prior to and Equal to</option>
                    <option value="=">Equal to</option>
                 </select>
        			<input type="hidden" name="searchCriteriaList[22].objectName" value="edu.duke.cabig.c3pr.domain.StudySubject"/>
           		<input type="hidden" name="searchCriteriaList[22].attributeName" value="startDate" />
-          		<input type="text" name="searchCriteriaList[22].values" size="10"/>
-       			<a href="#" id="calbutton">
-    				<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a>
+          		<input type="text" name="searchCriteriaList[22].values" size="10" id="registrationStartDate" class="date validate-DATE" />
+            	<a href="#" id="registrationStartDate-calbutton">
+           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+           		</a>
+           		<script type="text/javascript">
+					Calendar.setup(
+			            {
+			                inputField  : "registrationStartDate",
+			                button      : "registrationStartDate-calbutton",
+			                ifFormat    : "%m/%d/%Y", 
+			                weekNumbers : false
+			            }
+			        );
+				</script>
    	    	</div>
         </div>
         <div class="row" >
