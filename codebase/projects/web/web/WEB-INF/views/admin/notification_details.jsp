@@ -19,7 +19,7 @@
 		}
 	</style>
 	
-	<script language="JavaScript" type="text/JavaScript">
+	<script language="JavaScript" type="text/JavaScript"><!--
 			var roleRowInserterProps= {
 	            add_row_division_id: "table2",
 	            skeleton_row_division_id: "dummy-roleRow",
@@ -132,17 +132,26 @@
 	        	showEffect:Effect.BlindDown, hideEffect: Effect.BlindUp, draggable:true, wiredDrag: true}); 
 	        	win.setContent('emailMessageDetails', true, true);
 	     	}else {
-			    //$('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
-	     		//$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
+			    //$('plannedNotifications.title').value = $('healthcareSite.plannedNotifications['+currentMessageIndex+'].title').value;
+	     	//	$('plannedNotifications.message').value = $('healthcareSite.plannedNotifications['+currentMessageIndex+'].message').value;
 	     	}
-	     	$('plannedNotifications.title').value = $('plannedNotifications['+currentMessageIndex+'].title').value;
-     		$('plannedNotifications.message').value = $('plannedNotifications['+currentMessageIndex+'].message').value;
+	     	if($('healthcareSite.plannedNotifications['+currentMessageIndex+'].title') != null){
+	     		$('plannedNotifications.title').value = $('healthcareSite.plannedNotifications['+currentMessageIndex+'].title').value;
+		    } else {
+		    	$('plannedNotifications.title').value = "Interim title";
+		    }
+	     	if($('healthcareSite.plannedNotifications['+currentMessageIndex+'].message') != null){
+	     		$('plannedNotifications.message').value = $('healthcareSite.plannedNotifications['+currentMessageIndex+'].message').value;
+		    } else {
+		    	$('plannedNotifications.message').value = "";
+		    }
+	     	
 	     	win.showCenter(true);
 	     	updateSubvars(index);
 	     }   
 	     
 	     function updateSubvars(index){
-        	var elementId = "plannedNotifications[" + index + "].eventName";
+        	var elementId = "healthcareSite.plannedNotifications[" + index + "].eventName";
           	var stringValue = $(elementId).options[$(elementId).selectedIndex].value;
 			var subVarElmt = $("subVar");
 			if(stringValue == 'NEW_STUDY_SAVED_EVENT'){
@@ -239,8 +248,8 @@
         }
         
 	     function updateMessage(index){
-	     	$('plannedNotifications['+currentMessageIndex+'].title').value = $('plannedNotifications.title').value;
-	     	$('plannedNotifications['+currentMessageIndex+'].message').value = $('plannedNotifications.message').value;
+	     	$('healthcareSite.plannedNotifications['+currentMessageIndex+'].title').value = $('plannedNotifications.title').value;
+	     	$('healthcareSite.plannedNotifications['+currentMessageIndex+'].message').value = $('plannedNotifications.message').value;
 	     	win.close();
 	     	//$('emailMessageDetails-'+index).innerHTML = win.getContent().innerHTML;
 	     }
@@ -280,7 +289,7 @@
 			var studyValue = document.getElementById('studyAccrual[' + index + ']value');
 			var studySiteValue = document.getElementById('studySiteAccrual[' + index + ']value');
 			
-			var event = document.getElementById('plannedNotifications[' + index + '].eventName');
+			var event = document.getElementById('healthcareSite.plannedNotifications[' + index + '].eventName');
 			if(event.value == 'STUDY_ACCRUAL_EVENT'){
 				Effect.CloseDown(studySiteLabel.id);
 				Effect.CloseDown(studySiteValue.id);
@@ -313,30 +322,29 @@
         
         //This method disables/enables frequency and message textarea based on whether the selected event is report based.
         function runReportBasedLogic(index){
-        	var frequencyElement = document.getElementById("plannedNotifications[" + index + "].frequency");
-        	var eventElement = document.getElementById("plannedNotifications[" + index + "].eventName");
-        	var messageElement = document.getElementById("plannedNotifications[" + index + "].message");
+        	var frequencyElement = document.getElementById("healthcareSite.plannedNotifications[" + index + "].frequency");
+        	var eventElement = document.getElementById("healthcareSite.plannedNotifications[" + index + "].eventName");
+        	var messageElement = document.getElementById("healthcareSite.plannedNotifications[" + index + "].message");
 
         	if(eventElement.value == 'NEW_REGISTRATION_EVENT_REPORT'){
 				//disable message fields and enable frequency element
 				if(frequencyElement.value == 'IMMEDIATE'){
 					frequencyElement.options[0].selected = true;
-				} else {
-					//messageElement.disabled = true;
 				}
 				messageElement.disabled = true;
-				//frequencyElement.options[3].disabled = true;
+				frequencyElement.disabled = false;
         	} else {
         		//set frequency to IMMEDIATE and disable it and enable message element.
         		frequencyElement.options[3].selected = true;
         		frequencyElement.value= 'IMMEDIATE';
         		messageElement.disabled = false;
+        		frequencyElement.disabled = true;
         	}
         }
         
         function updateName(divID, index) {
         //$('plannedNotifications[0].eventName').options[$('plannedNotifications[0].eventName').selectedIndex].text;
-          var elementId = "plannedNotifications[" + index + "].eventName";
+          var elementId = "healthcareSite.plannedNotifications[" + index + "].eventName";
           var stringValue = 'Notification: ' + $(elementId).options[$(elementId).selectedIndex].text;
           if ($(divID)) {
               $(divID).innerHTML = stringValue;
@@ -347,7 +355,7 @@
         	$('testGetForm').submit();
             
         }
-	</script> 
+	--></script> 
 	</head>
 	
 	<body>	
@@ -421,7 +429,7 @@
 		        <tr><td align="right"><b><fmt:message key="notification.frequency"/></b></td>
 		            <td>
 		            <c:if test="${notification.eventName != 'NEW_REGISTRATION_EVENT_REPORT'}">
-						<form:select path="healthcareSite.plannedNotifications[${nStatus.index}].frequency" cssClass="required validate-notEmpty" onchange="runReportBasedLogic('${nStatus.index}');">
+						<form:select path="healthcareSite.plannedNotifications[${nStatus.index}].frequency" cssClass="required validate-notEmpty" onchange="runReportBasedLogic('${nStatus.index}');" disabled="true">
 		                    <form:options items="${notificationFrequencyRefData}" itemLabel="desc" itemValue="code" />
 		                </form:select>
 		            </c:if>
@@ -568,7 +576,7 @@
 				<td width="10%" align="right"><b><fmt:message key="notification.event"/></b>
 	            </td>
 				<td align="left">
-	                <select id="plannedNotifications[PAGE.ROW.INDEX].eventName"  
+	                <select id="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].eventName"  
 	                onchange="displayAccrualField('PAGE.ROW.INDEX');runReportBasedLogic('PAGE.ROW.INDEX');"
 		            		name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].eventName" class="required validate-notEmpty">
 		            		<option value="" disabled="disabled">-- Select an Event --</option>
@@ -586,13 +594,13 @@
 				<td align="right" valign="top"><b><fmt:message key="notification.messageDetails"/></b>
 					<!-- liteView popup -->
 					<div id="emailMessageDetails-PAGE.ROW.INDEX" style="display:none">	
-						<input type="text" id="plannedNotifications[PAGE.ROW.INDEX].title" name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].title" size="100" class="width:96%;" onFocus="lastElement = this;" />
+						<input type="text" id="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].title" name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].title" size="100" value="Interim title" class="width:96%;" onFocus="lastElement = this;" />
 					</div>
 					<!-- liteview popup -->					
 				</td> 
 	            <td align="left" rowspan="2">
 	            	<c:set var="eventName" value="NEW_REGISTRATION_EVENT_REPORT" />
-	            	<textarea title="Click to Edit"  rows="3" cols="33" id="plannedNotifications[PAGE.ROW.INDEX].message"
+	            	<textarea title="Click to Edit"  rows="3" cols="33" id="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].message"
 	            			name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].message" onClick="showMessageBody('PAGE.ROW.INDEX');"></textarea>
 	            </td>
 	            <td>
@@ -602,7 +610,7 @@
 	        
 	        <tr><td align="right"><b><fmt:message key="notification.frequency"/></b></td>
 	            <td>
-		            <select id="plannedNotifications[PAGE.ROW.INDEX].frequency" 
+		            <select id="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].frequency" 
 		            		name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].frequency" class="required validate-notEmpty" disabled="disabled">
 		                    <option value="ANNUAL">Annual</option>
 							<option value="MONTHLY">Monthly</option>
