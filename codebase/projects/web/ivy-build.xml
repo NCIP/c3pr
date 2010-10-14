@@ -70,7 +70,7 @@
             <webinf dir="${web.dir}/WEB-INF">
                 <include name="**/*"/>
                 <exclude name="web.xml"/>
-                <exclude name="lib"/>
+                <exclude name="lib/**"/>
             </webinf>
             <fileset dir="${web.dir}">
                 <include name="**/*"/>
