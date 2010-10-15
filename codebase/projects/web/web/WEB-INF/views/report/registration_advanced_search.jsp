@@ -420,7 +420,7 @@ color:white;
 			<div class="row" >
 	        	<div class="label">
 	        		<input type="hidden" name="searchCriteriaList[15].objectName" value="edu.duke.cabig.c3pr.domain.StudyOrganization"/>
-          			<input type="hidden" name="searchCriteriaList[15].attributeName" value="typeInternal" />
+          			<input type="hidden" name="searchCriteriaList[15].attributeName" value="type" />
           			<input type="hidden" name="searchCriteriaList[15].predicate" value="="/>
 	        		<select id="studyorganization-type" name="searchCriteriaList[15].values" >
 	        			<option value="">Any</option>
