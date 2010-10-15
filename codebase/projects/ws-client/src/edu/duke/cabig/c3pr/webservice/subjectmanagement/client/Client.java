@@ -71,7 +71,7 @@ public final class Client {
 		person.setTelecomAddress(new BAGTEL());
 		
 		// make repeated requests in a loop to cache things, reduce swapping.
-		for (int i=0;i<1;i++) {
+		for (int i=0;i<2;i++) {
 			client.querySubject(request);
 		}
 
@@ -84,6 +84,7 @@ public final class Client {
 					+ subj.getEntity().getBiologicEntityIdentifier().get(0)
 							.getIdentifier().getExtension());
 		}
+		log.info("Total subjects: "+response.getSubjects().getItem().size());
 		log.info("Processing time: "+((end-start)/1000.0)+" seconds.");
 
 	}

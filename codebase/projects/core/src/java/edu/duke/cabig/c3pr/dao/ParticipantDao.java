@@ -130,9 +130,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
 					addrCrit.add(Restrictions.ilike("postalCode", "%"
 							+ address.getPostalCode() + "%"));
 			}
-			if (useContactInfo) {
-				final Criteria contactCrit = participantCriteria
-						.createCriteria("contactMechanisms");
+			if (useContactInfo) {				
 				List<Criterion> criterions = new ArrayList<Criterion>();
 				if (StringUtils.isNotBlank(participant.getEmail())) {
 					criterions.add(Example.create(
@@ -152,12 +150,15 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
 									participant.getFax())).enableLike()
 							.ignoreCase());
 				}
-				Disjunction disjunction = Restrictions.disjunction(); 
-				for (Criterion criterion : criterions) {
-					disjunction.add(criterion);
+				if (!criterions.isEmpty()) {
+					Disjunction disjunction = Restrictions.disjunction();
+					for (Criterion criterion : criterions) {
+						disjunction.add(criterion);
+					}
+					final Criteria contactCrit = participantCriteria
+							.createCriteria("contactMechanisms");
+					contactCrit.add(disjunction);
 				}
-				contactCrit.add(disjunction);
-				
 			}
 
             return participantCriteria.list();
