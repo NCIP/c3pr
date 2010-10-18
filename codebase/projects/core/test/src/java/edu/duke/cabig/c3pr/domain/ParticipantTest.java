@@ -72,11 +72,11 @@ public class ParticipantTest extends TestCase{
          participant.addRaceCodeAssociation(raceCodeAssociation);
          
 		 RaceCodeAssociation  raceCodeAssociation1 = new RaceCodeAssociation();
-         raceCodeAssociation.setRaceCode(RaceCodeEnum.American_Indian_or_Alaska_Native);
+		 raceCodeAssociation1.setRaceCode(RaceCodeEnum.American_Indian_or_Alaska_Native);
          participant.addRaceCodeAssociation(raceCodeAssociation1);
          
 		 RaceCodeAssociation  raceCodeAssociation2 = new RaceCodeAssociation();
-         raceCodeAssociation.setRaceCode(RaceCodeEnum.Native_Hawaiian_or_Pacific_Islander);
+		 raceCodeAssociation2.setRaceCode(RaceCodeEnum.Native_Hawaiian_or_Pacific_Islander);
          participant.addRaceCodeAssociation(raceCodeAssociation2);
         
      
