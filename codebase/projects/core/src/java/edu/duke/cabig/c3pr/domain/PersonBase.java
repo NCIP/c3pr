@@ -95,9 +95,13 @@ public abstract class PersonBase extends
 				contactMechanism = new RemoteContactMechanism();
 			}
 			contactMechanism.setType(contactMechanismType);
+			contactMechanism.setValue(value);
+			contactMechanisms.add(contactMechanism);
+		} else {
+			contactMechanisms.remove(contactMechanism);
+			contactMechanism.setValue(value);
 			contactMechanisms.add(contactMechanism);
 		}
-		contactMechanism.setValue(value);
 	}
 	
 	public void setEmail(String email){

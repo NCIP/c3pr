@@ -97,6 +97,9 @@ public class ContactMechanism extends AbstractMutableDeletableDomainObject {
     }
 
 
+	
+
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -137,5 +140,16 @@ public class ContactMechanism extends AbstractMutableDeletableDomainObject {
 		}
 		return true;
 	}
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ContactMechanism [type=" + type + ", value=" + value + "]";
+	}
+	
+	
 
 }
