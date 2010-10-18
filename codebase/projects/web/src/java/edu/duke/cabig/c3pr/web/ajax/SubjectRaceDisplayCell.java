@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.ajax;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.extremecomponents.table.bean.Column;
@@ -17,7 +18,7 @@ public class SubjectRaceDisplayCell extends AbstractCell {
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
     	List<String> raceCodes = new ArrayList<String>();
-    	for(RaceCodeAssociation raceCodeAssociation : (List<RaceCodeAssociation>)column.getPropertyValue()){
+    	for(RaceCodeAssociation raceCodeAssociation : (Collection<RaceCodeAssociation>)column.getPropertyValue()){
     		raceCodes.add(raceCodeAssociation.getRaceCode().getCode());
     	}
     	String raceCodeString= raceCodes.toString();
