@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -212,14 +213,14 @@ public abstract class Investigator extends C3PRUser {
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "INV_ID")
     @OrderBy("id")
-    public List<ContactMechanism> getContactMechanisms() {
+    public Set<ContactMechanism> getContactMechanisms() {
         return contactMechanisms;
     }
 
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.domain.Person#setContactMechanisms(java.util.List)
      */
-    public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
+    public void setContactMechanisms(Set<ContactMechanism> contactMechanisms) {
         this.contactMechanisms = contactMechanisms;
     }
 

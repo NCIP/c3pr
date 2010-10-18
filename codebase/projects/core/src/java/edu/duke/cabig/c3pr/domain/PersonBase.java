@@ -4,7 +4,10 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
@@ -33,7 +36,7 @@ public abstract class PersonBase extends
 
     
 
-    protected List<ContactMechanism> contactMechanisms = new ArrayList<ContactMechanism>();
+    protected Set<ContactMechanism> contactMechanisms = new LinkedHashSet<ContactMechanism>();
 
     @Transient
 	public String getEmail(){
@@ -150,12 +153,12 @@ public abstract class PersonBase extends
 
     
 
-    public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
+    public void setContactMechanisms(Set<ContactMechanism> contactMechanisms) {
         this.contactMechanisms = contactMechanisms;
     }
 
     @Transient
-    public List<ContactMechanism> getContactMechanisms() {
+    public Set<ContactMechanism> getContactMechanisms() {
         return contactMechanisms;
     }
     

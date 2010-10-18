@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -72,7 +72,7 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	private List<HealthcareSite> healthcareSites;
 
 	/** The race codes. */
-	private List<RaceCodeAssociation> raceCodeAssociations ;
+	private Set<RaceCodeAssociation> raceCodeAssociations ;
 
 	/** The marital status code. */
 	private String maritalStatusCode;
@@ -232,15 +232,15 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "PRT_ID")
-	@OrderBy("id")
-	public List<ContactMechanism> getContactMechanisms() {
+	@OrderBy("id")	
+	public Set<ContactMechanism> getContactMechanisms() {
 		return contactMechanisms;
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.domain.Person#setContactMechanisms(java.util.List)
 	 */
-	public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
+	public void setContactMechanisms(Set<ContactMechanism> contactMechanisms) {
 		this.contactMechanisms = contactMechanisms;
 	}
 	
@@ -346,9 +346,10 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name="sub_id")
-	public List<RaceCodeAssociation> getRaceCodeAssociations() {
+    @OrderBy("id")
+	public Set<RaceCodeAssociation> getRaceCodeAssociations() {
 		if(raceCodeAssociations == null){
-			raceCodeAssociations = new ArrayList<RaceCodeAssociation>();
+			raceCodeAssociations = new LinkedHashSet<RaceCodeAssociation>();
 		}
 		return raceCodeAssociations;
 	}
@@ -376,7 +377,7 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	 * 
 	 * @param raceCodes the new race codes
 	 */
-	public void setRaceCodeAssociations(List<RaceCodeAssociation> raceCodeAssociations) {
+	public void setRaceCodeAssociations(Set<RaceCodeAssociation> raceCodeAssociations) {
 		this.raceCodeAssociations = raceCodeAssociations;
 	}
 	
@@ -737,7 +738,7 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 		this.setMaidenName(studySubjectDemographics.getMaidenName());
 		this.setAdministrativeGenderCode(studySubjectDemographics.getAdministrativeGenderCode());
 		this.setEthnicGroupCode(studySubjectDemographics.getEthnicGroupCode());
-		this.setRaceCodeAssociations(studySubjectDemographics.getRaceCodeAssociations());
+		this.setRaceCodeAssociations(new LinkedHashSet(studySubjectDemographics.getRaceCodeAssociations()));
 		this.setBirthDate(studySubjectDemographics.getBirthDate());
 		
 		// copy address

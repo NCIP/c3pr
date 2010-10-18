@@ -541,7 +541,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		if (p != null) {
 			Person person = new Person();
 			subject.setEntity(person);
-			for (Identifier id : p.getIdentifiers()) {
+			for (Identifier id : new LinkedHashSet<Identifier>(p.getIdentifiers())) {
 				if (id instanceof OrganizationAssignedIdentifier) {
 					BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
 					bioId.setTypeCode(iso.CD(id.getTypeInternal()));

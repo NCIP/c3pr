@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.IOUtils;
@@ -20,6 +19,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Example;
@@ -87,10 +87,18 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
      * @param useContactInfo if set to true and {@link ContactMechanism} is present, use it for the search.
      * @return list of matching participant objects based on your sample participant object
      */    
-    public List<Participant> searchByExample(Participant participant, boolean isWildCard, boolean useAddress, boolean useContactInfo) {
+    public List<Participant> searchByExample(Participant participant, boolean isWildCard, boolean useAddress, boolean useContactInfo, boolean forceEager) {
         Example example = Example.create(participant).excludeZeroes().ignoreCase();
         Criteria participantCriteria = getSession().createCriteria(Participant.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY) ;
         example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
+        if (forceEager) {
+        	// TODO: The following lines may cause Participant.identifiers to contain duplicate entries!
+        	// In order to avoid that, Participant.identifiers will need to be changed from List to Set.
+        	// Related to http://www.jroller.com/eyallupu/entry/hibernate_exception_simultaneously_fetch_multiple.
+        	participantCriteria.setFetchMode("identifiers", FetchMode.JOIN);
+        	participantCriteria.setFetchMode("raceCodeAssociations", FetchMode.JOIN);
+        	participantCriteria.setFetchMode("contactMechanisms", FetchMode.JOIN);
+        }
         if (isWildCard) {
             participantCriteria.add(example);
             
@@ -186,7 +194,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
      * @return
      */
     public List<Participant> searchByExample(Participant participant, boolean isWildCard) {
-    	return searchByExample(participant, isWildCard, false, false);
+    	return searchByExample(participant, isWildCard, false, false,false);
 	}
 
 	/**

@@ -54,7 +54,7 @@ public class ParticipantTest extends TestCase{
          raceCodeAssociation.setRaceCode(RaceCodeEnum.Asian);
          participant.addRaceCodeAssociation(raceCodeAssociation);
 		
-		assertEquals("Wrong race code","Asian",participant.getRaceCodeAssociations().get(0).getRaceCode().getCode());
+		assertEquals("Wrong race code","Asian",participant.getRaceCodeAssociations().iterator().next().getRaceCode().getCode());
 	}
 	
 	/**

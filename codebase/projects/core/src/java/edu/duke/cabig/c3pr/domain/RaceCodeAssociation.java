@@ -15,25 +15,6 @@ import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "race_code_assocn_id_seq") })
 public class RaceCodeAssociation extends AbstractMutableDeletableDomainObject {
 	private RaceCodeEnum raceCode;
-//	private Participant participant;
-//	private StudySubjectDemographics studySubjectDemographics ;
-//	
-//	public Participant getParticipant() {
-//		return participant;
-//	}
-//
-//	public void setParticipant(Participant participant) {
-//		this.participant = participant;
-//	}
-//
-//	public StudySubjectDemographics getStudySubjectDemographics() {
-//		return studySubjectDemographics;
-//	}
-//
-//	public void setStudySubjectDemographics(
-//			StudySubjectDemographics studySubjectDemographics) {
-//		this.studySubjectDemographics = studySubjectDemographics;
-//	}
 
 	public void setRaceCode(RaceCodeEnum raceCode) {
 		this.raceCode = raceCode;
@@ -43,16 +24,39 @@ public class RaceCodeAssociation extends AbstractMutableDeletableDomainObject {
 	public RaceCodeEnum getRaceCode() {
 		return raceCode;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        final RaceCodeAssociation that = (RaceCodeAssociation) o;
-
-        if (raceCode != null ? !raceCode.equals(that.raceCode) : that.raceCode != null) return false;
-        return true;
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((raceCode == null) ? 0 : raceCode.hashCode());
+		return result;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof RaceCodeAssociation)) {
+			return false;
+		}
+		RaceCodeAssociation other = (RaceCodeAssociation) obj;
+		if (raceCode != other.raceCode) {
+			return false;
+		}
+		return true;
+	}
+	
 
 }
