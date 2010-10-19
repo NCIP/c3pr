@@ -30,11 +30,9 @@ public class RaceCodeAssociation extends AbstractMutableDeletableDomainObject {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result
-				+ ((raceCode == null) ? 0 : raceCode.hashCode());
-		return result;
+		// setting hash code to a plain constant value as a safety measure related to CPR-2142.
+		// In Participant, bags were changed to sets. 
+		return 1;
 	}
 
 	/* (non-Javadoc)
