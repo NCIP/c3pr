@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "CreateSubjectRequest")
 public class CreateSubjectRequest {
 
-    @XmlElement(namespace = "", required = true)
+    @XmlElement(required = true)
     protected Subject subject;
 
     /**

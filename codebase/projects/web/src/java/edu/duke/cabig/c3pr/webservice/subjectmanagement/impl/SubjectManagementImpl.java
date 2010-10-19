@@ -29,7 +29,7 @@ import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.AdvancedQuerySubjectResponse;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectResponse;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.DSETSUBJECT;

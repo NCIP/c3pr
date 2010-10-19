@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "AdvancedQuerySubjectResponse")
 public class AdvancedQuerySubjectResponse {
 
-    @XmlElement(namespace = "", required = true)
+    @XmlElement(required = true)
     protected DSETSUBJECT subjects;
 
     /**

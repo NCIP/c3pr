@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.iso21090.BAGTEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.BL;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
@@ -19,7 +20,6 @@ import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Person;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectResponse;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SecurityExceptionFaultMessage;

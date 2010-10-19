@@ -31,12 +31,15 @@ import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.BeanUtils;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper;
 import edu.duke.cabig.c3pr.webservice.helpers.WebServiceRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl.ParticipantValidationError;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.InsufficientPrivilegesExceptionFaultMessage;
 
 /**
  * @author dkrylov

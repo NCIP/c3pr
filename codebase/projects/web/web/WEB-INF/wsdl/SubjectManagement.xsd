@@ -2,14 +2,14 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://enterpriseservices.nci.nih.gov"
 	xmlns:ISO="uri:iso.org:21090" xmlns:tns="http://enterpriseservices.nci.nih.gov"
 	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
-	xmlns:common="http://enterpriseservices.nci.nih.gov/Common"
-	xmlns:sch="http://www.ascc.net/xml/schematron" elementFormDefault="qualified">
-	
+	xmlns:common="http://enterpriseservices.nci.nih.gov/Common" xmlns:sch="http://www.ascc.net/xml/schematron"
+	elementFormDefault="qualified">
+
 	<annotation>
 		<appinfo>
 			<jaxb:schemaBindings>
-      			<jaxb:package name="edu.duke.cabig.c3pr.webservice.subjectmanagement"/>
-    		</jaxb:schemaBindings>
+				<jaxb:package name="edu.duke.cabig.c3pr.webservice.subjectmanagement" />
+			</jaxb:schemaBindings>
 		</appinfo>
 		<documentation>XML Schema defining types and faults for NCI Enterprise
 			Services
@@ -18,131 +18,9 @@
 	</annotation>
 
 	<import schemaLocation="ISO_datatypes_Narrative.xsd" namespace="uri:iso.org:21090" />
-	<import schemaLocation="Common.xsd" namespace="http://enterpriseservices.nci.nih.gov/Common" />
+	<import schemaLocation="Common.xsd"
+		namespace="http://enterpriseservices.nci.nih.gov/Common" />
 
-	<complexType name="BiologicEntity" abstract="true">
-		<annotation>
-			<documentation>Any individual living (or previously living) being.
-
-				For example, animal, human being.
-            </documentation>
-		</annotation>
-		<sequence>
-			<element name="administrativeGenderCode" type="ISO:CD">
-				<annotation>
-					<documentation>A coded value specifying the physical or societal
-						properties by which male is distinguished from female.
-
-						NOTE: For
-						humans, identification of sex is usually based upon
-						self-report and
-						may come from a form, questionnaire, interview,
-						etc.
-					</documentation>
-				</annotation>
-			</element>
-			<element name="birthDate" type="ISO:TS.DateTime">
-				<annotation>
-					<documentation>The date (and time) on which the biologic entity
-						is
-						born.
-                    </documentation>
-				</annotation>
-			</element>
-			<element name="deathDate" type="ISO:TS.DateTime">
-				<annotation>
-					<documentation>The date (and time) on which the biologic entity
-						died.
-                    </documentation>
-				</annotation>
-			</element>
-			<element name="biologicEntityIdentifier" minOccurs="0" type="tns:BiologicEntityIdentifier"
-				maxOccurs="unbounded" />
-		</sequence>
-	</complexType>
-
-	<complexType name="Person">
-		<annotation>
-			<documentation>A human being.</documentation>
-		</annotation>
-		<complexContent>
-			<extension base="tns:BiologicEntity">
-				<sequence>
-					<element name="deathIndicator" type="ISO:BL">
-						<annotation>
-							<documentation>Specifies whether the person is dead.
-							</documentation>
-						</annotation>
-					</element>
-
-					<element name="ethnicGroupCode" type="ISO:DSET_CD">
-						<annotation>
-							<documentation>A coded value specifying the self-declared ethnic
-								origination, independent of racial origination.
-
-								For example, for
-								the NCI, these ethnic groups are based on OMB
-								approved
-								categories.
-                            </documentation>
-						</annotation>
-					</element>
-					<element name="maritalStatusCode" type="ISO:CD">
-						<annotation>
-							<documentation>A coded value specifying the domestic partnership
-								status of a person.
-
-								For example, Married, Widowed, Single,
-								Separated, etc.
-                            </documentation>
-						</annotation>
-					</element>
-					<element name="name" type="ISO:DSET_EN.PN">
-						<annotation>
-							<documentation>A non-unique textual identifier for the person.
-
-								For example, proper name, nickname, legal name, etc.
-							</documentation>
-						</annotation>
-					</element>
-
-					<element name="postalAddress" type="ISO:DSET_AD">
-						<annotation>
-							<documentation>A contact point used to send physical forms of
-								communication to the person.
-                            </documentation>
-						</annotation>
-					</element>
-
-					<element name="raceCode" type="ISO:DSET_CD">
-						<annotation>
-							<documentation>A coded value specifying a self-declared racial
-								origination, independent of ethnic origination.
-
-								For example, for
-								the National Cancer Institute, this code is based
-								on Office of
-								Management &amp;amp; Budget (OMB) approved
-								categories.
-							</documentation>
-						</annotation>
-					</element>
-					<element name="telecomAddress" type="ISO:BAG_TEL">
-						<annotation>
-							<documentation>A sequence of digits or characters used to
-								identify a particular telephone, fax, or email of the person.
-
-								For example, the set of digits that serves as the address for a
-								telephone device. Included in the phone number are country,
-								city, and area codes needed to uniquely address the telephone. A
-								URL or e-mail would be similarly described.
-                            </documentation>
-						</annotation>
-					</element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
 	<complexType name="Subject">
 		<annotation>
 			<documentation>An entity of interest, either biological or otherwise.
@@ -153,55 +31,10 @@
             </documentation>
 		</annotation>
 		<sequence>
-			<element name="entity" type="tns:BiologicEntity" minOccurs="1"
+			<element name="entity" type="common:BiologicEntity" minOccurs="1"
 				maxOccurs="1" />
 			<element name="stateCode" type="ISO:ST" minOccurs="0"
-				maxOccurs="1" />				
-		</sequence>
-	</complexType>
-	<complexType name="BiologicEntityIdentifier">
-		<annotation>
-			<documentation>The unique identification of a biologic entity in a
-				specified context.
-				NOTE: This class is a resolution of the
-				requirement for noting the type
-				of an identifier which is not handled
-				by the purely technical HL7 II
-				data type. It is the result of
-				applying a pattern provided by HL7
-				data type expert, Grahame Grieve.
-			</documentation>
-		</annotation>
-		<sequence>
-			<element name="effectiveDateRange" type="ISO:IVL_TS.DateTime">
-				<annotation>
-					<documentation>The date and time span for when the biologic entity
-						identifier is active.</documentation>
-				</annotation>
-			</element>
-			<element name="identifier" type="ISO:II">
-				<annotation>
-					<documentation>The unique symbol that establishes identity of the
-						biologic entity.
-
-						For example, medical record number.
-
-						NOTE: This is
-						different from the StudySubject.identifier.
-					</documentation>
-				</annotation>
-			</element>
-			<element name="typeCode" type="ISO:CD">
-				<annotation>
-					<documentation>A coded value specifying the kind of biologic entity
-						identifier.
-
-						For example, hospital record number, medical record
-						number.
-					</documentation>
-				</annotation>
-			</element>
-			<element name="assigningOrganization" type="common:Organization" />
+				maxOccurs="1" />
 		</sequence>
 	</complexType>
 
@@ -234,5 +67,5 @@
 			<extension base="ISO:ANY" />
 		</complexContent>
 	</complexType>
-	
+
 </schema>

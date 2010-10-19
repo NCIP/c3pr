@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.webservice.common;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 
@@ -18,7 +17,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
  *   &lt;complexContent>
  *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/Common}DocumentVersion">
  *       &lt;sequence>
- *         &lt;element name="publicTitle" type="{uri:iso.org:21090}ST"/>
+ *         &lt;element name="publicTitle" type="{uri:iso.org:21090}ST" minOccurs="0"/>
  *         &lt;element name="publicDescription" type="{uri:iso.org:21090}ST" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
@@ -37,7 +36,6 @@ public class StudyProtocolDocumentVersion
     extends DocumentVersion
 {
 
-    @XmlElement(required = true)
     protected ST publicTitle;
     protected ST publicDescription;
 

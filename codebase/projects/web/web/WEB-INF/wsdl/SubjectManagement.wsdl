@@ -95,7 +95,7 @@
 			<xsd:element name="UpdateSubjectStateRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="biologicEntityIdentifier" type="sm:BiologicEntityIdentifier"
+						<xsd:element name="biologicEntityIdentifier" type="common:BiologicEntityIdentifier"
 							maxOccurs="1" minOccurs="1"></xsd:element>
 						<xsd:element name="newState" type="ISO:ST" maxOccurs="1"
 							minOccurs="1"></xsd:element>

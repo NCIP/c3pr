@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import edu.duke.cabig.c3pr.webservice.iso21090.ED;
@@ -27,7 +26,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
  *         &lt;element name="versionDate" type="{uri:iso.org:21090}TS.DateTime" minOccurs="0"/>
  *         &lt;element name="versionNumberText" type="{uri:iso.org:21090}ST" minOccurs="0"/>
  *         &lt;element name="text" type="{uri:iso.org:21090}ED" minOccurs="0"/>
- *         &lt;element name="document" type="{http://enterpriseservices.nci.nih.gov/Common}Document"/>
+ *         &lt;element name="document" type="{http://enterpriseservices.nci.nih.gov/Common}Document" minOccurs="0"/>
  *         &lt;element name="documentVersionRelationship" type="{http://enterpriseservices.nci.nih.gov/Common}DocumentVersionRelationship" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -56,7 +55,6 @@ public class DocumentVersion {
     protected TSDateTime versionDate;
     protected ST versionNumberText;
     protected ED text;
-    @XmlElement(required = true)
     protected Document document;
     protected List<DocumentVersionRelationship> documentVersionRelationship;
 

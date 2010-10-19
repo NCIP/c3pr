@@ -1,5 +1,5 @@
 
-package edu.duke.cabig.c3pr.webservice.subjectmanagement;
+package edu.duke.cabig.c3pr.webservice.common;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -23,9 +23,9 @@ import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
  * <pre>
  * &lt;complexType name="Person">
  *   &lt;complexContent>
- *     &lt;extension base="{http://enterpriseservices.nci.nih.gov}BiologicEntity">
+ *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/Common}BiologicEntity">
  *       &lt;sequence>
- *         &lt;element name="deathIndicator" type="{uri:iso.org:21090}BL"/>
+ *         &lt;element name="deathIndicator" type="{uri:iso.org:21090}BL" minOccurs="0"/>
  *         &lt;element name="ethnicGroupCode" type="{uri:iso.org:21090}DSET_CD"/>
  *         &lt;element name="maritalStatusCode" type="{uri:iso.org:21090}CD"/>
  *         &lt;element name="name" type="{uri:iso.org:21090}DSET_EN.PN"/>
@@ -41,7 +41,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Person", namespace = "http://enterpriseservices.nci.nih.gov", propOrder = {
+@XmlType(name = "Person", propOrder = {
     "deathIndicator",
     "ethnicGroupCode",
     "maritalStatusCode",
@@ -54,7 +54,6 @@ public class Person
     extends BiologicEntity
 {
 
-    @XmlElement(required = true)
     protected BL deathIndicator;
     @XmlElement(required = true)
     protected DSETCD ethnicGroupCode;

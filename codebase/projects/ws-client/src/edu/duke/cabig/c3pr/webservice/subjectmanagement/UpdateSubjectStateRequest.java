@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 
 
@@ -19,7 +20,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="biologicEntityIdentifier" type="{http://enterpriseservices.nci.nih.gov}BiologicEntityIdentifier"/>
+ *         &lt;element name="biologicEntityIdentifier" type="{http://enterpriseservices.nci.nih.gov/Common}BiologicEntityIdentifier"/>
  *         &lt;element name="newState" type="{uri:iso.org:21090}ST"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -37,9 +38,9 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 @XmlRootElement(name = "UpdateSubjectStateRequest")
 public class UpdateSubjectStateRequest {
 
-    @XmlElement(namespace = "", required = true)
+    @XmlElement(required = true)
     protected BiologicEntityIdentifier biologicEntityIdentifier;
-    @XmlElement(namespace = "", required = true)
+    @XmlElement(required = true)
     protected ST newState;
 
     /**

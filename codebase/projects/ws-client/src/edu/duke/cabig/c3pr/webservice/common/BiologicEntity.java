@@ -1,5 +1,5 @@
 
-package edu.duke.cabig.c3pr.webservice.subjectmanagement;
+package edu.duke.cabig.c3pr.webservice.common;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 
 /**
  * Any individual living (or previously living) being.
- * 
+ * 				
  * 				For example, animal, human being.
- *             
+ * 			
  * 
  * <p>Java class for BiologicEntity complex type.
  * 
@@ -29,8 +29,8 @@ import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
  *       &lt;sequence>
  *         &lt;element name="administrativeGenderCode" type="{uri:iso.org:21090}CD"/>
  *         &lt;element name="birthDate" type="{uri:iso.org:21090}TS.DateTime"/>
- *         &lt;element name="deathDate" type="{uri:iso.org:21090}TS.DateTime"/>
- *         &lt;element name="biologicEntityIdentifier" type="{http://enterpriseservices.nci.nih.gov}BiologicEntityIdentifier" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="deathDate" type="{uri:iso.org:21090}TS.DateTime" minOccurs="0"/>
+ *         &lt;element name="biologicEntityIdentifier" type="{http://enterpriseservices.nci.nih.gov/Common}BiologicEntityIdentifier" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -40,7 +40,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "BiologicEntity", namespace = "http://enterpriseservices.nci.nih.gov", propOrder = {
+@XmlType(name = "BiologicEntity", propOrder = {
     "administrativeGenderCode",
     "birthDate",
     "deathDate",
@@ -55,7 +55,6 @@ public abstract class BiologicEntity {
     protected CD administrativeGenderCode;
     @XmlElement(required = true)
     protected TSDateTime birthDate;
-    @XmlElement(required = true)
     protected TSDateTime deathDate;
     protected List<BiologicEntityIdentifier> biologicEntityIdentifier;
 

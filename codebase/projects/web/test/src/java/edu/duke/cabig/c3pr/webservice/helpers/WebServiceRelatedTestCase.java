@@ -69,8 +69,8 @@ import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityImplTest;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Person;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImplTest;
 

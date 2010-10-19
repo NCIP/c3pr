@@ -14,7 +14,7 @@ import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.BiologicEntityIdentifier;
+
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 
 /**
@@ -61,7 +61,7 @@ public interface JAXBToDomainObjectConverter {
 	 * @return
 	 * @throws ConversionException
 	 */
-	OrganizationAssignedIdentifier convert(BiologicEntityIdentifier bioId)
+	OrganizationAssignedIdentifier convert(edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier bioId)
 			throws ConversionException;
 
 	/**

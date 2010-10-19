@@ -39,14 +39,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link NoSuchSubjectExceptionFault }
-     * 
-     */
-    public NoSuchSubjectExceptionFault createNoSuchSubjectExceptionFault() {
-        return new NoSuchSubjectExceptionFault();
-    }
-
-    /**
      * Create an instance of {@link QuerySubjectResponse }
      * 
      */
@@ -55,11 +47,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Person }
+     * Create an instance of {@link CreateSubjectResponse }
      * 
      */
-    public Person createPerson() {
-        return new Person();
+    public CreateSubjectResponse createCreateSubjectResponse() {
+        return new CreateSubjectResponse();
+    }
+
+    /**
+     * Create an instance of {@link UnableToCreateOrUpdateSubjectExceptionFault }
+     * 
+     */
+    public UnableToCreateOrUpdateSubjectExceptionFault createUnableToCreateOrUpdateSubjectExceptionFault() {
+        return new UnableToCreateOrUpdateSubjectExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link InvalidStateTransitionExceptionFault }
+     * 
+     */
+    public InvalidStateTransitionExceptionFault createInvalidStateTransitionExceptionFault() {
+        return new InvalidStateTransitionExceptionFault();
     }
 
     /**
@@ -71,19 +79,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpdateSubjectResponse }
+     * Create an instance of {@link SubjectAlreadyExistsExceptionFault }
      * 
      */
-    public UpdateSubjectResponse createUpdateSubjectResponse() {
-        return new UpdateSubjectResponse();
-    }
-
-    /**
-     * Create an instance of {@link UnableToCreateOrUpdateSubjectExceptionFault }
-     * 
-     */
-    public UnableToCreateOrUpdateSubjectExceptionFault createUnableToCreateOrUpdateSubjectExceptionFault() {
-        return new UnableToCreateOrUpdateSubjectExceptionFault();
+    public SubjectAlreadyExistsExceptionFault createSubjectAlreadyExistsExceptionFault() {
+        return new SubjectAlreadyExistsExceptionFault();
     }
 
     /**
@@ -103,35 +103,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SubjectAlreadyExistsExceptionFault }
+     * Create an instance of {@link UpdateSubjectResponse }
      * 
      */
-    public SubjectAlreadyExistsExceptionFault createSubjectAlreadyExistsExceptionFault() {
-        return new SubjectAlreadyExistsExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link InvalidSubjectDataExceptionFault }
-     * 
-     */
-    public InvalidSubjectDataExceptionFault createInvalidSubjectDataExceptionFault() {
-        return new InvalidSubjectDataExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link InvalidStateTransitionExceptionFault }
-     * 
-     */
-    public InvalidStateTransitionExceptionFault createInvalidStateTransitionExceptionFault() {
-        return new InvalidStateTransitionExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link UpdateSubjectStateResponse }
-     * 
-     */
-    public UpdateSubjectStateResponse createUpdateSubjectStateResponse() {
-        return new UpdateSubjectStateResponse();
+    public UpdateSubjectResponse createUpdateSubjectResponse() {
+        return new UpdateSubjectResponse();
     }
 
     /**
@@ -143,11 +119,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateSubjectRequest }
+     * Create an instance of {@link NoSuchSubjectExceptionFault }
      * 
      */
-    public CreateSubjectRequest createCreateSubjectRequest() {
-        return new CreateSubjectRequest();
+    public NoSuchSubjectExceptionFault createNoSuchSubjectExceptionFault() {
+        return new NoSuchSubjectExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link UpdateSubjectStateResponse }
+     * 
+     */
+    public UpdateSubjectStateResponse createUpdateSubjectStateResponse() {
+        return new UpdateSubjectStateResponse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateSubjectStateRequest }
+     * 
+     */
+    public UpdateSubjectStateRequest createUpdateSubjectStateRequest() {
+        return new UpdateSubjectStateRequest();
+    }
+
+    /**
+     * Create an instance of {@link InvalidSubjectDataExceptionFault }
+     * 
+     */
+    public InvalidSubjectDataExceptionFault createInvalidSubjectDataExceptionFault() {
+        return new InvalidSubjectDataExceptionFault();
     }
 
     /**
@@ -159,27 +159,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateSubjectResponse }
+     * Create an instance of {@link CreateSubjectRequest }
      * 
      */
-    public CreateSubjectResponse createCreateSubjectResponse() {
-        return new CreateSubjectResponse();
-    }
-
-    /**
-     * Create an instance of {@link BiologicEntityIdentifier }
-     * 
-     */
-    public BiologicEntityIdentifier createBiologicEntityIdentifier() {
-        return new BiologicEntityIdentifier();
-    }
-
-    /**
-     * Create an instance of {@link Subject }
-     * 
-     */
-    public Subject createSubject() {
-        return new Subject();
+    public CreateSubjectRequest createCreateSubjectRequest() {
+        return new CreateSubjectRequest();
     }
 
     /**
@@ -191,11 +175,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link UpdateSubjectStateRequest }
+     * Create an instance of {@link Subject }
      * 
      */
-    public UpdateSubjectStateRequest createUpdateSubjectStateRequest() {
-        return new UpdateSubjectStateRequest();
+    public Subject createSubject() {
+        return new Subject();
     }
 
     /**

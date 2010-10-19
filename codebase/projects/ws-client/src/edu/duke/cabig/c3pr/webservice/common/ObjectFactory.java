@@ -35,11 +35,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Reason }
+     * Create an instance of {@link DocumentIdentifier }
      * 
      */
-    public Reason createReason() {
-        return new Reason();
+    public DocumentIdentifier createDocumentIdentifier() {
+        return new DocumentIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link OrganizationIdentifier }
+     * 
+     */
+    public OrganizationIdentifier createOrganizationIdentifier() {
+        return new OrganizationIdentifier();
     }
 
     /**
@@ -59,14 +67,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
-     * 
-     */
-    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
-        return new PermissibleStudySubjectRegistryStatus();
-    }
-
-    /**
      * Create an instance of {@link StudyProtocolDocumentVersion }
      * 
      */
@@ -75,11 +75,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
+     * Create an instance of {@link Person }
      * 
      */
-    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
-        return new DSETAdvanceSearchCriterionParameter();
+    public Person createPerson() {
+        return new Person();
+    }
+
+    /**
+     * Create an instance of {@link SubjectIdentifier }
+     * 
+     */
+    public SubjectIdentifier createSubjectIdentifier() {
+        return new SubjectIdentifier();
+    }
+
+    /**
+     * Create an instance of {@link PermissibleStudySubjectRegistryStatus }
+     * 
+     */
+    public PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
+        return new PermissibleStudySubjectRegistryStatus();
     }
 
     /**
@@ -91,51 +107,43 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DocumentVersionRelationship }
+     * Create an instance of {@link Organization }
      * 
      */
-    public DocumentVersionRelationship createDocumentVersionRelationship() {
-        return new DocumentVersionRelationship();
+    public Organization createOrganization() {
+        return new Organization();
     }
 
     /**
-     * Create an instance of {@link DocumentIdentifier }
+     * Create an instance of {@link Subject }
      * 
      */
-    public DocumentIdentifier createDocumentIdentifier() {
-        return new DocumentIdentifier();
+    public Subject createSubject() {
+        return new Subject();
     }
 
     /**
-     * Create an instance of {@link DocumentVersion }
+     * Create an instance of {@link Reason }
      * 
      */
-    public DocumentVersion createDocumentVersion() {
-        return new DocumentVersion();
+    public Reason createReason() {
+        return new Reason();
     }
 
     /**
-     * Create an instance of {@link Consent }
+     * Create an instance of {@link DSETPerson }
      * 
      */
-    public Consent createConsent() {
-        return new Consent();
+    public DSETPerson createDSETPerson() {
+        return new DSETPerson();
     }
 
     /**
-     * Create an instance of {@link OrganizationIdentifier }
+     * Create an instance of {@link DSETAdvanceSearchCriterionParameter }
      * 
      */
-    public OrganizationIdentifier createOrganizationIdentifier() {
-        return new OrganizationIdentifier();
-    }
-
-    /**
-     * Create an instance of {@link RegistryStatus }
-     * 
-     */
-    public RegistryStatus createRegistryStatus() {
-        return new RegistryStatus();
+    public DSETAdvanceSearchCriterionParameter createDSETAdvanceSearchCriterionParameter() {
+        return new DSETAdvanceSearchCriterionParameter();
     }
 
     /**
@@ -147,6 +155,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link DocumentVersion }
+     * 
+     */
+    public DocumentVersion createDocumentVersion() {
+        return new DocumentVersion();
+    }
+
+    /**
+     * Create an instance of {@link RegistryStatus }
+     * 
+     */
+    public RegistryStatus createRegistryStatus() {
+        return new RegistryStatus();
+    }
+
+    /**
      * Create an instance of {@link AdvanceSearchCriterionParameter }
      * 
      */
@@ -155,11 +179,27 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Organization }
+     * Create an instance of {@link Consent }
      * 
      */
-    public Organization createOrganization() {
-        return new Organization();
+    public Consent createConsent() {
+        return new Consent();
+    }
+
+    /**
+     * Create an instance of {@link DocumentVersionRelationship }
+     * 
+     */
+    public DocumentVersionRelationship createDocumentVersionRelationship() {
+        return new DocumentVersionRelationship();
+    }
+
+    /**
+     * Create an instance of {@link BiologicEntityIdentifier }
+     * 
+     */
+    public BiologicEntityIdentifier createBiologicEntityIdentifier() {
+        return new BiologicEntityIdentifier();
     }
 
     /**
