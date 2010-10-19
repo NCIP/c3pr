@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.webservice.converters;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.test.AssertThrows;
 
@@ -12,19 +13,19 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.exception.ConversionException;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Organization;
+import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
+import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.helpers.SubjectRegistryRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DocumentIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Organization;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Person;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectProtocolVersionRelationship;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Subject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectIdentifier;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion;
 
 public class SubjectRegistryJAXBToDomainObjectConverterImplTest extends SubjectRegistryRelatedTestCase {
 
@@ -132,76 +133,68 @@ public class SubjectRegistryJAXBToDomainObjectConverterImplTest extends SubjectR
 	}
 	
 	public void testConvertSubjectConsent(){
-		StudySubjectProtocolVersionRelationship studySubjectProtocolVersionRelationship = new StudySubjectProtocolVersionRelationship();
-		addSubjectConsent(studySubjectProtocolVersionRelationship);
-		assertSubjectConsent(converter.convertSubjectConsent(studySubjectProtocolVersionRelationship));
+		List<StudySubjectConsentVersion> subjectConsents = null;
+		subjectConsents = getSubjectConsents();
+		assertSubjectConsent(converter.convertSubjectConsent(subjectConsents));
 		
-		final StudySubjectProtocolVersionRelationship bad1 = new StudySubjectProtocolVersionRelationship();
-		addSubjectConsent(bad1);
-		bad1.getStudySubjectConsentVersion().get(0).getSubjectConsentAnswer().get(0).getConsentQuestion().getOfficialTitle().setValue("");
+		final List<StudySubjectConsentVersion> bad1 = getSubjectConsents();
+		bad1.get(0).getSubjectConsentAnswer().get(0).getConsentQuestion().getOfficialTitle().setValue("");
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 				converter.convertSubjectConsent(bad1);
 			}
 		}.runTest();
 		
-		final StudySubjectProtocolVersionRelationship bad2 = new StudySubjectProtocolVersionRelationship();
-		addSubjectConsent(bad2);
-		bad2.getStudySubjectConsentVersion().get(0).getSubjectConsentAnswer().get(0).getConsentQuestion().setOfficialTitle(null);
+		final List<StudySubjectConsentVersion> bad2 = getSubjectConsents();
+		bad2.get(0).getSubjectConsentAnswer().get(0).getConsentQuestion().setOfficialTitle(null);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 				converter.convertSubjectConsent(bad2);
 			}
 		}.runTest();
 		
-		final StudySubjectProtocolVersionRelationship bad3 = new StudySubjectProtocolVersionRelationship();
-		addSubjectConsent(bad3);
-		bad3.getStudySubjectConsentVersion().get(0).getSubjectConsentAnswer().get(0).setConsentQuestion(null);
+		final List<StudySubjectConsentVersion> bad3 = getSubjectConsents();
+		bad3.get(0).getSubjectConsentAnswer().get(0).setConsentQuestion(null);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 				converter.convertSubjectConsent(bad3);
 			}
 		}.runTest();
 		
-		final StudySubjectProtocolVersionRelationship bad4 = new StudySubjectProtocolVersionRelationship();
-		addSubjectConsent(bad4);
-		bad4.getStudySubjectConsentVersion().get(0).getSubjectConsentAnswer().get(0).getMissedIndicator().setValue(null);
+		final List<StudySubjectConsentVersion> bad4 = getSubjectConsents();
+		bad4.get(0).getSubjectConsentAnswer().get(0).getMissedIndicator().setValue(null);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 				converter.convertSubjectConsent(bad4);
 			}
 		}.runTest();
 		
-		final StudySubjectProtocolVersionRelationship bad5 = new StudySubjectProtocolVersionRelationship();
-		addSubjectConsent(bad5);
-		bad5.getStudySubjectConsentVersion().get(0).getSubjectConsentAnswer().get(0).setMissedIndicator(null);
+		final List<StudySubjectConsentVersion> bad5 = getSubjectConsents();
+		bad5.get(0).getSubjectConsentAnswer().get(0).setMissedIndicator(null);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 				converter.convertSubjectConsent(bad5);
 			}
 		}.runTest();
 		
-		final StudySubjectProtocolVersionRelationship bad6 = new StudySubjectProtocolVersionRelationship();
-		addSubjectConsent(bad6);
-		bad6.getStudySubjectConsentVersion().get(0).getConsent().getOfficialTitle().setValue("");
+		final List<StudySubjectConsentVersion> bad6 = getSubjectConsents();
+		bad6.get(0).getConsent().getOfficialTitle().setValue("");
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 				converter.convertSubjectConsent(bad6);
 			}
 		}.runTest();
 		
-		final StudySubjectProtocolVersionRelationship bad7 = new StudySubjectProtocolVersionRelationship();
-		addSubjectConsent(bad7);
-		bad7.getStudySubjectConsentVersion().get(0).getConsent().setOfficialTitle(null);
+		final List<StudySubjectConsentVersion> bad7 = getSubjectConsents();
+		bad7.get(0).getConsent().setOfficialTitle(null);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 				converter.convertSubjectConsent(bad7);
 			}
 		}.runTest();
 		
-		final StudySubjectProtocolVersionRelationship bad8 = new StudySubjectProtocolVersionRelationship();
-		addSubjectConsent(bad8);
-		bad8.getStudySubjectConsentVersion().get(0).setConsent(null);
+		final List<StudySubjectConsentVersion> bad8 = getSubjectConsents();
+		bad8.get(0).setConsent(null);
 		new AssertThrows(ConversionException.class) {
 			public void test() {
 			  	converter.convertSubjectConsent(bad8);

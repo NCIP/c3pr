@@ -17,8 +17,8 @@ public class WebServiceTestSuite {
 		suite.addTestSuite(JAXBToDomainObjectConverterImplTest.class);
 		suite.addTestSuite(SubjectManagementImplTest.class);
 		suite.addTestSuite(SubjectRegistryJAXBToDomainObjectConverterImplTest.class);
-		suite.addTestSuite(SubjectRegistryImplTest.class);
 		suite.addTestSuite(StudyUtilityImplTest.class);
+		suite.addTestSuite(SubjectRegistryImplTest.class);
 		//$JUnit-END$
 		return suite;
 	}

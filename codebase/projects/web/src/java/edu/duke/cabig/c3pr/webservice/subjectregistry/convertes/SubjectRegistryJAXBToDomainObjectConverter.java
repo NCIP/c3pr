@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.webservice.subjectregistry.convertes;
 
+import java.util.Date;
 import java.util.List;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
@@ -9,16 +10,18 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DocumentIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Organization;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Organization;
+import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
+import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
+import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Person;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectProtocolVersionRelationship;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Subject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectIdentifier;
 
 /**
  * Provides operations to convert JAXB objects, such as {@link Subject}, created during a Web service invocation into
@@ -51,7 +54,9 @@ public interface SubjectRegistryJAXBToDomainObjectConverter{
 	
 	String convertHealthcareSitePrimaryIdentifier(Organization org);
 	
-	List<StudySubjectConsentVersion> convertSubjectConsent(StudySubjectProtocolVersionRelationship studySubjectProtocolVersionRelationship);
+	String convertHealthcareSitePrimaryIdentifier(OrganizationIdentifier orgId);
+	
+	List<StudySubjectConsentVersion> convertSubjectConsent(List<edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion> subjectConsents);
 	
 	StudySubject convert(edu.duke.cabig.c3pr.domain.StudySubject domainObject);
 	
@@ -59,6 +64,11 @@ public interface SubjectRegistryJAXBToDomainObjectConverter{
 	
 	Person convertSubjectDemographics(StudySubjectDemographics studySubjectDemographics);
 	
+	List<edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion> convertToSubjectConsent(List<StudySubjectConsentVersion> studySubjectConsentVersions);
+	
+	edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion convertToSubjectConsent(StudySubjectConsentVersion studySubjectConsentVersion);
+	
+	List<PerformedStudySubjectMilestone> convertToRegistryStatus(List<StudySubjectRegistryStatus> statuses);
 	/**
 	 * Updates the given instance of {@link StudySubjectDemographics} with new values. Does not modify identifiers. 
 	 * @param participant
@@ -71,5 +81,7 @@ public interface SubjectRegistryJAXBToDomainObjectConverter{
 	 */
 	AdvancedSearchCriteriaParameter convert(
 			AdvanceSearchCriterionParameter param);
+	
+	Date convertToDate(TSDateTime tsDateTime);
 	
 }

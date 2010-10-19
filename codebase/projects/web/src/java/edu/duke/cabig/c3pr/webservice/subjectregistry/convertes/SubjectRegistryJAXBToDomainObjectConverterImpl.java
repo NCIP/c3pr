@@ -35,6 +35,19 @@ import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Document;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.Organization;
+import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
+import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
+import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
@@ -55,22 +68,10 @@ import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Document;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DocumentIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DocumentVersion;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Organization;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Person;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudyProtocolDocumentVersion;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySiteProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectProtocolVersionRelationship;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Subject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectIdentifier;
 
 /**
  * Default implementation of {@link JAXBToDomainObjectConverter}.
@@ -191,11 +192,20 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		}
 		return id.getExtension();
 	}
+	
+	public String convertHealthcareSitePrimaryIdentifier(OrganizationIdentifier orgId) {
+		II id = orgId.getIdentifier();
+		if (id == null || StringUtils.isBlank(id.getExtension())) {
+			throw exceptionHelper
+					.getConversionException(ORGANIZATION_IDENTIFIER_MISSING_TYPECODE);
+		}
+		return id.getExtension();
+	}
 
 	public List<StudySubjectConsentVersion> convertSubjectConsent(
-			StudySubjectProtocolVersionRelationship studySubjectProtocolVersionRelationship) {
+			List<edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion> subjectConsents) {
 		List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
-		for(edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion subjectConsent : studySubjectProtocolVersionRelationship.getStudySubjectConsentVersion()){
+		for(edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion subjectConsent : subjectConsents){
 			StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
 			studySubjectConsentVersion.setConsentDeliveryDate(convertToDate(subjectConsent.getConsentDeliveryDate()));
 			studySubjectConsentVersion.setConsentingMethod(subjectConsent.getConsentingMethod() !=null ? 
@@ -361,7 +371,7 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		studySubject.setStudySubjectProtocolVersion(getStudySubjectProtocolVersion(domainObject.getStudySubjectStudyVersion()));
 		
 		//set status history
-		studySubject.getStudySubjectStatus().addAll(getStatusHistory(domainObject.getStudySubjectRegistryStatusHistory()));
+		studySubject.getStudySubjectStatus().addAll(convertToRegistryStatus(domainObject.getStudySubjectRegistryStatusHistory()));
 		
 		return studySubject;
 	}
@@ -525,29 +535,11 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().setOrganization(new Organization());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier().addAll(convertToOrganizationIdentifier(studySite.getHealthcareSite().getIdentifiersAssignedToOrganization()));
 		
-		//setup consents
-		for(StudySubjectConsentVersion studySubjectConsentVersion : studySubjectStudyVersion.getStudySubjectConsentVersions()){
-			edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion target = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion();
-			target.setConsentDeliveryDate(convertToTsDateTime(studySubjectConsentVersion.getConsentDeliveryDate()));
-			target.setConsentingMethod(iso.CD(studySubjectConsentVersion.getConsentingMethod().getCode()));
-			target.setConsentPresenter(iso.ST(studySubjectConsentVersion.getConsentPresenter()));
-			target.setInformedConsentDate(convertToTsDateTime(studySubjectConsentVersion.getInformedConsentSignedDate()));
-			target.setConsent(new DocumentVersion());
-			target.getConsent().setOfficialTitle(iso.ST(studySubjectConsentVersion.getConsent().getName()));
-			target.getConsent().setVersionNumberText(iso.ST(studySubjectConsentVersion.getConsent().getVersionId()));
-			for(SubjectConsentQuestionAnswer subjectAnswer : studySubjectConsentVersion.getSubjectConsentAnswers()){
-				PerformedStudySubjectMilestone subjectAnswerTarget = new PerformedStudySubjectMilestone();
-				subjectAnswerTarget.setMissedIndicator(iso.BL(subjectAnswer.getAgreementIndicator()));
-				subjectAnswerTarget.setConsentQuestion(new DocumentVersion());
-				subjectAnswerTarget.getConsentQuestion().setOfficialTitle(iso.ST(subjectAnswer.getConsentQuestion().getCode()));
-				target.getSubjectConsentAnswer().add(subjectAnswerTarget);
-			}
-			studySubjectProtocolVersion.getStudySubjectConsentVersion().add(target);
-		}
+		studySubjectProtocolVersion.getStudySubjectConsentVersion().addAll(convertToSubjectConsent(studySubjectStudyVersion.getStudySubjectConsentVersions()));
 		return studySubjectProtocolVersion;
 	}
 	
-	private List<PerformedStudySubjectMilestone> getStatusHistory(List<StudySubjectRegistryStatus> statuses){
+	public List<PerformedStudySubjectMilestone> convertToRegistryStatus(List<StudySubjectRegistryStatus> statuses){
 		List<PerformedStudySubjectMilestone> result = new ArrayList<PerformedStudySubjectMilestone>();
 		for(StudySubjectRegistryStatus studySubjectRegistryStatus : statuses){
 			PerformedStudySubjectMilestone target = new PerformedStudySubjectMilestone();
@@ -733,7 +725,7 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		return list;
 	}
 	
-	private Date convertToDate(TSDateTime tsDateTime) {
+	public Date convertToDate(TSDateTime tsDateTime) {
 		try {
 			if (tsDateTime != null && tsDateTime.getNullFlavor() == null) {
 				String value = tsDateTime.getValue();
@@ -898,5 +890,33 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public List<edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion> convertToSubjectConsent(
+			List<StudySubjectConsentVersion> studySubjectConsentVersions) {
+		List<edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion> returnList = new ArrayList<edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion>();
+		for(StudySubjectConsentVersion studySubjectConsentVersion : studySubjectConsentVersions){
+			returnList.add(convertToSubjectConsent(studySubjectConsentVersion));
+		}
+		return returnList;
+	}
+	
+	public edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion convertToSubjectConsent(StudySubjectConsentVersion studySubjectConsentVersion){
+		edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion target = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion();
+		target.setConsentDeliveryDate(convertToTsDateTime(studySubjectConsentVersion.getConsentDeliveryDate()));
+		target.setConsentingMethod(iso.CD(studySubjectConsentVersion.getConsentingMethod().getCode()));
+		target.setConsentPresenter(iso.ST(studySubjectConsentVersion.getConsentPresenter()));
+		target.setInformedConsentDate(convertToTsDateTime(studySubjectConsentVersion.getInformedConsentSignedDate()));
+		target.setConsent(new DocumentVersion());
+		target.getConsent().setOfficialTitle(iso.ST(studySubjectConsentVersion.getConsent().getName()));
+		target.getConsent().setVersionNumberText(iso.ST(studySubjectConsentVersion.getConsent().getVersionId()));
+		for(SubjectConsentQuestionAnswer subjectAnswer : studySubjectConsentVersion.getSubjectConsentAnswers()){
+			PerformedStudySubjectMilestone subjectAnswerTarget = new PerformedStudySubjectMilestone();
+			subjectAnswerTarget.setMissedIndicator(iso.BL(subjectAnswer.getAgreementIndicator()));
+			subjectAnswerTarget.setConsentQuestion(new DocumentVersion());
+			subjectAnswerTarget.getConsentQuestion().setOfficialTitle(iso.ST(subjectAnswer.getConsentQuestion().getCode()));
+			target.getSubjectConsentAnswer().add(subjectAnswerTarget);
+		}
+		return target;
 	}
 }

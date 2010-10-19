@@ -42,108 +42,107 @@ import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Document;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.Organization;
+import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Document;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DocumentIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DocumentVersion;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Organization;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Person;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudyProtocolDocumentVersion;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySiteProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectProtocolVersionRelationship;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.convertes.SubjectRegistryJAXBToDomainObjectConverterImpl;
 
 public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 
-	protected static final String BAD_STATE_CODE = "bad state code";
-	protected static final String BAD_RACE_CODE = "invalid race code";
-	protected static final String BAD_ISO_DATE = "1990-01-01";	
-	protected static final String TS_DATETIME_PATTERN = "yyyyMMddHHmmss";
-	protected static final String TEST_FAX = "555-555-5555";
-	protected static final String TEST_FAX_ISO = "x-text-fax:" + TEST_FAX;
-	protected static final String TEST_PHONE = "555-555-5555";
-	protected static final String TEST_PHONE_ISO = "tel:" + TEST_PHONE;
-	protected static final String TEST_EMAIL_ADDR = "johndoe@semanticbits.com";
-	protected static final String TEST_EMAIL_ADDR_ISO = "mailto:"
+	public static final String BAD_RACE_CODE = "invalid race code";
+	public static final String BAD_ISO_DATE = "1990-01-01";	
+	public static final String TS_DATETIME_PATTERN = "yyyyMMddHHmmss";
+	public static final String TEST_FAX = "555-555-5555";
+	public static final String TEST_FAX_ISO = "x-text-fax:" + TEST_FAX;
+	public static final String TEST_PHONE = "555-555-5555";
+	public static final String TEST_PHONE_ISO = "tel:" + TEST_PHONE;
+	public static final String TEST_EMAIL_ADDR = "johndoe@semanticbits.com";
+	public static final String TEST_EMAIL_ADDR_ISO = "mailto:"
 			+ TEST_EMAIL_ADDR;
-	protected static final String RACE_ASIAN = "Asian";
-	protected static final String RACE_WHITE = "White";
-	protected static final String TEST_COUNTRY = "USA";
-	protected static final String TEST_ZIP_CODE = "22203-5555";
-	protected static final String TEST_STATE_CODE = "VA";
-	protected static final String TEST_CITY_NAME = "Arlington";
-	protected static final String TEST_STREET_ADDRESS = "1029 N Stuart St Unit 999";
-	protected static final String TEST_LAST_NAME = "Doe";
-	protected static final String TEST_MID_NAME = "Z";
-	protected static final String TEST_FIRST_NAME = "John";
-	protected static final String MARITAL_STATUS_SINGLE = "Single";
-	protected static final String ETHNIC_CODE_NOT_REPORTED = "Not Reported";
-	protected static final String TEST_BIRTH_DATE_ISO = "19800101000000";
-	protected static final Date TEST_BIRTH_DATE = parseISODate(TEST_BIRTH_DATE_ISO);
-	protected static final String GENDER_MALE = "Male";
-	protected static final String STATE_ACTIVE = "ACTIVE";
-	protected static final String STATE_INACTIVE = "INACTIVE";
-	protected static final String ORG_ID_TYPE_MRN = OrganizationIdentifierTypeEnum.MRN
+	public static final String RACE_ASIAN = "Asian";
+	public static final String RACE_WHITE = "White";
+	public static final String TEST_COUNTRY = "USA";
+	public static final String TEST_ZIP_CODE = "22203-5555";
+	public static final String TEST_STATE_CODE = "VA";
+	public static final String TEST_CITY_NAME = "Arlington";
+	public static final String TEST_STREET_ADDRESS = "1029 N Stuart St Unit 999";
+	public static final String TEST_LAST_NAME = "Doe";
+	public static final String TEST_MID_NAME = "Z";
+	public static final String TEST_FIRST_NAME = "John";
+	public static final String MARITAL_STATUS_SINGLE = "Single";
+	public static final String ETHNIC_CODE_NOT_REPORTED = "Not Reported";
+	public static final String TEST_BIRTH_DATE_ISO = "19800101000000";
+	public static final Date TEST_BIRTH_DATE = parseISODate(TEST_BIRTH_DATE_ISO);
+	public static final String GENDER_MALE = "Male";
+	public static final String STATE_ACTIVE = "ACTIVE";
+	public static final String STATE_INACTIVE = "INACTIVE";
+	public static final String ORG_ID_TYPE_MRN = OrganizationIdentifierTypeEnum.MRN
 			.getName();
-	protected static final String ORG_ID_TYPE_STUDY = OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER
+	public static final String ORG_ID_TYPE_STUDY = OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER
 	.getName();
-	protected static final String ORG_ID_TYPE_STUDYSUBJECT = OrganizationIdentifierTypeEnum.COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER
+	public static final String ORG_ID_TYPE_STUDYSUBJECT = OrganizationIdentifierTypeEnum.COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER
 	.getName();
-	protected static final String TEST_BIO_ID = "001";
-	protected static final Boolean TEST_BIO_ID_PRIMARYINDICATOR=true;
-	protected static final String TEST_STUDYSUBJECT_ID = "002";
-	protected static final Boolean TEST_STUDYSUBJECT_ID_PRIMARYINDICATOR=false;
-	protected static final String TEST_STUDY_ID = "003";
-	protected static final Boolean TEST_STUDY_ID_PRIMARYINDICATOR=true;
-	protected static final String TEST_HEALTHCARESITE_ID = "004";
-	protected static final Boolean TEST_HEALTHCARESITE_ID_PRIMARYINDICATOR=false;
-	protected static final String ORG_ID_TYPE_CTEP = OrganizationIdentifierTypeEnum.CTEP
+	public static final String TEST_BIO_ID = "test_subject_id";
+	public static final Boolean TEST_BIO_ID_PRIMARYINDICATOR=true;
+	public static final String TEST_STUDYSUBJECT_ID = "002";
+	public static final Boolean TEST_STUDYSUBJECT_ID_PRIMARYINDICATOR=true;
+	public static final String TEST_STUDY_ID = "test_study_id";
+	public static final Boolean TEST_STUDY_ID_PRIMARYINDICATOR=true;
+	public static final String TEST_HEALTHCARESITE_ID = "MN026";
+	public static final Boolean TEST_HEALTHCARESITE_ID_PRIMARYINDICATOR=false;
+	public static final String ORG_ID_TYPE_CTEP = OrganizationIdentifierTypeEnum.CTEP
 			.getName();
-	protected static final String TEST_ORG_ID = "MN026";
-	protected static final String TEST_CONSENT_DELIVERY_DATE1 = "20090101000000";
-	protected static final String TEST_CONSENT_SIGNED_DATE1 = "20100101000000";
-	protected static final String TEST_CONSENT_PRESENTER1 = "John Doe";
-	protected static final String TEST_CONSENTING_METHOD1 = "Written";
-	protected static final String TEST_CONSENT_NAME1 = "general1";
-	protected static final String TEST_CONSENT_VERSION1 = "1.0";
-	protected static final Boolean TEST_CONSENT_ANS11=true;
-	protected static final Boolean TEST_CONSENT_ANS12=false;
-	protected static final String TEST_CONSENT_QUES11="Q11";
-	protected static final String TEST_CONSENT_QUES12="Q12";
-	protected static final String TEST_CONSENT_DELIVERY_DATE2 = "20060101000000";
-	protected static final String TEST_CONSENT_SIGNED_DATE2 = "20070101000000";
-	protected static final String TEST_CONSENT_PRESENTER2 = "Deep Singh";
-	protected static final String TEST_CONSENTING_METHOD2 = "Verbal";
-	protected static final String TEST_CONSENT_NAME2 = "general2";
-	protected static final String TEST_CONSENT_VERSION2 = "2.0";
-	protected static final Boolean TEST_CONSENT_ANS21=true;
-	protected static final Boolean TEST_CONSENT_ANS22=false;
-	protected static final String TEST_CONSENT_QUES21="Q21";
-	protected static final String TEST_CONSENT_QUES22="Q22";
-	protected static final String TEST_REGISTRYSTATUS_CODE1="Enrolled";
-	protected static final String TEST_REGISTRYSTATUS_DATE1 = "20080101000000";
-	protected static final String TEST_REGISTRYSTATUS_REASON11 = "reason11";
-	protected static final String TEST_REGISTRYSTATUS_REASON12 = "reason12";
-	protected static final String TEST_REGISTRYSTATUS_CODE2="Off-Study";
-	protected static final String TEST_REGISTRYSTATUS_DATE2 = "20070101000000";
-	protected static final String TEST_REGISTRYSTATUS_REASON21 = "reason21";
-	protected static final String TEST_REGISTRYSTATUS_REASON22 = "reason22";
-	protected static final String TEST_PAYMENT_METHOD = "private insurance";
-	protected static final String TEST_DATA_ENTRY_STATUS = "Incomplete";
-	protected static final String TEST_SHORTTITLE = "short";
-	protected static final String TEST_LONGTITLE = "long";
-	protected static final String TEST_DESC = "desc";
+	public static final String TEST_ORG_ID = "MN026";
+	public static final String TEST_CONSENT_DELIVERY_DATE1 = "20090101000000";
+	public static final String TEST_CONSENT_SIGNED_DATE1 = "20100101000000";
+	public static final String TEST_CONSENT_PRESENTER1 = "John Doe";
+	public static final String TEST_CONSENTING_METHOD1 = "Written";
+	public static final String TEST_CONSENT_NAME1 = "General1";
+	public static final String TEST_CONSENT_VERSION1 = "1.0";
+	public static final Boolean TEST_CONSENT_ANS11=true;
+	public static final Boolean TEST_CONSENT_ANS12=false;
+	public static final String TEST_CONSENT_QUES11="Q11";
+	public static final String TEST_CONSENT_QUES12="Q12";
+	public static final String TEST_CONSENT_DELIVERY_DATE2 = "20060101000000";
+	public static final String TEST_CONSENT_SIGNED_DATE2 = "20070101000000";
+	public static final String TEST_CONSENT_PRESENTER2 = "Deep Singh";
+	public static final String TEST_CONSENTING_METHOD2 = "Verbal";
+	public static final String TEST_CONSENT_NAME2 = "general2";
+	public static final String TEST_CONSENT_VERSION2 = "2.0";
+	public static final Boolean TEST_CONSENT_ANS21=true;
+	public static final Boolean TEST_CONSENT_ANS22=false;
+	public static final String TEST_CONSENT_QUES21="Q21";
+	public static final String TEST_CONSENT_QUES22="Q22";
+	public static final String TEST_REGISTRYSTATUS_CODE1="Screen Failed";
+	public static final String TEST_REGISTRYSTATUS_DATE1 = "20080101000000";
+	public static final String TEST_REGISTRYSTATUS_REASON11 = "FAILED INCLUSION";
+	public static final String TEST_REGISTRYSTATUS_REASON12 = "Lab_Out_Of_Range1";
+	public static final String TEST_REGISTRYSTATUS_CODE2="Withdrawn";
+	public static final String TEST_REGISTRYSTATUS_DATE2 = "20070101000000";
+	public static final String TEST_REGISTRYSTATUS_REASON21 = "UNWILLING";
+	public static final String TEST_REGISTRYSTATUS_REASON22 = "Distance";
+	public static final String TEST_PAYMENT_METHOD = "private insurance";
+	public static final String TEST_DATA_ENTRY_STATUS = "Complete";
+	public static final String TEST_SHORTTITLE = "short_title_text";
+	public static final String TEST_LONGTITLE = "long_title";
+	public static final String TEST_DESC = "description";
 	public static final String TEST_VALUE2 = "v2";
 	public static final String TEST_VALUE1 = "v1";
 	public static final String TEST_PREDICATE = "Predicate";
@@ -166,7 +165,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 
 	protected HealthcareSiteDao healthcareSiteDao;
 
-	protected HealthcareSite healthcareSite;
+	protected static HealthcareSite healthcareSite;
 	
 	/*
 	 * (non-Javadoc)
@@ -201,7 +200,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	/**
 	 * @return
 	 */
-	protected BiologicEntityIdentifier createBioEntityId() {
+	public static BiologicEntityIdentifier createBioEntityId() {
 		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
 		bioId.setAssigningOrganization(createOrganization());
 		bioId.setIdentifier(iso.II(TEST_BIO_ID));
@@ -214,7 +213,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	/**
 	 * @return
 	 */
-	protected DocumentIdentifier createDocumentId() {
+	public static DocumentIdentifier createDocumentId() {
 		DocumentIdentifier docId = new DocumentIdentifier();
 		docId.setAssigningOrganization(createOrganization());
 		docId.setIdentifier(iso.II(TEST_STUDY_ID));
@@ -226,7 +225,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	/**
 	 * @return
 	 */
-	protected SubjectIdentifier createSubjectId() {
+	public static SubjectIdentifier createSubjectId() {
 		SubjectIdentifier subId = new SubjectIdentifier();
 		subId.setAssigningOrganization(createOrganization());
 		subId.setIdentifier(iso.II(TEST_STUDYSUBJECT_ID));
@@ -260,14 +259,14 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		};
 	}
 	
-	protected Organization createOrganization(){
+	public static Organization createOrganization(){
 		Organization organization = new Organization();
 		OrganizationIdentifier oid = createOrgId();
 		organization.getOrganizationIdentifier().add(oid);
 		return organization;
 	}
 	
-	protected OrganizationIdentifier createOrgId(){
+	public static OrganizationIdentifier createOrgId(){
 		OrganizationIdentifier oid = new OrganizationIdentifier();
 		oid.setIdentifier(iso.II(TEST_ORG_ID));
 		oid.setPrimaryIndicator(iso.BL(true));
@@ -275,7 +274,8 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		return oid;
 	}
 	
-	protected void addSubjectConsent(StudySubjectProtocolVersionRelationship studySubjectProtocolVersionRelationship){
+	public static List<StudySubjectConsentVersion> getSubjectConsents(){
+		List<StudySubjectConsentVersion> returnList = new ArrayList<StudySubjectConsentVersion>();
 		//add 1st consent
 		StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
 		studySubjectConsentVersion.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE1));
@@ -297,7 +297,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		subjectAnswer.getConsentQuestion().setOfficialTitle(iso.ST(TEST_CONSENT_QUES12));
 		studySubjectConsentVersion.getSubjectConsentAnswer().add(subjectAnswer);
 		
-		studySubjectProtocolVersionRelationship.getStudySubjectConsentVersion().add(studySubjectConsentVersion);
+		returnList.add(studySubjectConsentVersion);
 		
 		//add 2nd consent
 		studySubjectConsentVersion = new StudySubjectConsentVersion();
@@ -320,7 +320,9 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		subjectAnswer.getConsentQuestion().setOfficialTitle(iso.ST(TEST_CONSENT_QUES22));
 		studySubjectConsentVersion.getSubjectConsentAnswer().add(subjectAnswer);
 		
-		studySubjectProtocolVersionRelationship.getStudySubjectConsentVersion().add(studySubjectConsentVersion);
+		returnList.add(studySubjectConsentVersion);
+		
+		return returnList;
 	}
 	
 	protected void assertSubjectConsent(List<edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion> actual){
@@ -350,7 +352,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	/**
 	 * @return
 	 */
-	protected AdvanceSearchCriterionParameter createAdvaceSearchParam() {
+	public static AdvanceSearchCriterionParameter createAdvaceSearchParam() {
 		AdvanceSearchCriterionParameter param = new AdvanceSearchCriterionParameter();
 		param.setAttributeName(iso.ST(TEST_ATTRIBUTE_NAME));
 		param.setObjectContextName(iso.ST(TEST_OBJ_CTX_NAME));
@@ -361,7 +363,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		return param;
 	}
 	
-	protected PerformedStudySubjectMilestone createStatus(){
+	public static PerformedStudySubjectMilestone createStatus(){
 		PerformedStudySubjectMilestone status = new PerformedStudySubjectMilestone();
 		status.setStatusCode(iso.CD(TEST_REGISTRYSTATUS_CODE1));
 		status.setStatusDate(iso.TSDateTime(TEST_REGISTRYSTATUS_DATE1));
@@ -374,7 +376,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	/**
 	 * @return
 	 */
-	protected StudySubjectDemographics createSubjectDemographics() {
+	public static StudySubjectDemographics createSubjectDemographics() {
 		StudySubjectDemographics s = new StudySubjectDemographics();
 
 		OrganizationAssignedIdentifier id = new OrganizationAssignedIdentifier();
@@ -402,7 +404,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		return s;
 	}
 	
-	protected StudySubject createStudySubjectDomainObject(){
+	public static StudySubject createStudySubjectDomainObject(){
 		StudySubject studySubject = new StudySubject();
 		studySubject.setStudySubjectDemographics(createSubjectDemographics());
 		studySubject.setPaymentMethod(TEST_PAYMENT_METHOD);
@@ -499,7 +501,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		return studySubject;
 	}
 	
-	protected edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject createStudySubjectJAXBObject(){
+	public static edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject createStudySubjectJAXBObject(){
 		edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject studySubject = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject();
 		studySubject.setEntity(createPerson());
 		studySubject.setPaymentMethodCode(iso.CD(TEST_PAYMENT_METHOD));
@@ -640,7 +642,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	/**
 	 * @return
 	 */
-	protected List<RaceCodeEnum> createRaceCodes() {
+	public static List<RaceCodeEnum> createRaceCodes() {
 		List<RaceCodeEnum> list = new ArrayList<RaceCodeEnum>();		
 		list.add(RaceCodeEnum.White);		
 		list.add(RaceCodeEnum.Asian);
@@ -650,7 +652,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	/**
 	 * @return
 	 */
-	protected Person createPerson() {
+	public static Person createPerson() {
 		Person person = new Person();
 		person.getBiologicEntityIdentifier().add(createBioEntityId());
 		person.setAdministrativeGenderCode(iso.CD(GENDER_MALE));

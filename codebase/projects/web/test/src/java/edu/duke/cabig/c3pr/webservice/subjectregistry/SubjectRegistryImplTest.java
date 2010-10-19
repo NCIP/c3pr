@@ -45,12 +45,12 @@ public class SubjectRegistryImplTest extends SubjectRegistryRelatedTestCase {
 	}
 	
 	public void testInitiateSubjectRegistry() throws Exception{
-//		StudySubject input = createStudySubjectJAXBObject();
-//		InitiateSubjectRegistryRequest request = new InitiateSubjectRegistryRequest();
-//		request.setStudySubject(input);
-		UpdateSubjectRegistryStatusRequest request = new UpdateSubjectRegistryStatusRequest();
-		request.setStudySubjectIdentifier(createSubjectId());
-		request.setStudySubjectStatus(createStatus());
+		StudySubject input = createStudySubjectJAXBObject();
+		InitiateStudySubjectRegistryRequest request = new InitiateStudySubjectRegistryRequest();
+		request.setStudySubject(input);
+//		UpdateSubjectRegistryStatusRequest request = new UpdateSubjectRegistryStatusRequest();
+//		request.setStudySubjectIdentifier(createSubjectId());
+//		request.setStudySubjectStatus(createStatus());
 //		InitiateSubjectRegistryRequest param = new InitiateSubjectRegistryRequest();
 //		param.setStudySubject(input);
 //		EasyMock.expect(converter.convertSubjectIdentifiers(input.getSubjectIdentifier())).andReturn(Arrays.asList(new Identifier[]{new OrganizationAssignedIdentifier()}));

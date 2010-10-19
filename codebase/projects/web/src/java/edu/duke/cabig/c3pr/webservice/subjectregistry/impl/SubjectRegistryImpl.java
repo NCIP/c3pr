@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.webservice.subjectregistry.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,10 +9,12 @@ import javax.jws.WebService;
 import javax.xml.ws.Holder;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+import com.semanticbits.querybuilder.AdvancedSearchHelper;
 
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
@@ -35,19 +38,23 @@ import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DSETPerson;
+import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
+import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETPerson;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETPerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETStudySubject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETStudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DuplicateStudySubjectExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DuplicateStudySubjectExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.ImportSubjectRegistryRequest;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateSubjectRegistryRequest;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateSubjectRegistryResponse;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.InsufficientPrivilegesExceptionFaultMessage;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.ImportStudySubjectRegistryRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateStudySubjectRegistryRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateStudySubjectRegistryResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidQueryExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidQueryExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidSiteExceptionFault;
@@ -61,21 +68,31 @@ import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchPatientExceptionFaul
 import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchStudySubjectExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchStudySubjectExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.Person;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.QuerySubjectRegistryRequest;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.QuerySubjectRegistryResponse;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.RetrieveSubjectDemographyHistoryRequest;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.RetrieveSubjectDemographyHistoryResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryConsentsByStudySubjectRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryConsentsByStudySubjectResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryByConsentRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryByConsentResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryByStatusRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryByStatusResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryStatusHistoryRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryStatusHistoryResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.RetrieveStudySubjectDemographyHistoryRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.RetrieveStudySubjectDemographyHistoryResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.SecurityExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectProtocolVersionRelationship;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateSubjectRegistryRequest;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateSubjectRegistryResponse;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateSubjectRegistryStatusHistoryRequest;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateSubjectRegistryStatusHistoryResponse;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateSubjectRegistryStatusRequest;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateSubjectRegistryStatusResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectConsentRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectConsentResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryDemographyRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryDemographyResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryStatusHistoryRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryStatusHistoryResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryStatusRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryStatusResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.convertes.SubjectRegistryJAXBToDomainObjectConverter;
 
 @WebService(wsdlLocation="/WEB-INF/wsdl/SubjectRegistry.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectRegistryService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry", portName = "SubjectRegistry", serviceName = "SubjectRegistryService")
@@ -105,21 +122,21 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	private RegistryStatusDao registryStatusDao;
 	
 	public void importSubjectRegistry(
-			Holder<ImportSubjectRegistryRequest> importSubjectRegistryRequestMessage)
-			throws InsufficientPrivilegesExceptionFaultMessage,
-			InvalidStudySubjectDataExceptionFaultMessage {
+			Holder<ImportStudySubjectRegistryRequest> parameters)
+			throws InvalidStudySubjectDataExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
 		// TODO Auto-generated method stub
-
+		
 	}
-
-	public InitiateSubjectRegistryResponse initiateSubjectRegistry(
-			InitiateSubjectRegistryRequest initiateSubjectRegistryRequestMessage)
+	
+	public InitiateStudySubjectRegistryResponse initiateStudySubject(
+			InitiateStudySubjectRegistryRequest parameters)
 			throws DuplicateStudySubjectExceptionFaultMessage,
-			InsufficientPrivilegesExceptionFaultMessage,
 			InvalidSiteExceptionFaultMessage,
 			InvalidStudyProtocolExceptionFaultMessage,
-			InvalidStudySubjectDataExceptionFaultMessage {
-		StudySubject studySubject = initiateSubjectRegistryRequestMessage.getStudySubject();
+			InvalidStudySubjectDataExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
+		StudySubject studySubject = parameters.getStudySubject();
 		//test duplicate study subject
 		try {
 			getStudySubject(studySubject.getSubjectIdentifier());
@@ -133,19 +150,27 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		edu.duke.cabig.c3pr.domain.StudySubject domainObject = new edu.duke.cabig.c3pr.domain.StudySubject();
 		
 		//getParticipant
-		Participant participant = getParticipant((Person) studySubject.getEntity());
+		Participant participant = getParticipant(parameters.getSubjectIdentifier());
 		
 		//getStudySite
-		StudySite studySite = getStudySite(studySubject.getStudySubjectProtocolVersion());
+		Study study = getStudy(parameters.getStudyIdentifier());
+		//getStudySite
+		StudySite studySite = getStudySite(study, parameters.getSiteIdentifier());
 		
 		//set study, studysite and subject demography
 		domainObject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
 		domainObject.setStudySite(studySite);
 		
-		//copy organic attributes, identifiers and consent information
+		//copy organic attributes, identifiers
 		copyEnrollmentDetails(domainObject , studySubject);
 		
-		//test re registration
+		//copy consent information
+		if(studySubject.getStudySubjectProtocolVersion() != null &&
+				studySubject.getStudySubjectProtocolVersion().getStudySubjectConsentVersion() !=null &&
+				studySubject.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().size()>0)
+		copyConsentDetails(domainObject, studySubject.getStudySubjectProtocolVersion().getStudySubjectConsentVersion());
+		
+		//test re-registration
 		List<edu.duke.cabig.c3pr.domain.StudySubject> registrations = studySubjectRepository.findRegistrations(domainObject);;
 		if (registrations.size() > 0) {
 			handleDuplicateStudySubject(exceptionHelper
@@ -154,17 +179,53 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		
 		domainObject = studySubjectRepository.save(domainObject);
 		
-		InitiateSubjectRegistryResponse initiateSubjectRegistryResponse = new InitiateSubjectRegistryResponse();
-		initiateSubjectRegistryResponse.setStudySubject(converter.convert(domainObject));
-		return initiateSubjectRegistryResponse;
+		InitiateStudySubjectRegistryResponse response = new InitiateStudySubjectRegistryResponse();
+		response.setStudySubject(converter.convert(domainObject));
+		return response;
 	}
 
-	public QuerySubjectRegistryResponse querySubjectRegistry(
-			QuerySubjectRegistryRequest parameters)
-			throws InsufficientPrivilegesExceptionFaultMessage,
-			InvalidQueryExceptionFaultMessage {
-		
-		QuerySubjectRegistryResponse response = new QuerySubjectRegistryResponse();
+	public QueryConsentsByStudySubjectResponse queryConsentsByStudySubject(
+			QueryConsentsByStudySubjectRequest parameters)
+			throws InvalidQueryExceptionFaultMessage,
+			SecurityExceptionFaultMessage, NoSuchStudySubjectExceptionFaultMessage {
+		edu.duke.cabig.c3pr.domain.StudySubject domainObject = null;
+		try {
+			domainObject = getStudySubject(Arrays.asList(new SubjectIdentifier[]{parameters.getStudySubjectIdentifier()}));
+		} catch (C3PRCodedRuntimeException e) {
+			handleNoStudySubjectFound(e);
+		}
+		QueryConsentsByStudySubjectResponse queryConsentsByStudySubjectResponse = new QueryConsentsByStudySubjectResponse();
+		DSETStudySubjectConsentVersion dsetStudySubjectConsentVersion = new DSETStudySubjectConsentVersion();
+		queryConsentsByStudySubjectResponse.setStudySubjectConsents(dsetStudySubjectConsentVersion);
+		dsetStudySubjectConsentVersion.getItem().addAll(converter.convertToSubjectConsent(domainObject.getAllConsents()));
+		for(edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion convertedSubjectConsent : dsetStudySubjectConsentVersion.getItem()){
+			edu.duke.cabig.c3pr.webservice.common.Consent convertedConsent = (edu.duke.cabig.c3pr.webservice.common.Consent)convertedSubjectConsent.getConsent();
+			if(parameters.getConsent() != null){
+				if(parameters.getConsent().getOfficialTitle() != null &&
+						StringUtils.isBlank(parameters.getConsent().getOfficialTitle().getValue())){
+					if(!convertedConsent.getOfficialTitle().getValue().equals(parameters.getConsent().getOfficialTitle().getValue())){
+						dsetStudySubjectConsentVersion.getItem().remove(convertedConsent);
+					}
+				}else if(parameters.getConsent().getVersionNumberText() != null &&
+						StringUtils.isBlank(parameters.getConsent().getVersionNumberText().getValue())){
+					if(!convertedConsent.getVersionNumberText().getValue().equals(parameters.getConsent().getVersionNumberText().getValue())){
+						dsetStudySubjectConsentVersion.getItem().remove(convertedConsent);
+					}
+				}else if(parameters.getConsent().getVersionDate() != null){
+					if(!convertedConsent.getVersionDate().equals(parameters.getConsent().getVersionDate())){
+						dsetStudySubjectConsentVersion.getItem().remove(convertedConsent);
+					}
+				}
+			}
+		}
+		return queryConsentsByStudySubjectResponse;
+	}
+
+	public QueryStudySubjectRegistryResponse querySubjectRegistry(
+			QueryStudySubjectRegistryRequest parameters)
+			throws InvalidQueryExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
+		QueryStudySubjectRegistryResponse response = new QueryStudySubjectRegistryResponse();
 		DSETStudySubject studySubjects = new DSETStudySubject();
 		response.setStudySubjects(studySubjects);
 
@@ -187,17 +248,148 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
-	public RetrieveSubjectDemographyHistoryResponse retrieveSubjectDemographyHistory(
-			RetrieveSubjectDemographyHistoryRequest retrieveSubjectDemographyHistoryRequestMessage)
-			throws InsufficientPrivilegesExceptionFaultMessage,
-			NoSuchPatientExceptionFaultMessage {
-		RetrieveSubjectDemographyHistoryResponse response = new RetrieveSubjectDemographyHistoryResponse();
+	public QueryStudySubjectRegistryByConsentResponse querySubjectRegistryByConsent(
+			QueryStudySubjectRegistryByConsentRequest parameters)
+			throws InvalidQueryExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter = null; 
+		if(parameters.getStudyIdentifier() != null &&
+				parameters.getStudyIdentifier().getIdentifier() != null &&
+				!StringUtils.isBlank(parameters.getStudyIdentifier().getIdentifier().getExtension())){
+			advancedSearchCriteriaParameter = AdvancedSearchHelper
+			.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.Identifier", "Study",
+					"value", parameters.getStudyIdentifier().getIdentifier().getExtension(), "=");
+			criteriaParameters.add(advancedSearchCriteriaParameter);
+		}
+		
+		boolean consentParamFound = false;
+		if(parameters.getConsent() == null){
+			InvalidQueryExceptionFault fault = new InvalidQueryExceptionFault();
+			String message = "No consent parameter provided";
+			fault.setMessage(message);
+			throw new InvalidQueryExceptionFaultMessage("message", fault);
+		}
+		if(parameters.getConsent().getOfficialTitle() != null &&
+				!StringUtils.isBlank(parameters.getConsent().getOfficialTitle().getValue())){
+			advancedSearchCriteriaParameter = AdvancedSearchHelper
+			.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.Consent",
+					"name", parameters.getConsent().getOfficialTitle().getValue(), "=");
+			criteriaParameters.add(advancedSearchCriteriaParameter);
+			consentParamFound = true;
+		}
+		if(parameters.getConsent().getVersionNumberText() != null &&
+				!StringUtils.isBlank(parameters.getConsent().getVersionNumberText().getValue())){
+			advancedSearchCriteriaParameter = AdvancedSearchHelper
+			.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.Consent",
+					"versionId", parameters.getConsent().getVersionNumberText().getValue(), "=");
+			criteriaParameters.add(advancedSearchCriteriaParameter);
+			consentParamFound = true;
+		}
+		if(parameters.getConsent().getVersionDate() != null){
+			advancedSearchCriteriaParameter = AdvancedSearchHelper
+			.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.Consent",
+					"versionId", new SimpleDateFormat("MM/dd/yyyy").format(converter.convertToDate(parameters.getConsent().getVersionDate())), "=");
+			criteriaParameters.add(advancedSearchCriteriaParameter);
+			consentParamFound = true;
+		}
+		if(!consentParamFound){
+			InvalidQueryExceptionFault fault = new InvalidQueryExceptionFault();
+			String message = "No consent parameter provided";
+			fault.setMessage(message);
+			throw new InvalidQueryExceptionFaultMessage("message", fault);
+		}
+		List<edu.duke.cabig.c3pr.domain.StudySubject> results = studySubjectDao.search(criteriaParameters);
+		
+		QueryStudySubjectRegistryByConsentResponse response = new QueryStudySubjectRegistryByConsentResponse();
+		response.setStudySubjects(new DSETStudySubject());
+		for (edu.duke.cabig.c3pr.domain.StudySubject result : results) {
+			response.getStudySubjects().getItem().add(converter.convert(result));
+		}
+		return response;
+	}
+
+	public QueryStudySubjectRegistryByStatusResponse querySubjectRegistryByRegistryStatus(
+			QueryStudySubjectRegistryByStatusRequest parameters)
+			throws InvalidQueryExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter = null; 
+		if(parameters.getStudyIdentifier() != null &&
+				parameters.getStudyIdentifier().getIdentifier() != null &&
+				!StringUtils.isBlank(parameters.getStudyIdentifier().getIdentifier().getExtension())){
+			advancedSearchCriteriaParameter = AdvancedSearchHelper
+			.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.Identifier", "Study",
+					"value", parameters.getStudyIdentifier().getIdentifier().getExtension(), "=");
+			criteriaParameters.add(advancedSearchCriteriaParameter);
+		}
+		
+		boolean registryStatusFound = false;
+		if(parameters.getRegistryStatus() == null){
+			InvalidQueryExceptionFault fault = new InvalidQueryExceptionFault();
+			String message = "No registry status parameter provided";
+			fault.setMessage(message);
+			throw new InvalidQueryExceptionFaultMessage("message", fault);
+		}
+		if(parameters.getRegistryStatus().getStatusCode() != null &&
+				!StringUtils.isBlank(parameters.getRegistryStatus().getStatusCode().getCode())){
+			advancedSearchCriteriaParameter = AdvancedSearchHelper
+			.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.RegistryStatus",
+					"code", parameters.getRegistryStatus().getStatusCode().getCode(), "=");
+			criteriaParameters.add(advancedSearchCriteriaParameter);
+			registryStatusFound = true;
+		}
+		if(parameters.getRegistryStatus().getReasonCode() != null &&
+				parameters.getRegistryStatus().getReasonCode().getItem() != null &&
+				parameters.getRegistryStatus().getReasonCode().getItem().size()>0){
+			List<String> values = new ArrayList<String>();
+			for(CD reason : parameters.getRegistryStatus().getReasonCode().getItem()){
+				if(!StringUtils.isBlank(reason.getCode())){
+					values.add(reason.getCode());
+				}
+			}
+			if(values.size()>0){
+				advancedSearchCriteriaParameter = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.Reason",
+						"code", values, "=");
+				criteriaParameters.add(advancedSearchCriteriaParameter);
+				registryStatusFound = true;				
+			}
+		}
+		if(parameters.getRegistryStatus().getStatusDate() != null){
+			advancedSearchCriteriaParameter = AdvancedSearchHelper
+			.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus",
+					"effectiveDate", new SimpleDateFormat("MM/dd/yyyy").format(converter.convertToDate(parameters.getRegistryStatus().getStatusDate())), "=");
+			criteriaParameters.add(advancedSearchCriteriaParameter);
+			registryStatusFound = true;
+		}
+		if(!registryStatusFound){
+			InvalidQueryExceptionFault fault = new InvalidQueryExceptionFault();
+			String message = "No registry status parameter provided";
+			fault.setMessage(message);
+			throw new InvalidQueryExceptionFaultMessage("message", fault);
+		}
+		List<edu.duke.cabig.c3pr.domain.StudySubject> results = studySubjectDao.search(criteriaParameters);
+		
+		QueryStudySubjectRegistryByStatusResponse response = new QueryStudySubjectRegistryByStatusResponse();
+		response.setStudySubjects(new DSETStudySubject());
+		for (edu.duke.cabig.c3pr.domain.StudySubject result : results) {
+			response.getStudySubjects().getItem().add(converter.convert(result));
+		}
+		return response;
+	}
+
+	public RetrieveStudySubjectDemographyHistoryResponse retrieveStudySubjectDemographyHistory(
+			RetrieveStudySubjectDemographyHistoryRequest parameters)
+			throws NoSuchPatientExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
+		RetrieveStudySubjectDemographyHistoryResponse response = new RetrieveStudySubjectDemographyHistoryResponse();
 		DSETPerson patients = new DSETPerson();
 		response.setPatients(patients);
 
 		try {
 			List<Participant> results = participantDao.getByIdentifiers(converter.
-					convertBiologicIdentifiers(Arrays.asList(new BiologicEntityIdentifier[]{retrieveSubjectDemographyHistoryRequestMessage.getPatientIdentifier()})));
+					convertBiologicIdentifiers(Arrays.asList(new BiologicEntityIdentifier[]{parameters.getPatientIdentifier()})));
 			if(results.size()!=1){
 				handleNoSubjectFound(exceptionHelper
 						.getConversionException(SUBJECT_NOT_FOUND));
@@ -211,31 +403,99 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
-	public UpdateSubjectRegistryResponse updateSubjectRegistry(
-			UpdateSubjectRegistryRequest updateSubjectRegistryRequestMessage)
-			throws InsufficientPrivilegesExceptionFaultMessage,
-			InvalidStudySubjectDataExceptionFaultMessage,
-			NoSuchStudySubjectExceptionFaultMessage {
-		//test duplicate study subject
+	public UpdateStudySubjectRegistryResponse updateStudySubject(
+			UpdateStudySubjectRegistryRequest parameters)
+			throws InvalidStudySubjectDataExceptionFaultMessage,
+			NoSuchStudySubjectExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
+		//test invalid study subject
 		edu.duke.cabig.c3pr.domain.StudySubject domainObject = null;
-		StudySubject studySubject = updateSubjectRegistryRequestMessage.getStudySubject();
 		try {
-			domainObject = getStudySubject(studySubject.getSubjectIdentifier());
+			domainObject = getStudySubject(Arrays.asList(new SubjectIdentifier[]{parameters.getStudySubjectIdentifier()}));
 		} catch (C3PRCodedRuntimeException e) {
 			handleNoStudySubjectFound(e);
 		}
-		update(domainObject, studySubject);
-		UpdateSubjectRegistryResponse updateSubjectRegistryResponse = new UpdateSubjectRegistryResponse();
-		updateSubjectRegistryResponse.setStudySubject(converter.convert(domainObject));
-		return updateSubjectRegistryResponse;
+		
+		//copy organic attributes like payment method and identifiers
+		copyEnrollmentDetails(domainObject, parameters.getStudySubject());
+		
+		studySubjectDao.save(domainObject);
+		
+		UpdateStudySubjectRegistryResponse response = new UpdateStudySubjectRegistryResponse();
+		response.setStudySubject(converter.convert(domainObject));
+		return response;
 	}
 
-	public UpdateSubjectRegistryStatusResponse updateSubjectRegistryStatus(
-			UpdateSubjectRegistryStatusRequest updateSubjectRegistryStatusRequestMessage)
-			throws InsufficientPrivilegesExceptionFaultMessage,
-			InvalidStudySubjectDataExceptionFaultMessage,
-			NoSuchStudySubjectExceptionFaultMessage {
-		SubjectIdentifier subjectIdentifier = updateSubjectRegistryStatusRequestMessage.getStudySubjectIdentifier();
+	public UpdateStudySubjectRegistryDemographyResponse updateStudySubjectDemography(
+			UpdateStudySubjectRegistryDemographyRequest parameters)
+			throws InvalidStudySubjectDataExceptionFaultMessage,
+			NoSuchStudySubjectExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
+		//test invalid study subject
+		edu.duke.cabig.c3pr.domain.StudySubject domainObject = null;
+		try {
+			domainObject = getStudySubject(Arrays.asList(new SubjectIdentifier[]{parameters.getStudySubjectIdentifier()}));
+		} catch (C3PRCodedRuntimeException e) {
+			handleNoStudySubjectFound(e);
+		}
+		
+		//copy organic attributes like payment method and identifiers
+		Subject subject = new Subject();
+		subject.setEntity(parameters.getPerson());
+		converter.convertToSubjectDemographics(domainObject.getStudySubjectDemographics(), subject);
+		
+		studySubjectDao.save(domainObject);
+		
+		UpdateStudySubjectRegistryDemographyResponse response = new UpdateStudySubjectRegistryDemographyResponse();
+		response.setStudySubject(converter.convert(domainObject));
+		return response;
+	}
+
+	public QueryStudySubjectRegistryStatusHistoryResponse queryStudySubjectRegistryStatusHistory(
+			QueryStudySubjectRegistryStatusHistoryRequest parameters)
+			throws InvalidQueryExceptionFaultMessage,
+			SecurityExceptionFaultMessage, NoSuchStudySubjectExceptionFaultMessage {
+		edu.duke.cabig.c3pr.domain.StudySubject domainObject = null;
+		try {
+			domainObject = getStudySubject(Arrays.asList(new SubjectIdentifier[]{parameters.getStudySubjectIdentifier()}));
+		} catch (C3PRCodedRuntimeException e) {
+			handleNoStudySubjectFound(e);
+		}
+		
+		DSETPerformedStudySubjectMilestone dsetPerformedStudySubjectMilestone = new DSETPerformedStudySubjectMilestone();
+		dsetPerformedStudySubjectMilestone.getItem().addAll(converter.convertToRegistryStatus(domainObject.getStudySubjectRegistryStatusHistory()));
+		QueryStudySubjectRegistryStatusHistoryResponse response = new QueryStudySubjectRegistryStatusHistoryResponse();
+		response.setStudySubjectRegistryStatusHistory(dsetPerformedStudySubjectMilestone);
+		return response;
+	}
+
+	public UpdateStudySubjectConsentResponse updateStudySubjectConsent(
+			UpdateStudySubjectConsentRequest parameters)
+			throws InvalidStudySubjectDataExceptionFaultMessage,
+			NoSuchStudySubjectExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
+		edu.duke.cabig.c3pr.domain.StudySubject domainObject = null;
+		try {
+			domainObject = getStudySubject(Arrays.asList(new SubjectIdentifier[]{parameters.getStudySubjectIdentifier()}));
+		} catch (C3PRCodedRuntimeException e) {
+			handleNoStudySubjectFound(e);
+		}
+		
+		copyConsentDetails(domainObject, parameters.getStudySubjectConsentVersions().getItem());
+		
+		studySubjectDao.save(domainObject);
+		
+		UpdateStudySubjectConsentResponse response = new UpdateStudySubjectConsentResponse();
+		response.setStudySubject(converter.convert(domainObject));
+		return response;
+	}
+
+	public UpdateStudySubjectRegistryStatusResponse updateStudySubjectRegistryStatus(
+			UpdateStudySubjectRegistryStatusRequest parameters)
+			throws InvalidStudySubjectDataExceptionFaultMessage,
+			NoSuchStudySubjectExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
+		SubjectIdentifier subjectIdentifier = parameters.getStudySubjectIdentifier();
 		//test duplicate study subject
 		edu.duke.cabig.c3pr.domain.StudySubject domainObject = null;
 		try {
@@ -244,21 +504,21 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 			handleNoStudySubjectFound(e);
 		}
 		
-		StudySubjectRegistryStatus studySubjectRegistryStatus = getStudySubjectRegistryStatus(updateSubjectRegistryStatusRequestMessage.getStudySubjectStatus(), domainObject.getStudySite().getStudy());
+		StudySubjectRegistryStatus studySubjectRegistryStatus = getStudySubjectRegistryStatus(parameters.getStudySubjectStatus(), domainObject.getStudySite().getStudy());
 		domainObject.updateRegistryStatus(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode(), studySubjectRegistryStatus.getEffectiveDate(), studySubjectRegistryStatus.getReasons());
 		
-		domainObject = studySubjectRepository.save(domainObject);
+		studySubjectDao.save(domainObject);
 		
-		UpdateSubjectRegistryStatusResponse updateSubjectRegistryStatusResponse = new UpdateSubjectRegistryStatusResponse();
-		updateSubjectRegistryStatusResponse.setStudySubject(converter.convert(domainObject));
-		return updateSubjectRegistryStatusResponse;
+		UpdateStudySubjectRegistryStatusResponse response = new UpdateStudySubjectRegistryStatusResponse();
+		response.setStudySubject(converter.convert(domainObject));
+		return response;
 	}
 
-	public UpdateSubjectRegistryStatusHistoryResponse updateSubjectRegistryStatusHistory(
-			UpdateSubjectRegistryStatusHistoryRequest parameters)
-			throws InsufficientPrivilegesExceptionFaultMessage,
-			InvalidStudySubjectDataExceptionFaultMessage,
-			NoSuchStudySubjectExceptionFaultMessage {
+	public UpdateStudySubjectRegistryStatusHistoryResponse updateStudySubjectRegistryStatusHistory(
+			UpdateStudySubjectRegistryStatusHistoryRequest parameters)
+			throws InvalidStudySubjectDataExceptionFaultMessage,
+			NoSuchStudySubjectExceptionFaultMessage,
+			SecurityExceptionFaultMessage {
 		SubjectIdentifier subjectIdentifier = parameters.getStudySubjectIdentifier();
 		//test duplicate study subject
 		edu.duke.cabig.c3pr.domain.StudySubject domainObject = null;
@@ -268,15 +528,15 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 			handleNoStudySubjectFound(e);
 		}
 		domainObject.getStudySubjectRegistryStatusHistoryInternal().clear();
-		for(PerformedStudySubjectMilestone status : parameters.getStudySubjectStatusHistory().getItem()){
+		for(PerformedStudySubjectMilestone status : parameters.getStudySubjectRegistryStatusHistory().getItem()){
 			StudySubjectRegistryStatus studySubjectRegistryStatus = getStudySubjectRegistryStatus(status, domainObject.getStudySite().getStudy());
 			domainObject.updateRegistryStatus(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode(), studySubjectRegistryStatus.getEffectiveDate(), studySubjectRegistryStatus.getReasons());
 		}
-		domainObject = studySubjectRepository.save(domainObject);
+		studySubjectDao.save(domainObject);
 		
-		UpdateSubjectRegistryStatusHistoryResponse updateSubjectRegistryStatusHistoryResponse = new UpdateSubjectRegistryStatusHistoryResponse();
-		updateSubjectRegistryStatusHistoryResponse.setStudySubject(converter.convert(domainObject));
-		return updateSubjectRegistryStatusHistoryResponse;
+		UpdateStudySubjectRegistryStatusHistoryResponse response = new UpdateStudySubjectRegistryStatusHistoryResponse();
+		response.setStudySubject(converter.convert(domainObject));
+		return response;
 	}
 	
 	public void setSubjectRegistryJAXBToDomainObjectConverter(
@@ -292,9 +552,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		this.exceptionHelper = exceptionHelper;
 	}
 	
-	private Participant getParticipant(Person person) throws InvalidStudySubjectDataExceptionFaultMessage{
-		List<BiologicEntityIdentifier> identifiers = person
-		.getBiologicEntityIdentifier();
+	private Participant getParticipant(BiologicEntityIdentifier bioId) throws InvalidStudySubjectDataExceptionFaultMessage{
+		List<BiologicEntityIdentifier> identifiers = new ArrayList<BiologicEntityIdentifier>();
+		identifiers.add(bioId);
 		if (CollectionUtils.isEmpty(identifiers)) {
 			handleInvalidStudySubjectData(exceptionHelper
 					.getConversionException(MISSING_SUBJECT_IDENTIFIER));
@@ -310,37 +570,20 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return participants.get(0);
 	}
 	
-	private Study getStudy(StudySubjectProtocolVersionRelationship studySubjectProtocol)throws InvalidStudyProtocolExceptionFaultMessage{
-		if(studySubjectProtocol == null ||
-				studySubjectProtocol.getStudySiteProtocolVersion() == null ||
-				studySubjectProtocol.getStudySiteProtocolVersion().getStudyProtocolVersion() == null ||
-				studySubjectProtocol.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument() == null ||
-				studySubjectProtocol.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument() == null ||
-				studySubjectProtocol.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier() == null ||
-				studySubjectProtocol.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().size() ==0){
-			handleInvalidStudyData(exceptionHelper
-					.getConversionException(MISSING_STUDY_IDENTIFIER));
-		}
-		List<DocumentIdentifier> documentIdentifiers = studySubjectProtocol.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier();
+	private Study getStudy(DocumentIdentifier docId) throws InvalidStudyProtocolExceptionFaultMessage{
 		Study study = null;
 		try {
-			study = studyRepository.getUniqueStudy(converter.convertDocumentIdentifiers(documentIdentifiers));
+			study = studyRepository.getUniqueStudy(converter.convertDocumentIdentifiers(Arrays.asList(new DocumentIdentifier[]{docId})));
 		} catch (C3PRCodedRuntimeException e) {
 			handleInvalidStudyData(e);
 		}
 		return study;
 	}
 	
-	private StudySite getStudySite(StudySubjectProtocolVersionRelationship studySubjectProtocol)throws InvalidSiteExceptionFaultMessage, InvalidStudyProtocolExceptionFaultMessage{
-		Study study = getStudy(studySubjectProtocol);
-		if(studySubjectProtocol.getStudySiteProtocolVersion().getStudySite() == null ||
-				studySubjectProtocol.getStudySiteProtocolVersion().getStudySite().getOrganization() == null){
-			handleInvalidSiteData(exceptionHelper
-					.getConversionException(MISSING_STUDY_IDENTIFIER));
-		}
+	private StudySite getStudySite(Study study, OrganizationIdentifier orgId)throws InvalidSiteExceptionFaultMessage, InvalidStudyProtocolExceptionFaultMessage{
 		StudySite studySite = null;
 		try {
-			String siteId = converter.convertHealthcareSitePrimaryIdentifier(studySubjectProtocol.getStudySiteProtocolVersion().getStudySite().getOrganization());
+			String siteId = converter.convertHealthcareSitePrimaryIdentifier(orgId);
 			studySite = study.getStudySite(siteId);
 			if(studySite == null){
 				throw exceptionHelper.getRuntimeException(212, new Object[]{siteId});
@@ -368,9 +611,10 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		List<Identifier> identifiers = converter.convertSubjectIdentifiers(source.getSubjectIdentifier());
 		destination.getIdentifiers().clear();
 		destination.getIdentifiers().addAll(identifiers);
-		
-		//copy consent
-		List<StudySubjectConsentVersion> studySubjectConsents = converter.convertSubjectConsent(source.getStudySubjectProtocolVersion());
+	}
+	
+	private void copyConsentDetails(edu.duke.cabig.c3pr.domain.StudySubject destination , List<edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion> subjectConsents) throws InvalidStudySubjectDataExceptionFaultMessage{
+		List<StudySubjectConsentVersion> studySubjectConsents = converter.convertSubjectConsent(subjectConsents);
 		destination.getStudySubjectStudyVersion().getStudySubjectConsentVersions().clear();
 		Study study = destination.getStudySite().getStudy();
 		for(StudySubjectConsentVersion studySubjectConsentVersion : studySubjectConsents){
@@ -391,13 +635,6 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 			}
 			destination.getStudySubjectStudyVersion().getStudySubjectConsentVersions().add(studySubjectConsentVersion);
 		}
-	}
-	
-	private void update(edu.duke.cabig.c3pr.domain.StudySubject destination , StudySubject source) throws InvalidStudySubjectDataExceptionFaultMessage{
-		copyEnrollmentDetails(destination, source);
-		
-		//copy Subject Demographics
-		converter.convertToSubjectDemographics(destination.getStudySubjectDemographics(), source);
 	}
 	
 	private StudySubjectRegistryStatus getStudySubjectRegistryStatus(PerformedStudySubjectMilestone status, Study study) throws InvalidStudySubjectDataExceptionFaultMessage{
