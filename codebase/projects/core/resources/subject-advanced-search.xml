@@ -5,6 +5,7 @@
 		<display-name>Participant</display-name>
 		<table-name>participants</table-name>
 		<table-alias>Participant_xx</table-alias>
+		<join>inner join fetch Participant_xx.identifiers left join fetch Participant_xx.raceCodeAssociations left join fetch Participant_xx.contactMechanisms left join fetch Participant_xx.addresses</join>
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.Participant</class-name>
 			<display-name>Subject</display-name>
@@ -66,8 +67,7 @@
 					<role-name>addresses</role-name>
 					<table-name>addresses</table-name>
 					<table-alias>Address_xx</table-alias>
-					<joining-condition>Address_xx = any
-						elements(Participant_xx.addresses)
+					<joining-condition>Address_xx = any elements(Participant_xx.addresses)
 					</joining-condition>
 				</association>
 			</association-context>
@@ -107,8 +107,7 @@
 					<role-name>identifiers</role-name>
 					<table-name>identifiers</table-name>
 					<table-alias>Identifier_xx</table-alias>
-					<joining-condition>Identifier_xx = any
-						elements(Participant_xx.identifiers)</joining-condition>
+					<joining-condition>Identifier_xx = any elements(Participant_xx.identifiers)</joining-condition>
 				</association>
 			</association-context>
 		</dependent-object>
