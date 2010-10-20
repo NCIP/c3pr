@@ -5,6 +5,12 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.Date;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.time.DateUtils;
@@ -37,7 +43,7 @@ public final class SubjectMassCreator {
 			"http://enterpriseservices.nci.nih.gov/SubjectManagementService",
 			"SubjectManagementService");
 
-	private static final int NUMBER_OF_SUBJECTS = 1;
+	private static final int NUMBER_OF_SUBJECTS = 100;
 
 	private static URL endpointURL;
 	private static URL wsdlLocation;
@@ -49,8 +55,9 @@ public final class SubjectMassCreator {
 	static {
 		try {
 			endpointURL = new URL(
-					"https://localhost:8443/c3pr/services/services/SubjectManagement");
+					"https://dev.semanticbits.com/c3pr/services/services/SubjectManagement");
 			wsdlLocation = new URL(endpointURL.toString() + "?wsdl");
+			disableSSLVerification();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,6 +71,7 @@ public final class SubjectMassCreator {
 			Subject subject = createSubject(i);
 			request.setSubject(subject);
 			service.createSubject(request);
+			System.out.println("Created subject #"+i);
 		}
 	}
 
@@ -108,12 +116,12 @@ public final class SubjectMassCreator {
 	private static final String TEST_CITY_NAME_2 = "Vienna";
 	private static final String TEST_STREET_ADDRESS = "1029 N Stuart St Unit 999";
 	private static final String TEST_STREET_ADDRESS_2 = "2029 N Stuart St Unit 299";
-	private static final String TEST_LAST_NAME = "Doe";
-	private static final String TEST_LAST_NAME_2 = "Doe2";
+	private static final String TEST_LAST_NAME = "Buttafuoco";
+	private static final String TEST_LAST_NAME_2 = "Buttafuoco";
 	private static final String TEST_MID_NAME = "Z";
 	private static final String TEST_MID_NAME_2 = "A";
-	private static final String TEST_FIRST_NAME = "John";
-	private static final String TEST_FIRST_NAME_2 = "Johnny";
+	private static final String TEST_FIRST_NAME = "Joey";
+	private static final String TEST_FIRST_NAME_2 = "Joey";
 	private static final String MARITAL_STATUS_SINGLE = "Single";
 	private static final String MARITAL_STATUS_MARRIED = "Married";
 	private static final String ETHNIC_CODE_NOT_REPORTED = "Not Reported";
@@ -156,7 +164,9 @@ public final class SubjectMassCreator {
 	protected static Person createPerson(int n) {
 		boolean a = false;
 		Person person = new Person();
-		person.getBiologicEntityIdentifier().add(createBioEntityId(n));
+		person.getBiologicEntityIdentifier().add(createBioEntityId(n,"MN026"));
+		person.getBiologicEntityIdentifier().add(createBioEntityId(n,"MN023"));
+		person.getBiologicEntityIdentifier().add(createBioEntityId(n,"MN072"));
 		person.setAdministrativeGenderCode(!a ? iso.CD(GENDER_MALE) : iso.CD(
 				GENDER_FEMALE));
 		person.setBirthDate(!a ? iso.TSDateTime(TEST_BIRTH_DATE_ISO)
@@ -199,9 +209,9 @@ public final class SubjectMassCreator {
 	/**
 	 * @return
 	 */
-	protected static BiologicEntityIdentifier createBioEntityId(int n) {
+	protected static BiologicEntityIdentifier createBioEntityId(int n, String orgCode) {
 		OrganizationIdentifier orgId = new OrganizationIdentifier();
-		orgId.setIdentifier(iso.II(TEST_ORG_ID));
+		orgId.setIdentifier(iso.II(orgCode));
 		orgId.setPrimaryIndicator(iso.BL(true));
 		orgId.setTypeCode(iso.CD(ORG_ID_TYPE_CTEP));
 
@@ -215,6 +225,49 @@ public final class SubjectMassCreator {
 		bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
 		bioId.setPrimaryIndicator(iso.BL(true));
 		return bioId;
+	}
+	
+	private static void disableSSLVerification() {
+		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+
+			public void checkClientTrusted(
+					java.security.cert.X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(
+					java.security.cert.X509Certificate[] certs, String authType) {
+			}
+		} };
+
+		try {
+			SSLContext sc = SSLContext.getInstance("SSL");
+			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+			HttpsURLConnection
+					.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		com.sun.net.ssl.HostnameVerifier hv = new com.sun.net.ssl.HostnameVerifier() {
+
+			public boolean verify(String urlHostname, String certHostname) {
+				return true;
+			}
+		};
+		com.sun.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(hv);
+
+		HostnameVerifier hv2 = new HostnameVerifier() {
+
+			public boolean verify(String urlHostName, SSLSession session) {
+				return true;
+			}
+		};
+		HttpsURLConnection.setDefaultHostnameVerifier(hv2);
+
 	}
 
 }
