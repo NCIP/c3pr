@@ -569,12 +569,15 @@
         <echo message="project ${ant.project.name} published locally with version ${version}" />
     </target>
 
+    <target name="clean-ws-lib" description="--> clean the project libraries directory (dependencies)">    	
+    	<echo message="Executing in ${ant.project.name}" />
+    	<delete includeemptydirs="true" dir="${ws.lib.dir}" failonerror="${delete.failonerror}"/>
+    </target>
 
 	<!-- ====================================================
           target: clean-lib
     =======================================================-->
-    <target name="clean-lib" description="--> clean the project libraries directory (dependencies)">
-    	<echo message="Executing in ${ant.project.name}" />
+    <target name="clean-lib" description="--> clean the project libraries directory (dependencies)">    	
     	<echo message="Executing in ${ant.project.name}" />
     	<delete includeemptydirs="true" dir="${lib.dir}" failonerror="${delete.failonerror}"/>
     </target>
@@ -639,7 +642,7 @@
     <!-- =================================
           target: clean
          ================================= -->
-	<target name="clean" depends="clean-classes, clean-classes-test, clean-dist, clean-lib, clean-lib-test,  clean-local-repo" description="--> clean the project" />
+	<target name="clean" depends="clean-classes, clean-classes-test, clean-dist, clean-lib, clean-ws-lib, clean-lib-test,  clean-local-repo" description="--> clean the project" />
 
 
 	<!-- ==============================================================
