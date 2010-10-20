@@ -1977,7 +1977,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.Reason", "OffEpochReason", "code",
+						"edu.duke.cabig.c3pr.domain.Reason", "code",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();

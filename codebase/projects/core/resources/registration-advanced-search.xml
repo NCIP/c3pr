@@ -426,7 +426,6 @@
 				<data-type>String</data-type>
 			</search-criteria>
 			<association-context>
-				<name>OffEpochReason</name>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
 					<role-name>studySubjectStudyVersions</role-name>
@@ -458,22 +457,31 @@
 					</joining-condition>
 				</association>
 			</association-context>
+		</dependent-object>
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.RegistryStatusReason</class-name>
+			<display-name>Registry Status Reason</display-name>
+			<table-alias>RegistryStatusReason_xx</table-alias>
+			<search-criteria>
+				<name>code</name>
+				<label>registry status change reason</label>
+				<data-type>String</data-type>
+			</search-criteria>
 			<association-context>
-				<name>RegistryStatusReason</name>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</name>
 					<role-name>studySubjectRegistryStatusHistoryInternal</role-name>
 					<table-alias>StudySubjectRegistryStatus_xx</table-alias>
-					<joining-condition>StudySubjectRegistryStatus_xxRegistryStatusReason = any
+					<joining-condition>StudySubjectRegistryStatus_xx = any
 						elements(StudySubject_xx.studySubjectRegistryStatusHistoryInternal)
 					</joining-condition>
 				</association>
 				<association>
-					<name>edu.duke.cabig.c3pr.domain.Reason</name>
+					<name>edu.duke.cabig.c3pr.domain.RegistryStatusReason</name>
 					<role-name>reasons</role-name>
-					<table-alias>Reason_xx</table-alias>
-					<joining-condition>Reason_xxRegistryStatusReason = any
-						elements(StudySubjectRegistryStatus_xxRegistryStatusReason.reasons)</joining-condition>
+					<table-alias>RegistryStatusReason_xx</table-alias>
+					<joining-condition>RegistryStatusReason_xx = any
+						elements(StudySubjectRegistryStatus_xx.reasons)</joining-condition>
 				</association>
 			</association-context>
 		</dependent-object>
