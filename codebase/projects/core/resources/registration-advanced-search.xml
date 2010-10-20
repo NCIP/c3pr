@@ -870,6 +870,100 @@
 				</association>
 			</association-context>
 		</dependent-object>
+		<!--Search by Healthcare Site in different contexts like Study Site,Coordinating Center, Funding Sponsor,
+		based on healthcare site database id and healthcare site name.  --><dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.HealthcareSite</class-name>
+			<display-name>HealthcareSite</display-name>
+			<table-alias>HealthcareSite_xx</table-alias>
+			<search-criteria>
+				<name>id</name>
+				<label>Database Id</label>
+				<data-type>Integer</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>name</name>
+				<label>Healthcare site name</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<association-context>
+				<name>EnrollingSite</name>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
+					<role-name>studySubjectStudyVersions</role-name>
+					<table-alias>StudySubjectStudyVersion_xx</table-alias>
+					<joining-condition>StudySubjectStudyVersion_xxEnrollingSite = any
+						elements(StudySubject_xx.studySubjectStudyVersions)
+					</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</name>
+					<role-name>studySiteStudyVersion</role-name>
+					<table-alias>StudySiteStudyVersion_xx</table-alias>
+					<joining-condition>StudySubjectStudyVersion_xxEnrollingSite.studySiteStudyVersion
+						= StudySiteStudyVersion_xxEnrollingSite</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySite</name>
+					<role-name>studySite</role-name>
+					<table-alias>StudySite_xx</table-alias>
+					<joining-condition>StudySiteStudyVersion_xxEnrollingSite.studySite =
+						StudySite_xxEnrollingSite</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.HealthcareSite</name>
+					<role-name>healthcareSite</role-name>
+					<table-alias>HealthcareSite_xx</table-alias>
+					<joining-condition>StudySite_xxEnrollingSite.healthcareSite = HealthcareSite_xxEnrollingSite
+					</joining-condition>
+				</association>
+			</association-context>
+			<association-context>
+				<name>StudyOrganization</name>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
+					<role-name>studySubjectStudyVersions</role-name>
+					<table-alias>StudySubjectStudyVersion_xx</table-alias>
+					<joining-condition>StudySubjectStudyVersion_xxStudyOrganization = any
+						elements(StudySubject_xx.studySubjectStudyVersions)
+					</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySiteStudyVersion</name>
+					<role-name>studySiteStudyVersion</role-name>
+					<table-alias>StudySiteStudyVersion_xx</table-alias>
+					<joining-condition>StudySubjectStudyVersion_xxStudyOrganization.studySiteStudyVersion
+						= StudySiteStudyVersion_xxStudyOrganization</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySite</name>
+					<role-name>studySite</role-name>
+					<table-alias>StudySite_xx</table-alias>
+					<joining-condition>StudySiteStudyVersion_xxStudyOrganization.studySite =
+						StudySite_xxStudyOrganization</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.Study</name>
+					<role-name>study</role-name>
+					<table-alias>Study_xx</table-alias>
+					<joining-condition>StudySite_xxStudyOrganization.study =
+						Study_xxStudyOrganization</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudyOrganization</name>
+					<role-name>studyOrganizations</role-name>
+					<table-alias>StudyOrganization_xx</table-alias>
+					<joining-condition>StudyOrganization_xxStudyOrganization = 
+						= any elements (Study_xxStudyOrganization.studyOrganizations)</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.HealthcareSite</name>
+					<role-name>healthcareSite</role-name>
+					<table-alias>HealthcareSite_xx</table-alias>
+					<joining-condition>StudyOrganization_xxStudyOrganization.healthcareSite = HealthcareSite_xxStudyOrganization
+					</joining-condition>
+				</association>
+			</association-context>
+		</dependent-object>
 		<!--  adding registry related parameters -->
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</class-name>
