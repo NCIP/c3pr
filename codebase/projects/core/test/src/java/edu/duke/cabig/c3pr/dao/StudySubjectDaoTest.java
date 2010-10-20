@@ -2191,4 +2191,20 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		assertEquals("Expected 2 registrations", 2,  registrations.size());
 	}
 	
+	public void testGetResultSetWithHQLForHealthcareSiteId() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("1000");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.HealthcareSite",  "id",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("Expected 2 registrations", 2,  registrations.size());
+	}
+	
 }
