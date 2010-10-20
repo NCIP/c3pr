@@ -210,7 +210,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
-						<xsd:element name="consent" type="common:Consent"/>
+						<xsd:element name="consent" type="common:Consent" minOccurs="0"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>

@@ -907,9 +907,11 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		target.setConsentingMethod(iso.CD(studySubjectConsentVersion.getConsentingMethod().getCode()));
 		target.setConsentPresenter(iso.ST(studySubjectConsentVersion.getConsentPresenter()));
 		target.setInformedConsentDate(convertToTsDateTime(studySubjectConsentVersion.getInformedConsentSignedDate()));
-		target.setConsent(new DocumentVersion());
-		target.getConsent().setOfficialTitle(iso.ST(studySubjectConsentVersion.getConsent().getName()));
-		target.getConsent().setVersionNumberText(iso.ST(studySubjectConsentVersion.getConsent().getVersionId()));
+		edu.duke.cabig.c3pr.webservice.common.Consent consent = new edu.duke.cabig.c3pr.webservice.common.Consent();
+		consent.setOfficialTitle(iso.ST(studySubjectConsentVersion.getConsent().getName()));
+		consent.setVersionNumberText(iso.ST(studySubjectConsentVersion.getConsent().getVersionId()));
+		consent.setMandatoryIndicator(iso.BL(studySubjectConsentVersion.getConsent().getMandatoryIndicator()));
+		target.setConsent(consent);
 		for(SubjectConsentQuestionAnswer subjectAnswer : studySubjectConsentVersion.getSubjectConsentAnswers()){
 			PerformedStudySubjectMilestone subjectAnswerTarget = new PerformedStudySubjectMilestone();
 			subjectAnswerTarget.setMissedIndicator(iso.BL(subjectAnswer.getAgreementIndicator()));

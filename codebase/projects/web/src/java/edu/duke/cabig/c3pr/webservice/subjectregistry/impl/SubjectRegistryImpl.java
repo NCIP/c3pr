@@ -106,7 +106,6 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	private static final int NON_UNIQUE_IDENTIFIER = 910;
 	private static final int MISSING_SUBJECT_IDENTIFIER = 902;
 	private static final int SUBJECT_NOT_FOUND = 911;
-	private static final int MISSING_STUDY_IDENTIFIER = 912;
 	private static final int DUPLICATE_STUDYSUBJECT_IDENTIFIER = 913;
 	private static final int RE_REGISTRATION = 924;
 	private static final int INVALID_CONSENT_NAME = 914;
@@ -198,22 +197,20 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		DSETStudySubjectConsentVersion dsetStudySubjectConsentVersion = new DSETStudySubjectConsentVersion();
 		queryConsentsByStudySubjectResponse.setStudySubjectConsents(dsetStudySubjectConsentVersion);
 		dsetStudySubjectConsentVersion.getItem().addAll(converter.convertToSubjectConsent(domainObject.getAllConsents()));
-		for(edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion convertedSubjectConsent : dsetStudySubjectConsentVersion.getItem()){
-			edu.duke.cabig.c3pr.webservice.common.Consent convertedConsent = (edu.duke.cabig.c3pr.webservice.common.Consent)convertedSubjectConsent.getConsent();
-			if(parameters.getConsent() != null){
+		if(parameters.getConsent() != null){
+			for(int i=0 ; i<dsetStudySubjectConsentVersion.getItem().size() ; i++){
+				edu.duke.cabig.c3pr.webservice.common.Consent convertedConsent = (edu.duke.cabig.c3pr.webservice.common.Consent)dsetStudySubjectConsentVersion.getItem().get(i).getConsent();
 				if(parameters.getConsent().getOfficialTitle() != null &&
-						StringUtils.isBlank(parameters.getConsent().getOfficialTitle().getValue())){
+						!StringUtils.isBlank(parameters.getConsent().getOfficialTitle().getValue())){
 					if(!convertedConsent.getOfficialTitle().getValue().equals(parameters.getConsent().getOfficialTitle().getValue())){
-						dsetStudySubjectConsentVersion.getItem().remove(convertedConsent);
+						dsetStudySubjectConsentVersion.getItem().remove(i--);
+						continue;
 					}
-				}else if(parameters.getConsent().getVersionNumberText() != null &&
-						StringUtils.isBlank(parameters.getConsent().getVersionNumberText().getValue())){
+				}
+				if(parameters.getConsent().getVersionNumberText() != null &&
+						!StringUtils.isBlank(parameters.getConsent().getVersionNumberText().getValue())){
 					if(!convertedConsent.getVersionNumberText().getValue().equals(parameters.getConsent().getVersionNumberText().getValue())){
-						dsetStudySubjectConsentVersion.getItem().remove(convertedConsent);
-					}
-				}else if(parameters.getConsent().getVersionDate() != null){
-					if(!convertedConsent.getVersionDate().equals(parameters.getConsent().getVersionDate())){
-						dsetStudySubjectConsentVersion.getItem().remove(convertedConsent);
+						dsetStudySubjectConsentVersion.getItem().remove(i--);
 					}
 				}
 			}
@@ -286,13 +283,6 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 			criteriaParameters.add(advancedSearchCriteriaParameter);
 			consentParamFound = true;
 		}
-		if(parameters.getConsent().getVersionDate() != null){
-			advancedSearchCriteriaParameter = AdvancedSearchHelper
-			.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.Consent",
-					"versionId", new SimpleDateFormat("MM/dd/yyyy").format(converter.convertToDate(parameters.getConsent().getVersionDate())), "=");
-			criteriaParameters.add(advancedSearchCriteriaParameter);
-			consentParamFound = true;
-		}
 		if(!consentParamFound){
 			InvalidQueryExceptionFault fault = new InvalidQueryExceptionFault();
 			String message = "No consent parameter provided";
@@ -350,8 +340,8 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 			}
 			if(values.size()>0){
 				advancedSearchCriteriaParameter = AdvancedSearchHelper
-				.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.Reason",
-						"code", values, "=");
+				.buildAdvancedSearchCriteriaParameter("edu.duke.cabig.c3pr.domain.RegistryStatusReason",
+						"code", values, "in");
 				criteriaParameters.add(advancedSearchCriteriaParameter);
 				registryStatusFound = true;				
 			}
