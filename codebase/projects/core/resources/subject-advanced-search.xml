@@ -5,7 +5,7 @@
 		<display-name>Participant</display-name>
 		<table-name>participants</table-name>
 		<table-alias>Participant_xx</table-alias>
-		<join>inner join fetch Participant_xx.identifiers left join fetch Participant_xx.raceCodeAssociations left join fetch Participant_xx.contactMechanisms left join fetch Participant_xx.addresses</join>
+		<join>left join fetch Participant_xx.identifiers left join fetch Participant_xx.raceCodeAssociations left join fetch Participant_xx.contactMechanisms left join fetch Participant_xx.addresses</join>
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.Participant</class-name>
 			<display-name>Subject</display-name>
