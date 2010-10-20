@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Required;
 
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -33,14 +32,8 @@ public class CommonAjaxFacade {
     private HealthcareSiteDao healthcareSiteDao;
     private InvestigatorDao investigatorDao;
     private ICD9DiseaseSiteDao icd9DiseaseSiteDao ;
-    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
-    public void setHealthcareSiteInvestigatorDao(
-			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
-		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
-	}
-
-	private static Log log = LogFactory.getLog(CommonAjaxFacade.class);
+    private static Log log = LogFactory.getLog(CommonAjaxFacade.class);
 
     @SuppressWarnings("unchecked")
     private <T> T buildReduced(T src, List<String> properties) {
@@ -109,7 +102,7 @@ public class CommonAjaxFacade {
     }
     
 	public List<Investigator> matchInvestigators(String text) throws Exception {
-		List<Investigator> investigators = healthcareSiteInvestigatorDao.getBySubnames(extractSubnames(text));
+		List<Investigator> investigators = investigatorDao.getBySubnames(extractSubnames(text));
 		List<Investigator> reducedInvestigators = new ArrayList<Investigator>(investigators.size());
 		for (Investigator investigator: investigators) {
 			reducedInvestigators .add(buildReduced(investigator, Arrays.asList("id", "fullName", "assignedIdentifier")));
