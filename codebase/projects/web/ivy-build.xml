@@ -162,7 +162,7 @@
 	<!-- ============================================================== -->
     <!-- Cleans up generated stuff                                      -->
     <!-- ============================================================== -->
-    <target name="clean" depends="clean-classes, clean-classes-test, clean-generated-src, clean-dist, clean-lib, clean-lib-ws, clean-lib-test, clean-test-results, clean-test-reports" description="Removes generated files.">
+    <target name="clean" depends="clean-classes, clean-classes-test, clean-generated-src, clean-dist, clean-lib, clean-lib-ws, clean-classes-ws, clean-lib-test, clean-test-results, clean-test-reports, clean-cobertura-instruments" description="Removes generated files.">
         <delete dir="${webinf.lib.dir}"/>
         <delete dir="${webinf.classes.dir}"/>
     </target>
