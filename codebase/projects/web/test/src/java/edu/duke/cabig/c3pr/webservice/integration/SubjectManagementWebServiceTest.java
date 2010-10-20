@@ -596,6 +596,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		bioId.setIdentifier(iso.II(SUBJECT_ID));
 		bioId.setTypeCode(iso.CD(ORG_ID_TYPE_MRN));
 		bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
+		bioId.setPrimaryIndicator(iso.BL(true));
 		return bioId;
 	}
 

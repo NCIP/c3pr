@@ -547,6 +547,7 @@ public class JAXBToDomainObjectConverterImpl implements
 					bioId.setTypeCode(iso.CD(id.getTypeInternal()));
 					bioId.setIdentifier(iso.II(id.getValue()));
 					bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
+					bioId.setPrimaryIndicator(iso.BL(id.getPrimaryIndicator()));
 
 					HealthcareSite site = ((OrganizationAssignedIdentifier) id)
 							.getHealthcareSite();

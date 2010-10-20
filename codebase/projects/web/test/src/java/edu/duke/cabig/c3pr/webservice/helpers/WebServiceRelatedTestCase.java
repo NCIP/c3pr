@@ -313,6 +313,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 		bioId.setIdentifier(iso.II(TEST_BIO_ID));
 		bioId.setTypeCode(iso.CD(ORG_ID_TYPE_MRN));
 		bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
+		bioId.setPrimaryIndicator(iso.BL(true));
 		return bioId;
 	}
 
