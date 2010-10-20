@@ -18,13 +18,13 @@ YAHOO.example.Data = {
 	    studyList: [
 					<c:forEach items="${studies}" var="study" varStatus="status">
 					        {
-					            studyFullName: "${study.shortTitleText}",
-					            identifier: "${study.study}",
-					            studyGender: "${study.administrativeGenderCode}",
-					            studyEthnicity: "${study.ethnicGroupCode}",
-						        studyBirthDate:  "${study.birthDateStr}",
-						        studyBirthDateSort:  "${study.birthDate}",
-						        identifierStr:  "<tags:identifierParameterString identifier='${study.systemAssignedIdentifiers[0] }'/>"
+					            studyShortTitle: "${study.trimmedShortTitleText}",
+					            identifier: "${study.primaryIdentifier}",
+					            studyStatus: "${study.coordinatingCenterStudyStatus}",
+					            studyPhase: "${study.phaseCode}",
+					            studyType: "${study.type}",
+						        studyTargetAccrual:  "${study.targetAccrualNumber}",
+						        id:  "${study.id}"
 					         }
 					         <c:if test="${!status.last}">,</c:if>
 					</c:forEach>
@@ -34,17 +34,18 @@ YAHOO.example.Data = {
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.CustomSort = function() {
         var myColumnDefs = [
-            {key:"studyFullName",       label:"Full Name",       sortable:true,      resizeable:true , minWidth:250},
+            {key:"studyShortTitle",       label:"Short Title",       sortable:true,      resizeable:true , minWidth:250},
             {key:"identifier",         label:"Primary Identifier", sortable:true,      resizeable:true},
-            {key:"studyGender",         label:"Gender",          sortable:true,      resizeable:true},
-            {key:"studyEthnicity",      label:"Ethnicity",       sortable:true,      resizeable:true},
-            {key:"studyBirthDate",      label:"Birthdate",       sortable:true,    sortOptions: { field: "studyBirthDateSort" },   resizeable:true}
+            {key:"studyStatus",         label:"Status",          sortable:true,      resizeable:true},
+            {key:"studyPhase",      label:"Phase",       sortable:true,      resizeable:true},
+            {key:"studyType",      label:"Type",       sortable:true,      resizeable:true},
+            {key:"studyTargetAccrual",      label:"Target Accrual",       sortable:true,      resizeable:true},
         ];
         
         var studyDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.studyList);
         studyDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
         studyDataSource.responseSchema = {
-            fields: ["studyFullName", "identifier", "studyGender", "studyEthnicity", "studyBirthDate", "studyBirthDateSort", "identifierStr"]
+            fields: ["studyShortTitle", "identifier", "studyStatus", "studyPhase", "studyType", "studyTargetAccrual", "id"]
         };
 
         //Create config
@@ -62,7 +63,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
         studyDataTable.subscribe("rowClickEvent", function (oArgs) {
         	var elTarget = oArgs.target;
         	var oRecord = this.getRecord(elTarget);
-        	document.location='/c3pr/pages/personAndOrganization/participant/viewParticipant?'+ oRecord.getData("identifierStr");
+        	document.location='/c3pr/pages/study/viewStudy?studyId='+ oRecord.getData("id");
         }); 
         return {
             oDS: studyDataSource,

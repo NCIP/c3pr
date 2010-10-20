@@ -193,7 +193,7 @@ color:white;
 <chrome:division>
 <br>
 <div  align="center">
-	<tags:button type="submit" icon="search" size="small" color="blue" value="Search Subject" onclick="buildTable('searchForm');"/>
+	<tags:button type="submit" icon="search" size="small" color="blue" value="Search Subject"/>
 	<tags:button type="button" size="small" color="blue" value="Reset" onclick="resetScreen();"/>
 </div>
 </chrome:division>

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
 
@@ -22,9 +23,15 @@ public class StudyAdvancedSearchController extends AdvancedSearchController{
 	protected Map<String, Object> referenceData(HttpServletRequest request) {
         Map<String, Object> configMap = getConfigurationProperty().getMap();
         Map<String, Object> refdata = new HashMap<String, Object>();
-        refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
-        refdata.put("ethnicGroupCodes", configMap.get("ethnicGroupCode"));
-        refdata.put("raceCodes", configMap.get("raceCode"));
+        refdata.put("phaseCodeRefData", configMap.get("phaseCodeRefData"));
+        refdata.put("typeRefData", configMap.get("typeRefData"));
+        refdata.put("yesNo", configMap.get("yesNo"));
+        Map<String,Object> studyStatusMap = new HashMap<String,Object>();
+        for(CoordinatingCenterStudyStatus studyStatus : CoordinatingCenterStudyStatus.values()){
+        	studyStatusMap.put(studyStatus.getName(), studyStatus.getCode());
+        }
+        
+        refdata.put("statusRefDate",studyStatusMap);
         return refdata;
     }
 	

@@ -119,7 +119,7 @@
             })
         },
         valueSelector: function(obj) {
-        	return (obj.descriptionCode+" ("+obj.code+")" )
+        	return (obj.name+" ("+obj.code+")" )
         },
         afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
 								hiddenField=diseaseSiteAutocompleterProps.basename+"-hidden"
@@ -135,11 +135,11 @@
             })
         },
         valueSelector: function(obj) {
-        	return (obj.term)
+        	return (obj.ctepTerm)
         },
         afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
 								hiddenField=diseaseAutocompleterProps.basename+"-hidden"
-    							$(hiddenField).value=selectedChoice.term;
+    							$(hiddenField).value=selectedChoice.ctepTerm;
 		 }
     }
 	
@@ -584,12 +584,12 @@ color:white;
 	       	<div class="value">
 	       		<input type="hidden" name="searchCriteriaList[24].objectName" value="edu.duke.cabig.c3pr.domain.DiseaseTerm"/>
    	        	<input type="hidden" name="searchCriteriaList[24].predicate" value="="/>
-          		<input type="hidden" name="searchCriteriaList[24].attributeName" value="term" />
-          		<input type="hidden" id="disease-hidden" name="searchCriteriaList[24].values"/>
-				<input id="disease-input" name="xyz2" class="autocomplete" size="45"/>
-                <img id="disease-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
-                <tags:indicator id="disease-indicator" />
-				<div id="disease-choices" class="autocomplete" style="display: none;"></div>
+          		<input type="hidden" name="searchCriteriaList[24].attributeName" value="ctepTerm" />
+          		<input type="hidden" id="diseaseterm-hidden" name="searchCriteriaList[24].values"/>
+				<input id="diseaseterm-input" name="xyz2" class="autocomplete" size="45"/>
+                <img id="diseaseterm-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
+                <tags:indicator id="diseaseterm-indicator" />
+				<div id="diseaseterm-choices" class="autocomplete" style="display: none;"></div>
    	    	</div>
         </div>
         <div id="advancedRegistrationOption2" style="display:none">
@@ -597,8 +597,10 @@ color:white;
 	       	<div class="label"><fmt:message key="c3pr.common.diseaseSite"/></div>
 	       	<div class="value">
   	            <input type="hidden" name="searchCriteriaList[25].objectName" value="edu.duke.cabig.c3pr.domain.ICD9DiseaseSite"/>
+  	            <input type="hidden" name="searchCriteriaList[26].contextObjectName" value="DiseaseHistory" />
    	        	<input type="hidden" name="searchCriteriaList[25].predicate" value="="/>
           		<input type="hidden" name="searchCriteriaList[25].attributeName" value="code" />
+          		<%-- Autocompleter Section --%>	
 				<input type="hidden" id="diseasesite-hidden" name="searchCriteriaList[25].values"/>
 				<input id="diseasesite-input" name="xyz1" class="autocomplete" size="45"/>
                 <img id="diseasesite-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
