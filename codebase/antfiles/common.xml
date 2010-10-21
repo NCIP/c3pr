@@ -213,7 +213,8 @@
 			<include name="**/saaj*.jar" />
 			<include name="**/stax*.jar" />
 			<include name="**/streambuffer*.jar" />
-			<include name="**/wstx*.jar" />			
+			<include name="**/wstx*.jar" />
+			<include name="**/ojdbc*.jar" />
 		</fileset>		
 		<pathelement path="${ws.jar.file}"/>
 	</path>

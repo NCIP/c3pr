@@ -95,7 +95,7 @@
         	</dependency>
         	<dependency org="postgresql" name="postgresql" rev="8.2-504.jdbc3" conf="build->default;test->default"/>
         	<dependency org="hsqldb" name="hsqldb" rev="1.8.0.7" />
-        	<dependency org="oracle" name="ojdbc14" rev="10.2.0.2" />
+        	<dependency org="oracle" name="ojdbc14" rev="10.2.0.2" conf="build->default;test->default"/>
         	
         	 <!-- Groovy (used by bering) needs this version of asm, but hibernate is pulling in 1.5.3 -->
         	<dependency org="asm" name="asm" rev="2.2.3" />
