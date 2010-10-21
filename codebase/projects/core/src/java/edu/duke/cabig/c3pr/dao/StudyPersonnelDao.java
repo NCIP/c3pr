@@ -71,6 +71,16 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
     }
     
     /**
+	 * Gets study personnel by subnames.
+	 * 
+	 * @param subnames
+	 * @return the by subnames
+	 */
+    public List<StudyPersonnel> getBySubnames(String[] subnames) {
+        return findBySubname(subnames,SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+    }
+    
+    /**
      * Save or update study personnel.
      * Also updates the study PG/PE's for the user.
      *

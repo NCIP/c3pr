@@ -385,7 +385,8 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
 		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
 	}
 	
-	private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("assignedIdentifier");
+    private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList(
+                    "firstName", "lastName","assignedIdentifier");
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 	public List<Investigator> getBySubnames(String[] subnames) {
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
