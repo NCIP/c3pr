@@ -292,6 +292,73 @@
 				</association>
 			</association-context>
 		</dependent-object>
+		<!--Search by Healthcare Site in different contexts like Study Site,Coordinating Center, Funding Sponsor,
+		based on healthcare site database id and healthcare site name.  --><dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.HealthcareSite</class-name>
+			<display-name>HealthcareSite</display-name>
+			<table-alias>HealthcareSite_xx</table-alias>
+			<search-criteria>
+				<name>id</name>
+				<label>Database Id</label>
+				<data-type>Integer</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>name</name>
+				<label>Healthcare site name</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<association-context>
+				<name>StudySite</name>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySite</name>
+					<role-name>studyOrganizations</role-name>
+					<table-alias>StudySite_xx</table-alias>
+					<joining-condition>StudySite_xxStudySite
+						= any elements (Study_xx.studyOrganizations)</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.HealthcareSite</name>
+					<role-name>healthcareSite</role-name>
+					<table-alias>HealthcareSite_xx</table-alias>
+					<joining-condition>StudySite_xxStudySite.healthcareSite = HealthcareSite_xxStudySite
+					</joining-condition>
+				</association>
+			</association-context>
+			<association-context>
+				<name>StudyCoordinatingCenter</name>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter</name>
+					<role-name>studyOrganizations</role-name>
+					<table-alias>StudyCoordinatingCenter_xx</table-alias>
+					<joining-condition>StudyCoordinatingCenter_xxStudyCoordinatingCenter
+						= any elements (Study_xx.studyOrganizations)</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.HealthcareSite</name>
+					<role-name>healthcareSite</role-name>
+					<table-alias>HealthcareSite_xx</table-alias>
+					<joining-condition>StudyCoordinatingCenter_xxStudyCoordinatingCenter.healthcareSite = HealthcareSite_xxStudyCoordinatingCenter
+					</joining-condition>
+				</association>
+			</association-context>
+			<association-context>
+				<name>StudyFundingSponsor</name>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudyFundingSponsor</name>
+					<role-name>studyOrganizations</role-name>
+					<table-alias>StudyFundingSponsor_xx</table-alias>
+					<joining-condition>StudyFundingSponsor_xxStudyFundingSponsor 
+						= any elements (Study_xx.studyOrganizations)</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.HealthcareSite</name>
+					<role-name>healthcareSite</role-name>
+					<table-alias>HealthcareSite_xx</table-alias>
+					<joining-condition>StudyFundingSponsor_xxStudyFundingSponsor.healthcareSite = HealthcareSite_xxStudyFundingSponsor
+					</joining-condition>
+				</association>
+			</association-context>
+		</dependent-object>
 		<!-- search by study personnel search criterion -->
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.ResearchStaff</class-name>
