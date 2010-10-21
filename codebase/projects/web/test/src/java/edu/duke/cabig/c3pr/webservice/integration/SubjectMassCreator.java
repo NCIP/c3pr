@@ -43,7 +43,7 @@ public final class SubjectMassCreator {
 			"http://enterpriseservices.nci.nih.gov/SubjectManagementService",
 			"SubjectManagementService");
 
-	private static final int NUMBER_OF_SUBJECTS = 100;
+	private static final int NUMBER_OF_SUBJECTS = 120;
 
 	private static URL endpointURL;
 	private static URL wsdlLocation;
@@ -116,8 +116,8 @@ public final class SubjectMassCreator {
 	private static final String TEST_CITY_NAME_2 = "Vienna";
 	private static final String TEST_STREET_ADDRESS = "1029 N Stuart St Unit 999";
 	private static final String TEST_STREET_ADDRESS_2 = "2029 N Stuart St Unit 299";
-	private static final String TEST_LAST_NAME = "Buttafuoco";
-	private static final String TEST_LAST_NAME_2 = "Buttafuoco";
+	private static final String TEST_LAST_NAME = "Joppa";
+	private static final String TEST_LAST_NAME_2 = "Joppa";
 	private static final String TEST_MID_NAME = "Z";
 	private static final String TEST_MID_NAME_2 = "A";
 	private static final String TEST_FIRST_NAME = "Joey";
