@@ -2197,7 +2197,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.HealthcareSite",  "id",
+						"edu.duke.cabig.c3pr.domain.HealthcareSite","EnrollingSite","id",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
