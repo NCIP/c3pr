@@ -15,23 +15,109 @@
 	<tags:dwrJavascriptLink objects="CommonAjaxFacade" />
 <script>
 
-var diseaseAutocompleterProps = {
-        basename: "diseaseterm",
-        populator: function(autocompleter, text) {
-            CommonAjaxFacade.matchDiseaseTerms(text,function(values) {
-                autocompleter.setChoices(values)
-            })
-        },
-        valueSelector: function(obj) {
-        	return (obj.ctepTerm)
-        },
-        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-								hiddenField=diseaseAutocompleterProps.basename+"-hidden"
-    							$(hiddenField).value=selectedChoice.ctepTerm;
-		 }
-    }
+	var diseaseAutocompleterProps = {
+	        basename: "diseaseterm",
+	        populator: function(autocompleter, text) {
+	            CommonAjaxFacade.matchDiseaseTerms(text,function(values) {
+	                autocompleter.setChoices(values)
+	            })
+	        },
+	        valueSelector: function(obj) {
+	        	return (obj.ctepTerm)
+	        },
+	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+									hiddenField=diseaseAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.ctepTerm;
+			 }
+	    }
+
+	var investigatorAutocompleterProps = {
+	        basename: "investigator",
+	        populator: function(autocompleter, text) {
+	            CommonAjaxFacade.matchInvestigators(text,function(values) {
+	                autocompleter.setChoices(values)
+	            })
+	        },
+	        valueSelector: function(obj) {
+	        	return (obj.fullName + '(' + obj.assignedIdentifier +')')
+	        },
+	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+									hiddenField=investigatorAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.assignedIdentifier;
+			 }
+	    }
+
+	var studyPersonAutocompleterProps = {
+	        basename: "studyPerson",
+	        populator: function(autocompleter, text) {
+	            CommonAjaxFacade.matchStudyPersonnel(text,function(values) {
+	                autocompleter.setChoices(values)
+	            })
+	        },
+	        valueSelector: function(obj) {
+	        	return (obj.fullName + '(' + obj.assignedIdentifier +')')
+	        },
+	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+									hiddenField=studyPersonAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.assignedIdentifier;
+			 }
+	    }
+
+	var coordinatingCenterAutocompleterProps = {
+	        basename: "coordinatingCenter",
+	        populator: function(autocompleter, text) {
+	            CommonAjaxFacade.matchHealthcareSites(text,function(values) {
+	                autocompleter.setChoices(values)
+	            })
+	        },
+	        valueSelector: function(obj) {
+	        	return (obj.name + '(' + obj.ctepCode +')')
+	        },
+	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+									hiddenField=coordinatingCenterAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			 }
+	    }
+
+	var fundingSponsorAutocompleterProps = {
+	        basename: "fundingSponsor",
+	        populator: function(autocompleter, text) {
+	            CommonAjaxFacade.matchHealthcareSites(text,function(values) {
+	                autocompleter.setChoices(values)
+	            })
+	        },
+	        valueSelector: function(obj) {
+	        	return (obj.name + '(' + obj.ctepCode +')')
+	        },
+	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+									hiddenField=fundingSponsorAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			 }
+	    }
+
+	var studySiteAutocompleterProps = {
+	        basename: "studySite",
+	        populator: function(autocompleter, text) {
+	            CommonAjaxFacade.matchHealthcareSites(text,function(values) {
+	                autocompleter.setChoices(values)
+	            })
+	        },
+	        valueSelector: function(obj) {
+	        	return (obj.name + '(' + obj.ctepCode +')')
+	        },
+	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+									hiddenField=studySiteAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			 }
+	    }
 
 AutocompleterManager.addAutocompleter(diseaseAutocompleterProps);
+AutocompleterManager.addAutocompleter(investigatorAutocompleterProps);
+AutocompleterManager.addAutocompleter(studyPersonAutocompleterProps);
+AutocompleterManager.addAutocompleter(coordinatingCenterAutocompleterProps);
+AutocompleterManager.addAutocompleter(fundingSponsorAutocompleterProps);
+AutocompleterManager.addAutocompleter(studySiteAutocompleterProps);
+
 
 function resetScreen(){
 	alert("To be implemented");
@@ -133,45 +219,65 @@ width:16em;
    	        	<input type="hidden" name="searchCriteriaList[5].predicate" value="="/>
           		<input type="hidden" name="searchCriteriaList[5].attributeName" value="ctepTerm" />
           		<input type="hidden" id="diseaseterm-hidden" name="searchCriteriaList[5].values"/>
-				<input id="diseaseterm-input" name="diseaseterm" class="autocomplete" size="45"/>
-                <img id="diseaseterm-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
-                <tags:indicator id="diseaseterm-indicator" />
-				<div id="diseaseterm-choices" class="autocomplete" style="display: none;"></div>
+				<tags:autocompleter name="diseaseterm" displayValue="" value="" basename="diseaseterm"></tags:autocompleter>
    	    	</div>
         </div>
     </div>
     <div class="rightpanel">
         <div class="row" >
 	       	<div class="label"><fmt:message key="c3pr.common.investigator"/></div>
-   	        <div class="value">
-         	   	<input type="text"  size="30" class="autocomplete">
-         	   	<input type="checkbox" id="PIindicator" name="PIIndicator" >
+	       	<div class="value">
+	       		<input type="hidden" name="searchCriteriaList[6].objectName" value="edu.duke.cabig.c3pr.domain.Investigator"/>
+   	        	<input type="hidden" name="searchCriteriaList[6].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[6].attributeName" value="assignedIdentifier" />
+          		<input type="hidden" id="investigator-hidden" name="searchCriteriaList[6].values"/>
+				<tags:autocompleter name="investigator" displayValue="" value="" basename="investigator"></tags:autocompleter>
+   	    		<input type="checkbox" id="PIindicator" name="PIIndicator" >
          	   	<b>PI Only	</b>
    	    	</div>
         </div>
         <div class="row" >
 	       	<div class="label"><fmt:message key="c3pr.common.personnel"/></div>
    	        <div class="value">
-   	        	<input type="text"  size="35" class="autocomplete">
+	       		<input type="hidden" name="searchCriteriaList[7].objectName" value="edu.duke.cabig.c3pr.domain.ResearchStaff"/>
+   	        	<input type="hidden" name="searchCriteriaList[7].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[7].attributeName" value="assignedIdentifier" />
+          		<input type="hidden" id="studyPerson-hidden" name="searchCriteriaList[7].values"/>
+				<tags:autocompleter name="studyPerson" displayValue="" value="" basename="studyPerson"></tags:autocompleter>
    	    	</div>
         </div>
         <div class="row" >
         	<div class="label"><fmt:message key="dashboard.coordinatingCenter"/></div>
           	<div class="value">
-        		<input type="text"  size="35" class="autocomplete">
-        	</div>
+	       		<input type="hidden" name="searchCriteriaList[8].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+	       		<input type="hidden" name="searchCriteriaList[8].contextObjectName" value="StudyCoordinatingCenter"/>
+   	        	<input type="hidden" name="searchCriteriaList[8].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[8].attributeName" value="id" />
+          		<input type="hidden" id="coordinatingCenter-hidden" name="searchCriteriaList[8].values"/>
+				<tags:autocompleter name="coordinatingCenter" displayValue="" 	value="" basename="coordinatingCenter"></tags:autocompleter>
+   	    	</div>
         </div>
         <div class="row" >
         	<div class="label"><fmt:message key="study.sponsor"/></div>
           	<div class="value">
-        		<input type="text"  size="35" class="autocomplete">
-        	</div>
+	       		<input type="hidden" name="searchCriteriaList[9].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+	       		<input type="hidden" name="searchCriteriaList[9].contextObjectName" value="StudyFundingSponsor"/>
+   	        	<input type="hidden" name="searchCriteriaList[9].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[9].attributeName" value="id" />
+          		<input type="hidden" id="fundingSponsor-hidden" name="searchCriteriaList[9].values"/>
+				<tags:autocompleter name="fundingSponsor" displayValue="" value="" basename="fundingSponsor"></tags:autocompleter>
+   	    	</div>
         </div>
         <div class="row" >
         	<div class="label"><fmt:message key="study.site"/></div>
           	<div class="value">
-        		<input type="text"  size="35" class="autocomplete"  >
-        	</div>
+	       		<input type="hidden" name="searchCriteriaList[10].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+	       		<input type="hidden" name="searchCriteriaList[10].contextObjectName" value="StudySite"/>
+   	        	<input type="hidden" name="searchCriteriaList[10].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[10].attributeName" value="id" />
+          		<input type="hidden" id="studySite-hidden" name="searchCriteriaList[10].values"/>
+				<tags:autocompleter name="studySite" displayValue="" value="" basename="studySite"></tags:autocompleter>
+   	    	</div>
         </div>
         <div class="row" >
         	<div class="label"><fmt:message key="study.bookExhaustionPercentage"/></div>
