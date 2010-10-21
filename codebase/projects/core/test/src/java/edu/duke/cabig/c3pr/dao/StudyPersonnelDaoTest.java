@@ -21,9 +21,22 @@ public class StudyPersonnelDaoTest extends DaoTestCase {
 		assertEquals("Wrong Domain Class", StudyPersonnel.class, studyPersonnelDao.domainClass());
 	}
 	
-	public void testGetBySubnames() {
+	public void testGetBySubnamesWithHealthcareSite() {
 		List<StudyPersonnel> studyPersonnel = new ArrayList<StudyPersonnel>();
 		studyPersonnel = studyPersonnelDao.getBySubnames(new String[]{"RE"}, 1000);
 		assertEquals("Wrong number of study personnel", 2, studyPersonnel.size());
+	}
+	
+	public void testGetBySubnamesWithoutHealthcareSite1() {
+		List<StudyPersonnel> studyPersonnel = new ArrayList<StudyPersonnel>();
+		studyPersonnel = studyPersonnelDao.getBySubnames(new String[]{"Staff4"});
+		assertEquals("Un expected study person with this name", 0, studyPersonnel.size());
+	}
+	
+	
+	public void testGetBySubnamesWithoutHealthcareSite2() {
+		List<StudyPersonnel> studyPersonnel = new ArrayList<StudyPersonnel>();
+		studyPersonnel = studyPersonnelDao.getBySubnames(new String[]{"Staff2"});
+		assertEquals("Wrong number of study persons with this name", 1, studyPersonnel.size());
 	}
 }

@@ -2467,4 +2467,50 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals("1 study not found", 1,  studies.size());
 	}
 	
+	public void testAdvancedSearchGivenCoordinatingCenterName() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("%caLgb%");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.HealthcareSite","StudyCoordinatingCenter", "name", values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Study> studies = dao.search(criteriaParameters);
+		assertEquals("Wrong number of studies", 3,  studies.size());
+	}
+	
+	public void testAdvancedSearchGivenStudySite() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("%duke%");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.HealthcareSite","StudySite", "name", values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Study> studies = dao.search(criteriaParameters);
+		assertEquals("Wrong number of studies", 3,  studies.size());
+	}
+	
+	public void testAdvancedSearchGivenFundingSponsor() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("%1001%");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.HealthcareSite","StudyFundingSponsor", "id", values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Study> studies = dao.search(criteriaParameters);
+		assertEquals("Wrong number of studies", 3,  studies.size());
+	}
+	
+	
 }

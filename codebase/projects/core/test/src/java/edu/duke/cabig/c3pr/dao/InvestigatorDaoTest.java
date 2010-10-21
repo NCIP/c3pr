@@ -154,7 +154,7 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     	assertEquals("Wrong status code for the study investigator",InvestigatorStatusCodeEnum.IN, investigator.getHealthcareSiteInvestigators().get(0).getStudyInvestigators().get(0).getStatusCode());
     }
     
-    public void testGetBySubNamesWithWildCard() throws Exception{
+    public void testSearchByExampleWithWildCard() throws Exception{
     	Investigator investigator = new LocalInvestigator();
     	investigator.setFirstName("Investig");
     	List<Investigator> investigators = getDao().searchByExample(investigator,true);
@@ -162,17 +162,34 @@ public class InvestigatorDaoTest extends ContextDaoTestCase<InvestigatorDao> {
     }
     
     
-    public void testGetBySubNames() throws Exception{
+    public void testSearchByExampleWithAssignedIdentifier() throws Exception{
     	Investigator investigator = new LocalInvestigator();
     	investigator.setAssignedIdentifier("NCIID_1232");
     	List<Investigator> investigators = getDao().searchByExample(investigator,false);
     	assertEquals("Wrong numbers of investigators retrieved",1, investigators.size());
     }
     
-    public void testGetByAssignedIdentifier() throws Exception{
-    	Investigator investigator = new LocalInvestigator();
-    	investigator.setAssignedIdentifier("NCIID_1232");
-    	List<Investigator> investigators = getDao().searchByExample(investigator,false);
+    public void testGetBySubnamesOnAssignedIdentifier() throws Exception{
+    	String[] subnames = new String[]{"NCIID_1232"};
+    	List<Investigator> investigators = getDao().getBySubnames(subnames);
+    	assertEquals("Wrong numbers of investigators retrieved",2, investigators.size());
+    }
+    
+    public void testGetBySubnamesOnFirstName1() throws Exception{
+    	String[] subnames = new String[]{"Brady"};
+    	List<Investigator> investigators = getDao().getBySubnames(subnames);
+    	assertEquals("Wrong numbers of investigators retrieved",1, investigators.size());
+    }
+    
+    public void testGetBySubnamesOnFirstName2() throws Exception{
+    	String[] subnames = new String[]{"Investigator"};
+    	List<Investigator> investigators = getDao().getBySubnames(subnames);
+    	assertEquals("Wrong numbers of investigators retrieved",5, investigators.size());
+    }
+    
+    public void testGetBySubnamesOnLastName() throws Exception{
+    	String[] subnames = new String[]{"Staff3"};
+    	List<Investigator> investigators = getDao().getBySubnames(subnames);
     	assertEquals("Wrong numbers of investigators retrieved",1, investigators.size());
     }
 }
