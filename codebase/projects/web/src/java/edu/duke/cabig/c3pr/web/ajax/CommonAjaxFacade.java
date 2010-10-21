@@ -16,11 +16,13 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 
 /**
  * @author Himanshu Gupta
@@ -32,8 +34,13 @@ public class CommonAjaxFacade {
     private HealthcareSiteDao healthcareSiteDao;
     private InvestigatorDao investigatorDao;
     private ICD9DiseaseSiteDao icd9DiseaseSiteDao ;
+    private StudyPersonnelDao studyPersonnelDao;
 
-    private static Log log = LogFactory.getLog(CommonAjaxFacade.class);
+    public void setStudyPersonnelDao(StudyPersonnelDao studyPersonnelDao) {
+		this.studyPersonnelDao = studyPersonnelDao;
+	}
+
+	private static Log log = LogFactory.getLog(CommonAjaxFacade.class);
 
     @SuppressWarnings("unchecked")
     private <T> T buildReduced(T src, List<String> properties) {
@@ -105,9 +112,18 @@ public class CommonAjaxFacade {
 		List<Investigator> investigators = investigatorDao.getBySubnames(extractSubnames(text));
 		List<Investigator> reducedInvestigators = new ArrayList<Investigator>(investigators.size());
 		for (Investigator investigator: investigators) {
-			reducedInvestigators .add(buildReduced(investigator, Arrays.asList("id", "fullName", "assignedIdentifier")));
+			reducedInvestigators .add(buildReduced(investigator, Arrays.asList("id", "firstName", "lastName", "assignedIdentifier")));
         }
         return reducedInvestigators;
+	}
+	
+	public List<StudyPersonnel> matchStudyPersonnel(String text) throws Exception {
+		List<StudyPersonnel> personnel = studyPersonnelDao.getBySubnames(extractSubnames(text));
+		List<StudyPersonnel> reducedPersonnel = new ArrayList<StudyPersonnel>(personnel.size());
+		for (StudyPersonnel studyPerson: personnel) {
+			reducedPersonnel .add(buildReduced(studyPerson, Arrays.asList("researchStaff.id", "researchStaff.firstName", "researchStaff.lastName", "researchStaff.assignedIdentifier")));
+        }
+        return reducedPersonnel;
 	}
 	
 	public List<ICD9DiseaseSite> matchDiseaseSites(String text) {
