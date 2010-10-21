@@ -430,7 +430,7 @@
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
 					<role-name>studySubjectStudyVersions</role-name>
 					<table-alias>StudySubjectStudyVersion_xx</table-alias>
-					<joining-condition>StudySubjectStudyVersion_xxOffEpochReason = any
+					<joining-condition>StudySubjectStudyVersion_xx = any
 						elements(StudySubject_xx.studySubjectStudyVersions)
 					</joining-condition>
 				</association>
@@ -438,22 +438,22 @@
 					<name>edu.duke.cabig.c3pr.domain.ScheduledEpoch</name>
 					<role-name>scheduledEpochs</role-name>
 					<table-alias>ScheduledEpoch_xx</table-alias>
-					<joining-condition>ScheduledEpoch_xxOffEpochReason = any
-						elements(StudySubjectStudyVersion_xxOffEpochReason.scheduledEpochs)
+					<joining-condition>ScheduledEpoch_xx = any
+						elements(StudySubjectStudyVersion_xx.scheduledEpochs)
 					</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.OffEpochReason</name>
 					<role-name>offEpochReasons</role-name>
 					<table-alias>OffEpochReason_xx</table-alias>
-					<joining-condition>OffEpochReason_xxOffEpochReason = any
-						elements(ScheduledEpoch_xxOffEpochReason.offEpochReasons)</joining-condition>
+					<joining-condition>OffEpochReason_xx = any
+						elements(ScheduledEpoch_xx.offEpochReasons)</joining-condition>
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.Reason</name>
 					<role-name>reason</role-name>
 					<table-alias>Reason_xx</table-alias>
-					<joining-condition>OffEpochReason_xxOffEpochReason.reason = Reason_xxOffEpochReason
+					<joining-condition>OffEpochReason_xx.reason = Reason_xx
 					</joining-condition>
 				</association>
 			</association-context>
