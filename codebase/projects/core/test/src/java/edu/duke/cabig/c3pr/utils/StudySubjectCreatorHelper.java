@@ -152,6 +152,7 @@ public class StudySubjectCreatorHelper {
     	Date amendmentDate = new Date();
     	amendmentDate.setMonth(amendmentDate.getMonth()-1);
     	studyVersion.setName("Amended version 1");
+    	studyVersion.getEpochs().get(0).setName("screening 2");
     	studyVersion.getConsents().get(0).setName("consent 1");
     	studyVersion.getConsents().get(0).setMandatoryIndicator(true);
     	studyVersion.setVersionDate(amendmentDate);
