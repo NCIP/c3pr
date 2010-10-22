@@ -22,13 +22,13 @@ where pg.protection_group_name = pe.protection_element_name;
 
 Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
 select distinct u.user_id,r.role_id,pg.protection_group_id,now() from csm_user u, csm_role r, csm_protection_group pg, research_staff rs, organizations o, identifiers i, 
-csm_group g, csm_user_group ug where u.user_id = rs.login_id and rs.hcs_id = o.id and i.org_id = o.id and i.primary_indicator = true and 
+csm_group g, csm_user_group ug where u.user_id = rs.login_id::integer and rs.hcs_id = o.id and i.org_id = o.id and i.primary_indicator = true and 
 pg.protection_group_name = 'HealthcareSite.'||i.value and ug.user_id = u.user_id and ug.group_id = g.group_id and g.group_name=r.role_name;
 
 Insert into csm_user_group_role_pg(user_id,role_id,protection_group_id,update_date)
 select distinct u.user_id,r.role_id,pg.protection_group_id,now() from csm_user u, csm_role r, csm_protection_group pg, research_staff rs, study_organizations so, 
 study_personnel sp, studies s, identifiers i, csm_group g, csm_user_group ug 
-where u.user_id = rs.login_id and sp.research_staff_id = rs.id and sp.sto_id = so.id and so.study_id = s.id and i.stu_id = s.id and i.type='COORDINATING_CENTER_IDENTIFIER' and 
+where u.user_id = rs.login_id::integer and sp.research_staff_id = rs.id and sp.sto_id = so.id and so.study_id = s.id and i.stu_id = s.id and i.type='COORDINATING_CENTER_IDENTIFIER' and 
 pg.protection_group_name = 'Study.'||i.value and ug.user_id = u.user_id and ug.group_id = g.group_id and g.group_name=r.role_name;
 
 --All Site access to admin
