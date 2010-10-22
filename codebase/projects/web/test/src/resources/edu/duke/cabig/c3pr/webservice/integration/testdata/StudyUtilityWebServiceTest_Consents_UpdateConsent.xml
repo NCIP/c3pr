@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
 	<consents retired_indicator="false" name="Consent UPDATED"
-		mandatory_indicator="true" version_id="1.0" consenting_methods="WRITTEN" />
+		mandatory_indicator="1" version_id="1.0" consenting_methods="WRITTEN" />
 </dataset>

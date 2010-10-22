@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
 	<participants first_name="John" last_name="Doe"
-		maiden_name="" birth_date="1980-01-01 00:00:00.0"
+		birth_date="1980-01-01 00:00:00.0"
 		administrative_gender_code="Male" ethnic_group_code="Not Reported"
 		marital_status_code="Single" middle_name="Z" retired_indicator="false"
-		death_date="1990-01-01 00:00:00.0" death_indicator="true" state_code="ACTIVE" />
+		death_date="1990-01-01 00:00:00.0" death_indicator="1" state_code="ACTIVE" />
 </dataset>

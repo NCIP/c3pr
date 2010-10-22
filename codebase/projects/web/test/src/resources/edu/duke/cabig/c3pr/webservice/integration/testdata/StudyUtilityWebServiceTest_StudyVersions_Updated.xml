@@ -4,5 +4,5 @@
 		short_title_text="Test Study UPDATED" long_title_text="Test Study UPDATED"
 		description_text="Test Study UPDATED" data_entry_status="INCOMPLETE"
 		version_date="2010-10-05" version_status="IN" amendment_type="IMMEDIATE"
-		name="1.0" original_indicator="true" />
+		name="1.0" original_indicator="1" />
 </dataset>

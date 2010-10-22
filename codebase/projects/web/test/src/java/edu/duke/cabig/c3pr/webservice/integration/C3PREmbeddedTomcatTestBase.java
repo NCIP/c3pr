@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URLEncoder;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
@@ -45,6 +48,9 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.dbunit.DefaultDatabaseTester;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.database.IDatabaseConnection;
+import org.dbunit.dataset.datatype.IDataTypeFactory;
+
+import edu.nwu.bioinformatics.commons.testing.HsqlDataTypeFactory;
 
 /**
  * Base class for JUnit integration tests; C3PR in embedded Tomcat. This class
@@ -122,6 +128,11 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 			// We need to disable SSL verification for testing purposes.
 			disableSSLVerification();
 
+			// fix for Oracle's purged tables
+			// see
+			// http://sourceforge.net/tracker/index.php?func=detail&aid=1459205&group_id=47439&atid=449491
+			purgeRecycleBin();
+
 			// this call will initialize database data.
 			super.setUp();
 		} catch (Exception e) {
@@ -129,6 +140,42 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	/**
+	 * See http://sourceforge.net/tracker/index.php?func=detail&aid=1459205&
+	 * group_id=47439&atid=449491. We will execute PURGE RECYCLEBIN here.
+	 * 
+	 * @throws Exception
+	 * @throws SQLException
+	 */
+	private void purgeRecycleBin() throws SQLException, Exception {
+		Connection conn = null;
+		Statement st = null;
+		try {
+			conn = getConnection().getConnection();
+			st = conn.createStatement();
+			st.execute("PURGE RECYCLEBIN");
+		} catch (Exception e) {
+			logger.warning("Unable to execute PURGE RECYCLEBIN either because of an error or because not running on Oracle: "
+					+ e.getMessage());
+		} finally {
+			try {
+				st.close();
+			} catch (Exception e) {
+				logger.warning("Coult not close the Statement. Probably, safe to ignore.");
+			}
+			try {
+				conn.commit();
+			} catch (Exception e) {
+				logger.warning("Coult not commit the Connection. Probably, safe to ignore.");
+			}
+			try {
+				conn.close();
+			} catch (Exception e) {
+				logger.warning("Coult not close the Connection. Probably, safe to ignore.");
+			}
+		}
 	}
 
 	private void prepareTomcatKeystore() throws IOException {
@@ -588,6 +635,18 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 		}
 	}
 
+	@Override
+	protected DbType getDatabaseType() {
+		try {
+			Properties props = loadDataSourceProperties();
+			String url = props.getProperty("url", "");
+			return url.contains(":oracle:") ? DbType.Oracle : DbType.Postgres;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -613,6 +672,12 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 			}
 		};
 		return tester;
+	}
+
+	@Override
+	protected IDataTypeFactory createDataTypeFactory() {
+		return getDatabaseType() == DbType.Oracle ? new org.dbunit.ext.oracle.OracleDataTypeFactory()
+				: new HsqlDataTypeFactory();
 	}
 
 }

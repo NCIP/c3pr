@@ -36,6 +36,15 @@ public abstract class DbTestCase extends org.dbunit.DatabaseTestCase {
 	private Logger log = Logger.getLogger(DbTestCase.class.getName());
 
     protected abstract DataSource getDataSource();
+    
+    /**
+     * Returns the database vendor against which we are running this test.
+     * Subclasses may choose to return null. However, if non-null value is returned,
+     * test data file will be searched for the specific database. 
+     * E.g. SubjectManagementWebServiceTest_Oracle.xml.
+     * @return
+     */
+    protected abstract DbType getDatabaseType();
 
     protected void setUp() throws Exception {
         log.fine("---- Begin test " + getName() + " ----");
@@ -47,7 +56,7 @@ public abstract class DbTestCase extends org.dbunit.DatabaseTestCase {
         log.fine("----  End  test " + getName() + " ----");
     }
 
-    protected IDataSet getDataSet() throws Exception {
+    protected IDataSet getDataSet() throws Exception {    	
         String testDataFileName = getTestDataFileName();
         InputStream testDataStream = getResource(getClass().getPackage(), testDataFileName);
         if (testDataStream == null) {
@@ -78,9 +87,13 @@ public abstract class DbTestCase extends org.dbunit.DatabaseTestCase {
         return getClassSpecificTestDataFileName();
     }
 
-    protected String getClassSpecificTestDataFileName() {
-        return new StringBuffer(TESTDATA+"/").append(getClassNameWithoutPackage()).append(".xml").toString();
-    }
+	protected String getClassSpecificTestDataFileName() {
+		return new StringBuffer(TESTDATA + "/")
+				.append(getClassNameWithoutPackage())
+				.append(getDatabaseType() != null ? "_"
+						+ getDatabaseType().name() : "").append(".xml")
+				.toString();
+	}
 
     /** Use this method to override getTestDataFileName when you want test specific data */
     protected String getMethodSpecificTestDataFileName() {
@@ -102,6 +115,7 @@ public abstract class DbTestCase extends org.dbunit.DatabaseTestCase {
     protected IDatabaseConnection getConnection() throws Exception {
         DatabaseConnection databaseConnection = new DatabaseConnection((getDataSource()).getConnection());
         databaseConnection.getConfig().setProperty("http://www.dbunit.org/properties/datatypeFactory", createDataTypeFactory());
+        databaseConnection.getConfig().setProperty("http://www.dbunit.org/features/skipOracleRecycleBinTables", true);
         return databaseConnection;
     }
 
@@ -124,4 +138,9 @@ public abstract class DbTestCase extends org.dbunit.DatabaseTestCase {
             return resourceName.toString();
         }
     }
+    
+    public static enum DbType {
+    	Oracle, Postgres;    	
+    }
+    
 }

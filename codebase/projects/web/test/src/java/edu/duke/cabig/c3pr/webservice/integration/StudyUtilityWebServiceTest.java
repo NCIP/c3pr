@@ -69,8 +69,11 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	private static final String STATUS_INACTIVE = "INACTIVE";
 	private static final String STATUS_ACTIVE = "ACTIVE";
+	private static final int STATUS_INACTIVE_ID = 110153;
+	private static final int STATUS_ACTIVE_ID = 110152;
+	
 
-	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}'))))";
+	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))) ORDER BY consent_questions.code";
 	private static final String SQL_CONSENTS = "SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))";
 	private static final String SQL_PERM_REG_STATS = "SELECT * FROM permissible_reg_stats WHERE EXISTS (SELECT Id FROM studies where studies.id=permissible_reg_stats.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')) ORDER BY id";
 	private static final String SQL_STUDY_ORGS = "SELECT * FROM study_organizations WHERE EXISTS (SELECT Id FROM studies where studies.id=study_organizations.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')) ORDER BY id";
@@ -145,13 +148,13 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 				"SELECT id FROM registry_statuses WHERE code='"
 						+ STATUS_INACTIVE + "'").next();
 		if (!containsActive)
-			st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
+			st.execute("INSERT INTO registry_statuses(id, version, grid_id, code, description, retired_indicator) VALUES ("+STATUS_ACTIVE_ID+",0,'"
 					+ System.currentTimeMillis()
 					+ "','"
 					+ STATUS_ACTIVE
 					+ "','" + STATUS_ACTIVE + "','false')");
 		if (!containsInactive)
-			st.execute("INSERT INTO registry_statuses(version, grid_id, code, description, retired_indicator) VALUES (0,'"
+			st.execute("INSERT INTO registry_statuses(id, version, grid_id, code, description, retired_indicator) VALUES ("+STATUS_INACTIVE_ID+",0,'"
 					+ System.currentTimeMillis()
 					+ "','"
 					+ STATUS_INACTIVE
