@@ -107,6 +107,11 @@
 				<data-type>String</data-type>
 			</search-criteria>
 			<search-criteria>
+				<name>originalIndicator</name>
+				<label>Original Indicator</label>
+				<data-type>Boolean</data-type>
+			</search-criteria>
+			<search-criteria>
 				<name>amendmentType.code</name>
 				<label>Amendment Type</label>
 				<data-type>AmendmentType</data-type>

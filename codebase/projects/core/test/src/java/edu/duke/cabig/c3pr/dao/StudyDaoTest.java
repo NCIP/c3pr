@@ -48,7 +48,6 @@ import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RegistryStatusReason;
@@ -2180,7 +2179,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("0 studies not found", 0,  studies.size());
+		assertEquals("wrong number of active studies", 0,  studies.size());
 	}
     
     public void testGetResultSetWithDataEntryStatus() throws Exception {
@@ -2227,6 +2226,42 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals("0 studies not found", 0,  studies.size());
 	}
     
+    public void testGetResultSetWithVersionDateRange() throws Exception {
+    	List<String> values = new ArrayList<String>();
+    	values.add("12/31/2000");
+    	values.add("01/02/2001");
+    	
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudyVersion",  "versionDate", values, "between");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter2 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Study",  "coordinatingCenterStudyStatus.code", "Pending", "!=");
+		
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		criteriaParameters.add(advancedSearchCriteriaParameter2);
+		
+		List<Study> studies = dao.search(criteriaParameters);
+		assertEquals("Wrong number of studies", 4,  studies.size());
+	}
+    
+    public void testGetResultSetAfterAVersionDate() throws Exception {
+    	List<String> values = new ArrayList<String>();
+    	values.add("12/31/2000");
+    	
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudyVersion",  "versionDate", values, ">");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter2 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Study",  "coordinatingCenterStudyStatus.code", "Pending", "!=");
+		
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		criteriaParameters.add(advancedSearchCriteriaParameter2);
+		
+		List<Study> studies = dao.search(criteriaParameters);
+		assertEquals("Wrong number of studies", 4,  studies.size());
+	}
     public void testGetResultSetWithVersionName() throws Exception {
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudyVersion",  "name", "version 1", "=");
