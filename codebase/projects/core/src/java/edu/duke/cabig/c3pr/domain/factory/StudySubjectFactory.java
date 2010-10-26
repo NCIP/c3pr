@@ -107,7 +107,7 @@ public class StudySubjectFactory {
         }
         else {
             if (participant.validateParticipant())
-            	{ participantDao.save(participant);
+            	{ participantRepository.save(participant);
             }
             else {
                 throw this.exceptionHelper
