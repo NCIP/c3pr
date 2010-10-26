@@ -17,7 +17,7 @@
 	<tags:dwrJavascriptLink objects="CommonAjaxFacade" />
 <script>
 	function resetScreen(){
-		alert("I have to implement reset screen functionality");
+		alert("Reset screen functionality needs to be implemented");
 	}
 	
 	function validateAndSubmitForm(){
@@ -606,6 +606,7 @@ color:white;
           		<input type="hidden" name="searchCriteriaList[26].contextObjectName" value="EnrollingSite" />
        			<input type="hidden" name="searchCriteriaList[26].predicate" value="="/>
        			<input type="hidden" name="searchCriteriaList[26].attributeName" value="id" />
+       			<input id="enrollingsite-identifier-type" type="hidden" name="searchCriteriaList[26].values" value="CTEP"  />
 				<%-- Autocompleter Section --%>	
 				<input type="hidden" id="enrollingsite-hidden" name="searchCriteriaList[26].values"/>
 				<tags:autocompleter name="enrollingsite" displayValue="" value="" basename="enrollingsite"></tags:autocompleter>
@@ -619,7 +620,6 @@ color:white;
 <br>
 <div  align="center">
 	<tags:button id="searchRegistration" type="button" icon="search" size="small" color="blue" value="Search Registration" onclick="validateAndSubmitForm();"/>
-	<tags:button type="button" size="small" color="blue" value="Clear" />
 </div>
 </chrome:division>
 </form:form>

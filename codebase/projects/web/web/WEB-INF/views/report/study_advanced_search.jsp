@@ -120,7 +120,7 @@ AutocompleterManager.addAutocompleter(studySiteAutocompleterProps);
 
 
 function resetScreen(){
-	alert("To be implemented");
+	alert("Reset functionality not yet implemented");
 }
 
 </script>
@@ -180,7 +180,7 @@ width:16em;
                    <option value="" selected="selected">All</option>
                    <c:forEach items="${phaseCodeRefData}" var="studyPhaseCode">
                        <c:if test="${!empty studyPhaseCode.desc}">
-                           <option value="${studyPhaseCode.code}">${studyPhaseCode.desc}</option>  
+                           <option value="${studyPhaseCode.desc}">${studyPhaseCode.desc}</option>  
                        </c:if>
                    </c:forEach>
                 </select>
@@ -232,8 +232,6 @@ width:16em;
           		<input type="hidden" name="searchCriteriaList[6].attributeName" value="assignedIdentifier" />
           		<input type="hidden" id="investigator-hidden" name="searchCriteriaList[6].values"/>
 				<tags:autocompleter name="investigator" displayValue="" value="" basename="investigator"></tags:autocompleter>
-   	    		<input type="checkbox" id="PIindicator" name="PIIndicator" >
-         	   	<b>PI Only	</b>
    	    	</div>
         </div>
         <div class="row" >
@@ -279,88 +277,11 @@ width:16em;
 				<tags:autocompleter name="studySite" displayValue="" value="" basename="studySite"></tags:autocompleter>
    	    	</div>
         </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="study.bookExhaustionPercentage"/></div>
-   	        <div class="value">
-   	        	<select id="age">
-                   <option value="" selected="selected">Please select</option>
-                   <option value="">Greater than</option>
-                   <option value="">Less than</option>
-                   <option value="">Equal to</option>
-                </select>
-       			<input type="text"  size="5">
-   	    	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="c3pr.common.targetAccrualPercentage"/></div>
-   	        <div class="value">
-   	        	<select id="age">
-                   <option value="" selected="selected">Please select</option>
-                   <option value="">Greater than</option>
-                   <option value="">Less than</option>
-                   <option value="">Equal to</option>
-                </select>
-       			<input type="text"  size="5">
-   	    	</div>
-        </div>
-        <div class="row" >
-        	<div class="label"><fmt:message key="study.openDate"/>&nbsp;<b>after</b></div>
-          	<div class="value"> 
-        		<input type="text"  size="10">
-        		<a href="#" id="calbutton">
-    				<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a>
-				<b>and before</b>
-				<input type="text"  size="10">
-				<a href="#" id="calbutton">
-    				<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a> 
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="leftpanel" >
-				<div class="label"><fmt:message key="study.site.irbExpired"/></div>
-	        	<div class="value">
-	        		<input type="checkbox" id="irbExpired" name="irbExpired" >
-	        	</div>	        	
-        	</div>
-        	<div class="rightpanel" >
-				<div class="label"><fmt:message key="study.therapeuticIntentIndicator"/></div>
-	        	<div class="value">
-	        		<input type="checkbox" id="therapeuticIntentIndicator" name="therapeuticIntentIndicator" >
-	        	</div>        		
-        	</div>
-        </div>
-        <div class="row" >
-        	<div class="leftpanel"  style="width: 40%">
-        		<div class="label"><fmt:message key="study.pendingAmendment"/></div>
-		       	<div class="value">
-		       		<input type="checkbox" id="pendingAmendment" name="pendingAmendment" >
-		       	</div>
-	        </div>
-	        <div class="rightpanel" style="width: 60%">
-				<div class="labelCompanion"><fmt:message key="study.includeEmbeddedCompanionStudies"/></div>
-	          	<div class="value">
-	          		<input type="checkbox" id="includeCompanion" name="includeCompanion" >
-	        	</div>		        
-	        </div>	
-       	</div>
-       <div class="row" >
-       		<div class="rightpanel" style="width: 60%">
-		       	<div class="label" style="width: 16em;"><fmt:message key="study.pendingSiteAmendment"/></div>
-		       	<div class="value">
-		       		<input type="checkbox" id="studySiteAmendment" name="studySiteAmendment" >
-		       		<tags:hoverHint keyProp="study.pendingSiteAmendment"/>
-		       	</div>
-	       	</div>
-       </div>
-     </div>	
 </chrome:division>
 <chrome:division>
 <br>
 <div  align="center">
 	<tags:button type="submit" icon="search" size="small" color="blue" value="Search Study"/>
-	<tags:button type="button" size="small" color="blue" value="Reset" onclick="resetScreen();"/>
 </div>
 </chrome:division>
 </form:form>

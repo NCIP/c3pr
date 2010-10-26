@@ -39,7 +39,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"studyStatus",         label:"Status",          sortable:true,      resizeable:true},
             {key:"studyPhase",      label:"Phase",       sortable:true,      resizeable:true},
             {key:"studyType",      label:"Type",       sortable:true,      resizeable:true},
-            {key:"studyTargetAccrual",      label:"Target Accrual",       sortable:true,      resizeable:true},
+            {key:"studyTargetAccrual",      label:"Target Accrual",       sortable:true,      resizeable:true}
         ];
         
         var studyDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.studyList);
