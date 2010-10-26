@@ -591,7 +591,6 @@ color:white;
 	       	<div class="label"><fmt:message key="c3pr.common.diseaseSite"/></div>
 	       	<div class="value">
   	            <input type="hidden" name="searchCriteriaList[25].objectName" value="edu.duke.cabig.c3pr.domain.ICD9DiseaseSite"/>
-  	            <input type="hidden" name="searchCriteriaList[25].contextObjectName" value="DiseaseHistory" />
    	        	<input type="hidden" name="searchCriteriaList[25].predicate" value="="/>
           		<input type="hidden" name="searchCriteriaList[25].attributeName" value="code" />
           		<%-- Autocompleter Section --%>	
