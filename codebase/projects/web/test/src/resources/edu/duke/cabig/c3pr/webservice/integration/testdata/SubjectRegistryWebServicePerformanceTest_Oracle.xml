@@ -1,0 +1,487 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <csm_user user_id="4" login_name="jdoe01" first_name="John" last_name="Doe" organization="" department="" title="" phone_number="" password="rj4g+3AjuuethtxFP2ZrIA==" email_id="denismox@ya.ru" update_date="2010-08-30" migrated_flag="0" premgrt_login_name=""/>
+  <csm_user_group user_group_id="4" user_id="4" group_id="-27"/>
+  <csm_user_group user_group_id="5" user_id="4" group_id="-28"/>
+  <csm_user_group user_group_id="6" user_id="4" group_id="-29"/>
+  <csm_user_group user_group_id="7" user_id="4" group_id="-30"/>
+  <csm_user_group user_group_id="8" user_id="4" group_id="-31"/>
+  <csm_user_group user_group_id="9" user_id="4" group_id="-32"/>
+  <csm_user_group user_group_id="10" user_id="4" group_id="-35"/>
+  <csm_user_group user_group_id="11" user_id="4" group_id="-36"/>
+  <csm_user_group user_group_id="12" user_id="4" group_id="2"/>
+  <csm_user_group user_group_id="13" user_id="4" group_id="-43"/>
+  <csm_user_group user_group_id="14" user_id="4" group_id="-44"/>
+  <csm_user_group user_group_id="15" user_id="4" group_id="-34"/>
+  <csm_user_group user_group_id="16" user_id="4" group_id="-37"/>
+  <csm_user_group user_group_id="17" user_id="4" group_id="-38"/>
+  <csm_user_group user_group_id="18" user_id="4" group_id="-39"/>
+  <csm_user_group user_group_id="19" user_id="4" group_id="-40"/>
+  <csm_user_group user_group_id="20" user_id="4" group_id="-41"/>
+  <csm_user_group user_group_id="21" user_id="4" group_id="-42"/>
+  <csm_user_group user_group_id="22" user_id="4" group_id="-23"/>
+  <csm_user_group user_group_id="23" user_id="4" group_id="-24"/>
+  <csm_user_group user_group_id="24" user_id="4" group_id="-25"/>
+  <csm_user_group user_group_id="25" user_id="4" group_id="-26"/>
+  <csm_user_group user_group_id="26" user_id="4" group_id="-33"/>
+  <csm_user_group_role_pg user_group_role_pg_id="1" user_id="4" role_id="166" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="2" user_id="4" role_id="167" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="3" user_id="4" role_id="168" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="4" user_id="4" role_id="169" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="5" user_id="4" role_id="170" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="6" user_id="4" role_id="171" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="7" user_id="4" role_id="172" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="8" user_id="4" role_id="173" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="9" user_id="4" role_id="174" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="10" user_id="4" role_id="175" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="11" user_id="4" role_id="176" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="12" user_id="4" role_id="177" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="13" user_id="4" role_id="178" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="14" user_id="4" role_id="179" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="15" user_id="4" role_id="180" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="16" user_id="4" role_id="181" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="17" user_id="4" role_id="182" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="18" user_id="4" role_id="187" protection_group_id="-1" update_date="2010-08-30"/>
+  <csm_user_group_role_pg user_group_role_pg_id="19" user_id="4" role_id="188" protection_group_id="-1" update_date="2010-08-30"/>
+  
+  <REGISTRY_STATUSES id="-1000" version="1" code="dummy" description="dummy"/>
+  <REGISTRY_STATUSES id="1000" version="1" code="Pre-Enrolled" description="Pre-Enrolled"/>
+  <REGISTRY_STATUSES id="1001" version="1" code="Enrolled" description="Enrolled"/>
+  <REGISTRY_STATUSES id="1002" version="1" code="Screen Failed" description="Screen Failed"/>
+  <REGISTRY_STATUSES id="1003" version="1" code="Accrued" description="Accrued"/>
+  <REGISTRY_STATUSES id="1004" version="1" code="Active Intervention" description="Active Intervention"/>
+  <REGISTRY_STATUSES id="1005" version="1" code="Long-Term Followup" description="Long-Term Followup"/>
+  <REGISTRY_STATUSES id="1006" version="1" code="Observation" description="Observation"/>
+  <REGISTRY_STATUSES id="1007" version="1" code="Withdrawn" description="Withdrawn"/>
+  <REGISTRY_STATUSES id="1008" version="1" code="Declined Consent" description="Declined Consent"/>
+  <REGISTRY_STATUSES id="1009" version="1" code="Completed" description="Completed"/>
+    
+  <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-1000" version="1" first_name="dummy" last_name="dummy" birth_date="2000-01-01" administrative_gender_code="Male" ethnic_group_code="Unknown" retired_indicator="false"/>
+  
+  <PARTICIPANTS id="-500" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-501" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-502" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-503" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-504" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-505" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-506" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-507" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-508" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-509" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-510" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-511" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-512" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-513" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-514" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-515" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-516" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-517" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-518" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="-519" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  
+  <stu_sub_demographics/>
+  
+  <STUDIES id="-1000" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDIES id="1000" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS  original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" id="1000" version="0" study_id="1000" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  
+  <STUDIES id="-500" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-500" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-500" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES id="-501" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-501" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-501" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES id="-502" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-502" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-502" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES id="-503" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-503" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-503" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES id="-504" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-504" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-504" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES id="-505" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-505" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-505" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES id="-506" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-506" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-506" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES id="-507" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-507" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-507" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES id="-508" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-508" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-508" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES id="-509" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-509" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-509" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES id="-510" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-510" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-510" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES        id="-511" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-511" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-511" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES        id="-512" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-512" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-512" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES        id="-513" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-513" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-513" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES        id="-514" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-514" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-514" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES        id="-515" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-515" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-515" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES        id="-516" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-516" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-516" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES        id="-517" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-517" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-517" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES        id="-518" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-518" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-518" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  <STUDIES        id="-519" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
+  <STUDY_VERSIONS id="-519" original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" version="0" study_id="-519" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
+  
+  <ADDRESSES id="-1000" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" participant_id="1000"/>
+  <ADDRESSES id="-1002" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" participant_id="1001"/>
+  <ADDRESSES id="-1001" version="1" street_address="Mayo" city="Mayo" state_code="MN" postal_code="20191" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-10000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
+  
+  <ADDRESSES id="-500" participant_id="-500" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-501" participant_id="-501" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-502" participant_id="-502" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-503" participant_id="-503" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-504" participant_id="-504" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-505" participant_id="-505" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-506" participant_id="-506" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-507" participant_id="-507" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-508" participant_id="-508" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-509" participant_id="-509" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-510" participant_id="-510" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-511" participant_id="-511" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-512" participant_id="-512" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-513" participant_id="-513" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-514" participant_id="-514" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-515" participant_id="-515" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-516" participant_id="-516" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-517" participant_id="-517" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-518" participant_id="-518" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  <ADDRESSES id="-519" participant_id="-519" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false"/>
+  
+  <ORGANIZATIONS id="-1000" version="1" name="dummy" description_text="dummy" dtype="Local" retired_indicator="false" address_id="-1000"/>
+  <ORGANIZATIONS id="1000" version="1" name="Mayo Clinic Rochester" description_text="Mayo Clinic Rochester" dtype="Local" retired_indicator="false" address_id="-1001"/>
+  
+  <STUDY_ORGANIZATIONS id="1000" version="1" study_id="1000" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="1001" version="1" study_id="1000" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="1000" version="1" start_date="2010-02-02" stu_version_id="1000" sto_id="1001" retired_indicator="false"/>
+  
+  <STUDY_ORGANIZATIONS id="-5000" version="1" study_id="-500" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-500" version="1" study_id="-500" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-500" version="1" start_date="2010-02-02" stu_version_id="-500" sto_id="-500" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5001" version="1" study_id="-501" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-501" version="1" study_id="-501" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-501" version="1" start_date="2010-02-02" stu_version_id="-501" sto_id="-501" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5002" version="1" study_id="-502" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-502" version="1" study_id="-502" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-502" version="1" start_date="2010-02-02" stu_version_id="-502" sto_id="-502" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5003" version="1" study_id="-503" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-503" version="1" study_id="-503" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-503" version="1" start_date="2010-02-02" stu_version_id="-503" sto_id="-503" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5004" version="1" study_id="-504" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-504" version="1" study_id="-504" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-504" version="1" start_date="2010-02-02" stu_version_id="-504" sto_id="-504" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5005" version="1" study_id="-505" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-505" version="1" study_id="-505" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-505" version="1" start_date="2010-02-02" stu_version_id="-505" sto_id="-505" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5006" version="1" study_id="-506" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-506" version="1" study_id="-506" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-506" version="1" start_date="2010-02-02" stu_version_id="-506" sto_id="-506" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5007" version="1" study_id="-507" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-507" version="1" study_id="-507" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-507" version="1" start_date="2010-02-02" stu_version_id="-507" sto_id="-507" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5008" version="1" study_id="-508" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-508" version="1" study_id="-508" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-508" version="1" start_date="2010-02-02" stu_version_id="-508" sto_id="-508" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5009" version="1" study_id="-509" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-509" version="1" study_id="-509" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-509" version="1" start_date="2010-02-02" stu_version_id="-509" sto_id="-509" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5010" version="1" study_id="-510" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-510" version="1" study_id="-510" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-510" version="1" start_date="2010-02-02" stu_version_id="-510" sto_id="-510" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5011" version="1" study_id="-511" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-511" version="1" study_id="-511" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-511" version="1" start_date="2010-02-02" stu_version_id="-511" sto_id="-511" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5012" version="1" study_id="-512" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-512" version="1" study_id="-512" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-512" version="1" start_date="2010-02-02" stu_version_id="-512" sto_id="-512" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5013" version="1" study_id="-513" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-513" version="1" study_id="-513" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-513" version="1" start_date="2010-02-02" stu_version_id="-513" sto_id="-513" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5014" version="1" study_id="-514" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-514" version="1" study_id="-514" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-514" version="1" start_date="2010-02-02" stu_version_id="-514" sto_id="-514" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5015" version="1" study_id="-515" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-515" version="1" study_id="-515" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-515" version="1" start_date="2010-02-02" stu_version_id="-515" sto_id="-515" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5016" version="1" study_id="-516" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-516" version="1" study_id="-516" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-516" version="1" start_date="2010-02-02" stu_version_id="-516" sto_id="-516" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5017" version="1" study_id="-517" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-517" version="1" study_id="-517" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-517" version="1" start_date="2010-02-02" stu_version_id="-517" sto_id="-517" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5018" version="1" study_id="-518" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-518" version="1" study_id="-518" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-518" version="1" start_date="2010-02-02" stu_version_id="-518" sto_id="-518" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-5019" version="1" study_id="-519" hcs_id="1000" type="SCC" retired_indicator="false"/>
+  <STUDY_ORGANIZATIONS id="-519" version="1" study_id="-519" hcs_id="1000" type="SST" retired_indicator="false"/>
+  <study_site_versions id="-519" version="1" start_date="2010-02-02" stu_version_id="-519" sto_id="-519" retired_indicator="false"/>
+  
+  <CONSENTS id="1000" version="0" name="General1" version_id="1.0" stu_version_id="1000" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="1000" version="0" text="question1" code="Q11" con_id="1000" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="1001" version="0" text="question2" code="Q12" con_id="1000" retired_indicator="false"/>
+  
+  <CONSENTS id="1001" version="0" name="General2" version_id="2.0" stu_version_id="1000" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="1002" version="0" text="question1" code="Q21" con_id="1001" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="1003" version="0" text="question2" code="Q22" con_id="1001" retired_indicator="false"/>
+  
+  <CONSENTS          id="-500" stu_version_id="-500" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-500"         con_id="-500" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-501" stu_version_id="-501" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-501"         con_id="-501" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-502" stu_version_id="-502" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-502"         con_id="-502" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-503" stu_version_id="-503" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-503"         con_id="-503" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-504" stu_version_id="-504" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-504"         con_id="-504" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-505" stu_version_id="-505" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-505"         con_id="-505" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-506" stu_version_id="-506" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-506"         con_id="-506" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-507" stu_version_id="-507" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-507"         con_id="-507" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-508" stu_version_id="-508" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-508"         con_id="-508" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-509" stu_version_id="-509" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-509"         con_id="-509" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-510" stu_version_id="-510" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-510"         con_id="-510" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-511" stu_version_id="-511" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-511"         con_id="-511" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-512" stu_version_id="-512" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-512"         con_id="-512" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-513" stu_version_id="-513" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-513"         con_id="-513" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-514" stu_version_id="-514" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-514"         con_id="-514" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-515" stu_version_id="-515" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-515"         con_id="-515" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-516" stu_version_id="-516" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-516"         con_id="-516" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-517" stu_version_id="-517" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-517"         con_id="-517" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-518" stu_version_id="-518" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-518"         con_id="-518" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  <CONSENTS          id="-519" stu_version_id="-519" version="0" name="General1" version_id="1.0" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENT_QUESTIONS id="-519"         con_id="-519" version="0" text="question1" code="Q11" retired_indicator="false"/>
+  
+  <PERMISSIBLE_REG_STATS id="-1000" version="0" registry_st_id="-1000" study_id="-1000" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="1000" version="0" registry_st_id="1000" study_id="1000" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="1001" version="0" registry_st_id="1001" study_id="1000" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="1002" version="0" registry_st_id="1002" study_id="1000" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="1003" version="0" registry_st_id="1003" study_id="1000" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="1004" version="0" registry_st_id="1004" study_id="1000" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="1005" version="0" registry_st_id="1005" study_id="1000" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="1006" version="0" registry_st_id="1006" study_id="1000" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="1007" version="0" registry_st_id="1007" study_id="1000" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="1008" version="0" registry_st_id="1008" study_id="1000" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="1009" version="0" registry_st_id="1009" study_id="1000" retired_indicator="false"/>
+  
+  <PERMISSIBLE_REG_STATS id="-500" version="0" registry_st_id="1002" study_id="-500" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5000" version="0" registry_st_id="1007" study_id="-500" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-501" version="0" registry_st_id="1002" study_id="-501" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5001" version="0" registry_st_id="1007" study_id="-501" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-502" version="0" registry_st_id="1002" study_id="-502" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5002" version="0" registry_st_id="1007" study_id="-502" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-503" version="0" registry_st_id="1002" study_id="-503" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5003" version="0" registry_st_id="1007" study_id="-503" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-504" version="0" registry_st_id="1002" study_id="-504" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5004" version="0" registry_st_id="1007" study_id="-504" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-505" version="0" registry_st_id="1002" study_id="-505" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5005" version="0" registry_st_id="1007" study_id="-505" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-506" version="0" registry_st_id="1002" study_id="-506" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5006" version="0" registry_st_id="1007" study_id="-506" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-507" version="0" registry_st_id="1002" study_id="-507" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5007" version="0" registry_st_id="1007" study_id="-507" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-508" version="0" registry_st_id="1002" study_id="-508" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5008" version="0" registry_st_id="1007" study_id="-508" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-509" version="0" registry_st_id="1002" study_id="-509" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5009" version="0" registry_st_id="1007" study_id="-509" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-510" version="0" registry_st_id="1002" study_id="-510" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5100" version="0" registry_st_id="1007" study_id="-510" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-511" version="0" registry_st_id="1002" study_id="-511" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5101" version="0" registry_st_id="1007" study_id="-511" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-512" version="0" registry_st_id="1002" study_id="-512" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5102" version="0" registry_st_id="1007" study_id="-512" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-513" version="0" registry_st_id="1002" study_id="-513" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5103" version="0" registry_st_id="1007" study_id="-513" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-514" version="0" registry_st_id="1002" study_id="-514" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5104" version="0" registry_st_id="1007" study_id="-514" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-515" version="0" registry_st_id="1002" study_id="-515" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5105" version="0" registry_st_id="1007" study_id="-515" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-516" version="0" registry_st_id="1002" study_id="-516" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5106" version="0" registry_st_id="1007" study_id="-516" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-517" version="0" registry_st_id="1002" study_id="-517" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5107" version="0" registry_st_id="1007" study_id="-517" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-518" version="0" registry_st_id="1002" study_id="-518" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5108" version="0" registry_st_id="1007" study_id="-518" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-519" version="0" registry_st_id="1002" study_id="-519" retired_indicator="false"/>
+  <PERMISSIBLE_REG_STATS id="-5109" version="0" registry_st_id="1007" study_id="-519" retired_indicator="false"/>
+  
+  
+  <STUDY_SUBJECTS/>
+  
+  <race_code_assocn retired_indicator="false"  id="-1000" version="1"  sub_id="1000" race_code="Asian" />
+  <race_code_assocn retired_indicator="false"  id="-1001" version="1"  sub_id="1000" race_code="White" />
+  <race_code_assocn retired_indicator="false"  id="-1002" version="1"  sub_id="1001" race_code="Asian" />
+  <race_code_assocn retired_indicator="false"  id="-1003" version="1"  sub_id="1001" race_code="White" />
+  
+  <race_code_assocn id="-500" sub_id="-500" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-501" sub_id="-501" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-502" sub_id="-502" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-503" sub_id="-503" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-504" sub_id="-504" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-505" sub_id="-505" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-506" sub_id="-506" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-507" sub_id="-507" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-508" sub_id="-508" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-509" sub_id="-509" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-510" sub_id="-510" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-511" sub_id="-511" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-512" sub_id="-512" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-513" sub_id="-513" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-514" sub_id="-514" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-515" sub_id="-515" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-516" sub_id="-516" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-517" sub_id="-517" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-518" sub_id="-518" retired_indicator="false" version="1" race_code="White" />
+  <race_code_assocn id="-519" sub_id="-519" retired_indicator="false" version="1" race_code="White" />
+  
+  <CONTACT_MECHANISMS id="-1000" version="1" prt_id="1000" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-1001" version="1" prt_id="1000" type="Fax" value="000-111-2222" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-1002" version="1" prt_id="1000" type="PHONE" value="333-444-5555" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-1003" version="1" prt_id="1001" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-1004" version="1" prt_id="1001" type="Fax" value="000-111-2222" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-1005" version="1" prt_id="1001" type="PHONE" value="333-444-5555" dtype="Local"/>
+  
+  <CONTACT_MECHANISMS id="-500" prt_id="-500" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-501" prt_id="-501" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-502" prt_id="-502" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-503" prt_id="-503" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-504" prt_id="-504" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-505" prt_id="-505" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-506" prt_id="-506" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-507" prt_id="-507" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-508" prt_id="-508" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-509" prt_id="-509" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-510" prt_id="-510" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-511" prt_id="-511" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-512" prt_id="-512" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-513" prt_id="-513" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-514" prt_id="-514" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-515" prt_id="-515" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-516" prt_id="-516" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-517" prt_id="-517" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-518" prt_id="-518" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="-519" prt_id="-519" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  
+  <IDENTIFIERS id="-1010" version="1" value="dummy" type="local" dtype="SAI" stu_id="-1000" hcs_id="-1000" org_id="-1000" prt_id="-1000" retired_indicator="false" primary_indicator="0"/>
+  <IDENTIFIERS id="-1000" version="1" value="MN026" type="CTEP" dtype="OAI" hcs_id="-1000" org_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-1001" version="1" value="test_study_id" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" stu_id="1000" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-1002" version="1" value="test_subject_id" type="MRN" dtype="OAI" hcs_id="1000" prt_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-1003" version="1" value="test_subject_id_import" type="MRN" dtype="OAI" hcs_id="1000" prt_id="1001" retired_indicator="false" primary_indicator="1"/>
+  
+  <IDENTIFIERS id="-500" version="1" prt_id="-500" value="500" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-501" version="1" prt_id="-501" value="501" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-502" version="1" prt_id="-502" value="502" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-503" version="1" prt_id="-503" value="503" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-504" version="1" prt_id="-504" value="504" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-505" version="1" prt_id="-505" value="505" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-506" version="1" prt_id="-506" value="506" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-507" version="1" prt_id="-507" value="507" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-508" version="1" prt_id="-508" value="508" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-509" version="1" prt_id="-509" value="509" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-510" version="1" prt_id="-510" value="510" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-511" version="1" prt_id="-511" value="511" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-512" version="1" prt_id="-512" value="512" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-513" version="1" prt_id="-513" value="513" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-514" version="1" prt_id="-514" value="514" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-515" version="1" prt_id="-515" value="515" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-516" version="1" prt_id="-516" value="516" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-517" version="1" prt_id="-517" value="517" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-518" version="1" prt_id="-518" value="518" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-519" version="1" prt_id="-519" value="519" type="MRN" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  
+  <IDENTIFIERS id="-5000" version="1" stu_id="-500" value="500" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5010" version="1" stu_id="-501" value="501" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5020" version="1" stu_id="-502" value="502" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5030" version="1" stu_id="-503" value="503" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5040" version="1" stu_id="-504" value="504" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5050" version="1" stu_id="-505" value="505" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5060" version="1" stu_id="-506" value="506" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5070" version="1" stu_id="-507" value="507" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5080" version="1" stu_id="-508" value="508" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5090" version="1" stu_id="-509" value="509" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5100" version="1" stu_id="-510" value="510" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5110" version="1" stu_id="-511" value="511" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5120" version="1" stu_id="-512" value="512" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5130" version="1" stu_id="-513" value="513" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5140" version="1" stu_id="-514" value="514" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5150" version="1" stu_id="-515" value="515" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5160" version="1" stu_id="-516" value="516" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5170" version="1" stu_id="-517" value="517" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5180" version="1" stu_id="-518" value="518" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="-5190" version="1" stu_id="-519" value="519" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
+
+  <STU_SUB_REG_STATUSES/>
+  
+  <REASONS id="-1100" version="1" dtype="REGISTRY_STATUS" code="dummy" description="dummy" parent_id="-1100" per_reg_st_id="-1000" primary_indicator="1" registry_st_id="-1000" retired_indicator="false"/>
+  <REASONS id="-1000" version="1" dtype="REGISTRY_STATUS" code="FAILED INCLUSION" description="FAILED INCLUSION" primary_indicator="1" registry_st_id="1002" retired_indicator="false"/>
+  <REASONS id="-1001" version="1" dtype="REGISTRY_STATUS" code="FAILED EXCLUSION" description="FAILED EXCLUSION" primary_indicator="1" registry_st_id="1002" retired_indicator="false"/>
+  <REASONS id="-1002" version="1" dtype="REGISTRY_STATUS" code="UNWILLING" description="UNWILLING" primary_indicator="1" registry_st_id="1007" retired_indicator="false"/>
+  <REASONS id="-1003" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="1002" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-1004" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range2" description="Lab Out Of Range2" parent_id="-1001" per_reg_st_id="1002" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-1005" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="1007" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-1006" version="1" dtype="REGISTRY_STATUS" code="Schedule" description="Schedule" parent_id="-1002" per_reg_st_id="1007" primary_indicator="0" retired_indicator="false"/>
+  
+  <REASONS id="-500" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-500" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5000" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5000" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-501" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-501" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5001" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5001" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-502" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-502" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5002" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5002" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-503" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-503" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5003" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5003" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-504" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-504" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5004" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5004" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-505" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-505" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5005" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5005" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-506" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-506" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5006" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5006" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-507" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-507" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5007" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5007" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-508" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-508" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5008" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5008" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-509" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-509" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5009" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5009" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-510" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-510" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5100" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5100" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-511" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-511" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5101" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5101" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-512" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-512" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5102" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5102" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-513" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-513" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5103" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5103" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-514" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-514" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5104" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5104" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-515" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-515" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5105" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5105" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-516" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-516" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5106" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5106" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-517" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-517" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5107" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5107" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-518" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-518" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5108" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5108" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-519" version="1" dtype="REGISTRY_STATUS" code="Lab_Out_Of_Range1" description="Lab Out Of Range1" parent_id="-1000" per_reg_st_id="-519" primary_indicator="0" retired_indicator="false"/>
+  <REASONS id="-5109" version="1" dtype="REGISTRY_STATUS" code="Distance" description="Distance" parent_id="-1002" per_reg_st_id="-5109" primary_indicator="0" retired_indicator="false"/>
+  
+  <study_subject_versions/>
+  <study_subject_consents />
+  <sub_con_que_ans />
+</dataset>

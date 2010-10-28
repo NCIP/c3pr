@@ -216,5 +216,8 @@
 			<exclude org="gov.nih.nci.cagrid" name="cagrid-opensaml" rev="1.0"/>
 				  
 		  	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="1.31" />
+        	
+        	<dependency org="yourkit" name="yjp" rev="8.0.24" conf="test->default"/>
+        	<dependency org="yourkit" name="yjp-controller-api-redist" rev="8.0.24" conf="test->default"/>
         </dependencies>
 </ivy-module>

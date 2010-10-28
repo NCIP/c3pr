@@ -57,16 +57,18 @@
   <REGISTRY_STATUSES id="1009" version="1" code="Completed" description="Completed"/>
     
   <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
   <PARTICIPANTS id="-1000" version="1" first_name="dummy" last_name="dummy" birth_date="2000-01-01" administrative_gender_code="Male" ethnic_group_code="Unknown" retired_indicator="false"/>
   
   <stu_sub_demographics/>
   
   <STUDIES id="-1000" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
   <STUDIES id="1000" version="1" phase_code="Phase III Trial" type="Primary Treatment" status="OPEN" retired_indicator = "false" dtype="Local"/>
-    
+  
   <STUDY_VERSIONS  original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" id="1000" version="0" study_id="1000" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
-    
+  
   <ADDRESSES id="1000" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" participant_id="1000"/>
+  <ADDRESSES id="1002" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" participant_id="1001"/>
   <ADDRESSES id="1001" version="1" street_address="Mayo" city="Mayo" state_code="MN" postal_code="20191" country_code="USA"  retired_indicator = "false"/>
   <ADDRESSES id="-1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
   
@@ -81,11 +83,11 @@
   <CONSENTS id="1000" version="0" name="General1" version_id="1.0" stu_version_id="1000" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
   <CONSENT_QUESTIONS id="1000" version="0" text="question1" code="Q11" con_id="1000" retired_indicator="false"/>
   <CONSENT_QUESTIONS id="1001" version="0" text="question2" code="Q12" con_id="1000" retired_indicator="false"/>
-    
+  
   <CONSENTS id="1001" version="0" name="General2" version_id="2.0" stu_version_id="1000" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
   <CONSENT_QUESTIONS id="1002" version="0" text="question1" code="Q21" con_id="1001" retired_indicator="false"/>
   <CONSENT_QUESTIONS id="1003" version="0" text="question2" code="Q22" con_id="1001" retired_indicator="false"/>
-    
+  
   <PERMISSIBLE_REG_STATS id="-1000" version="0" registry_st_id="-1000" study_id="-1000" retired_indicator="false"/>
   <PERMISSIBLE_REG_STATS id="1000" version="0" registry_st_id="1000" study_id="1000" retired_indicator="false"/>
   <PERMISSIBLE_REG_STATS id="1001" version="0" registry_st_id="1001" study_id="1000" retired_indicator="false"/>
@@ -97,20 +99,26 @@
   <PERMISSIBLE_REG_STATS id="1007" version="0" registry_st_id="1007" study_id="1000" retired_indicator="false"/>
   <PERMISSIBLE_REG_STATS id="1008" version="0" registry_st_id="1008" study_id="1000" retired_indicator="false"/>
   <PERMISSIBLE_REG_STATS id="1009" version="0" registry_st_id="1009" study_id="1000" retired_indicator="false"/>
-    
+  
   <STUDY_SUBJECTS/>
   
   <race_code_assocn retired_indicator="false"  id="1000" version="1"  sub_id="1000" race_code="White" />
   <race_code_assocn retired_indicator="false"  id="1001" version="1"  sub_id="1000" race_code="Asian" />
+  <race_code_assocn retired_indicator="false"  id="1002" version="1"  sub_id="1001" race_code="White" />
+  <race_code_assocn retired_indicator="false"  id="1003" version="1"  sub_id="1001" race_code="Asian" />
   
   <CONTACT_MECHANISMS id="1000" version="1" prt_id="1000" type="EMAIL" value="test@mail.com" dtype="Local"/>
   <CONTACT_MECHANISMS id="1001" version="1" prt_id="1000" type="Fax" value="000-111-2222" dtype="Local"/>
   <CONTACT_MECHANISMS id="1002" version="1" prt_id="1000" type="PHONE" value="333-444-5555" dtype="Local"/>
-    
+  <CONTACT_MECHANISMS id="1003" version="1" prt_id="1001" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  <CONTACT_MECHANISMS id="1004" version="1" prt_id="1001" type="Fax" value="000-111-2222" dtype="Local"/>
+  <CONTACT_MECHANISMS id="1005" version="1" prt_id="1001" type="PHONE" value="333-444-5555" dtype="Local"/>
+  
   <IDENTIFIERS id="-1000" version="1" value="dummy" type="local" dtype="SAI" stu_id="-1000" hcs_id="-1000" org_id="-1000" prt_id="-1000" retired_indicator="false" primary_indicator="0"/>
   <IDENTIFIERS id="1000" version="1" value="MN026" type="CTEP" dtype="OAI" hcs_id="-1000" org_id="1000" retired_indicator="false" primary_indicator="1"/>
   <IDENTIFIERS id="1001" version="1" value="test_study_id" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" stu_id="1000" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
   <IDENTIFIERS id="1002" version="1" value="test_subject_id" type="MRN" dtype="OAI" hcs_id="1000" prt_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="1003" version="1" value="test_subject_id_import" type="MRN" dtype="OAI" hcs_id="1000" prt_id="1001" retired_indicator="false" primary_indicator="1"/>
   
   <STU_SUB_REG_STATUSES/>
   

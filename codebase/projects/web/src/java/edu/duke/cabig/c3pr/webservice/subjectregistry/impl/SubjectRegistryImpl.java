@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.jws.WebService;
-import javax.xml.ws.Holder;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -53,6 +52,7 @@ import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETStudySubjectConsentVer
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DuplicateStudySubjectExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DuplicateStudySubjectExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.ImportStudySubjectRegistryRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.ImportStudySubjectRegistryResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateStudySubjectRegistryRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateStudySubjectRegistryResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidQueryExceptionFault;
@@ -120,12 +120,103 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	private StudySubjectDao studySubjectDao;
 	private RegistryStatusDao registryStatusDao;
 	
-	public void importSubjectRegistry(
-			Holder<ImportStudySubjectRegistryRequest> parameters)
+	public ImportStudySubjectRegistryResponse importSubjectRegistry(
+			ImportStudySubjectRegistryRequest parameters)
 			throws InvalidStudySubjectDataExceptionFaultMessage,
 			SecurityExceptionFaultMessage {
-		// TODO Auto-generated method stub
-		
+		ImportStudySubjectRegistryResponse response = new ImportStudySubjectRegistryResponse();
+		DSETStudySubject dsetStudySubject = new DSETStudySubject();
+		response.setStudySubjects(dsetStudySubject);
+		for(StudySubject studySubject : parameters.getStudySubjects().getItem()){
+			//test duplicate study subject
+			try {
+				getStudySubject(studySubject.getSubjectIdentifier());
+				log.error(ExceptionUtils.getFullStackTrace(exceptionHelper
+						.getConversionException(DUPLICATE_STUDYSUBJECT_IDENTIFIER)));
+				continue;
+			} catch (C3PRCodedRuntimeException e) {
+				if(e.getExceptionCode() != 231){
+					log.error(e);
+					continue;
+				}
+			}
+			
+			edu.duke.cabig.c3pr.domain.StudySubject domainObject = new edu.duke.cabig.c3pr.domain.StudySubject();
+			
+			//getParticipant
+			if(studySubject.getEntity() == null ||
+					studySubject.getEntity().getBiologicEntityIdentifier().size() == 0){
+				log.error("Invalid study subject record: BiologicEntity is invalid.");
+				continue;
+			}
+			Participant participant = getParticipant(studySubject.getEntity().getBiologicEntityIdentifier().get(0));
+			
+			//getStudySite
+			if(studySubject.getStudySubjectProtocolVersion() == null ||
+					studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion() == null ||
+					studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().size() == 0){
+				log.error("Invalid study subject record: Cannot find study information.");
+				continue;
+			}
+			Study study = null;
+			try {
+				study = getStudy(studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().
+						getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().get(0));
+			} catch (InvalidStudyProtocolExceptionFaultMessage e) {
+				log.error(ExceptionUtils.getFullStackTrace(e));
+				continue;
+			}
+			
+			//test duplicate study subject
+			if(studySubjectDao.searchBySubjectAndStudyIdentifiers(participant.getPrimaryIdentifier(), study.getCoordinatingCenterAssignedIdentifier()).size()>0){
+				log.error(ExceptionUtils.getFullStackTrace(exceptionHelper
+						.getConversionException(DUPLICATE_STUDYSUBJECT_IDENTIFIER)));
+				continue;
+			}
+			
+			//getStudySite
+			StudySite studySite = null;
+			try {
+				studySite = getStudySite(study, studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier().get(0));
+			} catch (InvalidSiteExceptionFaultMessage e) {
+				log.error(ExceptionUtils.getFullStackTrace(e));
+				continue;
+			} catch (InvalidStudyProtocolExceptionFaultMessage e) {
+				log.error(ExceptionUtils.getFullStackTrace(e));
+				continue;
+			}
+			
+			//set study, studysite and subject demography
+			domainObject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
+			domainObject.setStudySite(studySite);
+			
+			//copy organic attributes, identifiers
+			copyEnrollmentDetails(domainObject , studySubject);
+			
+			//copy consent information
+			if(studySubject.getStudySubjectProtocolVersion() != null &&
+					studySubject.getStudySubjectProtocolVersion().getStudySubjectConsentVersion() !=null &&
+					studySubject.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().size()>0)
+			copyConsentDetails(domainObject, studySubject.getStudySubjectProtocolVersion().getStudySubjectConsentVersion());
+			
+			//copy registry statuses
+			for(PerformedStudySubjectMilestone status : studySubject.getStudySubjectStatus()){
+				StudySubjectRegistryStatus studySubjectRegistryStatus = getStudySubjectRegistryStatus(status, domainObject.getStudySite().getStudy());
+				domainObject.updateRegistryStatus(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode(), studySubjectRegistryStatus.getEffectiveDate(), studySubjectRegistryStatus.getReasons());
+			}
+			
+			//test re-registration
+			List<edu.duke.cabig.c3pr.domain.StudySubject> registrations = studySubjectRepository.findRegistrations(domainObject);;
+			if (registrations.size() > 0) {
+				log.error(ExceptionUtils.getFullStackTrace(exceptionHelper
+						.getConversionException(RE_REGISTRATION)));
+				continue;
+	        }
+			
+			domainObject = studySubjectRepository.save(domainObject);
+			dsetStudySubject.getItem().add(converter.convert(domainObject));
+		}
+		return response;
 	}
 	
 	public InitiateStudySubjectRegistryResponse initiateStudySubject(
@@ -153,6 +244,7 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		
 		//getStudySite
 		Study study = getStudy(parameters.getStudyIdentifier());
+		
 		//getStudySite
 		StudySite studySite = getStudySite(study, parameters.getSiteIdentifier());
 		
@@ -760,4 +852,5 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	public void setRegistryStatusDao(RegistryStatusDao registryStatusDao) {
 		this.registryStatusDao = registryStatusDao;
 	}
+
 }

@@ -752,6 +752,7 @@
 					<exclude name="edu/duke/cabig/**/WebServiceRelatedTestCase.class"/>
 					<exclude name="edu/duke/cabig/**/SubjectRegistryRelatedTestCase.class"/>
 					<exclude name="edu/duke/cabig/**/C3PREmbeddedTomcatTestBase.class"/>
+					<exclude name="edu/duke/cabig/**/*PerformanceTest.class"/>
 					<exclude name="edu/duke/cabig/c3pr/webservice/integration/DbTestCase.class"/>
 					
 					<!--commented until xsd for CCTS support is finalized -->
