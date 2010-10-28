@@ -69,7 +69,7 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
 				
 				// copy study_amendments into study_versions
 
-		execute("insert into study_versions (id,version,retired_indicator,study_id,version_date,name,original_indicator,amendment_type,amendment_reason,comments,version_status,data_entry_status) (select nextval('study_versions_id_seq'),version,retired_indicator,stu_id,amendment_date,amendment_version,false,'IMMEDIATE',amendment_reasons_text,comments,version_status,data_entry_status from study_amendments where study_amendments.amendment_date is not null and study_amendments.amendment_date not like '')");
+		execute("insert into study_versions (id,version,retired_indicator,study_id,version_date,name,original_indicator,amendment_type,amendment_reason,comments,version_status,data_entry_status) (select nextval('study_versions_id_seq'),version,retired_indicator,stu_id,amendment_date,amendment_version,false,'IMMEDIATE',amendment_reasons_text,comments,version_status,data_entry_status from study_amendments where study_amendments.amendment_date is not null)");
  											
  		execute("alter table study_amendments drop column version_status");
  			
