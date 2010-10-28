@@ -121,20 +121,6 @@
     </bean>
 
     <!-- mapping for REPORT task -->
-    <bean name="/report/createReport" id="createReportController"
-          lazy-init="true" class="edu.duke.cabig.c3pr.web.report.CreateReportController"
-          autowire="byName">
-        <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.ReportCommand"/>
-        <property name="formView" value="report/registration_search_report"/>
-        <property name="successView" value="report/registration_search_report"/>
-    </bean>
-    <bean name="/report/createStudyReport" id="createStudyReportController"
-          lazy-init="true" class="edu.duke.cabig.c3pr.web.report.CreateStudyReportController"
-          autowire="byName">
-        <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.StudyReportCommand"/>
-        <property name="formView" value="report/study_search_report"/>
-        <property name="successView" value="report/study_search_report"/>
-    </bean>
   <bean name="/report/summary3Report" id="summary3ReportController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.report.Summary3ReportController"
           autowire="byName">
@@ -775,14 +761,6 @@
                     <property name="pathMapping" value="/report/**"/>
                     <property name="tasks">
                         <list>
-                            <bean
-                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Search Registration"
-                                    p:linkName="createReportController"/>
-                            <bean
-                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Search Study"
-                                    p:linkName="createStudyReportController"/>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Summary 3 Report"
