@@ -41,15 +41,26 @@ public final class SOAPUtils {
 
 	public static final String WSS_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
 	public static final String PATH_TO_SAML_TOKEN = "/edu/duke/cabig/c3pr/webservice/integration/testdata/SAMLToken.xml";
+	public static final String PATH_TO_TAMPERED_SAML_TOKEN = "/edu/duke/cabig/c3pr/webservice/integration/testdata/SAMLToken_Tampered.xml";
+	public static final String PATH_TO_UNEXISTENT_USER_SAML_TOKEN = "/edu/duke/cabig/c3pr/webservice/integration/testdata/SAMLToken_NoSuchUser.xml";
+	public static final String PATH_TO_UNTRUSTED_SAML_TOKEN = "/edu/duke/cabig/c3pr/webservice/integration/testdata/SAMLToken_UntrustedSTS.xml";
 
 	/**
 	 * @param service
 	 */
 	public static void installSecurityHandler(Service service) {
+		installSecurityHandler(service, PATH_TO_SAML_TOKEN);
+	}
+
+	/**
+	 * @param service
+	 */
+	public static void installSecurityHandler(Service service,
+			final String pathToSamlToken) {
 		service.setHandlerResolver(new HandlerResolver() {
 			public List<Handler> getHandlerChain(PortInfo arg0) {
 				List<Handler> list = new ArrayList<Handler>();
-				list.add(getSecurityHandler());
+				list.add(getSecurityHandler(pathToSamlToken));
 				return list;
 			}
 		});
@@ -60,7 +71,8 @@ public final class SOAPUtils {
 	 * 
 	 * @return
 	 */
-	private static SOAPHandler<SOAPMessageContext> getSecurityHandler() {
+	private static SOAPHandler<SOAPMessageContext> getSecurityHandler(
+			final String pathToSamlToken) {
 		return new SOAPHandler<SOAPMessageContext>() {
 			public void close(MessageContext arg0) {
 			}
@@ -76,7 +88,7 @@ public final class SOAPUtils {
 				if (isOut) {
 					SOAPMessage msg = ctx.getMessage();
 					try {
-						addSAMLToken(msg);
+						addSAMLToken(msg, pathToSamlToken);
 					} catch (Exception e) {
 						throw new RuntimeException(e);
 					}
@@ -90,10 +102,10 @@ public final class SOAPUtils {
 		};
 	}
 
-	private static void addSAMLToken(SOAPMessage msg) throws SOAPException,
-			SAXException, IOException, ParserConfigurationException {
-		InputStream xml = SOAPUtils.class
-				.getResourceAsStream(PATH_TO_SAML_TOKEN);
+	private static void addSAMLToken(SOAPMessage msg, String pathToSamlToken)
+			throws SOAPException, SAXException, IOException,
+			ParserConfigurationException {
+		InputStream xml = SOAPUtils.class.getResourceAsStream(pathToSamlToken);
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(true);
 		org.w3c.dom.Document doc = dbf.newDocumentBuilder().parse(xml);
