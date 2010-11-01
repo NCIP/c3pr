@@ -41,8 +41,17 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 	private ConsentingMethod consentingMethod;
 	private String consentPresenter;
 	private Date informedConsentSignedTimestamp;
+	private String documentId;
 	
 	
+	public String getDocumentId() {
+		return documentId;
+	}
+
+	public void setDocumentId(String documentId) {
+		this.documentId = documentId;
+	}
+
 	@Transient
 	public Time getInformedConsentSignedTime() {
 		return informedConsentSignedTimestamp!=null?DateUtil.getTime(informedConsentSignedTimestamp):null;
