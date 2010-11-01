@@ -16,10 +16,6 @@
 	<title>${tab.longTitle}</title>
 	<tags:dwrJavascriptLink objects="CommonAjaxFacade" />
 <script>
-	function resetScreen(){
-		alert("Reset screen functionality needs to be implemented");
-	}
-	
 	function validateAndSubmitForm(){
 		if($('enrollingsite-hidden').value == ""){
 			$('enrollingsite-identifier-type').value="" ;
@@ -619,6 +615,7 @@ color:white;
 <br>
 <div  align="center">
 	<tags:button id="searchRegistration" type="button" icon="search" size="small" color="blue" value="Search Registration" onclick="validateAndSubmitForm();"/>
+	<tags:button type="reset" size="small" color="blue" value="Clear" />
 </div>
 </chrome:division>
 </form:form>

@@ -13,10 +13,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>${tab.longTitle}</title>
 <script>
-	function resetScreen(){
-		alert("I have to implement reset screen functionality");
-	}
-	
 	function showAgeTextBox(selectbox){
 		if (selectbox.value == 'between') {
 	        $('age2').style.display="" ;   
@@ -194,7 +190,7 @@ color:white;
 <br>
 <div  align="center">
 	<tags:button type="submit" icon="search" size="small" color="blue" value="Search Subject"/>
-	<tags:button type="button" size="small" color="blue" value="Reset" onclick="resetScreen();"/>
+	<tags:button type="reset" size="small" color="blue" value="Clear" />
 </div>
 </chrome:division>
 </form:form>

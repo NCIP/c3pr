@@ -87,14 +87,12 @@ color:white;
 <chrome:division>
 	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
-		<tags:button color="blue" value="export" size="small" icon="export" onclick=""/>
 	</div>
 	<div id="printable">
 	<div id="studyTable" class="yui-skin-sam"></div>
 	</div>
 	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
-		<tags:button color="blue" value="export" size="small" icon="export"/>
 	</div>
 </chrome:division>
 </chrome:box>
