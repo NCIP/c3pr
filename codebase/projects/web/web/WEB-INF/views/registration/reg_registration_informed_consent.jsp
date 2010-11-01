@@ -183,7 +183,7 @@ function changeStudyVersion(){
 					<table class="tablecontent">
 					<tr>
 						 <th width="80%">
-							<fmt:message key="study.consent.question"/> 	
+							<fmt:message key="study.consent.question.text"/> 	
 							<tags:hoverHint id="study.consent.question" keyProp="study.consent.question" />
 						</th>
 						<th width="20%">
