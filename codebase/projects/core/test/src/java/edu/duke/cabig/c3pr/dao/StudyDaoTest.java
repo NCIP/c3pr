@@ -2170,7 +2170,6 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals("0 studies not found", 0,  studies.size());
 	}
     
-    //FIXME : Study Version
     public void testGetResultSetWithVersionStatus() throws Exception {
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.StudyVersion",  "versionStatus.code", "AC", "=");
@@ -2179,7 +2178,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("wrong number of active studies", 0,  studies.size());
+		assertEquals("wrong number of active studies", 1,  studies.size());
 	}
     
     public void testGetResultSetWithDataEntryStatus() throws Exception {
