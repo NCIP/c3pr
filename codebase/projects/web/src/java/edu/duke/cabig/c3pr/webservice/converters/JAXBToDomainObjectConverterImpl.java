@@ -966,6 +966,8 @@ public class JAXBToDomainObjectConverterImpl implements
 		consent.setMandatoryIndicator(xml.getMandatoryIndicator().isValue());
 		consent.setName(isNull(xml.getOfficialTitle()) ? null : xml
 				.getOfficialTitle().getValue());
+		consent.setDescriptionText(isNull(xml.getText()) ? null : xml
+				.getText().getValue());
 		consent.setVersionId(isNull(xml.getVersionNumberText()) ? null : xml
 				.getVersionNumberText().getValue());
 		return consent;

@@ -31,7 +31,6 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.helpers.WebServiceRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
-import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.studyutility.impl.StudyUtilityImpl;
 import edu.emory.mathcs.backport.java.util.Arrays;
 

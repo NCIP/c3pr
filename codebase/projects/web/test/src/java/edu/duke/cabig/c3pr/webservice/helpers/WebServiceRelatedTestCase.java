@@ -602,7 +602,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 		Consent consent = new Consent();
 		consent.setMandatoryIndicator(iso.BL(true));
 		consent.setOfficialTitle(iso.ST(TEST_CONSENT_TITLE));
-		// consent.setVersionDate(iso.TSDateTime(TEST_VERSION_DATE_ISO));
+		consent.setText(iso.ED(TEST_CONSENT_DESCRIPTION));
 		consent.setVersionNumberText(iso.ST(TEST_VERSION_NUMBER));
 		consent.setDocument(new Document());
 		consent.getDocumentVersionRelationship().add(
