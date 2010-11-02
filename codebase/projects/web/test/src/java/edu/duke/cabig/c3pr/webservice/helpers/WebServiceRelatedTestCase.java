@@ -138,6 +138,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 	public static final String TEST_CONSENT_QUESTION_2 = "Question 2";
 	public static final String TEST_CONSENT_QUESTION_1 = "Question 1";
 	public static final String TEST_CONSENT_TITLE = "Consent";
+	public static final String TEST_CONSENT_DESCRIPTION = "Consent Description";
 	public static final String TEST_CONSENT_QUESTION_RELATIONSHIP = "CONSENT_QUESTION";
 	public static final String TEST_CONSENT_RELATIONSHIP = "CONSENT";
 	public static final String TEST_STUDY_ID = "Study_01";
@@ -525,6 +526,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 		edu.duke.cabig.c3pr.domain.Consent c = new edu.duke.cabig.c3pr.domain.Consent();
 		c.setMandatoryIndicator(true);
 		c.setName(TEST_CONSENT_TITLE);
+		c.setDescriptionText(TEST_CONSENT_DESCRIPTION);
 		c.addQuestion(new ConsentQuestion(TEST_CONSENT_QUESTION_1,
 				TEST_CONSENT_QUESTION_1));
 		c.addQuestion(new ConsentQuestion(TEST_CONSENT_QUESTION_2,

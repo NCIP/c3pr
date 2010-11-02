@@ -114,7 +114,9 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	public static final String TEST_CONSENT_SIGNED_DATE1 = "20100101000000";
 	public static final String TEST_CONSENT_PRESENTER1 = "John Doe";
 	public static final String TEST_CONSENTING_METHOD1 = "Written";
+	public static final String TEST_CONSENTING_DOCID1 = "DOC_ID1";
 	public static final String TEST_CONSENT_NAME1 = "General1";
+	public static final String TEST_CONSENT_DESC1 = "Desc1";
 	public static final String TEST_CONSENT_VERSION1 = "1.0";
 	public static final Boolean TEST_CONSENT_ANS11=true;
 	public static final Boolean TEST_CONSENT_ANS12=false;
@@ -124,7 +126,9 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	public static final String TEST_CONSENT_SIGNED_DATE2 = "20070101000000";
 	public static final String TEST_CONSENT_PRESENTER2 = "Deep Singh";
 	public static final String TEST_CONSENTING_METHOD2 = "Verbal";
+	public static final String TEST_CONSENTING_DOCID2 = "DOC_ID2";
 	public static final String TEST_CONSENT_NAME2 = "general2";
+	public static final String TEST_CONSENT_DESC2 = "Desc2";
 	public static final String TEST_CONSENT_VERSION2 = "2.0";
 	public static final Boolean TEST_CONSENT_ANS21=true;
 	public static final Boolean TEST_CONSENT_ANS22=false;
@@ -279,11 +283,13 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		//add 1st consent
 		StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
 		studySubjectConsentVersion.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE1));
+		studySubjectConsentVersion.setIdentifier(iso.II(TEST_CONSENTING_DOCID1));
 		studySubjectConsentVersion.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE1));
 		studySubjectConsentVersion.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD1));
 		studySubjectConsentVersion.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER1));
 		studySubjectConsentVersion.setConsent(new DocumentVersion());
 		studySubjectConsentVersion.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME1));
+		studySubjectConsentVersion.getConsent().setText(iso.ED(TEST_CONSENT_DESC1));
 		studySubjectConsentVersion.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
 		
 		PerformedStudySubjectMilestone subjectAnswer = new PerformedStudySubjectMilestone();
@@ -302,11 +308,13 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		//add 2nd consent
 		studySubjectConsentVersion = new StudySubjectConsentVersion();
 		studySubjectConsentVersion.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE2));
+		studySubjectConsentVersion.setIdentifier(iso.II(TEST_CONSENTING_DOCID2));
 		studySubjectConsentVersion.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE2));
 		studySubjectConsentVersion.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD2));
 		studySubjectConsentVersion.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER2));
 		studySubjectConsentVersion.setConsent(new DocumentVersion());
 		studySubjectConsentVersion.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME2));
+		studySubjectConsentVersion.getConsent().setText(iso.ED(TEST_CONSENT_DESC2));
 		studySubjectConsentVersion.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION2));
 		
 		subjectAnswer = new PerformedStudySubjectMilestone();
@@ -327,10 +335,12 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 	
 	protected void assertSubjectConsent(List<edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion> actual){
 		assertEquals(parseISODate(TEST_CONSENT_DELIVERY_DATE1) ,actual.get(0).getConsentDeliveryDate());
+		assertEquals(TEST_CONSENTING_DOCID1 ,actual.get(0).getDocumentId());
 		assertEquals(parseISODate(TEST_CONSENT_SIGNED_DATE1) ,actual.get(0).getInformedConsentSignedDate());
 		assertEquals(TEST_CONSENT_PRESENTER1 ,actual.get(0).getConsentPresenter());
 		assertEquals(TEST_CONSENTING_METHOD1 ,actual.get(0).getConsentingMethod().getCode());
 		assertEquals(TEST_CONSENT_NAME1 ,actual.get(0).getConsent().getName());
+		assertEquals(TEST_CONSENT_DESC1 ,actual.get(0).getConsent().getDescriptionText());
 		assertEquals(TEST_CONSENT_VERSION1 ,actual.get(0).getConsent().getVersionId());
 		assertEquals(TEST_CONSENT_ANS11 ,actual.get(0).getSubjectConsentAnswers().get(0).getAgreementIndicator());
 		assertEquals(TEST_CONSENT_QUES11 ,actual.get(0).getSubjectConsentAnswers().get(0).getConsentQuestion().getCode());
@@ -338,10 +348,12 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		assertEquals(TEST_CONSENT_QUES12 ,actual.get(0).getSubjectConsentAnswers().get(1).getConsentQuestion().getCode());
 		
 		assertEquals(parseISODate(TEST_CONSENT_DELIVERY_DATE2) ,actual.get(1).getConsentDeliveryDate());
+		assertEquals(TEST_CONSENTING_DOCID2 ,actual.get(1).getDocumentId());
 		assertEquals(parseISODate(TEST_CONSENT_SIGNED_DATE2) ,actual.get(1).getInformedConsentSignedDate());
 		assertEquals(TEST_CONSENT_PRESENTER2 ,actual.get(1).getConsentPresenter());
 		assertEquals(TEST_CONSENTING_METHOD2 ,actual.get(1).getConsentingMethod().getCode());
 		assertEquals(TEST_CONSENT_NAME2 ,actual.get(1).getConsent().getName());
+		assertEquals(TEST_CONSENT_DESC2 ,actual.get(1).getConsent().getDescriptionText());
 		assertEquals(TEST_CONSENT_VERSION2 ,actual.get(1).getConsent().getVersionId());
 		assertEquals(TEST_CONSENT_ANS21 ,actual.get(1).getSubjectConsentAnswers().get(0).getAgreementIndicator());
 		assertEquals(TEST_CONSENT_QUES21 ,actual.get(1).getSubjectConsentAnswers().get(0).getConsentQuestion().getCode());
@@ -447,8 +459,10 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion studySubjectConsentVersion = new edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion();
 		studySubjectConsentVersion.setConsent(new Consent());
 		studySubjectConsentVersion.getConsent().setName(TEST_CONSENT_NAME1);
+		studySubjectConsentVersion.getConsent().setDescriptionText(TEST_CONSENT_DESC1);
 		studySubjectConsentVersion.getConsent().setVersionId(TEST_CONSENT_VERSION1);
 		studySubjectConsentVersion.setConsentDeliveryDate(parseISODate(TEST_CONSENT_DELIVERY_DATE1));
+		studySubjectConsentVersion.setDocumentId(TEST_CONSENTING_DOCID1);
 		studySubjectConsentVersion.setInformedConsentSignedDate(parseISODate(TEST_CONSENT_SIGNED_DATE1));
 		studySubjectConsentVersion.setConsentingMethod(ConsentingMethod.getByCode(TEST_CONSENTING_METHOD1));
 		studySubjectConsentVersion.setConsentPresenter(TEST_CONSENT_PRESENTER1);
@@ -467,8 +481,10 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		studySubjectConsentVersion = new edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion();
 		studySubjectConsentVersion.setConsent(new Consent());
 		studySubjectConsentVersion.getConsent().setName(TEST_CONSENT_NAME2);
+		studySubjectConsentVersion.getConsent().setDescriptionText(TEST_CONSENT_DESC2);
 		studySubjectConsentVersion.getConsent().setVersionId(TEST_CONSENT_VERSION2);
 		studySubjectConsentVersion.setConsentDeliveryDate(parseISODate(TEST_CONSENT_DELIVERY_DATE2));
+		studySubjectConsentVersion.setDocumentId(TEST_CONSENTING_DOCID2);
 		studySubjectConsentVersion.setInformedConsentSignedDate(parseISODate(TEST_CONSENT_SIGNED_DATE2));
 		studySubjectConsentVersion.setConsentingMethod(ConsentingMethod.getByCode(TEST_CONSENTING_METHOD2));
 		studySubjectConsentVersion.setConsentPresenter(TEST_CONSENT_PRESENTER2);
@@ -529,11 +545,13 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		
 		edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion target = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion();
 		target.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE1));
+		target.setIdentifier(iso.II(TEST_CONSENTING_DOCID1));
 		target.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD1));
 		target.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER1));
 		target.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE1));
 		target.setConsent(new DocumentVersion());
 		target.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME1));
+		target.getConsent().setText(iso.ED(TEST_CONSENT_DESC1));
 		target.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
 		PerformedStudySubjectMilestone subjectAnswerTarget = new PerformedStudySubjectMilestone();
 		subjectAnswerTarget.setMissedIndicator(iso.BL(TEST_CONSENT_ANS11));
@@ -549,11 +567,13 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 		
 		target = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion();
 		target.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE2));
+		target.setIdentifier(iso.II(TEST_CONSENTING_DOCID2));
 		target.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD2));
 		target.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER2));
 		target.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE2));
 		target.setConsent(new DocumentVersion());
 		target.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME2));
+		target.getConsent().setText(iso.ED(TEST_CONSENT_DESC2));
 		target.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION2));
 		subjectAnswerTarget = new PerformedStudySubjectMilestone();
 		subjectAnswerTarget.setMissedIndicator(iso.BL(TEST_CONSENT_ANS21));

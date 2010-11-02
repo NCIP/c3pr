@@ -63,7 +63,6 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
-import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
@@ -208,6 +207,8 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		for(edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion subjectConsent : subjectConsents){
 			StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
 			studySubjectConsentVersion.setConsentDeliveryDate(convertToDate(subjectConsent.getConsentDeliveryDate()));
+			studySubjectConsentVersion.setDocumentId(subjectConsent.getIdentifier() !=null ?
+					subjectConsent.getIdentifier().getExtension(): null);
 			studySubjectConsentVersion.setConsentingMethod(subjectConsent.getConsentingMethod() !=null ? 
 					ConsentingMethod.getByCode(subjectConsent.getConsentingMethod().getCode()) : null);
 			studySubjectConsentVersion.setConsentPresenter(subjectConsent.getConsentPresenter() !=null ?
@@ -221,6 +222,10 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 					.getConversionException(MISSING_OR_INVALID_CONSENT_NAME);
 			}
 			consent.setName(subjectConsent.getConsent().getOfficialTitle().getValue());
+			if(subjectConsent.getConsent().getText() != null){
+				consent.setDescriptionText(subjectConsent.getConsent().getText().getValue());
+			}
+			
 			if(subjectConsent.getConsent().getVersionNumberText() != null &&
 					!StringUtils.isBlank(subjectConsent.getConsent().getVersionNumberText().getValue())){
 				consent.setVersionId(subjectConsent.getConsent().getVersionNumberText().getValue());
@@ -903,12 +908,16 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl implements
 	
 	public edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion convertToSubjectConsent(StudySubjectConsentVersion studySubjectConsentVersion){
 		edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion target = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion();
+		if(!StringUtils.isBlank(studySubjectConsentVersion.getDocumentId())){
+			target.setIdentifier(iso.II(studySubjectConsentVersion.getDocumentId()));
+		}
 		target.setConsentDeliveryDate(convertToTsDateTime(studySubjectConsentVersion.getConsentDeliveryDate()));
 		target.setConsentingMethod(iso.CD(studySubjectConsentVersion.getConsentingMethod().getCode()));
 		target.setConsentPresenter(iso.ST(studySubjectConsentVersion.getConsentPresenter()));
 		target.setInformedConsentDate(convertToTsDateTime(studySubjectConsentVersion.getInformedConsentSignedDate()));
 		edu.duke.cabig.c3pr.webservice.common.Consent consent = new edu.duke.cabig.c3pr.webservice.common.Consent();
 		consent.setOfficialTitle(iso.ST(studySubjectConsentVersion.getConsent().getName()));
+		consent.setText(iso.ED(studySubjectConsentVersion.getConsent().getDescriptionText()));
 		consent.setVersionNumberText(iso.ST(studySubjectConsentVersion.getConsent().getVersionId()));
 		consent.setMandatoryIndicator(iso.BL(studySubjectConsentVersion.getConsent().getMandatoryIndicator()));
 		target.setConsent(consent);

@@ -936,7 +936,8 @@ public class JAXBToDomainObjectConverterImpl implements
 				.getOfficialTitle().getValue());
 		consent.setVersionId(isNull(xml.getVersionNumberText()) ? "" : xml
 				.getVersionNumberText().getValue());
-
+		consent.setDescriptionText(isNull(xml.getText()) ? "" : xml
+				.getText().getValue());
 		// consent questions
 		for (DocumentVersionRelationship rel : xml
 				.getDocumentVersionRelationship()) {
@@ -1092,7 +1093,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		edu.duke.cabig.c3pr.webservice.common.Consent consent = new edu.duke.cabig.c3pr.webservice.common.Consent();
 		consent.setMandatoryIndicator(iso.BL(c.getMandatoryIndicator()));
 		consent.setOfficialTitle(iso.ST(c.getName()));
-		// consent.setText(new ED(c.getName()));
+		consent.setText(iso.ED(c.getDescriptionText()));
 		consent.setVersionNumberText(iso.ST(c.getVersionId()));
 		consent.setDocument(new Document());
 		for (ConsentQuestion q : c.getQuestions()) {

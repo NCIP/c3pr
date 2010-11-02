@@ -556,6 +556,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String TEST_CONSENT_QUESTION_2 = "Question 2";
 	private static final String TEST_CONSENT_QUESTION_1 = "Question 1";
 	private static final String TEST_CONSENT_TITLE = "Consent";
+	private static final String TEST_CONSENT_DESCRIPTION = "Consent Description";
 	private static final String TEST_CONSENT_QUESTION_RELATIONSHIP = "CONSENT_QUESTION";
 	private static final String TEST_CONSENT_RELATIONSHIP = "CONSENT";
 	private static final String TEST_CTEP = "CTEP";
@@ -633,6 +634,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Consent consent = new Consent();
 		consent.setMandatoryIndicator(iso.BL(true));
 		consent.setOfficialTitle(iso.ST(TEST_CONSENT_TITLE + appendix));
+		consent.setText(iso.ED(TEST_CONSENT_DESCRIPTION + appendix));
 		// consent.setVersionDate(new TSDateTime(TEST_VERSION_DATE_ISO));
 		consent.setVersionNumberText(iso.ST(TEST_VERSION_NUMBER));
 		consent.setDocument(new Document());

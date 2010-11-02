@@ -135,6 +135,8 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String TEST_CONSENT_PRESENTER1 = "John Doe";
 	protected static final String TEST_CONSENTING_METHOD1 = "Written";
 	protected static final String TEST_CONSENT_NAME1 = "General1";
+	protected static final String TEST_CONSENT_DESC1 = "Desc1";
+	protected static final String TEST_CONSENTING_DOCID1 = "DOC_ID1";
 	protected static final String TEST_CONSENT_VERSION1 = "1.0";
 	protected static final Boolean TEST_CONSENT_ANS11=true;
 	protected static final Boolean TEST_CONSENT_ANS12=false;
@@ -145,6 +147,8 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String TEST_CONSENT_PRESENTER2 = "Deep Singh";
 	protected static final String TEST_CONSENTING_METHOD2 = "Verbal";
 	protected static final String TEST_CONSENT_NAME2 = "General2";
+	protected static final String TEST_CONSENT_DESC2 = "Desc2";
+	protected static final String TEST_CONSENTING_DOCID2 = "DOC_ID2";
 	protected static final String TEST_CONSENT_VERSION2 = "2.0";
 	protected static final Boolean TEST_CONSENT_ANS21=true;
 	protected static final Boolean TEST_CONSENT_ANS22=false;
@@ -482,6 +486,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		request.setStudyIdentifier(createDocumentId());
 		Consent consent = new Consent();
 		consent.setOfficialTitle(iso.ST(TEST_CONSENT_NAME1));
+		consent.setText(iso.ED(TEST_CONSENT_DESC1));
 		consent.setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
 		request.setConsent(consent);
 		
@@ -500,6 +505,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		
 		consent = new Consent();
 		consent.setOfficialTitle(iso.ST(TEST_CONSENT_NAME2));
+		consent.setText(iso.ED(TEST_CONSENT_DESC2));
 		consent.setVersionNumberText(iso.ST(TEST_CONSENT_VERSION2));
 		request.setConsent(consent);
 		studySubjects = service.querySubjectRegistryByConsent(request).getStudySubjects();
@@ -538,6 +544,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		Consent consent = new Consent();
 		consent.setOfficialTitle(iso.ST(TEST_CONSENT_NAME1));
+		consent.setText(iso.ED(TEST_CONSENT_DESC1));
 		consent.setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
 		request.setConsent(consent);
 		subjectConsents = service.queryConsentsByStudySubject(request).getStudySubjectConsents();
@@ -547,6 +554,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		
 		consent = new Consent();
 		consent.setOfficialTitle(iso.ST(TEST_CONSENT_NAME2));
+		consent.setText(iso.ED(TEST_CONSENT_DESC2));
 		consent.setVersionNumberText(iso.ST(TEST_CONSENT_VERSION2));
 		request.setConsent(consent);
 		subjectConsents = service.queryConsentsByStudySubject(request).getStudySubjectConsents();
@@ -739,11 +747,13 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		//add 1st consent
 		StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();
 		studySubjectConsentVersion.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE1));
+		studySubjectConsentVersion.setIdentifier(iso.II(TEST_CONSENTING_DOCID1));
 		studySubjectConsentVersion.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE1));
 		studySubjectConsentVersion.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD1));
 		studySubjectConsentVersion.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER1));
 		studySubjectConsentVersion.setConsent(new DocumentVersion());
 		studySubjectConsentVersion.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME1));
+		studySubjectConsentVersion.getConsent().setText(iso.ED(TEST_CONSENT_DESC1));
 		studySubjectConsentVersion.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
 		
 		PerformedStudySubjectMilestone subjectAnswer = new PerformedStudySubjectMilestone();
@@ -762,11 +772,13 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		//add 2nd consent
 		studySubjectConsentVersion = new StudySubjectConsentVersion();
 		studySubjectConsentVersion.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE2));
+		studySubjectConsentVersion.setIdentifier(iso.II(TEST_CONSENTING_DOCID2));
 		studySubjectConsentVersion.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE2));
 		studySubjectConsentVersion.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD2));
 		studySubjectConsentVersion.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER2));
 		studySubjectConsentVersion.setConsent(new DocumentVersion());
 		studySubjectConsentVersion.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME2));
+		studySubjectConsentVersion.getConsent().setText(iso.ED(TEST_CONSENT_DESC2));
 		studySubjectConsentVersion.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION2));
 		
 		subjectAnswer = new PerformedStudySubjectMilestone();

@@ -23,6 +23,7 @@
 	<complexType name="Activity">
 		<sequence>
 			<element name="reasonCode" type="ISO:DSET_CD" minOccurs="0"/>
+			<element name="identifier" type="ISO:II" minOccurs="0"/>
 		</sequence>
 	</complexType>
 	

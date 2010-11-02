@@ -21,9 +21,6 @@ import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.helpers.SubjectRegistryRelatedTestCase;
-import edu.duke.cabig.c3pr.webservice.iso21090.CD;
-import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
-import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion;
 
