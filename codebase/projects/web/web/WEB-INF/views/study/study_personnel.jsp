@@ -54,16 +54,14 @@ function showPersonnel() {
     if(catId!=null){
     	StudyAjaxFacade.getSitePersonnel(catId, studyId, function(diseases) {
             diseases.each(function(cat) {
-           var assignedIdentifier = cat.assignedIdentifier == null ? "":cat.assignedIdentifier
-             	var name = cat.firstName + " " + cat.lastName+ " (" +  assignedIdentifier+ ")";
-              var opt = new Option(name, cat.id)
-              studyPersonnelSelect.options.add(opt)
+           	  var assignedIdentifier = cat.researchStaff.assignedIdentifier == null ? "":cat.researchStaff.assignedIdentifier;
+              var name = cat.researchStaff.firstName + " " + cat.researchStaff.lastName+ " (" +  cat.researchStaff.assignedIdentifier+ ") ("+ cat.roleName +")";
+              var opt = new Option(name, cat.researchStaff.id + "(" + cat.roleName + ")");
+              studyPersonnelSelect.options.add(opt);
           })
           $('sitePersonnelIndicator').hide();
-            
       })   
     } 
-    
 }
 
 /**
@@ -239,24 +237,26 @@ changed before submit in javascripts. The parameters need proper default values,
 			                        <th width="5%"></th>
 			                    </tr>
 			                    <c:forEach items="${selectedStudyOrganization.studyPersonnel}" var="studyPersonnel" varStatus="status">
-		                        <tr>
-		                            <td>
-		                             ${studyPersonnel.researchStaff.firstName} ${studyPersonnel.researchStaff.lastName} (<i>${studyPersonnel.researchStaff.assignedIdentifier}</i>)
-		                                <c:if test="${studyPersonnel.researchStaff.class.name=='edu.duke.cabig.c3pr.domain.RemoteResearchStaff' && studyPersonnel.researchStaff.externalId != null}">
-						            		<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="NCI data" width="17" height="16" border="0" align="middle"/>
-						            	</c:if>
-		                            </td>
-		                            <td>
-		                            <form:select path="study.studyOrganizations[${selected_site_index}].studyPersonnel[${status.index}].statusCode" cssClass="required validate-notEmpty">
-				                        <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
-				                    </form:select>
-		                            </td>
-		                            <td class="alt">
-			                            <a href="javascript:removeStudyPersonnel('${studyPersonnel.researchStaff.assignedIdentifier }');">
-			                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove">
-			                            </a>&nbsp;
-			                        </td>
-		                        </tr>
+			                    	<c:forEach items="${studyPersonnel.studyPersonnelRoles}" var="spRole" varStatus="spRoleStatus">
+				                        <tr>
+				                            <td>
+				                             ${studyPersonnel.researchStaff.firstName} ${studyPersonnel.researchStaff.lastName} (<i>${studyPersonnel.researchStaff.assignedIdentifier}</i>) (<i>${spRole.role}</i>)
+				                                <c:if test="${studyPersonnel.researchStaff.class.name=='edu.duke.cabig.c3pr.domain.RemoteResearchStaff' && studyPersonnel.researchStaff.externalId != null}">
+								            		<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="NCI data" width="17" height="16" border="0" align="middle"/>
+								            	</c:if>
+				                            </td>
+				                            <td>
+				                            <form:select path="study.studyOrganizations[${selected_site_index}].studyPersonnel[${status.index}].statusCode" cssClass="required validate-notEmpty">
+						                        <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
+						                    </form:select>
+				                            </td>
+				                            <td class="alt">
+					                            <a href="javascript:removeStudyPersonnel('${studyPersonnel.researchStaff.assignedIdentifier }');">
+					                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove">
+					                            </a>&nbsp;
+					                        </td>
+				                        </tr>
+				                    </c:forEach>
 			                    </c:forEach>
 			                </table>
 			            </c:otherwise>

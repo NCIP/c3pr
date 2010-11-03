@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.web.study.tabs;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,16 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.StudyPersonnelRole;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
@@ -107,11 +105,18 @@ public class StudyPersonnelTab extends StudyTab {
     		String[] rsIds = wrapper.getStudyPersonnelIds();
             if (rsIds.length > 0) {
                 ResearchStaff researchStaff = null;
+                String roleName = null;
                 log.debug("Study PersonnelIds Size : "+ rsIds.length);
                 for (String rsId : rsIds) {
+                	//expects the staff Id and role in the following form "12342(registrar)"
+                    roleName = rsId.substring(rsId.indexOf("(")+1, rsId.indexOf(")"));
+                    rsId = rsId.substring(0, rsId.indexOf("("));
+                    
                     log.debug("Research Staff Id : " + rsId);
+                    log.debug("Research Staff role : " + roleName);
+                    
                     int researchStaffId = Integer.parseInt(rsId);
-                    if(exists(researchStaffId, selectedStudyOrganization.getStudyPersonnel())){
+                    if(exists(researchStaffId, selectedStudyOrganization.getStudyPersonnel(), roleName)){
                     	continue;
                     }
                     StudyPersonnel sPersonnel = new StudyPersonnel();
@@ -121,8 +126,22 @@ public class StudyPersonnelTab extends StudyTab {
                         sPersonnel.setResearchStaff(researchStaff);
                         sPersonnel.setStatusCode("Active");
                         sPersonnel.setStudyOrganization(selectedStudyOrganization);
+                        //set the role for the studyPersonnel provided it doesn't already exist
+                        StudyPersonnelRole studyPersonnelRole = new StudyPersonnelRole(roleName);
+                        boolean addRole = true;
+                        if(researchStaff.getStudyPersonnels().size() > 0){
+                        	for(StudyPersonnel sp : researchStaff.getStudyPersonnels()){
+                            	sp.getStudyPersonnelRoles().size();
+                            	if(sp.getStudyPersonnelRoles().contains(studyPersonnelRole)){
+                            		addRole = false;
+                                }
+                            }
+                        }
+                        if(addRole){
+                        	sPersonnel.getStudyPersonnelRoles().add(studyPersonnelRole);
+                        }
+                        //saving the studyPersonnel irrespective of whether role is set or not. Reconsider!
                         selectedStudyOrganization.getStudyPersonnel().add(sPersonnel);
-                        
                     } else {
                         log.error("StudyPersonnelTab - postProcessOnValidation(): researchStaffDao.getById() returned null");
                     }
@@ -147,9 +166,9 @@ public class StudyPersonnelTab extends StudyTab {
     	request.setAttribute("selected_site_index", selectedSiteIndex);
     }
 
-    private boolean exists(int id , List<StudyPersonnel> studyPersonnel){
-    	for(StudyPersonnel studyPerson : studyPersonnel){
-    		if(studyPerson.getResearchStaff().getId().equals(id))
+    private boolean exists(int id , List<StudyPersonnel> studyPersonnelList, String role){
+    	for(StudyPersonnel studyPersonnel : studyPersonnelList){
+    		if(studyPersonnel.getResearchStaff().getId().equals(id) && studyPersonnel.getStudyPersonnelRoles().contains(new StudyPersonnelRole(role)))
     			return true;
     	}
     	return false;

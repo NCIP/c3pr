@@ -14,6 +14,7 @@ public class ResearchStaffWrapper {
 	private String userName ;
 	private boolean hasAccessToAllSites ;
 	private String preExistingUsersAssignedId;
+	private String roleName;
 	
 	
 	private List<HealthcareSiteRolesHolder> healthcareSiteRolesHolderList = LazyList.decorate(new ArrayList<HealthcareSiteRolesHolder>(), new InstantiateFactory<HealthcareSiteRolesHolder>(HealthcareSiteRolesHolder.class));
@@ -54,6 +55,19 @@ public class ResearchStaffWrapper {
 	}
 	public void setPreExistingUsersAssignedId(String preExistingUsersAsignedId) {
 		this.preExistingUsersAssignedId = preExistingUsersAsignedId;
+	}
+	
+	/**This is used by the study_personel page to display every staff and his role.
+	 * This is not a list but a string as every staff needs to be assigned to a study using one role at a time.
+	 * 
+	 * @return String
+	 */
+	public String getRoleName() {
+		return roleName;
+	}
+	
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 	
 }

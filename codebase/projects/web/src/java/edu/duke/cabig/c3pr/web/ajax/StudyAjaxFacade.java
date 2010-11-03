@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,15 +41,13 @@ import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
-import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.service.PersonnelService;
+import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
 import edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController;
 import edu.duke.cabig.c3pr.web.study.AmendStudyController;
 import edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController;
@@ -354,45 +353,71 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
      * @return the site personnel
      * @throws Exception the exception
      */
-    public List<ResearchStaff> getSitePersonnel(Integer hcsId, String studyId) throws Exception {
+    public List<ResearchStaffWrapper> getSitePersonnel(Integer hcsId, String studyId) throws Exception {
 		HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
 
 		//get all staff belonging to the org in question
 		List<ResearchStaff> hcsRSList = researchStaffDao.getResearchStaffByOrganizationCtepCodeFromLocal(hcs, true);
 		//get the sub list of staff (from the above list) who are scoped by study
-		List<ResearchStaff> studyScopedRSList = researchStaffDao.getStaffScopedByStudy(hcsRSList, hcs);
-		removePreAssignedStaff(studyScopedRSList, studyId);
-		List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
-		for (ResearchStaff rs : studyScopedRSList) {
-		reducedHcsRsList.add(buildReduced(rs, Arrays.asList("id",
-		                "firstName","lastName","assignedIdentifier")));
+		HashMap<ResearchStaff, List<String>> studyScopedRSMap = researchStaffDao.getStaffScopedByStudy(hcsRSList, hcs);
+		removePreAssignedStaff(studyScopedRSMap, studyId);
+		
+		List<ResearchStaffWrapper> reducedHcsRsList = new ArrayList<ResearchStaffWrapper>();
+		for (ResearchStaff rs : studyScopedRSMap.keySet()) {
+			for(String roleName: studyScopedRSMap.get(rs)){
+				ResearchStaffWrapper rsw = new ResearchStaffWrapper();
+				rsw.setResearchStaff(rs);
+				rsw.setRoleName(roleName);
+				
+				reducedHcsRsList.add(buildReduced(rsw, Arrays.asList("researchStaff.id","researchStaff.firstName",
+			                "researchStaff.lastName","researchStaff.assignedIdentifier", "roleName")));
+			}
 		}
 		return reducedHcsRsList;
 	}
 
     /**
      * Removes the pre assigned staff. 
-     * Looks at the study personnel and removes them from the list to be returned.
+     * Looks at the csm_group_role_pg and removes them from the list to be returned.
      *
      * @param studyScopedRSList the study scoped rs list
      * @param studyId the study id
+     * @param hcs the selected site 
      */
-    private void removePreAssignedStaff(List<ResearchStaff> studyScopedRSList,
+    private void removePreAssignedStaff(HashMap<ResearchStaff, List<String>> studyScopedRSMap,
 			String studyId) {
     	Study study = studyDao.getById(Integer.valueOf(studyId));
-    	List<ResearchStaff> preAssignedStaffList = new ArrayList<ResearchStaff>();
 
-    	for(StudySite studySite: study.getStudySites()){
-    		for(StudyPersonnel studyPersonnel: studySite.getStudyPersonnel()){
-    			preAssignedStaffList.add(studyPersonnel.getResearchStaff());
-    		}
-    	}
+    	//this is a map of all staff and roles that have access to the selected organization and study
+    	HashMap<ResearchStaff, List<String>> preAssignedStaffMap = new HashMap<ResearchStaff, List<String>>();
+    	boolean hasAccess = false;
+    	for (ResearchStaff rs : studyScopedRSMap.keySet()) {
+			for(String roleName: studyScopedRSMap.get(rs)){
+				hasAccess = studyPersonnelDao.isStaffAssignedToStudy(rs, study, roleName);
+				if(hasAccess){
+					if(preAssignedStaffMap.containsKey(rs)){
+						((ArrayList<String>) preAssignedStaffMap.get(rs)).add(roleName);
+					} else {
+						ArrayList<String> roleList = new ArrayList<String>();
+						roleList.add(roleName);
+						preAssignedStaffMap.put(rs, roleList);
+					}
+				}
+			}
+		}
     	
-    	for(ResearchStaff rStaff: preAssignedStaffList){
-    		if(studyScopedRSList.contains(rStaff)){
-    			studyScopedRSList.remove(rStaff);
-    		}
-    	}
+    	//remove pre-assigned staff or role from the map to be returned
+    	for (ResearchStaff rs : preAssignedStaffMap.keySet()) {
+			for(String roleName: preAssignedStaffMap.get(rs)){
+				//remove the role
+				((ArrayList<String>) studyScopedRSMap.get(rs)).remove(roleName);
+			}
+			//remove the staff itself if it has no roles against it
+			if(((ArrayList<String>) studyScopedRSMap.get(rs)) == null ||
+					((ArrayList<String>) studyScopedRSMap.get(rs)).size() == 0){
+				studyScopedRSMap.remove(rs);
+			}
+    	}	
 	}
 
 	public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {
