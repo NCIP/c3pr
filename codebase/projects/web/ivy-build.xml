@@ -20,6 +20,9 @@
 	<property name="webapp.name" value="c3pr"/>
 	<property name="deploy.path" value="${catalina.home}/webapps"/>
 	
+	<property name="C3PREmbeddedTomcatTestBase.port" value="9090" />
+	<property name="C3PREmbeddedTomcatTestBase.sslPort" value="9443"/>
+	
 	<target name="module-specific-flow" description="Copy resources into classpath" depends="build-ws">
 		<property name="build.context.dir" location="${classes.dir}/context"/>
 		<copy file="${antfiles.dir}/selenium.properties"
@@ -265,6 +268,8 @@
 			<echo message="Tomcat's home will be set to ${test.tomcat.location}" /> 
 			<echo message="Datasource properties file to be used will be ${dsFile}" />
 			<echo message="WAR file to be used will be ${test.war.file}" />			
+			<echo message="HTTP port will be ${C3PREmbeddedTomcatTestBase.port}" />
+			<echo message="HTTPS port will be ${C3PREmbeddedTomcatTestBase.sslPort}" />
 			
 			<junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" 
 				showoutput="true" fork="true" timeout="600000" maxmemory="500m" >
@@ -286,6 +291,10 @@
 				
 				<!-- Need to pass a ref to the WAR file that has been built. It will be deployed by the embedded Tomcat -->
 				<sysproperty key="test.war.file" value="${test.war.file}"/>
+				
+				<!-- Port numbers can be overridden by Ant parameters from outside. -->
+				<sysproperty key="C3PREmbeddedTomcatTestBase.port" value="${C3PREmbeddedTomcatTestBase.port}"/>
+				<sysproperty key="C3PREmbeddedTomcatTestBase.sslPort" value="${C3PREmbeddedTomcatTestBase.sslPort}"/>
 
 				<classpath refid="test.tomcat.embedded.run.classpath" />		
 				
