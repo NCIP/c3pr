@@ -45,7 +45,7 @@
 		note: Created as a central target for Continuous Integration (Hudson)
 		checks the database.type parameter (internally) and runs the db scripts for oracle OR postgres.
 	====================================================================== -->
-  	<target name="autobuild-ci-c3pr" depends="buildlist, clean" 
+  	<target name="autobuild-ci-c3pr" depends="print-info, buildlist, clean" 
   			description="compile, jar and publish all projects in the right order, publishes them into local repository">
 		
   		<ant target="autobuild-ci-drop-and-create-existing-database" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
@@ -57,7 +57,7 @@
    		<subant target="publish-local" buildpathref="build-path" />
   	</target>
 	
-  	<target name="autobuild-ci-c3pr-webservices" depends="buildlist, clean, build-war" 
+  	<target name="autobuild-ci-c3pr-webservices" depends="print-info, buildlist, clean, build-war" 
   			description="">  		
   		<ant target="autobuild-ci-drop-and-create-existing-database" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>
 		<ant target="autobuild-ci-recreate-db-hudson" antfile="${projects.dir}/core/ivy-build.xml" inheritall="false"/>		
@@ -468,7 +468,7 @@
 	                        target : autoBuild-selenium
 	                        This will build and run selenium test cases
 	    =============================================================-->
-	    <target name="autoBuild-selenium" depends="build-rules" description="build and run selenium test cases">
+	    <target name="autoBuild-selenium" depends="print-info, build-rules" description="build and run selenium test cases">
 	    	<subant target="tomcat-stop" buildpath="${basedir}/common.xml">
 	    		<property name="env.CATALINA_HOME" value="${selenium.catalina.home}"/>
 	    	</subant>
@@ -510,5 +510,27 @@
 	    		<property name="testcase.type" value="ui"/>
 	    	</subant>
 	    </target>
+	
+	<target name="print-info">
+		
+		  <echo message="The operating system is: ${os.name}"/>  
+
+		  <!-- absolute path of the project. -->
+		  <echo message="The home path is: ${basedir}"/>
+
+		  <!-- absolute path of the build file. -->
+		  <echo message="The file name is: ${ant.file}"/>
+
+		  <!-- root directory of ant. -->
+		  <echo message="The Project name is: ${ant.project.name}"/>
+		  <echo message="The Ant home directory is: ${ant.home}"/>
+		  <echo message="The Ant version is: ${ant.version}"/> 
+		  <echo message="The Java version is: ${ant.java.version}"/>
+		  
+		  <!-- System properties. -->
+		  <echo message="The Java home directory is: ${java.home}"/>
+		  <echo message="The User home directory is: ${user.home}"/>
+		  <echo message="The User name is: ${user.name}"/>		
+	</target>
 	 	
 </project>
