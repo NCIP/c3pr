@@ -94,9 +94,9 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 	protected Embedded container;
 
-	protected int port = 9090;
-
-	protected int sslPort = 9443;
+	// port numbers can be overridden via an Ant script.
+	protected int port = Integer.parseInt(System.getProperty("C3PREmbeddedTomcatTestBase.port", "9090")) ;
+	protected int sslPort = Integer.parseInt(System.getProperty("C3PREmbeddedTomcatTestBase.sslPort", "9443")) ;
 
 	/**
 	 * @param name
