@@ -1,14 +1,23 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import edu.duke.cabig.c3pr.domain.factory.ParameterizedInstantiateFactory;
+
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -39,7 +48,17 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
 
     /** The end date. */
     private Date endDate;
+    
+    /** The lazy list helper. */
+    protected LazyListHelper lazyListHelper;
 
+	public StudyPersonnel(){
+		lazyListHelper = new LazyListHelper();
+		lazyListHelper.add(StudyPersonnelRole.class,
+				new ParameterizedInstantiateFactory<StudyPersonnelRole>(
+						StudyPersonnelRole.class));
+	}
+	
     /**
      * Gets the research staff.
      * 
@@ -195,4 +214,32 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
         else if (!studyOrganization.equals(other.studyOrganization)) return false;
         return true;
     }
+    
+    @OneToMany
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name="stu_prsnl_id")
+    public List<StudyPersonnelRole> getStudyPersonnelRolesInternal() {
+        return lazyListHelper.getInternalList(StudyPersonnelRole.class);
+    }
+    
+    /**
+     * Sets the study personnel internal.
+     * 
+     * @param studyPersonnel the new study personnel internal
+     */
+    public void setStudyPersonnelRolesInternal(List<StudyPersonnelRole> studyPersonnelRoles) {
+        lazyListHelper.setInternalList(StudyPersonnelRole.class, studyPersonnelRoles);
+    }
+
+    /**
+     * Gets the study personnel.
+     * 
+     * @return the study personnel
+     */
+    @Transient
+    public List<StudyPersonnelRole> getStudyPersonnelRoles() {
+        return lazyListHelper.getLazyList(StudyPersonnelRole.class);
+    }
+    
+    
 }

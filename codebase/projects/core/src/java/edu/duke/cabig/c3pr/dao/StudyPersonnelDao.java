@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.dao;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,8 +11,8 @@ import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.StudyPersonnelRole;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
-import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
@@ -21,7 +20,8 @@ import gov.nih.nci.cabig.ctms.suite.authorization.ScopeType;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
 import gov.nih.nci.security.UserProvisioningManager;
-import gov.nih.nci.security.authorization.domainobjects.Group;
+import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.exceptions.CSException;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 
 /**
@@ -110,15 +110,16 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 		try {
 			gov.nih.nci.security.authorization.domainobjects.User csmUser = 
 					userProvisioningManager.getUserById(researchStaff.getLoginId());
-			Set groupSet = userProvisioningManager.getGroups(researchStaff.getLoginId());
+			//Set groupSet = userProvisioningManager.getGroups(researchStaff.getLoginId());
+			List<StudyPersonnelRole> studyPersonnelRoles = studyPersonnel.getStudyPersonnelRoles();
 			ProvisioningSession provisioningSession = 
 					provisioningSessionFactory.createSession(csmUser.getUserId());
 			
 			
 			if(isRemove){
-				removeStudies(studyPersonnel, provisioningSession, groupSet);
+				removeStudies(studyPersonnel, provisioningSession, studyPersonnelRoles);
 			} else {
-				setStudies(studyPersonnel, provisioningSession, groupSet);
+				setStudies(studyPersonnel, provisioningSession, studyPersonnelRoles);
 			}
 		} catch (CSObjectNotFoundException e) {
 			log.error(e.getMessage());		
@@ -133,19 +134,19 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 * @param healthcareSite the healthcare site
 	 */
 	private void setStudies(StudyPersonnel studyPersonnel,
-			ProvisioningSession provisioningSession, Set<Group> groups) {
+			ProvisioningSession provisioningSession, List<StudyPersonnelRole> groups) {
 		
-		Iterator<Group> iter = groups.iterator();
+		Iterator<StudyPersonnelRole> iter = groups.iterator();
 		SuiteRoleMembership suiteRoleMembership;
 		SuiteRole suiteRole;
-		C3PRUserGroupType group;
+		String role;
 		while(iter.hasNext()){
-			group = C3PRUserGroupType.getByCode(((Group)iter.next()).getGroupName());
-			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(group);
+			role = ((StudyPersonnelRole)iter.next()).getRole();
+			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(role));
 			Study study = studyPersonnel.getStudyOrganization().getStudy();
 			if(suiteRole != null && suiteRole.getScopes().contains(ScopeType.STUDY)){
 				suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
-				//not worrying about staff with all study access as they shouldnt be showing up in the list in the first place.
+				//not worrying about staff with all study access as they shouldn't be showing up in the list in the first place.
 				suiteRoleMembership.addStudy(study.getCoordinatingCenterAssignedIdentifier().getValue());
 				provisioningSession.replaceRole(suiteRoleMembership);
 			}			
@@ -159,16 +160,18 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 * @param suiteRoleMembership the suite role membership
 	 * @param studyPersonnel the study personnel
 	 */
-	private void removeStudies(StudyPersonnel studyPersonnel, ProvisioningSession provisioningSession, Set<Group> groups) {
-		Iterator<Group> iter = groups.iterator();
+	private void removeStudies(StudyPersonnel studyPersonnel, ProvisioningSession provisioningSession, List<StudyPersonnelRole> groups) {
+		Iterator<StudyPersonnelRole> iter = groups.iterator();
 		SuiteRole suiteRole;
 		SuiteRoleMembership suiteRoleMembership;
 		Study study;
+		String role;
 		while(iter.hasNext()){
-			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(iter.next().getGroupName()));
+			role = ((StudyPersonnelRole)iter.next()).getRole();
+			suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(role));
 			study = studyPersonnel.getStudyOrganization().getStudy();
 			suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
-			//not worrying about staff with all study access as they shouldnt be showing up in the list in the first place.
+			//not worrying about staff with all study access as they shouldn't be showing up in the list in the first place.
 			if(suiteRole != null && suiteRole.getScopes().contains(ScopeType.STUDY) &&
 					suiteRoleMembership.getStudyIdentifiers().contains(study.getCoordinatingCenterAssignedIdentifier().getValue())){
 				suiteRoleMembership.removeStudy(study.getCoordinatingCenterAssignedIdentifier().getValue());
@@ -187,5 +190,29 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 			UserProvisioningManager userProvisioningManager) {
 		this.userProvisioningManager = userProvisioningManager;
 	}
+
+	/** determines if the staff has the specified role on the specified study.
+	 * @param rs
+	 * @param study
+	 * @param roleName
+	 * @return boolean
+	 */
+	public boolean isStaffAssignedToStudy(ResearchStaff researchStaff,
+			Study study, String roleName) {
+		User csmUser = null;
+		try {
+			csmUser = userProvisioningManager.getUserById(researchStaff.getLoginId());
+		
+			if (userProvisioningManager.checkPermission(csmUser.getLoginName(), "Study." + study.getCoordinatingCenterAssignedIdentifier().getValue(), roleName)) {
+				return Boolean.TRUE;
+			}
+		} catch (CSObjectNotFoundException e) {
+			logger.error("Failed to load user for :"+ researchStaff.getFirstName() + e.getMessage());
+		} catch (CSException cse){
+			logger.error("Failed to load permissions for :"+ researchStaff.getFirstName() + cse.getMessage());
+		}
+		return Boolean.FALSE;
+	}
+	
     
 }

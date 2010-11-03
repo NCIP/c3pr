@@ -6,6 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
@@ -17,6 +18,7 @@ import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.authorization.domainobjects.User;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 7, 2007 Time: 2:06:36 PM To change this template
@@ -30,13 +32,11 @@ public class PersonnelServiceTestCase extends DaoTestCase {
 	 
     private PersonnelService personnelService;
 
-    private UserProvisioningManager csmUserProvisioningManager;
+    private UserProvisioningManager userProvisioningManager;
 
     private OrganizationService organizationService ;
 
     String strValue;
-
-    private ContactMechanism email;
 
     private ResearchStaff researchStaff ;
 
@@ -47,6 +47,7 @@ public class PersonnelServiceTestCase extends DaoTestCase {
     	.getBean("organizationService");
         personnelService = (PersonnelService) getApplicationContext()
     	.getBean("personnelService");
+        userProvisioningManager = (UserProvisioningManager) getApplicationContext().getBean("csmUserProvisioningManager");
     }
     
     public void testCreateReasearchStaff() throws Exception {
@@ -63,24 +64,18 @@ public class PersonnelServiceTestCase extends DaoTestCase {
         researchStaff.setAssignedIdentifier("test-user");
         researchStaff.setFirstName("test");
         researchStaff.setLastName("user");
-//        email = new LocalContactMechanism();
-//        email.setType(ContactMechanismType.EMAIL);
-//        email.setValue("test-user@test.org");
-//        researchStaff.addContactMechanism(email);
         researchStaff.setEmail("test-user@test.org");
         researchStaff.setLoginId("test-user@test.org");
         personnelService.save(researchStaff);
 
         // now change the staff details
         researchStaff.setFirstName("changed");
-//        researchStaff.removeContactMechanism(email);
-//        email.setValue("changed");
-//        researchStaff.addContactMechanism(email);
         researchStaff.setEmail("test-user-changed@test.org");
         researchStaff.setAssignedIdentifier("changed");
         personnelService.merge(researchStaff);
 
-        assertNotNull(personnelService.getGroups(researchStaff));
+        User user = personnelService.getCSMUserByUsername("test-user@test.org");
+        assertNotNull(userProvisioningManager.getGroups(user.getUserId().toString()));
     }
     
     @Override
@@ -99,15 +94,6 @@ public class PersonnelServiceTestCase extends DaoTestCase {
 
 	public void setPersonnelService(PersonnelService personnelService) {
 		this.personnelService = personnelService;
-	}
-
-	public UserProvisioningManager getCsmUserProvisioningManager() {
-		return csmUserProvisioningManager;
-	}
-
-	public void setCsmUserProvisioningManager(
-			UserProvisioningManager csmUserProvisioningManager) {
-		this.csmUserProvisioningManager = csmUserProvisioningManager;
 	}
 
 	public OrganizationService getOrganizationService() {

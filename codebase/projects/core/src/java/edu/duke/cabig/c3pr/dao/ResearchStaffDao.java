@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -761,8 +762,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     * @param staffList the staff list
     * @return the staff scoped by study
     */
-	public List<ResearchStaff> getStaffScopedByStudy(List<ResearchStaff> staffList, HealthcareSite healthcareSite) {
-		List<ResearchStaff> reducedHcsRsList = new ArrayList<ResearchStaff>();
+	public HashMap<ResearchStaff, List<String>> getStaffScopedByStudy(List<ResearchStaff> staffList, HealthcareSite healthcareSite) {
+		HashMap<ResearchStaff, List<String>> reducedHcsRsMap = new HashMap<ResearchStaff, List<String>>();
 		User user = null;
 		for (ResearchStaff researchStaff : staffList) {
 			try {
@@ -773,14 +774,31 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 				continue;
 			}
 			if(user != null){
-				if (checkUserAccessForSite(user, healthcareSite, SecurityUtils.getStudyScopedRoles())) {
-					reducedHcsRsList.add(researchStaff);
+				for (C3PRUserGroupType role : SecurityUtils.getStudyScopedRoles()) {
+					try {
+						if (userProvisioningManager.checkPermission(user.getLoginName(), "HealthcareSite." + healthcareSite.getPrimaryIdentifier(), role.getCode()) ||
+								(userProvisioningManager.checkPermission(user.getLoginName(), "HealthcareSite", role.getCode()))) {
+							//add this rs with corresponding studyScoped role to the hashmap of staff vs roles
+							if(reducedHcsRsMap.containsKey(researchStaff)){
+								((ArrayList<String>) reducedHcsRsMap.get(researchStaff)).add(role.getCode());
+								
+							} else {
+								ArrayList<String> roleList = new ArrayList<String>();
+								roleList.add(role.getCode());
+								reducedHcsRsMap.put(researchStaff, roleList);
+							}
+						}
+					} catch (CSObjectNotFoundException e) {
+						log.error(e.getMessage());
+					} catch (CSException e) {
+						log.error(e.getMessage());
+					}
 				}
 			} else {
 				log.warn("No csm user exists for staff with first Name: "+researchStaff.getFirstName());
 			}
 		}
-		return reducedHcsRsList;
+		return reducedHcsRsMap;
 	}
 
 	

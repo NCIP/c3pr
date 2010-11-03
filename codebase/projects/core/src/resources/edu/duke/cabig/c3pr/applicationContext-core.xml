@@ -149,6 +149,7 @@
                 <value>edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus</value>
                 <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
                 <value>edu.duke.cabig.c3pr.domain.RegistryStatusReason</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyPersonnelRole</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -304,10 +305,11 @@
                <value>edu.duke.cabig.c3pr.domain.OffFollowupReason</value>
                <value>edu.duke.cabig.c3pr.domain.OffEpochReason</value>
                <value>edu.duke.cabig.c3pr.domain.RaceCodeAssociation</value>
-                <value>edu.duke.cabig.c3pr.domain.RegistryStatus</value>
-                <value>edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus</value>
-                <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
-                <value>edu.duke.cabig.c3pr.domain.RegistryStatusReason</value>
+               <value>edu.duke.cabig.c3pr.domain.RegistryStatus</value>
+               <value>edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus</value>
+               <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
+               <value>edu.duke.cabig.c3pr.domain.RegistryStatusReason</value>
+               <value>edu.duke.cabig.c3pr.domain.StudyPersonnelRole</value>
             </list>
         </property>
     </bean>
