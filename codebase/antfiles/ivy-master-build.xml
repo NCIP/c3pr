@@ -529,8 +529,12 @@
 		  
 		  <!-- System properties. -->
 		  <echo message="The Java home directory is: ${java.home}"/>
+		  <echo message="The Java class path is: ${java.class.path}"/>
 		  <echo message="The User home directory is: ${user.home}"/>
-		  <echo message="The User name is: ${user.name}"/>		
+		  <echo message="The User name is: ${user.name}"/>
+		
+		  <!-- Environment properties -->
+		  <echo message="PATH is: ${env.PATH}"/>
 	</target>
 	 	
 </project>
