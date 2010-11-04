@@ -49,10 +49,12 @@ public class UserTestCase extends AbstractTestCase{
 	/**
 	 * Test get password age.
 	 */
-	public void testGetPasswordAge(){
-        Timestamp timestamp = new Timestamp(new Date().getTime() - 1000);
+	public void testGetPasswordAge() {
+		final double delta = 10;
+		Timestamp timestamp = new Timestamp(new Date().getTime() - 1000);
 		user.setPasswordLastSet(timestamp);
-		assertEquals("password age is 1000 miliseconds", 1000, user.getPasswordAge());
+		assertEquals("password age is 1000 miliseconds+delta", 1000,
+				user.getPasswordAge(), delta);
 	}
 	
 	/**
