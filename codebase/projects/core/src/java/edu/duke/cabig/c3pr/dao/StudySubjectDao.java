@@ -433,9 +433,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         registrationCriteria.add(example);
         Criteria studySubjectDemographicsCriteria = registrationCriteria.createCriteria("studySubjectDemographics");
         studySubjectDemographicsCriteria.createCriteria("masterSubject").add(
-                        Restrictions.like("id", registration.getStudySubjectDemographics().getMasterSubject().getId()));
+                        Restrictions.eq("id", registration.getStudySubjectDemographics().getMasterSubject().getId()));
         registrationCriteria.createCriteria("studySubjectStudyVersions").createCriteria("studySiteStudyVersion").createCriteria("studySite").add(
-                        Restrictions.like("id", registration.getStudySite().getId()));
+                        Restrictions.eq("id", registration.getStudySite().getId()));
         return registrationCriteria.list();
 
     }
@@ -484,7 +484,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         registrationCriteria.add(example);
 
        registrationCriteria.createCriteria("studySubjectStudyVersions").createCriteria("scheduledEpochs").createCriteria("epoch").add(
-                        Restrictions.like("id", scheduledEpoch.getEpoch().getId()));
+                        Restrictions.eq("id", scheduledEpoch.getEpoch().getId()));
         return registrationCriteria.list();
 
     }
