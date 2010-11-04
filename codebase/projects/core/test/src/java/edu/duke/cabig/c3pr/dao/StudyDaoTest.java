@@ -2533,11 +2533,11 @@ public class StudyDaoTest extends DaoTestCase {
 	
 	public void testAdvancedSearchGivenFundingSponsor() throws Exception {
 		List<String> values = new ArrayList<String>();
-       	values.add("%1001%");
+       	values.add("1001");
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.HealthcareSite","StudyFundingSponsor", "id", values, "like");
+						"edu.duke.cabig.c3pr.domain.HealthcareSite","StudyFundingSponsor", "id", values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
