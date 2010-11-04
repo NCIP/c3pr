@@ -5,9 +5,9 @@
     <STUDIES therapeutic_intent_indicator="1" id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty"  status="OPEN" retired_indicator = "false"  dtype="Local"/>
     <STUDIES therapeutic_intent_indicator="0" id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false"  dtype="Local"/>
     
-    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1000" study_id="1000" name="1.0" version_date="01-01-2001" long_title_text="long_title_text" short_title_text="short_title_text1" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
-    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1001" study_id="1001" name="1.0" version_date="01-01-2001" long_title_text="long_title_text2" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
-    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1002" study_id="1002" name="1.0" version_date="01-01-2001" long_title_text="long_title_text" short_title_text="short_title_text3" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1000" study_id="1000" name="1.0" version_date="2001-01-01" long_title_text="long_title_text" short_title_text="short_title_text1" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1001" study_id="1001" name="1.0" version_date="2001-01-01" long_title_text="long_title_text2" short_title_text="short_title_text2" description_text="description2" precis_text="precis_text2" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1002" study_id="1002" name="1.0" version_date="2001-01-01" long_title_text="long_title_text" short_title_text="short_title_text3" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
     
     <CONSENTS id="1000" version="0" name="consent 1" stu_version_id="1000" version_id="version 1" retired_indicator="false" mandatory_indicator="1" consenting_methods="WRITTEN"/>
     
@@ -27,24 +27,24 @@
     <STUDY_ORGANIZATIONS id="1003" version="1" study_id="1001" hcs_id="1001" type="SST" retired_indicator = "false" />
     <STUDY_ORGANIZATIONS id="1010" version="1" study_id="1000" hcs_id="1002" type="SST" retired_indicator = "false" />
     
-    <STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="01-01-2000" />
-	<STU_SITE_STATUS_HISTORY id="1002" version="1" sto_id="1002" site_study_status="ACTIVE"  start_date="01-01-2000" />
-	<STU_SITE_STATUS_HISTORY id="1001" version="1" sto_id="1001" site_study_status="ACTIVE"  start_date="01-01-2000" />
-    <STU_SITE_STATUS_HISTORY id="1003" version="1" sto_id="1003" site_study_status="ACTIVE"  start_date="01-01-2000" />
-	<STU_SITE_STATUS_HISTORY id="1010" version="1" sto_id="1010" site_study_status="ACTIVE"  start_date="01-01-2000" />
+    <STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="2000-01-01" />
+	<STU_SITE_STATUS_HISTORY id="1002" version="1" sto_id="1002" site_study_status="ACTIVE"  start_date="2000-01-01" />
+	<STU_SITE_STATUS_HISTORY id="1001" version="1" sto_id="1001" site_study_status="ACTIVE"  start_date="2000-01-01" />
+    <STU_SITE_STATUS_HISTORY id="1003" version="1" sto_id="1003" site_study_status="ACTIVE"  start_date="2000-01-01" />
+	<STU_SITE_STATUS_HISTORY id="1010" version="1" sto_id="1010" site_study_status="ACTIVE"  start_date="2000-01-01" />
 	
         
-    <study_site_versions id="1000" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    <study_site_versions id="1000" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
     stu_version_id="1000" sto_id="1000"/>
-    <study_site_versions id="1001" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    <study_site_versions id="1001" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
     stu_version_id="1000" sto_id="1001"/>
-    <study_site_versions id="1002" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    <study_site_versions id="1002" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
     stu_version_id="1001" sto_id="1002"/>
-    <study_site_versions id="1003" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    <study_site_versions id="1003" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
     stu_version_id="1001" sto_id="1003"/>
-    <study_site_versions id="1010" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    <study_site_versions id="1010" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
     stu_version_id="1000" sto_id="1010"/>
-    <study_site_versions id="1011" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    <study_site_versions id="1011" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
     stu_version_id="1002" sto_id="1010"/>
     
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
@@ -84,15 +84,15 @@
     <INVESTIGATORS id="1002" version="1" assigned_identifier="x3" first_name="Benjamin" last_name="Douglas" dtype="Local" retired_indicator = "false" />
     <INVESTIGATORS id="1003" version="1" assigned_identifier="x4" first_name="John" last_name="Muster" dtype="Local"  retired_indicator = "false" />
     
-    <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="AC" status_date="01-01-2000" inv_id="1000" hcs_id="1000" retired_indicator = "false" />
-    <HC_SITE_INVESTIGATORS id="1001" version="1" status_code="AC" status_date="01-01-2000" inv_id="1001" hcs_id="1000" retired_indicator = "false" />
-    <HC_SITE_INVESTIGATORS id="1002" version="1" status_code="AC" status_date="01-01-2000" inv_id="1002" hcs_id="1001" retired_indicator = "false" />
-    <HC_SITE_INVESTIGATORS id="1003" version="1" status_code="AC" status_date="01-01-2000" inv_id="1003" hcs_id="1001" retired_indicator = "false" />
+    <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="AC" status_date="2000-01-01" inv_id="1000" hcs_id="1000" retired_indicator = "false" />
+    <HC_SITE_INVESTIGATORS id="1001" version="1" status_code="AC" status_date="2000-01-01" inv_id="1001" hcs_id="1000" retired_indicator = "false" />
+    <HC_SITE_INVESTIGATORS id="1002" version="1" status_code="AC" status_date="2000-01-01" inv_id="1002" hcs_id="1001" retired_indicator = "false" />
+    <HC_SITE_INVESTIGATORS id="1003" version="1" status_code="AC" status_date="2000-01-01" inv_id="1003" hcs_id="1001" retired_indicator = "false" />
     
-    <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sto_id="1000" start_date="01-01-2000" end_date="2020-01-01" role_code="role1" status_code="AC" retired_indicator = "false" />
-    <STUDY_INVESTIGATORS id="1001" version="1" hsi_id="1001" sto_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="AC" retired_indicator = "false" />
-    <STUDY_INVESTIGATORS id="1003" version="1" hsi_id="1001" sto_id="1001" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="AC" retired_indicator = "false" />    
-    <STUDY_INVESTIGATORS id="1002" version="1" hsi_id="1001" sto_id="1010" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="AC" retired_indicator = "false" />    
+    <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sto_id="1000" start_date="2000-01-01" end_date="2020-01-01" role_code="role1" status_code="AC" retired_indicator = "false" />
+    <STUDY_INVESTIGATORS id="1001" version="1" hsi_id="1001" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01" role_code="role2" status_code="AC" retired_indicator = "false" />
+    <STUDY_INVESTIGATORS id="1003" version="1" hsi_id="1001" sto_id="1001" start_date="2000-01-01" end_date="2000-01-01" role_code="role2" status_code="AC" retired_indicator = "false" />    
+    <STUDY_INVESTIGATORS id="1002" version="1" hsi_id="1001" sto_id="1010" start_date="2000-01-01" end_date="2000-01-01" role_code="role2" status_code="AC" retired_indicator = "false" />    
     
     <DISEASE_CATEGORIES id="1000" version="1" name="AIDS-related Human Papillomavirus" retired_indicator = "false" />
     
@@ -119,10 +119,10 @@
     
     <BOOK_RNDM_ENTRY id="1100" version="1" position="1" str_grp_id="1100" arms_id="1007" rndm_id="1100" />             
               
-   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  retired_indicator = "false" />
-    <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="01-01-2000" administrative_gender_code="M"  retired_indicator = "false" />
-    <PARTICIPANTS id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="M"  retired_indicator = "false" /> 
-   	<PARTICIPANTS id="1010" version="1" first_name="Ru" last_name="Clo" birth_date="01-01-2000" administrative_gender_code="M"  retired_indicator = "false" />       
+   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" />
+    <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" />
+    <PARTICIPANTS id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" /> 
+   	<PARTICIPANTS id="1010" version="1" first_name="Ru" last_name="Clo" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" />       
 	
 	<prt_org_associations  version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
    	<prt_org_associations  version="1" prt_id="1001" org_id="1000"  retired_indicator = "false"/>
@@ -133,12 +133,12 @@
 
     <DISEASE_HISTORY id="1000" version="1" icd9_disease_site_id="1000" retired_indicator = "false" study_disease_id="1000" />
     
-    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
-    <stu_sub_demographics id="1001" version="1" first_name="Romeo" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
-    <stu_sub_demographics id="1002" version="1" first_name="Monish" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" /> 
-   	<stu_sub_demographics id="1003" version="1" first_name="Tez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />
-   	<stu_sub_demographics id="1004" version="1" first_name="Andrez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />
-   	<stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />       
+    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
+    <stu_sub_demographics id="1001" version="1" first_name="Romeo" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
+    <stu_sub_demographics id="1002" version="1" first_name="Monish" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" /> 
+   	<stu_sub_demographics id="1003" version="1" first_name="Tez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />
+   	<stu_sub_demographics id="1004" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />
+   	<stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />       
 
 	<race_code_assocn retired_indicator="false"  id="1000"  version="1"  sub_id="1000" race_code="White" stu_sub_dmgphcs_id="1005"/>
 	<race_code_assocn retired_indicator="false"  id="1001"  version="1"  sub_id="1001" race_code="White" />
@@ -174,7 +174,7 @@
     <SCHEDULED_EPOCHS id="1000" version="1" start_date="2006-03-05" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1000" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
     <SCHEDULED_EPOCHS id="1001" version="1" start_date="2007-01-02" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1005" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
 	<SCHEDULED_EPOCHS id="1002" version="1" start_date="2008-11-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1001" sc_epoch_workflow_status="PENDING_ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
-    <SCHEDULED_EPOCHS id="1003" version="1" start_date="01-01-2000" eligibility_indicator="0" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1003"  eph_id="1000" sc_epoch_workflow_status="PENDING_ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
+    <SCHEDULED_EPOCHS id="1003" version="1" start_date="2000-01-01" eligibility_indicator="0" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1003"  eph_id="1000" sc_epoch_workflow_status="PENDING_ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
     <SCHEDULED_EPOCHS id="1004" version="1" start_date="2010-01-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1004"  eph_id="1000" sc_epoch_workflow_status="OFF_EPOCH" sc_epoch_data_entry_status="COMPLETE" retired_indicator = "false" />
     
     <off_epoch_reasons id="1000" version="1" retired_indicator="false"  sceph_id="1004" reason_id="1000" />
@@ -183,7 +183,7 @@
 	
 	<SUBJECT_ELIGIBILITY_ANS id="1000" version="1" sceph_id="1000" elgct_id="2000" retired_indicator = "false" />
 	
-    <SCHEDULED_ARMS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="1" arm_id="1000" SCEPH_ID="1000"  retired_indicator = "false" />  
+    <SCHEDULED_ARMS id="1000" version="1" start_date="2000-01-01" eligibility_indicator="1" arm_id="1000" SCEPH_ID="1000"  retired_indicator = "false" />  
 
     <STRAT_CRI_ANS_CMB id="1001" version="1" sc_id="1000" scpa_id="1000" retired_indicator = "false" />
     

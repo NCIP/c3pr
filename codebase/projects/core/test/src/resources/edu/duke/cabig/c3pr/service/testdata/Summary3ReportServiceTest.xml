@@ -2,7 +2,7 @@
 
 	<STUDIES therapeutic_intent_indicator="0" id="1100" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="Genetic Therapeutic" status="OPEN"   retired_indicator = "false" />
     
-    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1100" study_id="1100" name="1.0" version_date="01-01-2001" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
+    <STUDY_VERSIONS  original_indicator="1" amendment_type="OPTIONAL" id="1100" study_id="1100" name="1.0" version_date="2001-01-01" long_title_text="long_title_text" short_title_text="short_title_text" description_text="description" precis_text="precis_text" data_entry_status="COMPLETE"  retired_indicator = "false"/>
    
 	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2006-12-12" administrative_gender_code="M" grid_id="AAAAA11111GridID"/>
    	<PARTICIPANTS id="1100" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2006-12-12" administrative_gender_code="M" grid_id="OTHERGRIDID"/>   	
@@ -15,10 +15,10 @@
     <STUDY_ORGANIZATIONS id="1100" version="1"   study_id="1100"
     hcs_id="1100" type="SST"  />
     
-    	<STU_SITE_STATUS_HISTORY id="1100" version="1" sto_id="1100" site_study_status="ACTIVE"  start_date="01-01-2000" />
+    	<STU_SITE_STATUS_HISTORY id="1100" version="1" sto_id="1100" site_study_status="ACTIVE"  start_date="2000-01-01" />
 	
     
-    <study_site_versions id="1100" version="1" start_date="01-01-2001" irb_approval_date="01-01-2000"
+    <study_site_versions id="1100" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
     stu_version_id="1100" sto_id="1100"/>
 
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
@@ -33,9 +33,9 @@
     
     <INVESTIGATORS id="1100" version="1" assigned_identifier="x1" first_name="Investigator Bill" last_name="Staff1" dtype="Local" />
     
-    <HC_SITE_INVESTIGATORS id="1100" version="1" status_code="AC" status_date="01-01-2000" inv_id="1100" hcs_id="1100"/>
+    <HC_SITE_INVESTIGATORS id="1100" version="1" status_code="AC" status_date="2000-01-01" inv_id="1100" hcs_id="1100"/>
     
-    <STUDY_INVESTIGATORS id="1100" version="1" hsi_id="1100" sto_id="1100" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="AC"/>
+    <STUDY_INVESTIGATORS id="1100" version="1" hsi_id="1100" sto_id="1100" start_date="2000-01-01" end_date="2000-01-01" role_code="role1" status_code="AC"/>
     
     <DISEASE_CATEGORIES id="1100" version="1" name="AIDS-related Human Papillomavirus"/>
     
@@ -79,22 +79,22 @@
     <DISEASE_HISTORY id="1000" version="1" icd9_disease_site_id="1100"/>
     <DISEASE_HISTORY id="1100" version="1" icd9_disease_site_id="1102"/>
       
-    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
-    <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1100" add_id="1001"  retired_indicator="false" />
-	<stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />       
+    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
+    <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1100" add_id="1001"  retired_indicator="false" />
+	<stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />       
 	
 	<race_code_assocn retired_indicator="false"   id="1000"   version="1"  sub_id="1000" race_code="White" stu_sub_dmgphcs_id="1005"/>
 	<race_code_assocn retired_indicator="false"   id="1001"  version="1"  sub_id="1100" race_code="White" />
 	<race_code_assocn retired_indicator="false"   id="1003" version="1"  stu_sub_dmgphcs_id="1000" race_code="White" />
 	<race_code_assocn retired_indicator="false"   id="1002" version="1"  stu_sub_dmgphcs_id="1001" race_code="White" />
 	
-    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="01-01-2000" disease_history_id="1000" stu_sub_dmgphcs_id="1000" sti_id="1100" retired_indicator = "false" />
-    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" disease_history_id="1100" stu_sub_dmgphcs_id="1001" sti_id="1100" retired_indicator = "false" />
+    <STUDY_SUBJECTS reg_workflow_status="PENDING" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="2000-01-01" disease_history_id="1000" stu_sub_dmgphcs_id="1000" sti_id="1100" retired_indicator = "false" />
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="2000-01-01" disease_history_id="1100" stu_sub_dmgphcs_id="1001" sti_id="1100" retired_indicator = "false" />
 	
 	<study_subject_versions id="1100" version="1" study_site_ver_id="1100" spa_id="1000" retired_indicator = "false" />
     <study_subject_versions id="1101" version="1" study_site_ver_id="1100" spa_id="1100" retired_indicator = "false" />
 
-    <SCHEDULED_EPOCHS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1100" eph_id="1100" sc_epoch_workflow_status="INVALID" sc_epoch_data_entry_status="INCOMPLETE"/>  
+    <SCHEDULED_EPOCHS id="1100" version="1" start_date="2000-01-01" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1100" eph_id="1100" sc_epoch_workflow_status="INVALID" sc_epoch_data_entry_status="INCOMPLETE"/>  
 
 	<SUBJECT_STRAT_ANS id="1100" version="1" sceph_id="1100" str_cri_id="1100"/>
 	
