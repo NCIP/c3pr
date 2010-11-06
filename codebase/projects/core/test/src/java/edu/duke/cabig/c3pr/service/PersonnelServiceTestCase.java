@@ -4,12 +4,7 @@ import java.util.Calendar;
 
 import org.springframework.context.ConfigurableApplicationContext;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.domain.C3PRUser;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalContactMechanism;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
@@ -66,7 +61,7 @@ public class PersonnelServiceTestCase extends DaoTestCase {
         researchStaff.setLastName("user");
         researchStaff.setEmail("test-user@test.org");
         researchStaff.setLoginId("test-user@test.org");
-        personnelService.save(researchStaff);
+        personnelService.saveUser(researchStaff);
 
         // now change the staff details
         researchStaff.setFirstName("changed");

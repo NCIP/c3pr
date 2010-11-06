@@ -23,13 +23,22 @@ public interface PersonnelService {
     public void save(Investigator user) throws C3PRBaseException;
 
     /**
-     * Will save Research Staff and add appropriate data into CSM
+     * Will save Research Staff without CSM
      * 
      * @param staff
      * @throws C3PRBaseException
      * @throws C3PRBaseRuntimeException
      */
     public void save(ResearchStaff staff) throws C3PRBaseException;
+    
+    /**
+     * Will save Research Staff and add appropriate data into CSM
+     * 
+     * @param staff
+     * @throws C3PRBaseException
+     * @throws C3PRBaseRuntimeException
+     */
+    public void saveUser(ResearchStaff staff) throws C3PRBaseException;
 
     /**
      * Used to update Investigator domain object

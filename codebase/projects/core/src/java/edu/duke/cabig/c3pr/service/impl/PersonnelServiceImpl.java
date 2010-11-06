@@ -87,6 +87,11 @@ public class PersonnelServiceImpl implements PersonnelService {
     public void save(ResearchStaff staff) throws C3PRBaseException {
         researchStaffDao.createResearchStaff(staff);;
     }
+    
+    public void saveUser(ResearchStaff staff) throws C3PRBaseException {
+		researchStaffDao.createOrModifyResearchStaff(staff, true, staff.getLoginId(), null , false);
+    }    
+    
 
     public Investigator merge(Investigator user) throws C3PRBaseException {
         return investigatorDao.merge(user);
