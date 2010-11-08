@@ -5,6 +5,10 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 import java.io.File;
 import java.util.List;
 
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -83,7 +87,7 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 			File outputXMLFile = new File("dummyOutput.xml");
 
 			List<Study> studies = studyImporter.importStudies(StringUtils
-					.getInputStream(studyXml), outputXMLFile);
+					.getInputStream(studyXml), getErrorsMock());
 
 			assertNotNull(studies);
 			// studies.get(0).getStudyDiseases().get(0);
@@ -101,6 +105,160 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 			}
 		}
 	}
+
+	private Errors getErrorsMock() {
+		return new Errors() {
+			
+			public void setNestedPath(String nestedPath) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void rejectValue(String field, String errorCode, Object[] errorArgs,
+					String defaultMessage) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void rejectValue(String field, String errorCode,
+					String defaultMessage) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void rejectValue(String field, String errorCode) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void reject(String errorCode, Object[] errorArgs,
+					String defaultMessage) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void reject(String errorCode, String defaultMessage) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void reject(String errorCode) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void pushNestedPath(String subPath) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public void popNestedPath() throws IllegalStateException {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public boolean hasGlobalErrors() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			public boolean hasFieldErrors(String field) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			public boolean hasFieldErrors() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			public boolean hasErrors() {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
+			public String getObjectName() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public String getNestedPath() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public List getGlobalErrors() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public int getGlobalErrorCount() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			public ObjectError getGlobalError() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public Object getFieldValue(String field) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public Class getFieldType(String field) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public List getFieldErrors(String field) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public List getFieldErrors() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public int getFieldErrorCount(String field) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			public int getFieldErrorCount() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			public FieldError getFieldError(String field) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public FieldError getFieldError() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public int getErrorCount() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			public List getAllErrors() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public void addAllErrors(Errors errors) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+	}
+
 
 	/**
 	 * What dao class is the test trying to Masquerade

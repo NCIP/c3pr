@@ -2,9 +2,11 @@ package edu.duke.cabig.c3pr.service.impl;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,6 +18,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -24,6 +27,7 @@ import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
+
 
 /**
  * Utility class to import XML extracts of study <p/> Created by IntelliJ IDEA. User: kherm
@@ -35,7 +39,9 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 public class StudyXMLImporterServiceImpl implements
                 edu.duke.cabig.c3pr.service.StudyXMLImporterService {
 
-    private StudyDao studyDao;
+    public static final String NS = "gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain";
+
+	private StudyDao studyDao;
     
     private StudyRepository studyRepository;
 
@@ -57,83 +63,82 @@ public class StudyXMLImporterServiceImpl implements
      * @throws Exception
      */
     @Transactional
-    public List<Study> importStudies(InputStream xmlStream,File importXMLResult) throws C3PRCodedException {
-        List<Study> studyList = null;
-        org.jdom.Document document = null;
-        try {
-        	studyList = new ArrayList<Study>();
-        	document = new SAXBuilder().build(xmlStream);
-        	Element rootElement = document.getRootElement();
+	public List<Study> importStudies(InputStream xmlStream, Errors errors)
+			throws C3PRCodedException {
+		List<Study> studyList = new ArrayList<Study>();
+		org.jdom.Document document = null;
+		try {
+			document = new SAXBuilder().build(xmlStream);
+			Element rootElement = document.getRootElement();
+			List<Element> studies = collectStudies(rootElement);
 
-        	if(rootElement.getName().equalsIgnoreCase("studies")){
-        		List<Element> studies = rootElement.getChildren("study",Namespace.getNamespace("gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"));
-
-        		for (int i = 0; i < studies.size(); i++) {
-        			Element studyNode = studies.get(i);
-        			Study study = null;
-        			try {
-        				study = (Study) marshaller.fromXML(new StringReader(new XMLOutputter().outputString(studyNode)));
-        				studyRepository.validate(study);
-        				// do any custom processing after validation
-        				study = processStudy(study);                     
-        				log.debug("Saving study with grid ID" + study.getGridId());
-        				studyRepository.buildAndSave(study);
-        				// once saved retrieve persisted study
-        				studyList.add(studyDao.getById(study.getId()));
-        				studyNode.addContent(new Comment("Successful Import"));
-        			}                
-        			catch (Exception e) {
-        				// ignore any other problem and continue to import
-        				e.printStackTrace();                        
-        				log.error(e.getMessage());
-        				studyNode.addContent(new Comment("Error while importing: " + e.getMessage()));
-        			}
-        		}
-        		new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
-        				importXMLResult));
-        	}
-        	else if(rootElement.getName().equalsIgnoreCase("study")){
-        		Study study = null;
-        		try {
-        			study = (Study) marshaller.fromXML(new StringReader(new XMLOutputter().outputString(rootElement)));
-        			studyRepository.validate(study);
-        			// do any custom processing after validation
-        			study = processStudy(study);               
-        			log.debug("Saving study with grid ID" + study.getGridId());
-        			studyRepository.buildAndSave(study);
-        			// once saved retrieve persisted study
-        			studyList.add(studyDao.getById(study.getId()));
-        			rootElement.addContent(new Comment("Successfull Import"));
-        		}           
-        		catch (Exception e) {
-        			// ignore any other problem and continue to import
-        			e.printStackTrace();                        
-        			log.error(e.getMessage());
-        			rootElement.addContent(new Comment("Error while importing: " + e.getMessage()));
-
-        		}
-        		new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
-        				importXMLResult));
-        	}else{
-        		document.addContent(new Comment("Error while importing: Missing root element tag 'studies' or 'study'. " +
-        		"Make sure the top level xml tag is 'studies' or 'study'"));
-        		new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
-        				importXMLResult));
-        		return studyList;
-        	}
-        }
-        catch (Exception e) {
-        	 throw this.exceptionHelper.getException(
-                     getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_UNMARSHALLING"), e);
-        }
-        return studyList;
-    }
+			for (int i = 0; i < studies.size(); i++) {
+				Element studyNode = studies.get(i);
+				Study study = null;
+				try {
+					study = (Study) marshaller.fromXML(new StringReader(
+							new XMLOutputter().outputString(studyNode)));
+					studyRepository.validate(study);
+					// do any custom processing after validation
+					study = processStudy(study);
+					log.debug("Saving study with grid ID" + study.getGridId());
+					studyRepository.buildAndSave(study);
+					// once saved retrieve persisted study
+					studyList.add(studyDao.getById(study.getId()));
+				} catch (Exception e) {
+					// ignore any other problem and continue to import
+					final String errMsg = "Error while importing"
+							+ (study != null ? " study with ID of '"
+									+ study.getPrimaryIdentifier() + "'" : "")
+							+ ": " + e.getMessage();
+					log.error(errMsg, e);
+					errors.reject(errMsg, errMsg);
+				}
+			}
+		} catch (MalformedStudyImport e) {
+			final String errMsg = "Error while importing: Missing root element tag 'studies' or 'study'. "
+					+ "Make sure the top level xml tag is 'studies' or 'study'";
+			errors.reject(errMsg, errMsg);
+			return studyList;
+		} catch (Exception e) {
+			throw this.exceptionHelper
+					.getException(
+							getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_UNMARSHALLING"),
+							e);
+		}
+		return studyList;
+	}
     
-    public Study processStudy(Study study){
+    /**
+     * @param rootElement
+     * @return
+     */
+	private List<Element> collectStudies(Element rootElement) {
+		if (rootElement.getName().equalsIgnoreCase("studies")) {
+			return rootElement
+					.getChildren(
+							"study",
+							Namespace
+									.getNamespace(NS));
+		} else if (rootElement.getName().equalsIgnoreCase("study")) {
+			return Arrays.asList( rootElement );
+		} else {
+			throw new MalformedStudyImport();
+		}
+	}
+
+	public Study processStudy(Study study){
     	// updating the study status before importing.
     	if ((study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.OPEN)) {
 			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-			log.debug("Study:" + study.getPrimaryIdentifier() + "cannot be imported in Open Status. So it's status has been set to Pending");
+			// CPR-2213: According to conversation with Kruttik, studies can now be imported in Open status if
+			// they pass the biz checks.
+			try {
+				study.open();
+			} catch (RuntimeException e) {
+				log.error("The study "+study+" cannot be imported in open status", e);
+				throw new IllegalStateException("the study cannot be opened. "+e.getMessage());
+			}
 		}
     	return study;
     }
@@ -171,4 +176,29 @@ public class StudyXMLImporterServiceImpl implements
 	private int getCode(String errortypeString) {
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
+	
+	private static final class MalformedStudyImport extends RuntimeException {
+
+		public MalformedStudyImport() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+		public MalformedStudyImport(String message, Throwable cause) {
+			super(message, cause);
+			// TODO Auto-generated constructor stub
+		}
+
+		public MalformedStudyImport(String message) {
+			super(message);
+			// TODO Auto-generated constructor stub
+		}
+
+		public MalformedStudyImport(Throwable cause) {
+			super(cause);
+			// TODO Auto-generated constructor stub
+		}
+		
+	}
+	
 }

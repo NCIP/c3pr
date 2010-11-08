@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
@@ -132,9 +133,11 @@ public class StudyFactory {
 			buildStudy(companionStudyAssociation.getCompanionStudy());
 		}
 		
-		//generate stratum groups if necessary
-		for(Epoch epoch: study.getEpochs()){
-			if(epoch.getStratificationIndicator() && epoch.getStratificationCriteria().size()>0){
+		// generate stratum groups if necessary
+		for (Epoch epoch : study.getEpochs()) {
+			if (epoch.getStratificationIndicator()
+					&& epoch.getStratificationCriteria().size() > 0
+					&& CollectionUtils.isEmpty(epoch.getStratumGroups())) {
 				epoch.generateStratumGroups();
 			}
 		}

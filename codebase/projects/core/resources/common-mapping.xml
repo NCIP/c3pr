@@ -45,6 +45,19 @@
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
+    
+    <class name="edu.duke.cabig.c3pr.domain.StratumGroup">
+        <map-to xml="stratumGroup" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="gridId" type="string">
+            <bind-xml name="gridId" node="attribute"/>
+        </field>
+        <field name="currentPosition" type="int">
+            <bind-xml name="currentPosition" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="stratumGroupNumber" type="int">
+            <bind-xml name="stratumGroupNumber" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>    
 
     <class name="edu.duke.cabig.c3pr.domain.DiseaseTerm">
         <map-to xml="diseaseTerm" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -95,7 +108,7 @@
             <bind-xml name="enrollmentIndicator" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-         <field name="arms" type="edu.duke.cabig.c3pr.domain.Arm"
+        <field name="arms" type="edu.duke.cabig.c3pr.domain.Arm"
                collection="collection" set-method="addArm" get-method="getArms">
             <bind-xml auto-naming="deriveByClass" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -116,6 +129,11 @@
             <bind-xml name="randomization" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="stratumGroups" type="edu.duke.cabig.c3pr.domain.StratumGroup"
+               collection="arraylist" set-method="addStratumGroup" get-method="getStratumGroups">
+            <bind-xml auto-naming="deriveByClass" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>        
     </class>
     
     <class name="edu.duke.cabig.c3pr.xml.RandomizationHolder">
@@ -410,5 +428,38 @@
             <bind-xml name="name" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+        <field name="mandatoryIndicator" type="boolean">
+            <bind-xml name="mandatoryIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="versionId" type="string">
+            <bind-xml name="versionId" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="descriptionText" type="string">
+            <bind-xml name="descriptionText" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>   
+        <field name="consentingMethods" type="string" 
+        	   handler="edu.duke.cabig.c3pr.xml.ConsentingMethodHandler"
+               collection="arraylist" set-method="addConsentingMethod" get-method="getConsentingMethods">
+            <bind-xml name="consentingMethod" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="questions" type="edu.duke.cabig.c3pr.domain.ConsentQuestion"
+               collection="arraylist" set-method="addQuestion" get-method="getQuestions">
+            <bind-xml auto-naming="deriveByClass" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>     
     </class>
+    <class name="edu.duke.cabig.c3pr.domain.ConsentQuestion">
+        <map-to xml="consentQuestion" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="text" type="string">
+            <bind-xml name="text" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+        <field name="code" type="string">
+            <bind-xml name="code" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
+    </class>    
 </mapping>

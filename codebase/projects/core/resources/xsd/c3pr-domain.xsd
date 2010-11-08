@@ -33,7 +33,7 @@
   <xs:element name="studies">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="unbounded" name="study" type="Study" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="study" type="Study" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -99,6 +99,7 @@
       <xs:element minOccurs="0" maxOccurs="unbounded" name="eligibilityCriteria" type="EligibilityCriteriaType"/>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="stratificationCriteria" type="StratificationCriterionType" />
       <xs:element minOccurs="0" maxOccurs="1" name="randomization" type="RandomizationType"/>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="stratumGroup" type="StratumGroupType" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
@@ -377,11 +378,15 @@
       <xs:enumeration value="INVALID" />
     </xs:restriction>
   </xs:simpleType>
+  
   <xs:complexType name="StratumGroupType">
     <xs:sequence>
-      <xs:element minOccurs="0" name="gridId" type="xs:string" />
+       <xs:element minOccurs="0" maxOccurs="1" name="currentPosition" type="xs:integer" />
+       <xs:element minOccurs="0" maxOccurs="1" name="stratumGroupNumber" type="xs:integer" />
     </xs:sequence>
+    <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
+  
   <xs:complexType name="ScheduledEpochType">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="startDate" type="xs:date" />
@@ -430,9 +435,27 @@
   <xs:complexType name="Consent">
     <xs:sequence>
       <xs:element name="name" minOccurs="1" maxOccurs="1" type="xs:string"/>
+      <xs:element name="mandatoryIndicator" minOccurs="0" maxOccurs="1" type="xs:boolean"></xs:element>
+      <xs:element name="versionId" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>      
+      <xs:element name="descriptionText" minOccurs="0" maxOccurs="1" type="xs:string"></xs:element>
+      <xs:element name="consentingMethod" minOccurs="0" maxOccurs="2" type="ConsentingMethod"></xs:element>
+      <xs:element name="consentQuestion" minOccurs="0" maxOccurs="unbounded" type="ConsentQuestion"></xs:element>
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
+  <xs:simpleType name="ConsentingMethod">
+	<xs:restriction base="xs:string">
+      <xs:enumeration value="WRITTEN" />
+      <xs:enumeration value="VERBAL" />      
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="ConsentQuestion">
+    <xs:sequence>
+      <xs:element name="text" type="xs:string"/>
+      <xs:element name="code" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="gridId" type="xs:string" />
+  </xs:complexType>  
   <xs:complexType name="StudyAmendmentType">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="studyIdentifiers" type="IdentifiersType"/>

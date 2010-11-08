@@ -80,7 +80,7 @@ public class StudyRepositoryImpl implements StudyRepository {
             }
             else if (searchByCoOrdinatingCenterId(study.getCoordinatingCenterAssignedIdentifier())
                             .size() > 0) {
-                throw new StudyValidationException("Study exists");
+                throw new StudyValidationException("Study already exists.");
             }
 
             for (StudyOrganization organization : study.getStudyOrganizations()) {

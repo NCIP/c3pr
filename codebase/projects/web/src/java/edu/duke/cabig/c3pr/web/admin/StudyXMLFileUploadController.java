@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
@@ -45,19 +46,10 @@ public class StudyXMLFileUploadController extends SimpleFormController {
     protected ModelAndView onSubmit(HttpServletRequest httpServletRequest,
                     HttpServletResponse httpServletResponse, Object o, BindException errors)
                     throws Exception {
-        // save it to session
-    	String filePath = System.getenv("CATALINA_HOME") + System.getProperty("file.separator")
-		        + "conf" + System.getProperty("file.separator") + "c3pr";
-		File outputXMLDir = new File(filePath);
-		outputXMLDir.mkdirs();
-		String fileName = "importStudy-output-" + new Date().getTime() + ".xml";
-    	File outputXMLFile = new File(filePath + System.getProperty("file.separator") + fileName);
-        outputXMLFile.createNewFile();
-
         try {
             FileBean studyXMLFile = (FileBean) o;
             Collection<Study> studies = studyXMLImporterService.importStudies(studyXMLFile
-                            .getInputStream(),outputXMLFile);
+                            .getInputStream(),errors);
 
             log.debug("Storing imported studies into session for display in table");
             httpServletRequest.getSession().setAttribute(getFormSessionAttributeName(),
@@ -71,15 +63,15 @@ public class StudyXMLFileUploadController extends SimpleFormController {
                                 + " :" + invalidStudy.getImportErrorString());
             }
 
-            httpServletRequest.setAttribute("studies", validStudies);
-            httpServletRequest.setAttribute("filePath", fileName);
+            httpServletRequest.setAttribute("studies", validStudies);            
         }
-        catch (XMLUtilityException e1) {
+        catch (XMLUtilityException e1) {        	
             log.debug("Uploaded file contains invalid studies");
+            log.error(ExceptionUtils.getFullStackTrace(e1));
             errors.reject("Could not import Studies", e1.getMessage());
         }
         catch(Exception e1){
-        	e1.printStackTrace();
+        	log.error(ExceptionUtils.getFullStackTrace(e1));
         	log.debug("Uploaded file contains invalid studies");
             errors.reject("Could not import studies" + e1.getMessage());
             errors.reject("Root Cause is" + e1.getLocalizedMessage());

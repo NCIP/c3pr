@@ -136,31 +136,12 @@ public class XmlMarshaller implements Marshaller, Unmarshaller {
             java.io.BufferedReader br = new java.io.BufferedReader(new java.io.InputStreamReader(
                             Thread.currentThread().getContextClassLoader().getResourceAsStream(
                                             this.mappingFile)));
-//            StringBuffer sb = new StringBuffer();
-//            try {
-//                String newline = System.getProperty("line.separator");
-//                String tmp = null;
-//                while ((tmp = br.readLine()) != null) {
-//                    sb.append(tmp);
-//                    sb.append(newline);
-//                }
-//            }
-//            finally {
-//                if (br != null) br.close();
-//                log.debug(sb.toString());
-//            }
             localMapping.loadMapping(mappingFileSource);
             return localMapping;
         }
         catch (Exception e) {
             log.error("Error reading default xml mapping file " + e.getMessage()); // To change
             System.out.println(e);
-            // body of catch
-            // statement use
-            // File |
-            // Settings |
-            // File
-            // Templates.
             throw new XMLUtilityException("Error reading default xml mapping file "
                             + e.getMessage(), e);
         }

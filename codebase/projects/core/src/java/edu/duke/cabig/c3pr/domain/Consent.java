@@ -94,6 +94,12 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	public void setConsentingMethods(List<ConsentingMethod> consentingMethods) {
 		this.consentingMethods = consentingMethods;
 	}
+	
+	public void addConsentingMethod(ConsentingMethod method) {
+		consentingMethods = consentingMethods != null ? consentingMethods
+				: new ArrayList<ConsentingMethod>();
+		consentingMethods.add(method);
+	}
 
 	public Consent(){
 		lazyListHelper = new LazyListHelper();
