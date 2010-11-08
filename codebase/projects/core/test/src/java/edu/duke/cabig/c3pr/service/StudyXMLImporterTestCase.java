@@ -5,11 +5,13 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 import java.io.File;
 import java.util.List;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
@@ -63,6 +65,9 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 			HealthcareSite healthcareSite = healthcareSitedao.getById(i);
 			healthcareSitedao.initialize(healthcareSite);
 			interruptSession();
+			
+			// set status to pending to prevent "canOpen" validations.
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 			study.getCoordinatingCenterAssignedIdentifier().setHealthcareSite(
 					healthcareSite);
 			study.getCoordinatingCenterAssignedIdentifier().setValue("abc" + i);
@@ -84,8 +89,6 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 					+ "</studies> ";
 
 			System.out.println(studyXml);
-			File outputXMLFile = new File("dummyOutput.xml");
-
 			List<Study> studies = studyImporter.importStudies(StringUtils
 					.getInputStream(studyXml), getErrorsMock());
 
@@ -133,17 +136,17 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 			
 			public void reject(String errorCode, Object[] errorArgs,
 					String defaultMessage) {
-				// TODO Auto-generated method stub
+				log.error("Reject called: "+errorCode+", "+ArrayUtils.toString(errorArgs)+", "+defaultMessage);
 				
 			}
 			
 			public void reject(String errorCode, String defaultMessage) {
-				// TODO Auto-generated method stub
+				log.error("Reject called: "+errorCode+", "+defaultMessage);
 				
 			}
 			
 			public void reject(String errorCode) {
-				// TODO Auto-generated method stub
+				log.error("Reject called: "+errorCode);
 				
 			}
 			
