@@ -56,7 +56,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 		StudyProtocolVersion xmlStudy = createStudy();
 		Study s = converter.convert(xmlStudy);
 		assertTrue(s instanceof LocalStudy);
-		assertEquals(TEST_STUDY_DESCR, s.getShortTitleText());
+		assertEquals(TEST_STUDY_SHORT_TITLE, s.getShortTitleText());
 		assertFalse(s.getBlindedIndicator());
 		assertTrue(s.getMultiInstitutionIndicator());
 		assertEquals("Phase 0 Trial", s.getPhaseCode());
@@ -80,7 +80,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 				.getHealthcareSite().getCtepCode());
 
 		// study version
-		assertEquals(TEST_STUDY_DESCR, s.getShortTitleText());
+		assertEquals(TEST_STUDY_SHORT_TITLE, s.getShortTitleText());
 		assertEquals(TEST_STUDY_DESCR, s.getLongTitleText());
 		assertEquals(TEST_STUDY_DESCR, s.getDescriptionText());
 		assertEquals(s.getDataEntryStatus(), StudyDataEntryStatus.INCOMPLETE);
@@ -133,7 +133,7 @@ public class JAXBToDomainObjectConverterImplTest extends
 				.get(0).getDescription().getValue());
 
 		final StudyProtocolDocumentVersion doc = s.getStudyProtocolDocument();
-		assertNull(doc.getOfficialTitle());
+		assertEquals(TEST_STUDY_SHORT_TITLE, doc.getOfficialTitle().getValue());
 		assertEquals(TEST_STUDY_DESCR, doc.getPublicTitle().getValue());
 		assertEquals(TEST_STUDY_DESCR, doc.getPublicDescription().getValue());
 		assertEquals(TEST_VERSION_DATE, parseISODate(doc.getVersionDate()

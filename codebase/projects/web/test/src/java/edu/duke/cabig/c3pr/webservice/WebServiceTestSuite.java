@@ -4,6 +4,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImplTest;
 import edu.duke.cabig.c3pr.webservice.converters.SubjectRegistryJAXBToDomainObjectConverterImplTest;
+import edu.duke.cabig.c3pr.webservice.integration.SubjectRegistryMayoUseCaseIntegrationTest;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityImplTest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementImplTest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistryImplTest;
@@ -19,6 +20,7 @@ public class WebServiceTestSuite {
 		suite.addTestSuite(SubjectRegistryJAXBToDomainObjectConverterImplTest.class);
 		suite.addTestSuite(StudyUtilityImplTest.class);
 		suite.addTestSuite(SubjectRegistryImplTest.class);
+		suite.addTestSuite(SubjectRegistryMayoUseCaseIntegrationTest.class);
 		//$JUnit-END$
 		return suite;
 	}

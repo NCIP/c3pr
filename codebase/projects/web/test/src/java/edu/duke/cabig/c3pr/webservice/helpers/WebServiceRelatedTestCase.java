@@ -455,7 +455,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 		// study
 		Study study = new LocalStudy();
 		study.setTargetRegistrationSystem(TEST_TARGET_REG_SYS);
-		study.setShortTitleText(TEST_STUDY_DESCR);
+		study.setShortTitleText(TEST_STUDY_SHORT_TITLE);
 		study.setLongTitleText(TEST_STUDY_DESCR);
 		study.setDescriptionText(TEST_STUDY_DESCR);
 		study.getStudyVersion().setVersionDate(TEST_VERSION_DATE);
