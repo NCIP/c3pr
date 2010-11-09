@@ -179,25 +179,37 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 		this.name = name;
 	}
 
-	@Override
-    public int hashCode() {
-        final int PRIME = 31;
-        int result = super.hashCode();
-        result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-        result = PRIME * result;
-        return result;
-    }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (getClass() != obj.getClass()) return false;
-        final Consent other = (Consent) obj;
-        if (name == null) {
-            if (other.name != null) return false;
-        }
-        else if (!name.equalsIgnoreCase(other.name)) return false;
-        return true;
-    }
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((versionId == null) ? 0 : versionId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Consent other = (Consent) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (versionId == null) {
+			if (other.versionId != null)
+				return false;
+		} else if (!versionId.equals(other.versionId))
+			return false;
+		return true;
+	}
 
 }
