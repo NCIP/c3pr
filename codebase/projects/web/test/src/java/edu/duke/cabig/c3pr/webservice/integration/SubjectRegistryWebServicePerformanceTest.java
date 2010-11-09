@@ -78,11 +78,11 @@ public class SubjectRegistryWebServicePerformanceTest extends SubjectRegistryWeb
 	
 	@Override
 	public void testSubjectRegistryUtility() throws InterruptedException,
-			IOException {
+			IOException, Exception {
 		super.testSubjectRegistryUtility();
 		try {
 			importStudySubjects();
-			executeQuerySubjectRegistryTest();
+			executeBulkQuerySubjectRegistryTest();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
@@ -90,7 +90,7 @@ public class SubjectRegistryWebServicePerformanceTest extends SubjectRegistryWeb
 		
 	}
 	
-	private void executeQuerySubjectRegistryTest() throws SQLException, Exception {
+	private void executeBulkQuerySubjectRegistryTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation

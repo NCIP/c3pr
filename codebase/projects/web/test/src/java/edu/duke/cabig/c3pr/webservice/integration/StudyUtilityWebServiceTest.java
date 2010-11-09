@@ -563,6 +563,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String TEST_VERSION_NUMBER = "1.0";
 	private static final String TEST_VERSION_DATE_ISO = "20101005000000";
 	private static final String TEST_STUDY_DESCR = "Test Study";
+	public static final String TEST_STUDY_SHORT_TITLE = "Test Study Short Title";
 	private static final String TEST_TARGET_REG_SYS = "C3PR";
 	private static final String TEST_PRIMARY_REASON_CODE = "OTHER";
 	private static final String TEST_PRIMARY_REASON_DESCR = "Other Description";
@@ -610,7 +611,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected StudyProtocolDocumentVersion createStudyProtocolDocument(
 			String appendix) {
 		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
-		// doc.setOfficialTitle(iso.ST(TEST_STUDY_DESCR));
+		doc.setOfficialTitle(iso.ST(TEST_STUDY_SHORT_TITLE));
 		doc.setPublicDescription(iso.ST(TEST_STUDY_DESCR + appendix));
 		doc.setPublicTitle(iso.ST(TEST_STUDY_DESCR + appendix));
 		doc.setText(iso.ED(TEST_STUDY_DESCR + appendix));

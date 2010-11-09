@@ -191,7 +191,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	 * instance of embedded Tomcat and use one already running locally at
 	 * <b>https://localhost:8443/c3pr.
 	 */
-	private boolean noEmbeddedTomcat = Boolean.valueOf(System.getProperty(
+	protected boolean noEmbeddedTomcat = Boolean.valueOf(System.getProperty(
 			"noEmbeddedTomcat", "false"));
 
 	@Override
@@ -230,7 +230,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	 * @throws IOException
 	 * 
 	 */
-	public void testSubjectRegistryUtility() throws InterruptedException, IOException {
+	public void testSubjectRegistryUtility() throws InterruptedException, IOException, Exception {
 
 		try {
 			executeInitiateStudySubjectTest();
@@ -254,7 +254,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	}
 
 
-	private void executeInitiateStudySubjectTest() throws SQLException, Exception {
+	protected void executeInitiateStudySubjectTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -269,6 +269,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		StudySubject createdStudySubject = service.initiateStudySubject(request).getStudySubject();
 		assertNotNull(createdStudySubject);
 
@@ -276,7 +277,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 
-	private void executeUpdateStudySubjectConsentTest() throws SQLException, Exception {
+	protected void executeUpdateStudySubjectConsentTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -290,6 +291,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		StudySubject createdStudySubject = service.updateStudySubjectConsent(request).getStudySubject();
 		assertNotNull(createdStudySubject);
 
@@ -299,7 +301,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 	
-	private void executeUpdateStudySubjectRegistryStatusTest() throws SQLException, Exception {
+	protected void executeUpdateStudySubjectRegistryStatusTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -311,6 +313,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		StudySubject createdStudySubject = service.updateStudySubjectRegistryStatus(request).getStudySubject();
 		assertNotNull(createdStudySubject);
 
@@ -321,7 +324,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 	
-	private void executeUpdateStudySubjectRegistryStatusHistoryTest() throws SQLException, Exception {
+	protected void executeUpdateStudySubjectRegistryStatusHistoryTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -335,6 +338,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		StudySubject createdStudySubject = service.updateStudySubjectRegistryStatusHistory(request).getStudySubject();
 		assertNotNull(createdStudySubject);
 
@@ -345,7 +349,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 	
-	private void executeUpdatetudySubjectTest() throws SQLException, Exception {
+	protected void executeUpdatetudySubjectTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -358,6 +362,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		StudySubject createdStudySubject = service.updateStudySubject(request).getStudySubject();
 		assertNotNull(createdStudySubject);
 		StudySubject expected = createStudySubjectJAXBObjectModified();
@@ -367,7 +372,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 	
-	private void executeQuerySubjectRegistryTest() throws SQLException, Exception {
+	protected void executeQuerySubjectRegistryTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -380,6 +385,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		DSETStudySubject studySubjects = service.querySubjectRegistry(request).getStudySubjects();
 		assertNotNull(studySubjects);
 		assertEquals(1, studySubjects.getItem().size());
@@ -390,7 +396,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 	
-	private void executeUpdateStudySubjectDemographyTest() throws SQLException, Exception {
+	protected void executeUpdateStudySubjectDemographyTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -403,6 +409,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		StudySubject createdStudySubject = service.updateStudySubjectDemography(request).getStudySubject();
 		assertNotNull(createdStudySubject);
 		StudySubject expected = createStudySubjectJAXBObjectModified();
@@ -413,7 +420,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 	
-	private void executeRetrieveStudySubjectDemographyHistoryTest() throws SQLException, Exception {
+	protected void executeRetrieveStudySubjectDemographyHistoryTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -424,6 +431,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		DSETPerson subjectDemographies = service.retrieveStudySubjectDemographyHistory(request).getPatients();
 		assertNotNull(subjectDemographies);
 		assertEquals(1, subjectDemographies.getItem().size());
@@ -432,7 +440,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 	
-	private void executeQueryStudySubjectRegistryStatusHistoryTest() throws SQLException, Exception {
+	protected void executeQueryStudySubjectRegistryStatusHistoryTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -443,6 +451,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		DSETPerformedStudySubjectMilestone statusHistory = service.queryStudySubjectRegistryStatusHistory(request).getStudySubjectRegistryStatusHistory();
 		assertNotNull(statusHistory);
 		assertEquals(1, statusHistory.getItem().size());
@@ -451,7 +460,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 	
-	private void executeQuerySubjectRegistryByRegistryStatusTest() throws SQLException, Exception {
+	protected void executeQuerySubjectRegistryByRegistryStatusTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -463,6 +472,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		DSETStudySubject studySubjects = service.querySubjectRegistryByRegistryStatus(request).getStudySubjects();
 		assertNotNull(studySubjects);
 		assertEquals(1, studySubjects.getItem().size());
@@ -478,7 +488,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		assertEquals(0, studySubjects.getItem().size());
 	}
 	
-	private void executeQuerySubjectRegistryByConsentTest() throws SQLException, Exception {
+	protected void executeQuerySubjectRegistryByConsentTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -494,6 +504,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		DSETStudySubject studySubjects = service.querySubjectRegistryByConsent(request).getStudySubjects();
 		assertNotNull(studySubjects);
 		assertEquals(1, studySubjects.getItem().size());
@@ -526,7 +537,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		assertEquals(0, studySubjects.getItem().size());
 	}
 	
-	private void executeQueryConsentsByStudySubjectTest() throws SQLException, Exception {
+	protected void executeQueryConsentsByStudySubjectTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -537,6 +548,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		DSETStudySubjectConsentVersion subjectConsents = service.queryConsentsByStudySubject(request).getStudySubjectConsents();
 		assertNotNull(subjectConsents);
 		assertEquals(2, subjectConsents.getItem().size());
@@ -571,7 +583,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		assertEquals(0, subjectConsents.getItem().size());
 	}
 	
-	private void executeImportSubjectRegistryTest() throws SQLException, Exception {
+	protected void executeImportSubjectRegistryTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
@@ -582,6 +594,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.marshal( request , System.out );
 		System.out.flush();
+		System.out.println();
 		DSETStudySubject createdStudySubjects = service.importSubjectRegistry(request).getStudySubjects();
 		assertNotNull(createdStudySubjects);
 		assertEquals(1, createdStudySubjects.getItem().size());
@@ -830,7 +843,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		return status;
 	}
 	
-	public static edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject createExpectedStudySubject(){
+	public edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject createExpectedStudySubject(){
 		edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject studySubject = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject();
 		studySubject.setEntity(createPerson());
 		studySubject.setPaymentMethodCode(iso.CD(TEST_PAYMENT_METHOD));
@@ -859,7 +872,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		return studySubject;
 	}
 	
-	public static edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject createStudySubjectJAXBObjectModified(){
+	public edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject createStudySubjectJAXBObjectModified(){
 		edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject studySubject = new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject();
 		studySubject.setEntity(createPerson());
 		studySubject.setPaymentMethodCode(iso.CD(TEST_PAYMENT_METHOD_MODIFIED));

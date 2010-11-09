@@ -888,8 +888,8 @@ public class JAXBToDomainObjectConverterImpl implements
 	 */
 	private void convert(Study study, StudyProtocolDocumentVersion ver,
 			boolean updateConsents) {
-		study.setShortTitleText(isNull(ver.getPublicTitle()) ? "" : ver
-				.getPublicTitle().getValue());
+		study.setShortTitleText(isNull(ver.getOfficialTitle()) ? "" : ver
+				.getOfficialTitle().getValue());
 		study.setLongTitleText(isNull(ver.getPublicTitle()) ? "" : ver
 				.getPublicTitle().getValue());
 		study.setDescriptionText(isNull(ver.getPublicDescription()) ? "" : ver

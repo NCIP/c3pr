@@ -147,6 +147,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 	public static final String TEST_VERSION_DATE_ISO = "20101005000000";
 	public static final Date TEST_VERSION_DATE = parseISODate(TEST_VERSION_DATE_ISO);
 	public static final String TEST_STUDY_DESCR = "Test Study";
+	public static final String TEST_STUDY_SHORT_TITLE = "Test Study Short Title";
 	public static final String TEST_TARGET_REG_SYS = "C3PR";
 	public static final String TEST_STUDY_PHASE = "Phase 0 Trial";
 	public static final Integer TEST_TARGET_ACCRUAL_NUMBER = 100;
@@ -580,7 +581,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 
 	protected StudyProtocolDocumentVersion createStudyProtocolDocument() {
 		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
-		// doc.setOfficialTitle(iso.ST(TEST_STUDY_DESCR));
+		doc.setOfficialTitle(iso.ST(TEST_STUDY_SHORT_TITLE));
 		doc.setPublicDescription(iso.ST(TEST_STUDY_DESCR));
 		doc.setPublicTitle(iso.ST(TEST_STUDY_DESCR));
 		doc.setText(iso.ED(TEST_STUDY_DESCR));
