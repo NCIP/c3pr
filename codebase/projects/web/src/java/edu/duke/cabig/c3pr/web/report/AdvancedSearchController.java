@@ -1,20 +1,12 @@
 package edu.duke.cabig.c3pr.web.report;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
-import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
-
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.repository.AdvancedSearchRepository;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 
@@ -72,23 +64,4 @@ public class AdvancedSearchController extends SimpleFormController {
         
         return refdata;
     }
-	
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-//		AdvancedSearchWrapper wrapper  = (AdvancedSearchWrapper) command ;
-//		List<AdvancedSearchCriteriaParameter> criteriaList = new ArrayList<AdvancedSearchCriteriaParameter>();
-//		for(AdvancedSearchCriteriaParameter searchCriteria : wrapper.getSearchCriteriaList()){
-//			if(searchCriteria.getValues().size() != 0){
-//				criteriaList.add(searchCriteria);
-//			}
-//		}
-//		List<Participant> subjects = advancedSearchRepository.searchSubjects(criteriaList);
-//		
-//		Map map = errors.getModel();
-//		map.put("subjects", subjects);
-//		ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
-//		return modelAndView;
-		return super.onSubmit(request, response, command, errors);
-	}
-
 }
