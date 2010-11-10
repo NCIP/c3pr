@@ -69,7 +69,7 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
 
     		if(rootElement.getName().equalsIgnoreCase("registrations")){
     			List<Element> elements = document.getRootElement().getChildren(
-    					"registration", Namespace.getNamespace("gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"));
+    					"registration", Namespace.getNamespace(edu.duke.cabig.c3pr.utils.XMLUtils.CCTS_DOMAIN_NS));
 
     			for (int i = 0; i < elements.size(); i++) {
     				Element element = elements.get(i);

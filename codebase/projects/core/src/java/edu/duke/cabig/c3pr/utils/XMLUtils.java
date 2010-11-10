@@ -36,7 +36,9 @@ import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.caxchange.ResponseMessage;
 
 public class XMLUtils {
-    /**
+    public static final String CCTS_DOMAIN_NS = "gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain";
+
+	/**
      * Logger for this class
      */
     private static final Logger logger = Logger.getLogger(XMLUtils.class);
@@ -272,7 +274,7 @@ public class XMLUtils {
                     throws RemoteException {
         StringWriter xmlWriter = new StringWriter();
         try {
-            Utils.serializeObject(message, new QName("gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"), xmlWriter);
+            Utils.serializeObject(message, new QName(CCTS_DOMAIN_NS), xmlWriter);
         }
         catch (Exception e) {
             throw new RemoteException("Cannot serialize..");

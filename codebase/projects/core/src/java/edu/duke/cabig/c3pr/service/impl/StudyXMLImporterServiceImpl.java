@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.service.impl;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -10,11 +8,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.jdom.Comment;
+import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.Namespace;
+import org.jdom.input.DOMBuilder;
 import org.jdom.input.SAXBuilder;
-import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +38,9 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 public class StudyXMLImporterServiceImpl implements
                 edu.duke.cabig.c3pr.service.StudyXMLImporterService {
 
-    public static final String NS = "gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain";
+    private static final String ERROR_UNMARSHALLING_CODE = "C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_UNMARSHALLING";
+
+	public static final String NS = edu.duke.cabig.c3pr.utils.XMLUtils.CCTS_DOMAIN_NS;
 
 	private StudyDao studyDao;
     
@@ -52,23 +53,22 @@ public class StudyXMLImporterServiceImpl implements
     private MessageSource c3prErrorMessages;
 
     private Logger log = Logger.getLogger(StudyXMLImporterServiceImpl.class.getName());
+    
+	
+	@Transactional
+	public List<Study> importStudies(org.w3c.dom.Document doc, Errors errors)
+			throws C3PRCodedException {
+		DOMBuilder builder = new DOMBuilder();
+        org.jdom.Document jdomDoc = builder.build(doc);
+		return importStudies(jdomDoc, errors);
+	}
 
-    /**
-     * Will parse an xml stream and create 1..many studies XML should have one or many study
-     * elements <study> //study serialization </study> <p/> Container to the <study/> element is not
-     * important
-     * 
-     * @param xmlStream
-     * @return
-     * @throws Exception
-     */
-    @Transactional
-	public List<Study> importStudies(InputStream xmlStream, Errors errors)
+	
+	@Transactional
+	public List<Study> importStudies(Document document, Errors errors)
 			throws C3PRCodedException {
 		List<Study> studyList = new ArrayList<Study>();
-		org.jdom.Document document = null;
 		try {
-			document = new SAXBuilder().build(xmlStream);
 			Element rootElement = document.getRootElement();
 			List<Element> studies = collectStudies(rootElement);
 
@@ -103,10 +103,39 @@ public class StudyXMLImporterServiceImpl implements
 		} catch (Exception e) {
 			throw this.exceptionHelper
 					.getException(
-							getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_UNMARSHALLING"),
+							getCode(ERROR_UNMARSHALLING_CODE),
 							e);
 		}
 		return studyList;
+
+	}
+
+	/**
+     * Will parse an xml stream and create 1..many studies XML should have one or many study
+     * elements <study> //study serialization </study> <p/> Container to the <study/> element is not
+     * important
+     * 
+     * @param xmlStream
+     * @return
+     * @throws Exception
+     */
+	@Transactional
+	public List<Study> importStudies(InputStream xmlStream, Errors errors)
+			throws C3PRCodedException {
+		try {
+			return importStudies(new SAXBuilder().build(xmlStream), errors);
+		} catch (JDOMException e) {
+			throw this.exceptionHelper
+					.getException(
+							getCode(ERROR_UNMARSHALLING_CODE),
+							e);
+		} catch (IOException e) {
+			throw this.exceptionHelper
+					.getException(
+							getCode(ERROR_UNMARSHALLING_CODE),
+							e);
+		}
+
 	}
     
     /**

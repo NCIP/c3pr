@@ -17,7 +17,30 @@
 		class="edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverterImpl"
 		autowire="byType" />
 		
-
+	<!-- Study Import -->
+	<bean id="studyImportService"
+		class="edu.duke.cabig.c3pr.webservice.studyimport.impl.StudyImportImpl"
+		autowire="byType" />	
+	
+	<jaxws:endpoint id="studyImportEndpoint"
+		implementor="#studyImportService" address="/services/StudyImport">
+		<jaxws:properties>
+			<entry key="schema-validation-enabled" value="true" />
+		</jaxws:properties>
+		<jaxws:inInterceptors>
+			<bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+				<constructor-arg>
+					<map>
+						<entry key="action" value="SAMLTokenUnsigned" />
+					</map>
+				</constructor-arg>
+			</bean>
+			<bean class="edu.duke.cabig.c3pr.web.security.SecureWebServiceHandler"
+				p:cryptoPropFile="server_sign.properties" />
+		</jaxws:inInterceptors>
+	</jaxws:endpoint>
+		
+	<!-- Study Utility -->
 	<bean id="studyUtilityService"
 		class="edu.duke.cabig.c3pr.webservice.studyutility.impl.StudyUtilityImpl"
 		autowire="byType" />	
