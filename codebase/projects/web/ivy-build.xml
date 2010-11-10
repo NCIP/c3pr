@@ -307,6 +307,7 @@
 						<include name="edu/duke/cabig/**/SecurityWebServiceTest.class"/>
 						<include name="edu/duke/cabig/**/StudyUtilityWebServiceTest.class"/>
 						<include name="edu/duke/cabig/**/SubjectRegistryWebServiceTest.class"/>
+						<include name="edu/duke/cabig/**/SubjectRegistryMayoUseCaseIntegrationTest"/>
 					</fileset>
 				</batchtest>
 				
