@@ -837,5 +837,12 @@
         <property name="targetObject" value="edu.duke.cabig.c3pr.domain.Participant"/>
         <property name="successView" value="report/subject_advanced_search_result"/>
     </bean>
+    <bean name="/report/advancedSearch/advanceSearchResultsExport" id="advanceSearchResultsExportController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.report.AdvanceSearchResultsExportController"
+          autowire="byName">
+           <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.AdvancedSearchCommand"/>
+    </bean>
+    
+    
 
 </beans>
