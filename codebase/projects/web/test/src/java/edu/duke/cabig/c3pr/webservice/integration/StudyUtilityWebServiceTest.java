@@ -611,7 +611,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected StudyProtocolDocumentVersion createStudyProtocolDocument(
 			String appendix) {
 		StudyProtocolDocumentVersion doc = new StudyProtocolDocumentVersion();
-		doc.setOfficialTitle(iso.ST(TEST_STUDY_SHORT_TITLE));
+		doc.setOfficialTitle(iso.ST(TEST_STUDY_SHORT_TITLE + appendix));
 		doc.setPublicDescription(iso.ST(TEST_STUDY_DESCR + appendix));
 		doc.setPublicTitle(iso.ST(TEST_STUDY_DESCR + appendix));
 		doc.setText(iso.ED(TEST_STUDY_DESCR + appendix));
