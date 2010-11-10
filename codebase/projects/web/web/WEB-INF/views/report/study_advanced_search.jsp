@@ -33,15 +33,6 @@
 		}
 	}
 
-	function manageIncEmbCompStudiesChkBox(element){
-		attributeId = element.id + '-hidden';
-		if(element.checked == true){
-			$(attributeId).value = "";
-		}else {
-			$(attributeId).value = true;
-		}
-	}
-
 	function managePendingAmendmentCheckBox(element){
 		attributeId = element.id + '-hidden';
 		if(element.checked == true){
@@ -436,27 +427,28 @@ width:16em;
 	        		<input type="checkbox" id="originalIndicator" name="originalIndicator" onclick="managePendingAmendmentCheckBox(this);">
 		       	</div>
 	        </div>
-	        <div class="rightpanel" style="width: 60%">
+	        <div class="rightpanel" style="display:none">
 				<div class="labelCompanion"><fmt:message key="study.includeEmbeddedCompanionStudies"/></div>
 	          	<div class="value">
 	          		<input type="hidden" name="searchCriteriaList[15].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
    	        		<input type="hidden" name="searchCriteriaList[15].predicate" value="="/>
           			<input type="hidden" name="searchCriteriaList[15].attributeName" value="standaloneIndicator" />
-          			<input type="hidden" id="standaloneIndicator-hidden" name="searchCriteriaList[15].values" value="true"/>
-	        		<input type="checkbox" id="standaloneIndicator" name="standaloneIndicator" onclick="manageIncEmbCompStudiesChkBox(this);">
+          			<input type="hidden" id="standaloneIndicator-hidden" name="searchCriteriaList[15].values" value=""/>
 	        	</div>		        
 	        </div>	
-       	</div>
-       <div class="row" >
-       		<div class="rightpanel" style="width: 60%">
-		       	<div class="label" style="width: 16em;"><fmt:message key="study.pendingSiteAmendment"/></div>
-		       	<div class="value">
-		       		<input type="checkbox" id="studySiteAmendment" name="studySiteAmendment" >
-		       		<tags:hoverHint keyProp="study.pendingSiteAmendment"/>
+	        
+	        <div class="row" >
+	       		<div class="rightpanel" style="width: 60%">
+			       	<div class="label" style="width: 16em;"><fmt:message key="study.pendingSiteAmendment"/></div>
+			       	<div class="value">
+			       		<input type="checkbox" id="studySiteAmendment" name="studySiteAmendment" >
+			       		<tags:hoverHint keyProp="study.pendingSiteAmendment"/>
+			       	</div>
 		       	</div>
-	       	</div>
-       </div>
+       		</div>
      </div>	
+       	</div>
+      
 </chrome:division>
 <chrome:division>
 <br>

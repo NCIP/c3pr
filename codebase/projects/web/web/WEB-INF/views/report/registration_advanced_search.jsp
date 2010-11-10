@@ -21,9 +21,16 @@
 			$('enrollingsite-identifier-type').value="" ;
 		}
 		
-		if($('studyorganization-hidden').value == ""){
-			$('studyorganization-type').value="" ;
+		if($('studyorganization-hidden').value == "" || $('studyorganization-type').value == ""){
 			$('studyorganization-identifier-type').value="" ;
+			$('studyorganization-hidden').value = "";
+			$('studyorganization-type').value = "";
+		}else {
+			if($('studyorganization-type').value=="SCC" || $('studyorganization-type').value=="SFS" ){
+				$('studyorganization-contextObject').value='StudyOrganization';
+			} else if($('studyorganization-type').value=="SST")  {
+				$('studyorganization-contextObject').value='EnrollingSite' ;
+			}
 		}
 		 $('search').submit();	
 	}
@@ -86,9 +93,15 @@
 		Element.hide('advancedRegistrationOption2');
 		Element.show('showRegistrationOptions');
 	}
-	
-	function submitForm(){
-		
+
+	function selectAllEpochReasonsOfThisType(thisElement){
+		var offEpochClass = "form ." + thisElement.className;
+		$$(offEpochClass).each(function(e)
+			{
+				e.selected="selected";
+			}
+		);
+
 	}
 	
 	var enrollingSiteAutocompleterProps = {
@@ -419,29 +432,28 @@ color:white;
           			<input type="hidden" name="searchCriteriaList[15].attributeName" value="type" />
           			<input type="hidden" name="searchCriteriaList[15].predicate" value="="/>
 	        		<select id="studyorganization-type" name="searchCriteriaList[15].values" >
+	        			<option value="" selected="selected">Please Select</option>
 	        			<option value="">Any</option>
 	                    <option value="SCC">Coordinating Center</option>
 	                    <option value="SFS">Funding Sponsor</option>
 	                    <option value="SST">Study Site</option>
                 	</select>
 	        	</div>
+	        	
 	          	<div class="value">
 	          		<input type="hidden" name="searchCriteriaList[16].objectName" value="edu.duke.cabig.c3pr.domain.Identifier"/>
-	          		<input type="hidden" name="searchCriteriaList[16].contextObjectName" value="StudyOrganization" />
+	          		<input type="hidden" name="searchCriteriaList[16].contextObjectName" id="studyorganization-contextObject" value="" />
           			<input type="hidden" name="searchCriteriaList[16].attributeName" value="typeInternal" />
           			<input type="hidden" name="searchCriteriaList[16].predicate" value="="/>
 	       			<input id="studyorganization-identifier-type" type="hidden" name="searchCriteriaList[16].values" value="CTEP"  />
+	       			
+	       			<input type="hidden" name="searchCriteriaList[17].objectName" value="edu.duke.cabig.c3pr.domain.HealthcareSite"/>
+		       		<input type="hidden" name="searchCriteriaList[17].contextObjectName" value="StudyCoordinatingCenter"/>
+	   	        	<input type="hidden" name="searchCriteriaList[17].predicate" value="="/>
+	          		<input type="hidden" name="searchCriteriaList[17].attributeName" value="id" />
+	          		<input type="hidden" id="studyorganization-hidden" name="searchCriteriaList[17].values"/>
+					<tags:autocompleter name="studyorganization" displayValue="" value="" basename="studyorganization"></tags:autocompleter>
 	          		
-	          		<input type="hidden" name="searchCriteriaList[17].objectName" value="edu.duke.cabig.c3pr.domain.Identifier"/>
-	          		<input type="hidden" name="searchCriteriaList[17].contextObjectName" value="StudyOrganization" />
-          			<input type="hidden" name="searchCriteriaList[17].attributeName" value="value" />
-          			<input type="hidden" name="searchCriteriaList[17].predicate" value="="/>
-        			<input type="hidden" id="studyorganization-hidden" name="searchCriteriaList[17].values"/>
-					<input id="studyorganization-input" name="xyz" class="autocomplete" size="45"/>
-	                <img id="studyorganization-indicator" src="<c:url value="/images/indicator.white.gif"/>" alt="activity indicator" style="display:none"/>
-	                <tags:indicator id="studyorganization-indicator" />
-					<div id="studyorganization-choices" class="autocomplete" style="display: none;"></div>
-	        	</div>
 	        </div>
         </div>	
      </div>
@@ -487,7 +499,7 @@ color:white;
           		<input type="hidden" name="searchCriteriaList[20].attributeName" value="paymentMethod" />
           		<input type="hidden" name="searchCriteriaList[20].predicate" value="in"/>
         		<select id="paymentMethods" name="searchCriteriaList[20].values" size="4" multiple="multiple">
-                   <option value="" selected="selected">All</option>
+                   <option value="" selected="selected">Any</option>
                    <c:forEach items="${paymentMethods}" var="paymentMethod">
                        <c:if test="${!empty paymentMethod.desc}">
                            <option value="${paymentMethod.code}">${paymentMethod.desc}</option>
@@ -496,6 +508,56 @@ color:white;
                 </select>
    	    	</div>
         </div>
+        
+        <div class="row" >
+        	<div class="label"><fmt:message key="epoch.type"/></div>
+          	<div class="value" >
+          		<input type="hidden" name="searchCriteriaList[27].objectName" value="edu.duke.cabig.c3pr.domain.Epoch"/>
+          		<input type="hidden" name="searchCriteriaList[27].attributeName" value="type.code" />
+          		<input type="hidden" name="searchCriteriaList[27].predicate" value="in"/>
+        		<select id="epochType" name="searchCriteriaList[27].values" size="4" multiple="multiple">
+                   <option value="" selected="selected">Any</option>
+                   <option value="SCREENING">Screening</option>
+                   <option value="TREATMENT">Treatment</option>
+                   <option value="FOLLOWUP">Follow-up</option>
+	               <option value="RESERVING"> Reserving</option>
+                </select>
+   	    	</div>
+        </div>
+        
+         <div class="row" >
+        	<div class="label"><fmt:message key="scheduledEpoch.offEpochReasonText"/></div>
+          	<div class="value" >
+          		<input type="hidden" name="searchCriteriaList[28].objectName" value="edu.duke.cabig.c3pr.domain.Reason"/>
+          		<input type="hidden" name="searchCriteriaList[28].attributeName" value="code" />
+          		<input type="hidden" name="searchCriteriaList[28].predicate" value="in"/>
+        		<select id="offEpochReason" name="searchCriteriaList[28].values" size="4" multiple="multiple">
+                   <option value="" selected="selected">Any</option>
+                   <option class ="offScreeningEpochReasonClass" value="" onclick="selectAllEpochReasonsOfThisType(this);" >--- Off Screening Epoch Reasons ---</option>
+                   <c:forEach items="${offScreeningEpochReasons}" var="offScreeningReason">
+                           <option class="offScreeningEpochReasonClass" value="${offScreeningReason.code}">${offScreeningReason.description}</option>
+                   </c:forEach>
+                   
+                   <option class ="offReservingEpochReasonClass" value="" onclick="selectAllEpochReasonsOfThisType(this);" >--- Off Reserving Epoch Reasons ---</option>
+                   <c:forEach items="${offReservingEpochReasons}" var="offReservingEpochReason">
+                           <option class ="offReservingEpochReasonClass" value="${offReservingEpochReason.code}">${offReservingEpochReason.description}</option>
+                   </c:forEach>
+                   
+                   <option class ="offTreatmentEpochReasonClass" value="" onclick="selectAllEpochReasonsOfThisType(this);" >--- Off Treatment Epoch Reasons ---</option>
+                   <c:forEach items="${offTreatmentEpochReasons}" var="offTreatmentEpochReason">
+                           <option class ="offTreatmentEpochReasonClass" value="${offTreatmentEpochReason.code}">${offTreatmentEpochReason.description}</option>
+                   </c:forEach>
+                   
+                   <option class ="offFollowupEpochReasonClass" value="" onclick="selectAllEpochReasonsOfThisType(this);" >--- Off Follow-up Epoch Reasons ---</option>
+                   <c:forEach items="${offFollowupEpochReasons}" var="offFollowupEpochReason">
+                           <option class ="offFollowupEpochReasonClass" value="${offFollowupEpochReason.code}">${offFollowupEpochReason.description}</option>
+                   </c:forEach>
+                </select>
+   	    	</div>
+        </div>
+        
+        
+        
         <div class="row" >
         	<div class="value">
         		<a   href="javascript:hideExtraCriteriaForRegistration();">- hide options</a>

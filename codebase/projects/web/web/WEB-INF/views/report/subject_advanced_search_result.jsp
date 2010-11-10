@@ -160,6 +160,9 @@ YAHOO.util.Event.addListener(window, "load", function() {
 <chrome:division>
 	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
+		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;
+		<span style="behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');background:#330033;border:medium none;font-size:11px;	color:white;
+			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
 	</div>
 	<div id="printable">
 		<div id="dt-example">
@@ -181,6 +184,9 @@ YAHOO.util.Event.addListener(window, "load", function() {
 	</div>
 	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
+		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;
+		<span style="behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');background:#330033;border:medium none;font-size:11px;	color:white;
+			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
 	</div>
 </chrome:division>
 </chrome:box>

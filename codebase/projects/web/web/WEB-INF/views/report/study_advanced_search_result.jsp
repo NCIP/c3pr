@@ -24,6 +24,7 @@ YAHOO.example.Data = {
 					            studyPhase: "${study.phaseCode}",
 					            studyType: "${study.type}",
 						        studyTargetAccrual:  "${study.targetAccrualNumber}",
+						        companionIndicator:"${study.companionIndicator ? 'Yes':'No'}",
 						        id:  "${study.id}"
 					         }
 					         <c:if test="${!status.last}">,</c:if>
@@ -39,13 +40,14 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"studyStatus",         label:"Status",          sortable:true,      resizeable:true},
             {key:"studyPhase",      label:"Phase",       sortable:true,      resizeable:true},
             {key:"studyType",      label:"Type",       sortable:true,      resizeable:true},
-            {key:"studyTargetAccrual",      label:"Target Accrual",       sortable:true,      resizeable:true}
+            {key:"studyTargetAccrual",      label:"Target Accrual",       sortable:true,      resizeable:true},
+            {key:"companionIndicator",      label:"Companion",       sortable:true,      resizeable:true}
         ];
         
         var studyDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.studyList);
         studyDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
         studyDataSource.responseSchema = {
-            fields: ["studyShortTitle", "identifier", "studyStatus", "studyPhase", "studyType", "studyTargetAccrual", "id"]
+            fields: ["studyShortTitle", "identifier", "studyStatus", "studyPhase", "studyType", "studyTargetAccrual", "companionIndicator","id"]
         };
 
         //Create config
@@ -87,12 +89,23 @@ color:white;
 <chrome:division>
 	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
+		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;
+		<span style="behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');background:#330033;border:medium none;font-size:11px;	color:white;
+			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
 	</div>
+	
 	<div id="printable">
 	<div id="studyTable" class="yui-skin-sam"></div>
 	</div>
 	<div align="right">
+					
+	</div>
+	
+	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
+		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;
+		<span style="behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');background:#330033;border:medium none;font-size:11px;	color:white;
+			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
 	</div>
 </chrome:division>
 </chrome:box>
