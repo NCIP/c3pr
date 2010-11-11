@@ -43,4 +43,28 @@
   <csm_user_group_role_pg user_group_role_pg_id="17" user_id="4" role_id="182" protection_group_id="-1" update_date="2010-08-30"/>
   <csm_user_group_role_pg user_group_role_pg_id="18" user_id="4" role_id="187" protection_group_id="-1" update_date="2010-08-30"/>
   <csm_user_group_role_pg user_group_role_pg_id="19" user_id="4" role_id="188" protection_group_id="-1" update_date="2010-08-30"/>
+  
+  	<studies />
+	<comp_stu_associations />	
+	<study_organizations />
+	<study_diseases />
+
+	<investigators/>
+	<contact_mechanisms />
+	<hc_site_investigators  />
+	<study_investigators  />
+	<permissible_reg_stats/>
+	<randomizations />
+	<study_versions />
+	<epochs />
+	<study_site_versions />
+	<stu_site_status_history/>
+	<arms />
+	<eligibility_criteria />
+	<strat_criteria />
+	<strat_cri_per_ans />
+	<consents />
+	<consent_questions />
+	<stratum_groups />
+  
 </dataset>

@@ -108,11 +108,12 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	@Override
 	protected void setUp() throws Exception {
+		initDataSourceFile();
 		if (noEmbeddedTomcat) {
 			endpointURL = new URL(
-					"https://localhost:8443/c3pr/services/services/StudyUtility");
-			initDataSourceFile();
+					"https://localhost:8443/c3pr/services/services/StudyUtility");			
 		} else {
+			cleanupDatabaseData();
 			super.setUp();
 			endpointURL = new URL("https://"
 					+ InetAddress.getLocalHost().getHostName() + ":" + sslPort
@@ -130,6 +131,20 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
 
 	}
+	
+	/**
+	 * Need to do some DELETEs which could not be done via DbUnit.
+	 * @throws SQLException
+	 * @throws Exception
+	 */
+	private void cleanupDatabaseData() throws SQLException, Exception {
+		Connection conn = getConnection().getConnection();
+		Statement st = conn.createStatement();
+		st.execute("DELETE FROM identifiers where stu_id is not null");
+		st.execute("DELETE FROM reasons where per_reg_st_id is not null");
+		st.close();
+	}
+	
 
 	/**
 	 * Inserting data into registry_statuses via DbUnit was problematic; hence
@@ -165,6 +180,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	@Override
 	protected void tearDown() throws Exception {
 		if (!noEmbeddedTomcat) {
+			cleanupDatabaseData();
 			super.tearDown();
 		}
 	}

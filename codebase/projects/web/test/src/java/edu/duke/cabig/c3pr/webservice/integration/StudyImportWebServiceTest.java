@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -97,17 +99,18 @@ public class StudyImportWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	@Override
 	protected void setUp() throws Exception {
+		initDataSourceFile();
 		if (noEmbeddedTomcat) {
 			endpointURL = new URL("https://localhost:8443/c3pr"
-					+ WS_ENDPOINT_SERVLET_PATH);
-			initDataSourceFile();
+					+ WS_ENDPOINT_SERVLET_PATH);			
 		} else {
+			cleanupDatabaseData();
 			super.setUp();
 			endpointURL = new URL("https://"
 					+ InetAddress.getLocalHost().getHostName() + ":" + sslPort
 					+ C3PR_CONTEXT + WS_ENDPOINT_SERVLET_PATH);
 		}
-
+		
 		wsdlLocation = new URL(endpointURL.toString() + "?wsdl");
 
 		logger.info("endpointURL: " + endpointURL);
@@ -118,10 +121,24 @@ public class StudyImportWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		System.setProperty("sun.net.client.defaultConnectTimeout", "" + TIMEOUT);
 		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
 	}
+	
+	/**
+	 * Need to do some DELETEs which could not be done via DbUnit.
+	 * @throws SQLException
+	 * @throws Exception
+	 */
+	private void cleanupDatabaseData() throws SQLException, Exception {
+		Connection conn = getConnection().getConnection();
+		Statement st = conn.createStatement();
+		st.execute("DELETE FROM identifiers where stu_id is not null");
+		st.close();
+	}
+
 
 	@Override
 	protected void tearDown() throws Exception {
 		if (!noEmbeddedTomcat) {
+			cleanupDatabaseData();
 			super.tearDown();
 		}
 	}
