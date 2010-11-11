@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gov:study gridId="48d92e72-9f5d-473e-ae79-09129d5c7ea7"
+	xmlns:gov="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+	<gov:blindedIndicator>true</gov:blindedIndicator>
+	<gov:multiInstitutionIndicator>true</gov:multiInstitutionIndicator>
+	<gov:randomizedIndicator>true</gov:randomizedIndicator>
+	<gov:randomizationType>PHONE_CALL</gov:randomizationType>
+	<gov:stratificationIndicator>true</gov:stratificationIndicator>
+	<gov:standaloneIndicator>true</gov:standaloneIndicator>
+	<gov:companionIndicator>false</gov:companionIndicator>
+	<gov:shortTitleText>Short study title</gov:shortTitleText>
+	<gov:longTitleText>Long title</gov:longTitleText>
+	<gov:descriptionText>desc</gov:descriptionText>
+	<gov:precisText>prevcis</gov:precisText>
+	<gov:phaseCode>Phase 0 Trial</gov:phaseCode>
+	<gov:coordinatingCenterStudyStatus>OPEN
+	</gov:coordinatingCenterStudyStatus>
+	<gov:type>Ancillary</gov:type>
+	<gov:targetAccrualNumber>100</gov:targetAccrualNumber>
+	<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<gov:value>${STUDY_ID}</gov:value>
+		<gov:primaryIndicator>true</gov:primaryIndicator>
+		<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+			<gov:name>Mayo Clinic Rochester</gov:name>
+			<gov:address>
+				<gov:city>Rochester</gov:city>
+				<gov:stateCode>MN</gov:stateCode>
+				<gov:countryCode>USA</gov:countryCode>
+			</gov:address>
+			<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+				<gov:value>MN026</gov:value>
+				<gov:primaryIndicator>true</gov:primaryIndicator>
+				<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+					<gov:name>Cancer Therapy Evaluation Program</gov:name>
+					<gov:address>
+						<gov:streetAddress>9000 Rockville Pike</gov:streetAddress>
+						<gov:city>Bethesda</gov:city>
+						<gov:stateCode>MD</gov:stateCode>
+						<gov:postalCode>20892</gov:postalCode>
+						<gov:countryCode>USA</gov:countryCode>
+					</gov:address>
+					<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+						<gov:value>CTEP</gov:value>
+						<gov:primaryIndicator>true</gov:primaryIndicator>
+						<gov:type>CTEP</gov:type>
+					</gov:identifier>
+				</gov:healthcareSite>
+				<gov:type>CTEP</gov:type>
+			</gov:identifier>
+		</gov:healthcareSite>
+		<gov:type>COORDINATING_CENTER_IDENTIFIER</gov:type>
+	</gov:identifier>
+	<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<gov:value>${STUDY_ID}</gov:value>
+		<gov:primaryIndicator>false</gov:primaryIndicator>
+		<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+			<gov:name>Mayo Clinic Rochester</gov:name>
+			<gov:address>
+				<gov:city>Rochester</gov:city>
+				<gov:stateCode>MN</gov:stateCode>
+				<gov:countryCode>USA</gov:countryCode>
+			</gov:address>
+			<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+				<gov:value>MN026</gov:value>
+				<gov:primaryIndicator>true</gov:primaryIndicator>
+				<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+					<gov:name>Cancer Therapy Evaluation Program</gov:name>
+					<gov:address>
+						<gov:streetAddress>9000 Rockville Pike</gov:streetAddress>
+						<gov:city>Bethesda</gov:city>
+						<gov:stateCode>MD</gov:stateCode>
+						<gov:postalCode>20892</gov:postalCode>
+						<gov:countryCode>USA</gov:countryCode>
+					</gov:address>
+					<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+						<gov:value>CTEP</gov:value>
+						<gov:primaryIndicator>true</gov:primaryIndicator>
+						<gov:type>CTEP</gov:type>
+					</gov:identifier>
+				</gov:healthcareSite>
+				<gov:type>CTEP</gov:type>
+			</gov:identifier>
+		</gov:healthcareSite>
+		<gov:type>PROTOCOL_AUTHORITY_IDENTIFIER</gov:type>
+	</gov:identifier>
+	<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<gov:value>${STUDY_ID}</gov:value>
+		<gov:primaryIndicator>false</gov:primaryIndicator>
+		<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+			<gov:name>Minnesota Oncology Hematology PA-Maplewood</gov:name>
+			<gov:address>
+				<gov:city>Maplewood</gov:city>
+				<gov:stateCode>MN</gov:stateCode>
+				<gov:countryCode>USA</gov:countryCode>
+			</gov:address>
+			<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+				<gov:value>MN075</gov:value>
+				<gov:primaryIndicator>true</gov:primaryIndicator>
+				<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+					<gov:name>Cancer Therapy Evaluation Program</gov:name>
+					<gov:address>
+						<gov:streetAddress>9000 Rockville Pike</gov:streetAddress>
+						<gov:city>Bethesda</gov:city>
+						<gov:stateCode>MD</gov:stateCode>
+						<gov:postalCode>20892</gov:postalCode>
+						<gov:countryCode>USA</gov:countryCode>
+					</gov:address>
+					<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+						<gov:value>CTEP</gov:value>
+						<gov:primaryIndicator>true</gov:primaryIndicator>
+						<gov:type>CTEP</gov:type>
+					</gov:identifier>
+				</gov:healthcareSite>
+				<gov:type>CTEP</gov:type>
+			</gov:identifier>
+		</gov:healthcareSite>
+		<gov:type>SITE_IDENTIFIER</gov:type>
+	</gov:identifier>
+	<gov:identifier xsi:type="gov:SystemAssignedIdentifierType"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<gov:value>${STUDY_ID}</gov:value>
+		<gov:primaryIndicator>false</gov:primaryIndicator>
+		<gov:systemName>C3PR</gov:systemName>
+		<gov:type>GRID_IDENTIFIER</gov:type>
+	</gov:identifier>
+	<gov:epoch gridId="41dbb7ea-1e39-4409-8501-efc62253c4f5">
+		<gov:name>Test Study XML Export Epoch</gov:name>
+		<gov:epochOrder>1</gov:epochOrder>
+		<gov:descriptionText>epoch desc</gov:descriptionText>
+		<gov:accrualCeiling>100</gov:accrualCeiling>
+		<gov:stratificationIndicator>true</gov:stratificationIndicator>
+		<gov:randomizedIndicator>true</gov:randomizedIndicator>
+		<gov:type>TREATMENT</gov:type>
+		<gov:enrollmentIndicator>false</gov:enrollmentIndicator>
+		<gov:arm gridId="dce91a1c-5234-4501-bc76-cf0ee5a1c49b">
+			<gov:name>Arm A</gov:name>
+			<gov:descriptionText>arm a</gov:descriptionText>
+			<gov:targetAccrualNumber>50</gov:targetAccrualNumber>
+		</gov:arm>
+		<gov:arm gridId="85d8525c-d4b8-47dd-96aa-e8d9259cb5da">
+			<gov:name>Arm B</gov:name>
+			<gov:descriptionText>arm b</gov:descriptionText>
+			<gov:targetAccrualNumber>50</gov:targetAccrualNumber>
+		</gov:arm>
+		<gov:eligibilityCriteria gridId="1c154bb9-d4f4-4293-8751-8a3d5fe45351"
+			xsi:type="gov:InclusionEligibilityCriteriaType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<gov:notApplicableIndicator>false</gov:notApplicableIndicator>
+			<gov:questionNumber>0</gov:questionNumber>
+			<gov:questionText>Incl q 1</gov:questionText>
+		</gov:eligibilityCriteria>
+		<gov:eligibilityCriteria gridId="2a9c23b0-dffb-44fe-b774-c8ab56437783"
+			xsi:type="gov:InclusionEligibilityCriteriaType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<gov:notApplicableIndicator>false</gov:notApplicableIndicator>
+			<gov:questionNumber>0</gov:questionNumber>
+			<gov:questionText>Incl q 2</gov:questionText>
+		</gov:eligibilityCriteria>
+		<gov:eligibilityCriteria gridId="a9fd5d35-305c-487a-b21b-3b024f946ead"
+			xsi:type="gov:ExclusionEligibilityCriteriaType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<gov:questionNumber>0</gov:questionNumber>
+			<gov:questionText>Excl q 1</gov:questionText>
+		</gov:eligibilityCriteria>
+		<gov:stratificationCriteria>
+			<gov:questionText>Start Q</gov:questionText>
+			<gov:permissibleAnswer>
+				<gov:answerText>A</gov:answerText>
+			</gov:permissibleAnswer>
+			<gov:permissibleAnswer>
+				<gov:answerText>B</gov:answerText>
+			</gov:permissibleAnswer>
+		</gov:stratificationCriteria>
+		<gov:randomization>
+			<gov:type>PHONE_CALL</gov:type>
+			<gov:phoneNumber>555-555-5555</gov:phoneNumber>
+		</gov:randomization>
+		<gov:stratumGroup gridId="2a584b95-c957-42f8-aa1f-a51f7c2ddc77">
+			<gov:currentPosition>0</gov:currentPosition>
+			<gov:stratumGroupNumber>0</gov:stratumGroupNumber>
+		</gov:stratumGroup>
+		<gov:stratumGroup gridId="abd39894-96b1-42dc-9b67-80bfdad4e704">
+			<gov:currentPosition>0</gov:currentPosition>
+			<gov:stratumGroupNumber>1</gov:stratumGroupNumber>
+		</gov:stratumGroup>
+	</gov:epoch>
+	<gov:studyOrganization gridId="e2f5d072-1beb-487d-b7d7-086c4bf1af94"
+		xsi:type="gov:StudyCoordinatingCenterType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+			<gov:name>Mayo Clinic Rochester</gov:name>
+			<gov:address>
+				<gov:city>Rochester</gov:city>
+				<gov:stateCode>MN</gov:stateCode>
+				<gov:countryCode>USA</gov:countryCode>
+			</gov:address>
+			<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+				<gov:value>MN026</gov:value>
+				<gov:primaryIndicator>true</gov:primaryIndicator>
+				<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+					<gov:name>Cancer Therapy Evaluation Program</gov:name>
+					<gov:address>
+						<gov:streetAddress>9000 Rockville Pike</gov:streetAddress>
+						<gov:city>Bethesda</gov:city>
+						<gov:stateCode>MD</gov:stateCode>
+						<gov:postalCode>20892</gov:postalCode>
+						<gov:countryCode>USA</gov:countryCode>
+					</gov:address>
+					<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+						<gov:value>CTEP</gov:value>
+						<gov:primaryIndicator>true</gov:primaryIndicator>
+						<gov:type>CTEP</gov:type>
+					</gov:identifier>
+				</gov:healthcareSite>
+				<gov:type>CTEP</gov:type>
+			</gov:identifier>
+		</gov:healthcareSite>
+		<gov:studyInvestigator>
+			<gov:roleCode>Principal Investigator</gov:roleCode>
+			<gov:statusCode>AC</gov:statusCode>
+			<gov:healthcareSiteInvestigator>
+				<gov:investigator xsi:type="gov:LocalInvestigatorType">
+					<gov:assignedIdentifier>inv01</gov:assignedIdentifier>
+					<gov:firstName>Denis</gov:firstName>
+					<gov:lastName>Krylov</gov:lastName>
+					<gov:email>denis.krylov@semanticbits.com</gov:email>
+				</gov:investigator>
+			</gov:healthcareSiteInvestigator>
+		</gov:studyInvestigator>
+	</gov:studyOrganization>
+	<gov:studyOrganization gridId="f1ae7d2a-e39d-473e-b455-1c98f71dbbf8"
+		xsi:type="gov:StudyFundingSponsorType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+			<gov:name>Mayo Clinic Rochester</gov:name>
+			<gov:address>
+				<gov:city>Rochester</gov:city>
+				<gov:stateCode>MN</gov:stateCode>
+				<gov:countryCode>USA</gov:countryCode>
+			</gov:address>
+			<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+				<gov:value>MN026</gov:value>
+				<gov:primaryIndicator>true</gov:primaryIndicator>
+				<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+					<gov:name>Cancer Therapy Evaluation Program</gov:name>
+					<gov:address>
+						<gov:streetAddress>9000 Rockville Pike</gov:streetAddress>
+						<gov:city>Bethesda</gov:city>
+						<gov:stateCode>MD</gov:stateCode>
+						<gov:postalCode>20892</gov:postalCode>
+						<gov:countryCode>USA</gov:countryCode>
+					</gov:address>
+					<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+						<gov:value>CTEP</gov:value>
+						<gov:primaryIndicator>true</gov:primaryIndicator>
+						<gov:type>CTEP</gov:type>
+					</gov:identifier>
+				</gov:healthcareSite>
+				<gov:type>CTEP</gov:type>
+			</gov:identifier>
+		</gov:healthcareSite>
+	</gov:studyOrganization>
+	<gov:studyOrganization gridId="7d01996c-f1c4-4c24-847e-7785790b54ba"
+		xsi:type="gov:StudySiteType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+			<gov:name>Mayo Clinic Rochester</gov:name>
+			<gov:address>
+				<gov:city>Rochester</gov:city>
+				<gov:stateCode>MN</gov:stateCode>
+				<gov:countryCode>USA</gov:countryCode>
+			</gov:address>
+			<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+				<gov:value>MN026</gov:value>
+				<gov:primaryIndicator>true</gov:primaryIndicator>
+				<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+					<gov:name>Cancer Therapy Evaluation Program</gov:name>
+					<gov:address>
+						<gov:streetAddress>9000 Rockville Pike</gov:streetAddress>
+						<gov:city>Bethesda</gov:city>
+						<gov:stateCode>MD</gov:stateCode>
+						<gov:postalCode>20892</gov:postalCode>
+						<gov:countryCode>USA</gov:countryCode>
+					</gov:address>
+					<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+						<gov:value>CTEP</gov:value>
+						<gov:primaryIndicator>true</gov:primaryIndicator>
+						<gov:type>CTEP</gov:type>
+					</gov:identifier>
+				</gov:healthcareSite>
+				<gov:type>CTEP</gov:type>
+			</gov:identifier>
+		</gov:healthcareSite>
+		<gov:studyInvestigator>
+			<gov:roleCode>Site Investigator</gov:roleCode>
+			<gov:statusCode>AC</gov:statusCode>
+			<gov:healthcareSiteInvestigator>
+				<gov:investigator xsi:type="gov:LocalInvestigatorType">
+					<gov:assignedIdentifier>inv01</gov:assignedIdentifier>
+					<gov:firstName>Denis</gov:firstName>
+					<gov:lastName>Krylov</gov:lastName>
+					<gov:email>denis.krylov@semanticbits.com</gov:email>
+				</gov:investigator>
+			</gov:healthcareSiteInvestigator>
+		</gov:studyInvestigator>
+		<gov:siteStudyStatus>ACTIVE</gov:siteStudyStatus>
+		<gov:irbApprovalDate>2010-11-05</gov:irbApprovalDate>
+	</gov:studyOrganization>
+	<gov:studyOrganization gridId="8d4c00fd-be8d-40e5-a129-4a397801c1c9"
+		xsi:type="gov:StudySiteType" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+			<gov:name>Minnesota Oncology Hematology PA-Maplewood</gov:name>
+			<gov:address>
+				<gov:city>Maplewood</gov:city>
+				<gov:stateCode>MN</gov:stateCode>
+				<gov:countryCode>USA</gov:countryCode>
+			</gov:address>
+			<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+				<gov:value>MN075</gov:value>
+				<gov:primaryIndicator>true</gov:primaryIndicator>
+				<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+					<gov:name>Cancer Therapy Evaluation Program</gov:name>
+					<gov:address>
+						<gov:streetAddress>9000 Rockville Pike</gov:streetAddress>
+						<gov:city>Bethesda</gov:city>
+						<gov:stateCode>MD</gov:stateCode>
+						<gov:postalCode>20892</gov:postalCode>
+						<gov:countryCode>USA</gov:countryCode>
+					</gov:address>
+					<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+						<gov:value>CTEP</gov:value>
+						<gov:primaryIndicator>true</gov:primaryIndicator>
+						<gov:type>CTEP</gov:type>
+					</gov:identifier>
+				</gov:healthcareSite>
+				<gov:type>CTEP</gov:type>
+			</gov:identifier>
+		</gov:healthcareSite>
+		<gov:siteStudyStatus>ACTIVE</gov:siteStudyStatus>
+		<gov:irbApprovalDate>2010-11-05</gov:irbApprovalDate>
+	</gov:studyOrganization>
+	<gov:studyDisease gridId="85829ec2-59f4-4976-90df-a11e0de36674">
+		<gov:diseaseTerm>
+			<gov:term>Neuroblastoma</gov:term>
+			<gov:ctepTerm>Neuroblastoma</gov:ctepTerm>
+			<gov:medraCode>10029261</gov:medraCode>
+		</gov:diseaseTerm>
+	</gov:studyDisease>
+	<gov:studyDisease gridId="18c953b8-ddc0-4fa7-93d8-6fdc25e6dd6a">
+		<gov:diseaseTerm>
+			<gov:term>H &amp; N precancerous condition</gov:term>
+			<gov:ctepTerm>Head and neck precancerous condition</gov:ctepTerm>
+			<gov:medraCode>90600168</gov:medraCode>
+		</gov:diseaseTerm>
+	</gov:studyDisease>
+	<gov:studyDisease gridId="a36aca5d-17ed-4047-9a90-9064f625dc96">
+		<gov:diseaseTerm>
+			<gov:term>Testicular ca. (no germ/tropho.)</gov:term>
+			<gov:ctepTerm>Testicular cancer (excluding germ cell or trophoblastic
+				cancer)</gov:ctepTerm>
+			<gov:medraCode>10043342</gov:medraCode>
+		</gov:diseaseTerm>
+	</gov:studyDisease>
+	<gov:consent>
+		<gov:name>Test Consent</gov:name>
+		<gov:mandatoryIndicator>true</gov:mandatoryIndicator>
+		<gov:versionId>1</gov:versionId>
+		<gov:consentingMethod>WRITTEN</gov:consentingMethod>
+		<gov:consentingMethod>VERBAL</gov:consentingMethod>
+		<gov:consentQuestion>
+			<gov:text>Test Study XML Export Consent Q</gov:text>
+			<gov:code>Test Study XML Export Consent Q</gov:code>
+		</gov:consentQuestion>
+		<gov:consentQuestion>
+			<gov:text>q2</gov:text>
+			<gov:code>q2</gov:code>
+		</gov:consentQuestion>
+	</gov:consent>
+</gov:study>

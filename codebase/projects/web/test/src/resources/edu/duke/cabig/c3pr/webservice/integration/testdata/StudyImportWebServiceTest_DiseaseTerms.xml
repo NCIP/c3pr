@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<disease_terms medra_code="10029261" />
+	<disease_terms medra_code="90600168" />
+	<disease_terms medra_code="10043342" />
+
+</dataset>

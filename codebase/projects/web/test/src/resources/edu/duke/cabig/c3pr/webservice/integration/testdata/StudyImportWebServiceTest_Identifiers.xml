@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<identifiers type="GRID_IDENTIFIER" dtype="SAI"
+		system_name="C3PR" primary_indicator="0" />
+	<identifiers type="SITE_IDENTIFIER" dtype="OAI"
+		name="Minnesota Oncology Hematology PA-Maplewood" primary_indicator="0" />
+	<identifiers type="PROTOCOL_AUTHORITY_IDENTIFIER" dtype="OAI"
+		name="Mayo Clinic Rochester" primary_indicator="0" />
+	<identifiers type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI"
+		name="Mayo Clinic Rochester" primary_indicator="1" />
+</dataset>

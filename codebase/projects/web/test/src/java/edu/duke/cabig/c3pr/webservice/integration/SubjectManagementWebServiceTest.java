@@ -99,7 +99,7 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	protected void setUp() throws Exception {
 		if (noEmbeddedTomcat) {
 			endpointURL = new URL(
-					"https://localhost:8443/c3pr/services/services/SubjectManagement");
+					"https://localhost:8443/c3pr"+WS_ENDPOINT_SERVLET_PATH);
 			initDataSourceFile();
 		} else {
 			super.setUp();
