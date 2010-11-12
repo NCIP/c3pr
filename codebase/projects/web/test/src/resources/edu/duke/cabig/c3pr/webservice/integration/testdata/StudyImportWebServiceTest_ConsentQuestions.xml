@@ -1,8 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-	<consent_questions retired_indicator="false" text="q2"
-		code="q2" />
 
 	<consent_questions retired_indicator="false"
 		text="Test Study XML Export Consent Q" code="Test Study XML Export Consent Q" />
+	<consent_questions retired_indicator="false" text="q2"
+		code="q2" />
+
 </dataset>

@@ -71,7 +71,7 @@ public class StudyImportWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			+ "/StudyImportWebServiceTest_";
 
 	private static final String SQL_IDENTIFIERS = "SELECT identifiers.primary_indicator, identifiers.type, identifiers.dtype, identifiers.system_name, organizations.name FROM identifiers LEFT JOIN organizations on hcs_id=organizations.id WHERE value='${STUDY_ID}' ORDER BY identifiers.id desc";
-	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))) ORDER BY consent_questions.code";
+	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))) ORDER BY consent_questions.id";
 	private static final String SQL_CONSENTS = "SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))";
 	private static final String SQL_STUDY_ORGS = "SELECT study_organizations.type, organizations.name FROM study_organizations INNER JOIN organizations ON study_organizations.hcs_id=organizations.id WHERE EXISTS (SELECT Id FROM studies where studies.id=study_organizations.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')) ORDER BY study_organizations.id";
 	private static final String SQL_STUDY_VERSIONS = "SELECT * FROM study_versions WHERE EXISTS (SELECT Id FROM studies where studies.id=study_versions.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}'))";
@@ -128,10 +128,16 @@ public class StudyImportWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	 * @throws Exception
 	 */
 	private void cleanupDatabaseData() throws SQLException, Exception {
-		Connection conn = getConnection().getConnection();
-		Statement st = conn.createStatement();
-		st.execute("DELETE FROM identifiers where stu_id is not null");
-		st.close();
+		try {
+			Connection conn = getConnection().getConnection();
+			Statement st = conn.createStatement();
+			st.execute("DELETE FROM identifiers where stu_id is not null");
+			st.close();
+		} catch (Exception e) {
+			logger.severe("cleanupDatabaseData() failed.");
+			logger.severe(ExceptionUtils.getFullStackTrace(e));
+			e.printStackTrace();
+		}
 	}
 
 

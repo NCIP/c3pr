@@ -56,7 +56,6 @@ import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyAbstractRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusRequest;
 
-
 /**
  * This test will run C3PR in embedded Tomcat and test Study Utility web service
  * against it. <br>
@@ -71,7 +70,6 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String STATUS_ACTIVE = "ACTIVE";
 	private static final int STATUS_INACTIVE_ID = 110153;
 	private static final int STATUS_ACTIVE_ID = 110152;
-	
 
 	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))) ORDER BY consent_questions.code";
 	private static final String SQL_CONSENTS = "SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))";
@@ -82,7 +80,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String SQL_IDENTIFIERS = "SELECT type, dtype FROM identifiers WHERE value='${STUDY_ID}' ORDER BY id";
 
 	private static final String DBUNIT_DATASET_PREFIX = "/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_";
-		
+
 	private static final QName SERVICE_NAME = new QName(
 			"http://enterpriseservices.nci.nih.gov/StudyUtilityService",
 			"StudyUtilityService");
@@ -91,7 +89,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String UPDATE_DISCRIMINATOR = " UPDATED";
 
 	private final String STUDY_ID = RandomStringUtils.randomAlphanumeric(16);
-	
+
 	private static final ISO21090Helper iso = new ISO21090Helper();
 
 	private URL endpointURL;
@@ -111,7 +109,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		initDataSourceFile();
 		if (noEmbeddedTomcat) {
 			endpointURL = new URL(
-					"https://localhost:8443/c3pr/services/services/StudyUtility");			
+					"https://localhost:8443/c3pr/services/services/StudyUtility");
 		} else {
 			cleanupDatabaseData();
 			super.setUp();
@@ -131,20 +129,27 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
 
 	}
-	
+
 	/**
 	 * Need to do some DELETEs which could not be done via DbUnit.
+	 * 
 	 * @throws SQLException
 	 * @throws Exception
 	 */
 	private void cleanupDatabaseData() throws SQLException, Exception {
-		Connection conn = getConnection().getConnection();
-		Statement st = conn.createStatement();
-		st.execute("DELETE FROM identifiers where stu_id is not null");
-		st.execute("DELETE FROM reasons where per_reg_st_id is not null");
-		st.close();
+		try {
+			Connection conn = getConnection().getConnection();
+			Statement st = conn.createStatement();
+			st.execute("DELETE FROM identifiers where stu_id is not null");
+			st.execute("DELETE FROM reasons where per_reg_st_id is not null");
+			st.close();
+		} catch (Exception e) {
+			logger.severe("cleanupDatabaseData() failed.");
+			logger.severe(ExceptionUtils.getFullStackTrace(e));
+			e.printStackTrace();
+		}
+
 	}
-	
 
 	/**
 	 * Inserting data into registry_statuses via DbUnit was problematic; hence
@@ -163,17 +168,25 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 				"SELECT id FROM registry_statuses WHERE code='"
 						+ STATUS_INACTIVE + "'").next();
 		if (!containsActive)
-			st.execute("INSERT INTO registry_statuses(id, version, grid_id, code, description, retired_indicator) VALUES ("+STATUS_ACTIVE_ID+",0,'"
+			st.execute("INSERT INTO registry_statuses(id, version, grid_id, code, description, retired_indicator) VALUES ("
+					+ STATUS_ACTIVE_ID
+					+ ",0,'"
 					+ System.currentTimeMillis()
 					+ "','"
 					+ STATUS_ACTIVE
-					+ "','" + STATUS_ACTIVE + "','false')");
+					+ "','"
+					+ STATUS_ACTIVE
+					+ "','false')");
 		if (!containsInactive)
-			st.execute("INSERT INTO registry_statuses(id, version, grid_id, code, description, retired_indicator) VALUES ("+STATUS_INACTIVE_ID+",0,'"
+			st.execute("INSERT INTO registry_statuses(id, version, grid_id, code, description, retired_indicator) VALUES ("
+					+ STATUS_INACTIVE_ID
+					+ ",0,'"
 					+ System.currentTimeMillis()
 					+ "','"
 					+ STATUS_INACTIVE
-					+ "','" + STATUS_INACTIVE + "','false')");
+					+ "','"
+					+ STATUS_INACTIVE
+					+ "','false')");
 		st.close();
 	}
 
@@ -306,7 +319,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
 		request.setStudyIdentifier(studyId);
 		request.setConsent(consent);
-		Consent updatedConsent = service.updateStudyConsent(request).getConsent();
+		Consent updatedConsent = service.updateStudyConsent(request)
+				.getConsent();
 		assertTrue(BeanUtils.deepCompare(consent, updatedConsent));
 
 		// check database data
@@ -414,8 +428,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		final CreateStudyAbstractRequest request = new CreateStudyAbstractRequest();
 		StudyProtocolVersion study = createStudy("");
 		request.setStudy(study);
-		StudyProtocolVersion createdStudy = service.createStudyAbstract(request)
-				.getStudy();
+		StudyProtocolVersion createdStudy = service
+				.createStudyAbstract(request).getStudy();
 		assertNotNull(createdStudy);
 
 		// check that the study data exists in the database
@@ -459,8 +473,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		final UpdateStudyAbstractRequest request = new UpdateStudyAbstractRequest();
 		StudyProtocolVersion study = createStudy(UPDATE_DISCRIMINATOR);
 		request.setStudy(study);
-		StudyProtocolVersion updatedStudy = service.updateStudyAbstract(request)
-				.getStudy();
+		StudyProtocolVersion updatedStudy = service
+				.updateStudyAbstract(request).getStudy();
 		assertNotNull(updatedStudy);
 
 		// check that the study data exists in the database
@@ -561,7 +575,6 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		return client;
 	}
 
-
 	// copy-and-paste from WebServiceRelatedTestCase, unfortunately.
 	private static final String TEST_SECONDARY_REASON_DESCR = "Other";
 	private static final String TEST_SECONDARY_REASON_CODE = "OTHER";
@@ -586,7 +599,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	public StudyProtocolVersion createStudy(String appendix) {
 		StudyProtocolVersion study = new StudyProtocolVersion();
-		study.setTargetRegistrationSystem(iso.ST(TEST_TARGET_REG_SYS + appendix));
+		study.setTargetRegistrationSystem(iso
+				.ST(TEST_TARGET_REG_SYS + appendix));
 		study.setStudyProtocolDocument(createStudyProtocolDocument(appendix));
 		study.getPermissibleStudySubjectRegistryStatus().add(
 				createPermissibleStudySubjectRegistryStatus());
