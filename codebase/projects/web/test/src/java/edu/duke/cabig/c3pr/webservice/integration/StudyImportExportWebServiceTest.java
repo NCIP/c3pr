@@ -53,22 +53,22 @@ import org.xml.sax.SAXException;
  * @author dkrylov
  * @version 1.0
  */
-public class StudyImportWebServiceTest extends C3PREmbeddedTomcatTestBase {
+public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	private static final String TESTDATA_PACKAGE = "/edu/duke/cabig/c3pr/webservice/integration/"
 			+ TESTDATA;
-	private static final String SERVICE_NS = "http://enterpriseservices.nci.nih.gov/StudyImportService";
+	private static final String SERVICE_NS = "http://enterpriseservices.nci.nih.gov/StudyImportExportService";
 	private static final int TIMEOUT = 1000 * 60 * 3;
-	private static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/StudyImport";
+	private static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/StudyImportExport";
 
 	private final String STUDY_ID = RandomStringUtils.randomAlphanumeric(16);
 
 	private static final QName SERVICE_NAME = new QName(SERVICE_NS,
-			"StudyImportService");
-	private static final QName PORT_NAME = new QName(SERVICE_NS, "StudyImport");
+			"StudyImportExportService");
+	private static final QName PORT_NAME = new QName(SERVICE_NS, "StudyImportExport");
 
 	private static final String DBUNIT_DATASET_PREFIX = TESTDATA_PACKAGE
-			+ "/StudyImportWebServiceTest_";
+			+ "/StudyImportExportWebServiceTest_";
 
 	private static final String SQL_IDENTIFIERS = "SELECT identifiers.primary_indicator, identifiers.type, identifiers.dtype, identifiers.system_name, organizations.name FROM identifiers LEFT JOIN organizations on hcs_id=organizations.id WHERE value='${STUDY_ID}' ORDER BY identifiers.id desc";
 	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))) ORDER BY consent_questions.id";

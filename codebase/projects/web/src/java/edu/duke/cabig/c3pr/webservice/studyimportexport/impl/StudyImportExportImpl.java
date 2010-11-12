@@ -1,11 +1,14 @@
 /**
  * 
  */
-package edu.duke.cabig.c3pr.webservice.studyimport.impl;
+package edu.duke.cabig.c3pr.webservice.studyimportexport.impl;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,10 +16,12 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.Detail;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.soap.SOAPFault;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.validation.SchemaFactory;
 import javax.xml.ws.BindingType;
 import javax.xml.ws.Provider;
 import javax.xml.ws.Service.Mode;
@@ -27,9 +32,12 @@ import javax.xml.ws.WebServiceProvider;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdom.input.DOMBuilder;
+import org.jdom.output.XMLOutputter;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -38,36 +46,49 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyXMLImporterService;
+import edu.duke.cabig.c3pr.xml.XmlMarshaller;
+import edu.emory.mathcs.backport.java.util.Arrays;
+import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
- * Implementation of the Study Import Web service. It's done on the XML level,
- * because the underlying import processing is also done on XML level.
+ * Implementation of the Study Import Export Web service. It's done on the XML
+ * level, because the underlying import processing is also done on XML level.
  * 
  * @author Denis G. Krylov
  * 
  */
-@WebServiceProvider(wsdlLocation = "/WEB-INF/wsdl/StudyImport.wsdl", portName = "StudyImport", serviceName = "StudyImportService", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyImportService")
+@WebServiceProvider(wsdlLocation = "/WEB-INF/wsdl/StudyImportExport.wsdl", portName = "StudyImportExport", serviceName = "StudyImportExportService", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyImportExportService")
 @ServiceMode(Mode.MESSAGE)
 @BindingType(value = javax.xml.ws.soap.SOAPBinding.SOAP11HTTP_BINDING)
-public class StudyImportImpl implements Provider<SOAPMessage> {
+public class StudyImportExportImpl implements Provider<SOAPMessage> {
+
+	public static final String C3PR_DOMAIN_XSD_URL = "/c3pr-domain.xsd";
 
 	private static final String STUDY_ELEMENT = "study";
+
+	private static final String IDENTIFIER_ELEMENT = "identifier";
 
 	public static final String C3PR_NS = edu.duke.cabig.c3pr.utils.XMLUtils.CCTS_DOMAIN_NS;
 
 	private static final String IMPORT_STUDY_REQUEST = "ImportStudyRequest";
 
+	private static final String EXPORT_STUDY_REQUEST = "ExportStudyRequest";
+
 	private static final String FAULT_MESSAGE = "message";
 
 	private static final String SOAP_FAULT_CODE = "Server";
 
-	private static final String STUDY_IMPORT_FAULT = "StudyImportFault";
+	private static final String STUDY_IMPORT_FAULT = "StudyImportExportFault";
 
-	public static final String SERVICE_NS = "http://enterpriseservices.nci.nih.gov/StudyImportService";
+	public static final String SERVICE_NS = "http://enterpriseservices.nci.nih.gov/StudyImportExportService";
 
 	public static final String SOAP_NS = "http://schemas.xmlsoap.org/soap/envelope/";
 
@@ -76,13 +97,22 @@ public class StudyImportImpl implements Provider<SOAPMessage> {
 
 	private StudyXMLImporterService studyXMLImporterService;
 
-	private static final Log log = LogFactory.getLog(StudyImportImpl.class);
+	private XmlMarshaller marshaller;
+
+	private StudyRepository studyRepository;
+
+	private static final Log log = LogFactory
+			.getLog(StudyImportExportImpl.class);
 
 	public SOAPMessage invoke(SOAPMessage request) {
 		try {
 			SOAPBody body = request.getSOAPBody();
-			processStudyImportRequest(body);
-			return createSOAPResponse();
+			RequestType type = determineRequestType(body);
+			if (type == RequestType.IMPORT_STUDY) {
+				return processStudyImportRequest(body);
+			} else {
+				return processStudyExportRequest(body);
+			}
 		} catch (Exception e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
 			throw new WebServiceException(
@@ -90,7 +120,26 @@ public class StudyImportImpl implements Provider<SOAPMessage> {
 		}
 	}
 
-	private SOAPMessage createSOAPResponse() throws SOAPException {
+	/**
+	 * Determines the operation we need to perform based on the wrapper element.
+	 * 
+	 * @param body
+	 * @return
+	 */
+	private RequestType determineRequestType(SOAPBody body) {
+		if (body.getElementsByTagNameNS(SERVICE_NS, IMPORT_STUDY_REQUEST)
+				.getLength() == 1) {
+			return RequestType.IMPORT_STUDY;
+		}
+		if (body.getElementsByTagNameNS(SERVICE_NS, EXPORT_STUDY_REQUEST)
+				.getLength() == 1) {
+			return RequestType.EXPORT_STUDY;
+		}
+		throw new RuntimeException(
+				"Malformed SOAP request. Please check the WSDL.");
+	}
+
+	private SOAPMessage createImportStudyResponse() throws SOAPException {
 		MessageFactory mf = MessageFactory.newInstance();
 		SOAPMessage response = mf.createMessage();
 		SOAPBody body = response.getSOAPBody();
@@ -99,27 +148,94 @@ public class StudyImportImpl implements Provider<SOAPMessage> {
 		return response;
 	}
 
+	private SOAPMessage processStudyExportRequest(SOAPBody body)
+			throws DOMException, RuntimeException,
+			ParserConfigurationException, C3PRCodedException, SOAPException,
+			XMLUtilityException, SAXException, IOException {
+		NodeList nodes = body.getElementsByTagNameNS(SERVICE_NS,
+				EXPORT_STUDY_REQUEST);
+		Node exportStudyRequestNode = nodes.item(0);
+		Element studyId = (Element) getFirstChild(exportStudyRequestNode,
+				IDENTIFIER_ELEMENT, C3PR_NS);
+		if (studyId == null) {
+			throw new RuntimeException(
+					"Malformed SOAP request. Please check the WSDL.");
+		}
+		Identifier oai = convertToOAI(studyId);
+		Study study = studyRepository.getUniqueStudy(java.util.Arrays
+				.asList(oai));
+		return createExportStudyResponse(study);
+
+	}
+
+	private Node getFirstChild(Node node, String name, String ns) {
+		NodeList children = node.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (name.equals(child.getLocalName()) && ns.equals(child.getNamespaceURI())) {
+				return child;
+			}
+		}
+		return null;
+	}
+
+	private SOAPMessage createExportStudyResponse(Study study)
+			throws SOAPException, XMLUtilityException,
+			ParserConfigurationException, SAXException, IOException {
+		MessageFactory mf = MessageFactory.newInstance();
+		SOAPMessage response = mf.createMessage();
+		SOAPBody body = response.getSOAPBody();
+		SOAPElement exportStudyResponse = body.addChildElement(new QName(
+				SERVICE_NS, "ExportStudyResponse"));
+		String xml = marshaller.toXML(study);
+
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(true);
+		factory.setSchema(SchemaFactory.newInstance(
+				XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(
+				XmlMarshaller.class.getResource(C3PR_DOMAIN_XSD_URL)));
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document doc = builder.parse(IOUtils.toInputStream(xml));
+		Element studyEl = (Element) doc.getFirstChild();
+		exportStudyResponse.appendChild(body.getOwnerDocument().importNode(
+				studyEl, true));
+		response.saveChanges();
+		return response;
+	}
+
+	private OrganizationAssignedIdentifier convertToOAI(Element studyId)
+			throws XMLUtilityException, ParserConfigurationException {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		factory.setNamespaceAware(true);
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		Document doc = builder.newDocument();
+		doc.appendChild(doc.importNode(studyId, true));
+
+		DOMBuilder jdomBuilder = new DOMBuilder();
+		org.jdom.Document jdomDoc = jdomBuilder.build(doc);
+		String xmlRep = new XMLOutputter().outputString(jdomDoc);
+		OrganizationAssignedIdentifier oai = (OrganizationAssignedIdentifier) marshaller
+				.fromXML(new StringReader(xmlRep));
+		return oai;
+	}
+
 	/**
 	 * @param body
+	 * @return
 	 * @throws DOMException
 	 * @throws RuntimeException
 	 * @throws ParserConfigurationException
 	 * @throws C3PRCodedException
+	 * @throws SOAPException
 	 */
-	private void processStudyImportRequest(SOAPBody body) throws DOMException,
-			RuntimeException, ParserConfigurationException, C3PRCodedException {
+	private SOAPMessage processStudyImportRequest(SOAPBody body)
+			throws DOMException, RuntimeException,
+			ParserConfigurationException, C3PRCodedException, SOAPException {
 		NodeList nodes = body.getElementsByTagNameNS(SERVICE_NS,
 				IMPORT_STUDY_REQUEST);
-		if (nodes.getLength() != 1) {
-			throw new RuntimeException(
-					"Malformed SOAP request. Please check the WSDL.");
-		}
 		Node importStudyRequestNode = nodes.item(0);
-
 		NodeList studyNodes = ((Element) importStudyRequestNode)
-				.getElementsByTagNameNS(
-						C3PR_NS,
-						STUDY_ELEMENT);
+				.getElementsByTagNameNS(C3PR_NS, STUDY_ELEMENT);
 		if (studyNodes.getLength() != 1) {
 			throw new RuntimeException(
 					"Malformed SOAP request. Please check the WSDL.");
@@ -135,6 +251,7 @@ public class StudyImportImpl implements Provider<SOAPMessage> {
 		if (CollectionUtils.isEmpty(studies)) {
 			throw new RuntimeException("No studies have been imported.");
 		}
+		return createImportStudyResponse();
 
 	}
 
@@ -163,6 +280,36 @@ public class StudyImportImpl implements Provider<SOAPMessage> {
 			throw new WebServiceException(e);
 		}
 
+	}
+
+	/**
+	 * @return the studyRepository
+	 */
+	public final StudyRepository getStudyRepository() {
+		return studyRepository;
+	}
+
+	/**
+	 * @param studyRepository
+	 *            the studyRepository to set
+	 */
+	public final void setStudyRepository(StudyRepository studyRepository) {
+		this.studyRepository = studyRepository;
+	}
+
+	/**
+	 * @return the marshaller
+	 */
+	public final XmlMarshaller getMarshaller() {
+		return marshaller;
+	}
+
+	/**
+	 * @param marshaller
+	 *            the marshaller to set
+	 */
+	public final void setMarshaller(XmlMarshaller marshaller) {
+		this.marshaller = marshaller;
 	}
 
 	/**
@@ -330,6 +477,10 @@ public class StudyImportImpl implements Provider<SOAPMessage> {
 			return null;
 		}
 
+	}
+
+	private static enum RequestType {
+		IMPORT_STUDY, EXPORT_STUDY;
 	}
 
 }

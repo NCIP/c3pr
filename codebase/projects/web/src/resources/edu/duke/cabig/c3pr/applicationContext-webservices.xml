@@ -18,12 +18,14 @@
 		autowire="byType" />
 		
 	<!-- Study Import -->
-	<bean id="studyImportService"
-		class="edu.duke.cabig.c3pr.webservice.studyimport.impl.StudyImportImpl"
-		autowire="byType" />	
+	<bean id="studyImportExportService"
+		class="edu.duke.cabig.c3pr.webservice.studyimportexport.impl.StudyImportExportImpl"
+		autowire="byType">
+		<property name="marshaller" ref="studyXmlUtility"/>
+	</bean>	
 	
-	<jaxws:endpoint id="studyImportEndpoint"
-		implementor="#studyImportService" address="/services/StudyImport">
+	<jaxws:endpoint id="studyImportExportEndpoint"
+		implementor="#studyImportExportService" address="/services/StudyImportExport">
 		<jaxws:properties>
 			<entry key="schema-validation-enabled" value="true" />
 		</jaxws:properties>
