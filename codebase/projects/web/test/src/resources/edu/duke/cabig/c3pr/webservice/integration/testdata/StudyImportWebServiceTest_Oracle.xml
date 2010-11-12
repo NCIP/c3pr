@@ -76,7 +76,7 @@
 		maiden_name="" assigned_identifier="inv01" middle_name=""
 		retired_indicator="false" dtype="Local" />
 
-	<contact_mechanisms grid_id="4e96fdc2-4e2e-4d69-b121-773148bb6427"
+	<contact_mechanisms id="12301" grid_id="4e96fdc2-4e2e-4d69-b121-773148bb6427"
 		version="0" type="EMAIL" value="jdoe01@semanticbits.com" inv_id="1"
 		retired_indicator="false" dtype="Local" />
 	<hc_site_investigators id="1001"
