@@ -176,8 +176,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	
 	private static final QName SERVICE_NAME = new QName(
 			"http://enterpriseservices.nci.nih.gov/SubjectRegistryService",
-			"SubjectRegistryService");
-	private static final long TIMEOUT = 1000 * 60 * 10;
+			"SubjectRegistryService");	
 	private static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/SubjectRegistry";
 
 	private URL endpointURL;
@@ -210,12 +209,6 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		logger.info("endpointURL: " + endpointURL);
 		logger.info("wsdlLocation: " + wsdlLocation);
-
-		// just to make sure we don't lock ourselves out on I/O to service
-		// calls.
-		System.setProperty("sun.net.client.defaultConnectTimeout", "" + TIMEOUT);
-		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
-
 	}
 
 	@Override

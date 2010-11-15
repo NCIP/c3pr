@@ -64,8 +64,7 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectStateReques
  * @version 1.0
  */
 public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase {
-
-	private static final int TIMEOUT = 1000 * 60 * 3;
+	
 	private static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/SubjectManagement";
 	
 	private final String SUBJECT_ID = RandomStringUtils.randomAlphanumeric(16);
@@ -112,11 +111,6 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 		logger.info("endpointURL: " + endpointURL);
 		logger.info("wsdlLocation: " + wsdlLocation);
-
-		// just to make sure we don't lock ourselves out on I/O to service
-		// calls.
-		System.setProperty("sun.net.client.defaultConnectTimeout", "" + TIMEOUT);
-		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
 	}
 
 	@Override

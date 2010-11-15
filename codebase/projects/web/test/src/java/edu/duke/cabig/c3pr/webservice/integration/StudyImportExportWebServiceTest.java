@@ -57,8 +57,7 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 	private static final String TESTDATA_PACKAGE = "/edu/duke/cabig/c3pr/webservice/integration/"
 			+ TESTDATA;
-	private static final String SERVICE_NS = "http://enterpriseservices.nci.nih.gov/StudyImportExportService";
-	private static final int TIMEOUT = 1000 * 60 * 3;
+	private static final String SERVICE_NS = "http://enterpriseservices.nci.nih.gov/StudyImportExportService";	
 	private static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/StudyImportExport";
 
 	private final String STUDY_ID = RandomStringUtils.randomAlphanumeric(16);
@@ -116,11 +115,6 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 		logger.info("endpointURL: " + endpointURL);
 		logger.info("wsdlLocation: " + wsdlLocation);
-
-		// just to make sure we don't lock ourselves out on I/O to service
-		// calls.
-		System.setProperty("sun.net.client.defaultConnectTimeout", "" + TIMEOUT);
-		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
 	}
 
 	/**
