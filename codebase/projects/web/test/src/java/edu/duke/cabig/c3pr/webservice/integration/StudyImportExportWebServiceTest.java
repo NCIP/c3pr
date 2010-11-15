@@ -65,7 +65,8 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 	private static final QName SERVICE_NAME = new QName(SERVICE_NS,
 			"StudyImportExportService");
-	private static final QName PORT_NAME = new QName(SERVICE_NS, "StudyImportExport");
+	private static final QName PORT_NAME = new QName(SERVICE_NS,
+			"StudyImportExport");
 
 	private static final String DBUNIT_DATASET_PREFIX = TESTDATA_PACKAGE
 			+ "/StudyImportExportWebServiceTest_";
@@ -102,7 +103,7 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		initDataSourceFile();
 		if (noEmbeddedTomcat) {
 			endpointURL = new URL("https://localhost:8443/c3pr"
-					+ WS_ENDPOINT_SERVLET_PATH);			
+					+ WS_ENDPOINT_SERVLET_PATH);
 		} else {
 			cleanupDatabaseData();
 			super.setUp();
@@ -110,7 +111,7 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 					+ InetAddress.getLocalHost().getHostName() + ":" + sslPort
 					+ C3PR_CONTEXT + WS_ENDPOINT_SERVLET_PATH);
 		}
-		
+
 		wsdlLocation = new URL(endpointURL.toString() + "?wsdl");
 
 		logger.info("endpointURL: " + endpointURL);
@@ -121,9 +122,10 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		System.setProperty("sun.net.client.defaultConnectTimeout", "" + TIMEOUT);
 		System.setProperty("sun.net.client.defaultReadTimeout", "" + TIMEOUT);
 	}
-	
+
 	/**
 	 * Need to do some DELETEs which could not be done via DbUnit.
+	 * 
 	 * @throws SQLException
 	 * @throws Exception
 	 */
@@ -140,7 +142,6 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		}
 	}
 
-
 	@Override
 	protected void tearDown() throws Exception {
 		if (!noEmbeddedTomcat) {
@@ -154,7 +155,8 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	 * @throws IOException
 	 * 
 	 */
-	public void testStudyImport() throws InterruptedException, IOException {
+	public void testStudyImportExport() throws InterruptedException,
+			IOException {
 
 		try {
 			// order of the following calls matters! Sorry.
@@ -162,10 +164,35 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 			doMalformedStudyCheck();
 			doSuccessfulImportStudyCheck();
 			doDuplicateStudyCheck();
+			doStudyExportCheck();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
 		}
+	}
+
+	private void doStudyExportCheck() throws DOMException, SOAPException,
+			IOException, SAXException, ParserConfigurationException {
+		String xmlFile = "StudyIdentifier";
+
+		Dispatch<SOAPMessage> dispatch = getDispatch();
+		SOAPMessage reqMsg = prepareExportRequestEnvelope(xmlFile);
+		SOAPMessage respMsg = dispatch.invoke(reqMsg);
+
+		SOAPPart part = respMsg.getSOAPPart();
+		SOAPEnvelope env = part.getEnvelope();
+		SOAPBody body = env.getBody();
+		NodeList nodes = body.getElementsByTagNameNS(SERVICE_NS,
+				"ExportStudyResponse");
+		assertEquals(1, nodes.getLength());
+		Element responseEl = (Element) nodes.item(0);
+		assertEquals(1, responseEl.getChildNodes().getLength());
+		
+		Element exportedStudy = (Element) responseEl.getChildNodes().item(0);
+		// this study element must match the one used to create the study in the first place
+		Element originalStudy = (Element) getSOAPBodyFromXML("Study");
+		assertTrue(XMLUtils.isDeepEqual(exportedStudy, originalStudy));
+
 	}
 
 	private void doMalformedStudyCheck() throws SOAPException, DOMException,
@@ -175,7 +202,7 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 		// malformed study.
 		try {
-			dispatch.invoke(prepareRequestEnvelope("Study_Malformed"));
+			dispatch.invoke(prepareImportRequestEnvelope("Study_Malformed"));
 			fail("Malformed study went through.");
 		} catch (SOAPFaultException e) {
 			logger.info("Malformed study check passed.");
@@ -183,7 +210,7 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 		// malformed study # 2.
 		try {
-			dispatch.invoke(prepareRequestEnvelope("Study_Malformed2"));
+			dispatch.invoke(prepareImportRequestEnvelope("Study_Malformed2"));
 			fail("Malformed study went through.");
 		} catch (SOAPFaultException e) {
 			logger.info("Malformed study check passed.");
@@ -198,7 +225,7 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 		// study cannot be opened. biz checks must fail.
 		try {
-			dispatch.invoke(prepareRequestEnvelope(xmlFile));
+			dispatch.invoke(prepareImportRequestEnvelope(xmlFile));
 			fail("Unopenable study went through.");
 		} catch (SOAPFaultException e) {
 			logger.info("Unopenable study check passed.");
@@ -212,7 +239,7 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 		// duplicate study: second request with same study must fail
 		try {
-			dispatch.invoke(prepareRequestEnvelope(xmlFile));
+			dispatch.invoke(prepareImportRequestEnvelope(xmlFile));
 			fail("Duplicate study went through.");
 		} catch (SOAPFaultException e) {
 			logger.info("Duplicate study check passed.");
@@ -232,9 +259,9 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 
 		// successful study save.
 		Dispatch<SOAPMessage> dispatch = getDispatch();
-		SOAPMessage reqMsg = prepareRequestEnvelope(xmlFile);
+		SOAPMessage reqMsg = prepareImportRequestEnvelope(xmlFile);
 		SOAPMessage respMsg = dispatch.invoke(reqMsg);
-		verifySuccessulResponse(respMsg);
+		verifySuccessulImportResponse(respMsg);
 
 		// verify database data.
 		verifyStudyDatabaseData("");
@@ -249,9 +276,21 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 */
-	private SOAPMessage prepareRequestEnvelope(String xmlFile)
+	private SOAPMessage prepareImportRequestEnvelope(String xmlFile)
 			throws SOAPException, DOMException, IOException, SAXException,
 			ParserConfigurationException {
+		return prepareRequestEnvelope(xmlFile, "ImportStudyRequest");
+	}
+
+	private SOAPMessage prepareExportRequestEnvelope(String xmlFile)
+			throws SOAPException, DOMException, IOException, SAXException,
+			ParserConfigurationException {
+		return prepareRequestEnvelope(xmlFile, "ExportStudyRequest");
+	}
+
+	private SOAPMessage prepareRequestEnvelope(String xmlFile,
+			String wrapperElement) throws SOAPException, DOMException,
+			IOException, SAXException, ParserConfigurationException {
 		MessageFactory mf = MessageFactory
 				.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL);
 		SOAPMessage reqMsg = mf.createMessage();
@@ -259,15 +298,15 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		SOAPEnvelope env = part.getEnvelope();
 		SOAPBody body = env.getBody();
 
-		SOAPElement operation = body.addChildElement("ImportStudyRequest",
-				"stud", SERVICE_NS);
-		Element study = (Element) operation.appendChild(env.getOwnerDocument()
-				.importNode(getStudyFromXML(xmlFile), true));
+		SOAPElement operation = body.addChildElement(wrapperElement, "stud",
+				SERVICE_NS);
+		operation.appendChild(env.getOwnerDocument().importNode(
+				getSOAPBodyFromXML(xmlFile), true));
 		reqMsg.saveChanges();
 		return reqMsg;
 	}
 
-	private void verifySuccessulResponse(SOAPMessage respMsg)
+	private void verifySuccessulImportResponse(SOAPMessage respMsg)
 			throws SOAPException {
 		SOAPPart part = respMsg.getSOAPPart();
 		SOAPEnvelope env = part.getEnvelope();
@@ -290,14 +329,15 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		return dispatch;
 	}
 
-	private Node getStudyFromXML(String xmlBaseFileName) throws IOException,
+	private Node getSOAPBodyFromXML(String xmlBaseFileName) throws IOException,
 			SAXException, ParserConfigurationException {
 		InputStream is = getResource(null, TESTDATA_PACKAGE + "/"
 				+ xmlBaseFileName + ".xml");
 		String xmlStr = IOUtils.toString(is);
 		xmlStr = xmlStr.replace("${STUDY_ID}", STUDY_ID);
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();		
 		dbf.setNamespaceAware(true);
+		dbf.setIgnoringComments(true);				
 		org.w3c.dom.Document doc = dbf.newDocumentBuilder().parse(
 				IOUtils.toInputStream(xmlStr));
 		IOUtils.closeQuietly(is);
@@ -331,8 +371,8 @@ public class StudyImportExportWebServiceTest extends C3PREmbeddedTomcatTestBase 
 				SQL_STRATUM_GROUPS);
 		verifyData("DiseaseTerms", fileNameAppendix, "disease_terms",
 				SQL_DISEASE_TERMS);
-		verifyData("StudyInvestigators", fileNameAppendix, "study_investigators",
-				SQL_STUDY_INVESTIGATORS);		
+		verifyData("StudyInvestigators", fileNameAppendix,
+				"study_investigators", SQL_STUDY_INVESTIGATORS);
 
 	}
 

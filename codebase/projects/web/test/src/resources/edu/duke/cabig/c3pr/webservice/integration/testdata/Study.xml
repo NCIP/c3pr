@@ -163,6 +163,7 @@
 			<gov:questionText>Excl q 1</gov:questionText>
 		</gov:eligibilityCriteria>
 		<gov:stratificationCriteria>
+			<gov:questionNumber>0</gov:questionNumber>		
 			<gov:questionText>Start Q</gov:questionText>
 			<gov:permissibleAnswer>
 				<gov:answerText>A</gov:answerText>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:gov="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+	<gov:value>${STUDY_ID}</gov:value>
+	<gov:primaryIndicator>true</gov:primaryIndicator>
+	<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+		<gov:name>Mayo Clinic Rochester</gov:name>
+		<gov:address>
+			<gov:city>Rochester</gov:city>
+			<gov:stateCode>MN</gov:stateCode>
+			<gov:countryCode>USA</gov:countryCode>
+		</gov:address>
+		<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+			<gov:value>MN026</gov:value>
+			<gov:primaryIndicator>true</gov:primaryIndicator>
+			<gov:healthcareSite xsi:type="gov:LocalHealthcareSiteType">
+				<gov:name>Cancer Therapy Evaluation Program</gov:name>
+				<gov:address>
+					<gov:streetAddress>9000 Rockville Pike</gov:streetAddress>
+					<gov:city>Bethesda</gov:city>
+					<gov:stateCode>MD</gov:stateCode>
+					<gov:postalCode>20892</gov:postalCode>
+					<gov:countryCode>USA</gov:countryCode>
+				</gov:address>
+				<gov:identifier xsi:type="gov:OrganizationAssignedIdentifierType">
+					<gov:value>CTEP</gov:value>
+					<gov:primaryIndicator>true</gov:primaryIndicator>
+					<gov:type>CTEP</gov:type>
+				</gov:identifier>
+			</gov:healthcareSite>
+			<gov:type>CTEP</gov:type>
+		</gov:identifier>
+	</gov:healthcareSite>
+	<gov:type>COORDINATING_CENTER_IDENTIFIER</gov:type>
+</gov:identifier>

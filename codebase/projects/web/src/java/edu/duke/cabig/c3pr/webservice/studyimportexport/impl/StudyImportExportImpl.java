@@ -55,7 +55,6 @@ import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyXMLImporterService;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
-import edu.emory.mathcs.backport.java.util.Arrays;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**

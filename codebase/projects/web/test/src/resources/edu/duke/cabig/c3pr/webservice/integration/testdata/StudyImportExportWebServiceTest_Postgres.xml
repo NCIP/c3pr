@@ -72,12 +72,12 @@
 	<study_diseases />
 
 	<investigators grid_id="f699e311-35e1-4a86-b409-f8c441d113cf"
-		version="0" id="1" first_name="Dennis" last_name="Buttofuoko"
+		version="0" id="1" first_name="Denis" last_name="Krylov"
 		maiden_name="" assigned_identifier="inv01" middle_name=""
 		retired_indicator="false" dtype="Local" />
 
 	<contact_mechanisms grid_id="4e96fdc2-4e2e-4d69-b121-773148bb6427"
-		version="0" type="EMAIL" value="jdoe01@semanticbits.com" inv_id="1"
+		version="0" type="EMAIL" value="denis.krylov@semanticbits.com" inv_id="1"
 		retired_indicator="false" dtype="Local" />
 	<hc_site_investigators id="1001"
 		grid_id="08631d1f-d77c-4211-8163-a2c643ba82d9" version="0"
