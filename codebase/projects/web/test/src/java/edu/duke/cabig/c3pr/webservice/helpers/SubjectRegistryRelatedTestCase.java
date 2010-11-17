@@ -62,7 +62,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.convertes.SubjectRegistryJAXBToDomainObjectConverterImpl;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverterImpl;
 
 public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 

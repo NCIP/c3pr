@@ -397,7 +397,7 @@
 		</annotation>
 		<sequence>
 			<element name="organizationIdentifier" type="tns:OrganizationIdentifier"
-				minOccurs="1" maxOccurs="unbounded" />
+				minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
 	</complexType>
 
@@ -663,10 +663,58 @@
 	</complexType>
 
 	<!-- Common faults. -->
-	<element name="SecurityExceptionFault" type="tns:SecurityExceptionFault"></element>
-	<complexType name="SecurityExceptionFault">
+	<element name="SecurityExceptionFault" type="tns:SecurityExceptionFault"/>
+	<element name="InvalidStudySubjectDataExceptionFault" type="tns:InvalidStudySubjectDataExceptionFault"/>
+	<element name="InvalidStudyProtocolExceptionFault" type="tns:InvalidStudyProtocolExceptionFault"/>
+	<element name="NoSuchStudySubjectExceptionFault" type="tns:NoSuchStudySubjectExceptionFault"/>
+	<element name="NoSuchPatientExceptionFault" type="tns:NoSuchPatientExceptionFault"/>
+	<element name="DuplicateStudySubjectExceptionFault" type="tns:DuplicateStudySubjectExceptionFault"/>
+	<element name="InvalidSiteExceptionFault" type="tns:InvalidSiteExceptionFault"/>
+	<element name="InvalidQueryExceptionFault" type="tns:InvalidQueryExceptionFault"/>
+	
+	<complexType name="BaseFault">
 		<sequence>
 			<element name="message" type="string" />
 		</sequence>
+	</complexType>
+	<complexType name="SecurityExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="InvalidStudySubjectDataExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="InvalidStudyProtocolExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="NoSuchStudySubjectExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="NoSuchPatientExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="DuplicateStudySubjectExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="InvalidSiteExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
+	</complexType>
+	<complexType name="InvalidQueryExceptionFault">
+		<complexContent>
+			<extension base="tns:BaseFault"/>
+		</complexContent>
 	</complexType>
 </schema>

@@ -43,6 +43,13 @@ import edu.duke.cabig.c3pr.webservice.common.DSETPerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.DSETPerson;
 import edu.duke.cabig.c3pr.webservice.common.DSETStudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DuplicateStudySubjectExceptionFault;
+import edu.duke.cabig.c3pr.webservice.common.InvalidQueryExceptionFault;
+import edu.duke.cabig.c3pr.webservice.common.InvalidSiteExceptionFault;
+import edu.duke.cabig.c3pr.webservice.common.InvalidStudyProtocolExceptionFault;
+import edu.duke.cabig.c3pr.webservice.common.InvalidStudySubjectDataExceptionFault;
+import edu.duke.cabig.c3pr.webservice.common.NoSuchPatientExceptionFault;
+import edu.duke.cabig.c3pr.webservice.common.NoSuchStudySubjectExceptionFault;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
@@ -50,23 +57,16 @@ import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETStudySubject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DuplicateStudySubjectExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DuplicateStudySubjectExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.ImportStudySubjectRegistryRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.ImportStudySubjectRegistryResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateStudySubjectRegistryRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateStudySubjectRegistryResponse;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidQueryExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidQueryExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidSiteExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidSiteExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidStudyProtocolExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidStudyProtocolExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidStudySubjectDataExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InvalidStudySubjectDataExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchPatientExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchPatientExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchStudySubjectExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchStudySubjectExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryConsentsByStudySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryConsentsByStudySubjectResponse;
@@ -93,7 +93,7 @@ import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistry
 import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryStatusHistoryResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryStatusRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryStatusResponse;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.convertes.SubjectRegistryJAXBToDomainObjectConverter;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter;
 
 @WebService(wsdlLocation="/WEB-INF/wsdl/SubjectRegistry.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectRegistryService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry", portName = "SubjectRegistry", serviceName = "SubjectRegistryService")
 public class SubjectRegistryImpl implements SubjectRegistry {

@@ -31,7 +31,7 @@
 			<xsd:element name="CreateSubjectRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="subject" type="sm:Subject"
+						<xsd:element name="subject" type="common:Subject"
 							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -39,7 +39,7 @@
 			<xsd:element name="CreateSubjectResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="subject" type="sm:Subject"
+						<xsd:element name="subject" type="common:Subject"
 							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -47,7 +47,7 @@
 			<xsd:element name="QuerySubjectRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="subject" type="sm:Subject"
+						<xsd:element name="subject" type="common:Subject"
 							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -79,7 +79,7 @@
 			<xsd:element name="UpdateSubjectRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="subject" type="sm:Subject"
+						<xsd:element name="subject" type="common:Subject"
 							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -87,7 +87,7 @@
 			<xsd:element name="UpdateSubjectResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="subject" type="sm:Subject"
+						<xsd:element name="subject" type="common:Subject"
 							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
@@ -105,51 +105,41 @@
 			<xsd:element name="UpdateSubjectStateResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="subject" type="sm:Subject"
+						<xsd:element name="subject" type="common:Subject"
 							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 
-			<xsd:element name="SubjectManagementFault" type="tns:SubjectManagementFault"></xsd:element>
-			<xsd:element name="InvalidSubjectDataExceptionFault"
-				type="tns:InvalidSubjectDataExceptionFault"></xsd:element>
-			<xsd:element name="InvalidStateTransitionExceptionFault"
-				type="tns:InvalidStateTransitionExceptionFault"></xsd:element>
+			<xsd:element name="InvalidSubjectDataExceptionFault" type="tns:InvalidSubjectDataExceptionFault"></xsd:element>
+			<xsd:element name="InvalidStateTransitionExceptionFault" type="tns:InvalidStateTransitionExceptionFault"></xsd:element>
 			<xsd:element name="NoSuchSubjectExceptionFault" type="tns:NoSuchSubjectExceptionFault"></xsd:element>
-			<xsd:element name="SubjectAlreadyExistsExceptionFault"
-				type="tns:SubjectAlreadyExistsExceptionFault"></xsd:element>
-			<xsd:element name="UnableToCreateOrUpdateSubjectExceptionFault"
-				type="tns:UnableToCreateOrUpdateSubjectExceptionFault"></xsd:element>
+			<xsd:element name="SubjectAlreadyExistsExceptionFault" type="tns:SubjectAlreadyExistsExceptionFault"></xsd:element>
+			<xsd:element name="UnableToCreateOrUpdateSubjectExceptionFault" type="tns:UnableToCreateOrUpdateSubjectExceptionFault"></xsd:element>
 
-			<xsd:complexType name="SubjectManagementFault">
-				<xsd:sequence>
-					<xsd:element name="message" type="xsd:string" />
-				</xsd:sequence>
-			</xsd:complexType>
 			<xsd:complexType name="InvalidSubjectDataExceptionFault">
 				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+					<xsd:extension base="common:BaseFault"></xsd:extension>
 				</xsd:complexContent>
 			</xsd:complexType>
 			<xsd:complexType name="InvalidStateTransitionExceptionFault">
 				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+					<xsd:extension base="common:BaseFault"></xsd:extension>
 				</xsd:complexContent>
 			</xsd:complexType>
 			<xsd:complexType name="NoSuchSubjectExceptionFault">
 				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+					<xsd:extension base="common:BaseFault"></xsd:extension>
 				</xsd:complexContent>
 			</xsd:complexType>
 			<xsd:complexType name="SubjectAlreadyExistsExceptionFault">
 				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+					<xsd:extension base="common:BaseFault"></xsd:extension>
 				</xsd:complexContent>
 			</xsd:complexType>
 			<xsd:complexType name="UnableToCreateOrUpdateSubjectExceptionFault">
 				<xsd:complexContent>
-					<xsd:extension base="tns:SubjectManagementFault"></xsd:extension>
+					<xsd:extension base="common:BaseFault"></xsd:extension>
 				</xsd:complexContent>
 			</xsd:complexType>
 		</xsd:schema>

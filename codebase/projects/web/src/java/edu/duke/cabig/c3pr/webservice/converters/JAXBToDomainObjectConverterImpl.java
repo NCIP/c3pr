@@ -57,6 +57,7 @@ import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStat
 import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper;
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
@@ -76,7 +77,6 @@ import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 
 /**
  * Default implementation of {@link JAXBToDomainObjectConverter}.

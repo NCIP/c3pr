@@ -10,12 +10,12 @@ import edu.duke.cabig.c3pr.domain.RegistryStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
-
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 
 /**
  * Provides operations to convert JAXB objects, such as {@link Subject}, created
