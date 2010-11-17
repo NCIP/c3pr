@@ -4,6 +4,8 @@
 	xmlns:tns="http://enterpriseservices.nci.nih.gov/SubjectRegistrationService"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sr="http://enterpriseservices.nci.nih.gov/SubjectRegistration"
 	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:common="http://enterpriseservices.nci.nih.gov/Common"
+	xmlns:a="http://www.w3.org/2005/08/addressing"
 	xmlns:t="http://schemas.xmlsoap.org/ws/2005/02/trust"
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SubjectRegistrationService"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov/SubjectRegistration SubjectRegistration.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
@@ -25,6 +27,7 @@
 			<xsd:import namespace="http://enterpriseservices.nci.nih.gov/SubjectRegistration"
 				schemaLocation="SubjectRegistration.xsd" />
 			<xsd:import namespace="uri:iso.org:21090" schemaLocation="ISO_datatypes_Narrative.xsd" />
+			<xsd:import namespace="http://enterpriseservices.nci.nih.gov/Common" schemaLocation="Common.xsd"/>
 			<xsd:element name="InitiateSubjectEnrollmentRequest">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -58,7 +61,7 @@
 			<xsd:element name="DiscontinueEnrollmentRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectIdentifier" type="sr:SubjectIdentifier"/>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
 						<xsd:element name="offEpochReasons" type="sr:DSET_PerformedObservationResult"/>
 						<xsd:element name="offEpochDate" type="ISO:TS.DateTime"/>
 					</xsd:sequence>
@@ -74,7 +77,7 @@
 			<xsd:element name="FailSubjectScreeningRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectIdentifier" type="sr:SubjectIdentifier"/>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
 						<xsd:element name="offScreeningReasons" type="sr:DSET_PerformedObservationResult"/>
 						<xsd:element name="offScreeningDate" type="ISO:TS.DateTime"/>
 					</xsd:sequence>
@@ -90,7 +93,7 @@
 			<xsd:element name="TakeSubjectOffStudyRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectIdentifier" type="sr:SubjectIdentifier"/>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
 						<xsd:element name="offStudyReasons" type="sr:DSET_PerformedObservationResult"/>
 						<xsd:element name="offStudyDate" type="ISO:TS.DateTime"/>
 					</xsd:sequence>
@@ -106,9 +109,9 @@
 			<xsd:element name="ReconsentStudySubjectRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectIdentifier" type="sr:SubjectIdentifier"/>
-						<xsd:element name="studyProtocolVersion" type="sr:StudyProtocolVersion"/>
-						<xsd:element name="studySubjectConsentVersions" type="sr:DSET_StudySubjectConsentVersion"/>
+						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
+						<xsd:element name="studyProtocolVersion" type="common:StudyProtocolVersion"/>
+						<xsd:element name="studySubjectConsentVersions" type="common:DSET_StudySubjectConsentVersion"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -150,21 +153,21 @@
 			<xsd:element name="RetrieveSubjectDemographyHistoryRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="patientIdentifier" type="sr:BiologicEntityIdentifier"/>
+						<xsd:element name="patientIdentifier" type="common:BiologicEntityIdentifier"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="RetrieveSubjectDemographyHistoryResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="patients" type="sr:DSET_Person"/>
+						<xsd:element name="patients" type="common:DSET_Person"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="QuerySubjectRegistrationRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="subjects" type="sr:DSET_AdvanceSearchCriterionParameter"/>
+						<xsd:element name="subjects" type="common:DSET_AdvanceSearchCriterionParameter"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -178,7 +181,7 @@
 			<xsd:element name="RetrieveAccrualDataRequest">
 			<xsd:complexType>
 				<xsd:sequence>
-					<xsd:element name="subjects" type="sr:DSET_AdvanceSearchCriterionParameter"/>
+					<xsd:element name="subjects" type="common:DSET_AdvanceSearchCriterionParameter"/>
 				</xsd:sequence>
 			</xsd:complexType>
 			</xsd:element>
@@ -192,7 +195,7 @@
 			<xsd:element name="GenerateSummary3ReportRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="siteIdentifier" type="sr:OrganizationIdentifier"/>
+						<xsd:element name="siteIdentifier" type="common:OrganizationIdentifier"/>
 						<xsd:element name="startDate" type="ISO:TS.DateTime"/>
 						<xsd:element name="endDate" type="ISO:TS.DateTime" minOccurs="0"/>
 						<xsd:element name="grantNumber" type="ISO:ST" minOccurs="0"/>

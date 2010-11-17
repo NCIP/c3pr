@@ -39,16 +39,17 @@ import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DSETPerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.DSETPerson;
+import edu.duke.cabig.c3pr.webservice.common.DSETStudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETPerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETStudySubject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETStudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DuplicateStudySubjectExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DuplicateStudySubjectExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.ImportStudySubjectRegistryRequest;
@@ -67,7 +68,6 @@ import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchPatientExceptionFaul
 import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchPatientExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchStudySubjectExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.NoSuchStudySubjectExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryConsentsByStudySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryConsentsByStudySubjectResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryByConsentRequest;
@@ -695,7 +695,7 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		destination.getIdentifiers().addAll(identifiers);
 	}
 	
-	private void copyConsentDetails(edu.duke.cabig.c3pr.domain.StudySubject destination , List<edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion> subjectConsents) throws InvalidStudySubjectDataExceptionFaultMessage{
+	private void copyConsentDetails(edu.duke.cabig.c3pr.domain.StudySubject destination , List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> subjectConsents) throws InvalidStudySubjectDataExceptionFaultMessage{
 		List<StudySubjectConsentVersion> studySubjectConsents = converter.convertSubjectConsent(subjectConsents);
 		destination.getStudySubjectStudyVersion().getStudySubjectConsentVersions().clear();
 		Study study = destination.getStudySite().getStudy();

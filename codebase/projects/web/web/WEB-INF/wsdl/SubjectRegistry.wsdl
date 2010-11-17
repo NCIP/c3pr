@@ -49,7 +49,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
-						<xsd:element name="studySubjectStatus" type="sr:PerformedStudySubjectMilestone"/>
+						<xsd:element name="studySubjectStatus" type="common:PerformedStudySubjectMilestone"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -64,7 +64,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
-						<xsd:element name="studySubjectRegistryStatusHistory" type="sr:DSET_PerformedStudySubjectMilestone"/>
+						<xsd:element name="studySubjectRegistryStatusHistory" type="common:DSET_PerformedStudySubjectMilestone"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -109,7 +109,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
-						<xsd:element name="studySubjectConsentVersions" type="sr:DSET_StudySubjectConsentVersion"/>
+						<xsd:element name="studySubjectConsentVersions" type="common:DSET_StudySubjectConsentVersion"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -172,7 +172,7 @@
 			<xsd:element name="QueryStudySubjectRegistryStatusHistoryResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectRegistryStatusHistory" type="sr:DSET_PerformedStudySubjectMilestone"/>
+						<xsd:element name="studySubjectRegistryStatusHistory" type="common:DSET_PerformedStudySubjectMilestone"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -180,7 +180,7 @@
 				<xsd:complexType>
 					<xsd:sequence>
 						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier"/>
-						<xsd:element name="registryStatus" type="sr:PerformedStudySubjectMilestone"/>
+						<xsd:element name="registryStatus" type="common:PerformedStudySubjectMilestone"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -217,7 +217,7 @@
 			<xsd:element name="QueryConsentsByStudySubjectResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studySubjectConsents" type="sr:DSET_StudySubjectConsentVersion"/>
+						<xsd:element name="studySubjectConsents" type="common:DSET_StudySubjectConsentVersion"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>

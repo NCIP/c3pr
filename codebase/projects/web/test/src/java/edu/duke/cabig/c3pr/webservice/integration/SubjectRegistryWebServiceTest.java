@@ -24,37 +24,37 @@ import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.Consent;
 import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.DSETPerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.DSETPerson;
+import edu.duke.cabig.c3pr.webservice.common.DSETStudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.Document;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.common.StudySiteProtocolVersionRelationship;
+import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
+import edu.duke.cabig.c3pr.webservice.common.StudySubjectProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETPerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETStudySubject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETStudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.ImportStudySubjectRegistryRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateStudySubjectRegistryRequest;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryConsentsByStudySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryByConsentRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryByStatusRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryStatusHistoryRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.RetrieveStudySubjectDemographyHistoryRequest;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySiteProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistryService;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectConsentRequest;
@@ -858,7 +858,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createDocumentId());
 		
 		//setup studysite
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySite());
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.common.StudySite());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().setOrganization(new Organization());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier().add(createOrgId());
 		
@@ -887,7 +887,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createDocumentId());
 		
 		//setup studysite
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySite());
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.common.StudySite());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().setOrganization(new Organization());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier().add(createOrgId());
 		
@@ -986,7 +986,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createDocumentId());
 		
 		//setup studysite
-		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.subjectregistry.StudySite());
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.common.StudySite());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().setOrganization(new Organization());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier().add(createOrgId());
 		

@@ -15,13 +15,12 @@ import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectProtocolVersionRelationship;
 
 /**
  * Provides operations to convert JAXB objects, such as {@link Subject}, created during a Web service invocation into
@@ -56,7 +55,7 @@ public interface SubjectRegistryJAXBToDomainObjectConverter{
 	
 	String convertHealthcareSitePrimaryIdentifier(OrganizationIdentifier orgId);
 	
-	List<StudySubjectConsentVersion> convertSubjectConsent(List<edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion> subjectConsents);
+	List<StudySubjectConsentVersion> convertSubjectConsent(List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> subjectConsents);
 	
 	StudySubject convert(edu.duke.cabig.c3pr.domain.StudySubject domainObject);
 	
@@ -64,9 +63,9 @@ public interface SubjectRegistryJAXBToDomainObjectConverter{
 	
 	Person convertSubjectDemographics(StudySubjectDemographics studySubjectDemographics);
 	
-	List<edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion> convertToSubjectConsent(List<StudySubjectConsentVersion> studySubjectConsentVersions);
+	List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> convertToSubjectConsent(List<StudySubjectConsentVersion> studySubjectConsentVersions);
 	
-	edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion convertToSubjectConsent(StudySubjectConsentVersion studySubjectConsentVersion);
+	edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion convertToSubjectConsent(StudySubjectConsentVersion studySubjectConsentVersion);
 	
 	List<PerformedStudySubjectMilestone> convertToRegistryStatus(List<StudySubjectRegistryStatus> statuses);
 	/**

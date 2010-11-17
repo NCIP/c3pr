@@ -17,12 +17,12 @@ import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.Organization;
+import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.helpers.SubjectRegistryRelatedTestCase;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion;
 
 public class SubjectRegistryJAXBToDomainObjectConverterImplTest extends SubjectRegistryRelatedTestCase {
 

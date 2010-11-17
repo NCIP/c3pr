@@ -18,14 +18,14 @@ import com.yourkit.api.ProfilingModes;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.DSETAdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.DSETStudySubject;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.ImportStudySubjectRegistryRequest;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
-import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry;
 
 public class SubjectRegistryWebServicePerformanceTest extends SubjectRegistryWebServiceTest {
