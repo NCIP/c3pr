@@ -199,7 +199,7 @@
 		<sequence>
 			<element name="entity" type="tns:BiologicEntity" minOccurs="0"/>
 			<element name="stateCode" type="ISO:ST" minOccurs="0"/>
-			<element name="subjectIdentifier" minOccurs="1" maxOccurs="unbounded" type="tns:SubjectIdentifier"/>
+			<element name="subjectIdentifier" minOccurs="0" maxOccurs="unbounded" type="tns:SubjectIdentifier"/>
 		</sequence>
 	</complexType>
 	<complexType name="SubjectIdentifier">
