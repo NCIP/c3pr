@@ -112,7 +112,7 @@
 	</jaxws:endpoint>
 	
 	<bean id="subjectRegistryJAXBToDomainObjectConverter"
-		class="edu.duke.cabig.c3pr.webservice.subjectregistry.convertes.SubjectRegistryJAXBToDomainObjectConverterImpl"
+		class="edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverterImpl"
 		autowire="byType" />
 	
 	<bean id="subjectRegistryService"
