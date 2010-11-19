@@ -67,6 +67,84 @@ YAHOO.util.Event.addListener(window, "load", function() {
         	var oRecord = this.getRecord(elTarget);
         	document.location='/c3pr/pages/study/viewStudy?studyId='+ oRecord.getData("id");
         }); 
+        // Shows dialog, creating one when necessary
+        var newCols = true;
+        var showDlg = function(e) {
+            YAHOO.util.Event.stopEvent(e);
+            if(newCols) {
+                // Populate Dialog
+                // Using a template to create elements for the SimpleDialog
+                var allColumns = studyDataTable.getColumnSet().keys;
+                var elPicker = YAHOO.util.Dom.get("dt-dlg-picker");
+                var elTemplateCol = document.createElement("div");
+                YAHOO.util.Dom.addClass(elTemplateCol, "dt-dlg-pickercol");
+                var elTemplateKey = elTemplateCol.appendChild(document.createElement("span"));
+                YAHOO.util.Dom.addClass(elTemplateKey, "dt-dlg-pickerkey");
+                var elTemplateBtns = elTemplateCol.appendChild(document.createElement("span"));
+                YAHOO.util.Dom.addClass(elTemplateBtns, "dt-dlg-pickerbtns");
+                var onclickObj = {fn:handleButtonClick, obj:this, scope:false };
+                // Create one section in the SimpleDialog for each Column
+                var elColumn, elKey, elButton, oButtonGrp;
+                for(var i=0,l=allColumns.length;i<l;i++) {
+                    var oColumn = allColumns[i];
+                    // Use the template
+                    elColumn = elTemplateCol.cloneNode(true);
+                    // Write the Column key
+                    elKey = elColumn.firstChild;
+                    elKey.innerHTML = oColumn.label;
+                    // Create a ButtonGroup
+                    oButtonGrp = new YAHOO.widget.ButtonGroup({ 
+                                    id: "buttongrp"+i, 
+                                    name: oColumn.getKey(), 
+                                    container: elKey.nextSibling
+                    });
+                    oButtonGrp.addButtons([
+                        { label: "Show", value: "Show", checked: ((!oColumn.hidden)), onclick: onclickObj},
+                        { label: "Hide", value: "Hide", checked: ((oColumn.hidden)), onclick: onclickObj}
+                    ]);
+                    elPicker.appendChild(elColumn);
+                }
+                newCols = false;
+        	}
+            myDlg.show();
+        };
+        var hideDlg = function(e) {
+            this.hide();
+        };
+        var handleButtonClick = function(e, oSelf) {
+            var sKey = this.get("name");
+            if(this.get("value") === "Hide") {
+                // Hides a Column
+                studyDataTable.hideColumn(sKey);
+            }
+            else {
+                // Shows a Column
+                studyDataTable.showColumn(sKey);
+            }
+        };
+        
+        // Create the SimpleDialog
+        YAHOO.util.Dom.removeClass("dt-dlg", "inprogress");
+        var myDlg = new YAHOO.widget.SimpleDialog("dt-dlg", {
+                width: "30em",
+			    visible: false,
+			    modal: true,
+			    buttons: [ 
+					{ text:"Close",  handler:hideDlg }
+                ],
+                fixedcenter: true,
+                constrainToViewport: true
+		});
+		myDlg.render();
+        // Nulls out myDlg to force a new one to be created
+        studyDataTable.subscribe("columnReorderEvent", function(){
+            newCols = true;
+            YAHOO.util.Event.purgeElement("dt-dlg-picker", true);
+            YAHOO.util.Dom.get("dt-dlg-picker").innerHTML = "";
+        }, this, true);
+		
+		// Hook up the SimpleDialog to the link
+		YAHOO.util.Event.addListener("dt-options-link", "click", showDlg, this, true);
         return {
             oDS: studyDataSource,
             oDT: studyDataTable
@@ -95,8 +173,25 @@ color:white;
 	</div>
 	
 	<div id="printable">
-	<div id="studyTable" class="yui-skin-sam"></div>
+		<div id="dt-example">
+			<div id="dt-options"><a id="dt-options-link" href="fallbacklink.html">Table Options</a></div>
+		</div>
+		<div id="studyTable" class="yui-skin-sam"></div>
+		<div id="dt-dlg" class="yui-skin-sam">
+		    <span class="corner_tr"></span>
+		    <span class="corner_tl"></span>
+		    <span class="corner_br"></span>
+		    <span class="corner_bl"></span>
+		    <div class="hd">
+		        Choose which columns you would like to see:
+		    </div>
+		    <div id="dt-dlg-picker" class="bd">
+	    	</div>
+		</div>
+		
 	</div>
+	
+	
 	<div align="right">
 					
 	</div>
