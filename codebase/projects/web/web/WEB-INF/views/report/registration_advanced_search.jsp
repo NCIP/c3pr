@@ -390,7 +390,7 @@ color:white;
         	<div class="value">
         		<input type="hidden" name="searchCriteriaList[13].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
           		<input type="hidden" name="searchCriteriaList[13].predicate" value="in"/>
-          		<input type="hidden" name="searchCriteriaList[13].attributeName" value="typeInternal" />
+          		<input type="hidden" name="searchCriteriaList[13].attributeName" value="type" />
   	            <select id="studyType" size="4" multiple="multiple" name="searchCriteriaList[13].values" >
                    <option value="" selected="selected">All</option>
                    <c:forEach items="${typeRefData}" var="studyType">
