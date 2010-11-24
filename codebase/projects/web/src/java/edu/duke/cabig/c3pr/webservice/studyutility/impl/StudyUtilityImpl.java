@@ -190,7 +190,11 @@ public class StudyUtilityImpl implements StudyUtility {
 				fail(STUDY_DOES_NOT_EXIST);
 			}
 			edu.duke.cabig.c3pr.domain.Study study = existentStudies.get(0);
+			// transfer data except identifiers and consents
 			converter.convert(study, xmlStudy, false);
+			// update identifiers: http://jira.semanticbits.com/browse/CPR-2233
+			study.getIdentifiers().clear();
+			study.getIdentifiers().addAll(idList);
 			studyRepository.save(study);
 			response.setStudy(converter.convert(study));
 		} catch (RuntimeException e) {

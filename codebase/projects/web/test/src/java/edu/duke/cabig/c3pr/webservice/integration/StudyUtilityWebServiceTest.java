@@ -481,6 +481,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		// successful creation
 		final UpdateStudyAbstractRequest request = new UpdateStudyAbstractRequest();
 		StudyProtocolVersion study = createStudy(UPDATE_DISCRIMINATOR);
+		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier().remove(2);
 		request.setStudy(study);
 		StudyProtocolVersion updatedStudy = service
 				.updateStudyAbstract(request).getStudy();
