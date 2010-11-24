@@ -118,13 +118,14 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
     	if (databaseMatches('oracle')){
 	    	//migrate study to study version
 			
-			execute("insert into study_versions (id,version,retired_indicator,version_status,study_id,name,short_title_text,long_title_text,description_text,precis_text,randomization_type,data_entry_status,amendment_type,original_indicator,version_date)(select id,version,retired_indicator,'AC',id,'Original version',short_title_text,long_title_text,description_text,precis_text,randomization_type,data_entry_status,'IMMEDIATE','1','01/01/1909' from studies)");
+			 // updated for Baylor Oracle Migration
+			execute("insert into study_versions (id,version,retired_indicator,version_status,study_id,name,short_title_text,long_title_text,description_text,precis_text,randomization_type,data_entry_status,amendment_type,original_indicator,version_date)(select id,version,retired_indicator,'AC',id,'Original version',short_title_text,long_title_text,description_text,precis_text,randomization_type,data_entry_status,'IMMEDIATE','1',to_date('01/01/1909', 'dd/mm/yyyy') from studies)");
 			
 			execute("update study_versions set version_status = 'IN' where data_entry_status like 'INCOMPLETE'");
 			
 			// Set  the consent_version to 'Original Consent' when it is not given
-	 		execute("update studies set consent_version = 'Original Consent' where consent_version is null or consent_version like ''");
-	 		
+			execute("update studies set consent_version = 'Original Consent' where consent_version is null or consent_version like ''");
+	 			 		
 	 		execute('insert into consents(id, retired_indicator, version, name, stu_version_id) select id, retired_indicator, 0, consent_version, id from studies') ;
 			
 			// insert amendments into study versions. set study_versions sequence to the current max(id) value
@@ -168,7 +169,7 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
 	 		
 	 		execute("alter table study_amendments drop column data_entry_status");
 	 		
-	 		execute("update study_versions set (short_title_text,long_title_text,precis_text,randomization_type,description_text) = (select sv.short_title_text,sv.long_title_text,sv.precis_text,sv.randomization_type,sv.description_text from study_versions sv WHERE sv.study_id=study_versions.study_id and sv.short_title_text is not null and sv.short_title_text not like '')");
+	 		execute("update study_versions set (short_title_text,long_title_text,precis_text,randomization_type,description_text) = (select sv.short_title_text,sv.long_title_text,sv.precis_text,sv.randomization_type,sv.description_text from study_versions sv WHERE sv.study_id=study_versions.study_id and sv.short_title_text is not null and sv.short_title_text not like '') where original_indicator != 1");
 	 
 	        execute("alter sequence consents_id_seq increment by 10000");
 	        

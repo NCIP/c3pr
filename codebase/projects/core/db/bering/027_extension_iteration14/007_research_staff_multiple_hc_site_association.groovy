@@ -20,7 +20,7 @@ class TrackStudyVersion extends edu.northwestern.bioinformatics.bering.Migration
 	    	execute('insert into "rs_hc_site_assocn"( "rs_id", "version", "hcs_id") select "id", 0, "hcs_id" from research_staff') ;
     	}
 		if (databaseMatches('oracle')){
-    		execute('insert into rs_hc_site_assocn(rs_id, version, hcs_id) select id, 0, hcs_id from research_staff') ;
+    		execute('insert into rs_hc_site_assocn(id,rs_id, version, hcs_id) select rs_hc_site_assocn_ID_SEQ.nextval,id, 0, hcs_id from research_staff') ;
     	}	
 		//column drop from research staff table
 		dropColumn('research_staff', 'hcs_id');
