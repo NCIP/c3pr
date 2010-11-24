@@ -43,7 +43,7 @@ tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.use
 
 Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
 select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
-tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='study_team_administrator';
+tempdate from csm_user u, csm_group g, csm_user_group ug, csm_role r where u.user_id = ug.user_id and ug.group_id = -23 and r.role_name='study_team_administrator') aaa;
 
 Insert into csm_user_group_role_pg(USER_GROUP_ROLE_PG_ID,user_id,role_id,protection_group_id,update_date)
 select CSM_USER_GROU_USER_GROUP_R_SEQ.nextval, aaa.user_id,aaa.role_id,-1,aaa.tempdate from (select distinct u.user_id,r.role_id,(select SYSDATE from dual) as 
