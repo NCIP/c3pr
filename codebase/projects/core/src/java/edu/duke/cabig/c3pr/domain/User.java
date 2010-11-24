@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import gov.nih.nci.security.util.StringEncrypter;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,9 +16,6 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.annotations.IndexColumn;
-
-import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import gov.nih.nci.security.util.StringEncrypter;
 
 /**
  * This class represents the User domain object associated with the Adverse event report.
