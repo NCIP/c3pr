@@ -200,6 +200,10 @@ public class WebServiceRelatedTestCase extends TestCase  {
 		healthcareSite.setCtepCode(TEST_ORG_ID, true);
 		expect(healthcareSiteDao.getByPrimaryIdentifier(TEST_ORG_ID))
 				.andReturn(healthcareSite).anyTimes();
+		expect(healthcareSiteDao.getByTypeAndCodeFromLocal(ORG_ID_TYPE_CTEP,TEST_ORG_ID))
+			.andReturn(healthcareSite).anyTimes();		
+		expect(healthcareSiteDao.getByTypeAndCodeFromLocal(ORG_ID_TYPE_CTEP,TEST_ORG_ID,true))
+			.andReturn(healthcareSite).anyTimes();		
 		replay(healthcareSiteDao);
 
 		registryStatus = new edu.duke.cabig.c3pr.domain.RegistryStatus();
