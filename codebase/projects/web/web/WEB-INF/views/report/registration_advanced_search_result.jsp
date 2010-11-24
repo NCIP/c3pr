@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+\<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -168,17 +168,16 @@ YAHOO.util.Event.addListener(window, "load", function() {
 <chrome:division>
 	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
-		<div align="right">
-		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
 		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;
 		<span style="behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');background:#330033;border:medium none;font-size:11px;	color:white;
 			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
 	</div>
-	</div>
-	<div id="printable">
+	
 	<div id="dt-example">
 			<div id="dt-options"><a id="dt-options-link" href="fallbacklink.html">Table Options</a></div>
 		</div>
+	<div id="printable">
+	
 		<div id="registrationTable" class="yui-skin-sam"></div>
 		
 		<div id="dt-dlg" class="yui-skin-sam">
