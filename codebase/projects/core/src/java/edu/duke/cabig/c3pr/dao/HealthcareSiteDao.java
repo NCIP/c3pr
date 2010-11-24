@@ -8,11 +8,13 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,14 +31,6 @@ import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
-import gov.nih.nci.security.authorization.domainobjects.Application;
-import gov.nih.nci.security.authorization.domainobjects.Group;
-import gov.nih.nci.security.authorization.domainobjects.ProtectionElement;
-import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup;
-import gov.nih.nci.security.dao.ProtectionGroupSearchCriteria;
-import gov.nih.nci.security.dao.SearchCriteria;
-import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
-import gov.nih.nci.security.exceptions.CSTransactionException;
 
 /**
  * The Class HealthcareSiteDao.
@@ -303,13 +297,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	
 	@SuppressWarnings("unchecked")
 	public HealthcareSite getByTypeAndCodeFromLocal(String typeName, String code) {
-		if(StringUtils.isEmpty(code)){
-			return null;
-		}
-		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
-				.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.typeInternal=? and " +
-					  "H.identifiersAssignedToOrganization.value=?", 
-						new Object[] {typeName, code}));		
+		return getByTypeAndCodeFromLocal(typeName, code, null);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -318,13 +306,24 @@ public class HealthcareSiteDao extends OrganizationDao {
 		if (StringUtils.isEmpty(code)) {
 			return null;
 		}
-		return CollectionUtils
-				.firstElement((List<HealthcareSite>) getHibernateTemplate()
-						.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.typeInternal=? and "
-								+ "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator=?",
-								new Object[] { typeName, code, isPrimary }));
+
+		Criteria orgCriteria = getHibernateTemplate().getSessionFactory()
+				.getCurrentSession().createCriteria(HealthcareSite.class);
+		Criteria identifiersAssignedToOrganizationCriteria = orgCriteria
+				.createCriteria("identifiersAssignedToOrganization");
+		Conjunction conjunction = Restrictions.conjunction();
+		conjunction.add(Expression.eq(
+				"typeInternal", typeName));
+		conjunction.add(Expression.eq("value",
+				code));
+		if (isPrimary!=null) {
+			conjunction.add(Expression.eq(
+					"primaryIndicator", isPrimary));
+		}
+		identifiersAssignedToOrganizationCriteria.add(conjunction);
+		return CollectionUtils.firstElement((List<HealthcareSite>) orgCriteria
+				.list());
 	}
-	
 	
 	/**
 	 * Gets by ctep code from local.
