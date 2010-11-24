@@ -121,7 +121,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	private static final int UNSUPPORTED_DOC_REL_TYPE = 928;
 	private static final int INVALID_CONSENT_REPRESENTATION = 929;
 	private static final int INVALID_REGISTRY_STATUS_CODE = 930;
-	
+
 	private static final ISO21090Helper iso = new ISO21090Helper();
 
 	/** The exception helper. */
@@ -457,20 +457,27 @@ public class JAXBToDomainObjectConverterImpl implements
 			throw exceptionHelper
 					.getConversionException(SUBJECT_IDENTIFIER_MISSING_ORGANIZATION);
 		}
-		if (isPrimary != null && isPrimary.isValue()) {
-			return healthcareSiteDao.getByPrimaryIdentifier(id.getExtension());
-		}
 		if (typeCode == null || StringUtils.isBlank(typeCode.getCode())) {
 			throw exceptionHelper
 					.getConversionException(ORGANIZATION_IDENTIFIER_MISSING_TYPECODE);
 		}
+
+		Boolean primary = isPrimary != null ? isPrimary.isValue() : false;
+		String codeName;
 		if (typeCode.getCode().contains(CTEP)) {
-			return healthcareSiteDao.getByCtepCodeFromLocal(id.getExtension());
+			codeName = OrganizationIdentifierTypeEnum.CTEP.getName();
 		} else if (typeCode.getCode().contains(NCI)) {
-			return healthcareSiteDao.getByNciCodeFromLocal(id.getExtension());
+			codeName = OrganizationIdentifierTypeEnum.NCI.getName();
+		} else {
+			codeName = typeCode.getCode();
 		}
-		throw exceptionHelper
-				.getConversionException(UNABLE_TO_FIND_ORGANIZATION);
+
+		HealthcareSite org = healthcareSiteDao.getByTypeAndCodeFromLocal(
+				typeCode.getCode(), id.getExtension(), primary);
+		if (org == null)
+			throw exceptionHelper
+					.getConversionException(UNABLE_TO_FIND_ORGANIZATION);
+		return org;
 	}
 
 	private String getCity(AD ad) {
@@ -541,12 +548,14 @@ public class JAXBToDomainObjectConverterImpl implements
 		if (p != null) {
 			Person person = new Person();
 			subject.setEntity(person);
-			for (Identifier id : new LinkedHashSet<Identifier>(p.getIdentifiers())) {
+			for (Identifier id : new LinkedHashSet<Identifier>(
+					p.getIdentifiers())) {
 				if (id instanceof OrganizationAssignedIdentifier) {
 					BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
 					bioId.setTypeCode(iso.CD(id.getTypeInternal()));
 					bioId.setIdentifier(iso.II(id.getValue()));
-					bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
+					bioId.setEffectiveDateRange(iso
+							.IVLTSDateTime(NullFlavor.NI));
 					bioId.setPrimaryIndicator(iso.BL(id.getPrimaryIndicator()));
 
 					HealthcareSite site = ((OrganizationAssignedIdentifier) id)
@@ -567,15 +576,16 @@ public class JAXBToDomainObjectConverterImpl implements
 					person.getBiologicEntityIdentifier().add(bioId);
 				}
 			}
-			person.setAdministrativeGenderCode(p.getAdministrativeGenderCode() != null ? iso.CD(
-					p.getAdministrativeGenderCode()) : iso.CD(NullFlavor.NI));
+			person.setAdministrativeGenderCode(p.getAdministrativeGenderCode() != null ? iso
+					.CD(p.getAdministrativeGenderCode()) : iso
+					.CD(NullFlavor.NI));
 			person.setBirthDate(convertToTsDateTime(p.getBirthDate()));
 			person.setDeathDate(convertToTsDateTime(p.getDeathDate()));
 			person.setDeathIndicator(p.getDeathIndicator() != null ? iso.BL(p
 					.getDeathIndicator()) : iso.BL(NullFlavor.NI));
 			person.setEthnicGroupCode(getEthnicGroupCode(p));
-			person.setMaritalStatusCode(p.getMaritalStatusCode() != null ? iso.CD(
-					p.getMaritalStatusCode()) : iso.CD(NullFlavor.NI));
+			person.setMaritalStatusCode(p.getMaritalStatusCode() != null ? iso
+					.CD(p.getMaritalStatusCode()) : iso.CD(NullFlavor.NI));
 			person.setName(getName(p));
 			person.setPostalAddress(getPostalAddress(p));
 			person.setRaceCode(getRaceCodes(p));
@@ -647,12 +657,12 @@ public class JAXBToDomainObjectConverterImpl implements
 		ENPN enpn = new ENPN();
 		if (StringUtils.isNotBlank(p.getFirstName()))
 			enpn.getPart()
-					.add(iso.ENXP(p.getFirstName(), EntityNamePartType
-							.valueOf(GIV)));
+					.add(iso.ENXP(p.getFirstName(),
+							EntityNamePartType.valueOf(GIV)));
 		if (StringUtils.isNotBlank(p.getMiddleName()))
 			enpn.getPart()
-					.add(iso.ENXP(p.getMiddleName(), EntityNamePartType
-							.valueOf(GIV)));
+					.add(iso.ENXP(p.getMiddleName(),
+							EntityNamePartType.valueOf(GIV)));
 		if (StringUtils.isNotBlank(p.getLastName()))
 			enpn.getPart().add(
 					iso.ENXP(p.getLastName(), EntityNamePartType.valueOf(FAM)));
@@ -936,8 +946,8 @@ public class JAXBToDomainObjectConverterImpl implements
 				.getOfficialTitle().getValue());
 		consent.setVersionId(isNull(xml.getVersionNumberText()) ? "" : xml
 				.getVersionNumberText().getValue());
-		consent.setDescriptionText(isNull(xml.getText()) ? "" : xml
-				.getText().getValue());
+		consent.setDescriptionText(isNull(xml.getText()) ? "" : xml.getText()
+				.getValue());
 		// consent questions
 		for (DocumentVersionRelationship rel : xml
 				.getDocumentVersionRelationship()) {
@@ -966,8 +976,8 @@ public class JAXBToDomainObjectConverterImpl implements
 		consent.setMandatoryIndicator(xml.getMandatoryIndicator().isValue());
 		consent.setName(isNull(xml.getOfficialTitle()) ? null : xml
 				.getOfficialTitle().getValue());
-		consent.setDescriptionText(isNull(xml.getText()) ? null : xml
-				.getText().getValue());
+		consent.setDescriptionText(isNull(xml.getText()) ? null : xml.getText()
+				.getValue());
 		consent.setVersionId(isNull(xml.getVersionNumberText()) ? null : xml
 				.getVersionNumberText().getValue());
 		return consent;
@@ -1118,8 +1128,9 @@ public class JAXBToDomainObjectConverterImpl implements
 		DocumentVersion q = new DocumentVersion();
 		q.setOfficialTitle(iso.ST(cq.getCode()));
 		q.setText(iso.ED(cq.getText()));
-		//q.setVersionNumberText(cq.getVersion() != null ? iso.ST(cq.getVersion()
-		//		.toString()) : null);
+		// q.setVersionNumberText(cq.getVersion() != null ?
+		// iso.ST(cq.getVersion()
+		// .toString()) : null);
 		q.setDocument(new Document());
 		return q;
 	}

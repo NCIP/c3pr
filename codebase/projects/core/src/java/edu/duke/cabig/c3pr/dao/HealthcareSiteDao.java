@@ -298,14 +298,33 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	@SuppressWarnings("unchecked")
 	public HealthcareSite getByNciCodeFromLocal(String nciCode) {
-		if(StringUtils.isEmpty(nciCode)){
+		return getByTypeAndCodeFromLocal(OrganizationIdentifierTypeEnum.NCI.getName(), nciCode);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public HealthcareSite getByTypeAndCodeFromLocal(String typeName, String code) {
+		if(StringUtils.isEmpty(code)){
 			return null;
 		}
 		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
 				.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.typeInternal=? and " +
 					  "H.identifiersAssignedToOrganization.value=?", 
-						new Object[] {OrganizationIdentifierTypeEnum.NCI.getName(), nciCode}));
+						new Object[] {typeName, code}));		
 	}
+	
+	@SuppressWarnings("unchecked")
+	public HealthcareSite getByTypeAndCodeFromLocal(String typeName,
+			String code, Boolean isPrimary) {
+		if (StringUtils.isEmpty(code)) {
+			return null;
+		}
+		return CollectionUtils
+				.firstElement((List<HealthcareSite>) getHibernateTemplate()
+						.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.typeInternal=? and "
+								+ "H.identifiersAssignedToOrganization.value=? and H.identifiersAssignedToOrganization.primaryIndicator=?",
+								new Object[] { typeName, code, isPrimary }));
+	}
+	
 	
 	/**
 	 * Gets by ctep code from local.
@@ -315,13 +334,7 @@ public class HealthcareSiteDao extends OrganizationDao {
 	 * @throws C3PRBaseException 	 * @throws C3PRBaseRuntimeException 	 */
 	@SuppressWarnings("unchecked")
 	public HealthcareSite getByCtepCodeFromLocal(String ctepCode) {
-		if(StringUtils.isEmpty(ctepCode)){
-			return null;
-		}
-		return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate()
-				.find("select H from HealthcareSite H where H.identifiersAssignedToOrganization.typeInternal=? and " +
-					  "H.identifiersAssignedToOrganization.value=?", 
-						new Object[] {OrganizationIdentifierTypeEnum.CTEP.getName(), ctepCode}));
+		return getByTypeAndCodeFromLocal(OrganizationIdentifierTypeEnum.CTEP.getName(), ctepCode);
 	}
 	/**
 	 * Gets the organizations from the resolver.

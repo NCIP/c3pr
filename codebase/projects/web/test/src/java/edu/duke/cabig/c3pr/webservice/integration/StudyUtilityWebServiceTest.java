@@ -83,7 +83,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	private static final QName SERVICE_NAME = new QName(
 			"http://enterpriseservices.nci.nih.gov/StudyUtilityService",
-			"StudyUtilityService");	
+			"StudyUtilityService");
 	private static final String WS_ENDPOINT_SERVLET_PATH = "/services/services/StudyUtility";
 	private static final String UPDATE_DISCRIMINATOR = " UPDATED";
 
@@ -418,9 +418,24 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private void executeCreateStudyTest() throws SQLException, Exception {
 		StudyUtility service = getService();
 
-		// successful creation
+		// no organization of the given ID/type combination:
+		// http://jira.semanticbits.com/browse/CPR-2232
 		final CreateStudyAbstractRequest request = new CreateStudyAbstractRequest();
 		StudyProtocolVersion study = createStudy("");
+		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
+				.get(0).getAssigningOrganization().getOrganizationIdentifier()
+				.get(0).getTypeCode().setCode("PTRAX");
+		request.setStudy(study);
+		try {
+			service.createStudyAbstract(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			assertTrue(e.getMessage().contains("905:"));
+			logger.info("No organization of the given ID/type test passed.");
+		}
+
+		// successful creation
+		study = createStudy("");
 		request.setStudy(study);
 		StudyProtocolVersion createdStudy = service
 				.createStudyAbstract(request).getStudy();
