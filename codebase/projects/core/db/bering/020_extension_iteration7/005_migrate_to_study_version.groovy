@@ -132,6 +132,9 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
 	 			
 	 		execute("alter sequence study_versions_id_seq increment by 5000");
 	 		
+	 		execute("DROP SEQUENCE study_versions_id_seq");
+          	execute("CREATE SEQUENCE study_versions_id_seq start with 15000 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
+	 		
 	 		
 	 		// setting default version in study_amendments table if it is null or blank
 	 			
@@ -171,7 +174,8 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
 	 		
 	 		execute("update study_versions set (short_title_text,long_title_text,precis_text,randomization_type,description_text) = (select sv.short_title_text,sv.long_title_text,sv.precis_text,sv.randomization_type,sv.description_text from study_versions sv WHERE sv.study_id=study_versions.study_id and sv.short_title_text is not null and sv.short_title_text not like '') where original_indicator != 1");
 	 
-	        execute("alter sequence consents_id_seq increment by 10000");
+	        execute("DROP SEQUENCE consents_id_seq");
+          	execute("CREATE SEQUENCE consents_id_seq start with 15000 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
 	        
 	       	execute("insert into consents(id,version,retired_indicator,name,stu_version_id) (select consents_id_seq.nextval,0,'false', study_amendments.consent_version,study_versions.id from study_versions, study_amendments where study_versions.study_id = study_amendments.stu_id and study_versions.version_date = study_amendments.amendment_date and study_amendments.consent_version is not null and study_amendments.consent_version not like '')");
 	 				
