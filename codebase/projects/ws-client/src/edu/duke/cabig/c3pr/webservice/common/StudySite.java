@@ -1,25 +1,23 @@
 
-package edu.duke.cabig.c3pr.webservice.subjectmanagement;
+package edu.duke.cabig.c3pr.webservice.common;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import edu.duke.cabig.c3pr.webservice.common.Subject;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for StudySite complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="StudySite">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="subject" type="{http://enterpriseservices.nci.nih.gov/Common}Subject"/>
+ *         &lt;element name="organization" type="{http://enterpriseservices.nci.nih.gov/Common}Organization"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,37 +27,36 @@ import edu.duke.cabig.c3pr.webservice.common.Subject;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "subject"
+@XmlType(name = "StudySite", propOrder = {
+    "organization"
 })
-@XmlRootElement(name = "UpdateSubjectResponse")
-public class UpdateSubjectResponse {
+public class StudySite {
 
     @XmlElement(required = true)
-    protected Subject subject;
+    protected Organization organization;
 
     /**
-     * Gets the value of the subject property.
+     * Gets the value of the organization property.
      * 
      * @return
      *     possible object is
-     *     {@link Subject }
+     *     {@link Organization }
      *     
      */
-    public Subject getSubject() {
-        return subject;
+    public Organization getOrganization() {
+        return organization;
     }
 
     /**
-     * Sets the value of the subject property.
+     * Sets the value of the organization property.
      * 
      * @param value
      *     allowed object is
-     *     {@link Subject }
+     *     {@link Organization }
      *     
      */
-    public void setSubject(Subject value) {
-        this.subject = value;
+    public void setOrganization(Organization value) {
+        this.organization = value;
     }
 
 }

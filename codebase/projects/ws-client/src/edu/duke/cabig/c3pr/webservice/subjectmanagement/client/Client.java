@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.iso21090.BAGTEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.BL;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
@@ -23,7 +24,6 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.InvalidSubjectDataExcept
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.QuerySubjectResponse;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SecurityExceptionFaultMessage;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.Subject;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
 
 public final class Client {

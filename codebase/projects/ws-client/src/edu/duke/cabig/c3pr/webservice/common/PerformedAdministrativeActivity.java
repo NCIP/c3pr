@@ -3,18 +3,19 @@ package edu.duke.cabig.c3pr.webservice.common;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for SecurityExceptionFault complex type.
+ * <p>Java class for PerformedAdministrativeActivity complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="SecurityExceptionFault">
+ * &lt;complexType name="PerformedAdministrativeActivity">
  *   &lt;complexContent>
- *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/Common}BaseFault">
+ *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/Common}PerformedActivity">
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -23,9 +24,12 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SecurityExceptionFault")
-public class SecurityExceptionFault
-    extends BaseFault
+@XmlType(name = "PerformedAdministrativeActivity")
+@XmlSeeAlso({
+    PerformedStudySubjectMilestone.class
+})
+public class PerformedAdministrativeActivity
+    extends PerformedActivity
 {
 
 

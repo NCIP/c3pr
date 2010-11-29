@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 
@@ -27,7 +27,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
  *       &lt;sequence>
  *         &lt;element name="entity" type="{http://enterpriseservices.nci.nih.gov/Common}BiologicEntity" minOccurs="0"/>
  *         &lt;element name="stateCode" type="{uri:iso.org:21090}ST" minOccurs="0"/>
- *         &lt;element name="subjectIdentifier" type="{http://enterpriseservices.nci.nih.gov/Common}SubjectIdentifier" maxOccurs="unbounded"/>
+ *         &lt;element name="subjectIdentifier" type="{http://enterpriseservices.nci.nih.gov/Common}SubjectIdentifier" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -42,11 +42,13 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ST;
     "stateCode",
     "subjectIdentifier"
 })
+@XmlSeeAlso({
+    StudySubjectBase.class
+})
 public class Subject {
 
     protected BiologicEntity entity;
     protected ST stateCode;
-    @XmlElement(required = true)
     protected List<SubjectIdentifier> subjectIdentifier;
 
     /**

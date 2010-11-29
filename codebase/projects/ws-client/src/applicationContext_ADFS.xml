@@ -23,6 +23,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 		address="https://roectm800a:21443/c3pr/services/services/SubjectManagement">
 		<jaxws:features>
 			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<wsa:addressing xmlns:wsa="http://cxf.apache.org/ws/addressing"/>
 		</jaxws:features>
 		<jaxws:properties>
 			<entry key="ws-security.sts.client">

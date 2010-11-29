@@ -1,19 +1,18 @@
 
-package edu.duke.cabig.c3pr.webservice.subjectmanagement;
+package edu.duke.cabig.c3pr.webservice.common;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
-import edu.duke.cabig.c3pr.webservice.common.BaseFault;
 
 
 /**
- * <p>Java class for InvalidSubjectDataExceptionFault complex type.
+ * <p>Java class for DuplicateStudySubjectExceptionFault complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="InvalidSubjectDataExceptionFault">
+ * &lt;complexType name="DuplicateStudySubjectExceptionFault">
  *   &lt;complexContent>
  *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/Common}BaseFault">
  *     &lt;/extension>
@@ -24,8 +23,8 @@ import edu.duke.cabig.c3pr.webservice.common.BaseFault;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "InvalidSubjectDataExceptionFault")
-public class InvalidSubjectDataExceptionFault
+@XmlType(name = "DuplicateStudySubjectExceptionFault")
+public class DuplicateStudySubjectExceptionFault
     extends BaseFault
 {
 

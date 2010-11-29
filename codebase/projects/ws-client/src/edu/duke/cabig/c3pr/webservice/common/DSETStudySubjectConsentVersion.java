@@ -1,26 +1,24 @@
 
-package edu.duke.cabig.c3pr.webservice.subjectmanagement;
+package edu.duke.cabig.c3pr.webservice.common;
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import edu.duke.cabig.c3pr.webservice.common.Subject;
 
 
 /**
- * <p>Java class for DSET_SUBJECT complex type.
+ * <p>Java class for DSET_StudySubjectConsentVersion complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="DSET_SUBJECT">
+ * &lt;complexType name="DSET_StudySubjectConsentVersion">
  *   &lt;complexContent>
- *     &lt;extension base="{http://enterpriseservices.nci.nih.gov}COLL_SUBJECT">
+ *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/Common}COLL_StudySubjectConsentVersion">
  *       &lt;sequence>
- *         &lt;element name="item" type="{http://enterpriseservices.nci.nih.gov/Common}Subject" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="item" type="{http://enterpriseservices.nci.nih.gov/Common}StudySubjectConsentVersion" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -30,15 +28,14 @@ import edu.duke.cabig.c3pr.webservice.common.Subject;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DSET_SUBJECT", namespace = "http://enterpriseservices.nci.nih.gov", propOrder = {
+@XmlType(name = "DSET_StudySubjectConsentVersion", propOrder = {
     "item"
 })
-public class DSETSUBJECT
-    extends COLLSUBJECT
+public class DSETStudySubjectConsentVersion
+    extends COLLStudySubjectConsentVersion
 {
 
-    @XmlElement(namespace = "http://enterpriseservices.nci.nih.gov")
-    protected List<Subject> item;
+    protected List<StudySubjectConsentVersion> item;
 
     /**
      * Gets the value of the item property.
@@ -58,13 +55,13 @@ public class DSETSUBJECT
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link Subject }
+     * {@link StudySubjectConsentVersion }
      * 
      * 
      */
-    public List<Subject> getItem() {
+    public List<StudySubjectConsentVersion> getItem() {
         if (item == null) {
-            item = new ArrayList<Subject>();
+            item = new ArrayList<StudySubjectConsentVersion>();
         }
         return this.item;
     }
