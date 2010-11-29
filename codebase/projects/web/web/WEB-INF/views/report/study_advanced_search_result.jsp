@@ -172,10 +172,10 @@ color:white;
 			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
 	</div>
 	
-	<div id="printable">
-		<div id="dt-example">
+	<div id="dt-example">
 			<div id="dt-options"><a id="dt-options-link" href="fallbacklink.html">Table Options</a></div>
-		</div>
+	</div>
+	<div id="printable">
 		<div id="studyTable" class="yui-skin-sam"></div>
 		<div id="dt-dlg" class="yui-skin-sam">
 		    <span class="corner_tr"></span>
