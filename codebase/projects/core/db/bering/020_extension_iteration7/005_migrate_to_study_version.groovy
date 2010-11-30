@@ -199,6 +199,14 @@ class MigrateToStudyVersion extends edu.northwestern.bioinformatics.bering.Migra
 	 		execute("drop table max_study_study_version_temp");
 	 		execute("drop table max_study_version");
 	 		execute("alter table study_versions drop column latest_study_ver_id");
+	 		
+	 		// migrate study site to study site study status history
+
+ 			execute("insert into stu_site_status_history(id,retired_indicator,version,start_date,site_study_status,sto_id) (SELECT stu_site_status_history_id_seq.NEXTVAL ,retired_indicator,0,current_date - interval '100' year(3),'PENDING',id from study_organizations where type='SST')");
+ 			execute("update stu_site_status_history set end_date=(select end_date from (select id as sites_status_id, start_date - interval '1' day as end_date from study_organizations where study_organizations.type = 'SST' and study_organizations.site_study_status not like'PENDING') where stu_site_status_history.sto_id=sites_status_id)");
+ 			execute("insert into stu_site_status_history(id,retired_indicator,version,start_date,site_study_status,sto_id) (select stu_site_status_history_id_seq.NEXTVAL,retired_indicator,0,start_date,'ACTIVE',id from study_organizations where type='SST'and site_study_status not like'PENDING')");
+ 			execute("update stu_site_status_history set end_date=(select end_date from (select id as sites_status_id, CURRENT_DATE - interval '1' day as end_date from study_organizations where study_organizations.type = 'SST' and study_organizations.site_study_status not like'PENDING' and site_study_status not like 'ACTIVE' and site_study_status not like 'AMENDMENT_PENDING') where stu_site_status_history.sto_id=sites_status_id) where stu_site_status_history.site_study_status like 'ACTIVE'");
+ 			execute("insert into stu_site_status_history(id,retired_indicator,version,start_date,site_study_status,sto_id) (select stu_site_status_history_id_seq.NEXTVAL,retired_indicator,0,CURRENT_DATE,'ACTIVE',id from study_organizations where type='SST'and site_study_status not like'PENDING' and site_study_status not like 'ACTIVE' and site_study_status not like 'AMENDMENT_PENDING')");
 			
 			
 			// migrate study site to study site study version
