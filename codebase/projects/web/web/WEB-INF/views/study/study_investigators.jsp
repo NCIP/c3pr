@@ -35,7 +35,7 @@ function addStudyInvestigators(){
 }
 
 function updateStudyInvGroups() {
-	id= $('studyOrganizationSelect').value.split("-")[1];
+	id = $('studyOrganizationSelect').value.substring($('studyOrganizationSelect').value.indexOf('-')+1);
 
     StudyAjaxFacade.matchActiveGroupsByOrganizationId(id, function(categories) {
         var sel = $("study-inv-sub-category")
@@ -66,7 +66,7 @@ function showStudyInvestigators() {
         studyInvestigatorsSelect.options.add(new Option("All", ""))
         studyInvestigatorsSelect.options[0].selected = true;
         //call the getAll method for the selected organization instead of calling getInvestigatorsById() for every group.
-        var catId = $('studyOrganizationSelect').value.split("-")[1];
+        var catId = $('studyOrganizationSelect').value.substring($('studyOrganizationSelect').value.indexOf('-')+1);
         StudyAjaxFacade.getActiveSiteInvestigators(catId, function(studyInvestigators) {
               studyInvestigators.each(function(cat) {
             	var name = cat.investigator.firstName + " " +  cat.investigator.lastName + " (" +  cat.investigator.assignedIdentifier + ")";
