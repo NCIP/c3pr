@@ -12,7 +12,7 @@
 <script type="text/javascript">
 
 function removeStudyPersonnel(selectedStudyPersonnelAssignedId) {
-	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-")[0];
+	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-",1)[0];
     $('_actionx').value = "removeStudyPersonnel";
     $('_selectedPersonnelAssignedId').value=selectedStudyPersonnelAssignedId;
 	$('command').submit();
@@ -20,7 +20,7 @@ function removeStudyPersonnel(selectedStudyPersonnelAssignedId) {
 
 function changeStudyOrganization(){
 	$('_doNotSave').value = true;
-	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-")[0];
+	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-",1)[0];
 	$('_actionx').value = "changeStudyOrganization";
 	$('command').submit();
 }
@@ -28,14 +28,14 @@ function changeStudyOrganization(){
 function addStudyPersonnel(){
 	addPersonnelToCart();
 	$('_doNotSave').value = true;
-	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-")[0];
+	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-",1)[0];
 	$('_actionx').value = "addStudyPersonnel";
 	$('command').submit();
 }
 
 function saveStudyPersonnel(){
 	addPersonnelToCart();
-	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-")[0];
+	$('_selectedStudyOrganization').value=$('studyOrganizationSelect').value.split("-",1)[0];
 	$('_actionx').value = "saveStudyPersonnel";
 	$('command').submit();
 }
@@ -49,10 +49,10 @@ function showPersonnel() {
     studyPersonnelSelect.options.add(new Option("All", ""))
     studyPersonnelSelect.options[0].selected = true;
     <%--call the getAll method for the selected organization instead of calling getInvestigatorsById() for every group.--%>
-    var catId = $('studyOrganizationSelect').value.split("-")[1]
+    var catId = $('studyOrganizationSelect').value.split("-",1)[1]
     var studyId = $('_studyId').value;
     if(catId!=null){
-    	StudyAjaxFacade.getSitePersonnel(catId, studyId, function(diseases) {
+    	  	StudyAjaxFacade.getSitePersonnel(catId, studyId, function(diseases) {
             diseases.each(function(cat) {
            	  var assignedIdentifier = cat.researchStaff.assignedIdentifier == null ? "":cat.researchStaff.assignedIdentifier;
               var name = cat.researchStaff.firstName + " " + cat.researchStaff.lastName+ " (" +  cat.researchStaff.assignedIdentifier+ ") ("+ cat.roleName +")";
