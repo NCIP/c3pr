@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
+import edu.duke.cabig.c3pr.webservice.iso21090.INTPositive;
 import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
@@ -73,6 +74,12 @@ public final class ISO21090Helper {
 	public static final TSDateTime TSDateTime(String s) {
 		TSDateTime dateTime = new TSDateTime();
 		dateTime.setValue(s);
+		return dateTime;
+	}
+	
+	public static final TSDateTime TSDateTime(NullFlavor ni) {
+		TSDateTime dateTime = new TSDateTime();
+		dateTime.setNullFlavor(ni);
 		return dateTime;
 	}
 
@@ -163,6 +170,12 @@ public final class ISO21090Helper {
 		return bl;
 	}
 
+	public static final INTPositive INTPositive(Integer i) {
+		INTPositive int1 = new INTPositive();
+		int1.setValue(i);
+		return int1;
+	}
+	
 	public ST ST() {
 		// TODO Auto-generated method stub
 		return new ST();

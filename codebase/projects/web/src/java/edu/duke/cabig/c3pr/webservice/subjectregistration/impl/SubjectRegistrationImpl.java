@@ -1,9 +1,23 @@
 package edu.duke.cabig.c3pr.webservice.subjectregistration.impl;
 
+import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.jws.WebService;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
+
+import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
+
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.exception.ConversionException;
+import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.InvalidQueryExceptionFault;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.ChangeStudySubjectEpochAssignmentRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.ChangeStudySubjectEpochAssignmentResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.DSETStudySubject;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.DiscontinueEnrollmentRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.DiscontinueEnrollmentResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.DuplicateStudySubjectExceptionFaultMessage;
@@ -36,9 +50,17 @@ import edu.duke.cabig.c3pr.webservice.subjectregistration.TakeSubjectOffStudyReq
 import edu.duke.cabig.c3pr.webservice.subjectregistration.TakeSubjectOffStudyResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.UpdateRegistrationRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.UpdateRegistrationResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter;
 
 @WebService(wsdlLocation="/WEB-INF/wsdl/SubjectRegistration.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectRegistrationService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectregistration.SubjectRegistration", portName = "SubjectRegistration", serviceName = "SubjectRegistrationService")
 public class SubjectRegistrationImpl implements SubjectRegistration {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger log = Logger
+			.getLogger(SubjectRegistrationImpl.class);
+	private SubjectRegistrationJAXBToDomainObjectConverter converter;
+	private StudySubjectDao studySubjectDao;
 
 	public ChangeStudySubjectEpochAssignmentResponse changeStudySubjectEpochAssignment(
 			ChangeStudySubjectEpochAssignmentRequest arg0)
@@ -101,8 +123,27 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 			QuerySubjectRegistrationRequest arg0)
 			throws InvalidQueryExceptionFaultMessage,
 			SecurityExceptionFaultMessage {
-		// TODO Auto-generated method stub
-		return null;
+		QuerySubjectRegistrationResponse response = new QuerySubjectRegistrationResponse();
+		DSETStudySubject studySubjects = new DSETStudySubject();
+		response.setStudySubjects(studySubjects);
+
+		try {
+			List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			for (AdvanceSearchCriterionParameter param : arg0.getParameters().getItem()) {
+				AdvancedSearchCriteriaParameter advParam = converter
+						.convert(param);
+				advParameters.add(advParam);
+			}
+
+			List<edu.duke.cabig.c3pr.domain.StudySubject> results = new ArrayList<edu.duke.cabig.c3pr.domain.StudySubject>(
+					studySubjectDao.search(advParameters));
+			for (edu.duke.cabig.c3pr.domain.StudySubject result : results) {
+				studySubjects.getItem().add(converter.convert(result));
+			}
+		} catch (ConversionException e) {
+			handleInvalidQueryData(e);
+		}
+		return response;
 	}
 
 	public ReconsentStudySubjectResponse reconsentSubject(
@@ -148,5 +189,26 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 			SecurityExceptionFaultMessage {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @param e
+	 * @throws handleInvalidQueryData
+	 */
+	private void handleInvalidQueryData(Exception e)
+			throws InvalidQueryExceptionFaultMessage {
+		log.error(ExceptionUtils.getFullStackTrace(e));
+		InvalidQueryExceptionFault fault = new InvalidQueryExceptionFault();
+		fault.setMessage(e.getMessage());
+		throw new InvalidQueryExceptionFaultMessage(e.getMessage(), fault);
+	}
+	
+	public void setConverter(
+			SubjectRegistrationJAXBToDomainObjectConverter converter) {
+		this.converter = converter;
+	}
+
+	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
 	}
 }

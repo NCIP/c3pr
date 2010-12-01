@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
+import edu.duke.cabig.c3pr.webservice.iso21090.INTPositive;
 import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
@@ -51,6 +52,12 @@ public final class ISO21090Helper {
 		ii.setExtension(ext);
 		return ii;
 	}
+	
+	public static final II II(NullFlavor nf) {
+		II ii = new II();
+		ii.setNullFlavor(nf);
+		return ii;
+	}
 
 	public static final CD CD(String code) {
 		CD cd = new CD();
@@ -70,9 +77,24 @@ public final class ISO21090Helper {
 		return cd;
 	}
 
+	public static final INTPositive INTPositive(Integer i) {
+		if(i == null){
+			return INTPositive(NullFlavor.NI);
+		}
+		INTPositive int1 = new INTPositive();
+		int1.setValue(i);
+		return int1;
+	}
+	
 	public static final TSDateTime TSDateTime(String s) {
 		TSDateTime dateTime = new TSDateTime();
 		dateTime.setValue(s);
+		return dateTime;
+	}
+	
+	public static final TSDateTime TSDateTime(NullFlavor ni) {
+		TSDateTime dateTime = new TSDateTime();
+		dateTime.setNullFlavor(ni);
 		return dateTime;
 	}
 
@@ -163,4 +185,10 @@ public final class ISO21090Helper {
 		return bl;
 	}
 
+	public static final INTPositive INTPositive(NullFlavor ni) {
+		INTPositive int1 = new INTPositive();
+		int1.setNullFlavor(ni);
+		return int1;
+	}
+	
 }

@@ -22,30 +22,39 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.ConsentQuestion;
+import edu.duke.cabig.c3pr.domain.DiseaseHistory;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.OffEpochReason;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.RegistryStatusReason;
+import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
 import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DefinedActivity;
 import edu.duke.cabig.c3pr.webservice.common.Document;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
+import edu.duke.cabig.c3pr.webservice.common.Drug;
 import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.PerformedActivity;
 import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudySiteProtocolVersionRelationship;
-import edu.duke.cabig.c3pr.webservice.common.StudySubjectProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
@@ -68,7 +77,20 @@ import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.DefinedEligibilityCriterion;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.DefinedInclusionCriterion;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.DefinedExclusionCriterion;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.DefinedStratificationCriterion;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.DefinedStratificationCriterionPermissibleResult;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.Epoch;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.HealthcareProvider;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.PerformedDiagnosis;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.PerformedObservationResult;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.ScheduledEpoch;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.StudyCondition;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.StudyInvestigator;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.StudySubject;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.StudySubjectProtocolVersionRelationship;
 
 /**
  * Default implementation of {@link JAXBToDomainObjectConverter}.
@@ -365,13 +387,26 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl implements
 		//copy enrollment
 		studySubject.setEntity(person);
 		studySubject.setPaymentMethodCode(iso.CD(domainObject.getPaymentMethod()));
-		studySubject.setStatusCode(iso.CD(domainObject.getRegDataEntryStatus().getCode()));
+		studySubject.setStatusCode(iso.CD(domainObject.getRegWorkflowStatus().getCode()));
 		
 		//copy identifiers
 		studySubject.getSubjectIdentifier().addAll(convertToSubjectIdentifier(domainObject.getIdentifiers()));
 		
 		//set studySubjectProtocolVersion
 		studySubject.setStudySubjectProtocolVersion(getStudySubjectProtocolVersion(domainObject.getStudySubjectStudyVersion()));
+		
+		//set Disease History
+		studySubject.setDiseaseHistory(convertToDiseaseHistory(domainObject.getDiseaseHistory()));
+		
+		//set Treating Physician
+		if(domainObject.getTreatingPhysician()!=null || !StringUtils.isBlank(domainObject.getOtherTreatingPhysician())){
+			studySubject.setTreatingPhysician(convertToStudyInvestigator(domainObject));
+		}
+		
+		//set childstudysubjects
+		for(edu.duke.cabig.c3pr.domain.StudySubject childDomainObject : domainObject.getChildStudySubjects()){
+			studySubject.getChildStudySubject().add(convert(childDomainObject));
+		}
 		
 		return studySubject;
 	}
@@ -511,24 +546,8 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl implements
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier().addAll(convertToOrganizationIdentifier(studySite.getHealthcareSite().getIdentifiersAssignedToOrganization()));
 		
 		studySubjectProtocolVersion.getStudySubjectConsentVersion().addAll(convertToSubjectConsent(studySubjectStudyVersion.getStudySubjectConsentVersions()));
+		studySubjectProtocolVersion.getScheduledEpoch().addAll(convertToScheduledEpochs(studySubjectStudyVersion.getScheduledEpochs()));
 		return studySubjectProtocolVersion;
-	}
-	
-	public List<PerformedStudySubjectMilestone> convertToRegistryStatus(List<StudySubjectRegistryStatus> statuses){
-		List<PerformedStudySubjectMilestone> result = new ArrayList<PerformedStudySubjectMilestone>();
-		for(StudySubjectRegistryStatus studySubjectRegistryStatus : statuses){
-			PerformedStudySubjectMilestone target = new PerformedStudySubjectMilestone();
-			target.setStatusCode(iso.CD(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode()));
-			target.setStatusDate(convertToTsDateTime(studySubjectRegistryStatus.getEffectiveDate()));
-			if(CollectionUtils.isNotEmpty(studySubjectRegistryStatus.getReasons())){
-				target.setReasonCode(new DSETCD());
-				for(RegistryStatusReason reason : studySubjectRegistryStatus.getReasons()){
-					target.getReasonCode().getItem().add(iso.CD(reason.getCode()));
-				}
-			}
-			result.add(target);
-		}
-		return result;
 	}
 	
 	private String getEthnicGroupCode(Person person) {
@@ -900,4 +919,155 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl implements
 		}
 		return target;
 	}
+	
+	public List<ScheduledEpoch> convertToScheduledEpochs(
+			List<edu.duke.cabig.c3pr.domain.ScheduledEpoch> scheduledEpochs) {
+		List<ScheduledEpoch> returnList = new ArrayList<ScheduledEpoch>();
+		for(edu.duke.cabig.c3pr.domain.ScheduledEpoch scheduledEpoch : scheduledEpochs){
+			returnList.add(convertToScheduledEpoch(scheduledEpoch));
+		}
+		return returnList;
+	}
+	
+	public ScheduledEpoch convertToScheduledEpoch(
+			edu.duke.cabig.c3pr.domain.ScheduledEpoch scheduledEpoch) {
+		ScheduledEpoch covertedScheduledEpoch = new ScheduledEpoch();
+		covertedScheduledEpoch.setStartDate(convertToTsDateTime(scheduledEpoch.getStartDate()));
+		covertedScheduledEpoch.setOffEpochDate(convertToTsDateTime(scheduledEpoch.getOffEpochDate()));
+		covertedScheduledEpoch.setStatus(iso.CD(scheduledEpoch.getScEpochWorkflowStatus().getCode()));
+		covertedScheduledEpoch.setStratumGroupNumber(iso.INTPositive(scheduledEpoch.getStratumGroupNumber()));
+		covertedScheduledEpoch.setEpoch(convertToEpoch(scheduledEpoch.getEpoch()));
+		covertedScheduledEpoch.setScheduledArm(convertToScheduledArm(scheduledEpoch.getScheduledArm()));
+		if(!CollectionUtils.isEmpty(scheduledEpoch.getOffEpochReasons())){
+			covertedScheduledEpoch.setOffEpochReason(new DSETCD());
+			for(OffEpochReason offEpochReason : scheduledEpoch.getOffEpochReasons()){
+				covertedScheduledEpoch.getOffEpochReason().getItem().add(iso.CD(offEpochReason.getReason().getCode()));
+			}
+		}
+		covertedScheduledEpoch.getSubjectEligibilityAnswer().addAll(convertToSubjectEligibilityAnswers(scheduledEpoch.getSubjectEligibilityAnswers()));
+		covertedScheduledEpoch.getSubjectStartificationAnswer().addAll(convertToSubjectStratificationAnswers(scheduledEpoch.getSubjectStratificationAnswers()));
+		return covertedScheduledEpoch;
+	}
+	
+	public Epoch convertToEpoch(edu.duke.cabig.c3pr.domain.Epoch epoch){
+		Epoch convertedEpoch = new Epoch();
+		convertedEpoch.setDescription(iso.ST(epoch.getDescriptionText()));
+		convertedEpoch.setName(iso.ST(epoch.getName()));
+		convertedEpoch.setSequenceNumber(iso.INTPositive(epoch.getEpochOrder()));
+		convertedEpoch.setTypeCode(iso.CD(epoch.getType().getCode()));
+		return convertedEpoch;
+	}
+	
+	public PerformedActivity convertToScheduledArm(ScheduledArm scheduledArm){
+		PerformedActivity convertedArm = new PerformedActivity();
+		if(scheduledArm.getArm() !=null){
+			DefinedActivity arm = new DefinedActivity();
+			arm.setNameCode(iso.CD(scheduledArm.getArm().getName()));
+			convertedArm.setDefinedActivity(arm);
+		}else if(!StringUtils.isBlank(scheduledArm.getKitNumber())){
+			Drug drug = new Drug();
+			drug.setKitNumber(iso.II(scheduledArm.getKitNumber()));
+			convertedArm.setDrug(drug);
+		}
+		return convertedArm;
+	}
+	
+	public List<PerformedObservationResult> convertToSubjectEligibilityAnswers(List<SubjectEligibilityAnswer> answers){
+		List<PerformedObservationResult> convertedAnswers = new ArrayList<PerformedObservationResult>();
+		for(SubjectEligibilityAnswer answer : answers){
+			convertedAnswers.add(convertToSubjectEligibilityAnswer(answer));
+		}
+		return convertedAnswers;
+	}
+	
+	public PerformedObservationResult convertToSubjectEligibilityAnswer(SubjectEligibilityAnswer answer){
+		PerformedObservationResult convertedAnswer = new PerformedObservationResult();
+		DefinedEligibilityCriterion eligibility = null;
+		if(answer.getEligibilityCriteria() instanceof InclusionEligibilityCriteria){
+			eligibility = new DefinedInclusionCriterion();
+		}else{
+			eligibility = new DefinedExclusionCriterion();
+		}
+		eligibility.setNameCode(iso.CD(answer.getEligibilityCriteria().getQuestionText()));
+		eligibility.setDescription(iso.ST(answer.getEligibilityCriteria().getQuestionText()));
+		if(answer.getEligibilityCriteria().getNotApplicableIndicator() == null){
+			eligibility.setRequiredResponse(iso.BL(NullFlavor.NI));
+		}else{
+			eligibility.setRequiredResponse(iso.BL(answer.getEligibilityCriteria().getNotApplicableIndicator()));
+		}
+		convertedAnswer.setEligibilityCriterion(eligibility);
+		convertedAnswer.setResult(iso.ST(answer.getAnswerText()));
+		return convertedAnswer;
+	}
+	
+	public List<PerformedObservationResult> convertToSubjectStratificationAnswers(List<SubjectStratificationAnswer> answers){
+		List<PerformedObservationResult> convertedAnswers = new ArrayList<PerformedObservationResult>();
+		for(SubjectStratificationAnswer answer : answers){
+			convertedAnswers.add(convertToSubjectStratificationAnswer(answer));
+		}
+		return convertedAnswers;
+	}
+	
+	public PerformedObservationResult convertToSubjectStratificationAnswer(SubjectStratificationAnswer answer){
+		PerformedObservationResult convertedAnswer = new PerformedObservationResult();
+		DefinedStratificationCriterion startification = new DefinedStratificationCriterion();
+		startification.setNameCode(iso.CD(answer.getStratificationCriterion().getQuestionText()));
+		startification.setDescription(iso.ST(answer.getStratificationCriterion().getQuestionText()));
+		convertedAnswer.setStartificationCriterion(startification);
+		DefinedStratificationCriterionPermissibleResult result = new DefinedStratificationCriterionPermissibleResult();
+		result.setResult(iso.ST(answer.getStratificationCriterionAnswer().getPermissibleAnswer()));
+		convertedAnswer.setStartificationCriterionPermissibleResult(result);
+		return convertedAnswer;
+	}
+	
+	public PerformedDiagnosis convertToDiseaseHistory(DiseaseHistory diseaseHistory){
+		PerformedDiagnosis convertedDiseaseHistory = new PerformedDiagnosis();
+		StudyCondition condition = new StudyCondition();
+		condition.setConditionCode(iso.CD(diseaseHistory.getPrimaryDiseaseStr()));
+		convertedDiseaseHistory.setDisease(condition);
+		convertedDiseaseHistory.setTargetAnatomicSiteCode(iso.CD(diseaseHistory.getPrimaryDiseaseSiteStr()));
+		return convertedDiseaseHistory;
+	}
+	
+	public StudyInvestigator convertToStudyInvestigator(edu.duke.cabig.c3pr.domain.StudySubject domainObject){
+		StudyInvestigator studyInvestigator = new StudyInvestigator();
+		Person investigator = new Person();
+		studyInvestigator.setHealthcareProvider(new HealthcareProvider());
+		studyInvestigator.getHealthcareProvider().setPerson(investigator);
+		if(domainObject.getTreatingPhysician()!=null){
+			Investigator inv = domainObject.getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator();
+			DSETENPN dsetenpn = new DSETENPN();
+			ENPN enpn = new ENPN();
+			enpn.getPart().add(iso.ENXP(inv.getFirstName(), EntityNamePartType.valueOf(GIV)));
+			enpn.getPart().add(iso.ENXP(inv.getLastName(), EntityNamePartType.valueOf(FAM)));
+			dsetenpn.getItem().add(enpn);
+			investigator.setName(dsetenpn);
+			BAGTEL addr = new BAGTEL();
+			addr.getItem().add(iso.TEL(MAILTO + SEMICOLON + inv.getEmail()));
+			investigator.setTelecomAddress(addr);
+			investigator.setAdministrativeGenderCode(iso.CD(NullFlavor.NI));
+			investigator.setBirthDate(iso.TSDateTime(NullFlavor.NI));
+			investigator.setEthnicGroupCode(new DSETCD());
+			investigator.setMaritalStatusCode(iso.CD(NullFlavor.NI));
+			investigator.setPostalAddress(new DSETAD());
+			investigator.setRaceCode(new DSETCD());
+			studyInvestigator.getHealthcareProvider().setIdentifier(iso.II(inv.getAssignedIdentifier()));
+		}else{
+			DSETENPN dsetenpn = new DSETENPN();
+			ENPN enpn = new ENPN();
+			enpn.getPart().add(iso.ENXP(domainObject.getOtherTreatingPhysician(), EntityNamePartType.valueOf(GIV)));
+			dsetenpn.getItem().add(enpn);
+			investigator.setName(dsetenpn);
+			investigator.setAdministrativeGenderCode(iso.CD(NullFlavor.NI));
+			investigator.setBirthDate(iso.TSDateTime(NullFlavor.NI));
+			investigator.setEthnicGroupCode(new DSETCD());
+			investigator.setMaritalStatusCode(iso.CD(NullFlavor.NI));
+			investigator.setPostalAddress(new DSETAD());
+			investigator.setRaceCode(new DSETCD());
+			investigator.setTelecomAddress(new BAGTEL());
+			studyInvestigator.getHealthcareProvider().setIdentifier(iso.II(NullFlavor.NA));
+		}
+		return studyInvestigator;
+	}
+	
 }

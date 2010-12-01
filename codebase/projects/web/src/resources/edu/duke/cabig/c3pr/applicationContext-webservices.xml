@@ -88,6 +88,10 @@
 		</jaxws:inInterceptors>
 	</jaxws:endpoint>
 	
+	<bean id="subjectRegistrationJAXBToDomainObjectConverter"
+		class="edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverterImpl"
+		autowire="byType" />
+	
 	<bean id="subjectRegistrationService"
 		class="edu.duke.cabig.c3pr.webservice.subjectregistration.impl.SubjectRegistrationImpl"
 		autowire="byType" />

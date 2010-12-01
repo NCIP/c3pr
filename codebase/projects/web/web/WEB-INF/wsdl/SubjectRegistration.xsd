@@ -20,37 +20,15 @@
 	<import schemaLocation="ISO_datatypes_Narrative.xsd" namespace="uri:iso.org:21090" />
 	<import schemaLocation="Common.xsd" namespace="http://enterpriseservices.nci.nih.gov/Common" />
 
-	<complexType name="Drug">
-		<annotation>
-			<documentation>An article other than food intended for use in the diagnosis, cure, mitigation, treatment, or prevention of disease; or intended to affect the structure or any function of the body. 
-				
-				For example, aspirin.</documentation>
-		</annotation>
-		<sequence>
-			<element name="kitNumber" type="ISO:II"/>
-		</sequence>
-	</complexType>
-	
-	<complexType name="DefinedActivity">
-		<complexContent>
-			<extension base="common:Activity">
-				<sequence>
-					<element name="description" type="ISO:ST" minOccurs="0"/>
-					<element name="nameCode" type="ISO:CD" minOccurs="0"/>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
-	
 	<complexType name="DefinedSubjectActivityGroup">
 		<complexContent>
-			<extension base="tns:DefinedActivity"/>
+			<extension base="common:DefinedActivity"/>
 		</complexContent>
 	</complexType>
 	
 	<complexType name="DefinedObservation">
 		<complexContent>
-			<extension base="tns:DefinedActivity"/>
+			<extension base="common:DefinedActivity"/>
 		</complexContent>
 	</complexType>
 	
@@ -64,13 +42,13 @@
 		</complexContent>
 	</complexType>
 	
-	<complexType name="DefinedIncusionCriterion">
+	<complexType name="DefinedInclusionCriterion">
 		<complexContent>
 			<extension base="tns:DefinedEligibilityCriterion"/>
 		</complexContent>
 	</complexType>
 	
-	<complexType name="DefinedExcusionCriterion">
+	<complexType name="DefinedExclusionCriterion">
 		<complexContent>
 			<extension base="tns:DefinedEligibilityCriterion"/>
 		</complexContent>
@@ -79,7 +57,7 @@
 	<complexType name="DefinedObservationResult">
 		<sequence>
 			<element name="result" type="ISO:ANY"/>
-			<element name="typeCode" type="ISO:CD"/>
+			<element name="typeCode" type="ISO:CD" minOccurs="0"/>
 			<element name="definedObservation" type="tns:DefinedObservation" minOccurs="0"/>
 		</sequence>
 	</complexType>
@@ -95,7 +73,7 @@
 			<element name="result" type="ISO:ANY" minOccurs="0"/>
 			<element name="targetAnatomicSiteCode" type="ISO:CD" minOccurs="0"/>
 			<element name="targetAnatomicSiteLateralityCode" type="ISO:CD" minOccurs="0"/>
-			<element name="typeCode" type="ISO:CD"/>
+			<element name="typeCode" type="ISO:CD" minOccurs="0"/>
 			<element name="startificationCriterion" type="tns:DefinedStratificationCriterion" minOccurs="0"/>
 			<element name="startificationCriterionPermissibleResult" type="tns:DefinedStratificationCriterionPermissibleResult" minOccurs="0"/>
 			<element name="eligibilityCriterion" type="tns:DefinedEligibilityCriterion" minOccurs="0"/>

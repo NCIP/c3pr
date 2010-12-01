@@ -430,6 +430,28 @@
 		</sequence>
 	</complexType>
 	
+	<complexType name="DefinedActivity">
+		<complexContent>
+			<extension base="tns:Activity">
+				<sequence>
+					<element name="description" type="ISO:ST" minOccurs="0"/>
+					<element name="nameCode" type="ISO:CD" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<complexType name="Drug">
+		<annotation>
+			<documentation>An article other than food intended for use in the diagnosis, cure, mitigation, treatment, or prevention of disease; or intended to affect the structure or any function of the body. 
+				
+				For example, aspirin.</documentation>
+		</annotation>
+		<sequence>
+			<element name="kitNumber" type="ISO:II"/>
+		</sequence>
+	</complexType>
+	
 	<complexType name="PerformedActivity">
 		<complexContent>
 			<extension base="tns:Activity">
@@ -437,6 +459,8 @@
 					<element name="statusCode" type="ISO:CD" minOccurs="0"/>
 					<element name="statusDate" type="ISO:TS.DateTime" minOccurs="0"/>
 					<element name="missedIndicator" type="ISO:BL" minOccurs="0"/>
+					<element name="drug" type="tns:Drug" minOccurs="0"/>
+					<element name="definedActivity" type="tns:DefinedActivity" minOccurs="0"/>
 				</sequence>
 			</extension>
 		</complexContent>

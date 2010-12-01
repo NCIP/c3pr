@@ -167,7 +167,7 @@
 			<xsd:element name="QuerySubjectRegistrationRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="subjects" type="common:DSET_AdvanceSearchCriterionParameter"/>
+						<xsd:element name="parameters" type="common:DSET_AdvanceSearchCriterionParameter"/>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
