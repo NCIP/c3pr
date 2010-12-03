@@ -494,6 +494,7 @@
 					<element name="consentingMethod" type="ISO:CD"/>
 					<element name="consentPresenter" type="ISO:ST" minOccurs="0"/>
 					<element name="subjectConsentAnswer" type="tns:PerformedStudySubjectMilestone" minOccurs="0" maxOccurs="unbounded"/>
+					<element name="consentDeclinedDate" type="ISO:TS.DateTime"/>
 				</sequence>
 			</extension>
 		</complexContent>

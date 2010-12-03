@@ -108,6 +108,7 @@ public class SubjectRegistrationWebServiceTest extends C3PREmbeddedTomcatTestBas
 	protected static final String TEST_ORG_ID = "MN026";
 	protected static final String TEST_CONSENT_DELIVERY_DATE1 = "20090101000000";
 	protected static final String TEST_CONSENT_SIGNED_DATE1 = "20100101000000";
+	protected static final String TEST_CONSENT_DECLINED_DATE1 = "20100202000000";
 	protected static final String TEST_CONSENT_PRESENTER1 = "John Doe";
 	protected static final String TEST_CONSENTING_METHOD1 = "Written";
 	protected static final String TEST_CONSENT_NAME1 = "General1";
@@ -120,6 +121,7 @@ public class SubjectRegistrationWebServiceTest extends C3PREmbeddedTomcatTestBas
 	protected static final String TEST_CONSENT_QUES12="Q12";
 	protected static final String TEST_CONSENT_DELIVERY_DATE2 = "20060101000000";
 	protected static final String TEST_CONSENT_SIGNED_DATE2 = "20070101000000";
+	protected static final String TEST_CONSENT_DECLINED_DATE2 = "20070202000000";
 	protected static final String TEST_CONSENT_PRESENTER2 = "Deep Singh";
 	protected static final String TEST_CONSENTING_METHOD2 = "Verbal";
 	protected static final String TEST_CONSENT_NAME2 = "General2";
@@ -325,6 +327,7 @@ public class SubjectRegistrationWebServiceTest extends C3PREmbeddedTomcatTestBas
 		studySubjectConsentVersion.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE1));
 		studySubjectConsentVersion.setIdentifier(iso.II(TEST_CONSENTING_DOCID1));
 		studySubjectConsentVersion.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE1));
+		studySubjectConsentVersion.setConsentDeclinedDate(iso.TSDateTime(TEST_CONSENT_DECLINED_DATE1));
 		studySubjectConsentVersion.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD1));
 		studySubjectConsentVersion.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER1));
 		studySubjectConsentVersion.setConsent(new DocumentVersion());
@@ -350,6 +353,7 @@ public class SubjectRegistrationWebServiceTest extends C3PREmbeddedTomcatTestBas
 		studySubjectConsentVersion.setConsentDeliveryDate(iso.TSDateTime(TEST_CONSENT_DELIVERY_DATE2));
 		studySubjectConsentVersion.setIdentifier(iso.II(TEST_CONSENTING_DOCID2));
 		studySubjectConsentVersion.setInformedConsentDate(iso.TSDateTime(TEST_CONSENT_SIGNED_DATE2));
+		studySubjectConsentVersion.setConsentDeclinedDate(iso.TSDateTime(TEST_CONSENT_DECLINED_DATE2));
 		studySubjectConsentVersion.setConsentingMethod(iso.CD(TEST_CONSENTING_METHOD2));
 		studySubjectConsentVersion.setConsentPresenter(iso.ST(TEST_CONSENT_PRESENTER2));
 		studySubjectConsentVersion.setConsent(new DocumentVersion());

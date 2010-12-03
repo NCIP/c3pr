@@ -128,10 +128,10 @@
   
   <SCHEDULED_ARMS id="1000" version="1" start_date="2000-01-01" eligibility_indicator="1" arm_id="1000" SCEPH_ID="1000" />  
   
-  <study_subject_consents id="1000" retired_indicator="false" version="0" informed_consent_signed_tstamp="2010-01-01" study_subject_ver_id="1000" consent_id="1000" consenting_method="WRITTEN" consent_presenter="John Doe" consent_delivery_date="2009-01-01" document_id="DOC_ID1" />
+  <study_subject_consents id="1000" retired_indicator="false" version="0" informed_consent_signed_tstamp="2010-01-01" study_subject_ver_id="1000" consent_id="1000" consenting_method="WRITTEN" consent_presenter="John Doe" consent_delivery_date="2009-01-01" document_id="DOC_ID1" consent_declined_date="2010-02-02"/>
   <sub_con_que_ans id="1000" agreement_indicator="1" con_que_id="1000" stu_sub_con_ver_id="1000"/>
   <sub_con_que_ans id="1001" agreement_indicator="0" con_que_id="1001" stu_sub_con_ver_id="1000"/>
-  <study_subject_consents id="1001" retired_indicator="false" version="0" informed_consent_signed_tstamp="2007-01-01" study_subject_ver_id="1000" consent_id="1001" consenting_method="VERBAL" consent_presenter="Deep Singh" consent_delivery_date="2006-01-01" document_id="DOC_ID2" />
+  <study_subject_consents id="1001" retired_indicator="false" version="0" informed_consent_signed_tstamp="2007-01-01" study_subject_ver_id="1000" consent_id="1001" consenting_method="VERBAL" consent_presenter="Deep Singh" consent_delivery_date="2006-01-01" document_id="DOC_ID2" consent_declined_date="2007-02-02"/>
   <sub_con_que_ans id="1002" agreement_indicator="1" con_que_id="1002" stu_sub_con_ver_id="1001"/>
   <sub_con_que_ans id="1003" agreement_indicator="0" con_que_id="1003" stu_sub_con_ver_id="1001"/>
   
