@@ -309,6 +309,7 @@
 						<include name="edu/duke/cabig/**/SubjectRegistryMayoUseCaseIntegrationTest.class"/>
 						<include name="edu/duke/cabig/**/StudyUtilityWebServiceTest.class"/>
 						<include name="edu/duke/cabig/**/StudyImportExportWebServiceTest.class"/>
+						<include name="edu/duke/cabig/**/SubjectRegistrationWebServiceTest.class"/>
 					</fileset>
 				</batchtest>
 				
