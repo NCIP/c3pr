@@ -128,7 +128,7 @@ public class StudyAdvancedSearchController extends AdvancedSearchController{
 			AdvancedSearchColumn advancedSearchColumn7 = new AdvancedSearchColumn();
 			advancedSearchColumn7.setColumnHeader("Companion");
 			advancedSearchColumn7.setValue(study.getCompanionIndicator()?"Yes":"No");
-			columnList.add(advancedSearchColumn6);
+			columnList.add(advancedSearchColumn7);
 			
 			advancedSearchRow.setColumnList(columnList);
 			advancedSearchStudies.add(advancedSearchRow);
