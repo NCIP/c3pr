@@ -43,7 +43,7 @@ color:white;
 </style>
 </head>
 <body>
-<!--  tags:instructions code="participant_search_report"/>  -->
+<tags:instructions code="participant_search_report"/>
 <chrome:box title="Search Subject">
 <form:form id="search" method="post">
 <chrome:division>
