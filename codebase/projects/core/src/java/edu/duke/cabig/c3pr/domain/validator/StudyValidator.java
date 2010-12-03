@@ -473,18 +473,20 @@ public class StudyValidator implements Validator {
 	                    getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.NO_AMENDMENT_ON_SAME_DATE.CODE"),
 	                                    null, null));
 			}
-		}
-		if(studyVersions.size() > 1){
-			StudyVersion previousVersion = study.getReverseSortedStudyVersions().get(studyVersions.size() - 2); 
-			GregorianCalendar cal = new GregorianCalendar();
-			cal.setTime(previousVersion.getVersionDate());
-			cal.add(cal.DATE, 1);
-			String previousVersionDateStr = CommonUtils.getDateString(cal.getTime());
-			if(currentVersion.getVersionDate().before(previousVersion.getVersionDate())){
-				errors.rejectValue("study.studyVersions", new Integer(
-	                    getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.DATE.OLDER_THAN_PREVIOUD_VERSION.CODE")).toString(),
-	                    getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.DATE.OLDER_THAN_PREVIOUD_VERSION.CODE"),
-	                                    new String[]{previousVersionDateStr}, null));
+			
+			
+			if(studyVersion != currentVersion){
+				if(currentVersion.getVersionDate().before(studyVersion.getVersionDate())){
+				GregorianCalendar cal = new GregorianCalendar();
+				cal.setTime(studyVersion.getVersionDate());
+				cal.add(cal.DATE, 1);
+				String previousVersionDateStr = CommonUtils.getDateString(cal.getTime());
+					errors.rejectValue("study.studyVersions", new Integer(
+		                    getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.DATE.OLDER_THAN_PREVIOUD_VERSION.CODE")).toString(),
+		                    getMessageFromCode(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.DATE.OLDER_THAN_PREVIOUD_VERSION.CODE"),
+		                                    new String[]{previousVersionDateStr}, null));
+					
+				}
 			}
 		}
 	}
