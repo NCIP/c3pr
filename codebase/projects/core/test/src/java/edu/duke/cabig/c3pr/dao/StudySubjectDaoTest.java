@@ -2207,4 +2207,33 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		assertEquals("Expected 2 registrations", 2,  registrations.size());
 	}
 	
+	public void testGetResultSetWithHQLForEligbilityIndicator() throws Exception {
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch", "eligibilityIndicator",
+						"false", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("1 registration not found", 1,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForOffEpochInEligibleReasonCode() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("INELIGIBLE");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Reason", "code",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("unexpected registration(s) found", 0,  registrations.size());
+	}
+	
 }
