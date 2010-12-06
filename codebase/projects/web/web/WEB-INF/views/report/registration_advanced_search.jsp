@@ -16,6 +16,14 @@
 	<title>${tab.longTitle}</title>
 	<tags:dwrJavascriptLink objects="CommonAjaxFacade" />
 <script>
+	function setValueFalseIfChecked(element){
+		attributeId = element.id + '-hidden';
+		if(element.checked == true){
+			$(attributeId).value = false;
+		}else {
+			$(attributeId).value = true;
+		}
+	}
 	function validateAndSubmitForm(){
 		if($('enrollingsite-hidden').value == ""){
 			$('enrollingsite-identifier-type').value="" ;
@@ -510,7 +518,7 @@ color:white;
         </div>
         
         <div class="row" >
-        	<div class="label"><fmt:message key="study.epoch.type"/></div>
+        	<div class="label"><fmt:message key="c3pr.common.epoch.type"/></div>
           	<div class="value" >
           		<input type="hidden" name="searchCriteriaList[27].objectName" value="edu.duke.cabig.c3pr.domain.Epoch"/>
           		<input type="hidden" name="searchCriteriaList[27].attributeName" value="type.code" />
@@ -667,6 +675,16 @@ color:white;
 				<%-- Autocompleter Section --%>	
 				<input type="hidden" id="enrollingsite-hidden" name="searchCriteriaList[26].values"/>
 				<tags:autocompleter name="enrollingsite" displayValue="" value="" basename="enrollingsite"></tags:autocompleter>
+   	    	</div>
+        </div>
+        <div class="row" >
+        	<div class="label"><fmt:message key="registration.subject.inEligible"/></div>
+          	<div class="value" >
+          		<input type="hidden" name="searchCriteriaList[29].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
+          		<input type="hidden" name="searchCriteriaList[29].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[29].attributeName" value="eligibilityIndicator" />
+          		<input type="hidden" id="inEligibleRegistrations-hidden" name="searchCriteriaList[29].values"/>
+          		<input type="checkbox" id="inEligibleRegistrations" name="inEligibleRegistrations" onclick="setValueFalseIfChecked(this);">
    	    	</div>
         </div>
       <div class="divison"></div>
