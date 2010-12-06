@@ -52,14 +52,15 @@ YAHOO.util.Event.addListener(window, "load", function() {
 
         //Create config
         var oConfigs = {
+        		width:"70em" ,
         		paginator: new YAHOO.widget.Paginator({ 
-        			rowsPerPage: 10, 
+        			rowsPerPage: 20, 
         			rowsPerPageOptions : [10,25,50,  {value:100000000,text:'All'}], 
-        			template : "{PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown} {ShowAllLink}" 
+        			template : "{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {ShowAllLink}" 
         			}), 
 				draggableColumns:true
 			};
-        var studyDataTable = new YAHOO.widget.DataTable("studyTable", myColumnDefs, studyDataSource, oConfigs);
+        var studyDataTable = new YAHOO.widget.ScrollingDataTable("studyTable", myColumnDefs, studyDataSource, oConfigs);
         studyDataTable.subscribe("rowMouseoverEvent", studyDataTable.onEventHighlightRow); 
         studyDataTable.subscribe("rowMouseoutEvent", studyDataTable.onEventUnhighlightRow); 
         studyDataTable.subscribe("rowClickEvent", function (oArgs) {
