@@ -175,7 +175,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 	
 	<div id="dt-example">
 			<div id="dt-options"><a id="dt-options-link" href="fallbacklink.html">Table Options</a></div>
-		</div>
+	</div>
 	<div id="printable">
 	
 		<div id="registrationTable" class="yui-skin-sam"></div>

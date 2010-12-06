@@ -510,7 +510,7 @@ color:white;
         </div>
         
         <div class="row" >
-        	<div class="label"><fmt:message key="epoch.type"/></div>
+        	<div class="label"><fmt:message key="study.epoch.type"/></div>
           	<div class="value" >
           		<input type="hidden" name="searchCriteriaList[27].objectName" value="edu.duke.cabig.c3pr.domain.Epoch"/>
           		<input type="hidden" name="searchCriteriaList[27].attributeName" value="type.code" />
