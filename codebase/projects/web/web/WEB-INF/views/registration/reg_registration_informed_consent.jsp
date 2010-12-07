@@ -13,7 +13,7 @@ function closePopup(){
 function changeStudyVersion(){
 	Effect.CloseDown('studyVersionDiv');
 	$('updateStudyVersion').value="true";
-	$('consentSignedDate').value=$('studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate').value;
+	$('consentSignedDate').value=$('studySubject.allConsents[0].informedConsentSignedDate').value;
 	$('dontSave').remove();
 	$('studyVersionForm').submit();
 }
@@ -44,7 +44,7 @@ function changeStudyVersion(){
 <div id="checkInformedConsentSignedDateDiv" style="display: none;">
 </div>
 <form:form id="studyVersionForm">
-	<form:errors path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate">
+	<form:errors path="*">
 		<div id="checkInformedConsentSignedDateDivInline">
 		</div>
 	</form:errors>
