@@ -34,7 +34,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 	}
 
 	public EnrollmentDetailsTab() {
-        super("Enrollment Details", "Enrollment Details", "registration/reg_registration_details");
+        super("Registration / Enrollment Details", "Registration / Enrollment Details", "registration/reg_registration_details");
     }
     
     @Override
