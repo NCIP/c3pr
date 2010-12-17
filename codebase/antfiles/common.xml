@@ -469,6 +469,16 @@
 		This target will generate the java objects using XSD available in ${main.src.resources}/schema
 	===================================================================================================-->
 	<target name="generate-jaxb" description="This target will generate the java objects using XSD available in ${main.src.resources}/schema">
+		<antcall target="run-xjc" inheritAll="true" inheritRefs="true">
+			<param name="xjc.schema.location" value="${main.src.resources}/rules/schema"/>
+			<param name="xjc.schema.pattern" value="*.xsd"/>
+		</antcall>
+    </target>
+	
+	<target name="run-xjc">
+		<echo>Running XJC...</echo>
+		<echo>XJS will write to ${generated.src.dir}</echo>
+		<echo>XJS will use XSDs in ${xjc.schema.location}</echo>
 		<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
 			<classpath>
 				<path refid="main.classpath" />
@@ -476,15 +486,15 @@
 	    </taskdef>
 
 		<mkdir dir="${generated.src.dir}"/>
-	    <xjc destdir="${generated.src.dir}" extension="true" >
+	    <xjc destdir="${generated.src.dir}" extension="true">
 	    	<arg line="-npa
 	    			   -Xcollection-setter-injector"/>
-	    	<schema dir="${main.src.resources}/rules/schema">
-	        	<include name="*.xsd"/>
+	    	<schema dir="${xjc.schema.location}">
+	        	<include name="${xjc.schema.pattern}"/>
 	        </schema>
 	        <produces dir="${generated.src.dir}" includes="**/schema/**/*.java"/>
-	    </xjc>
-    </target>
+	    </xjc>		
+	</target>
 	<!-- ===============================================================================================
 		target:generate-jibx
 		This target will generate the java objects using XSD available in ${main.src.resources}/schema

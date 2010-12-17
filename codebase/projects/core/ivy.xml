@@ -187,7 +187,7 @@
 			<dependency org="javax.xml.ws" name="jaxws-api" rev="2.1" />
 			<dependency org="jdom" name="jdom" rev="1.0" />
 			<!-- <dependency org="xalan" name="xalan" rev="2.7.0" /> -->
-			<dependency org="jaxb" name="jaxb-xjc" rev="2.0-SNAPSHOT"/>
+			<dependency org="com.sun.xml.bind" name="jaxb-xjc" rev="2.1.3"/>
 			
 			<!-- EXCEL related API -->
 			<dependency org="poi" name="poi" rev="3.5-beta5" force="true"/>
@@ -241,6 +241,7 @@
          	<exclude org="xml-security" name="xmlsec" rev="1.3.0"/>
 			<exclude org="org.globus" name="xmlsec" rev="1.2"/>
 			<exclude org="org.globus" name="wss4j" rev="4.0-cagrid1.0"/>
+			<exclude org="jaxb" name="jaxb-xjc" rev="2.0-SNAPSHOT"/>
          	
          	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="1.31" />
         </dependencies>
