@@ -2546,5 +2546,6 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals("Wrong number of studies", 3,  studies.size());
 	}
 	
-	
 }
+
+

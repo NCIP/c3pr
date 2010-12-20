@@ -171,11 +171,11 @@
  	
 	<stu_sub_associations parent_stu_sub_id="1000" child_stu_sub_id="1001" />
     
-    <SCHEDULED_EPOCHS id="1000" version="1" start_date="2006-03-05" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1000" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
-    <SCHEDULED_EPOCHS id="1001" version="1" start_date="2007-01-02" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1005" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />  
+    <SCHEDULED_EPOCHS id="1000" version="1" start_date="2006-03-05" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1000" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" off_epoch_date="2007-01-01"/>
+    <SCHEDULED_EPOCHS id="1001" version="1" start_date="2007-01-02" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1005" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" off_epoch_date="2008-11-10"/>  
 	<SCHEDULED_EPOCHS id="1002" version="1" start_date="2008-11-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1001" sc_epoch_workflow_status="PENDING_ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
     <SCHEDULED_EPOCHS id="1003" version="1" start_date="2000-01-01" eligibility_indicator="0" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1003"  eph_id="1000" sc_epoch_workflow_status="PENDING_ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" />
-    <SCHEDULED_EPOCHS id="1004" version="1" start_date="2010-01-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1004"  eph_id="1000" sc_epoch_workflow_status="OFF_EPOCH" sc_epoch_data_entry_status="COMPLETE" retired_indicator = "false" />
+    <SCHEDULED_EPOCHS id="1004" version="1" start_date="2010-01-11" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1004"  eph_id="1000" sc_epoch_workflow_status="OFF_EPOCH" sc_epoch_data_entry_status="COMPLETE" retired_indicator = "false" off_epoch_date="2010-11-11"/>
     
     <off_epoch_reasons id="1000" version="1" retired_indicator="false"  sceph_id="1004" reason_id="1000" />
    

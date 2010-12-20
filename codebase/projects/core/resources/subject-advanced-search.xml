@@ -111,5 +111,65 @@
 				</association>
 			</association-context>
 		</dependent-object>
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier</class-name>
+			<display-name>OrganizationAssignedIdentifier</display-name>
+			<table-alias>Identifier_xx</table-alias>
+			<search-criteria>
+				<name>value</name>
+				<label>Identifier Value</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>typeInternal</name>
+				<label>Identifier Type</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>healthcareSite.id</name>
+				<label>Database Id of the healthcare site that assigned the identifier</label>
+				<data-type>HealthcareSite</data-type>
+			</search-criteria>
+			<association-context>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier</name>
+					<role-name>identifiers</role-name>
+					<table-name>identifiers</table-name>
+					<table-alias>Identifier_xx</table-alias>
+					<joining-condition>Identifier_xx = any
+						elements(Participant_xx.identifiers)</joining-condition>
+				</association>
+			</association-context>
+		</dependent-object>
+		<dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier</class-name>
+			<display-name>SystemAssignedIdentifier</display-name>
+			<table-alias>Identifier_xx</table-alias>
+			<search-criteria>
+				<name>value</name>
+				<label>Identifier Value</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>typeInternal</name>
+				<label>Identifier Type</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>system_name</name>
+				<label>Name of the system that assigned the identifier</label>
+				<data-type>String</data-type>
+			</search-criteria>
+			<association-context>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier</name>
+					<role-name>identifiers</role-name>
+					<table-name>identifiers</table-name>
+					<table-alias>Identifier_xx</table-alias>
+					<joining-condition>Identifier_xx = any
+						elements(Participant_xx.identifiers)</joining-condition>
+				</association>
+			</association-context>
+		</dependent-object>
 	</target-object>
 </queryBuilder>

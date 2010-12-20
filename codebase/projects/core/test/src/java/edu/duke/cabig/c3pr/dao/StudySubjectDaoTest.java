@@ -1970,6 +1970,58 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
 		assertEquals("2 registrations not found", 2,  registrations.size());
 	}
+	public void testGetResultSetWithHQLForScheduledEpochStartDate() throws Exception {
+		List<String> values = new ArrayList<String>();
+		
+		values.add("12/31/1999");
+     	values.add("05/01/2009");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch",  "startDate",
+						values, "between");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("wrong number of registrations found for this scheduled epoch start date range", 2,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForStudyVersionStartDate() throws Exception {
+		List<String> values = new ArrayList<String>();
+		
+     	values.add("01/01/2001");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudyVersion",  "versionDate",
+						values, "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("wrong number of registrations found for this scheduled epoch start date range", 5,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForScheduledEpochOffEpochDate() throws Exception {
+		List<String> values = new ArrayList<String>();
+		
+		values.add("12/31/1999");
+     	values.add("05/01/2009");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.ScheduledEpoch",  "offEpochDate",
+						values, "between");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("Wrong number of registrations found for this off epoch date range", 1,  registrations.size());
+	}
 	
 	public void testGetResultSetWithHQLForOffEpochReasonCode() throws Exception {
 		List<String> values = new ArrayList<String>();
@@ -2065,6 +2117,22 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		
 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
 		assertEquals("4 registrations not found", 4,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForStudy() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("OPEN");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.Study",  "coordinatingCenterStudyStatus.code",
+						values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("Wrong number of registrations found", 5,  registrations.size());
 	}
 	
 	public void testGetResultSetWithHQLForStudyType() throws Exception {

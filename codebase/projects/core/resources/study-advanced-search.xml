@@ -472,11 +472,6 @@
 				<label>Identifier Type</label>
 				<data-type>String</data-type>
 			</search-criteria>
-			<search-criteria>
-				<name>systemName</name>
-				<label>System name for system assigned identifiers</label>
-				<data-type>String</data-type>
-			</search-criteria>
 			<association-context>
 				<name>Organization</name>
 				<association>

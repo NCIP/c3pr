@@ -540,6 +540,25 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 		}
 		return null;
 	}
+	
+	/**
+	 * Gets the primary identifier value.
+	 * 
+	 * @return the primary identifier value
+	 */
+	@Transient
+	public String getPrimaryIdentifierSource() {
+		for (Identifier identifier : getIdentifiers()) {
+			if (identifier.getPrimaryIndicator()) {
+				if(identifier instanceof OrganizationAssignedIdentifier){
+					return ((OrganizationAssignedIdentifier)identifier).getHealthcareSite().getName();
+				} else {
+					return ((SystemAssignedIdentifier)identifier).getSystemName();
+				}
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Sets the primary identifier.

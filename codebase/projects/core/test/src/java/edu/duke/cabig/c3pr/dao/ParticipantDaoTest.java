@@ -731,6 +731,39 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 		assertEquals("3 participants not found", 3,  subjects.size());
 	}
 	
+	public void testGetResultSetWithHQLForIdentifierSystemName() throws Exception {
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier", "systemName", "nci", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Participant> subjects = participantDao.search(criteriaParameters);
+		assertEquals("Unexpected number participants", 5,  subjects.size());
+	}
+	
+	public void testGetResultSetWithHQLForIdentifierByAGivenOrganization() throws Exception {
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier", "healthcareSite.id", "1000", "=");
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter2 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier", "value", "mrn_value", "like");
+		
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter3 = AdvancedSearchHelper
+		.buildAdvancedSearchCriteriaParameter(
+				"edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier", "typeInternal", "MRN", "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		criteriaParameters.add(advancedSearchCriteriaParameter2);
+		criteriaParameters.add(advancedSearchCriteriaParameter3);
+		
+		List<Participant> subjects = participantDao.search(criteriaParameters);
+		assertEquals("Wrong number of participants found", 1,  subjects.size());
+	}
+	
 	public void testGetResultSetWithHQLForWildSearch() throws Exception {
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 		List<Participant> subjects = participantDao.search(criteriaParameters);
