@@ -19,6 +19,7 @@ YAHOO.example.Data = {
 					<c:forEach items="${subjects}" var="subject" varStatus="status">
 					        {
 					            subjectFullName: "${subject.fullName}",
+					            identifierSource: "${subject.primaryIdentifierSource}",
 					            identifier: "${subject.primaryIdentifierValue}",
 					            subjectGender: "${subject.administrativeGenderCode}",
 					            subjectEthnicity: "${subject.ethnicGroupCode}",
@@ -31,10 +32,16 @@ YAHOO.example.Data = {
 					 ]
 }
 
+<c:if test="${studyOrganization.class.name == 'edu.duke.cabig.c3pr.domain.StudyFundingSponsor' && !command.hasFundingSponsorAsStudySite}">
+<c:set var="canDisplay" value="true"/>				
+<c:set var="orgType" value="Funding Sponsor"/>																										
+</c:if>
+
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.CustomSort = function() {
         var myColumnDefs = [
             {key:"subjectFullName",       label:"Full Name",       sortable:true,      resizeable:true , minWidth:250},
+            {key:"identifierSource",   label:"Primary Identifier Source", sortable:true,      resizeable:true},
             {key:"identifier",         label:"Primary Identifier", sortable:true,      resizeable:true},
             {key:"subjectGender",         label:"Gender",          sortable:true,      resizeable:true},
             {key:"subjectEthnicity",      label:"Ethnicity",       sortable:true,      resizeable:true},
@@ -44,7 +51,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
         var subjectDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.subjectList);
         subjectDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
         subjectDataSource.responseSchema = {
-            fields: ["subjectFullName", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate", "subjectBirthDateSort", "identifierStr"]
+            fields: ["subjectFullName", "identifierSource", "identifier", "subjectGender", "subjectEthnicity", "subjectBirthDate", "subjectBirthDateSort", "identifierStr"]
         };
 
         //Create config

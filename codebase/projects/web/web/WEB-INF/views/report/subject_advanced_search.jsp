@@ -12,6 +12,7 @@
     <title>Subject Search</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>${tab.longTitle}</title>
+	<tags:dwrJavascriptLink objects="CommonAjaxFacade" />
 <script>
 	function showAgeTextBox(selectbox){
 		if (selectbox.value == 'between') {
@@ -34,6 +35,32 @@
 		birthYear = yearStr - age ;
 		//$(dateField).value = monthStr+"/"+dateStr+"/"+birthYear ;
 		$(dateField).value = "01/01/"+birthYear ;
+	}
+	var organizationAutocompleterProps = {
+	        basename: "identifierOrganization",
+	        populator: function(autocompleter, text) {
+	            CommonAjaxFacade.matchHealthcareSites(text,function(values) {
+	                autocompleter.setChoices(values)
+	            })
+	        },
+	        valueSelector: function(obj) {
+	        	return (obj.name + '(' + obj.ctepCode +')')
+	        },
+	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+									hiddenField=organizationAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			 }
+	    }
+	AutocompleterManager.addAutocompleter(organizationAutocompleterProps);
+	function validateAndSubmitForm(){
+		if($('identifierOrganization-hidden').value != "" && $('identifierSystemName').value == ""){
+			$('identifierValue').value="edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier" ;
+			$('identifierType').value="edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier" ;
+		} else if($('identifierOrganization-hidden').value == "" && $('identifierSystemName').value != ""){
+			$('identifierValue').value="edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier" ;
+			$('identifierType').value="edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier" ;
+		}
+		 $('search').submit();	
 	}
 </script>
 <style type="text/css">
@@ -66,10 +93,47 @@ color:white;
         		<input type="text"  size="25" name="searchCriteriaList[1].values" />
         	</div>
         </div>
+        
+         <div class="row" >
+        	<div class="label"><fmt:message key="c3pr.common.assigningAuthority"/></div>
+          	<div class="value">
+	       		<input type="hidden" name="searchCriteriaList[11].objectName" value="edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier"/>
+   	        	<input type="hidden" name="searchCriteriaList[11].predicate" value="="/>
+          		<input type="hidden" name="searchCriteriaList[11].attributeName" value="healthcareSite.id" />
+          		<input type="hidden" id="identifierOrganization-hidden" name="searchCriteriaList[11].values"/>
+				<tags:autocompleter name="identifierOrganization" displayValue="" 	value="" basename="identifierOrganization"></tags:autocompleter>
+   	    	</div>
+        </div>
+         <div class="row" >
+        	<div class="label"><fmt:message key="c3pr.common.systemName"/></div>
+          	<div class="value">
+	       		<input type="hidden" name="searchCriteriaList[12].objectName" value="edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier"/>
+   	        	<input type="hidden" name="searchCriteriaList[12].predicate" value="like"/>
+          		<input type="hidden" name="searchCriteriaList[12].attributeName" value="systemName" />
+          		<input type="text" id="identifierSystemName" size="12" name="searchCriteriaList[12].values" />
+          		
+   	    	</div>
+        </div>
+         <div class="row" >
+        	<div class="label"><fmt:message key="c3pr.common.identifierType"/></div>
+          	<div class="value">
+	       		<input type="hidden" id="identifierType" name="searchCriteriaList[13].objectName" value="edu.duke.cabig.c3pr.domain.Identifier"/>
+   	        	<input type="hidden" name="searchCriteriaList[13].predicate" value="in"/>
+          		<input type="hidden" name="searchCriteriaList[13].attributeName" value="typeInternal" />
+          		 <select id="identifiersType" size="4" multiple="multiple" name="searchCriteriaList[13].values">
+                   <option value="" selected="selected">All</option>
+                   <c:forEach items="${identifiersType}" var="identifiersType">
+                       <c:if test="${!empty identifiersType.code}">
+                           <option value="${identifiersType.code}">${identifiersType.desc}</option>
+                       </c:if>
+                   </c:forEach>
+                </select>
+   	    	</div>
+        </div>
         <div class="row" >
         	<div class="label"><fmt:message key="c3pr.common.identifier"/></div>
           	<div class="value">
-        		<input type="hidden" name="searchCriteriaList[2].objectName" value="edu.duke.cabig.c3pr.domain.Identifier"/>
+        		<input type="hidden" id="identifierValue" name="searchCriteriaList[2].objectName" value="edu.duke.cabig.c3pr.domain.Identifier"/>
           		<input type="hidden" name="searchCriteriaList[2].attributeName" value="value" />
           		<input type="hidden" name="searchCriteriaList[2].predicate" value="like"/>
         		<input type="text"  size="25" name="searchCriteriaList[2].values" />
@@ -189,7 +253,7 @@ color:white;
 <chrome:division>
 <br>
 <div  align="center">
-	<tags:button type="submit" icon="search" size="small" color="blue" value="Search Subject"/>
+	<tags:button id="searchRegistration" type="button" icon="search" size="small" color="blue" value="Search Subject" onclick="validateAndSubmitForm();"/>
 	<tags:button type="reset" size="small" color="blue" value="Clear" />
 </div>
 </chrome:division>
