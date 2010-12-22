@@ -633,7 +633,7 @@ color:white;
         	<div class="label"><fmt:message key="registration.epochStatus"/></div>
           	<div class="value">
           		<input type="hidden" name="searchCriteriaList[40].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
-          		<input type="hidden" name="searchCriteriaList[40].attributeName" value="scEpochWorkflow.code" />
+          		<input type="hidden" name="searchCriteriaList[40].attributeName" value="scEpochWorkflowStatus.code" />
           		<input type="hidden" name="searchCriteriaList[40].predicate" value="like"/>
         		<select id="scheduledEpochStatus" name="searchCriteriaList[40].values" size="4" multiple="multiple">
                    <option value="" selected="selected">All</option>
@@ -645,7 +645,7 @@ color:white;
                 </select>
                 
                 <input type="hidden" name="searchCriteriaList[41].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
-          		<input type="hidden" name="searchCriteriaList[41].attributeName" value="scEpochWorkflow.code" />
+          		<input type="hidden" name="searchCriteriaList[41].attributeName" value="scEpochWorkflowStatus.code" />
           		<input type="hidden" name="searchCriteriaList[41].predicate" value="!="/>
           		<input type="hidden" id="offEpochStatus" name="searchCriteriaList[41].values" value="OFF_EPOCH"/>
                 
@@ -782,7 +782,7 @@ color:white;
         		<input type="hidden" id="offStudyRegistrationStatus" name="searchCriteriaList[44].values" value="OFF_STUDY">
         		
         		<input type="hidden" name="searchCriteriaList[45].objectName" value="edu.duke.cabig.c3pr.domain.ScheduledEpoch"/>
-          		<input type="hidden" name="searchCriteriaList[45].attributeName" value="scEpochWorkflow.code" />
+          		<input type="hidden" name="searchCriteriaList[45].attributeName" value="scEpochWorkflowStatus.code" />
           		<input type="hidden" name="searchCriteriaList[45].predicate" value="="/>
         		<input type="hidden" id="offScheduledEpochStatus" name="searchCriteriaList[45].values" value="OFF_EPOCH">
 				
