@@ -166,6 +166,9 @@ color:white;
 <!--  tags:instructions code="participant_search_report"/>  -->
 <chrome:box title="study Search Results">
 <chrome:division>
+	<c:if test="${fn:length(studies)>0}">
+		${fn:length(studies)} records found.
+	</c:if>
 	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
 		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;

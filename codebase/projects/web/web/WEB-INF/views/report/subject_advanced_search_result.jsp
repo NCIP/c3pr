@@ -30,7 +30,7 @@ YAHOO.example.Data = {
 					         <c:if test="${!status.last}">,</c:if>
 					</c:forEach>
 					 ]
-}
+};
 
 <c:if test="${studyOrganization.class.name == 'edu.duke.cabig.c3pr.domain.StudyFundingSponsor' && !command.hasFundingSponsorAsStudySite}">
 <c:set var="canDisplay" value="true"/>				
@@ -165,11 +165,14 @@ YAHOO.util.Event.addListener(window, "load", function() {
 <!--  tags:instructions code="participant_search_report"/>  -->
 <chrome:box title="Subject Search Results">
 <chrome:division>
+	<c:if test="${fn:length(subjects)>0}">
+		${fn:length(subjects)} records found.
+	</c:if>
 	<div align="right">
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
 		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;
 		<span style="behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');background:#330033;border:medium none;font-size:11px;	color:white;
-			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
+			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span>
 	</div>
 	<div id="printable">
 		<div id="dt-example">
@@ -193,7 +196,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 		<tags:button color="blue" value="print" size="small" icon="print" onclick="javascript:launchPrint();"/>
 		<a style="text-decoration:none; color:black; font-weight:bold;" href="<c:url value="/pages/report/advancedSearch/advanceSearchResultsExport"/>" />&nbsp;
 		<span style="behavior: url('/c3pr/js/button-pseudoclass-IE-hack.htc');background:#330033;border:medium none;font-size:11px;	color:white;
-			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span></a>
+			cursor:default; text-align:center;	vertical-align:middle;	padding:2px;"><b>export</b></span>
 	</div>
 </chrome:division>
 </chrome:box>

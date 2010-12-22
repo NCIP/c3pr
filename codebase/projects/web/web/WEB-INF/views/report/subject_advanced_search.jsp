@@ -24,6 +24,13 @@
 	    	$('age2').value="" ;
 	    	$('date2').value="" ;
 	    }
+		
+		if(selectbox.value == ""){
+			$('age1').style.display="none";
+			$('age1').value="";
+		} else {
+			$('age1').style.display="";
+		}
 	}
 	
 	function calculateBirthDate(ageField, dateField){
@@ -203,7 +210,7 @@ color:white;
                    <option value="=">Equal to</option>
                    <option value="between">Between</option>
                 </select>
-                <input id="age1" type="text"  size="5" name="age1" onkeyup="calculateBirthDate(this, 'date1')"/>
+                <input id="age1" type="text"  size="5" name="age1" onkeyup="calculateBirthDate(this, 'date1')" style="display:none"/>
                 <input type="text" style="display:none;border: none" value="and" id="and" size="1px" readonly="readonly"> 
              	<input id="age2" type="text"  size="5" name="age2" style="display:none;margin-top: 5px; margin-left: 190px" onkeyup="calculateBirthDate(this, 'date2')"/>
              	<!-- later date should come first -->
