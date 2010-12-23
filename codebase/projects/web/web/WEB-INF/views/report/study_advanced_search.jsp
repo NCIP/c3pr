@@ -469,7 +469,7 @@ width:16em;
          		<input type="hidden" name="searchCriteriaList[21].attributeName" value="startDate" />
          		<input type="hidden" name="searchCriteriaList[21].predicate" value=">"/>
          		<input type="text" name="searchCriteriaList[21].values" size="10" id="siteActivationDateFirst" class="date validate-DATE" />
-           		<a href="#" id="versionDateFirst-calbutton">
+           		<a href="#" id="siteActivationDateFirst-calbutton">
           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
           		</a>
 	          		<script type="text/javascript">
@@ -487,7 +487,7 @@ width:16em;
          		<input type="hidden" name="searchCriteriaList[22].attributeName" value="endDate" />
          		<input type="hidden" name="searchCriteriaList[22].predicate" value="<"/>
          		<input type="text" name="searchCriteriaList[22].values" size="10" id="siteActivationDateLast" class="date validate-DATE" />
-           		<a href="#" id="versionDateLast-calbutton">
+           		<a href="#" id="siteActivationDateLast-calbutton">
           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
           		</a>
           		<script type="text/javascript">
@@ -510,12 +510,12 @@ width:16em;
 	       		<tags:hoverHint keyProp="study.pendingSiteAmendment"/>
 	       	</div>
         </div> --%>
-      	<div class="row" >
+      	<div class="row" style="display:none" >
 				<div class="label"><fmt:message key="study.site.irbExpired"/></div>
 	        	<div class="value">
 	        		<input type="hidden" name="searchCriteriaList[11].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
    	        		<input type="hidden" name="searchCriteriaList[11].predicate" value="="/>
-          			<input type="hidden" name="searchCriteriaList[11].attributeName" value="irbExpired" />
+          			<input type="hidden" name="searchCriteriaList[11].attributeName" value="" />
           			<input type="hidden" id="irbExpired-hidden" name="searchCriteriaList[11].values"/>
 	        		<input type="checkbox" id="irbExpired" name="irbExpired" onclick="setValueTrueIfChecked(this);">
 	        	</div>	        	
