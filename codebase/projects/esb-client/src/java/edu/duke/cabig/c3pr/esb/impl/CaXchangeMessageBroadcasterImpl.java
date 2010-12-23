@@ -41,6 +41,7 @@ import edu.duke.cabig.c3pr.esb.CaXchangeMessageResponseHandlerSet;
 import edu.duke.cabig.c3pr.esb.CaXchangeMessageResponseNotifier;
 import edu.duke.cabig.c3pr.esb.DelegatedCredential;
 import edu.duke.cabig.c3pr.esb.DelegatedCredentialProvider;
+import edu.duke.cabig.c3pr.esb.ESBCommunicationException;
 import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ResponseErrors;
@@ -139,13 +140,13 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         	if (messageWorkflowCallback != null) {
                 messageWorkflowCallback.messageSendFailed(externalId);
             }
-            throw new BroadcastException(e);
+            throw new ESBCommunicationException(e);
         }catch (MalformedURIException e) {
         	if (messageWorkflowCallback != null) {
                 messageWorkflowCallback.messageSendFailed(externalId);
             }
-			throw new BroadcastException(e);
-		}
+			throw new ESBCommunicationException(e);
+		} 
 
         //logging epr info
         logEPR(responseRef.getEndpointReference());

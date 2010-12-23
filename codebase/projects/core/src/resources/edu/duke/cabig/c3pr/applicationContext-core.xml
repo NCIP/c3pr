@@ -159,7 +159,19 @@
         <property name="hibernateProperties">
             <ref bean="hibernateProperties"/>
         </property>
+		<property name="eventListeners">
+  			<map>  
+   				<entry key="post-insert">   					
+   					<ref local="participantPersistenceListener"/>   					    				
+   				</entry>
+   				<entry key="post-update">   					
+   					<ref local="participantPersistenceListener"/>   					    				
+   				</entry>   				
+  			</map>
+ 		</property>         
     </bean>
+    
+    <bean id="participantPersistenceListener" class="edu.duke.cabig.c3pr.infrastructure.ParticipantPersistenceListener" autowire="byType"/>
 
     <bean id="configuration" parent="configurationDaoTemplate"
       class="edu.duke.cabig.c3pr.tools.Configuration"/>
@@ -765,6 +777,9 @@
 
 	<!-- Scheduler jobs -->
 	<bean id="scheduledNotificationJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob" autowire="byName" />
+	<bean id="cctsNotificationMessageJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.CCTSNotificationMessageJob" autowire="byType">
+		<property name="cctsMessageBroadcaster"><ref bean="messageBroadcaster"/></property>
+	</bean>
 
 
     <!-- Repositories -->

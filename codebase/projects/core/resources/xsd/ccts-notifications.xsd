@@ -20,6 +20,7 @@
 			<element name="application" minOccurs="0" type="ccts:Application" />
 			<element name="eventType" type="ccts:EventType" />
 			<element name="objectId" type="ccts:BusinessObjectID" />
+			<element name="timestamp" type="dateTime" minOccurs="0" />
 		</sequence>
 	</complexType>
 

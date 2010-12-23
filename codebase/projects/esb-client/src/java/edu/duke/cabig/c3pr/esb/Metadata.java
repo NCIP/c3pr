@@ -52,4 +52,14 @@ public class Metadata {
 		this.serviceType = serviceType;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Metadata [operationName=" + operationName
+				+ ", externalIdentifier=" + externalIdentifier
+				+ ", serviceType=" + serviceType + "]";
+	}
+
 }

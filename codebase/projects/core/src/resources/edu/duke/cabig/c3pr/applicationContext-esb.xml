@@ -10,6 +10,7 @@
 
     <util:map id="messageTypesMapping"
               map-class="java.util.LinkedHashMap">
+        <entry key="notification" value="NOTIFICATION_BROADCAST"/>
         <entry key="registration" value="REGISTER_SUBJECT"/>
         <entry key="study" value="STUDY_CREATION"/>
         <entry key="Person" value="PERSON"/>
