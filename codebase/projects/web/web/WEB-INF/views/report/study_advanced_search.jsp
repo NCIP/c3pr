@@ -152,6 +152,9 @@ function validateAndSubmitForm(){
 				$('originalIndicatorStudyOpen-hidden').value="" ;
 				$('coordinatingCenterStudyStatusStudyOpen-hidden').value="" ;
  	 	}
+        if($('siteActivationDateFirst').value == "" && $('siteActivationDateLast').value == "") {
+			$('activeStudyStatus-hidden').value="" ;
+	 	}	
     $('search').submit();	
 } 
 
@@ -316,6 +319,7 @@ width:16em;
 				<tags:autocompleter name="coordinatingCenter" displayValue="" 	value="" basename="coordinatingCenter"></tags:autocompleter>
    	    	</div>
         </div>
+        <%-- 
          <div class="row" >
        	    <div class="label"><fmt:message key="c3pr.common.targetAccrualPercentage"/></div>
 	  	        <div class="value">
@@ -340,7 +344,7 @@ width:16em;
        			<input type="text"  size="5">
        			<tags:hoverHint keyProp="study.randomization.book.exhaustion.percentage"/>
    	    	</div>
-        </div>
+        </div> --%>
 		
     </div>
     <div class="rightpanel">
@@ -348,21 +352,21 @@ width:16em;
         	<div class="label"><fmt:message key="study.openDate"/>&nbsp;<b>after</b></div>
           	<div class="value"> 
           		
-          		<input type="hidden" name="searchCriteriaList[18].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-	        	<input type="hidden" name="searchCriteriaList[18].predicate" value="="/>
-       			<input type="hidden" name="searchCriteriaList[18].attributeName" value="originalIndicator" />
-       			<input type="hidden" id="originalIndicatorStudyOpen-hidden" name="searchCriteriaList[18].values" value="true"/>
+          		<input type="hidden" name="searchCriteriaList[17].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+	        	<input type="hidden" name="searchCriteriaList[17].predicate" value="="/>
+       			<input type="hidden" name="searchCriteriaList[17].attributeName" value="originalIndicator" />
+       			<input type="hidden" id="originalIndicatorStudyOpen-hidden" name="searchCriteriaList[17].values" value="true"/>
        			
        			
-       			<input type="hidden" name="searchCriteriaList[19].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
-          		<input type="hidden" name="searchCriteriaList[19].attributeName" value="coordinatingCenterStudyStatus.code" />
-          		<input type="hidden" name="searchCriteriaList[19].predicate" value="!="/>
-          		<input type="hidden" id="coordinatingCenterStudyStatusStudyOpen-hidden" name="searchCriteriaList[19].values" value="PENDING"/>
+       			<input type="hidden" name="searchCriteriaList[18].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+          		<input type="hidden" name="searchCriteriaList[18].attributeName" value="coordinatingCenterStudyStatus.code" />
+          		<input type="hidden" name="searchCriteriaList[18].predicate" value="!="/>
+          		<input type="hidden" id="coordinatingCenterStudyStatusStudyOpen-hidden" name="searchCriteriaList[18].values" value="PENDING"/>
        			
-        		<input type="hidden" name="searchCriteriaList[16].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-          		<input type="hidden" name="searchCriteriaList[16].attributeName" value="versionDate" />
-          		<input type="hidden" name="searchCriteriaList[16].predicate" value=">"/>
-          		<input type="text" name="searchCriteriaList[16].values" size="10" id="versionDateFirst" class="date validate-DATE" />
+        		<input type="hidden" name="searchCriteriaList[15].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+          		<input type="hidden" name="searchCriteriaList[15].attributeName" value="versionDate" />
+          		<input type="hidden" name="searchCriteriaList[15].predicate" value=">"/>
+          		<input type="text" name="searchCriteriaList[15].values" size="10" id="versionDateFirst" class="date validate-DATE" />
             	<a href="#" id="versionDateFirst-calbutton">
            	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            		</a>
@@ -377,10 +381,10 @@ width:16em;
 			        );
 				</script>
 				<b>and before</b>
-				<input type="hidden" name="searchCriteriaList[17].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-          		<input type="hidden" name="searchCriteriaList[17].attributeName" value="versionDate" />
-          		<input type="hidden" name="searchCriteriaList[17].predicate" value="<"/>
-          		<input type="text" name="searchCriteriaList[17].values" size="10" id="versionDateLast" class="date validate-DATE" />
+				<input type="hidden" name="searchCriteriaList[16].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
+          		<input type="hidden" name="searchCriteriaList[16].attributeName" value="versionDate" />
+          		<input type="hidden" name="searchCriteriaList[16].predicate" value="<"/>
+          		<input type="text" name="searchCriteriaList[16].values" size="10" id="versionDateLast" class="date validate-DATE" />
             	<a href="#" id="versionDateLast-calbutton">
            	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            		</a>
@@ -428,7 +432,7 @@ width:16em;
 				<tags:autocompleter name="studySite" displayValue="" value="" basename="studySite"></tags:autocompleter>
    	    	</div>
         </div>
-		<div class="row" >
+	<%-- 	<div class="row" >
        		<div class="label"><fmt:message key="c3pr.common.targetAccrualPercentage"/></div>
   	        <div class="value">
   	        	<select id="age">
@@ -440,6 +444,9 @@ width:16em;
       			<input type="text"  size="5">
   	    	</div>
        </div>
+       
+       --%>
+       
         
     </div>
     <div class="rightpanel">
@@ -447,47 +454,47 @@ width:16em;
        		<div class="label"><fmt:message key="site.activationDate"/>&nbsp;<b>after</b></div>
          	<div class="value"> 
          		
-         		<input type="hidden" name="searchCriteriaList[18].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-        		<input type="hidden" name="searchCriteriaList[18].predicate" value="="/>
-      			<input type="hidden" name="searchCriteriaList[18].attributeName" value="originalIndicator" />
-      			<input type="hidden" id="originalIndicatorStudyOpen-hidden" name="searchCriteriaList[18].values" value="true"/>
+         		<input type="hidden" name="searchCriteriaList[19].objectName" value="edu.duke.cabig.c3pr.domain.SiteStatusHistory"/>
+        		<input type="hidden" name="searchCriteriaList[19].predicate" value="="/>
+      			<input type="hidden" name="searchCriteriaList[19].attributeName" value="" />
+      			<input type="hidden" id="originalIndicatorStudyOpen-hidden" name="searchCriteriaList[19].values" value=""/>
       			
       			
-      			<input type="hidden" name="searchCriteriaList[19].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
-         		<input type="hidden" name="searchCriteriaList[19].attributeName" value="coordinatingCenterStudyStatus.code" />
-         		<input type="hidden" name="searchCriteriaList[19].predicate" value="!="/>
-         		<input type="hidden" id="coordinatingCenterStudyStatusStudyOpen-hidden" name="searchCriteriaList[19].values" value="PENDING"/>
+      			<input type="hidden" name="searchCriteriaList[20].objectName" value="edu.duke.cabig.c3pr.domain.SiteStatusHistory"/>
+         		<input type="hidden" name="searchCriteriaList[20].attributeName" value="siteStudyStatus.code" />
+         		<input type="hidden" name="searchCriteriaList[20].predicate" value="="/>
+         		<input type="hidden" id="activeStudyStatus-hidden" name="searchCriteriaList[20].values" value="ACTIVE"/>
       			
-       			<input type="hidden" name="searchCriteriaList[16].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-         		<input type="hidden" name="searchCriteriaList[16].attributeName" value="versionDate" />
-         		<input type="hidden" name="searchCriteriaList[16].predicate" value=">"/>
-         		<input type="text" name="searchCriteriaList[16].values" size="10" id="versionDateFirst" class="date validate-DATE" />
+       			<input type="hidden" name="searchCriteriaList[21].objectName" value="edu.duke.cabig.c3pr.domain.SiteStatusHistory"/>
+         		<input type="hidden" name="searchCriteriaList[21].attributeName" value="startDate" />
+         		<input type="hidden" name="searchCriteriaList[21].predicate" value=">"/>
+         		<input type="text" name="searchCriteriaList[21].values" size="10" id="siteActivationDateFirst" class="date validate-DATE" />
            		<a href="#" id="versionDateFirst-calbutton">
           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
           		</a>
 	          		<script type="text/javascript">
 						Calendar.setup(
 				            {
-				                inputField  : "versionDateFirst",
-				                button      : "versionDateFirst-calbutton",
+				                inputField  : "siteActivationDateFirst",
+				                button      : "siteActivationDateFirst-calbutton",
 				                ifFormat    : "%m/%d/%Y", 
 				                weekNumbers : false
 				            }
 				        );
 					</script>
 					<b>and before</b>
-				<input type="hidden" name="searchCriteriaList[17].objectName" value="edu.duke.cabig.c3pr.domain.StudyVersion"/>
-         		<input type="hidden" name="searchCriteriaList[17].attributeName" value="versionDate" />
-         		<input type="hidden" name="searchCriteriaList[17].predicate" value="<"/>
-         		<input type="text" name="searchCriteriaList[17].values" size="10" id="versionDateLast" class="date validate-DATE" />
+				<input type="hidden" name="searchCriteriaList[22].objectName" value="edu.duke.cabig.c3pr.domain.SiteStatusHistory"/>
+         		<input type="hidden" name="searchCriteriaList[22].attributeName" value="endDate" />
+         		<input type="hidden" name="searchCriteriaList[22].predicate" value="<"/>
+         		<input type="text" name="searchCriteriaList[22].values" size="10" id="siteActivationDateLast" class="date validate-DATE" />
            		<a href="#" id="versionDateLast-calbutton">
           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
           		</a>
           		<script type="text/javascript">
 					Calendar.setup(
 			            {
-			                inputField  : "versionDateLast",
-			                button      : "versionDateLast-calbutton",
+			                inputField  : "siteActivationDateLast",
+			                button      : "siteActivationDateLast-calbutton",
 			                ifFormat    : "%m/%d/%Y", 
 			                weekNumbers : false
 			            }
@@ -495,13 +502,14 @@ width:16em;
 				</script>
        		</div>
        	</div>
+       	<%-- 
     	<div class="row" >
 	       	<div class="label" style="width: 16em;"><fmt:message key="study.pendingSiteAmendment"/></div>
 	       	<div class="value">
 	       		<input type="checkbox" id="studySiteAmendment" name="studySiteAmendment" >
 	       		<tags:hoverHint keyProp="study.pendingSiteAmendment"/>
 	       	</div>
-        </div>
+        </div> --%>
       	<div class="row" >
 				<div class="label"><fmt:message key="study.site.irbExpired"/></div>
 	        	<div class="value">
