@@ -2531,6 +2531,37 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals("Wrong number of studies", 3,  studies.size());
 	}
 	
+	public void testAdvancedSearchForStudySiteaSttusDate() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("11/11/1999");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.SiteStatusHistory","startDate", values, ">");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Study> studies = dao.search(criteriaParameters);
+		assertEquals("Wrong number of studies", 0,  studies.size());
+	}
+	
+	public void testAdvancedSearchForStudySiteStatus() throws Exception {
+		List<String> values = new ArrayList<String>();
+       	values.add("ACTIVE");
+
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.SiteStatusHistory","siteStudyStatus.code", values, "like");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<Study> studies = dao.search(criteriaParameters);
+		assertEquals("Wrong number of studies", 0,  studies.size());
+	}
+	
+	
 	public void testAdvancedSearchGivenFundingSponsor() throws Exception {
 		List<String> values = new ArrayList<String>();
        	values.add("1001");

@@ -297,6 +297,42 @@
 				</association>
 			</association-context>
 		</dependent-object>
+			<!--Search by Study Site activation date and status --><dependent-object>
+			<class-name>edu.duke.cabig.c3pr.domain.SiteStatusHistory</class-name>
+			<display-name>SiteStatusHistory</display-name>
+			<table-alias>SiteStatusHistory_xx</table-alias>
+			<search-criteria>
+				<name>siteStudyStatus.code</name>
+				<label>Site Status</label>
+				<data-type>SiteStatusHistory</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>startDate</name>
+				<label>Start date of the status</label>
+				<data-type>Date</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>endDate</name>
+				<label>End date of the status</label>
+				<data-type>Date</data-type>
+			</search-criteria>
+			<association-context>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.StudySite</name>
+					<role-name>studyOrganizations</role-name>
+					<table-alias>StudySite_xx</table-alias>
+					<joining-condition>StudySite_xx
+						= any elements (Study_xx.studyOrganizations)</joining-condition>
+				</association>
+				<association>
+					<name>edu.duke.cabig.c3pr.domain.SiteStatusHistory</name>
+					<role-name>siteStatusHistoryInternal</role-name>
+					<table-alias>SiteStatusHistory_xx</table-alias>
+					<joining-condition>SiteStatusHistory_xx = any elements(StudySite_xx.siteStatusHistoryInternal)
+					</joining-condition>
+				</association>
+			</association-context>
+		</dependent-object>
 		<!--Search by Healthcare Site in different contexts like Study Site,Coordinating Center, Funding Sponsor,
 		based on healthcare site database id and healthcare site name.  --><dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.HealthcareSite</class-name>
