@@ -228,21 +228,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 			notification.setIdentifierValue(participant.getGridId());
 			notification.setTimestamp(new Date());
 
-			JobDetail jobDetail = getCctsNotificationsJob();
-			JobDataMap jobDataMap = jobDetail.getJobDataMap();
-			Vector<CCTSNotification> queue = (Vector<CCTSNotification>) jobDataMap
-					.get(CCTS_NOTIFICATIONS_QUEUE_KEY);
-			queue.add(notification);
-
-			// The job will trigger in at least
-			// CCTS_NOTIFICATIONS_TRIGGER_REPEAT_INTERVAL time, but since we
-			// know
-			// there is at least one notification message pending, we want to
-			// fire immediately, and then let the job
-			// continue on regular schedule.
-			scheduler.triggerJob(
-					CCTS_NOTIFICATIONS_JOB_NAME, CCTS_NOTIFICATIONS_JOB_GROUP);
-
+			queueNotification(notification);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -253,27 +239,39 @@ public class SchedulerServiceImpl implements SchedulerService {
 	 * @return
 	 * @throws SchedulerException
 	 */
-	private synchronized JobDetail getCctsNotificationsJob()
-			throws SchedulerException {
+	private synchronized JobDetail queueNotification(
+			CCTSNotification notification) throws SchedulerException {
 		JobDetail jobDetail = scheduler.getJobDetail(
 				CCTS_NOTIFICATIONS_JOB_NAME, CCTS_NOTIFICATIONS_JOB_GROUP);
 		if (jobDetail == null) {
-			Trigger trigger = makeCctsNotificationsJobTrigger();
 			jobDetail = new JobDetail(CCTS_NOTIFICATIONS_JOB_NAME,
 					CCTS_NOTIFICATIONS_JOB_GROUP,
 					cctsNotificationMessageJob.getClass());
 			jobDetail.setRequestsRecovery(true);
-			log.info("Scheduling the job (jobFullName : "
-					+ jobDetail.getFullName() + ")");
-			JobDataMap map = jobDetail.getJobDataMap();
-			// Selection of Stack is explained by the fact this List
+			jobDetail.setDurability(true);
+		} else {
+			scheduler.unscheduleJob(CCTS_NOTIFICATIONS_TRIGGER_NAME,
+					CCTS_NOTIFICATIONS_TRIGGER_GROUP);
+		}
+
+		JobDataMap jobDataMap = jobDetail.getJobDataMap();
+		Vector<CCTSNotification> queue = (Vector<CCTSNotification>) jobDataMap
+				.get(CCTS_NOTIFICATIONS_QUEUE_KEY);
+		if (queue == null) {
+			// Selection of Vector is explained by the fact this List
 			// implementation
 			// is "really" serializable, while others from java.util.collections
 			// and java.util.concurrent are not.
-			map.put(CCTS_NOTIFICATIONS_QUEUE_KEY,
-					new Vector<edu.duke.cabig.c3pr.domain.scheduler.runtime.job.CCTSNotificationMessageJob.CCTSNotification>());
-			scheduler.scheduleJob(jobDetail, trigger);
+			queue = new Vector<edu.duke.cabig.c3pr.domain.scheduler.runtime.job.CCTSNotificationMessageJob.CCTSNotification>();
 		}
+		queue.add(notification);
+		jobDataMap.put(CCTS_NOTIFICATIONS_QUEUE_KEY, queue);
+
+		log.info("Scheduling the job (jobFullName : " + jobDetail.getFullName()
+				+ ")");
+		scheduler.addJob(jobDetail, true);
+		Trigger trigger = makeCctsNotificationsJobTrigger();
+		scheduler.scheduleJob(trigger);
 		return jobDetail;
 	}
 
@@ -283,6 +281,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 				CCTS_NOTIFICATIONS_TRIGGER_REPEAT_COUNT,
 				CCTS_NOTIFICATIONS_TRIGGER_REPEAT_INTERVAL);
 		trigger.setGroup(CCTS_NOTIFICATIONS_TRIGGER_GROUP);
+		trigger.setJobName(CCTS_NOTIFICATIONS_JOB_NAME);
+		trigger.setJobGroup(CCTS_NOTIFICATIONS_JOB_GROUP);
 		return trigger;
 	}
 

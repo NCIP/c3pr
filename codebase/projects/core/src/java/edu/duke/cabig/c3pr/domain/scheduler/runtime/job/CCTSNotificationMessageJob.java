@@ -29,7 +29,10 @@ import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.StatefulJob;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
 
 import edu.duke.cabig.c3pr.esb.BroadcastException;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
@@ -76,13 +79,13 @@ public final class CCTSNotificationMessageJob implements StatefulJob {
 	public void execute(JobExecutionContext context)
 			throws JobExecutionException {
 		log.debug("Starting execution of the CCTSNotificationMessageJob");
-		JobDetail jobDetail = context.getJobDetail();
-		JobDataMap dataMap = jobDetail.getJobDataMap();
-		
+		setBroadcasterInstance(context);
+
+		final JobDetail jobDetail = context.getJobDetail();
 		Vector<CCTSNotification> queue;
 		try {
-			queue = (Vector<CCTSNotification>) dataMap
-					.get(CCTS_NOTIFICATIONS_QUEUE_KEY);
+			queue = (Vector<CCTSNotification>) jobDetail.getJobDataMap().get(
+					CCTS_NOTIFICATIONS_QUEUE_KEY);
 		} catch (ClassCastException e) {
 			log.error("Queue implementation has changed. Indicates a programming error. Job cancelled. An attempt to re-create the job will be made again once a ccts event occurs.");
 			JobExecutionException ex = new JobExecutionException(false);
@@ -92,7 +95,12 @@ public final class CCTSNotificationMessageJob implements StatefulJob {
 		}
 
 		if (queue != null) {
-			process(queue);
+			try {
+				process(queue);
+			} finally {
+				jobDetail.getJobDataMap().put(CCTS_NOTIFICATIONS_QUEUE_KEY,
+						queue);
+			}
 		} else {
 			log.error("Unexpected null queue: CCTS_NOTIFICATIONS_QUEUE_KEY. Indicates a programming error. Job cancelled. An attempt to re-create the job will be made again once a ccts event occurs.");
 			JobExecutionException ex = new JobExecutionException(false);
@@ -101,6 +109,27 @@ public final class CCTSNotificationMessageJob implements StatefulJob {
 			throw ex;
 		}
 		log.debug("Ended execution of the CCTSNotificationMessageJob");
+	}
+
+	/**
+	 * @param context
+	 * @throws JobExecutionException
+	 * @throws SchedulerException
+	 * @throws BeansException
+	 */
+	private void setBroadcasterInstance(JobExecutionContext context)
+			throws JobExecutionException {
+		try {
+			final Scheduler scheduler = context.getScheduler();
+			ApplicationContext applicationContext = (ApplicationContext) scheduler
+					.getContext().get("applicationContext");
+			this.cctsMessageBroadcaster = (CCTSMessageBroadcaster) applicationContext
+					.getBean("messageBroadcaster");
+		} catch (Exception e) {
+			log.error("Unable to retrieve cctsMessageBroadcaster instance. Indicates a configuration error. CCTS notifications are disabled!");
+			JobExecutionException ex = new JobExecutionException(false);
+			throw ex;
+		}
 	}
 
 	/**
@@ -285,7 +314,9 @@ public final class CCTSNotificationMessageJob implements StatefulJob {
 			return externalId;
 		};
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
@@ -305,15 +336,6 @@ public final class CCTSNotificationMessageJob implements StatefulJob {
 		return cctsMessageBroadcaster;
 	}
 
-	/**
-	 * @param cctsMessageBroadcaster
-	 *            the cctsMessageBroadcaster to set
-	 */
-	public final void setCctsMessageBroadcaster(
-			CCTSMessageBroadcaster cctsMessageBroadcaster) {
-		this.cctsMessageBroadcaster = cctsMessageBroadcaster;
-	}
-	
 	public static void main(String[] args) {
 		Vector v = new Vector();
 		v.add(new CCTSNotification());

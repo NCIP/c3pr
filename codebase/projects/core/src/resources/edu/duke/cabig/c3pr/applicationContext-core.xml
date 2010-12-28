@@ -777,10 +777,7 @@
 
 	<!-- Scheduler jobs -->
 	<bean id="scheduledNotificationJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob" autowire="byName" />
-	<bean id="cctsNotificationMessageJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.CCTSNotificationMessageJob" autowire="byType">
-		<property name="cctsMessageBroadcaster"><ref bean="messageBroadcaster"/></property>
-	</bean>
-
+	<bean id="cctsNotificationMessageJob" class="edu.duke.cabig.c3pr.domain.scheduler.runtime.job.CCTSNotificationMessageJob"/>
 
     <!-- Repositories -->
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
