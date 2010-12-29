@@ -69,6 +69,9 @@ public final class CCTSNotificationMessageJob implements StatefulJob {
 			.getLogger(CCTSNotificationMessageJob.class);
 	private static final long NOTIFICATION_TTL = DateUtils.MILLIS_PER_DAY * 7;
 
+	/**
+	 * CCTSMessageBroadcaster. This cannot be DI-ed by Spring, unfortunately.
+	 */
 	private CCTSMessageBroadcaster cctsMessageBroadcaster;
 
 	/*

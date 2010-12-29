@@ -250,6 +250,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 			jobDetail.setRequestsRecovery(true);
 			jobDetail.setDurability(true);
 		} else {
+			// unschedule the job because we will be re-saving it later on.
 			scheduler.unscheduleJob(CCTS_NOTIFICATIONS_TRIGGER_NAME,
 					CCTS_NOTIFICATIONS_TRIGGER_GROUP);
 		}
@@ -269,6 +270,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 		log.info("Scheduling the job (jobFullName : " + jobDetail.getFullName()
 				+ ")");
+		// we need to re-add the job each time in order to make the updated
+		// queue visible to the job.
+		// see http://forums.terracotta.org/forums/posts/list/3677.page
 		scheduler.addJob(jobDetail, true);
 		Trigger trigger = makeCctsNotificationsJobTrigger();
 		scheduler.scheduleJob(trigger);
