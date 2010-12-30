@@ -119,9 +119,9 @@ public class PersonTestCase extends AbstractTestCase {
 	 */
 	public void testGetFullName(){
 		person.setFirstName("First");
-		person.setMiddleName("Middle");
+		//person.setMiddleName("Middle");
 		person.setLastName("Last");
-		assertEquals("Full name is First Middle Last","First Middle Last", person.getFullName());
+		assertEquals("Full name is First Last","First Last", person.getFullName());
 	}
 	
 	/**
