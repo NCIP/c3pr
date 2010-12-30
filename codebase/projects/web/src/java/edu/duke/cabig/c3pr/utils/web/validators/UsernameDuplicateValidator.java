@@ -5,11 +5,8 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
-import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
-import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.web.admin.PersonOrUserWrapper;
 import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
 
 /**
@@ -24,12 +21,13 @@ public class UsernameDuplicateValidator implements Validator {
 	
     public boolean supports(Class aClass) {
         //return aClass.isAssignableFrom(ResearchStaff.class);
-    	return ResearchStaffWrapper.class.isAssignableFrom(aClass);
+    	return PersonOrUserWrapper.class.isAssignableFrom(aClass) || 
+				ResearchStaffWrapper.class.isAssignableFrom(aClass);
     }
 
     public void validate(Object object, Errors errors) {
 //        ResearchStaffWrapper wrapper = (ResearchStaffWrapper) object;
-//        ResearchStaff user = wrapper.getResearchStaff();
+//        PersonUser user = wrapper.getResearchStaff();
 //        
 //        if(StringUtils.getBlankIfNull(user.getLoginId()).equals("")){
 //        	errors.reject("submision.errors");

@@ -13,13 +13,13 @@ import org.springframework.beans.BeansException;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.Person;
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemotePersonUser;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.tools.Configuration;
 
 /**
@@ -27,7 +27,7 @@ import edu.duke.cabig.c3pr.tools.Configuration;
  */
 public class UserAjaxFacade {
     
-	private ResearchStaffDao researchStaffDao;
+	private PersonUserDao personUserDao;
 	
 	private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 	
@@ -95,7 +95,7 @@ public class UserAjaxFacade {
 
     public List<Person> matchNameAndEmail(String text, String assignedIdentifier) throws Exception {
     	//getting the site of the logged in user
-    	ResearchStaff rStaff = researchStaffDao.getByAssignedIdentifierFromLocal(assignedIdentifier);
+    	PersonUser rStaff = personUserDao.getByAssignedIdentifierFromLocal(assignedIdentifier);
 //    	String nciInstituteCode = null;
     	//FIXME : Vinay Gangoli (Security code should take care of getting research staff associted to correct healthcare site.)
 //    	if(rStaff != null){
@@ -106,7 +106,7 @@ public class UserAjaxFacade {
 //    		log.error("No organization associated to the user.");
 //    	}
     	
-    	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>(new LinkedHashSet<ResearchStaff> (researchStaffDao.getBySubNameAndSubEmail(extractSubnames(text))));
+    	List<PersonUser> researchStaffList = new ArrayList<PersonUser>(new LinkedHashSet<PersonUser> (personUserDao.getBySubNameAndSubEmail(extractSubnames(text))));
         List<HealthcareSiteInvestigator> hcsInvestigatorsList = new ArrayList<HealthcareSiteInvestigator>(new LinkedHashSet<HealthcareSiteInvestigator> (healthcareSiteInvestigatorDao.getBySubNameAndSubEmail(extractSubnames(text))));
 
         List<Investigator> investigatorsList = new ArrayList<Investigator>();
@@ -114,9 +114,9 @@ public class UserAjaxFacade {
         	investigatorsList.add(hcsi.getInvestigator());
         }
         
-        List<ResearchStaff> reducedResearchStaffList = new ArrayList<ResearchStaff>(researchStaffList.size());
-        for (ResearchStaff researchStaff : researchStaffList) {
-        	if(researchStaff instanceof RemoteResearchStaff){
+        List<PersonUser> reducedResearchStaffList = new ArrayList<PersonUser>(researchStaffList.size());
+        for (PersonUser researchStaff : researchStaffList) {
+        	if(researchStaff instanceof RemotePersonUser){
         		reducedResearchStaffList.add(buildReduced(researchStaff, Arrays.asList("id", "firstName", "lastName", "email", "externalId")));
         	} else {
         		reducedResearchStaffList.add(buildReduced(researchStaff, Arrays.asList("id", "firstName", "lastName", "email")));
@@ -146,12 +146,12 @@ public class UserAjaxFacade {
         return text.split("\\s+");
     }
 
-	public ResearchStaffDao getResearchStaffDao() {
-		return researchStaffDao;
+	public PersonUserDao getPersonUserDao() {
+		return personUserDao;
 	}
 
-	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-		this.researchStaffDao = researchStaffDao;
+	public void setPersonUserDao(PersonUserDao personUserDao) {
+		this.personUserDao = personUserDao;
 	}
 
 	public Configuration getConfiguration() {

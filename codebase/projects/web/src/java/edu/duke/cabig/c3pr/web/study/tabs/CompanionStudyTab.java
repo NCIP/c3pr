@@ -124,7 +124,7 @@ public class CompanionStudyTab extends StudyTab {
 			
 			for (StudyPersonnel studyPersonnel : studySite.getStudyPersonnel()) {
 				StudyPersonnel sPersonnel = new StudyPersonnel();
-				sPersonnel.setResearchStaff(studyPersonnel.getResearchStaff());
+				sPersonnel.setPersonUser(studyPersonnel.getPersonUser());
 				sPersonnel.setRoleCode(studyPersonnel.getRoleCode());
 				sPersonnel.setStartDate(studyPersonnel.getStartDate());
 				sPersonnel.setStatusCode(studyPersonnel.getStatusCode());

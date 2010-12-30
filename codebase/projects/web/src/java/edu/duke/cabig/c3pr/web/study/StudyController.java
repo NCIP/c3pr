@@ -27,7 +27,7 @@ import edu.duke.cabig.c3pr.dao.CompanionStudyAssociationDao;
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyVersionDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -66,7 +66,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
 
     protected HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
-    protected ResearchStaffDao researchStaffDao;
+    protected PersonUserDao personUserDao;
 
     private DiseaseTermDao diseaseTermDao;
 
@@ -144,7 +144,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(false));
         binder.registerCustomEditor(healthcareSiteDao.domainClass(), new CustomDaoEditor( healthcareSiteDao));
         binder.registerCustomEditor(healthcareSiteInvestigatorDao.domainClass(), new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));
-        binder.registerCustomEditor(researchStaffDao.domainClass(), new NullIdDaoBasedEditor( researchStaffDao));
+        binder.registerCustomEditor(personUserDao.domainClass(), new NullIdDaoBasedEditor( personUserDao));
         binder.registerCustomEditor(studyDao.domainClass(), new CustomDaoEditor( studyDao));
 
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
@@ -233,12 +233,12 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
     }
 
-    public ResearchStaffDao getResearchStaffDao() {
-        return researchStaffDao;
+    public PersonUserDao getPersonUserDao() {
+        return personUserDao;
     }
 
-    public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-        this.researchStaffDao = researchStaffDao;
+    public void setPersonUserDao(PersonUserDao personUserDao) {
+        this.personUserDao = personUserDao;
     }
 
     public DiseaseTermDao getDiseaseTermDao() {

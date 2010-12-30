@@ -9,7 +9,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
@@ -32,7 +32,7 @@ public class PreAuthenticationController extends CreateResearchStaffController {
 	@Override
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 		ResearchStaffWrapper wrapper = (ResearchStaffWrapper)command;
-    	ResearchStaff researchStaff = wrapper.getResearchStaff();
+    	PersonUser researchStaff = wrapper.getResearchStaff();
     	String userName = wrapper.getUserName();
 
     	String password = request.getParameter("password");
@@ -40,7 +40,7 @@ public class PreAuthenticationController extends CreateResearchStaffController {
 		
 		if(!WebUtils.hasSubmitParameter(request, "errorPassword")){
 			ModelAndView mv = super.onSubmit(request, response, command, errors);
-			researchStaffDao.flush();
+			personUserDao.flush();
 			if(errors.hasErrors()){
 				return showForm(request, response, errors);
 	        }

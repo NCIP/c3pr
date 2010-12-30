@@ -19,10 +19,10 @@ import org.springframework.web.servlet.mvc.ParameterizableViewController;
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
 import edu.duke.cabig.c3pr.dao.RecipientScheduledNotificationDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
@@ -39,7 +39,7 @@ public class ViewInboxController extends ParameterizableViewController {
 	
 	private RecipientScheduledNotificationDao recipientScheduledNotificationDao;
 	
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
 
     private PlannedNotificationDao plannedNotificationDao;
 
@@ -110,13 +110,13 @@ public class ViewInboxController extends ParameterizableViewController {
 	}
 
 
-	public ResearchStaffDao getResearchStaffDao() {
-		return researchStaffDao;
+	public PersonUserDao getPersonUserDao() {
+		return personUserDao;
 	}
 
 
-	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-		this.researchStaffDao = researchStaffDao;
+	public void setPersonUserDao(PersonUserDao personUserDao) {
+		this.personUserDao = personUserDao;
 	}
 	
 	

@@ -3,13 +3,13 @@
 <head>
 <title>
     <c:choose>
-        <c:when test="${!empty command.researchStaff.id && command.researchStaff.id > 0}">
-        	<c:out value="Research Staff: ${command.researchStaff.firstName} ${command.researchStaff.lastName} - ${command.researchStaff.assignedIdentifier}" />
+        <c:when test="${!empty command.personUser.id && command.personUser.id > 0}">
+        	<c:out value="Research Staff: ${command.personUser.firstName} ${command.personUser.lastName} - ${command.personUser.assignedIdentifier}" />
         </c:when>
         <c:when test="${FLOW == 'SETUP_FLOW'}">
         	Setup User
         </c:when>
-        <c:otherwise>Create Research Staff</c:otherwise>
+        <c:otherwise>Create Person/User</c:otherwise>
     </c:choose>
 </title>
 <style type= "text/css">
@@ -96,7 +96,7 @@ function displayPreExistingCsmUser(){
 }
 
 Event.observe(window, "load", function(){
-	if(${fn:length(command.researchStaff.externalResearchStaff) gt 0}){
+	if(${fn:length(command.personUser.externalResearchStaff) gt 0}){
 		displayRemoteResearchStaff();
 	}
 	
@@ -206,7 +206,7 @@ AutocompleterManager.addAutocompleter(healthcareSiteAutocompleterProps);
 var healthcareSiteRowInserterProps = {
     add_row_division_id: "associateOrganization", 	        
     skeleton_row_division_id: "dummy-healthcareSite",
-    initialIndex: ${fn:length(command.researchStaff.healthcareSites) + 1},
+    initialIndex: ${fn:length(command.personUser.healthcareSites) + 1},
     softDelete: false,
     path: "healthcareSites",
     postProcessRowInsertion: function(object){
@@ -246,6 +246,72 @@ function groupRegistrarSpecificRoles(id){
 	var value = 'hcs-'+id+'-role-'
 	$(value+'SUBJECT_MANAGER').checked = true;
 }
+
+
+
+ValidationManager.submitPostProcess= function(formElement, flag){	
+	//ensuring the checkboxes are disabled during submit as the controller relies on these values for processing
+	//not clean...change in the future
+	createAsUser = $('createAsUser');
+	if(createAsUser != null && createAsUser.disabled){
+		createAsUser.disabled='';
+	}
+	createAsStaff = $('createAsStaff');
+	if(createAsStaff != null && createAsStaff.disabled){
+		createAsStaff.disabled='';
+	}
+	if((createAsStaff == null || createAsStaff.checked == false)
+		 && (createAsUser == null || createAsUser.checked == false)){
+		alert("Select Create as Staff or Create as User");
+		return false;
+	}
+	return true;
+}
+
+
+function toggleStaffDisplay(){
+	createAsStaff = $('createAsStaff');
+	staff_details = $('staff_details')
+	if(createAsStaff != null && createAsStaff.checked == true){
+		new Effect.BlindDown(staff_details);
+	} else {
+		new Effect.BlindUp(staff_details);
+	}
+}
+
+function toggleUserDisplay(){
+	var x = document.getElementsByTagName("div")
+    createAsUser = $('createAsUser');
+	el = $('global_roles')
+	ell = $('roles')
+	elll = $('username_section')
+	ellll = $('allsite_section')
+	if(createAsUser != null && createAsUser.checked == true){
+		//display user sections
+		new Effect.BlindDown(el);
+		new Effect.BlindDown(ell);
+		new Effect.BlindDown(elll);
+		new Effect.BlindDown(ellll);
+		for(var i=0; i<x.length; i++){
+		    if(x[i].className=="addedRoles"){
+		    	//x[i].style.display=="none" ? new Effect.BlindDown(x[i]):new Effect.BlindUp(x[i]);
+		    	new Effect.BlindDown(x[i]); 
+			}
+	    }
+	} else {
+		//hide user sections
+		new Effect.BlindUp(el);
+		new Effect.BlindUp(ell);
+		new Effect.BlindUp(elll);
+		new Effect.BlindUp(ellll);
+		for(var i=0; i<x.length; i++){
+		    if(x[i].className=="addedRoles"){
+		    	//x[i].style.display=="none" ? new Effect.BlindDown(x[i]):new Effect.BlindUp(x[i]); 
+		    	new Effect.BlindUp(x[i])
+			}
+	    }
+	}
+}
 </script>
 
 </head>
@@ -260,7 +326,7 @@ function groupRegistrarSpecificRoles(id){
 </div>
 <div id="main">
 <c:choose>
-	<c:when test="${command.researchStaff.class.name eq 'edu.duke.cabig.c3pr.domain.RemoteResearchStaff'}">
+	<c:when test="${command.personUser.class.name eq 'edu.duke.cabig.c3pr.domain.RemotePersonUser'}">
 		<c:set var="imageStr" value="&nbsp;<img src='/c3pr/images/chrome/nci_icon.png' alt='Calendar' width='22' height='21' border='0' align='middle'/>"/>
 	</c:when>
 	<c:otherwise>
@@ -268,7 +334,7 @@ function groupRegistrarSpecificRoles(id){
 	</c:otherwise>
 </c:choose>
 <form:form name="researchStaffForm">
-<chrome:box title="${FLOW == 'SETUP_FLOW'?'Create Research Staff as Super User':'Research Staff'}" htmlContent="${imageStr }">
+<chrome:box title="${FLOW == 'SETUP_FLOW'?'Create Research Staff as Super User':'Basic Details'}" htmlContent="${imageStr}">
 	<chrome:flashMessage />
 	<tags:tabFields tab="${tab}" />
 
@@ -277,62 +343,104 @@ function groupRegistrarSpecificRoles(id){
 	<input type="hidden" name="_finish" value="true">
 	<input type="hidden" name="_preExistingUsersAsignedId" value="">
 
-	<c:set var="noHealthcareSiteAssociated" value="${fn:length(command.researchStaff.healthcareSites) == 0}"></c:set>
+	<c:set var="noHealthcareSiteAssociated" value="${fn:length(command.personUser.healthcareSites) == 0}"></c:set>
 	<tags:instructions code="research_staff_details" />
 	<tags:errors path="*"/>
-	<chrome:division id="staff-details" title="Basic Details">
 	    <div class="leftpanel">
 	        <div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.firstName"/></div>
-	            <tags:researchStaffInput commandClass="${command.researchStaff.class}" cssClass="required validate-notEmpty" path="researchStaff.firstName" size="25" value="${command.researchStaff.firstName}"></tags:researchStaffInput>
+	            <tags:researchStaffInput commandClass="${command.personUser.class}" cssClass="required validate-notEmpty" path="personUser.firstName" size="30" value="${command.personUser.firstName}"></tags:researchStaffInput>
 	        </div>
 			<div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.lastName"/></div>
-            	<tags:researchStaffInput commandClass="${command.researchStaff.class}" cssClass="required validate-notEmpty" path="researchStaff.lastName" size="25" value="${command.researchStaff.lastName}"></tags:researchStaffInput>
+            	<tags:researchStaffInput commandClass="${command.personUser.class}" cssClass="required validate-notEmpty" path="personUser.lastName" size="30" value="${command.personUser.lastName}"></tags:researchStaffInput>
 	        </div>
-			<div class="row">
-	            <div class="label"><fmt:message key="c3pr.common.middleName"/></div>
-	            <tags:researchStaffInput commandClass="${command.researchStaff.class}"  path="researchStaff.middleName" size="25" value="${command.researchStaff.middleName}"></tags:researchStaffInput>
-	        </div>
-			<div class="row">
-	            <div class="label"><fmt:message key="c3pr.common.maidenName"/></div>
-	            <tags:researchStaffInput commandClass="${command.researchStaff.class}"  path="researchStaff.maidenName" size="25" value="${command.researchStaff.maidenName}"></tags:researchStaffInput>
-			</div>
+	        <div class="row">
+	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" /></div>
+				<tags:researchStaffInput id="email" commandClass="${command.personUser.class}" cssClass="required validate-notEmpty&&EMAIL" path="personUser.email" size="30" value="${command.personUser.email}" onkeyup="copyUsername();"></tags:researchStaffInput>
+	       	</div>
 		</div>
 	    <div class="rightpanel">
-		    <div class="row">
-	   	        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
-		        <tags:researchStaffInput commandClass="${command.researchStaff.class}" cssClass="required validate-notEmpty" path="researchStaff.assignedIdentifier" size="25" value="${command.researchStaff.assignedIdentifier}"></tags:researchStaffInput>    
-		    </div>
-			<div class="row">
-	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" /></div>
-				<tags:researchStaffInput id="email" commandClass="${command.researchStaff.class}" cssClass="required validate-notEmpty&&EMAIL" path="researchStaff.email" size="30" value="${command.researchStaff.email}" onkeyup="copyUsername();"></tags:researchStaffInput>
-	       	</div>
 	        <div class="row">
 	            <div class="label"><fmt:message key="c3pr.common.phone" /></div>
-	            <tags:researchStaffInput commandClass="${command.researchStaff.class}" cssClass="validate-US_PHONE_NO" path="researchStaff.phone" size="25" value="${command.researchStaff.phone}"></tags:researchStaffInput>
+	            <tags:researchStaffInput commandClass="${command.personUser.class}" cssClass="validate-US_PHONE_NO" path="personUser.phone" size="25" value="${command.personUser.phone}"></tags:researchStaffInput>
 	        </div>
-	        <div class="row">
-	            <div class="label"><fmt:message key="c3pr.common.fax" /></div>
-	             <tags:researchStaffInput commandClass="${command.researchStaff.class}" cssClass="validate-US_PHONE_NO" path="researchStaff.fax" size="25" value="${command.researchStaff.fax}"></tags:researchStaffInput>
+	        <c:set var="staffdisplay" value="display:none"/>
+	        <c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
+	        	<c:set var="staffdisplay" value="display"/>
+	        </c3pr:checkprivilege>
+        	 <div class="row" style="${staffdisplay}">
+	            <div class="label"><fmt:message key="researchstaff.createAsStaff" /></div>
+	            <c:if test="${FLOW == 'SAVE_FLOW'}">
+	            	<form:checkbox id="createAsStaff" path="createAsStaff" onchange="toggleStaffDisplay()"/>
+	              	<!--  <input type="checkbox" id="createAsStaff" name="createAsStaff"  value="true" checked />  -->
+	            </c:if>
+	            <c:if test="${FLOW == 'EDIT_FLOW'}">
+	            	<input type="checkbox" id="createAsStaff" name="createAsStaff" onchange="toggleStaffDisplay()" value="true"  <c:if test="${command.isStaff == 'true'}">disabled="disabled" checked</c:if> />
+	            </c:if>
+	        </div>
+	        <c:set var="userdisplay" value="display:none"/>
+	        <c3pr:checkprivilege hasPrivileges="USER_CREATE">
+	        	<c:set var="userdisplay" value="display"/>
+	        </c3pr:checkprivilege>
+	        <div class="row" style="${userdisplay}">
+	            <div class="label"><fmt:message key="researchstaff.createAsUser" /></div>
+	            <c:if test="${FLOW == 'SAVE_FLOW'}">
+	            	<form:checkbox id="createAsUser" path="createAsUser" onchange="toggleUserDisplay()" />
+	            	<!-- <input type="checkbox" id="createAsUser" name="createAsUser"  value="true" checked /> -->
+	            </c:if>
+	            <c:if test="${FLOW == 'EDIT_FLOW'}">
+	            	<input type="checkbox" id="createAsUser" name="createAsUser" onchange="toggleUserDisplay()" value="true"  <c:if test="${command.isUser == 'true'}">disabled="disabled" checked</c:if> />
+	            </c:if>
 	        </div>
 	    </div>
 	    <div class="division"></div>
-	</chrome:division>
 </chrome:box>
-<chrome:box title="Account Information">
+
+<c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
+	<chrome:box title="Research Staff Details" htmlContent="${imageStr}" id="staff_details">
+		<chrome:flashMessage />
+		<tags:tabFields tab="${tab}" />
+	
+		<c:set var="noHealthcareSiteAssociated" value="${fn:length(command.personUser.healthcareSites) == 0}"></c:set>
+		<tags:instructions code="research_staff_details" />
+	    <div class="leftpanel">
+			<div class="row">
+	            <div class="label"><fmt:message key="c3pr.common.middleName"/></div>
+	            <tags:researchStaffInput commandClass="${command.personUser.class}"  path="personUser.middleName" size="25" value="${command.personUser.middleName}"></tags:researchStaffInput>
+	        </div>
+			<div class="row">
+	            <div class="label"><fmt:message key="c3pr.common.maidenName"/></div>
+	            <tags:researchStaffInput commandClass="${command.personUser.class}"  path="personUser.maidenName" size="25" value="${command.personUser.maidenName}"></tags:researchStaffInput>
+			</div>
+		</div>
+	    <div class="rightpanel">
+	    	<div class="row">
+	   	        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
+		        <tags:researchStaffInput commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
+		    </div>
+	        <div class="row">
+	            <div class="label"><fmt:message key="c3pr.common.fax" /></div>
+	             <tags:researchStaffInput commandClass="${command.personUser.class}" cssClass="validate-US_PHONE_NO" path="personUser.fax" size="25" value="${command.personUser.fax}"></tags:researchStaffInput>
+	        </div>
+	    </div>
+	    <div class="division"></div>
+	</chrome:box>
+</c3pr:checkprivilege>
+
+<chrome:box title="Account Information" >
 <tags:instructions code="research_staff_account_information" />
 <c:choose>
 <c:when test="${FLOW=='SETUP_FLOW'}">
 	<div class="row">
-		<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
+		<div class="label"><fmt:message key="c3pr.common.username"/></div>
         <div class="value">
         	<c:choose>
         		<c:when test="${!empty errorPassword}">
         			${command.userName}
         		</c:when>
         		<c:otherwise>
-        			<form:input id="loginId" size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+        			<form:input id="loginId" size="20" path="userName" cssClass="MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
         			<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
         			<input id="copiedEmailAddress" type="hidden"/>
         		</c:otherwise>	
@@ -366,12 +474,12 @@ function groupRegistrarSpecificRoles(id){
 </c:when>
 <c:otherwise>
 	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
-	<div class="row">
+	<div class="row" id="username_section">
         <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
         <div class="value">
         	<c:choose>
         	<c:when test="${empty command.userName || duplicateUser}">
-	        		<form:input id="loginId" size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+	        		<form:input id="loginId" size="20" path="userName" cssClass="MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
 	        		<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
 	        		<input id="copiedEmailAddress" type="hidden"/>
 	        		<input type="hidden" name="_createUser" value="true">
@@ -386,7 +494,7 @@ function groupRegistrarSpecificRoles(id){
 
 <c:if test="${FLOW != 'SETUP_FLOW'}">
 <c3pr:checkprivilege hasPrivileges="USER_CREATE">
-<div class="row">
+<div class="row" id="allsite_section">
     <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
     <div class="value">
     	<form:checkbox id="allSiteAccessCheckbox" path="hasAccessToAllSites" onclick="handleAllSiteAccess();"/><tags:hoverHint keyProp="researchStaff.accessToAllSites"></tags:hoverHint>
@@ -398,8 +506,7 @@ function groupRegistrarSpecificRoles(id){
 <chrome:division title="Associated Organizations" cssClass="big">
 	<c:if test="${FLOW != 'SETUP_FLOW'}">
 	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
-	<chrome:division title="Global Roles" cssClass="indented">
-		<tags:hoverHint keyProp="researchStaff.globalRoles"/>	
+	<chrome:division title="Global Roles" cssClass="indented" insertHelp="true" insertHelpKeyProp="researchStaff.globalRoles" id="global_roles">
 		<table>
 			<tr>
 			<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
@@ -443,16 +550,16 @@ function groupRegistrarSpecificRoles(id){
 	    	title="${command.healthcareSiteRolesHolderList[status.index].healthcareSite.name} (${command.healthcareSiteRolesHolderList[status.index].healthcareSite.primaryIdentifier })" 
 	    	minimize="${FLOW != 'EDIT_FLOW'?'false':'true'}" divIdToBeMinimized="hcs-${status.index}" disableDelete="true"
 		    onclick="#">
-		    <div id="hcs-${status.index}" <c:if test="${FLOW == 'EDIT_FLOW'}">style="display: none"</c:if>>
-			<c:if test="${fn:length(command.researchStaff.healthcareSites) == 0 && fn:length(command.healthcareSiteRolesHolderList) == 1}">
-				<c3pr:checkprivilege hasPrivileges="PERSONUSER_CREATE">
+		    <div id="hcs-${status.index}" style="${FLOW != 'EDIT_FLOW'?'display':'display:none'}">
+			<c:if test="${fn:length(command.personUser.healthcareSites) == 0 && fn:length(command.healthcareSiteRolesHolderList) == 1}">
+				<c3pr:checkprivilege hasPrivileges="UI_PERSONUSER_CREATE">
 		    	<div class="row">
  					<div class="orgLabel">
  						<tags:requiredIndicator /><fmt:message key="c3pr.common.organization"></fmt:message>
 	 				</div>
 	 				<div class="orgValue">
 	 					<c:choose>
-		 					<c:when test="${c3pr:hasAllSiteAccess('UI_RESEARCHSTAFF_CREATE')}">
+		 					<c:when test="${c3pr:hasAllSiteAccess('UI_PERSONUSER_CREATE') || c3pr:hasAllSiteAccess('USER_CREATE')}">
 								<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="firstHealthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>							
 							</c:when>
 							<c:otherwise>
@@ -494,6 +601,7 @@ function groupRegistrarSpecificRoles(id){
 		    	</c:when>
 		    	<c:otherwise>
 		    		<c3pr:checkprivilege hasPrivileges="USER_CREATE">
+		    		<div id="roles">
 			    	<table>
 					<tr>
 					<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
@@ -515,9 +623,6 @@ function groupRegistrarSpecificRoles(id){
 								</c:when>
 								<c:otherwise>
 									<form:checkbox id="hcs-${status.index}-role-${role.name}" path="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}" onclick="manageRoleGrouping('${role.name}', ${status.index}, this);"/>
-									<!--  
-									<input type="checkbox" id="hcs-${status.index}-role-${roleStatus.index}" onclick="handleRoleCheckbox(this);" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}" <c:if test="${c3pr:contains(healthcareSiteRolesHolder.groups, role)}"> checked </c:if> />
-									 -->
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -528,6 +633,7 @@ function groupRegistrarSpecificRoles(id){
 			    	</c:forEach>
 			    	</tr>
 			    	</table>
+			    	</div>
 			    	</c3pr:checkprivilege>
 		    	</c:otherwise>
 		    </c:choose>
@@ -538,7 +644,7 @@ function groupRegistrarSpecificRoles(id){
 	</c:forEach>
 	</table>
 </chrome:division>
-<c3pr:checkprivilege hasPrivileges="PERSONUSER_CREATE">
+<c3pr:checkprivilege hasPrivileges="UI_PERSONUSER_CREATE">
 	<br>
 	<hr />
 	<div align="right">
@@ -559,7 +665,7 @@ function groupRegistrarSpecificRoles(id){
 	<jsp:attribute name="submitButton">
 		<table>
 			<tr>
-				<c:if test="${command.researchStaff.id != null && command.researchStaff.class.name eq 'edu.duke.cabig.c3pr.domain.LocalResearchStaff' && coppaEnable}">
+				<c:if test="${command.personUser.id != null && command.personUser.class.name eq 'edu.duke.cabig.c3pr.domain.LocalResearchStaff' && coppaEnable}">
 					<td valign="bottom">
 						<tags:button type="submit" value="Sync" color="blue" id="sync-org" onclick="javascript:syncResearchStaff();" />	
 					</td>
@@ -586,7 +692,7 @@ function groupRegistrarSpecificRoles(id){
                 <td class="tableHeader">Email Address</td>
               </tr>
             </thead>
-            <c:forEach items="${command.researchStaff.externalResearchStaff}"  var="remRs" varStatus="rdStatus">
+            <c:forEach items="${command.personUser.externalResearchStaff}"  var="remRs" varStatus="rdStatus">
               <tr>
               	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onClick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
                 <td align="left">${remRs.firstName}</td>
@@ -635,7 +741,7 @@ function groupRegistrarSpecificRoles(id){
 		<chrome:deletableDivision divTitle="genericTitle-PAGE.ROW.INDEX" id="genericHealthcareSiteBox-PAGE.ROW.INDEX" cssClass="indented"
 	    	title="Organization" onclick="RowManager.deleteRow(healthcareSiteRowInserterProps,PAGE.ROW.INDEX,-1)" >
  				<tags:errors path="healthcareSiteRolesHolderList[PAGE.ROW.INDEX]" />
- 				<c3pr:checkprivilege hasPrivileges="PERSONUSER_CREATE">
+ 				<c3pr:checkprivilege hasPrivileges="UI_PERSONUSER_CREATE">
  				<div class="row">
  					<div class="orgLabel"><tags:requiredIndicator />
  						<fmt:message key="c3pr.common.organization"></fmt:message>
@@ -675,23 +781,25 @@ function groupRegistrarSpecificRoles(id){
 		    	</c:when>
 		    	<c:otherwise>
 		    	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
+		    	<div id="roles-PAGE.ROW.INDEX" class="addedRoles">
 		    		<table width="100%">
- 				<tr>
- 				<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
- 					<td>
-					<c:if test="${roleStatus.index % 3 == 0}">
-						</td></tr><tr><td>						
-					</c:if>
-					<div class="newLabel"> 
-						<input type="checkbox" id="hcs-PAGE.ROW.INDEX-role-${role.name}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  onclick="manageRoleGrouping('${role.name}', PAGE.ROW.INDEX, this);"/>
-					</div>
-					<div class="newValue">
-						${role.displayName}
-					</div>
-					</td>
-		    	</c:forEach>
-		    	</tr>
-		    	</table>
+		 				<tr>
+			 				<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
+			 					<td>
+								<c:if test="${roleStatus.index % 3 == 0}">
+									</td></tr><tr><td>						
+								</c:if>
+								<div class="newLabel"> 
+									<input type="checkbox" id="hcs-PAGE.ROW.INDEX-role-${role.name}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  onclick="manageRoleGrouping('${role.name}', PAGE.ROW.INDEX, this);"/>
+								</div>
+								<div class="newValue">
+									${role.displayName}
+								</div>
+								</td>
+					    	</c:forEach>
+				    	</tr>
+		    		</table>
+		    	</div>
 		    	</c3pr:checkprivilege>
 		    	</c:otherwise>
 		    	</c:choose>
@@ -702,6 +810,11 @@ function groupRegistrarSpecificRoles(id){
 </div>
 <script>
 	new FormQueryStringUtils($('command')).stripQueryString('assignedIdentifier');
+	function toggle(){
+		toggleStaffDisplay();
+		toggleUserDisplay();
+	}	
+	window.onload=toggle;
 </script>
 </body>
 </html>

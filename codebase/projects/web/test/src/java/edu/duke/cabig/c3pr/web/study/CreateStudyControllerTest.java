@@ -18,7 +18,7 @@ import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
@@ -41,7 +41,7 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
 
     private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
 
     private StudyValidator studyValidator;
 
@@ -74,8 +74,8 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
         controller.setHealthcareSiteDao(healthcareSiteDao);
         healthcareSiteInvestigatorDao = registerDaoMockFor(HealthcareSiteInvestigatorDao.class);
         controller.setHealthcareSiteInvestigatorDao(healthcareSiteInvestigatorDao);
-        researchStaffDao = registerDaoMockFor(ResearchStaffDao.class);
-        controller.setResearchStaffDao(researchStaffDao);
+        personUserDao = registerDaoMockFor(PersonUserDao.class);
+        controller.setPersonUserDao(personUserDao);
         controller.setStudyRepository(studyRepository);
         studyValidator = registerMockFor(StudyValidator.class);
         controller.setStudyValidator(studyValidator);

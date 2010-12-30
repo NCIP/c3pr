@@ -27,7 +27,7 @@ import edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.dao.PlannedNotificationDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
@@ -52,7 +52,7 @@ public class DashboardController extends ParameterizableViewController {
     
     private StudySubjectDao studySubjectDao;
 
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
 
     private PlannedNotificationDao plannedNotificationDao;
 
@@ -193,15 +193,15 @@ public class DashboardController extends ParameterizableViewController {
     	}
     }
     
-    public ResearchStaffDao getResearchStaffDao() {
-        return researchStaffDao;
+    public PersonUserDao getPersonUserDao() {
+        return personUserDao;
     }
 
     private boolean isCCTSEnv(){
         return this.configuration.get(Configuration.ESB_ENABLE).equalsIgnoreCase("true");
     }
-    public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-        this.researchStaffDao = researchStaffDao;
+    public void setPersonUserDao(PersonUserDao personUserDao) {
+        this.personUserDao = personUserDao;
     }
 
     public PlannedNotificationDao getPlannedNotificationDao() {
