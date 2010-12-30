@@ -5,23 +5,23 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Required;
 
 import edu.duke.cabig.c3pr.annotations.UniqueEmailAddressForResearchStaff;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 
 public class UniqueEmailAddressForResearchStaffValidator implements
                 Validator<UniqueEmailAddressForResearchStaff> {
 
     String message;
 
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
 
     public boolean validate(final Object value) {
         if (value instanceof String) {
 
             ResearchStaffQuery researchStaffQuery = new ResearchStaffQuery();
             researchStaffQuery.filterByEmailAddress((String) value);
-            List<ResearchStaff> researchStaffList = researchStaffDao
+            List<PersonUser> researchStaffList = personUserDao
                             .searchResearchStaff(researchStaffQuery);
             return (researchStaffList == null || researchStaffList.isEmpty()) ? true : false;
         }
@@ -38,7 +38,7 @@ public class UniqueEmailAddressForResearchStaffValidator implements
     }
 
     @Required
-    public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-        this.researchStaffDao = researchStaffDao;
+    public void setPersonUserDao(PersonUserDao personUserDao) {
+        this.personUserDao = personUserDao;
     }
 }

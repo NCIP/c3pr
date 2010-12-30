@@ -15,12 +15,12 @@ import org.hibernate.annotations.CascadeType;
  * such as first name, in the same base class (used to be just {@link Person}).
  * This became a problem after {@link Participant} was changed to have
  * one-to-many to {@link Address}. The {@link Address} mappings defined in
- * {@link Person} became invalid, and they could not be overriden in
+ * {@link Person} became invalid, and they could not be overridden in
  * {@link Participant} subclass either (Transient annotation does not cancel out
  * persistence mapping defined in a subclass, and OverrideAssociation would not
  * work either). So we had to refactor {@link Person} into {@link Person} and
  * {@link PersonBase} so that {@link Participant} could extend
- * {@link PersonBase} while {@link Investigator}, {@link ResearchStaff} and
+ * {@link PersonBase} while {@link Investigator}, {@link PersonUser} and
  * others could still use {@link Person}. <br>
  * <br>
  * This will be refactored and corrected once all person-based domain objects
@@ -34,7 +34,39 @@ import org.hibernate.annotations.CascadeType;
 @MappedSuperclass
 public abstract class Person extends PersonBase {
 	private Address address;
+	
+    @Transient
+    public String getLastFirst() {
+        StringBuilder name = new StringBuilder();
+        boolean hasFirstName = getFirstName() != null;
+        if (getLastName() != null) {
+            name.append(getLastName());
+            if (hasFirstName) {
+                name.append(", ");
+            }
+        }
+        if (hasFirstName) {
+            name.append(getFirstName());
+        }
+        return name.toString();
+    }
 
+    @Transient
+    public String getFullName() {
+        StringBuilder name = new StringBuilder();
+        boolean hasLastName = getLastName() != null;
+        if (getFirstName() != null) {
+            name.append(getFirstName());
+            if (hasLastName) {
+                name.append(' ');
+            }
+        }
+        if (hasLastName) {
+            name.append(getLastName());
+        }
+        return name.toString();
+    }
+    
 	@Transient
 	public Address getAddress() {
 		if (this.address == null) {
@@ -61,4 +93,5 @@ public abstract class Person extends PersonBase {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
 }

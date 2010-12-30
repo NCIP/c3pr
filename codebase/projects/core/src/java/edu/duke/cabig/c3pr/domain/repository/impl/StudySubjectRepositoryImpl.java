@@ -23,7 +23,7 @@ import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.ReasonDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.StratumGroupDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
@@ -35,7 +35,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OffEpochReason;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -79,7 +79,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     
     private ReasonDao reasonDao;
     
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
     
     //private StudyService studyService;
     
@@ -579,7 +579,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public StudySubject allowEligibilityWaiver(
 			Identifier studySubjectIdentifier, List<EligibilityCriteria> eligibilityCrieteria, String waivedByPersonnelAssignedIdentifier) {
 		StudySubject studySubject = getUniqueStudySubject(studySubjectIdentifier);
-		ResearchStaff waivedBy = researchStaffDao.getByAssignedIdentifierFromLocal(waivedByPersonnelAssignedIdentifier);
+		PersonUser waivedBy = personUserDao.getByAssignedIdentifierFromLocal(waivedByPersonnelAssignedIdentifier);
 		if(waivedBy == null){
 			throw new C3PRBaseRuntimeException("Cannot allow waiver. Null or unassociated study personnel.");
 		}
@@ -639,8 +639,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		this.reasonDao = reasonDao;
 	}
 
-	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-		this.researchStaffDao = researchStaffDao;
+	public void setPersonUserDao(PersonUserDao personUserDao) {
+		this.personUserDao = personUserDao;
 	}
 
 	public StudySubject reConsent(String studyVersionName,

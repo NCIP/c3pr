@@ -7,7 +7,7 @@ import java.util.List;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Consent;
@@ -17,7 +17,7 @@ import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.OffEpochReason;
 import edu.duke.cabig.c3pr.domain.OffStudyReason;
 import edu.duke.cabig.c3pr.domain.Reason;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
@@ -33,7 +33,7 @@ import edu.duke.cabig.c3pr.utils.PersistedStudySubjectCreator;
 public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     private StudySubjectDao studySubjectDao;
     
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
     
     private StudySiteDao studySiteDao;
 
@@ -50,7 +50,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         super.setUp();
         studySubjectRepository=(StudySubjectRepository)getApplicationContext().getBean("studySubjectRepository");
         studySubjectDao=(StudySubjectDao)getApplicationContext().getBean("studySubjectDao");
-        researchStaffDao=(ResearchStaffDao)getApplicationContext().getBean("researchStaffDao");
+        personUserDao=(PersonUserDao)getApplicationContext().getBean("personUserDao");
         studySiteDao=(StudySiteDao)getApplicationContext().getBean("studySiteDao");
         identifierGenerator=(IdentifierGenerator)getApplicationContext().getBean("identifierGenerator");
         persistedStudySubjectCreator=new PersistedStudySubjectCreator(getApplicationContext());
@@ -276,9 +276,9 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         }
         studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
         studySubject = studySubjectDao.merge(studySubject);
-        ResearchStaff researchStaff = researchStaffDao.getById(1100);
+        PersonUser researchStaff = personUserDao.getById(1100);
         StudyPersonnel studyPersonnel = studySubject.getStudySite().getStudyPersonnel().get(0);
-        studyPersonnel.setResearchStaff(researchStaff);
+        studyPersonnel.setPersonUser(researchStaff);
         studyPersonnel.setStatusCode("Active");
         studySiteDao.save(studySubject.getStudySite());
         interruptSession();
@@ -323,9 +323,9 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         }
         studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
         studySubject = studySubjectDao.merge(studySubject);
-        ResearchStaff researchStaff = researchStaffDao.getById(1100);
+        PersonUser researchStaff = personUserDao.getById(1100);
         StudyPersonnel studyPersonnel = studySubject.getStudySite().getStudyPersonnel().get(0);
-        studyPersonnel.setResearchStaff(researchStaff);
+        studyPersonnel.setPersonUser(researchStaff);
         studyPersonnel.setStatusCode("Active");
         studySiteDao.save(studySubject.getStudySite());
         interruptSession();
@@ -366,9 +366,9 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
         }
         studySubject.addIdentifier(identifierGenerator.generateSystemAssignedIdentifier(studySubject));
         studySubject = studySubjectDao.merge(studySubject);
-        ResearchStaff researchStaff = researchStaffDao.getById(1100);
+        PersonUser researchStaff = personUserDao.getById(1100);
         StudyPersonnel studyPersonnel = studySubject.getStudySite().getStudyPersonnel().get(0);
-        studyPersonnel.setResearchStaff(researchStaff);
+        studyPersonnel.setPersonUser(researchStaff);
         studyPersonnel.setStatusCode("Active");
         studySiteDao.save(studySubject.getStudySite());
         interruptSession();

@@ -1,22 +1,22 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.constants.PersonUserType;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.RolePrivilegeDao;
 import edu.duke.cabig.c3pr.dao.UserDao;
-import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.LocalPersonUser;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
 import gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService;
 import gov.nih.nci.security.authorization.domainobjects.User;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.userdetails.UserDetails;
@@ -40,7 +40,7 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 	
 	private RolePrivilegeDao rolePrivilegeDao;
 	
-	private ResearchStaffDao researchStaffDao;
+	private PersonUserDao personUserDao;
 	
 	private UserDao userDao;
 	
@@ -60,7 +60,7 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 			getCsmUserProvisioningManager().getUser(userDetails.getUsername());
 		AuthorizedUser authorizedUser= new AuthorizedUser(userDetails.getUsername(), userDetails.getPassword(), true, true, true, true, 
 						userDetails.getAuthorities(), provisioningSessionFactory. createSession(csmUser.getUserId()), getAllRolePrivileges(userDetails.getAuthorities()), 
-						getResearchStaff(csmUser));
+						getPersonUser(csmUser));
 		
 		return authorizedUser;
 	}
@@ -73,14 +73,14 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 	 * @param userId the user id
 	 * @return the research staff
 	 */
-	private ResearchStaff getResearchStaff(gov.nih.nci.security.authorization.domainobjects.User csmUser) {
-		edu.duke.cabig.c3pr.domain.User c3prUser = userDao.getByLoginId(csmUser.getUserId());
+	private PersonUser getPersonUser(gov.nih.nci.security.authorization.domainobjects.User csmUser) {
+		edu.duke.cabig.c3pr.domain.C3PRUser c3prUser = userDao.getByLoginId(csmUser.getUserId());
 		if(c3prUser == null){
-			ResearchStaff researchStaff = populateResearchStaff(csmUser);
+			PersonUser researchStaff = populatePersonUser(csmUser);
 			try {
 				logger.debug("Attempting to dynamically provision the CSM user with user id: "+ csmUser.getUserId() +" in C3PR as staff.");
 				setAuditInfo();
-				researchStaffDao.createResearchStaff(researchStaff);
+				personUserDao.createResearchStaff(researchStaff);
 			} catch(Exception e){
 				logger.error("Unable to proceed as dynamic provisioning failed for user: "+csmUser.getUserId());
 				logger.error("Check user details in csm_user for invalid data.");
@@ -89,24 +89,25 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 			}
 			return researchStaff;
 		}
-		return (ResearchStaff) c3prUser;
+		return (PersonUser) c3prUser;
 	}
 
+	
 	/**
-	 * Populate research staff.
+	 * Populate person user.
 	 *
 	 * @param csmUser the csm user
-	 * @return the research staff
+	 * @return the person user
 	 */
-	private ResearchStaff populateResearchStaff(User csmUser) {
-		ResearchStaff researchStaff = new LocalResearchStaff();
-		researchStaff.setFirstName(csmUser.getFirstName());
-		researchStaff.setLastName(csmUser.getLastName());
-		researchStaff.setLoginId(csmUser.getUserId().toString());
-		researchStaff.setEmail(csmUser.getEmailId());
+	private PersonUser populatePersonUser(User csmUser) {
+		PersonUser personUser = new LocalPersonUser(PersonUserType.USER);
+		personUser.setFirstName(csmUser.getFirstName());
+		personUser.setLastName(csmUser.getLastName());
+		personUser.setLoginId(csmUser.getUserId().toString());
+		personUser.setEmail(csmUser.getEmailId());
 //		researchStaff.setPhone(csmUser.getPhoneNumber());
-		researchStaff.setAssignedIdentifier(UUID.randomUUID().toString());
-		return researchStaff;
+//		personUser.setAssignedIdentifier(UUID.randomUUID().toString());
+		return personUser;
 	}
 
 	/**
@@ -143,13 +144,6 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 		this.rolePrivilegeDao = rolePrivilegeDao;
 	}
 
-	public ResearchStaffDao getResearchStaffDao() {
-		return researchStaffDao;
-	}
-
-	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-		this.researchStaffDao = researchStaffDao;
-	}
 
 	public UserDao getUserDao() {
 		return userDao;
@@ -163,4 +157,12 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
     	gov.nih.nci.cabig.ctms.audit.DataAuditInfo.setLocal(new gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo(
         		"C3PR Admin", "C3PR dynamic provisioning of suite user", new Date(), "C3PR dynamic provisioning of suite user"));
     }
+
+	public PersonUserDao getPersonUserDao() {
+		return personUserDao;
+	}
+
+	public void setPersonUserDao(PersonUserDao personUserDao) {
+		this.personUserDao = personUserDao;
+	}
 }

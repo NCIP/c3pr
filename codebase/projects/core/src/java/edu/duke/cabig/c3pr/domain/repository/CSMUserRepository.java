@@ -1,8 +1,10 @@
 package edu.duke.cabig.c3pr.domain.repository;
 
+import java.util.List;
 import java.util.Set;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.User;
 
 /**
@@ -25,5 +27,9 @@ public interface CSMUserRepository {
 	public Set<gov.nih.nci.security.authorization.domainobjects.User> getCSMUsersByGroup(C3PRUserGroupType group);
 	
 	public gov.nih.nci.security.authorization.domainobjects.User getCSMUserByName(String userName);
+
+	public List<gov.nih.nci.security.authorization.domainobjects.User> searchCSMUsers(
+			String firstName, String lastName, String emailAddress,
+			String loginName);
 }
 

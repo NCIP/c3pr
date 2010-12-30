@@ -29,7 +29,7 @@ public interface PersonnelService {
      * @throws C3PRBaseException
      * @throws C3PRBaseRuntimeException
      */
-    public void save(ResearchStaff staff) throws C3PRBaseException;
+    public void save(PersonUser staff) throws C3PRBaseException;
     
     /**
      * Will save Research Staff and add appropriate data into CSM
@@ -38,7 +38,7 @@ public interface PersonnelService {
      * @throws C3PRBaseException
      * @throws C3PRBaseRuntimeException
      */
-    public void saveUser(ResearchStaff staff) throws C3PRBaseException;
+    public void saveUser(PersonUser staff) throws C3PRBaseException;
 
     /**
      * Used to update Investigator domain object
@@ -47,14 +47,6 @@ public interface PersonnelService {
      * @throws C3PRBaseException
      */
     public Investigator merge(Investigator user) throws C3PRBaseException;
-
-    /**
-     * Used to update ResearchStaff domain object
-     * 
-     * @param staff
-     * @throws C3PRBaseException
-     */
-    public void merge(ResearchStaff staff) throws C3PRBaseException;
 
     /**
      * Get a list of csm groups for the user
@@ -68,7 +60,7 @@ public interface PersonnelService {
     /**
      * Get a list of csm groups for the emailId
      * Used by the dashboardController
-     * @param user
+     * @param emailId
      * @return
      * @throws C3PRBaseException
      */
@@ -86,7 +78,7 @@ public interface PersonnelService {
 
     public User getCSMUserByUsername(String userName);
     
-    public BaseResearchStaffDataContainer convertLocalResearchStaffToRemoteResearchStaff(LocalResearchStaff localResearchStaff,RemoteResearchStaff remoteResearchStaff);
+    public BaseResearchStaffDataContainer convertLocalResearchStaffToRemoteResearchStaff(LocalPersonUser localResearchStaff,RemotePersonUser remoteResearchStaff);
     
     public BaseInvestigatorDataContainer convertLocalInvestigatorToRemoteInvestigator(LocalInvestigator localInvestigator,RemoteInvestigator remoteInvestigator);
 

@@ -1451,13 +1451,13 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		return null ;
 	}
 	
-	public boolean isAssignedAndActivePersonnel(ResearchStaff researchStaff){
+	public boolean isAssignedAndActivePersonnel(PersonUser researchStaff){
 		List<StudyPersonnel> studyPersonnelList = new ArrayList<StudyPersonnel>();
 		for(StudyOrganization studyOrganization : getStudyOrganizations()){
 			studyPersonnelList.addAll(studyOrganization.getActiveStudyPersonnel());
 		}
 		for(StudyPersonnel studyPersonnel : studyPersonnelList){
-			if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+			if(studyPersonnel.getPersonUser().equals(researchStaff)){
 				return true;
 			}
 		}

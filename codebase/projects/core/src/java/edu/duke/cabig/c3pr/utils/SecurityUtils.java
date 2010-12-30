@@ -19,7 +19,7 @@ import edu.duke.cabig.c3pr.accesscontrol.UserPrivilege;
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
@@ -406,8 +406,8 @@ public class SecurityUtils {
 	 * 
 	 * @return the logged in research staff
 	 */
-	public static ResearchStaff getLoggedInResearchStaff(){
-		return ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getResearchStaff();
+	public static PersonUser getLoggedInResearchStaff(){
+		return ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPersonUser();
 	}
 	
 	public static List<RoleTypes> getNonC3PRRoles(){

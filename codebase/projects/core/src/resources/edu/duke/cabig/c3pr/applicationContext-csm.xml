@@ -93,8 +93,8 @@
                   ref="provisioningSessionFactory"/>   
         <property name="rolePrivilegeDao"
                   ref="rolePrivilegeDao"/>
-        <property name="researchStaffDao"
-                  ref="researchStaffDao"/> 
+        <property name="personUserDao"
+                  ref="personUserDao"/> 
         <property name="userDao"
                   ref="userDao"/>  
     </bean>

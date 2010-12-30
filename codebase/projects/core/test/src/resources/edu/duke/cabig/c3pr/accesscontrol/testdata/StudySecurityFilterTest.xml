@@ -137,14 +137,14 @@
     <IDENTIFIERS id="1003" version="1" value="CCAI1001" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1000" dtype="OAI" stu_id="1001" retired_indicator="false"/>
     <IDENTIFIERS id="1004" version="1" value="CCAI1002" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1000" dtype="OAI" stu_id="1002" retired_indicator="false"/>
 
-    <RESEARCH_STAFF id="1000" version="1" dtype="Local" first_name="Duke" last_name="admin"  retired_indicator="false"  assigned_identifier="x1" login_id="1000"/>
-    <RESEARCH_STAFF id="1001" version="1" dtype="Local" first_name="Duke" last_name="SiteCo" retired_indicator="false"  assigned_identifier="x2" login_id="1001"/>
-    <RESEARCH_STAFF id="1002" version="1" dtype="Local" first_name="Duke" last_name="StudyCo1" retired_indicator="false"  assigned_identifier="x3" login_id="1002"/>
-    <RESEARCH_STAFF id="1003" version="1" dtype="Local" first_name="Duke" last_name="StudyCo2" retired_indicator="false"  assigned_identifier="x4" login_id="1003"/>
-    <RESEARCH_STAFF id="1004" version="1" dtype="Local" first_name="Duke" last_name="Reg1" retired_indicator="false"  assigned_identifier="x5" login_id="1004"/>
-    <RESEARCH_STAFF id="1005" version="1" dtype="Local" first_name="Duke" last_name="Reg2" retired_indicator="false"  assigned_identifier="x6" login_id="1005"/>
-    <RESEARCH_STAFF id="1006" version="1" dtype="Local" first_name="Duke" last_name="Reg1" retired_indicator="false"  assigned_identifier="x7" login_id="1006"/>
-    <RESEARCH_STAFF id="1007" version="1" dtype="Local" first_name="Duke" last_name="Reg2" retired_indicator="false"  assigned_identifier="x8" login_id="1007"/>
+    <PERSONS_USERS id="1000" version="1" dtype="Local" first_name="Duke" last_name="admin"  retired_indicator="false"  assigned_identifier="x1" login_id="1000"/>
+    <PERSONS_USERS id="1001" version="1" dtype="Local" first_name="Duke" last_name="SiteCo" retired_indicator="false"  assigned_identifier="x2" login_id="1001"/>
+    <PERSONS_USERS id="1002" version="1" dtype="Local" first_name="Duke" last_name="StudyCo1" retired_indicator="false"  assigned_identifier="x3" login_id="1002"/>
+    <PERSONS_USERS id="1003" version="1" dtype="Local" first_name="Duke" last_name="StudyCo2" retired_indicator="false"  assigned_identifier="x4" login_id="1003"/>
+    <PERSONS_USERS id="1004" version="1" dtype="Local" first_name="Duke" last_name="Reg1" retired_indicator="false"  assigned_identifier="x5" login_id="1004"/>
+    <PERSONS_USERS id="1005" version="1" dtype="Local" first_name="Duke" last_name="Reg2" retired_indicator="false"  assigned_identifier="x6" login_id="1005"/>
+    <PERSONS_USERS id="1006" version="1" dtype="Local" first_name="Duke" last_name="Reg1" retired_indicator="false"  assigned_identifier="x7" login_id="1006"/>
+    <PERSONS_USERS id="1007" version="1" dtype="Local" first_name="Duke" last_name="Reg2" retired_indicator="false"  assigned_identifier="x8" login_id="1007"/>
                       
     <rs_hc_site_assocn rs_id="1000" hcs_id="1000" />
     <rs_hc_site_assocn rs_id="1001" hcs_id="1000" />
@@ -155,12 +155,12 @@
     <rs_hc_site_assocn rs_id="1006" hcs_id="1000" />
     <rs_hc_site_assocn rs_id="1007" hcs_id="1000" />
     
-    <STUDY_PERSONNEL id="1000" version="1" research_staff_id="1002" sto_id="1000" status_code="Active" retired_indicator="false"/>
-    <STUDY_PERSONNEL id="1001" version="1" research_staff_id="1005" sto_id="1000" status_code="Active" retired_indicator="false"/>
-    <STUDY_PERSONNEL id="1002" version="1" research_staff_id="1003" sto_id="1002" status_code="Active" retired_indicator="false"/>
-    <STUDY_PERSONNEL id="1003" version="1" research_staff_id="1004" sto_id="1002" status_code="Active" retired_indicator="false"/>
-    <STUDY_PERSONNEL id="1004" version="1" research_staff_id="1005" sto_id="1002" status_code="Active" retired_indicator="false"/>
-    <STUDY_PERSONNEL id="1005" version="1" research_staff_id="1002" sto_id="1006" status_code="Active" retired_indicator="false"/>
-    <STUDY_PERSONNEL id="1006" version="1" research_staff_id="1003" sto_id="1006" status_code="Active" retired_indicator="false"/>
-    <STUDY_PERSONNEL id="1007" version="1" research_staff_id="1004" sto_id="1006" status_code="Active" retired_indicator="false"/>
+    <STUDY_PERSONNEL id="1000" version="1" persons_users_id="1002" sto_id="1000" status_code="Active" retired_indicator="false"/>
+    <STUDY_PERSONNEL id="1001" version="1" persons_users_id="1005" sto_id="1000" status_code="Active" retired_indicator="false"/>
+    <STUDY_PERSONNEL id="1002" version="1" persons_users_id="1003" sto_id="1002" status_code="Active" retired_indicator="false"/>
+    <STUDY_PERSONNEL id="1003" version="1" persons_users_id="1004" sto_id="1002" status_code="Active" retired_indicator="false"/>
+    <STUDY_PERSONNEL id="1004" version="1" persons_users_id="1005" sto_id="1002" status_code="Active" retired_indicator="false"/>
+    <STUDY_PERSONNEL id="1005" version="1" persons_users_id="1002" sto_id="1006" status_code="Active" retired_indicator="false"/>
+    <STUDY_PERSONNEL id="1006" version="1" persons_users_id="1003" sto_id="1006" status_code="Active" retired_indicator="false"/>
+    <STUDY_PERSONNEL id="1007" version="1" persons_users_id="1004" sto_id="1006" status_code="Active" retired_indicator="false"/>
 </dataset>

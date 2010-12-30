@@ -16,10 +16,10 @@
     <STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="2000-01-01" />
 	
                          
- <RESEARCH_STAFF id="1000" version="1" first_name="Research Bill" last_name="Staff2" dtype="Local"  assigned_identifier="rjfk_1003" retired_indicator = "false" />
- <RESEARCH_STAFF id="1001" version="1" first_name="Research George" last_name="Staff2" dtype="Local"  assigned_identifier="rjfk_1004" retired_indicator = "false" />
- <RESEARCH_STAFF id="1002" version="1" first_name="Research Benjamin" last_name="Staff3" dtype="Local"  assigned_identifier="rjfk_1005" retired_indicator = "false" />    
- <RESEARCH_STAFF id="1003" version="1" first_name="Research JFK" last_name="Staff4" dtype="Local"  assigned_identifier="rjfk_1006"  retired_indicator = "false" />         
+ <PERSONS_USERS id="1000" version="1" first_name="Research Bill" last_name="Staff2" dtype="Local"  assigned_identifier="rjfk_1003" retired_indicator = "false" />
+ <PERSONS_USERS id="1001" version="1" first_name="Research George" last_name="Staff2" dtype="Local"  assigned_identifier="rjfk_1004" retired_indicator = "false" />
+ <PERSONS_USERS id="1002" version="1" first_name="Research Benjamin" last_name="Staff3" dtype="Local"  assigned_identifier="rjfk_1005" retired_indicator = "false" />    
+ <PERSONS_USERS id="1003" version="1" first_name="Research JFK" last_name="Staff4" dtype="Local"  assigned_identifier="rjfk_1006"  retired_indicator = "false" />         
     
     <rs_hc_site_assocn rs_id="1000" hcs_id="1000" />
     <rs_hc_site_assocn rs_id="1001" hcs_id="1000" />
@@ -28,9 +28,9 @@
     
     <CONTACT_MECHANISMS id="1000" version="1" rs_id="1000" type="EMAIL" value="test@mail.com" />
     
-    <STUDY_PERSONNEL id="1000" version="1" research_staff_id="1000" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01"
+    <STUDY_PERSONNEL id="1000" version="1" persons_users_id="1000" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01"
                          role_code="role1" status_code="Active" retired_indicator="false"/>
-    <STUDY_PERSONNEL id="1001" version="1" research_staff_id="1002" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01"
+    <STUDY_PERSONNEL id="1001" version="1" persons_users_id="1002" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01"
                          role_code="role1" status_code="Active" retired_indicator="false"/>
     
    

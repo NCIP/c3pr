@@ -657,9 +657,9 @@
 		</dependent-object>
 		<!--study personnel specific search criteria -->
 		<dependent-object>
-			<class-name>edu.duke.cabig.c3pr.domain.ResearchStaff</class-name>
-			<display-name>ResearchStaff</display-name>
-			<table-alias>ResearchStaff_xx</table-alias>
+			<class-name>edu.duke.cabig.c3pr.domain.PersonUser</class-name>
+			<display-name>PersonUser</display-name>
+			<table-alias>PersonUser_xx</table-alias>
 			<search-criteria>
 				<name>assignedIdentifier</name>
 				<label>Assigned Identifier</label>
@@ -706,11 +706,11 @@
 						elements(StudySite_xx.studyPersonnelInternal)</joining-condition>
 				</association>
 				<association>
-					<name>edu.duke.cabig.c3pr.domain.ResearchStaff</name>
-					<role-name>researchStaff</role-name>
-					<table-alias>ResearchStaff_xx</table-alias>
-					<joining-condition> StudyPersonnel_xx.researchStaff =
-						ResearchStaff_xx</joining-condition>
+					<name>edu.duke.cabig.c3pr.domain.PersonUser</name>
+					<role-name>personUser</role-name>
+					<table-alias>PersonUser_xx</table-alias>
+					<joining-condition> StudyPersonnel_xx.personUser =
+						PersonUser_xx</joining-condition>
 				</association>
 			</association-context>
 		</dependent-object><!--Search by identifier, identifier can belong to study subject record, 

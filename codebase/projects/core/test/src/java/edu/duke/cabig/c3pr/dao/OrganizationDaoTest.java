@@ -30,7 +30,7 @@ import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
@@ -57,7 +57,7 @@ public class OrganizationDaoTest extends DaoTestCase {
 	public static final String TITLE = "Vanguard";
 
     /** The research staff dao. */
-    private ResearchStaffDao researchStaffDao;
+    private PersonUserDao personUserDao;
 
     /** The planned notification dao. */
     private PlannedNotificationDao plannedNotificationDao;
@@ -81,7 +81,7 @@ public class OrganizationDaoTest extends DaoTestCase {
      * Instantiates a new organization dao test.
      */
     public OrganizationDaoTest() {
-    	researchStaffDao = (ResearchStaffDao) getApplicationContext().getBean("researchStaffDao");
+    	personUserDao = (PersonUserDao) getApplicationContext().getBean("personUserDao");
         plannedNotificationDao= (PlannedNotificationDao) getApplicationContext().getBean("plannedNotificationDao");
         investigatorGroupDao = (InvestigatorGroupDao) getApplicationContext().getBean("investigatorGroupDao");
         healthcareSiteInvestigatorDao = (HealthcareSiteInvestigatorDao) getApplicationContext().getBean("healthcareSiteInvestigatorDao");
@@ -426,7 +426,7 @@ public class OrganizationDaoTest extends DaoTestCase {
         assertEquals("Wrong Delivery Mechanism", DeliveryMechanismEnum.EMAIL, loadedOrg.getPlannedNotifications().get(0).getDeliveryMechanism());
 
         assertEquals("Wrong Role", "admin", loadedOrg.getPlannedNotifications().get(0).getRoleBasedRecipient().get(0).getRole());
-        assertEquals("Wrong User", "Research Bill", loadedOrg.getPlannedNotifications().get(0).getUserBasedRecipient().get(0).getResearchStaff().getFirstName());
+        assertEquals("Wrong User", "Research Bill", loadedOrg.getPlannedNotifications().get(0).getUserBasedRecipient().get(0).getPersonUser().getFirstName());
         assertEquals("Wrong contact","vinay.gangoli@semanticbits.com", loadedOrg.getPlannedNotifications().get(0).getContactMechanismBasedRecipient().get(0).getContactMechanisms().get(0).getValue());
     }
 
@@ -449,8 +449,8 @@ public class OrganizationDaoTest extends DaoTestCase {
     	plannedNotification.setStudyThreshold(10);
 
     	UserBasedRecipient ubr = new UserBasedRecipient();
-    	ResearchStaff researchStaff = researchStaffDao.getById(1000);
-        ubr.setResearchStaff(researchStaff);
+    	PersonUser researchStaff = personUserDao.getById(1000);
+        ubr.setPersonUser(researchStaff);
         plannedNotification.getUserBasedRecipient().add(ubr);
 
         RoleBasedRecipient rbr = new RoleBasedRecipient();
@@ -493,7 +493,7 @@ public class OrganizationDaoTest extends DaoTestCase {
     			assertEquals(((RoleBasedRecipient)rsn.getRecipient()).getRole(), "admin");
     		}
     		if(rsn.getRecipient() instanceof UserBasedRecipient){
-    			assertEquals(((UserBasedRecipient)rsn.getRecipient()).getResearchStaff().getFirstName(), "Research Bill");
+    			assertEquals(((UserBasedRecipient)rsn.getRecipient()).getPersonUser().getFirstName(), "Research Bill");
     		}
     	}
     }

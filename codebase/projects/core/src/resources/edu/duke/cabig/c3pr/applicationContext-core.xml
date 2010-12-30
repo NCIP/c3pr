@@ -72,8 +72,8 @@
                 <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
                 <value>edu.duke.cabig.c3pr.domain.Participant</value>
-                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
-                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalPersonUser</value>
+                <value>edu.duke.cabig.c3pr.domain.RemotePersonUser</value>
                 <value>edu.duke.cabig.c3pr.domain.LocalInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
@@ -244,8 +244,8 @@
                 <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
                 <value>edu.duke.cabig.c3pr.domain.Participant</value>
-                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
-                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.LocalPersonUser</value>
+                <value>edu.duke.cabig.c3pr.domain.RemotePersonUser</value>
                 <value>edu.duke.cabig.c3pr.domain.LocalInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
@@ -406,8 +406,8 @@
 	                <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
 	                <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
 	                <value>edu.duke.cabig.c3pr.domain.Participant</value>
-	                <value>edu.duke.cabig.c3pr.domain.LocalResearchStaff</value>
-	                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+	                <value>edu.duke.cabig.c3pr.domain.LocalPersonUser</value>
+	                <value>edu.duke.cabig.c3pr.domain.RemotePersonUser</value>
 	                <value>edu.duke.cabig.c3pr.domain.LocalInvestigator</value>
 	                <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
 	                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
@@ -506,7 +506,7 @@
 
         <property name="remoteEntities">
             <list>
-                <value>edu.duke.cabig.c3pr.domain.RemoteResearchStaff</value>
+                <value>edu.duke.cabig.c3pr.domain.RemotePersonUser</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteHealthcareSite</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.RemoteStudy</value>
@@ -625,7 +625,7 @@
           autowire="byName">
           <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
     </bean>
-    <bean id="researchStaffDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffDao" autowire="byName" >
+    <bean id="personUserDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.PersonUserDao" autowire="byName" >
 	    <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
     </bean>
     <bean id="investigatorGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorGroupDao" autowire="byName"/>
@@ -915,7 +915,7 @@
           autowire="byName"/> 
           
           
-    <bean id="researchStaffRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl"
+    <bean id="personUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl"
           lazy-init="true" autowire="byType">
         <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
     </bean>

@@ -1681,20 +1681,20 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	studySubjectStudyVersion.setStudySubject(studySubject);
 		StudySite studyOrganization = new StudySite();
 		StudyPersonnel studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
-		ResearchStaff researchStaff = new LocalResearchStaff();
+		PersonUser researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test1");
 		studyPersonnel.setStatusCode("Active");
-		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel.setPersonUser(researchStaff);
 		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
-		researchStaff = new LocalResearchStaff();
+		researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test2");
 		studyPersonnel.setStatusCode("Inactive");
-		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel.setPersonUser(researchStaff);
 		EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studyOrganization);
 	  	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
 	  	replayMocks();
 	  	studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
-		researchStaff = new LocalResearchStaff();
+		researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test1");
 		assertTrue(studySubject.isAssignedAndActivePersonnel(researchStaff));
 		verifyMocks();
@@ -1705,16 +1705,16 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	
 		StudySite dummyStudySite = new StudySite();
 		StudyPersonnel studyPersonnel = dummyStudySite.getStudyPersonnel().get(0);
-		ResearchStaff researchStaff = new LocalResearchStaff();
+		PersonUser researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test1");
 		studyPersonnel.setStatusCode("Active");
-		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel.setPersonUser(researchStaff);
 		
 		studyPersonnel = dummyStudySite.getStudyPersonnel().get(1);
-		researchStaff = new LocalResearchStaff();
+		researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test2");
 		studyPersonnel.setStatusCode("Inactive");
-		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel.setPersonUser(researchStaff);
 		
 		EasyMock.expect(studySite.getIsCoordinatingCenter()).andReturn(false);
 		EasyMock.expect(studySite.getActiveStudyPersonnel()).andReturn(new ArrayList<StudyPersonnel>());
@@ -1726,7 +1726,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	
 	  	replayMocks();
 	  	studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
-		researchStaff = new LocalResearchStaff();
+		researchStaff = new LocalPersonUser();
 		researchStaff.setAssignedIdentifier("test2");
 		assertFalse(studySubject.isAssignedAndActivePersonnel(researchStaff));
 		verifyMocks();
@@ -2019,7 +2019,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(scheduledEpoch.hasWaivableEligibilityAnswers()).andReturn(true);
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
-	  ResearchStaff researchStaff = new LocalResearchStaff();
+	  PersonUser researchStaff = new LocalPersonUser();
 	  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 	  assertFalse(subjectEligibilityAnswer1.getAllowWaiver());
 	  assertTrue(subjectEligibilityAnswer2.getAllowWaiver());
@@ -2050,7 +2050,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 	  try {
-		  ResearchStaff researchStaff = new LocalResearchStaff();
+		  PersonUser researchStaff = new LocalPersonUser();
 		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
@@ -2085,7 +2085,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 	  try {
-		  ResearchStaff researchStaff = new LocalResearchStaff();
+		  PersonUser researchStaff = new LocalPersonUser();
 		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
@@ -2119,7 +2119,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 	  try {
-		  ResearchStaff researchStaff = new LocalResearchStaff();
+		  PersonUser researchStaff = new LocalPersonUser();
 		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
@@ -2153,7 +2153,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 	  try {
-		  ResearchStaff researchStaff = null;
+		  PersonUser researchStaff = null;
 		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {
@@ -2200,7 +2200,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  replayMocks();
 	  studySubject.clearAllAndAddStudySubjectStudyVersion(studySubjectStudyVersion);
 	  try {
-		  ResearchStaff researchStaff = null;
+		  PersonUser researchStaff = null;
 		  studySubject.allowEligibilityWaiver(eligibilityCriteriaList, researchStaff);
 		  fail("Should have thrown exception");
 	}catch (C3PRBaseRuntimeException e) {

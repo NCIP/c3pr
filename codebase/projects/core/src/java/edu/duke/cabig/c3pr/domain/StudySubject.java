@@ -1885,10 +1885,10 @@ public class StudySubject extends
 	 * @return true, if is assigned and active personnel
 	 */
 	@Transient
-	public boolean isAssignedAndActivePersonnel(ResearchStaff researchStaff){
+	public boolean isAssignedAndActivePersonnel(PersonUser researchStaff){
 		//Checking if staff belongs to the site of registration
 		for(StudyPersonnel studyPersonnel : getStudySite().getActiveStudyPersonnel()){
-			if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+			if(studyPersonnel.getPersonUser().equals(researchStaff)){
 				return true;
 			}
 		}
@@ -1910,7 +1910,7 @@ public class StudySubject extends
 			}
 			if(coordinatingCenterStudySite != null){
 				for(StudyPersonnel studyPersonnel : coordinatingCenterStudySite.getActiveStudyPersonnel()){
-					if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+					if(studyPersonnel.getPersonUser().equals(researchStaff)){
 						return true;
 					}
 				}
@@ -1920,7 +1920,7 @@ public class StudySubject extends
 			StudyOrganization studyOrganizationCoordinatingCenter = getStudySite().getStudy().getStudyCoordinatingCenter();
 			if(studyOrganizationCoordinatingCenter != null){
 				for(StudyPersonnel studyPersonnel : studyOrganizationCoordinatingCenter.getActiveStudyPersonnel()){
-					if(studyPersonnel.getResearchStaff().equals(researchStaff)){
+					if(studyPersonnel.getPersonUser().equals(researchStaff)){
 						return true;
 					}
 				}
@@ -1975,7 +1975,7 @@ public class StudySubject extends
 		return false;
 	}
 	
-	public void allowEligibilityWaiver(List<EligibilityCriteria> eligibilityCriteriaList, ResearchStaff waivedBy){
+	public void allowEligibilityWaiver(List<EligibilityCriteria> eligibilityCriteriaList, PersonUser waivedBy){
 		if(!canAllowEligibilityWaiver()){
 			throw new C3PRBaseRuntimeException("Cannot allow waiver. Either there are no invalid eligibility answers or the scheduled epoch is not in pending state.");
 		}

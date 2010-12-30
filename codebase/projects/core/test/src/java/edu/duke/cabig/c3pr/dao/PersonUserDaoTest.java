@@ -15,9 +15,9 @@ import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.LocalResearchStaff;
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.LocalPersonUser;
+import edu.duke.cabig.c3pr.domain.RemotePersonUser;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 import gov.nih.nci.security.UserProvisioningManager;
@@ -27,13 +27,13 @@ import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 
 /**
- * JUnit Tests for ResearchStaffDao
+ * JUnit Tests for personUserDao
  * 
  * @author Priyatam, Vinay G
  * @testType integration
  */
 @C3PRUseCases( { VERIFY_SUBJECT, SEARCH_SUBJECT })
-public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
+public class PersonUserDaoTest extends ContextDaoTestCase<PersonUserDao> {
 
     private HealthcareSiteDao healthcareSiteDao;
 	private UserProvisioningManager userProvisioningManager;
@@ -41,7 +41,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     /**
      * Instantiates a new research staff dao test.
      */
-    public ResearchStaffDaoTest() {
+    public PersonUserDaoTest() {
     	healthcareSiteDao = (HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
     	userProvisioningManager = (UserProvisioningManager) getApplicationContext().getBean("csmUserProvisioningManager");
     }
@@ -51,7 +51,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 	 * Test domain class.
 	 */
 	public void testDomainClass() {
-		assertEquals("Wrong Domain Class", ResearchStaff.class, getDao().domainClass());
+		assertEquals("Wrong Domain Class", PersonUser.class, getDao().domainClass());
 	}
     
     /**
@@ -60,7 +60,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception
      */
     public void testGetById() throws Exception {
-        ResearchStaff staff = getDao().getById(1000);
+        PersonUser staff = getDao().getById(1000);
         assertEquals("Research Bill", staff.getFirstName());
     }
     
@@ -71,14 +71,14 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception
      */
     public void testGetByIdForException() throws Exception {
-        ResearchStaff staff = getDao().getByAssignedIdentifier("9999");
+        PersonUser staff = getDao().getByAssignedIdentifier("9999");
         assertNull(staff);
     }
 
     public void testFailureAddingSameResearchStaffMemberTwice() {
 
         HealthcareSite site = healthcareSiteDao.getById(1000);
-        ResearchStaff rs1 = new LocalResearchStaff();
+        PersonUser rs1 = new LocalPersonUser();
         rs1.setFirstName("Brad");
         rs1.setLastName("Johnson");
         rs1.setMaidenName("Bradster");
@@ -89,10 +89,10 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         interruptSession();
 
         int savedId1 = rs1.getId();
-        ResearchStaff loadedRS1 = getDao().getById(savedId1);
+        PersonUser loadedRS1 = getDao().getById(savedId1);
         assertNotNull("Unable to save research staff member with" + savedId1, loadedRS1);
 
-        ResearchStaff rs2 = new LocalResearchStaff();
+        PersonUser rs2 = new LocalPersonUser();
         rs2.setFirstName("Brad");
         rs2.setLastName("Johnson");
         rs2.setMaidenName("Bradster");
@@ -116,7 +116,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception
      */
     public void testGetBySubnameMatchesIntersectionOfSubnamesAndSubemail() throws Exception {
-        List<ResearchStaff> actual = getDao().getBySubNameAndSubEmail(new String[] { "test" });
+        List<PersonUser> actual = getDao().getBySubNameAndSubEmail(new String[] { "test" });
         assertEquals("Wrong number of matches", 1, actual.size());
         assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
     }
@@ -128,12 +128,12 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception the exception
      */
     public void testSearchByExampleWithWildcard() throws Exception{
-    	ResearchStaff researchStaff = new LocalResearchStaff();
+    	PersonUser researchStaff = new LocalPersonUser();
     	researchStaff.setFirstName("Research");
     	
     	HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);
     	researchStaff.addHealthcareSite(healthcareSite);
-    	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
+    	List<PersonUser> researchStaffList = getDao().searchByExample(researchStaff, true, null);
     	assertEquals("Incorrect Size of retrieved list",researchStaffList.size(), 4);
     }
     
@@ -143,9 +143,9 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception the exception
      */
     public void testSearchByExampleWithoutWildcard() throws Exception{
-    	ResearchStaff researchStaff = new LocalResearchStaff();
+    	PersonUser researchStaff = new LocalPersonUser();
     	researchStaff.setFirstName("Research Bill");
-    	List<ResearchStaff> researchStaffList = getDao().searchByExample(researchStaff, true);
+    	List<PersonUser> researchStaffList = getDao().searchByExample(researchStaff, true, null);
     	assertEquals("Incorrect Size of retrieved list", researchStaffList.size(), 1);
     }
     
@@ -156,20 +156,20 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      */
     public void testGetByNciId() throws Exception {
         HealthcareSite healthcareSite = healthcareSiteDao.getById(1000);
-        RemoteResearchStaff remoteResearchStaff = new RemoteResearchStaff();
+        RemotePersonUser remoteResearchStaff = new RemotePersonUser();
 		remoteResearchStaff.setFirstName("LArry");
 		remoteResearchStaff.setLastName("Page");
 		remoteResearchStaff.setAssignedIdentifier("NCI_101");
 		remoteResearchStaff.addHealthcareSite(healthcareSite);
 		getDao().save(remoteResearchStaff);
-		ResearchStaff staff = getDao().getByAssignedIdentifier("NCI_101");
+		PersonUser staff = getDao().getByAssignedIdentifier("NCI_101");
         assertNotNull(remoteResearchStaff);
 		//assertEquals("Research Bill", staff.getFirstName());
     }
     
     public void testGetResearchStaffByOrganizationNCIInstituteCode (){
     	HealthcareSite healthcareSite = healthcareSiteDao.getById(1001);
-    	List<ResearchStaff> rsList = getDao().getResearchStaffByOrganizationCtepCodeFromLocal(healthcareSite, false);
+    	List<PersonUser> rsList = getDao().getResearchStaffByOrganizationCtepCodeFromLocal(healthcareSite, false);
     	assertEquals(1, rsList.size());
     }
     
@@ -181,7 +181,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
     public void testSearchResearchStaffByQuery() throws Exception{
     	ResearchStaffQuery researchStaffQuery = new ResearchStaffQuery();
         researchStaffQuery.filterByEmailAddress("test@mail.com");
-        List<ResearchStaff> researchStaffList = getDao().searchResearchStaff(researchStaffQuery);
+        List<PersonUser> researchStaffList = getDao().searchResearchStaff(researchStaffQuery);
         assertEquals("Incorrect size", 1, researchStaffList.size());
     }
     
@@ -191,21 +191,21 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
      * @throws Exception the exception
      */
     public void testLoadRemoteResearchStaffByUniqueIdentifier() throws Exception{
-    	List<ResearchStaff> researchStaffList = new ArrayList<ResearchStaff>();
+    	List<PersonUser> researchStaffList = new ArrayList<PersonUser>();
     	researchStaffList = getDao().getByExternalIdentifierFromLocal("bob@gmail.com");
         assertEquals("Incorrect size", 1, researchStaffList.size());
      }
     
     //newly added
-	public void testCreateOrModifyResearchStaff(ResearchStaff researchStaff,
+	public void testCreateOrModifyResearchStaff(PersonUser researchStaff,
 			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException {
 	}
 	
-	public void testCreateCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) throws C3PRBaseException{
+	public void testCreateCSMUser(PersonUser researchStaff, String username, boolean hasAccessToAllSites) throws C3PRBaseException{
 	}
 
 	public void testCreateCSMUserAndAssignRoles(){
-		ResearchStaff staff = getDao().getById(1001);
+		PersonUser staff = getDao().getById(1001);
 		Map<HealthcareSite, List<C3PRUserGroupType>> associationMap = new HashMap<HealthcareSite, List<C3PRUserGroupType>>();
 		HealthcareSite hcs1 = healthcareSiteDao.getById(1001);
 		
@@ -214,8 +214,8 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 		roleList.add(C3PRUserGroupType.STUDY_CREATOR);
 		associationMap.put(hcs1, roleList);
 		try {
-			getDao().createOrModifyResearchStaff(staff, true, "somename", associationMap , false);
-			ResearchStaff reloadedStaff = getDao().getById(1001);
+			getDao().createOrModifyPersonUser(staff, true, "somename", associationMap , false);
+			PersonUser reloadedStaff = getDao().getById(1001);
 			User user = getDao().getCSMUser((C3PRUser)reloadedStaff);
 
 			Set<Group> groups = userProvisioningManager.getGroups(user.getUserId().toString());
@@ -248,22 +248,22 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 	}
 
 	
-	public void testCreateResearchStaff(ResearchStaff researchStaff) throws C3PRBaseException {
+	public void testCreateResearchStaff(PersonUser researchStaff) throws C3PRBaseException {
 	}
 
-	public void testCreateResearchStaffWithCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) 
+	public void testCreateResearchStaffWithCSMUser(PersonUser researchStaff, String username, boolean hasAccessToAllSites) 
 			throws C3PRBaseException {
 	}
 
-	public void testCreateResearchStaffWithCSMUserAndAssignRoles(ResearchStaff researchStaff, String username,
+	public void testCreateResearchStaffWithCSMUserAndAssignRoles(PersonUser researchStaff, String username,
 			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) throws C3PRBaseException {
 	}
 
-	public void testCreateSuperUser(ResearchStaff researchStaff, String username,
+	public void testCreateSuperUser(PersonUser researchStaff, String username,
 			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) throws C3PRBaseException {
 	}
 
-	public void testCreateResearchStaff(ResearchStaff researchStaff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap)  throws C3PRBaseException {
+	public void testCreateResearchStaff(PersonUser researchStaff, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap)  throws C3PRBaseException {
 	}
     //newly added
 

@@ -98,10 +98,10 @@ public class ScheduledNotificationJob extends ScheduledJob {
             		
             		if(plannedNotification.getFrequency().equals(NotificationFrequencyEnum.IMMEDIATE) || plannedNotification.getFrequency().equals(NotificationFrequencyEnum.END_OF_THE_DAY)){
             			if(recipientScheduledNotification.getRecipient() instanceof UserBasedRecipient){
-            				if(((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getResearchStaff() != null){
+            				if(((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getPersonUser() != null){
             					logger.error("$$$$$$$$$$ Threads id is :" + Thread.currentThread().getId());
             					logger.error("$$$$$$$$$$ RBN's id is :" + recipientScheduledNotification.getId());
-            					logger.error("$$$$$$$$$$ ResearchStaff's version is :" + ((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getResearchStaff().getVersion() );
+            					logger.error("$$$$$$$$$$ ResearchStaff's version is :" + ((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getPersonUser().getVersion() );
             				}
             			}
             			notificationEmailService.sendEmail(recipientScheduledNotification);
@@ -116,10 +116,10 @@ public class ScheduledNotificationJob extends ScheduledJob {
                 recipientScheduledNotification.setDeliveryStatus(EmailNotificationDeliveryStatusEnum.ERROR);
             } finally {
             	if(recipientScheduledNotification.getRecipient() instanceof UserBasedRecipient){
-    				if(((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getResearchStaff() != null){
+    				if(((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getPersonUser() != null){
     					logger.error("$$$$$$$$$$ FINALLY  Threads id is :" + Thread.currentThread().getId());
     					logger.error("$$$$$$$$$$ FINALLY  RBN's id is :" + recipientScheduledNotification.getId());
-    					logger.error("$$$$$$$$$$ FINALLY  ResearchStaff's version is :" + ((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getResearchStaff().getVersion() );
+    					logger.error("$$$$$$$$$$ FINALLY  ResearchStaff's version is :" + ((UserBasedRecipient)recipientScheduledNotification.getRecipient()).getPersonUser().getVersion() );
     				}
     			}
             	recipientScheduledNotificationDao.saveOrUpdate(recipientScheduledNotification);

@@ -81,13 +81,13 @@ public class HealthcareSiteTest extends AbstractTestCase{
 	 */
 	public void testAddResearchStaff() throws Exception{
 		HealthcareSite healthcareSite = new LocalHealthcareSite();
-		assertEquals("Unexpected research staff",0,healthcareSite.getResearchStaffs().size());
+		assertEquals("Unexpected research staff",0,healthcareSite.getPersonUsers().size());
 		
-		ResearchStaff rs = new LocalResearchStaff();
+		PersonUser rs = new LocalPersonUser();
 		rs.setLastName("Jeff Sonas");
-		healthcareSite.addResearchStaff(rs);
+		healthcareSite.addPersonUser(rs);
 		
-		assertEquals("Should have found 1 research staff",1,healthcareSite.getResearchStaffs().size());
+		assertEquals("Should have found 1 research staff",1,healthcareSite.getPersonUsers().size());
 	}
 	
 	/**
@@ -97,13 +97,13 @@ public class HealthcareSiteTest extends AbstractTestCase{
 	 */
 	public void testRemoveResearchStaff() throws Exception{
 		HealthcareSite healthcareSite = new LocalHealthcareSite();
-		ResearchStaff rs = new LocalResearchStaff();
+		PersonUser rs = new LocalPersonUser();
 		rs.setLastName("Jeff Sonas");
-		healthcareSite.addResearchStaff(rs);
+		healthcareSite.addPersonUser(rs);
 		
-		assertEquals("Should have found 1 research staff",1,healthcareSite.getResearchStaffs().size());
-		healthcareSite.removeResearchStaff(rs);
-		assertEquals("Unexpected research staff",0,healthcareSite.getResearchStaffs().size());
+		assertEquals("Should have found 1 research staff",1,healthcareSite.getPersonUsers().size());
+		healthcareSite.removePersonUser(rs);
+		assertEquals("Unexpected research staff",0,healthcareSite.getPersonUsers().size());
 	}
 	
 	/**

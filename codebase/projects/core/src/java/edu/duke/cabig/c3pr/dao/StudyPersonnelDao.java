@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudyPersonnelRole;
@@ -36,7 +36,7 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 
     /** The Constant SUBSTRING_MATCH_PROPERTIES. */
     private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList(
-                    "researchStaff.firstName", "researchStaff.lastName");
+                    "personUser.firstName", "personUser.lastName");
 
     /** The Constant EXACT_MATCH_PROPERTIES. */
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
@@ -106,7 +106,7 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 */
 	private void assignUsersToStudy(StudyPersonnel studyPersonnel, boolean isRemove) throws C3PRBaseException {
 		//provisioning as per the new suite authorization -start
-		ResearchStaff researchStaff = studyPersonnel.getResearchStaff();
+		PersonUser researchStaff = studyPersonnel.getPersonUser();
 		try {
 			gov.nih.nci.security.authorization.domainobjects.User csmUser = 
 					userProvisioningManager.getUserById(researchStaff.getLoginId());
@@ -197,7 +197,7 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 * @param roleName
 	 * @return boolean
 	 */
-	public boolean isStaffAssignedToStudy(ResearchStaff researchStaff,
+	public boolean isStaffAssignedToStudy(PersonUser researchStaff,
 			Study study, String roleName) {
 		User csmUser = null;
 		try {

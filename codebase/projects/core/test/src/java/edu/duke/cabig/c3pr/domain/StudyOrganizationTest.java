@@ -236,13 +236,13 @@ public class StudyOrganizationTest extends AbstractTestCase{
 	public void testGetActiveStudyPersonnel(){
 		StudyOrganization studyOrganization = new StudySite();
 		StudyPersonnel studyPersonnel = studyOrganization.getStudyPersonnel().get(0);
-		ResearchStaff researchStaff = new LocalResearchStaff();
+		PersonUser researchStaff = new LocalPersonUser();
 		studyPersonnel.setStatusCode("Active");
-		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel.setPersonUser(researchStaff);
 		studyPersonnel = studyOrganization.getStudyPersonnel().get(1);
-		researchStaff = new LocalResearchStaff();
+		researchStaff = new LocalPersonUser();
 		studyPersonnel.setStatusCode("Inactive");
-		studyPersonnel.setResearchStaff(researchStaff);
+		studyPersonnel.setPersonUser(researchStaff);
 		assertEquals(2, studyOrganization.getStudyPersonnel().size());
 		assertEquals(1, studyOrganization.getActiveStudyPersonnel().size());
 	}

@@ -29,7 +29,7 @@
     
     <ARMS id="1100" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1100" />
         
-    <RESEARCH_STAFF id="1100" version="1" assigned_identifier="x1" first_name="Research Bill" last_name="Staff2"  dtype="Local" />
+    <PERSONS_USERS id="1100" version="1" assigned_identifier="x1" first_name="Research Bill" last_name="Staff2"  dtype="Local" />
     
     <rs_hc_site_assocn rs_id="1100" hcs_id="1100" />
     
@@ -39,7 +39,7 @@
     
     <STUDY_INVESTIGATORS id="1100" version="1" hsi_id="1100" sto_id="1100" start_date="2000-01-01" end_date="2000-01-01" role_code="role1" status_code="AC"/>
     
-    <STUDY_PERSONNEL id="1100" version="1" research_staff_id="1100" sto_id="1100" status_code="Active"/>
+    <STUDY_PERSONNEL id="1100" version="1" persons_users_id="1100" sto_id="1100" status_code="Active"/>
     
     <DISEASE_CATEGORIES id="1100" version="1" name="AIDS-related Human Papillomavirus"/>
     

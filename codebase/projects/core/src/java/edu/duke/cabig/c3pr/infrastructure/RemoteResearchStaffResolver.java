@@ -14,8 +14,8 @@ import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemotePersonUser;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
@@ -46,10 +46,10 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 		
 		List<String> results = XMLUtils.getObjectsFromCoppaResponse(resultXml);
 		Person coppaPerson = null;
-		ResearchStaff researchStaff = null;
+		PersonUser researchStaff = null;
 		if (results.size() > 0) {
 			coppaPerson = CoppaObjectFactory.getCoppaPerson(results.get(0));
-			researchStaff = (RemoteResearchStaff)populateRole(coppaPerson, "", null);
+			researchStaff = (RemotePersonUser)populateRole(coppaPerson, "", null);
 		}
 		
 		log.debug("Exiting getRemoteEntityByUniqueId() for:" + this.getClass());
@@ -62,11 +62,11 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 	 */
 	public List<Object> find(Object example) {
 		log.debug("Entering find() for:" + this.getClass());
-		RemoteResearchStaff remoteResearchStaff = null;
+		RemotePersonUser remoteResearchStaff = null;
 		List<Object> remoteResearchStaffList = new ArrayList<Object>();
 		try{
-			if(example instanceof RemoteResearchStaff){
-				remoteResearchStaff = (RemoteResearchStaff) example;
+			if(example instanceof RemotePersonUser){
+				remoteResearchStaff = (RemotePersonUser) example;
 				
 				if(!StringUtils.isEmpty(remoteResearchStaff.getAssignedIdentifier())){
 					log.debug("Searching based on NciId");
@@ -99,11 +99,11 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 	 */
 	public Object populateRole(Person coppaPerson, String staffAssignedIdentifier, List<gov.nih.nci.coppa.po.Organization> coppaOrganizationList,
 																		Map<String, IdentifiedOrganization>	organizationIdToIdentifiedOrganizationsMap){
-		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
+		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemotePersonUser());
 		if(object == null){
 			return null;
 		} else {
-			RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff) object;
+			RemotePersonUser remoteResearchStaff = (RemotePersonUser) object;
 			remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
 			remoteResearchStaff.setAssignedIdentifier(staffAssignedIdentifier);
 			
@@ -142,9 +142,9 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 	 * @return the research staff
 	 */
 	public Object populateRole(Person coppaPerson, String staffAssignedIdentifier, IdentifiedOrganization identifiedOrganization){
-		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemoteResearchStaff());
+		Object object = personOrganizationResolverUtils.setC3prUserDetails(coppaPerson, new RemotePersonUser());
 		if(object != null){
-			RemoteResearchStaff remoteResearchStaff = (RemoteResearchStaff) object;
+			RemotePersonUser remoteResearchStaff = (RemotePersonUser) object;
 			remoteResearchStaff.setAssignedIdentifier(staffAssignedIdentifier);
 			remoteResearchStaff.setExternalId(coppaPerson.getIdentifier().getExtension());
 			

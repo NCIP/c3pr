@@ -5,7 +5,7 @@ import java.util.List;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
-import edu.duke.cabig.c3pr.domain.RemoteResearchStaff;
+import edu.duke.cabig.c3pr.domain.RemotePersonUser;
 import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
 import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.utils.ApplicationContextTest;
@@ -52,7 +52,7 @@ public class RemoteResearchStaffResolverTest extends ApplicationContextTest{
 	 * Test find by Name.
 	 */
 	public void testFindByName(){
-		RemoteResearchStaff remoteResearchStaff = getSampleRemoteResearchStaffWithName();
+		RemotePersonUser remoteResearchStaff = getSampleRemoteResearchStaffWithName();
 		List<Object> objList = remoteResearchStaffResolver.find(remoteResearchStaff);
 		
 		assertNotNull(objList);
@@ -63,7 +63,7 @@ public class RemoteResearchStaffResolverTest extends ApplicationContextTest{
 	 * Test find by Organization.
 	 */
 	public void testFindByOrganization(){
-		RemoteResearchStaff remoteResearchStaff = getSampleRemoteResearchStaffWithOrganization();
+		RemotePersonUser remoteResearchStaff = getSampleRemoteResearchStaffWithOrganization();
 		List<Object> objList = remoteResearchStaffResolver.find(remoteResearchStaff);
 		
 		assertNotNull(objList);
@@ -75,7 +75,7 @@ public class RemoteResearchStaffResolverTest extends ApplicationContextTest{
 	 * Test find by Organization.
 	 */
 	public void testFindByStaffNciId(){
-		RemoteResearchStaff remoteResearchStaff = getSampleRemoteResearchStaffWithNciId();
+		RemotePersonUser remoteResearchStaff = getSampleRemoteResearchStaffWithNciId();
 		List<Object> objList = remoteResearchStaffResolver.find(remoteResearchStaff);
 		
 		assertNotNull(objList);
@@ -89,7 +89,7 @@ public class RemoteResearchStaffResolverTest extends ApplicationContextTest{
 		Object object = remoteResearchStaffResolver.getRemoteEntityByUniqueId("302751");
 		
 		assertNotNull(object);
-		assertTrue(object instanceof RemoteResearchStaff);
+		assertTrue(object instanceof RemotePersonUser);
 	}
 		
 	
@@ -98,8 +98,8 @@ public class RemoteResearchStaffResolverTest extends ApplicationContextTest{
 	 * 
 	 * @return the sample remote ResearchStaff
 	 */
-	private RemoteResearchStaff getSampleRemoteResearchStaffWithName() {
-		RemoteResearchStaff remoteResearchStaff= new RemoteResearchStaff();
+	private RemotePersonUser getSampleRemoteResearchStaffWithName() {
+		RemotePersonUser remoteResearchStaff= new RemotePersonUser();
 		remoteResearchStaff.setFirstName("J");
 		remoteResearchStaff.setLastName("Long");
 		Address address = new Address();
@@ -114,8 +114,8 @@ public class RemoteResearchStaffResolverTest extends ApplicationContextTest{
 	 * 
 	 * @return the sample remote ResearchStaff
 	 */
-	private RemoteResearchStaff getSampleRemoteResearchStaffWithOrganization() {
-		RemoteResearchStaff remoteResearchStaff= new RemoteResearchStaff();
+	private RemotePersonUser getSampleRemoteResearchStaffWithOrganization() {
+		RemotePersonUser remoteResearchStaff= new RemotePersonUser();
 		remoteResearchStaff.setFirstName("");
 		remoteResearchStaff.setLastName("");
 		Address address = new Address();
@@ -134,8 +134,8 @@ public class RemoteResearchStaffResolverTest extends ApplicationContextTest{
 	 * 
 	 * @return the sample remote ResearchStaff
 	 */
-	private RemoteResearchStaff getSampleRemoteResearchStaffWithNciId() {
-		RemoteResearchStaff remoteResearchStaff= new RemoteResearchStaff();
+	private RemotePersonUser getSampleRemoteResearchStaffWithNciId() {
+		RemotePersonUser remoteResearchStaff= new RemotePersonUser();
 		remoteResearchStaff.setFirstName("");
 		remoteResearchStaff.setLastName("");
 		Address address = new Address();

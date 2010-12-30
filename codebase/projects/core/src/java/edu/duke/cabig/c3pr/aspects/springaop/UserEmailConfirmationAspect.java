@@ -13,7 +13,7 @@ import org.springframework.mail.SimpleMailMessage;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 
 /**
@@ -37,41 +37,41 @@ public class UserEmailConfirmationAspect {
     public void setChangeURL(String changeURL) {
 		this.changeURL = changeURL;
 	}
-
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl.createResearchStaffWithCSMUserAndAssignRoles(..))" 
+    
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyResearchStaffWithUserAndAssignRoles(..))" 
                     + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
-    public void createResearchStaffWithCSMUserAndAssignRoles(ResearchStaff researchStaff, String username, 
+    public void createResearchStaffWithCSMUserAndAssignRoles(PersonUser researchStaff, String username, 
 			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) {
 		sendEmail(researchStaff);
     }
 	
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl.createCSMUser(..))"
-            + " && args(researchStaff, username, hasAccessToAllSites)")
-	public void createCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) {
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyUserWithoutResearchStaffAndAssignRoles(..))"
+            + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
+	public void createCSMUser(PersonUser researchStaff, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) {
 		sendEmail(researchStaff);
 	}
 
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl.createSuperUser(..))"
+	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createSuperUser(..))"
             + " && args(researchStaff,  username , associationMap)")
-	public void createSuperUser(ResearchStaff researchStaff, String username, 
+	public void createSuperUser(PersonUser researchStaff, String username, 
 			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) {
 		sendEmail(researchStaff);
 	}
 	
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl.createResearchStaffWithCSMUser(..))"
-            + " && args(researchStaff , username, hasAccessToAllSites)")
-	public void createResearchStaffWithCSMUser(ResearchStaff researchStaff, String username, boolean hasAccessToAllSites) {
-		sendEmail(researchStaff);
-	}
+//	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createResearchStaffWithCSMUser(..))"
+//            + " && args(researchStaff , username, hasAccessToAllSites)")
+//	public void createResearchStaffWithCSMUser(PersonUser researchStaff, String username, boolean hasAccessToAllSites) {
+//		sendEmail(researchStaff);
+//	}
 	
-	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.ResearchStaffRepositoryImpl.createCSMUserAndAssignRoles(..))"
-            + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
-	public void createCSMUserAndAssignRoles(ResearchStaff researchStaff, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
-			boolean hasAccessToAllSites) {
-		sendEmail(researchStaff);
-	}
+//	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createCSMUserAndAssignRoles(..))"
+//            + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
+//	public void createCSMUserAndAssignRoles(PersonUser researchStaff, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
+//			boolean hasAccessToAllSites) {
+//		sendEmail(researchStaff);
+//	}
 
-	private void sendEmail(ResearchStaff staff) {
+	private void sendEmail(PersonUser staff) {
 		try {
 	          SimpleMailMessage msg = new SimpleMailMessage( this.accountCreatedTemplateMessage);
 	          msg.setTo(staff.getEmail());

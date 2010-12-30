@@ -31,8 +31,8 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 public class StudyPersonnel extends AbstractMutableDeletableDomainObject implements
                 Comparable<StudyPersonnel> {
 
-    /** The research staff. */
-    private ResearchStaff researchStaff;
+    /** The personUser i.e. research staff. */
+    private PersonUser personUser;
 
     /** The study organization. */
     private StudyOrganization studyOrganization;
@@ -59,24 +59,25 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
 						StudyPersonnelRole.class));
 	}
 	
+    
     /**
-     * Gets the research staff.
-     * 
-     * @return the research staff
+     * Gets the person user.
+     *
+     * @return the person user
      */
     @ManyToOne
-    @JoinColumn(name = "research_staff_id")
-    public ResearchStaff getResearchStaff() {
-        return researchStaff;
+    @JoinColumn(name = "persons_users_id")
+    public PersonUser getPersonUser() {
+        return personUser;
     }
 
     /**
-     * Sets the research staff.
-     * 
-     * @param researchStaff the new research staff
+     * Sets the person user.
+     *
+     * @param personUser the new person user
      */
-    public void setResearchStaff(ResearchStaff researchStaff) {
-        this.researchStaff = researchStaff;
+    public void setPersonUser(PersonUser personUser) {
+        this.personUser = personUser;
     }
 
     /**
@@ -186,7 +187,7 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
     public int hashCode() {
         final int PRIME = 31;
         int result = 1;
-        result = PRIME * result + ((researchStaff == null) ? 0 : researchStaff.hashCode());
+        result = PRIME * result + ((personUser == null) ? 0 : personUser.hashCode());
         result = PRIME * result + ((roleCode == null) ? 0 : roleCode.hashCode());
         result = PRIME * result + ((studyOrganization == null) ? 0 : studyOrganization.hashCode());
         return result;
@@ -200,10 +201,10 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
         if (this == obj) return true;
         if (getClass() != obj.getClass()) return false;
         final StudyPersonnel other = (StudyPersonnel) obj;
-        if (researchStaff == null) {
-            if (other.researchStaff != null) return false;
+        if (personUser == null) {
+            if (other.personUser != null) return false;
         }
-        else if (!researchStaff.equals(other.researchStaff)) return false;
+        else if (!personUser.equals(other.personUser)) return false;
         if (roleCode == null) {
             if (other.roleCode != null) return false;
         }

@@ -6,16 +6,17 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.User;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 /**
- * This class implements the Data access related operations for the User domain object.
+ * This class implements the Data access related operations for the C3PRUser domain object.
  * 
  */
-public class UserDao extends GridIdentifiableDao<User> implements MutableDomainObjectDao<User> {
+public class UserDao extends GridIdentifiableDao<C3PRUser> implements MutableDomainObjectDao<C3PRUser> {
 
     /**
      * Get the Class representation of the domain object that this DAO is representing.
@@ -23,8 +24,8 @@ public class UserDao extends GridIdentifiableDao<User> implements MutableDomainO
      * @return Class representation of the domain object that this DAO is representing.
      */
     @Override
-    public Class<User> domainClass() {
-        return User.class;
+    public Class<C3PRUser> domainClass() {
+        return C3PRUser.class;
     }
 
     /**
@@ -33,7 +34,7 @@ public class UserDao extends GridIdentifiableDao<User> implements MutableDomainO
      * @param The user.
      */
     @Transactional(readOnly = false)
-    public void save(final User user) {
+    public void save(final C3PRUser user) {
         getHibernateTemplate().saveOrUpdate(user);
     }
 
@@ -45,9 +46,9 @@ public class UserDao extends GridIdentifiableDao<User> implements MutableDomainO
      */
     @SuppressWarnings("unchecked")
 	public User getByLoginId(long loginId) {
-        List<User> results = getHibernateTemplate().find("from ResearchStaff as rs left join fetch rs.healthcareSites where rs.loginId=?", Long.toString(loginId));
-        if(results.size() > 0 &&  ((ResearchStaff)results.get(0)).getHealthcareSites().size() > 0){
-        	for(HealthcareSite hcs: ((ResearchStaff)results.get(0)).getHealthcareSites()){
+        List<User> results = getHibernateTemplate().find("from PersonUser as rs left join fetch rs.healthcareSites where rs.loginId=?", Long.toString(loginId));
+        if(results.size() > 0 &&  ((PersonUser)results.get(0)).getHealthcareSites().size() > 0){
+        	for(HealthcareSite hcs: ((PersonUser)results.get(0)).getHealthcareSites()){
             	getHibernateTemplate().initialize(hcs.getIdentifiersAssignedToOrganization());
         	}
         }
@@ -55,7 +56,7 @@ public class UserDao extends GridIdentifiableDao<User> implements MutableDomainO
         return results.size() > 0 ? results.get(0) : null;
     }
     
-    public static void addUserToken(edu.duke.cabig.c3pr.domain.User user){
+    public static void addUserToken(User user){
 		user.setTokenTime(new Timestamp(new Date().getTime()));
 		user.setToken(user.generateRandomToken());
 	}

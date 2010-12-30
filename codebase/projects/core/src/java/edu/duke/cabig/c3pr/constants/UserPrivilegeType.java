@@ -34,9 +34,9 @@ public enum UserPrivilegeType implements CodedEnum<String>{
 	STUDYPERSONNEL_CREATE("edu.duke.cabig.c3pr.domain.StudyPersonnel:CREATE"),
 	STUDYPERSONNEL_READ("edu.duke.cabig.c3pr.domain.StudyPersonnel:READ"),
 	STUDYPERSONNEL_UPDATE("edu.duke.cabig.c3pr.domain.StudyPersonnel:UPDATE"),
-	RESEARCHSTAFF_CREATE("edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"),
-	RESEARCHSTAFF_READ("edu.duke.cabig.c3pr.domain.ResearchStaff:READ"),
-	RESEARCHSTAFF_UPDATE("edu.duke.cabig.c3pr.domain.ResearchStaff:UPDATE"),
+	PERSONUSER_CREATE("edu.duke.cabig.c3pr.domain.PersonUser:CREATE"),
+	PERSONUSER_READ("edu.duke.cabig.c3pr.domain.PersonUser:READ"),
+	RPERSONUSER_UPDATE("edu.duke.cabig.c3pr.domain.PersonUser:UPDATE"),
 	INVESTIGATOR_CREATE("edu.duke.cabig.c3pr.domain.Investigator:CREATE"),
 	INVESTIGATOR_READ("edu.duke.cabig.c3pr.domain.Investigator:READ"),
 	INVESTIGATOR_UPDATE("edu.duke.cabig.c3pr.domain.Investigator:UPDATE"),
@@ -74,6 +74,9 @@ public enum UserPrivilegeType implements CodedEnum<String>{
 	UI_STUDYSUBJECT_SEARCH("edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:READ"),
 	UI_STUDYSUBJECT_CREATE("edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:CREATE"),
 	UI_STUDYSUBJECT_UPDATE("edu.duke.cabig.c3pr.utils.web.navigation.Task.StudySubject:UPDATE"),
+	UI_PERSONUSER_CREATE("edu.duke.cabig.c3pr.utils.web.navigation.Task.PersonOrUser:CREATE"),
+	UI_PERSONUSER_READ("edu.duke.cabig.c3pr.utils.web.navigation.Task.PersonOrUser:READ"),
+	UI_PERSONUSER_UPDATE("edu.duke.cabig.c3pr.utils.web.navigation.Task.PersonOrUser:UPDATE"),
 	;
 
 	private String code;

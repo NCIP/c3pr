@@ -2157,7 +2157,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ResearchStaff",  "firstName",
+						"edu.duke.cabig.c3pr.domain.PersonUser",  "firstName",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -2173,7 +2173,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ResearchStaff",  "lastName",
+						"edu.duke.cabig.c3pr.domain.PersonUser",  "lastName",
 						values, "like");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
@@ -2189,7 +2189,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
 				.buildAdvancedSearchCriteriaParameter(
-						"edu.duke.cabig.c3pr.domain.ResearchStaff",  "assignedIdentifier",
+						"edu.duke.cabig.c3pr.domain.PersonUser",  "assignedIdentifier",
 						values, "=");
 
 		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();

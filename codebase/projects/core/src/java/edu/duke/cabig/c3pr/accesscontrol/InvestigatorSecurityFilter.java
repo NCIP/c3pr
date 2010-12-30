@@ -79,11 +79,12 @@ public class InvestigatorSecurityFilter implements DomainObjectSecurityFilterer{
 		return false;
 	}
 	
+
 	/**
 	 * Checks for site level access permission.
 	 *
-	 * @param loggedIdResearchStaff the research staff
-	 * @param researchStaff the study
+	 * @param userAccessibleOrganizationIdsList the user accessible organization ids list
+	 * @param investigator the investigator
 	 * @return true, if successful
 	 */
 	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList , Investigator investigator){

@@ -135,7 +135,7 @@ public class PersonTestCase extends AbstractTestCase {
 	 * Test equals1.
 	 */
 	public void testEquals1(){
-		User user = new LocalResearchStaff();
+		C3PRUser user = new LocalPersonUser();
 		assertFalse("comparing person object to user", person.equals(user));
 	}
 	

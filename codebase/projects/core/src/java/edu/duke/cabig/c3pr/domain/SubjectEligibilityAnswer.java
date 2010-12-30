@@ -29,7 +29,7 @@ public class SubjectEligibilityAnswer extends AbstractMutableDeletableDomainObje
     
     private String waiverReason;
     
-    private ResearchStaff waivedBy;
+    private PersonUser waivedBy;
     
 	public boolean getAllowWaiver() {
 		return allowWaiver;
@@ -77,11 +77,11 @@ public class SubjectEligibilityAnswer extends AbstractMutableDeletableDomainObje
     @ManyToOne
     @JoinColumn(name = "rs_id")
     @Cascade( { CascadeType.LOCK})
-	public ResearchStaff getWaivedBy() {
+	public PersonUser getWaivedBy() {
 		return waivedBy;
 	}
 
-	public void setWaivedBy(ResearchStaff waivedBy) {
+	public void setWaivedBy(PersonUser waivedBy) {
 		this.waivedBy = waivedBy;
 	}
 

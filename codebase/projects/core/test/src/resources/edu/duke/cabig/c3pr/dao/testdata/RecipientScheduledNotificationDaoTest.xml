@@ -9,11 +9,11 @@
     <IDENTIFIERS id="1000" version="1" value="du code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"/>
     <IDENTIFIERS id="1001" version="1" value="wf code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"/>
     
-         <RESEARCH_STAFF id="1000" version="1"  assigned_identifier="x1" first_name="Research Bill" last_name="Dahr" dtype="Local"  retired_indicator = "false" />
+    <PERSONS_USERS id="1000" version="1"  assigned_identifier="x1" first_name="Research Bill" last_name="Dahr" dtype="Local"  retired_indicator = "false" />
     
     <rs_hc_site_assocn rs_id="1000" hcs_id="1000" />
     
-         <INVESTIGATORS id="1000" version="1"  assigned_identifier="x1" first_name="Investigator Bill" last_name="Drury" dtype="Local" retired_indicator = "false" />
+    <INVESTIGATORS id="1000" version="1"  assigned_identifier="x1" first_name="Investigator Bill" last_name="Drury" dtype="Local" retired_indicator = "false" />
 	
 	<PLANNED_NOTFNS id="999" version="1" study_threshold="10" event_name="STUDY_STATUS_CHANGED_EVENT" message="message" title="title" retired_indicator = "false" />
 	<PLANNED_NOTFNS id="1000" version="1" study_threshold="10" event_name="STUDY_STATUS_CHANGED_EVENT" message="message" title="title" retired_indicator = "false" />
@@ -49,7 +49,7 @@
     <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="AC" status_date="2000-01-01" inv_id="1000"
                            hcs_id="1000" retired_indicator="false"/>
                            
-    <STUDY_PERSONNEL id="1000" version="1" research_staff_id="1000" role_code="C3pr Admin" sto_id="1000" retired_indicator = "false" />
+    <STUDY_PERSONNEL id="1000" version="1" persons_users_id="1000" role_code="C3pr Admin" sto_id="1000" retired_indicator = "false" />
     
     <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" role_code="Site Investigator" sto_id="1000" retired_indicator = "false" /> 
     
