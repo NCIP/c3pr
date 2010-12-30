@@ -40,6 +40,7 @@ import edu.duke.cabig.c3pr.domain.RemotePersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
 import gov.nih.nci.cabig.ctms.suite.authorization.ScopeType;
@@ -628,13 +629,20 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 	
 	
 	/**
-	 * Save or update the PersonUser.
+	 * Save or update the PersonUser. Does not save CSM User. Doesnt save if
+	 * staff's assignedID is not null and already in the system
 	 *
 	 * @param personUser the person user
 	 * @return the person user
 	 */
-	private PersonUser saveOrUpdatePersonUser(PersonUser personUser){
+	public PersonUser saveOrUpdatePersonUser(PersonUser personUser){
 		if(personUser.getId() == null){
+			if(personUser.getAssignedIdentifier() != null && 
+					getByAssignedIdentifierFromLocal(personUser.getAssignedIdentifier()) != null){
+				log.error("Save aborted as Research Staff with AssignedIdentifier " +personUser.getAssignedIdentifier() 
+							+" already exists in the system.");
+				return personUser;
+			}
 			save(personUser);
 		} else {
 			personUser = (PersonUser) merge(personUser);
@@ -642,6 +650,7 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 		return personUser;
 	}
 	
+
 	/**
 	 * Creates or modifies the csm user. Also assigns the studies and sites from the association map provided.
 	 *

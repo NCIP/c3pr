@@ -84,7 +84,7 @@ public class PersonUserDaoTest extends ContextDaoTestCase<PersonUserDao> {
         rs1.setMaidenName("Bradster");
         rs1.setAssignedIdentifier("NCI-123");
         rs1.addHealthcareSite(site);
-        getDao().save(rs1);
+        getDao().saveOrUpdatePersonUser(rs1);
 
         interruptSession();
 
@@ -93,19 +93,15 @@ public class PersonUserDaoTest extends ContextDaoTestCase<PersonUserDao> {
         assertNotNull("Unable to save research staff member with" + savedId1, loadedRS1);
 
         PersonUser rs2 = new LocalPersonUser();
-        rs2.setFirstName("Brad");
-        rs2.setLastName("Johnson");
-        rs2.setMaidenName("Bradster");
+        rs2.setFirstName("Alex");
+        rs2.setLastName("Nguyen");
         rs2.setAssignedIdentifier("NCI-123");
         rs2.addHealthcareSite(site);
 
-        try {
-            getDao().save(rs2);
-            interruptSessionForceNewSession();
-            fail("it should fail because nci id is a unique constraint");
-        }
-        catch (Exception e) {
-        	assertTrue(true);
+        getDao().saveOrUpdatePersonUser(rs2);
+        interruptSessionForceNewSession();
+        if(rs2.getId() != null){
+        	fail("it should fail because nci id is a unique constraint");
         }
     }
 
