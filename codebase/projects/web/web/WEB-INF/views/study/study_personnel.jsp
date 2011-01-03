@@ -122,7 +122,7 @@ Event.observe(window, "load", function() {
 function showCreateResearchStaffPopup(){
 	win = new Window(
 			{title: "Create Research Staff", top:35, left:35, width:900, height:400, zIndex:100,
-			url: "<c:url value='/pages/personAndOrganization/researchStaff/createResearchStaff?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
+			url: "<c:url value='/pages/personAndOrganization/personOrUser/createPersonOrUser?decorator=noheaderDecorator&studyflow=true'/>", showEffectOptions: {duration:1.5}}
 			) 
 	win.showCenter(true);
 }
@@ -240,8 +240,8 @@ changed before submit in javascripts. The parameters need proper default values,
 			                    	<c:forEach items="${studyPersonnel.studyPersonnelRoles}" var="spRole" varStatus="spRoleStatus">
 				                        <tr>
 				                            <td>
-				                             ${studyPersonnel.researchStaff.firstName} ${studyPersonnel.researchStaff.lastName} (<i>${studyPersonnel.researchStaff.assignedIdentifier}</i>) (<i>${spRole.role}</i>)
-				                                <c:if test="${studyPersonnel.researchStaff.class.name=='edu.duke.cabig.c3pr.domain.RemoteResearchStaff' && studyPersonnel.researchStaff.externalId != null}">
+				                             ${studyPersonnel.personUser.firstName} ${studyPersonnel.personUser.lastName} (<i>${studyPersonnel.personUser.assignedIdentifier}</i>) (<i>${spRole.role}</i>)
+				                                <c:if test="${studyPersonnel.personUser.class.name=='edu.duke.cabig.c3pr.domain.RemotePersonUser' && studyPersonnel.personUser.externalId != null}">
 								            		<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="NCI data" width="17" height="16" border="0" align="middle"/>
 								            	</c:if>
 				                            </td>
@@ -251,7 +251,7 @@ changed before submit in javascripts. The parameters need proper default values,
 						                    </form:select>
 				                            </td>
 				                            <td class="alt">
-					                            <a href="javascript:removeStudyPersonnel('${studyPersonnel.researchStaff.assignedIdentifier }');">
+					                            <a href="javascript:removeStudyPersonnel('${studyPersonnel.personUser.assignedIdentifier }');">
 					                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove">
 					                            </a>&nbsp;
 					                        </td>
