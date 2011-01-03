@@ -11,6 +11,7 @@ import org.iso._21090.II;
 import com.semanticbits.coppa.infrastructure.service.RemoteResolver;
 import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 
+import edu.duke.cabig.c3pr.constants.PersonUserType;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
@@ -106,6 +107,7 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 			RemotePersonUser remotePersonUser = (RemotePersonUser) object;
 			remotePersonUser.setExternalId(coppaPerson.getIdentifier().getExtension());
 			remotePersonUser.setAssignedIdentifier(staffAssignedIdentifier);
+			remotePersonUser.setPersonUserType(PersonUserType.STAFF);
 			
 			//Build HealthcareSite
 			RemoteHealthcareSite healthcareSite = null;
@@ -147,6 +149,7 @@ public class RemoteResearchStaffResolver extends BaseResolver implements RemoteR
 			RemotePersonUser remotePersonUser = (RemotePersonUser) object;
 			remotePersonUser.setAssignedIdentifier(staffAssignedIdentifier);
 			remotePersonUser.setExternalId(coppaPerson.getIdentifier().getExtension());
+			remotePersonUser.setPersonUserType(PersonUserType.STAFF);
 			
 			if(identifiedOrganization != null){	
 				//Build HealthcareSite
