@@ -1,10 +1,11 @@
 package edu.duke.cabig.c3pr.service;
 
-import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.CCTSBroadcastEnabledDomainObject;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 
 /**
  * @author Gangoli, Vinay
+ * @author Denis G. Krylov
  * @Date 08/12/2008
  * @version 1.0
  */
@@ -19,11 +20,13 @@ public interface SchedulerService {
 
 	/**
 	 * Schedules a notification message broadcast via iHub about a
-	 * created/updated {@link Participant}.
+	 * created/updated {@link CCTSBroadcastEnabledDomainObject}.
 	 * 
-	 * @param participant
+	 * @param broadcastEnabledDomainObject
 	 * @throws RuntimeException
 	 */
-	public void scheduleParticipantNotification(Participant participant) throws RuntimeException;
+	public void scheduleNotification(
+			CCTSBroadcastEnabledDomainObject broadcastEnabledDomainObject)
+			throws RuntimeException;
 
 }

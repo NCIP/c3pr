@@ -51,7 +51,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @Table(name = "participants")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "participants_id_seq") })
-public class Participant extends PersonBase implements Comparable<Participant> , Customizable,IdentifiableObject{
+public class Participant extends PersonBase implements Comparable<Participant> , Customizable, IdentifiableObject, CCTSBroadcastEnabledDomainObject {
 
 	/** The birth date. */
 	private Date birthDate;

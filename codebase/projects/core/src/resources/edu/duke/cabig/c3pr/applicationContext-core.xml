@@ -162,16 +162,16 @@
 		<property name="eventListeners">
   			<map>  
    				<entry key="post-insert">   					
-   					<ref local="participantPersistenceListener"/>   					    				
+   					<ref local="cctsNotificationsPersistenceListener"/>   					    				
    				</entry>
    				<entry key="post-update">   					
-   					<ref local="participantPersistenceListener"/>   					    				
+   					<ref local="cctsNotificationsPersistenceListener"/>   					    				
    				</entry>   				
   			</map>
  		</property>         
     </bean>
     
-    <bean id="participantPersistenceListener" class="edu.duke.cabig.c3pr.infrastructure.ParticipantPersistenceListener" autowire="byType"/>
+    <bean id="cctsNotificationsPersistenceListener" class="edu.duke.cabig.c3pr.infrastructure.CCTSNotificationsPersistenceListener" autowire="byType"/>
 
     <bean id="configuration" parent="configurationDaoTemplate"
       class="edu.duke.cabig.c3pr.tools.Configuration"/>

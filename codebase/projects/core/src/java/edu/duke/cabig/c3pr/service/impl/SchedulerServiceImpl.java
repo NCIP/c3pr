@@ -1,7 +1,9 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -17,10 +19,13 @@ import org.quartz.TriggerUtils;
 
 import edu.duke.cabig.c3pr.constants.NotificationFrequencyEnum;
 import edu.duke.cabig.c3pr.dao.ScheduledNotificationDao;
+import edu.duke.cabig.c3pr.domain.CCTSBroadcastEnabledDomainObject;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
 import edu.duke.cabig.c3pr.domain.ScheduledNotification;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.scheduler.runtime.job.CCTSNotificationMessageJob.CCTSNotification;
 import edu.duke.cabig.c3pr.domain.scheduler.runtime.job.ScheduledNotificationJob;
 import edu.duke.cabig.c3pr.service.SchedulerService;
@@ -48,6 +53,14 @@ public class SchedulerServiceImpl implements SchedulerService {
 	private static final String CCTS_NOTIFICATIONS_TRIGGER_NAME = "CCTS_NOTIFICATIONS_TRIGGER_NAME";
 	private static final int CCTS_NOTIFICATIONS_TRIGGER_REPEAT_COUNT = SimpleTrigger.REPEAT_INDEFINITELY;
 	private static final long CCTS_NOTIFICATIONS_TRIGGER_REPEAT_INTERVAL = 5 * 60 * 1000L;
+	
+	private static final Map<Class<? extends CCTSBroadcastEnabledDomainObject>, EventType> eventTypeMapping = new HashMap<Class<? extends CCTSBroadcastEnabledDomainObject>, EventType>();
+	static {
+		eventTypeMapping.put(Participant.class, EventType.SUBJECT_CREATION);
+		eventTypeMapping.put(LocalStudy.class, EventType.STUDY_CREATION);
+		eventTypeMapping
+				.put(StudySubject.class, EventType.SUBJECT_REGISTRATION);
+	}
 
 	private Logger log = Logger.getLogger(SchedulerServiceImpl.class);
 
@@ -208,32 +221,33 @@ public class SchedulerServiceImpl implements SchedulerService {
 		this.scheduledNotificationDao = scheduledNotificationDao;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.duke.cabig.c3pr.service.SchedulerService#scheduleParticipantNotification
-	 * (edu.duke.cabig.c3pr.domain.Participant)
+
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.service.SchedulerService#scheduleNotification(edu.duke.cabig.c3pr.domain.CCTSBroadcastEnabledDomainObject)
 	 */
-	public void scheduleParticipantNotification(Participant participant) {
+	public void scheduleNotification(CCTSBroadcastEnabledDomainObject obj) {
+		scheduleNotification(obj, eventTypeMapping.get(obj.getClass()));
+	}
+
+	private void scheduleNotification(CCTSBroadcastEnabledDomainObject domainObj,
+			EventType eventType) {
 		try {
-			if (participant == null
-					|| StringUtils.isBlank(participant.getGridId())) {
+			if (domainObj == null || StringUtils.isBlank(domainObj.getGridId()) || eventType==null) {
 				return;
 			}
 
 			CCTSNotification notification = new CCTSNotification();
-			notification.setEventType(EventType.SUBJECT_CREATION.name());
+			notification.setEventType(eventType.name());
 			notification.setIdentifierType("GRID_ID");
-			notification.setIdentifierValue(participant.getGridId());
-			notification.setTimestamp(new Date());
+			notification.setIdentifierValue(domainObj.getGridId());			
 
 			queueNotification(notification);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-
 	}
+
+	
 
 	/**
 	 * @return

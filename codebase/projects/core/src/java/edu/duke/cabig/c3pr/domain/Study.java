@@ -77,7 +77,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDIES_ID_SEQ") })
 public abstract class Study extends InteroperableAbstractMutableDeletableDomainObject
-		implements Comparable<Study> , Customizable, CustomFieldAuthorable,IdentifiableObject{
+		implements Comparable<Study> , Customizable, CustomFieldAuthorable, IdentifiableObject, CCTSBroadcastEnabledDomainObject {
 
 	private Boolean blindedIndicator;
 	private Boolean multiInstitutionIndicator;

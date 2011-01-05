@@ -247,10 +247,13 @@ public final class CCTSNotificationMessageJob implements StatefulJob {
 		 */
 		private static final long serialVersionUID = -3180003573480810064L;
 
+		public CCTSNotification() {
+		}
+
 		private String identifierValue;
 		private String eventType;
 		private String identifierType;
-		private Date timestamp;
+		private Date timestamp = new Date();
 		private final String externalId = UUID.randomUUID().toString();
 
 		/**

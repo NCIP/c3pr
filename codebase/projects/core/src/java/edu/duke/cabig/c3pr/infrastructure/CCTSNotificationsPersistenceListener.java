@@ -10,28 +10,33 @@ import org.hibernate.event.PostInsertEvent;
 import org.hibernate.event.PostInsertEventListener;
 import org.hibernate.event.PostUpdateEvent;
 import org.hibernate.event.PostUpdateEventListener;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import edu.duke.cabig.c3pr.domain.CCTSBroadcastEnabledDomainObject;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.service.SchedulerService;
 
 /**
  * This class acts as a Hibernate event listener and reacts to INSERT/UPDATE
- * events related to {@link Participant}. Upon such events, a notification
- * message is sent to the iHub instance.
+ * events related to {@link Participant}, {@link Study}, and
+ * {@link StudySubject}. Upon such events, a notification message is sent to the
+ * iHub instance.
  * 
  * @author Denis G. Krylov
  * 
  */
-public final class ParticipantPersistenceListener implements
+public final class CCTSNotificationsPersistenceListener implements
 		PostInsertEventListener, PostUpdateEventListener,
 		ApplicationContextAware {
 
 	private static final String SCHEDULER_SERVICE = "schedulerService";
 
 	private static final Log log = LogFactory
-			.getLog(ParticipantPersistenceListener.class);
+			.getLog(CCTSNotificationsPersistenceListener.class);
 
 	/**
 	 * No dependency injection here, because of circular dependency in spring
@@ -67,33 +72,47 @@ public final class ParticipantPersistenceListener implements
 	}
 
 	private void process(Object entity) {
-		if (entity instanceof Participant) {
-			log.debug("Participant create/update detected, getting ready to broadcast notification to caTissue and others.");
-			// only do the broadcast if the participant has grid_id.
-			Participant p = (Participant) entity;
+		if (entity instanceof CCTSBroadcastEnabledDomainObject) {
+			log.debug(entity.getClass().getSimpleName()
+					+ " create/update detected, getting ready to broadcast notification to caTissue and others.");
+			// only do the broadcast if the object has grid_id.
+			CCTSBroadcastEnabledDomainObject p = (CCTSBroadcastEnabledDomainObject) entity;
 			if (StringUtils.isNotBlank(p.getGridId())) {
 				scheduleNotification(p);
 			} else {
-				log.warn("Participant with ID="
+				log.warn(entity.getClass().getSimpleName()
+						+ " with ID="
 						+ p.getId()
 						+ " has no Grid ID; hence, skipping the broadcast via iHub.");
 			}
 		}
+
 	}
 
-	private void scheduleNotification(Participant p) {
+	private void scheduleNotification(CCTSBroadcastEnabledDomainObject s) {
 		try {
-			log.info("Getting ready to broadcast a notification for participant with Grid Id of "
-					+ p.getGridId());
-			SchedulerService schedulerService = (SchedulerService) getApplicationContext()
-					.getBean(SCHEDULER_SERVICE);
-			schedulerService.scheduleParticipantNotification(p);
+			log.info("Getting ready to broadcast a notification for a "
+					+ s.getClass().getSimpleName() + " with Grid Id of "
+					+ s.getGridId());
+			SchedulerService schedulerService = getSchedulerService();
+			schedulerService.scheduleNotification(s);
 		} catch (RuntimeException e) {
 			log.error(
-					"Unable to schedule message notification about participant with grid id="
-							+ p.getGridId() + ". caTissue will miss the event!",
+					"Unable to schedule message notification about "
+							+ s.getClass().getSimpleName() + " with grid id="
+							+ s.getGridId() + ". caTissue will miss the event!",
 					e);
 		}
+	}
+
+	/**
+	 * @return
+	 * @throws BeansException
+	 */
+	private SchedulerService getSchedulerService() throws BeansException {
+		SchedulerService schedulerService = (SchedulerService) getApplicationContext()
+				.getBean(SCHEDULER_SERVICE);
+		return schedulerService;
 	}
 
 	/**
