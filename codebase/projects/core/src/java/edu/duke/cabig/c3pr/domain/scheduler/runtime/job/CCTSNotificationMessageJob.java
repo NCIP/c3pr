@@ -127,9 +127,9 @@ public final class CCTSNotificationMessageJob implements StatefulJob {
 			ApplicationContext applicationContext = (ApplicationContext) scheduler
 					.getContext().get("applicationContext");
 			this.cctsMessageBroadcaster = (CCTSMessageBroadcaster) applicationContext
-					.getBean("messageBroadcaster");
+					.getBean("cctsNotificationsBroadcaster");
 		} catch (Exception e) {
-			log.error("Unable to retrieve cctsMessageBroadcaster instance. Indicates a configuration error. CCTS notifications are disabled!");
+			log.error("Unable to retrieve cctsNotificationsBroadcaster instance. Indicates a configuration error. CCTS notifications are disabled!");
 			JobExecutionException ex = new JobExecutionException(false);
 			throw ex;
 		}
