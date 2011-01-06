@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.service.SchedulerService;
+import edu.duke.cabig.c3pr.tools.Configuration;
 
 /**
  * This class acts as a Hibernate event listener and reacts to INSERT/UPDATE
@@ -73,20 +74,34 @@ public final class CCTSNotificationsPersistenceListener implements
 
 	private void process(Object entity) {
 		if (entity instanceof CCTSBroadcastEnabledDomainObject) {
-			log.debug(entity.getClass().getSimpleName()
-					+ " create/update detected, getting ready to broadcast notification to caTissue and others.");
-			// only do the broadcast if the object has grid_id.
-			CCTSBroadcastEnabledDomainObject p = (CCTSBroadcastEnabledDomainObject) entity;
-			if (StringUtils.isNotBlank(p.getGridId())) {
-				scheduleNotification(p);
+			if (isESBEnabled()) {
+				log.debug(entity.getClass().getSimpleName()
+						+ " create/update detected, getting ready to broadcast notification to caTissue and others.");
+				// only do the broadcast if the object has grid_id.
+				CCTSBroadcastEnabledDomainObject p = (CCTSBroadcastEnabledDomainObject) entity;
+				if (StringUtils.isNotBlank(p.getGridId())) {
+					scheduleNotification(p);
+				} else {
+					log.warn(entity.getClass().getSimpleName()
+							+ " with ID="
+							+ p.getId()
+							+ " has no Grid ID; hence, skipping the broadcast via iHub.");
+				}
 			} else {
-				log.warn(entity.getClass().getSimpleName()
-						+ " with ID="
-						+ p.getId()
-						+ " has no Grid ID; hence, skipping the broadcast via iHub.");
+				log.debug("A change to a CCTSBroadcastEnabledDomainObject won't be broadcasted, because we're running in local mode.");
 			}
 		}
 
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean isESBEnabled() {
+		Configuration configuration = (Configuration) applicationContext
+				.getBean("configuration");
+		return "true".equalsIgnoreCase(configuration
+				.get(Configuration.ESB_ENABLE));
 	}
 
 	private void scheduleNotification(CCTSBroadcastEnabledDomainObject s) {
