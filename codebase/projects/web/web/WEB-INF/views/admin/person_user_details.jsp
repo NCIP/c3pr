@@ -665,7 +665,7 @@ function toggleUserDisplay(){
 	<jsp:attribute name="submitButton">
 		<table>
 			<tr>
-				<c:if test="${command.personUser.id != null && command.personUser.class.name eq 'edu.duke.cabig.c3pr.domain.LocalResearchStaff' && coppaEnable}">
+				<c:if test="${command.personUser.id != null && command.personUser.class.name eq 'edu.duke.cabig.c3pr.domain.LocalPersonUser' && coppaEnable}">
 					<td valign="bottom">
 						<tags:button type="submit" value="Sync" color="blue" id="sync-org" onclick="javascript:syncResearchStaff();" />	
 					</td>
@@ -719,7 +719,7 @@ function toggleUserDisplay(){
 <div id="display_csmUser" style="display:none;text-align:left" >
 	<chrome:box title="Please select the user to be saved in C3PR" id="csm-popup-id">
 		This username already exists in the system. 
-		<a href='../researchStaff/editResearchStaff?assignedIdentifier=${command.preExistingUsersAssignedId}'>Click here</a>
+		<a href='../personOrUser/editPersonOrUser?assignedIdentifier=${command.preExistingUsersAssignedId}'>Click here</a>
 		to edit the pre-existing user or click cancel and select a different username.
 		<br><br>
    		<table width="100%">	

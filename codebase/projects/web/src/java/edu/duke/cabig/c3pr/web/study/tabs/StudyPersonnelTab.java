@@ -104,7 +104,7 @@ public class StudyPersonnelTab extends StudyTab {
     	if(action.equals("addStudyPersonnel")){
     		String[] rsIds = wrapper.getStudyPersonnelIds();
             if (rsIds.length > 0) {
-                PersonUser researchStaff = null;
+                PersonUser personUser = null;
                 String roleName = null;
                 log.debug("Study PersonnelIds Size : "+ rsIds.length);
                 for (String rsId : rsIds) {
@@ -120,17 +120,17 @@ public class StudyPersonnelTab extends StudyTab {
                     	continue;
                     }
                     StudyPersonnel sPersonnel = new StudyPersonnel();
-                    researchStaff = personUserDao.getById(researchStaffId);
-                    researchStaff.getContactMechanisms().size();
-                    if (researchStaff != null) {
-                        sPersonnel.setPersonUser(researchStaff);
+                    personUser = personUserDao.getById(researchStaffId);
+                    personUser.getContactMechanisms().size();
+                    if (personUser != null) {
+                        sPersonnel.setPersonUser(personUser);
                         sPersonnel.setStatusCode("Active");
                         sPersonnel.setStudyOrganization(selectedStudyOrganization);
                         //set the role for the studyPersonnel provided it doesn't already exist
                         StudyPersonnelRole studyPersonnelRole = new StudyPersonnelRole(roleName);
                         boolean addRole = true;
-                        if(researchStaff.getStudyPersonnels().size() > 0){
-                        	for(StudyPersonnel sp : researchStaff.getStudyPersonnels()){
+                        if(personUser.getStudyPersonnels().size() > 0){
+                        	for(StudyPersonnel sp : personUser.getStudyPersonnels()){
                             	sp.getStudyPersonnelRoles().size();
                             	if(sp.getStudyPersonnelRoles().contains(studyPersonnelRole)){
                             		addRole = false;
@@ -149,7 +149,7 @@ public class StudyPersonnelTab extends StudyTab {
             }
     	}else if (action.equals("removeStudyPersonnel")) {
     		for(StudyPersonnel studyPersonnel : selectedStudyOrganization.getStudyPersonnel()){
-    			if(studyPersonnel.getPersonUser().getAssignedIdentifier().equals(request.getParameter("_selectedPersonnelAssignedId"))){
+    			if(studyPersonnel.getPersonUser().getId().toString().equals(request.getParameter("_selectedPersonnelAssignedId"))){
     				selectedStudyOrganization.getStudyPersonnel().remove(studyPersonnel);
     				studyPersonnelDao.saveOrUpdateStudyPersonnel(studyPersonnel, true);
     				break;

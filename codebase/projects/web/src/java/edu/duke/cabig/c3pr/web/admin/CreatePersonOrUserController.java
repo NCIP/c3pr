@@ -109,26 +109,26 @@ public class CreatePersonOrUserController extends SimpleFormController{
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
     	
     	PersonOrUserWrapper wrapper = new PersonOrUserWrapper();
-        PersonUser researchStaff;
+        PersonUser personUser;
         String assignedIdentifier = request.getParameter("assignedIdentifier") ;
         String loginId = request.getParameter("loginId") ;
         
         if (StringUtils.isNotBlank(assignedIdentifier) || StringUtils.isNotBlank(loginId)) {
         	if(StringUtils.isNotBlank(assignedIdentifier) ){
         		wrapper.setCreateAsStaff(true);
-        		researchStaff = personUserRepository.getByAssignedIdentifier(assignedIdentifier);
+        		personUser = personUserRepository.getByAssignedIdentifier(assignedIdentifier);
         	} else {
         		wrapper.setCreateAsStaff(false);
-        		researchStaff = personUserDao.getByLoginId(loginId);
+        		personUser = personUserDao.getByLoginId(loginId);
         	}
             
-            personUserRepository.initialize(researchStaff);
-            for(HealthcareSite hcSite : researchStaff.getHealthcareSites()){
+            personUserRepository.initialize(personUser);
+            for(HealthcareSite hcSite : personUser.getHealthcareSites()){
         		HealthcareSiteRolesHolder object = new HealthcareSiteRolesHolder();
         		object.setHealthcareSite(hcSite);
         		wrapper.addHealthcareSiteRolesHolder(object);
         	}
-            gov.nih.nci.security.authorization.domainobjects.User csmUser = personUserRepository.getCSMUser(researchStaff);
+            gov.nih.nci.security.authorization.domainobjects.User csmUser = personUserRepository.getCSMUser(personUser);
             if(csmUser != null){
             	wrapper.setCreateAsUser(true);
             	wrapper.setUserName(csmUser.getLoginName());
@@ -141,22 +141,22 @@ public class CreatePersonOrUserController extends SimpleFormController{
             }
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
         } else {
-            researchStaff = new LocalPersonUser();
-            researchStaff.setVersion(Integer.parseInt("1"));
+            personUser = new LocalPersonUser();
+            personUser.setVersion(Integer.parseInt("1"));
             request.getSession().setAttribute(FLOW, SAVE_FLOW);
             HealthcareSiteRolesHolder rolesHolder = new HealthcareSiteRolesHolder();
     		if(wrapper.getHealthcareSiteRolesHolderList().size() == 0){
     			wrapper.getHealthcareSiteRolesHolderList().add(rolesHolder);
     		}
         }
-        wrapper.setPersonUser(researchStaff);
+        wrapper.setPersonUser(personUser);
         return wrapper;
     }
 
     @Override
     protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception {
     	PersonOrUserWrapper wrapper = (PersonOrUserWrapper)command;
-    	PersonUser researchStaff = wrapper.getPersonUser();
+    	PersonUser personUser = wrapper.getPersonUser();
     	
     	Map<String, Object> model = new HashMap<String, Object>();
     	List<C3PRUserGroupType> roles = new ArrayList<C3PRUserGroupType>();
@@ -170,7 +170,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
     	}
         model.put("roles", roles);
         model.put("globalRoles", globalRoles);
-        model.put("isLoggedInUser", personUserRepository.isLoggedInUser(researchStaff));
+        model.put("isLoggedInUser", personUserRepository.isLoggedInUser(personUser));
         model.put("coppaEnable", configuration.get(Configuration.COPPA_ENABLE));
         return model;
     }
@@ -179,7 +179,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
 	protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors) throws Exception {
     	super.onBindAndValidate(request, command, errors);
     	PersonOrUserWrapper wrapper = (PersonOrUserWrapper) command ;
-		PersonUser researchStaff = wrapper.getPersonUser();
+		PersonUser personUser = wrapper.getPersonUser();
 		List<HealthcareSiteRolesHolder> listAssociation = wrapper.getHealthcareSiteRolesHolderList();
 		if(listAssociation.size() == 0){
 			errors.reject("organization.not.present.error");
@@ -231,7 +231,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
 					if(user != null){
 						errors.reject("duplicate.username.error");
 						request.setAttribute("duplicateUser", "true");
-						wrapper.setPreExistingUsersAssignedId(getResearchStaffsAssignedIdentifier(user));
+						wrapper.setPreExistingUsersAssignedId(getPersonUsersAssignedIdentifier(user));
 					}
 				}catch(C3PRNoSuchUserException e){
 				}
@@ -240,16 +240,16 @@ public class CreatePersonOrUserController extends SimpleFormController{
 
 		if(!StringUtils.equals(actionParam, "saveRemoteRStaff") && StringUtils.equals(flowVar ,EDIT_FLOW)){
 			if (!StringUtils.equals(actionParam ,"syncResearchStaff")) {
-				PersonUser rStaffFromDB = personUserRepository.getByAssignedIdentifierFromLocal(researchStaff.getAssignedIdentifier());
+				PersonUser rStaffFromDB = personUserRepository.getByAssignedIdentifierFromLocal(personUser.getAssignedIdentifier());
 				if (rStaffFromDB != null) {
 					// This check is already being done in the UsernameDuplicateValidator.
 					//FIXME : Ramakrishna Gundala - Not sure why we have this if condition here, please verify and put appropriate comments
 					return;
 				}
 			}
-			boolean matchingExternalResearchStaffPresent = externalResearchStaffExists(researchStaff);
+			boolean matchingExternalResearchStaffPresent = externalResearchStaffExists(personUser);
     		if(matchingExternalResearchStaffPresent){
-    			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with assigned identifier " +researchStaff.getAssignedIdentifier()+ " exists in external system");
+    			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with assigned identifier " +personUser.getAssignedIdentifier()+ " exists in external system");
     		}
 		}
 	}
@@ -262,19 +262,19 @@ public class CreatePersonOrUserController extends SimpleFormController{
 	 * @param userId the user id
 	 * @return the research staff
 	 */
-	private String getResearchStaffsAssignedIdentifier(gov.nih.nci.security.authorization.domainobjects.User csmUser) {
+	private String getPersonUsersAssignedIdentifier(gov.nih.nci.security.authorization.domainobjects.User csmUser) {
 		edu.duke.cabig.c3pr.domain.C3PRUser c3prUser = userDao.getByLoginId(csmUser.getUserId());
 		if(c3prUser == null){
-			PersonUser researchStaff = populateResearchStaff(csmUser);
+			PersonUser personUser = populateResearchStaff(csmUser);
 			try {
 				logger.debug("Attempting to dynamically provision the CSM user with user id: "+ csmUser.getLoginName() +" in C3PR as staff.");
-				personUserDao.createResearchStaff(researchStaff);
+				personUserDao.createResearchStaff(personUser);
 			} catch(Exception e){
 				logger.error("Dynamic provisioning failed. Check user details in csm_user for invalid data.");
 				logger.error(e.getMessage());
 				throw new RuntimeException();
 			}
-			return researchStaff.getAssignedIdentifier();
+			return personUser.getAssignedIdentifier();
 		}
 		return ((PersonUser)c3prUser).getAssignedIdentifier();
 	}
@@ -286,22 +286,22 @@ public class CreatePersonOrUserController extends SimpleFormController{
 	 * @return the research staff
 	 */
 	private PersonUser populateResearchStaff(gov.nih.nci.security.authorization.domainobjects.User csmUser) {
-		PersonUser researchStaff = new LocalPersonUser(PersonUserType.USER);
-		researchStaff.setFirstName(csmUser.getFirstName());
-		researchStaff.setLastName(csmUser.getLastName());
-		researchStaff.setLoginId(csmUser.getUserId().toString());
-		researchStaff.setEmail(csmUser.getEmailId());
+		PersonUser personUser = new LocalPersonUser(PersonUserType.USER);
+		personUser.setFirstName(csmUser.getFirstName());
+		personUser.setLastName(csmUser.getLastName());
+		personUser.setLoginId(csmUser.getUserId().toString());
+		personUser.setEmail(csmUser.getEmailId());
 //		researchStaff.setPhone(csmUser.getPhoneNumber());
 //		researchStaff.setAssignedIdentifier(UUID.randomUUID().toString());
-		return researchStaff;
+		return personUser;
 	}
 	
-	private boolean externalResearchStaffExists(PersonUser researchStaff) {
-		List<PersonUser> remoteResearchStaff = personUserRepository.getRemoteResearchStaff(researchStaff);
+	private boolean externalResearchStaffExists(PersonUser personUser) {
+		List<PersonUser> remotePersonUser = personUserRepository.getRemoteResearchStaff(personUser);
 		boolean matchingExternalResearchStaffPresent = false;
-		for(PersonUser remoteRStaff : remoteResearchStaff){
-			if(remoteRStaff.getAssignedIdentifier().equals(researchStaff.getAssignedIdentifier())){
-				researchStaff.addExternalResearchStaff(remoteRStaff);
+		for(PersonUser remoteRStaff : remotePersonUser){
+			if(remoteRStaff.getAssignedIdentifier().equals(personUser.getAssignedIdentifier())){
+				personUser.addExternalResearchStaff(remoteRStaff);
 				matchingExternalResearchStaffPresent = true;
 			}
 		}
@@ -323,7 +323,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
 	@Override
 	 protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
 		PersonOrUserWrapper wrapper = (PersonOrUserWrapper) command;
-        PersonUser researchStaff = wrapper.getPersonUser();
+        PersonUser personUser = wrapper.getPersonUser();
         
         String actionParam = request.getParameter("_action");
 		String selectedParam = request.getParameter("_selected");
@@ -340,38 +340,38 @@ public class CreatePersonOrUserController extends SimpleFormController{
         	map.put("studyflow", studyflow);
         }
         
-        RemotePersonUser remoteRStaffSelected = null;
-        boolean saveExternalResearchStaff = false;
+        RemotePersonUser remotPersonUserSelected = null;
+        boolean saveExternalPersonUser = false;
 
         try {
         	//If saving a remote Research Staff
 			if (StringUtils.equals(EDIT_FLOW, flowVar) && StringUtils.equals("saveRemoteRStaff", actionParam)) {
-				if(researchStaff.getExternalResearchStaff()!= null && researchStaff.getExternalResearchStaff().size() > 0){
-					saveExternalResearchStaff = true;
-					remoteRStaffSelected = (RemotePersonUser) researchStaff.getExternalResearchStaff().get(Integer.parseInt(selectedParam));
-					if(remoteRStaffSelected.getHealthcareSites().size() > 0){
-	        			for(HealthcareSite hcSite : remoteRStaffSelected.getHealthcareSites()){
+				if(personUser.getExternalResearchStaff()!= null && personUser.getExternalResearchStaff().size() > 0){
+					saveExternalPersonUser = true;
+					remotPersonUserSelected = (RemotePersonUser) personUser.getExternalResearchStaff().get(Integer.parseInt(selectedParam));
+					if(remotPersonUserSelected.getHealthcareSites().size() > 0){
+	        			for(HealthcareSite hcSite : remotPersonUserSelected.getHealthcareSites()){
 	    				//	get the corresponding hcs from the dto object and save that organization and then save this staff
 	        				HealthcareSite matchingHealthcareSiteFromDb = getHealthcareSiteDao().getByPrimaryIdentifier(hcSite.getPrimaryIdentifier());
 	        				if(matchingHealthcareSiteFromDb == null){
 	        					organizationService.save(hcSite);
 	        				} else{
 	    					//	we have the retrieved staff's Org in our db...link up with the same and persist
-	        					remoteRStaffSelected.removeHealthcareSite(hcSite);
-	        					remoteRStaffSelected.addHealthcareSite(matchingHealthcareSiteFromDb);
+	        					remotPersonUserSelected.removeHealthcareSite(hcSite);
+	        					remotPersonUserSelected.addHealthcareSite(matchingHealthcareSiteFromDb);
 	        				}
 	        			}
-	        			personUserDao.evict(researchStaff);
-						personnelService.convertLocalResearchStaffToRemoteResearchStaff((LocalPersonUser)researchStaff, remoteRStaffSelected);
-						// add organizations of selected remote research staff  to the remote research staff in Db( which is just converted from local)
-						//first load the remote research staff just converted
-						RemotePersonUser remoteResearchStaffFromDb = (RemotePersonUser) personUserDao.getByAssignedIdentifierFromLocal
-							(remoteRStaffSelected.getAssignedIdentifier());
+	        			personUserDao.evict(personUser);
+						personnelService.convertLocalPersonUserToRemotePersonUser((LocalPersonUser)personUser, remotPersonUserSelected);
+						// add organizations of selected remote personUser  to the remote personUser in Db( which is just converted from local)
+						//first load the remote personUser just converted
+						RemotePersonUser remotePersonUserFromDb = (RemotePersonUser) personUserDao.getByAssignedIdentifierFromLocal
+							(remotPersonUserSelected.getAssignedIdentifier());
 						
-						// add organizations from selected remote research staff that the converted research staff doesn't have
-						for(HealthcareSite hcs: remoteRStaffSelected.getHealthcareSites()){
-							if(!remoteResearchStaffFromDb.getHealthcareSites().contains(hcs)){
-								remoteResearchStaffFromDb.addHealthcareSite(hcs);
+						// add organizations from selected remote personUser that the converted personUser doesn't have
+						for(HealthcareSite hcs: remotPersonUserSelected.getHealthcareSites()){
+							if(!remotePersonUserFromDb.getHealthcareSites().contains(hcs)){
+								remotePersonUserFromDb.addHealthcareSite(hcs);
 							}
 						}
 		      		} else {
@@ -391,56 +391,56 @@ public class CreatePersonOrUserController extends SimpleFormController{
 							groups = new ArrayList<C3PRUserGroupType>();
 						}
 						associationMap.put(associationObject.getHealthcareSite(), groups);
-						if(!researchStaff.getHealthcareSites().contains(associationObject.getHealthcareSite())){
-							researchStaff.addHealthcareSite(associationObject.getHealthcareSite());
+						if(!personUser.getHealthcareSites().contains(associationObject.getHealthcareSite())){
+							personUser.addHealthcareSite(associationObject.getHealthcareSite());
 						}
 					}
 				}
 				
 				if(StringUtils.equals(flowVar, SAVE_FLOW)){
 		        	if(createAsUser && createAsStaff){
-	        			researchStaff.setPersonUserType(PersonUserType.STAFF_USER);
-	        			researchStaff = personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
+	        			personUser.setPersonUserType(PersonUserType.STAFF_USER);
+	        			personUser = personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(personUser, username, associationMap, hasAccessToAllSites);
 	        		} else if(createAsUser) {
-	        			researchStaff.setPersonUserType(PersonUserType.USER);
-	        			researchStaff = personUserRepository.createOrModifyUserWithoutResearchStaffAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
+	        			personUser.setPersonUserType(PersonUserType.USER);
+	        			personUser = personUserRepository.createOrModifyUserWithoutResearchStaffAndAssignRoles(personUser, username, associationMap, hasAccessToAllSites);
 		        	} else if(createAsStaff) {
 		        		//if create as research staff and not as user.
-		        		researchStaff.setPersonUserType(PersonUserType.STAFF);
-	        			researchStaff = personUserRepository.createOrModifyResearchStaffWithoutUser(researchStaff, associationMap, hasAccessToAllSites);
+		        		personUser.setPersonUserType(PersonUserType.STAFF);
+	        			personUser = personUserRepository.createOrModifyResearchStaffWithoutUser(personUser, associationMap, hasAccessToAllSites);
 		        	}
 		        } else if (StringUtils.equals(flowVar, SETUP_FLOW)){
 		        	// create research staff, csm user and assign org and provide access to all sites
-		        	researchStaff.setPersonUserType(PersonUserType.STAFF_USER);
-		        	researchStaff = personUserRepository.createSuperUser(researchStaff, username, associationMap);
+		        	personUser.setPersonUserType(PersonUserType.STAFF_USER);
+		        	personUser = personUserRepository.createSuperUser(personUser, username, associationMap);
 		        	
 		        } else if(StringUtils.equals(flowVar, EDIT_FLOW)){
 		        	if(createAsUser && createAsStaff){
 		        		// create research staff and csm user and assign roles if provided
-		        		researchStaff.setPersonUserType(PersonUserType.STAFF_USER);
-	        			personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
+		        		personUser.setPersonUserType(PersonUserType.STAFF_USER);
+	        			personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(personUser, username, associationMap, hasAccessToAllSites);
 		        	} else if(createAsUser) {
 		        		//update the user without touching the staff(assigned id needs to be empty).
 	        			//no need to set PersonType as it should already be set
-	        			personUserRepository.createOrModifyUserWithoutResearchStaffAndAssignRoles(researchStaff, username, associationMap, hasAccessToAllSites);
+	        			personUserRepository.createOrModifyUserWithoutResearchStaffAndAssignRoles(personUser, username, associationMap, hasAccessToAllSites);
 		        	} else if(createAsStaff) {
 		        		//update the staff without touching the user.
 		        		//no need to set PersonType as it should already be set
-		        		researchStaff = personUserRepository.createOrModifyResearchStaffWithoutUser(researchStaff, associationMap, hasAccessToAllSites);
+		        		personUser = personUserRepository.createOrModifyResearchStaffWithoutUser(personUser, associationMap, hasAccessToAllSites);
 		        	}
 		        }
 			}
         } catch (C3PRBaseRuntimeException e) {
 	        if (e.getRootCause().getMessage().contains("MailException")) {
-	            log.info("Error saving Research staff.Probably failed to send email", e);
+	            log.info("Error saving Research staff. Probably failed to send email", e);
 	        } else {
 	        	errors.reject(e.getMessage());
 	        }
       }
-	  if(saveExternalResearchStaff){
-		  wrapper.setPersonUser(remoteRStaffSelected);
+	  if(saveExternalPersonUser){
+		  wrapper.setPersonUser(remotPersonUserSelected);
 	  } else {
-		  wrapper.setPersonUser(researchStaff);  
+		  wrapper.setPersonUser(personUser);  
 	  }
 	  
 	  if (!errors.hasErrors()) {

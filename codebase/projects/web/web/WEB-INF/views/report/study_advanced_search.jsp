@@ -274,7 +274,7 @@ width:16em;
         <div class="row" >
 	       	<div class="label"><fmt:message key="c3pr.common.personnel"/></div>
    	        <div class="value">
-	       		<input type="hidden" name="searchCriteriaList[7].objectName" value="edu.duke.cabig.c3pr.domain.ResearchStaff"/>
+	       		<input type="hidden" name="searchCriteriaList[7].objectName" value="edu.duke.cabig.c3pr.domain.PersonUser"/>
    	        	<input type="hidden" name="searchCriteriaList[7].predicate" value="="/>
           		<input type="hidden" name="searchCriteriaList[7].attributeName" value="assignedIdentifier" />
           		<input type="hidden" id="studyPerson-hidden" name="searchCriteriaList[7].values"/>

@@ -393,8 +393,8 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
     			}
     		}
     	
-			PersonUser researchStaff = SecurityUtils.getLoggedInResearchStaff();
-	    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getUniqueIdentifier(), eligibilityCriteria, researchStaff.getAssignedIdentifier());
+			PersonUser personUser = SecurityUtils.getLoggedInResearchStaff();
+	    	StudySubject studySubject = studySubjectRepository.allowEligibilityWaiver(command.getStudySubject().getUniqueIdentifier(), eligibilityCriteria, personUser.getAssignedIdentifier());
 	    	command.setStudySubject(studySubject);
 	    	request.setAttribute("displayAllowWaiverSuccessMessage", "true");
     	}

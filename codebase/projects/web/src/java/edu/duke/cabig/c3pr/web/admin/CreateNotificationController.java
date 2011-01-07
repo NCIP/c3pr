@@ -95,9 +95,9 @@ public class CreateNotificationController extends SimpleFormController {
     			wrapper.setHealthcareSite(healthcareSite);
     		} else{
     		//get the logged in users site.If the logged in user is not yet associated to a site then get the hosting site.
-	    		PersonUser researchStaff = (PersonUser)userDao.getByLoginId(user.getUserId().longValue());
-	    		if(researchStaff.getHealthcareSites().size()>0){
-	    			wrapper.setHealthcareSite(researchStaff.getHealthcareSites().get(0));
+	    		PersonUser personUser = (PersonUser)userDao.getByLoginId(user.getUserId().longValue());
+	    		if(personUser.getHealthcareSites().size()>0){
+	    			wrapper.setHealthcareSite(personUser.getHealthcareSites().get(0));
 	    		} else{
 	    			log.debug("Logged in User is not associated to a site, so getting the hosting site organization");
 	    			String localNciCode = this.configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
@@ -127,8 +127,8 @@ public class CreateNotificationController extends SimpleFormController {
         refdata.put("notificationReportEventsRefData", configMap.get("notificationReportEventsRefData"));
         gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
 		.getSession().getAttribute("userObject");
-        PersonUser researchStaff = (PersonUser)userDao.getByLoginId(user.getUserId().longValue());
-        refdata.put("assignedIdentifier", researchStaff.getAssignedIdentifier());
+        PersonUser personUser = (PersonUser)userDao.getByLoginId(user.getUserId().longValue());
+        refdata.put("assignedIdentifier", personUser.getAssignedIdentifier());
         return refdata;
     }
     
@@ -144,16 +144,16 @@ public class CreateNotificationController extends SimpleFormController {
     /*
      * This is the method that gets called on form submission. All it does it cast the command into
      * Organization and call the service to persist.
-     * On succesful submission it sets the type attribute to confirm which is used to show the
+     * On successful submission it sets the type attribute to confirm which is used to show the
      * confirmation screen.
      */
     protected ModelAndView processFormSubmission(HttpServletRequest request,
                     HttpServletResponse response, Object command, BindException errors)
                     throws Exception {
     	
-    	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
-																		.getSession().getAttribute("userObject");
-    	PersonUser researchStaff = null;
+//    	gov.nih.nci.security.authorization.domainobjects.User user = (gov.nih.nci.security.authorization.domainobjects.User) request
+//																		.getSession().getAttribute("userObject");
+//    	PersonUser personUser = null;
     	NotificationWrapper notificationWrapper = (NotificationWrapper) command;
     	HealthcareSite healthcareSite = notificationWrapper.getHealthcareSite();
     	if (isAjaxRequest(request)) {
@@ -231,7 +231,7 @@ public class CreateNotificationController extends SimpleFormController {
 	        	}
 	        }
 	        
-	        Map map = errors.getModel();
+	        Map<String, Object> map = errors.getModel();
 	        map.put("command", notificationWrapper);
 	        ModelAndView mv = new ModelAndView(getSuccessView(), map);
 	        return mv;

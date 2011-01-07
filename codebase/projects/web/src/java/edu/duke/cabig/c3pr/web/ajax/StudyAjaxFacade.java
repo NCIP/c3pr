@@ -41,13 +41,13 @@ import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
-import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.PersonUser;
+import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.service.PersonnelService;
-import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
+import edu.duke.cabig.c3pr.web.admin.PersonOrUserWrapper;
 import edu.duke.cabig.c3pr.web.study.AmendCompanionStudyController;
 import edu.duke.cabig.c3pr.web.study.AmendStudyController;
 import edu.duke.cabig.c3pr.web.study.CreateCompanionStudyController;
@@ -242,7 +242,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
                         siteId);
         List<StudyPersonnel> reducedPersonnel = new ArrayList<StudyPersonnel>(personnel.size());
         for (StudyPersonnel hcInv : personnel) {
-            reducedPersonnel.add(buildReduced(hcInv, Arrays.asList("id", "researchStaff")));
+            reducedPersonnel.add(buildReduced(hcInv, Arrays.asList("id", "personUser")));
         }
 
         return reducedPersonnel;
@@ -353,7 +353,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
      * @return the site personnel
      * @throws Exception the exception
      */
-    public List<ResearchStaffWrapper> getSitePersonnel(Integer hcsId, String studyId) throws Exception {
+    public List<PersonOrUserWrapper> getSitePersonnel(Integer hcsId, String studyId) throws Exception {
 		HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
 
 		//get all staff belonging to the org in question
@@ -362,15 +362,15 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		HashMap<PersonUser, List<String>> studyScopedRSMap = personUserDao.getStaffScopedByStudy(hcsRSList, hcs);
 		removePreAssignedStaff(studyScopedRSMap, studyId);
 		
-		List<ResearchStaffWrapper> reducedHcsRsList = new ArrayList<ResearchStaffWrapper>();
+		List<PersonOrUserWrapper> reducedHcsRsList = new ArrayList<PersonOrUserWrapper>();
 		for (PersonUser rs : studyScopedRSMap.keySet()) {
 			for(String roleName: studyScopedRSMap.get(rs)){
-				ResearchStaffWrapper rsw = new ResearchStaffWrapper();
-				rsw.setResearchStaff(rs);
+				PersonOrUserWrapper rsw = new PersonOrUserWrapper();
+				rsw.setPersonUser(rs);
 				rsw.setRoleName(roleName);
 				
-				reducedHcsRsList.add(buildReduced(rsw, Arrays.asList("researchStaff.id","researchStaff.firstName",
-			                "researchStaff.lastName","researchStaff.assignedIdentifier", "roleName")));
+				reducedHcsRsList.add(buildReduced(rsw, Arrays.asList("personUser.id","personUser.firstName",
+			                "personUser.lastName","personUser.assignedIdentifier", "roleName")));
 			}
 		}
 		return reducedHcsRsList;

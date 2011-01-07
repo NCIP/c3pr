@@ -8,7 +8,6 @@ import org.springframework.validation.Validator;
 import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.web.admin.PersonOrUserWrapper;
-import edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper;
 
 
 public class AssignedIdentifierDuplicateValidator implements Validator {
@@ -16,27 +15,23 @@ public class AssignedIdentifierDuplicateValidator implements Validator {
 	protected PersonUserDao personUserDao;
 	
     public boolean supports(Class aClass) {
-    	return PersonOrUserWrapper.class.isAssignableFrom(aClass)  || 
-				ResearchStaffWrapper.class.isAssignableFrom(aClass);
+    	return PersonOrUserWrapper.class.isAssignableFrom(aClass);
     }
 
     public void validate(Object object, Errors errors) {
-    	PersonUser researchStaff = null;
-    	if(object instanceof ResearchStaffWrapper){
-    		ResearchStaffWrapper wrapper = (ResearchStaffWrapper) object;
-    		researchStaff = wrapper.getResearchStaff();
-    	} else if(object instanceof PersonOrUserWrapper){
+    	PersonUser personUser = null;
+    	if(object instanceof PersonOrUserWrapper){
     		PersonOrUserWrapper wrapper = (PersonOrUserWrapper) object;
-    		researchStaff = wrapper.getPersonUser();
+    		personUser = wrapper.getPersonUser();
     	}
     	
     	//Since assigned identifier can be empty during user creation
-    	if(StringUtils.isBlank(researchStaff.getAssignedIdentifier())){
+    	if(StringUtils.isBlank(personUser.getAssignedIdentifier())){
     		return;
     	}
-        PersonUser rStaffFromDB = personUserDao.getByAssignedIdentifierFromLocal(researchStaff.getAssignedIdentifier());
-		if (rStaffFromDB != null && !rStaffFromDB.getId().equals(researchStaff.getId())) {
-			errors.reject("RSTAFF_EXISTS","Research Staff with identifier " +researchStaff.getAssignedIdentifier()+ " already exists");
+        PersonUser rStaffFromDB = personUserDao.getByAssignedIdentifierFromLocal(personUser.getAssignedIdentifier());
+		if (rStaffFromDB != null && !rStaffFromDB.getId().equals(personUser.getId())) {
+			errors.reject("RSTAFF_EXISTS","Research Staff with identifier " +personUser.getAssignedIdentifier()+ " already exists");
 			return;
 		}
     }
