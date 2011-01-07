@@ -28,8 +28,11 @@ import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.InvestigatorStatusCodeEnum;
+import edu.duke.cabig.c3pr.constants.NCIRecognizedProgramName;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
+import edu.duke.cabig.c3pr.constants.StudyCategory;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.StudySponsorType;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
@@ -2575,6 +2578,27 @@ public class StudyDaoTest extends DaoTestCase {
 		
 		List<Study> studies = dao.search(criteriaParameters);
 		assertEquals("Wrong number of studies", 3,  studies.size());
+	}
+	
+	public void testSaveStudyWithSummary4Fields() throws Exception{
+		
+		Study study = new LocalStudy();
+		study.setType("Oncology");
+		study.setPhaseCode("abc");
+		study.setInvestigatorInitiated(true);
+		study.setCategory(StudyCategory.SECTION_2);
+		study.setNciRecognizedProgramName(NCIRecognizedProgramName.Cancer_Biology);
+		study.setSponsorType(StudySponsorType.INDUSTRIAL);
+		dao.save(study);
+		
+		Integer id = study.getId();
+		Study loadedStudy = dao.getById(id);
+		
+		assertTrue("investigator initiated value is wrong",loadedStudy.getInvestigatorInitiated());
+		assertEquals("wrong category returned",StudyCategory.SECTION_2,loadedStudy.getCategory());
+		assertEquals("wrong nci recognized program returned",NCIRecognizedProgramName.Cancer_Biology,loadedStudy.getNciRecognizedProgramName());
+		assertEquals("wrong sponsor type returned",StudySponsorType.INDUSTRIAL,loadedStudy.getSponsorType());
+		
 	}
 	
 }

@@ -39,11 +39,14 @@ import com.semanticbits.coppa.domain.annotations.RemoteProperty;
 import edu.duke.cabig.c3pr.constants.AmendmentType;
 import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.NCIRecognizedProgramName;
 import edu.duke.cabig.c3pr.constants.NotificationEmailSubstitutionVariablesEnum;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RandomizationType;
 import edu.duke.cabig.c3pr.constants.StatusType;
+import edu.duke.cabig.c3pr.constants.StudyCategory;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.constants.StudySponsorType;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldAuthorable;
 import edu.duke.cabig.c3pr.domain.customfield.CustomFieldDefinition;
@@ -108,6 +111,49 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	private Boolean therapeuticIntentIndicator;
 	
 	private String targetRegistrationSystem;
+	
+	private StudyCategory category;
+	private StudySponsorType sponsorType;
+	private NCIRecognizedProgramName nciRecognizedProgramName;
+	
+
+	@Enumerated(EnumType.STRING)
+	public NCIRecognizedProgramName getNciRecognizedProgramName() {
+		return nciRecognizedProgramName;
+	}
+
+	public void setNciRecognizedProgramName(
+			NCIRecognizedProgramName nciRecognizedProgramName) {
+		this.nciRecognizedProgramName = nciRecognizedProgramName;
+	}
+
+	private Boolean investigatorInitiated;
+
+	public Boolean getInvestigatorInitiated() {
+		return investigatorInitiated;
+	}
+
+	public void setInvestigatorInitiated(Boolean investigatorInitiated) {
+		this.investigatorInitiated = investigatorInitiated;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public StudyCategory getCategory() {
+		return category;
+	}
+
+	public void setCategory(StudyCategory category) {
+		this.category = category;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public StudySponsorType getSponsorType() {
+		return sponsorType;
+	}
+
+	public void setSponsorType(StudySponsorType sponsorType) {
+		this.sponsorType = sponsorType;
+	}
 
 	/** The parent study associations. */
 	private List<CompanionStudyAssociation> parentStudyAssociations = new ArrayList<CompanionStudyAssociation>();
