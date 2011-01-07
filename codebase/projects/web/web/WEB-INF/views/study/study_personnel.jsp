@@ -54,9 +54,9 @@ function showPersonnel() {
     if(catId!=null){
     	StudyAjaxFacade.getSitePersonnel(catId, studyId, function(diseases) {
             diseases.each(function(cat) {
-           	  var assignedIdentifier = cat.researchStaff.assignedIdentifier == null ? "":cat.researchStaff.assignedIdentifier;
-              var name = cat.researchStaff.firstName + " " + cat.researchStaff.lastName+ " (" +  cat.researchStaff.assignedIdentifier+ ") ("+ cat.roleName +")";
-              var opt = new Option(name, cat.researchStaff.id + "(" + cat.roleName + ")");
+           	  var assignedIdentifier = cat.personUser.assignedIdentifier == null ? "":cat.personUser.assignedIdentifier;
+              var name = cat.personUser.firstName + " " + cat.personUser.lastName+ " (" +  cat.personUser.assignedIdentifier+ ") ("+ cat.roleName +")";
+              var opt = new Option(name, cat.personUser.id + "(" + cat.roleName + ")");
               studyPersonnelSelect.options.add(opt);
           })
           $('sitePersonnelIndicator').hide();
@@ -251,7 +251,7 @@ changed before submit in javascripts. The parameters need proper default values,
 						                    </form:select>
 				                            </td>
 				                            <td class="alt">
-					                            <a href="javascript:removeStudyPersonnel('${studyPersonnel.personUser.assignedIdentifier }');">
+					                            <a href="javascript:removeStudyPersonnel('${studyPersonnel.personUser.id}');">
 					                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove">
 					                            </a>&nbsp;
 					                        </td>
