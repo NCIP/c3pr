@@ -32,7 +32,7 @@
     <function>
         <name>getLoggedInResearchStaff</name>
         <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
-        <function-signature>ResearchStaff getLoggedInResearchStaff()</function-signature>
+        <function-signature>PersonUser getLoggedInResearchStaff()</function-signature>
     </function>
     
     <tag>
