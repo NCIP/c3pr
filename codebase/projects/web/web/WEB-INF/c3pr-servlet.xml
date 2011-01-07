@@ -421,32 +421,6 @@
     <bean id="c3PRDefaultTabConfigurer" class="edu.duke.cabig.c3pr.web.admin.C3PRDefaultTabConfigurer"
                autowire="byName"/>
 
-    <bean name="/personAndOrganization/researchStaff/searchResearchStaff" id="searchResearchStaffController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
-        <property name="viewName" value="/admin/research_staff_search"/>
-    </bean>
-    
-    <bean name="/personAndOrganization/researchStaff/createResearchStaff"
-          id="createResearchStaffController" lazy-init="true"
-          class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
-          autowire="byName">
-        <property name="commandClass" value="edu.duke.cabig.c3pr.web.admin.ResearchStaffWrapper"/>
-        <property name="formView" value="admin/research_staff_details"/>
-        <property name="successView" value="admin/research_staff_confirmation"/>
-        <property name="sessionForm" value="true"/>
-        <property name="validators">
-            <list>
-                <ref bean="userDuplicateValidator"/>
-                <ref bean="assignedIdentifierDuplicateValidator"/>
-            </list>
-        </property>
-    </bean>
-    
-	<bean name="/personAndOrganization/researchStaff/editResearchStaff"
-          id="editResearchStaffController" lazy-init="true"
-          class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
-          autowire="byName" parent="createResearchStaffController">
-    </bean>
     
     <!-- mapping for PERSON Or USER task -->
         <bean name="/personAndOrganization/personOrUser/searchPersonOrUser" id="searchPersonOrUserController"
@@ -496,10 +470,6 @@
           class="edu.duke.cabig.c3pr.web.admin.ConfigurationController"/>
     <bean name="/personAndOrganization/investigator/viewInvestigator" id="viewInvestigatorController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.admin.ViewInvestigatorController">
-    </bean>
-    
-    <bean name="/personAndOrganization/researchStaff/viewResearchStaff" id="viewResearchStaffController" autowire="byType"
-          class="edu.duke.cabig.c3pr.web.admin.ViewResearchStaffController">
     </bean>
 
     <bean name="/admin/importStudy"
