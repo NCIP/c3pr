@@ -66,7 +66,6 @@ public abstract class PersonUser extends User {
 	 */
 	public PersonUser() {
 		super();
-		//setPersonUserType(PersonUserType.STAFF_USER);
 	}
 	
 	/**

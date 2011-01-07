@@ -266,19 +266,19 @@ public class PersonnelServiceImpl implements PersonnelService {
 		this.plannedNotificationDao = plannedNotificationDao;
 	}
 
-	public BaseResearchStaffDataContainer convertLocalResearchStaffToRemoteResearchStaff(
-			LocalPersonUser localResearchStaff,
-			RemotePersonUser remoteResearchStaff) {
-		BaseResearchStaffDataContainer baseResearchStaffDataContainer = baseResearchStaffDataContainerDao.getById(localResearchStaff.getId());
+	public BaseResearchStaffDataContainer convertLocalPersonUserToRemotePersonUser(
+			LocalPersonUser localPersonUser,
+			RemotePersonUser remotePersonUser) {
+		BaseResearchStaffDataContainer baseResearchStaffDataContainer = baseResearchStaffDataContainerDao.getById(localPersonUser.getId());
 		baseResearchStaffDataContainer.setDtype("Remote");
-		baseResearchStaffDataContainer.setFirstName(remoteResearchStaff.getFirstName());
-		baseResearchStaffDataContainer.setLastName(remoteResearchStaff.getLastName());
-		baseResearchStaffDataContainer.setMiddleName(remoteResearchStaff.getMiddleName());
-		baseResearchStaffDataContainer.setMaidenName(remoteResearchStaff.getMaidenName());
-		baseResearchStaffDataContainer.setExternalId(remoteResearchStaff.getExternalId()); 
+		baseResearchStaffDataContainer.setFirstName(remotePersonUser.getFirstName());
+		baseResearchStaffDataContainer.setLastName(remotePersonUser.getLastName());
+		baseResearchStaffDataContainer.setMiddleName(remotePersonUser.getMiddleName());
+		baseResearchStaffDataContainer.setMaidenName(remotePersonUser.getMaidenName());
+		baseResearchStaffDataContainer.setExternalId(remotePersonUser.getExternalId()); 
 		// delete all the existing contact mechanisms and add new ones from the remote Research Staff
 		baseResearchStaffDataContainer.removeContactMechanisms();
-		for(ContactMechanism cm : remoteResearchStaff.getContactMechanisms()){
+		for(ContactMechanism cm : remotePersonUser.getContactMechanisms()){
 			BaseContactMechanismDataContainer baseContactMechanismDataContainer = new BaseContactMechanismDataContainer();
 			baseContactMechanismDataContainer.setDtype("Remote");
 			baseContactMechanismDataContainer.setType(cm.getType());

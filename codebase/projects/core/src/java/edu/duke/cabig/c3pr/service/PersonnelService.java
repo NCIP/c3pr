@@ -6,12 +6,21 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import gov.nih.nci.security.authorization.domainobjects.*;
-import gov.nih.nci.security.authorization.domainobjects.User;
+import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.BaseInvestigatorDataContainer;
+import edu.duke.cabig.c3pr.domain.BaseResearchStaffDataContainer;
+import edu.duke.cabig.c3pr.domain.C3PRUser;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
+import edu.duke.cabig.c3pr.domain.LocalPersonUser;
+import edu.duke.cabig.c3pr.domain.PersonUser;
+import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
+import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
+import edu.duke.cabig.c3pr.domain.RemotePersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.domain.*;
+import gov.nih.nci.security.authorization.domainobjects.User;
 
 /**
  * Service to handle C3PR Users management <p/> Created by IntelliJ IDEA. User: kherm Date: Aug 24,
@@ -78,7 +87,7 @@ public interface PersonnelService {
 
     public User getCSMUserByUsername(String userName);
     
-    public BaseResearchStaffDataContainer convertLocalResearchStaffToRemoteResearchStaff(LocalPersonUser localResearchStaff,RemotePersonUser remoteResearchStaff);
+    public BaseResearchStaffDataContainer convertLocalPersonUserToRemotePersonUser(LocalPersonUser localPersonUser, RemotePersonUser remotePersonUser);
     
     public BaseInvestigatorDataContainer convertLocalInvestigatorToRemoteInvestigator(LocalInvestigator localInvestigator,RemoteInvestigator remoteInvestigator);
 
