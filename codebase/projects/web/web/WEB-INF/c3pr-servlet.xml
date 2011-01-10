@@ -673,20 +673,20 @@
                             </bean>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Person/User"
+                                    autowire="byType" p:displayName="Personnel"
                                     p:linkName="searchPersonOrUserController">
                                 
                                 <property name="subTasks">
                                     <list>
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"
-                                                    p:displayName="Manage Person/User"
+                                                    p:displayName="Manage Personnel"
                                                     p:linkName="searchPersonOrUserController">
 													<property name="subTasks">
 								                        <list>
 															<bean
 								                                    class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
-								                                    autowire="byType" p:displayName="Edit Person/User"
+								                                    autowire="byType" p:displayName="Edit Personnel"
 								                                    p:linkName="editPersonOrUserController">
 															</bean>
 								                        </list>
@@ -694,7 +694,7 @@
 											</bean>
                                             <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
                                                     autowire="byType"
-                                                    p:displayName="Create Person/User"
+                                                    p:displayName="Create Personnel"
                                                     p:linkName="createPersonOrUserController"/>
                                     </list>
                                 </property>
