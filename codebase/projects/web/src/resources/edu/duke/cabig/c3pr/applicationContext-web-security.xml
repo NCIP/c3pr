@@ -9,12 +9,6 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
 http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
 	<util:map id="taskObjectPrivilegeMap">
-		<!--  START PERSON AND ORG SECTION -->
-		<!-- START RESEARCH STAFF 
-		<entry key="/pages/personAndOrganization/researchStaff/searchResearchStaff" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.ResearchStaff:READ" />
-		<entry key="/pages/personAndOrganization/researchStaff/createResearchStaff" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.ResearchStaff:CREATE" />
-		<entry key="/pages/personAndOrganization/researchStaff/editResearchStaff" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.ResearchStaff:READ" />
-		 END RESEARCH STAFF -->	
 		<!--  START PERSON/USER -->	
         <entry key="/pages/personAndOrganization/personOrUser/searchPersonOrUser" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.PersonOrUser:READ"/>
         <entry key="/pages/personAndOrganization/personOrUser/createPersonOrUser" value="edu.duke.cabig.c3pr.utils.web.navigation.Task.PersonOrUser:CREATE"/>
