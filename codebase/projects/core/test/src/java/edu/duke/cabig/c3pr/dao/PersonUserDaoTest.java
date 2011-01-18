@@ -210,6 +210,7 @@ public class PersonUserDaoTest extends ContextDaoTestCase<PersonUserDao> {
 		dto.getSites().add(hcs1.getCtepCode());
 		associationList.add(dto);
 		
+		dto = new RoleBasedHealthcareSitesAndStudiesDTO();
 		dto.setGroup(C3PRUserGroupType.STUDY_CREATOR);
 		dto.getSites().add(hcs1.getCtepCode());
 		associationList.add(dto);
