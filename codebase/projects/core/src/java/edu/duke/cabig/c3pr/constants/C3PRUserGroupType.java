@@ -3,6 +3,10 @@ package edu.duke.cabig.c3pr.constants;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
 import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.register;
 import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 
@@ -99,6 +103,26 @@ public enum C3PRUserGroupType implements CodedEnum<String> {
 			default: return null; 
 		}
 		
+	}
+	
+	public static List<C3PRUserGroupType> getStudyScopedRoles(){
+		List<C3PRUserGroupType> studyScopedRoles = new ArrayList<C3PRUserGroupType>();
+
+		studyScopedRoles.add(C3PRUserGroupType.REGISTRAR);
+		studyScopedRoles.add(C3PRUserGroupType.DATA_ANALYST);
+		studyScopedRoles.add(C3PRUserGroupType.DATA_READER);
+		
+		studyScopedRoles.add(C3PRUserGroupType.AE_STUDY_DATA_REVIEWER);
+		studyScopedRoles.add(C3PRUserGroupType.AE_EXPEDITED_REPORT_REVIEWER);
+		studyScopedRoles.add(C3PRUserGroupType.AE_REPORTER);
+		
+		studyScopedRoles.add(C3PRUserGroupType.LAB_DATA_USER);
+		studyScopedRoles.add(C3PRUserGroupType.LAB_IMPACT_CALENDAR_NOTIFIER);
+		
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_CALENDAR_TEMPLATE_BUILDER);
+		studyScopedRoles.add(C3PRUserGroupType.STUDY_SUBJECT_CALENDAR_MANAGER);
+		
+		return studyScopedRoles;
 	}
 
 }

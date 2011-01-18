@@ -64,7 +64,7 @@ public class ResearchStaffSecurityFilter implements DomainObjectSecurityFilterer
 	 */
 	private boolean hasSiteAndStudyLevelAccess(PersonUser personUser){
 		//load all the roles the user has with the specified privilege
-		Set<C3PRUserGroupType> userRoles = SecurityUtils.getUserRoles(UserPrivilegeType.PERSONUSER_READ);
+		Set<C3PRUserGroupType> userRoles = SecurityUtils.getRolesForLoggedInUser(UserPrivilegeType.PERSONUSER_READ);
 		Iterator<C3PRUserGroupType> iter = userRoles.iterator();
 
 		C3PRUserGroupType role;
@@ -77,7 +77,7 @@ public class ResearchStaffSecurityFilter implements DomainObjectSecurityFilterer
 				return true;
 			} else {
 				if(SecurityUtils.hasAllSiteAccess(role) || hasSiteLevelAccessPermission(SecurityUtils
-						.buildUserAccessibleOrganizationIdsList(role), personUser)){
+						.buildAccessibleOrganizationIdsListForLoggedInUser(role), personUser)){
 					return true;
 				}
 			}

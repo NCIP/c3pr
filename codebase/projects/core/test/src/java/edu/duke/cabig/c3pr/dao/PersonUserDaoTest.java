@@ -4,7 +4,6 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.SEARCH_SUBJECT;
 import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -16,10 +15,11 @@ import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalPersonUser;
-import edu.duke.cabig.c3pr.domain.RemotePersonUser;
 import edu.duke.cabig.c3pr.domain.PersonUser;
+import edu.duke.cabig.c3pr.domain.RemotePersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
+import edu.duke.cabig.c3pr.utils.RoleBasedHealthcareSitesAndStudiesDTO;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.ProtectionGroupRoleContext;
@@ -202,15 +202,20 @@ public class PersonUserDaoTest extends ContextDaoTestCase<PersonUserDao> {
 
 	public void testCreateCSMUserAndAssignRoles(){
 		PersonUser staff = getDao().getById(1001);
-		Map<HealthcareSite, List<C3PRUserGroupType>> associationMap = new HashMap<HealthcareSite, List<C3PRUserGroupType>>();
+		List<RoleBasedHealthcareSitesAndStudiesDTO> associationList = new ArrayList<RoleBasedHealthcareSitesAndStudiesDTO>();
 		HealthcareSite hcs1 = healthcareSiteDao.getById(1001);
 		
-		List<C3PRUserGroupType> roleList = new ArrayList<C3PRUserGroupType>();
-		roleList.add(C3PRUserGroupType.STUDY_TEAM_ADMINISTRATOR);
-		roleList.add(C3PRUserGroupType.STUDY_CREATOR);
-		associationMap.put(hcs1, roleList);
+		RoleBasedHealthcareSitesAndStudiesDTO dto = new RoleBasedHealthcareSitesAndStudiesDTO();
+		dto.setGroup(C3PRUserGroupType.STUDY_TEAM_ADMINISTRATOR);
+		dto.getSites().add(hcs1.getCtepCode());
+		associationList.add(dto);
+		
+		dto.setGroup(C3PRUserGroupType.STUDY_CREATOR);
+		dto.getSites().add(hcs1.getCtepCode());
+		associationList.add(dto);
+		
 		try {
-			getDao().createOrModifyPersonUser(staff, true, "somename", associationMap , false);
+			getDao().createOrModifyPersonUser(staff, true, "somename", associationList);
 			PersonUser reloadedStaff = getDao().getById(1001);
 			User user = getDao().getCSMUser((C3PRUser)reloadedStaff);
 

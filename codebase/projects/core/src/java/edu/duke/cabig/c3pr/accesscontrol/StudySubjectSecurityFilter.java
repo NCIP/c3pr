@@ -53,7 +53,7 @@ public class StudySubjectSecurityFilter implements DomainObjectSecurityFilterer{
 	
 	private boolean hasSiteAndStudyLevelAccess(StudySubject studySubject){
 		//load all the roles the user has with the specified privilege
-		Set<C3PRUserGroupType> userRoles = SecurityUtils.getUserRoles(UserPrivilegeType.STUDYSUBJECT_READ);
+		Set<C3PRUserGroupType> userRoles = SecurityUtils.getRolesForLoggedInUser(UserPrivilegeType.STUDYSUBJECT_READ);
 		Iterator<C3PRUserGroupType> iter = userRoles.iterator();
 
 		C3PRUserGroupType role;
@@ -66,14 +66,14 @@ public class StudySubjectSecurityFilter implements DomainObjectSecurityFilterer{
 				return true;
 			} else {
 				if(SecurityUtils.hasAllSiteAccess(role) || hasSiteLevelAccessPermission(SecurityUtils
-						.buildUserAccessibleOrganizationIdsList(role), studySubject)){
+						.buildAccessibleOrganizationIdsListForLoggedInUser(role), studySubject)){
 					if(!suiteRole.isStudyScoped()){
 						//user is only scoped by site
 						return true;
 					} else {
 						//user is both site and study scoped
 						if(SecurityUtils.hasAllStudyAccess(role) || hasStudyLevelAccessPermission(SecurityUtils
-								.buildUserAccessibleStudyIdsList(role), studySubject)){
+								.buildAccessibleStudyIdsListForLoggedInUser(role), studySubject)){
 				    		return true;
 				    	}
 					}

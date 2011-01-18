@@ -104,7 +104,7 @@ public class PersonnelServiceImpl implements PersonnelService {
      * @throws C3PRBaseRuntimeException
      */
     public void saveUser(PersonUser staff) throws C3PRBaseException {
-		personUserDao.createOrModifyPersonUser(staff, true, staff.getLoginId(), null , false);
+		personUserDao.createOrModifyPersonUser(staff, true, staff.getLoginId(), null);
     }    
     
 

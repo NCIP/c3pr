@@ -142,6 +142,24 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
                             + " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
                             new Object[] { id.getSystemName(), id.getValue(), id.getType()});
     }
+    
+    /**
+     * Search by coordinating center assigned identifier. Assumes that the CCAI assigned to a study is unique across all 
+     * studies. MEaning no two different sites will assign the same id to different studies. This is a CSM assumption for protection group Ids.
+     *
+     * @param id the id
+     * @return the list
+     */
+    @SuppressWarnings("unchecked")
+    public Study searchByCoordinatingCenterAssignedIdentifier(String coordinatingCenterAssignedStudyIdentifier) {
+        List<Study> studyList =  (List<Study>) getHibernateTemplate()
+                        .find("select S from Study S, Identifier I where I.value=? and I=any elements(S.identifiers)",
+                            new Object[] { coordinatingCenterAssignedStudyIdentifier});
+        if(studyList.size() > 0){
+        	return studyList.get(0);
+        }
+        return null;
+    }
 
     /**
      * Search by organization identifier.

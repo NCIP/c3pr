@@ -1614,6 +1614,13 @@ public class StudyDaoTest extends DaoTestCase {
     	List<Study> studies=dao.searchByIdentifier(1000);
     	assertEquals("Wronf number of studies", 1, studies.size());
     }
+    
+    public void testSearchByCoordinatingCenterAssignedIdentifier(){
+    	String coordinatingCenterAssignedStudyIdentifier = "nci1";
+    	Study study = dao.searchByCoordinatingCenterAssignedIdentifier(coordinatingCenterAssignedStudyIdentifier);
+    	assertNotNull(study);
+    	assertEquals(study.getShortTitleText(), "short_title_text");
+    }
 
     public void testSaveOneOrganizationIdentifiersAndOneSystemAssignedIdentifier() throws Exception {
         Study loadedStudy = dao.getById(1000);

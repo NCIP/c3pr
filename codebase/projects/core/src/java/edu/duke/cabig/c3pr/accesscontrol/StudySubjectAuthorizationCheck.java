@@ -31,7 +31,7 @@ public class StudySubjectAuthorizationCheck implements CSMAuthorizationCheck{
 		Study study = ((StudySubject)object).getStudySite().getStudy();
 		
 		//load all the roles the user has with the specified privilege
-		Set<C3PRUserGroupType> userRoles = SecurityUtils.getUserRoles(userPrivilegeType);
+		Set<C3PRUserGroupType> userRoles = SecurityUtils.getRolesForLoggedInUser(userPrivilegeType);
 		Iterator<C3PRUserGroupType> iter = userRoles.iterator();
 
 		C3PRUserGroupType role;
@@ -44,14 +44,14 @@ public class StudySubjectAuthorizationCheck implements CSMAuthorizationCheck{
 				return true;
 			} else {
 				if(SecurityUtils.hasAllSiteAccess(role) || hasSiteLevelAccessPermission(SecurityUtils
-						.buildUserAccessibleOrganizationIdsList(role), study)){
+						.buildAccessibleOrganizationIdsListForLoggedInUser(role), study)){
 					if(!suiteRole.isStudyScoped()){
 						//user is only scoped by site
 						return true;
 					} else {
 						//user is both site and study scoped
 						if(SecurityUtils.hasAllStudyAccess(role) || hasStudyLevelAccessPermission(SecurityUtils
-								.buildUserAccessibleStudyIdsList(role), study)){
+								.buildAccessibleStudyIdsListForLoggedInUser(role), study)){
 				    		return true;
 				    	}
 					}
