@@ -41,10 +41,12 @@ public class CreatePersonUserValidator implements Validator {
 			errors.reject("USERNAME_NULL","If you wish to create a user, enter a Username");
 		} 
     	if(SecurityUtils.hasAnyPrivilege(staffPrivilegesList) && StringUtils.isNotBlank(personUser.getAssignedIdentifier()) && !wrapper.getCreateAsStaff()){
-			errors.reject("ASSIGNED_ID_NOT_NULL","If you wish to create a staff, select Create as Research Staff");
+    		personUser.setAssignedIdentifier(null);
+    		//errors.reject("ASSIGNED_ID_NOT_NULL","If you wish to create a staff, select Create as Research Staff");
 		}
     	if(SecurityUtils.hasAnyPrivilege(userPrivilegesList) && StringUtils.isNotBlank(wrapper.getUserName()) && !wrapper.getCreateAsUser()){
-			errors.reject("USERNAME_NOT_NULL","If you wish to create a user, select Create as User");
+    		wrapper.setUserName(null);
+    		//errors.reject("USERNAME_NOT_NULL","If you wish to create a user, select Create as User");
 		}
     	
     	if(!SecurityUtils.hasAnyPrivilege(userPrivilegesList)){

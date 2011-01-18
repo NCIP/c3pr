@@ -8,19 +8,30 @@ import org.apache.commons.collections15.list.LazyList;
 import org.apache.commons.lang.StringUtils;
 
 import edu.duke.cabig.c3pr.domain.PersonUser;
+import edu.duke.cabig.c3pr.utils.RoleBasedHealthcareSitesAndStudiesDTO;
 
 public class PersonOrUserWrapper {
 	
 	private PersonUser personUser;
 	private String userName;
-	private boolean hasAccessToAllSites ;
 	private String preExistingUsersAssignedId;
 	private String roleName;
 	private boolean createAsStaff = true;
 	private boolean createAsUser = true;
 	
+	/** List of newly added organization ctep codes for the staff. These are then assigned to the personUser.healthcareSites in the controller
+	    note that unlike RoleBasedHealthcareSitesAndStudiesDTO.sites(list of CSM orgs) this list does not at any point contain the pre-existing organizations.
+	    this is because staff orgs cannot be deleted and just need to be displayed as labels on the UI.*/
+	private List<String> staffOrganizationCtepCodes = new ArrayList<String>();
 	
-	private List<HealthcareSiteRolesHolder> healthcareSiteRolesHolderList = LazyList.decorate(new ArrayList<HealthcareSiteRolesHolder>(), new InstantiateFactory<HealthcareSiteRolesHolder>(HealthcareSiteRolesHolder.class));
+	/** The selected organization for display. the auto-completer maps to this field. But not used by the controller*/
+	private String selectedOrganizationForDisplay;
+
+	/** The ctep code. Used as a temp to hold the auto-completer value before being assigned to the personUser.healthcareSites for persistence. */
+	private String ctepCode;
+	
+	
+	private List<RoleBasedHealthcareSitesAndStudiesDTO> healthcareSiteRolesHolderList = LazyList.decorate(new ArrayList<RoleBasedHealthcareSitesAndStudiesDTO>(), new InstantiateFactory<RoleBasedHealthcareSitesAndStudiesDTO>(RoleBasedHealthcareSitesAndStudiesDTO.class));
 	
 	public PersonUser getPersonUser() {
 		return personUser;
@@ -36,21 +47,16 @@ public class PersonOrUserWrapper {
 		this.userName = userName;
 	}
 
-	public void setHasAccessToAllSites(boolean hasAccessToAllSites) {
-		this.hasAccessToAllSites = hasAccessToAllSites;
-	}
-	public boolean getHasAccessToAllSites() {
-		return hasAccessToAllSites;
-	}
 	public void setHealthcareSiteRolesHolderList(
-			List<HealthcareSiteRolesHolder> healthcareSiteRolesHolderList) {
+			List<RoleBasedHealthcareSitesAndStudiesDTO> healthcareSiteRolesHolderList) {
 		this.healthcareSiteRolesHolderList = healthcareSiteRolesHolderList;
 	}
-	public List<HealthcareSiteRolesHolder> getHealthcareSiteRolesHolderList() {
+	
+	public List<RoleBasedHealthcareSitesAndStudiesDTO> getHealthcareSiteRolesHolderList() {
 		return healthcareSiteRolesHolderList;
 	}
 	
-	public void addHealthcareSiteRolesHolder(HealthcareSiteRolesHolder healthcareSiteRolesHolder){
+	public void addHealthcareSiteRolesHolder(RoleBasedHealthcareSitesAndStudiesDTO healthcareSiteRolesHolder){
 		getHealthcareSiteRolesHolderList().add(healthcareSiteRolesHolder);
 	}
 	public String getPreExistingUsersAssignedId() {
@@ -96,6 +102,7 @@ public class PersonOrUserWrapper {
 		}
 		return true;
 	}
+	
 	public boolean getCreateAsStaff() {
 		return createAsStaff;
 	}
@@ -107,6 +114,26 @@ public class PersonOrUserWrapper {
 	}
 	public void setCreateAsUser(boolean createAsUser) {
 		this.createAsUser = createAsUser;
+	}
+	public List<String> getStaffOrganizationCtepCodes() {
+		return staffOrganizationCtepCodes;
+	}
+	public void setStaffOrganizationCtepCodes(
+			List<String> staffOrganizationCtepCode) {
+		this.staffOrganizationCtepCodes = staffOrganizationCtepCode;
+	}
+	public String getSelectedOrganizationForDisplay() {
+		return selectedOrganizationForDisplay;
+	}
+	public void setSelectedOrganizationForDisplay(
+			String selectedOrganizationForDisplay) {
+		this.selectedOrganizationForDisplay = selectedOrganizationForDisplay;
+	}
+	public String getCtepCode() {
+		return ctepCode;
+	}
+	public void setCtepCode(String ctepCode) {
+		this.ctepCode = ctepCode;
 	}
 	
 }

@@ -15,14 +15,18 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.HttpSessionRequiredException;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
+import edu.duke.cabig.c3pr.domain.RemoteStudy;
+import edu.duke.cabig.c3pr.domain.Study;
 
 /**
  * @author Priyatam
  */
 public class ResearchStaffAjaxFacade {
     private HealthcareSiteDao healthcareSiteDao;
+    private StudyDao studyDao;
 
     private static Log log = LogFactory.getLog(ResearchStaffAjaxFacade.class);
 
@@ -52,7 +56,6 @@ public class ResearchStaffAjaxFacade {
 
         List<HealthcareSite> healthcareSites = healthcareSiteDao
                         .getBySubnames(extractSubnames(text));
-
         List<HealthcareSite> reducedHealthcareSites = new ArrayList<HealthcareSite>(healthcareSites
                         .size());
         for (HealthcareSite healthcareSite : healthcareSites) {
@@ -65,27 +68,43 @@ public class ResearchStaffAjaxFacade {
         	}
         }
         return reducedHealthcareSites;
-
     }
 
-    private final Object getCommandOnly(HttpServletRequest request) throws Exception {
-        HttpSession session = request.getSession(false);
-        if (session == null) {
-            throw new HttpSessionRequiredException(
-                            "Must have session when trying to bind (in session-form mode)");
+    public List<Study> matchStudies(String text) throws Exception {
+
+        List<Study> studies = studyDao.getBySubnames(extractSubnames(text));
+        List<Study> reducedStudies = new ArrayList<Study>(studies.size());
+        for (Study study : studies) {
+        	study.getStudyVersion();
+        	if(study instanceof RemoteStudy){
+        		reducedStudies.add(buildReduced(study, Arrays.asList("id", "shortTitleText",
+        				"identifiers", "externalId")));
+        	}
+        	else {reducedStudies.add(buildReduced(study, Arrays.asList("id", "shortTitleText",
+        			"identifiers")));
+        	}
         }
-        String formAttrName = getFormSessionAttributeName();
-        Object sessionFormObject = session.getAttribute(formAttrName);
-
-        return sessionFormObject;
+        return reducedStudies;
     }
+    
+//    private final Object getCommandOnly(HttpServletRequest request) throws Exception {
+//        HttpSession session = request.getSession(false);
+//        if (session == null) {
+//            throw new HttpSessionRequiredException(
+//                            "Must have session when trying to bind (in session-form mode)");
+//        }
+//        String formAttrName = getFormSessionAttributeName();
+//        Object sessionFormObject = session.getAttribute(formAttrName);
+//
+//        return sessionFormObject;
+//    }
 
     // //// CONFIGURATION
 
-    @Required
-    private String getFormSessionAttributeName() {
-        return "edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController.FORM.command";
-    }
+//    @Required
+//    private String getFormSessionAttributeName() {
+//        return "edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController.FORM.command";
+//    }
 
     private String[] extractSubnames(String text) {
         return text.split("\\s+");
@@ -98,5 +117,13 @@ public class ResearchStaffAjaxFacade {
     public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
         this.healthcareSiteDao = healthcareSiteDao;
     }
+
+	public StudyDao getStudyDao() {
+		return studyDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
 
 }

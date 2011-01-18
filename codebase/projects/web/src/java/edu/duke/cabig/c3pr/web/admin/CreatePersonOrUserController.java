@@ -24,11 +24,13 @@ import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.PersonUserType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.PersonUserDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalPersonUser;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RemotePersonUser;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.domain.repository.PersonUserRepository;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
@@ -36,6 +38,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.RoleBasedHealthcareSitesAndStudiesDTO;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
@@ -52,6 +55,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
     private HealthcareSiteDao healthcareSiteDao ;
     private OrganizationService organizationService;
     private UserDao userDao;
+    private StudyDao studyDao;
     
     public void setOrganizationService(OrganizationService organizationService) {
 		this.organizationService = organizationService;
@@ -102,8 +106,8 @@ public class CreatePersonOrUserController extends SimpleFormController{
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)  throws Exception {
 		super.initBinder(request, binder);
 		binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
-	   binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
-	   binder.registerCustomEditor(C3PRUserGroupType.class, new EnumByNameEditor( C3PRUserGroupType.class));
+	    binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
+	    binder.registerCustomEditor(C3PRUserGroupType.class, new EnumByNameEditor(C3PRUserGroupType.class));
 	}
     
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
@@ -123,31 +127,71 @@ public class CreatePersonOrUserController extends SimpleFormController{
         	}
             
             personUserRepository.initialize(personUser);
-            for(HealthcareSite hcSite : personUser.getHealthcareSites()){
-        		HealthcareSiteRolesHolder object = new HealthcareSiteRolesHolder();
-        		object.setHealthcareSite(hcSite);
-        		wrapper.addHealthcareSiteRolesHolder(object);
-        	}
             gov.nih.nci.security.authorization.domainobjects.User csmUser = personUserRepository.getCSMUser(personUser);
             if(csmUser != null){
             	wrapper.setCreateAsUser(true);
             	wrapper.setUserName(csmUser.getLoginName());
-            	wrapper.setHasAccessToAllSites(personUserRepository.getHasAccessToAllSites(csmUser));
-            	for(HealthcareSiteRolesHolder rolesHolder : wrapper.getHealthcareSiteRolesHolderList()){
-            		rolesHolder.setGroups(personUserRepository.getGroups(csmUser, rolesHolder.getHealthcareSite()));
+            	List<C3PRUserGroupType> preAssignedRolesList = personUserRepository.getGroupsForUser(csmUser);
+            	//adding all the roles, assigned or not, for UI convenience.
+            	RoleBasedHealthcareSitesAndStudiesDTO rolesHolder;
+            	boolean hasAllSiteAccess = false;
+            	boolean hasAllStudyAccess = false;
+            	for(C3PRUserGroupType group: C3PRUserGroupType.values()){
+            		//adding the non assigned roles for UI convenience.
+            		if(!preAssignedRolesList.contains(group)){
+            			rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
+    	             	rolesHolder.setChecked(false);
+            		} else {
+            		//adding the non assigned roles for UI convenience.
+            			hasAllSiteAccess = personUserRepository.getHasAccessToAllSites(csmUser, group);
+            			hasAllStudyAccess = personUserRepository.getHasAccessToAllStudies(csmUser, group);
+            			
+    	             	rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
+    	             	rolesHolder.setChecked(true);
+    	             	rolesHolder.setHasAllSiteAccess(hasAllSiteAccess);
+    	             	//populate csm organizations into the wrapper if user doesn't have all site access
+    	             	if(!hasAllSiteAccess && SecurityUtils.getSiteScopedRoles().contains(group.getCode())){
+    	             		List<String> hcsIds = personUserRepository.getOrganizationIdsForUser(csmUser, group);
+    	             		HealthcareSite healthcareSite = null;
+    	             		for(String hcsId: hcsIds){
+    	             			healthcareSite = healthcareSiteDao.getByCtepCodeFromLocal(hcsId);
+    	             			if(healthcareSite != null){
+    	             				rolesHolder.getSites().add("(" + hcsId + ") " + healthcareSite.getName());
+    	             			}
+    	             		}
+    	             	}
+    	             	
+    	             	rolesHolder.setHasAllStudyAccess(hasAllStudyAccess);
+    	             	//populate studies into the wrapper if user doesn't have all study access
+    	             	if(!hasAllStudyAccess  && SecurityUtils.getStudyScopedRoles().contains(group.getCode())){
+    	             		List<String> studyIds = personUserRepository.getStudyIdsForUser(csmUser, group);
+    	             		Study study = null;
+    	             		for(String studyId: studyIds){
+    	             			study = studyDao.searchByCoordinatingCenterAssignedIdentifier(studyId);
+    	             			if(study != null){
+                     				rolesHolder.getStudies().add("(" + studyId + ") " + study.getShortTitleText());
+    	             			}
+    	             		}
+    	             	}
+            		}
+            		wrapper.addHealthcareSiteRolesHolder(rolesHolder);
             	}
             } else {
             	wrapper.setCreateAsUser(false);
             }
+            //we don't set the staff organizations in the wrapper as they cannot be deleted and hence are only displayed as labels.
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
         } else {
             personUser = new LocalPersonUser();
             personUser.setVersion(Integer.parseInt("1"));
             request.getSession().setAttribute(FLOW, SAVE_FLOW);
-            HealthcareSiteRolesHolder rolesHolder = new HealthcareSiteRolesHolder();
-    		if(wrapper.getHealthcareSiteRolesHolderList().size() == 0){
-    			wrapper.getHealthcareSiteRolesHolderList().add(rolesHolder);
-    		}
+            RoleBasedHealthcareSitesAndStudiesDTO rolesHolder;
+            for(C3PRUserGroupType group: C3PRUserGroupType.values()){
+    			rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
+    			rolesHolder.setGroup(group);
+             	rolesHolder.setChecked(false);
+             	wrapper.addHealthcareSiteRolesHolder(rolesHolder);
+        	}
         }
         wrapper.setPersonUser(personUser);
         return wrapper;
@@ -180,43 +224,22 @@ public class CreatePersonOrUserController extends SimpleFormController{
     	super.onBindAndValidate(request, command, errors);
     	PersonOrUserWrapper wrapper = (PersonOrUserWrapper) command ;
 		PersonUser personUser = wrapper.getPersonUser();
-		List<HealthcareSiteRolesHolder> listAssociation = wrapper.getHealthcareSiteRolesHolderList();
-		if(listAssociation.size() == 0){
+		
+		if(!StringUtils.isBlank(personUser.getAssignedIdentifier()) && 
+				(wrapper.getStaffOrganizationCtepCodes().isEmpty() && personUser.getHealthcareSites().isEmpty())){
 			errors.reject("organization.not.present.error");
 		}
 		
-		if(wrapper.getHasAccessToAllSites()){
-			boolean onlyGlobalRolesSelected = true ;
-			for(HealthcareSiteRolesHolder roleHolder : listAssociation){
-				if(roleHolder != null){
-					for(C3PRUserGroupType group : roleHolder.getGroups()){
-						if(!SecurityUtils.isGlobalRole(group)){
-							onlyGlobalRolesSelected = false ;
-							break ;
-						}
-					}
-					if(!onlyGlobalRolesSelected){
-						break ;
-					}
-				}
-			}
-			if(onlyGlobalRolesSelected){
-				errors.reject("researchstaff.hasAllSiteAccess.noSiteStudySpecificRoleSelected");
-			}
-		}
-
 		boolean noDuplicateOrg = true ;
 		Set<HealthcareSite> hcSites = new HashSet<HealthcareSite> ();
-		for(HealthcareSiteRolesHolder roleHolder : listAssociation){
-			if(roleHolder != null){
-				noDuplicateOrg = hcSites.add(roleHolder.getHealthcareSite());
+		for(HealthcareSite hcs : wrapper.getPersonUser().getHealthcareSites()){
+			if(hcs != null){
+				noDuplicateOrg = hcSites.add(hcs);
 				if(!noDuplicateOrg){
+					errors.reject("organization.already.present.error");	
 					break ;
 				}
 			}
-		}
-		if(!noDuplicateOrg){
-			errors.reject("organization.already.present.error");	
 		}
 		
     	String actionParam = request.getParameter("_action");
@@ -234,6 +257,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
 						wrapper.setPreExistingUsersAssignedId(getPersonUsersAssignedIdentifier(user));
 					}
 				}catch(C3PRNoSuchUserException e){
+					log.error(e.getMessage() + e.getStackTrace());
 				}
 			}
 		}
@@ -380,53 +404,61 @@ public class CreatePersonOrUserController extends SimpleFormController{
 				}
 			} else {
 				//For Non-Remote Staff cases
-				boolean hasAccessToAllSites = wrapper.getHasAccessToAllSites() ;
-
-				List<HealthcareSiteRolesHolder> listAssociation = wrapper.getHealthcareSiteRolesHolderList();
-				Map<HealthcareSite, List<C3PRUserGroupType>> associationMap = new HashMap<HealthcareSite, List<C3PRUserGroupType>>();
-				for(HealthcareSiteRolesHolder associationObject : listAssociation){
-					if(associationObject != null){
-						List<C3PRUserGroupType> groups = associationObject.getGroups();
-						if(groups == null) {
-							groups = new ArrayList<C3PRUserGroupType>();
-						}
-						associationMap.put(associationObject.getHealthcareSite(), groups);
-						if(!personUser.getHealthcareSites().contains(associationObject.getHealthcareSite())){
-							personUser.addHealthcareSite(associationObject.getHealthcareSite());
-						}
+				//add the newly added sites to the hcsList..
+				HealthcareSite healthcareSite;
+				for(String ctepCode: wrapper.getStaffOrganizationCtepCodes()){
+         			if(!StringUtils.isBlank(ctepCode)){
+         				healthcareSite = healthcareSiteDao.getByCtepCodeFromLocal(ctepCode);
+         				wrapper.getPersonUser().getHealthcareSites().add(healthcareSite);
+         			}
+				}
+				
+				List<RoleBasedHealthcareSitesAndStudiesDTO> origListAssociation = wrapper.getHealthcareSiteRolesHolderList();
+				//remove the DTO's that are unchecked and create a new list of checked roles only
+				RoleBasedHealthcareSitesAndStudiesDTO[] backupArray = (RoleBasedHealthcareSitesAndStudiesDTO[])origListAssociation.toArray(new RoleBasedHealthcareSitesAndStudiesDTO[origListAssociation.size()]);
+				for(int i=0; i < origListAssociation.size(); i++){
+					if(!origListAssociation.get(i).getChecked()){
+						backupArray[i] = null;
+					}
+				}
+				
+				List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation = new ArrayList<RoleBasedHealthcareSitesAndStudiesDTO>();
+				for(int j=0; j < backupArray.length; j++){
+					if(backupArray[j] != null){
+						listAssociation.add((RoleBasedHealthcareSitesAndStudiesDTO)backupArray[j]);
 					}
 				}
 				
 				if(StringUtils.equals(flowVar, SAVE_FLOW)){
 		        	if(createAsUser && createAsStaff){
 	        			personUser.setPersonUserType(PersonUserType.STAFF_USER);
-	        			personUser = personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(personUser, username, associationMap, hasAccessToAllSites);
+	        			personUser = personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(personUser, username, listAssociation);
 	        		} else if(createAsUser) {
 	        			personUser.setPersonUserType(PersonUserType.USER);
-	        			personUser = personUserRepository.createOrModifyUserWithoutResearchStaffAndAssignRoles(personUser, username, associationMap, hasAccessToAllSites);
+	        			personUser = personUserRepository.createOrModifyUserWithoutResearchStaffAndAssignRoles(personUser, username, listAssociation);
 		        	} else if(createAsStaff) {
 		        		//if create as research staff and not as user.
 		        		personUser.setPersonUserType(PersonUserType.STAFF);
-	        			personUser = personUserRepository.createOrModifyResearchStaffWithoutUser(personUser, associationMap, hasAccessToAllSites);
+	        			personUser = personUserRepository.createOrModifyResearchStaffWithoutUser(personUser, listAssociation);
 		        	}
 		        } else if (StringUtils.equals(flowVar, SETUP_FLOW)){
 		        	// create research staff, csm user and assign org and provide access to all sites
 		        	personUser.setPersonUserType(PersonUserType.STAFF_USER);
-		        	personUser = personUserRepository.createSuperUser(personUser, username, associationMap);
+		        	personUser = personUserRepository.createSuperUser(personUser, username, listAssociation);
 		        	
 		        } else if(StringUtils.equals(flowVar, EDIT_FLOW)){
 		        	if(createAsUser && createAsStaff){
 		        		// create research staff and csm user and assign roles if provided
 		        		personUser.setPersonUserType(PersonUserType.STAFF_USER);
-	        			personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(personUser, username, associationMap, hasAccessToAllSites);
+	        			personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(personUser, username, listAssociation);
 		        	} else if(createAsUser) {
 		        		//update the user without touching the staff(assigned id needs to be empty).
 	        			//no need to set PersonType as it should already be set
-	        			personUserRepository.createOrModifyUserWithoutResearchStaffAndAssignRoles(personUser, username, associationMap, hasAccessToAllSites);
+	        			personUserRepository.createOrModifyUserWithoutResearchStaffAndAssignRoles(personUser, username, listAssociation);
 		        	} else if(createAsStaff) {
 		        		//update the staff without touching the user.
 		        		//no need to set PersonType as it should already be set
-		        		personUser = personUserRepository.createOrModifyResearchStaffWithoutUser(personUser, associationMap, hasAccessToAllSites);
+		        		personUser = personUserRepository.createOrModifyResearchStaffWithoutUser(personUser, listAssociation);
 		        	}
 		        }
 			}
@@ -485,6 +517,14 @@ public class CreatePersonOrUserController extends SimpleFormController{
 
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
+	}
+
+	public StudyDao getStudyDao() {
+		return studyDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
 	}
 	
 }

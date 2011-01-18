@@ -9,7 +9,7 @@
         <c:when test="${FLOW == 'SETUP_FLOW'}">
         	Setup User
         </c:when>
-        <c:otherwise>Create Person/User</c:otherwise>
+        <c:otherwise>Create Personnel</c:otherwise>
     </c:choose>
 </title>
 <style type= "text/css">
@@ -55,27 +55,20 @@
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
 var contentWin ;
-function handleAllSiteAccess(){
-	if($('allSiteAccessCheckbox').checked){
-		contentWin = new Window({ width:400, height:150 ,className :"alert_lite"}) ;
-		contentWin.setContent('confirmation-allsiteaccess-msg') ;
-		contentWin.showCenter(true);
-	}
-}
 
 function displayRemoteResearchStaff(){
 	var contentWin = new Window({className:"alphacube", destroyOnClose:true, id:"remoteRS-popup-id", width:550,  height:200, top: 30, left: 300});
 	contentWin.setContent( 'display_remote_rs' );
   	contentWin.showCenter(true);
  	popupObserver = {
-			onDestroy: function(eventName, win) {
-				if (win == contentWin) {
-					$('display_remote_rs').style.display='none';
-					contentWin = null;
-					Windows.removeObserver(this);
-				}
+		onDestroy: function(eventName, win) {
+			if (win == contentWin) {
+				$('display_remote_rs').style.display='none';
+				contentWin = null;
+				Windows.removeObserver(this);
 			}
 		}
+	}
  	Windows.addObserver(popupObserver);
 }
 
@@ -84,14 +77,14 @@ function displayPreExistingCsmUser(){
 	contentWin.setContent( 'display_csmUser' );
   	contentWin.showCenter(true);
  	popupObserver = {
-			onDestroy: function(eventName, win) {
-				if (win == contentWin) {
-					$('display_csmUser').style.display='none';
-					contentWin = null;
-					Windows.removeObserver(this);
-				}
+		onDestroy: function(eventName, win) {
+			if (win == contentWin) {
+				$('display_csmUser').style.display='none';
+				contentWin = null;
+				Windows.removeObserver(this);
 			}
 		}
+	}
  	Windows.addObserver(popupObserver);
 }
 
@@ -156,74 +149,90 @@ function copyUsername(){
 	}
 }
 
-var firstHealthcareSiteAutocompleterProps = {
-    basename: "firstHealthcareSite",
-    populator: function(autocompleter, text) {
-			ResearchStaffAjaxFacade.matchHealthcareSites( text,function(values) {
-            autocompleter.setChoices(values)
-        })
-    },
-    valueSelector: function(obj) {
-    	if(obj.externalId != null){
-    		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
-    	} else {
-    		image = '';
-    	}
-    	return (obj.name+" ("+obj.primaryIdentifier+")" + image)
-    },
-    afterUpdateElement: 
-	    function(inputElement, selectedElement, selectedChoice) {
-			hiddenField=inputElement.id.split("-")[0]+"-hidden";
-			$(hiddenField).value=selectedChoice.id;
-		}
+var tableRow = "<tr id='#{trId}'><td>&nbsp;&nbsp;&nbsp;#{selectedChoiceForDisplay}<input type='hidden' id='#{fldName}' name='#{fldName}' value='#{identifier}' /></td><td>#{deleteBtn}</td></tr>";
+var sitesCount = new Array();
+var studiesCount = new Array();
+
+function addSite(el, index){
+	Form.Element.disable('addSite_btn['+index+']');
+	var _selectedSiteForDisplay = $("firstHealthcareSite"+index+"-input").value;
+	var _ctepCode = $(el+".ctepCode").value;
+	var _tableId = el+"-sitesTable";
+	var _sitesFldName = el + '.sites';
+	var _trId = el + '-site-' +_ctepCode;
+	var _deleteBtn = "<a href=\"javascript:removeSite('" + el + "-site-" +_ctepCode + "','" +index+ "');\">"+"<img src=\"<tags:imageUrl name='checkno.gif'/>\"></a>"
+	$(_tableId).down('tr').insert({
+		after: tableRow.interpolate({selectedChoiceForDisplay:_selectedSiteForDisplay, identifier : _ctepCode ,fldName : _sitesFldName, deleteBtn : _deleteBtn, trId : _trId })
+		});
+	sitesCount[index] = sitesCount[index] + 1;
+	
+	$("firstHealthcareSite"+index+"-input").value='';
+	updateRoleSummary(index);
 }
 
-AutocompleterManager.addAutocompleter(firstHealthcareSiteAutocompleterProps);
-
-var healthcareSiteAutocompleterProps = {
-    basename: "healthcareSite",
-    populator: function(autocompleter, text) {
-			ResearchStaffAjaxFacade.matchHealthcareSites( text,function(values) {
-            autocompleter.setChoices(values)
-        })
-    },
-    valueSelector: function(obj) {
-    	if(obj.externalId != null){
-    		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
-    	} else {
-    		image = '';
-    	}
-    	return (obj.name+" ("+obj.primaryIdentifier+")" + image)
-    },
-    afterUpdateElement: 
-	    function(inputElement, selectedElement, selectedChoice) {
-			hiddenField=inputElement.id.split("-")[0]+"-hidden";
-			$(hiddenField).value=selectedChoice.id;
-		}
+function removeSite(el,index){
+	$(el).remove();
+	sitesCount[index] = sitesCount[index] - 1;
+	updateRoleSummary(index);
 }
-AutocompleterManager.addAutocompleter(healthcareSiteAutocompleterProps);
 
-var healthcareSiteRowInserterProps = {
-    add_row_division_id: "associateOrganization", 	        
-    skeleton_row_division_id: "dummy-healthcareSite",
-    initialIndex: ${fn:length(command.personUser.healthcareSites) + 1},
-    softDelete: false,
-    path: "healthcareSites",
-    postProcessRowInsertion: function(object){
-    	statusIndex = object.localIndex;
-		currentRow = object.localIndex;
-        clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
-		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
-		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
-    },
-    onLoadRowInitialize: function(object, currentRowIndex){
-		clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
-		clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
-    }
-};
-RowManager.addRowInseter(healthcareSiteRowInserterProps);
-RowManager.registerRowInserters();
+
+function addStudy(el,index){
+	Form.Element.disable('addStudy_btn['+index+']');
+	var _selectedStudyForDisplay = $("Study"+index+"-input").value;	
+	var _studyId = $(el+".studyId").value;
+	var _tableId = el+"-studiesTable";
+	var _studiesFldName = el + '.studies';
+	var _trId = el + '-study-' +_studyId;
+	var _deleteBtn = "<a href=\"javascript:removeStudy('" + el + "-study-" +_studyId + "','" +index+ "');\">"+"<img src=\"<tags:imageUrl name='checkno.gif'/>\"></a>"
+
+	$(_tableId).down('tr').insert({
+		after: tableRow.interpolate({selectedChoiceForDisplay : _selectedStudyForDisplay, identifier:_studyId, fldName : _studiesFldName, deleteBtn : _deleteBtn, trId : _trId })
+		});
+	studiesCount[index] = studiesCount[index] + 1;
+	
+	$("Study"+index+"-input").value='';
+	updateRoleSummary(index);
+}
+
+function removeStudy(el,index){
+	$(el).remove();
+	studiesCount[index] = studiesCount[index] - 1;
+	updateRoleSummary(index);
+}
+
+function updateRoleSummary(index){
+	if($('healthcareSiteRolesHolderList['+index+'].checked').checked){
+		var nSiteSummary = '';
+		var nStudySummary = '';
+		var nRoleSummary = '';
+		var selectedImg = "&nbsp;&nbsp;&nbsp;&nbsp;<img src='/images/check.png' border='0'>";
+		var eRoleSummary = $('summary-'+index).innerHTML;
+		
+		if(eRoleSummary.blank()){
+			$('summary-'+index).innerHTML = selectedImg;
+			$('membershipDiv-'+index).show();
+		}else{
+			if($('healthcareSiteRolesHolderList['+index+'].allSiteAccess').checked){
+				nSiteSummary = 'All Sites';
+			}else{
+				nSiteSummary = 'Sites('+sitesCount[index]+')';
+			}
+			if($('healthcareSiteRolesHolderList['+index+'].allStudyAccess').checked){
+				nStudySummary = ' | All Studies';
+			}else{
+				nStudySummary = ' | Studies('+studiesCount[index]+')';
+			}
+			nRoleSummary = nSiteSummary+nStudySummary+selectedImg;
+			$('summary-'+index).innerHTML = nRoleSummary;						
+			$('summary-'+index).show();
+			$('membershipDiv-'+index).show();
+		}
+	}else{
+		$('summary-'+index).hide();
+		$('membershipDiv-'+index).hide();
+	}
+} 	
 
 function manageRoleGrouping(role, id, checkbox){
 	if(checkbox.checked){
@@ -248,68 +257,104 @@ function groupRegistrarSpecificRoles(id){
 }
 
 
-
 ValidationManager.submitPostProcess= function(formElement, flag){	
-	//ensuring the checkboxes are disabled during submit as the controller relies on these values for processing
-	//not clean...change in the future
+
 	createAsUser = $('createAsUser');
-	if(createAsUser != null && createAsUser.disabled){
-		createAsUser.disabled='';
-	}
 	createAsStaff = $('createAsStaff');
-	if(createAsStaff != null && createAsStaff.disabled){
-		createAsStaff.disabled='';
-	}
-	if((createAsStaff == null || createAsStaff.checked == false)
-		 && (createAsUser == null || createAsUser.checked == false)){
-		alert("Select Create as Staff or Create as User");
-		return false;
-	}
-	return true;
+	assgndId = $('assignedIdInput')
+	ValidationManager.removeError(createAsUser);
+	ValidationManager.removeError(assgndId);
+	
+	if(flag){
+		//ensuring the checkboxes are disabled during submit as the controller relies on these values for processing
+		//not clean...change in the future.
+		if(createAsUser != null && createAsUser.disabled){
+			createAsUser.disabled='';
+		}
+		if(createAsStaff != null && createAsStaff.disabled){
+			createAsStaff.disabled='';
+		}
+		if((createAsStaff == null || createAsStaff.checked == false)
+			 && (createAsUser == null || createAsUser.checked == false)){
+			ValidationManager.showError(createAsUser, "Select Create as Staff or Create as User")
+			return false;
+		}
+		
+		if(createAsStaff != null && createAsStaff.checked == true){
+			if(assgndId.value == null || assgndId.value == ''){
+				ValidationManager.showError(assgndId, "Enter an Assigned Identifier for the Staff")
+				return false
+			}
+		}
+		return flag;
+	} else {
+		return flag;
+	}	
+	
 }
 
 
 function toggleStaffDisplay(){
 	createAsStaff = $('createAsStaff');
-	staff_details = $('staff_details')
+	orgInfo = $('OrganizationInformation')
+	assignedIdentifier = $('assignedIdentifier')
 	if(createAsStaff != null && createAsStaff.checked == true){
-		new Effect.BlindDown(staff_details);
+		new Effect.BlindDown(orgInfo);
+		new Effect.BlindDown(assignedIdentifier);
 	} else {
-		new Effect.BlindUp(staff_details);
+		new Effect.BlindUp(orgInfo);
+		new Effect.BlindUp(assignedIdentifier);
 	}
 }
 
 function toggleUserDisplay(){
 	var x = document.getElementsByTagName("div")
     createAsUser = $('createAsUser');
-	el = $('global_roles')
-	ell = $('roles')
-	elll = $('username_section')
-	ellll = $('allsite_section')
+	//el = $('OrganizationInformation')
+	ell = $('AccountInformation')
+	//elll = $('username_section')
 	if(createAsUser != null && createAsUser.checked == true){
 		//display user sections
-		new Effect.BlindDown(el);
+		//new Effect.BlindDown(el);
 		new Effect.BlindDown(ell);
-		new Effect.BlindDown(elll);
-		new Effect.BlindDown(ellll);
+		//new Effect.BlindDown(elll);
 		for(var i=0; i<x.length; i++){
 		    if(x[i].className=="addedRoles"){
-		    	//x[i].style.display=="none" ? new Effect.BlindDown(x[i]):new Effect.BlindUp(x[i]);
 		    	new Effect.BlindDown(x[i]); 
 			}
 	    }
 	} else {
 		//hide user sections
-		new Effect.BlindUp(el);
+		//new Effect.BlindUp(el);
 		new Effect.BlindUp(ell);
-		new Effect.BlindUp(elll);
-		new Effect.BlindUp(ellll);
+		//new Effect.BlindUp(elll);
 		for(var i=0; i<x.length; i++){
 		    if(x[i].className=="addedRoles"){
-		    	//x[i].style.display=="none" ? new Effect.BlindDown(x[i]):new Effect.BlindUp(x[i]); 
 		    	new Effect.BlindUp(x[i])
 			}
 	    }
+	}
+}
+
+function toggleUserOrgAutocompleter(index){
+	el = $('userOrgAutocompleter'+index)
+	allSiteChkbox = $('allSiteAccess'+index)
+	if(allSiteChkbox.checked == true){
+		//display user sections
+		new Effect.BlindUp(el);
+	} else {
+		new Effect.BlindDown(el);
+	}
+}
+
+function toggleUserStudyAutocompleter(index){
+	el = $('userStudyAutocompleter'+index)
+	allStudyChkbox = $('allStudyAccess'+index)
+	if(allStudyChkbox.checked == true){
+		//display user sections
+		new Effect.BlindUp(el);
+	} else {
+		new Effect.BlindDown(el);
 	}
 }
 </script>
@@ -356,6 +401,14 @@ function toggleUserDisplay(){
             	<tags:researchStaffInput commandClass="${command.personUser.class}" cssClass="required validate-notEmpty" path="personUser.lastName" size="30" value="${command.personUser.lastName}"></tags:researchStaffInput>
 	        </div>
 	        <div class="row">
+	            <div class="label"><fmt:message key="c3pr.common.middleName"/></div>
+	            <tags:researchStaffInput commandClass="${command.personUser.class}"  path="personUser.middleName" size="30" value="${command.personUser.middleName}"></tags:researchStaffInput>
+	        </div>
+			<div class="row">
+	            <div class="label"><fmt:message key="c3pr.common.maidenName"/></div>
+	            <tags:researchStaffInput commandClass="${command.personUser.class}"  path="personUser.maidenName" size="30" value="${command.personUser.maidenName}"></tags:researchStaffInput>
+			</div>
+	        <div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" /></div>
 				<tags:researchStaffInput id="email" commandClass="${command.personUser.class}" cssClass="required validate-notEmpty&&EMAIL" path="personUser.email" size="30" value="${command.personUser.email}" onkeyup="copyUsername();"></tags:researchStaffInput>
 	       	</div>
@@ -365,10 +418,20 @@ function toggleUserDisplay(){
 	            <div class="label"><fmt:message key="c3pr.common.phone" /></div>
 	            <tags:researchStaffInput commandClass="${command.personUser.class}" cssClass="validate-US_PHONE_NO" path="personUser.phone" size="25" value="${command.personUser.phone}"></tags:researchStaffInput>
 	        </div>
+	        <div class="row">
+	            <div class="label"><fmt:message key="c3pr.common.fax" /></div>
+	             <tags:researchStaffInput commandClass="${command.personUser.class}" cssClass="validate-US_PHONE_NO" path="personUser.fax" size="25" value="${command.personUser.fax}"></tags:researchStaffInput>
+	        </div>
+	        
 	        <c:set var="staffdisplay" value="display:none"/>
 	        <c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
 	        	<c:set var="staffdisplay" value="display"/>
 	        </c3pr:checkprivilege>
+	        <div class="row" style="${staffdisplay}" id="assignedIdentifier">
+	   	        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
+		        <tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
+		    </div>
+		    
         	 <div class="row" style="${staffdisplay}">
 	            <div class="label"><fmt:message key="researchstaff.createAsStaff" /></div>
 	            <c:if test="${FLOW == 'SAVE_FLOW'}">
@@ -397,270 +460,393 @@ function toggleUserDisplay(){
 	    <div class="division"></div>
 </chrome:box>
 
-<c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
-	<chrome:box title="Research Staff Details" htmlContent="${imageStr}" id="staff_details">
-		<chrome:flashMessage />
-		<tags:tabFields tab="${tab}" />
-	
-		<c:set var="noHealthcareSiteAssociated" value="${fn:length(command.personUser.healthcareSites) == 0}"></c:set>
-		<tags:instructions code="research_staff_details" />
-	    <div class="leftpanel">
+<div id="OrganizationInformation">
+	<c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
+		<chrome:box title="Associated Organizations"  id="organization_details">
+			<chrome:flashMessage />
 			<div class="row">
-	            <div class="label"><fmt:message key="c3pr.common.middleName"/></div>
-	            <tags:researchStaffInput commandClass="${command.personUser.class}"  path="personUser.middleName" size="25" value="${command.personUser.middleName}"></tags:researchStaffInput>
-	        </div>
-			<div class="row">
-	            <div class="label"><fmt:message key="c3pr.common.maidenName"/></div>
-	            <tags:researchStaffInput commandClass="${command.personUser.class}"  path="personUser.maidenName" size="25" value="${command.personUser.maidenName}"></tags:researchStaffInput>
-			</div>
-		</div>
-	    <div class="rightpanel">
-	    	<div class="row">
-	   	        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
-		        <tags:researchStaffInput commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
-		    </div>
-	        <div class="row">
-	            <div class="label"><fmt:message key="c3pr.common.fax" /></div>
-	             <tags:researchStaffInput commandClass="${command.personUser.class}" cssClass="validate-US_PHONE_NO" path="personUser.fax" size="25" value="${command.personUser.fax}"></tags:researchStaffInput>
-	        </div>
-	    </div>
-	    <div class="division"></div>
-	</chrome:box>
-</c3pr:checkprivilege>
-
-<chrome:box title="Account Information" >
-<tags:instructions code="research_staff_account_information" />
-<c:choose>
-<c:when test="${FLOW=='SETUP_FLOW'}">
-	<div class="row">
-		<div class="label"><fmt:message key="c3pr.common.username"/></div>
-        <div class="value">
-        	<c:choose>
-        		<c:when test="${!empty errorPassword}">
-        			${command.userName}
-        		</c:when>
-        		<c:otherwise>
-        			<form:input id="loginId" size="20" path="userName" cssClass="MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
-        			<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
-        			<input id="copiedEmailAddress" type="hidden"/>
-        		</c:otherwise>	
-        	</c:choose>
-        </div>
-    </div>
-    <div class="row">
-	  <div class="label"><tags:requiredIndicator /><spring:message code="changepassword.password"/></div>
-	  <div class="value">
-	    <input type="password" name="password" class="required validate-notEmpty" autocomplete="off"/>
-	    <br> 
-	    <font color="red" style="font-style: italic;">
-	    <spring:message code="changepassword.password.requirement"/></font>
-	  </div>
-	</div>
-	<div class="row">
-	  <div class="label"><tags:requiredIndicator /><spring:message code="changepassword.password.confirm"/></div>
-	  <div class="value">
-	    <input type="password" name="confirmPassword" class="required validate-notEmpty" autocomplete="off"/>
-	  </div>
-	</div>
-	<c:if test="${!empty errorPassword}">
-		<input type="hidden" name="errorPassword" value="true"/>
-	</c:if>
-</c:when>
-<c:when test="${isLoggedInUser}">
-	<div class="row">
-        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
-        <div class="value">${command.userName}</div>
-    </div>
-</c:when>
-<c:otherwise>
-	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
-	<div class="row" id="username_section">
-        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
-        <div class="value">
-        	<c:choose>
-        	<c:when test="${empty command.userName || duplicateUser}">
-	        		<form:input id="loginId" size="20" path="userName" cssClass="MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
-	        		<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
-	        		<input id="copiedEmailAddress" type="hidden"/>
-	        		<input type="hidden" name="_createUser" value="true">
-        	</c:when>
-        	<c:otherwise>${command.userName}</c:otherwise>
-        	</c:choose>
-        </div>
-    </div>
-    </c3pr:checkprivilege>
-</c:otherwise>
-</c:choose>
-
-<c:if test="${FLOW != 'SETUP_FLOW'}">
-<c3pr:checkprivilege hasPrivileges="USER_CREATE">
-<div class="row" id="allsite_section">
-    <div class="label"><fmt:message key="researchStaff.siteAccess"/></div>
-    <div class="value">
-    	<form:checkbox id="allSiteAccessCheckbox" path="hasAccessToAllSites" onclick="handleAllSiteAccess();"/><tags:hoverHint keyProp="researchStaff.accessToAllSites"></tags:hoverHint>
-    </div>
-</div>
-<br>
-</c3pr:checkprivilege>
-</c:if>
-<chrome:division title="Associated Organizations" cssClass="big">
-	<c:if test="${FLOW != 'SETUP_FLOW'}">
-	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
-	<chrome:division title="Global Roles" cssClass="indented" insertHelp="true" insertHelpKeyProp="researchStaff.globalRoles" id="global_roles">
-		<table>
-			<tr>
-			<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
-				<td>
-				<c:if test="${roleStatus.index % 3 == 0}">
-					</td></tr><tr><td>						
-				</c:if>
-				<div class="newLabel"> 
+				<div class="orgLabel">
+					<tags:requiredIndicator /><fmt:message key="c3pr.common.organization"></fmt:message>
+				</div>
+				<div class="orgValue">
 					<c:choose>
-						<c:when test="${isLoggedInUser}">
-				        	<c:choose>
-				        		<c:when test="${c3pr:contains(command.healthcareSiteRolesHolderList[0].groups, globalRole)}">
-				        			<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-				        		</c:when>
-				        		<c:otherwise>
-				        			<img src="<tags:imageUrl name='checkno.gif'/>"/>
-				        		</c:otherwise>
-				        	</c:choose>
+	 					<c:when test="${c3pr:hasAllSiteAccess('UI_PERSONUSER_CREATE') || c3pr:hasAllSiteAccess('UI_RESEARCHSTAFF_CREATE')}">
+							<tags:autocompleter name="selectedOrganizationForDisplay" size="40" displayValue="${command.selectedOrganizationForDisplay}" 
+									value="${command.selectedOrganizationForDisplay}" basename="organization" ></tags:autocompleter>		
+							<script>
+	 							var organizationAutocompleterProps = {
+	 							    basename: "organization",
+	 							    populator: function(autocompleter, text) {
+	 										ResearchStaffAjaxFacade.matchHealthcareSites(text,function(values) {
+	 							            autocompleter.setChoices(values)
+	 							        })
+	 							    },
+	 							    valueSelector: function(obj) {
+	 							    	if(obj.externalId != null){
+	 							    		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="NCI" width="17" height="16" border="0" align="middle"/>';
+	 							    	} else {
+	 							    		image = '';
+	 							    	}
+	 							    	return (obj.name+" ("+obj.primaryIdentifier+")" + image)
+	 							    },
+	 							    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+	 							    	var _fieldHelper = 'organization';
+	 							    	inputElement.value = " ("+selectedChoice.ctepCode+") "	+ selectedChoice.name ;
+	 									$('ctepCode').value = selectedChoice.ctepCode;
+	 									Form.Element.enable($('addSite_btn'));
+	 									
+	 									hiddenField=inputElement.id.split("-")[0]+"-hidden";
+	 									$(hiddenField).value=selectedChoice.id;
+	 								}
+	 							}
+	 							AutocompleterManager.addAutocompleter(organizationAutocompleterProps);
+
+	 							var orgTableRow = "<tr id='#{trId}'><td>&nbsp;&nbsp;&nbsp;#{selectedChoiceForDisplay}<input type='hidden' id='#{fldName}' name='#{fldName}' value='#{identifier}' /></td><td>#{deleteBtn}</td></tr>";
+	 							function addSiteForStaff(){
+	 								Form.Element.disable('addSite_btn');
+	 								var _selectedSiteForDisplay = $("organization-input").value;
+	 								var _ctepCode = $("ctepCode").value;
+	 								var _tableId = "organization-sitesTable";
+	 								var _sitesFldName = 'staffOrganizationCtepCodes';
+	 								var _trId = 'organization-site-' +_ctepCode;
+	 								var _deleteBtn = "<a href=\"javascript:removeSiteForStaff('" + "organization-site-" +_ctepCode + "');\">"+"<img src=\"<tags:imageUrl name='checkno.gif'/>\"></a>"
+	 								$(_tableId).down('tr').insert({
+	 									after: orgTableRow.interpolate({selectedChoiceForDisplay:_selectedSiteForDisplay, identifier : _ctepCode ,fldName : _sitesFldName, deleteBtn : _deleteBtn, trId : _trId })
+	 									});
+	 								
+	 								$("organization-input").value='';
+	 							}
+	 							function removeSiteForStaff(el){
+	 								$(el).remove();
+	 							}
+	 						</script>												
 						</c:when>
-						<c:otherwise>
-							<form:checkbox id="global-role-${globalRole.name}" path="healthcareSiteRolesHolderList[0].groups" value="${globalRole.name}"/>
+						<c:otherwise><!-- This section is probably redundant as only POMgr can create staff and they have all site access in C3PR -->
+							<select name="selectedOrganizationForDisplay" class="required validate-notEmpty" style="width: 350px;">
+								<tags:userOrgOptions/>
+							</select>
 						</c:otherwise>
 					</c:choose>
+					<form:hidden path="ctepCode" id="ctepCode"/>
+					<tags:button id="addSite_btn" type="button" color="blue" value="Add" icon="add" onclick="addSiteForStaff()" size="small" disabled="true"/>
 				</div>
-				<div class="newValue">
-					${globalRole.displayName}
-				</div>
-				</td>
-	    	</c:forEach>
-		 </tr>
-		</table>
-	</chrome:division>
-	</c3pr:checkprivilege>
-	</c:if>
-	<table id="associateOrganization" width="100%" border="0">
-	<tr></tr>
-    <c:forEach items="${command.healthcareSiteRolesHolderList}" var="healthcareSiteRolesHolder"  varStatus="status">
-    <tr id="healthcareSite-${status}">
-	    <td>
-		<chrome:deletableDivision divTitle="genericTitle-${status.index}" id="genericHealthcareSiteBox-${status.index}" cssClass="indented"
-	    	title="${command.healthcareSiteRolesHolderList[status.index].healthcareSite.name} (${command.healthcareSiteRolesHolderList[status.index].healthcareSite.primaryIdentifier })" 
-	    	minimize="${FLOW != 'EDIT_FLOW'?'false':'true'}" divIdToBeMinimized="hcs-${status.index}" disableDelete="true"
-		    onclick="#">
-		    <div id="hcs-${status.index}" style="${FLOW != 'EDIT_FLOW'?'display':'display:none'}">
-			<c:if test="${fn:length(command.personUser.healthcareSites) == 0 && fn:length(command.healthcareSiteRolesHolderList) == 1}">
-				<c3pr:checkprivilege hasPrivileges="UI_PERSONUSER_CREATE">
-		    	<div class="row">
- 					<div class="orgLabel">
- 						<tags:requiredIndicator /><fmt:message key="c3pr.common.organization"></fmt:message>
-	 				</div>
-	 				<div class="orgValue">
-	 					<c:choose>
-		 					<c:when test="${c3pr:hasAllSiteAccess('UI_PERSONUSER_CREATE') || c3pr:hasAllSiteAccess('USER_CREATE')}">
-								<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="firstHealthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>							
-							</c:when>
-							<c:otherwise>
-								<select name="healthcareSiteRolesHolderList[0].healthcareSite" class="required validate-notEmpty" style="width: 350px;">
-									<tags:userOrgOptions/>
-								</select>
-							</c:otherwise>
-	 					</c:choose>
-	 				</div>
- 				</div>
- 				</c3pr:checkprivilege>
- 				<c:if test="${FLOW == 'SETUP_FLOW'}">
-	 				<div class="row">
-	 					<div class="orgLabel">
-	 						<tags:requiredIndicator /><fmt:message key="c3pr.common.organization"></fmt:message>
-		 				</div>
-		 				<div class="orgValue">
-		 					<tags:autocompleter name="healthcareSiteRolesHolderList[0].healthcareSite" size="40" displayValue="${command.healthcareSiteRolesHolderList[0].healthcareSite.name}" value="${command.healthcareSiteRolesHolderList[0].healthcareSite.id}" basename="firstHealthcareSite" cssClass="validate-notEmpty"></tags:autocompleter>
-		 				</div>
-	 				</div>
- 				</c:if>
-		    </c:if>
-		    <c:choose>
-		    	<c:when test="${FLOW=='SETUP_FLOW'}">
-				 	<div class="row">
-			        	<div class="label">
-			                <fmt:message key="c3pr.common.c3prAdmin"></fmt:message>
-				        </div>
-				        <div class="value">
-				        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-				       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
-								<input type="hidden" id="hcs-${status.index}-role-${role.name}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}"  />
-					    	</c:forEach>
-					    	<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
-								<input type="hidden" id="global-role-${globalRole.name}" name="healthcareSiteRolesHolderList[${status.index}].groups" value="${globalRole.name}" />
-							</c:forEach>
-				        </div>
-			    	</div>
-		    	</c:when>
-		    	<c:otherwise>
-		    		<c3pr:checkprivilege hasPrivileges="USER_CREATE">
-		    		<div id="roles">
-			    	<table>
-					<tr>
-					<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
-						<td>
-						<c:if test="${roleStatus.index % 3 == 0}">
-							</td></tr><tr><td>						
-						</c:if>
-						<div class="newLabel"> 
-							<c:choose>
-								<c:when test="${isLoggedInUser}">
-						        	<c:choose>
-						        		<c:when test="${c3pr:contains(healthcareSiteRolesHolder.groups, role)}">
-						        			<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-						        		</c:when>
-						        		<c:otherwise>
-						        			<img src="<tags:imageUrl name='checkno.gif'/>"/>
-						        		</c:otherwise>
-						        	</c:choose>
-								</c:when>
-								<c:otherwise>
-									<form:checkbox id="hcs-${status.index}-role-${role.name}" path="healthcareSiteRolesHolderList[${status.index}].groups" value="${role.name}" onclick="manageRoleGrouping('${role.name}', ${status.index}, this);"/>
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<div class="newValue">
-							${role.displayName}
-						</div>
-						</td>
-			    	</c:forEach>
-			    	</tr>
-			    	</table>
-			    	</div>
-			    	</c3pr:checkprivilege>
-		    	</c:otherwise>
-		    </c:choose>
+				<div class="orgValue">
+				<table id="organization-sitesTable">
+					<tbody>
+						<tr style="display:none;">
+							<td> </td>
+							<td> </td>
+						</tr>
+						<c:forEach var="site" items="${command.personUser.healthcareSites}" varStatus="siteIndex">
+							<tr id="organization-site-${siteIndex.index}">
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;(${site.ctepCode})&nbsp;${site.name}</td>
+								<td><a href="javascript:removeSite('organization-site-${siteIndex.index}');"></a></td>
+							</tr>	
+						</c:forEach>
+					</tbody>	
+				</table>
 			</div>
-		</chrome:deletableDivision>
-		</td>
-		</tr>
-	</c:forEach>
-	</table>
-</chrome:division>
-<c3pr:checkprivilege hasPrivileges="UI_PERSONUSER_CREATE">
-	<br>
-	<hr />
-	<div align="right">
-		<c:if test="${!isLoggedInUser}">
-			<tags:button id="associateOrganizationBtn" size="small" type="button" color="blue" icon="add" value="Add organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
-		</c:if>
-	</div>
-</c3pr:checkprivilege>
-<c:if test="${FLOW == 'SETUP_FLOW'}">
-	<br>
-	<hr />
-	<div align="right">
-		<tags:button id="associateOrganizationBtn" size="small" type="button" color="blue" icon="add" value="Associate organization" onclick="$('dummy-healthcareSite').innerHTML=$('genericHtml').innerHTML;RowManager.addRow(healthcareSiteRowInserterProps)" />
-	</div>
-</c:if>
-</chrome:box>
+			</div>
+		</chrome:box>
+	</c3pr:checkprivilege>
+</div>	
+
+<div id="AccountInformation">
+	<chrome:box title="Account Information" >
+		<tags:instructions code="research_staff_account_information" />
+		<c:choose>
+			<c:when test="${FLOW=='SETUP_FLOW'}">
+				<div class="row">
+					<div class="label"><fmt:message key="c3pr.common.username"/></div>
+			        <div class="value">
+			        	<c:choose>
+			        		<c:when test="${!empty errorPassword}">
+			        			${command.userName}
+			        		</c:when>
+			        		<c:otherwise>
+			        			<form:input id="loginId" size="20" path="userName" cssClass="MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+			        			<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
+			        			<input id="copiedEmailAddress" type="hidden"/>
+			        		</c:otherwise>	
+			        	</c:choose>
+			        </div>
+			    </div>
+			    <div class="row">
+				  <div class="label"><tags:requiredIndicator /><spring:message code="changepassword.password"/></div>
+				  <div class="value">
+				    <input type="password" name="password" class="required validate-notEmpty" autocomplete="off"/>
+				    <br> 
+				    <font color="red" style="font-style: italic;">
+				    <spring:message code="changepassword.password.requirement"/></font>
+				  </div>
+				</div>
+				<div class="row">
+				  <div class="label"><tags:requiredIndicator /><spring:message code="changepassword.password.confirm"/></div>
+				  <div class="value">
+				    <input type="password" name="confirmPassword" class="required validate-notEmpty" autocomplete="off"/>
+				  </div>
+				</div>
+				<c:if test="${!empty errorPassword}">
+					<input type="hidden" name="errorPassword" value="true"/>
+				</c:if>
+			</c:when>
+			<c:when test="${isLoggedInUser}">
+				<div class="row">
+			        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
+			        <div class="value">${command.userName}</div>
+			    </div>
+			</c:when>
+			<c:otherwise>
+				<c3pr:checkprivilege hasPrivileges="USER_CREATE">
+				<div class="row" id="username_section">
+			        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
+			        <div class="value">
+			        	<c:choose>
+			        	<c:when test="${empty command.userName || duplicateUser}">
+				        		<form:input id="loginId" size="20" path="userName" cssClass="MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+				        		<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
+				        		<input id="copiedEmailAddress" type="hidden"/>
+				        		<input type="hidden" name="_createUser" value="true">
+			        	</c:when>
+			        	<c:otherwise>${command.userName}</c:otherwise>
+			        	</c:choose>
+			        </div>
+			    </div>
+			    </c3pr:checkprivilege>
+			</c:otherwise>
+		</c:choose>
+		<br/>
+		<c:forEach items="${command.healthcareSiteRolesHolderList}" var="healthcareSiteRolesHolder"  varStatus="status">
+			<chrome:deletableDivision divTitle="genericTitle-${status.index}" id="genericHealthcareSiteBox-${status.index}" cssClass="indented"
+		    	title="${command.healthcareSiteRolesHolderList[status.index].group.displayName}" 
+		    	minimize="true" divIdToBeMinimized="hcs-${status.index}" disableDelete="true" onclick="#">
+			    
+			    <div id="hcs-${status.index}" style="display:none">
+				    <c:choose>
+				    	<c:when test="${FLOW=='SETUP_FLOW'}">
+						 	<div class="row">
+					        	<div class="label">
+					                <fmt:message key="c3pr.common.c3prAdmin"></fmt:message>
+						        </div>
+						        <div class="value">
+						        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
+						       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
+										<input type="hidden" id="hcs-${status.index}-role-${role.name}" name="healthcareSiteRolesHolderList[${status.index}].group" value="${role.name}"  />
+							    	</c:forEach>
+							    	<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
+										<input type="hidden" id="global-role-${globalRole.name}" name="healthcareSiteRolesHolderList[${status.index}].group" value="${globalRole.name}" />
+									</c:forEach>
+						        </div>
+					    	</div>
+				    	</c:when>
+				    	<c:otherwise>
+				    		<c3pr:checkprivilege hasPrivileges="USER_CREATE">
+				    		<div class="row" style="${userdisplay}">
+					            <form:checkbox id="grantRole" path="healthcareSiteRolesHolderList[${status.index}].checked" />&nbsp;
+   					            <fmt:message key="researchstaff.grantRole" />
+					        </div><br/>
+					        
+					        <c:set var="siteRoles" value="${c3pr:getSiteScopedRoles()}" />
+					        <c:choose>
+					        	<c:when test="${c3pr:contains(siteRoles, healthcareSiteRolesHolder.group.code)}">
+					        		<c:set var="orgDisplaySetting" value="" />
+					        	</c:when>
+					        	<c:otherwise>
+					        		<c:set var="orgDisplaySetting" value="display:none" />
+					        	</c:otherwise>
+					        </c:choose>
+				    		<div id="orgDisplay" style="${orgDisplaySetting}">
+						    	<!-- the site and study auto-completer go here  -->
+						    	<c3pr:checkprivilege hasPrivileges="UI_PERSONUSER_CREATE">
+						    		<div class="row">
+							            <form:checkbox id="allSiteAccess${status.index}" path="healthcareSiteRolesHolderList[${status.index}].hasAllSiteAccess" onchange="toggleUserOrgAutocompleter('${status.index}')"/>&nbsp;
+		   					            <fmt:message key="researchStaff.allSiteAccess" />
+							        </div>
+							    	<div class="row" id="userOrgAutocompleter${status.index}">
+					 					<div class="orgLabel">
+					 						<tags:requiredIndicator /><fmt:message key="c3pr.common.organization"></fmt:message>
+						 				</div>
+						 				<div class="orgValue">
+						 					<c:choose>
+							 					<c:when test="${c3pr:hasAllSiteAccess('UI_PERSONUSER_CREATE') || c3pr:hasAllSiteAccess('USER_CREATE')}">
+							 						
+													<tags:autocompleter name="healthcareSiteRolesHolderList[${status.index}].selectedSiteForDisplay" size="40" displayValue="${command.healthcareSiteRolesHolderList[status.index].selectedSiteForDisplay}" 
+															value="${command.healthcareSiteRolesHolderList[0].selectedSiteForDisplay}" basename="firstHealthcareSite${status.index}" ></tags:autocompleter>		
+													<script>
+							 							var firstHealthcareSite${status.index}AutocompleterProps = {
+							 							    basename: "firstHealthcareSite${status.index}",
+							 							    populator: function(autocompleter, text) {
+							 										ResearchStaffAjaxFacade.matchHealthcareSites(text,function(values) {
+							 							            autocompleter.setChoices(values)
+							 							        })
+							 							    },
+							 							    valueSelector: function(obj) {
+							 							    	if(obj.externalId != null){
+							 							    		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>';
+							 							    	} else {
+							 							    		image = '';
+							 							    	}
+							 							    	return (obj.name+" ("+obj.ctepCode+")" + image)
+							 							    },
+							 							    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+							 							    	var _fieldHelper = 'healthcareSiteRolesHolderList[' + inputElement.id.substring(19, inputElement.id.indexOf('-')) + ']';
+							 							    	inputElement.value = " ("+selectedChoice.ctepCode+") "	+ selectedChoice.name ;
+							 									$(_fieldHelper + '.ctepCode').value = selectedChoice.ctepCode;
+							 									Form.Element.enable($('addSite_btn[${status.index}]'));
+							 									
+							 									hiddenField=inputElement.id.split("-")[0]+"-hidden";
+							 									$(hiddenField).value=selectedChoice.id;
+							 								}
+							 							}
+							 							AutocompleterManager.addAutocompleter(firstHealthcareSite${status.index}AutocompleterProps);
+							 						</script>												
+												</c:when>
+												<c:otherwise>
+													<select name="healthcareSiteRolesHolderList[${status.index}].selectedSiteForDisplay" class="required validate-notEmpty" style="width: 350px;">
+														<tags:userOrgOptions/>
+													</select>
+												</c:otherwise>
+						 					</c:choose>
+											<form:hidden path="healthcareSiteRolesHolderList[${status.index}].ctepCode" id="healthcareSiteRolesHolderList[${status.index}].ctepCode"/>
+											<tags:button id="addSite_btn[${status.index}]" type="button" color="blue" value="Add" icon="add" onclick="addSite('healthcareSiteRolesHolderList[${status.index}]', '${status.index}')" size="small" disabled="true"/>
+						 				</div>
+						 				<div class="orgValue">
+											<script>sitesCount[${status.index}] = ${fn:length(healthcareSiteRolesHolder.sites)};</script>
+											<table id="healthcareSiteRolesHolderList[${status.index}]-sitesTable">
+												<tbody>
+													<tr style="display:none;">
+														<td> </td>
+														<td> </td>
+													</tr>
+													<c:forEach var="site" items="${healthcareSiteRolesHolder.sites}" varStatus="siteIndex">
+														<c:set var="startIndex" value="${fn:indexOf(site, '(')}" />
+														<c:set var="endIndex" value="${fn:indexOf(site, ')')}" />
+														<c:set var="siteCtepCode" value="${fn:substring(site, startIndex + 1, endIndex)}" />
+														<tr id="healthcareSiteRolesHolderList[${status.index}]-site-${siteIndex.index}">
+															<td>&nbsp;&nbsp;&nbsp;&nbsp;${site}
+																<input type='hidden' id='healthcareSiteRolesHolderList[${status.index}].sites' 
+																	   name='healthcareSiteRolesHolderList[${status.index}].sites' value='${siteCtepCode}' />
+															</td>
+															<td><a href="javascript:removeSite('healthcareSiteRolesHolderList[${status.index}]-site-${siteIndex.index}','${status.index}');">
+																<img src="<tags:imageUrl name="checkno.gif"/>"></a>
+															</td>
+														</tr>	
+													</c:forEach>
+												</tbody>	
+											</table>
+										</div>
+					 				</div>
+				 				</c3pr:checkprivilege>
+					    	</div>
+					    	<!-- end of orgDisplay div -->
+					    	
+					    	<!-- start of studyDisplay -->
+					    	<c:set var="studyRoles" value="${c3pr:getStudyScopedRoles()}" />
+					        <c:choose>
+					        	<c:when test="${c3pr:contains(studyRoles, healthcareSiteRolesHolder.group.code)}">
+					        		<c:set var="studyDisplaySetting" value="" />
+					        	</c:when>
+					        	<c:otherwise>
+					        		<c:set var="studyDisplaySetting" value="display:none" />
+					        	</c:otherwise>
+					        </c:choose>
+					        
+			    			<div id="studyDisplay" style="${studyDisplaySetting}">
+						    	<c3pr:checkprivilege hasPrivileges="UI_PERSONUSER_CREATE">
+						    		<div class="row">
+							            <form:checkbox id="allStudyAccess${status.index}" path="healthcareSiteRolesHolderList[${status.index}].hasAllStudyAccess" onchange="toggleUserStudyAutocompleter('${status.index}')"/>&nbsp;
+		   					            <fmt:message key="researchStaff.allStudyAccess" />
+							        </div>
+							    	<div class="row" id="userStudyAutocompleter${status.index}">
+					 					<div class="orgLabel">
+					 						<tags:requiredIndicator /><fmt:message key="c3pr.common.study"></fmt:message>
+						 				</div>
+						 				<div class="orgValue">
+						 					<c:choose>
+							 					<c:when test="${c3pr:hasAllStudyAccess('UI_PERSONUSER_CREATE') || c3pr:hasAllStudyAccess('USER_CREATE')}">
+							 						
+													<tags:autocompleter name="healthcareSiteRolesHolderList[${status.index}].selectedStudyForDisplay" size="40" displayValue="${command.healthcareSiteRolesHolderList[status.index].selectedStudyForDisplay}" 
+															value="${command.healthcareSiteRolesHolderList[status.index].selectedStudyForDisplay}" basename="Study${status.index}" ></tags:autocompleter>		
+													<script>
+							 							var Study${status.index}AutocompleterProps = {
+							 							    basename: "Study${status.index}",
+							 							    populator: function(autocompleter, text) {
+							 										ResearchStaffAjaxFacade.matchStudies(text,function(values) {
+							 							            autocompleter.setChoices(values)
+							 							        })
+							 							    },
+							 							    valueSelector: function(obj) {
+							 							    	if(obj.externalId != null){
+							 							    		image = '&nbsp;<img src="<chrome:imageUrl name="nci_icon.png"/>" alt="NCI" width="17" height="16" border="0" align="middle"/>';
+							 							    	} else {
+							 							    		image = '';
+							 							    	}
+							 							    	return (obj.shortTitleText+" ("+obj.primaryIdentifier+")" + image)
+							 							    },
+							 							    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+							 							    	var _fieldHelper = 'healthcareSiteRolesHolderList[' + inputElement.id.substring(5, inputElement.id.indexOf('-')) + ']';
+							 							    	inputElement.value = " ("+selectedChoice.primaryIdentifier+") "	+ selectedChoice.shortTitleText;
+							 									$(_fieldHelper + '.studyId').value = selectedChoice.primaryIdentifier;
+							 									Form.Element.enable($('addStudy_btn[${status.index}]'));
+							 									
+							 									hiddenField=inputElement.id.split("-")[0]+"-hidden";
+							 									$(hiddenField).value=selectedChoice.id;
+							 								}
+							 							}
+							 							AutocompleterManager.addAutocompleter(Study${status.index}AutocompleterProps);
+							 						</script>												
+												</c:when>
+												<c:otherwise>
+													<select name="healthcareSiteRolesHolderList[${status.index}].selectedStudyForDisplay" class="required validate-notEmpty" style="width: 350px;">
+														<tags:userOrgOptions/>
+													</select>
+												</c:otherwise>
+						 					</c:choose>
+											<form:hidden path="healthcareSiteRolesHolderList[${status.index}].studyId" id="healthcareSiteRolesHolderList[${status.index}].studyId"/>
+											<tags:button id="addStudy_btn[${status.index}]" type="button" color="blue" value="Add" icon="add" onclick="addStudy('healthcareSiteRolesHolderList[${status.index}]', '${status.index}')" size="small" disabled="true"/>
+						 				</div>
+						 				<div class="orgValue">
+											<script>studiesCount[${status.index}] = ${fn:length(healthcareSiteRolesHolder.studies)};</script>
+											<table id="healthcareSiteRolesHolderList[${status.index}]-studiesTable">
+												<tbody>
+													<tr style="display:none;">
+														<td> </td>
+														<td> </td>
+													</tr>
+													<c:forEach var="study" items="${healthcareSiteRolesHolder.studies}" varStatus="studyIndex">
+														<c:set var="startIndex" value="${fn:indexOf(study, '(')}" />
+														<c:set var="endIndex" value="${fn:indexOf(study, ')')}" />
+														<c:set var="studyIdentifier" value="${fn:substring(study, startIndex + 1, endIndex)}" />
+														<tr id="healthcareSiteRolesHolderList[${status.index}]-study-${studyIndex.index}">
+															<td>&nbsp;&nbsp;&nbsp;&nbsp;${study}
+																<input type='hidden' id='healthcareSiteRolesHolderList[${status.index}].studies' 
+																	   name='healthcareSiteRolesHolderList[${status.index}].studies' value='${studyIdentifier}' />
+															</td>
+															<td><a href="javascript:removeStudy('healthcareSiteRolesHolderList[${status.index}]-study-${studyIndex.index}','${status.index}');">
+																<img src="<tags:imageUrl name="checkno.gif"/>"></a>
+															</td>
+														</tr>	
+													</c:forEach>
+												</tbody>	
+											</table>
+										</div>
+					 				</div>
+				 				</c3pr:checkprivilege>
+					    	</div>
+					    	<!-- end of studyDisplay div -->
+					    	<script>
+								toggleUserOrgAutocompleter('${status.index}');
+								toggleUserStudyAutocompleter('${status.index}');
+							</script>
+					    	</c3pr:checkprivilege>
+				    	</c:otherwise>
+				    </c:choose>
+				</div>
+			</chrome:deletableDivision>
+		</c:forEach>
+	</chrome:box>
+</div>
+
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
 		<table>
@@ -732,82 +918,6 @@ function toggleUserDisplay(){
 	</chrome:box>
 </div>
 
-<!-- Dummy Section -->
-<div id="dummy-healthcareSite" style="display: none"></div>
-<div id="genericHtml" style="display: none">
-<table width="100%">
-	<tr id="healthcareSite-PAGE.ROW.INDEX">
-	    <td>
-		<chrome:deletableDivision divTitle="genericTitle-PAGE.ROW.INDEX" id="genericHealthcareSiteBox-PAGE.ROW.INDEX" cssClass="indented"
-	    	title="Organization" onclick="RowManager.deleteRow(healthcareSiteRowInserterProps,PAGE.ROW.INDEX,-1)" >
- 				<tags:errors path="healthcareSiteRolesHolderList[PAGE.ROW.INDEX]" />
- 				<c3pr:checkprivilege hasPrivileges="UI_PERSONUSER_CREATE">
- 				<div class="row">
- 					<div class="orgLabel"><tags:requiredIndicator />
- 						<fmt:message key="c3pr.common.organization"></fmt:message>
-	 				</div>
-	 				<div class="orgValue">
-	 					<c:choose>
-		 					<c:when test="${c3pr:hasAllSiteAccess('UI_RESEARCHSTAFF_CREATE') || FLOW =='SETUP_FLOW'}">
-		 						<input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite" />
-		       					<input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input" size="40"  
-		       																						value="${command.healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite.name}"/>
-		      		 			<tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
-								<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete" style="display:none;"></div>
-							</c:when>
-							<c:otherwise>
-								<select name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].healthcareSite" class="required validate-notEmpty" style="width: 350px;">
-									<tags:userOrgOptions/>
-								</select>
-							</c:otherwise>
-	 					</c:choose>
-	 				</div>
- 				</div>
- 				<br>
- 				</c3pr:checkprivilege>
- 				<c:choose>
-		    	<c:when test="${FLOW=='SETUP_FLOW'}">
-				 	<div class="row">
-			        	<div class="label">
-			                <fmt:message key="c3pr.common.c3prAdmin"></fmt:message>
-				        </div>
-				        <div class="value">
-				        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-				       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
-								<input type="hidden" id="hcs-PAGE.ROW.INDEX-role-${role.name}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  />
-					    	</c:forEach>
-				        </div>
-			    	</div>
-		    	</c:when>
-		    	<c:otherwise>
-		    	<c3pr:checkprivilege hasPrivileges="USER_CREATE">
-		    	<div id="roles-PAGE.ROW.INDEX" class="addedRoles">
-		    		<table width="100%">
-		 				<tr>
-			 				<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
-			 					<td>
-								<c:if test="${roleStatus.index % 3 == 0}">
-									</td></tr><tr><td>						
-								</c:if>
-								<div class="newLabel"> 
-									<input type="checkbox" id="hcs-PAGE.ROW.INDEX-role-${role.name}" name="healthcareSiteRolesHolderList[PAGE.ROW.INDEX].groups" value="${role.name}"  onclick="manageRoleGrouping('${role.name}', PAGE.ROW.INDEX, this);"/>
-								</div>
-								<div class="newValue">
-									${role.displayName}
-								</div>
-								</td>
-					    	</c:forEach>
-				    	</tr>
-		    		</table>
-		    	</div>
-		    	</c3pr:checkprivilege>
-		    	</c:otherwise>
-		    	</c:choose>
-		</chrome:deletableDivision>
-		</td>
-		</tr>
-</table>
-</div>
 <script>
 	new FormQueryStringUtils($('command')).stripQueryString('assignedIdentifier');
 	function toggle(){
