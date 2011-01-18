@@ -65,7 +65,7 @@
     <!-- Creates the war file                                           -->
     <!-- ============================================================== -->
     <target name="war" description="Builds the war files">
-    	<delete includeemptydirs="true" dir="${war.dir}"/>
+    	<delete includeemptydirs="true" dir="${war.dir}" failonerror="false"/>
     	<echo>war directory: ${war.dir}</echo>
     	<echo>war filename: ${war.filename}</echo>
     	<mkdir dir="${war.dir}"/>
