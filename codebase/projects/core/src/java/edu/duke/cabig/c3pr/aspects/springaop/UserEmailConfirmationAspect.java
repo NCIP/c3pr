@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.aspects.springaop;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -11,10 +10,9 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
-import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
+import edu.duke.cabig.c3pr.utils.RoleBasedHealthcareSitesAndStudiesDTO;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Oct 2, 2007 Time: 4:46:46 PM To change this template
@@ -39,38 +37,24 @@ public class UserEmailConfirmationAspect {
 	}
     
 	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyResearchStaffWithUserAndAssignRoles(..))" 
-                    + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
+                    + " && args(researchStaff, username, listAssociation)")
     public void createResearchStaffWithCSMUserAndAssignRoles(PersonUser researchStaff, String username, 
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) {
+    		List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
 		sendEmail(researchStaff);
     }
 	
 	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyUserWithoutResearchStaffAndAssignRoles(..))"
-            + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
-	public void createCSMUser(PersonUser researchStaff, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap, boolean hasAccessToAllSites) {
+            + " && args(researchStaff, username, listAssociation)")
+	public void createCSMUser(PersonUser researchStaff, String username, List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
 		sendEmail(researchStaff);
 	}
 
 	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createSuperUser(..))"
-            + " && args(researchStaff,  username , associationMap)")
-	public void createSuperUser(PersonUser researchStaff, String username, 
-			Map<HealthcareSite, List<C3PRUserGroupType>> associationMap) {
+            + " && args(researchStaff,  username , listAssociation)")
+	public void createSuperUser(PersonUser researchStaff, String username, List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
 		sendEmail(researchStaff);
 	}
 	
-//	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createResearchStaffWithCSMUser(..))"
-//            + " && args(researchStaff , username, hasAccessToAllSites)")
-//	public void createResearchStaffWithCSMUser(PersonUser researchStaff, String username, boolean hasAccessToAllSites) {
-//		sendEmail(researchStaff);
-//	}
-	
-//	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createCSMUserAndAssignRoles(..))"
-//            + " && args(researchStaff, username, associationMap, hasAccessToAllSites)")
-//	public void createCSMUserAndAssignRoles(PersonUser researchStaff, String username, Map<HealthcareSite, List<C3PRUserGroupType>> associationMap,
-//			boolean hasAccessToAllSites) {
-//		sendEmail(researchStaff);
-//	}
-
 	private void sendEmail(PersonUser staff) {
 		try {
 	          SimpleMailMessage msg = new SimpleMailMessage( this.accountCreatedTemplateMessage);
