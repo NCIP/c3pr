@@ -46,7 +46,7 @@
     <bean name="/preAuthenticationSetup" id="preAuthenticationController" lazy-init="true"
         class="edu.duke.cabig.c3pr.utils.web.setup.PreAuthenticationController" autowire="byName">
         <property name="commandClass" value="edu.duke.cabig.c3pr.web.admin.PersonOrUserWrapper"/>
-        <property name="formView" value="admin/research_staff_details"/>
+        <property name="formView" value="admin/person_user_details"/>
         <property name="successView" value="configureC3PR"/>
         <property name="sessionForm" value="true"/>
         <property name="validator">

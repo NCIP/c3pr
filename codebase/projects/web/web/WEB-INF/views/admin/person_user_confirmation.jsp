@@ -3,14 +3,14 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <title>Research Staff: ${command.personUser.firstName} ${command.personUser.lastName} - ${command.personUser.assignedIdentifier}</title>
+    <title>Personnel: ${command.personUser.firstName} ${command.personUser.lastName}</title>
 </head>
 <body>
 <div id="main">
 <div id="controlPanel" <c:if test="${studyflow=='true'}">style="display:none;"</c:if>>
 	<tags:controlPanel>
 		<tags:oneControlPanelItem linkhref="javascript:document.location='editPersonOrUser?assignedIdentifier=${command.personUser.assignedIdentifier}&loginId=${command.personUser.loginId}';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Edit" />
-		<tags:oneControlPanelItem linkhref="javascript:document.location='createPersonOrUser';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchResearchStaffController.png" linktext="Create research staff" />
+		<tags:oneControlPanelItem linkhref="javascript:document.location='createPersonOrUser';" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_searchResearchStaffController.png" linktext="Create Personnel" />
 	</tags:controlPanel>
 </div>
 <div id="flash-message" class="info">
@@ -43,17 +43,19 @@
 			<div class="value">${command.personUser.email}</div>
 		</div>
 		
-		<div class="row">
-			<div class="label"><fmt:message key="c3pr.common.organization"/>:</div>
-			<div class="value">
-				<c:forEach items="${command.personUser.healthcareSites}" var="healthcareSite" varStatus="count">
-					${healthcareSite.name} (${healthcareSite.primaryIdentifier})
-					<c:if test="${fn:length(command.personUser.healthcareSites) > (count.index + 1)}">
-						<br>
-					</c:if>
-				</c:forEach>
+		<c:if test="${fn:length(command.personUser.healthcareSites) > 0}">
+			<div class="row">
+				<div class="label"><fmt:message key="c3pr.common.organization"/>:</div>
+				<div class="value">
+					<c:forEach items="${command.personUser.healthcareSites}" var="healthcareSite" varStatus="count">
+						${healthcareSite.name} (${healthcareSite.primaryIdentifier})
+						<c:if test="${fn:length(command.personUser.healthcareSites) > (count.index + 1)}">
+							<br>
+						</c:if>
+					</c:forEach>
+				</div>
 			</div>
-		</div>
+		</c:if>
 	</div>
 </chrome:box>
 </div>
