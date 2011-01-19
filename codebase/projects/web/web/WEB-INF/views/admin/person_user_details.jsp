@@ -366,7 +366,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	</c:otherwise>
 </c:choose>
 <form:form name="researchStaffForm">
-<chrome:box title="${FLOW == 'SETUP_FLOW'?'Create Research Staff as Super User':'Basic Details'}" htmlContent="${imageStr}">
+<chrome:box title="${FLOW == 'SETUP_FLOW'?'Create Super User':'Basic Details'}" htmlContent="${imageStr}">
 	<chrome:flashMessage />
 	<tags:tabFields tab="${tab}" />
 
@@ -409,8 +409,14 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	            <div class="label"><fmt:message key="c3pr.common.fax" /></div>
 	             <tags:researchStaffInput commandClass="${command.personUser.class}" cssClass="validate-US_PHONE_NO" path="personUser.fax" size="25" value="${command.personUser.fax}"></tags:researchStaffInput>
 	        </div>
-	        
-	        <c:set var="staffdisplay" value="display:none"/>
+
+	        <c:if test="${FLOW == 'SETUP_FLOW'}">
+	        	<div class="row" >
+	   	        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
+		        <tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
+		    	</div>
+	        </c:if>
+  	        <c:set var="staffdisplay" value="display:none"/>
 	        <c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
 	        	<c:set var="staffdisplay" value="display"/>
 	        </c3pr:checkprivilege>
@@ -447,9 +453,17 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	    <div class="division"></div>
 </chrome:box>
 
+<c:set var="allowOrganizationDisplay" value="false" />
+<c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
+	<c:set var="allowOrganizationDisplay" value="true" />
+</c3pr:checkprivilege>
+<c:if test="${FLOW == 'SETUP_FLOW'}">
+	<c:set var="allowOrganizationDisplay" value="true" />
+</c:if> 
+
 <div id="OrganizationInformation">
-	<c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
-		<chrome:box title="Associated Organizations"  id="organization_details">
+	<c:if test="${allowOrganizationDisplay == 'true'}">
+		<chrome:box title="Associated Organizations" id="organization_details">
 			<chrome:flashMessage />
 			<div class="row">
 				<div class="orgLabel">
@@ -457,7 +471,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 				</div>
 				<div class="orgValue">
 					<c:choose>
-	 					<c:when test="${c3pr:hasAllSiteAccess('UI_PERSONUSER_CREATE') || c3pr:hasAllSiteAccess('UI_RESEARCHSTAFF_CREATE')}">
+	 					<c:when test="${c3pr:hasAllSiteAccess('UI_PERSONUSER_CREATE') || c3pr:hasAllSiteAccess('UI_RESEARCHSTAFF_CREATE') || FLOW == 'SETUP_FLOW'}">
 							<tags:autocompleter name="selectedOrganizationForDisplay" size="40" displayValue="${command.selectedOrganizationForDisplay}" 
 									value="${command.selectedOrganizationForDisplay}" basename="organization" ></tags:autocompleter>		
 							<script>
@@ -509,9 +523,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	 						</script>												
 						</c:when>
 						<c:otherwise><!-- This section is probably redundant as only POMgr can create staff and they have all site access in C3PR -->
-							<select name="selectedOrganizationForDisplay" class="required validate-notEmpty" style="width: 350px;">
-								<tags:userOrgOptions/>
-							</select>
+							
 						</c:otherwise>
 					</c:choose>
 					<form:hidden path="ctepCode" id="ctepCode"/>
@@ -535,7 +547,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 			</div>
 			</div>
 		</chrome:box>
-	</c3pr:checkprivilege>
+	</c:if>
 </div>	
 
 <c:if test="${FLOW=='SETUP_FLOW'}">
@@ -574,22 +586,23 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 		<c:if test="${!empty errorPassword}">
 			<input type="hidden" name="errorPassword" value="true"/>
 		</c:if>
-	</chrome:box>
+
 	
-	<div class="row">
-       	<div class="label">
-               <fmt:message key="c3pr.common.c3prAdmin"></fmt:message>
-        </div>
-        <div class="value">
-        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
-				<input type="hidden" id="hcs-${status.index}-role-${role.name}" name="healthcareSiteRolesHolderList[${status.index}].group" value="${role.name}"  />
-	    	</c:forEach>
-	    	<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
-				<input type="hidden" id="global-role-${globalRole.name}" name="healthcareSiteRolesHolderList[${status.index}].group" value="${globalRole.name}" />
-			</c:forEach>
-        </div>
-   	</div>
+		<div class="row">
+	       	<div class="label">
+	               <fmt:message key="c3pr.common.c3prAdmin"></fmt:message>
+	        </div>
+	        <div class="value">
+	        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
+	       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
+					<input type="hidden" id="hcs-${status.index}-role-${role.name}" name="healthcareSiteRolesHolderList[${status.index}].group" value="${role.name}"  />
+		    	</c:forEach>
+		    	<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
+					<input type="hidden" id="global-role-${globalRole.name}" name="healthcareSiteRolesHolderList[${status.index}].group" value="${globalRole.name}" />
+				</c:forEach>
+	        </div>
+	   	</div>
+   	</chrome:box>
 </c:if>
 
 <c3pr:checkprivilege hasPrivileges="USER_CREATE">
