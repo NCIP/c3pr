@@ -24,8 +24,8 @@
         var colors = ['#FF7F50','#F4A460','#B8860B','#BDB76B','#FFDEAD','#D2B48C'];
         var numberOfScheduledEpochs = ${fn:length(command.studySubject.scheduledEpochs)};
         for(var i=0;i < numberOfScheduledEpochs; i++){
-        	var divId = 'legend-scheduled_epoch'+ '-' + i;
-        	$(divId).style.backgroundColor  = colors[i];
+	        	var divId = 'legend-scheduled_epoch'+ '-' + i;
+	        	$(divId).style.backgroundColor  = colors[i];
         }
         var eventSource = new Timeline.DefaultEventSource();
         <c:if test="${not empty command.studySubject.startDate && command.studySubject.regWorkflowStatus != 'PENDING' &&  
@@ -83,10 +83,10 @@
 		        		'instant':true, //instant
 		        		<c:choose>
 		        		<c:when test="${signedConsent.consent.studyVersion.originalIndicator}">
-		        			'text':'signed <br>' + '${signedConsent.consent.name}', //text
+		        			'text':'signed ' + '${signedConsent.consent.name}', //text
 	        			</c:when>
 		        		<c:otherwise>
-		        			'text':'signed <br> ' + '${signedConsent.consent.name} <br> (re-consent)', //text
+		        			'text':'signed ' + '${signedConsent.consent.name} (re-consent)', //text
 		        		</c:otherwise>
 	        			</c:choose>
 	        			'description':'${command.timeLineDescriptionsOfSignedConsents[signedConsentIndex.index]}'
@@ -186,10 +186,12 @@
 	<div class="value" id="my-legend" style="height: 300px; border: 1px solid #aaa">
 		<div class="leftpanel">
 			<c:forEach items="${command.studySubject.scheduledEpochs}" var="schEpoch" varStatus="schEpochIndex">
-				<div class="row">
-					<div class="label" style="width: 15px; height: 15px;" id="legend-scheduled_epoch-${schEpochIndex.index}">&nbsp;</div>
-					<div align="left">&nbsp;&nbsp;${schEpoch.epoch.name} (${schEpoch.epoch.type.displayName})</div>
-				</div>
+				<c:if test="${not empty schEpoch.startDate}">
+					<div class="row">
+						<div class="label" style="width: 15px; height: 15px;" id="legend-scheduled_epoch-${schEpochIndex.index}">&nbsp;</div>
+						<div align="left">&nbsp;&nbsp;${schEpoch.epoch.name} (${schEpoch.epoch.type.displayName})</div>
+					</div>
+				</c:if>
 			</c:forEach>
 		</div>
 	</div>
