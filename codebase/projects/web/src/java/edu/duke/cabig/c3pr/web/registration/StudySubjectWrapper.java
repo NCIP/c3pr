@@ -84,7 +84,7 @@ public class StudySubjectWrapper {
 			if(scheduledEpoch.getStratumGroupNumber() !=null){
 				sb.append("<br> Stratum group: " + scheduledEpoch.getStratumGroupNumber());
 			}
-			if(scheduledEpoch.getScheduledArm() !=null){
+			if(scheduledEpoch.getScheduledArm() !=null && scheduledEpoch.getScheduledArm().getArm()!=null){
 				sb.append("<br> Arm assigned: " + scheduledEpoch.getScheduledArm().getArm().getName());
 			}
 			if(scheduledEpoch.getOffEpochReasons().size() > 0){
