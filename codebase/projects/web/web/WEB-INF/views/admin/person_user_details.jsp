@@ -412,10 +412,19 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 
 	        <c:if test="${FLOW == 'SETUP_FLOW'}">
 	        	<div class="row" >
-	   	        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
-		        <tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
+	   	        	<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
+		        	<tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
 		    	</div>
+		    	<div class="row">
+	            	<div class="label"><fmt:message key="researchstaff.createAsStaff" /></div>
+	            	<form:checkbox id="createAsStaff" path="createAsStaff" disabled="true"/>
+	        	</div>
+	        	<div class="row" >
+	            	<div class="label"><fmt:message key="researchstaff.createAsUser" /></div>
+	            	<form:checkbox id="createAsUser" path="createAsUser"  disabled="true"/>
+	        	</div>
 	        </c:if>
+	        
   	        <c:set var="staffdisplay" value="display:none"/>
 	        <c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
 	        	<c:set var="staffdisplay" value="display"/>
@@ -429,12 +438,12 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	            <div class="label"><fmt:message key="researchstaff.createAsStaff" /></div>
 	            <c:if test="${FLOW == 'SAVE_FLOW'}">
 	            	<form:checkbox id="createAsStaff" path="createAsStaff" onchange="toggleStaffDisplay()"/>
-	              	<!--  <input type="checkbox" id="createAsStaff" name="createAsStaff"  value="true" checked />  -->
 	            </c:if>
 	            <c:if test="${FLOW == 'EDIT_FLOW'}">
 	            	<input type="checkbox" id="createAsStaff" name="createAsStaff" onchange="toggleStaffDisplay()" value="true"  <c:if test="${command.isStaff == 'true'}">disabled="disabled" checked</c:if> />
 	            </c:if>
 	        </div>
+	        
 	        <c:set var="userdisplay" value="display:none"/>
 	        <c3pr:checkprivilege hasPrivileges="USER_CREATE">
 	        	<c:set var="userdisplay" value="display"/>
@@ -443,7 +452,6 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	            <div class="label"><fmt:message key="researchstaff.createAsUser" /></div>
 	            <c:if test="${FLOW == 'SAVE_FLOW'}">
 	            	<form:checkbox id="createAsUser" path="createAsUser" onchange="toggleUserDisplay()" />
-	            	<!-- <input type="checkbox" id="createAsUser" name="createAsUser"  value="true" checked /> -->
 	            </c:if>
 	            <c:if test="${FLOW == 'EDIT_FLOW'}">
 	            	<input type="checkbox" id="createAsUser" name="createAsUser" onchange="toggleUserDisplay()" value="true"  <c:if test="${command.isUser == 'true'}">disabled="disabled" checked</c:if> />
@@ -590,16 +598,10 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	
 		<div class="row">
 	       	<div class="label">
-	               <fmt:message key="c3pr.common.c3prAdmin"></fmt:message>
+               <fmt:message key="c3pr.common.c3prAdmin"></fmt:message>
 	        </div>
 	        <div class="value">
 	        	<img src="<tags:imageUrl name='check.png'/>" height="15px" width="15px"/>
-	       		<c:forEach items="${roles}" var="role" varStatus="roleStatus" >
-					<input type="hidden" id="hcs-${status.index}-role-${role.name}" name="healthcareSiteRolesHolderList[${status.index}].group" value="${role.name}"  />
-		    	</c:forEach>
-		    	<c:forEach items="${globalRoles}" var="globalRole" varStatus="roleStatus" >
-					<input type="hidden" id="global-role-${globalRole.name}" name="healthcareSiteRolesHolderList[${status.index}].group" value="${globalRole.name}" />
-				</c:forEach>
 	        </div>
 	   	</div>
    	</chrome:box>

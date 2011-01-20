@@ -443,6 +443,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
 		        	}
 		        } else if (StringUtils.equals(flowVar, SETUP_FLOW)){
 		        	// create research staff, csm user and assign org and provide access to all sites
+		        	listAssociation = buildSuperUserDTO();
 		        	personUser.setPersonUserType(PersonUserType.STAFF_USER);
 		        	personUser = personUserRepository.createSuperUser(personUser, username, listAssociation);
 		        	
@@ -484,6 +485,24 @@ public class CreatePersonOrUserController extends SimpleFormController{
 	  }
 	  
     }
+
+	private List<RoleBasedHealthcareSitesAndStudiesDTO> buildSuperUserDTO() {
+		List<RoleBasedHealthcareSitesAndStudiesDTO> dtoList = new ArrayList<RoleBasedHealthcareSitesAndStudiesDTO>();
+		RoleBasedHealthcareSitesAndStudiesDTO rolesHolder;
+		for(C3PRUserGroupType group: C3PRUserGroupType.values()){
+			rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
+			rolesHolder.setGroup(group);
+         	rolesHolder.setChecked(true);
+         	if(group.getIsSiteScoped()){
+         		rolesHolder.setHasAllSiteAccess(true);
+         	}
+         	if(group.getIsStudyScoped()){
+         		rolesHolder.setHasAllStudyAccess(true);
+         	}
+         	dtoList.add(rolesHolder);
+    	}
+		return dtoList;
+	}
 
 	@Required
     public void setPersonUserDao(PersonUserDao personUserDao) {
