@@ -413,7 +413,8 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	        <c:if test="${FLOW == 'SETUP_FLOW'}">
 	        	<div class="row" >
 	   	        	<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
-		        	<tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
+		        	<tags:researchStaffInput commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" cssClass="required validate-notEmpty"
+		        				size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
 		    	</div>
 		    	<div class="row">
 	            	<div class="label"><fmt:message key="researchstaff.createAsStaff" /></div>
@@ -562,14 +563,14 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	<chrome:box title="Account Information" >
 		<tags:instructions code="research_staff_account_information" />
 		<div class="row">
-			<div class="label"><fmt:message key="c3pr.common.username"/></div>
+			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
 	        <div class="value">
 	        	<c:choose>
 	        		<c:when test="${!empty errorPassword}">
 	        			${command.userName}
 	        		</c:when>
 	        		<c:otherwise>
-	        			<form:input id="loginId" size="20" path="userName" cssClass="MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+	        			<form:input id="loginId" size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
 	        			<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
 	        			<input id="copiedEmailAddress" type="hidden"/>
 	        		</c:otherwise>	

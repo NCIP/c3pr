@@ -85,11 +85,11 @@
                         <list>
                             <bean
                                 class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                autowire="byType" p:displayName="Setup"
+                                autowire="byType" p:displayName="Set Up Step 1"
                                 p:linkName="preAuthenticationController"/>
                             <bean
                                 class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                autowire="byType" p:displayName="Setup"
+                                autowire="byType" p:displayName="Set Up Step 2"
                                 p:linkName="postAuthenticationController"/>
                         </list>
                     </property>
