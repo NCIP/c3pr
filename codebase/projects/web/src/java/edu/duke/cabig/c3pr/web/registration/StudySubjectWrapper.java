@@ -10,14 +10,13 @@ import java.util.List;
 import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.apache.commons.collections15.list.LazyList;
 
-
-
 import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.OffEpochReason;
 import edu.duke.cabig.c3pr.domain.OffTreatmentReason;
 import edu.duke.cabig.c3pr.domain.Reason;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
@@ -42,6 +41,82 @@ public class StudySubjectWrapper {
 	
 	public List<StudySubjectConsentVersion> getReConsentingStudySubjectConsentVersions() {
 		return reConsentingStudySubjectConsentVersions;
+	}
+
+	public String getTimeLineDescriptionsOfRegistrationDetails() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("Subject is officially enrolled.");
+		if(studySubject.getTreatingPhysician() !=null){
+			sb.append("<br> Treating Physican: " + studySubject.getTreatingPhysicianFullName());
+		}
+		if(studySubject.getOtherTreatingPhysician() !=null){
+			sb.append("<br> Treating physican: " + studySubject.getOtherTreatingPhysician());
+		}
+		if(studySubject.getDiseaseHistory().getIcd9DiseaseSite() !=null){
+			sb.append("<br> Disease site: " + studySubject.getDiseaseHistory().getIcd9DiseaseSite().getName());
+		}
+		if(studySubject.getPaymentMethod() !=null){
+			sb.append("<br> Payment method: " + studySubject.getPaymentMethod());
+		}
+		return sb.toString();
+	}
+	
+	public String getTimelineDescriptionOfOffStudyReasons() {
+		StringBuffer sb = new StringBuffer();
+		if(studySubject.getOffStudyDate() != null) {
+			sb.append("Subject is Off-Study");
+			if(studySubject.getOffStudyReasons().size() > 0){
+				sb.append("<br> Off Study reason(s): ");
+				for(int i =0; i< studySubject.getOffStudyReasons().size(); i ++){
+					sb.append(" " +  i+1 + ". " + studySubject.getOffStudyReasons().get(i).getReason().getDescription());
+				}
+			}
+		}
+		return sb.toString();
+	}
+	
+	public List<String> getTimeLineDescriptionsOfScheduledEpochs(){
+		List<String> timeLineDescriptionsOfScheduledEpochs = new ArrayList<String>();
+		for(ScheduledEpoch scheduledEpoch : studySubject.getScheduledEpochs()){
+			StringBuffer sb = new StringBuffer();
+			sb.append("Epoch type: " + scheduledEpoch.getEpoch().getType().getDisplayName());
+			sb.append("<br>Scheduled epoch status: " +scheduledEpoch.getScEpochWorkflowStatus().getDisplayName());
+			if(scheduledEpoch.getStratumGroupNumber() !=null){
+				sb.append("<br> Stratum group: " + scheduledEpoch.getStratumGroupNumber());
+			}
+			if(scheduledEpoch.getScheduledArm() !=null){
+				sb.append("<br> Arm assigned: " + scheduledEpoch.getScheduledArm().getArm().getName());
+			}
+			if(scheduledEpoch.getOffEpochReasons().size() > 0){
+				sb.append("<br> Off Epoch reason(s): ");
+				for(int i =0; i< scheduledEpoch.getOffEpochReasons().size(); i ++){
+					sb.append(" " +  i+1 + ". " + scheduledEpoch.getOffEpochReasons().get(i).getReason().getDescription());
+				}
+			}
+			timeLineDescriptionsOfScheduledEpochs.add(sb.toString());
+		}
+		return timeLineDescriptionsOfScheduledEpochs;
+	}
+	
+	public List<String> getTimeLineDescriptionsOfSignedConsents(){
+		List<String> timeLineDescriptionsOfSignedConsents = new ArrayList<String>();
+		for(StudySubjectConsentVersion studySubjectConsentVersion : studySubject.getAllSignedConsents()){
+			StringBuffer sb = new StringBuffer();
+			sb.append("Mandatory: " + (studySubjectConsentVersion.getConsent().getMandatoryIndicator()?"Yes":"No"));
+			if(studySubjectConsentVersion.getConsentPresenter() !=null){
+				sb.append("<br> Consent presenter: " + studySubjectConsentVersion.getConsentPresenter());
+			}
+			if(studySubjectConsentVersion.getConsentDeliveryDate() !=null){
+				sb.append("<br> Delivery date: " + studySubjectConsentVersion.getConsentDeliveryDateStr());
+			}
+			if(studySubjectConsentVersion.getConsentingMethod() !=null){
+				sb.append("<br> Consenting method: " + studySubjectConsentVersion.getConsentingMethod().getDisplayName());
+			}
+			timeLineDescriptionsOfSignedConsents.add(sb.toString());
+		}
+		return timeLineDescriptionsOfSignedConsents;
+		
+		
 	}
 
 	public void setReConsentingStudySubjectConsentVersons(
