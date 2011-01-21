@@ -62,7 +62,7 @@ public abstract class PersonUser extends User {
     private PersonUserType personUserType;
     
 	/**
-	 * Instantiates a new research staff. Defaults personType to staff_user
+	 * Instantiates a new research staff.
 	 */
 	public PersonUser() {
 		super();

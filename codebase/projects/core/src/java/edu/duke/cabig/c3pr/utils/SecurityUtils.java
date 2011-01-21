@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.ServletContext;
+
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContextHolder;
@@ -13,15 +15,22 @@ import org.acegisecurity.userdetails.User;
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.SessionFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import edu.duke.cabig.c3pr.accesscontrol.AuthorizedUser;
 import edu.duke.cabig.c3pr.accesscontrol.UserPrivilege;
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
+import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
 
@@ -37,6 +46,8 @@ public class SecurityUtils {
 	private static Log log = LogFactory.getLog(SecurityUtils.class);
 	
 	public static final SuiteRole PERSON_AND_ORGANIZATION_INFORMATION_MANAGER = SuiteRole.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER;
+	
+	private ApplicationContext applicationContext;
 	
 	/**
 	 * Checks if is super user.
@@ -502,6 +513,49 @@ public class SecurityUtils {
 		studyScopedRoles.add(C3PRUserGroupType.DATA_ANALYST.getCode());
 		
 		return studyScopedRoles;
+	}
+	
+	public static List<HealthcareSite> getLoggedInUsersOrganizations(String privlegeType, ServletContext servletContext){
+		List hcsList = new ArrayList<HealthcareSite>();
+		if(StringUtils.isBlank(privlegeType)){
+			return hcsList;
+		}
+		Set<C3PRUserGroupType> groupSet = getRolesForLoggedInUser(UserPrivilegeType.valueOf(privlegeType.trim()));
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+		
+		ProvisioningSessionFactory provisioningSessionFactory = (ProvisioningSessionFactory)context.getBean("provisioningSessionFactory");
+		HealthcareSiteDao healthcareSiteDao = (HealthcareSiteDao)context.getBean("healthcareSiteDao");
+		PersonUser personUser = ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPersonUser();
+		Set<String> organizationIdSet = new HashSet<String>();
+	    for(C3PRUserGroupType c3prUserGroupType:groupSet){
+	    	if(!SecurityUtils.isGlobalRole(c3prUserGroupType)){
+	    		ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(new Long(personUser.getLoginId()));
+	        	
+	            SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(c3prUserGroupType);
+	            SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+	    	    //add all site identifiers to a set
+	    		if(suiteRole.isSiteScoped() && !suiteRoleMembership.isAllSites()){
+	    			organizationIdSet.addAll(suiteRoleMembership.getSiteIdentifiers());
+	    		}
+	    		HealthcareSite healthcareSite;
+	    		for(String hcsId: organizationIdSet){
+	     			healthcareSite = healthcareSiteDao.getByCtepCodeFromLocal(hcsId);
+	     			if(healthcareSite != null && ! hcsList.contains(healthcareSite)){
+	     				hcsList.add(healthcareSite);
+	     			}
+	     		}
+	    	}
+	    }
+        return hcsList;
+		
+	}
+
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
 	}
 
 }

@@ -387,7 +387,7 @@
 					</c:when>
 					<c:otherwise>
 						<select name="participant.organizationAssignedIdentifiers[0].healthcareSite" class="required validate-notEmpty" style="width: 260px;">
-							<tags:userOrgOptions preSelectedSiteId="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}"/>
+							<tags:userOrgOptions preSelectedSiteId="${command.participant.organizationAssignedIdentifiers[0].healthcareSite.id}" privilege="UI_SUBJECT_UPDATE"/>
 						</select>
 					</c:otherwise>
 				</c:choose>

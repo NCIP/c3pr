@@ -138,15 +138,19 @@ public class CreatePersonOrUserController extends SimpleFormController{
             	boolean hasAllStudyAccess = false;
             	for(C3PRUserGroupType group: C3PRUserGroupType.values()){
             		//adding the non assigned roles for UI convenience.
+            		rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
+            		
             		if(!preAssignedRolesList.contains(group)){
-            			rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
     	             	rolesHolder.setChecked(false);
+    	             	//poMgr is always all-site in C3PR.
+    	             	if(group.equals(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)){
+                     		rolesHolder.setHasAllSiteAccess(true);
+                     	}
             		} else {
             		//adding the non assigned roles for UI convenience.
             			hasAllSiteAccess = personUserRepository.getHasAccessToAllSites(csmUser, group);
             			hasAllStudyAccess = personUserRepository.getHasAccessToAllStudies(csmUser, group);
             			
-    	             	rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
     	             	rolesHolder.setChecked(true);
     	             	rolesHolder.setHasAllSiteAccess(hasAllSiteAccess);
     	             	//populate csm organizations into the wrapper if user doesn't have all site access
@@ -190,6 +194,10 @@ public class CreatePersonOrUserController extends SimpleFormController{
     			rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
     			rolesHolder.setGroup(group);
              	rolesHolder.setChecked(false);
+             	//poMgr is always all-site in C3PR.
+             	if(group.equals(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)){
+             		rolesHolder.setHasAllSiteAccess(true);
+             	}
              	wrapper.addHealthcareSiteRolesHolder(rolesHolder);
         	}
         }

@@ -64,6 +64,12 @@
         <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
         <function-signature>PersonUser getLoggedInResearchStaff()</function-signature>
     </function>
+
+    <function>
+        <name>getLoggedInUsersOrganizations</name>
+        <function-class>edu.duke.cabig.c3pr.utils.SecurityUtils</function-class>
+        <function-signature>java.util.List getLoggedInUsersOrganizations(java.lang.String, javax.servlet.ServletContext)</function-signature>
+    </function>
     
     <tag>
         <name>checkprivilege</name>

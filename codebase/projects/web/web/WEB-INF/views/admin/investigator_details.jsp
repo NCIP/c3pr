@@ -348,7 +348,7 @@ function submitForm(){
 								</c:when>
 								<c:otherwise>
 									<form:select path="healthcareSiteInvestigators[${status.index}].healthcareSite" cssClass="required validate-notEmpty" cssStyle="width: 350px;">
-										<tags:userOrgOptions preSelectedSiteId="${command.healthcareSiteInvestigators[status.index].healthcareSite.id}"/>
+										<tags:userOrgOptions preSelectedSiteId="${command.healthcareSiteInvestigators[status.index].healthcareSite.id}" privilege="UI_INVESTIGATOR_CREATE"/>
 									</form:select>
 								</c:otherwise>
 							</c:choose>
@@ -423,7 +423,7 @@ function submitForm(){
 				</c:when>
 				<c:otherwise>
 					<select name="healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite" class="required validate-notEmpty" style="width: 350px;">
-						<tags:userOrgOptions/>
+						<tags:userOrgOptions privilege="UI_INVESTIGATOR_CREATE"/>
 					</select>
 				</c:otherwise>
 			</c:choose>
