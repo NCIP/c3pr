@@ -231,9 +231,25 @@ width:16em;
           		<input type="hidden" name="searchCriteriaList[3].predicate" value="in"/>
         		<select id="studyStatus" size="4" multiple="multiple" name="searchCriteriaList[3].values">
                    <option value="" selected="selected">All</option>
-                   <c:forEach items="${statusRefDate}" var="studyStatus">
+                   <c:forEach items="${statusRefData}" var="studyStatus">
                        <c:if test="${!empty studyStatus}">
                            <option value="${studyStatus.key}">${studyStatus.value}</option>
+                       </c:if>
+                   </c:forEach>
+                </select>
+        	</div>
+        </div>
+        <div class="row" >
+        	<div class="label"><fmt:message key="study.category"/></div>
+          	<div class="value">
+          		<input type="hidden" name="searchCriteriaList[23].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+          		<input type="hidden" name="searchCriteriaList[23].attributeName" value="category.code" />
+          		<input type="hidden" name="searchCriteriaList[23].predicate" value="in"/>
+        		<select id="studyStatus" size="4" multiple="multiple" name="searchCriteriaList[23].values">
+                   <option value="" selected="selected">All</option>
+                   <c:forEach items="${studyCategoryRefData}" var="studyCategory">
+                       <c:if test="${!empty studyCategory}">
+                           <option value="${studyCategory.key}">${studyCategory.value}</option>
                        </c:if>
                    </c:forEach>
                 </select>
@@ -293,6 +309,38 @@ width:16em;
    	    	</div>
         </div>
         <div class="row" >
+        	<div class="label"><fmt:message key="study.sponsorType"/></div>
+          	<div class="value">
+          		<input type="hidden" name="searchCriteriaList[24].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+          		<input type="hidden" name="searchCriteriaList[24].attributeName" value="sponsorType.code" />
+          		<input type="hidden" name="searchCriteriaList[24].predicate" value="in"/>
+        		<select id="studySponsorType" size="4" multiple="multiple" name="searchCriteriaList[24].values">
+                   <option value="" selected="selected">All</option>
+                   <c:forEach items="${studySponsorTypeRefData}" var="studySponsorType">
+                       <c:if test="${!empty studySponsorType}">
+                           <option value="${studySponsorType.key}">${studySponsorType.value}</option>
+                       </c:if>
+                   </c:forEach>
+                </select>
+        	</div>
+        </div>
+        <div class="row" >
+        	<div class="label"><fmt:message key="study.nciRecognizedProgramName"/></div>
+          	<div class="value">
+          		<input type="hidden" name="searchCriteriaList[25].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+          		<input type="hidden" name="searchCriteriaList[25].attributeName" value="nciRecognizedProgramName.code" />
+          		<input type="hidden" name="searchCriteriaList[25].predicate" value="in"/>
+        		<select id="nCIRecognizedProgramName" size="4" multiple="multiple" name="searchCriteriaList[24].values">
+                   <option value="" selected="selected">All</option>
+                   <c:forEach items="${nCIRecognizedProgramsRefData}" var="nCIRecognizedProgramName">
+                       <c:if test="${!empty nCIRecognizedProgramName}">
+                           <option value="${nCIRecognizedProgramName.key}">${nCIRecognizedProgramName.value}</option>
+                       </c:if>
+                   </c:forEach>
+                </select>
+        	</div>
+        </div>
+        <div class="row" >
 			<div class="label"><fmt:message key="study.therapeuticIntentIndicator"/></div>
         	<div class="value">
         		<input type="hidden" name="searchCriteriaList[12].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
@@ -300,6 +348,16 @@ width:16em;
          			<input type="hidden" name="searchCriteriaList[12].attributeName" value="therapeuticIntentIndicator" />
          			<input type="hidden" id="therapeuticIntentIndicator-hidden" name="searchCriteriaList[12].values"/>
         		<input type="checkbox" id="therapeuticIntentIndicator" name="therapeuticIntentIndicator" onclick="setValueTrueIfChecked(this);">
+        	</div>        		
+        </div>
+        <div class="row" >
+			<div class="label"><fmt:message key="study.investigatorInitiated"/></div>
+        	<div class="value">
+        		<input type="hidden" name="searchCriteriaList[26].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
+  	        		<input type="hidden" name="searchCriteriaList[26].predicate" value="="/>
+         			<input type="hidden" name="searchCriteriaList[26].attributeName" value="investigatorInitiated" />
+         			<input type="hidden" id="investigatorInitiatedIndicator-hidden" name="searchCriteriaList[26].values"/>
+        		<input type="checkbox" id="investigatorInitiatedIndicator" name="investigatorInitiatedIndicator" onclick="setValueTrueIfChecked(this);">
         	</div>        		
         </div>
         
