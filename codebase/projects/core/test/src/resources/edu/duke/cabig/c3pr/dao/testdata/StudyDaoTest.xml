@@ -9,7 +9,8 @@
 	<CSM_USER_GROUP_ROLE_PG user_group_role_pg_id="1000"  user_id="1000" group_id="1000" role_id="1000" protection_group_id="1000" />
 	<CSM_PROTECTION_ELEMENT protection_element_id="1000" protection_element_name="dbunit" application_id="-1" object_id="temp" attribute="" />
 
-    <STUDIES therapeutic_intent_indicator="0" id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" dtype="Local" companion_indicator="0" stratification_indicator="0" standalone_indicator="1"/>
+    <STUDIES therapeutic_intent_indicator="0" id="1000" version="1" blinded_indicator="1"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"   retired_indicator = "false" dtype="Local" companion_indicator="0" stratification_indicator="0" standalone_indicator="1" 
+    	category="SECTION_2" sponsor_type="EXTERNALLY_PEER_REVIEWED" nci_recognized_program_name="Cancer_Prevention" investigator_initiated="1"/>
     <STUDIES therapeutic_intent_indicator="0" id="1003" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" dtype="Local" companion_indicator="0" stratification_indicator="0" standalone_indicator="1"/>
      <STUDIES therapeutic_intent_indicator="0" id="1002" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph" randomized_indicator="1" type="ty" status="OPEN"  retired_indicator = "false" dtype="Local" companion_indicator="0" stratification_indicator="0" standalone_indicator="1"/>
     <STUDIES therapeutic_intent_indicator="0" id="1001" version="1" blinded_indicator="0"  multi_institution_indicator="1" phase_code="Ph2" randomized_indicator="1" type="ty1" status="OPEN" retired_indicator = "false" dtype="Local" companion_indicator="0" stratification_indicator="0" standalone_indicator="1"/>
