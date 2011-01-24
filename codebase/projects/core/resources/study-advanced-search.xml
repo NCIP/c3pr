@@ -55,6 +55,26 @@
 				<label>Standalone Indicator</label>
 				<data-type>Boolean</data-type>
 			</search-criteria>
+			<search-criteria>
+				<name>sponsorType.code</name>
+				<label>Study Sponsor Type</label>
+				<data-type>StudySponsorType</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>category.code</name>
+				<label>Clinical Research Category</label>
+				<data-type>StudyCategory</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>nciRecognizedProgramName.code</name>
+				<label>NCI Recognized Program Name</label>
+				<data-type>NCIRecognizedProgramName</data-type>
+			</search-criteria>
+			<search-criteria>
+				<name>investigatorInitiated</name>
+				<label>Investigator Initiated Indicator</label>
+				<data-type>Boolean</data-type>
+			</search-criteria>
 		</dependent-object>
 		<!--Search by study version specific criterion-->
 		<dependent-object>
