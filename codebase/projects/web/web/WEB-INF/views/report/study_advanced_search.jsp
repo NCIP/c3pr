@@ -84,11 +84,11 @@
 	            })
 	        },
 	        valueSelector: function(obj) {
-	        	return (obj.researchStaff.fullName + ' (' + obj.researchStaff.assignedIdentifier +')')
+	        	return (obj.personUser.fullName + ' (' + obj.personUser.assignedIdentifier +')')
 	        },
 	        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
 									hiddenField=studyPersonAutocompleterProps.basename+"-hidden"
-	    							$(hiddenField).value=selectedChoice.researchStaff.assignedIdentifier;
+	    							$(hiddenField).value=selectedChoice.personUser.assignedIdentifier;
 			 }
 	    }
 
