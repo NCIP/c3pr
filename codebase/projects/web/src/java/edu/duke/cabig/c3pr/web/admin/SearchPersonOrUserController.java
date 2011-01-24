@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.acegisecurity.AccessDeniedException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
@@ -115,9 +116,13 @@ public class SearchPersonOrUserController extends SimpleFormController {
             //get corresponding staff for fetched users so searchStaffFacade can display it
             PersonUser personUser;
             for(gov.nih.nci.security.authorization.domainobjects.User user: csmUsersList){
-            	personUser = personUserDao.getByLoginId(user.getUserId().toString());
-            	if(personUser != null){
-            		rStaffResults.add(personUser);
+            	try{
+                	personUser = personUserDao.getByLoginId(user.getUserId().toString());
+                	if(personUser != null){
+                		rStaffResults.add(personUser);
+                	}
+            	} catch(AccessDeniedException ade){
+            		log.warn("filtering out CSM-user with id : "+user.getUserId());
             	}
             }
         } else {

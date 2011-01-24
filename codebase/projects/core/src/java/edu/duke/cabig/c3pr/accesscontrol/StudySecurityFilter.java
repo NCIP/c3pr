@@ -52,6 +52,12 @@ public class StudySecurityFilter implements DomainObjectSecurityFilterer{
 	}
 
 	
+	/**
+	 * Checks for site and study level access.
+	 *
+	 * @param study the study
+	 * @return true, if successful
+	 */
 	private boolean hasSiteAndStudyLevelAccess(Study study){
 		//load all the roles the user has with the specified privilege
 		Set<C3PRUserGroupType> userRoles = SecurityUtils.getRolesForLoggedInUser(UserPrivilegeType.STUDY_READ);
@@ -84,6 +90,13 @@ public class StudySecurityFilter implements DomainObjectSecurityFilterer{
 		return false;
 	}
 	
+	/**
+	 * Checks for site level access permission.
+	 *
+	 * @param userAccessibleOrganizationIdsList the user accessible organization ids list
+	 * @param study the study
+	 * @return true, if successful
+	 */
 	private boolean hasSiteLevelAccessPermission(List<String> userAccessibleOrganizationIdsList , Study study){
 		for(StudyOrganization studyOrganization:study.getStudyOrganizations()){
 			if(userAccessibleOrganizationIdsList.contains(studyOrganization.getHealthcareSite().getPrimaryIdentifier())){
@@ -93,12 +106,19 @@ public class StudySecurityFilter implements DomainObjectSecurityFilterer{
 		return false;
 	}
 	
+	/**
+	 * Checks for study level access permission.
+	 *
+	 * @param userAccessibleStudyIdsList the user accessible study ids list
+	 * @param study the study
+	 * @return true, if successful
+	 */
 	private boolean hasStudyLevelAccessPermission(List<String> userAccessibleStudyIdsList, Study study){
 		//some Coppa studies do not have CoordinatingCenterAssignedIdentifiers, so grant everyone access to such studies.
-		if(study.getCoordinatingCenterAssignedIdentifier() == null){
+		if(study.getPrimaryIdentifier() == null){
 			return true;
 		}
-		return userAccessibleStudyIdsList.contains(study.getCoordinatingCenterAssignedIdentifier().getValue());
+		return userAccessibleStudyIdsList.contains(study.getPrimaryIdentifier());
 	}
 
 }

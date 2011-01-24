@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.acegisecurity.Authentication;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
@@ -39,14 +40,14 @@ public class ResearchStaffSecurityFilter implements DomainObjectSecurityFilterer
 			while (collectionIter.hasNext()) {
 				personUser = (PersonUser)collectionIter.next();
 				//If logged-in staff does not have site-level access, filter out the result.
-	        	if(!hasSiteAndStudyLevelAccess(personUser)){
+	        	if(!hasAllSiteOrSiteLevelAccessPermission(personUser)){
 	        		returnObject.remove(personUser);
 	        	}
 			}
 		}else if(returnObject instanceof AbstractMutableDomainObjectFilterer){
 			personUser = (PersonUser)returnObject.getFilteredObject();
 			//If logged-in staff does not have site-level access, filter out the result.
-			if(!hasSiteAndStudyLevelAccess(personUser)){
+			if(!hasAllSiteOrSiteLevelAccessPermission(personUser)){
         		returnObject.remove(personUser);
         	}
 		}else{
@@ -62,7 +63,13 @@ public class ResearchStaffSecurityFilter implements DomainObjectSecurityFilterer
 	 * @param personUser the person user
 	 * @return true, if successful
 	 */
-	private boolean hasSiteAndStudyLevelAccess(PersonUser personUser){
+	private boolean hasAllSiteOrSiteLevelAccessPermission(PersonUser personUser){
+		
+		//if personUser is just a user(wont have assignedID) and not a staff, include it in search results
+		if(StringUtils.isBlank(personUser.getAssignedIdentifier())){
+			return true;
+		}
+		
 		//load all the roles the user has with the specified privilege
 		Set<C3PRUserGroupType> userRoles = SecurityUtils.getRolesForLoggedInUser(UserPrivilegeType.PERSONUSER_READ);
 		Iterator<C3PRUserGroupType> iter = userRoles.iterator();
