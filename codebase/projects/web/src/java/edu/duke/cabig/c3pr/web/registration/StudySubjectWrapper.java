@@ -20,6 +20,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * @author Himanshu
@@ -55,7 +56,7 @@ public class StudySubjectWrapper {
 		if(studySubject.getDiseaseHistory().getIcd9DiseaseSite() !=null){
 			sb.append("<br> Disease site: " + studySubject.getDiseaseHistory().getIcd9DiseaseSite().getName());
 		}
-		if(studySubject.getPaymentMethod() !=null){
+		if(!StringUtils.isBlank(studySubject.getPaymentMethod())){
 			sb.append("<br> Payment method: " + studySubject.getPaymentMethod());
 		}
 		return sb.toString();
