@@ -7,10 +7,10 @@
 <c:forEach items="${c3pr:getLoggedInUsersOrganizations(privilege, pageContext.servletContext)}" var="site">
 	<c:choose>
 		<c:when test="${!empty preSelectedSiteId && preSelectedSiteId == site.id}">
-			<option value="${site.id }" selected>${site }</option>
+			<option value="${site.id}" selected>${site}</option>
 		</c:when>
 		<c:otherwise>
-			<option value="${site.id }">${site}</option>
+			<option value="${site.id}">${site}</option>
 		</c:otherwise>
 	</c:choose>
 </c:forEach>

@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.PersonUserType;
+import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -119,9 +120,11 @@ public class CreatePersonOrUserController extends SimpleFormController{
         
         if (StringUtils.isNotBlank(assignedIdentifier) || StringUtils.isNotBlank(loginId)) {
         	if(StringUtils.isNotBlank(assignedIdentifier) ){
+        		log.debug("loading personnel by assigned Id");
         		wrapper.setCreateAsStaff(true);
         		personUser = personUserRepository.getByAssignedIdentifier(assignedIdentifier);
         	} else {
+        		log.debug("loading personnel by login Id");
         		wrapper.setCreateAsStaff(false);
         		personUser = personUserDao.getByLoginId(loginId);
         	}
@@ -136,6 +139,8 @@ public class CreatePersonOrUserController extends SimpleFormController{
             	RoleBasedHealthcareSitesAndStudiesDTO rolesHolder;
             	boolean hasAllSiteAccess = false;
             	boolean hasAllStudyAccess = false;
+        		log.debug("loading roles information for personnel");
+
             	for(C3PRUserGroupType group: C3PRUserGroupType.values()){
             		//adding the non assigned roles for UI convenience.
             		rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
@@ -200,6 +205,14 @@ public class CreatePersonOrUserController extends SimpleFormController{
              	}
              	wrapper.addHealthcareSiteRolesHolder(rolesHolder);
         	}
+            if(SecurityUtils.getRoleTypes().contains(RoleTypes.USER_ADMINISTRATOR) &&
+            		!SecurityUtils.getRoleTypes().contains(RoleTypes.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)){
+            	wrapper.setCreateAsStaff(false);
+            }
+            if(SecurityUtils.getRoleTypes().contains(RoleTypes.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER) &&
+            		!SecurityUtils.getRoleTypes().contains(RoleTypes.USER_ADMINISTRATOR)){
+            	wrapper.setCreateAsUser(false);
+            }
         }
         wrapper.setPersonUser(personUser);
         return wrapper;

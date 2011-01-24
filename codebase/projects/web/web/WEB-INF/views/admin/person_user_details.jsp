@@ -148,9 +148,34 @@ function copyUsername(){
 }
 
 function addForDropDown(index){
-		var _fieldHelper = 'healthcareSiteRolesHolderList['+ index + ']';
-		$(_fieldHelper + '.ctepCode').value = $(_fieldHelper + '.selectedSiteForDisplay').value;
+	var _fieldHelper = 'healthcareSiteRolesHolderList['+ index + ']';
+	sid = $(_fieldHelper + '.selectedSiteForDisplay').selectedIndex;
+	if(sid > 0){
 		Form.Element.enable($('addSite_btn['+ index +']'));
+	} else {
+		Form.Element.disable('addSite_btn['+index+']');
+	}
+}
+
+function addSiteForDropDown(el, index, isSiteScoped, isStudyScoped){
+	//get the ctep code and display value from the drop down
+	ddElement = $(el + '.selectedSiteForDisplay');
+	selectedIndex = ddElement.selectedIndex;
+	var _selectedChoiceForDisplay = ddElement[selectedIndex].text;
+	ddElement.selectedIndex = 0;
+	
+	Form.Element.disable('addSite_btn['+index+']');
+	var _ctepCode =  _selectedChoiceForDisplay.substring(_selectedChoiceForDisplay.indexOf('(') + 1, _selectedChoiceForDisplay.indexOf(')'));         //$(el+".ctepCode").value;
+	var _tableId = el+"-sitesTable";
+	var _sitesFldName = el + '.sites';
+	var _trId = el + '-site-' +_ctepCode;
+	var _deleteBtn = "<a href=\"javascript:removeSite('" + el + "-site-" +_ctepCode + "','" +index+ "','"+isSiteScoped+"','"+isStudyScoped+ "');\">"+"<img src=\"<tags:imageUrl name='checkno.gif'/>\"></a>"
+	$(_tableId).down('tr').insert({
+		after: tableRow.interpolate({selectedChoiceForDisplay:_selectedChoiceForDisplay, identifier : _ctepCode ,fldName : _sitesFldName, deleteBtn : _deleteBtn, trId : _trId })
+		});
+	sitesCount[index] = sitesCount[index] + 1;
+	
+	updateRoleSummary(index, isSiteScoped, isStudyScoped);
 }
 
 var tableRow = "<tr id='#{trId}'><td>&nbsp;&nbsp;&nbsp;#{selectedChoiceForDisplay}<input type='hidden' id='#{fldName}' name='#{fldName}' value='#{identifier}' /></td><td>#{deleteBtn}</td></tr>";
@@ -744,17 +769,18 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 						 								}
 						 							}
 						 							AutocompleterManager.addAutocompleter(firstHealthcareSite${status.index}AutocompleterProps);
-						 						</script>												
+						 						</script>
+												<tags:button id="addSite_btn[${status.index}]" type="button" color="blue" value="Add" icon="add" onclick="addSite('healthcareSiteRolesHolderList[${status.index}]', '${status.index}', '${isSiteScoped}','${isStudyScoped}')" size="small" disabled="true"/>
 											</c:when>
 											<c:otherwise>
 												<select id="healthcareSiteRolesHolderList[${status.index}].selectedSiteForDisplay" name="healthcareSiteRolesHolderList[${status.index}].selectedSiteForDisplay" 
-														onchange="addForDropDown('${status.index}')" class="required validate-notEmpty" style="width: 350px;">
+														onchange="addForDropDown('${status.index}')" style="width: 350px;">
 													<tags:userOrgOptions privilege="USER_CREATE" />
 												</select>
+												<tags:button id="addSite_btn[${status.index}]" type="button" color="blue" value="Add" icon="add" onclick="addSiteForDropDown('healthcareSiteRolesHolderList[${status.index}]', '${status.index}', '${isSiteScoped}','${isStudyScoped}')" size="small" disabled="true"/>
 											</c:otherwise>
 					 					</c:choose>
 										<form:hidden path="healthcareSiteRolesHolderList[${status.index}].ctepCode" id="healthcareSiteRolesHolderList[${status.index}].ctepCode"/>
-										<tags:button id="addSite_btn[${status.index}]" type="button" color="blue" value="Add" icon="add" onclick="addSite('healthcareSiteRolesHolderList[${status.index}]', '${status.index}', '${isSiteScoped}','${isStudyScoped}')" size="small" disabled="true"/>
 					 				</div>
 					 				<div class="orgValue">
 										<script>sitesCount[${status.index}] = ${fn:length(healthcareSiteRolesHolder.sites)};</script>
