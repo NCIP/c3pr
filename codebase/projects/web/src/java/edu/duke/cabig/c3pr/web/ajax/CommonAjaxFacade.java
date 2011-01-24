@@ -121,7 +121,7 @@ public class CommonAjaxFacade {
 		List<StudyPersonnel> personnel = studyPersonnelDao.getBySubnames(extractSubnames(text));
 		List<StudyPersonnel> reducedPersonnel = new ArrayList<StudyPersonnel>(personnel.size());
 		for (StudyPersonnel studyPerson: personnel) {
-			reducedPersonnel .add(buildReduced(studyPerson, Arrays.asList("researchStaff.id", "researchStaff.firstName", "researchStaff.lastName", "researchStaff.assignedIdentifier")));
+			reducedPersonnel .add(buildReduced(studyPerson, Arrays.asList("personUser.id", "personUser.firstName", "personUser.lastName", "personUser.assignedIdentifier")));
         }
         return reducedPersonnel;
 	}
