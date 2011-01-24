@@ -68,7 +68,7 @@
 		        		</c:choose>
 		        		textColor: 'black',	
 		        		'color':colors[${schEpochIndex.index}],
-		        	//	'text':'${schEpoch.epoch.name}', //text
+		        		'text':'${schEpoch.epoch.name}', //text
 		        		'description':'${command.timeLineDescriptionsOfScheduledEpochs[schEpochIndex.index]}'
 		        		}
 	        		);
