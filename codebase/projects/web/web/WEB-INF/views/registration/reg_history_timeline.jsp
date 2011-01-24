@@ -21,7 +21,7 @@
         
         var tl;
         function onLoad() {
-        var colors = ['#FF7F50','#F4A460','#B8860B','#BDB76B','#FFDEAD','#D2B48C'];
+        var colors = ['#FF7F50','#F5DEB3','#B8860B','#BDB76B','#FFDEAD','#D2B48C'];
         var numberOfScheduledEpochs = ${fn:length(command.studySubject.scheduledEpochs)};
         for(var i=0;i < numberOfScheduledEpochs; i++){
 	        	var divId = 'legend-scheduled_epoch'+ '-' + i;
