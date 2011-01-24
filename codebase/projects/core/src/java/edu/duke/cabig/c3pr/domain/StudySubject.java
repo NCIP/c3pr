@@ -33,7 +33,6 @@ import org.hibernate.annotations.Where;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.EpochType;
@@ -1769,7 +1768,7 @@ public class StudySubject extends
 		if(!this.getScheduledEpoch().getEpoch().getEnrollmentIndicator()){
 			return false ;
 		}
-		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySite().getStudy().getCompanionStudyAssociations()){
+		for(CompanionStudyAssociation companionStudyAssociation : this.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStudyVersion().getCompanionStudyAssociations()){
 			if (companionStudyAssociation.getMandatoryIndicator()) {
 				boolean hasCorrespondingStudySubject = false;
 				for (StudySubject childStudySubject : this.getChildStudySubjects()) {
