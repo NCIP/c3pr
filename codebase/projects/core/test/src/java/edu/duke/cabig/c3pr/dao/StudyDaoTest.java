@@ -2608,6 +2608,50 @@ public class StudyDaoTest extends DaoTestCase {
 		
 	}
 	
+	 public void testGetResultSetWithStudyCategory() throws Exception {
+			AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+					.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Study",  "category.code", "SECTION_2", "=");
+
+			List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			criteriaParameters.add(advancedSearchCriteriaParameter1);
+			
+			List<Study> studies = dao.search(criteriaParameters);
+			assertEquals("Unexpected number of studies", 1,  studies.size());
+		}
+	 
+	 public void testGetResultSetWithStudySponsorType() throws Exception {
+			AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+					.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Study",  "sponsorType.code", "EXTERNALLY_PEER_REVIEWED", "=");
+
+			List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			criteriaParameters.add(advancedSearchCriteriaParameter1);
+			
+			List<Study> studies = dao.search(criteriaParameters);
+			assertEquals("Unexpected number of studies", 1,  studies.size());
+		}
+	 
+	 public void testGetResultSetWithNCIRecognizedProgram() throws Exception {
+			AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+					.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Study",  "nciRecognizedProgramName.code", "Cancer_Prevention", "=");
+
+			List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			criteriaParameters.add(advancedSearchCriteriaParameter1);
+			
+			List<Study> studies = dao.search(criteriaParameters);
+			assertEquals("Unexpected number of studies", 1,  studies.size());
+		}
+	 
+	 public void testGetResultSetWithInvestigatorInitiatedIndicator() throws Exception {
+			AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+					.buildAdvancedSearchCriteriaParameter( "edu.duke.cabig.c3pr.domain.Study",  "investigatorInitiated", "true", "=");
+
+			List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+			criteriaParameters.add(advancedSearchCriteriaParameter1);
+			
+			List<Study> studies = dao.search(criteriaParameters);
+			assertEquals("Unexpected number of studies", 1,  studies.size());
+		}
+	
 }
 
 
