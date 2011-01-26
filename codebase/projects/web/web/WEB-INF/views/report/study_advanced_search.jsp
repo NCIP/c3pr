@@ -330,7 +330,7 @@ width:16em;
           		<input type="hidden" name="searchCriteriaList[25].objectName" value="edu.duke.cabig.c3pr.domain.Study"/>
           		<input type="hidden" name="searchCriteriaList[25].attributeName" value="nciRecognizedProgramName.code" />
           		<input type="hidden" name="searchCriteriaList[25].predicate" value="in"/>
-        		<select id="nCIRecognizedProgramName" size="4" multiple="multiple" name="searchCriteriaList[24].values">
+        		<select id="nCIRecognizedProgramName" size="4" multiple="multiple" name="searchCriteriaList[25].values">
                    <option value="" selected="selected">All</option>
                    <c:forEach items="${nCIRecognizedProgramsRefData}" var="nCIRecognizedProgramName">
                        <c:if test="${!empty nCIRecognizedProgramName}">
