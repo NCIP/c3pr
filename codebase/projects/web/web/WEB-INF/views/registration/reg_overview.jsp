@@ -845,7 +845,7 @@
 	</chrome:division>
 </div>
 <c:if test="${canBroadcast}">
-    <chrome:division title="caBIG¨ Clinical Trials Suite Applications">
+    <chrome:division title="caBIG<sup>&reg</sup> Clinical Trials Suite Applications">
     	<ul>
 	    	<c:if test="${!empty caaersBaseUrl}">
 		    <li><a href="javascript:accessApp('${caaersBaseUrl }','${caaers_window }')"><b>Adverse Event Reporting System</b></a></li>
