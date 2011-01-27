@@ -373,7 +373,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		request1.setStudyIdentifier(studyId);
 		List<Consent> list = service.queryStudyConsent(request1).getConsents()
 				.getItem();
-		assertEquals(2, list.size());
+		assertEquals(1, list.size());
 		
 		// study does not exist.
 		studyId.getIdentifier().setExtension(
