@@ -189,7 +189,7 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 
 		healthcareSite = new LocalHealthcareSite();
 		healthcareSite.setCtepCode(TEST_ORG_ID, true);
-		expect(healthcareSiteDao.getByPrimaryIdentifier(TEST_ORG_ID))
+		expect(healthcareSiteDao.getByTypeAndCodeFromLocal(ORG_ID_TYPE_CTEP, TEST_ORG_ID, true))
 				.andReturn(healthcareSite).anyTimes();
 		replay(healthcareSiteDao);
 
