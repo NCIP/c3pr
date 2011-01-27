@@ -2963,7 +2963,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
 	  	try {
-			studySubject.updateRegistryStatus("XYZ", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true)}));
+			studySubject.updateRegistryStatus("XYZ", date, null, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true)}));
 			fail();
 		} catch (C3PRCodedRuntimeException e) {
 			e.printStackTrace();
@@ -2993,9 +2993,10 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	replayMocks();
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
-	  	studySubject.updateRegistryStatus("Pre-Enrolled", date, new ArrayList<RegistryStatusReason>());
+	  	studySubject.updateRegistryStatus("Pre-Enrolled", date, "some comment", new ArrayList<RegistryStatusReason>());
 		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
 		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
+		assertEquals("some comment", studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getCommentText());
 		assertEquals(permissibleStudySubjectRegistryStatus1, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getPermissibleStudySubjectRegistryStatus());
 		verifyMocks();
   }
@@ -3023,7 +3024,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	replayMocks();
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
-	  	studySubject.updateRegistryStatus("Enrolled", date, null);
+	  	studySubject.updateRegistryStatus("Enrolled", date, null, null);
 		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
 		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
 		assertEquals(permissibleStudySubjectRegistryStatus2, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getPermissibleStudySubjectRegistryStatus());
@@ -3059,7 +3060,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
 	  	try {
-	  		studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("C","C",null,true)}));
+	  		studySubject.updateRegistryStatus("Screen Failed", date, null, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("C","C",null,true)}));
 	  		fail();
 		} catch (C3PRCodedRuntimeException e) {
 			e.printStackTrace();
@@ -3097,7 +3098,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	replayMocks();
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
-	  	studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("B","B",null,true)}));
+	  	studySubject.updateRegistryStatus("Screen Failed", date, null, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("B","B",null,true)}));
 		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
 		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
 		assertEquals(permissibleStudySubjectRegistryStatus3, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getPermissibleStudySubjectRegistryStatus());
@@ -3137,7 +3138,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
 	  	try {
-	  		studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
+	  		studySubject.updateRegistryStatus("Screen Failed", date, null, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
 	  																											new RegistryStatusReason("C","C",null,false)}));
 	  		fail();
 		} catch (C3PRCodedRuntimeException e) {
@@ -3178,7 +3179,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		replayMocks();
 	  	studySubject.setStudySite(studySite);
 	  	Date date = new Date();
-	  	studySubject.updateRegistryStatus("Screen Failed", date, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
+	  	studySubject.updateRegistryStatus("Screen Failed", date, null, Arrays.asList(new RegistryStatusReason[]{new RegistryStatusReason("A","A",null,true), 
 					new RegistryStatusReason("Q","Q",null,false)}));
 		assertEquals(1, studySubject.getStudySubjectRegistryStatusHistoryInternal().size());
 		assertEquals(date, studySubject.getStudySubjectRegistryStatusHistoryInternal().get(0).getEffectiveDate());
@@ -3195,15 +3196,15 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
         Date date3= new GregorianCalendar(2008, 01, 30).getTime();
         Date date2= new GregorianCalendar(2007, 01, 30).getTime();
         Date date1= new GregorianCalendar(2006, 01, 30).getTime();
-        StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus(date2,null);
+        StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus(date2,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date4,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date4,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date3,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date3,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date5,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date5,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date1,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date1,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
         
         List<StudySubjectRegistryStatus> history = studySubject.getStudySubjectRegistryStatusHistory();
@@ -3227,15 +3228,15 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
         Date date3= new GregorianCalendar(2008, 01, 30).getTime();
         Date date2= new GregorianCalendar(2007, 01, 30).getTime();
         Date date1= new GregorianCalendar(2006, 01, 30).getTime();
-        StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus(date2,null);
+        StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus(date2,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date4,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date4,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date3,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date3,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date5,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date5,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
-        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date1,null);
+        studySubjectRegistryStatus = new StudySubjectRegistryStatus(date1,null, null);
         studySubject.getStudySubjectRegistryStatusHistoryInternal().add(studySubjectRegistryStatus);
         
         assertEquals(date5, studySubject.getStudySubjectRegistryStatus().getEffectiveDate());

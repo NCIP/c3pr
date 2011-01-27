@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +21,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
-import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.customfield.CustomField;
@@ -29,65 +29,13 @@ import edu.duke.cabig.c3pr.domain.factory.ParameterizedBiDirectionalInstantiateF
 import edu.duke.cabig.c3pr.domain.factory.ParameterizedInstantiateFactory;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
 @Table(name = "stu_sub_demographics")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "stu_sub_demographics_id_seq") })
-public class StudySubjectDemographics extends AbstractMutableDeletableDomainObject implements Customizable,IdentifiableObject{
+public class StudySubjectDemographics extends PersonBase implements Customizable,IdentifiableObject{
 	
-	 private String firstName;
-
-    private String lastName;
-
-    private String maidenName;
-
-    private String middleName;
-    
-
-    public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getMaidenName() {
-		return maidenName;
-	}
-
-	public void setMaidenName(String maidenName) {
-		this.maidenName = maidenName;
-	}
-
-	public String getMiddleName() {
-		return middleName;
-	}
-
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
-	
-	 @Transient
-    public String getFullName() {
-        String fullName = this.getFirstName() ;
-        if(StringUtils.isNotBlank(getMiddleName())){
-        	fullName += " "+ this.getMiddleName();
-        }
-        fullName +=  " " + this.getLastName() ; 
-        return fullName ;
-    }
-
 	@Transient
 	public Address getAddress() {
 		if (this.address == null) {
@@ -115,8 +63,6 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
     }
 
 	private Address address;
-
-    protected List<ContactMechanism> contactMechanisms = new ArrayList<ContactMechanism>();
 
 	/** The birth date. */
 	private Date birthDate;
@@ -290,113 +236,6 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 			List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers) {
 		// do nothing
 	}
-
-	@OneToMany
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@JoinColumn(name = "stu_sub_dmgphcs_id")
-	@OrderBy("id")
-	public List<ContactMechanism> getContactMechanisms() {
-		return contactMechanisms;
-	}
-
-	/* (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.domain.Person#setContactMechanisms(java.util.List)*/
-	 
-	public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
-		this.contactMechanisms = contactMechanisms;
-	}
-	
-	public void addContactMechanism(ContactMechanism contactMechanism){
-		getContactMechanisms().add(contactMechanism);
-	}
-	
-	  @Transient
-		public String getEmail(){
-			for(ContactMechanism contactMechanism: getContactMechanisms()){
-				if(contactMechanism.getType()==ContactMechanismType.EMAIL){
-					return contactMechanism.getValue();
-				}
-			}
-			return null;
-		}
-		
-		@Transient
-		public String getPhone(){
-			for(ContactMechanism contactMechanism: getContactMechanisms()){
-				if(contactMechanism.getType()==ContactMechanismType.PHONE){
-					return contactMechanism.getValue();
-				}
-			}
-			return null;
-		}
-		
-		@Transient
-		public String getFax(){
-			for(ContactMechanism contactMechanism: getContactMechanisms()){
-				if(contactMechanism.getType()==ContactMechanismType.Fax){
-					return contactMechanism.getValue();
-				}
-			}
-			return null;
-		}
-		
-		 @Transient
-		    private ContactMechanism getContactMechanism(ContactMechanismType type) {
-		        for(ContactMechanism contactMechanism: getContactMechanisms()){
-		        	if(contactMechanism.getType() == type)
-		        		return contactMechanism;
-		        }
-		        return null;
-		    }
-		
-		private void setContactMechanism(String value, ContactMechanismType contactMechanismType, boolean local){
-			ContactMechanism contactMechanism= getContactMechanism(contactMechanismType);
-			if(StringUtils.getBlankIfNull(value).equals("")){
-				if(contactMechanism !=null){
-					contactMechanisms.remove(contactMechanism);
-				}
-				return;
-			}
-			if(contactMechanismType == null){
-				throw new NullPointerException("Cannot set empty contact mechanism type");
-			}
-			if(contactMechanismType == ContactMechanismType.EMAIL && !StringUtils.isValidEmail(value)){
-				throw new IllegalArgumentException("Invalid email address");
-			}
-			if(contactMechanismType == ContactMechanismType.PHONE && !StringUtils.isValidPhone(value)){
-				throw new IllegalArgumentException("Invalid phone number");
-			}
-			if(contactMechanismType == ContactMechanismType.Fax && !StringUtils.isValidFax(value)){
-				throw new IllegalArgumentException("Invalid fax number");
-			}
-			if(contactMechanism == null){
-				if(local){
-					contactMechanism = new LocalContactMechanism();
-				}else{
-					contactMechanism = new RemoteContactMechanism();
-				}
-				contactMechanism.setType(contactMechanismType);
-				contactMechanisms.add(contactMechanism);
-			}
-			contactMechanism.setValue(value);
-		}
-		
-		public void setEmail(String email){
-			setContactMechanism(email, ContactMechanismType.EMAIL, true);
-		}
-		
-		public void setPhone(String phone){
-			setContactMechanism(phone, ContactMechanismType.PHONE, true);
-		}
-		
-		public void setFax(String fax){
-			setContactMechanism(fax, ContactMechanismType.Fax, true);
-		}
-		
-		public void setRemoteEmail(String email){
-			setContactMechanism(email, ContactMechanismType.EMAIL, false);
-		}
-	
 
 	/**
 	 * Gets the birth date.
@@ -666,4 +505,14 @@ public class StudySubjectDemographics extends AbstractMutableDeletableDomainObje
 		customField.setStudySubjectDemographics(this);
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
+	 */
+	@OneToMany
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "stu_sub_dmgphcs_id")
+	@OrderBy("id")
+	public Set<ContactMechanism> getContactMechanisms() {
+		return contactMechanisms;
+	}
 }

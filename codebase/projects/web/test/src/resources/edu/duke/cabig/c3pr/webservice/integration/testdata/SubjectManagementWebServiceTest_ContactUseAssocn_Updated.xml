@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+	<contact_use_assocns use="HP" retired_indicator="false" />
+	<contact_use_assocns use="AS" retired_indicator="false" />
+    <contact_use_assocns use="HP" retired_indicator="false" />
+    <contact_use_assocns use="AS" retired_indicator="false" />
+    <contact_use_assocns use="HP" retired_indicator="false" />
+    <contact_use_assocns use="AS" retired_indicator="false" />
+    <contact_use_assocns use="HP" retired_indicator="false" />
+    <contact_use_assocns use="AS" retired_indicator="false" />
+</dataset>

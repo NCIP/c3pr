@@ -1,14 +1,24 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.constants.AddressUse;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
@@ -28,6 +38,8 @@ public class Address extends AbstractMutableDeletableDomainObject {
     private String postalCode;
 
     private String countryCode;
+    
+    private Set<AddressUseAssociation> addressUseAssociation = new LinkedHashSet<AddressUseAssociation>();
 
     public Address() {
     }
@@ -200,6 +212,37 @@ public class Address extends AbstractMutableDeletableDomainObject {
 		}
 		return true;
 	}
+
+	@OneToMany
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name="add_id")
+    @OrderBy("id")
+	public Set<AddressUseAssociation> getAddressUseAssociation() {
+		return addressUseAssociation;
+	}
+
+	public void setAddressUseAssociation(
+			Set<AddressUseAssociation> addressUseAssociation) {
+		this.addressUseAssociation = addressUseAssociation;
+	}
 	
+	@Transient
+	public List<AddressUse> getAddressUses(){
+		List<AddressUse> uses = new ArrayList<AddressUse>();
+		for(AddressUseAssociation addressUseAssociation : getAddressUseAssociation()){
+			uses.add(addressUseAssociation.getUse());
+		}
+		return uses;
+	}
 	
+	public void setAddressUses(List<AddressUse> uses){
+		addressUseAssociation.clear();
+		for(AddressUse use: uses){
+			addressUseAssociation.add(new AddressUseAssociation(use));
+		}
+	}
+	
+	public void addAddressUse(AddressUse use){
+		addressUseAssociation.add(new AddressUseAssociation(use));
+	}
 }

@@ -42,7 +42,9 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETST;
+import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
+import edu.duke.cabig.c3pr.webservice.iso21090.UpdateMode;
 import edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyAbstractRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.QueryRegistryStatusRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyAbstractRequest;
@@ -71,13 +73,13 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final int STATUS_INACTIVE_ID = 110153;
 	private static final int STATUS_ACTIVE_ID = 110152;
 
-	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))) ORDER BY consent_questions.code";
-	private static final String SQL_CONSENTS = "SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))";
+	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))) ORDER BY consent_questions.id";
+	private static final String SQL_CONSENTS = "SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}'))) order by consents.id";
 	private static final String SQL_PERM_REG_STATS = "SELECT * FROM permissible_reg_stats WHERE EXISTS (SELECT Id FROM studies where studies.id=permissible_reg_stats.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')) ORDER BY id";
 	private static final String SQL_STUDY_ORGS = "SELECT * FROM study_organizations WHERE EXISTS (SELECT Id FROM studies where studies.id=study_organizations.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')) ORDER BY id";
 	private static final String SQL_STUDY_VERSIONS = "SELECT * FROM study_versions WHERE EXISTS (SELECT Id FROM studies where studies.id=study_versions.study_id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}'))";
 	private static final String SQL_STUDIES = "SELECT * FROM studies WHERE EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')";
-	private static final String SQL_IDENTIFIERS = "SELECT type, dtype FROM identifiers WHERE value='${STUDY_ID}' ORDER BY id";
+	private static final String SQL_IDENTIFIERS = "SELECT type, dtype FROM identifiers WHERE stu_id=(Select stu_id from identifiers where value='${STUDY_ID}' and primary_indicator='1') ORDER BY id";
 
 	private static final String DBUNIT_DATASET_PREFIX = "/edu/duke/cabig/c3pr/webservice/integration/testdata/StudyUtilityWebServiceTest_";
 
@@ -88,6 +90,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String UPDATE_DISCRIMINATOR = " UPDATED";
 
 	private final String STUDY_ID = RandomStringUtils.randomAlphanumeric(16);
+	
+	private final String SITE_STUDY_ID = RandomStringUtils.randomAlphanumeric(16);
 
 	private static final ISO21090Helper iso = new ISO21090Helper();
 
@@ -307,8 +311,9 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private void executeUpdateConsentTest() throws DataSetException,
 			IOException, SQLException, DatabaseUnitException, Exception {
 		StudyUtility service = getService();
-		final Consent consent = createConsent(UPDATE_DISCRIMINATOR);
 
+		//null updatemode , defaults to replace consent
+		final Consent consent = createConsent(UPDATE_DISCRIMINATOR, null);
 		UpdateStudyConsentRequest request = new UpdateStudyConsentRequest();
 		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
 		request.setStudyIdentifier(studyId);
@@ -316,12 +321,60 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Consent updatedConsent = service.updateStudyConsent(request)
 				.getConsent();
 		assertTrue(BeanUtils.deepCompare(consent, updatedConsent));
+		// check database data
+		verifyData("Consents_ReplaceConsent", "", "consents", SQL_CONSENTS);
+		verifyData("ConsentQuestions_ReplaceConsent", "", "consent_questions",
+				SQL_CONSENT_QUESTIONS);
 
+		//add consent
+		final Consent addConsent = createConsent("", UpdateMode.A);
+		request.setStudyIdentifier(studyId);
+		request.setConsent(addConsent);
+		updatedConsent = service.updateStudyConsent(request)
+				.getConsent();
+		addConsent.getVersionNumberText().setUpdateMode(null);
+		assertTrue(BeanUtils.deepCompare(addConsent, updatedConsent));
+		// check database data
+		verifyData("Consents_AddConsent", "", "consents", SQL_CONSENTS);
+		verifyData("ConsentQuestions_AddConsent", "", "consent_questions",
+				SQL_CONSENT_QUESTIONS);
+		
+		//update consent
+		final Consent updateConsent = createConsent(UPDATE_DISCRIMINATOR + " 2", UpdateMode.U);
+		updateConsent.setOfficialTitle(iso.ST(TEST_CONSENT_TITLE));
+		updateConsent.setVersionNumberText(iso.ST(TEST_VERSION_NUMBER));
+		updateConsent.getVersionNumberText().setUpdateMode(UpdateMode.U);
+		request.setStudyIdentifier(studyId);
+		request.setConsent(updateConsent);
+		updatedConsent = service.updateStudyConsent(request)
+				.getConsent();
+		updateConsent.getVersionNumberText().setUpdateMode(null);
+		assertTrue(BeanUtils.deepCompare(updateConsent, updatedConsent));
 		// check database data
 		verifyData("Consents_UpdateConsent", "", "consents", SQL_CONSENTS);
 		verifyData("ConsentQuestions_UpdateConsent", "", "consent_questions",
 				SQL_CONSENT_QUESTIONS);
-
+		
+		//update consent
+		final Consent retireConsent = createConsent(UPDATE_DISCRIMINATOR, UpdateMode.D);
+		request.setStudyIdentifier(studyId);
+		request.setConsent(retireConsent);
+		updatedConsent = service.updateStudyConsent(request)
+				.getConsent();
+		retireConsent.getVersionNumberText().setUpdateMode(null);
+		retireConsent.getVersionNumberText().setNullFlavor(NullFlavor.INV);
+		assertTrue(BeanUtils.deepCompare(retireConsent, updatedConsent));
+		// check database data
+		verifyData("Consents_RetireConsent", "", "consents", SQL_CONSENTS);
+		
+		//test using query
+		// all consents of the study
+		final QueryStudyConsentRequest request1 = new QueryStudyConsentRequest();
+		request1.setStudyIdentifier(studyId);
+		List<Consent> list = service.queryStudyConsent(request1).getConsents()
+				.getItem();
+		assertEquals(2, list.size());
+		
 		// study does not exist.
 		studyId.getIdentifier().setExtension(
 				RandomStringUtils.randomAlphanumeric(32));
@@ -331,7 +384,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Unexistent study creation passed.");
 		}
-
+		
 	}
 
 	private void executeQueryConsentTest()
@@ -347,7 +400,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		assertEquals(1, list.size());
 
 		// consent with data
-		Consent example = createConsent("");
+		Consent example = createConsent("", null);
 		request.setConsent(example);
 		list = service.queryStudyConsent(request).getConsents().getItem();
 		assertEquals(1, list.size());
@@ -482,6 +535,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		final UpdateStudyAbstractRequest request = new UpdateStudyAbstractRequest();
 		StudyProtocolVersion study = createStudy(UPDATE_DISCRIMINATOR);
 		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier().remove(2);
+		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createSiteIdentifier());
 		request.setStudy(study);
 		StudyProtocolVersion updatedStudy = service
 				.updateStudyAbstract(request).getStudy();
@@ -589,6 +643,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String TEST_SECONDARY_REASON_DESCR = "Other";
 	private static final String TEST_SECONDARY_REASON_CODE = "OTHER";
 	private static final String TEST_ORG_ID = "MN026";
+	private static final String TEST_ADDED_ORG_ID = "NC010";
 
 	// study utility
 	private static final String TEST_REGISTRY_STATUS = STATUS_ACTIVE;
@@ -667,11 +722,11 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			String appendix) {
 		DocumentVersionRelationship rel = new DocumentVersionRelationship();
 		rel.setTypeCode(iso.CD(TEST_CONSENT_RELATIONSHIP));
-		rel.setTarget(createConsent(appendix));
+		rel.setTarget(createConsent(appendix, null));
 		return rel;
 	}
 
-	protected Consent createConsent(String appendix) {
+	protected Consent createConsent(String appendix, UpdateMode updateMode) {
 		Consent consent = new Consent();
 		consent.setMandatoryIndicator(iso.BL(true));
 		consent.setOfficialTitle(iso.ST(TEST_CONSENT_TITLE + appendix));
@@ -685,6 +740,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		consent.getDocumentVersionRelationship().add(
 				createConsentQuestionRelationship(TEST_CONSENT_QUESTION_2
 						+ appendix));
+		consent.getVersionNumberText().setUpdateMode(updateMode);
 		return consent;
 	}
 
@@ -740,7 +796,23 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		docId.setAssigningOrganization(createOrganization());
 		return docId;
 	}
-
+	
+	protected DocumentIdentifier createSiteIdentifier() {
+		DocumentIdentifier docId = new DocumentIdentifier();
+		docId.setIdentifier(iso.II(SITE_STUDY_ID));
+		docId.setPrimaryIndicator(iso.BL(false));
+		docId.setTypeCode(iso.CD("SITE_IDENTIFIER"));
+		
+		Organization org = new Organization();
+		OrganizationIdentifier orgId = new OrganizationIdentifier();
+		orgId.setIdentifier(iso.II(TEST_ADDED_ORG_ID));
+		orgId.setPrimaryIndicator(iso.BL(true));
+		orgId.setTypeCode(iso.CD(TEST_CTEP));
+		org.getOrganizationIdentifier().add(orgId);
+		docId.setAssigningOrganization(org);
+		return docId;
+	}
+	
 	protected Organization createOrganization() {
 		Organization org = new Organization();
 		org.getOrganizationIdentifier().add(createOrganizationIdentifier());

@@ -9,13 +9,14 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
  * Created by IntelliJ IDEA. User: kherm Date: Aug 27, 2007 Time: 12:23:36 PM To change this
  * template use File | Settings | File Templates.
  */
-public enum ContactMechanismType implements CodedEnum<String> {
+public enum AddressUse implements CodedEnum<String> {
 
-    PHONE("Phone"), EMAIL("Email"), Fax("Fax"), OTHER("Other");
+    H("Home"), HP("Primary Home"), HV("Vacation Home"), WP("Work Place"), DIR("Direct"), PUB("Public"), BAD("Bad Adress"), TMP("Temporary Address"), 
+    ABC("Alphabetic"), IDE("Ideographic"), SYL("Syllabic"), PHYS("Physical Visit Address"), PST("Postal Address"), SNDX("Soundex"), PHON("Phonetic");
 
     private String code;
 
-    ContactMechanismType(String code) {
+    AddressUse(String code) {
         this.code = code;
         register(this);
     }
@@ -24,8 +25,8 @@ public enum ContactMechanismType implements CodedEnum<String> {
         return code;
     }
 
-    public static ContactMechanismType getByCode(String code) {
-        return getByClassAndCode(ContactMechanismType.class, code);
+    public static AddressUse getByCode(String code) {
+        return getByClassAndCode(AddressUse.class, code);
     }
 
     public String getDisplayName() {

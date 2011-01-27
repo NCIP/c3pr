@@ -26,6 +26,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
+import edu.duke.cabig.c3pr.constants.AddressUse;
+import edu.duke.cabig.c3pr.constants.ContactMechanismUse;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
@@ -674,7 +676,11 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 		addressCopy.setStateCode(this.getAddress().getStateCode());
 		addressCopy.setCountryCode(this.getAddress().getCountryCode());
 		addressCopy.setPostalCode(this.getAddress().getPostalCode());
-		
+		if(CollectionUtils.isNotEmpty(this.getAddress().getAddressUseAssociation())){
+			for(AddressUse use : this.getAddress().getAddressUses()){
+				addressCopy.getAddressUseAssociation().add(new AddressUseAssociation(use));
+			}
+		}
 		studySubjectDemographics.setAddress(addressCopy);
 		
 		// copy contact mechanisms
@@ -683,7 +689,11 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 			ContactMechanism contactMechanismCopy = new ContactMechanism();
 			contactMechanismCopy.setType(contactMechanism.getType());
 			contactMechanismCopy.setValue(contactMechanism.getValue());
-			
+			if(CollectionUtils.isNotEmpty(contactMechanism.getContactMechanismUseAssociation())){
+				for(ContactMechanismUse use : contactMechanism.getContactUses()){
+					contactMechanismCopy.getContactMechanismUseAssociation().add(new ContactMechanismUseAssociation(use));
+				}
+			}
 			studySubjectDemographics.addContactMechanism(contactMechanismCopy);
 		}
 		

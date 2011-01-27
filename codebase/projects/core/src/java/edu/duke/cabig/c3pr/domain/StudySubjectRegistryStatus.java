@@ -26,26 +26,27 @@ public class StudySubjectRegistryStatus extends AbstractMutableDeletableDomainOb
 	
 	private List<RegistryStatusReason> reasons= new ArrayList<RegistryStatusReason>();
 	
+	private String commentText;
+	
 	public StudySubjectRegistryStatus() {
 		super();
 	}
 
 	public StudySubjectRegistryStatus(
 			Date effectiveDate,
-			PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus,
+			PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus, String comment,
 			List<RegistryStatusReason> reasons) {
-		super();
-		this.effectiveDate = effectiveDate;
-		this.permissibleStudySubjectRegistryStatus = permissibleStudySubjectRegistryStatus;
+		this(effectiveDate, permissibleStudySubjectRegistryStatus, comment);
 		this.reasons = reasons;
 	}
 
 	public StudySubjectRegistryStatus(
 			Date effectiveDate,
-			PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus) {
+			PermissibleStudySubjectRegistryStatus permissibleStudySubjectRegistryStatus, String comment) {
 		super();
 		this.effectiveDate = effectiveDate;
 		this.permissibleStudySubjectRegistryStatus = permissibleStudySubjectRegistryStatus;
+		this.commentText = comment;
 	}
 
 	public Date getEffectiveDate() {
@@ -78,7 +79,13 @@ public class StudySubjectRegistryStatus extends AbstractMutableDeletableDomainOb
 	public void setReasons(List<RegistryStatusReason> reasons) {
 		this.reasons = reasons;
 	}
-	
-	
+
+	public String getCommentText() {
+		return commentText;
+	}
+
+	public void setCommentText(String comment) {
+		this.commentText = comment;
+	}
 
 }

@@ -44,8 +44,9 @@
 		
 	<!-- Study Utility -->
 	<bean id="studyUtilityService"
-		class="edu.duke.cabig.c3pr.webservice.studyutility.impl.StudyUtilityImpl"
-		autowire="byType" />	
+		class="edu.duke.cabig.c3pr.webservice.studyutility.impl.StudyUtilityImpl" autowire="byName">
+		<property name="converter" ref="jAXBToDomainObjectConverter"></property>
+	</bean>	
 	
 	<jaxws:endpoint id="studyUtilityEndpoint"
 		implementor="#studyUtilityService" address="/services/StudyUtility">
@@ -66,8 +67,9 @@
 	</jaxws:endpoint>		
 	
 	<bean id="subjectManagementService"
-		class="edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl"
-		autowire="byType" />
+		class="edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl" autowire="byName">
+		<property name="converter" ref="jAXBToDomainObjectConverter"></property>
+	</bean>
 	
 	
 	<jaxws:endpoint id="subjectManagementEndpoint"
@@ -93,8 +95,9 @@
 		autowire="byType" />
 	
 	<bean id="subjectRegistrationService"
-		class="edu.duke.cabig.c3pr.webservice.subjectregistration.impl.SubjectRegistrationImpl"
-		autowire="byType" />
+		class="edu.duke.cabig.c3pr.webservice.subjectregistration.impl.SubjectRegistrationImpl" autowire="byName">
+		<property name="converter" ref="subjectRegistrationJAXBToDomainObjectConverter"></property>
+	</bean>
 	
 	
 	<jaxws:endpoint id="subjectRegistrationEndpoint"
@@ -120,8 +123,9 @@
 		autowire="byType" />
 	
 	<bean id="subjectRegistryService"
-		class="edu.duke.cabig.c3pr.webservice.subjectregistry.impl.SubjectRegistryImpl"
-		autowire="byType" />
+		class="edu.duke.cabig.c3pr.webservice.subjectregistry.impl.SubjectRegistryImpl" autowire="byName">
+		<property name="converter" ref="subjectRegistryJAXBToDomainObjectConverter"></property>
+	</bean>
 	
 	<jaxws:endpoint id="subjectRegistryEndpoint"
 		implementor="#subjectRegistryService" address="/services/SubjectRegistry">

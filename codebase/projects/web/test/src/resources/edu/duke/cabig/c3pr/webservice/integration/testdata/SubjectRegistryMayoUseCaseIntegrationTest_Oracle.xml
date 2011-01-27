@@ -66,7 +66,7 @@
   
   <ADDRESSES id="1001" version="1" street_address="Mayo" city="Mayo" state_code="MN" postal_code="20191" country_code="USA"  retired_indicator = "false"/>
   <ADDRESSES id="-1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
-  
+  <address_use_assocns />
   
   <ORGANIZATIONS id="-1000" version="1" name="dummy" description_text="dummy" dtype="Local" retired_indicator="false" address_id="-1000"/>
   <ORGANIZATIONS id="1000" version="1" name="Mayo Clinic Rochester" description_text="Mayo Clinic Rochester" dtype="Local" retired_indicator="false" address_id="1001"/>
@@ -85,7 +85,7 @@
   <race_code_assocn />
   
   <CONTACT_MECHANISMS />
-  
+  <contact_use_assocns />
   <IDENTIFIERS id="1000" version="1" value="MN026" type="CTEP" dtype="OAI" hcs_id="-1000" org_id="1000" retired_indicator="false" primary_indicator="1"/>
   
   <STU_SUB_REG_STATUSES/>

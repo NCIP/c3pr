@@ -1,17 +1,28 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.ContactMechanismUse;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
@@ -30,6 +41,8 @@ public class ContactMechanism extends AbstractMutableDeletableDomainObject {
 
     /** The value. */
     private String value;
+    
+    private Set<ContactMechanismUseAssociation> contactMechanismUseAssociation = new LinkedHashSet<ContactMechanismUseAssociation>();
     
     public ContactMechanism() {}
     
@@ -147,7 +160,28 @@ public class ContactMechanism extends AbstractMutableDeletableDomainObject {
 	public String toString() {
 		return "ContactMechanism [type=" + type + ", value=" + value + "]";
 	}
+
+	@OneToMany
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name="cntct_id")
+    @OrderBy("id")
+	public Set<ContactMechanismUseAssociation> getContactMechanismUseAssociation() {
+		return contactMechanismUseAssociation;
+	}
+
+
+	public void setContactMechanismUseAssociation(
+			Set<ContactMechanismUseAssociation> contactMechanismUseAssociation) {
+		this.contactMechanismUseAssociation = contactMechanismUseAssociation;
+	}
 	
-	
+	@Transient
+	public List<ContactMechanismUse> getContactUses(){
+		List<ContactMechanismUse> uses = new ArrayList<ContactMechanismUse>();
+		for(ContactMechanismUseAssociation contactMechanismUseAssociation : getContactMechanismUseAssociation()){
+			uses.add(contactMechanismUseAssociation.getUse());
+		}
+		return uses;
+	}
 
 }

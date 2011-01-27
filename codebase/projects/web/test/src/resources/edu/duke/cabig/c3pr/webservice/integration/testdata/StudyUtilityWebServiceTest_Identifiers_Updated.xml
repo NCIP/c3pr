@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
 	<identifiers type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" />
-	<identifiers type="PROTOCOL_AUTHORITY_IDENTIFIER" dtype="OAI" />	
+	<identifiers type="PROTOCOL_AUTHORITY_IDENTIFIER" dtype="OAI" />
+    <identifiers type="SITE_IDENTIFIER" dtype="OAI" />
 </dataset>

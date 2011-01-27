@@ -7,6 +7,7 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import com.semanticbits.querybuilder.QueryGenerator;
 import com.semanticbits.querybuilder.TargetObject;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.constants.AddressUse;
+import edu.duke.cabig.c3pr.constants.ContactMechanismUse;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -821,4 +824,50 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 		assertEquals("Last name should be Cloon", "Cloon", subjects.get(0).getLastName());
 	}
 
+	/**
+     * Test for Creating Participant with basic details, address, contact mechanisms and healthcareSite
+     *
+     * @throws Exception
+     */
+
+    public void testCreateParticipantwithAddressAndContactMechanisms() throws Exception {
+        Participant participant = new Participant();
+        participant.setLastName("Doe");
+        participant.setFirstName("John");
+        participant.setAdministrativeGenderCode("Male");
+        participant.setBirthDate(new Date());
+        
+        RaceCodeAssociation  raceCodeAssociation = new RaceCodeAssociation();
+        raceCodeAssociation.setRaceCode(RaceCodeEnum.Unknown);
+        participant.addRaceCodeAssociation(raceCodeAssociation);
+
+        participant.getAddress().setCity("Charlotte");
+        participant.getAddress().setCountryCode("USA");
+        participant.getAddress().setStateCode("NC");
+        participant.getAddress().setStreetAddress("350 Glen Dale Avenue");
+        participant.getAddress().setAddressUses(Arrays.asList(AddressUse.ABC, AddressUse.H));
+        
+        participant.setEmail("john.doe@john.com", Arrays.asList(ContactMechanismUse.AS, ContactMechanismUse.H));
+        participant.setFax("111-222-3333", Arrays.asList(ContactMechanismUse.BAD, ContactMechanismUse.HP));
+        participant.setPhone("333-444-5555", Arrays.asList(ContactMechanismUse.MC, ContactMechanismUse.PG));
+        participant.setOther("some_other_contact", Arrays.asList(ContactMechanismUse.PUB));
+        
+        HealthcareSite hcs = healthcareSiteDao.getById(1000);
+        List<HealthcareSite> hcsList = new ArrayList<HealthcareSite>();
+        hcsList.add(hcs);
+        participant.setHealthcareSites(hcsList);
+        participantDao.save(participant);
+
+        interruptSession();
+
+        Participant savedParticipant = participantDao.getById(participant.getId());
+        assertEquals(1000,savedParticipant.getHealthcareSites().get(0).getId().intValue());
+        assertEquals("Doe", savedParticipant.getLastName());
+        assertEquals("NC", savedParticipant.getAddress().getStateCode());
+        assertEquals(Arrays.asList(AddressUse.ABC, AddressUse.H), savedParticipant.getAddress().getAddressUses());
+        assertEquals(Arrays.asList(ContactMechanismUse.AS, ContactMechanismUse.H), savedParticipant.getEmailContactMechanism().getContactUses());
+        assertEquals(Arrays.asList(ContactMechanismUse.BAD, ContactMechanismUse.HP), savedParticipant.getFaxContactMechanism().getContactUses());
+        assertEquals(Arrays.asList(ContactMechanismUse.MC, ContactMechanismUse.PG), savedParticipant.getPhoneContactMechanism().getContactUses());
+        assertEquals(Arrays.asList(ContactMechanismUse.PUB), savedParticipant.getOtherContactMechanism().getContactUses());
+    }
 }

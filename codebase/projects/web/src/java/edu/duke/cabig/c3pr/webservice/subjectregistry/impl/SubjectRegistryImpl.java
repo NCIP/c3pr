@@ -202,7 +202,7 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 			//copy registry statuses
 			for(PerformedStudySubjectMilestone status : studySubject.getStudySubjectStatus()){
 				StudySubjectRegistryStatus studySubjectRegistryStatus = getStudySubjectRegistryStatus(status, domainObject.getStudySite().getStudy());
-				domainObject.updateRegistryStatus(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode(), studySubjectRegistryStatus.getEffectiveDate(), studySubjectRegistryStatus.getReasons());
+				domainObject.updateRegistryStatus(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode(), studySubjectRegistryStatus.getEffectiveDate(), studySubjectRegistryStatus.getCommentText(), studySubjectRegistryStatus.getReasons());
 			}
 			
 			//test re-registration
@@ -545,7 +545,7 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		}
 		
 		DSETPerformedStudySubjectMilestone dsetPerformedStudySubjectMilestone = new DSETPerformedStudySubjectMilestone();
-		dsetPerformedStudySubjectMilestone.getItem().addAll(converter.convertToRegistryStatus(domainObject.getStudySubjectRegistryStatusHistory()));
+		dsetPerformedStudySubjectMilestone.getItem().addAll(converter.convertToStudySubjectRegistryStatus(domainObject.getStudySubjectRegistryStatusHistory()));
 		QueryStudySubjectRegistryStatusHistoryResponse response = new QueryStudySubjectRegistryStatusHistoryResponse();
 		response.setStudySubjectRegistryStatusHistory(dsetPerformedStudySubjectMilestone);
 		return response;
@@ -587,7 +587,7 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		}
 		
 		StudySubjectRegistryStatus studySubjectRegistryStatus = getStudySubjectRegistryStatus(parameters.getStudySubjectStatus(), domainObject.getStudySite().getStudy());
-		domainObject.updateRegistryStatus(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode(), studySubjectRegistryStatus.getEffectiveDate(), studySubjectRegistryStatus.getReasons());
+		domainObject.updateRegistryStatus(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode(), studySubjectRegistryStatus.getEffectiveDate(), studySubjectRegistryStatus.getCommentText(), studySubjectRegistryStatus.getReasons());
 		
 		studySubjectDao.save(domainObject);
 		
@@ -612,7 +612,7 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		domainObject.getStudySubjectRegistryStatusHistoryInternal().clear();
 		for(PerformedStudySubjectMilestone status : parameters.getStudySubjectRegistryStatusHistory().getItem()){
 			StudySubjectRegistryStatus studySubjectRegistryStatus = getStudySubjectRegistryStatus(status, domainObject.getStudySite().getStudy());
-			domainObject.updateRegistryStatus(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode(), studySubjectRegistryStatus.getEffectiveDate(), studySubjectRegistryStatus.getReasons());
+			domainObject.updateRegistryStatus(studySubjectRegistryStatus.getPermissibleStudySubjectRegistryStatus().getRegistryStatus().getCode(), studySubjectRegistryStatus.getEffectiveDate(), studySubjectRegistryStatus.getCommentText(), studySubjectRegistryStatus.getReasons());
 		}
 		studySubjectDao.save(domainObject);
 		
@@ -621,9 +621,8 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 	
-	public void setSubjectRegistryJAXBToDomainObjectConverter(
-			SubjectRegistryJAXBToDomainObjectConverter subjectRegistryJAXBToDomainObjectConverter) {
-		this.converter = subjectRegistryJAXBToDomainObjectConverter;
+	public void setConverter(SubjectRegistryJAXBToDomainObjectConverter converter) {
+		this.converter = converter;
 	}
 
 	public void setParticipantDao(ParticipantDao participantDao) {
@@ -655,7 +654,7 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	private Study getStudy(DocumentIdentifier docId) throws InvalidStudyProtocolExceptionFaultMessage{
 		Study study = null;
 		try {
-			study = studyRepository.getUniqueStudy(converter.convertDocumentIdentifiers(Arrays.asList(new DocumentIdentifier[]{docId})));
+			study = studyRepository.getUniqueStudy((List<Identifier>)converter.convert(Arrays.asList(new DocumentIdentifier[]{docId})));
 		} catch (C3PRCodedRuntimeException e) {
 			handleInvalidStudyData(e);
 		}

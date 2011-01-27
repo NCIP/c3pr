@@ -690,8 +690,8 @@ public class SubjectRegistryRelatedTestCase extends ApplicationTestCase {
 				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
 				AddressPartType.CNT))));
 		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(RACE_ASIAN)));
-		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
-				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)));
+		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO, null),
+				iso.TEL(TEST_PHONE_ISO, null), iso.TEL(TEST_FAX_ISO, null)));
 		return person;
 	}
 	

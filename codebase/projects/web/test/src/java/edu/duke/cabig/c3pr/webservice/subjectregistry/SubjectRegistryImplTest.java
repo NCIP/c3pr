@@ -41,7 +41,7 @@ public class SubjectRegistryImplTest extends SubjectRegistryRelatedTestCase {
 		subjectRegistryImpl.setStudyRepository(studyRepository);
 		subjectRegistryImpl.setStudySubjectDao(studySubjectDao);
 		subjectRegistryImpl.setStudySubjectRepository(studySubjectRepository);
-		subjectRegistryImpl.setSubjectRegistryJAXBToDomainObjectConverter(converter);
+		subjectRegistryImpl.setConverter(converter);
 	}
 	
 	public void testInitiateSubjectRegistry() throws Exception{

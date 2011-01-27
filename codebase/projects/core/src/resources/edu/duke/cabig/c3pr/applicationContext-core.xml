@@ -150,6 +150,8 @@
                 <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
                 <value>edu.duke.cabig.c3pr.domain.RegistryStatusReason</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyPersonnelRole</value>
+                <value>edu.duke.cabig.c3pr.domain.ContactMechanismUseAssociation</value>
+                <value>edu.duke.cabig.c3pr.domain.AddressUseAssociation</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -322,6 +324,8 @@
                <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
                <value>edu.duke.cabig.c3pr.domain.RegistryStatusReason</value>
                <value>edu.duke.cabig.c3pr.domain.StudyPersonnelRole</value>
+               <value>edu.duke.cabig.c3pr.domain.ContactMechanismUseAssociation</value>
+               <value>edu.duke.cabig.c3pr.domain.AddressUseAssociation</value>
             </list>
         </property>
     </bean>
@@ -472,6 +476,8 @@
                   <value>edu.duke.cabig.c3pr.domain.RegistryStatus</value>
                   <value>edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus</value>
                   <value>edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus</value>
+                  <value>edu.duke.cabig.c3pr.domain.ContactMechanismUseAssociation</value>
+                  <value>edu.duke.cabig.c3pr.domain.AddressUseAssociation</value>
               </list>
         </property>
         <!--  <property name="auditAll">

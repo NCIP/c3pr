@@ -1,26 +1,21 @@
 package edu.duke.cabig.c3pr.webservice.subjectregistration.coverters;
 
-import java.util.Date;
 import java.util.List;
 
-import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
-
-import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.DiseaseHistory;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
-import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
-import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
-import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
-import edu.duke.cabig.c3pr.webservice.common.Organization;
-import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
-import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
-import edu.duke.cabig.c3pr.webservice.common.Person;
+import edu.duke.cabig.c3pr.domain.ScheduledArm;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
+import edu.duke.cabig.c3pr.webservice.common.PerformedActivity;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
-import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
-import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.Epoch;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.PerformedDiagnosis;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.PerformedObservationResult;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.ScheduledEpoch;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.StudyInvestigator;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.StudySubject;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter;
 
 /**
  * Provides operations to convert JAXB objects, such as {@link Subject}, created during a Web service invocation into
@@ -28,51 +23,40 @@ import edu.duke.cabig.c3pr.webservice.subjectregistration.StudySubject;
  * @author dkrylov
  *
  */
-public interface SubjectRegistrationJAXBToDomainObjectConverter{
+public interface SubjectRegistrationJAXBToDomainObjectConverter extends SubjectRegistryJAXBToDomainObjectConverter{
 	
+	StudySubject convertToStudySubjectRegistration(edu.duke.cabig.c3pr.domain.StudySubject domainObject);
 	
-	/**
-	 * Converts {@link BiologicEntityIdentifier} into {@link Identifier}, enforces validation checks.
-	 * 
-	 * @param biologicIdentifiers the biologic identifiers
-	 * 
-	 * @return the list< identifier>
-	 */
-	List<Identifier> convertBiologicIdentifiers(List<BiologicEntityIdentifier> biologicIdentifiers);
+	List<ScheduledEpoch> convertToScheduledEpochs(List<edu.duke.cabig.c3pr.domain.ScheduledEpoch> scheduledEpochs);
 	
-	/**
-	 * Converts {@link SubjectIdentifier} into {@link Identifier}, enforces validation checks.
-	 * 
-	 * @param subjectIdentifiers the subject identifiers
-	 * 
-	 * @return the list< identifier>
-	 */
-	List<Identifier> convertSubjectIdentifiers(List<SubjectIdentifier> subjectIdentifiers);
+	ScheduledEpoch convertToScheduledEpoch(edu.duke.cabig.c3pr.domain.ScheduledEpoch scheduledEpoch);
 	
-	List<Identifier> convertDocumentIdentifiers(List<DocumentIdentifier> documentIdentifiers);
+	List<PerformedObservationResult> convertToSubjectEligibilityAnswers(List<SubjectEligibilityAnswer> answers);
 	
-	String convertHealthcareSitePrimaryIdentifier(Organization org);
+	List<PerformedObservationResult> convertToSubjectStratificationAnswers(List<SubjectStratificationAnswer> answers);
 	
-	String convertHealthcareSitePrimaryIdentifier(OrganizationIdentifier orgId);
+	PerformedDiagnosis convertToDiseaseHistory(DiseaseHistory diseaseHistory);
 	
-	List<StudySubjectConsentVersion> convertSubjectConsent(List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> subjectConsents);
+	StudyInvestigator convertToStudyInvestigator(edu.duke.cabig.c3pr.domain.StudySubject domainObject);
 	
-	StudySubject convert(edu.duke.cabig.c3pr.domain.StudySubject domainObject);
+	Epoch convertToEpoch(edu.duke.cabig.c3pr.domain.Epoch epoch);
 	
-	Person convertSubjectDemographics(StudySubjectDemographics studySubjectDemographics);
+	PerformedActivity convertToScheduledArm(ScheduledArm scheduledArm);
 	
-	List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> convertToSubjectConsent(List<StudySubjectConsentVersion> studySubjectConsentVersions);
+	List<edu.duke.cabig.c3pr.domain.ScheduledEpoch> convertScheduledEpochs(List<ScheduledEpoch> scheduledEpochs);
 	
-	edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion convertToSubjectConsent(StudySubjectConsentVersion studySubjectConsentVersion);
+	edu.duke.cabig.c3pr.domain.ScheduledEpoch convertScheduledEpoch(ScheduledEpoch scheduledEpoch);
 	
-	void convertToSubjectDemographics(StudySubjectDemographics destination, Subject source);
-	/**
-	 * @param param
-	 * @return
-	 */
-	AdvancedSearchCriteriaParameter convert(
-			AdvanceSearchCriterionParameter param);
+	List<SubjectEligibilityAnswer> convertSubjectEligibilityAnswers(List<PerformedObservationResult> answers);
 	
-	Date convertToDate(TSDateTime tsDateTime);
+	List<SubjectStratificationAnswer> convertSubjectStratificationAnswers(List<PerformedObservationResult> answers);
+	
+	DiseaseHistory convertDiseaseHistory(PerformedDiagnosis diseaseHistory);
+	
+	edu.duke.cabig.c3pr.domain.StudyInvestigator convertStudyInvestigator(StudyInvestigator studyInvestigator);
+	
+	edu.duke.cabig.c3pr.domain.Epoch convertEpoch(Epoch epoch);
+	
+	ScheduledArm convertScheduledArm(PerformedActivity scheduledArm);
 	
 }

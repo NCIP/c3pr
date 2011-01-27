@@ -26,7 +26,9 @@
   	<ADDRESSES id="1002" version="1" street_address="12359 sunrise valley drive" city="San Jose" state_code="CA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
     <ADDRESSES id="1003" version="1" street_address="Gautam Marg" city="Jaipur" state_code="RAJ" postal_code="302021" country_code="INDIA"  retired_indicator = "false" />
     <ADDRESSES id="1004" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" participant_id="1007"/>
-	   	 	
+	
+    <address_use_assocns />
+	
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000" retired_indicator = "false" />
     <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1001" retired_indicator = "false" />  
     <ORGANIZATIONS id="1002" version="1" name="wake forest" description_text="wake forest" dtype="Local" address_id="1001" retired_indicator = "false" />  
@@ -166,4 +168,8 @@
 
     <SCHEDULED_ARMS id="1000" version="1" start_date="2000-01-01" eligibility_indicator="1" arm_id="1000" SCEPH_ID="1000"  retired_indicator = "false" />  
       
+    <contact_mechanisms />
+    
+    <contact_use_assocns />
+    
 </dataset>

@@ -1,9 +1,13 @@
 package edu.duke.cabig.c3pr.webservice.converters;
 
+import java.util.Date;
+import java.util.List;
+
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.dao.RegistryStatusDao;
 import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RegistryStatus;
@@ -16,6 +20,7 @@ import edu.duke.cabig.c3pr.webservice.common.DocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
+import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 
 /**
  * Provides operations to convert JAXB objects, such as {@link Subject}, created
@@ -52,6 +57,15 @@ public interface JAXBToDomainObjectConverter {
 	 */
 	void convert(Participant participant, Subject subject,
 			boolean skipEmptyNameParts);
+
+	/**
+	 * Converts {@link BiologicEntityIdentifier} into {@link Identifier}, enforces validation checks.
+	 * 
+	 * @param biologicIdentifiers the biologic identifiers
+	 * 
+	 * @return the list< identifier>
+	 */
+	List<Identifier> convertBiologicIdentifiers(List<BiologicEntityIdentifier> biologicIdentifiers);
 
 	/**
 	 * Converts {@link BiologicEntityIdentifier} into
@@ -95,7 +109,7 @@ public interface JAXBToDomainObjectConverter {
 
 	/**
 	 * Unlike {
-	 * {@link #convert(edu.duke.cabig.c3pr.webservice.studyutility.Study)}
+	 * {@link #convertTo(edu.duke.cabig.c3pr.webservice.studyutility.Study)}
 	 * method, this one will only update the given {@link Study} instance by
 	 * transferring field values from the JAXB object. Identifiers won't be
 	 * transferred.
@@ -124,5 +138,13 @@ public interface JAXBToDomainObjectConverter {
 	public abstract edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus convert(PermissibleStudySubjectRegistryStatus xml);
 
 	public abstract edu.duke.cabig.c3pr.webservice.common.RegistryStatus convert(RegistryStatus domainObj);
+	
+	public List<Identifier> convert(List<DocumentIdentifier> docIds);
+	
+	public DocumentIdentifier convert(OrganizationAssignedIdentifier id);
+	
+	public Date convertToDate(TSDateTime tsDateTime);
+	
+	public void convert(Study study, List<Identifier> identifiers);
 
 }

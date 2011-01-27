@@ -1,25 +1,19 @@
 package edu.duke.cabig.c3pr.webservice.subjectregistry.converters;
 
-import java.util.Date;
 import java.util.List;
-
-import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus;
-import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
-import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
-import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.Organization;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone;
 import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
-import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
 
 /**
@@ -28,17 +22,8 @@ import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
  * @author dkrylov
  *
  */
-public interface SubjectRegistryJAXBToDomainObjectConverter{
+public interface SubjectRegistryJAXBToDomainObjectConverter extends JAXBToDomainObjectConverter{
 	
-	
-	/**
-	 * Converts {@link BiologicEntityIdentifier} into {@link Identifier}, enforces validation checks.
-	 * 
-	 * @param biologicIdentifiers the biologic identifiers
-	 * 
-	 * @return the list< identifier>
-	 */
-	List<Identifier> convertBiologicIdentifiers(List<BiologicEntityIdentifier> biologicIdentifiers);
 	
 	/**
 	 * Converts {@link SubjectIdentifier} into {@link Identifier}, enforces validation checks.
@@ -48,8 +33,6 @@ public interface SubjectRegistryJAXBToDomainObjectConverter{
 	 * @return the list< identifier>
 	 */
 	List<Identifier> convertSubjectIdentifiers(List<SubjectIdentifier> subjectIdentifiers);
-	
-	List<Identifier> convertDocumentIdentifiers(List<DocumentIdentifier> documentIdentifiers);
 	
 	String convertHealthcareSitePrimaryIdentifier(Organization org);
 	
@@ -67,20 +50,11 @@ public interface SubjectRegistryJAXBToDomainObjectConverter{
 	
 	edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion convertToSubjectConsent(StudySubjectConsentVersion studySubjectConsentVersion);
 	
-	List<PerformedStudySubjectMilestone> convertToRegistryStatus(List<StudySubjectRegistryStatus> statuses);
+	List<PerformedStudySubjectMilestone> convertToStudySubjectRegistryStatus(List<StudySubjectRegistryStatus> statuses);
 	/**
 	 * Updates the given instance of {@link StudySubjectDemographics} with new values. Does not modify identifiers. 
 	 * @param participant
 	 * @param subject
 	 */
 	void convertToSubjectDemographics(StudySubjectDemographics destination, Subject source);
-	/**
-	 * @param param
-	 * @return
-	 */
-	AdvancedSearchCriteriaParameter convert(
-			AdvanceSearchCriterionParameter param);
-	
-	Date convertToDate(TSDateTime tsDateTime);
-	
 }

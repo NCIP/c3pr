@@ -157,6 +157,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String TEST_CONSENT_QUES21="Q21";
 	protected static final String TEST_CONSENT_QUES22="Q22";
 	protected static final String TEST_REGISTRYSTATUS_CODE1="Screen Failed";
+	protected static final String TEST_REGISTRYSTATUS_COMMENT1="Some Comment";
 	protected static final String TEST_REGISTRYSTATUS_DATE1 = "20080101000000";
 	protected static final String TEST_REGISTRYSTATUS_REASON11 = "FAILED INCLUSION";
 	protected static final String TEST_REGISTRYSTATUS_REASON12 = "Lab_Out_Of_Range1";
@@ -823,6 +824,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	public static PerformedStudySubjectMilestone createStatus1(){
 		PerformedStudySubjectMilestone status = new PerformedStudySubjectMilestone();
 		status.setStatusCode(iso.CD(TEST_REGISTRYSTATUS_CODE1));
+		status.setComment(iso.ST(TEST_REGISTRYSTATUS_COMMENT1));
 		status.setStatusDate(iso.TSDateTime(TEST_REGISTRYSTATUS_DATE1));
 		status.setReasonCode(new DSETCD());
 		status.getReasonCode().getItem().add(iso.CD(TEST_REGISTRYSTATUS_REASON11));

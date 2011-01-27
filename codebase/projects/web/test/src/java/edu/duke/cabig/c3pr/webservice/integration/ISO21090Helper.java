@@ -6,6 +6,8 @@ package edu.duke.cabig.c3pr.webservice.integration;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import edu.duke.cabig.c3pr.webservice.iso21090.AD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ADXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
@@ -24,9 +26,11 @@ import edu.duke.cabig.c3pr.webservice.iso21090.II;
 import edu.duke.cabig.c3pr.webservice.iso21090.INTPositive;
 import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
+import edu.duke.cabig.c3pr.webservice.iso21090.PostalAddressUse;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 import edu.duke.cabig.c3pr.webservice.iso21090.TEL;
 import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
+import edu.duke.cabig.c3pr.webservice.iso21090.TelecommunicationAddressUse;
 
 /**
  * Helper methods to conveniently create instances of ISO 21090 JAXB classes.
@@ -127,6 +131,15 @@ public final class ISO21090Helper {
 		return ad;
 	}
 
+	public static final AD AD(List<PostalAddressUse> uses, ADXP... adxps) {
+		AD ad = new AD();
+		ad.getPart().addAll(Arrays.asList(adxps));
+		if(CollectionUtils.isNotEmpty(uses)){
+			ad.getUse().addAll(uses);			
+		}
+		return ad;
+	}
+	
 	public static final AD AD(ADXP... adxps) {
 		AD ad = new AD();
 		ad.getPart().addAll(Arrays.asList(adxps));
@@ -140,6 +153,15 @@ public final class ISO21090Helper {
 
 	}
 
+	public static final TEL TEL(String s, List<TelecommunicationAddressUse> uses) {
+		TEL tel = new TEL();
+		tel.setValue(s);
+		if(CollectionUtils.isNotEmpty(uses)){
+			tel.getUse().addAll(uses);
+		}
+		return tel;
+	}
+	
 	public static final TEL TEL(String s) {
 		TEL tel = new TEL();
 		tel.setValue(s);

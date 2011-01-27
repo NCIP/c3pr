@@ -26,10 +26,12 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.Consent;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.DocumentVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
+import edu.duke.cabig.c3pr.webservice.iso21090.UpdateMode;
 import edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyAbstractRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyAbstractResponse;
 import edu.duke.cabig.c3pr.webservice.studyutility.DSETConsent;
@@ -193,8 +195,8 @@ public class StudyUtilityImpl implements StudyUtility {
 			// transfer data except identifiers and consents
 			converter.convert(study, xmlStudy, false);
 			// update identifiers: http://jira.semanticbits.com/browse/CPR-2233
-			study.getIdentifiers().clear();
-			study.getIdentifiers().addAll(idList);
+			// update identifiers and sites: http://jira.semanticbits.com/browse/CPR-2312
+			converter.convert(study, idList);
 			studyRepository.save(study);
 			response.setStudy(converter.convert(study));
 		} catch (RuntimeException e) {
@@ -248,13 +250,57 @@ public class StudyUtilityImpl implements StudyUtility {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
 			Consent consent = request.getConsent();
 
+			if(consent.getVersionNumberText().getUpdateMode() == null){
+				log.debug("no updateMode found for consent. Defaulting to replace..");
+				consent.getVersionNumberText().setUpdateMode(UpdateMode.R);
+			}
 			Study study = getSingleStudy(studyId);
 			edu.duke.cabig.c3pr.domain.Consent domainConsent = converter
 					.convertConsent(consent);
-			study.getConsents().clear();
-			study.addConsent(domainConsent);
-			studyRepository.save(study);
-			response.setConsent(converter.convertConsent(domainConsent));
+			boolean save = true;
+			switch (consent.getVersionNumberText().getUpdateMode()) {
+			case R:
+				study.getConsents().clear();
+				study.addConsent(domainConsent);
+				break;
+			case A:
+				if(study.getConsent(domainConsent.getName(), domainConsent.getVersionId())!=null){
+					throw new RuntimeException("Cannot add consent. Another consent already exists with the given name and version");
+				}
+				study.addConsent(domainConsent);
+				break;
+			case D:
+				if(study.getConsent(domainConsent.getName(), domainConsent.getVersionId())==null){
+					throw new RuntimeException("Cannot delete consent. No consent found with the given name and version");
+				}
+				study.getConsent(domainConsent.getName(), domainConsent.getVersionId()).setRetiredIndicatorAsTrue();
+				break;
+			case AU:
+				if(study.getConsent(domainConsent.getName(), domainConsent.getVersionId())==null){
+					study.addConsent(domainConsent);
+					break;
+				}
+			case U:
+				edu.duke.cabig.c3pr.domain.Consent foundConsent = study.getConsent(domainConsent.getName(), domainConsent.getVersionId());
+				if(foundConsent == null){
+					throw new RuntimeException("Cannot update consent. No consent found with the given name and version");
+				}
+				foundConsent.setMandatoryIndicator(domainConsent.getMandatoryIndicator());
+				foundConsent.setName(domainConsent.getName());
+				foundConsent.setVersionId(domainConsent.getVersionId());
+				foundConsent.setDescriptionText(domainConsent.getDescriptionText());
+				foundConsent.getQuestions().clear();
+				foundConsent.getQuestions().addAll(domainConsent.getQuestions());
+				break;
+			default:
+				log.debug("no valid values found for updateMode. no action will be taken");
+				save = false;
+				break;
+			}
+			if(save){
+				studyRepository.save(study);
+			}
+			response.setConsent(converter.convertConsent(study.getConsent(domainConsent.getName(), domainConsent.getVersionId())));
 		} catch (RuntimeException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
 			fail(e.getMessage());
