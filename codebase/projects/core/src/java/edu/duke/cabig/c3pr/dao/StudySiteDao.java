@@ -63,7 +63,7 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
      * @return the by nci institute code
      */
     @SuppressWarnings("unchecked")
-	public List<StudySite> getByCtepCode(String ctepCode) {
+	public List<StudySite> getBySitePrimaryIdentifier(String ctepCode) {
         return getHibernateTemplate().find(
            "Select s from StudySite s where " +
            "s.healthcareSite.identifiersAssignedToOrganization.value = ? and s.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1'",
@@ -78,10 +78,10 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
      * @return the by site's Primary Identifier and short title
      */
     @SuppressWarnings("unchecked")
-	public List<StudySite> getBySiteCtepIdentifierAndStudyCoordinatingCenterIdentifier(String studyId, String sitePrimaryId) {
+	public List<StudySite> getBySitePrimaryIdentifierAndStudyCoordinatingCenterIdentifier(String studyId, String sitePrimaryId) {
         return getHibernateTemplate().find(
            "Select s from StudySite s where s.studyInternal.identifiers.value = ? and s.studyInternal.identifiers.typeInternal = 'COORDINATING_CENTER_IDENTIFIER' and " +
-           "s.healthcareSite.identifiersAssignedToOrganization.value = ? and s.healthcareSite.identifiersAssignedToOrganization.typeInternal = 'CTEP'",
+           "s.healthcareSite.identifiersAssignedToOrganization.value = ? and s.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1'",
            new Object[] {studyId, sitePrimaryId});
     }
 

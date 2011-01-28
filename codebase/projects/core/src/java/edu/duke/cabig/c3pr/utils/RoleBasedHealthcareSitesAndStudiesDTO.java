@@ -17,7 +17,7 @@ public class RoleBasedHealthcareSitesAndStudiesDTO {
 	private C3PRUserGroupType group;
 	
 	/** The sites associated to the user(think CSM) added from the UI. Initially pre-loaded from CSM and then modified from the UI before provisioning. 
-	 * 	unlike PersonOrUSerWrapper.staffOrganizationCtepCodes(list of staff orgs) this list contains the pre-existing organizations.
+	 * 	unlike PersonOrUSerWrapper.staffOrganizationPrimaryIdentifiers(list of staff orgs) this list contains the pre-existing organizations.
 	    this is because CSM orgs can be deleted and need to be displayed with the delete icon and delete functionality.*/
 	private List<String> sites  = new ArrayList<String>();
 	
@@ -31,7 +31,7 @@ public class RoleBasedHealthcareSitesAndStudiesDTO {
 	private boolean hasAllStudyAccess = false;
 	
 	//used for displaying the added sites and studies on the UI
-	private String ctepCode;
+	private String primaryIdentifier;
 	private String selectedSiteForDisplay;
 	
 	private String studyId;
@@ -81,12 +81,12 @@ public class RoleBasedHealthcareSitesAndStudiesDTO {
 		this.checked = checked;
 	}
 
-	public String getCtepCode() {
-		return ctepCode;
+	public String getPrimaryIdentifier() {
+		return primaryIdentifier;
 	}
 
-	public void setCtepCode(String ctepCode) {
-		this.ctepCode = ctepCode;
+	public void setPrimaryIdentifier(String primaryIdentifier) {
+		this.primaryIdentifier = primaryIdentifier;
 	}
 
 	public String getSelectedSiteForDisplay() {

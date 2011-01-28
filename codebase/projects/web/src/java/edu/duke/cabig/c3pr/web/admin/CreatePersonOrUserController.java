@@ -175,7 +175,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
     	             		log.debug("No. of sites: "+hcsIds.size());
     	             		HealthcareSite healthcareSite = null;
     	             		for(String hcsId: hcsIds){
-    	             			healthcareSite = healthcareSiteDao.getByCtepCodeFromLocal(hcsId);
+    	             			healthcareSite = healthcareSiteDao.getByPrimaryIdentifierFromLocal(hcsId);
     	             			if(healthcareSite != null){
     	             				rolesHolder.getSites().add("(" + hcsId + ") " + healthcareSite.getName());
     	             			}
@@ -263,7 +263,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
 		PersonUser personUser = wrapper.getPersonUser();
 		
 		if(!StringUtils.isBlank(personUser.getAssignedIdentifier()) && 
-				(wrapper.getStaffOrganizationCtepCodes().isEmpty() && personUser.getHealthcareSites().isEmpty())){
+				(wrapper.getStaffOrganizationPrimaryIdentifiers().isEmpty() && personUser.getHealthcareSites().isEmpty())){
 			errors.reject("organization.not.present.error");
 		}
 		
@@ -442,9 +442,9 @@ public class CreatePersonOrUserController extends SimpleFormController{
 				//For Non-Remote Staff cases
 				//add the newly added sites to the hcsList..
 				HealthcareSite healthcareSite;
-				for(String ctepCode: wrapper.getStaffOrganizationCtepCodes()){
-         			if(!StringUtils.isBlank(ctepCode)){
-         				healthcareSite = healthcareSiteDao.getByCtepCodeFromLocal(ctepCode);
+				for(String primaryIdentifier: wrapper.getStaffOrganizationPrimaryIdentifiers()){
+         			if(!StringUtils.isBlank(primaryIdentifier)){
+         				healthcareSite = healthcareSiteDao.getByPrimaryIdentifierFromLocal(primaryIdentifier);
          				wrapper.getPersonUser().getHealthcareSites().add(healthcareSite);
          			}
 				}
@@ -539,19 +539,19 @@ public class CreatePersonOrUserController extends SimpleFormController{
 		List<StudyPersonnel> sPersonnelList;
 		
 		List<StudyPersonnel> existingStudyPersonnel = studyPersonnelDao.getAllForPersonUserId(personUser.getId());
-		String hcsCtepCode;
+		String hcsPrimaryIdentifier;
 		String studyCCAI;
 		List<Integer> studyPersonnelIdList = new ArrayList<Integer>();
 		List<Integer> studyOrganizationIdList = new ArrayList<Integer>();
 		//deleting the ones that were removed from the screen
 		for(StudyPersonnel studyPersonnel: existingStudyPersonnel){
-			hcsCtepCode = studyPersonnel.getStudyOrganization().getHealthcareSite().getCtepCode();
+			hcsPrimaryIdentifier = studyPersonnel.getStudyOrganization().getHealthcareSite().getPrimaryIdentifier();
 			studyCCAI = studyPersonnel.getStudyOrganization().getStudy().getCoordinatingCenterAssignedIdentifier().getValue();
 			for(RoleBasedHealthcareSitesAndStudiesDTO dto : listAssociation){
 				if(dto.getChecked() && SecurityUtils.getStudyScopedRoles().contains(dto.getGroup().getCode())){
 					for(StudyPersonnelRole spr: studyPersonnel.getStudyPersonnelRolesInternal()){
 						if(spr.getRole().equals(dto.getGroup().getCode())){
-							if( (!dto.getHasAllSiteAccess() && !dto.getSites().contains(hcsCtepCode) ) ||
+							if( (!dto.getHasAllSiteAccess() && !dto.getSites().contains(hcsPrimaryIdentifier) ) ||
 								(!dto.getHasAllStudyAccess() && !dto.getStudies().contains(studyCCAI))){
 								//build a spId and soId list of studyPersonnel to be deleted,
 								studyPersonnelIdList.add(studyPersonnel.getId());
@@ -575,10 +575,10 @@ public class CreatePersonOrUserController extends SimpleFormController{
 		for(RoleBasedHealthcareSitesAndStudiesDTO dto : listAssociation){
 			//only process the user's study scoped roles
 			if(dto.getChecked() && SecurityUtils.getStudyScopedRoles().contains(dto.getGroup().getCode())){
-				for(String siteCtepCode:dto.getSites()){
+				for(String primaryIdentifier:dto.getSites()){
 					for(String studyPrimaryId: dto.getStudies()){
-						studySiteList = studySiteDao.getBySiteCtepIdentifierAndStudyCoordinatingCenterIdentifier(studyPrimaryId, siteCtepCode);
-						sPersonnelList = studyPersonnelDao.getByExample(siteCtepCode, studyPrimaryId, personUser.getId(), dto.getGroup().getCode());
+						studySiteList = studySiteDao.getBySitePrimaryIdentifierAndStudyCoordinatingCenterIdentifier(studyPrimaryId, primaryIdentifier);
+						sPersonnelList = studyPersonnelDao.getByExample(primaryIdentifier, studyPrimaryId, personUser.getId(), dto.getGroup().getCode());
 						//only process if the studySite exists and the studyPersonnel with the specified role doesn't. 
 						if(studySiteList.size() > 0 && (sPersonnelList == null || sPersonnelList.size() == 0)){
 							studySite = studySiteList.get(0);
@@ -590,7 +590,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
 	                        sPersonnel.getStudyPersonnelRoles().add(new StudyPersonnelRole(dto.getGroup().getCode()));
 	                        studySite.getStudyPersonnel().add(sPersonnel);
 	                        
-	                        log.debug("Saving StudyPersonnel with studyPrimaryId:"+studyPrimaryId+" and site:"+siteCtepCode+" for role:"+dto.getGroup().getCode());
+	                        log.debug("Saving StudyPersonnel with studyPrimaryId:"+studyPrimaryId+" and site:"+primaryIdentifier+" for role:"+dto.getGroup().getCode());
 	                        studySiteDao.save(studySite);
 						}
 					}

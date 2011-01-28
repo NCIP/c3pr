@@ -110,7 +110,7 @@ public class ResearchStaffAjaxFacade {
     
     
     /**
-     * Match studies for the given site ctep codes. 
+     * Match studies for the given site primary identifiers. 
      * This is used to load only relevant studies in the study auto-completer on the user screen
      *
      * @param text the text
@@ -131,8 +131,8 @@ public class ResearchStaffAjaxFacade {
 	        	if(includeStudy){
 	        		break;
 	        	}
-	        	for(String ctepCode: roleSites){
-	        		if(ss.getHealthcareSite().getCtepCode().equalsIgnoreCase(ctepCode)){
+	        	for(String primaryIdentifier: roleSites){
+	        		if(ss.getHealthcareSite().getPrimaryIdentifier().equalsIgnoreCase(primaryIdentifier)){
 	        			includeStudy = true;
 	        			break;
 	        		}

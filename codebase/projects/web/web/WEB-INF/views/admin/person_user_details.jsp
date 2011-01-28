@@ -158,20 +158,20 @@ function addForDropDown(index){
 }
 
 function addSiteForDropDown(el, index, isSiteScoped, isStudyScoped){
-	//get the ctep code and display value from the drop down
+	//get the sitePrimaryIdentifier and display value from the drop down
 	ddElement = $(el + '.selectedSiteForDisplay');
 	selectedIndex = ddElement.selectedIndex;
 	var _selectedChoiceForDisplay = ddElement[selectedIndex].text;
 	ddElement.selectedIndex = 0;
 	
 	Form.Element.disable('addSite_btn['+index+']');
-	var _ctepCode =  _selectedChoiceForDisplay.substring(_selectedChoiceForDisplay.indexOf('(') + 1, _selectedChoiceForDisplay.indexOf(')'));         //$(el+".ctepCode").value;
+	var _sitePrimaryIdentifier =  _selectedChoiceForDisplay.substring(_selectedChoiceForDisplay.indexOf('(') + 1, _selectedChoiceForDisplay.indexOf(')'));
 	var _tableId = el+"-sitesTable";
 	var _sitesFldName = el + '.sites';
-	var _trId = el + '-site-' +_ctepCode;
-	var _deleteBtn = "<a href=\"javascript:removeSite('" + el + "-site-" +_ctepCode + "','" +index+ "','"+isSiteScoped+"','"+isStudyScoped+ "');\">"+"<img src=\"<tags:imageUrl name='checkno.gif'/>\"></a>"
+	var _trId = el + '-site-' + _sitePrimaryIdentifier;
+	var _deleteBtn = "<a href=\"javascript:removeSite('" + el + "-site-" + _sitePrimaryIdentifier + "','" +index+ "','"+isSiteScoped+"','"+isStudyScoped+ "');\">"+"<img src=\"<tags:imageUrl name='checkno.gif'/>\"></a>"
 	$(_tableId).down('tr').insert({
-		after: tableRow.interpolate({selectedChoiceForDisplay:_selectedChoiceForDisplay, identifier : _ctepCode ,fldName : _sitesFldName, deleteBtn : _deleteBtn, trId : _trId })
+		after: tableRow.interpolate({selectedChoiceForDisplay:_selectedChoiceForDisplay, identifier : _sitePrimaryIdentifier ,fldName : _sitesFldName, deleteBtn : _deleteBtn, trId : _trId })
 		});
 	sitesCount[index] = sitesCount[index] + 1;
 	
@@ -185,13 +185,13 @@ var studiesCount = new Array();
 function addSite(el, index, isSiteScoped, isStudyScoped){
 	Form.Element.disable('addSite_btn['+index+']');
 	var _selectedSiteForDisplay = $("firstHealthcareSite"+index+"-input").value;
-	var _ctepCode = $(el+".ctepCode").value;
+	var _sitePrimaryIdentifier = $(el+".primaryIdentifier").value;
 	var _tableId = el+"-sitesTable";
 	var _sitesFldName = el + '.sites';
-	var _trId = el + '-site-' +_ctepCode;
-	var _deleteBtn = "<a href=\"javascript:removeSite('" + el + "-site-" +_ctepCode + "','" +index+ "','"+isSiteScoped+"','"+isStudyScoped+ "');\">"+"<img src=\"<tags:imageUrl name='checkno.gif'/>\"></a>"
+	var _trId = el + '-site-' + _sitePrimaryIdentifier;
+	var _deleteBtn = "<a href=\"javascript:removeSite('" + el + "-site-" + _sitePrimaryIdentifier + "','" +index+ "','"+isSiteScoped+"','"+isStudyScoped+ "');\">"+"<img src=\"<tags:imageUrl name='checkno.gif'/>\"></a>"
 	$(_tableId).down('tr').insert({
-		after: tableRow.interpolate({selectedChoiceForDisplay:_selectedSiteForDisplay, identifier : _ctepCode ,fldName : _sitesFldName, deleteBtn : _deleteBtn, trId : _trId })
+		after: tableRow.interpolate({selectedChoiceForDisplay:_selectedSiteForDisplay, identifier : _sitePrimaryIdentifier ,fldName : _sitesFldName, deleteBtn : _deleteBtn, trId : _trId })
 		});
 	sitesCount[index] = sitesCount[index] + 1;
 	
@@ -539,8 +539,8 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	 							    },
 	 							    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
 	 							    	var _fieldHelper = 'organization';
-	 							    	inputElement.value = " ("+selectedChoice.ctepCode+") "	+ selectedChoice.name ;
-	 									$('ctepCode').value = selectedChoice.ctepCode;
+	 							    	inputElement.value = " ("+selectedChoice.primaryIdentifier+") "	+ selectedChoice.name ;
+	 									$('primaryIdentifier').value = selectedChoice.primaryIdentifier;
 	 									Form.Element.enable($('addSite_btn'));
 	 									
 	 									hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -553,13 +553,13 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	 							function addSiteForStaff(){
 	 								Form.Element.disable('addSite_btn');
 	 								var _selectedSiteForDisplay = $("organization-input").value;
-	 								var _ctepCode = $("ctepCode").value;
+	 								var _sitePrimaryIdentifier = $("primaryIdentifier").value;
 	 								var _tableId = "organization-sitesTable";
-	 								var _sitesFldName = 'staffOrganizationCtepCodes';
-	 								var _trId = 'organization-site-' +_ctepCode;
-	 								var _deleteBtn = "<a href=\"javascript:removeSiteForStaff('" + "organization-site-" +_ctepCode + "');\">"+"<img src=\"<tags:imageUrl name='checkno.gif'/>\"></a>"
+	 								var _sitesFldName = 'staffOrganizationPrimaryIdentifiers';
+	 								var _trId = 'organization-site-' + _sitePrimaryIdentifier;
+	 								var _deleteBtn = "<a href=\"javascript:removeSiteForStaff('" + "organization-site-" + _sitePrimaryIdentifier + "');\">"+"<img src=\"<tags:imageUrl name='checkno.gif'/>\"></a>"
 	 								$(_tableId).down('tr').insert({
-	 									after: orgTableRow.interpolate({selectedChoiceForDisplay:_selectedSiteForDisplay, identifier : _ctepCode ,fldName : _sitesFldName, deleteBtn : _deleteBtn, trId : _trId })
+	 									after: orgTableRow.interpolate({selectedChoiceForDisplay:_selectedSiteForDisplay, identifier : _sitePrimaryIdentifier ,fldName : _sitesFldName, deleteBtn : _deleteBtn, trId : _trId })
 	 									});
 	 								
 	 								$("organization-input").value='';
@@ -573,7 +573,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 							
 						</c:otherwise>
 					</c:choose>
-					<form:hidden path="ctepCode" id="ctepCode"/>
+					<form:hidden path="primaryIdentifier" id="primaryIdentifier"/>
 					<tags:button id="addSite_btn" type="button" color="blue" value="Add" icon="add" onclick="addSiteForStaff()" size="small" disabled="true"/>
 				</div>
 				<div class="orgValue">
@@ -585,7 +585,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 						</tr>
 						<c:forEach var="site" items="${command.personUser.healthcareSites}" varStatus="siteIndex">
 							<tr id="organization-site-${siteIndex.index}">
-								<td>&nbsp;&nbsp;&nbsp;&nbsp;(${site.ctepCode})&nbsp;${site.name}</td>
+								<td>&nbsp;&nbsp;&nbsp;&nbsp;(${site.primaryIdentifier})&nbsp;${site.name}</td>
 								<td><a href="javascript:removeSiteForStaff('organization-site-${siteIndex.index}');"></a></td>
 							</tr>	
 						</c:forEach>
@@ -758,12 +758,12 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 						 							    	} else {
 						 							    		image = '';
 						 							    	}
-						 							    	return (obj.name+" ("+obj.ctepCode+")" + image)
+						 							    	return (obj.name+" ("+obj.primaryIdentifier+")" + image)
 						 							    },
 						 							    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
 						 							    	var _fieldHelper = 'healthcareSiteRolesHolderList[' + inputElement.id.substring(19, inputElement.id.indexOf('-')) + ']';
-						 							    	inputElement.value = " ("+selectedChoice.ctepCode+") "	+ selectedChoice.name ;
-						 									$(_fieldHelper + '.ctepCode').value = selectedChoice.ctepCode;
+						 							    	inputElement.value = " ("+selectedChoice.primaryIdentifier+") "	+ selectedChoice.name ;
+						 									$(_fieldHelper + '.primaryIdentifier').value = selectedChoice.primaryIdentifier;
 						 									Form.Element.enable($('addSite_btn[${status.index}]'));
 						 									
 						 									hiddenField=inputElement.id.split("-")[0]+"-hidden";
@@ -782,7 +782,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 												<tags:button id="addSite_btn[${status.index}]" type="button" color="blue" value="Add" icon="add" onclick="addSiteForDropDown('healthcareSiteRolesHolderList[${status.index}]', '${status.index}', '${isSiteScoped}','${isStudyScoped}')" size="small" disabled="true"/>
 											</c:otherwise>
 					 					</c:choose>
-										<form:hidden path="healthcareSiteRolesHolderList[${status.index}].ctepCode" id="healthcareSiteRolesHolderList[${status.index}].ctepCode"/>
+										<form:hidden path="healthcareSiteRolesHolderList[${status.index}].primaryIdentifier" id="healthcareSiteRolesHolderList[${status.index}].primaryIdentifier"/>
 					 				</div>
 					 				<div class="orgValue">
 										<script>sitesCount[${status.index}] = ${fn:length(healthcareSiteRolesHolder.sites)};</script>
@@ -795,11 +795,11 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 												<c:forEach var="site" items="${healthcareSiteRolesHolder.sites}" varStatus="siteIndex">
 													<c:set var="startIndex" value="${fn:indexOf(site, '(')}" />
 													<c:set var="endIndex" value="${fn:indexOf(site, ')')}" />
-													<c:set var="siteCtepCode" value="${fn:substring(site, startIndex + 1, endIndex)}" />
+													<c:set var="sitePrimaryIdentifier" value="${fn:substring(site, startIndex + 1, endIndex)}" />
 													<tr id="healthcareSiteRolesHolderList[${status.index}]-site-${siteIndex.index}">
 														<td>&nbsp;&nbsp;&nbsp;&nbsp;${site}
 															<input type='hidden' id='healthcareSiteRolesHolderList[${status.index}].sites' 
-																   name='healthcareSiteRolesHolderList[${status.index}].sites' value='${siteCtepCode}' />
+																   name='healthcareSiteRolesHolderList[${status.index}].sites' value='${sitePrimaryIdentifier}' />
 														</td>
 														<td><a href="javascript:removeSite('healthcareSiteRolesHolderList[${status.index}]-site-${siteIndex.index}','${status.index}', '${isSiteScoped}','${isStudyScoped}');">
 															<img src="<tags:imageUrl name="checkno.gif"/>"></a>

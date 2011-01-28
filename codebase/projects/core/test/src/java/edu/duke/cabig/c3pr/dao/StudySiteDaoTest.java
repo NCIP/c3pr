@@ -46,7 +46,7 @@ public class StudySiteDaoTest extends DaoTestCase {
      * @throws Exception the exception
      */
     public void testGetByNciInstituteCode() throws Exception {
-        List<StudySite> sites = dao.getByCtepCode("code");
+        List<StudySite> sites = dao.getBySitePrimaryIdentifier("code");
         assertTrue(sites.size() == 1);
         for (StudySite site : sites) {
             assertEquals(site.getHealthcareSite().getCtepCode(), "code");
@@ -54,7 +54,7 @@ public class StudySiteDaoTest extends DaoTestCase {
     }
     
     public void testStudySiteStatusChange() {
-    	 List<StudySite> sites = dao.getByCtepCode("code");
+    	 List<StudySite> sites = dao.getBySitePrimaryIdentifier("code");
     	 StudySite studySite=sites.get(0);
     	 int id = studySite.getId();
     	 assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.PENDING);
@@ -74,7 +74,7 @@ public class StudySiteDaoTest extends DaoTestCase {
      * Test get by String studyId and String sitePrimaryId.
      */
     public void testGetByStudyAndSitePrimaryIdentifier(){
-    	List<StudySite> sites = dao.getBySiteCtepIdentifierAndStudyCoordinatingCenterIdentifier("grid", "code");
+    	List<StudySite> sites = dao.getBySitePrimaryIdentifierAndStudyCoordinatingCenterIdentifier("grid", "code");
     	assertEquals(1, sites.size());
     }
     

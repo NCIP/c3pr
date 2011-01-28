@@ -19,16 +19,16 @@ public class PersonOrUserWrapper {
 	private boolean createAsStaff = true;
 	private boolean createAsUser = true;
 	
-	/** List of newly added organization ctep codes for the staff. These are then assigned to the personUser.healthcareSites in the controller
+	/** List of newly added organization primaryIdentifiers for the staff. These are then assigned to the personUser.healthcareSites in the controller
 	    note that unlike RoleBasedHealthcareSitesAndStudiesDTO.sites(list of CSM orgs) this list does not at any point contain the pre-existing organizations.
 	    this is because staff orgs cannot be deleted and just need to be displayed as labels on the UI.*/
-	private List<String> staffOrganizationCtepCodes = new ArrayList<String>();
+	private List<String> staffOrganizationPrimaryIdentifiers = new ArrayList<String>();
 	
 	/** The selected organization for display. the auto-completer maps to this field. But not used by the controller*/
 	private String selectedOrganizationForDisplay;
 
-	/** The ctep code. Used as a temp to hold the auto-completer value before being assigned to the personUser.healthcareSites for persistence. */
-	private String ctepCode;
+	/** The sitePrimaryIdentifier. Used as a temp to hold the auto-completer value before being assigned to the personUser.healthcareSites for persistence. */
+	private String primaryIdentifier;
 	
 	
 	private List<RoleBasedHealthcareSitesAndStudiesDTO> healthcareSiteRolesHolderList = LazyList.decorate(new ArrayList<RoleBasedHealthcareSitesAndStudiesDTO>(), new InstantiateFactory<RoleBasedHealthcareSitesAndStudiesDTO>(RoleBasedHealthcareSitesAndStudiesDTO.class));
@@ -115,12 +115,12 @@ public class PersonOrUserWrapper {
 	public void setCreateAsUser(boolean createAsUser) {
 		this.createAsUser = createAsUser;
 	}
-	public List<String> getStaffOrganizationCtepCodes() {
-		return staffOrganizationCtepCodes;
+	public List<String> getStaffOrganizationPrimaryIdentifiers() {
+		return staffOrganizationPrimaryIdentifiers;
 	}
-	public void setStaffOrganizationCtepCodes(
-			List<String> staffOrganizationCtepCode) {
-		this.staffOrganizationCtepCodes = staffOrganizationCtepCode;
+	public void setStaffOrganizationPrimaryIdentifiers(
+			List<String> staffOrganizationPrimaryIdentifier) {
+		this.staffOrganizationPrimaryIdentifiers = staffOrganizationPrimaryIdentifier;
 	}
 	public String getSelectedOrganizationForDisplay() {
 		return selectedOrganizationForDisplay;
@@ -129,11 +129,11 @@ public class PersonOrUserWrapper {
 			String selectedOrganizationForDisplay) {
 		this.selectedOrganizationForDisplay = selectedOrganizationForDisplay;
 	}
-	public String getCtepCode() {
-		return ctepCode;
+	public String getPrimaryIdentifier() {
+		return primaryIdentifier;
 	}
-	public void setCtepCode(String ctepCode) {
-		this.ctepCode = ctepCode;
+	public void setPrimaryIdentifier(String primaryIdentifier) {
+		this.primaryIdentifier = primaryIdentifier;
 	}
 	
 }

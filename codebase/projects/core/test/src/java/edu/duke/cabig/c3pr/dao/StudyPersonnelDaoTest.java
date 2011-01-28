@@ -41,12 +41,12 @@ public class StudyPersonnelDaoTest extends DaoTestCase {
 	}
 	
 	public void testGetByExample() {
-		String siteCtepCode = "code";
+		String sitePrimaryIdentifiers = "code";
 		String studyPrimaryId = "grid";
 		Integer personUserId = 1000;
 		String roleCode = "role1";
 		
-		List<StudyPersonnel> studyPersonnel = studyPersonnelDao.getByExample(siteCtepCode, studyPrimaryId, personUserId, roleCode);
+		List<StudyPersonnel> studyPersonnel = studyPersonnelDao.getByExample(sitePrimaryIdentifiers, studyPrimaryId, personUserId, roleCode);
 		assertEquals("Wrong number of study persons with these values", 1, studyPersonnel.size());
 	}	
 		

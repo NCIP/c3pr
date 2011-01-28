@@ -218,19 +218,19 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 * Gets by matching the site's ctepCode, study Primary Identifier, personUser and role.
 	 * These are presumed to be a composite key in the business layer.
 	 *
-	 * @param siteCtepCode the site ctep code
+	 * @param sitePrimaryIdentifier the site ctep code
 	 * @param studyPrimaryId the study primary id
 	 * @param personUserId the person user id
 	 * @param roleCode the role code
 	 * @return the by example
 	 */
 	@SuppressWarnings("unchecked")
-	public List<StudyPersonnel> getByExample(String siteCtepCode, String studyPrimaryId, Integer personUserId, String roleCode) {
+	public List<StudyPersonnel> getByExample(String sitePrimaryIdentifier, String studyPrimaryId, Integer personUserId, String roleCode) {
         return getHibernateTemplate().find(
                 "Select s from StudyPersonnel s where s.studyOrganization.studyInternal.identifiers.value = ? and s.studyOrganization.studyInternal.identifiers.typeInternal = 'COORDINATING_CENTER_IDENTIFIER' and " +
                 "s.studyOrganization.healthcareSite.identifiersAssignedToOrganization.value = ? and s.studyOrganization.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1' and "+
                 "s.personUser.id = ? and s.studyPersonnelRolesInternal.role = ?",
-                new Object[] {studyPrimaryId, siteCtepCode, personUserId, roleCode});
+                new Object[] {studyPrimaryId, sitePrimaryIdentifier, personUserId, roleCode});
 	}
 	
 	@SuppressWarnings("unchecked")
