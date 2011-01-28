@@ -437,7 +437,7 @@ color:white;
           		<input type="hidden" name="searchCriteriaList[37].predicate" value="in"/>
         		<select id="studyStatus" size="4" multiple="multiple" name="searchCriteriaList[37].values">
                    <option value="" selected="selected">All</option>
-                   <c:forEach items="${statusRefDate}" var="studyStatus">
+                   <c:forEach items="${statusRefData}" var="studyStatus">
                        <c:if test="${!empty studyStatus}">
                            <option value="${studyStatus.key}">${studyStatus.value}</option>
                        </c:if>
@@ -652,7 +652,7 @@ color:white;
           		<input type="hidden" name="searchCriteriaList[39].predicate" value="like"/>
         		<select id="scheduledEpochStatus" name="searchCriteriaList[39].values" size="4" multiple="multiple">
                    <option value="" selected="selected">All</option>
-                   <c:forEach items="${scheduledEpochStatusRefDate}" var="scheduledEpochStatus">
+                   <c:forEach items="${scheduledEpochStatusRefData}" var="scheduledEpochStatus">
                        <c:if test="${!empty scheduledEpochStatus.value}">
                            <option value="${scheduledEpochStatus.key}">${scheduledEpochStatus.value}</option>
                        </c:if>
@@ -777,7 +777,7 @@ color:white;
          		<input type="hidden" name="searchCriteriaList[46].attributeName" value="offEpochDate" />
          		<input type="hidden" name="searchCriteriaList[46].predicate" value="<"/>
          		<input type="text" name="searchCriteriaList[46].values" size="10" id="offEpochDateLast" class="date validate-DATE" />
-           		<a href="#" id="offStudyDateLast-calbutton">
+           		<a href="#" id="offEpochDateLast-calbutton">
           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
           		</a>
           		<script type="text/javascript">
