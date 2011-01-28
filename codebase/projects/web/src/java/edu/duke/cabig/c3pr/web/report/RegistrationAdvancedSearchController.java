@@ -52,14 +52,14 @@ public class RegistrationAdvancedSearchController extends AdvancedSearchControll
         for(CoordinatingCenterStudyStatus studyStatus : CoordinatingCenterStudyStatus.values()){
         	studyStatusMap.put(studyStatus.getName(), studyStatus.getCode());
         }
-        refdata.put("statusRefDate",studyStatusMap);
+        refdata.put("statusRefData",studyStatusMap);
         
         Map<String,Object> scheduledEpochStatusMap = new HashMap<String,Object>();
         for(ScheduledEpochWorkFlowStatus scheduledEpochStatus : ScheduledEpochWorkFlowStatus.values()){
         	scheduledEpochStatusMap.put(scheduledEpochStatus.getName(), scheduledEpochStatus.getCode());
         }
         
-        refdata.put("scheduledEpochStatusRefDate",scheduledEpochStatusMap);
+        refdata.put("scheduledEpochStatusRefData",scheduledEpochStatusMap);
 
         
         return refdata;
