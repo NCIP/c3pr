@@ -3,11 +3,7 @@ package edu.duke.cabig.c3pr.dao;
 import java.util.Date;
 import java.util.List;
 
-import edu.duke.cabig.c3pr.constants.APIName;
-import edu.duke.cabig.c3pr.constants.ServiceName;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
-import edu.duke.cabig.c3pr.domain.EndPoint;
-import edu.duke.cabig.c3pr.domain.GridEndPoint;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
@@ -22,9 +18,6 @@ public class StudySiteDaoTest extends DaoTestCase {
     /** The dao. */
     private StudySiteDao dao;
     
-    /** The endpoint dao. */
-    private EndpointDao endpointDao;
-
     /**
      * Test for loading a Study by Id.
      * 
@@ -34,7 +27,6 @@ public class StudySiteDaoTest extends DaoTestCase {
     protected void setUp() throws Exception {
     	super.setUp();
     	dao = (StudySiteDao) getApplicationContext().getBean("studySiteDao");
-    	endpointDao = (EndpointDao) getApplicationContext().getBean("endpointDao");
     }
     
     /**
@@ -55,7 +47,7 @@ public class StudySiteDaoTest extends DaoTestCase {
      */
     public void testGetByNciInstituteCode() throws Exception {
         List<StudySite> sites = dao.getByCtepCode("code");
-        assertTrue(sites.size() == 2);
+        assertTrue(sites.size() == 1);
         for (StudySite site : sites) {
             assertEquals(site.getHealthcareSite().getCtepCode(), "code");
         }
@@ -77,4 +69,20 @@ public class StudySiteDaoTest extends DaoTestCase {
     	 studySite = dao.getById(id);
     	 assertEquals(studySite.getSiteStudyStatus(), SiteStudyStatus.ACTIVE);
     }
+    
+    /**
+     * Test get by String studyId and String sitePrimaryId.
+     */
+    public void testGetByStudyAndSitePrimaryIdentifier(){
+    	List<StudySite> sites = dao.getBySiteCtepIdentifierAndStudyCoordinatingCenterIdentifier("grid", "code");
+    	assertEquals(1, sites.size());
+    }
+    
+//    public void testGetStudySitesByShortTitle(){
+//    	List<StudySite> sites = dao.getStudySitesByShortTitle("short_title");
+//    	assertEquals(2, sites.size());
+//    }
+    
+    
 }
+

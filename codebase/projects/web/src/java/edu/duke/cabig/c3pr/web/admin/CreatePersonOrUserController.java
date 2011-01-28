@@ -26,12 +26,17 @@ import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalPersonUser;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RemotePersonUser;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.StudyPersonnelRole;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.domain.repository.PersonUserRepository;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl.C3PRNoSuchUserException;
@@ -57,6 +62,9 @@ public class CreatePersonOrUserController extends SimpleFormController{
     private OrganizationService organizationService;
     private UserDao userDao;
     private StudyDao studyDao;
+    private StudySiteDao studySiteDao;
+    private StudyPersonnelDao studyPersonnelDao;
+    
     
     public void setOrganizationService(OrganizationService organizationService) {
 		this.organizationService = organizationService;
@@ -139,8 +147,8 @@ public class CreatePersonOrUserController extends SimpleFormController{
             	RoleBasedHealthcareSitesAndStudiesDTO rolesHolder;
             	boolean hasAllSiteAccess = false;
             	boolean hasAllStudyAccess = false;
-        		log.debug("loading roles information for personnel");
-
+        		
+            	log.debug("loading roles information for personnel");
             	for(C3PRUserGroupType group: C3PRUserGroupType.values()){
             		//adding the non assigned roles for UI convenience.
             		rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
@@ -153,6 +161,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
                      	}
             		} else {
             		//adding the non assigned roles for UI convenience.
+            			log.debug("loading all-site and all-study info for :"+group.getDisplayName());
             			hasAllSiteAccess = personUserRepository.getHasAccessToAllSites(csmUser, group);
             			hasAllStudyAccess = personUserRepository.getHasAccessToAllStudies(csmUser, group);
             			
@@ -160,7 +169,10 @@ public class CreatePersonOrUserController extends SimpleFormController{
     	             	rolesHolder.setHasAllSiteAccess(hasAllSiteAccess);
     	             	//populate csm organizations into the wrapper if user doesn't have all site access
     	             	if(!hasAllSiteAccess && SecurityUtils.getSiteScopedRoles().contains(group.getCode())){
+                			log.debug("loading sites info for :"+group.getDisplayName());
     	             		List<String> hcsIds = personUserRepository.getOrganizationIdsForUser(csmUser, group);
+                			
+    	             		log.debug("No. of sites: "+hcsIds.size());
     	             		HealthcareSite healthcareSite = null;
     	             		for(String hcsId: hcsIds){
     	             			healthcareSite = healthcareSiteDao.getByCtepCodeFromLocal(hcsId);
@@ -173,7 +185,10 @@ public class CreatePersonOrUserController extends SimpleFormController{
     	             	rolesHolder.setHasAllStudyAccess(hasAllStudyAccess);
     	             	//populate studies into the wrapper if user doesn't have all study access
     	             	if(!hasAllStudyAccess  && SecurityUtils.getStudyScopedRoles().contains(group.getCode())){
+                			log.debug("loading studies info for :"+group.getDisplayName());
     	             		List<String> studyIds = personUserRepository.getStudyIdsForUser(csmUser, group);
+    	             		
+                			log.debug("No. of studies: "+studyIds.size());
     	             		Study study = null;
     	             		for(String studyId: studyIds){
     	             			study = studyDao.searchByCoordinatingCenterAssignedIdentifier(studyId);
@@ -185,6 +200,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
             		}
             		wrapper.addHealthcareSiteRolesHolder(rolesHolder);
             	}
+            	log.debug("FINISHED loading roles information for personnel");
             } else {
             	wrapper.setCreateAsUser(false);
             }
@@ -337,7 +353,6 @@ public class CreatePersonOrUserController extends SimpleFormController{
 		personUser.setLoginId(csmUser.getUserId().toString());
 		personUser.setEmail(csmUser.getEmailId());
 //		researchStaff.setPhone(csmUser.getPhoneNumber());
-//		researchStaff.setAssignedIdentifier(UUID.randomUUID().toString());
 		return personUser;
 	}
 	
@@ -462,6 +477,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
 		        		personUser.setPersonUserType(PersonUserType.STAFF);
 	        			personUser = personUserRepository.createOrModifyResearchStaffWithoutUser(personUser, listAssociation);
 		        	}
+		        	createAndSaveStudyPersonnel(personUser, listAssociation);
 		        } else if (StringUtils.equals(flowVar, SETUP_FLOW)){
 		        	// create research staff, csm user and assign org and provide access to all sites
 		        	listAssociation = buildSuperUserDTO();
@@ -470,7 +486,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
 		        	
 		        } else if(StringUtils.equals(flowVar, EDIT_FLOW)){
 		        	if(createAsUser && createAsStaff){
-		        		// create research staff and csm user and assign roles if provided
+		        		//create research staff and csm user and assign roles if provided
 		        		personUser.setPersonUserType(PersonUserType.STAFF_USER);
 	        			personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(personUser, username, listAssociation);
 		        	} else if(createAsUser) {
@@ -482,6 +498,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
 		        		//no need to set PersonType as it should already be set
 		        		personUser = personUserRepository.createOrModifyResearchStaffWithoutUser(personUser, listAssociation);
 		        	}
+		        	createAndSaveStudyPersonnel(personUser, listAssociation);
 		        }
 			}
         } catch (C3PRBaseRuntimeException e) {
@@ -507,6 +524,88 @@ public class CreatePersonOrUserController extends SimpleFormController{
 	  
     }
 
+	/**
+	 * Creates and saves study personnel along with study organization for study scoped roles.
+	 *
+	 * @param personUser the person user
+	 * @param listAssociation the list association
+	 */
+	private void createAndSaveStudyPersonnel(PersonUser personUser,
+			List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
+		
+		StudySite studySite;
+		List<StudySite> studySiteList;
+		StudyPersonnel sPersonnel;
+		List<StudyPersonnel> sPersonnelList;
+		
+		List<StudyPersonnel> existingStudyPersonnel = studyPersonnelDao.getAllForPersonUserId(personUser.getId());
+		String hcsCtepCode;
+		String studyCCAI;
+		List<Integer> studyPersonnelIdList = new ArrayList<Integer>();
+		List<Integer> studyOrganizationIdList = new ArrayList<Integer>();
+		//deleting the ones that were removed from the screen
+		for(StudyPersonnel studyPersonnel: existingStudyPersonnel){
+			hcsCtepCode = studyPersonnel.getStudyOrganization().getHealthcareSite().getCtepCode();
+			studyCCAI = studyPersonnel.getStudyOrganization().getStudy().getCoordinatingCenterAssignedIdentifier().getValue();
+			for(RoleBasedHealthcareSitesAndStudiesDTO dto : listAssociation){
+				if(dto.getChecked() && SecurityUtils.getStudyScopedRoles().contains(dto.getGroup().getCode())){
+					for(StudyPersonnelRole spr: studyPersonnel.getStudyPersonnelRolesInternal()){
+						if(spr.getRole().equals(dto.getGroup().getCode())){
+							if( (!dto.getHasAllSiteAccess() && !dto.getSites().contains(hcsCtepCode) ) ||
+								(!dto.getHasAllStudyAccess() && !dto.getStudies().contains(studyCCAI))){
+								//build a spId and soId list of studyPersonnel to be deleted,
+								studyPersonnelIdList.add(studyPersonnel.getId());
+								studyOrganizationIdList.add(studyPersonnel.getStudyOrganization().getId());
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		//delete the sp from the generated idList
+		for(int i = 0; i < studyOrganizationIdList.size(); i++){
+			sPersonnel = studyPersonnelDao.getById(studyPersonnelIdList.get(i));
+			studySite = studySiteDao.getById(studyOrganizationIdList.get(i));
+			studySite.getStudyPersonnel().remove(sPersonnel);
+			studySiteDao.save(studySite);
+		}
+		
+		//adding the new ones
+		for(RoleBasedHealthcareSitesAndStudiesDTO dto : listAssociation){
+			//only process the user's study scoped roles
+			if(dto.getChecked() && SecurityUtils.getStudyScopedRoles().contains(dto.getGroup().getCode())){
+				for(String siteCtepCode:dto.getSites()){
+					for(String studyPrimaryId: dto.getStudies()){
+						studySiteList = studySiteDao.getBySiteCtepIdentifierAndStudyCoordinatingCenterIdentifier(studyPrimaryId, siteCtepCode);
+						sPersonnelList = studyPersonnelDao.getByExample(siteCtepCode, studyPrimaryId, personUser.getId(), dto.getGroup().getCode());
+						//only process if the studySite exists and the studyPersonnel with the specified role doesn't. 
+						if(studySiteList.size() > 0 && (sPersonnelList == null || sPersonnelList.size() == 0)){
+							studySite = studySiteList.get(0);
+							sPersonnel = new StudyPersonnel();
+							
+							sPersonnel.setPersonUser(personUser);
+	                        sPersonnel.setStatusCode("Active");
+	                        sPersonnel.setStudyOrganization(studySite);
+	                        sPersonnel.getStudyPersonnelRoles().add(new StudyPersonnelRole(dto.getGroup().getCode()));
+	                        studySite.getStudyPersonnel().add(sPersonnel);
+	                        
+	                        log.debug("Saving StudyPersonnel with studyPrimaryId:"+studyPrimaryId+" and site:"+siteCtepCode+" for role:"+dto.getGroup().getCode());
+	                        studySiteDao.save(studySite);
+						}
+					}
+				}
+			}
+		}
+		
+	}
+
+	/**
+	 * Builds the super user dto. Used for ths setup flow.
+	 * Adds all roles with all study and all site access.
+	 *
+	 * @return the list
+	 */
 	private List<RoleBasedHealthcareSitesAndStudiesDTO> buildSuperUserDTO() {
 		List<RoleBasedHealthcareSitesAndStudiesDTO> dtoList = new ArrayList<RoleBasedHealthcareSitesAndStudiesDTO>();
 		RoleBasedHealthcareSitesAndStudiesDTO rolesHolder;
@@ -565,6 +664,22 @@ public class CreatePersonOrUserController extends SimpleFormController{
 
 	public void setStudyDao(StudyDao studyDao) {
 		this.studyDao = studyDao;
+	}
+
+	public StudySiteDao getStudySiteDao() {
+		return studySiteDao;
+	}
+
+	public void setStudySiteDao(StudySiteDao studySiteDao) {
+		this.studySiteDao = studySiteDao;
+	}
+
+	public StudyPersonnelDao getStudyPersonnelDao() {
+		return studyPersonnelDao;
+	}
+
+	public void setStudyPersonnelDao(StudyPersonnelDao studyPersonnelDao) {
+		this.studyPersonnelDao = studyPersonnelDao;
 	}
 	
 }

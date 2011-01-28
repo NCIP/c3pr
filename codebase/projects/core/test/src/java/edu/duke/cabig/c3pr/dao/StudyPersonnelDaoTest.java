@@ -39,4 +39,15 @@ public class StudyPersonnelDaoTest extends DaoTestCase {
 		studyPersonnel = studyPersonnelDao.getBySubnames(new String[]{"Staff2"});
 		assertEquals("Wrong number of study persons with this name", 1, studyPersonnel.size());
 	}
+	
+	public void testGetByExample() {
+		String siteCtepCode = "code";
+		String studyPrimaryId = "grid";
+		Integer personUserId = 1000;
+		String roleCode = "role1";
+		
+		List<StudyPersonnel> studyPersonnel = studyPersonnelDao.getByExample(siteCtepCode, studyPrimaryId, personUserId, roleCode);
+		assertEquals("Wrong number of study persons with these values", 1, studyPersonnel.size());
+	}	
+		
 }

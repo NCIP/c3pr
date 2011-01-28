@@ -345,8 +345,8 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     
     
     /**
-     * Gets the site personnel. USed by study_personnel jsp.
-     * Note: we only the study scoped staff who are not already assigned to the study.
+     * Gets the site personnel. Used by study_personnel jsp.
+     * Note: we only load the study scoped staff who are not already assigned to the study.
      *
      * @param hcsId the hcs id
      * @param studyId the study id

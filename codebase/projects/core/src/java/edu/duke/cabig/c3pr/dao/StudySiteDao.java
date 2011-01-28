@@ -25,6 +25,22 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
     
     private HealthcareSiteDao healthcareSiteDao;
 
+    
+    /**
+     * Gets the StudySite by shortTitleText.
+     * 
+     * @param shortTitleText the shortTitleText
+     * 
+     * @return List of StudySite
+     
+    public List<StudySite> getStudySitesByShortTitle(String shortTitleText) {
+    	List<StudySite> li = (List<StudySite>) getHibernateTemplate().find(
+    			"select O from StudySite O, Study I, StudyVersion V where V.shortTitleText like ?"
+					+ "and O.studyInternal.id=I.id and I.id=V.study.id", new Object[] {"%" + shortTitleText+ "%"});
+    	return li;
+    }*/
+    
+    
     /**
      * Reassociate.
      *
@@ -46,11 +62,27 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
      *
      * @return the by nci institute code
      */
-    public List<StudySite> getByCtepCode(String ctepCode) {
+    @SuppressWarnings("unchecked")
+	public List<StudySite> getByCtepCode(String ctepCode) {
         return getHibernateTemplate().find(
            "Select s from StudySite s where " +
-           "s.healthcareSite.identifiersAssignedToOrganization.value = ? and s.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1')",
+           "s.healthcareSite.identifiersAssignedToOrganization.value = ? and s.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1'",
            new Object[] {ctepCode});
+    }
+    
+    /**
+     * Gets the by ctep code and short title.
+     *
+     * @param studyId the study id
+     * @param sitePrimaryId the site primary id
+     * @return the by site's Primary Identifier and short title
+     */
+    @SuppressWarnings("unchecked")
+	public List<StudySite> getBySiteCtepIdentifierAndStudyCoordinatingCenterIdentifier(String studyId, String sitePrimaryId) {
+        return getHibernateTemplate().find(
+           "Select s from StudySite s where s.studyInternal.identifiers.value = ? and s.studyInternal.identifiers.typeInternal = 'COORDINATING_CENTER_IDENTIFIER' and " +
+           "s.healthcareSite.identifiersAssignedToOrganization.value = ? and s.healthcareSite.identifiersAssignedToOrganization.typeInternal = 'CTEP'",
+           new Object[] {studyId, sitePrimaryId});
     }
 
     /**
@@ -64,6 +96,7 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
     public void initialize(StudySite studySite) throws DataAccessException {
     	getHibernateTemplate().initialize(studySite.getStudySiteStudyVersions());
     	getHibernateTemplate().initialize(studySite.getSiteStatusHistoryInternal());
+    	getHibernateTemplate().initialize(studySite.getStudyInternal());
     	healthcareSiteDao.initialize(studySite.getHealthcareSite());
     }
 

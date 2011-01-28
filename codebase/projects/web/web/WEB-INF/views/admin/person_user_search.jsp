@@ -1,7 +1,7 @@
 <%@ include file="taglibs.jsp"%>
 <html>
 <head>
-    <title>Manage Person-User</title>
+    <title>Manage Personnel</title>
     <tags:dwrJavascriptLink objects="SearchResearchStaffAjaxFacade"/>
     <tags:dwrJavascriptLink objects="OrganizationAjaxFacade"/>
    	<style type="text/css">
@@ -9,10 +9,10 @@
             padding: 5px 15px;
         }
    	</style>
-    <script type="text/javascript"><!--
-     dwr.engine.setErrorHandler(handleDWRError);
-	 function handleDWRError(err){
-	 }
+    <script type="text/javascript">
+	     dwr.engine.setErrorHandler(handleDWRError);
+		 function handleDWRError(err){
+		 }
 	 
     	var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
@@ -40,23 +40,7 @@
         
         AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
 
-        //function submit(form) {
-        	//submit the form...get the search results and call showTable with the returned string.
-   			//new Ajax.Updater('temp','../personAndOrganization/personOrUser/searchPersonOrUser', {method:'post', postBody:Form.serialize('searchForm'), onSuccess:callbackSearchSuccess, onFailure:callbackSearchFailure});	
-        	//new Ajax.Request('../personAndOrganization/personOrUser/searchPersonOrUser', {
-        		//  onSuccess: function(transport) {
-	        		//var resultDiv = document.getElementById("personOrUserSearchResults");
-	        		//resultDiv.innerHTML = t.responseText;
-	        		//new Effect.SlideDown(resultDiv);
-        		  //}
-       		//});
-         //}
-
         function searchStudy() {
-        	//$('searchText').value = document.searchstudyForm.searchText.value ;
-        	//$('searchType').value = document.searchstudyForm.searchType.value ;
-        	//$('searchedStudy').value = "true";
-            //new Element.show('searchStudyInd');
             new Ajax.Updater('temp','../personOrUser/searchPersonOrUser?fromRegistration=true&decorator=nullDecorator',
             {
                 method:'post',
@@ -67,7 +51,6 @@
         }
 
         function callbackSearchSuccess(t){
-        	//$('resultsDiv').style.display="";
         	var resultsDiv = document.getElementById("resultsDiv");
         	var tableDiv = document.getElementById("tableDiv");
         	
@@ -100,11 +83,10 @@
         	}
           }
         document.onkeypress = catchKey;
-    --></script>
+    </script>
 </head>
 <!-- MAIN BODY STARTS HERE -->
 <body>
-
 <div id="main">
 <chrome:search title="Search">
 <tags:instructions code="research_staff_search" />

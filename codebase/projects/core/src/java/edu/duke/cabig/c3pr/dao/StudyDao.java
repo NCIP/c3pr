@@ -153,8 +153,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     @SuppressWarnings("unchecked")
     public Study searchByCoordinatingCenterAssignedIdentifier(String coordinatingCenterAssignedStudyIdentifier) {
         List<Study> studyList =  (List<Study>) getHibernateTemplate()
-                        .find("select S from Study S, Identifier I where I.value=? and I=any elements(S.identifiers)",
-                            new Object[] { coordinatingCenterAssignedStudyIdentifier});
+                        .find("select S from Study S, Identifier I where I.value=? and I.typeInternal = 'COORDINATING_CENTER_IDENTIFIER' and I=any elements(S.identifiers)",
+                            new Object[] {coordinatingCenterAssignedStudyIdentifier});
         if(studyList.size() > 0){
         	return studyList.get(0);
         }
@@ -450,6 +450,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 						
 						//TODO: Check to see if it exists as localStudy by using the searchByOrganizationAssignedIdentifier()
 						save(remoteStudyTemp);
+					} else {
+						log.debug("Not saving the study as a study with the external Id :"+remoteStudyTemp.getExternalId()+" already exists in the system.");
 					}
 					getHibernateTemplate().flush();
 				} else {

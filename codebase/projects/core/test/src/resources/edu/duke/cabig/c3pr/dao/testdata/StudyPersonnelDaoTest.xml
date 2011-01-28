@@ -8,13 +8,13 @@
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000" retired_indicator="false" />
     <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000" retired_indicator="false" />
     
-    <IDENTIFIERS id="1000" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"/>
-    <IDENTIFIERS id="1001" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"/>
+    <IDENTIFIERS id="1000" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000" stu_id="1000" primary_indicator="1"/>
+    <IDENTIFIERS id="1001" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001" primary_indicator="1"/>
+    <IDENTIFIERS id="1002" version="1" value="grid" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" stu_id="1000" retired_indicator="false" primary_indicator="1"/>
     
-    <STUDY_ORGANIZATIONS id="1000" version="1"  study_id="1000"
-                         hcs_id="1000" type="SST"   retired_indicator="false"/>
+    <STUDY_ORGANIZATIONS id="1000" version="1"  study_id="1000" hcs_id="1000" type="SST" retired_indicator="false"/>
+    
     <STU_SITE_STATUS_HISTORY id="1000" version="1" sto_id="1000" site_study_status="ACTIVE"  start_date="2000-01-01" />
-	
                          
  <PERSONS_USERS id="1000" version="1" first_name="Research Bill" last_name="Staff2" dtype="Local"  assigned_identifier="rjfk_1003" retired_indicator = "false" />
  <PERSONS_USERS id="1001" version="1" first_name="Research George" last_name="Staff2" dtype="Local"  assigned_identifier="rjfk_1004" retired_indicator = "false" />
@@ -29,9 +29,11 @@
     <CONTACT_MECHANISMS id="1000" version="1" rs_id="1000" type="EMAIL" value="test@mail.com" />
     
     <STUDY_PERSONNEL id="1000" version="1" persons_users_id="1000" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01"
-                         role_code="role1" status_code="Active" retired_indicator="false"/>
+                         status_code="Active" retired_indicator="false"/>
     <STUDY_PERSONNEL id="1001" version="1" persons_users_id="1002" sto_id="1000" start_date="2000-01-01" end_date="2000-01-01"
-                         role_code="role1" status_code="Active" retired_indicator="false"/>
+                         status_code="Active" retired_indicator="false"/>
+                         
+    <STU_PRSNL_ROLE id="1000" version="1" stu_prsnl_id="1000" role="role1" retired_indicator="false" />
+    <STU_PRSNL_ROLE id="1001" version="1" stu_prsnl_id="1001" role="role1" retired_indicator="false" />
     
-   
 </dataset>

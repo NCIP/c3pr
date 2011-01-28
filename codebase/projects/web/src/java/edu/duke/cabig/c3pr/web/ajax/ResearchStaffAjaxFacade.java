@@ -4,32 +4,39 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.web.HttpSessionRequiredException;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteStudy;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
- * @author Priyatam
+ * @author Priyatam, Vinay G
  */
 public class ResearchStaffAjaxFacade {
     private HealthcareSiteDao healthcareSiteDao;
     private StudyDao studyDao;
+    private StudySiteDao studySiteDao;
 
     private static Log log = LogFactory.getLog(ResearchStaffAjaxFacade.class);
 
+    /**
+     * Builds the reduced version of the passed in objects in order to pas a light weight version to the UI.
+     * Used for auto-completers in general.
+     *
+     * @param <T> the generic type
+     * @param src the src
+     * @param properties the properties
+     * @return the t
+     */
     @SuppressWarnings("unchecked")
     private <T> T buildReduced(T src, List<String> properties) {
         T dst = null;
@@ -52,6 +59,13 @@ public class ResearchStaffAjaxFacade {
         return dst;
     }
 
+    /**
+     * Match healthcare sites. Used for the site auto-completer
+     *
+     * @param text the text
+     * @return the list
+     * @throws Exception the exception
+     */
     public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {
 
         List<HealthcareSite> healthcareSites = healthcareSiteDao
@@ -70,6 +84,13 @@ public class ResearchStaffAjaxFacade {
         return reducedHealthcareSites;
     }
 
+    /**
+     * Match studies. Used for the study auto-completer
+     *
+     * @param text the text
+     * @return the list
+     * @throws Exception the exception
+     */
     public List<Study> matchStudies(String text) throws Exception {
 
         List<Study> studies = studyDao.getBySubnames(extractSubnames(text));
@@ -87,25 +108,79 @@ public class ResearchStaffAjaxFacade {
         return reducedStudies;
     }
     
-//    private final Object getCommandOnly(HttpServletRequest request) throws Exception {
-//        HttpSession session = request.getSession(false);
-//        if (session == null) {
-//            throw new HttpSessionRequiredException(
-//                            "Must have session when trying to bind (in session-form mode)");
-//        }
-//        String formAttrName = getFormSessionAttributeName();
-//        Object sessionFormObject = session.getAttribute(formAttrName);
-//
-//        return sessionFormObject;
-//    }
+    
+    /**
+     * Match studies for the given site ctep codes. 
+     * This is used to load only relevant studies in the study auto-completer on the user screen
+     *
+     * @param text the text
+     * @param roleSites the role sites
+     * @return the list
+     * @throws Exception the exception
+     */
+    public List<Study> matchStudiesGivenSites(String text, String[] roleSites) throws Exception {
+    	
+    	log.debug("Fetching matching studies");
+    	List<Study> studies = studyDao.getBySubnames(extractSubnames(text));
+        List<Study> reducedStudies = new ArrayList<Study>(studies.size());
+        
+        boolean includeStudy = false;
+        for (Study study : studies) {
+        	//filter out studies which don't have passed in ctepCodes as studyOrgs
+	        for(StudySite ss: study.getStudySites()){
+	        	if(includeStudy){
+	        		break;
+	        	}
+	        	for(String ctepCode: roleSites){
+	        		if(ss.getHealthcareSite().getCtepCode().equalsIgnoreCase(ctepCode)){
+	        			includeStudy = true;
+	        			break;
+	        		}
+	        	}
+	        }
+	        		
+        	study.getStudyVersion();
+        	if(includeStudy){
+        		log.debug("Reducing for the auto-completer :" + study.getShortTitleText());
+        		if(study instanceof RemoteStudy){
+            		reducedStudies.add(buildReduced(study, Arrays.asList("id", "shortTitleText",
+            				"identifiers", "externalId")));
+            	}
+            	else {reducedStudies.add(buildReduced(study, Arrays.asList("id", "shortTitleText",
+            			"identifiers")));
+            	}
+        	} else {
+        		log.debug("Excluding :" + study.getShortTitleText());
+        	}
+        	includeStudy = false;
+        }
+        return reducedStudies;
+    }
+    
+    
+    /**
+     * Match study sites.
+     *
+     * @param shortTitleText the short title text
+     * @return the list
+     
+    public List<StudySiteWrapper> matchStudySites(String shortTitleText){
+    	List<StudySite> studySites = studySiteDao.getStudySitesByShortTitle(shortTitleText);
+    	List<StudySiteWrapper> reducedStudySiteWrapperList = new ArrayList<StudySiteWrapper>(studySites.size());
+    	StudySiteWrapper studySiteWrapper;
+    	for (StudySite studySite : studySites) {
+    		studySiteDao.initialize(studySite);
+    		studySiteWrapper = new StudySiteWrapper();
+    		studySiteWrapper.setId(studySite.getId());
+    		studySiteWrapper.setShortTitleText(studySite.getStudy().getShortTitleText());
+    		studySiteWrapper.setSiteName(studySite.getHealthcareSite().getName());
+    		studySiteWrapper.setSitePrimaryIdentifier(studySite.getHealthcareSite().getPrimaryIdentifier());
+    		reducedStudySiteWrapperList.add(studySiteWrapper);
+        }
+    	return reducedStudySiteWrapperList;
+    }*/
 
     // //// CONFIGURATION
-
-//    @Required
-//    private String getFormSessionAttributeName() {
-//        return "edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController.FORM.command";
-//    }
-
     private String[] extractSubnames(String text) {
         return text.split("\\s+");
     }
@@ -124,6 +199,14 @@ public class ResearchStaffAjaxFacade {
 
 	public void setStudyDao(StudyDao studyDao) {
 		this.studyDao = studyDao;
+	}
+
+	public StudySiteDao getStudySiteDao() {
+		return studySiteDao;
+	}
+
+	public void setStudySiteDao(StudySiteDao studySiteDao) {
+		this.studySiteDao = studySiteDao;
 	}
 
 }

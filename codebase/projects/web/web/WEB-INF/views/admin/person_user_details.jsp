@@ -200,6 +200,7 @@ function addSite(el, index, isSiteScoped, isStudyScoped){
 }
 
 function removeSite(el,index, isSiteScoped, isStudyScoped){
+	$(el).select('[type="hidden"]')[0].remove();
 	$(el).remove();
 	sitesCount[index] = sitesCount[index] - 1;
 	updateRoleSummary(index, isSiteScoped, isStudyScoped);
@@ -224,6 +225,7 @@ function addStudy(el,index, isSiteScoped, isStudyScoped){
 }
 
 function removeStudy(el,index, isSiteScoped, isStudyScoped){
+	$(el).select('[type="hidden"]')[0].value='';
 	$(el).remove();
 	studiesCount[index] = studiesCount[index] - 1;
 	updateRoleSummary(index, isSiteScoped, isStudyScoped);
@@ -832,8 +834,12 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 						 							var Study${status.index}AutocompleterProps = {
 						 							    basename: "Study${status.index}",
 						 							    populator: function(autocompleter, text) {
-						 										ResearchStaffAjaxFacade.matchStudies(text,function(values) {
-						 							            autocompleter.setChoices(values)
+						 							    	var roleSites = new Array();
+															$('healthcareSiteRolesHolderList[${status.index}]-sitesTable').select('[type="hidden"]').each( function(e){
+																roleSites.push(e.value);
+															})
+						 										ResearchStaffAjaxFacade.matchStudiesGivenSites(text, roleSites, function(values) {
+						 							            autocompleter.setChoices(values);
 						 							        })
 						 							    },
 						 							    valueSelector: function(obj) {
@@ -842,12 +848,12 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 						 							    	} else {
 						 							    		image = '';
 						 							    	}
-						 							    	return (obj.shortTitleText+" ("+obj.primaryIdentifier+")" + image)
+						 							    	return ("("+obj.coordinatingCenterAssignedIdentifier.value+") "+ obj.shortTitleText + image)
 						 							    },
 						 							    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
 						 							    	var _fieldHelper = 'healthcareSiteRolesHolderList[' + inputElement.id.substring(5, inputElement.id.indexOf('-')) + ']';
-						 							    	inputElement.value = " ("+selectedChoice.primaryIdentifier+") "	+ selectedChoice.shortTitleText;
-						 									$(_fieldHelper + '.studyId').value = selectedChoice.primaryIdentifier;
+						 							    	inputElement.value = " ("+selectedChoice.coordinatingCenterAssignedIdentifier.value+") "	+ selectedChoice.shortTitleText;
+						 									$(_fieldHelper + '.studyId').value = selectedChoice.coordinatingCenterAssignedIdentifier.value;
 						 									Form.Element.enable($('addStudy_btn[${status.index}]'));
 						 									
 						 									hiddenField=inputElement.id.split("-")[0]+"-hidden";
