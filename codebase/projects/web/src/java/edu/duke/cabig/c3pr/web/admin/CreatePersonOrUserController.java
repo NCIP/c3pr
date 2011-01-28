@@ -203,6 +203,17 @@ public class CreatePersonOrUserController extends SimpleFormController{
             	log.debug("FINISHED loading roles information for personnel");
             } else {
             	wrapper.setCreateAsUser(false);
+                RoleBasedHealthcareSitesAndStudiesDTO rolesHolder;
+            	for(C3PRUserGroupType group: C3PRUserGroupType.values()){
+        			rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
+        			rolesHolder.setGroup(group);
+                 	rolesHolder.setChecked(false);
+                 	//poMgr is always all-site in C3PR.
+                 	if(group.equals(C3PRUserGroupType.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)){
+                 		rolesHolder.setHasAllSiteAccess(true);
+                 	}
+                 	wrapper.addHealthcareSiteRolesHolder(rolesHolder);
+            	}
             }
             //we don't set the staff organizations in the wrapper as they cannot be deleted and hence are only displayed as labels.
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
