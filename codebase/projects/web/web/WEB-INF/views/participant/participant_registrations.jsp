@@ -22,10 +22,15 @@ function updateTargetPage(target){
 <form:form>
 <tags:tabFields tab="${tab}"/>
 </form:form>
-<chrome:box title="Subject Summary">
-		<chrome:division title="Registration Summary">
-			<registrationTags:searchResults registrations="${participantAssignments }"/>
-		</chrome:division>
+<chrome:box title="Registration Summary">
+	<c:choose>
+		<c:when test="${fn:length(participantAssignments) == 0}">
+			<fmt:message key="PARTICIPANT.NO_REGISTRATIONS"/>
+      	</c:when>
+      	<c:otherwise>
+			<registrationTags:searchResults registrations="${participantAssignments }"/>	      		
+     	</c:otherwise>
+     </c:choose>
 </chrome:box>
 
 </body>
