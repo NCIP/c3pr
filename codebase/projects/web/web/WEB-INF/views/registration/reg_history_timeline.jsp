@@ -3,13 +3,14 @@
 <head>
     <title><registrationTags:htmlTitle registration="${command.studySubject}" /></title>
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <script>Timeline_urlPrefix = "http://static.simile.mit.edu/timeline/api-2.3.0/";;</script>
-    <script src="http://static.simile.mit.edu/timeline/api-2.3.0/timeline-api.js?bundle=true" type="text/javascript"></script>
+    <script src="/c3pr/js/timeline/src/webapp/api/timeline-api.js?bundle=false" type="text/javascript"></script>
+    <script src="/c3pr/js/timeline/src/ajax/api/simile-ajax-api.js" type="text/javascript"></script>
+    <script src="/c3pr/js/timeline/src/ajax/api/simile-ajax-bundle.js" type="text/javascript"></script>
+    <script src="/c3pr/js/timeline/src/ajax/api/scripts/signal.js" type="text/javascript"></script>
     <script>
    
 
     document.observe("dom:loaded", function() {
-    	  // initially hide all containers for tab content
     	  onLoad();
     	});
         
@@ -118,7 +119,7 @@
 				zones:zonesTemp,
 	        	trackGap:       0.2,
 	            eventSource:    eventSource,
-	            date:           new Date(1900 + new Date().getYear(), new Date().getMonth()-3, new Date().getDate()),
+	            date:            new Date(new Date().getFullYear(), new Date().getMonth()-8, new Date().getDate()),
 	            width:          "80%", 
 	            theme:          theme, // Apply the theme
 	            intervalUnit:   Timeline.DateTime.MONTH, 
@@ -128,7 +129,7 @@
 	        	trackGap:       0.2,
 	            overview:       true,
 	            eventSource:    eventSource,
-	            date:           new Date(1900 + new Date().getYear(), new Date().getMonth()-3, new Date().getDate()),
+	            date:           new Date(new Date().getFullYear()-2, new Date().getMonth(), new Date().getDate()),
 	            width:          "20%", 
 	            intervalUnit:   Timeline.DateTime.YEAR, 
 	            intervalPixels: 150
@@ -150,7 +151,7 @@
 			        			'endDate':new Date(), //end
 			        		</c:otherwise>
 		        		</c:choose>
-		        		'color':colors[${schEpochIndex.index}],
+		        		'color':colors[${schEpochIndex.index}]
 	        		
                     //   opacity:    50
                      //  theme:      theme
