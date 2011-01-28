@@ -62,6 +62,9 @@
 		</c:when>
 		<c:otherwise>
 		    <c:forEach items="${command.study.consents}" var="consent"  varStatus="consentCount">
+		    	 <script type="text/javascript">
+                	RowManager.getNestedRowInserter(consentRowInserterProps,${consentCount.index}).updateIndex(${fn:length(command.study.consents[consentCount.index].questions)});
+            	</script>
 		    	 <tr id="genericConsent-${consentCount.index}">
 		            <td>
 		    	<chrome:deletableDivision divTitle="genericTitle-${consentCount.index}" id="mainConsentTable-${consentCount.index}"
