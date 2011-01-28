@@ -127,17 +127,21 @@ public class ResearchStaffAjaxFacade {
         boolean includeStudy = false;
         for (Study study : studies) {
         	//filter out studies which don't have passed in ctepCodes as studyOrgs
-	        for(StudySite ss: study.getStudySites()){
-	        	if(includeStudy){
-	        		break;
-	        	}
-	        	for(String primaryIdentifier: roleSites){
-	        		if(ss.getHealthcareSite().getPrimaryIdentifier().equalsIgnoreCase(primaryIdentifier)){
-	        			includeStudy = true;
-	        			break;
-	        		}
-	        	}
-	        }
+        	if(roleSites.length > 0){
+        		for(StudySite ss: study.getStudySites()){
+    	        	if(includeStudy){
+    	        		break;
+    	        	}
+    	        	for(String primaryIdentifier: roleSites){
+    	        		if(ss.getHealthcareSite().getPrimaryIdentifier().equalsIgnoreCase(primaryIdentifier)){
+    	        			includeStudy = true;
+    	        			break;
+    	        		}
+    	        	}
+    	        }
+        	} else {
+        		includeStudy = true;
+        	}
 	        		
         	study.getStudyVersion();
         	if(includeStudy){
