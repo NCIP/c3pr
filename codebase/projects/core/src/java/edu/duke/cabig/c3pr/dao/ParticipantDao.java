@@ -350,12 +350,19 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         	getHibernateTemplate().initialize(identifier.getHealthcareSite().getIdentifiersAssignedToOrganization());
         }
         getHibernateTemplate().initialize(participant.getContactMechanisms());
+        for(ContactMechanism contactMechanism : participant.getContactMechanisms()){
+        	getHibernateTemplate().initialize(contactMechanism.getContactMechanismUseAssociation());
+        }
         getHibernateTemplate().initialize(participant.getRaceCodeAssociations());
         for(HealthcareSite  healthcareSite: participant.getHealthcareSites()){
         	getHibernateTemplate().initialize(healthcareSite.getIdentifiersAssignedToOrganization());
         }
         getHibernateTemplate().initialize(participant.getCustomFieldsInternal());
         getHibernateTemplate().initialize(participant.getStudySubjectDemographics());
+        getHibernateTemplate().initialize(participant.getAddresses());
+        for(Address address : participant.getAddresses()){
+        	getHibernateTemplate().initialize(address.getAddressUseAssociation());
+        }
     }
     
     /**
