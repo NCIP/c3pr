@@ -467,6 +467,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             // select study & subject
             Object onBindFormObject = bindSelectSubjectStudy(afterBind);
+            ((StudySubject)onBindFormObject).getStudySite().getStudy().getCompanionStudyAssociations().size();
             interruptSession();
 
             StudySubject studySubject1 = (StudySubject) onBindFormObject;
@@ -987,6 +988,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
             // select study & subject
             Object onBindFormObject = bindSelectSubjectStudy(afterBind);
+            ((StudySubject)onBindFormObject).getStudySite().getStudy().getCompanionStudyAssociations().size();
             interruptSession();
             currentFormObject(onBindFormObject);
 
