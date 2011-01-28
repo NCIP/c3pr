@@ -677,18 +677,21 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     public void testEvaluateRegistrationDataEntryStatusWithErrors() throws Exception{
     	List<Error> errors = new ArrayList<Error>();
     	EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(1);
-    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	//EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySiteStudyVersion.getStudyVersion()).andReturn(studyVersion);
+    	
 
 
 		EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
 		EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true).times(1);
-		EasyMock.expect(studySite.getStudy()).andReturn(study);
+		//EasyMock.expect(studySite.getStudy()).andReturn(study);
 
 		CompanionStudyAssociation companionStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
 		ArrayList<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 		companionStudyAssociations.add(companionStudyAssociation);
 
-		EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations).times(1);
+		//EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(companionStudyAssociations).times(1);
+		EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(companionStudyAssociations).times(1);
 		EasyMock.expect(companionStudyAssociation.getMandatoryIndicator()).andReturn(true).times(1);
 
     	replayMocks();
@@ -1322,17 +1325,18 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    */
 	public void testPrepareForEnrollment2() throws Exception {
     	EasyMock.expect(study.getStandaloneIndicator()).andReturn(false);
-		EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+		EasyMock.expect(studySite.getStudy()).andReturn(study);
 	    EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
 	    EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
 		EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
-	    EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+	    EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySiteStudyVersion.getStudyVersion()).andReturn(studyVersion);
 
 		List<CompanionStudyAssociation> compStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 		CompanionStudyAssociation compStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
 		compStudyAssociations.add(compStudyAssociation);
 
-		EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
+		EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(compStudyAssociations).times(1);
 		EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
 
 		replayMocks();
@@ -1354,7 +1358,7 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
    * @throws Exception the exception
    */
   public void testPrepareForEnrollment3() throws Exception{
-	  EasyMock.expect(studySite.getStudy()).andReturn(study).times(2);
+	  EasyMock.expect(studySite.getStudy()).andReturn(study);
 	  EasyMock.expect(study.getStandaloneIndicator()).andReturn(false);
 
 	  List<CompanionStudyAssociation> compStudyAssociations = new ArrayList<CompanionStudyAssociation>();
@@ -1364,12 +1368,13 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 	  EasyMock.expect(compStudyAssociation.getMandatoryIndicator()).andReturn(true);
 
 	  EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
-	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite).times(2);
+	  EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+	  EasyMock.expect(studySiteStudyVersion.getStudyVersion()).andReturn(studyVersion);
 
 	  EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
 	  EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(true);
 
-	  EasyMock.expect(study.getCompanionStudyAssociations()).andReturn(compStudyAssociations);
+	  EasyMock.expect(studyVersion.getCompanionStudyAssociations()).andReturn(compStudyAssociations).times(1);
 
 	  replayMocks();
 	  try{
