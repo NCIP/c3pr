@@ -100,7 +100,6 @@ public class CreatePersonOrUserController extends SimpleFormController{
 
     protected String FLOW = "FLOW";
     
-    private final String CREATE_STAFF = "CREATE_RESEARCH_STAFF" ;
     private final String CREATE_USER = "_createUser" ;
 
     private Logger log = Logger.getLogger(CreatePersonOrUserController.class);
@@ -404,7 +403,6 @@ public class CreatePersonOrUserController extends SimpleFormController{
 		String selectedParam = request.getParameter("_selected");
 		String username = wrapper.getUserName();
 		String flowVar = request.getSession().getAttribute(FLOW).toString();
-		//String createUser = request.getParameter(CREATE_USER);
 		
 		boolean createAsUser = wrapper.getCreateAsUser();
 		boolean createAsStaff = wrapper.getCreateAsStaff();
