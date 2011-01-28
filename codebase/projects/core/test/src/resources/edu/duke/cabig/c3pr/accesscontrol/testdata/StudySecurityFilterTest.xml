@@ -133,9 +133,9 @@
 
 	<IDENTIFIERS id="1002" version="1" value="CCAI1000" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1000" org_id="1000" dtype="OAI" stu_id="1000" retired_indicator="false" primary_indicator="0"/>
     <IDENTIFIERS id="1000" version="1" value="NC010" type="CTEP" dtype="OAI" retired_indicator="false" hcs_id="1000" org_id="1000" primary_indicator="1"/>
-	<IDENTIFIERS id="1001" version="1" value="NC008" type="local" system_name="nci" dtype="SAI" stu_id="1000" hcs_id="1001" org_id="1001" retired_indicator="false" primary_indicator="1"/>
-    <IDENTIFIERS id="1003" version="1" value="CCAI1001" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1000" dtype="OAI" stu_id="1001" retired_indicator="false"/>
-    <IDENTIFIERS id="1004" version="1" value="CCAI1002" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1000" dtype="OAI" stu_id="1002" retired_indicator="false"/>
+	<IDENTIFIERS id="1001" version="1" value="NC008" type="local" system_name="nci" dtype="SAI" hcs_id="1001" org_id="1001" retired_indicator="false" primary_indicator="1"/>
+    <IDENTIFIERS id="1003" version="1" value="CCAI1001" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1000" org_id="1000" dtype="OAI" stu_id="1001" retired_indicator="false"/>
+    <IDENTIFIERS id="1004" version="1" value="CCAI1002" type="COORDINATING_CENTER_IDENTIFIER" hcs_id="1000" org_id="1000" dtype="OAI" stu_id="1002" retired_indicator="false"/>
 
     <PERSONS_USERS id="1000" version="1" dtype="Local" first_name="Duke" last_name="admin"  retired_indicator="false"  assigned_identifier="x1" login_id="1000"/>
     <PERSONS_USERS id="1001" version="1" dtype="Local" first_name="Duke" last_name="SiteCo" retired_indicator="false"  assigned_identifier="x2" login_id="1001"/>
