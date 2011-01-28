@@ -143,11 +143,11 @@
 											      		<c:forEach items="${consent.questions}" var="question" varStatus="statusQuestions">
 												            <tr id="question-${statusQuestions.index}">
 												            	<td valign="top">
-												                	<form:input path="study.consents[${consentCount.index}].questions[${statusQuestions.index}].code" size="40" 
+												                	<form:input path="study.consents[${consentCount.index}].questions[${statusQuestions.index}].code" size="10" 
 												                	 cssClass="required validate-notEmpty" />
 												                </td>
 												                <td valign="top">
-												                	<form:input path="study.consents[${consentCount.index}].questions[${statusQuestions.index}].text" size="80" 
+												                	<form:input path="study.consents[${consentCount.index}].questions[${statusQuestions.index}].text" size="110" 
 												                	 cssClass="required validate-notEmpty" />
 												                </td>
 												                <td valign="top" align="left">
@@ -271,8 +271,8 @@
 <div id="dummy-row-consent-question" style="display:none;">
 <table id="question" class="tablecontent" width="50%">
 	<tr>
-		<td><input id="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX]" name="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX].code" type="text" size="40" class="required validate-notEmpty" /></td>
-		<td><input id="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX]" name="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX].text" type="text" size="80" class="required validate-notEmpty" /></td>
+		<td><input id="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX]" name="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX].code" type="text" size="10" class="required validate-notEmpty" /></td>
+		<td><input id="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX]" name="study.consents[PAGE.ROW.INDEX].questions[NESTED.PAGE.ROW.INDEX].text" type="text" size="110" class="required validate-notEmpty" /></td>
 		<td valign="top" align="left"><a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(consentRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
