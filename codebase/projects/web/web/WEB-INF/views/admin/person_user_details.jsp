@@ -477,7 +477,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 			            	<form:checkbox id="createAsStaff" path="createAsStaff" onchange="toggleStaffDisplay()"/>
 			            </c:if>
 			            <c:if test="${FLOW == 'EDIT_FLOW'}">
-			            	<input type="checkbox" id="createAsStaff" name="createAsStaff" onchange="toggleStaffDisplay()" value="true"  <c:if test="${command.isStaff == 'true'}">disabled="disabled" checked</c:if> />
+			            	<input type="checkbox" id="createAsStaff" name="createAsStaff" onchange="toggleStaffDisplay()" value="true"  <c:if test="${command.isStaff == 'true' || command.createAsStaff}">disabled="disabled" checked</c:if> />
 			            </c:if>
 			        </div>
 			        
@@ -491,7 +491,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 			            	<form:checkbox id="createAsUser" path="createAsUser" onchange="toggleUserDisplay()" />
 			            </c:if>
 			            <c:if test="${FLOW == 'EDIT_FLOW'}">
-			            	<input type="checkbox" id="createAsUser" name="createAsUser" onchange="toggleUserDisplay()" value="true"  <c:if test="${command.isUser == 'true'}">disabled="disabled" checked</c:if> />
+			            	<input type="checkbox" id="createAsUser" name="createAsUser" onchange="toggleUserDisplay()" value="true"  <c:if test="${command.isUser == 'true' || command.createAsUser}">disabled="disabled" checked</c:if> />
 			            </c:if>
 			        </div>
 				</c:otherwise>
@@ -512,6 +512,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	<c:if test="${allowOrganizationDisplay == 'true'}">
 		<chrome:box title="Associated Organizations" id="organization_details">
 			<chrome:flashMessage />
+			<tags:instructions code="research_staff_associated_organizations" />
 			<div class="row">
 				<div class="orgLabel">
 					<tags:requiredIndicator /><fmt:message key="c3pr.common.organization"></fmt:message>

@@ -232,14 +232,18 @@ public class CreatePersonOrUserController extends SimpleFormController{
              	}
              	wrapper.addHealthcareSiteRolesHolder(rolesHolder);
         	}
-            if(SecurityUtils.getRoleTypes().contains(RoleTypes.USER_ADMINISTRATOR) &&
-            		!SecurityUtils.getRoleTypes().contains(RoleTypes.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)){
-            	wrapper.setCreateAsStaff(false);
-            }
-            if(SecurityUtils.getRoleTypes().contains(RoleTypes.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER) &&
-            		!SecurityUtils.getRoleTypes().contains(RoleTypes.USER_ADMINISTRATOR)){
-            	wrapper.setCreateAsUser(false);
-            }
+        }
+        if(SecurityUtils.getRoleTypes().contains(RoleTypes.USER_ADMINISTRATOR) &&
+        		!SecurityUtils.getRoleTypes().contains(RoleTypes.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)){
+        	wrapper.setCreateAsStaff(false);
+        	wrapper.setCreateAsUser(true);
+
+        }
+        if(SecurityUtils.getRoleTypes().contains(RoleTypes.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER) &&
+        		!SecurityUtils.getRoleTypes().contains(RoleTypes.USER_ADMINISTRATOR)){
+        	wrapper.setCreateAsUser(false);
+        	wrapper.setCreateAsStaff(true);
+
         }
         wrapper.setPersonUser(personUser);
         return wrapper;
