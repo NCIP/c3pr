@@ -8,7 +8,6 @@ import org.acegisecurity.Authentication;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.AuthenticationProviderDaoTestCase;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * Tests for StudySecurityFilter.
