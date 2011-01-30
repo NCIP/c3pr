@@ -332,6 +332,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 			if (compStudyAssoc.getMandatoryIndicator() != null) {
 				if (compStudyAssoc.getMandatoryIndicator() && compStudyAssoc.getCompanionStudy().getDataEntryStatus() != StudyDataEntryStatus.COMPLETE) {
 					errors.add(new Error(getC3PRExceptionHelper().getRuntimeException(getCode("C3PR.EXCEPTION.STUDY.STATUS.COMPANION_STUDY.CODE"), new String[] {compStudyAssoc.getCompanionStudy().getShortTitleText(), compStudyAssoc.getCompanionStudy().getCoordinatingCenterAssignedIdentifier().getValue()}).getMessage()));
+					compStudyAssoc.getCompanionStudy().evaluateDataEntryStatus(errors);
 				}
 			}
 
