@@ -239,6 +239,21 @@
             	<tags:hoverHint keyProp="study.precisText"/>
             </div>
         </div>
+        <div class="row">
+	        <div class="label">
+	        	<fmt:message key="study.sponsorType"/>	
+	        </div>
+		    <div class="value">
+            	<form:select path="study.sponsorType">
+            		<option value="">Please Select </option>
+	            	<c:forEach items="${studySponsorRefData}" var="studySponsorType" varStatus="studySponsorTypeIndex">
+	            		<form:option value="${studySponsorType.key}">${studySponsorType.value}</form:option>
+	            	</c:forEach>
+            	</form:select>
+            	<tags:hoverHint keyProp="study.sponsorType"/>
+	         </div>
+    	</div>
+    	
     </div>
     <div class="rightpanel">
         <div class="row">
@@ -327,21 +342,6 @@
 	            	</c:forEach>
             	</form:select>
             	<tags:hoverHint keyProp="study.category"/>
-	         </div>
-    	</div>
-    	
-    	<div class="row">
-	        <div class="label">
-	        	<fmt:message key="study.sponsorType"/>	
-	        </div>
-		    <div class="value">
-            	<form:select path="study.sponsorType">
-            		<option value="">Please Select </option>
-	            	<c:forEach items="${studySponsorRefData}" var="studySponsorType" varStatus="studySponsorTypeIndex">
-	            		<form:option value="${studySponsorType.key}">${studySponsorType.value}</form:option>
-	            	</c:forEach>
-            	</form:select>
-            	<tags:hoverHint keyProp="study.sponsorType"/>
 	         </div>
     	</div>
     	
