@@ -99,7 +99,6 @@ public class SearchPersonOrUserController extends SimpleFormController {
         	log.debug("Not running Staff search");
         }
     	
-        
         //Search for users
         if(searchUser){
         	//if nothing is specified then get all users. set the % as CSM returns nothing on blank searches.
@@ -107,6 +106,9 @@ public class SearchPersonOrUserController extends SimpleFormController {
             if(StringUtils.isEmpty(firstName) && StringUtils.isEmpty(lastName) && StringUtils.isEmpty(emailAddress) && StringUtils.isEmpty(loginName) 
             		&& StringUtils.isEmpty(assignedIdentifier) && StringUtils.isEmpty(organizationId)){
             	firstName = "%";
+            } else if(!StringUtils.isEmpty(loginName)){
+            	//add %'s to make the login/username searches "like" searches if login is one of the search criteria.
+            	loginName = "%" + loginName + "%";
             }
             
             List<gov.nih.nci.security.authorization.domainobjects.User> csmUsersList = 
