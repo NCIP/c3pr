@@ -729,12 +729,13 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 			    		<div id="orgDisplay${status.index}" style="${command.healthcareSiteRolesHolderList[status.index].group.isSiteScoped?'':'display:none'}">
 					    	<!-- the site and study auto-completer go here  -->
 					    	<c3pr:checkprivilege hasPrivileges="UI_PERSONUSER_CREATE">
-					    		<div class="row">
-				    				<c:set var="isDisabled" value="${command.healthcareSiteRolesHolderList[status.index].group.code eq 'person_and_organization_information_manager'}"/>
+				    			<div class="row" style="${c3pr:hasAllSiteAccess('UI_PERSONUSER_CREATE') || c3pr:hasAllSiteAccess('USER_CREATE')?'':'display:none'}">
+						    		<c:set var="isDisabled" value="${command.healthcareSiteRolesHolderList[status.index].group.code eq 'person_and_organization_information_manager'}"/>
 						            <form:checkbox id="allSiteAccess${status.index}" path="healthcareSiteRolesHolderList[${status.index}].hasAllSiteAccess" disabled="${isDisabled}"
-						            				onchange="toggleUserOrgAutocompleter('${status.index}', '${isSiteScoped}','${isStudyScoped}')"/>&nbsp;
-	   					            <fmt:message key="researchStaff.allSiteAccess" />
-						        </div>
+						            				onchange="toggleUserOrgAutocompleter('${status.index}', '${isSiteScoped}','${isStudyScoped}')" />&nbsp;
+   					            	<fmt:message key="researchStaff.allSiteAccess"/>
+					        	</div>
+						        
 						    	<div class="row" id="userOrgAutocompleter${status.index}">
 				 					<div class="orgLabel">
 				 						<fmt:message key="c3pr.common.organization"></fmt:message>
@@ -818,8 +819,8 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 				    	<!-- start of studyDisplay -->
 		    			<div id="studyDisplay${status.index}" style="${command.healthcareSiteRolesHolderList[status.index].group.isStudyScoped?'':'display:none'}">
 					    		<div class="row">
-						            <form:checkbox id="allStudyAccess${status.index}" path="healthcareSiteRolesHolderList[${status.index}].hasAllStudyAccess" onchange="toggleUserStudyAutocompleter('${status.index}', '${isSiteScoped}','${isStudyScoped}')"/>&nbsp;
-	   					            <fmt:message key="researchStaff.allStudyAccess" />
+						            <form:checkbox id="allStudyAccess${status.index}" path="healthcareSiteRolesHolderList[${status.index}].hasAllStudyAccess" onchange="toggleUserStudyAutocompleter('${status.index}', '${isSiteScoped}','${isStudyScoped}')" />&nbsp;
+   					            	<fmt:message key="researchStaff.allStudyAccess" />
 						        </div>
 						    	<div class="row" id="userStudyAutocompleter${status.index}">
 				 					<div class="orgLabel">
