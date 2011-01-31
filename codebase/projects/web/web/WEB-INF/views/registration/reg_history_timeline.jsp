@@ -49,7 +49,7 @@
 			        		'start':new Date('${command.studySubject.offStudyDateStr}'), //start
 			        		'instant':true, //instant
 			        		'text':'off study', //text
-			        		'description':'${command.timeLineDescriptionsOfRegistrationDetails}' //description
+			        		'description':'${command.timelineDescriptionOfOffStudyReasons}' //description
 			        		}
 		        		);
 				 eventSource.add(evt);
