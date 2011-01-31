@@ -13,6 +13,7 @@ import org.springframework.mail.SimpleMailMessage;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.utils.RoleBasedHealthcareSitesAndStudiesDTO;
+import gov.nih.nci.logging.api.util.StringUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Oct 2, 2007 Time: 4:46:46 PM To change this template
@@ -38,39 +39,54 @@ public class UserEmailConfirmationAspect {
     
 	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyResearchStaffWithUserAndAssignRoles(..))" 
                     + " && args(researchStaff, username, listAssociation)")
-    public void createResearchStaffWithCSMUserAndAssignRoles(PersonUser researchStaff, String username, 
-    		List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
-		sendEmail(researchStaff);
+//	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.PersonUserDao.saveOrUpdatePersonUser(..))" 
+//                    + " && args(personUser)")
+    public void createResearchStaffWithCSMUserAndAssignRoles(PersonUser researchStaff, String username, List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
+		if(!StringUtils.isBlank(username)){
+			sendEmail(researchStaff);
+		} else {
+			log.debug("Not sending email for the edit user flow.");
+		}
     }
 	
 	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyUserWithoutResearchStaffAndAssignRoles(..))"
             + " && args(researchStaff, username, listAssociation)")
 	public void createCSMUser(PersonUser researchStaff, String username, List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
-		sendEmail(researchStaff);
+		if(!StringUtils.isBlank(username)){
+			sendEmail(researchStaff);
+		} else {
+			log.debug("Not sending email for the edit user flow.");
+		}
 	}
 
 	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createSuperUser(..))"
             + " && args(researchStaff,  username , listAssociation)")
 	public void createSuperUser(PersonUser researchStaff, String username, List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
-		sendEmail(researchStaff);
+		if(!StringUtils.isBlank(username)){
+			sendEmail(researchStaff);
+		} else {
+			log.debug("Not sending email for the edit user flow.");
+		}
 	}
 	
-	private void sendEmail(PersonUser staff) {
+	private void sendEmail(PersonUser personUser) {
 		try {
-	          SimpleMailMessage msg = new SimpleMailMessage( this.accountCreatedTemplateMessage);
-	          msg.setTo(staff.getEmail());
-	          msg.setText("A new C3PR account has been created for you.\n"
-	                  + "Your username is follows:\n"
-	                  + "Username: " + csmRepository.getUsernameById(staff.getLoginId())
-	                  + "\n"
-	                  + "You must create your password before you can login. In order to do so please visit this URL:\n"
-	                  + "\n"
-	                  + changeURL + "&token=" + staff.getToken() + "\n"
-	                  + "\n"
-	                  + "Regards\n"
-	                  + "The C3PR Notification System.\n");
-	          log.debug("Trying to send user account confirmation email. URL is " + changeURL + "&token=" + staff.getToken());
-	          this.mailSender.send(msg);
+			if(!StringUtils.isBlank(personUser.getLoginId())){
+				SimpleMailMessage msg = new SimpleMailMessage( this.accountCreatedTemplateMessage);
+		          msg.setTo(personUser.getEmail());
+		          msg.setText("A new C3PR account has been created for you.\n"
+		                  + "Your username is follows:\n"
+		                  + "Username: " + csmRepository.getUsernameById(personUser.getLoginId())
+		                  + "\n"
+		                  + "You must create your password before you can login. In order to do so please visit this URL:\n"
+		                  + "\n"
+		                  + changeURL + "&token=" + personUser.getToken() + "\n"
+		                  + "\n"
+		                  + "Regards\n"
+		                  + "The C3PR Notification System.\n");
+		          log.debug("Trying to send user account confirmation email. URL is " + changeURL + "&token=" + personUser.getToken());
+		          this.mailSender.send(msg);
+			}
 	      }
 	      catch (MailException e) {
 	          log.error("Could not send email due to  " + e.getMessage(),e);

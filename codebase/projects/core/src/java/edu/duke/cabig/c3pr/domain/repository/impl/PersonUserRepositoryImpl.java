@@ -115,10 +115,6 @@ public class PersonUserRepositoryImpl implements PersonUserRepository {
 	public PersonUser createOrModifyUserWithoutResearchStaffAndAssignRoles(
 			PersonUser researchStaff, String username,
 			List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) throws C3PRBaseException {
-		if(StringUtils.isBlank(username)){
-			log.error("Cannot create User without a username");
-			return researchStaff;
-		}
 		if(StringUtils.isBlank(researchStaff.getAssignedIdentifier())){
 			researchStaff.setAssignedIdentifier(null);
 		}
@@ -156,10 +152,6 @@ public class PersonUserRepositoryImpl implements PersonUserRepository {
 			List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) throws C3PRBaseException {
 		if(StringUtils.isBlank(researchStaff.getAssignedIdentifier())){
 			log.error("Cannot create User without an Assigned Identifier");
-			return researchStaff;
-		}
-		if(StringUtils.isBlank(username)){
-			log.error("Cannot create User without a username");
 			return researchStaff;
 		}
 		return personUserDao.createOrModifyPersonUser(researchStaff, true, username, listAssociation);
