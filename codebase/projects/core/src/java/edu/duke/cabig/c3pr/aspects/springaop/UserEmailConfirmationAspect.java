@@ -39,8 +39,6 @@ public class UserEmailConfirmationAspect {
     
 	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyResearchStaffWithUserAndAssignRoles(..))" 
                     + " && args(researchStaff, username, listAssociation)")
-//	@AfterReturning("execution(* edu.duke.cabig.c3pr.dao.PersonUserDao.saveOrUpdatePersonUser(..))" 
-//                    + " && args(personUser)")
     public void createResearchStaffWithCSMUserAndAssignRoles(PersonUser researchStaff, String username, List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
 		if(!StringUtils.isBlank(username)){
 			sendEmail(researchStaff);
