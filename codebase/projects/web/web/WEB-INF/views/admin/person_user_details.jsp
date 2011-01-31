@@ -288,13 +288,13 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 		}
 		if((createAsStaff == null || createAsStaff.checked == false)
 			 && (createAsUser == null || createAsUser.checked == false)){
-			ValidationManager.showError(createAsUser, "Select Create as Staff or Create as User")
+			ValidationManager.showError(createAsUser, "Select at least one:  Create as Research Staff, Create as User")
 			return false;
 		}
 		
 		if(createAsStaff != null && createAsStaff.checked == true){
 			if(assgndId.value == null || assgndId.value == ''){
-				ValidationManager.showError(assgndId, "Enter an Assigned Identifier for the Staff")
+				ValidationManager.showError(assgndId, "Enter an Assigned Identifier for the Research Staff")
 				return false
 			}
 		}
