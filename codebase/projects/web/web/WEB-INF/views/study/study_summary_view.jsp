@@ -212,7 +212,7 @@
             <c:if test="${coCenterStatus=='READY_TO_OPEN' && flowType != 'VIEW_STUDY'}">
                 <script>$('pendingParentStudy').style.display=''</script>
             </c:if>
-            <c:if test="${coCenterStatus=='OPEN' && (!(command.study.companionIndicator && !command.study.standaloneIndicator) || (command.study.companionIndicator && !command.study.standaloneIndicator && command.study.isParentStudyOpen))}">
+            <c:if test="${coCenterStatus=='OPEN' && (!(command.study.companionIndicator && !command.study.standaloneIndicator) || (command.study.companionIndicator && !command.study.standaloneIndicator && fn:length(command.study.parentStudyAssociations)>0 && command.study.isParentStudyOpen))}">
                 <c:set var="open" value="Open"></c:set>
             </c:if>
             <c:if test="${coCenterStatus=='CLOSED_TO_ACCRUAL'}">
