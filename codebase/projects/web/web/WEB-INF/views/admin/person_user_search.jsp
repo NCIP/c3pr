@@ -74,9 +74,9 @@
                 	}else{
                 		idElement = evt.target.id
                 	}
-                    if ( idElement == "assignedIdentifier" || idElement == "firstName" || idElement == "lastName" ){
+                    if ( idElement == "assignedIdentifier" || idElement == "firstName" || idElement == "lastName" || idElement == "emailAddress" || idElement == "loginName"){
                     	$('search-indicator').style.display=''
-                    	buildTable('searchForm');
+                   		searchStudy();
                     }
                     return false;
             	}
