@@ -394,6 +394,7 @@
       <xs:element minOccurs="0" maxOccurs="1" name="scheduledArm" type="ScheduledArmType" />
       <xs:element minOccurs="0" maxOccurs="1" name="eligibilityIndicator" type="xs:boolean" />
       <xs:element minOccurs="0" maxOccurs="1" name="stratumGroup" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="offEpochDate" type="xs:date" />
     </xs:sequence>
     <xs:attribute name="gridId" type="xs:string" />
   </xs:complexType>
