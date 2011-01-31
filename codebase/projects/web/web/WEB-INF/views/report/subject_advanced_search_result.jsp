@@ -135,10 +135,11 @@ YAHOO.util.Event.addListener(window, "load", function() {
                 width: "30em",
 			    visible: false,
 			    modal: true,
+			    x: 700,
+			    y: 300,
 			    buttons: [ 
 					{ text:"Close",  handler:hideDlg }
                 ],
-                fixedcenter: true,
                 constrainToViewport: true
 		});
 		myDlg.render();
