@@ -625,7 +625,7 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 			} 
 		}
 		
-		if(listAssociation != null && !listAssociation.isEmpty()){
+		if(listAssociation != null){
 			assignRolesStudiesAndOrganizationsToUser(csmUser, listAssociation);
 		}
 		return csmUser;
