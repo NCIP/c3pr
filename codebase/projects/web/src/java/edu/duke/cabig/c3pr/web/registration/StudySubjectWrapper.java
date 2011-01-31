@@ -69,7 +69,11 @@ public class StudySubjectWrapper {
 			if(studySubject.getOffStudyReasons().size() > 0){
 				sb.append("<br> Off Study reason(s): ");
 				for(int i =0; i< studySubject.getOffStudyReasons().size(); i ++){
-					sb.append(" " +  i+1 + ". " + studySubject.getOffStudyReasons().get(i).getReason().getDescription());
+					if(i==0){
+						sb.append(studySubject.getOffStudyReasons().get(i).getReason().getDescription());
+					}else{
+						sb.append(", " + studySubject.getOffStudyReasons().get(i).getReason().getDescription());
+					}
 				}
 			}
 		}
@@ -91,7 +95,11 @@ public class StudySubjectWrapper {
 			if(scheduledEpoch.getOffEpochReasons().size() > 0){
 				sb.append("<br> Off Epoch reason(s): ");
 				for(int i =0; i< scheduledEpoch.getOffEpochReasons().size(); i ++){
-					sb.append(" " +  i+1 + ". " + scheduledEpoch.getOffEpochReasons().get(i).getReason().getDescription());
+					if(i==0){
+						sb.append(scheduledEpoch.getOffEpochReasons().get(i).getReason().getDescription());
+					}else{
+						sb.append(", " + scheduledEpoch.getOffEpochReasons().get(i).getReason().getDescription());
+					}
 				}
 			}
 			timeLineDescriptionsOfScheduledEpochs.add(sb.toString());
