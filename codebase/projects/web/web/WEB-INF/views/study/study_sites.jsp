@@ -47,7 +47,7 @@
 			}
 		});
 		if(alreadyExist){
-			Dialog.alert("Study site already exist", {className: "alphacube", width:240, okLabel: "Done" });
+			Dialog.alert("Study site already exists", {className: "alphacube", width:240, okLabel: "Done" });
 			return;
 		}
 		<tags:tabMethod method="addStudySite" divElement="'newStudySite'" formName="'tabMethodForm'"  viewName="/study/asynchronous/add_study_site_section" javaScriptParam="'primaryIdentifier='+primaryIdentifier" onComplete="refreshStudySiteSection" /> ;
