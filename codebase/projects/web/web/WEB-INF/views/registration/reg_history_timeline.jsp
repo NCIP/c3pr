@@ -22,7 +22,7 @@
         
         var tl;
         function onLoad() {
-        var colors = ['#FF7F50','#F5DEB3','#B8860B','#BDB76B','#FFDEAD','#D2B48C'];
+        var colors = ['#AFC7C7','#C9C299','#95B9C7','#CFECEC','#FFF8C6','#AFDCEC','#ADA96E'];
         var numberOfScheduledEpochs = ${fn:length(command.studySubject.scheduledEpochs)};
         for(var i=0;i < numberOfScheduledEpochs; i++){
 	        	var divId = 'legend-scheduled_epoch'+ '-' + i;
@@ -67,7 +67,7 @@
 			        			'isDuration':"true",
 			        		</c:otherwise>
 		        		</c:choose>
-		        		textColor: 'black',	
+		        		textColor: '#806517',	
 		        		'color':colors[${schEpochIndex.index}],
 		        		'text':'${schEpoch.epoch.name}', //text
 		        		'description':'${command.timeLineDescriptionsOfScheduledEpochs[schEpochIndex.index]}'
@@ -75,7 +75,6 @@
 	        		);
 			 eventSource.add(evt);
 		 </c:forEach>
-		 
 		 <c:forEach items="${command.studySubject.allSignedConsents}" var="signedConsent" varStatus="signedConsentIndex">
 	        var evt = new Timeline.DefaultEventSource.Event(
 		        		{
