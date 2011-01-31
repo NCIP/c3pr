@@ -1,8 +1,6 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.dao.ReasonDao;
-import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.web.registration.StudySubjectWrapper;
 
@@ -45,6 +42,14 @@ public class OffEpochTab extends RegistrationTab<StudySubjectWrapper> {
     		}
     	}
     	return map;
+	}
+	
+	 @Override
+	public void validate(StudySubjectWrapper command, Errors errors) {
+		super.validate(command, errors);
+		if((command.getOffEpochDate()).before(command.getStudySubject().getScheduledEpoch().getStartDate())){
+			errors.reject("tempProperty","Off epoch date cannot be prior to epoch start date " + command.getStudySubject().getScheduledEpoch().getStartDateStr());
+		}
 	}
 
 	@Override
