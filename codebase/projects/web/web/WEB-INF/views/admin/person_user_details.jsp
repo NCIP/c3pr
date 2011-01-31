@@ -920,7 +920,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 			<tr>
 				<c:if test="${command.personUser.id != null && command.personUser.class.name eq 'edu.duke.cabig.c3pr.domain.LocalPersonUser' && coppaEnable}">
 					<td valign="bottom">
-						<tags:button type="submit" value="Sync" color="blue" id="sync-org" onclick="javascript:syncResearchStaff();" />	
+						<!--<tags:button type="submit" value="Sync" color="blue" id="sync-org" onclick="javascript:syncResearchStaff();" />	-->
 					</td>
 				</c:if>
 				<td><tags:button type="submit" color="green" id="flow-update" value="Save" icon="save" />
