@@ -990,7 +990,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 		toggleStaffDisplay();
 		toggleUserDisplay();
 	}	
-	//window.onload=toggle;
+	window.onload=toggle;
 </script>
 </body>
 </html>
