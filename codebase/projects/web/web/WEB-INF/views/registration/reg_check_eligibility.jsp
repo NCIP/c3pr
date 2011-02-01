@@ -47,7 +47,7 @@ function navRollOver(obj, state) {
 											<c:forEach var="eligAnswer" varStatus="eligAnswerStatus" items="${command.studySubject.scheduledEpoch.subjectEligibilityAnswers}">
 												<c:if test="${eligAnswer.eligibilityCriteria.id == criteria.id}">
 													<c:set var="waiverAnswerIndex" value="${eligAnswerStatus.index}" />
-													<td width="15%" valign="center">
+													<td width="15%" valign="middle">
 													<c:choose>
 														<c:when test="${eligAnswer.allowWaiver}">
 															Waived <img src='<tags:imageUrl name="eligibility_waived.png"/>'/>
@@ -68,7 +68,7 @@ function navRollOver(obj, state) {
 											</c:forEach>
 											
 											<c:if test="${inclusionAnswerSelected == 'false'}">
-												<td width="15%" valign="center">
+												<td width="15%" valign="middle">
 													<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
 														<option value="">Please select</option>
 														<form:option value="Yes" />
@@ -136,7 +136,7 @@ function navRollOver(obj, state) {
 											<c:forEach var="eligAnswer" varStatus="eligAnswerStatus" items="${command.studySubject.scheduledEpoch.subjectEligibilityAnswers}">
 												<c:if test="${eligAnswer.eligibilityCriteria.id == criteria.id}">
 													<c:set var="waiverAnswerIndex" value="${eligAnswerStatus.index}" />
-													<td width="15%" valign="center">
+													<td width="15%" valign="middle">
 													<c:choose>
 														<c:when test="${eligAnswer.allowWaiver}">
 															<font color="green"><b>Waived</b></font>
@@ -155,8 +155,8 @@ function navRollOver(obj, state) {
 													<c:set var="exclusionAnswerSelected" value="true"></c:set>
 												</c:if>
 											</c:forEach>
-											<c:if test="${exclusionAnswerSelected  && eligibilityAnswer.allowWaiver}">
-												<td width="15%" valign="center">
+											<c:if test="${exclusionAnswerSelected == 'false'}">
+												<td width="15%" valign="middle">
 													<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
 														<option value="">Please select</option>
 														<form:option value="Yes" />
@@ -166,7 +166,7 @@ function navRollOver(obj, state) {
 												</td>
 											</c:if>
 										</tr>
-										<c:if test="${exclusionAnswerSelected == 'false'}">
+										<c:if test="${exclusionAnswerSelected  && eligibilityAnswer.allowWaiver}">
 										<tr>
 											<td colspan="3">
 											<table width="90%" border="0">
@@ -179,7 +179,7 @@ function navRollOver(obj, state) {
 																</td>
 															</tr>
 															<tr>
-																<td style="border:0px;"><b>Waiver allowed by</b> ${eligibilityAnswer.waivedBy.researchStaff.fullName}</td>
+																<td style="border:0px;"><b>Waiver allowed by</b> ${eligibilityAnswer.waivedBy.fullName}</td>
 															</tr>
 														</table>
 													</td>
