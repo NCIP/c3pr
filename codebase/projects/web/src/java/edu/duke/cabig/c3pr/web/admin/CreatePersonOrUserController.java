@@ -501,11 +501,11 @@ public class CreatePersonOrUserController extends SimpleFormController{
 		        	if(createAsUser && createAsStaff){
 		        		//create research staff and csm user and assign roles if provided
 		        		personUser.setPersonUserType(PersonUserType.STAFF_USER);
-	        			personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(personUser, "", listAssociation);
+	        			personUserRepository.createOrModifyResearchStaffWithUserAndAssignRoles(personUser, username, listAssociation);
 		        	} else if(createAsUser) {
 		        		//update the user without touching the staff(assigned id needs to be empty).
 	        			//no need to set PersonType as it should already be set
-	        			personUserRepository.createOrModifyUserWithoutResearchStaffAndAssignRoles(personUser, "", listAssociation);
+	        			personUserRepository.createOrModifyUserWithoutResearchStaffAndAssignRoles(personUser, username, listAssociation);
 		        	} else if(createAsStaff) {
 		        		//update the staff without touching the user.
 		        		//no need to set PersonType as it should already be set

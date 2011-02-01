@@ -275,8 +275,9 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 	createAsStaff = $('createAsStaff');
 	assgndId = $('assignedIdInput')
 	ValidationManager.removeError(createAsUser);
-	ValidationManager.removeError(assgndId);
-	
+	if(assgndId != null) {
+		ValidationManager.removeError(assgndId);
+	}
 	if(flag){
 		//ensuring the checkboxes are disabled during submit as the controller relies on these values for processing
 		//not clean...change in the future.
@@ -293,10 +294,12 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 		}
 		
 		if(createAsStaff != null && createAsStaff.checked == true){
-			if(assgndId.value == null || assgndId.value == ''){
-				ValidationManager.showError(assgndId, "Enter an Assigned Identifier for the Research Staff")
-				return false
-			}
+			if(assgndId != null){
+				if(assgndId.value == null || assgndId.value == ''){
+					ValidationManager.showError(assgndId, "Enter an Assigned Identifier for the Research Staff")
+					return false
+				}
+			}	
 		}
 		return flag;
 	} else {
@@ -467,9 +470,9 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 			        	<c:set var="staffdisplay" value="display"/>
 			        </c3pr:checkprivilege>
 			        <div class="row" style="${staffdisplay}" id="assignedIdentifier">
-			   	        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
-				        <tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
-				    </div>
+				   	        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
+					        <tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
+					    </div>
 				    
 		        	 <div class="row" style="${staffdisplay}">
 			            <div class="label"><fmt:message key="researchstaff.createAsStaff" /></div>
