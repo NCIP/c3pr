@@ -32,12 +32,22 @@
 			<div class="label"><fmt:message key="c3pr.common.lastName"/>:</div>
 			<div class="value">${command.personUser.lastName}</div>
 		</div>
-		<c:if test="${not empty command.personUser.assignedIdentifier }">
-			<div class="row">
-				<div class="label"><fmt:message key="c3pr.person.identifier"/>:</div>
-				<div class="value">${command.personUser.assignedIdentifier}</div>
-			</div>
-		</c:if>
+		<c3pr:checkprivilege hasPrivileges="USER_CREATE">
+			<c:if test="${not empty command.userName}">
+				<div class="row">
+					<div class="label"><fmt:message key="c3pr.common.username"/>:</div>
+					<div class="value">${command.userName}</div>
+				</div>
+			</c:if>
+		</c3pr:checkprivilege>
+		<c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
+			<c:if test="${not empty command.personUser.assignedIdentifier}">
+				<div class="row">
+					<div class="label"><fmt:message key="c3pr.person.identifier"/>:</div>
+					<div class="value">${command.personUser.assignedIdentifier}</div>
+				</div>
+			</c:if>
+		</c3pr:checkprivilege>
 		<div class="row">
 			<div class="label"><fmt:message key="c3pr.common.email"/>:</div>
 			<div class="value">${command.personUser.email}</div>
