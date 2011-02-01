@@ -36,13 +36,13 @@ YAHOO.example.Data = {
 YAHOO.util.Event.addListener(window, "load", function() {
     YAHOO.example.CustomSort = function() {
         var myColumnDefs = [
-            {key:"studyIdentifier",         	label:"Study Identifier", 	sortable:true,      resizeable:true},
-            {key:"subjectFullName",         	label:"Subject Name",       sortable:true,      resizeable:true},
-            {key:"subjectPrimaryIdentifier",    label:"Subject Identifier", sortable:true,      resizeable:true},
-            {key:"studySite",      				label:"Study Site",       	sortable:true,     	resizeable:true},
-            {key:"registrationStatus",        	label:"Registration Status",sortable:true,      resizeable:true},
-            {key:"registrationDate",         	label:"Registration Date",  sortable:true,      resizeable:true , sortOptions: { field: "registrationDateSort" }  },
-            {key:"registrationTreatingPhysician",label:"Treating Physician",sortable:true,      resizeable:true}
+            {key:"studyIdentifier",         	label:"Study Identifier", 	sortable:true,      resizeable:true, width:150},
+            {key:"subjectFullName",         	label:"Subject Name",       sortable:true,      resizeable:true, width:120},
+            {key:"subjectPrimaryIdentifier",    label:"Subject Identifier", sortable:true,      resizeable:true, width:160},
+            {key:"studySite",      				label:"Study Site",       	sortable:true,     	resizeable:true, width:150},
+            {key:"registrationStatus",        	label:"Registration Status",sortable:true,      resizeable:true, width:170},
+            {key:"registrationDate",         	label:"Registration Date",  sortable:true,      resizeable:true, width:160, sortOptions: { field: "registrationDateSort" }  },
+            {key:"registrationTreatingPhysician",label:"Treating Physician",sortable:true,      resizeable:true, width:170}
         ];
         
         var registrationDataSource = new YAHOO.util.DataSource(YAHOO.example.Data.registrationList);
