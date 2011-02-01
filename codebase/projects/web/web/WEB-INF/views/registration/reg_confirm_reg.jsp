@@ -30,7 +30,6 @@ function createReg(studyId,studySiteName, studySiteVersionId){
 </head>
 <body>
 <tags:controlPanel>
- <c:if test="${command.studySubject.dataEntryStatusString!='Incomplete' }">
 	<form id="manage" name="manage" action="../registration/manageRegistration" method="get" style="display:inline;">
 		<input type="hidden" name="registrationId" value="${command.studySubject.systemAssignedIdentifiers[0] }"/>
 		<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_pencil.png" linktext="Register another subject" linkhref="javascript:doManage('create',paramString)"/>
@@ -41,7 +40,6 @@ function createReg(studyId,studySiteName, studySiteVersionId){
 			<tags:oneControlPanelItem imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_manageThisReg.png" linktext="Manage registration" linkhref="javascript:doManage('manage',paramString)"/>
 		</c:if>
 	</form>
- </c:if>
  <tags:oneControlPanelItem linkhref="javascript:launchPrint()" imgsrc="/c3pr/templates/mocha/images/controlPanel/controlPanel_printer.png" linktext="Print" />
 </tags:controlPanel>
 <form action="../registration/manageRegistration?<tags:identifierParameterString identifier='${command.studySubject.systemAssignedIdentifiers[0] }'/>" method="post" id="manageCompanion">
