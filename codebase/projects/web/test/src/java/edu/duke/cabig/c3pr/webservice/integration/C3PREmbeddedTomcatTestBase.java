@@ -74,7 +74,7 @@ public abstract class C3PREmbeddedTomcatTestBase extends DbTestCase {
 
 	public static final String SERVICE_KEYSTORE_BASENAME = "publicstore.jks";
 
-	public static final String SERVICE_KEYSTORE_FILE = "/etc/c3pr/"
+	public static final String SERVICE_KEYSTORE_FILE = "/local/c3pr/"
 			+ SERVICE_KEYSTORE_BASENAME;
 
 	public static final String CSM_JAAS_CONFIG_FILENAME = "csm_jaas.config";
