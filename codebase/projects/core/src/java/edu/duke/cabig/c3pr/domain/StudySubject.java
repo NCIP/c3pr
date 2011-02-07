@@ -2247,6 +2247,9 @@ public class StudySubject extends
 			
 			// obtain the study version object from study based on study version name
 			StudyVersion reConsentingStudyVersion = this.getStudySite().getStudy().getStudyVersion(studyVersionName);
+			
+			StudySubjectStudyVersion studySubjectStudyVersion = new StudySubjectStudyVersion();
+			studySubjectStudyVersion.setStudySiteStudyVersion(this.getStudySite().getStudySiteStudyVersionGivenStudyVersionName(studyVersionName));
 		
 			for(StudySubjectConsentVersion studySubjectConsentVersionHolder :studySubjectConsentVersionsHolder){
 				
@@ -2283,13 +2286,13 @@ public class StudySubject extends
 				newStudySubjectConsentVersion.setInformedConsentSignedDate(studySubjectConsentVersionHolder.getInformedConsentSignedDate());
 				
 				// Create new study subject study version and add study subject consent versions to it.
-				StudySubjectStudyVersion studySubjectStudyVersion = new StudySubjectStudyVersion();
-				studySubjectStudyVersion.setStudySiteStudyVersion(this.getStudySite().getStudySiteStudyVersionGivenStudyVersionName(studyVersionName));
+				
 				studySubjectStudyVersion.addStudySubjectConsentVersion(newStudySubjectConsentVersion);
-				this.addStudySubjectStudyVersion(studySubjectStudyVersion);
 			}
+			this.addStudySubjectStudyVersion(studySubjectStudyVersion);
 			// validate mandatory indicator
 			validateMandatoryInformedConsents(reConsentingStudyVersion);
+			
 		} else{
 		
 			// throw exception when study subject cannot consent on the given study version.
