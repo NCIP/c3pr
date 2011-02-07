@@ -919,17 +919,16 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
-		<table>
-			<tr>
-				<c:if test="${command.personUser.id != null && command.personUser.class.name eq 'edu.duke.cabig.c3pr.domain.LocalPersonUser' && coppaEnable}">
-					<td valign="bottom">
-						<!--<tags:button type="submit" value="Sync" color="blue" id="sync-org" onclick="javascript:syncResearchStaff();" />	-->
-					</td>
-				</c:if>
-				<td><tags:button type="submit" color="green" id="flow-update" value="Save" icon="save" />
-				</td>
-			</tr>
-		</table>
+		<div>
+				<div>
+						<div align="right">
+							<c:if test="${command.personUser.id != null && command.personUser.class.name eq 'edu.duke.cabig.c3pr.domain.LocalPersonUser' && coppaEnable}">
+									<tags:button type="submit" value="Sync" color="blue" id="sync-org" onclick="javascript:syncResearchStaff();" />	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</c:if>
+							    	<tags:button type="submit" color="green" id="flow-update" value="Save" icon="save" /> &nbsp;&nbsp;
+						</div>
+				</div>
+		</div>
 	</jsp:attribute>
 </tags:tabControls>
 </form:form>

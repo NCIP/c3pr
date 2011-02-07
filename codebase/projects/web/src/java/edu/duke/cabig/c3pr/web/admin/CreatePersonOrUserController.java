@@ -324,9 +324,13 @@ public class CreatePersonOrUserController extends SimpleFormController{
 					return;
 				}
 			}
+			// clearing the current list so that the same external person is not added again.
+			personUser.getExternalResearchStaff().clear();
 			boolean matchingExternalResearchStaffPresent = externalResearchStaffExists(personUser);
     		if(matchingExternalResearchStaffPresent){
     			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with assigned identifier " +personUser.getAssignedIdentifier()+ " exists in external system");
+    		} else{
+    			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with assigned identifier " +personUser.getAssignedIdentifier()+ " does not exist in external system");
     		}
 		}
 	}

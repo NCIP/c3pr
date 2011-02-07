@@ -372,10 +372,11 @@ function submitForm(){
 						<td class="alt"><a href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index},'${hcsInv.id==null?'HC#':'ID#'}${hcsInv.id==null?hcsInv.hashCode:hcsInv.id}');"><img src="<tags:imageUrl name="checkno.gif"/>"></a></td>
 					</c:otherwise>
 				</c:choose>
+					
 			</tr>
 		</c:forEach>
+        
     </table>
-
     <c:if test="${hasEditPrivilege && (empty createPI || createPI == false)}">
     	<tags:button type="button" color="blue" value="Add Organization" icon="add" onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" size="small"/>
     </c:if>
@@ -387,18 +388,19 @@ function submitForm(){
 <c:if test="${hasEditPrivilege}">
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
-		<table>
-			<tr>
-				<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalInvestigator' && coppaEnable &&  hasEditPrivilege}">
-					<td valign="bottom">
-						<!-- <tags:button type="submit" value="Sync" color="blue" id="sync-org" onclick="javascript:syncInvestigator();" />	-->
-					</td>
-				</c:if>
-					<td>
-				    	<tags:button type="submit" color="green" id="flow-update" value="Save" icon="save" />
-					</td>
-			</tr>
-		</table>
+		<div>
+				<div>
+					
+						<div align="right">
+							<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalInvestigator' && coppaEnable &&  hasEditPrivilege}">
+									<tags:button type="submit" value="Sync" color="blue"
+									id="sync-org" onclick="javascript:syncInvestigator();" />	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</c:if>
+							    	<tags:button type="submit" color="green" id="flow-update"
+									value="Save" icon="save" /> &nbsp;&nbsp;
+						</div>
+				</div>
+		</div>
 	</jsp:attribute>
 </tags:tabControls>
 </c:if>
@@ -441,7 +443,7 @@ function submitForm(){
 
 
 <div id="display_remote_rs" style="display:none;text-align:left" >
-	<chrome:box title="Please select an Investigator to be saved in C3PR" id="popupId">
+	<chrome:box title="Please select the external investigator to be saved in C3PR" id="popupId">
 		<div class="eXtremeTable">
           <table width="100%" border="0" cellspacing="0"  class="tableRegion">
             <thead>
@@ -460,18 +462,23 @@ function submitForm(){
                 <td align="left">${remRs.email}</td>
               </tr>
             </c:forEach>
+            <c:if test="${fn:length(command.externalInvestigators) == 0}">
+            	 <tr>
+	                <td align="left">No matching external investigators were found</td>
+              	</tr>
+            </c:if>
           </table>
 		</div>
 		<br><br>
    		<table width="100%">	
-   			<tr>
-   				<td align="left">
-   					<input type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
-   				</td>
-   				<td align="right">
-    				<input type="submit" disabled="disabled" value="Ok" id="save-yes" onClick="javascript:window.parent.submitRemoteRsForSave();"/>
-   				</td>
-   			<tr>	
+	   			<tr>
+	   				<td align="left">
+	   					<input type="submit" value="Cancel" id="save-no" onClick="javascript:window.parent.Windows.close('remoteRS-popup-id');"/>
+	   				</td>
+	   				<td align="right">
+	    				<input type="submit" disabled="disabled" value="Ok" id="save-yes" onClick="javascript:window.parent.submitRemoteRsForSave();"/>
+	   				</td>
+	   			<tr>	
    		</table>
 	</chrome:box>
 </div>
