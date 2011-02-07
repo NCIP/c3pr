@@ -20,8 +20,8 @@ import org.hibernate.annotations.Parameter;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name = "research_staff")
-@GenericGenerator(name = "id-generator", strategy = "sequence", parameters = { @Parameter(name = "sequence", value = "research_staff_id_seq") })
+@Table(name = "persons_users")
+@GenericGenerator(name = "id-generator", strategy = "sequence", parameters = { @Parameter(name = "sequence", value = "persons_users_id_seq") })
 public class BaseResearchStaffDataContainer extends AbstractMutableDeletableDomainObject{
 
 	public String getDtype() {
