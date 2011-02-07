@@ -446,7 +446,7 @@
         </div>
         <div class="row">
             <div class="label"><fmt:message key="registration.epochStatus"/>:</div>
-            <div class="value">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.code}</div>
+            <div class="value">${command.studySubject.scheduledEpoch.scEpochWorkflowStatus.displayName}</div>
         </div>
     </div>
     
