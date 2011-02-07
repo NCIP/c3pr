@@ -14,6 +14,10 @@
     <bean id="c3pr-study-xml-castorMapping" class="java.lang.String">
         <constructor-arg value="c3pr-study-xml-castor-mapping.xml"/>
     </bean>
+    
+    <bean id="c3pr-remote-study-xml-castor-mapping" class="java.lang.String">
+        <constructor-arg value="c3pr-remote-study-xml-castor-mapping.xml"/>
+    </bean>
 
 	<bean id="c3pr-registration-xml-castor-mapping" class="java.lang.String">
         <constructor-arg value="c3pr-registration-xml-castor-mapping.xml"/>
@@ -883,6 +887,10 @@
 
     <bean id="studyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <constructor-arg ref="c3pr-study-xml-castorMapping"/>
+    </bean>
+    
+    <bean id="remoteStudyXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="c3pr-remote-study-xml-castor-mapping"/>
     </bean>
     
     <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
