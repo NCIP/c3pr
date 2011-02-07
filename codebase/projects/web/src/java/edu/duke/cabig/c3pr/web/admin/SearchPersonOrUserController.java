@@ -16,6 +16,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
+import edu.duke.cabig.c3pr.constants.PersonUserType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -122,6 +123,19 @@ public class SearchPersonOrUserController extends SimpleFormController {
                 	personUser = personUserDao.getByLoginId(user.getUserId().toString());
                 	if(personUser != null){
                 		rStaffResults.add(personUser);
+                	} else {
+                		//this csm record is not mapped to in C3PR. Means it was provisioned by another suite app like PSC or caAERS.
+                		//create a C3PR personUser record for this.
+                		PersonUser pUser = new LocalPersonUser(PersonUserType.USER);
+                		pUser.setFirstName(user.getFirstName());
+                		pUser.setLastName(user.getLastName());
+                		pUser.setLoginId(user.getUserId().toString());
+                		pUser.setEmail(user.getEmailId());
+                		if(StringUtils.isNotBlank(user.getPhoneNumber())){
+                			pUser.setPhone(user.getPhoneNumber());
+                		}
+                		personUserDao.save(pUser);
+                		rStaffResults.add(pUser);
                 	}
             	} catch(AccessDeniedException ade){
             		log.warn("filtering out CSM-user with id : "+user.getUserId());
