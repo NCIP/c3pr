@@ -372,11 +372,10 @@ function submitForm(){
 						<td class="alt"><a href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index},'${hcsInv.id==null?'HC#':'ID#'}${hcsInv.id==null?hcsInv.hashCode:hcsInv.id}');"><img src="<tags:imageUrl name="checkno.gif"/>"></a></td>
 					</c:otherwise>
 				</c:choose>
-					
 			</tr>
 		</c:forEach>
-        
     </table>
+
     <c:if test="${hasEditPrivilege && (empty createPI || createPI == false)}">
     	<tags:button type="button" color="blue" value="Add Organization" icon="add" onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" size="small"/>
     </c:if>
@@ -386,22 +385,19 @@ function submitForm(){
 
 </chrome:box>
 <c:if test="${hasEditPrivilege}">
-<tags:tabControls tab="${tab}" flow="${flow}"
-	localButtons="${localButtons}" willSave="true"> 
+<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="true"> 
 	<jsp:attribute name="submitButton">
 		<table>
-				<tr>
-					<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalInvestigator' && coppaEnable &&  hasEditPrivilege}">
-						<td valign="bottom">
-									<tags:button type="submit" value="Sync" color="blue"
-									id="sync-org" onclick="javascript:syncInvestigator();" />	
-						</td>
-					</c:if>
-						<td>
-							    	<tags:button type="submit" color="green" id="flow-update"
-									value="Save" icon="save" />
-						</td>
-				</tr>
+			<tr>
+				<c:if test="${command.id != null && command.class.name eq 'edu.duke.cabig.c3pr.domain.LocalInvestigator' && coppaEnable &&  hasEditPrivilege}">
+					<td valign="bottom">
+						<!-- <tags:button type="submit" value="Sync" color="blue" id="sync-org" onclick="javascript:syncInvestigator();" />	-->
+					</td>
+				</c:if>
+					<td>
+				    	<tags:button type="submit" color="green" id="flow-update" value="Save" icon="save" />
+					</td>
+			</tr>
 		</table>
 	</jsp:attribute>
 </tags:tabControls>

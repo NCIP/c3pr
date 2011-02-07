@@ -50,6 +50,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
+import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 
 /**This class is used to create the Person or a User or both.
  * 
@@ -148,6 +149,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
             	boolean hasAllStudyAccess = false;
         		
             	log.debug("loading roles information for personnel");
+            	ProvisioningSession provisioningSession = personUserDao.getProvisioningSession(csmUser);
             	for(C3PRUserGroupType group: C3PRUserGroupType.values()){
             		//adding the non assigned roles for UI convenience.
             		rolesHolder = new RoleBasedHealthcareSitesAndStudiesDTO(group);
@@ -161,15 +163,15 @@ public class CreatePersonOrUserController extends SimpleFormController{
             		} else {
             		//adding the non assigned roles for UI convenience.
             			log.debug("loading all-site and all-study info for :"+group.getDisplayName());
-            			hasAllSiteAccess = personUserRepository.getHasAccessToAllSites(csmUser, group);
-            			hasAllStudyAccess = personUserRepository.getHasAccessToAllStudies(csmUser, group);
+            			hasAllSiteAccess = personUserRepository.getHasAccessToAllSites(provisioningSession, group);
+            			hasAllStudyAccess = personUserRepository.getHasAccessToAllStudies(provisioningSession, group);
             			
     	             	rolesHolder.setChecked(true);
     	             	rolesHolder.setHasAllSiteAccess(hasAllSiteAccess);
     	             	//populate csm organizations into the wrapper if user doesn't have all site access
     	             	if(!hasAllSiteAccess && SecurityUtils.getSiteScopedRoles().contains(group.getCode())){
                 			log.debug("loading sites info for :"+group.getDisplayName());
-    	             		List<String> hcsIds = personUserRepository.getOrganizationIdsForUser(csmUser, group);
+    	             		List<String> hcsIds = personUserRepository.getOrganizationIdsForUser(provisioningSession, group);
                 			
     	             		log.debug("No. of sites: "+hcsIds.size());
     	             		HealthcareSite healthcareSite = null;
@@ -185,7 +187,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
     	             	//populate studies into the wrapper if user doesn't have all study access
     	             	if(!hasAllStudyAccess  && SecurityUtils.getStudyScopedRoles().contains(group.getCode())){
                 			log.debug("loading studies info for :"+group.getDisplayName());
-    	             		List<String> studyIds = personUserRepository.getStudyIdsForUser(csmUser, group);
+    	             		List<String> studyIds = personUserRepository.getStudyIdsForUser(provisioningSession, group);
     	             		
                 			log.debug("No. of studies: "+studyIds.size());
     	             		Study study = null;

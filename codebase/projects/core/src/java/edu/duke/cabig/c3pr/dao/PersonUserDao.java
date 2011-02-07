@@ -687,7 +687,6 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 					//global_role is po_mgr: giving him all site access as c3pr requirement.
 					if(hasAccessToAllSites || suiteRole.equals(SecurityUtils.PERSON_AND_ORGANIZATION_INFORMATION_MANAGER)){
 						newSuiteRoleMembership.forAllSites();
-//						provisioningSession.replaceRole(suiteRoleMembership);
 					} else {
 						//This ensures the SRM doesn't have all-site access since the all site access chkbox was unchecked.
 						//Expects the String to be in the following format "NC010".
@@ -699,7 +698,6 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 				if(suiteRole.getScopes().contains(ScopeType.STUDY)){	
 					if(hasAccessToAllStudies){
 						newSuiteRoleMembership.forAllStudies();
-//						provisioningSession.replaceRole(suiteRoleMembership);
 					} else {
 						//This ensures the SRM doesn't have all-study access since the all study access chkbox was unchecked.
 						//Expects the String to be in the following format "CCAI-123".
@@ -711,24 +709,6 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 				provisioningSession.replaceRole(newSuiteRoleMembership);
 			}
 		}	
-		
-		//Iterate over the user's (pre-existing) suiteRole list and delete the unchecked roles. 
-		//Can only delete site scoped roles here as this method deals with one site at a time.
-		//Global roles will have to be deleted in assignRolesToOrganization
-//		suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
-//		if(!suiteRoleMembership.isAllSites() && suiteRole.getScopes().contains(ScopeType.STUDY)){
-//			List<String> hcsList = new ArrayList<String>();
-//			for(String hcs: roleBasedHealthcareSitesAndStudiesHolder.getSites()){
-//				hcsList.add(hcs);
-//			}
-//			for(String siteId: suiteRoleMembership.getSiteIdentifiers()){
-//				if(!hcsList.contains(siteId)){
-//					suiteRoleMembership.removeSite(siteId);
-//					//remove the site for which the role was unchecked
-//					provisioningSession.replaceRole(suiteRoleMembership);
-//				}
-//			}
-//		}
 	}
 
 
@@ -751,44 +731,6 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
     	}
 	}
 
-	/**
-     * Gets the user groups for organization.
-     *
-     * @param csmUser the csm user
-     * @param healthcareSite the healthcare site
-     * @return the user groups for organization
-     
-    public List<C3PRUserGroupType> getUserGroupsForOrganization(User csmUser, HealthcareSite healthcareSite){
-
-    	ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
-    	List<C3PRUserGroupType> groupList = new ArrayList<C3PRUserGroupType>();
-    	
-        SuiteRoleMembership suiteRoleMembership;
-        SuiteRole suiteRole;
-    	Set<Group> groups;
-		try {
-			groups = userProvisioningManager.getGroups(csmUser.getUserId().toString());
-	    	Iterator<Group> iter = groups.iterator();
-	    	String groupName;
-	    	while(iter.hasNext()){
-	    		groupName = ((Group)iter.next()).getGroupName();
-	    		suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(C3PRUserGroupType.getByCode(groupName));
-            	suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
-                //include roles that are scoped by site and have access to the site in question.
-                if(suiteRoleMembership.isAllSites() ||
-                		suiteRoleMembership.getSiteIdentifiers().contains(healthcareSite.getPrimaryIdentifier())){
-                    groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
-                }
-                if(!suiteRole.isScoped()){
-                    groupList.add(C3PRUserGroupType.getByCode(suiteRole.getCsmName()));
-                }
-	    	}
-		} catch (CSObjectNotFoundException e) {
-			log.error(e.getMessage());
-		}
-        return groupList;
-    }*/
-    
     
     /**
      * Gets the groups for user.
@@ -826,7 +768,21 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
     	Set<String> organizationIdSet = new HashSet<String>();
     	if(!SecurityUtils.isGlobalRole(c3prUserGroupType)){
     		ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
-        	
+    		return getOrganizationIdsForUser(provisioningSession, c3prUserGroupType);
+    	}
+        return new ArrayList<String>(organizationIdSet);
+    }
+    
+    /**
+     * Gets the organization ids for user.
+     *
+     * @param provisioningSession the provisioning session
+     * @param c3prUserGroupType the c3pr user group type
+     * @return the organization ids for user
+     */
+    public List<String> getOrganizationIdsForUser(ProvisioningSession provisioningSession, C3PRUserGroupType c3prUserGroupType){
+    	Set<String> organizationIdSet = new HashSet<String>();
+    	if(!SecurityUtils.isGlobalRole(c3prUserGroupType)){
             SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(c3prUserGroupType);
             SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
     	    //add all site identifiers to a set
@@ -845,7 +801,22 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
      * @return the study ids for user
      */
     public List<String> getStudyIdsForUser(User csmUser, C3PRUserGroupType c3prUserGroupType){
-    	ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
+    	Set<String> studyIdSet = new HashSet<String>();
+    	if(!SecurityUtils.isGlobalRole(c3prUserGroupType)){
+        	ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
+        	return getStudyIdsForUser(provisioningSession, c3prUserGroupType);
+    	}
+    	return new ArrayList<String>(studyIdSet);
+    }
+    
+    /**
+     * Gets the study ids for user.
+     *
+     * @param provisioningSession the provisioning session
+     * @param c3prUserGroupType the c3pr user group type
+     * @return the study ids for user
+     */
+    public List<String> getStudyIdsForUser(ProvisioningSession provisioningSession, C3PRUserGroupType c3prUserGroupType){
     	Set<String> studyIdSet = new HashSet<String>();
     	
         SuiteRoleMembership suiteRoleMembership;
@@ -865,6 +836,17 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
      */
     public boolean getHasAccessToAllSites(User csmUser, C3PRUserGroupType group){
     	ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
+    	return getHasAccessToAllSites(provisioningSession, group);
+    }
+    
+    /**
+     * Gets the checks for access to all sites.
+     *
+     * @param provisioningSession the provisioning session
+     * @param group the group
+     * @return the checks for access to all sites
+     */
+    public boolean getHasAccessToAllSites(ProvisioningSession provisioningSession, C3PRUserGroupType group){
     	SuiteRoleMembership suiteRoleMembership;
         SuiteRole suiteRole;
 		//global roles are not considered for the all sites access checkbox value.
@@ -889,6 +871,27 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
      */
     public boolean getHasAccessToAllStudies(User csmUser, C3PRUserGroupType group){
     	ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
+    	return getHasAccessToAllStudies(provisioningSession, group);
+    }
+    
+    /**
+     * Gets the provisioning session.
+     *
+     * @param csmUser the csm user
+     * @return the provisioning session
+     */
+    public ProvisioningSession getProvisioningSession(User csmUser){
+    	return provisioningSessionFactory.createSession(csmUser.getUserId());
+    }
+    
+    /**
+     * Gets the checks for access to all studies.
+     *
+     * @param provisioningSession the provisioning session
+     * @param group the group
+     * @return the checks for access to all studies
+     */
+    public boolean getHasAccessToAllStudies(ProvisioningSession provisioningSession, C3PRUserGroupType group){
     	SuiteRoleMembership suiteRoleMembership;
         SuiteRole suiteRole;
 		//global roles are not considered for the all studies access checkbox value.

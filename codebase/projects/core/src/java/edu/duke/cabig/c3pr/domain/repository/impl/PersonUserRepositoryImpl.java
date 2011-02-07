@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.RoleBasedHealthcareSitesAndStudiesDTO;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
@@ -87,10 +88,6 @@ public class PersonUserRepositoryImpl implements PersonUserRepository {
 		personUserDao.evict(researchStaff);
 	}
 	
-//	public List<C3PRUserGroupType> getGroups(User csmUser, HealthcareSite healthcareSite) {
-//		return personUserDao.getUserGroupsForOrganization(csmUser, healthcareSite);
-//	}
-	
 	public List<C3PRUserGroupType> getGroupsForUser(User csmUser) {
 		return personUserDao.getGroupsForUser(csmUser);
 	}
@@ -101,6 +98,14 @@ public class PersonUserRepositoryImpl implements PersonUserRepository {
 	
 	public List<String> getStudyIdsForUser(User csmUser, C3PRUserGroupType c3prUserGroupType){
 		return personUserDao.getStudyIdsForUser(csmUser, c3prUserGroupType);
+	}
+	
+	public List<String> getOrganizationIdsForUser(ProvisioningSession provisioningSession , C3PRUserGroupType c3prUserGroupType){
+		return personUserDao.getOrganizationIdsForUser(provisioningSession, c3prUserGroupType);
+	}
+	
+	public List<String> getStudyIdsForUser(ProvisioningSession provisioningSession , C3PRUserGroupType c3prUserGroupType){
+		return personUserDao.getStudyIdsForUser(provisioningSession, c3prUserGroupType);
 	}
 
 	/**
@@ -178,6 +183,14 @@ public class PersonUserRepositoryImpl implements PersonUserRepository {
 	
 	public boolean getHasAccessToAllStudies(User csmUser, C3PRUserGroupType group) {
 		return personUserDao.getHasAccessToAllStudies(csmUser, group);
+	}
+	
+	public boolean getHasAccessToAllSites(ProvisioningSession provisioningSession, C3PRUserGroupType group) {
+		return personUserDao.getHasAccessToAllSites(provisioningSession, group);
+	}
+	
+	public boolean getHasAccessToAllStudies(ProvisioningSession provisioningSession, C3PRUserGroupType group) {
+		return personUserDao.getHasAccessToAllStudies(provisioningSession, group);
 	}
 
 }
