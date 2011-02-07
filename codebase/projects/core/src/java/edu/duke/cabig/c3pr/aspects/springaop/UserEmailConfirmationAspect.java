@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
@@ -32,25 +33,49 @@ public class UserEmailConfirmationAspect {
     
     private String changeURL;
 
+    private boolean sendEmail = false;
+
     @Required
     public void setChangeURL(String changeURL) {
 		this.changeURL = changeURL;
 	}
     
+	@Before("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyResearchStaffWithUserAndAssignRoles(..))" 
+            + " && args(researchStaff, username, listAssociation)")
+	public void beforeCreateResearchStaffWithCSMUserAndAssignRoles(PersonUser researchStaff, String username, List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
+		if(researchStaff.getLoginId() == null){
+			sendEmail = true;
+		} else {
+			sendEmail = false;
+			log.debug("Dont send user creation email for the edit user flow.");
+		}
+	}
+    
 	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyResearchStaffWithUserAndAssignRoles(..))" 
                     + " && args(researchStaff, username, listAssociation)")
     public void createResearchStaffWithCSMUserAndAssignRoles(PersonUser researchStaff, String username, List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
-		if(!StringUtils.isBlank(username)){
+		if(sendEmail){
 			sendEmail(researchStaff);
 		} else {
 			log.debug("Not sending email for the edit user flow.");
 		}
     }
 	
+	@Before("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyUserWithoutResearchStaffAndAssignRoles(..))"
+            + " && args(researchStaff, username, listAssociation)")
+	public void beforeCreateCSMUser(PersonUser researchStaff, String username, List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
+		if(researchStaff.getLoginId() == null){
+			sendEmail = true;
+		} else {
+			sendEmail = false;
+			log.debug("Dont send user creation email for the edit user flow.");
+		}
+	}
+	
 	@AfterReturning("execution(* edu.duke.cabig.c3pr.domain.repository.impl.PersonUserRepositoryImpl.createOrModifyUserWithoutResearchStaffAndAssignRoles(..))"
             + " && args(researchStaff, username, listAssociation)")
 	public void createCSMUser(PersonUser researchStaff, String username, List<RoleBasedHealthcareSitesAndStudiesDTO> listAssociation) {
-		if(!StringUtils.isBlank(username)){
+		if(sendEmail){
 			sendEmail(researchStaff);
 		} else {
 			log.debug("Not sending email for the edit user flow.");
