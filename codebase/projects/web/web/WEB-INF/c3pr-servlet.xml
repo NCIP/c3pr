@@ -227,6 +227,7 @@
     <bean name="/study/viewStudy" id="viewStudyController"
           class="edu.duke.cabig.c3pr.web.study.ViewStudyController" autowire="byName">
          <property name="xmlUtility" ref="studyXmlUtility"/>
+         <property name="remoteXmlUtility" ref="remoteStudyXmlUtility"/>
     </bean>
 
 
