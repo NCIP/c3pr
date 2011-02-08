@@ -29,7 +29,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.ajax.SearchResearchStaffAjaxFacade;
 
 /**
- * Runs a search for all staff and users and merges the two sets and returns the combined results.
+ * Runs a search for all staff and users (against C3PR schema and CSM) and merges the two sets to return the combined results.
  * Invokes the SearchResearchStaffAjaxFacade to generate the results table.
  * 
  * @author Vinay Gangoli
