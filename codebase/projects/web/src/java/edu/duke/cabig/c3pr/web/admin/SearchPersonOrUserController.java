@@ -77,7 +77,7 @@ public class SearchPersonOrUserController extends SimpleFormController {
         
         Set<PersonUser> rStaffResults = new HashSet<PersonUser>();
         
-        //Search for staff
+        //Search for staff...case insensitive like matches
         if(searchStaff){
         	LocalPersonUser localPersonUser = new LocalPersonUser();
             if (!StringUtils.isBlank(firstName)) {
@@ -97,24 +97,35 @@ public class SearchPersonOrUserController extends SimpleFormController {
             rStaffResults = new HashSet(personUserDao.searchByExample(localPersonUser, true, emailAddress));
             log.debug("Staff results size " + rStaffResults.size());
         } else {
-        	log.debug("Not running Staff search");
+        	log.debug("Not running Personnel search");
         }
     	
         //Search for users
         if(searchUser){
-        	//if nothing is specified then get all users. set the % as CSM returns nothing on blank searches.
-        	//Note also that CSM searches are exact match searches and not sub-string searches
+        	//If nothing is specified then get all users. set the % as CSM returns nothing on blank searches.
             if(StringUtils.isEmpty(firstName) && StringUtils.isEmpty(lastName) && StringUtils.isEmpty(emailAddress) && StringUtils.isEmpty(loginName) 
             		&& StringUtils.isEmpty(assignedIdentifier) && StringUtils.isEmpty(organizationId)){
             	firstName = "%";
-            } else if(!StringUtils.isEmpty(loginName)){
-            	//add %'s to make the login/username searches "like" searches if login is one of the search criteria.
-            	loginName = "%" + loginName + "%";
+            } else {
+            	//Note also that CSM searches are "case-sensitive exact match" searches and not sub-string searches...yes, even first and last name searches!
+        		//Hence add %'s to make the login/firstName/lastName/emailAddress searches "like" searches if they are specified as the search criteria.
+            	if(!StringUtils.isEmpty(loginName)){
+            		loginName = "%" + loginName + "%";
+            	}
+            	if(!StringUtils.isEmpty(firstName)){
+            		firstName = "%" + firstName + "%";
+            	}
+            	if(!StringUtils.isEmpty(lastName)){
+            		lastName = "%" + lastName + "%";
+            	}
+            	if(!StringUtils.isEmpty(emailAddress)){
+            		lastName = "%" + emailAddress + "%";
+            	}
             }
             
             List<gov.nih.nci.security.authorization.domainobjects.User> csmUsersList = 
             	csmUserRepository.searchCSMUsers(firstName, lastName, emailAddress, loginName);
-            log.debug("User results size " + csmUsersList.size());
+            log.debug("User results size: " + csmUsersList.size());
             
             //get corresponding staff for fetched users so searchStaffFacade can display it
             PersonUser personUser;
@@ -142,7 +153,7 @@ public class SearchPersonOrUserController extends SimpleFormController {
             	}
             }
         } else {
-        	log.debug("Not searching for Users.");
+        	log.debug("Not searching CSM for Users.");
         }
         
         Map<String, Object> map = errors.getModel();
