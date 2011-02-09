@@ -1,10 +1,9 @@
 package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
-import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.web.ControllerTestCase;
 
 /**
@@ -15,7 +14,7 @@ import edu.duke.cabig.c3pr.web.ControllerTestCase;
 public class AbstractStudyControllerTest extends ControllerTestCase {
     protected StudyWrapper command;
     
-    protected Study study;
+    protected LocalStudy study;
 
     protected StudyDao studyDao;
 
@@ -28,7 +27,7 @@ public class AbstractStudyControllerTest extends ControllerTestCase {
         super.setUp(); // To change body of overridden methods use File | Settings | File
                         // Templates.
         command = new StudyWrapper();
-        study = registerMockFor(Study.class);
+        study = registerMockFor(LocalStudy.class);
         command.setStudy(study);
         studyVersion= registerMockFor(StudyVersion.class);
         studyDao = registerDaoMockFor(StudyDao.class);
