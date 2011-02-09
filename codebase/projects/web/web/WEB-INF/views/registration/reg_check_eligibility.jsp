@@ -139,7 +139,7 @@ function navRollOver(obj, state) {
 													<td width="15%" valign="middle">
 													<c:choose>
 														<c:when test="${eligAnswer.allowWaiver}">
-															<font color="green"><b>Waived</b></font>
+															Waived <img src='<tags:imageUrl name="eligibility_waived.png"/>'/>
 														</c:when>
 														<c:otherwise>
 																<form:select id="scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText" path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${eligAnswerStatus.index}].answerText">
