@@ -168,6 +168,11 @@
 				<label>Consent Presenter</label>
 				<data-type>String</data-type>
 			</search-criteria>
+			<search-criteria>
+				<name>documentId</name>
+				<label>Document Id</label>
+				<data-type>String</data-type>
+			</search-criteria>
 			<association-context>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion</name>
