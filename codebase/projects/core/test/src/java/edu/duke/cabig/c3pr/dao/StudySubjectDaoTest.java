@@ -1894,6 +1894,32 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		assertEquals("2 registrations not found", 2,  registrations.size());
 	}
 	
+	public void testGetResultSetWithHQLForConsentVersionDocumentId1() throws Exception {
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion",  "documentId",
+						"abc", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("Expected number of registrations not found", 3,  registrations.size());
+	}
+	
+	public void testGetResultSetWithHQLForConsentVersionDocumentId2() throws Exception {
+		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
+				.buildAdvancedSearchCriteriaParameter(
+						"edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion",  "documentId",
+						"1.2", "=");
+
+		List<AdvancedSearchCriteriaParameter> criteriaParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		criteriaParameters.add(advancedSearchCriteriaParameter1);
+		
+		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
+		assertEquals("Expected number of registrations not found", 1,  registrations.size());
+	}
+	
 	public void testGetResultSetWithHQLForInformedConsentSignedDate() throws Exception {
 		List<String> values = new ArrayList<String>();
        	values.add("11/10/2010");
