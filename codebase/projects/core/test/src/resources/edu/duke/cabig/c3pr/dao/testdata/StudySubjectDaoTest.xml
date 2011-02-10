@@ -164,10 +164,10 @@
     <study_subject_versions id="1003" version="1" study_site_ver_id="1011" spa_id="1003" retired_indicator = "false" />
     <study_subject_versions id="1004" version="1" study_site_ver_id="1011" spa_id="1004" retired_indicator = "false" />
 
- 	<STUDY_SUBJECT_CONSENTS id="1000" version="1" study_subject_ver_id="1000" informed_consent_signed_date="2010-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2010-10-10" informed_consent_signed_tstamp="2010-11-12" consent_presenter="Himanshu" retired_indicator = "false"/>	
- 	<STUDY_SUBJECT_CONSENTS id="1001" version="1" study_subject_ver_id="1001" informed_consent_signed_date="2011-10-12" consent_id="1000" consenting_method="VERBAL" consent_delivery_date="2010-11-10" informed_consent_signed_tstamp="2010-10-12" consent_presenter="Kruttik" retired_indicator = "false"/>
- 	<STUDY_SUBJECT_CONSENTS id="1002" version="1" study_subject_ver_id="1002" informed_consent_signed_date="2010-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2009-01-10" informed_consent_signed_tstamp="2011-10-12" consent_presenter="Vinay" retired_indicator = "false"/>
- 	<STUDY_SUBJECT_CONSENTS id="1003" version="1" study_subject_ver_id="1003" informed_consent_signed_date="2009-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2010-10-10" informed_consent_signed_tstamp="2010-10-12" consent_presenter="Himanshu" retired_indicator = "false"/>
+ 	<STUDY_SUBJECT_CONSENTS id="1000" version="1" study_subject_ver_id="1000" informed_consent_signed_date="2010-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2010-10-10" informed_consent_signed_tstamp="2010-11-12" consent_presenter="Himanshu" document_id="abc" retired_indicator = "false"/>	
+ 	<STUDY_SUBJECT_CONSENTS id="1001" version="1" study_subject_ver_id="1001" informed_consent_signed_date="2011-10-12" consent_id="1000" consenting_method="VERBAL" consent_delivery_date="2010-11-10" informed_consent_signed_tstamp="2010-10-12" consent_presenter="Kruttik" document_id="abc" retired_indicator = "false"/>
+ 	<STUDY_SUBJECT_CONSENTS id="1002" version="1" study_subject_ver_id="1002" informed_consent_signed_date="2010-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2009-01-10" informed_consent_signed_tstamp="2011-10-12" consent_presenter="Vinay" document_id="1.2" retired_indicator = "false"/>
+ 	<STUDY_SUBJECT_CONSENTS id="1003" version="1" study_subject_ver_id="1003" informed_consent_signed_date="2009-10-12" consent_id="1000" consenting_method="WRITTEN" consent_delivery_date="2010-10-10" informed_consent_signed_tstamp="2010-10-12" consent_presenter="Himanshu" document_id="abc" retired_indicator = "false"/>
  	
  	<SUB_CON_QUE_ANS/>
  	
