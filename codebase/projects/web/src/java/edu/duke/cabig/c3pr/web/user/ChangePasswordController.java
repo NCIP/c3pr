@@ -27,7 +27,7 @@ public class ChangePasswordController extends SimpleFormController {
         ModelAndView modelAndView = new ModelAndView(getFormView(), errors.getModel());
         ChangePasswordCommand cmd = (ChangePasswordCommand) command;
         try {
-            passwordManagerService.setPassword(cmd.getUserName(), cmd.confirmedPassword(), cmd
+            passwordManagerService.setPassword(cmd.getUserName().toLowerCase(), cmd.confirmedPassword(), cmd
                             .getToken());
             return modelAndView.addObject("updated", true);
         } catch (C3PRBaseRuntimeException e) {
