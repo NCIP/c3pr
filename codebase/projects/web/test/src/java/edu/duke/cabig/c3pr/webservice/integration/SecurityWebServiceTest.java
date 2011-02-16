@@ -156,7 +156,7 @@ public class SecurityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			fail("Untrusted STS went through.");
 		} catch (SecurityExceptionFaultMessage e) {
 			logger.info(e.getMessage());
-			assertTrue(e.getMessage().contains("The issuer's certificate found in the SAML token is not trusted"));
+			assertTrue(e.getMessage().contains("certificate is not trusted"));
 		}
 
 	}
