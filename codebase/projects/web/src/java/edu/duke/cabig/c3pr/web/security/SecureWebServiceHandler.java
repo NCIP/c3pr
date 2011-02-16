@@ -6,6 +6,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.security.GeneralSecurityException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SignatureException;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +32,7 @@ import org.acegisecurity.userdetails.UsernameNotFoundException;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.binding.soap.SoapMessage;
@@ -123,18 +130,117 @@ public final class SecureWebServiceHandler extends AbstractSoapInterceptor {
 			throws SAMLException, WSSecurityException {
 		samlAssertion.verify();
 		Iterator<X509Certificate> it = samlAssertion.getX509Certificates();
+		if (!it.hasNext()) {
+			throw new WSSecurityException(
+					"No X.509 certificates found in the SAML token.");
+		}
 		while (it.hasNext()) {
 			X509Certificate cert = (X509Certificate) it.next();
 			Crypto crypto = getCrypto();
-			String alias = crypto.getAliasForX509Cert(cert);
-			if (alias == null) {
-				store(cert, true);
+			try {
+				verifyCertificate(cert, crypto);
+			} catch (GeneralSecurityException e) {
+				log.error(ExceptionUtils.getFullStackTrace(e));
 				throw new WSSecurityException(
-						"The issuer's certificate found in the SAML token is not trusted: "
-								+ cert);
-			} else {
-				log.debug("Certificate is trusted: " + cert);
+						"A certificate found in the SAML token did not pass a validity check: "
+								+ e.getMessage() + "\r\n" + cert, e);
 			}
+		}
+	}
+
+	/**
+	 * @param cert
+	 * @param crypto
+	 * @throws WSSecurityException
+	 * @throws SignatureException
+	 * @throws NoSuchProviderException
+	 * @throws NoSuchAlgorithmException
+	 * @throws CertificateException
+	 * @throws InvalidKeyException
+	 */
+	private void verifyCertificate(X509Certificate cert, Crypto crypto)
+			throws WSSecurityException, InvalidKeyException,
+			CertificateException, NoSuchAlgorithmException,
+			NoSuchProviderException, SignatureException {
+		boolean trusted = false;
+
+		String alias = crypto.getAliasForX509Cert(cert);
+		if (alias != null) {
+			log.debug("Certificate is trusted, because it is in the keystore: "
+					+ cert);
+			trusted = true;
+		} else {
+			final X509Certificate issuerCert = getIssuerCert(cert, crypto);
+			if (issuerCert != null) {
+				log.debug("Certificate is trusted, because its issuer's certificate is in the keystore and the chain is valid: "
+						+ issuerCert);
+				trusted = true;
+			}
+		}
+
+		if (!trusted) {
+			store(cert, true);
+			throw new WSSecurityException(
+					"The following certificate is not trusted: " + cert);
+		}
+
+		checkCertificateValidity(cert, crypto);
+
+	}
+
+	/**
+	 * @param cert
+	 * @param crypto
+	 * @throws SignatureException
+	 * @throws NoSuchProviderException
+	 * @throws NoSuchAlgorithmException
+	 * @throws CertificateException
+	 * @throws InvalidKeyException
+	 * @throws WSSecurityException
+	 */
+	private void checkCertificateValidity(X509Certificate cert, Crypto crypto)
+			throws InvalidKeyException, CertificateException,
+			NoSuchAlgorithmException, NoSuchProviderException,
+			SignatureException, WSSecurityException {
+		//cert.checkValidity();
+
+		String subjectdn = cert.getSubjectDN().getName();
+		String issuerdn = cert.getIssuerDN().getName();
+		if (subjectdn.equals(issuerdn)) {
+			log.debug("This is a self-signed certificate. Verifying signature...");
+			cert.verify(cert.getPublicKey());
+		} else {
+			X509Certificate signingcert = getIssuerCert(cert, crypto);
+			if (signingcert != null) {
+				checkCertificateValidity(signingcert, crypto);
+				cert.verify(signingcert.getPublicKey());
+			} else {
+				log.warn("Unable to check the signature of the certificate, because the issuer's certificate is not found. Certificate: "
+						+ cert);
+			}
+		}
+	}
+
+	/**
+	 * Returns the issuer's certificate for the given certificate, and validates
+	 * the chain at the same time.
+	 * 
+	 * @param cert
+	 * @param crypto
+	 * @return
+	 * @throws WSSecurityException
+	 */
+	private X509Certificate getIssuerCert(X509Certificate cert, Crypto crypto)
+			throws WSSecurityException {
+		String issuerdn = cert.getIssuerDN().getName();
+		String[] aliases = crypto.getAliasesForDN(issuerdn);
+		if (aliases != null && aliases.length > 0) {
+			final X509Certificate[] certificates = crypto
+					.getCertificates(aliases[0]);
+			crypto.validateCertPath(certificates);
+			return certificates[0];
+		} else {
+			return null;
 		}
 	}
 
