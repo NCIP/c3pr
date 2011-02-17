@@ -437,7 +437,7 @@
 			<table-alias>Reason_xx</table-alias>
 			<search-criteria>
 				<name>code</name>
-				<label>Off epoch reaon</label>
+				<label>Off epoch reason</label>
 				<data-type>String</data-type>
 			</search-criteria>
 			<association-context>
@@ -479,7 +479,7 @@
 			<table-alias>RegistryStatusReason_xx</table-alias>
 			<search-criteria>
 				<name>code</name>
-				<label>registry status change reason</label>
+				<label>Registry status change reason</label>
 				<data-type>String</data-type>
 			</search-criteria>
 			<association-context>
@@ -574,7 +574,7 @@
 			</search-criteria>
 			<search-criteria>
 				<name>versionDate</name>
-				<label>Study Version Start Date</label>
+				<label>Study Version start date</label>
 				<data-type>Date</data-type>
 			</search-criteria>
 			<association-context>
