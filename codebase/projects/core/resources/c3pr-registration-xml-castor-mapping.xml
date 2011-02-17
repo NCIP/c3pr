@@ -33,6 +33,10 @@
         <field name="stratumGroup" type="string" handler="edu.duke.cabig.c3pr.xml.StratumGroupFieldHandler">
         	<bind-xml name="stratumGroup" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" />
         </field>
+         <field name="offEpochDate" type="string"
+               handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
+            <bind-xml name="startDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.ScheduledArm">
