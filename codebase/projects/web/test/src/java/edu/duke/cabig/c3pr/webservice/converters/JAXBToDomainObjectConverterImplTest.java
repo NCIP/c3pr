@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.constants.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -315,8 +316,8 @@ public class JAXBToDomainObjectConverterImplTest extends
 	public void testConvertBiologicEntityIdentifier() {
 		BiologicEntityIdentifier bioId = createBioEntityId();
 
-		OrganizationAssignedIdentifier oaId = converter.convert(bioId);
-		assertOrgAssId(oaId);
+		Identifier oaId = converter.convert(bioId);
+		assertOrgAssId((OrganizationAssignedIdentifier)oaId);
 
 		final BiologicEntityIdentifier badBioId = createBioEntityId();
 		badBioId.setIdentifier(null);

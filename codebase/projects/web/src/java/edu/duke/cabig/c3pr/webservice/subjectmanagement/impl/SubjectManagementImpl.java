@@ -18,7 +18,6 @@ import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.repository.ParticipantRepository;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
@@ -137,7 +136,8 @@ public class SubjectManagementImpl implements SubjectManagement {
 
 			final ParticipantWrapper wrapper = new ParticipantWrapper(
 					participant);
-			participantValidator.validate(wrapper,
+			// validating only participant's basic details as address is not mandatory
+			participantValidator.validateParticipantDetails(wrapper,
 					new ExceptionBasedErrorsImpl(wrapper));
 			participantRepository.save(participant);
 			response.setSubject(converter.convert(participant));
@@ -259,7 +259,7 @@ public class SubjectManagementImpl implements SubjectManagement {
 			converter.convert(participant, subject,false);
 			final ParticipantWrapper wrapper = new ParticipantWrapper(
 					participant);
-			participantValidator.validate(wrapper,
+			participantValidator.validateParticipantDetails(wrapper,
 					new ExceptionBasedErrorsImpl(wrapper));
 			participantRepository.save(participant);
 			response.setSubject(converter.convert(participant));
@@ -317,10 +317,10 @@ public class SubjectManagementImpl implements SubjectManagement {
 				.getBiologicEntityIdentifier();
 		ST newState = request.getNewState();
 		if (entityIdentifier != null && newState != null) {
-			OrganizationAssignedIdentifier orgAssId = converter
+			Identifier id = converter
 					.convert(entityIdentifier);
 			List<Participant> existingList = participantRepository
-					.searchByIdentifier(orgAssId);
+					.searchByIdentifier(id);
 			if (CollectionUtils.isEmpty(existingList)) {
 				handleUnexistentSubject();
 			}

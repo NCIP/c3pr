@@ -75,7 +75,7 @@ public interface JAXBToDomainObjectConverter {
 	 * @return
 	 * @throws ConversionException
 	 */
-	OrganizationAssignedIdentifier convert(edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier bioId)
+	Identifier convert(edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier bioId)
 			throws ConversionException;
 
 	/**
