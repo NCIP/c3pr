@@ -102,7 +102,7 @@
 					</documentation>
 				</annotation>
 			</element>
-			<element name="assigningOrganization" type="tns:Organization" />
+			<element name="assigningOrganization" type="tns:Organization" minOccurs="0"/>
 		</sequence>
 	</complexType>
 	
@@ -151,7 +151,7 @@
 						</annotation>
 					</element>
 					
-					<element name="postalAddress" type="ISO:DSET_AD">
+					<element name="postalAddress" type="ISO:DSET_AD" minOccurs="0">
 						<annotation>
 							<documentation>A contact point used to send physical forms of
 								communication to the person.
@@ -231,7 +231,7 @@
 					</documentation>
 				</annotation>
 			</element>
-			<element name="assigningOrganization" type="tns:Organization" />
+			<element name="assigningOrganization" type="tns:Organization" minOccurs="0"/>
 		</sequence>
 	</complexType>
 	
