@@ -914,6 +914,12 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 				EntityNamePartType.GIV), iso.ENXP(TEST_MID_NAME,
 				EntityNamePartType.GIV), iso.ENXP(TEST_LAST_NAME,
 				EntityNamePartType.FAM))));
+		person.setPostalAddress(iso.DSETAD(iso.AD(iso.ADXP(TEST_STREET_ADDRESS,
+				AddressPartType.SAL), iso.ADXP(TEST_CITY_NAME,
+				AddressPartType.CTY), iso.ADXP(TEST_STATE_CODE,
+				AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE,
+				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
+				AddressPartType.CNT))));
 		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(RACE_ASIAN)));
 		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
 				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)));
