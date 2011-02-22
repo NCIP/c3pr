@@ -449,9 +449,15 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		if(!StringUtils.isBlank(studySubjectConsentVersion.getDocumentId())){
 			target.setIdentifier(iso.II(studySubjectConsentVersion.getDocumentId()));
 		}
-		target.setConsentDeliveryDate(convertToTsDateTime(studySubjectConsentVersion.getConsentDeliveryDate()));
-		target.setConsentDeclinedDate(convertToTsDateTime(studySubjectConsentVersion.getConsentDeclinedDate()));
-		target.setConsentingMethod(iso.CD(studySubjectConsentVersion.getConsentingMethod().getCode()));
+		if(studySubjectConsentVersion.getConsentDeliveryDate() != null){
+			target.setConsentDeliveryDate(convertToTsDateTime(studySubjectConsentVersion.getConsentDeliveryDate()));
+		}
+		if(studySubjectConsentVersion.getConsentDeclinedDate() != null){
+			target.setConsentDeclinedDate(convertToTsDateTime(studySubjectConsentVersion.getConsentDeclinedDate()));
+		}
+		if(studySubjectConsentVersion.getConsentingMethod() != null){
+			target.setConsentingMethod(iso.CD(studySubjectConsentVersion.getConsentingMethod().getCode()));
+		}
 		target.setConsentPresenter(iso.ST(studySubjectConsentVersion.getConsentPresenter()));
 		target.setInformedConsentDate(convertToTsDateTime(studySubjectConsentVersion.getInformedConsentSignedDate()));
 		edu.duke.cabig.c3pr.webservice.common.Consent consent = new edu.duke.cabig.c3pr.webservice.common.Consent();

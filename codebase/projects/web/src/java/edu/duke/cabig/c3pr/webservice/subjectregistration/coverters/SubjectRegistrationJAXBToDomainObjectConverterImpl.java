@@ -139,7 +139,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		covertedScheduledEpoch.setStatus(iso.CD(scheduledEpoch.getScEpochWorkflowStatus().getCode()));
 		covertedScheduledEpoch.setStratumGroupNumber(iso.INTPositive(scheduledEpoch.getStratumGroupNumber()));
 		covertedScheduledEpoch.setEpoch(convertToEpoch(scheduledEpoch.getEpoch()));
-		covertedScheduledEpoch.setScheduledArm(convertToScheduledArm(scheduledEpoch.getScheduledArm()));
+		if(scheduledEpoch.getScheduledArm() != null){
+			covertedScheduledEpoch.setScheduledArm(convertToScheduledArm(scheduledEpoch.getScheduledArm()));
+		}
 		if(!CollectionUtils.isEmpty(scheduledEpoch.getOffEpochReasons())){
 			covertedScheduledEpoch.setOffEpochReason(new DSETCD());
 			for(OffEpochReason offEpochReason : scheduledEpoch.getOffEpochReasons()){
@@ -211,6 +213,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 	}
 	
 	public PerformedObservationResult convertToSubjectStratificationAnswer(SubjectStratificationAnswer answer){
+		if(answer.getStratificationCriterionAnswer() == null){
+			return null;
+		}
 		PerformedObservationResult convertedAnswer = new PerformedObservationResult();
 		DefinedStratificationCriterion startification = new DefinedStratificationCriterion();
 		startification.setNameCode(iso.CD(answer.getStratificationCriterion().getQuestionText()));
