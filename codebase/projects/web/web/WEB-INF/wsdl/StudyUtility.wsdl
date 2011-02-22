@@ -5,7 +5,8 @@
 	xmlns:ISO="uri:iso.org:21090" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:common="http://enterpriseservices.nci.nih.gov/Common"
 	xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:t="http://docs.oasis-open.org/ws-sx/ws-trust/200512"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="StudyUtilityService"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	name="StudyUtilityService"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd uri:iso.org:21090 ISO_datatypes_Narrative.xsd http://enterpriseservices.nci.nih.gov/StudyUtilitySchema StudyUtility.xsd http://schemas.xmlsoap.org/ws/2005/07/securitypolicy http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/ws-securitypolicy.xsd"
 	targetNamespace="http://enterpriseservices.nci.nih.gov/StudyUtilityService">
 	<jaxws:bindings>
@@ -82,6 +83,8 @@
 							maxOccurs="1"></xsd:element>					
 						<xsd:element name="status" type="common:PermissibleStudySubjectRegistryStatus" minOccurs="1"
 							maxOccurs="1"></xsd:element>
+						<xsd:element name="updateMode" type="ISO:UpdateMode"
+							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
@@ -97,71 +100,74 @@
 			<xsd:element name="UpdateStudyConsentRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier" minOccurs="1"
-							maxOccurs="1"></xsd:element>					
-						<xsd:element name="consent" type="common:Consent" minOccurs="1"
-							maxOccurs="1"></xsd:element>
+						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier"
+							minOccurs="1" maxOccurs="1"></xsd:element>
+						<xsd:element name="consent" type="common:Consent"
+							minOccurs="1" maxOccurs="1"></xsd:element>
+						<xsd:element name="updateMode" type="ISO:UpdateMode"
+							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="UpdateStudyConsentResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="consent" type="common:Consent" minOccurs="1"
-							maxOccurs="1"></xsd:element>
+						<xsd:element name="consent" type="common:Consent"
+							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="QueryStudyConsentRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier" minOccurs="1"
-							maxOccurs="1"></xsd:element>					
-						<xsd:element name="consent" type="common:Consent" minOccurs="0"
-							maxOccurs="1"></xsd:element>
+						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier"
+							minOccurs="1" maxOccurs="1"></xsd:element>
+						<xsd:element name="consent" type="common:Consent"
+							minOccurs="0" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="QueryStudyConsentResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="consents" type="sm:DSET_Consent" minOccurs="1"
-							maxOccurs="1"></xsd:element>
+						<xsd:element name="consents" type="sm:DSET_Consent"
+							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="QueryStudyRegistryStatusRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier" minOccurs="1"
-							maxOccurs="1"></xsd:element>					
+						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier"
+							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="QueryStudyRegistryStatusResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="statuses" type="sm:DSET_PermissibleStudySubjectRegistryStatus" minOccurs="1"
+						<xsd:element name="statuses"
+							type="sm:DSET_PermissibleStudySubjectRegistryStatus" minOccurs="1"
 							maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
-			</xsd:element>			
+			</xsd:element>
 			<xsd:element name="QueryRegistryStatusRequest">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="statusCode" type="ISO:CD" minOccurs="0"
-							maxOccurs="1"></xsd:element>
+						<xsd:element name="statusCode" type="ISO:CD"
+							minOccurs="0" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
 			</xsd:element>
 			<xsd:element name="QueryRegistryStatusResponse">
 				<xsd:complexType>
 					<xsd:sequence>
-						<xsd:element name="registryStatuses" type="sm:DSET_RegistryStatus" minOccurs="1"
-							maxOccurs="1"></xsd:element>
+						<xsd:element name="registryStatuses" type="sm:DSET_RegistryStatus"
+							minOccurs="1" maxOccurs="1"></xsd:element>
 					</xsd:sequence>
 				</xsd:complexType>
-			</xsd:element>			
+			</xsd:element>
 			<xsd:element name="StudyUtilityFault" type="tns:StudyUtilityFault"></xsd:element>
 			<xsd:complexType name="StudyUtilityFault">
 				<xsd:sequence>
@@ -194,13 +200,13 @@
 	</wsdl:message>
 	<wsdl:message name="UpdateStudyStatusResponseMessage">
 		<wsdl:part name="parameters" element="tns:UpdateStudyStatusResponse" />
-	</wsdl:message>	
+	</wsdl:message>
 	<wsdl:message name="UpdateStudyConsentRequestMessage">
 		<wsdl:part name="parameters" element="tns:UpdateStudyConsentRequest" />
 	</wsdl:message>
 	<wsdl:message name="UpdateStudyConsentResponseMessage">
 		<wsdl:part name="parameters" element="tns:UpdateStudyConsentResponse" />
-	</wsdl:message>	
+	</wsdl:message>
 	<wsdl:message name="QueryStudyConsentRequestMessage">
 		<wsdl:part name="parameters" element="tns:QueryStudyConsentRequest" />
 	</wsdl:message>
@@ -218,8 +224,8 @@
 	</wsdl:message>
 	<wsdl:message name="QueryStudyRegistryStatusResponseMessage">
 		<wsdl:part name="parameters" element="tns:QueryStudyRegistryStatusResponse" />
-	</wsdl:message>	
-		
+	</wsdl:message>
+
 
 	<!-- Fault Messages -->
 	<wsdl:message name="StudyUtilityFaultMessage">
@@ -227,70 +233,62 @@
 	</wsdl:message>
 	<wsdl:message name="SecurityExceptionFaultMessage">
 		<wsdl:part name="fault" element="common:SecurityExceptionFault"></wsdl:part>
-	</wsdl:message>	
+	</wsdl:message>
 
 	<wsdl:portType name="StudyUtility">
 		<wsdl:operation name="createStudyAbstract">
 			<wsdl:input message="tns:CreateStudyAbstractRequestMessage" />
 			<wsdl:output message="tns:CreateStudyAbstractResponseMessage" />
-			<wsdl:fault message="tns:StudyUtilityFaultMessage"
-				name="StudyUtilityException" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage" name="StudyUtilityException" />
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
-				name="SecurityException" />				
+				name="SecurityException" />
 		</wsdl:operation>
 		<wsdl:operation name="queryStudyAbstract">
 			<wsdl:input message="tns:QueryStudyAbstractRequestMessage" />
 			<wsdl:output message="tns:QueryStudyAbstractResponseMessage" />
-			<wsdl:fault message="tns:StudyUtilityFaultMessage"
-				name="StudyUtilityException" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage" name="StudyUtilityException" />
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
 				name="SecurityException" />
 		</wsdl:operation>
 		<wsdl:operation name="updateStudyAbstract">
 			<wsdl:input message="tns:UpdateStudyAbstractRequestMessage" />
 			<wsdl:output message="tns:UpdateStudyAbstractResponseMessage" />
-			<wsdl:fault message="tns:StudyUtilityFaultMessage"
-				name="StudyUtilityException" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage" name="StudyUtilityException" />
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
 				name="SecurityException" />
 		</wsdl:operation>
 		<wsdl:operation name="updateStudyStatus">
 			<wsdl:input message="tns:UpdateStudyStatusRequestMessage" />
 			<wsdl:output message="tns:UpdateStudyStatusResponseMessage" />
-			<wsdl:fault message="tns:StudyUtilityFaultMessage"
-				name="StudyUtilityException" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage" name="StudyUtilityException" />
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
 				name="SecurityException" />
-		</wsdl:operation>		
+		</wsdl:operation>
 		<wsdl:operation name="updateStudyConsent">
 			<wsdl:input message="tns:UpdateStudyConsentRequestMessage" />
 			<wsdl:output message="tns:UpdateStudyConsentResponseMessage" />
-			<wsdl:fault message="tns:StudyUtilityFaultMessage"
-				name="StudyUtilityException" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage" name="StudyUtilityException" />
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
 				name="SecurityException" />
 		</wsdl:operation>
 		<wsdl:operation name="queryStudyConsent">
 			<wsdl:input message="tns:QueryStudyConsentRequestMessage" />
 			<wsdl:output message="tns:QueryStudyConsentResponseMessage" />
-			<wsdl:fault message="tns:StudyUtilityFaultMessage"
-				name="StudyUtilityException" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage" name="StudyUtilityException" />
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
 				name="SecurityException" />
 		</wsdl:operation>
 		<wsdl:operation name="queryRegistryStatus">
 			<wsdl:input message="tns:QueryRegistryStatusRequestMessage" />
 			<wsdl:output message="tns:QueryRegistryStatusResponseMessage" />
-			<wsdl:fault message="tns:StudyUtilityFaultMessage"
-				name="StudyUtilityException" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage" name="StudyUtilityException" />
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
 				name="SecurityException" />
 		</wsdl:operation>
 		<wsdl:operation name="queryStudyRegistryStatus">
 			<wsdl:input message="tns:QueryStudyRegistryStatusRequestMessage" />
 			<wsdl:output message="tns:QueryStudyRegistryStatusResponseMessage" />
-			<wsdl:fault message="tns:StudyUtilityFaultMessage"
-				name="StudyUtilityException" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage" name="StudyUtilityException" />
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
 				name="SecurityException" />
 		</wsdl:operation>
@@ -322,8 +320,10 @@
 							<sp:IssuedToken
 								sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
 								<sp:RequestSecurityTokenTemplate>
-									<t:TokenType>urn:oasis:names:tc:SAML:1.0:assertion</t:TokenType>
-									<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer</t:KeyType>
+									<t:TokenType>urn:oasis:names:tc:SAML:1.0:assertion
+									</t:TokenType>
+									<t:KeyType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Bearer
+									</t:KeyType>
 								</sp:RequestSecurityTokenTemplate>
 							</sp:IssuedToken>
 						</wsp:Policy>
@@ -353,7 +353,7 @@
 			</wsdl:output>
 			<wsdl:fault name="SecurityException">
 				<soap:fault name="SecurityException" />
-			</wsdl:fault>			
+			</wsdl:fault>
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>
@@ -368,7 +368,7 @@
 			</wsdl:output>
 			<wsdl:fault name="SecurityException">
 				<soap:fault name="SecurityException" />
-			</wsdl:fault>			
+			</wsdl:fault>
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>
@@ -383,7 +383,7 @@
 			</wsdl:output>
 			<wsdl:fault name="SecurityException">
 				<soap:fault name="SecurityException" />
-			</wsdl:fault>			
+			</wsdl:fault>
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>
@@ -398,11 +398,11 @@
 			</wsdl:output>
 			<wsdl:fault name="SecurityException">
 				<soap:fault name="SecurityException" />
-			</wsdl:fault>			
+			</wsdl:fault>
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>
-		</wsdl:operation>		
+		</wsdl:operation>
 		<wsdl:operation name="updateStudyConsent">
 			<soap:operation style="document" />
 			<wsdl:input>
@@ -413,7 +413,7 @@
 			</wsdl:output>
 			<wsdl:fault name="SecurityException">
 				<soap:fault name="SecurityException" />
-			</wsdl:fault>			
+			</wsdl:fault>
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>
@@ -428,7 +428,7 @@
 			</wsdl:output>
 			<wsdl:fault name="SecurityException">
 				<soap:fault name="SecurityException" />
-			</wsdl:fault>			
+			</wsdl:fault>
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>
@@ -443,7 +443,7 @@
 			</wsdl:output>
 			<wsdl:fault name="SecurityException">
 				<soap:fault name="SecurityException" />
-			</wsdl:fault>			
+			</wsdl:fault>
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>
@@ -458,7 +458,7 @@
 			</wsdl:output>
 			<wsdl:fault name="SecurityException">
 				<soap:fault name="SecurityException" />
-			</wsdl:fault>			
+			</wsdl:fault>
 			<wsdl:fault name="StudyUtilityException">
 				<soap:fault name="StudyUtilityException" />
 			</wsdl:fault>

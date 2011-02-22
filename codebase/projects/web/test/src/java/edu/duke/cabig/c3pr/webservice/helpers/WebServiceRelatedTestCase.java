@@ -530,6 +530,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 	protected edu.duke.cabig.c3pr.domain.Consent createDomainConsent() {
 		edu.duke.cabig.c3pr.domain.Consent c = new edu.duke.cabig.c3pr.domain.Consent();
 		c.setMandatoryIndicator(true);
+		c.setVersionId("1.0");
 		c.setName(TEST_CONSENT_TITLE);
 		c.setDescriptionText(TEST_CONSENT_DESCRIPTION);
 		c.addQuestion(new ConsentQuestion(TEST_CONSENT_QUESTION_1,

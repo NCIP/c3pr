@@ -250,17 +250,19 @@ public class StudyUtilityImpl implements StudyUtility {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
 			Consent consent = request.getConsent();
 
-			if(consent.getVersionNumberText().getUpdateMode() == null){
-				log.debug("no updateMode found for consent. Defaulting to replace..");
-				consent.getVersionNumberText().setUpdateMode(UpdateMode.R);
-			}
 			Study study = getSingleStudy(studyId);
 			edu.duke.cabig.c3pr.domain.Consent domainConsent = converter
 					.convertConsent(consent);
+			edu.duke.cabig.c3pr.domain.Consent existingMatchingConsent = study.getConsent(domainConsent.getName(), domainConsent.getVersionId());
 			boolean save = true;
-			switch (consent.getVersionNumberText().getUpdateMode()) {
+			UpdateMode consentUpdateMode = request.getUpdateMode();
+			switch (consentUpdateMode) {
 			case R:
-				study.getConsents().clear();
+				if(existingMatchingConsent == null){
+					throw new RuntimeException("Cannot replace consent. No consent was found with given name and version Id");
+				}
+				
+				study.getConsents().remove(existingMatchingConsent);
 				study.addConsent(domainConsent);
 				break;
 			case A:
@@ -281,16 +283,16 @@ public class StudyUtilityImpl implements StudyUtility {
 					break;
 				}
 			case U:
-				edu.duke.cabig.c3pr.domain.Consent foundConsent = study.getConsent(domainConsent.getName(), domainConsent.getVersionId());
-				if(foundConsent == null){
+				if(existingMatchingConsent == null){
 					throw new RuntimeException("Cannot update consent. No consent found with the given name and version");
 				}
-				foundConsent.setMandatoryIndicator(domainConsent.getMandatoryIndicator());
-				foundConsent.setName(domainConsent.getName());
-				foundConsent.setVersionId(domainConsent.getVersionId());
-				foundConsent.setDescriptionText(domainConsent.getDescriptionText());
-				foundConsent.getQuestions().clear();
-				foundConsent.getQuestions().addAll(domainConsent.getQuestions());
+				existingMatchingConsent.setMandatoryIndicator(domainConsent.getMandatoryIndicator());
+				// The name and version id of the consent being updated should be same as the one it is being updated with. So no need for copying  those two attributes
+			//	existingMatchingConsent.setName(domainConsent.getName());
+			//	existingMatchingConsent.setVersionId(domainConsent.getVersionId());
+				existingMatchingConsent.setDescriptionText(domainConsent.getDescriptionText());
+				existingMatchingConsent.getQuestions().clear();
+				existingMatchingConsent.getQuestions().addAll(domainConsent.getQuestions());
 				break;
 			default:
 				log.debug("no valid values found for updateMode. no action will be taken");
@@ -388,14 +390,57 @@ public class StudyUtilityImpl implements StudyUtility {
 		try {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
 			PermissibleStudySubjectRegistryStatus status = request.getStatus();
+			UpdateMode statusUpdateMode = request.getUpdateMode();
 
 			Study study = getSingleStudy(studyId);
 			edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus domainStatus = converter
 					.convert(status);
-			study.getPermissibleStudySubjectRegistryStatusesInternal().clear();
-			study.getPermissibleStudySubjectRegistryStatusesInternal().add(
-					domainStatus);
-			studyRepository.save(study);
+			// find the existing registry status in study
+			edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus matchingRegistryStatus = 
+				study.getPermissibleStudySubjectRegistryStatus(domainStatus.getRegistryStatus().getCode());
+			
+			boolean save = true;
+			switch (statusUpdateMode) {
+			case R:
+				if(matchingRegistryStatus == null){
+					throw new RuntimeException("Cannot replace study registry status. No status was found with given code");
+				}
+				
+				study.getPermissibleStudySubjectRegistryStatusesInternal().remove(matchingRegistryStatus);
+				study.getPermissibleStudySubjectRegistryStatusesInternal().add(domainStatus);
+				break;
+			case A:
+				if(matchingRegistryStatus != null){
+					throw new RuntimeException("Cannot add study registry status. This status already exists");
+				}
+				study.getPermissibleStudySubjectRegistryStatusesInternal().add(domainStatus);
+				break;
+			case D:
+				if(matchingRegistryStatus == null){
+					throw new RuntimeException("Cannot delete study registry status. No status was found with the given code");
+				}
+				matchingRegistryStatus.setRetiredIndicatorAsTrue();
+				break;
+			case AU:
+				if(matchingRegistryStatus == null){
+					study.getPermissibleStudySubjectRegistryStatusesInternal().add(domainStatus);
+					break;
+				}
+			case U:
+				if(matchingRegistryStatus == null){
+					throw new RuntimeException("Cannot update status. No status with given code is found");
+				}
+				matchingRegistryStatus.setRegistryStatus(domainStatus.getRegistryStatus());
+				matchingRegistryStatus.setSecondaryReasons(domainStatus.getSecondaryReasons());
+				break;
+			default:
+				log.debug("no valid values found for updateMode. no action will be taken");
+				save = false;
+				break;
+			}
+			if(save){
+				studyRepository.save(study);
+			}
 			response.setStatus(converter.convert(domainStatus));
 		} catch (RuntimeException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));

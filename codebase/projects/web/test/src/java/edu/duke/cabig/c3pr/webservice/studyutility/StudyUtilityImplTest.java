@@ -31,6 +31,7 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.helpers.WebServiceRelatedTestCase;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
+import edu.duke.cabig.c3pr.webservice.iso21090.UpdateMode;
 import edu.duke.cabig.c3pr.webservice.studyutility.impl.StudyUtilityImpl;
 import edu.emory.mathcs.backport.java.util.Arrays;
 
@@ -226,6 +227,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		Study study = createDomainStudy();
 		request.setStudyIdentifier(studyId);
 		request.setStatus(status);
+		request.setUpdateMode(UpdateMode.R);
 
 		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
 				Arrays.asList(new Study[] { study }));
@@ -326,6 +328,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		Consent consent = createConsent();
 		request.setStudyIdentifier(studyId);
 		request.setConsent(consent);
+		request.setUpdateMode(UpdateMode.U);
 
 		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
 				Arrays.asList(new Study[] { study }));
@@ -333,7 +336,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		replay(studyRepository);
 
 		Consent updatedConsent = service.updateStudyConsent(request).getConsent();
-		consent.getVersionNumberText().setUpdateMode(null);
+//		consent.getVersionNumberText().setUpdateMode(null);
 		assertTrue(BeanUtils.deepCompare(updatedConsent, consent));
 		assertEquals(1, study.getConsents().size());
 		assertTrue(BeanUtils.deepCompare(
