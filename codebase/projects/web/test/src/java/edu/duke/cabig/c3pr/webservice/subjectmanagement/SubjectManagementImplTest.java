@@ -91,7 +91,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 		expect(participantRepository.searchByIdentifier(isA(Identifier.class)))
 				.andReturn(new ArrayList<Participant>());
-		validator.validate(anyObject(), isA(Errors.class));
+		validator.validateParticipantDetails(anyObject(), isA(Errors.class));
 		participantRepository.save(isA(Participant.class));
 		replay(participantRepository, validator);
 
@@ -109,7 +109,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 		expect(participantRepository.searchByIdentifier(isA(Identifier.class)))
 				.andReturn(new ArrayList<Participant>());
-		validator.validate(anyObject(), isA(Errors.class));
+		validator.validateParticipantDetails(anyObject(), isA(Errors.class));
 		expectLastCall().andThrow(new ParticipantValidationError());
 		replay(participantRepository, validator);
 
@@ -244,7 +244,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 		expect(participantRepository.searchByIdentifier(isA(Identifier.class)))
 				.andReturn(Arrays.asList(new Participant[] { existentSubject }));
-		validator.validate(anyObject(), isA(Errors.class));
+		validator.validateParticipantDetails(anyObject(), isA(Errors.class));
 		participantRepository.save(isA(Participant.class));
 		replay(participantRepository, validator);
 
@@ -301,7 +301,7 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 
 		expect(participantRepository.searchByIdentifier(isA(Identifier.class)))
 				.andReturn(Arrays.asList(new Participant[] { existentSubject }));
-		validator.validate(anyObject(), isA(Errors.class));
+		validator.validateParticipantDetails(anyObject(), isA(Errors.class));
 		expectLastCall().andThrow(new ParticipantValidationError());
 		replay(participantRepository, validator);
 		new AssertThrows(InvalidSubjectDataExceptionFaultMessage.class) {
