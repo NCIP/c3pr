@@ -56,8 +56,8 @@
   <REGISTRY_STATUSES id="1008" version="1" code="Declined Consent" description="Declined Consent"/>
   <REGISTRY_STATUSES id="1009" version="1" code="Completed" description="Completed"/>
     
-  <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
-  <PARTICIPANTS id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" name_prefix="Jr." name_suffix="Ph.D." retired_indicator="false"/>
+  <PARTICIPANTS id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" name_prefix="Jr." name_suffix="Ph.D." retired_indicator="false"/>
   <PARTICIPANTS id="-1000" version="1" first_name="dummy" last_name="dummy" birth_date="2000-01-01" administrative_gender_code="Male" ethnic_group_code="Unknown" retired_indicator="false"/>
   
   <stu_sub_demographics/>

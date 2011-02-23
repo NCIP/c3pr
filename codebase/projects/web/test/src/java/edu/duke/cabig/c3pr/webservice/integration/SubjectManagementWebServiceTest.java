@@ -692,6 +692,10 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 	private static final String TEST_MID_NAME_2 = "A";
 	private static final String TEST_FIRST_NAME = "John";
 	private static final String TEST_FIRST_NAME_2 = "Johnny";
+	private static final String TEST_NAME_PREFIX = "Jr.";
+	private static final String TEST_NAME_PREFIX_2 = "Sr.";
+	private static final String TEST_NAME_SUFFIX = "Ph.D.";
+	private static final String TEST_NAME_SUFFIX_2 = "M.A.";
 	private static final String MARITAL_STATUS_SINGLE = "Single";
 	private static final String MARITAL_STATUS_MARRIED = "Married";
 	private static final String ETHNIC_CODE_NOT_REPORTED = "Not Reported";
@@ -763,10 +767,13 @@ public class SubjectManagementWebServiceTest extends C3PREmbeddedTomcatTestBase 
 		person.setName(!a ? DSETENPN(ENPN(ENXP(TEST_FIRST_NAME,
 				EntityNamePartType.GIV), ENXP(TEST_MID_NAME,
 				EntityNamePartType.GIV), ENXP(TEST_LAST_NAME,
-				EntityNamePartType.FAM))) : DSETENPN(ENPN(ENXP(
+				EntityNamePartType.FAM),iso.ENXP(TEST_NAME_PREFIX, 
+				EntityNamePartType.PFX),
+				iso.ENXP(TEST_NAME_SUFFIX, EntityNamePartType.SFX))) : DSETENPN(ENPN(ENXP(
 				TEST_FIRST_NAME_2, EntityNamePartType.GIV), ENXP(
 				TEST_MID_NAME_2, EntityNamePartType.GIV), ENXP(
-				TEST_LAST_NAME_2, EntityNamePartType.FAM))));
+				TEST_LAST_NAME_2, EntityNamePartType.FAM),iso.ENXP(TEST_NAME_PREFIX_2, 
+				EntityNamePartType.PFX),iso.ENXP(TEST_NAME_SUFFIX_2, EntityNamePartType.SFX))));
 		if(addAddress){
 			person.setPostalAddress(!a ? DSETAD(AD(Arrays.asList(PostalAddressUse.H, PostalAddressUse.HV),ADXP(
 					TEST_STREET_ADDRESS, AddressPartType.SAL), ADXP(

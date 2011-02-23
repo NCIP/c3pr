@@ -110,6 +110,8 @@ public class JAXBToDomainObjectConverterImpl implements
 	public static final String NAME_SEP = " ";
 	public static final String FAM = "FAM";
 	public static final String GIV = "GIV";
+	public static final String PFX = "PFX";
+	public static final String SFX = "SFX";
 	public static final String CTEP = "CTEP";
 	public static final String NCI = "NCI";
 
@@ -252,6 +254,12 @@ public class JAXBToDomainObjectConverterImpl implements
 				participant.setMiddleName(skipEmptyNameParts
 						&& StringUtils.isEmpty(getMiddleName(person)) ? null
 						: getMiddleName(person));
+				participant.setNamePrefix(skipEmptyNameParts
+						&& StringUtils.isEmpty(getNamePrefix(person)) ? null
+						: getNamePrefix(person));
+				participant.setNameSuffix(skipEmptyNameParts
+						&& StringUtils.isEmpty(getNameSuffix(person)) ? null
+						: getNameSuffix(person));
 				participant.setMaidenName(skipEmptyNameParts ? null
 						: StringUtils.EMPTY);
 				participant.replaceAddresses(getAddresses(person));
@@ -373,6 +381,24 @@ public class JAXBToDomainObjectConverterImpl implements
 	protected String getFirstName(Person person) {
 		String name = "";
 		List<String> list = extractNameParts(person, EntityNamePartType.GIV);
+		if (CollectionUtils.isNotEmpty(list)) {
+			name = list.get(0);
+		}
+		return name;
+	}
+	
+	protected String getNamePrefix(Person person) {
+		String name = "";
+		List<String> list = extractNameParts(person, EntityNamePartType.PFX);
+		if (CollectionUtils.isNotEmpty(list)) {
+			name = list.get(0);
+		}
+		return name;
+	}
+	
+	protected String getNameSuffix(Person person) {
+		String name = "";
+		List<String> list = extractNameParts(person, EntityNamePartType.SFX);
 		if (CollectionUtils.isNotEmpty(list)) {
 			name = list.get(0);
 		}
@@ -751,6 +777,12 @@ public class JAXBToDomainObjectConverterImpl implements
 		if (StringUtils.isNotBlank(p.getLastName()))
 			enpn.getPart().add(
 					ENXP(p.getLastName(), EntityNamePartType.valueOf(FAM)));
+		if (StringUtils.isNotBlank(p.getNamePrefix()))
+			enpn.getPart().add(
+					ENXP(p.getNamePrefix(), EntityNamePartType.valueOf(PFX)));
+		if (StringUtils.isNotBlank(p.getNameSuffix()))
+			enpn.getPart().add(
+					ENXP(p.getNameSuffix(), EntityNamePartType.valueOf(SFX)));
 		dsetenpn.getItem().add(enpn);
 		return dsetenpn;
 	}

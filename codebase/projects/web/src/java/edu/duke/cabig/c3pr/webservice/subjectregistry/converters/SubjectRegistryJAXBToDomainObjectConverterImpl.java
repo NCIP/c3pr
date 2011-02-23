@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.webservice.subjectregistry.converters;
 
+import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.ENXP;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -341,6 +343,8 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 				studySubjectDemographics.setFirstName(getFirstName(person));
 				studySubjectDemographics.setLastName(getLastName(person));
 				studySubjectDemographics.setMiddleName(getMiddleName(person));
+				studySubjectDemographics.setNamePrefix(getNamePrefix(person));
+				studySubjectDemographics.setNameSuffix(getNameSuffix(person));
 				studySubjectDemographics.setMaidenName(StringUtils.EMPTY);
 				studySubjectDemographics.setAddress((Address)getAddresses(person).toArray()[0]);
 				studySubjectDemographics.setRaceCodes(getRaceCodes(person));
@@ -423,6 +427,12 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		if (StringUtils.isNotBlank(p.getLastName()))
 			enpn.getPart().add(
 					iso.ENXP(p.getLastName(), EntityNamePartType.valueOf(FAM)));
+		if (StringUtils.isNotBlank(p.getNamePrefix()))
+			enpn.getPart().add(
+					ENXP(p.getNamePrefix(), EntityNamePartType.valueOf(PFX)));
+		if (StringUtils.isNotBlank(p.getNameSuffix()))
+			enpn.getPart().add(
+					ENXP(p.getNameSuffix(), EntityNamePartType.valueOf(SFX)));
 		dsetenpn.getItem().add(enpn);
 		return dsetenpn;
 	}

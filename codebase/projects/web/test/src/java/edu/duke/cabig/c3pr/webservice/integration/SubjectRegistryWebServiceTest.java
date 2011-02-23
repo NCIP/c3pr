@@ -89,6 +89,8 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String TEST_LAST_NAME_MODIFIED = "Davis";
 	protected static final String TEST_MID_NAME_MODIFIED = "M";
 	protected static final String TEST_FIRST_NAME_MODIFIED = "Geena";
+	protected static final String TEST_NAME_PREFIX_MODIFIED = "Sr.";
+	protected static final String TEST_NAME_SUFFIX_MODIFIED = "M.D.";
 	protected static final String TS_DATETIME_PATTERN = "yyyyMMddHHmmss";
 	protected static final String TEST_FAX = "000-111-2222";
 	protected static final String TEST_FAX_ISO = "x-text-fax:" + TEST_FAX;
@@ -105,6 +107,8 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String TEST_CITY_NAME = "Arlington";
 	protected static final String TEST_STREET_ADDRESS = "1029 N Stuart St Unit 999";
 	protected static final String TEST_LAST_NAME = "Clooney";
+	protected static final String TEST_NAME_PREFIX = "Jr.";
+	protected static final String TEST_NAME_SUFFIX = "Ph.D.";
 	protected static final String TEST_MID_NAME = "Z";
 	protected static final String TEST_FIRST_NAME = "Rudolph";
 	protected static final String MARITAL_STATUS_SINGLE = "Single";
@@ -913,7 +917,8 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		person.setName(iso.DSETENPN(iso.ENPN(iso.ENXP(TEST_FIRST_NAME,
 				EntityNamePartType.GIV), iso.ENXP(TEST_MID_NAME,
 				EntityNamePartType.GIV), iso.ENXP(TEST_LAST_NAME,
-				EntityNamePartType.FAM))));
+				EntityNamePartType.FAM),iso.ENXP(TEST_NAME_PREFIX, EntityNamePartType.PFX),
+				iso.ENXP(TEST_NAME_SUFFIX, EntityNamePartType.SFX))));
 		person.setPostalAddress(iso.DSETAD(iso.AD(iso.ADXP(TEST_STREET_ADDRESS,
 				AddressPartType.SAL), iso.ADXP(TEST_CITY_NAME,
 				AddressPartType.CTY), iso.ADXP(TEST_STATE_CODE,
@@ -939,7 +944,9 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		person.setName(iso.DSETENPN(iso.ENPN(iso.ENXP(TEST_FIRST_NAME_MODIFIED,
 				EntityNamePartType.GIV), iso.ENXP(TEST_MID_NAME_MODIFIED,
 				EntityNamePartType.GIV), iso.ENXP(TEST_LAST_NAME_MODIFIED,
-				EntityNamePartType.FAM))));
+				EntityNamePartType.FAM), iso.ENXP(TEST_NAME_PREFIX_MODIFIED,
+				EntityNamePartType.PFX), iso.ENXP(TEST_NAME_SUFFIX_MODIFIED,
+				EntityNamePartType.SFX))));
 		person.setPostalAddress(iso.DSETAD(iso.AD(iso.ADXP(TEST_STREET_ADDRESS_MODIFIED,
 				AddressPartType.SAL), iso.ADXP(TEST_CITY_NAME_MODIFIED,
 				AddressPartType.CTY), iso.ADXP(TEST_STATE_CODE_MODIFIED,
@@ -965,7 +972,8 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		person.setName(iso.DSETENPN(iso.ENPN(iso.ENXP(TEST_FIRST_NAME,
 				EntityNamePartType.GIV), iso.ENXP(TEST_MID_NAME,
 				EntityNamePartType.GIV), iso.ENXP(TEST_LAST_NAME,
-				EntityNamePartType.FAM))));
+				EntityNamePartType.FAM),iso.ENXP(TEST_NAME_PREFIX, EntityNamePartType.PFX),
+				iso.ENXP(TEST_NAME_SUFFIX, EntityNamePartType.SFX))));
 		person.setPostalAddress(iso.DSETAD(iso.AD(iso.ADXP(TEST_STREET_ADDRESS,
 				AddressPartType.SAL), iso.ADXP(TEST_CITY_NAME,
 				AddressPartType.CTY), iso.ADXP(TEST_STATE_CODE,
