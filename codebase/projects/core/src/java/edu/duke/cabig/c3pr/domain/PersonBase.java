@@ -31,10 +31,12 @@ public abstract class PersonBase extends
 
     private String maidenName;
 
-    private String middleName;
-
+	private String middleName;
     
-
+    private String namePrefix;
+    
+    private String nameSuffix;
+    
     protected Set<ContactMechanism> contactMechanisms = new LinkedHashSet<ContactMechanism>();
 
     @Transient
@@ -181,7 +183,23 @@ public abstract class PersonBase extends
         return maidenName;
     }
 
-    public void setMaidenName(String maidenName) {
+    public String getNamePrefix() {
+		return namePrefix;
+	}
+
+	public void setNamePrefix(String namePrefix) {
+		this.namePrefix = namePrefix;
+	}
+
+	public String getNameSuffix() {
+		return nameSuffix;
+	}
+
+	public void setNameSuffix(String nameSuffix) {
+		this.nameSuffix = nameSuffix;
+	}
+
+	public void setMaidenName(String maidenName) {
         this.maidenName = maidenName;
     }
     

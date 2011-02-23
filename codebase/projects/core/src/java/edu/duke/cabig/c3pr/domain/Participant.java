@@ -655,6 +655,8 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 		studySubjectDemographics.setLastName(this.getLastName());
 		studySubjectDemographics.setMiddleName(this.getMiddleName());
 		studySubjectDemographics.setMaidenName(this.getMaidenName());
+		studySubjectDemographics.setNamePrefix(this.getNamePrefix());
+		studySubjectDemographics.setNameSuffix(this.getNameSuffix());
 		studySubjectDemographics.setAdministrativeGenderCode(this.getAdministrativeGenderCode());
 		studySubjectDemographics.setEthnicGroupCode(this.getEthnicGroupCode());
 		studySubjectDemographics.setMaritalStatusCode(this.getMaritalStatusCode());
