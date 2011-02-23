@@ -125,9 +125,9 @@ public class SubjectManagementImpl implements SubjectManagement {
 			Subject subject = request.getSubject();
 			Participant participant = converter.convert(subject, true,false);
 
-			Participant existingParticipant = participantRepository
-					.searchByPrimaryIdentifier(participant.getPrimaryIdentifier());
-			if (existingParticipant != null) {
+			List<Participant> existingList = participantRepository
+					.searchByIdentifier(participant.getPrimaryIdentifier());
+			if (CollectionUtils.isNotEmpty(existingList)) {
 				SubjectAlreadyExistsExceptionFault fault = new SubjectAlreadyExistsExceptionFault();
 				fault.setMessage(SUBJECT_ALREADY_EXISTS);
 				throw new SubjectAlreadyExistsExceptionFaultMessage(
