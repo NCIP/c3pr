@@ -40,7 +40,14 @@ public interface ParticipantRepository {
 	 * @param searchParameters
 	 * @return
 	 */
-	public List<Participant> search(
-			List<AdvancedSearchCriteriaParameter> searchParameters);
+	public List<Participant> search(List<AdvancedSearchCriteriaParameter> searchParameters);
+	
+	/**
+	 * Search by primary identifier.
+	 *
+	 * @param identifier the identifier
+	 * @return the participant
+	 */
+	public Participant searchByPrimaryIdentifier(Identifier identifier);
     
 }

@@ -9,11 +9,9 @@ import edu.duke.cabig.c3pr.domain.OffStudyReason;
 import edu.duke.cabig.c3pr.domain.OffTreatmentReason;
 import edu.duke.cabig.c3pr.domain.Reason;
 
+
 /**
- * Hibernate implementation of ScheduledEpoch
- * 
- * @see edu.duke.cabig.c3pr.dao.ScheduledEpoch
- * @author Priyatam
+ * The Class ReasonDao.
  */
 public class ReasonDao extends GridIdentifiableDao<Reason> {
 
@@ -45,4 +43,9 @@ public class ReasonDao extends GridIdentifiableDao<Reason> {
     public Reason getReasonByCode(String code){
     	return (Reason)getHibernateTemplate().find("from Reason where code = ?",code).get(0);
     }
+    
+    public Reason getReasonByCodeAndType(String code, String classname){
+    	return (Reason)getHibernateTemplate().find("from Reason where code = ? and dtype = ?",new Object[] {code, classname}).get(0);
+    }
+    
 }

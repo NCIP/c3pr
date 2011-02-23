@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.webservice.subjectregistration.coverters;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -8,12 +9,25 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.DiseaseHistory;
+import edu.duke.cabig.c3pr.domain.DiseaseTerm;
+import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.LocalInvestigator;
 import edu.duke.cabig.c3pr.domain.OffEpochReason;
+import edu.duke.cabig.c3pr.domain.OffFollowupReason;
+import edu.duke.cabig.c3pr.domain.OffReservingReason;
+import edu.duke.cabig.c3pr.domain.OffScreeningReason;
+import edu.duke.cabig.c3pr.domain.OffTreatmentReason;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
@@ -30,10 +44,12 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudySiteProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.iso21090.BAGTEL;
+import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETAD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
 import edu.duke.cabig.c3pr.webservice.iso21090.ENPN;
+import edu.duke.cabig.c3pr.webservice.iso21090.ENXP;
 import edu.duke.cabig.c3pr.webservice.iso21090.EntityNamePartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.DefinedEligibilityCriterion;
@@ -140,7 +156,7 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		covertedScheduledEpoch.setStratumGroupNumber(iso.INTPositive(scheduledEpoch.getStratumGroupNumber()));
 		covertedScheduledEpoch.setEpoch(convertToEpoch(scheduledEpoch.getEpoch()));
 		if(scheduledEpoch.getScheduledArm() != null){
-			covertedScheduledEpoch.setScheduledArm(convertToScheduledArm(scheduledEpoch.getScheduledArm()));
+		covertedScheduledEpoch.setScheduledArm(convertToScheduledArm(scheduledEpoch.getScheduledArm()));
 		}
 		if(!CollectionUtils.isEmpty(scheduledEpoch.getOffEpochReasons())){
 			covertedScheduledEpoch.setOffEpochReason(new DSETCD());
@@ -279,26 +295,105 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return studyInvestigator;
 	}
 
-	public DiseaseHistory convertDiseaseHistory(
-			PerformedDiagnosis diseaseHistory) {
-		// TODO Auto-generated method stub
-		return null;
+	/** Plugs in a dummy StudyDisease with the right term in it. Replace with hibernate attached StudyDisease in impl.
+	 * 
+	 */
+	public DiseaseHistory convertDiseaseHistory(PerformedDiagnosis diseaseHistory) {
+		DiseaseHistory convertedDiseaseHistory = new DiseaseHistory();
+
+		StudyDisease studyDisease = new StudyDisease();
+		DiseaseTerm diseaseTerm = new DiseaseTerm();
+		diseaseTerm.setTerm(diseaseHistory.getDisease().getConditionCode().getCode());
+		studyDisease.setDiseaseTerm(diseaseTerm);
+		convertedDiseaseHistory.setStudyDisease(studyDisease);
+		
+		//icd9 name
+		ICD9DiseaseSite icd9DiseaseSite = new ICD9DiseaseSite();
+		icd9DiseaseSite.setName(diseaseHistory.getTargetAnatomicSiteCode().getCode());
+		convertedDiseaseHistory.setIcd9DiseaseSite(icd9DiseaseSite);
+		
+		return convertedDiseaseHistory;
 	}
 
 	public edu.duke.cabig.c3pr.domain.Epoch convertEpoch(Epoch epoch) {
-		// TODO Auto-generated method stub
-		return null;
+		edu.duke.cabig.c3pr.domain.Epoch convertedEpoch = new edu.duke.cabig.c3pr.domain.Epoch();
+		
+		convertedEpoch.setDescriptionText(epoch.getDescription().getValue());
+		convertedEpoch.setName(epoch.getName().getValue());
+		convertedEpoch.setEpochOrder(epoch.getSequenceNumber().getValue());
+		convertedEpoch.setType(EpochType.getByCode(epoch.getTypeCode().getCode()));
+		
+		return convertedEpoch;
 	}
 
+	/**
+	 * Plugs in a dummy arm with the right arm name. 
+	 * The dummy arm is expected to be replaced with the Hibernate object by the calling method or Impl.
+	 */
 	public ScheduledArm convertScheduledArm(PerformedActivity scheduledArm) {
-		// TODO Auto-generated method stub
-		return null;
+		ScheduledArm convertedArm = new ScheduledArm();
+		Arm arm = new Arm();
+		if(scheduledArm.getDefinedActivity() != null && scheduledArm.getDefinedActivity().getNameCode() != null &&
+				!scheduledArm.getDefinedActivity().getNameCode().getNullFlavor().equals(NullFlavor.NI)){
+			arm.setName(scheduledArm.getDefinedActivity().getNameCode().getCode());
+			convertedArm.setArm(arm);
+		} else if(scheduledArm.getDrug() != null && scheduledArm.getDrug().getKitNumber() != null &&
+				!scheduledArm.getDrug().getKitNumber().getNullFlavor().equals(NullFlavor.NI)){
+			convertedArm.setKitNumber(scheduledArm.getDrug().getKitNumber().getExtension());
+		}
+		return convertedArm;
 	}
 
+	/**
+	 *  Converts the ScheduledEpoch stub to the domain object.
+	 */
 	public edu.duke.cabig.c3pr.domain.ScheduledEpoch convertScheduledEpoch(
 			ScheduledEpoch scheduledEpoch) {
-		// TODO Auto-generated method stub
-		return null;
+		edu.duke.cabig.c3pr.domain.ScheduledEpoch covertedScheduledEpoch = new edu.duke.cabig.c3pr.domain.ScheduledEpoch();
+		
+		covertedScheduledEpoch.setStartDate(convertToDate(scheduledEpoch.getStartDate()));
+		covertedScheduledEpoch.setOffEpochDate(convertToDate(scheduledEpoch.getOffEpochDate()));
+		covertedScheduledEpoch.setStratumGroupNumber(scheduledEpoch.getStratumGroupNumber().getValue());
+		covertedScheduledEpoch.setEpoch(convertEpoch(scheduledEpoch.getEpoch()));
+		covertedScheduledEpoch.addScheduledArm(convertScheduledArm(scheduledEpoch.getScheduledArm()));
+		
+		OffEpochReason offEpochReason = null;
+		for(Object object : scheduledEpoch.getOffEpochReason().getItem()){
+			CD offEpochReasonCd = (CD)object;
+			offEpochReason = new OffEpochReason();
+			if(covertedScheduledEpoch.getEpoch().getType().equals(EpochType.FOLLOWUP)){
+				OffFollowupReason offFollowupReason = new OffFollowupReason();
+				offFollowupReason.setCode(offEpochReasonCd.getCode());
+				offEpochReason.setReason(offFollowupReason);
+			}
+			if(covertedScheduledEpoch.getEpoch().getType().equals(EpochType.RESERVING)){
+				OffReservingReason offReservingReason = new OffReservingReason();
+				offReservingReason.setCode(offEpochReasonCd.getCode());
+				offEpochReason.setReason(offReservingReason);		
+			}
+			if(covertedScheduledEpoch.getEpoch().getType().equals(EpochType.SCREENING)){
+				OffScreeningReason offScreeningReason = new OffScreeningReason();
+				offScreeningReason.setCode(offEpochReasonCd.getCode());
+				offEpochReason.setReason(offScreeningReason);
+			}
+			if(covertedScheduledEpoch.getEpoch().getType().equals(EpochType.TREATMENT)){
+				OffTreatmentReason offTreatmentReason = new OffTreatmentReason();
+				offTreatmentReason.setCode(offEpochReasonCd.getCode());
+				offEpochReason.setReason(offTreatmentReason);
+			}
+			//not creating reason for observation or other
+			if(covertedScheduledEpoch.getEpoch().getType().equals(EpochType.OBSERVATION) || 
+					covertedScheduledEpoch.getEpoch().getType().equals(EpochType.OTHER)){
+				offEpochReason.setDescription(offEpochReasonCd.getCode());
+			}
+			covertedScheduledEpoch.getOffEpochReasons().add(offEpochReason);
+			covertedScheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.OFF_EPOCH);
+		}
+		
+		covertedScheduledEpoch.getSubjectEligibilityAnswers().addAll(convertSubjectEligibilityAnswers(scheduledEpoch.getSubjectEligibilityAnswer()));
+		covertedScheduledEpoch.getSubjectStratificationAnswers().addAll(convertSubjectStratificationAnswers(scheduledEpoch.getSubjectStartificationAnswer()));
+
+		return covertedScheduledEpoch;
 	}
 
 	public List<edu.duke.cabig.c3pr.domain.ScheduledEpoch> convertScheduledEpochs(
@@ -308,8 +403,23 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 	}
 
 	public edu.duke.cabig.c3pr.domain.StudyInvestigator convertStudyInvestigator(StudyInvestigator studyInvestigator) {
-		// TODO Auto-generated method stub
-		return null;
+		edu.duke.cabig.c3pr.domain.StudyInvestigator convertedStudyInvestigator = new edu.duke.cabig.c3pr.domain.StudyInvestigator();
+		LocalInvestigator convertedInvestigator = new LocalInvestigator();
+		
+		Person person = studyInvestigator.getHealthcareProvider().getPerson();
+		convertedInvestigator.setFirstName(getFirstName(person));
+		convertedInvestigator.setLastName(getLastName(person));
+		convertedInvestigator.setMiddleName(getMiddleName(person));
+		Iterator<Address> addIter = getAddresses(person).iterator();
+		convertedInvestigator.setAddress(addIter.next());
+		
+		if(studyInvestigator.getHealthcareProvider().getIdentifier().getNullFlavor().equals(NullFlavor.NI)){
+			convertedInvestigator.setAssignedIdentifier(null);
+		} else {
+			convertedInvestigator.setAssignedIdentifier(studyInvestigator.getHealthcareProvider().getIdentifier().getExtension());
+		}
+		
+		return convertedStudyInvestigator;
 	}
 
 	public List<SubjectEligibilityAnswer> convertSubjectEligibilityAnswers(

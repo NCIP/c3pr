@@ -252,7 +252,6 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
      * Search by identifier.
      * 
      * @param id the id
-     * 
      * @return the list< participant>
      */
     @SuppressWarnings("unchecked")
@@ -263,10 +262,22 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     }
 
     /**
+     * Search by PRIMARY identifier. Returns null if no participant is found.
+     * 
+     * @param id the id
+     * @return the participant
+     */
+    @SuppressWarnings("unchecked")
+    public Participant searchByPrimaryIdentifier(String id) {
+        return (Participant) getHibernateTemplate().find(
+                               "select P from Participant P, Identifier I where I.id=? and I.primaryIndicator='1' and and I=any elements(P.identifiers)",
+                               new Object[] {id});
+    }
+    
+    /**
      * Gets all Participants.
      * 
      * @return the Participants
-     * 
      * @throws DataAccessException the data access exception
      */
     public List<Participant> getAll() throws DataAccessException {
@@ -277,9 +288,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
      * Gets the by first name.
      * 
      * @param name the name
-     * 
      * @return the by first name
-     * 
      * @throws DataAccessException the data access exception
      */
     public List<Participant> getByFirstName(String name) throws DataAccessException {
@@ -291,9 +300,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
      * 
      * @param MRN the mRN
      * @param site the site
-     * 
      * @return the subject identifiers with mrn
-     * 
      * @throws DataAccessException the data access exception  
      */
     public List<OrganizationAssignedIdentifier> getSubjectIdentifiersWithMRN(String MRN,

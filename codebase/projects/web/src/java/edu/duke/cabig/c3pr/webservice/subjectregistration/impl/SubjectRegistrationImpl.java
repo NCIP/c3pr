@@ -15,7 +15,9 @@ import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.ReasonDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.ConsentQuestion;
 import edu.duke.cabig.c3pr.domain.DiseaseHistory;
@@ -23,6 +25,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
@@ -43,6 +46,7 @@ import edu.duke.cabig.c3pr.webservice.common.InvalidSiteExceptionFault;
 import edu.duke.cabig.c3pr.webservice.common.InvalidStudyProtocolExceptionFault;
 import edu.duke.cabig.c3pr.webservice.common.InvalidStudySubjectDataExceptionFault;
 import edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier;
+import edu.duke.cabig.c3pr.webservice.common.Person;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.ANY;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
@@ -60,6 +64,7 @@ import edu.duke.cabig.c3pr.webservice.subjectregistration.FailSubjectScreeningRe
 import edu.duke.cabig.c3pr.webservice.subjectregistration.FailSubjectScreeningResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.GenerateSummary3ReportRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.GenerateSummary3ReportResponse;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.HealthcareProvider;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.ImportRegistrationsRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.ImportRegistrationsResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.InitiateSubjectEnrollmentRequest;
@@ -90,6 +95,7 @@ import edu.duke.cabig.c3pr.webservice.subjectregistration.RetrieveSubjectDemogra
 import edu.duke.cabig.c3pr.webservice.subjectregistration.SecurityExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.StudyInvestigator;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.StudySubject;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.StudySubjectProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.SubjectRegistration;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.SubjectRegistrationRejectedExceptionFaultMessage;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.TakeSubjectOffStudyRequest;
@@ -99,6 +105,7 @@ import edu.duke.cabig.c3pr.webservice.subjectregistration.UpdateRegistrationResp
 import edu.duke.cabig.c3pr.webservice.subjectregistration.UpdateStudySubjectConsentRequest;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.UpdateStudySubjectConsentResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter;
+import edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateStudySubjectRegistryResponse;
 
 @WebService(wsdlLocation="/WEB-INF/wsdl/SubjectRegistration.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectRegistrationService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectregistration.SubjectRegistration", portName = "SubjectRegistration", serviceName = "SubjectRegistrationService")
 public class SubjectRegistrationImpl implements SubjectRegistration {
@@ -125,6 +132,7 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 	private StudySubjectRepository studySubjectRepository;
 	private StudySubjectDao studySubjectDao;
 	private ICD9DiseaseSiteDao icd9DiseaseSiteDao;
+	private ReasonDao reasonDao;
 
 	public EnrollSubjectNewResponse enrollStudySubject(EnrollSubjectNewRequest arg0)
 		throws DuplicateStudySubjectExceptionFaultMessage,
@@ -133,8 +141,55 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 		InvalidStudySubjectDataExceptionFaultMessage,
 		SecurityExceptionFaultMessage,
 		SubjectRegistrationRejectedExceptionFaultMessage {
-	// TODO Auto-generated method stub
-		return null;
+		
+		StudySubject studySubject = arg0.getStudySubject();
+		//test duplicate study subject
+		try {
+			getStudySubject(studySubject.getSubjectIdentifier());
+			handleDuplicateStudySubject(exceptionHelper
+					.getConversionException(DUPLICATE_STUDYSUBJECT_IDENTIFIER));
+		} catch (C3PRCodedRuntimeException e) {
+			if(e.getExceptionCode() != 231)
+				handleDuplicateStudySubject(e);
+		}
+		
+		edu.duke.cabig.c3pr.domain.StudySubject domainObject = new edu.duke.cabig.c3pr.domain.StudySubject();
+		
+		Participant participant = getParticipant(arg0.getSubjectIdentifier());
+		Study study = getStudy(arg0.getStudyIdentifier());
+		StudySite studySite = getStudySite(study, arg0.getSiteIdentifier());
+		
+		//set study, studySite and subject demographics
+		domainObject.setStudySubjectDemographics(participant.createStudySubjectDemographics());
+		domainObject.setStudySite(studySite);
+		
+		//copy organic attributes, identifiers
+		copyEnrollmentDetails(domainObject , studySubject);
+		
+		//copy consent information
+		if(studySubject.getStudySubjectProtocolVersion() != null &&
+				studySubject.getStudySubjectProtocolVersion().getStudySubjectConsentVersion() !=null &&
+				studySubject.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().size()>0)
+		copyConsentDetails(domainObject, studySubject.getStudySubjectProtocolVersion().getStudySubjectConsentVersion());
+		
+		//set epoch details
+		StudySubjectProtocolVersionRelationship studySubjectProtocolVersionRelationship = 
+			(StudySubjectProtocolVersionRelationship)studySubject.getStudySubjectProtocolVersion();
+		setScheduledEpoch(domainObject, getScheduledEpoch(study, studySubjectProtocolVersionRelationship.getScheduledEpoch().get(0)));
+		
+		
+		//test re-registration
+		List<edu.duke.cabig.c3pr.domain.StudySubject> registrations = studySubjectRepository.findRegistrations(domainObject);
+		if (registrations.size() > 0) {
+			handleDuplicateStudySubject(exceptionHelper
+					.getConversionException(RE_REGISTRATION));
+        }
+		
+		domainObject = studySubjectRepository.save(domainObject);
+		
+		EnrollSubjectNewResponse response = new EnrollSubjectNewResponse();
+		response.setStudySubject(converter.convertToStudySubjectRegistration(domainObject));
+		return response;
 	}
 	
 	public EnrollSubjectExistingResponse enrollExistingStudySubject(
@@ -144,6 +199,16 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 		SecurityExceptionFaultMessage,
 		SubjectRegistrationRejectedExceptionFaultMessage {
 	// TODO Auto-generated method stub
+		/*
+		 * <xsd:element name="studySubjectIdentifier" type="common:SubjectIdentifier"/>
+			<xsd:element name="enrollmentDate" type="ISO:TS.DateTime"/>
+			<xsd:element name="offPreviousEpochReasons" type="sr:DSET_PerformedObservationResult" minOccurs="0"/>
+			<xsd:element name="offPreviousEpochDate" type="ISO:TS.DateTime" minOccurs="0"/>
+		 */
+		SubjectIdentifier ssIdentifier = arg0.getStudySubjectIdentifier();
+		String studySubjectId = ssIdentifier.getIdentifier().getExtension();
+		
+		edu.duke.cabig.c3pr.domain.StudySubject existingStudySubject = studySubjectDao.getById(Integer.valueOf(studySubjectId).intValue());
 		return null;
 	}
 	
@@ -244,6 +309,9 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 		return null;
 	}
 
+	/** Just save the Registration with status=PENDING. consent need not be signed.
+	 * 
+	 */
 	public InitiateSubjectEnrollmentResponse initiateStudySubjectEnrollment(
 			InitiateSubjectEnrollmentRequest parameters)
 			throws DuplicateStudySubjectExceptionFaultMessage,
@@ -451,15 +519,12 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 			handleInvalidStudySubjectData(exceptionHelper
 					.getConversionException(MISSING_SUBJECT_IDENTIFIER));
 		}
-		List<Participant> participants = participantDao.getByIdentifiers(converter.convertBiologicIdentifiers(identifiers));
-		if(participants.size() > 1){
-			handleInvalidStudySubjectData(exceptionHelper
-					.getConversionException(NON_UNIQUE_IDENTIFIER));
-		}else if(participants.size() == 0){
+		Participant participant = participantDao.searchByPrimaryIdentifier(converter.convertBiologicIdentifiers(identifiers).get(0).getValue());
+		if(participant == null){
 			handleInvalidStudySubjectData(exceptionHelper
 					.getConversionException(SUBJECT_NOT_FOUND));
 		}
-		return participants.get(0);
+		return participant;
 	}
 	
 	private Study getStudy(DocumentIdentifier docId) throws InvalidStudyProtocolExceptionFaultMessage{
@@ -498,6 +563,15 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 		
 		//set Disease History
 		updateDiseaseHistory(destination, source.getDiseaseHistory());
+		//replace the Disease History with a hibernate attached StudyDisease and ICD9DiseaseSite
+//		for(StudyDisease studyDisease: destination.getStudySite().getStudy().getStudyDiseases()){
+//			if(destination.getDiseaseHistory().getPrimaryDiseaseStr().equals(studyDisease.getDiseaseTerm())){
+//				destination.getDiseaseHistory().setStudyDisease(studyDisease);
+//				break;
+//			}
+//		}
+//		ICD9DiseaseSite icd9DiseaseSite = icd9DiseaseSiteDao.getByCode(destination.getDiseaseHistory().getIcd9DiseaseSite().getCode());
+//		destination.getDiseaseHistory().setIcd9DiseaseSite(icd9DiseaseSite);
 		
 		//set Treating/Enrolling physician
 		updateTreatingPhysician(destination, source.getTreatingPhysician());
@@ -539,13 +613,8 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 			}
 		}
 		if(!StringUtils.isBlank(convertedDiseaseHistory.getOtherPrimaryDiseaseSiteCode())){
-			List<ICD9DiseaseSite> list = icd9DiseaseSiteDao.getByName(convertedDiseaseHistory.getOtherPrimaryDiseaseSiteCode());
-			if(list.size()>1){
-				handleInvalidStudySubjectData(exceptionHelper
-						.getConversionException(NON_UNIQUE_ANATOMIC_SITE_NAME));
-			}else if(list.size()==1){
-				convertedDiseaseHistory.setIcd9DiseaseSite(list.get(0));
-			}
+			ICD9DiseaseSite icd9DiseaseSite = icd9DiseaseSiteDao.getByCode(convertedDiseaseHistory.getOtherPrimaryDiseaseSiteCode());
+			convertedDiseaseHistory.setIcd9DiseaseSite(icd9DiseaseSite);
 		}
 		destination.setDiseaseHistory(convertedDiseaseHistory);
 	}
@@ -568,21 +637,63 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 		}
 	}
 	
+	
+	/**Ensures that an Epoch and an Arm corresponding to the one sent in, Exists.
+	 * Returns a newly created C3PR domain scheduled epoch(with a C3PR domain scheduled arm.).
+	 *
+	 * @param study the study from C3PR db.
+	 * @param scheduledEpoch the scheduled epoch present in the requestArg.
+	 * @return the scheduled epoch
+	 */
 	private ScheduledEpoch getScheduledEpoch(Study study, edu.duke.cabig.c3pr.webservice.subjectregistration.ScheduledEpoch scheduledEpoch){
-		ScheduledEpoch convertedScheduledEpoch = new ScheduledEpoch();
-		Epoch convertedEpoch = converter.convertEpoch(scheduledEpoch.getEpoch());
+		ScheduledEpoch convertedScheduledEpoch =  converter.convertScheduledEpoch(scheduledEpoch);
 		boolean notFound = true;
+		Epoch legitimateEpoch = null;
+		//plug in the legitimate epoch from dao
 		for(Epoch epoch : study.getEpochs()){
-			if(epoch.getName().equalsIgnoreCase(convertedEpoch.getName())){
-				convertedEpoch = epoch;
+			if(epoch.getName().equalsIgnoreCase(convertedScheduledEpoch.getEpoch().getName())){
+				legitimateEpoch = epoch;
+				convertedScheduledEpoch.setEpoch(legitimateEpoch);
 				notFound = false;
 				break;
 			}
 		}
 		if(notFound){
-			
+			//throw meaningful "No matching Epoch found" exception
+		} 
+		
+		//plug in the legitimate Arm from dao
+		Arm legitimateArm = null;
+		if(legitimateEpoch != null){
+			for(Arm arm : legitimateEpoch.getArms()){
+				if(arm.getName().equalsIgnoreCase(convertedScheduledEpoch.getScheduledArm().getArm().getName())){
+					legitimateArm = arm;
+					convertedScheduledEpoch.getScheduledArm().setArm(legitimateArm);
+					notFound = false;
+					break;
+				}
+			}
+			if(notFound){
+				//throw meaningful "No matching Arm found" exception
+			}
 		}
-		return null;
+		
+		//plug in the legitimate Reason from the dao.
+		Reason legitimateReason = null;
+		if(convertedScheduledEpoch.getOffEpochReasons().get(0) != null &&
+				convertedScheduledEpoch.getOffEpochReasons().get(0).getReason() != null){
+			legitimateReason = reasonDao.getReasonByCodeAndType(convertedScheduledEpoch.getOffEpochReasons().get(0).getReason().getCode(), 
+												convertedScheduledEpoch.getOffEpochReasons().get(0).getReason().getClass().getName());
+			if(legitimateReason != null){
+				convertedScheduledEpoch.getOffEpochReasons().get(0).setReason(legitimateReason);
+			}
+		}
+		
+		return convertedScheduledEpoch;
+	}
+	
+	private void setScheduledEpoch(edu.duke.cabig.c3pr.domain.StudySubject studySubject, ScheduledEpoch convertedScheduledEpoch){
+		studySubject.getStudySubjectStudyVersion().addScheduledEpoch(convertedScheduledEpoch);
 	}
 	
 	private boolean isNull(ANY cd) {
@@ -617,6 +728,14 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 
 	public void setIcd9DiseaseSiteDao(ICD9DiseaseSiteDao icd9DiseaseSiteDao) {
 		this.icd9DiseaseSiteDao = icd9DiseaseSiteDao;
+	}
+
+	public ReasonDao getReasonDao() {
+		return reasonDao;
+	}
+
+	public void setReasonDao(ReasonDao reasonDao) {
+		this.reasonDao = reasonDao;
 	}
 	
 }
