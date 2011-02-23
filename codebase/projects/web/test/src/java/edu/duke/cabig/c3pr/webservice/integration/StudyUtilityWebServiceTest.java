@@ -507,6 +507,16 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			logger.info("Duplicate study creation passed.");
 		}
 
+		//another study
+		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
+		.get(0).getIdentifier().setExtension(STUDY_ID+"-001");
+		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
+		.get(1).getIdentifier().setExtension(STUDY_ID+"-001");
+		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
+		.get(2).getIdentifier().setExtension(SITE_STUDY_ID+"-001");
+		createdStudy = service.createStudyAbstract(request).getStudy();
+		assertNotNull(createdStudy);
+		
 		// missing identifiers
 		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
 				.clear();
