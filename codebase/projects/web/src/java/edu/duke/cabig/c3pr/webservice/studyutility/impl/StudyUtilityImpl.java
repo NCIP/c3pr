@@ -74,7 +74,7 @@ public class StudyUtilityImpl implements StudyUtility {
 
 	private static final String MORE_THAN_ONE_STUDY = "More than one study with the given identifier found.";
 
-	private static Log log = LogFactory.getLog(SubjectManagementImpl.class);
+	private static Log log = LogFactory.getLog(StudyUtilityImpl.class);
 
 	private JAXBToDomainObjectConverter converter;
 
