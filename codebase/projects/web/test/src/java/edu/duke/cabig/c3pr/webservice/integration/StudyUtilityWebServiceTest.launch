@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launchConfiguration type="org.eclipse.jdt.junit.launchconfig">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/web/test/src/java/edu/duke/cabig/c3pr/webservice/integration/SubjectRegistryWebServiceTest.java"/>
+<listEntry value="/web/test/src/java/edu/duke/cabig/c3pr/webservice/integration/StudyUtilityWebServiceTest.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -74,7 +74,7 @@
 <listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/web/build/lib/jaxb-xjc-2.1.9.jar&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#10;"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="edu.duke.cabig.c3pr.webservice.integration.SubjectRegistryWebServiceTest"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="edu.duke.cabig.c3pr.webservice.integration.StudyUtilityWebServiceTest"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="web"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dtest.datasource.file=/etc/c3pr/datasource-postgres.properties -Dtest.war.file=/Users/kruttikagarwal/Documents/workspace-c3pr/codebase/projects/web/build/dist/c3pr.war -Dclean.catalina.home=true -XX:MaxPermSize=350M -Xmx900M -agentpath:/Applications/YourKit_Java_Profiler_8.0.24.app/bin/mac/libyjpagent.jnilib=disablestacktelemetry,disableexceptiontelemetry,delay=10000,sessionname=C3PR-Embedded-Tomcat"/>
 </launchConfiguration>
