@@ -411,7 +411,7 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 		return null;
 	}
 
-	public RetrieveAccrualDataResponse retrieveAccuralData(
+	public RetrieveAccrualDataResponse retrieveAccrualData(
 			RetrieveAccrualDataRequest arg0)
 			throws InvalidSiteExceptionFaultMessage,
 			InvalidStudyProtocolExceptionFaultMessage,
@@ -678,16 +678,11 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 			}
 		}
 		
-		//plug in the legitimate Reason from the dao.
-		Reason legitimateReason = null;
-		if(convertedScheduledEpoch.getOffEpochReasons().get(0) != null &&
-				convertedScheduledEpoch.getOffEpochReasons().get(0).getReason() != null){
-			legitimateReason = reasonDao.getReasonByCodeAndType(convertedScheduledEpoch.getOffEpochReasons().get(0).getReason().getCode(), 
-												convertedScheduledEpoch.getOffEpochReasons().get(0).getReason().getClass().getName());
-			if(legitimateReason != null){
-				convertedScheduledEpoch.getOffEpochReasons().get(0).setReason(legitimateReason);
-			}
-		}
+		//plug in the subEligAns and subStrAns
+		
+		
+		//Dont handle off-epoch.
+
 		
 		return convertedScheduledEpoch;
 	}
