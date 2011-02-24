@@ -24,15 +24,15 @@ public class ReasonDaoTest extends ContextDaoTestCase<ReasonDao> {
     public void testGetReasonByCodeAndType() throws Exception{
     	OffTreatmentReason offTreatmentReason = new OffTreatmentReason();
     	offTreatmentReason.setCode("ABCD");
-    	assertEquals(1000, getDao().getReasonByCodeAndType(offTreatmentReason.getCode(), offTreatmentReason.getClass().getName()));
+    	assertEquals(1000, getDao().getReasonByCodeAndType(offTreatmentReason.getCode(), offTreatmentReason.getClass().getName()).getId().intValue());
     	
     	OffScreeningReason offScreeningReason = new OffScreeningReason();
     	offScreeningReason.setCode("EFG");
-    	assertEquals(1002, getDao().getReasonByCodeAndType(offScreeningReason.getCode(), offScreeningReason.getClass().getName()));
+    	assertEquals(1002, getDao().getReasonByCodeAndType(offScreeningReason.getCode(), offScreeningReason.getClass().getName()).getId().intValue());
     	
     	OffReservingReason offReservingReason = new OffReservingReason();
     	offReservingReason.setCode("EFGH");
-    	assertEquals(1003, getDao().getReasonByCodeAndType(offReservingReason.getCode(), offReservingReason.getClass().getName()));
+    	assertEquals(1003, getDao().getReasonByCodeAndType(offReservingReason.getCode(), offReservingReason.getClass().getName()).getId().intValue());
     }
     
     
