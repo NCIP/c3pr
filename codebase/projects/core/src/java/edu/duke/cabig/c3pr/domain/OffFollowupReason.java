@@ -8,6 +8,6 @@ import javax.persistence.Entity;
  * The Class OrganizationAssignedIdentifier.
  */
 @Entity
-@DiscriminatorValue("OFF_RESERVING")
+@DiscriminatorValue("OFF_FOLLOWUP")
 public class OffFollowupReason extends Reason {
 }
