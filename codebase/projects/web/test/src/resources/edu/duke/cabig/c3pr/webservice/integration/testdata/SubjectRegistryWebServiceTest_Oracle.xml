@@ -56,8 +56,8 @@
   <REGISTRY_STATUSES id="1008" version="1" code="Declined Consent" description="Declined Consent"/>
   <REGISTRY_STATUSES id="1009" version="1" code="Completed" description="Completed"/>
     
-  <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
-  <PARTICIPANTS id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" name_prefix="Jr." name_suffix="Ph.D." retired_indicator="false"/>
+  <PARTICIPANTS id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" marital_status_code="Single" middle_name="Z" name_prefix="Jr." name_suffix="Ph.D." retired_indicator="false"/>
   <PARTICIPANTS id="-1000" version="1" first_name="dummy" last_name="dummy" birth_date="2000-01-01" administrative_gender_code="Male" ethnic_group_code="Unknown" retired_indicator="false"/>
   
   <stu_sub_demographics/>
@@ -80,7 +80,7 @@
   <STUDY_ORGANIZATIONS id="1001" version="1" study_id="1000" hcs_id="1000" type="SST" retired_indicator="false"/>
   <study_site_versions id="1000" version="1" start_date="2010-02-02" stu_version_id="1000" sto_id="1001" retired_indicator="false"/>
   
-  <CONSENTS id="1000" version="0" name="General1" description_text="Desc1" version_id="1.0" stu_version_id="1000" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
+  <CONSENTS id="1000" version="0" name="General1" description_text="Desc1" stu_version_id="1000" mandatory_indicator="1" consenting_methods="WRITTEN : VERBAL" retired_indicator="false"/>
   <CONSENT_QUESTIONS id="1000" version="0" text="question1" code="Q11" con_id="1000" retired_indicator="false"/>
   <CONSENT_QUESTIONS id="1001" version="0" text="question2" code="Q12" con_id="1000" retired_indicator="false"/>
   
