@@ -620,7 +620,7 @@
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
 			<wsdl:fault message="tns:InvalidStudySubjectDataExceptionFaultMessage" name="InvalidStudySubjectDataException" />
 		</wsdl:operation>
-		<wsdl:operation name="retrieveAccuralData">
+		<wsdl:operation name="retrieveAccrualData">
 			<wsdl:input message="tns:RetrieveAccrualDataRequestMessage" />
 			<wsdl:output message="tns:RetrieveAccrualDataResponseMessage" />
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage" name="SecurityException" />
@@ -971,7 +971,7 @@
 			</wsdl:fault>
 		</wsdl:operation>
 		
-		<wsdl:operation name="retrieveAccuralData">
+		<wsdl:operation name="retrieveAccrualData">
 			<soap:operation style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
