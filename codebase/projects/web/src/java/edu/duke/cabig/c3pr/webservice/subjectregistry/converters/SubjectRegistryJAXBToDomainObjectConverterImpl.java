@@ -473,7 +473,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		edu.duke.cabig.c3pr.webservice.common.Consent consent = new edu.duke.cabig.c3pr.webservice.common.Consent();
 		consent.setOfficialTitle(iso.ST(studySubjectConsentVersion.getConsent().getName()));
 		consent.setText(iso.ED(studySubjectConsentVersion.getConsent().getDescriptionText()));
-		consent.setVersionNumberText(iso.ST(studySubjectConsentVersion.getConsent().getVersionId()));
+		if(!StringUtils.isBlank(studySubjectConsentVersion.getConsent().getVersionId())){
+			consent.setVersionNumberText(iso.ST(studySubjectConsentVersion.getConsent().getVersionId()));
+		}
 		consent.setMandatoryIndicator(iso.BL(studySubjectConsentVersion.getConsent().getMandatoryIndicator()));
 		target.setConsent(consent);
 		for(SubjectConsentQuestionAnswer subjectAnswer : studySubjectConsentVersion.getSubjectConsentAnswers()){

@@ -497,7 +497,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Consent consent = new Consent();
 		consent.setOfficialTitle(iso.ST(TEST_CONSENT_NAME1));
 		consent.setText(iso.ED(TEST_CONSENT_DESC1));
-		consent.setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
+//		consent.setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
 		request.setConsent(consent);
 		
 		JAXBContext context = JAXBContext.newInstance("edu.duke.cabig.c3pr.webservice.subjectregistry");
@@ -557,7 +557,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		Consent consent = new Consent();
 		consent.setOfficialTitle(iso.ST(TEST_CONSENT_NAME1));
 		consent.setText(iso.ED(TEST_CONSENT_DESC1));
-		consent.setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
+//		consent.setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
 		request.setConsent(consent);
 		subjectConsents = service.queryConsentsByStudySubject(request).getStudySubjectConsents();
 		assertNotNull(subjectConsents);
@@ -768,7 +768,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubjectConsentVersion.setConsent(new DocumentVersion());
 		studySubjectConsentVersion.getConsent().setOfficialTitle(iso.ST(TEST_CONSENT_NAME1));
 		studySubjectConsentVersion.getConsent().setText(iso.ED(TEST_CONSENT_DESC1));
-		studySubjectConsentVersion.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
+//		studySubjectConsentVersion.getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
 		
 		PerformedStudySubjectMilestone subjectAnswer = new PerformedStudySubjectMilestone();
 		subjectAnswer.setMissedIndicator(iso.BL(TEST_CONSENT_ANS11));
