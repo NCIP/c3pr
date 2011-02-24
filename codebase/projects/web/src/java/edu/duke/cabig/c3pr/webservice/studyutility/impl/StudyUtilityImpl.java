@@ -431,7 +431,8 @@ public class StudyUtilityImpl implements StudyUtility {
 					throw new RuntimeException("Cannot update status. No status with given code is found");
 				}
 				matchingRegistryStatus.setRegistryStatus(domainStatus.getRegistryStatus());
-				matchingRegistryStatus.setSecondaryReasons(domainStatus.getSecondaryReasons());
+				matchingRegistryStatus.getSecondaryReasons().clear();
+				matchingRegistryStatus.getSecondaryReasons().addAll(domainStatus.getSecondaryReasons());
 				break;
 			default:
 				log.debug("no valid values found for updateMode. no action will be taken");
