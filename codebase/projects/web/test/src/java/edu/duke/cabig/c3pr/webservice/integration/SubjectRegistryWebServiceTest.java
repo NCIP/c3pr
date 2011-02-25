@@ -755,7 +755,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		return organization;
 	}
 	
-	public static List<StudySubjectConsentVersion> getSubjectConsents(){
+	public List<StudySubjectConsentVersion> getSubjectConsents(){
 		List<StudySubjectConsentVersion> returnList = new ArrayList<StudySubjectConsentVersion>();
 		//add 1st consent
 		StudySubjectConsentVersion studySubjectConsentVersion = new StudySubjectConsentVersion();

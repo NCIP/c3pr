@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.webservice.common.RegistryStatus;
 import edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
+import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyAbstractRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility;
@@ -367,4 +368,12 @@ public class SubjectRegistryMayoUseCaseIntegrationTest extends
 		studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createStudyFundingSponsorIdentifier());
 		return studySubject;
 	}
+	
+	@Override
+	public List<StudySubjectConsentVersion> getSubjectConsents() {
+		List<StudySubjectConsentVersion> consents = super.getSubjectConsents();
+		consents.get(0).getConsent().setVersionNumberText(iso.ST(TEST_CONSENT_VERSION1));
+		return consents;
+	}
+	
 }
