@@ -1114,7 +1114,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	public Consent convertConsentForSearchByExample(
 			edu.duke.cabig.c3pr.webservice.common.Consent xml) {
 		Consent consent = new Consent();
-		consent.setMandatoryIndicator(xml.getMandatoryIndicator().isValue());
+		consent.setMandatoryIndicator(xml.getMandatoryIndicator()==null ? null : xml.getMandatoryIndicator().isValue());
 		consent.setName(isNull(xml.getOfficialTitle()) ? null : xml
 				.getOfficialTitle().getValue());
 		consent.setDescriptionText(isNull(xml.getText()) ? null : xml.getText()

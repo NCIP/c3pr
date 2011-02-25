@@ -275,19 +275,35 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			IOException, SQLException, DatabaseUnitException, Exception {
 		StudyUtility service = getService();
 
-		// successful update
+		// successful add
 		UpdateStudyStatusRequest request = new UpdateStudyStatusRequest();
 		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
 		request.setStudyIdentifier(studyId);
 		PermissibleStudySubjectRegistryStatus status = createPermissibleStudySubjectRegistryStatus();
 		status.getRegistryStatus().getCode().setCode(STATUS_INACTIVE);
+		status.getSecondaryReason().get(0).setCode(iso.CD(TEST_SECONDARY_REASON_CODE+"-to be updated"));
+		status.getSecondaryReason().get(0).setDescription(iso.ST(TEST_SECONDARY_REASON_DESCR+"-to be updated"));
 		request.setStatus(status);
 		request.setUpdateMode(UpdateMode.A);
 		PermissibleStudySubjectRegistryStatus updatedStatus = service
 				.updateStudyStatus(request).getStatus();
 		assertEquals(STATUS_INACTIVE, updatedStatus.getRegistryStatus()
 				.getCode().getCode());
-
+		assertEquals(TEST_SECONDARY_REASON_CODE+"-to be updated", updatedStatus.getSecondaryReason().get(0).getCode().getCode());
+		assertEquals(TEST_SECONDARY_REASON_DESCR+"-to be updated", updatedStatus.getSecondaryReason().get(0).getDescription().getValue());
+		
+		// successful update
+		status = createPermissibleStudySubjectRegistryStatus();
+		status.getRegistryStatus().getCode().setCode(STATUS_INACTIVE);
+		request.setStatus(status);
+		request.setUpdateMode(UpdateMode.U);
+		updatedStatus = service
+				.updateStudyStatus(request).getStatus();
+		assertEquals(STATUS_INACTIVE, updatedStatus.getRegistryStatus()
+				.getCode().getCode());
+		assertEquals(TEST_SECONDARY_REASON_CODE, updatedStatus.getSecondaryReason().get(0).getCode().getCode());
+		assertEquals(TEST_SECONDARY_REASON_DESCR, updatedStatus.getSecondaryReason().get(0).getDescription().getValue());
+		
 		// invalid status code
 		status.getRegistryStatus().getCode().setCode("WRONG");
 		try {
@@ -403,14 +419,17 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// consent with data
 		Consent example = createConsent(TEST_CONSENT_TITLE,"");
+		example.setMandatoryIndicator(null);
 		request.setConsent(example);
 		list = service.queryStudyConsent(request).getConsents().getItem();
 		assertEquals(1, list.size());
+		example = createConsent(TEST_CONSENT_TITLE,"");
 		assertTrue(BeanUtils.deepCompare(example, list.get(0)));
 
 		// consent does not exist
 		example.setOfficialTitle(iso.ST(RandomStringUtils
 				.randomAlphanumeric(256)));
+		request.setConsent(example);
 		list = service.queryStudyConsent(request).getConsents().getItem();
 		assertEquals(0, list.size());
 
