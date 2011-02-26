@@ -121,7 +121,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	public static final int INVALID_SUBJECT_DATA_REPRESENTATION = 901;
 	public static final int MISSING_SUBJECT_IDENTIFIER = 902;
 	public static final int MISSING_PRIMARY_SUBJECT_IDENTIFIER = 931;
-	public static final int SUBJECT_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_OF_ORGANIZATION_OR_SYSTEMNAME= 903;
+	public static final int SUBJECT_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_AMONG_ORGANIZATION_AND_SYSTEMNAME= 903;
 	public static final int ORGANIZATION_IDENTIFIER_MISSING_TYPECODE = 904;
 	public static final int UNABLE_TO_FIND_ORGANIZATION = 905;
 	public static final int WRONG_DATE_FORMAT = 906;
@@ -134,6 +134,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	public static final int UNSUPPORTED_DOC_REL_TYPE = 928;
 	public static final int INVALID_CONSENT_REPRESENTATION = 929;
 	public static final int INVALID_REGISTRY_STATUS_CODE = 930;
+	public static final int STUDY_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_OF_ORGANIZATION_OR_SYSTEMNAME= 933;
 
 	protected static final ISO21090Helper iso = new ISO21090Helper();
 
@@ -496,7 +497,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		// throw exception either if both organization and system name are present or if none are present
 		if((org != null && systemName != null) || (org == null && systemName == null)){
 			throw exceptionHelper
-			.getConversionException(SUBJECT_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_OF_ORGANIZATION_OR_SYSTEMNAME);
+			.getConversionException(SUBJECT_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_AMONG_ORGANIZATION_AND_SYSTEMNAME);
 		}
 		Identifier id = null;
 		if(org != null){
@@ -519,7 +520,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		List<OrganizationIdentifier> idList = org.getOrganizationIdentifier();
 		if (CollectionUtils.isEmpty(idList)) {
 			throw exceptionHelper
-					.getConversionException(SUBJECT_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_OF_ORGANIZATION_OR_SYSTEMNAME);
+					.getConversionException(SUBJECT_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_AMONG_ORGANIZATION_AND_SYSTEMNAME);
 		}
 		OrganizationIdentifier orgId = idList.get(0);
 		II id = orgId.getIdentifier();
@@ -538,7 +539,7 @@ public class JAXBToDomainObjectConverterImpl implements
 			CD typeCode) throws ConversionException {
 		if (id == null || StringUtils.isBlank(id.getExtension())) {
 			throw exceptionHelper
-					.getConversionException(SUBJECT_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_OF_ORGANIZATION_OR_SYSTEMNAME);
+					.getConversionException(SUBJECT_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_AMONG_ORGANIZATION_AND_SYSTEMNAME);
 		}
 		if (typeCode == null || StringUtils.isBlank(typeCode.getCode())) {
 			throw exceptionHelper
@@ -856,7 +857,7 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	public List<Identifier> convert(
 			List<DocumentIdentifier> docIds) {
-		List<OrganizationAssignedIdentifier> list = new ArrayList<OrganizationAssignedIdentifier>();
+		List<Identifier> list = new ArrayList<Identifier>();
 		for (DocumentIdentifier docId : docIds) {
 			list.add(convert(docId));
 		}
@@ -870,37 +871,54 @@ public class JAXBToDomainObjectConverterImpl implements
 	 * edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter
 	 * #convert(DocumentIdentifier)
 	 */
-	public OrganizationAssignedIdentifier convert(DocumentIdentifier docId) {
+	public Identifier convert(DocumentIdentifier docId) {
 		II ii = docId.getIdentifier();
 		CD typeCode = docId.getTypeCode();
 		BL primInd = docId.getPrimaryIndicator();
-		edu.duke.cabig.c3pr.webservice.common.Organization org = docId
-				.getAssigningOrganization();
-		if (isNull(ii) || isNull(typeCode) || org == null
-				|| CollectionUtils.isEmpty(org.getOrganizationIdentifier())) {
+		edu.duke.cabig.c3pr.webservice.common.Organization org = docId.getAssigningOrganization();
+		
+		if (isNull(ii) || isNull(typeCode)) {
 			throw exceptionHelper
 					.getConversionException(INVALID_STUDY_IDENTIFIER);
 		}
-		OrganizationIdentifier orgId = org.getOrganizationIdentifier().get(0);
-		try {
-			OrganizationIdentifierTypeEnum.valueOf(typeCode.getCode());
-		} catch (IllegalArgumentException e) {
+		String systemName = typeCode.getCodeSystemName();
+		
+		// throw exception either if both organization and system name are present or if none are present
+		if((org != null && systemName != null) || (org == null && systemName == null)){
 			throw exceptionHelper
-					.getConversionException(UNSUPPORTED_ORG_ID_TYPE);
+			.getConversionException(STUDY_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_OF_ORGANIZATION_OR_SYSTEMNAME);
 		}
-		OrganizationAssignedIdentifier id = new OrganizationAssignedIdentifier();
+		Identifier id = null;
+		if(org != null){
+			if (CollectionUtils.isEmpty(org.getOrganizationIdentifier())){
+				throw exceptionHelper.getConversionException(INVALID_STUDY_IDENTIFIER);
+			}
+			OrganizationIdentifier orgId = org.getOrganizationIdentifier().get(0);
+			try {
+				OrganizationIdentifierTypeEnum.valueOf(typeCode.getCode());
+			} catch (IllegalArgumentException e) {
+				throw exceptionHelper
+						.getConversionException(UNSUPPORTED_ORG_ID_TYPE);
+			}
+			
+			id = new OrganizationAssignedIdentifier();
+			id.setTypeInternal(OrganizationIdentifierTypeEnum.valueOf(typeCode.getCode()).getName());
+			HealthcareSite healthcareSite = resolveHealthcareSite(orgId.getIdentifier(), orgId.getPrimaryIndicator(),
+					orgId.getTypeCode());
+			if (healthcareSite == null) {
+				throw exceptionHelper
+						.getConversionException(UNABLE_TO_FIND_ORGANIZATION);
+			}
+			((OrganizationAssignedIdentifier)id).setHealthcareSite(healthcareSite);
+		}else{
+			id = new SystemAssignedIdentifier();
+			id.setTypeInternal(typeCode.getCode());
+			((SystemAssignedIdentifier)id).setSystemName(systemName);
+		}
+		
 		id.setPrimaryIndicator(primInd != null
 				&& Boolean.TRUE.equals(primInd.isValue()));
 		id.setValue(ii.getExtension());
-		id.setType(OrganizationIdentifierTypeEnum.valueOf(typeCode.getCode()));
-		HealthcareSite healthcareSite = resolveHealthcareSite(
-				orgId.getIdentifier(), orgId.getPrimaryIndicator(),
-				orgId.getTypeCode());
-		if (healthcareSite == null) {
-			throw exceptionHelper
-					.getConversionException(UNABLE_TO_FIND_ORGANIZATION);
-		}
-		id.setHealthcareSite(healthcareSite);
 		return id;
 	}
 
@@ -1281,9 +1299,9 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	protected Document convertStudyDocument(Study study) {
 		Document doc = new Document();
-		for (OrganizationAssignedIdentifier oai : study
-				.getOrganizationAssignedIdentifiers()) {
-			doc.getDocumentIdentifier().add(convert(oai));
+		for (Identifier id : study
+				.getIdentifiers()) {
+			doc.getDocumentIdentifier().add(convert(id));
 		}
 		return doc;
 	}
@@ -1355,22 +1373,26 @@ public class JAXBToDomainObjectConverterImpl implements
 		return xml;
 	}
 
-	public DocumentIdentifier convert(OrganizationAssignedIdentifier id) {
+	public DocumentIdentifier convert(Identifier id) {
 		DocumentIdentifier studyId = new DocumentIdentifier();
 		studyId.setTypeCode(CD(id.getTypeInternal()));
 		studyId.setIdentifier(II(id.getValue()));
 		studyId.setPrimaryIndicator(BL(id.getPrimaryIndicator()));
-
-		HealthcareSite site = ((OrganizationAssignedIdentifier) id)
-				.getHealthcareSite();
-		final edu.duke.cabig.c3pr.webservice.common.Organization org = new edu.duke.cabig.c3pr.webservice.common.Organization();
-		studyId.setAssigningOrganization(org);
-		for (Identifier siteId : site.getIdentifiersAssignedToOrganization()) {
-			OrganizationIdentifier orgId = new OrganizationIdentifier();
-			orgId.setTypeCode(CD(siteId.getTypeInternal()));
-			orgId.setIdentifier(II(siteId.getValue()));
-			orgId.setPrimaryIndicator(BL(siteId.getPrimaryIndicator()));
-			org.getOrganizationIdentifier().add(orgId);
+		
+		if(id instanceof OrganizationAssignedIdentifier){
+			HealthcareSite site = ((OrganizationAssignedIdentifier) id)
+					.getHealthcareSite();
+			final edu.duke.cabig.c3pr.webservice.common.Organization org = new edu.duke.cabig.c3pr.webservice.common.Organization();
+			studyId.setAssigningOrganization(org);
+			for (Identifier siteId : site.getIdentifiersAssignedToOrganization()) {
+				OrganizationIdentifier orgId = new OrganizationIdentifier();
+				orgId.setTypeCode(CD(siteId.getTypeInternal()));
+				orgId.setIdentifier(II(siteId.getValue()));
+				orgId.setPrimaryIndicator(BL(siteId.getPrimaryIndicator()));
+				org.getOrganizationIdentifier().add(orgId);
+			}
+		}else if (id instanceof SystemAssignedIdentifier){
+			studyId.getTypeCode().setCodeSystemName(((SystemAssignedIdentifier)id).getSystemName());
 		}
 		return studyId;
 
@@ -1379,9 +1401,7 @@ public class JAXBToDomainObjectConverterImpl implements
 	protected List<DocumentIdentifier> convertToDocumentIdentifier(List<Identifier> identifiers) {
 		List<DocumentIdentifier> result = new ArrayList<DocumentIdentifier>();
 		for (Identifier source : identifiers) {
-			if (source instanceof OrganizationAssignedIdentifier) {
-				result.add(convert((OrganizationAssignedIdentifier)source));
-			}
+				result.add(convert(source));
 		}
 		return result;
 	}

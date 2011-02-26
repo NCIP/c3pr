@@ -103,9 +103,7 @@
   <STUDY_SUBJECTS/>
   
   <race_code_assocn retired_indicator="false"  id="1000" version="1"  sub_id="1000" race_code="White" />
-  <race_code_assocn retired_indicator="false"  id="1001" version="1"  sub_id="1000" race_code="Asian" />
   <race_code_assocn retired_indicator="false"  id="1002" version="1"  sub_id="1001" race_code="White" />
-  <race_code_assocn retired_indicator="false"  id="1003" version="1"  sub_id="1001" race_code="Asian" />
   
   <CONTACT_MECHANISMS id="1000" version="1" prt_id="1000" type="EMAIL" value="test@mail.com" dtype="Local"/>
   <CONTACT_MECHANISMS id="1001" version="1" prt_id="1000" type="Fax" value="000-111-2222" dtype="Local"/>
@@ -115,11 +113,13 @@
   <CONTACT_MECHANISMS id="1005" version="1" prt_id="1001" type="PHONE" value="333-444-5555" dtype="Local"/>
   <contact_use_assocns />
   
-  <IDENTIFIERS id="-1000" version="1" value="dummy" type="local" dtype="SAI" stu_id="-1000" hcs_id="-1000" org_id="-1000" prt_id="-1000" retired_indicator="false" primary_indicator="0"/>
+  <IDENTIFIERS id="-1000" version="1" value="dummy" type="local" dtype="SAI" stu_id="-1000" system_name="" hcs_id="-1000" org_id="-1000" prt_id="-1000" retired_indicator="false" primary_indicator="0"/>
   <IDENTIFIERS id="1000" version="1" value="MN026" type="CTEP" dtype="OAI" hcs_id="-1000" org_id="1000" retired_indicator="false" primary_indicator="1"/>
-  <IDENTIFIERS id="1001" version="1" value="test_study_id" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" stu_id="1000" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
-  <IDENTIFIERS id="1002" version="1" value="test_subject_id" type="MRN" dtype="OAI" hcs_id="1000" prt_id="1000" retired_indicator="false" primary_indicator="1"/>
-  <IDENTIFIERS id="1003" version="1" value="test_subject_id_import" type="MRN" dtype="OAI" hcs_id="1000" prt_id="1001" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="1001" version="1" value="test_study_id" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" stu_id="1000" hcs_id="1000" retired_indicator="false" primary_indicator="0"/>
+  <IDENTIFIERS id="1002" version="1" value="test_system_study_id" type="C3PR_SYSTEM" dtype="SAI" system_name="MAYO" stu_id="1000" retired_indicator="false" primary_indicator="1"/>
+  <IDENTIFIERS id="1003" version="1" value="test_subject_id" type="MRN" dtype="OAI" hcs_id="1000" prt_id="1000" retired_indicator="false" primary_indicator="0"/>
+  <IDENTIFIERS id="1004" version="1" value="test_subject_id_import" type="MRN" dtype="OAI" hcs_id="1000" prt_id="1001" retired_indicator="false" primary_indicator="0"/>
+  <IDENTIFIERS id="1005" version="1" value="baskjd89y34343a-123u9a" type="SUBJECT_IDENTIFIER" dtype="SAI" system_name="MAYO" prt_id="1000" retired_indicator="false" primary_indicator="1"/>
   
   <STU_SUB_REG_STATUSES/>
   

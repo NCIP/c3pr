@@ -95,7 +95,7 @@ public class SubjectRegistryMayoUseCaseIntegrationTest extends
 		executeUpdateStudySubjectConsentTest();
 		executeUpdateStudySubjectRegistryStatusTest();
 		executeUpdateStudySubjectRegistryStatusHistoryTest();
-		executeUpdatetudySubjectTest();
+		executeUpdateStudySubjectTest();
 		executeQuerySubjectRegistryTest();
 		executeUpdateStudySubjectDemographyTest();
 		executeRetrieveStudySubjectDemographyHistoryTest();

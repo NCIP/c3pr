@@ -2,5 +2,6 @@
 <dataset>
 	<identifiers type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" />
 	<identifiers type="PROTOCOL_AUTHORITY_IDENTIFIER" dtype="OAI" />
+    <identifiers type="C3PR_SYSTEM" dtype="SAI" />
     <identifiers type="SITE_IDENTIFIER" dtype="OAI" />
 </dataset>

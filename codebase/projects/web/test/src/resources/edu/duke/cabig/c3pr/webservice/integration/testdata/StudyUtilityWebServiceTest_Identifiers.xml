@@ -3,4 +3,5 @@
 	<identifiers type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" />
 	<identifiers type="PROTOCOL_AUTHORITY_IDENTIFIER" dtype="OAI" />
 	<identifiers type="STUDY_FUNDING_SPONSOR" dtype="OAI" />
+	<identifiers type="C3PR_SYSTEM" dtype="SAI" />
 </dataset>

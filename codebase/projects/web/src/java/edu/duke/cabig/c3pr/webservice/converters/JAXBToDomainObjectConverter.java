@@ -125,7 +125,7 @@ public interface JAXBToDomainObjectConverter {
 
 	RegistryStatusDao getRegistryStatusDao();
 
-	OrganizationAssignedIdentifier convert(DocumentIdentifier docId);
+	Identifier convert(DocumentIdentifier docId);
 
 	Consent convertConsent(DocumentVersion doc);
 
@@ -141,7 +141,7 @@ public interface JAXBToDomainObjectConverter {
 	
 	public List<Identifier> convert(List<DocumentIdentifier> docIds);
 	
-	public DocumentIdentifier convert(OrganizationAssignedIdentifier id);
+	public DocumentIdentifier convert(Identifier id);
 	
 	public Date convertToDate(TSDateTime tsDateTime);
 	

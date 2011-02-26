@@ -533,6 +533,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		.get(1).getIdentifier().setExtension(STUDY_ID+"-001");
 		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
 		.get(2).getIdentifier().setExtension(SITE_STUDY_ID+"-001");
+		study.getStudyProtocolDocument().getDocument().getDocumentIdentifier()
+		.get(3).getIdentifier().setExtension(SITE_STUDY_ID+"-001");
 		createdStudy = service.createStudyAbstract(request).getStudy();
 		assertNotNull(createdStudy);
 		
@@ -797,6 +799,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		doc.getDocumentIdentifier().add(createStudyPrimaryIdentifier());
 		doc.getDocumentIdentifier().add(createStudyProtocolAuthIdentifier());
 		doc.getDocumentIdentifier().add(createStudyFundingSponsorIdentifier());
+		doc.getDocumentIdentifier().add(createStudySystemIdentifier());
 		return doc;
 	}
 
@@ -824,6 +827,16 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		docId.setPrimaryIndicator(iso.BL(false));
 		docId.setTypeCode(iso.CD("PROTOCOL_AUTHORITY_IDENTIFIER"));
 		docId.setAssigningOrganization(createOrganization());
+		return docId;
+	}
+	
+	
+	protected DocumentIdentifier createStudySystemIdentifier() {
+		DocumentIdentifier docId = new DocumentIdentifier();
+		docId.setIdentifier(iso.II(STUDY_ID));
+		docId.setPrimaryIndicator(iso.BL(false));
+		docId.setTypeCode(iso.CD("C3PR_SYSTEM"));
+		docId.getTypeCode().setCodeSystemName("MAYO");
 		return docId;
 	}
 	

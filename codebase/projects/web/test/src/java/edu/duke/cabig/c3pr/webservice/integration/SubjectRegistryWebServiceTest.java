@@ -3,6 +3,11 @@
  */
 package edu.duke.cabig.c3pr.webservice.integration;
 
+import static edu.duke.cabig.c3pr.webservice.integration.ISO21090Helper.BL;
+import static edu.duke.cabig.c3pr.webservice.integration.ISO21090Helper.CD;
+import static edu.duke.cabig.c3pr.webservice.integration.ISO21090Helper.II;
+import static edu.duke.cabig.c3pr.webservice.integration.ISO21090Helper.IVLTSDateTime;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
@@ -125,13 +130,16 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String ORG_ID_TYPE_STUDYSUBJECT_MODIFIED = "STUDY_SUBJECT_IDENTIFIER";
 	protected static final String TEST_BIO_ID = "test_subject_id";
 	protected static final String TEST_BIO_ID_IMPORT = "test_subject_id_import";
-	protected static final Boolean TEST_BIO_ID_PRIMARYINDICATOR=true;
+	protected static final Boolean TEST_BIO_ID_PRIMARYINDICATOR=false;
 	protected static final String TEST_STUDYSUBJECT_ID = "002";
+	protected static final String TEST_STUDYSUBJECT_SYSTEM_ID = "005";
 	protected static final String TEST_STUDYSUBJECT_ID_MODIFIED = "003";
 	protected static final String TEST_STUDYSUBJECT_ID_IMPORT = "004";
-	protected static final Boolean TEST_STUDYSUBJECT_ID_PRIMARYINDICATOR=true;
+	protected static final Boolean TEST_STUDYSUBJECT_ID_PRIMARYINDICATOR=false;
+	protected static final Boolean TEST_STUDYSUBJECT_SYSTEM_ID_PRIMARYINDICATOR=true;
 	protected static final String TEST_STUDY_ID = "test_study_id";
-	protected static final Boolean TEST_STUDY_ID_PRIMARYINDICATOR=true;
+	protected static final String TEST_SYSTEM_STUDY_ID = "test_system_study_id";
+	protected static final Boolean TEST_STUDY_ID_PRIMARYINDICATOR=false;
 	protected static final String ORG_ID_TYPE_CTEP = "CTEP";
 	protected static final String TEST_ORG_ID = "MN026";
 	protected static final String TEST_CONSENT_DELIVERY_DATE1 = "20090101000000";
@@ -180,6 +188,9 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String TEST_OBJ_NAME = "edu.duke.cabig.c3pr.domain.Identifier";
 	protected static final String TEST_OBJ_CTX_NAME = "StudySubject";
 	protected static final String TEST_ATTRIBUTE_NAME = "value";
+	protected static final String SUBJECT_SYSTEM_ID = "baskjd89y34343a-123u9a";
+	protected static final String SYSTEM_NAME = "MAYO";
+	protected static final String SYSTEM_ID_TYPE = "SUBJECT_IDENTIFIER";
 	
 	private static final QName SERVICE_NAME = new QName(
 			"http://enterpriseservices.nci.nih.gov/SubjectRegistryService",
@@ -237,7 +248,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			executeUpdateStudySubjectConsentTest();
 			executeUpdateStudySubjectRegistryStatusTest();
 			executeUpdateStudySubjectRegistryStatusHistoryTest();
-			executeUpdatetudySubjectTest();
+			executeUpdateStudySubjectTest();
 			executeQuerySubjectRegistryTest();
 			executeUpdateStudySubjectDemographyTest();
 			executeRetrieveStudySubjectDemographyHistoryTest();
@@ -260,8 +271,8 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		// successful creation
 		final InitiateStudySubjectRegistryRequest request = new InitiateStudySubjectRegistryRequest();
 		request.setSiteIdentifier(createOrgId());
-		request.setStudyIdentifier(createDocumentId());
-		request.setSubjectIdentifier(createBioEntityId());
+		request.setStudyIdentifier(createSystemDocumentId());
+		request.setSubjectIdentifier(createBioEntitySystemId(true));
 		
 		StudySubject studySubject = createStudySubject();
 		request.setStudySubject(studySubject);
@@ -282,7 +293,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// successful creation
 		final UpdateStudySubjectConsentRequest request = new UpdateStudySubjectConsentRequest();
-		request.setStudySubjectIdentifier(createSubjectId());
+		request.setStudySubjectIdentifier(createSubjectSystemId());
 		
 		DSETStudySubjectConsentVersion dsetStudySubjectConsentVersion = new DSETStudySubjectConsentVersion();
 		dsetStudySubjectConsentVersion.getItem().addAll(getSubjectConsents());
@@ -306,7 +317,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// successful creation
 		final UpdateStudySubjectRegistryStatusRequest request = new UpdateStudySubjectRegistryStatusRequest();
-		request.setStudySubjectIdentifier(createSubjectId());
+		request.setStudySubjectIdentifier(createSubjectSystemId());
 		
 		request.setStudySubjectStatus(createStatus1());
 		JAXBContext context = JAXBContext.newInstance("edu.duke.cabig.c3pr.webservice.subjectregistry");
@@ -329,7 +340,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// successful creation
 		final UpdateStudySubjectRegistryStatusHistoryRequest request = new UpdateStudySubjectRegistryStatusHistoryRequest();
-		request.setStudySubjectIdentifier(createSubjectId());
+		request.setStudySubjectIdentifier(createSubjectSystemId());
 		
 		DSETPerformedStudySubjectMilestone dsetPerformedStudySubjectMilestone = new DSETPerformedStudySubjectMilestone();
 		dsetPerformedStudySubjectMilestone.getItem().add(createStatus2());
@@ -349,12 +360,12 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 	}
 	
-	protected void executeUpdatetudySubjectTest() throws SQLException, Exception {
+	protected void executeUpdateStudySubjectTest() throws SQLException, Exception {
 		SubjectRegistry service = getService();
 
 		// successful creation
 		final UpdateStudySubjectRegistryRequest request = new UpdateStudySubjectRegistryRequest();
-		request.setStudySubjectIdentifier(createSubjectId());
+		request.setStudySubjectIdentifier(createSubjectSystemId());
 		
 		StudySubject studySubject = createStudySubjectModified();
 		request.setStudySubject(studySubject);
@@ -401,7 +412,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// successful creation
 		final UpdateStudySubjectRegistryDemographyRequest request = new UpdateStudySubjectRegistryDemographyRequest();
-		request.setStudySubjectIdentifier(createSubjectIdModified());
+		request.setStudySubjectIdentifier(createSubjectSystemId());
 		
 		request.setPerson(createPersonModified());
 		
@@ -425,7 +436,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// successful creation
 		final RetrieveStudySubjectDemographyHistoryRequest request = new RetrieveStudySubjectDemographyHistoryRequest();
-		request.setPatientIdentifier(createBioEntityId());
+		request.setPatientIdentifier(createBioEntitySystemId(true));
 		
 		JAXBContext context = JAXBContext.newInstance("edu.duke.cabig.c3pr.webservice.subjectregistry");
 		Marshaller marshaller = context.createMarshaller();
@@ -445,7 +456,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// successful creation
 		final QueryStudySubjectRegistryStatusHistoryRequest request = new QueryStudySubjectRegistryStatusHistoryRequest();
-		request.setStudySubjectIdentifier(createSubjectIdModified());
+		request.setStudySubjectIdentifier(createSubjectSystemId());
 		
 		JAXBContext context = JAXBContext.newInstance("edu.duke.cabig.c3pr.webservice.subjectregistry");
 		Marshaller marshaller = context.createMarshaller();
@@ -542,7 +553,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		// successful creation
 		final QueryConsentsByStudySubjectRequest request = new QueryConsentsByStudySubjectRequest();
-		request.setStudySubjectIdentifier(createSubjectIdModified());
+		request.setStudySubjectIdentifier(createSubjectSystemId());
 		
 		JAXBContext context = JAXBContext.newInstance("edu.duke.cabig.c3pr.webservice.subjectregistry");
 		Marshaller marshaller = context.createMarshaller();
@@ -618,6 +629,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubject.setStatusCode(iso.CD(TEST_DATA_ENTRY_STATUS));
 		
 		studySubject.getSubjectIdentifier().add(createSubjectId());
+		studySubject.getSubjectIdentifier().add(createSubjectSystemId());
 		return studySubject;
 	}
 	
@@ -641,6 +653,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubject.setStatusCode(iso.CD(TEST_DATA_ENTRY_STATUS_MODIFIED));
 		
 		studySubject.getSubjectIdentifier().add(createSubjectIdModified());
+		studySubject.getSubjectIdentifier().add(createSubjectSystemId());
 		return studySubject;
 	}
 	
@@ -677,6 +690,20 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	/**
 	 * @return
 	 */
+	protected static BiologicEntityIdentifier createBioEntitySystemId(boolean isPrimary) {
+
+		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
+		bioId.setIdentifier(II(SUBJECT_SYSTEM_ID));
+		bioId.setTypeCode(CD(SYSTEM_ID_TYPE));
+		bioId.getTypeCode().setCodeSystemName(SYSTEM_NAME);
+		bioId.setEffectiveDateRange(IVLTSDateTime(NullFlavor.NI));
+		bioId.setPrimaryIndicator(isPrimary? BL(true):BL(false));
+		return bioId;
+	}
+	
+	/**
+	 * @return
+	 */
 	public static BiologicEntityIdentifier createBioEntityIdForImport() {
 		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
 		bioId.setAssigningOrganization(createOrganization());
@@ -703,12 +730,35 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	/**
 	 * @return
 	 */
+	public static BiologicEntityIdentifier createBioEntitySystemIdModified(boolean isPrimary) {
+		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
+		bioId.setIdentifier(II(SUBJECT_SYSTEM_ID));
+		bioId.setTypeCode(CD(SYSTEM_ID_TYPE));
+		bioId.getTypeCode().setCodeSystemName(SYSTEM_NAME);
+		bioId.setEffectiveDateRange(IVLTSDateTime(NullFlavor.NI));
+		bioId.setPrimaryIndicator(isPrimary? BL(true):BL(false));
+		return bioId;
+	}
+	
+	/**
+	 * @return
+	 */
 	public static DocumentIdentifier createDocumentId() {
 		DocumentIdentifier docId = new DocumentIdentifier();
 		docId.setAssigningOrganization(createOrganization());
 		docId.setIdentifier(iso.II(TEST_STUDY_ID));
 		docId.setTypeCode(iso.CD(ORG_ID_TYPE_STUDY));
 		docId.setPrimaryIndicator(iso.BL(TEST_STUDY_ID_PRIMARYINDICATOR));
+		return docId;
+	}
+	
+	
+	protected DocumentIdentifier createSystemDocumentId() {
+		DocumentIdentifier docId = new DocumentIdentifier();
+		docId.setIdentifier(iso.II(TEST_SYSTEM_STUDY_ID));
+		docId.setPrimaryIndicator(iso.BL(true));
+		docId.setTypeCode(iso.CD("C3PR_SYSTEM"));
+		docId.getTypeCode().setCodeSystemName("MAYO");
 		return docId;
 	}
 	
@@ -721,6 +771,18 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		subId.setIdentifier(iso.II(TEST_STUDYSUBJECT_ID));
 		subId.setTypeCode(iso.CD(ORG_ID_TYPE_STUDYSUBJECT));
 		subId.setPrimaryIndicator(iso.BL(TEST_STUDYSUBJECT_ID_PRIMARYINDICATOR));
+		return subId;
+	}
+	
+	/**
+	 * @return
+	 */
+	public static SubjectIdentifier createSubjectSystemId() {
+		SubjectIdentifier subId = new SubjectIdentifier();
+		subId.setIdentifier(iso.II(TEST_STUDYSUBJECT_SYSTEM_ID));
+		subId.setTypeCode(iso.CD("STUDY_SUBJECT_IDENTIFIER_TYPE"));
+		subId.getTypeCode().setCodeSystemName("C3PR_SYSTEM");
+		subId.setPrimaryIndicator(iso.BL(TEST_STUDYSUBJECT_SYSTEM_ID_PRIMARYINDICATOR));
 		return subId;
 	}
 	
@@ -853,6 +915,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubject.setStatusCode(iso.CD(TEST_DATA_ENTRY_STATUS));
 		
 		studySubject.getSubjectIdentifier().add(createSubjectId());
+		studySubject.getSubjectIdentifier().add(createSubjectSystemId());
 		
 		StudySubjectProtocolVersionRelationship studySubjectProtocolVersion = new StudySubjectProtocolVersionRelationship();
 		studySubject.setStudySubjectProtocolVersion(studySubjectProtocolVersion);
@@ -866,6 +929,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(iso.ST(TEST_DESC));
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setDocument(new Document());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createDocumentId());
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createSystemDocumentId());
 		
 		//setup studysite
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.common.StudySite());
@@ -882,6 +946,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubject.setStatusCode(iso.CD(TEST_DATA_ENTRY_STATUS_MODIFIED));
 		
 		studySubject.getSubjectIdentifier().add(createSubjectIdModified());
+		studySubject.getSubjectIdentifier().add(createSubjectSystemId());
 		
 		StudySubjectProtocolVersionRelationship studySubjectProtocolVersion = new StudySubjectProtocolVersionRelationship();
 		studySubject.setStudySubjectProtocolVersion(studySubjectProtocolVersion);
@@ -895,7 +960,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(iso.ST(TEST_DESC));
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setDocument(new Document());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createDocumentId());
-		
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createSystemDocumentId());
 		//setup studysite
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.common.StudySite());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().setOrganization(new Organization());
@@ -910,6 +975,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	public static Person createPerson() {
 		Person person = new Person();
 		person.getBiologicEntityIdentifier().add(createBioEntityId());
+		person.getBiologicEntityIdentifier().add(createBioEntitySystemId(true));
 		person.setAdministrativeGenderCode(iso.CD(GENDER_MALE));
 		person.setBirthDate(iso.TSDateTime(TEST_BIRTH_DATE_ISO));
 		person.setEthnicGroupCode(iso.DSETCD(iso.CD(ETHNIC_CODE_NOT_REPORTED)));
@@ -925,7 +991,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 				AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE,
 				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
 				AddressPartType.CNT))));
-		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(RACE_ASIAN)));
+		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE)));
 		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
 				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)));
 		return person;
@@ -937,6 +1003,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	public static Person createPersonModified() {
 		Person person = new Person();
 		person.getBiologicEntityIdentifier().add(createBioEntityIdModified());
+		person.getBiologicEntityIdentifier().add(createBioEntitySystemIdModified(true));
 		person.setAdministrativeGenderCode(iso.CD(GENDER_MALE_MODIFIED));
 		person.setBirthDate(iso.TSDateTime(TEST_BIRTH_DATE_ISO_MODIFIED));
 		person.setEthnicGroupCode(iso.DSETCD(iso.CD(ETHNIC_CODE_MODIFIED)));
@@ -953,7 +1020,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 				AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE_MODIFIED,
 				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY_MODIFIED,
 				AddressPartType.CNT))));
-		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE_MODIFIED), iso.CD(RACE_ASIAN_MODIFIED)));
+		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE_MODIFIED)));
 		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO_MODIFIED),
 				iso.TEL(TEST_PHONE_ISO_MODIFIED), iso.TEL(TEST_FAX_ISO_MODIFIED)));
 		return person;
@@ -980,7 +1047,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 				AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE,
 				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
 				AddressPartType.CNT))));
-		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE), iso.CD(RACE_ASIAN)));
+		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE)));
 		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
 				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)));
 		return person;
@@ -998,7 +1065,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(iso.ST(TEST_DESC));
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setDocument(new Document());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createDocumentId());
-		
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createSystemDocumentId());
 		//setup studysite
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.common.StudySite());
 		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().setOrganization(new Organization());
