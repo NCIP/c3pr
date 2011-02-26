@@ -242,7 +242,7 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 
 	@OneToMany(mappedBy="studyVersion")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@Where(clause = "retired_indicator  = 'false'")
+//	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy ("id")
 	public List<Consent> getConsentsInternal() {
 		return lazyListHelper.getInternalList(Consent.class);
