@@ -261,18 +261,18 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
                                         new Object[] {id});
     }
 
-    /**
+    /**TODO: Add the organization constraint to the hql query.
      * Search by PRIMARY identifier. Returns null if no participant is found.
      * 
      * @param id the id
      * @return the participant
-     */
     @SuppressWarnings("unchecked")
     public Participant searchByPrimaryIdentifier(String id) {
         return (Participant) getHibernateTemplate().find(
-                               "select P from Participant P, Identifier I where I.id=? and I.primaryIndicator='1' and I=any elements(P.identifiers)",
-                               new Object[] {id});
-    }
+               "select P from Participant P, Identifier I where I.id=? and I.primaryIndicator='1' and I=any elements(P.identifiers)",
+               new Object[] {id});
+    } 
+    */
     
     /**
      * Gets all Participants.

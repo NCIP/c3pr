@@ -42,12 +42,11 @@ public interface ParticipantRepository {
 	 */
 	public List<Participant> search(List<AdvancedSearchCriteriaParameter> searchParameters);
 	
-	/**
+	/**TODO: Uncomment after implementing participantDao.searchByPrimaryIdentifier()
 	 * Search by primary identifier.
 	 *
 	 * @param identifier the identifier
 	 * @return the participant
-	 */
 	public Participant searchByPrimaryIdentifier(Identifier identifier);
-    
+    */
 }

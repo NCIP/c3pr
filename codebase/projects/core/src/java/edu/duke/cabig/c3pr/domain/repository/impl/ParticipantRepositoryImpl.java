@@ -95,9 +95,10 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
 		return participantDao.searchByIdentifier(identifier, Participant.class);
 	}
 	
-	public Participant searchByPrimaryIdentifier(Identifier identifier) {
-		return participantDao.searchByPrimaryIdentifier(identifier.getValue());
-	}
+//	TODO: Un-comment after implementing participantDao.searchByPrimaryIdentifier()
+//	public Participant searchByPrimaryIdentifier(Identifier identifier) {
+//		return participantDao.searchByPrimaryIdentifier(identifier.getValue());
+//	}
 
 
 	/* (non-Javadoc)

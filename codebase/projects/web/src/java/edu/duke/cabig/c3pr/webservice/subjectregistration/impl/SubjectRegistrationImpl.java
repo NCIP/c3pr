@@ -21,17 +21,21 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.ConsentQuestion;
 import edu.duke.cabig.c3pr.domain.DiseaseHistory;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
@@ -519,12 +523,12 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 			handleInvalidStudySubjectData(exceptionHelper
 					.getConversionException(MISSING_SUBJECT_IDENTIFIER));
 		}
-		Participant participant = participantDao.searchByPrimaryIdentifier(converter.convertBiologicIdentifiers(identifiers).get(0).getValue());
-		if(participant == null){
+		List<Participant> participantList = participantDao.searchByIdentifier(new Integer(converter.convertBiologicIdentifiers(identifiers).get(0).getValue()).intValue());
+		if(participantList == null || participantList.size() == 0){
 			handleInvalidStudySubjectData(exceptionHelper
 					.getConversionException(SUBJECT_NOT_FOUND));
 		}
-		return participant;
+		return participantList.get(0);
 	}
 	
 	private Study getStudy(DocumentIdentifier docId) throws InvalidStudyProtocolExceptionFaultMessage{
@@ -678,12 +682,32 @@ public class SubjectRegistrationImpl implements SubjectRegistration {
 			}
 		}
 		
-		//plug in the subEligAns and subStrAns
+		//plug in the subEligAns and subStrAns from the study.
+		for(SubjectEligibilityAnswer sea: convertedScheduledEpoch.getSubjectEligibilityAnswers()){
+			for(EligibilityCriteria ec: legitimateEpoch.getEligibilityCriteria()){
+				if(ec.equals(sea.getEligibilityCriteria())){
+					sea.setEligibilityCriteria(ec);
+				}
+			}
+			if(sea.getEligibilityCriteria().getId() == null){
+				log.error("No existing EligibilityCriterion found.");
+				//throw appropriate exception
+			}
+		}
 		
+		for(SubjectStratificationAnswer ssa: convertedScheduledEpoch.getSubjectStratificationAnswers()){
+			for(StratificationCriterion sc: legitimateEpoch.getStratificationCriteria()){
+				if(sc.equals(ssa.getStratificationCriterion())){
+					ssa.setStratificationCriterion(sc);
+				}
+			}
+			if(ssa.getStratificationCriterion().getId() == null){
+				log.error("No existing StratificationCriterion found.");
+				//throw appropriate exception
+			}
+		}
 		
 		//Dont handle off-epoch.
-
-		
 		return convertedScheduledEpoch;
 	}
 	

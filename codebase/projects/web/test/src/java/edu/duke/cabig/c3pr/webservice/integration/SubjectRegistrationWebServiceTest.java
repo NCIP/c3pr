@@ -49,6 +49,8 @@ import edu.duke.cabig.c3pr.webservice.subjectregistration.DSETStudySubject;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.DefinedEligibilityCriterion;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.DefinedStratificationCriterion;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.DefinedStratificationCriterionPermissibleResult;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.EnrollSubjectNewRequest;
+import edu.duke.cabig.c3pr.webservice.subjectregistration.EnrollSubjectNewResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.Epoch;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.HealthcareProvider;
 import edu.duke.cabig.c3pr.webservice.subjectregistration.PerformedDiagnosis;
@@ -195,6 +197,8 @@ public class SubjectRegistrationWebServiceTest extends C3PREmbeddedTomcatTestBas
 	public void testSubjectRegistrationUtility() throws InterruptedException, IOException, Exception {
 
 		try {
+			//Incomplete implementation and testing on the enroll operation.
+			//executeEnrollStudySubjectTest();
 			executeQuerySubjectRegistrationTest();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
@@ -202,6 +206,66 @@ public class SubjectRegistrationWebServiceTest extends C3PREmbeddedTomcatTestBas
 		}
 	}
 
+	/* Incomplete implementation and testing on the enroll operation.
+	protected void executeEnrollStudySubjectTest() throws SQLException, Exception {
+		SubjectRegistration service = getService();
+
+		// successful creation
+		final EnrollSubjectNewRequest request = createEnrollSubjectNewRequest();
+		
+		JAXBContext context = JAXBContext.newInstance("edu.duke.cabig.c3pr.webservice.subjectregistration");
+		Marshaller marshaller = context.createMarshaller();
+		System.out.flush();
+		System.out.println();
+		EnrollSubjectNewResponse enrollSubjectNewResponse = service.enrollStudySubject(request);
+		assertNotNull(enrollSubjectNewResponse);
+		StudySubject expected = createExpectedStudySubject();
+		assertTrue(BeanUtils.deepCompare(expected, enrollSubjectNewResponse.getStudySubject()));
+	}
+	
+
+	private EnrollSubjectNewRequest createEnrollSubjectNewRequest() {
+		EnrollSubjectNewRequest request = new EnrollSubjectNewRequest();
+		edu.duke.cabig.c3pr.webservice.subjectregistration.StudySubject studySubject = new edu.duke.cabig.c3pr.webservice.subjectregistration.StudySubject();
+		studySubject.setEntity(createPerson());
+		studySubject.setPaymentMethodCode(iso.CD(TEST_PAYMENT_METHOD));
+		studySubject.setStatusCode(iso.CD(TEST_WORKFLOW_ENTRY_STATUS));
+		
+		studySubject.getSubjectIdentifier().add(createSubjectId());
+		
+		StudySubjectProtocolVersionRelationship studySubjectProtocolVersion = new StudySubjectProtocolVersionRelationship();
+		studySubject.setStudySubjectProtocolVersion(studySubjectProtocolVersion);
+		studySubjectProtocolVersion.setStudySiteProtocolVersion(new StudySiteProtocolVersionRelationship());
+		
+		//setup study
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudyProtocolVersion(new StudyProtocolVersion());
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().setStudyProtocolDocument(new StudyProtocolDocumentVersion());
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicTitle(iso.ST(TEST_LONGTITLE));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setOfficialTitle(iso.ST(TEST_SHORTTITLE));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setPublicDescription(iso.ST(TEST_DESC));
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().setDocument(new Document());
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createDocumentId());
+		
+		//setup studysite
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().setStudySite(new edu.duke.cabig.c3pr.webservice.common.StudySite());
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().setOrganization(new Organization());
+		studySubjectProtocolVersion.getStudySiteProtocolVersion().getStudySite().getOrganization().getOrganizationIdentifier().add(createOrgId());
+		
+		//setup consents
+		studySubjectProtocolVersion.getStudySubjectConsentVersion().addAll(getSubjectConsents());
+		
+		//setup scheduledepochs
+		studySubjectProtocolVersion.getScheduledEpoch().addAll(getScheduledEpochs());
+		
+		//setup disease history
+		studySubject.setDiseaseHistory(getDiseaseHistory());
+		
+		//setup treating physician
+		studySubject.setTreatingPhysician(getStudyInvestigator());
+		
+		request.setStudySubject(studySubject);
+		return request;
+	}*/
 
 	protected void executeQuerySubjectRegistrationTest() throws SQLException, Exception {
 		SubjectRegistration service = getService();

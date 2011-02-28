@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.DiseaseHistory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Investigator;
@@ -347,8 +348,7 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 	/**
 	 *  Converts the ScheduledEpoch stub to the domain object.
 	 */
-	public edu.duke.cabig.c3pr.domain.ScheduledEpoch convertScheduledEpoch(
-			ScheduledEpoch scheduledEpoch) {
+	public edu.duke.cabig.c3pr.domain.ScheduledEpoch convertScheduledEpoch(ScheduledEpoch scheduledEpoch) {
 		edu.duke.cabig.c3pr.domain.ScheduledEpoch covertedScheduledEpoch = new edu.duke.cabig.c3pr.domain.ScheduledEpoch();
 		
 		covertedScheduledEpoch.setStartDate(convertToDate(scheduledEpoch.getStartDate()));
@@ -413,12 +413,15 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		Iterator<Address> addIter = getAddresses(person).iterator();
 		convertedInvestigator.setAddress(addIter.next());
 		
-		if(studyInvestigator.getHealthcareProvider().getIdentifier().getNullFlavor().equals(NullFlavor.NI)){
+		if(studyInvestigator.getHealthcareProvider().getIdentifier().getNullFlavor() != null &&
+				studyInvestigator.getHealthcareProvider().getIdentifier().getNullFlavor().equals(NullFlavor.NI)){
 			convertedInvestigator.setAssignedIdentifier(null);
 		} else {
 			convertedInvestigator.setAssignedIdentifier(studyInvestigator.getHealthcareProvider().getIdentifier().getExtension());
 		}
-		
+		HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
+		healthcareSiteInvestigator.setInvestigator(convertedInvestigator);
+		convertedStudyInvestigator.setHealthcareSiteInvestigator(healthcareSiteInvestigator);
 		return convertedStudyInvestigator;
 	}
 
