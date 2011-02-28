@@ -26,6 +26,9 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
+import edu.duke.cabig.c3pr.webservice.integration.ISO21090Helper;
+import edu.duke.cabig.c3pr.webservice.integration.SOAPUtils;
+import edu.duke.cabig.c3pr.webservice.integration.SubjectRegistryWebServiceTest;
 import edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyAbstractRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityService;
@@ -319,9 +322,10 @@ public class SubjectRegistryMayoUseCaseIntegrationTest extends
 		doc.getDocumentIdentifier().add(createStudyPrimaryIdentifier());
 		doc.getDocumentIdentifier().add(createSiteIdentifier());
 		doc.getDocumentIdentifier().add(createStudyFundingSponsorIdentifier());
+		doc.getDocumentIdentifier().add(createSystemDocumentId());
 		return doc;
 	}
-
+	
 	protected DocumentIdentifier createStudyFundingSponsorIdentifier() {
 		DocumentIdentifier docId = new DocumentIdentifier();
 		docId.setIdentifier(iso.II(TEST_STUDY_ID));
@@ -356,6 +360,7 @@ public class SubjectRegistryMayoUseCaseIntegrationTest extends
 		studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createStudyPrimaryIdentifier());
 		studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createSiteIdentifier());
 		studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createStudyFundingSponsorIdentifier());
+		studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createSystemDocumentId());
 		return studySubject;
 	}
 	
@@ -366,6 +371,7 @@ public class SubjectRegistryMayoUseCaseIntegrationTest extends
 		studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createStudyPrimaryIdentifier());
 		studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createSiteIdentifier());
 		studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createStudyFundingSponsorIdentifier());
+		studySubject.getStudySubjectProtocolVersion().getStudySiteProtocolVersion().getStudyProtocolVersion().getStudyProtocolDocument().getDocument().getDocumentIdentifier().add(createSystemDocumentId());
 		return studySubject;
 	}
 	

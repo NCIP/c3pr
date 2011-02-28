@@ -397,6 +397,7 @@ public class SubjectRegistrationWebServiceTest extends C3PREmbeddedTomcatTestBas
 		studySubject.setPaymentMethodCode(iso.CD(TEST_PAYMENT_METHOD));
 		studySubject.setStatusCode(iso.CD(TEST_WORKFLOW_ENTRY_STATUS));
 		
+		studySubject.getSubjectIdentifier().add(createSubjectDummySystemId());
 		studySubject.getSubjectIdentifier().add(createSubjectId());
 		
 		StudySubjectProtocolVersionRelationship studySubjectProtocolVersion = new StudySubjectProtocolVersionRelationship();
@@ -574,4 +575,15 @@ public class SubjectRegistrationWebServiceTest extends C3PREmbeddedTomcatTestBas
 		return studyInvestigator;
 	}
 	
+	/**
+	 * @return
+	 */
+	public static SubjectIdentifier createSubjectDummySystemId() {
+		SubjectIdentifier subId = new SubjectIdentifier();
+		subId.setIdentifier(iso.II("dummy"));
+		subId.setTypeCode(iso.CD("local"));
+		subId.getTypeCode().setCodeSystemName("Dummy");
+		subId.setPrimaryIndicator(iso.BL(false));
+		return subId;
+	}
 }

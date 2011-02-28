@@ -16,6 +16,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -44,6 +45,7 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudySiteProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudySubjectProtocolVersionRelationship;
+import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
@@ -192,6 +194,9 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String SYSTEM_NAME = "MAYO";
 	protected static final String SYSTEM_ID_TYPE = "SUBJECT_IDENTIFIER";
 	
+	protected final String DEFAULT_SUBJECT_SYSTEM_ID_NAME = "C3PR";
+	protected static final String DEFAULT_SUBJECT_SYSTEM_ID_TYPE = "SUBJECT_IDENTIFIER";
+	
 	private static final QName SERVICE_NAME = new QName(
 			"http://enterpriseservices.nci.nih.gov/SubjectRegistryService",
 			"SubjectRegistryService");	
@@ -283,8 +288,15 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		System.out.println();
 		StudySubject createdStudySubject = service.initiateStudySubject(request).getStudySubject();
 		assertNotNull(createdStudySubject);
-
-		assertTrue(BeanUtils.deepCompare(createExpectedStudySubject(), createdStudySubject));
+		
+		StudySubject createdExpectedStudySubject = createExpectedStudySubject();
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(createdExpectedStudySubject.getEntity().getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( createdStudySubject.getEntity().getBiologicEntityIdentifier());
+		}
+		
+		assertTrue(BeanUtils.deepCompare(createdExpectedStudySubject, createdStudySubject));
 
 	}
 
@@ -308,6 +320,13 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 
 		StudySubject expected = createExpectedStudySubject();
 		expected.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().addAll(getSubjectConsents());
+		
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(expected.getEntity().getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( createdStudySubject.getEntity().getBiologicEntityIdentifier());
+		}
+		
 		assertTrue(BeanUtils.deepCompare(expected, createdStudySubject));
 
 	}
@@ -331,6 +350,13 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		StudySubject expected = createExpectedStudySubject();
 		expected.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().addAll(getSubjectConsents());
 		expected.getStudySubjectStatus().add(createStatus1());
+		
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(expected.getEntity().getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( createdStudySubject.getEntity().getBiologicEntityIdentifier());
+		}
+		
 		assertTrue(BeanUtils.deepCompare(expected, createdStudySubject));
 
 	}
@@ -356,6 +382,11 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		StudySubject expected = createExpectedStudySubject();
 		expected.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().addAll(getSubjectConsents());
 		expected.getStudySubjectStatus().add(createStatus2());
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(expected.getEntity().getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( createdStudySubject.getEntity().getBiologicEntityIdentifier());
+		}
 		assertTrue(BeanUtils.deepCompare(expected, createdStudySubject));
 
 	}
@@ -379,6 +410,11 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		StudySubject expected = createStudySubjectJAXBObjectModified();
 		expected.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().addAll(getSubjectConsents());
 		expected.getStudySubjectStatus().add(createStatus2());
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(expected.getEntity().getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( createdStudySubject.getEntity().getBiologicEntityIdentifier());
+		}
 		assertTrue(BeanUtils.deepCompare(expected, createdStudySubject));
 
 	}
@@ -403,6 +439,12 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		StudySubject expected = createStudySubjectJAXBObjectModified();
 		expected.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().addAll(getSubjectConsents());
 		expected.getStudySubjectStatus().add(createStatus2());
+		
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(expected.getEntity().getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( studySubjects.getItem().get(0).getEntity().getBiologicEntityIdentifier());
+		}
 		assertTrue(BeanUtils.deepCompare(expected, studySubjects.getItem().get(0)));
 
 	}
@@ -427,6 +469,13 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		expected.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().addAll(getSubjectConsents());
 		expected.getStudySubjectStatus().add(createStatus2());
 		expected.setEntity(createPersonModified());
+		
+		
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(expected.getEntity().getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( createdStudySubject.getEntity().getBiologicEntityIdentifier());
+		}
 		assertTrue(BeanUtils.deepCompare(expected, createdStudySubject));
 
 	}
@@ -447,6 +496,12 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		assertNotNull(subjectDemographies);
 		assertEquals(1, subjectDemographies.getItem().size());
 		Person expected = createPersonModified();
+		
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(expected.getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( subjectDemographies.getItem().get(0).getBiologicEntityIdentifier());
+		}
 		assertTrue(BeanUtils.deepCompare(expected, subjectDemographies.getItem().get(0)));
 
 	}
@@ -491,6 +546,13 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		expected.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().addAll(getSubjectConsents());
 		expected.getStudySubjectStatus().add(createStatus2());
 		expected.setEntity(createPersonModified());
+		
+
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(expected.getEntity().getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( studySubjects.getItem().get(0).getEntity().getBiologicEntityIdentifier());
+		}
 		assertTrue(BeanUtils.deepCompare(expected, studySubjects.getItem().get(0)));
 		
 		request.setRegistryStatus(createStatus1());
@@ -523,6 +585,12 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		expected.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().addAll(getSubjectConsents());
 		expected.getStudySubjectStatus().add(createStatus2());
 		expected.setEntity(createPersonModified());
+		
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(expected.getEntity().getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( studySubjects.getItem().get(0).getEntity().getBiologicEntityIdentifier());
+		}
 		assertTrue(BeanUtils.deepCompare(expected, studySubjects.getItem().get(0)));
 		
 		consent = new Consent();
@@ -537,6 +605,12 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		expected.getStudySubjectProtocolVersion().getStudySubjectConsentVersion().addAll(getSubjectConsents());
 		expected.getStudySubjectStatus().add(createStatus2());
 		expected.setEntity(createPersonModified());
+		
+		// If the default c3pr generated system identifier is sent in the request, there is no need to strip it from the created subject
+		//system identifiers in response, otherwise we need to remove the default system identifier from response before doing deep compare.
+		if(!ifC3PRDefaultSystemIdentifierSent(expected.getEntity().getBiologicEntityIdentifier())){
+			stripC3PRDefaultSystemIdentifier( studySubjects.getItem().get(0).getEntity().getBiologicEntityIdentifier());
+		}
 		assertTrue(BeanUtils.deepCompare(expected, studySubjects.getItem().get(0)));
 		
 		consent = new Consent();
@@ -1073,6 +1147,27 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		
 		studySubjectProtocolVersion.getStudySubjectConsentVersion().addAll(getSubjectConsents());
 		return studySubjectProtocolVersion;
+	}
+	
+	private boolean ifC3PRDefaultSystemIdentifierSent(List<BiologicEntityIdentifier> bioIdentifiers){
+		for(BiologicEntityIdentifier bioIdentifier:bioIdentifiers){
+			if(bioIdentifier.getTypeCode().getCodeSystemName() != null && bioIdentifier.getTypeCode().getCodeSystemName().equals(DEFAULT_SUBJECT_SYSTEM_ID_NAME) 
+					&& bioIdentifier.getTypeCode().equals(DEFAULT_SUBJECT_SYSTEM_ID_TYPE)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private void stripC3PRDefaultSystemIdentifier(List<BiologicEntityIdentifier> bioIdentifiers){
+		for(Iterator<BiologicEntityIdentifier> bioIdIterator = bioIdentifiers.iterator();bioIdIterator.hasNext();){
+			BiologicEntityIdentifier bioId = bioIdIterator.next();
+			if(bioId.getTypeCode().getCodeSystemName() != null && bioId.getTypeCode().getCodeSystemName().equals(DEFAULT_SUBJECT_SYSTEM_ID_NAME) 
+					&& bioId.getTypeCode().getCode().equals(DEFAULT_SUBJECT_SYSTEM_ID_TYPE)){
+				bioIdIterator.remove();
+			}
+		}
 	}
 
 }
