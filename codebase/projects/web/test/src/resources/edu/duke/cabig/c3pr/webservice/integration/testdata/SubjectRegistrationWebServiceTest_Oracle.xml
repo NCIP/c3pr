@@ -145,7 +145,7 @@
   <CONTACT_MECHANISMS id="1006" version="1" inv_id="1000" type="EMAIL" value="test@mail.com" dtype="Local"/>
   <contact_use_assocns />
   
-  <IDENTIFIERS id="-1000" version="1" value="dummy" type="local" dtype="SAI" stu_id="-1000" hcs_id="-1000" org_id="-1000" stu_sub_dmgphcs_id="-1000" prt_id="-1000" spa_id="1000" retired_indicator="false" primary_indicator="0"/>
+  <IDENTIFIERS id="-1000" version="1" value="dummy" type="local" dtype="SAI" stu_id="-1000" hcs_id="-1000" org_id="-1000" stu_sub_dmgphcs_id="-1000" prt_id="-1000" spa_id="1000" system_name="Dummy" retired_indicator="false" primary_indicator="0"/>
   <IDENTIFIERS id="1000" version="1" value="MN026" type="CTEP" dtype="OAI" hcs_id="-1000" org_id="1000" retired_indicator="false" primary_indicator="1"/>
   <IDENTIFIERS id="1001" version="1" value="test_study_id" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" stu_id="1000" hcs_id="1000" retired_indicator="false" primary_indicator="1"/>
   <IDENTIFIERS id="1002" version="1" value="test_subject_id" type="MRN" dtype="OAI" hcs_id="1000" prt_id="1000" retired_indicator="false" primary_indicator="1"/>
