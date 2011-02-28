@@ -1231,6 +1231,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	@OneToMany
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "study_id", nullable=false)
+	@Where(clause = "retired_indicator  = 'false'")
 	public List<PermissibleStudySubjectRegistryStatus> getPermissibleStudySubjectRegistryStatusesInternal() {
 		return lazyListHelper.getInternalList(PermissibleStudySubjectRegistryStatus.class);
 	}

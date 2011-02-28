@@ -229,7 +229,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		request.setStudyIdentifier(studyId);
 		List<PermissibleStudySubjectRegistryStatus> list = service
 				.queryStudyRegistryStatus(request).getStatuses().getItem();
-		assertEquals(2, list.size());
+		assertEquals(1, list.size());
 		assertEquals(STATUS_ACTIVE, list.get(0).getRegistryStatus().getCode()
 				.getCode());
 
@@ -297,6 +297,15 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		status.getRegistryStatus().getCode().setCode(STATUS_INACTIVE);
 		request.setStatus(status);
 		request.setUpdateMode(UpdateMode.U);
+		updatedStatus = service
+				.updateStudyStatus(request).getStatus();
+		assertEquals(STATUS_INACTIVE, updatedStatus.getRegistryStatus()
+				.getCode().getCode());
+		assertEquals(TEST_SECONDARY_REASON_CODE, updatedStatus.getSecondaryReason().get(0).getCode().getCode());
+		assertEquals(TEST_SECONDARY_REASON_DESCR, updatedStatus.getSecondaryReason().get(0).getDescription().getValue());
+		
+		// successful delete
+		request.setUpdateMode(UpdateMode.D);
 		updatedStatus = service
 				.updateStudyStatus(request).getStatus();
 		assertEquals(STATUS_INACTIVE, updatedStatus.getRegistryStatus()
