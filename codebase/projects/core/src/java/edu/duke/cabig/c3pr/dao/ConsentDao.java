@@ -24,6 +24,7 @@ public class ConsentDao extends GridIdentifiableDao<Consent> implements
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Consent> searchByExampleAndStudy(Consent consent, Study study) {
 		Example example = Example.create(consent).excludeZeroes().ignoreCase();
 		example.enableLike(MatchMode.ANYWHERE);
