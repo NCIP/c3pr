@@ -71,6 +71,7 @@
   <ADDRESSES id="1002" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" participant_id="1001"/>
   <ADDRESSES id="1001" version="1" street_address="Mayo" city="Mayo" state_code="MN" postal_code="20191" country_code="USA"  retired_indicator = "false"/>
   <ADDRESSES id="-1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
+   <ADDRESSES id="1003" version="1" street_address="111 City Avenue" city="Herndon" state_code="VA" postal_code="20170" country_code="US"  retired_indicator = "false" participant_id="1000"/>
   <address_use_assocns />
   
   <ORGANIZATIONS id="-1000" version="1" name="dummy" description_text="dummy" dtype="Local" retired_indicator="false" address_id="-1000"/>
