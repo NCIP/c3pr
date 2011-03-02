@@ -11,8 +11,24 @@
     
     <CONSENT_QUESTIONS id="1000" version="0" code="abc" text="Are you willing to participate in tissue collection" con_id="1000" retired_indicator="false" />
    
-    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
-    <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" />
+   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" />
+    <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" />
+    <PARTICIPANTS id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" /> 
+   	<PARTICIPANTS id="1010" version="1" first_name="Ru" last_name="Clo" birth_date="2000-01-01" administrative_gender_code="M" retired_indicator = "false" />       
+   
+    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" retired_indicator="false" />
+    <stu_sub_demographics id="1001" version="1" first_name="Romeo" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" retired_indicator="false" />
+    <stu_sub_demographics id="1002" version="1" first_name="Monish" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" retired_indicator="false" /> 
+   	<stu_sub_demographics id="1003" version="1" first_name="Tez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" retired_indicator="false" />
+   	<stu_sub_demographics id="1004" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" retired_indicator="false" />
+   	<stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" retired_indicator="false" />       
+    
+    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" stu_sub_demographics_id="1000"/>
+    <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" stu_sub_demographics_id="1002"/>
+    <ADDRESSES id="1002" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" stu_sub_demographics_id="1001"/>
+    <ADDRESSES id="1003" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" stu_sub_demographics_id="1003"/>
+    <ADDRESSES id="1004" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" stu_sub_demographics_id="1004"/>
+    <ADDRESSES id="1005" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" stu_sub_demographics_id="1005"/>
   
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1000" retired_indicator = "false" />
     <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1001" retired_indicator = "false" />  
@@ -117,11 +133,6 @@
     
     <BOOK_RNDM_ENTRY id="1100" version="1" position="1" str_grp_id="1100" arms_id="1007" rndm_id="1100" />             
               
-   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" />
-    <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" />
-    <PARTICIPANTS id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" /> 
-   	<PARTICIPANTS id="1010" version="1" first_name="Ru" last_name="Clo" birth_date="2000-01-01" administrative_gender_code="M" retired_indicator = "false" />       
-	
 	<prt_org_associations  version="1" prt_id="1000" org_id="1000"  retired_indicator = "false"/>
    	<prt_org_associations  version="1" prt_id="1001" org_id="1000"  retired_indicator = "false"/>
    	<prt_org_associations  version="1" prt_id="1002" org_id="1000"  retired_indicator = "false"/>
@@ -131,13 +142,6 @@
 
     <DISEASE_HISTORY id="1000" version="1" icd9_disease_site_id="1000" retired_indicator = "false" study_disease_id="1000" />
     
-    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
-    <stu_sub_demographics id="1001" version="1" first_name="Romeo" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
-    <stu_sub_demographics id="1002" version="1" first_name="Monish" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" /> 
-   	<stu_sub_demographics id="1003" version="1" first_name="Tez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />
-   	<stu_sub_demographics id="1004" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />
-   	<stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />       
-
 	<race_code_assocn retired_indicator="false"  id="1000"  version="1"  sub_id="1000" race_code="White" stu_sub_dmgphcs_id="1005"/>
 	<race_code_assocn retired_indicator="false"  id="1001"  version="1"  sub_id="1001" race_code="White" />
 	<race_code_assocn retired_indicator="false"  id="1002"  version="1"  sub_id="1002" race_code="Native_Hawaiian_or_Pacific_Islander" />

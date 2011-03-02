@@ -16,8 +16,13 @@
     <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="2000-01-01" administrative_gender_code="M" retired_indicator = "false" />
     <PARTICIPANTS id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M" retired_indicator = "false" /> 
     
-    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
-    <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" />    
+    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" retired_indicator="false" />
+    <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" retired_indicator="false" />
+    <stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" retired_indicator="false" />       
+   
+    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" stu_sub_demographics_id="1000"/>
+    <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" stu_sub_demographics_id="1001"/>    
+    <ADDRESSES id="1002" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" stu_sub_demographics_id="1005"/>    
   
     <ENDPOINT_PROPS id="1000" version="1" url="http://xyz.com" end_point_type="GRID"/>
   
@@ -45,10 +50,6 @@
     <IDENTIFIERS id="1001" version="1" value="grid" type="COORDINATING_CENTER_IDENTIFIER" system_name="wake" dtype="SAI" stu_id="1000" retired_indicator = "false" />
     <IDENTIFIERS id="1002" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000" primary_indicator="1"/>
     <IDENTIFIERS id="1003" version="1" value="code1" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001" primary_indicator="1"/>
-    
-    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1000"  retired_indicator="false" />
-    <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" add_id="1001"  retired_indicator="false" />
-    <stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />       
     
     <race_code_assocn retired_indicator="false"  id="1000"  version="1"  sub_id="1000" race_code="White" stu_sub_dmgphcs_id="1005"/>
 	<race_code_assocn retired_indicator="false"  id="1001"  version="1"  sub_id="1001" race_code="White" />

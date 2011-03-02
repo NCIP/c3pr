@@ -9,6 +9,9 @@
    	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M" grid_id="AAAAA11111GridID"/>
    	<PARTICIPANTS id="1100" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M" grid_id="OTHERGRIDID"/>   	
     
+    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1100" retired_indicator="false" />
+    <stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" retired_indicator="false" />       
+    
 	<ADDRESSES id="1100" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
   
     <ORGANIZATIONS id="1100" version="1" name="duke healthcare" description_text="duke healthcare" dtype="Local" address_id="1100" />
@@ -61,9 +64,6 @@
     <icd9_disease_sites id="1100" version="0" name="Skin" code="200" description_text="skin" depth="LEVEL2" selectable="0"  />    
 
     <DISEASE_HISTORY id="1100" version="1" icd9_disease_site_id="1100" retired_indicator = "false" />
-    
-    <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1100" add_id="1001"  retired_indicator="false" />
-    <stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" add_id="1001"  retired_indicator="false" />       
     
    <race_code_assocn retired_indicator="false"   id="1000" version="1"  sub_id="1000" race_code="White" stu_sub_dmgphcs_id="1005"/>
 	<race_code_assocn retired_indicator="false"   id="1001" version="1"  sub_id="1100" race_code="White" />

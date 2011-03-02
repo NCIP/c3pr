@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -36,31 +38,87 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "stu_sub_demographics_id_seq") })
 public class StudySubjectDemographics extends PersonBase implements Customizable,IdentifiableObject{
 	
-	@Transient
-	public Address getAddress() {
-		if (this.address == null) {
-	            this.address = new Address();
-	        }
-		return address;
+	
+	@OneToMany(fetch=FetchType.EAGER)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "stu_sub_demographics_id")
+	@OrderBy("id")
+	public Set<Address> getAddresses() {
+		if (this.address!=null && !this.address.isBlank() && !addresses.contains(this.address)) {
+			addresses.add(this.address);
+		}
+		return addresses;
 	}
 
+	/**
+	 * <b>Avoid calling this method directly from your code because it might
+	 * lead to problems with Hibernate upon saving due to usage of
+	 * CascadeType.DELETE_ORPHAN in {@link #getAddresses()}. See <a
+	 * href="http://www.sleberknight.com/blog/sleberkn/entry/20070329"
+	 * >http://www.sleberknight.com/blog/sleberkn/entry/20070329</a>. </b> <br>
+	 * <br>
+	 * Use {@link #replaceAddresses(Set)} instead.
+	 * 
+	 * @param addresses
+	 */
+	public void setAddresses(Set<Address> addresses) {
+		this.addresses = addresses;
+	}
+	
+	/**
+	 * Erases all current addresses and inserts new ones. 
+	 * @param addresses
+	 */
+	public void replaceAddresses(Set<Address> addresses) {
+		this.addresses.clear();
+		this.addresses.addAll(addresses);
+	}
+	
+	public void addAddress(Address newAddress){
+		getAddresses().add(newAddress);
+	}
+	
+	// The following set of methods is kept for backward compatibility only.
+	// See http://jira.semanticbits.com/browse/CPR-2098.
+	// Methods will be removed eventually.
+	// -- dkrylov
+
+	@Transient
+	@Deprecated
+	public Address getAddress() {
+		if (this.address == null) {
+			if (CollectionUtils.isNotEmpty(addresses)) {
+				this.address = addresses.iterator().next();
+			} else {			
+				this.address = new Address();
+			}
+		}
+		return this.address;
+	}
+
+	@Transient
+	@Deprecated
+	public Address getAddressInternal() {
+
+		if (this.getAddress().isBlank())
+			return null;
+		return this.address;
+
+	}
+	
+	@Transient
+	@Deprecated
+	public void setAddressInternal(Address address) {
+		this.address = address;
+	}
+
+	@Transient
+	@Deprecated	
 	public void setAddress(Address address) {
 		this.address = address;
 	}
 	
-	@OneToOne
-    @Cascade(value = { CascadeType.ALL })
-    @JoinColumn(name = "add_id", nullable = true)
-    public Address getAddressInternal() {
-
-        if (this.getAddress().isBlank()) return null;
-        return this.address;
-
-    }
-    
-    public void setAddressInternal(Address address){
-    	this.address = address;
-    }
+    private Set<Address> addresses = new HashSet<Address>();
 
 	private Address address;
 

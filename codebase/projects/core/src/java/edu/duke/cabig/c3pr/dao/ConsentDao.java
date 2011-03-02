@@ -27,7 +27,8 @@ public class ConsentDao extends GridIdentifiableDao<Consent> implements
 	public List<Consent> searchByExampleAndStudy(Consent consent, Study study) {
 		Example example = Example.create(consent).excludeZeroes().ignoreCase();
 		example.enableLike(MatchMode.ANYWHERE);
-		Criteria criteria = getSession().createCriteria(Consent.class);
+		Criteria criteria = getSession().createCriteria(Consent.class).add(Restrictions.eq("versionId", consent.getVersionId()));
+		
 		criteria.add(example);
 		criteria.createCriteria("studyVersion.study").add(
 				Restrictions.eq("id", study.getId()));

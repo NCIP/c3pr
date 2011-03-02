@@ -109,6 +109,9 @@ public class StudyDaoTest extends DaoTestCase {
     private RegistryStatusDao registryStatusDao;
     
     private ReasonDao reasonDao;
+    
+    
+    private ConsentDao consentDao;
 
     StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
 
@@ -131,6 +134,8 @@ public class StudyDaoTest extends DaoTestCase {
     	.getBean("registryStatusDao");
         reasonDao = (ReasonDao) getApplicationContext()
     	.getBean("reasonDao");
+        consentDao = (ConsentDao) getApplicationContext()
+    	.getBean("consentDao");
         xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean(
                         "c3pr-study-xml-castorMapping"));
     }
@@ -2302,7 +2307,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("1 studies not found", 1,  studies.size());
+		assertEquals("wrong number of studies found", 2,  studies.size());
 	}
     
     public void testGetResultSetWithConsentMethod() throws Exception {
@@ -2324,7 +2329,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("1 studies not found", 1,  studies.size());
+		assertEquals("wrong number of studies found", 2,  studies.size());
 	}
     
     public void testGetResultSetWithConsentVersionId() throws Exception {
@@ -2651,6 +2656,26 @@ public class StudyDaoTest extends DaoTestCase {
 			List<Study> studies = dao.search(criteriaParameters);
 			assertEquals("Unexpected number of studies", 1,  studies.size());
 		}
+	 
+	 public void testGetConsents() throws Exception{
+		 Study study = dao.getById(1001);
+		 List<Consent> consents = study.getConsents();
+		 assertEquals("wrong number of consents",2,consents.size());
+	 }
+	 
+	 
+	 public void testGetConsentsUsingSearchByExample() throws Exception{
+		 Study study = dao.getById(1001);
+		 Consent consent = new Consent();
+		 consent.setName("consent 1");
+		 consent.setVersionId("0.0");
+		 consent.setMandatoryIndicator(true);
+		 List<ConsentingMethod> consentingMethods = new ArrayList<ConsentingMethod>();
+		 consentingMethods.add(ConsentingMethod.VERBAL);
+		 consent.setConsentingMethods(consentingMethods);
+		 List<Consent> consents = consentDao.searchByExampleAndStudy(consent, study);
+		 assertEquals("wrong number of consents",1,consents.size());
+	 }
 	
 }
 

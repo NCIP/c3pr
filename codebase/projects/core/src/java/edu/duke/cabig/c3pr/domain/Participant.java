@@ -670,20 +670,22 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 		
 		studySubjectDemographics.setBirthDate(this.getBirthDate());
 		
-		// copy address
+		// copy addresses
 		
-		Address addressCopy = new Address();
-		addressCopy.setStreetAddress(this.getAddress().getStreetAddress());
-		addressCopy.setCity(this.getAddress().getCity());
-		addressCopy.setStateCode(this.getAddress().getStateCode());
-		addressCopy.setCountryCode(this.getAddress().getCountryCode());
-		addressCopy.setPostalCode(this.getAddress().getPostalCode());
-		if(CollectionUtils.isNotEmpty(this.getAddress().getAddressUseAssociation())){
-			for(AddressUse use : this.getAddress().getAddressUses()){
-				addressCopy.getAddressUseAssociation().add(new AddressUseAssociation(use));
+		for(Address participantAddress:getAddresses()){
+			Address addressCopy = new Address();
+			addressCopy.setStreetAddress(participantAddress.getStreetAddress());
+			addressCopy.setCity(participantAddress.getCity());
+			addressCopy.setStateCode(participantAddress.getStateCode());
+			addressCopy.setCountryCode(participantAddress.getCountryCode());
+			addressCopy.setPostalCode(participantAddress.getPostalCode());
+			if(CollectionUtils.isNotEmpty(participantAddress.getAddressUseAssociation())){
+				for(AddressUse use : participantAddress.getAddressUses()){
+					addressCopy.getAddressUseAssociation().add(new AddressUseAssociation(use));
+				}
 			}
+			studySubjectDemographics.addAddress(addressCopy);
 		}
-		studySubjectDemographics.setAddress(addressCopy);
 		
 		// copy contact mechanisms
 		
