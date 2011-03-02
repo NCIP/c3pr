@@ -308,10 +308,11 @@
 				</association>
 				<association>
 					<name>edu.duke.cabig.c3pr.domain.Address</name>
-					<role-name>addressInternal</role-name>
+					<role-name>addresses</role-name>
+					<table-name>addresses</table-name>
 					<table-alias>Address_xx</table-alias>
-					<joining-condition>StudySubjectDemographics_xx.addressInternal =
-						Address_xx</joining-condition>
+					<joining-condition>Address_xx = any elements(StudySubjectDemographics_xx.addresses)
+					</joining-condition>
 				</association>
 			</association-context>
 		</dependent-object>
