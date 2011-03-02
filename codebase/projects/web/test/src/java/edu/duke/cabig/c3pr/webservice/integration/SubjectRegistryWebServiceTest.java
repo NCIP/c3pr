@@ -93,6 +93,11 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String TEST_STATE_CODE_MODIFIED = "PA";
 	protected static final String TEST_CITY_NAME_MODIFIED = "Reston";
 	protected static final String TEST_STREET_ADDRESS_MODIFIED = "13921 Park Center Rd STE 420";
+	protected static final String TEST_COUNTRY_2 = "US";
+	protected static final String TEST_ZIP_CODE_2 = "20170";
+	protected static final String TEST_STATE_CODE_2 = "VA";
+	protected static final String TEST_CITY_NAME_2 = "Herndon";
+	protected static final String TEST_STREET_ADDRESS_2 = "111 City Avenue";
 	protected static final String TEST_LAST_NAME_MODIFIED = "Davis";
 	protected static final String TEST_MID_NAME_MODIFIED = "M";
 	protected static final String TEST_FIRST_NAME_MODIFIED = "Geena";
@@ -1065,6 +1070,12 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 				AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE,
 				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY,
 				AddressPartType.CNT))));
+		person.getPostalAddress().getItem().add(iso.AD(iso.ADXP(TEST_STREET_ADDRESS_2,
+				AddressPartType.SAL), iso.ADXP(TEST_CITY_NAME_2,
+						AddressPartType.CTY), iso.ADXP(TEST_STATE_CODE_2,
+						AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE_2,
+						AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY_2,
+						AddressPartType.CNT)));
 		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE)));
 		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO),
 				iso.TEL(TEST_PHONE_ISO), iso.TEL(TEST_FAX_ISO)));
@@ -1094,6 +1105,12 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 				AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE_MODIFIED,
 				AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY_MODIFIED,
 				AddressPartType.CNT))));
+		person.getPostalAddress().getItem().add(iso.AD(iso.ADXP(TEST_STREET_ADDRESS_2,
+				AddressPartType.SAL), iso.ADXP(TEST_CITY_NAME_2,
+						AddressPartType.CTY), iso.ADXP(TEST_STATE_CODE_2,
+						AddressPartType.STA), iso.ADXP(TEST_ZIP_CODE_2,
+						AddressPartType.ZIP), iso.ADXP(TEST_COUNTRY_2,
+						AddressPartType.CNT)));
 		person.setRaceCode(iso.DSETCD(iso.CD(RACE_WHITE_MODIFIED)));
 		person.setTelecomAddress(iso.BAGTEL(iso.TEL(TEST_EMAIL_ADDR_ISO_MODIFIED),
 				iso.TEL(TEST_PHONE_ISO_MODIFIED), iso.TEL(TEST_FAX_ISO_MODIFIED)));

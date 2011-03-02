@@ -339,7 +339,7 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 							studySubjectDemographics.getMaritalStatusCode())
 							: CD(NullFlavor.NI));
 			person.setName(getName(studySubjectDemographics));
-			person.setPostalAddress(getPostalAddress(Arrays.asList(studySubjectDemographics.getAddress())));
+			person.setPostalAddress(getPostalAddress(studySubjectDemographics.getAddresses()));
 			person.setRaceCode(getRaceCodes(studySubjectDemographics));
 			person.setTelecomAddress(getTelecomAddress(studySubjectDemographics));
 		}
@@ -368,7 +368,7 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 				studySubjectDemographics.setNamePrefix(getNamePrefix(person));
 				studySubjectDemographics.setNameSuffix(getNameSuffix(person));
 				studySubjectDemographics.setMaidenName(StringUtils.EMPTY);
-				studySubjectDemographics.setAddress((Address)getAddresses(person).toArray()[0]);
+				studySubjectDemographics.replaceAddresses(getAddresses(person));
 				studySubjectDemographics.setRaceCodes(getRaceCodes(person));
 				updateContactMechanism(studySubjectDemographics, person);
 			} catch (IllegalArgumentException e) {
