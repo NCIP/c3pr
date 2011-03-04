@@ -476,7 +476,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 		secondaryReasons
 				.add(new edu.duke.cabig.c3pr.domain.RegistryStatusReason(
 						TEST_SECONDARY_REASON_CODE,
-						TEST_SECONDARY_REASON_DESCR, null, false));
+						TEST_SECONDARY_REASON_DESCR, registryStatus.getPrimaryReasons().get(0), false));
 		status.setSecondaryReasons(secondaryReasons);
 		study.getPermissibleStudySubjectRegistryStatusesInternal().add(status);
 
@@ -557,6 +557,7 @@ public class WebServiceRelatedTestCase extends TestCase  {
 		PermissibleStudySubjectRegistryStatus stat = new PermissibleStudySubjectRegistryStatus();
 		stat.setRegistryStatus(createRegistryStatus());
 		stat.getSecondaryReason().add(createSecondaryRegistryStatusReason());
+		stat.getSecondaryReason().get(0).setPrimaryReason(stat.getRegistryStatus().getPrimaryReason().get(0));
 		return stat;
 	}
 
