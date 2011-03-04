@@ -4,9 +4,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 // TODO: Auto-generated Javadoc
-/**
- * The Class OrganizationAssignedIdentifier.
- */
 @Entity
 @DiscriminatorValue("REGISTRY_STATUS")
 public class RegistryStatusReason extends Reason {
