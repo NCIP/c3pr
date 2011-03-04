@@ -52,7 +52,11 @@
   
   <STUDY_VERSIONS  original_indicator="1" amendment_type="IMMEDIATE_AFTER_GRACE_PERIOD" id="1000" version="0" study_id="1000" long_title_text="long_title" name="1.0" version_date="2010-01-01" short_title_text="short_title_text" description_text="description"  retired_indicator = "false"/>
   
-  <ADDRESSES id="1000" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" participant_id="1000"/>
+  <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" prt_id="1000" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  <stu_sub_demographics id="-1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" prt_id="1000" marital_status_code="Single" middle_name="Z" retired_indicator="false"/>
+  
+  
+  <ADDRESSES id="1000" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" participant_id="1000" stu_sub_demographics_id="1000"/>
   <ADDRESSES id="1002" version="1" street_address="1029 N Stuart St Unit 999" city="Arlington" state_code="VA" postal_code="22203-5555" country_code="USA"  retired_indicator = "false" participant_id="-1000"/>
   <ADDRESSES id="1001" version="1" street_address="Mayo" city="Mayo" state_code="MN" postal_code="20191" country_code="USA"  retired_indicator = "false"/>
   <ADDRESSES id="-1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
@@ -106,9 +110,6 @@
   <ICD9_DISEASE_SITES id="1000" version="0" name="Disease Site" code="200" description_text="Disease Site" depth="LEVEL2" selectable="0"  />
   
   <DISEASE_HISTORY id="1000" version="1" icd9_disease_site_id="1000" retired_indicator = "false" study_disease_id="1000"/>
-  
-  <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" prt_id="1000" marital_status_code="Single" middle_name="Z" retired_indicator="false" add_id="1003"/>
-  <stu_sub_demographics id="-1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1980-01-01" administrative_gender_code="Male" ethnic_group_code="Not Reported" prt_id="1000" marital_status_code="Single" middle_name="Z" retired_indicator="false" add_id="-1003"/>
   
   <race_code_assocn retired_indicator="false"  id="-1000" version="1"  sub_id="-1000" stu_sub_dmgphcs_id="-1000" race_code="White" />
   <race_code_assocn retired_indicator="false"  id="1000" version="1"  sub_id="1000" race_code="White" />
