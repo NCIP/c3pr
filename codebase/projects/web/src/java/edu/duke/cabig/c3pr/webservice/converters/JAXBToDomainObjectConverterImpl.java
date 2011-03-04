@@ -1,5 +1,15 @@
 package edu.duke.cabig.c3pr.webservice.converters;
 
+import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.ADXP;
+import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.BL;
+import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.CD;
+import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.ED;
+import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.ENXP;
+import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.II;
+import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.IVLTSDateTime;
+import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.ST;
+import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.TEL;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +25,6 @@ import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import static edu.duke.cabig.c3pr.webservice.helpers.ISO21090Helper.*;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import com.semanticbits.querybuilder.AdvancedSearchHelper;
@@ -1167,8 +1176,15 @@ public class JAXBToDomainObjectConverterImpl implements
 		status.setRegistryStatus(convert(xml.getRegistryStatus()));
 		status.setSecondaryReasons(convertRegistryStatusReasons(xml
 				.getSecondaryReason()));
+		for(RegistryStatusReason secondaryRegistryReason: status.getSecondaryReasons()){
+			if(secondaryRegistryReason.getPrimaryReason() != null){
+				secondaryRegistryReason.setPrimaryReason(status.getRegistryStatus().getPrimaryReason
+						(secondaryRegistryReason.getPrimaryReason().getCode()));
+			}
+		}
 		return status;
 	}
+	
 
 	protected RegistryStatus convert(
 			edu.duke.cabig.c3pr.webservice.common.RegistryStatus xml) {
@@ -1199,6 +1215,9 @@ public class JAXBToDomainObjectConverterImpl implements
 		reason.setDescription(xmlReason.getDescription().getValue());
 		reason.setCode(xmlReason.getCode().getCode());
 		reason.setPrimaryIndicator(xmlReason.getPrimaryIndicator().isValue());
+		if(xmlReason.getPrimaryReason()!=null){
+			reason.setPrimaryReason(convert((edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason)xmlReason.getPrimaryReason()));
+		}
 		return reason;
 	}
 
@@ -1325,10 +1344,19 @@ public class JAXBToDomainObjectConverterImpl implements
 			edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus status) {
 		PermissibleStudySubjectRegistryStatus stat = new PermissibleStudySubjectRegistryStatus();
 		stat.setRegistryStatus(convert(status.getRegistryStatus()));
-		stat.getSecondaryReason()
-				.addAll(convertDomainRegistryStatusReasons(status
-						.getSecondaryReasons()));
+		for(RegistryStatusReason secondaryRegistryReason : status.getSecondaryReasons()){
+			stat.getSecondaryReason().add(convertSecondaryDomainRegistryStatusReason(secondaryRegistryReason,secondaryRegistryReason.getPrimaryReason()));
+		}
+	
 		return stat;
+	}
+	
+	protected edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason convertSecondaryDomainRegistryStatusReason(
+			RegistryStatusReason secondaryReason, Reason primaryReason) {
+		edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason convertedSecondaryReason = new edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason();
+			convertedSecondaryReason = (convert(secondaryReason));
+			convertedSecondaryReason.setPrimaryReason(convert(primaryReason));
+		return convertedSecondaryReason;
 	}
 
 	protected Collection<edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason> convertDomainRegistryStatusReasons(
@@ -1361,18 +1389,18 @@ public class JAXBToDomainObjectConverterImpl implements
 		return status;
 	}
 
-	protected edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason convert(
-			Reason reason) {
+	protected edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason convert(Reason reason) {
 		edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason xml = new edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason();
 		xml.setCode(CD(reason.getCode()));
 		xml.setDescription(ST(reason.getDescription()));
 		xml.setPrimaryIndicator(BL(reason.getPrimaryIndicator()));
-		if (reason.getPrimaryReason() != null) {
+		// primary cannot have primary reason
+		/*if (reason.getPrimaryReason() != null) {
 			xml.setPrimaryReason(convert(reason.getPrimaryReason()));
-		}
+		}*/
 		return xml;
 	}
-
+	
 	public DocumentIdentifier convert(Identifier id) {
 		DocumentIdentifier studyId = new DocumentIdentifier();
 		studyId.setTypeCode(CD(id.getTypeInternal()));

@@ -26,8 +26,8 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.Consent;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
-import edu.duke.cabig.c3pr.webservice.common.DocumentVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.common.PermissibleStudySubjectRegistryStatus;
+import edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.converters.JAXBToDomainObjectConverter;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
@@ -56,7 +56,6 @@ import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentResponse;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusResponse;
-import edu.duke.cabig.c3pr.webservice.subjectmanagement.impl.SubjectManagementImpl;
 import gov.nih.nci.logging.api.util.StringUtils;
 
 /**
@@ -139,6 +138,10 @@ public class StudyUtilityImpl implements StudyUtility {
 		CreateStudyAbstractResponse response = new CreateStudyAbstractResponse();
 		try {
 			StudyProtocolVersion xmlStudy = request.getStudy();
+			for(PermissibleStudySubjectRegistryStatus permissibleRegStatus : xmlStudy.getPermissibleStudySubjectRegistryStatus()){
+				validatePermissibleStudySubjectRegistryStatus(permissibleRegStatus);
+			}
+			
 			edu.duke.cabig.c3pr.domain.Study study = converter
 					.convert(xmlStudy);
 			if (CollectionUtils.isEmpty(study.getIdentifiers())) {
@@ -181,6 +184,10 @@ public class StudyUtilityImpl implements StudyUtility {
 		UpdateStudyAbstractResponse response = new UpdateStudyAbstractResponse();
 		try {
 			StudyProtocolVersion xmlStudy = request.getStudy();
+			// validate Permissible Study Subject registry status
+			for(PermissibleStudySubjectRegistryStatus permissibleRegStatus : xmlStudy.getPermissibleStudySubjectRegistryStatus()){
+				validatePermissibleStudySubjectRegistryStatus(permissibleRegStatus);
+			}
 			List<Identifier> idList = converter.convert(xmlStudy)
 					.getIdentifiers();
 			if (CollectionUtils.isEmpty(idList)) {
@@ -390,6 +397,9 @@ public class StudyUtilityImpl implements StudyUtility {
 		try {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
 			PermissibleStudySubjectRegistryStatus status = request.getStatus();
+			// validation checks for reasons
+			validatePermissibleStudySubjectRegistryStatus(status);
+			
 			UpdateMode statusUpdateMode = request.getUpdateMode();
 
 			Study study = getSingleStudy(studyId);
@@ -511,6 +521,28 @@ public class StudyUtilityImpl implements StudyUtility {
 			fail(e.getMessage());
 		}
 		return response;
+	}
+	
+	private void validatePermissibleStudySubjectRegistryStatus(PermissibleStudySubjectRegistryStatus status){
+		// validation checks for reasons
+		for(RegistryStatusReason secondaryReason:status.getSecondaryReason()){
+			if(secondaryReason.getPrimaryIndicator().isValue()){
+				throw new RuntimeException("Secondary registry reason in update study status request cannot have primary indicator as true");
+			}
+			if(secondaryReason.getPrimaryReason() == null){
+				throw new RuntimeException("Secondary registry reason in update study status request does not have a primary reason");
+			}
+			boolean primaryRegistryReasonSent = false;
+			for(RegistryStatusReason primaryRegistryReason :status.getRegistryStatus().getPrimaryReason()){
+				if(secondaryReason.getPrimaryReason().getCode().getCode().equals(primaryRegistryReason.getCode().getCode())){
+					primaryRegistryReasonSent = true;
+					break;
+				}
+			}
+			if(!primaryRegistryReasonSent){
+				throw new RuntimeException("Unable to find a matching primary registry reason for the secondary registry reason in update study status request");
+			}
+		}	
 	}
 
 }

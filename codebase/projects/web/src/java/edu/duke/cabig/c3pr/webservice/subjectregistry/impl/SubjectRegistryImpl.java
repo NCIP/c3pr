@@ -730,20 +730,57 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 			List<RegistryStatusReason> actualReasons = new ArrayList<RegistryStatusReason>();
 			actualReasons.addAll(studySubjectRegistryStatus.getReasons());
 			studySubjectRegistryStatus.getReasons().clear();
+			List<RegistryStatusReason> primaryRegistryReasons = new ArrayList<RegistryStatusReason>();
 			for(RegistryStatusReason actualReason : actualReasons){
+				// identify and add all the primary reasons first
+				
 				boolean found = false;
 				for(RegistryStatusReason possibleReason : possibleReasons){
 					if(actualReason.getCode().equalsIgnoreCase(possibleReason.getCode())){
-						studySubjectRegistryStatus.getReasons().add(possibleReason);
-						found = true;
-						break;
+						// add only primary reasons
+							if(possibleReason.getPrimaryIndicator()){
+								primaryRegistryReasons.add(possibleReason);
+							}
+							found = true;
+							break;
+						}
 					}
-				}
 				if(!found){
 					handleInvalidStudySubjectData(exceptionHelper
 							.getConversionException(INVALID_REASON, new Object[]{actualReason.getCode()}));
 				}
+				
 			}
+			
+			// now add all the secondary reasons
+			List<RegistryStatusReason> secondaryRegistryReasons = new ArrayList<RegistryStatusReason>();
+		for(RegistryStatusReason actualReason : actualReasons){
+				boolean found = false;
+				possibleReasonsloop:	for(RegistryStatusReason possibleReason : possibleReasons){
+												if(!possibleReason.getPrimaryIndicator()){
+													if(actualReason.getCode().equalsIgnoreCase(possibleReason.getCode())){
+														for(RegistryStatusReason foundPrimaryReason:primaryRegistryReasons){
+															if(possibleReason.getPrimaryReason().getCode().equalsIgnoreCase(foundPrimaryReason.getCode())){
+																secondaryRegistryReasons.add(possibleReason);
+																found = true;
+																break possibleReasonsloop;
+															}
+														}
+													}
+												}else if(actualReason.getCode().equalsIgnoreCase(possibleReason.getCode())){
+													found = true;
+													break possibleReasonsloop;
+												}
+											}
+				if(!found){
+					handleInvalidStudySubjectData(exceptionHelper
+							.getConversionException(INVALID_REASON, new Object[]{actualReason.getCode()}));
+				}
+				
+			}
+			
+			studySubjectRegistryStatus.getReasons().addAll(primaryRegistryReasons);
+			studySubjectRegistryStatus.getReasons().addAll(secondaryRegistryReasons);
 		}
 		return studySubjectRegistryStatus;
 	}

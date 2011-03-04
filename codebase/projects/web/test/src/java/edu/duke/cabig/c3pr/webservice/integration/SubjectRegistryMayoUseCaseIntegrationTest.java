@@ -26,9 +26,6 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
-import edu.duke.cabig.c3pr.webservice.integration.ISO21090Helper;
-import edu.duke.cabig.c3pr.webservice.integration.SOAPUtils;
-import edu.duke.cabig.c3pr.webservice.integration.SubjectRegistryWebServiceTest;
 import edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyAbstractRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityService;
@@ -195,6 +192,8 @@ public class SubjectRegistryMayoUseCaseIntegrationTest extends
 		stat.setRegistryStatus(createRegistryStatus("Screen Failed"));
 		stat.getSecondaryReason().add(createSecondaryRegistryStatusReason("Lab_Out_Of_Range1","FAILED INCLUSION"));
 		stat.getSecondaryReason().add(createSecondaryRegistryStatusReason("Lab_Out_Of_Range2","FAILED EXCLUSION"));
+		stat.getRegistryStatus().getPrimaryReason().add((RegistryStatusReason)stat.getSecondaryReason().get(0).getPrimaryReason());
+		stat.getRegistryStatus().getPrimaryReason().add((RegistryStatusReason)stat.getSecondaryReason().get(1).getPrimaryReason());
 		list.add(stat);
 		stat = new PermissibleStudySubjectRegistryStatus();
 		stat.setRegistryStatus(createRegistryStatus("Accrued"));
@@ -212,6 +211,8 @@ public class SubjectRegistryMayoUseCaseIntegrationTest extends
 		stat.setRegistryStatus(createRegistryStatus("Withdrawn"));
 		stat.getSecondaryReason().add(createSecondaryRegistryStatusReason("Distance","UNWILLING"));
 		stat.getSecondaryReason().add(createSecondaryRegistryStatusReason("Schedule","UNWILLING"));
+		stat.getRegistryStatus().getPrimaryReason().add((RegistryStatusReason)stat.getSecondaryReason().get(0).getPrimaryReason());
+		stat.getRegistryStatus().getPrimaryReason().add((RegistryStatusReason)stat.getSecondaryReason().get(1).getPrimaryReason());
 		list.add(stat);
 		stat = new PermissibleStudySubjectRegistryStatus();
 		stat.setRegistryStatus(createRegistryStatus("Declined Consent"));

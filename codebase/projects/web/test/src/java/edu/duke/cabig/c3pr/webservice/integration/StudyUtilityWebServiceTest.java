@@ -72,6 +72,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String STATUS_ACTIVE = "ACTIVE";
 	private static final int STATUS_INACTIVE_ID = 110153;
 	private static final int STATUS_ACTIVE_ID = 110152;
+	private static final String REGISTRY_STATUS = "REGISTRY_STATUS";
 
 	private static final String SQL_CONSENT_QUESTIONS = "SELECT * FROM consent_questions WHERE EXISTS (SELECT id from consents where consents.id=consent_questions.con_id AND EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}')))) ORDER BY consent_questions.id";
 	private static final String SQL_CONSENTS = "SELECT * FROM consents WHERE EXISTS (SELECT Id FROM study_versions where study_versions.id=consents.stu_version_id AND EXISTS (SELECT Id from studies where study_versions.study_id=studies.id and EXISTS (SELECT Id from Identifiers WHERE Identifiers.stu_id=studies.id and Identifiers.value='${STUDY_ID}'))) order by consents.id";
@@ -165,7 +166,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		boolean containsInactive = st.executeQuery(
 				"SELECT id FROM registry_statuses WHERE code='"
 						+ STATUS_INACTIVE + "'").next();
-		if (!containsActive)
+		if (!containsActive){
 			st.execute("INSERT INTO registry_statuses(id, version, grid_id, code, description, retired_indicator) VALUES ("
 					+ STATUS_ACTIVE_ID
 					+ ",0,'"
@@ -175,7 +176,21 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 					+ "','"
 					+ STATUS_ACTIVE
 					+ "','false')");
-		if (!containsInactive)
+			st.execute("insert into reasons(id,version,code,description,dtype,primary_indicator,registry_st_id,retired_indicator) VALUES ("
+						+ STATUS_ACTIVE_ID
+						+ ",0,'"
+						+ TEST_PRIMARY_REASON_CODE
+						+ "','"
+						+ TEST_PRIMARY_REASON_DESCR
+						+ "','"
+						+ REGISTRY_STATUS
+						+ "','"
+						+ true
+						+ "','"
+						+STATUS_ACTIVE_ID
+						+ "','false')");
+		}
+		if (!containsInactive){
 			st.execute("INSERT INTO registry_statuses(id, version, grid_id, code, description, retired_indicator) VALUES ("
 					+ STATUS_INACTIVE_ID
 					+ ",0,'"
@@ -185,6 +200,20 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 					+ "','"
 					+ STATUS_INACTIVE
 					+ "','false')");
+			st.execute("insert into reasons(id,version,code,description,dtype,primary_indicator,registry_st_id,retired_indicator) VALUES ("
+					+ STATUS_INACTIVE_ID
+					+ ",0,'"
+					+ TEST_PRIMARY_REASON_CODE
+					+ "','"
+					+ TEST_PRIMARY_REASON_DESCR
+					+ "','"
+					+ REGISTRY_STATUS
+					+ "','"
+					+ true
+					+ "','"
+					+STATUS_INACTIVE_ID
+					+ "','false')");
+		}
 		st.close();
 	}
 
@@ -717,7 +746,9 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected PermissibleStudySubjectRegistryStatus createPermissibleStudySubjectRegistryStatus() {
 		PermissibleStudySubjectRegistryStatus stat = new PermissibleStudySubjectRegistryStatus();
 		stat.setRegistryStatus(createRegistryStatus());
-		stat.getSecondaryReason().add(createSecondaryRegistryStatusReason());
+		RegistryStatusReason primaryReason = createPrimaryRegistryStatusReason();
+		stat.getRegistryStatus().getPrimaryReason().add(primaryReason);
+		stat.getSecondaryReason().add(createSecondaryRegistryStatusReason(primaryReason));
 		return stat;
 	}
 
@@ -725,15 +756,15 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		RegistryStatus stat = new RegistryStatus();
 		stat.setCode(iso.CD(TEST_REGISTRY_STATUS));
 		stat.setDescription(iso.ST(TEST_REGISTRY_STATUS));
-		// stat.getPrimaryReason().add(createPrimaryRegistryStatusReason());
 		return stat;
 	}
 
-	protected RegistryStatusReason createSecondaryRegistryStatusReason() {
+	protected RegistryStatusReason createSecondaryRegistryStatusReason(RegistryStatusReason primaryReason) {
 		RegistryStatusReason r = new RegistryStatusReason();
 		r.setCode(iso.CD(TEST_SECONDARY_REASON_CODE));
 		r.setDescription(iso.ST(TEST_SECONDARY_REASON_DESCR));
 		r.setPrimaryIndicator(iso.BL(false));
+		r.setPrimaryReason(primaryReason);
 		return r;
 	}
 
