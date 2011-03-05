@@ -185,7 +185,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 						+ "','"
 						+ REGISTRY_STATUS
 						+ "','"
-						+ true
+						+ 1
 						+ "','"
 						+STATUS_ACTIVE_ID
 						+ "','false')");
@@ -209,7 +209,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 					+ "','"
 					+ REGISTRY_STATUS
 					+ "','"
-					+ true
+					+ 1
 					+ "','"
 					+STATUS_INACTIVE_ID
 					+ "','false')");
