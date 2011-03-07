@@ -2675,7 +2675,17 @@ public class StudyDaoTest extends DaoTestCase {
 		 consent.setConsentingMethods(consentingMethods);
 		 List<Consent> consents = consentDao.searchByExampleAndStudy(consent, study);
 		 assertEquals("wrong number of consents",1,consents.size());
+		 
+		 // should get both the consents when version id is not specified
+		 consent.setVersionId(null);
+		 List<Consent> consentsNoVersion = consentDao.searchByExampleAndStudy(consent, study);
+		 assertEquals("wrong number of consents",2,consentsNoVersion.size());
+		 assertEquals("wrong consent name","consent 1", consentsNoVersion.get(0).getName());
+		 assertNotNull("Consent version not null", consentsNoVersion.get(0).getVersionId());
+		 assertNotNull("Consent version not null", consentsNoVersion.get(1).getVersionId());
+		 
 	 }
+	 
 	
 }
 
