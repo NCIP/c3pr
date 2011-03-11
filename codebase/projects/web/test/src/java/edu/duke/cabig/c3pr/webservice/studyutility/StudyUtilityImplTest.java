@@ -17,6 +17,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.test.AssertThrows;
 
 import edu.duke.cabig.c3pr.dao.ConsentDao;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
@@ -69,8 +70,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		StudyProtocolVersion version = createStudy();
 		final CreateStudyAbstractRequest request = new CreateStudyAbstractRequest();
 		request.setStudy(version);
-		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
-				new ArrayList<Study>());
+		expect(studyRepository.getByPrimaryIdentifier(isA(Identifier.class))).andReturn(null);
 		studyRepository.save(isA(Study.class));
 		replay(studyRepository);
 		CreateStudyAbstractResponse response = service.createStudyAbstract(request);
@@ -80,8 +80,8 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		reset(studyRepository);
 
 		// study already exists
-		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
-				Arrays.asList(new Study[] { new LocalStudy() }));
+		expect(studyRepository.getByPrimaryIdentifier(isA(Identifier.class))).andReturn(
+				(Study) (new LocalStudy()));
 		replay(studyRepository);
 		new AssertThrows(StudyUtilityFaultMessage.class) {
 			@Override
@@ -140,8 +140,8 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		request.setStudyIdentifier(studyId);
 		Study study = createDomainStudy();
 
-		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
-				Arrays.asList(new Study[] { study }));
+		expect(studyRepository.getByPrimaryIdentifier(isA(Identifier.class))).andReturn(
+				study);
 		replay(studyRepository);
 
 		List<PermissibleStudySubjectRegistryStatus> list = service
@@ -229,8 +229,8 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		request.setStatus(status);
 		request.setUpdateMode(UpdateMode.R);
 
-		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
-				Arrays.asList(new Study[] { study }));
+		expect(studyRepository.getByPrimaryIdentifier(isA(Identifier.class))).andReturn(
+				study);
 		studyRepository.save(study);
 		replay(studyRepository);
 
@@ -270,8 +270,8 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		request.setStudyIdentifier(studyId);
 		request.setConsent(consent);
 
-		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
-				Arrays.asList(new Study[] { study }));
+		expect(studyRepository.getByPrimaryIdentifier(isA(Identifier.class))).andReturn(
+				study);
 		expect(
 				consentDao.searchByExampleAndStudy(
 						isA(edu.duke.cabig.c3pr.domain.Consent.class),
@@ -289,8 +289,8 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		// all 2 consents of a study
 		domainConsents.add(createDomainConsent());
 		request.setConsent(null);
-		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
-				Arrays.asList(new Study[] { study }));
+		expect(studyRepository.getByPrimaryIdentifier(isA(Identifier.class))).andReturn(
+				study);
 		replay(studyRepository);
 		list = service.queryStudyConsent(request).getConsents().getItem();
 		assertEquals(2, list.size());
@@ -330,8 +330,8 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		request.setConsent(consent);
 		request.setUpdateMode(UpdateMode.U);
 
-		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
-				Arrays.asList(new Study[] { study }));
+		expect(studyRepository.getByPrimaryIdentifier(isA(Identifier.class))).andReturn(
+				study);
 		studyRepository.save(study);
 		replay(studyRepository);
 
@@ -365,8 +365,8 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 				iso.ST(TEST_STUDY_DESCR + "CHANGED"));
 		final UpdateStudyAbstractRequest request = new UpdateStudyAbstractRequest();
 		request.setStudy(version);
-		expect(studyRepository.getByIdentifiers(isA(List.class))).andReturn(
-				Arrays.asList(new Study[] { existentStudy }));
+		expect(studyRepository.getByPrimaryIdentifier(isA(Identifier.class))).andReturn(
+				existentStudy);
 		studyRepository.save(isA(Study.class));
 		replay(studyRepository);
 		UpdateStudyAbstractResponse response = service.updateStudyAbstract(request);
