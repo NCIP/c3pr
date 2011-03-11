@@ -10,6 +10,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -55,6 +57,7 @@ import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityFaultMessage;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityService;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyAbstractRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentQuestionRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusRequest;
 
@@ -241,6 +244,7 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 			executeUpdateConsentTest();
 			executeQueryRegistryStatusTest();
 			executeQueryStudyRegistryStatusTest();
+			executeUpdateConsentQuestionTest();
 		} catch (Exception e) {
 			logger.severe(ExceptionUtils.getFullStackTrace(e));
 			fail(ExceptionUtils.getFullStackTrace(e));
@@ -440,6 +444,134 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		} catch (StudyUtilityFaultMessage e) {
 			logger.info("Unexistent study creation passed.");
 		}
+		
+	}
+	
+	private void executeUpdateConsentQuestionTest() throws DataSetException,
+	IOException, SQLException, DatabaseUnitException, Exception {
+		StudyUtility service = getService();
+		
+		final Consent consent = createConsent(TEST_CONSENT_TITLE,"");
+		consent.setOfficialTitle(iso.ST(TEST_CONSENT_TITLE + UPDATE_DISCRIMINATOR));
+		UpdateStudyConsentQuestionRequest request = new UpdateStudyConsentQuestionRequest();
+		final DocumentIdentifier studyId = createStudyPrimaryIdentifier();
+		request.setStudyIdentifier(studyId);
+		request.setConsentName(consent.getOfficialTitle());
+		request.setConsentVersion(consent.getVersionNumberText());
+		// replace consent question
+		request.setUpdateMode(UpdateMode.R);
+		// set deliberately wrong question question code, the service should throw a fault
+		request.setConsentQuestion(createConsentQuestion(TEST_WRONG_CONSENT_QUESTION_1));
+		Consent updatedConsent = null;
+		try {
+			updatedConsent = service.updateStudyConsentQuestion(request)
+					.getConsent();
+			fail();
+		} catch (Exception e) {
+			logger.info("Replace non-existent consent question test passed.");
+		}
+		
+		
+		request.setConsentQuestion(createConsentQuestion(TEST_CONSENT_QUESTION_1));
+		// replace the old consent question with another question that has different question text
+		request.getConsentQuestion().setText(iso.ED(TEST_REPLACED_CONSNET_QUESTION_1));
+		consent.getDocumentVersionRelationship().get(0).getTarget().setText(iso.ED(TEST_REPLACED_CONSNET_QUESTION_1));
+		updatedConsent = service.updateStudyConsentQuestion(request)
+					.getConsent();
+		sortByConsentQuestionByOfficialTitle(consent);
+		sortByConsentQuestionByOfficialTitle(updatedConsent);
+		assertTrue(BeanUtils.deepCompare(consent, updatedConsent));
+		
+		// test adding new consent question
+		request.setUpdateMode(UpdateMode.A);
+		
+		DocumentVersionRelationship newConsentQuestionRelationship = createConsentQuestionRelationship(TEST_NEW_CONSENT_QUESTION_1);
+		consent.getDocumentVersionRelationship().add(newConsentQuestionRelationship);
+		request.setConsentQuestion(createConsentQuestion(TEST_NEW_CONSENT_QUESTION_1));
+		updatedConsent = service.updateStudyConsentQuestion(request).getConsent();
+		sortByConsentQuestionByOfficialTitle(consent);
+		sortByConsentQuestionByOfficialTitle(updatedConsent);
+		assertTrue(BeanUtils.deepCompare(consent, updatedConsent));
+		
+		// test retiring 
+		request.setUpdateMode(UpdateMode.D);
+		request.setConsentName(consent.getOfficialTitle());
+		request.setConsentVersion(consent.getVersionNumberText());
+		DocumentVersion retiredConsentQuestion = createConsentQuestion(TEST_NEW_CONSENT_QUESTION_1);
+		request.setConsentQuestion(retiredConsentQuestion);
+		updatedConsent = service.updateStudyConsentQuestion(request).getConsent();
+		sortByConsentQuestionByOfficialTitle(consent);
+		sortByConsentQuestionByOfficialTitle(updatedConsent);
+		
+		// Consent question is gotten back from the service without being filtered but with a null flavor 
+		// setting null flavor on retired consent before giving it to deep compare 
+		consent.getDocumentVersionRelationship().get(0).getTarget().setVersionNumberText(iso.ST("1"));
+		consent.getDocumentVersionRelationship().get(0).getTarget().getVersionNumberText().setNullFlavor(NullFlavor.INV);
+		assertTrue(BeanUtils.deepCompare(consent, updatedConsent));
+		
+		// check database data
+		/*verifyData("Consents_ReplaceConsent", "", "consents", SQL_CONSENTS);
+		verifyData("ConsentQuestions_ReplaceConsent", "", "consent_questions",
+				SQL_CONSENT_QUESTIONS);
+		
+		//add consent
+		final Consent addConsent = createConsent(TEST_CONSENT_TITLE + UPDATE_DISCRIMINATOR,"");
+		request.setUpdateMode(UpdateMode.AU);
+		request.setStudyIdentifier(studyId);
+		request.setConsent(addConsent);
+		updatedConsent = service.updateStudyConsent(request)
+				.getConsent();
+		addConsent.getVersionNumberText().setUpdateMode(null);
+		assertTrue(BeanUtils.deepCompare(addConsent, updatedConsent));
+		// check database data
+		verifyData("Consents_AddConsent", "", "consents", SQL_CONSENTS);
+		verifyData("ConsentQuestions_AddConsent", "", "consent_questions",
+				SQL_CONSENT_QUESTIONS);
+		
+		//update consent
+		// Consent name and version id uniquely determine so, consent name cannot change
+		final Consent updateConsent = createConsent(TEST_CONSENT_TITLE,UPDATE_DISCRIMINATOR + " 2");
+		updateConsent.setOfficialTitle(iso.ST(TEST_CONSENT_TITLE));
+		updateConsent.setVersionNumberText(iso.ST(TEST_VERSION_NUMBER));
+		request.setUpdateMode(UpdateMode.U);
+		request.setStudyIdentifier(studyId);
+		request.setConsent(updateConsent);
+		updatedConsent = service.updateStudyConsent(request)
+				.getConsent();
+		assertTrue(BeanUtils.deepCompare(updateConsent, updatedConsent));
+		// check database data
+		verifyData("Consents_UpdateConsent", "", "consents", SQL_CONSENTS);
+		verifyData("ConsentQuestions_UpdateConsent", "", "consent_questions",
+				SQL_CONSENT_QUESTIONS);
+		
+		//update consent
+		final Consent retireConsent = createConsent(TEST_CONSENT_TITLE,UPDATE_DISCRIMINATOR + " 2");
+		request.setUpdateMode(UpdateMode.D);
+		request.setStudyIdentifier(studyId);
+		request.setConsent(retireConsent);
+		updatedConsent = service.updateStudyConsent(request)
+				.getConsent();
+		//	assertTrue(BeanUtils.deepCompare(retireConsent, updatedConsent));
+		// check database data
+		verifyData("Consents_RetireConsent", "", "consents", SQL_CONSENTS);
+		
+		//test using query
+		// all consents of the study
+		final QueryStudyConsentRequest request1 = new QueryStudyConsentRequest();
+		request1.setStudyIdentifier(studyId);
+		List<Consent> list = service.queryStudyConsent(request1).getConsents()
+				.getItem();
+		assertEquals(2, list.size());
+		
+		// study does not exist.
+		studyId.getIdentifier().setExtension(
+				RandomStringUtils.randomAlphanumeric(32));
+		try {
+			service.updateStudyConsent(request);
+			fail();
+		} catch (StudyUtilityFaultMessage e) {
+			logger.info("Unexistent study creation passed.");
+		}*/
 		
 	}
 
@@ -720,6 +852,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String TEST_REGISTRY_STATUS = STATUS_ACTIVE;
 	private static final String TEST_CONSENT_QUESTION_2 = "Question 2";
 	private static final String TEST_CONSENT_QUESTION_1 = "Question 1";
+	private static final String TEST_WRONG_CONSENT_QUESTION_1 = "Question 1 wrong";
+	private static final String TEST_REPLACED_CONSNET_QUESTION_1 = "Replaced Consent Question 1";
 	private static final String TEST_CONSENT_TITLE = "Consent";
 	private static final String TEST_CONSENT_DESCRIPTION = "Consent Description";
 	private static final String TEST_CONSENT_QUESTION_RELATIONSHIP = "CONSENT_QUESTION";
@@ -732,6 +866,8 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	private static final String TEST_TARGET_REG_SYS = "C3PR";
 	private static final String TEST_PRIMARY_REASON_CODE = "OTHER";
 	private static final String TEST_PRIMARY_REASON_DESCR = "Other Description";
+	private static final String TEST_NEW_CONSENT_QUESTION_1 = "Consent Question new 1";
+	
 
 	public StudyProtocolVersion createStudy(String appendix) {
 		StudyProtocolVersion study = new StudyProtocolVersion();
@@ -908,6 +1044,19 @@ public class StudyUtilityWebServiceTest extends C3PREmbeddedTomcatTestBase {
 		orgId.setPrimaryIndicator(iso.BL(true));
 		orgId.setTypeCode(iso.CD(TEST_CTEP));
 		return orgId;
+	}
+	
+	// sorting by consent question official title (or code) before giving it to deep compare method
+	private void sortByConsentQuestionByOfficialTitle(Consent consent){
+		if(!consent.getDocumentVersionRelationship().isEmpty()){
+			List<DocumentVersionRelationship> consentQuestions = consent.getDocumentVersionRelationship();
+			Collections.sort(consentQuestions,new Comparator<DocumentVersionRelationship>() {
+				public int compare(DocumentVersionRelationship o1,
+						DocumentVersionRelationship o2) {
+					return o1.getTarget().getOfficialTitle().getValue().compareToIgnoreCase(o2.getTarget().getOfficialTitle().getValue());
+				}
+			});
+		}
 	}
 
 }
