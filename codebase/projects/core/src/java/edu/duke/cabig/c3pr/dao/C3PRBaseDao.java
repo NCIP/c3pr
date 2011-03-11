@@ -233,8 +233,6 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
         List<T> li = new ArrayList<T>();
         if (identifier instanceof OrganizationAssignedIdentifier) {
         	OrganizationAssignedIdentifier organizationAssignedIdentifier = (OrganizationAssignedIdentifier) identifier;
-        	if (organizationAssignedIdentifier.getType() != null && organizationAssignedIdentifier.getHealthcareSite() != null
-                    && organizationAssignedIdentifier.getValue() != null) {
         	  if (organizationAssignedIdentifier.getType() != null && organizationAssignedIdentifier.getHealthcareSite() != null
                                 && organizationAssignedIdentifier.getValue() != null)
 				li =  getHibernateTemplate()
@@ -242,7 +240,6 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 								"select O from "+clazz.getName()+" O, OrganizationAssignedIdentifier I where I.healthcareSite=? and "
 										+ "I.value=? and I.typeInternal=? and I=any elements(O.identifiers)",
 								new Object[] {organizationAssignedIdentifier.getHealthcareSite(),organizationAssignedIdentifier.getValue(),organizationAssignedIdentifier.getTypeInternal() });
-        		}
 			}  else if (identifier instanceof SystemAssignedIdentifier) {
                 SystemAssignedIdentifier id = (SystemAssignedIdentifier) identifier;
 
