@@ -10,7 +10,7 @@
 
 <html>
 <head>
-    <title>Subject Search Results</title>
+    <title>Search Results</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>${tab.longTitle}</title>
 <script>
@@ -164,7 +164,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 </head>
 <body>
 <!--  tags:instructions code="participant_search_report"/>  -->
-<chrome:box title="Subject Search Results">
+<chrome:box title="Search Results">
 <chrome:division>
 	<c:if test="${fn:length(subjects)>0}">
 		${fn:length(subjects)} records found.

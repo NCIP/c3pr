@@ -10,7 +10,7 @@
 
 <html>
 <head>
-    <title>Study Search Results</title>
+    <title>Search Results</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<title>${tab.longTitle}</title>
 <script>
@@ -165,7 +165,7 @@ color:white;
 </head>
 <body>
 <!--  tags:instructions code="participant_search_report"/>  -->
-<chrome:box title="study Search Results">
+<chrome:box title="Search Results">
 <chrome:division>
 	<c:if test="${fn:length(studies)>0}">
 		${fn:length(studies)} records found.
