@@ -96,6 +96,29 @@
 				</xsd:complexType>
 			</xsd:element>
 			
+			<xsd:element name="UpdateStudyConsentQuestionRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="studyIdentifier" type="common:DocumentIdentifier" minOccurs="1"
+							maxOccurs="1"></xsd:element>
+						<xsd:element name="consentName" type="ISO:ST" minOccurs="1" maxOccurs="1"></xsd:element>
+						<xsd:element name="consentVersion" type="ISO:ST" minOccurs="1" maxOccurs="1"></xsd:element>
+						<xsd:element name="consentQuestion" type="common:DocumentVersion" minOccurs="1"
+							maxOccurs="1"></xsd:element>
+						<xsd:element name="updateMode" type="ISO:UpdateMode"
+							minOccurs="1" maxOccurs="1"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="UpdateStudyConsentQuestionResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="consent" type="common:Consent" minOccurs="1"
+							maxOccurs="1"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
 			<xsd:element name="UpdateStudyConsentRequest">
 				<xsd:complexType>
 					<xsd:sequence>
@@ -205,6 +228,12 @@
 	<wsdl:message name="UpdateStudyConsentResponseMessage">
 		<wsdl:part name="parameters" element="tns:UpdateStudyConsentResponse" />
 	</wsdl:message>	
+	<wsdl:message name="UpdateStudyConsentQuestionRequest">
+		<wsdl:part name="parameters" element="tns:UpdateStudyConsentQuestionRequest" />
+	</wsdl:message>
+	<wsdl:message name="UpdateStudyConsentQuestionResponse">
+		<wsdl:part name="parameters" element="tns:UpdateStudyConsentQuestionResponse" />
+	</wsdl:message>
 	<wsdl:message name="QueryStudyConsentRequestMessage">
 		<wsdl:part name="parameters" element="tns:QueryStudyConsentRequest" />
 	</wsdl:message>
@@ -269,6 +298,14 @@
 		<wsdl:operation name="updateStudyConsent">
 			<wsdl:input message="tns:UpdateStudyConsentRequestMessage" />
 			<wsdl:output message="tns:UpdateStudyConsentResponseMessage" />
+			<wsdl:fault message="tns:StudyUtilityFaultMessage"
+				name="StudyUtilityException" />
+			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
+				name="SecurityException" />
+		</wsdl:operation>
+		<wsdl:operation name="updateStudyConsentQuestion">
+			<wsdl:input message="tns:UpdateStudyConsentQuestionRequest" />
+			<wsdl:output message="tns:UpdateStudyConsentQuestionResponse" />
 			<wsdl:fault message="tns:StudyUtilityFaultMessage"
 				name="StudyUtilityException" />
 			<wsdl:fault message="tns:SecurityExceptionFaultMessage"
@@ -408,6 +445,21 @@
 			</wsdl:fault>
 		</wsdl:operation>		
 		<wsdl:operation name="updateStudyConsent">
+			<soap:operation style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="SecurityException">
+				<soap:fault name="SecurityException" />
+			</wsdl:fault>			
+			<wsdl:fault name="StudyUtilityException">
+				<soap:fault name="StudyUtilityException" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="updateStudyConsentQuestion">
 			<soap:operation style="document" />
 			<wsdl:input>
 				<soap:body use="literal" />
