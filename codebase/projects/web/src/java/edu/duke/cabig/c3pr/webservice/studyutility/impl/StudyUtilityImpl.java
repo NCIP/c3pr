@@ -4,7 +4,6 @@
 package edu.duke.cabig.c3pr.webservice.studyutility.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -23,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.RegistryStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRDuplicatePrimaryStudyIdentifierException;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.Consent;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
@@ -52,6 +52,8 @@ import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityFault;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityFaultMessage;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyAbstractRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyAbstractResponse;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentQuestionRequest;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentQuestionResponse;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentResponse;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusRequest;
@@ -72,6 +74,9 @@ public class StudyUtilityImpl implements StudyUtility {
 	private static final String STUDY_DOES_NOT_EXIST = "A study with the given identifier(s) does not exist.";
 
 	private static final String MORE_THAN_ONE_STUDY = "More than one study with the given identifier found.";
+	
+	
+	private static final String CONSENT_DOES_NOT_EXIST = "A consent with the given name, version and study identifier does not exist.";
 
 	private static Log log = LogFactory.getLog(StudyUtilityImpl.class);
 
@@ -147,9 +152,17 @@ public class StudyUtilityImpl implements StudyUtility {
 			if (CollectionUtils.isEmpty(study.getIdentifiers())) {
 				fail(STUDY_IDENTIFIER_REQUIRED);
 			}
-			List<edu.duke.cabig.c3pr.domain.Study> existentStudies = studyRepository
-					.getByIdentifiers(study.getIdentifiers());
-			if (CollectionUtils.isNotEmpty(existentStudies)) {
+			
+			// Only the primary identifiers across studies have to be unique. This is a requirement for MAYO services. Typically the secondary
+			// identifiers of studies attached to a protocol will be common. This is for grouping purposes based on the protocol. 
+			
+			edu.duke.cabig.c3pr.domain.Study existingStudy = null;
+			try {
+				existingStudy = studyRepository.getByPrimaryIdentifier(study.getPrimaryIdentifierObject());
+			} catch (C3PRDuplicatePrimaryStudyIdentifierException e) {
+				fail(MORE_THAN_ONE_STUDY);
+			}
+			if (existingStudy != null) {
 				fail(STUDY_ALREADY_EXISTS);
 			}
 			studyRepository.save(study);
@@ -188,24 +201,29 @@ public class StudyUtilityImpl implements StudyUtility {
 			for(PermissibleStudySubjectRegistryStatus permissibleRegStatus : xmlStudy.getPermissibleStudySubjectRegistryStatus()){
 				validatePermissibleStudySubjectRegistryStatus(permissibleRegStatus);
 			}
-			List<Identifier> idList = converter.convert(xmlStudy)
-					.getIdentifiers();
+			
+			edu.duke.cabig.c3pr.domain.Study domainStudy = converter.convert(xmlStudy);
+			List<Identifier> idList = domainStudy.getIdentifiers();
+			
 			if (CollectionUtils.isEmpty(idList)) {
 				fail(STUDY_IDENTIFIER_REQUIRED);
 			}
-			List<edu.duke.cabig.c3pr.domain.Study> existentStudies = studyRepository
-					.getByIdentifiers(idList);
-			if (CollectionUtils.isEmpty(existentStudies)) {
+			edu.duke.cabig.c3pr.domain.Study existingStudy = null;
+			try {
+				existingStudy = studyRepository.getByPrimaryIdentifier(domainStudy.getPrimaryIdentifierObject());
+			} catch (C3PRDuplicatePrimaryStudyIdentifierException e) {
+				fail(MORE_THAN_ONE_STUDY);
+			}
+			if (existingStudy == null) {
 				fail(STUDY_DOES_NOT_EXIST);
 			}
-			edu.duke.cabig.c3pr.domain.Study study = existentStudies.get(0);
 			// transfer data except identifiers and consents
-			converter.convert(study, xmlStudy, false);
+			converter.convert(existingStudy, xmlStudy, false);
 			// update identifiers: http://jira.semanticbits.com/browse/CPR-2233
 			// update identifiers and sites: http://jira.semanticbits.com/browse/CPR-2312
-			converter.convert(study, idList);
-			studyRepository.save(study);
-			response.setStudy(converter.convert(study));
+			converter.convert(existingStudy, idList);
+			studyRepository.save(existingStudy);
+			response.setStudy(converter.convert(existingStudy));
 		} catch (RuntimeException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
 			fail(e.getMessage());
@@ -248,6 +266,79 @@ public class StudyUtilityImpl implements StudyUtility {
 	}
 
 	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#updateStudyConsentQuestion(edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentQuestionRequest)
+	 */
+	public UpdateStudyConsentQuestionResponse updateStudyConsentQuestion(UpdateStudyConsentQuestionRequest request)
+			throws SecurityExceptionFaultMessage, StudyUtilityFaultMessage {
+		UpdateStudyConsentQuestionResponse response = new UpdateStudyConsentQuestionResponse();
+		try {
+			DocumentIdentifier studyId = request.getStudyIdentifier();
+			
+			// assuming primary identifier of study is passed and querying by it. It has to be unique across studies.
+			Study study = getSingleStudy(studyId);
+			edu.duke.cabig.c3pr.domain.Consent domainConsent = study.getConsent(request.getConsentName().getValue(), request.getConsentVersion().getValue());
+			
+			if(domainConsent == null){
+				fail(CONSENT_DOES_NOT_EXIST);
+			}
+			edu.duke.cabig.c3pr.domain.ConsentQuestion domainConsentQuestion = converter.convertConsentQuestion(request.getConsentQuestion());
+			edu.duke.cabig.c3pr.domain.ConsentQuestion existingMatchingConsentQuestion =domainConsent.getQuestion(domainConsentQuestion.getCode());
+			
+			boolean save = true;
+			UpdateMode consentQuestionUpdateMode = request.getUpdateMode();
+			switch (consentQuestionUpdateMode) {
+			case R:
+				if(existingMatchingConsentQuestion == null){
+					throw new RuntimeException("Cannot replace consent question. No question was found with given code");
+				}
+				domainConsent.getQuestions().remove(existingMatchingConsentQuestion);
+				domainConsent.getQuestions().add(domainConsentQuestion);
+				break;
+			case A:
+				if(existingMatchingConsentQuestion != null){
+					throw new RuntimeException("Cannot add consent question. Another question already exists with the same code");
+				}
+				domainConsent.getQuestions().add(domainConsentQuestion);
+				break;
+			case D:
+				if(existingMatchingConsentQuestion == null){
+					throw new RuntimeException("Cannot retire consent question. No question was found with the given code");
+				}
+				existingMatchingConsentQuestion.setRetiredIndicatorAsTrue();
+				break;
+			case AU:
+				if(existingMatchingConsentQuestion == null){
+					domainConsent.getQuestions().add(domainConsentQuestion);
+					break;
+				}
+			case U:
+				if(existingMatchingConsentQuestion == null){
+					throw new RuntimeException("Cannot update consent question. No question found with the given code");
+				}
+				
+				// The code of consent question being updated should be same as the code of question it is being updated with. So no need for copy code
+				existingMatchingConsentQuestion.setText(domainConsentQuestion.getText());
+				break;
+			default:
+				log.debug("no valid values found for updateMode. no action will be taken");
+				save = false;
+				break;
+			}
+			if(save){
+				studyRepository.save(study);
+			}
+			response.setConsent(converter.convertConsent(study.getConsent(domainConsent.getName(), domainConsent.getVersionId())));
+		} catch (RuntimeException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		} catch (C3PRCodedException e) {
+			log.error(ExceptionUtils.getFullStackTrace(e));
+			fail(e.getMessage());
+		}
+		return response;
+	}
+	
+	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#updateStudyConsent(edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentRequest)
 	 */
 	public UpdateStudyConsentResponse updateStudyConsent(UpdateStudyConsentRequest request)
@@ -256,7 +347,8 @@ public class StudyUtilityImpl implements StudyUtility {
 		try {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
 			Consent consent = request.getConsent();
-
+			
+			// assuming primary identifier of study is passed and querying by it. It has to be unique across studies.
 			Study study = getSingleStudy(studyId);
 			edu.duke.cabig.c3pr.domain.Consent domainConsent = converter
 					.convertConsent(consent);
@@ -273,19 +365,19 @@ public class StudyUtilityImpl implements StudyUtility {
 				study.addConsent(domainConsent);
 				break;
 			case A:
-				if(study.getConsent(domainConsent.getName(), domainConsent.getVersionId())!=null){
+				if(existingMatchingConsent!=null){
 					throw new RuntimeException("Cannot add consent. Another consent already exists with the given name and version");
 				}
 				study.addConsent(domainConsent);
 				break;
 			case D:
-				if(study.getConsent(domainConsent.getName(), domainConsent.getVersionId())==null){
+				if(existingMatchingConsent==null){
 					throw new RuntimeException("Cannot delete consent. No consent found with the given name and version");
 				}
 				study.getConsent(domainConsent.getName(), domainConsent.getVersionId()).setRetiredIndicatorAsTrue();
 				break;
 			case AU:
-				if(study.getConsent(domainConsent.getName(), domainConsent.getVersionId())==null){
+				if(existingMatchingConsent==null){
 					study.addConsent(domainConsent);
 					break;
 				}
@@ -320,6 +412,7 @@ public class StudyUtilityImpl implements StudyUtility {
 		return response;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility#queryStudyConsent(edu.duke.cabig.c3pr.webservice.studyutility.QueryStudyConsentRequest)
 	 */
@@ -332,6 +425,7 @@ public class StudyUtilityImpl implements StudyUtility {
 		try {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
 			Consent consent = request.getConsent();
+			// assuming primary identifier of study is passed and querying by it. It has to be unique across studies.
 			Study study = getSingleStudy(studyId);
 
 			if (consent == null) {
@@ -357,18 +451,23 @@ public class StudyUtilityImpl implements StudyUtility {
 	 * @return
 	 * @throws StudyUtilityFaultMessage
 	 */
+	
+	// If primary identifier is not passed the query will return null. It should return a duplicate
+	// study found fault when more than 1 result is found
 	private Study getSingleStudy(DocumentIdentifier studyId)
 			throws StudyUtilityFaultMessage {
-		Identifier oai = converter.convert(studyId);
-		List<Study> studies = studyRepository.getByIdentifiers(Arrays
-				.asList(new Identifier[] { oai }));
-		if (CollectionUtils.isEmpty(studies)) {
-			fail(STUDY_DOES_NOT_EXIST);
-		}
-		if (studies.size() > 1) {
+		Identifier id = converter.convert(studyId);
+		Study study = null;
+		try {
+			study = studyRepository.getByPrimaryIdentifier(id);
+		} catch (C3PRDuplicatePrimaryStudyIdentifierException e) {
 			fail(MORE_THAN_ONE_STUDY);
 		}
-		Study study = studies.get(0);
+		
+		if (study == null) {
+			fail(STUDY_DOES_NOT_EXIST);
+		
+		}
 		return study;
 	}
 
@@ -402,6 +501,7 @@ public class StudyUtilityImpl implements StudyUtility {
 			
 			UpdateMode statusUpdateMode = request.getUpdateMode();
 
+			// assuming primary identifier of study is passed and querying by it. It has to be unique across studies.
 			Study study = getSingleStudy(studyId);
 			edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus domainStatus = converter
 					.convert(status);
@@ -511,6 +611,7 @@ public class StudyUtilityImpl implements StudyUtility {
 		response.setStatuses(new DSETPermissibleStudySubjectRegistryStatus());
 		try {
 			DocumentIdentifier studyId = request.getStudyIdentifier();
+			// assuming primary identifier of study is passed and querying by it. It has to be unique across studies.
 			Study study = getSingleStudy(studyId);
 			for (edu.duke.cabig.c3pr.domain.PermissibleStudySubjectRegistryStatus status : study
 					.getPermissibleStudySubjectRegistryStatuses()) {
