@@ -1115,7 +1115,7 @@ public class StudyDaoTest extends DaoTestCase {
         Study studySearchCriteria = new LocalStudy(true);
         studySearchCriteria.setShortTitleText("ti%e");
         List<Study> results = dao.searchByExample(studySearchCriteria, true);
-        assertEquals("Wrong number of Studies", 4, results.size());
+        assertEquals("Wrong number of Studies", 5, results.size());
     }
 
     /**
@@ -1514,7 +1514,7 @@ public class StudyDaoTest extends DaoTestCase {
         for(Study study: dao.getAll())
             identifiers.addAll(study.getIdentifiers());
         List<Study> studies=dao.getByIdentifiers(identifiers);
-        assertEquals("Wrong size of list",4, studies.size());
+        assertEquals("Wrong size of list",5, studies.size());
     }
 
 
@@ -1533,7 +1533,7 @@ public class StudyDaoTest extends DaoTestCase {
     	String[] subName=new String[]{"short_title_text"};
     	List<Study> studies=dao.getBySubnames(subName);
     	interruptSession();
-    	assertEquals("Wrong number is studies", 4, studies.size());
+    	assertEquals("Wrong number is studies", 5, studies.size());
     }
 
     public void testGetBySubNameSingleStudy(){
@@ -2204,7 +2204,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("1 studies not found", 1,  studies.size());
+		assertEquals("1 studies not found", 2,  studies.size());
 	}
     
     public void testGetResultSetWithAmendmentType() throws Exception {
@@ -2215,7 +2215,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("1 studies not found", 1,  studies.size());
+		assertEquals("Wrong number of studies found", 2,  studies.size());
 	}
     
     public void testGetResultSetWithRandomizationType() throws Exception {
@@ -2256,7 +2256,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter2);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("Wrong number of studies", 4,  studies.size());
+		assertEquals("Wrong number of studies", 5,  studies.size());
 	}
     
     public void testGetResultSetAfterAVersionDate() throws Exception {
@@ -2274,7 +2274,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter2);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("Wrong number of studies", 4,  studies.size());
+		assertEquals("Wrong number of studies", 5,  studies.size());
 	}
     public void testGetResultSetWithVersionName() throws Exception {
 		AdvancedSearchCriteriaParameter advancedSearchCriteriaParameter1 = AdvancedSearchHelper
@@ -2296,7 +2296,7 @@ public class StudyDaoTest extends DaoTestCase {
 		criteriaParameters.add(advancedSearchCriteriaParameter1);
 		
 		List<Study> studies = dao.search(criteriaParameters);
-		assertEquals("4 studies not found", 4,  studies.size());
+		assertEquals("Wrong number of studies found", 5,  studies.size());
 	}
     
     public void testGetResultSetWithConsentMandatoryIndicator() throws Exception {
