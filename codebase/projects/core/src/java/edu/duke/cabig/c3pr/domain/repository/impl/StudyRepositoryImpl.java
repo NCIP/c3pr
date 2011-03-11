@@ -343,4 +343,8 @@ public class StudyRepositoryImpl implements StudyRepository {
 		return studyDao.search(searchParameters);
 	}
 
+	public Study getByPrimaryIdentifier(Identifier identifier) {
+		return studyDao.getByPrimaryIdentifier(identifier);
+	}
+
 }

@@ -2686,6 +2686,51 @@ public class StudyDaoTest extends DaoTestCase {
 		 
 	 }
 	 
+	 public void testGetStudyByPrimaryOrganizationAssignedIdentifier() throws Exception{
+		 
+		OrganizationAssignedIdentifier id = new OrganizationAssignedIdentifier();
+		HealthcareSite hcs = healthcareSitedao.getById(1000);
+		id.setHealthcareSite(hcs);
+		id.setType(OrganizationIdentifierTypeEnum.COORDINATING_CENTER_IDENTIFIER);
+		id.setValue("nci1");
+		id.setPrimaryIndicator(true);
+		Study study = dao.getByPrimaryIdentifier(id);
+		assertNotNull("No study fround for the primary identifier",study);
+		assertEquals("wrong study name","short_title_text",study.getShortTitleText());
+		assertContains(study.getIdentifiers(), id);
+		
+		id.setPrimaryIndicator(false);
+		Study study1 = dao.getByPrimaryIdentifier(id);
+		assertNull("Unexpected study found",study1);
+		
+		
+		id.setPrimaryIndicator(null);
+		Study study2 = dao.getByPrimaryIdentifier(id);
+		assertNull("Unexpected study found",study2);
+	 }
+	 
+	 public void testGetStudyByPrimarySystemAssignedIdentifier() throws Exception{
+		 
+			SystemAssignedIdentifier id = new SystemAssignedIdentifier();
+			id.setSystemName("c3pr-system");
+			id.setTypeInternal("local");
+			id.setValue("protocol-id-001");
+			id.setPrimaryIndicator(true);
+			Study study = dao.getByPrimaryIdentifier(id);
+			assertNotNull("No study fround for the primary identifier",study);
+			assertEquals("wrong study name","short_title_text5",study.getShortTitleText());
+			assertContains(study.getIdentifiers(), id);
+			
+			id.setPrimaryIndicator(false);
+			Study study1 = dao.getByPrimaryIdentifier(id);
+			assertNull("Unexpected study found",study1);
+			
+			
+			id.setPrimaryIndicator(null);
+			Study study2 = dao.getByPrimaryIdentifier(id);
+			assertNull("Unexpected study found",study2);
+		 }
+	 
 	
 }
 

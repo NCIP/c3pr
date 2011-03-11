@@ -539,6 +539,16 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		}
 		return null;
 	}
+	
+	@Transient
+	public Identifier getPrimaryIdentifierObject() {
+		for (Identifier identifier : getIdentifiers()) {
+			if (identifier.getPrimaryIndicator().booleanValue() == true) {
+				return identifier;
+			}
+		}
+		return null;
+	}
 
 	public Boolean getBlindedIndicator() {
 		return blindedIndicator;

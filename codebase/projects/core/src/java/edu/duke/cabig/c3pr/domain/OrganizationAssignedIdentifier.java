@@ -159,7 +159,7 @@ public class OrganizationAssignedIdentifier extends Identifier implements
     
     @Override
     public String toString() {
-    	 return " Assigning Organization:" + healthcareSite.getName() + " Identifier Type:" + getType() + " Identifier Value:" + getValue();
+    	 return " Assigning Organization:" + healthcareSite.getName() + " Identifier Type:" + getType() + " Identifier Value:" + getValue() + " Is Primary: " + isPrimary();
     }
 
 }

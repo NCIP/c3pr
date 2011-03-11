@@ -82,5 +82,7 @@ public interface StudyRepository {
 	public List<Study> getByIdentifiers(List<Identifier> studyIdentifiers);
 	
 	public List<Study> search(List<AdvancedSearchCriteriaParameter> searchParameters);
+	
+	public Study getByPrimaryIdentifier(Identifier identifier);
 
 }

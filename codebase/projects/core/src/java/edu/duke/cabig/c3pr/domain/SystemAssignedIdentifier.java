@@ -54,5 +54,10 @@ public class SystemAssignedIdentifier extends Identifier implements
         if (!this.getValue().equals(other.getValue())) return false;
         return true;
     }
+    
+    @Override
+    public String toString() {
+    	 return " Assigning System: " + getSystemName() + " Identifier Type: " + getType() + " Identifier Value: " + getValue() + " Is Primary: " + isPrimary();
+    }
 
 }

@@ -1,5 +1,9 @@
 package edu.duke.cabig.c3pr.domain;
 
+import edu.duke.cabig.c3pr.constants.ConsentingMethod;
+import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -11,6 +15,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -22,10 +27,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 import org.hibernate.validator.NotNull;
-
-import edu.duke.cabig.c3pr.constants.ConsentingMethod;
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 @Entity
 @Table(name = "consents", uniqueConstraints = { @UniqueConstraint(columnNames = { "stu_version_id", "name" }) })
@@ -124,6 +125,7 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	@JoinColumn(name = "con_id",nullable=false)
 	@Cascade(value={CascadeType.ALL,CascadeType.DELETE_ORPHAN})
 	@Where(clause = "retired_indicator  = 'false'")
+	@OrderBy("id")
 	public List<ConsentQuestion> getQuestionsInternal() {
 		return lazyListHelper.getInternalList(ConsentQuestion.class);
 	}

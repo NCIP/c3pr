@@ -56,6 +56,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.exception.C3PRDuplicatePrimaryStudyIdentifierException;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
@@ -833,6 +834,38 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 			e.printStackTrace();
 		}
 		return "";
+	}
+	
+	@SuppressWarnings({ "unchecked"})
+	public Study getByPrimaryIdentifier(Identifier id){
+		// the primary indicator has to be set and should be true, otherwise the query returns null
+		 if(id.getPrimaryIndicator() != null && id.getPrimaryIndicator() && id.getTypeInternal() != null && id.getValue() != null){
+			
+		 List<Study> li = new ArrayList<Study>();
+	        if (id instanceof OrganizationAssignedIdentifier) {
+	        	OrganizationAssignedIdentifier oid = (OrganizationAssignedIdentifier) id;
+	        	  if (oid.getHealthcareSite() != null)
+					li =  getHibernateTemplate()
+							.find("select S from Study S, OrganizationAssignedIdentifier I where I.healthcareSite.id=? and "
+											+ "I.value=? and I.typeInternal=? and I=any elements(S.identifiers) and I.primaryIndicator = ?",
+									new Object[] {oid.getHealthcareSite().getId(),oid.getValue(),oid.getTypeInternal(),true});
+				}  else if (id instanceof SystemAssignedIdentifier) {
+					SystemAssignedIdentifier   sid = (SystemAssignedIdentifier) id;
+	                if (sid.getSystemName() != null) {
+	                        li = getHibernateTemplate()
+	                                        .find("select S from Study S, SystemAssignedIdentifier I where I.systemName=?"
+	                                                                        + " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers) and I.primaryIndicator = ?",
+	                                                        new Object[] { sid.getSystemName(),
+	                                                                        id.getValue(), sid.getType(),true});
+
+	                }
+	        }
+	        
+	        if(li.size() == 1) return  li.get(0);
+	        if(li.size()> 1) throw new C3PRDuplicatePrimaryStudyIdentifierException(395,"Another study found in the system with same primary identifier" );
+		 }
+		 
+		 return null;
 	}
 	
 	public List<Study> search(String hql){
