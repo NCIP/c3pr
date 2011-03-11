@@ -7,6 +7,7 @@ import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.dao.RegistryStatusDao;
 import edu.duke.cabig.c3pr.domain.Consent;
+import edu.duke.cabig.c3pr.domain.ConsentQuestion;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -146,5 +147,7 @@ public interface JAXBToDomainObjectConverter {
 	public Date convertToDate(TSDateTime tsDateTime);
 	
 	public void convert(Study study, List<Identifier> identifiers);
+		
+	public ConsentQuestion convertConsentQuestion(DocumentVersion doc);
 
 }

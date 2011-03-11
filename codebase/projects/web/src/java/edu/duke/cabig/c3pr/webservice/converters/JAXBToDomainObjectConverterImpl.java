@@ -1151,7 +1151,7 @@ public class JAXBToDomainObjectConverterImpl implements
 		return consent;
 	}
 
-	protected ConsentQuestion convertConsentQuestion(DocumentVersion doc) {
+	public ConsentQuestion convertConsentQuestion(DocumentVersion doc) {
 		if (doc == null) {
 			throw exceptionHelper
 					.getConversionException(INVALID_CONSENT_REPRESENTATION);
@@ -1204,6 +1204,7 @@ public class JAXBToDomainObjectConverterImpl implements
 			List<edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason> xmlList) {
 		List<RegistryStatusReason> list = new ArrayList<RegistryStatusReason>();
 		for (edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason xmlReason : xmlList) {
+		if (xmlReason != null)
 			list.add(convert(xmlReason));
 		}
 		return list;
@@ -1309,10 +1310,13 @@ public class JAXBToDomainObjectConverterImpl implements
 		DocumentVersion q = new DocumentVersion();
 		q.setOfficialTitle(ST(cq.getCode()));
 		q.setText(ED(cq.getText()));
-		// q.setVersionNumberText(cq.getVersion() != null ?
-		// ST(cq.getVersion()
-		// .toString()) : null);
 		q.setDocument(new Document());
+		if(cq.getRetiredIndicator().equals("true")){
+			// set the version number and the null flavor only when the consent question is retired
+			q.setVersionNumberText(cq.getVersion() != null ?
+					ST(cq.getVersion().toString()) : null);
+			q.getVersionNumberText().setNullFlavor(NullFlavor.INV);
+		}
 		return q;
 	}
 
@@ -1355,6 +1359,7 @@ public class JAXBToDomainObjectConverterImpl implements
 			RegistryStatusReason secondaryReason, Reason primaryReason) {
 		edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason convertedSecondaryReason = new edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason();
 			convertedSecondaryReason = (convert(secondaryReason));
+			if (primaryReason != null)
 			convertedSecondaryReason.setPrimaryReason(convert(primaryReason));
 		return convertedSecondaryReason;
 	}
@@ -1363,6 +1368,7 @@ public class JAXBToDomainObjectConverterImpl implements
 			List<RegistryStatusReason> reasons) {
 		Collection<edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason> list = new ArrayList<edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason>();
 		for (RegistryStatusReason domainObj : reasons) {
+		if (domainObj != null)
 			list.add(convert(domainObj));
 		}
 		return list;
@@ -1383,6 +1389,7 @@ public class JAXBToDomainObjectConverterImpl implements
 			status.setCode(CD(domainObj.getCode()));
 			status.setDescription(ST(domainObj.getDescription()));
 			for (RegistryStatusReason reason : domainObj.getPrimaryReasons()) {
+			if (reason != null)
 				status.getPrimaryReason().add(convert(reason));
 			}
 		}
@@ -1391,6 +1398,8 @@ public class JAXBToDomainObjectConverterImpl implements
 
 	protected edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason convert(Reason reason) {
 		edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason xml = new edu.duke.cabig.c3pr.webservice.common.RegistryStatusReason();
+		if (reason == null)
+			return xml;
 		xml.setCode(CD(reason.getCode()));
 		xml.setDescription(ST(reason.getDescription()));
 		xml.setPrimaryIndicator(BL(reason.getPrimaryIndicator()));
