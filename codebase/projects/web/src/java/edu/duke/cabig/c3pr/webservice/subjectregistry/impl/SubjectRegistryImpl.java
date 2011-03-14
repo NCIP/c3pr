@@ -95,31 +95,64 @@ import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistry
 import edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryStatusResponse;
 import edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter;
 
+/**
+ * The Class SubjectRegistryImpl.
+ */
 @WebService(wsdlLocation="/WEB-INF/wsdl/SubjectRegistry.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectRegistryService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry", portName = "SubjectRegistry", serviceName = "SubjectRegistryService")
 public class SubjectRegistryImpl implements SubjectRegistry {
-	/**
-	 * Logger for this class
-	 */
+	
+	/** Logger for this class. */
 	private static final Logger log = Logger
 			.getLogger(SubjectRegistryImpl.class);
 
+	/** The Constant NON_UNIQUE_IDENTIFIER. */
 	private static final int NON_UNIQUE_IDENTIFIER = 910;
+	
+	/** The Constant MISSING_SUBJECT_IDENTIFIER. */
 	private static final int MISSING_SUBJECT_IDENTIFIER = 902;
+	
+	/** The Constant SUBJECT_NOT_FOUND. */
 	private static final int SUBJECT_NOT_FOUND = 911;
+	
+	/** The Constant DUPLICATE_STUDYSUBJECT_IDENTIFIER. */
 	private static final int DUPLICATE_STUDYSUBJECT_IDENTIFIER = 913;
+	
+	/** The Constant RE_REGISTRATION. */
 	private static final int RE_REGISTRATION = 924;
+	
+	/** The Constant INVALID_CONSENT_NAME. */
 	private static final int INVALID_CONSENT_NAME = 914;
+	
+	/** The Constant INVALID_CONSENT_QUESTION. */
 	private static final int INVALID_CONSENT_QUESTION = 915;
+	
+	/** The Constant INVALID_REASON. */
 	private static final int INVALID_REASON = 916;
 	
+	/** The exception helper. */
 	private C3PRExceptionHelper exceptionHelper;
+	
+	/** The converter. */
 	private SubjectRegistryJAXBToDomainObjectConverter converter;
+	
+	/** The participant dao. */
 	private ParticipantDao participantDao;
+	
+	/** The study repository. */
 	private StudyRepository studyRepository;
+	
+	/** The study subject repository. */
 	private StudySubjectRepository studySubjectRepository;
+	
+	/** The study subject dao. */
 	private StudySubjectDao studySubjectDao;
+	
+	/** The registry status dao. */
 	private RegistryStatusDao registryStatusDao;
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#importSubjectRegistry(edu.duke.cabig.c3pr.webservice.subjectregistry.ImportStudySubjectRegistryRequest)
+	 */
 	public ImportStudySubjectRegistryResponse importSubjectRegistry(
 			ImportStudySubjectRegistryRequest parameters)
 			throws InvalidStudySubjectDataExceptionFaultMessage,
@@ -219,6 +252,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#initiateStudySubject(edu.duke.cabig.c3pr.webservice.subjectregistry.InitiateStudySubjectRegistryRequest)
+	 */
 	public InitiateStudySubjectRegistryResponse initiateStudySubject(
 			InitiateStudySubjectRegistryRequest parameters)
 			throws DuplicateStudySubjectExceptionFaultMessage,
@@ -275,6 +311,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#queryConsentsByStudySubject(edu.duke.cabig.c3pr.webservice.subjectregistry.QueryConsentsByStudySubjectRequest)
+	 */
 	public QueryConsentsByStudySubjectResponse queryConsentsByStudySubject(
 			QueryConsentsByStudySubjectRequest parameters)
 			throws InvalidQueryExceptionFaultMessage,
@@ -310,6 +349,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return queryConsentsByStudySubjectResponse;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#querySubjectRegistry(edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryRequest)
+	 */
 	public QueryStudySubjectRegistryResponse querySubjectRegistry(
 			QueryStudySubjectRegistryRequest parameters)
 			throws InvalidQueryExceptionFaultMessage,
@@ -337,6 +379,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#querySubjectRegistryByConsent(edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryByConsentRequest)
+	 */
 	public QueryStudySubjectRegistryByConsentResponse querySubjectRegistryByConsent(
 			QueryStudySubjectRegistryByConsentRequest parameters)
 			throws InvalidQueryExceptionFaultMessage,
@@ -391,6 +436,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#querySubjectRegistryByRegistryStatus(edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryByStatusRequest)
+	 */
 	public QueryStudySubjectRegistryByStatusResponse querySubjectRegistryByRegistryStatus(
 			QueryStudySubjectRegistryByStatusRequest parameters)
 			throws InvalidQueryExceptionFaultMessage,
@@ -461,6 +509,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#retrieveStudySubjectDemographyHistory(edu.duke.cabig.c3pr.webservice.subjectregistry.RetrieveStudySubjectDemographyHistoryRequest)
+	 */
 	public RetrieveStudySubjectDemographyHistoryResponse retrieveStudySubjectDemographyHistory(
 			RetrieveStudySubjectDemographyHistoryRequest parameters)
 			throws NoSuchPatientExceptionFaultMessage,
@@ -485,6 +536,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#updateStudySubject(edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryRequest)
+	 */
 	public UpdateStudySubjectRegistryResponse updateStudySubject(
 			UpdateStudySubjectRegistryRequest parameters)
 			throws InvalidStudySubjectDataExceptionFaultMessage,
@@ -508,6 +562,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#updateStudySubjectDemography(edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryDemographyRequest)
+	 */
 	public UpdateStudySubjectRegistryDemographyResponse updateStudySubjectDemography(
 			UpdateStudySubjectRegistryDemographyRequest parameters)
 			throws InvalidStudySubjectDataExceptionFaultMessage,
@@ -533,6 +590,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#queryStudySubjectRegistryStatusHistory(edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryStatusHistoryRequest)
+	 */
 	public QueryStudySubjectRegistryStatusHistoryResponse queryStudySubjectRegistryStatusHistory(
 			QueryStudySubjectRegistryStatusHistoryRequest parameters)
 			throws InvalidQueryExceptionFaultMessage,
@@ -551,6 +611,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#updateStudySubjectConsent(edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectConsentRequest)
+	 */
 	public UpdateStudySubjectConsentResponse updateStudySubjectConsent(
 			UpdateStudySubjectConsentRequest parameters)
 			throws InvalidStudySubjectDataExceptionFaultMessage,
@@ -572,6 +635,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#updateStudySubjectRegistryStatus(edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryStatusRequest)
+	 */
 	public UpdateStudySubjectRegistryStatusResponse updateStudySubjectRegistryStatus(
 			UpdateStudySubjectRegistryStatusRequest parameters)
 			throws InvalidStudySubjectDataExceptionFaultMessage,
@@ -596,6 +662,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#updateStudySubjectRegistryStatusHistory(edu.duke.cabig.c3pr.webservice.subjectregistry.UpdateStudySubjectRegistryStatusHistoryRequest)
+	 */
 	public UpdateStudySubjectRegistryStatusHistoryResponse updateStudySubjectRegistryStatusHistory(
 			UpdateStudySubjectRegistryStatusHistoryRequest parameters)
 			throws InvalidStudySubjectDataExceptionFaultMessage,
@@ -621,18 +690,40 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return response;
 	}
 	
+	/**
+	 * Sets the converter.
+	 *
+	 * @param converter the new converter
+	 */
 	public void setConverter(SubjectRegistryJAXBToDomainObjectConverter converter) {
 		this.converter = converter;
 	}
 
+	/**
+	 * Sets the participant dao.
+	 *
+	 * @param participantDao the new participant dao
+	 */
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
 	}
 
+	/**
+	 * Sets the exception helper.
+	 *
+	 * @param exceptionHelper the new exception helper
+	 */
 	public void setExceptionHelper(C3PRExceptionHelper exceptionHelper) {
 		this.exceptionHelper = exceptionHelper;
 	}
 	
+	/**
+	 * Gets the participant.
+	 *
+	 * @param bioId the bio id
+	 * @return the participant
+	 * @throws InvalidStudySubjectDataExceptionFaultMessage the invalid study subject data exception fault message
+	 */
 	private Participant getParticipant(BiologicEntityIdentifier bioId) throws InvalidStudySubjectDataExceptionFaultMessage{
 		List<BiologicEntityIdentifier> identifiers = new ArrayList<BiologicEntityIdentifier>();
 		identifiers.add(bioId);
@@ -651,6 +742,13 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return participants.get(0);
 	}
 	
+	/**
+	 * Gets the study.
+	 *
+	 * @param docId the doc id
+	 * @return the study
+	 * @throws InvalidStudyProtocolExceptionFaultMessage the invalid study protocol exception fault message
+	 */
 	private Study getStudy(DocumentIdentifier docId) throws InvalidStudyProtocolExceptionFaultMessage{
 		Study study = null;
 		try {
@@ -661,6 +759,15 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return study;
 	}
 	
+	/**
+	 * Gets the study site.
+	 *
+	 * @param study the study
+	 * @param orgId the org id
+	 * @return the study site
+	 * @throws InvalidSiteExceptionFaultMessage the invalid site exception fault message
+	 * @throws InvalidStudyProtocolExceptionFaultMessage the invalid study protocol exception fault message
+	 */
 	private StudySite getStudySite(Study study, OrganizationIdentifier orgId)throws InvalidSiteExceptionFaultMessage, InvalidStudyProtocolExceptionFaultMessage{
 		StudySite studySite = null;
 		try {
@@ -675,12 +782,25 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		return studySite;
 	}
 	
+	/**
+	 * Gets the study subject.
+	 *
+	 * @param identifiers the identifiers
+	 * @return the study subject
+	 */
 	private edu.duke.cabig.c3pr.domain.StudySubject getStudySubject(List<SubjectIdentifier> identifiers){
 		edu.duke.cabig.c3pr.domain.StudySubject domainObject = new edu.duke.cabig.c3pr.domain.StudySubject();
 		domainObject.getIdentifiers().addAll(converter.convertSubjectIdentifiers(identifiers));
 		return studySubjectRepository.getUniqueStudySubject(domainObject.getPrimaryIdentifierObject());
 	}
 	
+	/**
+	 * Copy enrollment details.
+	 *
+	 * @param destination the destination
+	 * @param source the source
+	 * @throws InvalidStudySubjectDataExceptionFaultMessage the invalid study subject data exception fault message
+	 */
 	private void copyEnrollmentDetails(edu.duke.cabig.c3pr.domain.StudySubject destination , StudySubject source) throws InvalidStudySubjectDataExceptionFaultMessage{
 		//copy organic attributes
 		CD paymentMethod = source.getPaymentMethodCode();
@@ -694,6 +814,13 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		destination.getIdentifiers().addAll(identifiers);
 	}
 	
+	/**
+	 * Copy consent details.
+	 *
+	 * @param destination the destination
+	 * @param subjectConsents the subject consents
+	 * @throws InvalidStudySubjectDataExceptionFaultMessage the invalid study subject data exception fault message
+	 */
 	private void copyConsentDetails(edu.duke.cabig.c3pr.domain.StudySubject destination , List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> subjectConsents) throws InvalidStudySubjectDataExceptionFaultMessage{
 		List<StudySubjectConsentVersion> studySubjectConsents = converter.convertSubjectConsent(subjectConsents);
 		destination.getStudySubjectStudyVersion().getStudySubjectConsentVersions().clear();
@@ -718,6 +845,14 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		}
 	}
 	
+	/**
+	 * Gets the study subject registry status.
+	 *
+	 * @param status the status
+	 * @param study the study
+	 * @return the study subject registry status
+	 * @throws InvalidStudySubjectDataExceptionFaultMessage the invalid study subject data exception fault message
+	 */
 	private StudySubjectRegistryStatus getStudySubjectRegistryStatus(PerformedStudySubjectMilestone status, Study study) throws InvalidStudySubjectDataExceptionFaultMessage{
 		StudySubjectRegistryStatus studySubjectRegistryStatus = converter.convertRegistryStatus(status);
 		if(CollectionUtils.isNotEmpty(studySubjectRegistryStatus.getReasons())){
@@ -754,7 +889,7 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 			
 			// now add all the secondary reasons
 			List<RegistryStatusReason> secondaryRegistryReasons = new ArrayList<RegistryStatusReason>();
-		for(RegistryStatusReason actualReason : actualReasons){
+			for(RegistryStatusReason actualReason : actualReasons){
 				boolean found = false;
 				possibleReasonsloop:	for(RegistryStatusReason possibleReason : possibleReasons){
 												if(!possibleReason.getPrimaryIndicator()){
@@ -784,9 +919,12 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		}
 		return studySubjectRegistryStatus;
 	}
+	
 	/**
-	 * @param e
-	 * @throws handleDuplicateStudySubject
+	 * Handle duplicate study subject.
+	 *
+	 * @param e the e
+	 * @throws DuplicateStudySubjectExceptionFaultMessage the duplicate study subject exception fault message
 	 */
 	private void handleDuplicateStudySubject(Exception e)
 			throws DuplicateStudySubjectExceptionFaultMessage {
@@ -797,8 +935,10 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	}
 	
 	/**
-	 * @param e
-	 * @throws InvalidStudySubjectDataExceptionFaultMessage
+	 * Handle invalid study subject data.
+	 *
+	 * @param e the e
+	 * @throws InvalidStudySubjectDataExceptionFaultMessage the invalid study subject data exception fault message
 	 */
 	private void handleInvalidStudySubjectData(Exception e)
 			throws InvalidStudySubjectDataExceptionFaultMessage {
@@ -809,8 +949,10 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	}
 	
 	/**
-	 * @param e
-	 * @throws handleInvalidStudyData
+	 * Handle invalid study data.
+	 *
+	 * @param e the e
+	 * @throws InvalidStudyProtocolExceptionFaultMessage the invalid study protocol exception fault message
 	 */
 	private void handleInvalidStudyData(Exception e)
 			throws InvalidStudyProtocolExceptionFaultMessage {
@@ -821,8 +963,10 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	}
 	
 	/**
-	 * @param e
-	 * @throws handleInvalidSiteData
+	 * Handle invalid site data.
+	 *
+	 * @param e the e
+	 * @throws InvalidSiteExceptionFaultMessage the invalid site exception fault message
 	 */
 	private void handleInvalidSiteData(Exception e)
 			throws InvalidSiteExceptionFaultMessage {
@@ -833,8 +977,10 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	}
 	
 	/**
-	 * @param e
-	 * @throws handleInvalidQueryData
+	 * Handle invalid query data.
+	 *
+	 * @param e the e
+	 * @throws InvalidQueryExceptionFaultMessage the invalid query exception fault message
 	 */
 	private void handleInvalidQueryData(Exception e)
 			throws InvalidQueryExceptionFaultMessage {
@@ -845,8 +991,10 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	}
 	
 	/**
-	 * @param e
-	 * @throws handleNoStudySubjectFound
+	 * Handle no study subject found.
+	 *
+	 * @param e the e
+	 * @throws NoSuchStudySubjectExceptionFaultMessage the no such study subject exception fault message
 	 */
 	private void handleNoStudySubjectFound(Exception e)
 			throws NoSuchStudySubjectExceptionFaultMessage {
@@ -857,8 +1005,10 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	}
 	
 	/**
-	 * @param e
-	 * @throws handleNoStudySubjectFound
+	 * Handle no subject found.
+	 *
+	 * @param e the e
+	 * @throws NoSuchPatientExceptionFaultMessage the no such patient exception fault message
 	 */
 	private void handleNoSubjectFound(Exception e)
 			throws NoSuchPatientExceptionFaultMessage {
@@ -868,23 +1018,49 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		throw new NoSuchPatientExceptionFaultMessage(e.getMessage(), fault);
 	}
 	
+	/**
+	 * Checks if is null.
+	 *
+	 * @param cd the cd
+	 * @return true, if is null
+	 */
 	private boolean isNull(ANY cd) {
 		return cd == null || cd.getNullFlavor() != null;
 	}
 
+	/**
+	 * Sets the study repository.
+	 *
+	 * @param studyRepository the new study repository
+	 */
 	public void setStudyRepository(StudyRepository studyRepository) {
 		this.studyRepository = studyRepository;
 	}
 
+	/**
+	 * Sets the study subject repository.
+	 *
+	 * @param studySubjectRepository the new study subject repository
+	 */
 	public void setStudySubjectRepository(
 			StudySubjectRepository studySubjectRepository) {
 		this.studySubjectRepository = studySubjectRepository;
 	}
 
+	/**
+	 * Sets the study subject dao.
+	 *
+	 * @param studySubjectDao the new study subject dao
+	 */
 	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
 		this.studySubjectDao = studySubjectDao;
 	}
 
+	/**
+	 * Sets the registry status dao.
+	 *
+	 * @param registryStatusDao the new registry status dao
+	 */
 	public void setRegistryStatusDao(RegistryStatusDao registryStatusDao) {
 		this.registryStatusDao = registryStatusDao;
 	}

@@ -34,27 +34,83 @@ public interface SubjectRegistryJAXBToDomainObjectConverter extends JAXBToDomain
 	 */
 	List<Identifier> convertSubjectIdentifiers(List<SubjectIdentifier> subjectIdentifiers);
 	
+	/**
+	 * Convert healthcare site primary identifier.
+	 *
+	 * @param org the org
+	 * @return the string
+	 */
 	String convertHealthcareSitePrimaryIdentifier(Organization org);
 	
+	/**
+	 * Convert healthcare site primary identifier.
+	 *
+	 * @param orgId the org id
+	 * @return the string
+	 */
 	String convertHealthcareSitePrimaryIdentifier(OrganizationIdentifier orgId);
 	
+	/**
+	 * Convert subject consent.
+	 *
+	 * @param subjectConsents the subject consents
+	 * @return the list
+	 */
 	List<StudySubjectConsentVersion> convertSubjectConsent(List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> subjectConsents);
 	
+	/**
+	 * Convert.
+	 *
+	 * @param domainObject the domain object
+	 * @return the study subject
+	 */
 	StudySubject convert(edu.duke.cabig.c3pr.domain.StudySubject domainObject);
 	
+	/**
+	 * Convert registry status.
+	 *
+	 * @param status the status
+	 * @return the study subject registry status
+	 */
 	StudySubjectRegistryStatus convertRegistryStatus(PerformedStudySubjectMilestone status);
 	
+	/**
+	 * Convert subject demographics.
+	 *
+	 * @param studySubjectDemographics the study subject demographics
+	 * @return the person
+	 */
 	Person convertSubjectDemographics(StudySubjectDemographics studySubjectDemographics);
 	
+	/**
+	 * Convert to subject consent.
+	 *
+	 * @param studySubjectConsentVersions the study subject consent versions
+	 * @return the list
+	 */
 	List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> convertToSubjectConsent(List<StudySubjectConsentVersion> studySubjectConsentVersions);
 	
+	/**
+	 * Convert to subject consent.
+	 *
+	 * @param studySubjectConsentVersion the study subject consent version
+	 * @return the edu.duke.cabig.c3pr.webservice.common. study subject consent version
+	 */
 	edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion convertToSubjectConsent(StudySubjectConsentVersion studySubjectConsentVersion);
 	
-	List<PerformedStudySubjectMilestone> convertToStudySubjectRegistryStatus(List<StudySubjectRegistryStatus> statuses);
 	/**
-	 * Updates the given instance of {@link StudySubjectDemographics} with new values. Does not modify identifiers. 
-	 * @param participant
-	 * @param subject
+	 * Convert to study subject registry status.
+	 *
+	 * @param statuses the statuses
+	 * @return the list
+	 */
+	List<PerformedStudySubjectMilestone> convertToStudySubjectRegistryStatus(List<StudySubjectRegistryStatus> statuses);
+	
+	/**
+	 * Updates the given instance of {@link StudySubjectDemographics} with new values. Does not modify identifiers.
+	 *
+	 * @param destination the destination
+	 * @param source the source
 	 */
 	void convertToSubjectDemographics(StudySubjectDemographics destination, Subject source);
 }

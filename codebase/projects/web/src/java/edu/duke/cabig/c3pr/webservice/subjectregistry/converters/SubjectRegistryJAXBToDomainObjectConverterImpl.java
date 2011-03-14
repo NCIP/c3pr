@@ -69,17 +69,34 @@ import edu.duke.cabig.c3pr.webservice.subjectregistry.StudySubject;
 public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomainObjectConverterImpl implements
 		SubjectRegistryJAXBToDomainObjectConverter {
 
+	/** The Constant MISSING_IDENTIFIER. */
 	static final int MISSING_IDENTIFIER = 917;
+	
+	/** The Constant STUDY_SUBJECT_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_AMONG_ORGANIZATION_AND_SYSTEMNAME. */
 	static final int STUDY_SUBJECT_IDENTIFIER_HAS_TO_CONTAIN_EXACTLY_ONE_AMONG_ORGANIZATION_AND_SYSTEMNAME = 918;
+	
+	/** The Constant MISSING_OR_INVALID_CONSENT_NAME. */
 	static final int MISSING_OR_INVALID_CONSENT_NAME = 919;
+	
+	/** The Constant INVALID_CONSENT_QUESTION_ANSWER_AGREEMENTINDICATOR. */
 	static final int INVALID_CONSENT_QUESTION_ANSWER_AGREEMENTINDICATOR = 920;
+	
+	/** The Constant INVALID_CONSENT_QUESTION. */
 	static final int INVALID_CONSENT_QUESTION = 921;
+	
+	/** The Constant MISSING_STATUS_CODE. */
 	static final int MISSING_STATUS_CODE = 922;
+	
+	/** The Constant MISSING_STATUS_DATE. */
 	static final int MISSING_STATUS_DATE = 923;
 	
+	/** The log. */
 	private static Log log = LogFactory
 			.getLog(SubjectRegistryJAXBToDomainObjectConverterImpl.class);
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertHealthcareSitePrimaryIdentifier(edu.duke.cabig.c3pr.webservice.common.Organization)
+	 */
 	public String convertHealthcareSitePrimaryIdentifier(Organization org) {
 		List<OrganizationIdentifier> idList = org.getOrganizationIdentifier();
 		if (CollectionUtils.isEmpty(idList)) {
@@ -95,6 +112,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return id.getExtension();
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertHealthcareSitePrimaryIdentifier(edu.duke.cabig.c3pr.webservice.common.OrganizationIdentifier)
+	 */
 	public String convertHealthcareSitePrimaryIdentifier(OrganizationIdentifier orgId) {
 		II id = orgId.getIdentifier();
 		if (id == null || StringUtils.isBlank(id.getExtension())) {
@@ -104,6 +124,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return id.getExtension();
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertSubjectConsent(java.util.List)
+	 */
 	public List<StudySubjectConsentVersion> convertSubjectConsent(
 			List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> subjectConsents) {
 		List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
@@ -158,6 +181,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return studySubjectConsentVersions;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertSubjectIdentifiers(java.util.List)
+	 */
 	public List<Identifier> convertSubjectIdentifiers(
 			List<SubjectIdentifier> subjectIdentifiers) {
 		List<Identifier> identifiers = new ArrayList<Identifier>();
@@ -196,6 +222,12 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return identifiers;
 	}
 	
+	/**
+	 * Convert to subject identifier.
+	 *
+	 * @param identifiers the identifiers
+	 * @return the list
+	 */
 	protected List<SubjectIdentifier> convertToSubjectIdentifier(
 			List<Identifier> identifiers) {
 		List<SubjectIdentifier> result = new ArrayList<SubjectIdentifier>();
@@ -228,6 +260,12 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return result;
 	}
 	
+	/**
+	 * Convert to organization identifier.
+	 *
+	 * @param identifiers the identifiers
+	 * @return the list
+	 */
 	protected List<OrganizationIdentifier> convertToOrganizationIdentifier(
 			List<Identifier> identifiers) {
 		List<OrganizationIdentifier> result = new ArrayList<OrganizationIdentifier>();
@@ -244,6 +282,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convert(edu.duke.cabig.c3pr.domain.StudySubject)
+	 */
 	public StudySubject convert(
 			edu.duke.cabig.c3pr.domain.StudySubject domainObject) {
 		StudySubject studySubject = new StudySubject();
@@ -267,6 +308,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return studySubject;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertRegistryStatus(edu.duke.cabig.c3pr.webservice.common.PerformedStudySubjectMilestone)
+	 */
 	public StudySubjectRegistryStatus convertRegistryStatus(
 			PerformedStudySubjectMilestone status) {
 		StudySubjectRegistryStatus studySubjectRegistryStatus = new StudySubjectRegistryStatus();
@@ -293,6 +337,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return studySubjectRegistryStatus;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertSubjectDemographics(edu.duke.cabig.c3pr.domain.StudySubjectDemographics)
+	 */
 	public Person convertSubjectDemographics(
 			StudySubjectDemographics studySubjectDemographics) {
 		Person person = new Person();
@@ -346,6 +393,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return person;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertToSubjectDemographics(edu.duke.cabig.c3pr.domain.StudySubjectDemographics, edu.duke.cabig.c3pr.webservice.common.Subject)
+	 */
 	public void convertToSubjectDemographics(
 			StudySubjectDemographics studySubjectDemographics, Subject subject) {
 		if (subject != null && subject.getEntity() != null) {
@@ -382,6 +432,12 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		}
 	}
 	
+	/**
+	 * Gets the study subject protocol version.
+	 *
+	 * @param studySubjectStudyVersion the study subject study version
+	 * @return the study subject protocol version
+	 */
 	protected StudySubjectProtocolVersionRelationship getStudySubjectProtocolVersion(StudySubjectStudyVersion studySubjectStudyVersion){
 		StudySubjectProtocolVersionRelationship studySubjectProtocolVersion = new StudySubjectProtocolVersionRelationship();
 		StudySite studySite = studySubjectStudyVersion.getStudySiteStudyVersion().getStudySite();
@@ -405,6 +461,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return studySubjectProtocolVersion;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertToStudySubjectRegistryStatus(java.util.List)
+	 */
 	public List<PerformedStudySubjectMilestone> convertToStudySubjectRegistryStatus(List<StudySubjectRegistryStatus> statuses){
 		List<PerformedStudySubjectMilestone> result = new ArrayList<PerformedStudySubjectMilestone>();
 		for(StudySubjectRegistryStatus studySubjectRegistryStatus : statuses){
@@ -423,6 +482,12 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return result;
 	}
 	
+	/**
+	 * Gets the ethnic group code.
+	 *
+	 * @param p the p
+	 * @return the ethnic group code
+	 */
 	protected DSETCD getEthnicGroupCode(StudySubjectDemographics p) {
 		DSETCD dsetcd = new DSETCD();
 		if (StringUtils.isNotBlank(p.getEthnicGroupCode())) {
@@ -433,6 +498,12 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return dsetcd;
 	}
 	
+	/**
+	 * Gets the name.
+	 *
+	 * @param p the p
+	 * @return the name
+	 */
 	protected DSETENPN getName(StudySubjectDemographics p) {
 		DSETENPN dsetenpn = new DSETENPN();
 		ENPN enpn = new ENPN();
@@ -459,6 +530,12 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return dsetenpn;
 	}
 	
+	/**
+	 * Gets the race codes.
+	 *
+	 * @param p the p
+	 * @return the race codes
+	 */
 	protected DSETCD getRaceCodes(StudySubjectDemographics p) {
 		DSETCD dsetcd = new DSETCD();
 		for (RaceCodeEnum raceCode : p.getRaceCodes()) {
@@ -467,6 +544,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return dsetcd;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertToSubjectConsent(java.util.List)
+	 */
 	public List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> convertToSubjectConsent(
 			List<StudySubjectConsentVersion> studySubjectConsentVersions) {
 		List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> returnList = new ArrayList<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion>();
@@ -476,6 +556,9 @@ public class SubjectRegistryJAXBToDomainObjectConverterImpl extends JAXBToDomain
 		return returnList;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverter#convertToSubjectConsent(edu.duke.cabig.c3pr.domain.StudySubjectConsentVersion)
+	 */
 	public edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion convertToSubjectConsent(StudySubjectConsentVersion studySubjectConsentVersion){
 		edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion target = new edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion();
 		if(!StringUtils.isBlank(studySubjectConsentVersion.getDocumentId())){

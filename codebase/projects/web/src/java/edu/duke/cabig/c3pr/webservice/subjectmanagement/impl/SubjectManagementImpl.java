@@ -64,46 +64,85 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectStateRespon
 @WebService(wsdlLocation = "/WEB-INF/wsdl/SubjectManagement.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement", portName = "SubjectManagement", serviceName = "SubjectManagementService")
 public class SubjectManagementImpl implements SubjectManagement {
 
+	/** The Constant SUBJECT_DOES_NOT_EXIST. */
 	private static final String SUBJECT_DOES_NOT_EXIST = "Subject does not exist.";
 
+	/** The Constant MISSING_EITHER_SUBJECT_IDENTIFIER_OR_NEW_STATE_VALUE. */
 	private static final String MISSING_EITHER_SUBJECT_IDENTIFIER_OR_NEW_STATE_VALUE = "Missing either subject identifier or new state value.";
 
+	/** The Constant WRONG_SUBJECT_STATE_VALUE. */
 	private static final String WRONG_SUBJECT_STATE_VALUE = "Wrong subject state value.";
 
+	/** The Constant SUBJECT_IS_INACTIVE. */
 	private static final String SUBJECT_IS_INACTIVE = "Subject is inactive.";
 
+	/** The Constant SUBJECT_ALREADY_EXISTS. */
 	private static final String SUBJECT_ALREADY_EXISTS = "Subject already exists.";
 
+	/** The log. */
 	private static Log log = LogFactory.getLog(SubjectManagementImpl.class);
 
+	/** The converter. */
 	private JAXBToDomainObjectConverter converter;
 
+	/** The participant validator. */
 	private ParticipantValidator participantValidator;
 
+	/** The participant repository. */
 	private ParticipantRepository participantRepository;
 
+	/**
+	 * Gets the participant repository.
+	 *
+	 * @return the participant repository
+	 */
 	public ParticipantRepository getParticipantRepository() {
 		return participantRepository;
 	}
 
+	/**
+	 * Sets the participant repository.
+	 *
+	 * @param participantRepository the new participant repository
+	 */
 	public void setParticipantRepository(
 			ParticipantRepository participantRepository) {
 		this.participantRepository = participantRepository;
 	}
 
+	/**
+	 * Gets the participant validator.
+	 *
+	 * @return the participant validator
+	 */
 	public ParticipantValidator getParticipantValidator() {
 		return participantValidator;
 	}
 
+	/**
+	 * Sets the participant validator.
+	 *
+	 * @param participantValidator the new participant validator
+	 */
 	public void setParticipantValidator(
 			ParticipantValidator participantValidator) {
 		this.participantValidator = participantValidator;
 	}
 
+	/**
+	 * Gets the converter.
+	 *
+	 * @return the converter
+	 */
 	public JAXBToDomainObjectConverter getConverter() {
 		return converter;
 	}
 
+	/**
+	 * Sets the converter.
+	 *
+	 * @param converter the new converter
+	 */
 	public void setConverter(JAXBToDomainObjectConverter converter) {
 		this.converter = converter;
 	}
@@ -275,8 +314,10 @@ public class SubjectManagementImpl implements SubjectManagement {
 	}
 
 	/**
-	 * @param e
-	 * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage
+	 * Handle subject backend problem.
+	 *
+	 * @param e the e
+	 * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage the unable to create or update subject exception fault message
 	 */
 	private void handleSubjectBackendProblem(RuntimeException e)
 			throws UnableToCreateOrUpdateSubjectExceptionFaultMessage {
@@ -288,8 +329,10 @@ public class SubjectManagementImpl implements SubjectManagement {
 	}
 
 	/**
-	 * @param e
-	 * @throws InvalidSubjectDataExceptionFaultMessage
+	 * Handle invalid subject data.
+	 *
+	 * @param e the e
+	 * @throws InvalidSubjectDataExceptionFaultMessage the invalid subject data exception fault message
 	 */
 	private void handleInvalidSubjectData(Exception e)
 			throws InvalidSubjectDataExceptionFaultMessage {
@@ -348,7 +391,9 @@ public class SubjectManagementImpl implements SubjectManagement {
 	}
 
 	/**
-	 * @throws NoSuchSubjectExceptionFaultMessage
+	 * Handle unexistent subject.
+	 *
+	 * @throws NoSuchSubjectExceptionFaultMessage the no such subject exception fault message
 	 */
 	private void handleUnexistentSubject()
 			throws NoSuchSubjectExceptionFaultMessage {
@@ -358,28 +403,48 @@ public class SubjectManagementImpl implements SubjectManagement {
 				fault);
 	}
 
+	/**
+	 * The Class ParticipantValidationError.
+	 */
 	public static final class ParticipantValidationError extends RuntimeException {
 
-		/**
-		 * 
-		 */
+		/** The Constant serialVersionUID. */
 		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Instantiates a new participant validation error.
+		 */
 		public ParticipantValidationError() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
 
+		/**
+		 * Instantiates a new participant validation error.
+		 *
+		 * @param message the message
+		 * @param cause the cause
+		 */
 		public ParticipantValidationError(String message, Throwable cause) {
 			super(message, cause);
 			// TODO Auto-generated constructor stub
 		}
 
+		/**
+		 * Instantiates a new participant validation error.
+		 *
+		 * @param message the message
+		 */
 		public ParticipantValidationError(String message) {
 			super(message);
 			// TODO Auto-generated constructor stub
 		}
 
+		/**
+		 * Instantiates a new participant validation error.
+		 *
+		 * @param cause the cause
+		 */
 		public ParticipantValidationError(Throwable cause) {
 			super(cause);
 			// TODO Auto-generated constructor stub
@@ -396,63 +461,102 @@ public class SubjectManagementImpl implements SubjectManagement {
 	 */
 	private static final class ExceptionBasedErrorsImpl implements Errors {
 
+		/** The participant wrapper. */
 		private ParticipantWrapper participantWrapper;
 
+		/**
+		 * Instantiates a new exception based errors impl.
+		 *
+		 * @param participantWrapper the participant wrapper
+		 */
 		public ExceptionBasedErrorsImpl(ParticipantWrapper participantWrapper) {
 			super();
 			this.participantWrapper = participantWrapper;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#addAllErrors(org.springframework.validation.Errors)
+		 */
 		public void addAllErrors(Errors errors) {
 			// TODO Auto-generated method stub
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getAllErrors()
+		 */
 		public List getAllErrors() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getErrorCount()
+		 */
 		public int getErrorCount() {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getFieldError()
+		 */
 		public FieldError getFieldError() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getFieldError(java.lang.String)
+		 */
 		public FieldError getFieldError(String field) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getFieldErrorCount()
+		 */
 		public int getFieldErrorCount() {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getFieldErrorCount(java.lang.String)
+		 */
 		public int getFieldErrorCount(String field) {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getFieldErrors()
+		 */
 		public List getFieldErrors() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getFieldErrors(java.lang.String)
+		 */
 		public List getFieldErrors(String field) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getFieldType(java.lang.String)
+		 */
 		public Class getFieldType(String field) {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getFieldValue(java.lang.String)
+		 */
 		public Object getFieldValue(String field) {
 			try {
 				return PropertyUtils.getProperty(participantWrapper, field);
@@ -461,92 +565,146 @@ public class SubjectManagementImpl implements SubjectManagement {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getGlobalError()
+		 */
 		public ObjectError getGlobalError() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getGlobalErrorCount()
+		 */
 		public int getGlobalErrorCount() {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getGlobalErrors()
+		 */
 		public List getGlobalErrors() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getNestedPath()
+		 */
 		public String getNestedPath() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#getObjectName()
+		 */
 		public String getObjectName() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#hasErrors()
+		 */
 		public boolean hasErrors() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#hasFieldErrors()
+		 */
 		public boolean hasFieldErrors() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#hasFieldErrors(java.lang.String)
+		 */
 		public boolean hasFieldErrors(String field) {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#hasGlobalErrors()
+		 */
 		public boolean hasGlobalErrors() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#popNestedPath()
+		 */
 		public void popNestedPath() throws IllegalStateException {
 			// TODO Auto-generated method stub
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#pushNestedPath(java.lang.String)
+		 */
 		public void pushNestedPath(String subPath) {
 			// TODO Auto-generated method stub
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#reject(java.lang.String)
+		 */
 		public void reject(String errorCode) {
 			throw new ParticipantValidationError(errorCode);
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#reject(java.lang.String, java.lang.String)
+		 */
 		public void reject(String errorCode, String defaultMessage) {
 			throw new ParticipantValidationError(defaultMessage);
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#reject(java.lang.String, java.lang.Object[], java.lang.String)
+		 */
 		public void reject(String errorCode, Object[] errorArgs,
 				String defaultMessage) {
 			throw new ParticipantValidationError(defaultMessage);
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#rejectValue(java.lang.String, java.lang.String)
+		 */
 		public void rejectValue(String field, String errorCode) {
 			throw new ParticipantValidationError(errorCode);
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#rejectValue(java.lang.String, java.lang.String, java.lang.String)
+		 */
 		public void rejectValue(String field, String errorCode,
 				String defaultMessage) {
 			throw new ParticipantValidationError(defaultMessage);
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#rejectValue(java.lang.String, java.lang.String, java.lang.Object[], java.lang.String)
+		 */
 		public void rejectValue(String field, String errorCode,
 				Object[] errorArgs, String defaultMessage) {
 			throw new ParticipantValidationError(defaultMessage);
 
 		}
 
+		/* (non-Javadoc)
+		 * @see org.springframework.validation.Errors#setNestedPath(java.lang.String)
+		 */
 		public void setNestedPath(String nestedPath) {
 			// TODO Auto-generated method stub
 

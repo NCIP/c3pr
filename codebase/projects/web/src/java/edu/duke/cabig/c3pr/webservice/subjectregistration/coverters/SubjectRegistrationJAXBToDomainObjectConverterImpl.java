@@ -78,9 +78,13 @@ import edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistry
 public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectRegistryJAXBToDomainObjectConverterImpl implements
 		SubjectRegistrationJAXBToDomainObjectConverter  {
 
+	/** The log. */
 	private static Log log = LogFactory
 			.getLog(SubjectRegistrationJAXBToDomainObjectConverterImpl.class);
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertToStudySubjectRegistration(edu.duke.cabig.c3pr.domain.StudySubject)
+	 */
 	public StudySubject convertToStudySubjectRegistration(
 			edu.duke.cabig.c3pr.domain.StudySubject domainObject) {
 		StudySubject studySubject = new StudySubject();
@@ -114,6 +118,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return studySubject;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistryJAXBToDomainObjectConverterImpl#getStudySubjectProtocolVersion(edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion)
+	 */
 	@Override
 	protected StudySubjectProtocolVersionRelationship getStudySubjectProtocolVersion(StudySubjectStudyVersion studySubjectStudyVersion){
 		StudySubjectProtocolVersionRelationship studySubjectProtocolVersion = new StudySubjectProtocolVersionRelationship();
@@ -139,6 +146,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return studySubjectProtocolVersion;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertToScheduledEpochs(java.util.List)
+	 */
 	public List<ScheduledEpoch> convertToScheduledEpochs(
 			List<edu.duke.cabig.c3pr.domain.ScheduledEpoch> scheduledEpochs) {
 		List<ScheduledEpoch> returnList = new ArrayList<ScheduledEpoch>();
@@ -148,6 +158,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return returnList;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertToScheduledEpoch(edu.duke.cabig.c3pr.domain.ScheduledEpoch)
+	 */
 	public ScheduledEpoch convertToScheduledEpoch(
 			edu.duke.cabig.c3pr.domain.ScheduledEpoch scheduledEpoch) {
 		ScheduledEpoch covertedScheduledEpoch = new ScheduledEpoch();
@@ -170,6 +183,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return covertedScheduledEpoch;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertToEpoch(edu.duke.cabig.c3pr.domain.Epoch)
+	 */
 	public Epoch convertToEpoch(edu.duke.cabig.c3pr.domain.Epoch epoch){
 		Epoch convertedEpoch = new Epoch();
 		convertedEpoch.setDescription(iso.ST(epoch.getDescriptionText()));
@@ -179,6 +195,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return convertedEpoch;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertToScheduledArm(edu.duke.cabig.c3pr.domain.ScheduledArm)
+	 */
 	public PerformedActivity convertToScheduledArm(ScheduledArm scheduledArm){
 		PerformedActivity convertedArm = new PerformedActivity();
 		if(scheduledArm.getArm() !=null){
@@ -193,6 +212,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return convertedArm;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertToSubjectEligibilityAnswers(java.util.List)
+	 */
 	public List<PerformedObservationResult> convertToSubjectEligibilityAnswers(List<SubjectEligibilityAnswer> answers){
 		List<PerformedObservationResult> convertedAnswers = new ArrayList<PerformedObservationResult>();
 		for(SubjectEligibilityAnswer answer : answers){
@@ -201,6 +223,12 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return convertedAnswers;
 	}
 	
+	/**
+	 * Convert to subject eligibility answer.
+	 *
+	 * @param answer the answer
+	 * @return the performed observation result
+	 */
 	public PerformedObservationResult convertToSubjectEligibilityAnswer(SubjectEligibilityAnswer answer){
 		PerformedObservationResult convertedAnswer = new PerformedObservationResult();
 		DefinedEligibilityCriterion eligibility = null;
@@ -221,6 +249,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return convertedAnswer;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertToSubjectStratificationAnswers(java.util.List)
+	 */
 	public List<PerformedObservationResult> convertToSubjectStratificationAnswers(List<SubjectStratificationAnswer> answers){
 		List<PerformedObservationResult> convertedAnswers = new ArrayList<PerformedObservationResult>();
 		for(SubjectStratificationAnswer answer : answers){
@@ -229,6 +260,12 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return convertedAnswers;
 	}
 	
+	/**
+	 * Convert to subject stratification answer.
+	 *
+	 * @param answer the answer
+	 * @return the performed observation result
+	 */
 	public PerformedObservationResult convertToSubjectStratificationAnswer(SubjectStratificationAnswer answer){
 		if(answer.getStratificationCriterionAnswer() == null){
 			return null;
@@ -244,6 +281,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return convertedAnswer;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertToDiseaseHistory(edu.duke.cabig.c3pr.domain.DiseaseHistory)
+	 */
 	public PerformedDiagnosis convertToDiseaseHistory(DiseaseHistory diseaseHistory){
 		PerformedDiagnosis convertedDiseaseHistory = new PerformedDiagnosis();
 		StudyCondition condition = new StudyCondition();
@@ -253,6 +293,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return convertedDiseaseHistory;
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertToStudyInvestigator(edu.duke.cabig.c3pr.domain.StudySubject)
+	 */
 	public StudyInvestigator convertToStudyInvestigator(edu.duke.cabig.c3pr.domain.StudySubject domainObject){
 		StudyInvestigator studyInvestigator = new StudyInvestigator();
 		Person investigator = new Person();
@@ -296,8 +339,11 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return studyInvestigator;
 	}
 
-	/** Plugs in a dummy StudyDisease with the right term in it. Replace with hibernate attached StudyDisease in impl.
-	 * 
+	/**
+	 * Plugs in a dummy StudyDisease with the right term in it. Replace with hibernate attached StudyDisease in impl.
+	 *
+	 * @param diseaseHistory the disease history
+	 * @return the disease history
 	 */
 	public DiseaseHistory convertDiseaseHistory(PerformedDiagnosis diseaseHistory) {
 		DiseaseHistory convertedDiseaseHistory = new DiseaseHistory();
@@ -316,6 +362,9 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return convertedDiseaseHistory;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertEpoch(edu.duke.cabig.c3pr.webservice.subjectregistration.Epoch)
+	 */
 	public edu.duke.cabig.c3pr.domain.Epoch convertEpoch(Epoch epoch) {
 		edu.duke.cabig.c3pr.domain.Epoch convertedEpoch = new edu.duke.cabig.c3pr.domain.Epoch();
 		
@@ -328,8 +377,11 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 	}
 
 	/**
-	 * Plugs in a dummy arm with the right arm name. 
+	 * Plugs in a dummy arm with the right arm name.
 	 * The dummy arm is expected to be replaced with the Hibernate object by the calling method or Impl.
+	 *
+	 * @param scheduledArm the scheduled arm
+	 * @return the scheduled arm
 	 */
 	public ScheduledArm convertScheduledArm(PerformedActivity scheduledArm) {
 		ScheduledArm convertedArm = new ScheduledArm();
@@ -346,7 +398,10 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 	}
 
 	/**
-	 *  Converts the ScheduledEpoch stub to the domain object.
+	 * Converts the ScheduledEpoch stub to the domain object.
+	 *
+	 * @param scheduledEpoch the scheduled epoch
+	 * @return the edu.duke.cabig.c3pr.domain. scheduled epoch
 	 */
 	public edu.duke.cabig.c3pr.domain.ScheduledEpoch convertScheduledEpoch(ScheduledEpoch scheduledEpoch) {
 		edu.duke.cabig.c3pr.domain.ScheduledEpoch covertedScheduledEpoch = new edu.duke.cabig.c3pr.domain.ScheduledEpoch();
@@ -396,12 +451,18 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return covertedScheduledEpoch;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertScheduledEpochs(java.util.List)
+	 */
 	public List<edu.duke.cabig.c3pr.domain.ScheduledEpoch> convertScheduledEpochs(
 			List<ScheduledEpoch> scheduledEpochs) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertStudyInvestigator(edu.duke.cabig.c3pr.webservice.subjectregistration.StudyInvestigator)
+	 */
 	public edu.duke.cabig.c3pr.domain.StudyInvestigator convertStudyInvestigator(StudyInvestigator studyInvestigator) {
 		edu.duke.cabig.c3pr.domain.StudyInvestigator convertedStudyInvestigator = new edu.duke.cabig.c3pr.domain.StudyInvestigator();
 		LocalInvestigator convertedInvestigator = new LocalInvestigator();
@@ -425,18 +486,30 @@ public class SubjectRegistrationJAXBToDomainObjectConverterImpl extends SubjectR
 		return convertedStudyInvestigator;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertSubjectEligibilityAnswers(java.util.List)
+	 */
 	public List<SubjectEligibilityAnswer> convertSubjectEligibilityAnswers(
 			List<PerformedObservationResult> answers) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.webservice.subjectregistration.coverters.SubjectRegistrationJAXBToDomainObjectConverter#convertSubjectStratificationAnswers(java.util.List)
+	 */
 	public List<SubjectStratificationAnswer> convertSubjectStratificationAnswers(
 			List<PerformedObservationResult> answers) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Convert.
+	 *
+	 * @param destination the destination
+	 * @param source the source
+	 */
 	public void convert(edu.duke.cabig.c3pr.domain.StudySubject destination,
 			StudySubject source) {
 		//set person

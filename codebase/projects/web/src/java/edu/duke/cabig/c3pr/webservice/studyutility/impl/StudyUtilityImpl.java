@@ -61,35 +61,46 @@ import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusResponse;
 import gov.nih.nci.logging.api.util.StringUtils;
 
 /**
+ * The Class StudyUtilityImpl.
+ *
  * @author dkrylov
- * 
  */
 @WebService(endpointInterface = "edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility", wsdlLocation = "/WEB-INF/wsdl/StudyUtility.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/StudyUtilityService", portName = "StudyUtility", serviceName = "StudyUtilityService")
 public class StudyUtilityImpl implements StudyUtility {
 
+	/** The Constant STUDY_IDENTIFIER_REQUIRED. */
 	private static final String STUDY_IDENTIFIER_REQUIRED = "Study identifier is required.";
 
+	/** The Constant STUDY_ALREADY_EXISTS. */
 	private static final String STUDY_ALREADY_EXISTS = "A study with the given identifier(s) already exists.";
 
+	/** The Constant STUDY_DOES_NOT_EXIST. */
 	private static final String STUDY_DOES_NOT_EXIST = "A study with the given identifier(s) does not exist.";
 
+	/** The Constant MORE_THAN_ONE_STUDY. */
 	private static final String MORE_THAN_ONE_STUDY = "More than one study with the given identifier found.";
 	
 	
+	/** The Constant CONSENT_DOES_NOT_EXIST. */
 	private static final String CONSENT_DOES_NOT_EXIST = "A consent with the given name, version and study identifier does not exist.";
 
+	/** The log. */
 	private static Log log = LogFactory.getLog(StudyUtilityImpl.class);
 
+	/** The converter. */
 	private JAXBToDomainObjectConverter converter;
 
+	/** The study repository. */
 	private StudyRepository studyRepository;
 
+	/** The consent dao. */
 	private ConsentDao consentDao;
 
+	/** The registry status dao. */
 	private RegistryStatusDao registryStatusDao;
 
 	/**
-	 * 
+	 * Instantiates a new study utility impl.
 	 */
 	public StudyUtilityImpl() {
 	}
@@ -178,6 +189,12 @@ public class StudyUtilityImpl implements StudyUtility {
 
 	}
 
+	/**
+	 * Fail.
+	 *
+	 * @param message the message
+	 * @throws StudyUtilityFaultMessage the study utility fault message
+	 */
 	private void fail(String message) throws StudyUtilityFaultMessage {
 		final StudyUtilityFault faultInfo = new StudyUtilityFault();
 		faultInfo.setMessage(message);
@@ -236,6 +253,8 @@ public class StudyUtilityImpl implements StudyUtility {
 	}
 
 	/**
+	 * Gets the converter.
+	 *
 	 * @return the converter
 	 */
 	public JAXBToDomainObjectConverter getConverter() {
@@ -243,14 +262,17 @@ public class StudyUtilityImpl implements StudyUtility {
 	}
 
 	/**
-	 * @param converter
-	 *            the converter to set
+	 * Sets the converter.
+	 *
+	 * @param converter the converter to set
 	 */
 	public void setConverter(JAXBToDomainObjectConverter converter) {
 		this.converter = converter;
 	}
 
 	/**
+	 * Gets the study repository.
+	 *
 	 * @return the studyRepository
 	 */
 	public StudyRepository getStudyRepository() {
@@ -258,8 +280,9 @@ public class StudyUtilityImpl implements StudyUtility {
 	}
 
 	/**
-	 * @param studyRepository
-	 *            the studyRepository to set
+	 * Sets the study repository.
+	 *
+	 * @param studyRepository the studyRepository to set
 	 */
 	public void setStudyRepository(StudyRepository studyRepository) {
 		this.studyRepository = studyRepository;
@@ -447,9 +470,11 @@ public class StudyUtilityImpl implements StudyUtility {
 	}
 
 	/**
-	 * @param studyId
-	 * @return
-	 * @throws StudyUtilityFaultMessage
+	 * Gets the single study.
+	 *
+	 * @param studyId the study id
+	 * @return the single study
+	 * @throws StudyUtilityFaultMessage the study utility fault message
 	 */
 	
 	// If primary identifier is not passed the query will return null. It should return a duplicate
@@ -472,6 +497,8 @@ public class StudyUtilityImpl implements StudyUtility {
 	}
 
 	/**
+	 * Gets the consent dao.
+	 *
 	 * @return the consentDao
 	 */
 	public ConsentDao getConsentDao() {
@@ -479,8 +506,9 @@ public class StudyUtilityImpl implements StudyUtility {
 	}
 
 	/**
-	 * @param consentDao
-	 *            the consentDao to set
+	 * Sets the consent dao.
+	 *
+	 * @param consentDao the consentDao to set
 	 */
 	public void setConsentDao(ConsentDao consentDao) {
 		this.consentDao = consentDao;
@@ -587,6 +615,8 @@ public class StudyUtilityImpl implements StudyUtility {
 	}
 
 	/**
+	 * Gets the registry status dao.
+	 *
 	 * @return the registryStatusDao
 	 */
 	public RegistryStatusDao getRegistryStatusDao() {
@@ -594,8 +624,9 @@ public class StudyUtilityImpl implements StudyUtility {
 	}
 
 	/**
-	 * @param registryStatusDao
-	 *            the registryStatusDao to set
+	 * Sets the registry status dao.
+	 *
+	 * @param registryStatusDao the registryStatusDao to set
 	 */
 	public void setRegistryStatusDao(RegistryStatusDao registryStatusDao) {
 		this.registryStatusDao = registryStatusDao;
@@ -624,6 +655,11 @@ public class StudyUtilityImpl implements StudyUtility {
 		return response;
 	}
 	
+	/**
+	 * Validate permissible study subject registry status.
+	 *
+	 * @param status the status
+	 */
 	private void validatePermissibleStudySubjectRegistryStatus(PermissibleStudySubjectRegistryStatus status){
 		// validation checks for reasons
 		for(RegistryStatusReason secondaryReason:status.getSecondaryReason()){
