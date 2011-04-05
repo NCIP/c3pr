@@ -1128,9 +1128,9 @@
 		<wsdl:port name="UserNameWSTrustBinding_IWSTrust13Async"
 			binding="tns:UserNameWSTrustBinding_IWSTrust13Async">
 			<soap12:address
-				location="https://dkrylov-PC:8181/STS/SecureTokenServiceService" />
+				location="${sts.serviceURL}" />
 			<wsa10:EndpointReference>
-				<wsa10:Address>https://dkrylov-PC:8181/STS/SecureTokenServiceService</wsa10:Address>
+				<wsa10:Address>${sts.serviceURL}</wsa10:Address>
 			</wsa10:EndpointReference>
 		</wsdl:port>
 		<wsdl:port name="IssuedTokenWSTrustBinding_IWSTrust13Async"

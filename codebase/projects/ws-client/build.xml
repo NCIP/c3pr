@@ -1,0 +1,245 @@
+<project name="stsclient" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" default="">
+
+	<property file="${basedir}/stsclient-ivy.properties" />
+	<property name="project.name" value="stsclient"/>
+	
+	<condition property="ivy.available">
+		<available file="${ivy.jar.file}" />
+	</condition>
+
+	<condition property="jsch.available">
+		<available file="${ivy.jar.dir}/jsch-0.1.31.jar" />
+	</condition>
+	
+	<!-- This path will contain all the libraries required to compile the main application -->
+	<path id="main.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- ====================================================
+	          target: clean-lib
+	    =======================================================-->
+	    <target name="clean-lib" description="--> clean the project libraries directory (dependencies)">
+	    	<echo message="Executing in ${project.name}" />
+	    	<delete includeemptydirs="true" dir="${lib.dir}"/>
+	    </target>
+
+    <!-- =================================
+          target: clean-dist
+         ================================= -->
+    <target name="clean-dist" description="--> clean the project built files">
+    	<echo message="Executing in ${ant.project.name}" />
+        <delete includeemptydirs="true" dir="${dist.dir}"/>
+    </target>
+
+    <!-- =================================
+          target: clean-classes
+         ================================= -->
+	<target name="clean-classes" description="--> clean the classes dir">
+		<echo message="Executing in ${ant.project.name}" />
+		<delete includeemptydirs="true" dir="${classes.dir}" />
+	</target>
+
+    <!-- =================================
+          target: clean
+         ================================= -->
+	<target name="clean" depends="clean-classes, clean-dist, clean-lib" description="--> clean the project" />
+	
+	<!-- ====================================================
+			target : init
+			This target will contain the intiailziation
+		=======================================================-->
+
+		<target name="init" unless="no.init"  description="This target will contain the intiailziation">
+			<echo message="Executing ${project.name} : init" />
+			<mkdir dir="${lib.dir}"/>
+			<mkdir dir="${classes.dir}" />
+			<mkdir dir="${dist.dir}" />
+			<property name="no.init" value="true" />
+		</target>
+	
+	<!-- ==================================================
+			target : download-jsch
+		====================================================== -->
+	<target name="download-jsch" unless="jsch.available">
+		<echo message="Downloading jsch....." />
+			<get src="${ivy.sftp.remote}" dest="${ivy.jar.dir}/jsch-0.1.31.jar" verbose="true" usetimestamp="true" />
+	</target>
+
+	<!-- ====================================================
+		target : download-ivy
+		Download ivy if one is not available.
+		=======================================================-->
+	<target name="download-ivy" unless="ivy.available">
+		<mkdir dir="${ivy.jar.dir}"/>
+		<echo message="Downloading IVY....." />
+		<get src="${ivy.jar.location}" dest="${ivy.jar.file}" usetimestamp="true"/>
+	</target>
+	
+	
+	<!-- ====================================================
+		target: load-ivy
+            This target is not necessary if you put ivy.jar in your ant lib directory
+            if you already have ivy 2.0 in your ant lib, you can simply remove this target
+        Note:- Forced to load only once, as I observed that in this task is getting called in every
+        	subant invoke.
+		=======================================================-->
+	<target name="load-ivy" depends="download-ivy,download-jsch" unless="ivy.loaded">
+		<path id="ivy.lib.path">
+			<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+		</path>
+	   	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
+		<ivy:settings file="${basedir}/ivy-settings.xml" id="stsclient.ivy.instance" />
+		<property name="ivy.loaded" location="true"/>
+	</target>
+	
+	<!-- =============================================================================
+			ivyResolve : Will resolve the confs to the libDir
+		================================================================================= -->
+		<macrodef name="ivyResolve">
+			<attribute name="libDir"/>
+			<attribute name="confs"/>
+			<attribute name="resolveId"/>
+			<sequential>
+				<ivy:resolve file="${ivy.file}" conf="@{confs}" resolveid="@{resolveId}" haltonfailure="false" settingsRef="stsclient.ivy.instance"/>
+				<ivy:retrieve pattern="@{libDir}/[artifact]-[revision].[ext]" resolveid="@{resolveId}" haltonfailure="false" settingsRef="stsclient.ivy.instance"/>
+			</sequential>
+		</macrodef>
+	
+	<!-- ===================================================================
+		copy-resources : This task, copy files from source to destination, with filtering on
+	======================================================================= -->
+	<macrodef name="copy-resources" description="copies files from src to dest, with filtering">
+		<attribute name="src" />
+		<attribute name="dest"/>
+		<attribute name="filter" />
+		<sequential>
+			<filter token="project.version" value="${stsclient.version}" />
+			<filter token="buildNumber" value="${today}" />
+			<copy todir="@{dest}" filtering="@{filter}">
+				<fileset dir="@{src}" includes="**/*.*">
+					<exclude name=".svn"/>
+				</fileset>
+			</copy>
+		</sequential>
+	</macrodef>
+
+
+
+	<!-- ========================================================
+          target: resolve
+    	============================================================ -->
+    <target name="resolve" depends="clean-lib, init, load-ivy" unless="already.resolved" description="--> resolve and retrieve dependencies with ivy">
+    	<condition property="configs" value="${resolve.confs}" else="default">
+    		<isset property="resolve.confs"/>
+    	</condition>
+    	<condition property="to.dir" value="${resolve.to.dir}" else="${lib.dir}">
+    		<isset property="resolve.to.dir"/>
+    	</condition>
+
+    	<echo message="Executing ${project.name} : resolve with confs : ${configs}" />
+		<ivyResolve confs="${configs}" libdir="${to.dir}" resolveid="[org]-[module]"/>
+    	<property name="already.resolved" value="true"/>
+    </target>
+	
+	<!-- ===================================================================
+		makeJar : This task, can be used to make a jarfile.
+	======================================================================= -->
+
+	<macrodef name="makeJar" description="Task will help in making jar files with manifest">
+		<attribute name="file.name"/>
+		<attribute name="dir"/>
+		<attribute name="dir.classes" />
+		<sequential>
+			<mkdir dir="@{dir}"/>
+	        <jar destfile="@{file.name}">
+	            <fileset dir="@{dir.classes}" />
+	            <manifest>
+	                <attribute name="Built-By" value="${user.name}"/>
+	                <attribute name="Build-Version" value="${version}" />
+	            </manifest>
+	        </jar>
+		</sequential>
+	</macrodef>
+	
+
+    <!-- ===============================================================
+          target: compile
+         ============================================================= -->
+    <target name="compile" depends="resolve" description="--> compile the project">
+    	<echo message="Executing in ${ant.project.name}" />
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.5" target="1.5"/>
+    </target>
+	
+	<!-- =====================================================================
+		target : ivy-new-version
+			Will generate a new verion number
+	========================================================================= -->
+	<target name="ivy-new-version" depends="load-ivy" unless="ivy.new.revision" description="Will generate a new version number">
+		<echo message="Executing in ${ant.project.name}" />
+		<!-- default module version prefix value -->
+		<property name="module.version.prefix" value="${stsclient.version}" />
+
+    	<!-- asks to ivy an available version number -->
+		<ivy:info file="${ivy.file}" settingsRef="stsclient.ivy.instance"/>
+    	<ivy:buildnumber
+    		organisation="${ivy.organisation}" module="${ivy.module}"
+    		revision="${module.version.prefix}" defaultBuildNumber="1" revSep="." settingsRef="stsclient.ivy.instance"/>
+	</target>
+
+	<!-- =====================================================================
+		target : local-version
+			Will generate a new verion number for publishing in local repository
+	========================================================================= -->
+    <target name="local-version" description="Will generate a new verion number for publishing in local repository">
+    	<echo message="Executing in ${ant.project.name}" />
+		<tstamp>
+			<format property="now" pattern="yyyyMMddHHmmss"/>
+			<format property="today" pattern="yyyy-MM-dd hh:mm:ss.mmm" />
+		</tstamp>
+        <property name="ivy.new.revision" value="${stsclient.version}-local-${now}"/>
+    </target>
+
+	<!-- =====================================================================
+		target : version
+			Will generate a new verion number for publishing in release repository
+	========================================================================= -->
+	<target name="version" depends="ivy-new-version"
+			description="Will generate a new verion number for publishing in release repository">
+		<echo message="Executing in ${ant.project.name}" />
+		<tstamp>
+			<format property="today" pattern="yyyy-MM-dd hh:mm:ss" />
+		</tstamp>
+    	<!-- create version file in classpath for later inclusion in jar -->
+		<echo message="version=${ivy.new.revision}" file="${classes.dir}/${ant.project.name}.properties" append="false" />
+		<!-- load generated version properties file -->
+        <property file="${classes.dir}/${ant.project.name}.properties" />
+    </target>
+
+	
+	<!-- =================================
+          target: jar
+         ================================= -->
+    <target name="jar" depends="compile, version"
+    	description="--> make a jar file for this project">
+    	<echo message="Executing in ${ant.project.name}" />
+    	<makeJar dir="${dist.dir}" dir.classes="${classes.dir}" file.name="${jar.file}"/>
+    </target>
+	
+	<!-- =================================
+          target: publish
+         ================================= -->
+    <target name="publish" depends="clean-dist, init, jar" description="--> publish this project in the ivy repository">
+    	<echo message="Executing in ${ant.project.name}" />
+    	<ivy:publish artifactspattern="${dist.dir}/[artifact].[ext]"
+    		resolver="semanticbits-repo-alfie"
+    		pubrevision="${stsclient.version}"
+    		status="release"
+    		forcedeliver="true"
+    		overwrite="true" settingsRef="stsclient.ivy.instance"/>
+        <echo message="project ${ant.project.name} released with version ${stsclient.version}" />
+    </target>
+
+</project>

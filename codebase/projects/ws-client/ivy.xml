@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="1.4">
+    	<info organisation="com.semanticbits.stsclient" module="stsclient" status="integration" revision="${stsclient.version}"/>
+        <configurations>
+        	<conf name="default" visibility="public" extends="publish,runtime"  description="Dependencies needed for default setting"  />
+        	<conf name="build" visibility="public"  description="Dependencies required for build time, all classpath should have this"/>
+        	<conf name="publish" visibility="public" description="Dependencies along with this module is published in repository" />
+        	<conf name="dist" visibility="public"  extends="publish" description="Dependencies needed for standalone distribution" />
+        	<conf name="runtime" visibility="public" description="The dependencies that are needed for runtime" extends="build" />
+        	<conf name="test" visibility="public"  description="Dependencies needed for testing purposes"/>
+        </configurations>
+        
+        <!--  Items to be published  -->
+         <publications>
+    		<artifact name="${ivy.module}" conf="publish" type="jar" ext="jar"/>
+  		</publications>
+       
+        <dependencies  defaultconfmapping="build->master(*);runtime->runtime(*),master(*);dist->master(*),runtime(default)"  >
+			<dependency org="org.springframework" name="spring" rev="2.5.6" force="true" transitive="false"/>
+			<dependency org="org.springframework" name="spring-beans" rev="2.5.6" force="true" transitive="false"/>
+			<dependency org="org.springframework" name="spring-context" rev="2.5.6" force="true" transitive="false"/>
+			<dependency org="org.apache.cxf" name="cxf" rev="2.2.10" transitive="false"/>
+			<dependency org="org.apache.ws.security" name="wss4j" rev="1.5.7" force="true" transitive="false" />
+			<dependency org="org.apache.xmlbeans" name="xmlbeans" rev="2.4.0" force="true" transitive="false" />
+			<dependency org="log4j" name="log4j" rev="1.2.13" transitive="false" />
+			<dependency org="org.apache.neethi" name="neethi" rev="2.0.4" transitive="false" />
+			<dependency org="commons-logging" name="commons-logging" rev="1.1" transitive="false" />
+			<dependency org="org.globus" name="xmlsec" rev="1.4.3" force="true" transitive="false" />
+			<dependency org="org.apache.ws.commons.schema" name="XmlSchema" rev="1.4.5" force="true" transitive="false" />
+			<dependency org="wsdl4j" name="wsdl4j" rev="1.6.2" transitive="false" />
+        </dependencies>
+</ivy-module>
