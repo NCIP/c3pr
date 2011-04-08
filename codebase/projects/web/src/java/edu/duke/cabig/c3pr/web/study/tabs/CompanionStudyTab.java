@@ -102,6 +102,7 @@ public class CompanionStudyTab extends StudyTab {
 				StudyInvestigator siteInvestigator = scc.getStudyInvestigators().get(0);
 				siteInvestigator.setHealthcareSiteInvestigator(studyInvestigator.getHealthcareSiteInvestigator());
 				siteInvestigator.setRoleCode(studyInvestigator.getRoleCode());
+				siteInvestigator.setStatusCode(studyInvestigator.getStatusCode());
 				scc.addStudyInvestigator(siteInvestigator);
 			}
 			cSiteIndex++;
