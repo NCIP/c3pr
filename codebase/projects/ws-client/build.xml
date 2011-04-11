@@ -2,6 +2,8 @@
 
 	<property file="${basedir}/stsclient-ivy.properties" />
 	<property name="project.name" value="stsclient"/>
+
+	<property name="local.repo.dir" value="${basedir}/repository" />
 	
 	<condition property="ivy.available">
 		<available file="${ivy.jar.file}" />
