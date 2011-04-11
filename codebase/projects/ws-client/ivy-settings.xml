@@ -1,6 +1,6 @@
 <ivysettings>
 	<settings defaultResolver="stsclient-resolver" validate="false" />
-	<cache basedir="${user.home}/.ivy2/${ivy.cache.name}"/>
+	<cache basedir="${user.home}/.ivy2_ws_client/${ivy.cache.name}"/>
 	<resolvers>
 		<chain name="stsclient-resolver" returnFirst="true" dual="true">
 		<!--  Local Ivy repository -->
@@ -12,8 +12,8 @@
 		
 		<!-- Local Ivy Cache -->
 		<filesystem name="ivy-cache" local="true" >
-			<ivy pattern="${user.home}/.ivy2/${ivy.cache.name}/[organisation]/[module]/ivy-[revision].xml"/>
-			<artifact pattern="${user.home}/.ivy2/${ivy.cache.name}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
+			<ivy pattern="${user.home}/.ivy2_ws_client/${ivy.cache.name}/[organisation]/[module]/ivy-[revision].xml"/>
+			<artifact pattern="${user.home}/.ivy2_ws_client/${ivy.cache.name}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
 		</filesystem>
 			
 		<!--  Semanticbits shared repository [using sftp] -->
