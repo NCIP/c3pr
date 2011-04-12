@@ -75,7 +75,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 					<property name="serviceName"
 						value="${sts.serviceName}" />
 					<property name="endpointName"
-						value="${sts.serviceEndPointName}" />
+						value="${sts.servicePortName}" />
 
 					<!--
 						STS must authenticate using Username Token profile and plain text
@@ -83,8 +83,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 					-->
 					<property name="properties">
 						<map>
-							<entry key="ws-security.username" value="${sts.glassfish.userName}" />
-							<entry key="ws-security.password" value="${sts.glassfish.password}" />
+							<entry key="ws-security.username" value="${sts.userName}" />
+							<entry key="ws-security.password" value="${sts.password}" />
 						</map>
 					</property>
 				</bean>
