@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="1.4">
-    	<info organisation="com.semanticbits.stsclient" module="stsclient" status="integration" revision="${stsclient.version}"/>
+    	<info organisation="com.semanticbits.c3pr-ws-client" module="c3pr-ws-client" status="integration" revision="${c3pr-ws-client.version}"/>
         <configurations>
         	<conf name="default" visibility="public" extends="publish,runtime"  description="Dependencies needed for default setting"  />
         	<conf name="build" visibility="public"  description="Dependencies required for build time, all classpath should have this"/>

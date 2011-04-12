@@ -1,7 +1,7 @@
-<project name="stsclient" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" default="">
+<project name="c3pr-ws-client" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant" default="">
 
-	<property file="${basedir}/stsclient-ivy.properties" />
-	<property name="project.name" value="stsclient"/>
+	<property file="${basedir}/c3pr-ws-client-ivy.properties" />
+	<property name="project.name" value="c3pr-ws-client"/>
 
 	<property name="local.repo.dir" value="${basedir}/repository" />
 	
@@ -93,7 +93,7 @@
 			<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
 		</path>
 	   	<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
-		<ivy:settings file="${basedir}/ivy-settings.xml" id="stsclient.ivy.instance" />
+		<ivy:settings file="${basedir}/ivy-settings.xml" id="c3pr-ws-client.ivy.instance" />
 		<property name="ivy.loaded" location="true"/>
 	</target>
 	
@@ -105,8 +105,8 @@
 			<attribute name="confs"/>
 			<attribute name="resolveId"/>
 			<sequential>
-				<ivy:resolve file="${ivy.file}" conf="@{confs}" resolveid="@{resolveId}" haltonfailure="false" settingsRef="stsclient.ivy.instance"/>
-				<ivy:retrieve pattern="@{libDir}/[artifact]-[revision].[ext]" resolveid="@{resolveId}" haltonfailure="false" settingsRef="stsclient.ivy.instance"/>
+				<ivy:resolve file="${ivy.file}" conf="@{confs}" resolveid="@{resolveId}" haltonfailure="false" settingsRef="c3pr-ws-client.ivy.instance"/>
+				<ivy:retrieve pattern="@{libDir}/[artifact]-[revision].[ext]" resolveid="@{resolveId}" haltonfailure="false" settingsRef="c3pr-ws-client.ivy.instance"/>
 			</sequential>
 		</macrodef>
 	
@@ -118,7 +118,7 @@
 		<attribute name="dest"/>
 		<attribute name="filter" />
 		<sequential>
-			<filter token="project.version" value="${stsclient.version}" />
+			<filter token="project.version" value="${c3pr-ws-client.version}" />
 			<filter token="buildNumber" value="${today}" />
 			<copy todir="@{dest}" filtering="@{filter}">
 				<fileset dir="@{src}" includes="**/*.*">
@@ -157,7 +157,9 @@
 		<sequential>
 			<mkdir dir="@{dir}"/>
 	        <jar destfile="@{file.name}">
-	            <fileset dir="@{dir.classes}" />
+	            <fileset dir="@{dir.classes}">
+	            	<exclude name="log4j.properties"/>
+	            </fileset>
 	            <manifest>
 	                <attribute name="Built-By" value="${user.name}"/>
 	                <attribute name="Build-Version" value="${version}" />
@@ -182,13 +184,13 @@
 	<target name="ivy-new-version" depends="load-ivy" unless="ivy.new.revision" description="Will generate a new version number">
 		<echo message="Executing in ${ant.project.name}" />
 		<!-- default module version prefix value -->
-		<property name="module.version.prefix" value="${stsclient.version}" />
+		<property name="module.version.prefix" value="${c3pr-ws-client.version}" />
 
     	<!-- asks to ivy an available version number -->
-		<ivy:info file="${ivy.file}" settingsRef="stsclient.ivy.instance"/>
+		<ivy:info file="${ivy.file}" settingsRef="c3pr-ws-client.ivy.instance"/>
     	<ivy:buildnumber
     		organisation="${ivy.organisation}" module="${ivy.module}"
-    		revision="${module.version.prefix}" defaultBuildNumber="1" revSep="." settingsRef="stsclient.ivy.instance"/>
+    		revision="${module.version.prefix}" defaultBuildNumber="1" revSep="." settingsRef="c3pr-ws-client.ivy.instance"/>
 	</target>
 
 	<!-- =====================================================================
@@ -201,7 +203,7 @@
 			<format property="now" pattern="yyyyMMddHHmmss"/>
 			<format property="today" pattern="yyyy-MM-dd hh:mm:ss.mmm" />
 		</tstamp>
-        <property name="ivy.new.revision" value="${stsclient.version}-local-${now}"/>
+        <property name="ivy.new.revision" value="${c3pr-ws-client.version}-local-${now}"/>
     </target>
 
 	<!-- =====================================================================
@@ -237,11 +239,11 @@
     	<echo message="Executing in ${ant.project.name}" />
     	<ivy:publish artifactspattern="${dist.dir}/[artifact].[ext]"
     		resolver="semanticbits-repo-alfie"
-    		pubrevision="${stsclient.version}"
+    		pubrevision="${c3pr-ws-client.version}"
     		status="release"
     		forcedeliver="true"
-    		overwrite="true" settingsRef="stsclient.ivy.instance"/>
-        <echo message="project ${ant.project.name} released with version ${stsclient.version}" />
+    		overwrite="true" settingsRef="c3pr-ws-client.ivy.instance"/>
+        <echo message="project ${ant.project.name} released with version ${c3pr-ws-client.version}" />
     </target>
 
 </project>

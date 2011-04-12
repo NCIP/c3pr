@@ -1,10 +1,10 @@
 <ivysettings>
-	<settings defaultResolver="stsclient-resolver" validate="false" />
+	<settings defaultResolver="c3pr-ws-client-resolver" validate="false" />
 	<cache basedir="${user.home}/.ivy2_ws_client/${ivy.cache.name}"/>
 	<resolvers>
-		<chain name="stsclient-resolver" returnFirst="true" dual="true">
+		<chain name="c3pr-ws-client-resolver" returnFirst="true" dual="true">
 		<!--  Local Ivy repository -->
-		<filesystem name="stsclient-local" local="true">
+		<filesystem name="c3pr-ws-client-local" local="true">
 			<ivy pattern="${local.repo.dir}/[organisation]/[module]/ivy-[revision].xml"/>
       		<artifact pattern="${local.repo.dir}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
       		<artifact pattern="${local.repo.dir}/[organisation]/[module]/[revision]/[artifact].[ext]"/>
@@ -56,7 +56,7 @@
 		<ibiblio name="mvn.repo" root="http://mirrors.ibiblio.org/pub/mirrors/maven2" m2compatible="true" changingPattern=".*SNAPSHOT">
 		</ibiblio>
 		
-		<!-- created for publishing stsclient -->
+		<!-- created for publishing c3pr-ws-client -->
 		<sftp name="semanticbits-repo-alfie" user="userivy" userPassword="userivy" host="alfie.semanticbits.com">
 		  <ivy pattern="/usr/local/tomcats/ivy-repository/[organisation]/[module]/[revision]/ivy.xml"/>
 		  <artifact pattern="/usr/local/tomcats/ivy-repository/[organisation]/[module]/[revision]/[artifact].[ext]"/>
