@@ -38,19 +38,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link InvalidSubjectDataExceptionFault }
+     * Create an instance of {@link CreateSubjectResponse }
      * 
      */
-    public InvalidSubjectDataExceptionFault createInvalidSubjectDataExceptionFault() {
-        return new InvalidSubjectDataExceptionFault();
+    public CreateSubjectResponse createCreateSubjectResponse() {
+        return new CreateSubjectResponse();
     }
 
     /**
-     * Create an instance of {@link QuerySubjectRequest }
+     * Create an instance of {@link SubjectAlreadyExistsExceptionFault }
      * 
      */
-    public QuerySubjectRequest createQuerySubjectRequest() {
-        return new QuerySubjectRequest();
+    public SubjectAlreadyExistsExceptionFault createSubjectAlreadyExistsExceptionFault() {
+        return new SubjectAlreadyExistsExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link QuerySubjectResponse }
+     * 
+     */
+    public QuerySubjectResponse createQuerySubjectResponse() {
+        return new QuerySubjectResponse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateSubjectResponse }
+     * 
+     */
+    public UpdateSubjectResponse createUpdateSubjectResponse() {
+        return new UpdateSubjectResponse();
     }
 
     /**
@@ -62,19 +78,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CreateSubjectRequest }
+     * Create an instance of {@link InvalidStateTransitionExceptionFault }
      * 
      */
-    public CreateSubjectRequest createCreateSubjectRequest() {
-        return new CreateSubjectRequest();
+    public InvalidStateTransitionExceptionFault createInvalidStateTransitionExceptionFault() {
+        return new InvalidStateTransitionExceptionFault();
     }
 
     /**
-     * Create an instance of {@link CreateSubjectResponse }
+     * Create an instance of {@link DSETSUBJECT }
      * 
      */
-    public CreateSubjectResponse createCreateSubjectResponse() {
-        return new CreateSubjectResponse();
+    public DSETSUBJECT createDSETSUBJECT() {
+        return new DSETSUBJECT();
+    }
+
+    /**
+     * Create an instance of {@link InvalidSubjectDataExceptionFault }
+     * 
+     */
+    public InvalidSubjectDataExceptionFault createInvalidSubjectDataExceptionFault() {
+        return new InvalidSubjectDataExceptionFault();
+    }
+
+    /**
+     * Create an instance of {@link NoSuchSubjectExceptionFault }
+     * 
+     */
+    public NoSuchSubjectExceptionFault createNoSuchSubjectExceptionFault() {
+        return new NoSuchSubjectExceptionFault();
     }
 
     /**
@@ -83,6 +115,14 @@ public class ObjectFactory {
      */
     public UpdateSubjectStateRequest createUpdateSubjectStateRequest() {
         return new UpdateSubjectStateRequest();
+    }
+
+    /**
+     * Create an instance of {@link AdvancedQuerySubjectRequest }
+     * 
+     */
+    public AdvancedQuerySubjectRequest createAdvancedQuerySubjectRequest() {
+        return new AdvancedQuerySubjectRequest();
     }
 
     /**
@@ -102,11 +142,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link QuerySubjectResponse }
+     * Create an instance of {@link QuerySubjectRequest }
      * 
      */
-    public QuerySubjectResponse createQuerySubjectResponse() {
-        return new QuerySubjectResponse();
+    public QuerySubjectRequest createQuerySubjectRequest() {
+        return new QuerySubjectRequest();
+    }
+
+    /**
+     * Create an instance of {@link CreateSubjectRequest }
+     * 
+     */
+    public CreateSubjectRequest createCreateSubjectRequest() {
+        return new CreateSubjectRequest();
     }
 
     /**
@@ -115,54 +163,6 @@ public class ObjectFactory {
      */
     public UnableToCreateOrUpdateSubjectExceptionFault createUnableToCreateOrUpdateSubjectExceptionFault() {
         return new UnableToCreateOrUpdateSubjectExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link InvalidStateTransitionExceptionFault }
-     * 
-     */
-    public InvalidStateTransitionExceptionFault createInvalidStateTransitionExceptionFault() {
-        return new InvalidStateTransitionExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link NoSuchSubjectExceptionFault }
-     * 
-     */
-    public NoSuchSubjectExceptionFault createNoSuchSubjectExceptionFault() {
-        return new NoSuchSubjectExceptionFault();
-    }
-
-    /**
-     * Create an instance of {@link UpdateSubjectResponse }
-     * 
-     */
-    public UpdateSubjectResponse createUpdateSubjectResponse() {
-        return new UpdateSubjectResponse();
-    }
-
-    /**
-     * Create an instance of {@link AdvancedQuerySubjectRequest }
-     * 
-     */
-    public AdvancedQuerySubjectRequest createAdvancedQuerySubjectRequest() {
-        return new AdvancedQuerySubjectRequest();
-    }
-
-    /**
-     * Create an instance of {@link DSETSUBJECT }
-     * 
-     */
-    public DSETSUBJECT createDSETSUBJECT() {
-        return new DSETSUBJECT();
-    }
-
-    /**
-     * Create an instance of {@link SubjectAlreadyExistsExceptionFault }
-     * 
-     */
-    public SubjectAlreadyExistsExceptionFault createSubjectAlreadyExistsExceptionFault() {
-        return new SubjectAlreadyExistsExceptionFault();
     }
 
     /**

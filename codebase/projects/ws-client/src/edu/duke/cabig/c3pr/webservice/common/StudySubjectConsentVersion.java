@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.ST;
@@ -22,10 +21,11 @@ import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
  *   &lt;complexContent>
  *     &lt;extension base="{http://enterpriseservices.nci.nih.gov/Common}PerformedStudySubjectMilestone">
  *       &lt;sequence>
- *         &lt;element name="consentDeliveryDate" type="{uri:iso.org:21090}TS.DateTime"/>
- *         &lt;element name="consentingMethod" type="{uri:iso.org:21090}CD"/>
+ *         &lt;element name="consentDeliveryDate" type="{uri:iso.org:21090}TS.DateTime" minOccurs="0"/>
+ *         &lt;element name="consentingMethod" type="{uri:iso.org:21090}CD" minOccurs="0"/>
  *         &lt;element name="consentPresenter" type="{uri:iso.org:21090}ST" minOccurs="0"/>
  *         &lt;element name="subjectConsentAnswer" type="{http://enterpriseservices.nci.nih.gov/Common}PerformedStudySubjectMilestone" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="consentDeclinedDate" type="{uri:iso.org:21090}TS.DateTime" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -39,18 +39,18 @@ import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
     "consentDeliveryDate",
     "consentingMethod",
     "consentPresenter",
-    "subjectConsentAnswer"
+    "subjectConsentAnswer",
+    "consentDeclinedDate"
 })
 public class StudySubjectConsentVersion
     extends PerformedStudySubjectMilestone
 {
 
-    @XmlElement(required = true)
     protected TSDateTime consentDeliveryDate;
-    @XmlElement(required = true)
     protected CD consentingMethod;
     protected ST consentPresenter;
     protected List<PerformedStudySubjectMilestone> subjectConsentAnswer;
+    protected TSDateTime consentDeclinedDate;
 
     /**
      * Gets the value of the consentDeliveryDate property.
@@ -151,6 +151,30 @@ public class StudySubjectConsentVersion
             subjectConsentAnswer = new ArrayList<PerformedStudySubjectMilestone>();
         }
         return this.subjectConsentAnswer;
+    }
+
+    /**
+     * Gets the value of the consentDeclinedDate property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TSDateTime }
+     *     
+     */
+    public TSDateTime getConsentDeclinedDate() {
+        return consentDeclinedDate;
+    }
+
+    /**
+     * Sets the value of the consentDeclinedDate property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TSDateTime }
+     *     
+     */
+    public void setConsentDeclinedDate(TSDateTime value) {
+        this.consentDeclinedDate = value;
     }
 
 }

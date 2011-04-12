@@ -36,7 +36,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.IVLTSDateTime;
  *         &lt;element name="identifier" type="{uri:iso.org:21090}II"/>
  *         &lt;element name="primaryIndicator" type="{uri:iso.org:21090}BL"/>
  *         &lt;element name="typeCode" type="{uri:iso.org:21090}CD"/>
- *         &lt;element name="assigningOrganization" type="{http://enterpriseservices.nci.nih.gov/Common}Organization"/>
+ *         &lt;element name="assigningOrganization" type="{http://enterpriseservices.nci.nih.gov/Common}Organization" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -63,7 +63,6 @@ public class BiologicEntityIdentifier {
     protected BL primaryIndicator;
     @XmlElement(required = true)
     protected CD typeCode;
-    @XmlElement(required = true)
     protected Organization assigningOrganization;
 
     /**

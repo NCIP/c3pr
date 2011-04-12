@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import edu.duke.cabig.c3pr.webservice.common.COLLAdvanceSearchCriterionParameter;
+import edu.duke.cabig.c3pr.webservice.common.COLLPerformedStudySubjectMilestone;
+import edu.duke.cabig.c3pr.webservice.common.COLLPerson;
+import edu.duke.cabig.c3pr.webservice.common.COLLStudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.COLLSUBJECT;
 
 
@@ -268,7 +271,10 @@ import edu.duke.cabig.c3pr.webservice.subjectmanagement.COLLSUBJECT;
     QSETCO.class,
     QSETTSDateFull.class,
     QSETINTNonNeg.class,
-    COLLAdvanceSearchCriterionParameter.class
+    COLLAdvanceSearchCriterionParameter.class,
+    COLLPerson.class,
+    COLLStudySubjectConsentVersion.class,
+    COLLPerformedStudySubjectMilestone.class
 })
 public abstract class ANY
     extends HXIT

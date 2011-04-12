@@ -63,13 +63,13 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Content {
 
     @XmlElementRefs({
-        @XmlElementRef(name = "sup", namespace = "uri:iso.org:21090", type = JAXBElement.class),
-        @XmlElementRef(name = "content", namespace = "uri:iso.org:21090", type = Content.class),
-        @XmlElementRef(name = "footnoteRef", namespace = "uri:iso.org:21090", type = FootnoteRef.class),
-        @XmlElementRef(name = "sub", namespace = "uri:iso.org:21090", type = JAXBElement.class),
-        @XmlElementRef(name = "linkHtml", namespace = "uri:iso.org:21090", type = LinkHtml.class),
-        @XmlElementRef(name = "footnote", namespace = "uri:iso.org:21090", type = Footnote.class),
         @XmlElementRef(name = "renderMultiMedia", namespace = "uri:iso.org:21090", type = RenderMultiMedia.class),
+        @XmlElementRef(name = "sup", namespace = "uri:iso.org:21090", type = JAXBElement.class),
+        @XmlElementRef(name = "footnote", namespace = "uri:iso.org:21090", type = Footnote.class),
+        @XmlElementRef(name = "sub", namespace = "uri:iso.org:21090", type = JAXBElement.class),
+        @XmlElementRef(name = "content", namespace = "uri:iso.org:21090", type = Content.class),
+        @XmlElementRef(name = "linkHtml", namespace = "uri:iso.org:21090", type = LinkHtml.class),
+        @XmlElementRef(name = "footnoteRef", namespace = "uri:iso.org:21090", type = FootnoteRef.class),
         @XmlElementRef(name = "br", namespace = "uri:iso.org:21090", type = Br.class)
     })
     @XmlMixed
@@ -108,15 +108,15 @@ public class Content {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * {@link RenderMultiMedia }
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link Footnote }
      * {@link JAXBElement }{@code <}{@link String }{@code >}
      * {@link Content }
-     * {@link FootnoteRef }
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
      * {@link LinkHtml }
-     * {@link Footnote }
-     * {@link String }
+     * {@link FootnoteRef }
      * {@link Br }
-     * {@link RenderMultiMedia }
      * 
      * 
      */

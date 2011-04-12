@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
 import edu.duke.cabig.c3pr.webservice.iso21090.II;
+import edu.duke.cabig.c3pr.webservice.iso21090.ST;
 
 
 /**
@@ -19,6 +20,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.II;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="comment" type="{uri:iso.org:21090}ST" minOccurs="0"/>
  *         &lt;element name="reasonCode" type="{uri:iso.org:21090}DSET_CD" minOccurs="0"/>
  *         &lt;element name="identifier" type="{uri:iso.org:21090}II" minOccurs="0"/>
  *       &lt;/sequence>
@@ -31,16 +33,43 @@ import edu.duke.cabig.c3pr.webservice.iso21090.II;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Activity", propOrder = {
+    "comment",
     "reasonCode",
     "identifier"
 })
 @XmlSeeAlso({
+    DefinedActivity.class,
     PerformedActivity.class
 })
 public class Activity {
 
+    protected ST comment;
     protected DSETCD reasonCode;
     protected II identifier;
+
+    /**
+     * Gets the value of the comment property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link ST }
+     *     
+     */
+    public ST getComment() {
+        return comment;
+    }
+
+    /**
+     * Sets the value of the comment property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ST }
+     *     
+     */
+    public void setComment(ST value) {
+        this.comment = value;
+    }
 
     /**
      * Gets the value of the reasonCode property.

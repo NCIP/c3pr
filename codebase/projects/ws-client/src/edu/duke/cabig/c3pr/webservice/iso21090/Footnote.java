@@ -55,14 +55,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Footnote {
 
     @XmlElementRefs({
-        @XmlElementRef(name = "sup", namespace = "uri:iso.org:21090", type = JAXBElement.class),
-        @XmlElementRef(name = "content", namespace = "uri:iso.org:21090", type = Content.class),
-        @XmlElementRef(name = "sub", namespace = "uri:iso.org:21090", type = JAXBElement.class),
-        @XmlElementRef(name = "list", namespace = "uri:iso.org:21090", type = edu.duke.cabig.c3pr.webservice.iso21090.List.class),
-        @XmlElementRef(name = "linkHtml", namespace = "uri:iso.org:21090", type = LinkHtml.class),
-        @XmlElementRef(name = "paragraph", namespace = "uri:iso.org:21090", type = Paragraph.class),
-        @XmlElementRef(name = "table", namespace = "uri:iso.org:21090", type = Table.class),
         @XmlElementRef(name = "renderMultiMedia", namespace = "uri:iso.org:21090", type = RenderMultiMedia.class),
+        @XmlElementRef(name = "sup", namespace = "uri:iso.org:21090", type = JAXBElement.class),
+        @XmlElementRef(name = "sub", namespace = "uri:iso.org:21090", type = JAXBElement.class),
+        @XmlElementRef(name = "content", namespace = "uri:iso.org:21090", type = Content.class),
+        @XmlElementRef(name = "table", namespace = "uri:iso.org:21090", type = Table.class),
+        @XmlElementRef(name = "paragraph", namespace = "uri:iso.org:21090", type = Paragraph.class),
+        @XmlElementRef(name = "linkHtml", namespace = "uri:iso.org:21090", type = LinkHtml.class),
+        @XmlElementRef(name = "list", namespace = "uri:iso.org:21090", type = edu.duke.cabig.c3pr.webservice.iso21090.List.class),
         @XmlElementRef(name = "br", namespace = "uri:iso.org:21090", type = Br.class)
     })
     @XmlMixed
@@ -98,16 +98,16 @@ public class Footnote {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link Content }
-     * {@link edu.duke.cabig.c3pr.webservice.iso21090.List }
-     * {@link JAXBElement }{@code <}{@link String }{@code >}
-     * {@link LinkHtml }
      * {@link String }
-     * {@link Paragraph }
-     * {@link Table }
-     * {@link Br }
      * {@link RenderMultiMedia }
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link JAXBElement }{@code <}{@link String }{@code >}
+     * {@link Table }
+     * {@link Content }
+     * {@link Paragraph }
+     * {@link LinkHtml }
+     * {@link edu.duke.cabig.c3pr.webservice.iso21090.List }
+     * {@link Br }
      * 
      * 
      */

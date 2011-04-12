@@ -29,7 +29,7 @@ import edu.duke.cabig.c3pr.webservice.iso21090.DSETENPN;
  *         &lt;element name="ethnicGroupCode" type="{uri:iso.org:21090}DSET_CD"/>
  *         &lt;element name="maritalStatusCode" type="{uri:iso.org:21090}CD"/>
  *         &lt;element name="name" type="{uri:iso.org:21090}DSET_EN.PN"/>
- *         &lt;element name="postalAddress" type="{uri:iso.org:21090}DSET_AD"/>
+ *         &lt;element name="postalAddress" type="{uri:iso.org:21090}DSET_AD" minOccurs="0"/>
  *         &lt;element name="raceCode" type="{uri:iso.org:21090}DSET_CD"/>
  *         &lt;element name="telecomAddress" type="{uri:iso.org:21090}BAG_TEL"/>
  *       &lt;/sequence>
@@ -61,7 +61,6 @@ public class Person
     protected CD maritalStatusCode;
     @XmlElement(required = true)
     protected DSETENPN name;
-    @XmlElement(required = true)
     protected DSETAD postalAddress;
     @XmlElement(required = true)
     protected DSETCD raceCode;

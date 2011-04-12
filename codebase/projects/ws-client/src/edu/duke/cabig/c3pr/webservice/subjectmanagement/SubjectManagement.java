@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 @WebService(name = "SubjectManagement", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectManagementService")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)
 @XmlSeeAlso({
-    edu.duke.cabig.c3pr.webservice.common.ObjectFactory.class,
     edu.duke.cabig.c3pr.webservice.iso21090.ObjectFactory.class,
+    edu.duke.cabig.c3pr.webservice.common.ObjectFactory.class,
     edu.duke.cabig.c3pr.webservice.subjectmanagement.ObjectFactory.class
 })
 public interface SubjectManagement {
@@ -30,9 +30,9 @@ public interface SubjectManagement {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectResponse
-     * @throws InvalidSubjectDataExceptionFaultMessage
-     * @throws SecurityExceptionFaultMessage
      * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage
+     * @throws SecurityExceptionFaultMessage
+     * @throws InvalidSubjectDataExceptionFaultMessage
      * @throws SubjectAlreadyExistsExceptionFaultMessage
      */
     @WebMethod
@@ -80,9 +80,9 @@ public interface SubjectManagement {
      * @param parameters
      * @return
      *     returns edu.duke.cabig.c3pr.webservice.subjectmanagement.UpdateSubjectResponse
+     * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage
      * @throws SecurityExceptionFaultMessage
      * @throws InvalidSubjectDataExceptionFaultMessage
-     * @throws UnableToCreateOrUpdateSubjectExceptionFaultMessage
      * @throws NoSuchSubjectExceptionFaultMessage
      */
     @WebMethod

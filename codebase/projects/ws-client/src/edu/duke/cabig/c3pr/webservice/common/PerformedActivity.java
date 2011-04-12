@@ -23,6 +23,8 @@ import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
  *         &lt;element name="statusCode" type="{uri:iso.org:21090}CD" minOccurs="0"/>
  *         &lt;element name="statusDate" type="{uri:iso.org:21090}TS.DateTime" minOccurs="0"/>
  *         &lt;element name="missedIndicator" type="{uri:iso.org:21090}BL" minOccurs="0"/>
+ *         &lt;element name="drug" type="{http://enterpriseservices.nci.nih.gov/Common}Drug" minOccurs="0"/>
+ *         &lt;element name="definedActivity" type="{http://enterpriseservices.nci.nih.gov/Common}DefinedActivity" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -35,7 +37,9 @@ import edu.duke.cabig.c3pr.webservice.iso21090.TSDateTime;
 @XmlType(name = "PerformedActivity", propOrder = {
     "statusCode",
     "statusDate",
-    "missedIndicator"
+    "missedIndicator",
+    "drug",
+    "definedActivity"
 })
 @XmlSeeAlso({
     PerformedAdministrativeActivity.class
@@ -47,6 +51,8 @@ public class PerformedActivity
     protected CD statusCode;
     protected TSDateTime statusDate;
     protected BL missedIndicator;
+    protected Drug drug;
+    protected DefinedActivity definedActivity;
 
     /**
      * Gets the value of the statusCode property.
@@ -118,6 +124,54 @@ public class PerformedActivity
      */
     public void setMissedIndicator(BL value) {
         this.missedIndicator = value;
+    }
+
+    /**
+     * Gets the value of the drug property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Drug }
+     *     
+     */
+    public Drug getDrug() {
+        return drug;
+    }
+
+    /**
+     * Sets the value of the drug property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Drug }
+     *     
+     */
+    public void setDrug(Drug value) {
+        this.drug = value;
+    }
+
+    /**
+     * Gets the value of the definedActivity property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DefinedActivity }
+     *     
+     */
+    public DefinedActivity getDefinedActivity() {
+        return definedActivity;
+    }
+
+    /**
+     * Sets the value of the definedActivity property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DefinedActivity }
+     *     
+     */
+    public void setDefinedActivity(DefinedActivity value) {
+        this.definedActivity = value;
     }
 
 }
