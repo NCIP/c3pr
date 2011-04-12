@@ -95,11 +95,16 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
     public void validate(StudySubjectWrapper command, Errors errors) {
     		Date epochStartDate = command.getStudySubject().getScheduledEpoch().getStartDate();
     		if(epochStartDate!=null){
-    			StudySiteStudyVersion studySiteStudyVersion = ((StudySubjectWrapper)command).getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
-    			StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getActiveStudyVersion(epochStartDate);
-    			if(studyVersion== null || !studySiteStudyVersion.getStudyVersion().equals(studyVersion)){
-    				errors.reject("tempProperty", "Scheduled epoch start date does not correspond to the selected study version");
+    			// validate only non embedded companion registrations. 
+    			//TODO validate embedded companion registrations based on the parent study
+    			if (!command.getStudySubject().getStudySite().getStudy().getIsEmbeddedCompanionStudy()){
+    				StudySiteStudyVersion studySiteStudyVersion = ((StudySubjectWrapper)command).getStudySubject().getStudySubjectStudyVersion().getStudySiteStudyVersion();
+    				StudyVersion studyVersion = studySiteStudyVersion.getStudySite().getActiveStudyVersion(epochStartDate);
+    				if(studyVersion== null || !studySiteStudyVersion.getStudyVersion().equals(studyVersion)){
+        				errors.reject("tempProperty", "Scheduled epoch start date does not correspond to the selected study version");
+        			}
     			}
+    			
     		}
     		
     		List<Date> offEpochDates = new ArrayList<Date>();
