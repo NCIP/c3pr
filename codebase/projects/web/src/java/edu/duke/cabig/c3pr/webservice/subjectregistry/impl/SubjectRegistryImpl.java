@@ -823,8 +823,9 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	 */
 	private void copyConsentDetails(edu.duke.cabig.c3pr.domain.StudySubject destination , List<edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion> subjectConsents) throws InvalidStudySubjectDataExceptionFaultMessage{
 		List<StudySubjectConsentVersion> studySubjectConsents = converter.convertSubjectConsent(subjectConsents);
-		destination.getStudySubjectStudyVersion().getStudySubjectConsentVersions().clear();
+		
 		Study study = destination.getStudySite().getStudy();
+		List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
 		for(StudySubjectConsentVersion studySubjectConsentVersion : studySubjectConsents){
 			Consent consent = study.getConsent(studySubjectConsentVersion.getConsent().getName(), studySubjectConsentVersion.getConsent().getVersionId());
 			if(consent == null){
@@ -841,8 +842,12 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 				}
 				subjectAnswer.setConsentQuestion(consentQuestion);
 			}
-			destination.getStudySubjectStudyVersion().getStudySubjectConsentVersions().add(studySubjectConsentVersion);
+			
+			studySubjectConsentVersions.add(studySubjectConsentVersion);
+			
 		}
+		destination.getStudySubjectStudyVersion().getStudySubjectConsentVersions().clear();
+		destination.getStudySubjectStudyVersion().getStudySubjectConsentVersions().addAll(studySubjectConsentVersions);
 	}
 	
 	/**
