@@ -369,6 +369,9 @@ public class JAXBToDomainObjectConverterImpl implements
 						: StringUtils.EMPTY);
 				participant.replaceAddresses(getAddresses(person));
 				participant.setRaceCodes(getRaceCodes(person));
+				// remove the existing identifiers of participant and add the ones from subject in the request
+				participant.getIdentifiers().clear();
+				processIdentifiers(subject.getEntity().getBiologicEntityIdentifier(),participant);
 				updateContactMechanism(participant, person);
 			} catch (IllegalArgumentException e) {
 				throw exceptionHelper.getConversionException(
