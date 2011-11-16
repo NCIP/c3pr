@@ -20,13 +20,17 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.dao.DataAccessResourceFailureException;
 
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.SiteStudyStatus;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
+import edu.duke.cabig.c3pr.domain.Correspondence;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.SiteStatusHistory;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -35,8 +39,10 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.StudySubjectStudyVersion;
+import edu.duke.cabig.c3pr.domain.UserBasedRecipient;
 import edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 public class NotificationInterceptor extends EmptyInterceptor implements ApplicationContextAware {
 
@@ -137,6 +143,35 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
         }
         return result;
 	}
+	
+	public List<PlannedNotification> getPlannedNotificationsForCorrespondence(){
+		List<PlannedNotification> result;
+		
+		SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
+		Session session = sessionFactory.openSession(sessionFactory.getCurrentSession().connection());
+		session.setFlushMode(FlushMode.MANUAL);
+		result = new ArrayList<PlannedNotification>();
+        try {
+          Query query =  session.createQuery("from PlannedNotification p left join fetch p.userBasedRecipientInternal where p.eventName = :var").setString("var", NotificationEventTypeEnum.CORRESPONDENCE_CREATED_OR_UPDATED_EVENT.toString());
+          
+          result = query.list().subList(0, 1);
+        }
+        catch (DataAccessResourceFailureException e) {
+            log.error(e.getMessage());
+        }
+        catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        catch (HibernateException e) {
+            log.error(e.getMessage());
+        }catch(Exception e){
+        	log.error(e.getMessage());
+        }
+        finally{
+        	session.close();
+        }
+        return result;
+	}
 
 
 	
@@ -164,6 +199,13 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			StudySite studySite = ((SiteStatusHistory)entity).getStudySite();
 			handleStudySiteStatusChange(null, studySite.getSiteStudyStatus(), studySite);
 		}
+		
+		//saving correspondence activate rules only if follow_up is needed and either person_spoken_to or notified_study_personnel is present
+		
+		/*if(entity instanceof Correspondence && ((Correspondence)entity).getFollowUpNeeded() && 
+				(((Correspondence)entity).getPersonSpokenTo()!=null || ((Correspondence)entity).getNotifiedStudyPersonnel().size()>0)){
+			activateRulesForNewOrUpdatedCorrespondence((Correspondence)entity);
+		}*/
 		log.debug(this.getClass().getName() + ": Exiting onSave()");
 		return false;
 	}
@@ -219,6 +261,13 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		if(entity instanceof Participant && ((Participant)entity).getVersion()>0){
 				activateRulesForUpdatingMasterSubject((Participant)entity);
 		}
+		
+		//update correspondence activate rules only if follow_up is needed and either person_spoken_to or notified_study_personnel is present
+		
+		/*if(entity instanceof Correspondence && ((Correspondence)entity).getFollowUpNeeded() && 
+				(((Correspondence)entity).getPersonSpokenTo()!=null || ((Correspondence)entity).getNotifiedStudyPersonnel().size()>0)){
+			activateRulesForNewOrUpdatedCorrespondence((Correspondence)entity);
+		}*/
 		log.debug(this.getClass().getName() + ": Exiting onFlushDirty()");
 		return super.onFlushDirty(entity, id, currentState, previousState, propertyNames, types);
 	}
@@ -537,6 +586,39 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 			rulesDelegationService.activateRules(NotificationEventTypeEnum.MASTER_SUBJECT_UPDATED_EVENT, objects);
 			objects.remove(plannedNotification);
 			}
+	}
+	
+	/* Called for updating master subjects only. * fires rules to all registrars on whose sites subject is registered */
+	private void activateRulesForNewOrUpdatedCorrespondence(Correspondence correspondence){
+		
+		List<Object> objects = new ArrayList<Object>();
+		objects.add(correspondence);
+			PlannedNotification plannedNotification = getPlannedNotificationsForCorrespondence().get(0);
+			plannedNotification.getUserBasedRecipient().clear();
+			if(correspondence.getPersonSpokenTo() != null){
+				String email = correspondence.getPersonSpokenTo().getEmail();
+				if(!StringUtils.isBlank(email)){
+					UserBasedRecipient ubr = new UserBasedRecipient();
+					ubr.setPersonUser(correspondence.getPersonSpokenTo());
+					ubr.setEmailAddress(email);
+					plannedNotification.getUserBasedRecipient().add(ubr);
+				}
+			}
+			
+			for(PersonUser notifiedPersonUser : correspondence.getNotifiedStudyPersonnel()){
+				String email = notifiedPersonUser.getEmail();
+				if(!StringUtils.isBlank(email)){
+					UserBasedRecipient ubr = new UserBasedRecipient();
+					ubr.setPersonUser(notifiedPersonUser);
+					ubr.setEmailAddress(email);
+					plannedNotification.getUserBasedRecipient().add(ubr);
+				}
+			}
+			
+			
+			objects.add(plannedNotification);
+			rulesDelegationService.activateRules(NotificationEventTypeEnum.CORRESPONDENCE_CREATED_OR_UPDATED_EVENT, objects);
+			objects.remove(plannedNotification);
 	}
 	
 	public List<HealthcareSite> getRegisteredSitesForSubject(Participant participant){

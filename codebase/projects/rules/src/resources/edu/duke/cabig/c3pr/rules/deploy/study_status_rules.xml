@@ -79,5 +79,20 @@
             schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
         </rhs>        
     </rule>
+    <rule name="Correspondence_Rules">
+        <lhs>
+        	<pattern identifier="plannedNotification" object-type="edu.duke.cabig.c3pr.domain.PlannedNotification"/>
+        	<pattern identifier="scheduledNotificationService" object-type="edu.duke.cabig.c3pr.service.ScheduledNotificationService"/>
+        	<pattern identifier="correspondence" object-type="edu.duke.cabig.c3pr.domain.Correspondence"/>
+        	<pattern identifier="schedulerService" object-type="edu.duke.cabig.c3pr.service.SchedulerService"/>
+        	<pattern identifier="event" object-type="edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum" />
+        	
+        	<eval>event.equals(NotificationEventTypeEnum.CORRESPONDENCE_CREATED_OR_UPDATED_EVENT)</eval>    
+         </lhs>
+        <rhs>
+        	Integer scheduledNotificationId = scheduledNotificationService.saveScheduledNotification(plannedNotification, correspondence);
+            schedulerService.scheduleStudyNotification(plannedNotification, scheduledNotificationId);
+        </rhs>        
+    </rule>
     
 </package>	
