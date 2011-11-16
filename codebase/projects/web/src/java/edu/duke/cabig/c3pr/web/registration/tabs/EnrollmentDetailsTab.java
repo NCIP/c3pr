@@ -136,7 +136,7 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubjectWrapper> {
 						if (registrationStartDate.before(studySubjectConsentVersion.getInformedConsentSignedDate())) {
 							errors
 									.reject("studySubject.startDate",
-											"Registration date cannot be prior to informed consent signed date");
+											"Registration date cannot be prior to informed consent signed date " + studySubjectConsentVersion.getInformedConsentSignedDateStr());
 						}
 					}
 				}

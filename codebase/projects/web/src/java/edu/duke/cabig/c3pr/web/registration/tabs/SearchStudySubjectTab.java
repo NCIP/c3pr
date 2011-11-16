@@ -11,7 +11,9 @@ import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.constants.FamilialRelationshipName;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
+import edu.duke.cabig.c3pr.constants.RelationshipCategory;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteStudyVersionDao;
@@ -21,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
@@ -39,7 +42,13 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
     
     private ParticipantDao participantDao;
     
-    public void setParticipantDao(ParticipantDao participantDao) {
+    private ParticipantValidator participantValidator;
+    
+    public void setParticipantValidator(ParticipantValidator participantValidator) {
+		this.participantValidator = participantValidator;
+	}
+
+	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
 	}
 
@@ -65,13 +74,34 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
     		StudySubjectWrapper command) {
     	Map refdata=super.referenceData(request, command);
     	Map<String, List<Lov>> configMap = configurationProperty.getMap();
-        refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
         refdata.put("searchTypeRefDataPrt", configMap.get("participantSearchType"));
         refdata.put("searchTypeRefDataStudy", configMap.get("studySearchTypeForRegistration"));
         refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
         refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
         refdata.put("raceCodes", WebUtils.collectOptions(RaceCodeEnum.values()));
-        refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
+        
+        List<Lov> sysParticipantIdentifiersType = new ArrayList<Lov>();
+        // remove Household Identifier type from sysIdentifiers as it should be included only as a part of organization identifiers
+        for(Lov partOrgIdType : configMap.get("participantIdentifiersType")){
+        	if(!partOrgIdType.getCode().equalsIgnoreCase("HOUSEHOLD_IDENTIFIER")){
+        		sysParticipantIdentifiersType.add(partOrgIdType);
+        	}
+        }
+        
+        refdata.put("orgIdentifiersTypeRefData", configMap.get("participantIdentifiersType"));
+        refdata.put("sysIdentifiersTypeRefData", sysParticipantIdentifiersType);
+        
+        Map<String,Object> familialRelationshipNames = new HashMap<String,Object>();
+        for(FamilialRelationshipName familialRelationshipName : FamilialRelationshipName.values()){
+        	familialRelationshipNames.put(familialRelationshipName.getName(), familialRelationshipName.getCode());
+        }
+        refdata.put("familialRelationshipNames",familialRelationshipNames);
+        
+        Map<String,Object> relationshipCategories = new HashMap<String,Object>();
+        for(RelationshipCategory relationshipCategory : RelationshipCategory.values()){
+        	relationshipCategories.put(relationshipCategory.getName(), relationshipCategory.getCode());
+        }
+        refdata.put("relationshipCategories",relationshipCategories);
         
         if (command.getStudySubject().getSystemAssignedIdentifiers()!= null && command.getStudySubject().getSystemAssignedIdentifiers().size()>0) {
             refdata.put("disableForm", new Boolean(true));
@@ -185,7 +215,8 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
     @Override
 	public void validate(StudySubjectWrapper command, Errors errors) {
 		super.validate(command, errors);
-	
+		participantValidator.validateParticipantFamilialRelationships(command.getStudySubject().getParticipant(), errors);
+		participantValidator.validateIdentifiers(command.getStudySubject().getParticipant(), errors);
 	}
 
 	public ModelAndView checkEpochAccrualCeiling(HttpServletRequest request, Object commandObj,

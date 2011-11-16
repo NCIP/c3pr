@@ -117,8 +117,20 @@ public abstract class BeanUtils extends org.apache.commons.beanutils.BeanUtils {
 						}
 						for (int i = 0; i < l1.size(); i++) {
 							Object el1 = l1.get(i);
-							Object el2 = l2.get(i);
-							if (!deepCompare(el1, el2)) {
+							boolean equals = false;
+							for (int j = 0; j < l2.size(); j++) {
+								Object el2 = l2.get(j);
+								if (deepCompare(el1, el2)) {
+									if(i == j){
+										System.out.println("Values matched at the same index in collections");
+									}else{
+										System.out.println("Values matched at the different index in collections");
+									}
+									equals = true;
+									break;
+								}
+							}
+							if(!equals){
 								return false;
 							}
 						}

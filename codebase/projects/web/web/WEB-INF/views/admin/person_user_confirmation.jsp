@@ -38,6 +38,10 @@
 					<div class="label"><fmt:message key="c3pr.common.username"/>:</div>
 					<div class="value">${command.userName}</div>
 				</div>
+				<div class="row">
+		        	<div class="label"><fmt:message key="c3pr.common.userStatus"/></div>
+		        	<div class="value">&nbsp;${command.userStatus}</div>
+		    </div>
 			</c:if>
 		</c3pr:checkprivilege>
 		<c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">

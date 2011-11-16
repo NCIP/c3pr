@@ -11,6 +11,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import com.semanticbits.querybuilder.AdvancedSearchHelper;
@@ -37,6 +39,7 @@ import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.ConversionException;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.BiologicEntityIdentifier;
 import edu.duke.cabig.c3pr.webservice.common.DSETPerformedStudySubjectMilestone;
@@ -99,7 +102,7 @@ import edu.duke.cabig.c3pr.webservice.subjectregistry.converters.SubjectRegistry
  * The Class SubjectRegistryImpl.
  */
 @WebService(wsdlLocation="/WEB-INF/wsdl/SubjectRegistry.wsdl", targetNamespace = "http://enterpriseservices.nci.nih.gov/SubjectRegistryService", endpointInterface = "edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry", portName = "SubjectRegistry", serviceName = "SubjectRegistryService")
-public class SubjectRegistryImpl implements SubjectRegistry {
+public class SubjectRegistryImpl implements SubjectRegistry, ApplicationContextAware {
 	
 	/** Logger for this class. */
 	private static final Logger log = Logger
@@ -149,6 +152,21 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 	
 	/** The registry status dao. */
 	private RegistryStatusDao registryStatusDao;
+	
+	private ApplicationContext applicationContext;
+	
+	public ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+	}
+
+	private boolean isCustomHQLEnabled() {
+		Configuration configuration = (Configuration) applicationContext.getBean("configuration");
+		return "true".equalsIgnoreCase(configuration.get(Configuration.SRS_ENABLE_CUSTOM_HQL));
+	}
 	
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#importSubjectRegistry(edu.duke.cabig.c3pr.webservice.subjectregistry.ImportStudySubjectRegistryRequest)
@@ -359,25 +377,33 @@ public class SubjectRegistryImpl implements SubjectRegistry {
 		QueryStudySubjectRegistryResponse response = new QueryStudySubjectRegistryResponse();
 		DSETStudySubject studySubjects = new DSETStudySubject();
 		response.setStudySubjects(studySubjects);
-
+		List<edu.duke.cabig.c3pr.domain.StudySubject> results = new ArrayList<edu.duke.cabig.c3pr.domain.StudySubject>();
+				
 		try {
 			List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
 			for (AdvanceSearchCriterionParameter param : parameters.getSearchParameter().getItem()) {
-				AdvancedSearchCriteriaParameter advParam = converter
-						.convert(param);
+				AdvancedSearchCriteriaParameter advParam = converter.convert(param);
 				advParameters.add(advParam);
 			}
-
-			List<edu.duke.cabig.c3pr.domain.StudySubject> results = new ArrayList<edu.duke.cabig.c3pr.domain.StudySubject>(
-					studySubjectDao.search(advParameters));
-			for (edu.duke.cabig.c3pr.domain.StudySubject result : results) {
-				studySubjects.getItem().add(converter.convert(result));
+			
+			if(isCustomHQLEnabled()) {
+				results = studySubjectDao.invokeCustomHQLSearch(advParameters);
+				studySubjects = converter.optionallyLoadStudySubjectData(studySubjects, results);
+			} else {
+				results = studySubjectDao.search(advParameters);
+				for (edu.duke.cabig.c3pr.domain.StudySubject result : results) {
+					studySubjects.getItem().add(converter.convert(result));
+				}
 			}
+			
 		} catch (ConversionException e) {
 			handleInvalidQueryData(e);
 		}
+		
 		return response;
 	}
+	
+
 
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.webservice.subjectregistry.SubjectRegistry#querySubjectRegistryByConsent(edu.duke.cabig.c3pr.webservice.subjectregistry.QueryStudySubjectRegistryByConsentRequest)

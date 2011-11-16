@@ -75,6 +75,24 @@
 				</div>
 			</div>
 		</chrome:division>
+			
+		<chrome:division title="Familial Relationships">
+			 <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+	        <tr>
+	            <th><fmt:message key="participant.subjectName"/></th>
+	            <th><fmt:message key="participant.familialRelationship.name"/></th>
+	        </tr>
+	        <c:forEach var="familyMember" items="${command.participant.relatedTo}"
+	                  varStatus="familyMemberStatus">
+	            <tr>
+	                <td>${familyMember.secondaryParticipant.fullName}</td>
+	                <td>${familyMember.name.displayName}</td>
+	            </tr>
+	        </c:forEach>
+	    </table>
+		</chrome:division>
+		
+		
 		<chrome:division title="Identifiers"  link="javascript:document.getElementById('flowredirect-target').name='_target0';document.getElementById('flowredirect').submit()" condition="${flowType != 'VIEW_SUBJECT'}">
 		    <table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 	        <tr>
@@ -99,38 +117,25 @@
 	        </c:forEach>
 	    </table>
 		</chrome:division>
-		<chrome:division title="Address" link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit()" condition="${flowType != 'VIEW_SUBJECT'}">
-			<c:choose>
-			<c:when test="${command.participant.address.addressString != ''}">
-				<div class="leftpanel">
-					<div class="row">
-						<div class="label"><fmt:message key="c3pr.common.streetAddress"/>:</div>
-						<tags:value value="${command.participant.address.streetAddress}" ></tags:value>
-					</div>
-					<div class="row">
-						<div class="label"><fmt:message key="c3pr.common.city"/>:</div>
-						<tags:value value="${command.participant.address.city}" ></tags:value>
-					</div>
-					<div class="row">
-						<div class="label"><fmt:message key="c3pr.common.state"/>:</div>
-						<tags:value value="${command.participant.address.stateCode}" ></tags:value>
-					</div>
-				</div>
-				<div class="rightpanel">
-					<div class="row">
-						<div class="label"><fmt:message key="c3pr.common.country"/>:</div>
-						<tags:value value="${command.participant.address.countryCode}" ></tags:value>
-					</div>
-					<div class="row">
-						<div class="label"><fmt:message key="c3pr.common.zip"/>:</div>
-						<tags:value value="${command.participant.address.postalCode}" ></tags:value>
-					</div>
-				</div>
-			</c:when>
-			<c:otherwise>
-				<div class="value"><span class="no-selection"><fmt:message key="c3pr.common.addressNotSpecified"/></span></div>
-			</c:otherwise>
-			</c:choose>
+		<chrome:division title="Addresses" link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit()" condition="${flowType != 'VIEW_SUBJECT'}">
+			<table width="90%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+	        <tr>
+	            <th width="75%"><fmt:message key="c3pr.common.address"/></th>
+	            <th><fmt:message key="c3pr.common.startDate"/></th>
+	            <th><fmt:message key="c3pr.common.endDate"/></th>
+	        </tr>
+	        <c:forEach var="address" items="${command.addresses}"
+	                  varStatus="status">
+					<c:if test="${address.addressString != ''}">
+			            <tr>
+			                <td>${address.addressString}</td>
+			                <td>${address.startDateStr}</td>
+			                <td>${address.endDateStr}</td>
+			            </tr>
+		            </c:if>
+	        </c:forEach>
+	   	 </table>
+			
 		</chrome:division>
 		<chrome:division title="Contact Information" link="javascript:document.getElementById('flowredirect-target').name='_target1';document.getElementById('flowredirect').submit()" condition="${flowType != 'VIEW_SUBJECT'}">
 			<c:choose>

@@ -147,11 +147,23 @@
         <div class="login-header">
             Please Log in
         </div>
-        <c:if test="${not empty param.login_error}">
+		<c:if test="${not empty param.login_error}">
+            <p class="errors">
+                 <img src="/c3pr/images/error-yellow.png" style="margin-right:10px">${sessionScope['ACEGI_SECURITY_LAST_EXCEPTION'].message}
+            </p>
+        </c:if>
+        <%--
+        <c:if test="${not empty param.login_error and param.login_error eq '1'}">
             <p class="errors">
                 <img src="/c3pr/images/error-yellow.png" alt="" /> Incorrect username and/or password.  Please try again.
             </p>
         </c:if>
+        <c:if test="${not empty param.login_error and param.login_error eq '2'}">
+            <p class="errors">
+                <img src="/c3pr/images/error-yellow.png" alt="" /> This user account has been de-activated.
+            </p>
+        </c:if>
+         --%>
         <div class="row">
             <div class="label">
                 Username:&nbsp;

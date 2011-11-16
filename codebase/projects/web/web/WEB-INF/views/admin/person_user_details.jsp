@@ -382,6 +382,12 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	}
 	updateRoleSummary(index, siteScoped, studyScoped);
 }
+
+function toggleUserStatus(){
+	var form = document.getElementById('command');
+	form._toggleStatus.value="true";
+	form.submit();
+}
 </script>
 
 </head>
@@ -412,6 +418,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
 	<input type="hidden" name="_preExistingUsersAsignedId" value="">
+	<input type="hidden" name="_toggleStatus" value="false">
 
 	<c:set var="noHealthcareSiteAssociated" value="${fn:length(command.personUser.healthcareSites) == 0}"></c:set>
 	<tags:instructions code="research_staff_details" />
@@ -468,12 +475,19 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 					<c:set var="staffdisplay" value="display:none"/>
 			        <c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
 			        	<c:set var="staffdisplay" value="display"/>
-			        </c3pr:checkprivilege>
-			        <div class="row" style="${staffdisplay}" id="assignedIdentifier">
+			        
+			        	<div class="row" style="${staffdisplay}" id="assignedIdentifier">
 				   	        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
-					        <tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
+				   	        <c:choose>
+					   	        <c:when test="${empty command.personUser.assignedIdentifier || isSuperUser}"> 
+						        	<tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
+					   	        </c:when>
+					   	        <c:otherwise>
+					   	        	&nbsp;&nbsp;${command.personUser.assignedIdentifier}
+					   	        </c:otherwise>
+				   	        </c:choose>
 					    </div>
-				    
+				    </c3pr:checkprivilege>
 		        	 <div class="row" style="${staffdisplay}">
 			            <div class="label"><fmt:message key="researchstaff.createAsStaff" /></div>
 			            <c:if test="${FLOW == 'SAVE_FLOW'}">
@@ -602,7 +616,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 </div>	
 
 <c:if test="${FLOW=='SETUP_FLOW'}">
-	<chrome:box title="Account Information" >
+	<chrome:box title="Account Information">
 		<tags:instructions code="research_staff_account_information" />
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
@@ -659,7 +673,7 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 				<c:when test="${isLoggedInUser}">
 					<div class="row">
 				        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
-				        <div class="value">${command.userName}</div>
+				        <div class="value">&nbsp;${command.userName}</div>
 				    </div>
 				</c:when>
 				<c:otherwise>
@@ -668,19 +682,34 @@ function toggleRoleContent(index, siteScoped, studyScoped){
 				        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.username"/></div>
 				        <div class="value">
 				        	<c:choose>
-				        	<c:when test="${empty command.userName || duplicateUser}">
+				        	<c:when test="${empty command.userName || duplicateUser}">&nbsp;
 					        		<form:input id="loginId" size="20" path="userName" cssClass="MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
 					        		<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
 					        		<input id="copiedEmailAddress" type="hidden"/>
 					        		<input type="hidden" name="_createUser" value="true">
 				        	</c:when>
-				        	<c:otherwise>${command.userName}</c:otherwise>
+				        	<c:otherwise>&nbsp;${command.userName}</c:otherwise>
 				        	</c:choose>
 				        </div>
 				    </div>
 				    </c3pr:checkprivilege>
 				</c:otherwise>
 			</c:choose>
+			<c:if test="${FLOW != 'SAVE_FLOW' && not empty command.userName}">
+				<div class="row">
+			        <div class="label"><fmt:message key="c3pr.common.userStatus"/></div>
+			        <div class="value">&nbsp;${command.userStatus}&nbsp;&nbsp;&nbsp;<br/>
+			        	<c:choose>
+				        	<c:when test="${command.userStatus eq 'Active'}">
+				        		<tags:button id="toggleStatus" type="button" color="red" value="Deactivate User"  onclick="toggleUserStatus()" size="small"/>
+				        	</c:when>
+				        	<c:otherwise>
+				        		<tags:button id="toggleStatus" type="button" color="green" value="Activate User"  onclick="toggleUserStatus()" size="small"/>
+				        	</c:otherwise>
+			        	</c:choose>
+			        </div>
+			    </div>
+		    </c:if>
 			<br/>
 			<!-- end of username display -->
 			

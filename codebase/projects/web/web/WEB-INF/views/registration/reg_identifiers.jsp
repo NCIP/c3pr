@@ -73,7 +73,7 @@ function manageIdentifierRadio(element){
 </head>
 <body>
 
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="true"
 	formName="studySubjectIdentifiersForm">
 	<jsp:attribute name="singleFields">
 	<br>

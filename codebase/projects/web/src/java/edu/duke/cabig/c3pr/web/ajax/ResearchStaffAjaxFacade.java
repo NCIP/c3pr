@@ -10,9 +10,11 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteStudy;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -24,7 +26,12 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 public class ResearchStaffAjaxFacade {
     private HealthcareSiteDao healthcareSiteDao;
     private StudyDao studyDao;
-    private StudySiteDao studySiteDao;
+    public void setPersonUserDao(PersonUserDao personUserDao) {
+		this.personUserDao = personUserDao;
+	}
+
+	private StudySiteDao studySiteDao;
+    private PersonUserDao personUserDao;
 
     private static Log log = LogFactory.getLog(ResearchStaffAjaxFacade.class);
 
@@ -106,6 +113,24 @@ public class ResearchStaffAjaxFacade {
         	}
         }
         return reducedStudies;
+    }
+    
+    /**
+     * Match studies. Used for the study auto-completer
+     *
+     * @param text the text
+     * @return the list
+     * @throws Exception the exception
+     */
+    public List<PersonUser> matchPersonUsers(String text) throws Exception {
+
+        List<PersonUser> personUsers = personUserDao.getBySubNameAndSubEmail(extractSubnames(text));
+        List<PersonUser> reducedPersonUsers = new ArrayList<PersonUser>(personUsers.size());
+        for (PersonUser personUser : personUsers) {
+        	reducedPersonUsers.add(buildReduced(personUser, Arrays.asList("id", "firstName",
+        				"lastName","assignedIdentifier")));
+        }
+        return reducedPersonUsers;
     }
     
     

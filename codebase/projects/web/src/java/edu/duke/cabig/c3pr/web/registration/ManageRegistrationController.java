@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationCorrespondencesTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationHistoryChartTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationIdentifiersTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationOverviewTab;
@@ -51,6 +52,7 @@ public class ManageRegistrationController<C extends StudySubjectWrapper> extends
     protected void intializeFlows(Flow flow) {
         flow.addTab(new RegistrationOverviewTab<StudySubjectWrapper>());
         flow.addTab(new RegistrationIdentifiersTab<StudySubjectWrapper>());
+        flow.addTab(new RegistrationCorrespondencesTab());
         flow.addTab(new RegistrationHistoryChartTab<StudySubjectWrapper>());
         setFlow(flow);
     }

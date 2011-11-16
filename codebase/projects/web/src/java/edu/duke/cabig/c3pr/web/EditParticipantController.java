@@ -18,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.FamilialRelationshipName;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
+import edu.duke.cabig.c3pr.constants.RelationshipCategory;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.RaceCodeAssociationDao;
@@ -34,6 +36,7 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantSummaryTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantWrapper;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
@@ -76,6 +79,7 @@ public class EditParticipantController<C extends ParticipantWrapper> extends
     protected void layoutTabs(Flow flow) {
         flow.addTab(new ParticipantDetailsTab());
         flow.addTab(new ParticipantAddressAndContactInfoTab());
+        flow.addTab(new ParticipantSummaryTab());
     }
 
     @Override
@@ -131,6 +135,9 @@ public class EditParticipantController<C extends ParticipantWrapper> extends
                         ContactMechanismType.class));
         binder.registerCustomEditor(RaceCodeEnum.class, new EnumByNameEditor(RaceCodeEnum.class));
         binder.registerCustomEditor(RaceCodeAssociation.class, new CustomDaoEditor(raceCodeAssociationDao));
+        binder.registerCustomEditor(Participant.class, new CustomDaoEditor(participantDao));
+        binder.registerCustomEditor(FamilialRelationshipName.class, new EnumByNameEditor(FamilialRelationshipName.class));
+        binder.registerCustomEditor(RelationshipCategory.class, new EnumByNameEditor(RelationshipCategory.class));
     }
     
     @Override

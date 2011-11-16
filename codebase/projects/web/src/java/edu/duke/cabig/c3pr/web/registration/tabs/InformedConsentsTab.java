@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -97,6 +98,7 @@ public class InformedConsentsTab extends RegistrationTab<StudySubjectWrapper> {
     
     @Override
     public void validate(StudySubjectWrapper command, Errors errors) {
+    	boolean consentedAtLeastOne = false;
 	    	for(StudySubjectConsentVersion studySubjectConsentVersion : command.getStudySubject().getStudySubjectStudyVersion().
 	    			getStudySubjectConsentVersions()){
 				if (studySubjectConsentVersion
@@ -109,12 +111,21 @@ public class InformedConsentsTab extends RegistrationTab<StudySubjectWrapper> {
 						errors.reject("tempProperty",  "Consent:" +studySubjectConsentVersion.getConsent().getName()+ " signed date cannot be prior to the delivery date");
 					}
 				}
+				if(studySubjectConsentVersion.getInformedConsentSignedDate() != null){
+					consentedAtLeastOne = true;
+				}
 				
 				if (studySubjectConsentVersion.getConsent().getMandatoryIndicator() && 
 						studySubjectConsentVersion.getInformedConsentSignedDate() == null) {
 						errors.reject("tempProperty", "Consent:" +studySubjectConsentVersion.getConsent().getName()+  " is mandatory");
 				}
 			}
+	    	
+	    	if(command.getStudySubject().getStudySite().getStudy().getConsentRequired() == ConsentRequired.ONE){
+	    		if(!consentedAtLeastOne){
+	    			errors.reject("tempProperty", "At least one consent should be signed");
+	    		}
+	    	}
     }
     
 }

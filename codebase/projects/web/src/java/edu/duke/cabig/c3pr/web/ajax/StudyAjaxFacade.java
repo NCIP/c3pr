@@ -5,8 +5,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -81,8 +84,29 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     private PersonnelService personnelSerivice;
 
     private static Log log = LogFactory.getLog(StudyAjaxFacade.class);
+    
+    private List<PersonUser> notifiedPersonUsers = new ArrayList<PersonUser>();
+    
+    private int registrationId;
+    
 
-    @SuppressWarnings("unchecked")
+	public int getRegistrationId() {
+		return registrationId;
+	}
+
+	public void setRegistrationId(int registrationId) {
+		this.registrationId = registrationId;
+	}
+
+	public void setNotifiedPersonUsers(List<PersonUser> notifiedPersonUsers) {
+		this.notifiedPersonUsers = notifiedPersonUsers;
+	}
+
+	public List<PersonUser> getNotifiedPersonUsers() {
+		return notifiedPersonUsers;
+	}
+
+	@SuppressWarnings("unchecked")
     private <T> T buildReduced(T src, List<String> properties) {
         T dst = null;
         try {
@@ -375,6 +399,44 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		}
 		return reducedHcsRsList;
 	}
+    
+    
+    
+    /**
+     * Gets the site personnel. Used by study_personnel jsp.
+     * Note: we only load the study scoped staff who are not already assigned to the study.
+     *
+     * @param hcsId the hcs id
+     * @param studyId the study id
+     * @return the site personnel
+     * @throws Exception the exception
+     */
+    public List<PersonUser> getAllStaffAssociatedToStudyAndStudyOrganizations(String text,String studyId) throws Exception {
+    	
+    	//copy elements of notified list into another list to be used for search results
+		List<PersonUser> eligbleStudyStaff = new ArrayList<PersonUser>();
+		for(int i=0;i<notifiedPersonUsers.size();i++){
+			eligbleStudyStaff.add(notifiedPersonUsers.get(i));
+		}
+		if (eligbleStudyStaff.size() > 0) {
+			
+			// find all the research staff who meet the criteria
+			List<PersonUser> searchedPersonUsers = personUserDao
+					.getBySubNameAndSubEmail(extractSubnames(text));
+			Set<PersonUser> searchedPersonUsersSet = new HashSet<PersonUser>();
+			searchedPersonUsersSet.addAll(searchedPersonUsers);
+			eligbleStudyStaff.retainAll(searchedPersonUsersSet);
+		}
+		// construct the reduced person users list for sending to the front end
+	     List<PersonUser> reducedPersonUsers = new ArrayList<PersonUser>(eligbleStudyStaff.size());
+	     
+	     Iterator<PersonUser> personUserIterator = eligbleStudyStaff.iterator();
+	     while(personUserIterator.hasNext()){
+	    	 reducedPersonUsers.add(buildReduced(personUserIterator.next(), Arrays.asList("id", "firstName",
+        				"lastName","assignedIdentifier")));
+	     }
+		return reducedPersonUsers;
+	}
 
     /**
      * Removes the pre assigned staff. 
@@ -439,8 +501,6 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     }
     
     public List<Study> matchComapanionStudies(String text, HttpServletRequest request) throws Exception {
-    	StudyWrapper wrapper = (StudyWrapper) getCommandOnly(request) ;
-    	Study parentStudy = wrapper.getStudy();
     	List<Study> companionStudies = studyDao.getStudiesBySubnamesWithExtraConditionsForPrimaryIdentifier(extractSubnames(text));
 
         List<Study> reducedCompanionStudies = new ArrayList<Study>(companionStudies.size());

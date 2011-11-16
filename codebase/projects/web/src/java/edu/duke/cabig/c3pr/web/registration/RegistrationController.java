@@ -8,11 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
+import edu.duke.cabig.c3pr.constants.AMPMEnum;
 import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.ICD9DiseaseSiteCodeDepth;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
@@ -21,12 +22,14 @@ import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.TimeZoneEnum;
 import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.ConsentDao;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ICD9DiseaseSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
 import edu.duke.cabig.c3pr.dao.ReasonDao;
 import edu.duke.cabig.c3pr.dao.ScheduledEpochDao;
 import edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao;
@@ -44,20 +47,19 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ICD9DiseaseSite;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudySiteStudyVersion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
@@ -95,8 +97,14 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     protected StudySiteStudyVersionDao studySiteStudyVersionDao;
     
     private ReasonDao reasonDao;
+    
+    protected PersonUserDao personUserDao;
 
-    public void setReasonDao(ReasonDao reasonDao) {
+    public void setPersonUserDao(PersonUserDao personUserDao) {
+		this.personUserDao = personUserDao;
+	}
+
+	public void setReasonDao(ReasonDao reasonDao) {
 		this.reasonDao = reasonDao;
 	}
 
@@ -300,6 +308,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
                     throws Exception {
     	 super.initBinder(request, binder);
     	binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    	binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
                         "MM/dd/yyyy"), true));
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
@@ -309,6 +318,7 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         binder.registerCustomEditor(Arm.class, new CustomDaoEditor(armDao));
         binder.registerCustomEditor(Epoch.class, new CustomDaoEditor(epochDao));
         binder.registerCustomEditor(Consent.class, new CustomDaoEditor(consentDao));
+        binder.registerCustomEditor(PersonUser.class, new CustomDaoEditor(personUserDao));
         binder.registerCustomEditor(StratificationCriterionPermissibleAnswer.class,
                         new CustomDaoEditor(stratificationAnswerDao));
         Object command = binder.getTarget();
@@ -336,7 +346,8 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
         binder.registerCustomEditor(Reason.class, new CustomDaoEditor(
                 reasonDao));
         binder.registerCustomEditor(ConsentingMethod.class, new EnumByNameEditor(ConsentingMethod.class));
-
+        binder.registerCustomEditor(AMPMEnum.class, new EnumByNameEditor(AMPMEnum.class));
+        binder.registerCustomEditor(TimeZoneEnum.class, new EnumByNameEditor(TimeZoneEnum.class));
     }
 
     public ConfigurationProperty getConfigurationProperty() {

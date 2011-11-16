@@ -17,9 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.FamilialRelationshipName;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.ParticipantStateCode;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
+import edu.duke.cabig.c3pr.constants.RelationshipCategory;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.RaceCodeAssociationDao;
@@ -151,6 +153,9 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
         binder.registerCustomEditor(OrganizationIdentifierTypeEnum.class, new EnumByNameEditor(OrganizationIdentifierTypeEnum.class));
         binder.registerCustomEditor(RaceCodeEnum.class, new EnumByNameEditor(RaceCodeEnum.class));
         binder.registerCustomEditor(RaceCodeAssociation.class, new CustomDaoEditor(raceCodeAssociationDao));
+        binder.registerCustomEditor(Participant.class, new CustomDaoEditor(participantDao));
+        binder.registerCustomEditor(FamilialRelationshipName.class, new EnumByNameEditor(FamilialRelationshipName.class));
+        binder.registerCustomEditor(RelationshipCategory.class, new EnumByNameEditor(RelationshipCategory.class));
     }
 
     @Override

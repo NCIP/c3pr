@@ -18,6 +18,7 @@ public class PersonOrUserWrapper {
 	private String roleName;
 	private boolean createAsStaff = true;
 	private boolean createAsUser = true;
+	private String userStatus;
 	
 	/** List of newly added organization primaryIdentifiers for the staff. These are then assigned to the personUser.healthcareSites in the controller
 	    note that unlike RoleBasedHealthcareSitesAndStudiesDTO.sites(list of CSM orgs) this list does not at any point contain the pre-existing organizations.
@@ -134,6 +135,18 @@ public class PersonOrUserWrapper {
 	}
 	public void setPrimaryIdentifier(String primaryIdentifier) {
 		this.primaryIdentifier = primaryIdentifier;
+	}
+	
+	/**
+	 * Gets the user status based on the endDate mentioned in the csm_user table.
+	 *
+	 * @return the user status
+	 */
+	public String getUserStatus() {
+		return userStatus;
+	}
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
 	}
 	
 }

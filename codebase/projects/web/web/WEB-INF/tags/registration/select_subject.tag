@@ -63,6 +63,38 @@
             $(hiddenField).value = selectedChoice.id;
         }
     };
+  	var participantAutocompleterProps = {
+             basename: "familyMember",
+             populator: function(autocompleter, text) {
+            	 ParticipantAjaxFacade.matchParticipants( text,0,function(values) {
+                     autocompleter.setChoices(values)
+                 })
+             },
+             valueSelector: function(obj) {
+             	return (obj.fullName +" ("+obj.primaryIdentifierValue+")" )
+             },
+              afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
+      							$(hiddenField).value=selectedChoice.id;
+  		}
+     };
+  	 var familyMemberRowInserterProps = {
+             add_row_division_id: "familyMembersTable", 	        /* this id belongs to element where the row would be appended to */
+             skeleton_row_division_id: "dummy-familyMember",
+             initialIndex: ${fn:length(command.studySubject.participant.relatedTo)},                            /* this is the initial count of the rows when the page is loaded  */
+             path: "participant.relatedTo",                               /* this is the path of the collection that holds the rows  */
+             postProcessRowInsertion: function(object){
+ 				        clonedRowInserter=Object.clone(participantAutocompleterProps);
+ 						clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+ 						AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+ 				    },
+ 		    onLoadRowInitialize: function(object, currentRowIndex){
+ 				clonedRowInserter=Object.clone(participantAutocompleterProps);
+ 				clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+ 				AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+ 		    }
+      };
+    RowManager.addRowInseter(familyMemberRowInserterProps);
     AutocompleterManager.addAutocompleter(mrnAutocompleterProps);
 
   	 var organizationIdentifierRowInserterProps = {
@@ -408,7 +440,7 @@
 				<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifierType"/></div>
 				<div class="value">
 					<select name="participant.organizationAssignedIdentifiers[0].type"  class="valueOk validate-notEmpty">
-						<c:forEach var="identifierType" items="${identifiersTypeRefData}">
+						<c:forEach var="identifierType" items="${orgIdentifiersTypeRefData}">
 							<option value="${identifierType.code}">${identifierType.desc}</option>
 						</c:forEach>
 					</select>
@@ -417,6 +449,52 @@
 		</div>
 	 		
 </chrome:division>
+	<chrome:division title="Familial Relationships">
+			<table id="familyMembersTable" border="0"
+					cellspacing="0" cellpadding="0" class="tablecontent">
+				<tr id="hfamilyMember" <c:if test="${fn:length(command.studySubject.participant.relatedTo)==0}"> style="display:none"</c:if>>
+					<th><tags:requiredIndicator /><fmt:message key="participant.subjectName"/></th>
+					<th><tags:requiredIndicator /><fmt:message key="participant.familialRelationship.name"/></th>
+					<th></th>
+				</tr>
+					<c:forEach items="${command.studySubject.participant.relatedTo}" varStatus="familyMemberStatus" var="familyMember">
+						<c:set var="_identifier" value="(${command.studySubject.participant.relatedTo[familyMemberStatus.index].secondaryParticipant.primaryIdentifierValue})" />
+						<c:set var="_name" value="${command.studySubject.participant.relatedTo[familyMemberStatus.index].secondaryParticipant.fullName}" />
+						<tr
+							id="familyMembersTable-${familyMemberStatus.index}">
+							<td class="alt"><input type="hidden"
+								id="familyMember${familyMemberStatus.index}-hidden"
+								name="participant.relatedTo[${familyMemberStatus.index}].secondaryParticipant"
+								value="${command.studySubject.participant.relatedTo[familyMemberStatus.index].secondaryParticipant.id}" />
+								<input type="hidden"
+								id="relation-category-familyMember${familyMemberStatus.index}-hidden"
+								name="participant.relatedTo[${familyMemberStatus.index}].category" value="FAMILIAL" />
+							<input class="autocomplete validate-notEmpty" type="text"
+								id="familyMember${familyMemberStatus.index}-input" size="38"
+								value='<c:out value="${_name} ${_identifier}" />'/>
+							<tags:indicator
+								id="familyMember${familyMemberStatus.index}-indicator" /> 
+							<div id="familyMember${familyMemberStatus.index}-choices"
+								class="autocomplete"  style="display: none;"></div>
+							</td>
+							<td class="alt"><form:select
+								path="participant.relatedTo[${familyMemberStatus.index}].name"
+								cssClass="required validate-notEmpty">
+								<option value="">Please Select</option>
+								<form:options items="${familialRelationshipNames}" itemLabel="value"
+									itemValue="key" />
+							</form:select></td>
+							<td class="alt"><a
+								href="javascript:RowManager.deleteRow(familyMemberRowInserterProps,${familyMemberStatus.index},'${familyMember.id==null?'HC#':'ID#'}${familyMember.id==null?familyMember.hashCode:familyMember.id}');"><img
+								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+						</tr>
+					</c:forEach>
+				</table>
+			<div align="right">
+			<tags:button type="button" color="blue" icon="add" value="Add Family Member" 
+				onclick="$('hfamilyMember').show();javascript:RowManager.addRow(familyMemberRowInserterProps);" size="small"/>
+			</div>
+		</chrome:division>
          <chrome:division title="Organization Assigned Identifiers" minimize="true" divIdToBeMinimized="idSection">
 			<div id="idSection" style="display:none;">		
 				<table id="organizationIdentifiersTable" border="0"
@@ -454,7 +532,7 @@
 								path="studySubject.participant.organizationAssignedIdentifiers[${organizationStatus.index}].type"
 								cssClass="required validate-notEmpty">
 								<option value="">Please Select</option>
-								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
+								<form:options items="${orgIdentifiersTypeRefData}" itemLabel="desc"
 									itemValue="code" />
 							</form:select></td>
 							<td class="alt"><form:input
@@ -601,7 +679,7 @@
 			name="participant.organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="required validate-notEmpty">
 			<option value="">Please Select</option>
-			<c:forEach items="${identifiersTypeRefData}" var="id">
+			<c:forEach items="${orgIdentifiersTypeRefData}" var="id">
 				<option value="${id.code}">${id.desc}</option>
 			</c:forEach>
 		</select></td>
@@ -621,6 +699,39 @@
 	</tr>
 </table>
 </div>
+<div id="dummy-familyMember" style="display:none;">
+<table>
+	<tr>
+		<td class="alt"> <input type="hidden"
+			id="relation-category-familyMemberPAGE.ROW.INDEX-hidden"
+			name="participant.relatedTo[PAGE.ROW.INDEX].category" value="FAMILIAL" />
+			<input type="hidden" id="familyMemberPAGE.ROW.INDEX-hidden"
+			name="participant.relatedTo[PAGE.ROW.INDEX].secondaryParticipant" />
+		<input class="autocomplete validate-notEmpty" type="text"
+			id="familyMemberPAGE.ROW.INDEX-input" size="38"
+			value="${command.studySubject.participant.relatedTo[PAGE.ROW.INDEX].secondaryParticipant.fullName}" />
+		 <tags:indicator
+			id="familyMemberPAGE.ROW.INDEX-indicator" />
+		<div id="familyMemberPAGE.ROW.INDEX-choices" class="autocomplete"  style="display: none;"></div>
+		</td>
+
+		<td class="alt"><select
+			id="familialRelationships[PAGE.ROW.INDEX].name"
+			name="participant.relatedTo[PAGE.ROW.INDEX].name"
+			class="required validate-notEmpty">
+			<option value="">Please Select</option>
+			<c:forEach items="${familialRelationshipNames}" var="id">
+				<option value="${id.key}">${id.value}</option>
+			</c:forEach>
+		</select></td>
+		<td class="alt"><a
+			href="javascript:RowManager.deleteRow(familyMemberRowInserterProps,PAGE.ROW.INDEX,-1);"><img
+			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+	</tr>
+</table>
+</div>
+
+
 <div style="display:none;">
 <div id="confirmationMessage" style="padding: 15px;">
 	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="REGISTRATION.CREATE.REDIRECT.EDITSUBJECT.WARNING"/>

@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.OffEpochReason;
 import edu.duke.cabig.c3pr.domain.OffTreatmentReason;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.Reason;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -37,6 +38,16 @@ public class StudySubjectWrapper {
 	
 	private Reason[] reasons;
 	
+	 private List<PersonUser> notifiedPersonUsers = new ArrayList<PersonUser>();
+	
+	public List<PersonUser> getNotifiedPersonUsers() {
+		return notifiedPersonUsers;
+	}
+
+	public void setNotifiedPersonUsers(List<PersonUser> notifiedPersonUsers) {
+		this.notifiedPersonUsers = notifiedPersonUsers;
+	}
+
 	private List<StudySubjectConsentVersion> reConsentingStudySubjectConsentVersions =
 		new ArrayList<StudySubjectConsentVersion>();
 	

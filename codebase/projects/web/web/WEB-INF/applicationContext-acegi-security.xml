@@ -137,6 +137,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="defaultTargetUrl" value="/"/>
         <property name="filterProcessesUrl"
                   value="/j_acegi_security_check"/>
+        <property name="exceptionMappings">
+			<props>
+			<prop key="org.acegisecurity.LockedException">/public/login?login_error=2</prop>
+			</props>
+		</property>
     </bean>
 
     <bean id="localProcessingFilterEntryPoint"

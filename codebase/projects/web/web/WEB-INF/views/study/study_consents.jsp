@@ -41,6 +41,19 @@
         }
     	RowManager.addRow(RowManager.getNestedRowInserter(consentRowInserterProps,consentIndex));
     }
+    
+    function handleMandatoryIndicator(){
+    	var consentRequired = $('study.consentRequired').value;
+    	if(consentRequired == 'ALL'){
+    		$$('form .mandatoryIndicator').each(function(e){
+    			e.value=true;
+    		});
+    	}else if(consentRequired == 'NONE' || consentRequired == 'ONE' ){
+    		$$('form .mandatoryIndicator').each(function(e){
+    			e.value=false;
+    		});
+   		}
+    }
 	
     
 	</script>
@@ -51,6 +64,19 @@
 	<jsp:attribute name="singleFields">
 	<tags:instructions code="study_consents" />
 	<tags:errors path="*" />
+	<chrome:division>
+		<div class="row">
+			<div class="label"><tags:requiredIndicator/><fmt:message key="study.consentRequired"/></div>
+			<div class="value">
+				  <form:select path="study.consentRequired" id= "study.consentRequired" cssClass="required validate-notEmpty" 
+				  				onchange="javascript:handleMandatoryIndicator()">
+				  	<form:options items="${consentRequired}" itemLabel="desc" itemValue="code" />
+				  </form:select>
+				  <tags:hoverHint keyProp="study.consentRequired" />
+			</div>
+		</div>
+	</chrome:division>
+<br>
 <!-- CONSENT TABLE START -->
 <table id="mainConsentTable" width="100%" border="0">
 <tr></tr>
@@ -97,7 +123,7 @@
 									<tags:hoverHint id="study.consent.mandatoryIndicator-${consentCount.index}" keyProp="study.consent.mandatoryIndicator" />
 								</td>
 								<td align="left"><form:select path="study.consents[${consentCount.index}].mandatoryIndicator"  
-										cssClass="required validate-notEmpty">
+										cssClass="required validate-notEmpty mandatoryIndicator">
 									<option value="">Please Select</option>
 				          			<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 									</form:select>
@@ -216,7 +242,7 @@
 								<td align="right"><tags:requiredIndicator/><b><fmt:message key="study.consentMandatoryIndicator"/></b>
 									<tags:hoverHint id="study.consent.mandatoryIndicator-PAGE.ROW.INDEX" keyProp="study.consent.mandatoryIndicator" /></td>
 								<td align="left">
-									<select id="study.consents[PAGE.ROW.INDEX].mandatoryIndicator" name="study.consents[PAGE.ROW.INDEX].mandatoryIndicator" class="required validate-notEmpty">
+									<select id="study.consents[PAGE.ROW.INDEX].mandatoryIndicator" name="study.consents[PAGE.ROW.INDEX].mandatoryIndicator" class="required validate-notEmpty mandatoryIndicator">
 							                    <option value="">Please Select</option>
 							                    <c:forEach items="${yesNo}" var="status">
 							                        <option value="${status.code}">${status.desc}</option>

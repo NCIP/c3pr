@@ -26,9 +26,11 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolDocumentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.Subject;
+import edu.duke.cabig.c3pr.webservice.iso21090.UpdateMode;
 import edu.duke.cabig.c3pr.webservice.studyutility.CreateStudyAbstractRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtility;
 import edu.duke.cabig.c3pr.webservice.studyutility.StudyUtilityService;
+import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.CreateSubjectRequest;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagement;
 import edu.duke.cabig.c3pr.webservice.subjectmanagement.SubjectManagementService;
@@ -94,6 +96,7 @@ public class SubjectRegistryMayoUseCaseIntegrationTest extends
 		executeInitiateStudySubjectTest();
 		executeUpdateStudySubjectConsentTest();
 		executeUpdateStudySubjectRegistryStatusTest();
+		executeUpdateStudyStatusClearingRegisteredStudySubjectRegistryStatusTest();
 		executeUpdateStudySubjectRegistryStatusHistoryTest();
 		executeUpdateStudySubjectTest();
 		executeQuerySubjectRegistryTest();
@@ -137,6 +140,44 @@ public class SubjectRegistryMayoUseCaseIntegrationTest extends
 		System.out.println();
 		Subject createdSubject = service.createSubject(request).getSubject();
 		assertNotNull(createdSubject);
+	}
+	
+	/**
+	 * Execute update without clearing secondary reasons study subject registry status test.
+	 * Added for the MAYO requirement to add the new secondary reasons by removing only the ones that aren't related to
+	 * a registration.
+	 * 
+	 * @throws SQLException the sQL exception
+	 * @throws Exception the exception
+	 */
+	protected void executeUpdateStudyStatusClearingRegisteredStudySubjectRegistryStatusTest() throws SQLException, Exception {
+		StudyUtility service = getStudyUtilityService();
+		
+		// successful creation
+		UpdateStudyStatusRequest request = new UpdateStudyStatusRequest();
+		request.setStudyIdentifier(createStudyPrimaryIdentifier());
+		
+		PermissibleStudySubjectRegistryStatus status = new PermissibleStudySubjectRegistryStatus();
+		status.setRegistryStatus(createRegistryStatus("Screen Failed"));
+		status.getSecondaryReason().add(createSecondaryRegistryStatusReason("Lab_Out_Of_Range1","FAILED INCLUSION"));
+		status.getRegistryStatus().getPrimaryReason().add((RegistryStatusReason)status.getSecondaryReason().get(0).getPrimaryReason());
+		status.getSecondaryReason().add(createSecondaryRegistryStatusReason("Lab_Out_Of_Range2","FAILED INCLUSION"));
+		status.getRegistryStatus().getPrimaryReason().add((RegistryStatusReason)status.getSecondaryReason().get(1).getPrimaryReason());
+		status.getSecondaryReason().add(createSecondaryRegistryStatusReason("Lab_Out_Of_Range_Additional","FAILED INCLUSION"));
+		status.getRegistryStatus().getPrimaryReason().add((RegistryStatusReason)status.getSecondaryReason().get(1).getPrimaryReason());
+		request.setStatus(status);
+		request.setUpdateMode(UpdateMode.AU);
+		PermissibleStudySubjectRegistryStatus updatedStatus = service.updateStudyStatus(request).getStatus();
+		assertEquals("Screen Failed", updatedStatus.getRegistryStatus().getCode().getCode());
+		
+		assertEquals(3, updatedStatus.getSecondaryReason().size());
+		for(RegistryStatusReason rsr: updatedStatus.getSecondaryReason()){
+			if(!rsr.getCode().getCode().equalsIgnoreCase("Lab_Out_Of_Range1") &&
+					!rsr.getCode().getCode().equalsIgnoreCase("Lab_Out_Of_Range2") &&
+					!rsr.getCode().getCode().equalsIgnoreCase("Lab_Out_Of_Range_Additional")){
+				fail();
+			}
+		}
 	}
 	
 	/**

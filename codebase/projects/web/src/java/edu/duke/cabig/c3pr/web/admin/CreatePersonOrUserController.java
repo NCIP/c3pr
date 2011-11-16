@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.constants.PersonUserType;
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -128,7 +129,7 @@ public class CreatePersonOrUserController extends SimpleFormController{
         
         if (StringUtils.isNotBlank(assignedIdentifier) || StringUtils.isNotBlank(loginId)) {
         	if(StringUtils.isNotBlank(assignedIdentifier) ){
-        		log.debug("loading personnel by assigned Id");
+        		log.debug("loading personnel by the assigned Id");
         		wrapper.setCreateAsStaff(true);
         		personUser = personUserRepository.getByAssignedIdentifier(assignedIdentifier);
         	} else {
@@ -142,6 +143,13 @@ public class CreatePersonOrUserController extends SimpleFormController{
             if(csmUser != null){
             	wrapper.setCreateAsUser(true);
             	wrapper.setUserName(csmUser.getLoginName());
+            	//setting code in wrapper for display purposes, but using name everywhere otherwise
+            	if(SecurityUtils.isUserDeactivated(csmUser.getEndDate())){
+            		wrapper.setUserStatus(StatusType.IN.getCode());
+            	} else {
+            		wrapper.setUserStatus(StatusType.AC.getCode());
+            	}
+            	
             	List<C3PRUserGroupType> preAssignedRolesList = personUserRepository.getGroupsForUser(csmUser);
             	//adding all the roles, assigned or not, for UI convenience.
             	RoleBasedHealthcareSitesAndStudiesDTO rolesHolder;
@@ -283,16 +291,33 @@ public class CreatePersonOrUserController extends SimpleFormController{
 			errors.reject("organization.not.present.error");
 		}
 		
+		HealthcareSite healthcareSite;
 		boolean noDuplicateOrg = true ;
-		Set<HealthcareSite> hcSites = new HashSet<HealthcareSite> ();
-		for(HealthcareSite hcs : wrapper.getPersonUser().getHealthcareSites()){
-			if(hcs != null){
-				noDuplicateOrg = hcSites.add(hcs);
-				if(!noDuplicateOrg){
-					errors.reject("organization.already.present.error");	
-					break ;
-				}
-			}
+		for(String primaryIdentifier : wrapper.getStaffOrganizationPrimaryIdentifiers()){
+			//check if newly added sites have already been assigned to the personUser
+ 			if(!StringUtils.isBlank(primaryIdentifier)){
+ 				for(HealthcareSite hcs: wrapper.getPersonUser().getHealthcareSites()){
+ 					if(hcs.getPrimaryIdentifier().equalsIgnoreCase(primaryIdentifier)){
+ 						primaryIdentifier = null;
+ 						break;
+ 					}
+ 				}
+ 				//if pre-existing, its a duplicate.
+ 				if(primaryIdentifier == null){
+ 					noDuplicateOrg = false;
+ 				} else {
+ 					//else add non dupe to personUser
+ 					healthcareSite = healthcareSiteDao.getByPrimaryIdentifierFromLocal(primaryIdentifier);
+					wrapper.getPersonUser().getHealthcareSites().add(healthcareSite);
+ 				}
+ 			}
+		}
+
+		//for dupe existing cases show rror message and clear the organizations from the StaffOrganizationPrimaryIdentifiers
+		if(!noDuplicateOrg){
+			wrapper.getStaffOrganizationPrimaryIdentifiers().clear();
+			wrapper.setSelectedOrganizationForDisplay("");
+			errors.reject("organization.already.present.error");	
 		}
 		
     	String actionParam = request.getParameter("_action");
@@ -323,15 +348,17 @@ public class CreatePersonOrUserController extends SimpleFormController{
 					//FIXME : Ramakrishna Gundala - Not sure why we have this if condition here, please verify and put appropriate comments
 					return;
 				}
+			} else { //this will only run for sync flow.
+				// clearing the current list so that the same external person is not added again.
+				personUser.getExternalResearchStaff().clear();
+				boolean matchingExternalResearchStaffPresent = externalResearchStaffExists(personUser);
+	    		if(matchingExternalResearchStaffPresent){
+	    			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with assigned identifier " +personUser.getAssignedIdentifier()+ " exists in external system");
+	    		} else{
+	    			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with assigned identifier " +personUser.getAssignedIdentifier()+ " does not exist in external system");
+	    		}
 			}
-			// clearing the current list so that the same external person is not added again.
-			personUser.getExternalResearchStaff().clear();
-			boolean matchingExternalResearchStaffPresent = externalResearchStaffExists(personUser);
-    		if(matchingExternalResearchStaffPresent){
-    			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with assigned identifier " +personUser.getAssignedIdentifier()+ " exists in external system");
-    		} else{
-    			errors.reject("REMOTE_RSTAFF_EXISTS","Research Staff with assigned identifier " +personUser.getAssignedIdentifier()+ " does not exist in external system");
-    		}
+			
 		}
 	}
 
@@ -407,11 +434,28 @@ public class CreatePersonOrUserController extends SimpleFormController{
         
         String actionParam = request.getParameter("_action");
 		String selectedParam = request.getParameter("_selected");
+		String _toggleStatus = request.getParameter("_toggleStatus");
 		String username = wrapper.getUserName();
 		String flowVar = request.getSession().getAttribute(FLOW).toString();
 		
 		boolean createAsUser = wrapper.getCreateAsUser();
 		boolean createAsStaff = wrapper.getCreateAsStaff();
+		
+		//update the User status if toggleUserStatus has been clicked.
+		if(_toggleStatus.equalsIgnoreCase("true")){
+			if(wrapper.getUserStatus().equals(StatusType.AC.getCode())){
+				personUser.setUserStatus(StatusType.IN.getName());
+			} else {
+				personUser.setUserStatus(StatusType.AC.getName());
+			}
+		} else {
+			if(personUser.getUserStatus() == null && StringUtils.equals(flowVar, SAVE_FLOW)){
+				//set the state as Active as it must be the SAVE_FLOW
+				personUser.setUserStatus(StatusType.AC.getName());
+			} else if(personUser.getUserStatus() == null){
+				logger.error("User status was found to be null in non Create flow. Control shouldnt be here. ");
+			}
+		}
 		
         Map map = errors.getModel();
         String studyflow = request.getParameter("studyflow") ; 
@@ -459,15 +503,6 @@ public class CreatePersonOrUserController extends SimpleFormController{
 				}
 			} else {
 				//For Non-Remote Staff cases
-				//add the newly added sites to the hcsList..
-				HealthcareSite healthcareSite;
-				for(String primaryIdentifier: wrapper.getStaffOrganizationPrimaryIdentifiers()){
-         			if(!StringUtils.isBlank(primaryIdentifier)){
-         				healthcareSite = healthcareSiteDao.getByPrimaryIdentifierFromLocal(primaryIdentifier);
-         				wrapper.getPersonUser().getHealthcareSites().add(healthcareSite);
-         			}
-				}
-				
 				List<RoleBasedHealthcareSitesAndStudiesDTO> origListAssociation = wrapper.getHealthcareSiteRolesHolderList();
 				//remove the DTO's that are unchecked and create a new list of checked roles only
 				RoleBasedHealthcareSitesAndStudiesDTO[] backupArray = (RoleBasedHealthcareSitesAndStudiesDTO[])origListAssociation.toArray(new RoleBasedHealthcareSitesAndStudiesDTO[origListAssociation.size()]);
@@ -529,10 +564,20 @@ public class CreatePersonOrUserController extends SimpleFormController{
       }
 	  if(saveExternalPersonUser){
 		  wrapper.setPersonUser(remotPersonUserSelected);
+		  if(remotPersonUserSelected.getUserStatus().equalsIgnoreCase(StatusType.AC.getName())){
+			  wrapper.setUserStatus(StatusType.AC.getCode());
+		  } else {
+			  wrapper.setUserStatus(StatusType.IN.getCode());
+		  }
 	  } else {
 		  wrapper.setPersonUser(personUser);  
+		  if(personUser.getUserStatus().equalsIgnoreCase(StatusType.AC.getName())){
+			  wrapper.setUserStatus(StatusType.AC.getCode());
+		  } else {
+			  wrapper.setUserStatus(StatusType.IN.getCode());
+		  }
 	  }
-	  
+
 	  if (!errors.hasErrors()) {
 		  map.put("command", wrapper);
 		  ModelAndView mv = new ModelAndView(getSuccessView(), map);

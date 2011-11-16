@@ -46,7 +46,7 @@
     <c:url value="/pages/admin/password_policy_configure" var="action" />
     <form:form action="${action}">
 
-      <chrome:division title="Login Policy">
+	<chrome:division title="Login Policy">
 	<div class="nested_section">
 	  <div class="row">
 	    <div class="required_label"><b><fmt:message key="password.maximumPasswordAge"/></b></div>
@@ -63,7 +63,14 @@
 	    </div>
 	  </div>
 	</div>
-
+	<div class="nested_section">
+	  <div class="row">
+	    <div class="required_label"><b><fmt:message key="password.allowedLoginTime"/></div>
+	    <div class="required_value">
+	      <form:input path="loginPolicy.allowedLoginTime" size="8"/>
+	    </div>
+	  </div>
+	</div>
 	<div class="nested_section">
 	  <div class="row">
 	    <div class="required_label"><b><fmt:message key="password.lockoutDuration"/></b></div>
@@ -72,7 +79,7 @@
 	    </div>
 	  </div>
 	</div>
-      </chrome:division>
+	</chrome:division>
 		
       <chrome:division title="Password Creation Policy">
 	<div class="nested_section">

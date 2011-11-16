@@ -1,9 +1,11 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.easymock.EasyMock;
 import org.springframework.context.ApplicationContext;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
@@ -48,7 +51,6 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
         super.setUp();
         context = ContextTools.createConfigPropertiesApplicationContext();
         participant = registerMockFor(Participant.class);
-        participantWrapper.setParticipant(participant);
         participantDao = registerMockFor(ParticipantDao.class);
         controller.setParticipantDao(participantDao);
         healthcareSiteDao = registerMockFor(HealthCareSiteDaoMock.class);
@@ -66,8 +68,11 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 
     public void testReferenceData() throws Exception {
     	List<RaceCodeEnum> raceCodes = new ArrayList<RaceCodeEnum>();
+    	Set<Address> addresses = new HashSet<Address>();
+    	EasyMock.expect(participant.getAddresses()).andReturn(addresses);
     	EasyMock.expect(participant.getRaceCodes()).andReturn(raceCodes).times(7);
     	replayMocks();
+    	participantWrapper.setParticipant(participant);
         Map<String, Object> refdata = ((ParticipantDetailsTab)controller.getFlow().getTab(0)).referenceData(request,participantWrapper);
         List<Lov> genders = (List<Lov>) refdata.get("administrativeGenderCode");
         System.out.println(" Size of ref data : " + refdata.size());
@@ -86,8 +91,10 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 
     public void testViewOnGet() throws Exception {
     	
-    	//expect(healthcareSiteDao.getAll()).andReturn(null).times(2);
+    	Set<Address> addresses = new HashSet<Address>();
+    	EasyMock.expect(participant.getAddresses()).andReturn(addresses);
         replayMocks();
+        participantWrapper.setParticipant(participant);
         ModelAndView mv = controller.handleRequest(request, response);
         assertNotNull("Command not present in model: ", mv);
         assertEquals("participant/participant", mv.getViewName());

@@ -45,7 +45,6 @@ import edu.duke.cabig.c3pr.webservice.common.StudyProtocolVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudySiteProtocolVersionRelationship;
 import edu.duke.cabig.c3pr.webservice.common.StudySubjectConsentVersion;
 import edu.duke.cabig.c3pr.webservice.common.StudySubjectProtocolVersionRelationship;
-import edu.duke.cabig.c3pr.webservice.common.Subject;
 import edu.duke.cabig.c3pr.webservice.common.SubjectIdentifier;
 import edu.duke.cabig.c3pr.webservice.iso21090.AddressPartType;
 import edu.duke.cabig.c3pr.webservice.iso21090.DSETCD;
@@ -136,6 +135,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String ORG_ID_TYPE_STUDYSUBJECT = "COORDINATING_CENTER_ASSIGNED_STUDY_SUBJECT_IDENTIFIER";
 	protected static final String ORG_ID_TYPE_STUDYSUBJECT_MODIFIED = "STUDY_SUBJECT_IDENTIFIER";
 	protected static final String TEST_BIO_ID = "test_subject_id";
+	protected static final String TEST_BIO_ID_MODIFIED = "test_subject_id_modified";
 	protected static final String TEST_BIO_ID_IMPORT = "test_subject_id_import";
 	protected static final Boolean TEST_BIO_ID_PRIMARYINDICATOR=false;
 	protected static final String TEST_STUDYSUBJECT_ID = "002";
@@ -196,6 +196,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	protected static final String TEST_OBJ_CTX_NAME = "StudySubject";
 	protected static final String TEST_ATTRIBUTE_NAME = "value";
 	protected static final String SUBJECT_SYSTEM_ID = "baskjd89y34343a-123u9a";
+	protected static final String SUBJECT_SYSTEM_ID_MODIFIED = "baskjd89y34343a-123u9a_modified";
 	protected static final String SYSTEM_NAME = "MAYO";
 	protected static final String SYSTEM_ID_TYPE = "SUBJECT_IDENTIFIER";
 	
@@ -799,7 +800,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	public static BiologicEntityIdentifier createBioEntityIdModified() {
 		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
 		bioId.setAssigningOrganization(createOrganization());
-		bioId.setIdentifier(iso.II(TEST_BIO_ID));
+		bioId.setIdentifier(iso.II(TEST_BIO_ID_MODIFIED));
 		bioId.setTypeCode(iso.CD(ORG_ID_TYPE_MRN));
 		bioId.setEffectiveDateRange(iso.IVLTSDateTime(NullFlavor.NI));
 		bioId.setPrimaryIndicator(iso.BL(TEST_BIO_ID_PRIMARYINDICATOR));
@@ -811,7 +812,7 @@ public class SubjectRegistryWebServiceTest extends C3PREmbeddedTomcatTestBase {
 	 */
 	public static BiologicEntityIdentifier createBioEntitySystemIdModified(boolean isPrimary) {
 		BiologicEntityIdentifier bioId = new BiologicEntityIdentifier();
-		bioId.setIdentifier(II(SUBJECT_SYSTEM_ID));
+		bioId.setIdentifier(II(SUBJECT_SYSTEM_ID_MODIFIED));
 		bioId.setTypeCode(CD(SYSTEM_ID_TYPE));
 		bioId.getTypeCode().setCodeSystemName(SYSTEM_NAME);
 		bioId.setEffectiveDateRange(IVLTSDateTime(NullFlavor.NI));

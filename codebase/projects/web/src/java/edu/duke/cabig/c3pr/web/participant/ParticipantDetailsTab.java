@@ -1,14 +1,16 @@
 package edu.duke.cabig.c3pr.web.participant;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.validation.Errors;
 
+import edu.duke.cabig.c3pr.constants.FamilialRelationshipName;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
+import edu.duke.cabig.c3pr.constants.RelationshipCategory;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
@@ -54,11 +56,35 @@ public class ParticipantDetailsTab extends ParticipantTab {
 
 	        refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
 	        refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
-	        // refdata.put("source", healthcareSiteDao.getAll());
 	        refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
-	        refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
+	        
+	        List<Lov> sysParticipantIdentifiersType = new ArrayList<Lov>();
+	        
+	        // remove Household Identifier type from sysIdentifiers as it should be included only as a part of organization identifiers
+	        for(Lov partOrgIdType : configMap.get("participantIdentifiersType")){
+	        	if(!partOrgIdType.getCode().equalsIgnoreCase("HOUSEHOLD_IDENTIFIER")){
+	        		sysParticipantIdentifiersType.add(partOrgIdType);
+	        	}
+	        }
+	        
+	        refdata.put("orgIdentifiersTypeRefData", configMap.get("participantIdentifiersType"));
+	        refdata.put("sysIdentifiersTypeRefData", sysParticipantIdentifiersType);
 	        refdata.put("mandatory", "true");
 	        refdata.put("raceCodes", WebUtils.collectOptions(RaceCodeEnum.values()));
+	        
+	        Map<String,Object> familialRelationshipNames = new HashMap<String,Object>();
+	        for(FamilialRelationshipName familialRelationshipName : FamilialRelationshipName.values()){
+	        	familialRelationshipNames.put(familialRelationshipName.getName(), familialRelationshipName.getCode());
+	        }
+	        refdata.put("familialRelationshipNames",familialRelationshipNames);
+	        
+	        
+	        Map<String,Object> relationshipCategories = new HashMap<String,Object>();
+	        for(RelationshipCategory relationshipCategory : RelationshipCategory.values()){
+	        	relationshipCategories.put(relationshipCategory.getName(), relationshipCategory.getCode());
+	        }
+	        refdata.put("relationshipCategories",relationshipCategories);
+
 
 	        Participant participant = command.getParticipant();
 	        for(Object object : WebUtils.collectOptions(RaceCodeEnum.values())){
@@ -77,6 +103,7 @@ public class ParticipantDetailsTab extends ParticipantTab {
     @Override
     public void validate(ParticipantWrapper participantWrapper, Errors errors) {
         super.validate(participantWrapper, errors);
+        participantValidator.validateParticipantFamilialRelationships(participantWrapper.getParticipant(), errors);
         participantValidator.validateIdentifiers(participantWrapper.getParticipant(), errors);
     }
 

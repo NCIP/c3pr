@@ -17,6 +17,7 @@ import org.springframework.web.HttpSessionRequiredException;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 
 /**
@@ -49,6 +50,19 @@ public class ParticipantAjaxFacade {
             destination.setPropertyValue(property, source.getPropertyValue(property));
         }
         return dst;
+    }
+    
+    public List<Participant> matchParticipants(String text, int criterionSelector) {
+
+        List<Participant> participants = participantDao.getBySubnames(extractSubnames(text));
+        // cut down objects for serialization
+        List<Participant> reducedParticipants = new ArrayList<Participant>(participants.size());
+        for (Participant participant : participants)
+
+            reducedParticipants.add(buildReduced(participant, Arrays.asList("id", "lastName",
+                            "firstName", "middleName","identifiers")));
+
+        return reducedParticipants;
     }
 
     public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {

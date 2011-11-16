@@ -9,6 +9,7 @@ import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.apache.commons.collections15.list.LazyList;
 
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.web.RaceCodeHolder;
 
@@ -16,7 +17,15 @@ public class ParticipantWrapper {
 
 	private Participant participant;
 	private List<RaceCodeHolder> raceCodeHolderList = LazyList.decorate(new ArrayList<RaceCodeHolder>(), new InstantiateFactory<RaceCodeHolder>(RaceCodeHolder.class));
-	
+	private List<Address> addresses = LazyList.decorate(new ArrayList<Address>(), new InstantiateFactory<Address>(Address.class));
+
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
 
 	/**
 	 * @return the raceCodeHolderList
@@ -45,10 +54,13 @@ public class ParticipantWrapper {
 	}
 
 	public Participant getParticipant() {
+		synchronizeAddresses();
 		return participant;
 	}
 
 	public void setParticipant(Participant participant) {
+		this.getAddresses().clear();
+		this.getAddresses().addAll(participant.getAddresses());
 		this.participant = participant;
 	}
 	
@@ -61,5 +73,26 @@ public class ParticipantWrapper {
 			}
 		}
 		return raceCodeList ;
+	}
+	
+	private void synchronizeAddresses(){
+		for(Address address : getAddresses()){
+			// new address added to wrapper, add it to participant
+			if(address.getId()== null){
+				this.participant.getAddresses().add(address);
+			} else {
+				updateAddress(address,this.participant.getAddressById(address.getId()));
+			}
+		}
+	}
+	
+	private void updateAddress(Address source, Address target){
+		target.setStreetAddress(source.getStreetAddress());
+		target.setCity(source.getCity());
+		target.setStateCode(source.getStateCode());
+		target.setPostalCode(source.getPostalCode());
+		target.setCountryCode(source.getCountryCode());
+		target.setStartDate(source.getStartDate());
+		target.setEndDate(source.getEndDate());
 	}
 }

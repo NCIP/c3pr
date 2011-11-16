@@ -569,7 +569,13 @@ public class StudyUtilityImpl implements StudyUtility {
 					throw new RuntimeException("Cannot update status. No status with given code is found");
 				}
 				matchingRegistryStatus.setRegistryStatus(domainStatus.getRegistryStatus());
-				matchingRegistryStatus.getSecondaryReasons().clear();
+				
+				List<edu.duke.cabig.c3pr.domain.RegistryStatusReason> associatedSecondaryReasons = getListOfStudySubjectAssociatedSecondaryReasons(matchingRegistryStatus.getSecondaryReasons());
+				//remove the unassociated reasons from db
+				removeUnassociatedSecondaryReasons(matchingRegistryStatus.getSecondaryReasons(), associatedSecondaryReasons);
+				//remove the associated reasons from request
+				removeAssociatedSecondaryReasons(domainStatus.getSecondaryReasons(), associatedSecondaryReasons);
+				//add the unassociated reasons from request to list of associated reasons from db
 				matchingRegistryStatus.getSecondaryReasons().addAll(domainStatus.getSecondaryReasons());
 				break;
 			default:
@@ -580,7 +586,7 @@ public class StudyUtilityImpl implements StudyUtility {
 			if(save){
 				studyRepository.save(study);
 			}
-			response.setStatus(converter.convert(domainStatus));
+			response.setStatus(converter.convert(study.getPermissibleStudySubjectRegistryStatus(domainStatus.getRegistryStatus().getCode())));
 		} catch (RuntimeException e) {
 			log.error(ExceptionUtils.getFullStackTrace(e));
 			fail(e.getMessage());
@@ -589,6 +595,58 @@ public class StudyUtilityImpl implements StudyUtility {
 			fail(e.getMessage());
 		}
 		return response;
+	}
+
+
+	/**
+	 * Removes the associated secondary reasons.
+	 *
+	 * @param domainSecondaryReasons the domain secondary reasons
+	 * @param associatedSecondaryReasons the associated secondary reasons
+	 */
+	private void removeAssociatedSecondaryReasons(
+			List<edu.duke.cabig.c3pr.domain.RegistryStatusReason> domainSecondaryReasons,
+			List<edu.duke.cabig.c3pr.domain.RegistryStatusReason> associatedSecondaryReasons) {
+		
+		for(edu.duke.cabig.c3pr.domain.RegistryStatusReason rsReason: associatedSecondaryReasons){
+			domainSecondaryReasons.remove(rsReason);
+		}		
+	}
+
+	/**
+	 * Removes the unassociated secondary reasons.
+	 *
+	 * @param matchingSecondaryReasons the matching secondary reasons
+	 * @param associatedSecondaryReasons the associated secondary reasons
+	 */
+	private void removeUnassociatedSecondaryReasons(
+			List<edu.duke.cabig.c3pr.domain.RegistryStatusReason> matchingSecondaryReasons,
+			List<edu.duke.cabig.c3pr.domain.RegistryStatusReason> associatedSecondaryReasons) {
+
+		for(edu.duke.cabig.c3pr.domain.RegistryStatusReason rsReason: new ArrayList<edu.duke.cabig.c3pr.domain.RegistryStatusReason>(matchingSecondaryReasons)){
+			if(!associatedSecondaryReasons.contains(rsReason)){
+				matchingSecondaryReasons.remove(rsReason);
+			}
+		}
+	}
+	
+
+	/**
+	 * Gets the list of the secondary reasons associated to any existing study subject.
+	 *
+	 * @param matchingSecondaryReasons the matching secondary reasons
+	 * @return the list of study subject associated secondary reasons
+	 */
+	private List<edu.duke.cabig.c3pr.domain.RegistryStatusReason> getListOfStudySubjectAssociatedSecondaryReasons(List<edu.duke.cabig.c3pr.domain.RegistryStatusReason> matchingSecondaryReasons) {
+		List<edu.duke.cabig.c3pr.domain.RegistryStatusReason> associatedSecondaryReasons = new ArrayList<edu.duke.cabig.c3pr.domain.RegistryStatusReason>();
+		boolean isAssociated = false;
+		for(edu.duke.cabig.c3pr.domain.RegistryStatusReason matchingSecondaryReason:matchingSecondaryReasons){
+			isAssociated = studyRepository.isSecondaryReasonAssociatedToExistingStudySubjects(matchingSecondaryReason);
+			if(isAssociated){
+				associatedSecondaryReasons.add(matchingSecondaryReason);
+			}
+		}
+		return associatedSecondaryReasons;
 	}
 
 	/* (non-Javadoc)
