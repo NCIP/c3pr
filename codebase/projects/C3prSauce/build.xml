@@ -1,0 +1,86 @@
+<project name="C3prSauce" default="dist" basedir=".">
+	<description>
+        simple example build file
+    </description>
+	<!-- set global properties for this build -->
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="build-selenium" location="build-selenium"/>
+	<property name="dist"  location="dist"/>
+
+	<path id="main.classpath">
+		<fileset dir="${basedir}/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	
+	<path id="run.classpath">
+		<path refid="main.classpath" />
+		<pathelement path="${build}" />
+	</path>
+	
+	<path id="test.run.classpath">
+		<pathelement path="${build-selenium}" />
+		<path refid="main.classpath" />
+	</path>
+	
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp/>
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}"/>
+		<mkdir dir="${build-selenium}"/>
+	</target>
+
+	<target name="compile" depends="init"
+        description="compile the source " >
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}" classpathref="main.classpath"/>
+	</target>
+
+	<target name="dist" depends="compile"
+        description="generate the distribution" >
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist}/lib"/>
+
+		<!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+		<jar jarfile="${dist}/lib/C3prSauce-${DSTAMP}.jar" basedir="${build}"/>
+	</target>
+
+	<target name="clean"
+        description="clean up" >
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}"/>
+		<delete dir="${build-selenium}"/>
+		<delete dir="${dist}"/>
+	</target>
+
+	<condition property="testPattern" value="**/${test}.class" else="**/*Test.class">
+		<isset property="test"/>
+	</condition>
+	
+	<property name="SELENIUM_STARTING_URL" value="http://dev.semanticbits.com/"/>
+	
+	<target name="test" depends="clean,compile" description="Runs the testcases">
+		<echo message="${SELENIUM_DRIVER}"/>
+		<mkdir dir="${build-selenium}/test-result" />
+		<taskdef name="selenium-junit-transform" classname="com.semanticbits.saucelabs.SauceLabsJUnitOptimizerTask" classpathref="run.classpath"/>
+		<selenium-junit-transform srcdir="${build}" srcPackageName="com.example.tests" destdir="${build-selenium}"/>
+		
+		<junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" 
+			showoutput="false" outputtoformatters="false" fork="true" forkmode="once" timeout="9000000" maxmemory="1024m" >
+			<sysproperty key="SELENIUM_DRIVER" value="${SELENIUM_DRIVER}"/>
+			<sysproperty key="SELENIUM_STARTING_URL" value="${SELENIUM_STARTING_URL}"/>
+			<jvmarg value="-XX:MaxPermSize=256m" />
+			<classpath refid="test.run.classpath" />
+			<formatter type="plain"/>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${build-selenium}/test-result" >
+				<fileset dir="${build-selenium}">
+					<include name="${testPattern}" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	
+</project>

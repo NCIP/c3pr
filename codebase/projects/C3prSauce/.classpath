@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test/src/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="build/testlib/bcel-5.2.jar"/>
+	<classpathentry kind="lib" path="build/testlib/commons-io-2.0.jar"/>
+	<classpathentry kind="lib" path="build/testlib/junit-3.8.1.jar"/>
+	<classpathentry kind="lib" path="build/testlib/saucelabs-junit-optimizer-0.1.jar"/>
+	<classpathentry kind="lib" path="build/testlib/sauce-ondemand-driver-1.2-jar-with-dependencies-1.2.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
