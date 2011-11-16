@@ -8,6 +8,7 @@ import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.RegistryStatusReason;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudyVersion;
@@ -84,5 +85,7 @@ public interface StudyRepository {
 	public List<Study> search(List<AdvancedSearchCriteriaParameter> searchParameters);
 	
 	public Study getByPrimaryIdentifier(Identifier identifier);
+
+	public boolean isSecondaryReasonAssociatedToExistingStudySubjects(RegistryStatusReason registryStatusReason);
 
 }

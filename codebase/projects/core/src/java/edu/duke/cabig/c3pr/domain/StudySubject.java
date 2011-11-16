@@ -27,6 +27,8 @@ import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.apache.log4j.Logger;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
@@ -101,7 +103,7 @@ public class StudySubject extends
 	private DiseaseHistory diseaseHistory;
 
 	/** The identifiers. */
-	private List<Identifier> identifiers;
+	private List<Identifier> identifiers = new ArrayList<Identifier>();
 
 	/** The payment method. */
 	private String paymentMethod;
@@ -146,8 +148,70 @@ public class StudySubject extends
 	
 	private List<StudySubjectRegistryStatus> studySubjectRegistryStatusHistory = new ArrayList<StudySubjectRegistryStatus>();
 	
+	private List<Correspondence> correspondences = new ArrayList<Correspondence>();
+	
+	private Integer studyId;
+	
+	private Identifier primaryStudyIdentifier;
+	
+	@Transient
+	public Integer getStudySubjectVersionId() {
+		return studySubjectVersionId;
+	}
+
+	public void setStudySubjectVersionId(Integer studySubjectVersionId) {
+		this.studySubjectVersionId = studySubjectVersionId;
+	}
+
+	private Integer studySubjectVersionId;
+	
+
+	@Transient
+	public Identifier getPrimaryStudyIdentifier() {
+		return primaryStudyIdentifier;
+	}
+
+	public void setPrimaryStudyIdentifier(Identifier primaryStudyIdentifier) {
+		this.primaryStudyIdentifier = primaryStudyIdentifier;
+	}
+
+	@Transient
+	public List<Correspondence> getCorrespondences() {
+		return lazyListHelper.getLazyList(Correspondence.class);
+	}
+
+	@Transient
+	public Integer getStudyId() {
+		return studyId;
+	}
+
+	public void setStudyId(Integer studyId) {
+		this.studyId = studyId;
+	}
+
 	public String getBackDatedReasonText() {
 		return backDatedReasonText;
+	}
+
+	@OneToMany
+	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@JoinColumn(name = "stu_sub_id", nullable= false)
+	@Where(clause = "retired_indicator  = 'false'")
+	@OrderBy("time desc")
+	public List<Correspondence> getCorrespondencesInternal() {
+		return lazyListHelper.getInternalList(Correspondence.class);
+	}
+
+	public void setCorrespondencesInternal(List<Correspondence> correspondences) {
+		lazyListHelper.setInternalList(Correspondence.class, correspondences);
+	}
+	
+	public void addCorrespondence(Correspondence correspondence) {
+		lazyListHelper.getInternalList(Correspondence.class).add(correspondence);
+	}
+
+	public void setCorrespondences(List<Correspondence> correspondences) {
+		setCorrespondencesInternal(correspondences);
 	}
 
 	public void setBackDatedReasonText(String backDatedReasonText) {
@@ -180,6 +244,7 @@ public class StudySubject extends
 						SystemAssignedIdentifier.class));
 		setIdentifiers(new ArrayList<Identifier>());
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+		lazyListHelper.add(Correspondence.class,new ParameterizedInstantiateFactory<Correspondence>(Correspondence.class));
 
 		// mandatory, so that the lazy-projected list is managed properly.
 	}
@@ -206,8 +271,17 @@ public class StudySubject extends
 						SystemAssignedIdentifier.class));
 		setIdentifiers(new ArrayList<Identifier>());
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+		lazyListHelper.add(Correspondence.class,new ParameterizedInstantiateFactory<Correspondence>(Correspondence.class));
 
 	}
+	
+	public StudySubject(Integer id,String paymentMethod, RegistrationDataEntryStatus regDataEntryStatus,Integer studySubjectVersionId,Integer studyId) {
+			this.setId(id);
+			this.setPaymentMethod(paymentMethod);
+			this.setRegDataEntryStatus(regDataEntryStatus);
+			this.setStudyId(studyId);
+			this.setStudySubjectVersionId(studySubjectVersionId);
+		}
 
 	/**
 	 * Gets the scheduled epochs.
@@ -225,6 +299,7 @@ public class StudySubject extends
 	}
 
 	@OneToMany(mappedBy = "studySubject")
+	@Fetch(FetchMode.SUBSELECT)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
 		return studySubjectStudyVersions;
@@ -512,6 +587,7 @@ public class StudySubject extends
 	 * @return the identifiers
 	 */
 	@OneToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@Cascade( { CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "SPA_ID")
 	@Where(clause = "retired_indicator  = 'false'")
@@ -870,11 +946,37 @@ public class StudySubject extends
 	 */
 	public void evaluateRegistrationDataEntryStatus(List<Error> errors) {
 		
-	for(StudySubjectConsentVersion studySubjectConsentVersion : this.getLatestStudySubjectVersion().getStudySubjectConsentVersions()){
-		if(studySubjectConsentVersion.getConsent().getMandatoryIndicator() && StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
-			errors.add(new Error("Mandatory informed consent signed date for consent " + studySubjectConsentVersion.getConsent().getName() + " is missing."));
+		switch(this.getStudySite().getStudy().getConsentRequired()){
+			case AS_MARKED_BELOW :
+				for(StudySubjectConsentVersion studySubjectConsentVersion : this.getLatestStudySubjectVersion().getStudySubjectConsentVersions()){
+					if(studySubjectConsentVersion.getConsent().getMandatoryIndicator() && StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+						errors.add(new Error("Mandatory informed consent signed date for consent " + studySubjectConsentVersion.getConsent().getName() + " is missing."));
+					}
+				}
+				break;
+			case ALL :
+				for(StudySubjectConsentVersion studySubjectConsentVersion : this.getLatestStudySubjectVersion().getStudySubjectConsentVersions()){
+					if(StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+						errors.add(new Error("Mandatory informed consent signed date for consent " + studySubjectConsentVersion.getConsent().getName() + " is missing."));
+					}
+				}
+				break;
+			case ONE :
+				boolean mandatoryConsentPresent = false;
+				for(StudySubjectConsentVersion studySubjectConsentVersion : this.getLatestStudySubjectVersion().getStudySubjectConsentVersions()){
+					if(!StringUtils.isBlank(studySubjectConsentVersion.getInformedConsentSignedDateStr())){
+						mandatoryConsentPresent = true;
+						break;
+					}
+				}
+				if(!mandatoryConsentPresent) {
+					errors.add(new Error("At least one consent needs to be signed"));
+				}
+				break;
+			case NONE :
+				break;
 		}
-	}
+		
 		// register errors for child registrations 
 		for(StudySubject childStudySubject : this.getChildStudySubjects()){
 			childStudySubject.evaluateRegistrationDataEntryStatus(errors);
@@ -2385,7 +2487,8 @@ public class StudySubject extends
 		
 	}
 	
-		@OneToMany
+	@OneToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "stu_sub_id", nullable=false)
 	public List<StudySubjectRegistryStatus> getStudySubjectRegistryStatusHistoryInternal() {
@@ -2459,6 +2562,16 @@ public class StudySubject extends
 		for(StudySubjectStudyVersion localStudySubjectStudyVersion: this.getStudySubjectStudyVersions()){
 			if(localStudySubjectStudyVersion.getStudySiteStudyVersion().getStudyVersion().getName().equals(studyVersion.getName())){
 				return localStudySubjectStudyVersion;
+			}
+		}
+		return null;
+	} 
+	
+	@Transient
+	public Correspondence getByCorrespondenceId(int correspondenceId) {
+		for(Correspondence correspondence: this.getCorrespondences()){
+			if(correspondence.getId()!= null && correspondence.getId().equals(correspondenceId)){
+				return correspondence;
 			}
 		}
 		return null;

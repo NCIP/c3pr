@@ -10,20 +10,25 @@ import edu.duke.cabig.c3pr.domain.LocalPersonUser;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
+import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
+import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
+import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
 import gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService;
 import gov.nih.nci.security.authorization.domainobjects.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.LockedException;
 import org.acegisecurity.userdetails.UserDetails;
 import org.acegisecurity.userdetails.UsernameNotFoundException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.jackrabbit.uuid.UUID;
 import org.springframework.dao.DataAccessException;
 
 /**
@@ -49,19 +54,30 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 	
 	/* (non-Javadoc)
 	 * @see gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService#loadUserByUsername(java.lang.String)
+	 * consider replacing UserDeactivatedException with AccountStatusException or something pre-existing in acegi.
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username)
-					throws UsernameNotFoundException, DataAccessException {
+					throws LockedException, UsernameNotFoundException, DataAccessException {
 
+		AuthorizedUser authorizedUser = null;
 		UserDetails userDetails = super.loadUserByUsername(username);
 		
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = 
 			getCsmUserProvisioningManager().getUser(userDetails.getUsername());
-		AuthorizedUser authorizedUser= new AuthorizedUser(userDetails.getUsername(), userDetails.getPassword(), true, true, true, true, 
-						userDetails.getAuthorities(), provisioningSessionFactory. createSession(csmUser.getUserId()), getAllRolePrivileges(userDetails.getAuthorities()), 
-						getPersonUser(csmUser));
-		
+		if(SecurityUtils.isUserDeactivated(csmUser.getEndDate())){
+			SimpleDateFormat sfd = new SimpleDateFormat("EEE, dd-MMM-yyyy");
+			logger.error("User: "+userDetails.getUsername() + " has been deactivated as of " + sfd.format(csmUser.getEndDate()));
+			//Throwing Exception for de-activated users
+			throw new LockedException("User: "+userDetails.getUsername() + " has been deactivated as of " + sfd.format(csmUser.getEndDate()));
+		} else {
+			ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(csmUser.getUserId());
+			List<C3PRUserGroupType> c3prUserGroupTypes = SecurityUtils.getC3PRUserRoleTypes(userDetails.getAuthorities());
+			
+			authorizedUser= new AuthorizedUser(userDetails.getUsername(), userDetails.getPassword(), true, true, true, true, 
+					userDetails.getAuthorities(), provisioningSession, getAllRolePrivileges(c3prUserGroupTypes), 
+					getPersonUser(csmUser), buildRoleBasedOrganizationsMap(c3prUserGroupTypes, provisioningSession));
+		}
 		return authorizedUser;
 	}
 	
@@ -116,8 +132,7 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 	 * @param grantedAuthorities the granted authorities
 	 * @return the all role privileges
 	 */
-	private RolePrivilege[] getAllRolePrivileges(GrantedAuthority[] grantedAuthorities) {
-		List<C3PRUserGroupType> c3prUserGroupTypes = SecurityUtils.getC3PRUserRoleTypes(grantedAuthorities);
+	private RolePrivilege[] getAllRolePrivileges(List<C3PRUserGroupType> c3prUserGroupTypes) {
 		List<RolePrivilege> rolePrivilegeList = new ArrayList<RolePrivilege>();
 		String roleName;
 		for(C3PRUserGroupType group: c3prUserGroupTypes){
@@ -125,6 +140,33 @@ public class C3prUserDetailsService extends CSMUserDetailsService{
 			rolePrivilegeList.addAll(rolePrivilegeDao.getAllPrivilegesForRole(roleName));
 		}
 		return rolePrivilegeList.toArray(new RolePrivilege[rolePrivilegeList.size()]);
+	}
+	
+	
+	/**
+	 * Builds the role based organizations map. Basically a map of all organizations which a user can access with a particular role.
+	 *
+	 * @param c3prUserGroupTypes the c3pr user group types
+	 * @param provisioningSession the provisioning session
+	 * @return the map
+	 */
+	private Map<String, List<String>> buildRoleBasedOrganizationsMap(List<C3PRUserGroupType> c3prUserGroupTypes, ProvisioningSession provisioningSession){
+		Map<String, List<String>> roleBasedOrganizationsMap = new HashMap<String, List<String>>();
+		List<String> organizationIdList = new ArrayList<String>();
+	   
+		for(C3PRUserGroupType c3prUserGroupType:c3prUserGroupTypes){
+	    	if(!SecurityUtils.isGlobalRole(c3prUserGroupType)){
+	        	
+	            SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(c3prUserGroupType);
+	            SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
+	    	    //add all site identifiers to a set
+	    		if(suiteRole.isSiteScoped() && !suiteRoleMembership.isAllSites()){
+	    			organizationIdList.addAll(suiteRoleMembership.getSiteIdentifiers());
+	    			roleBasedOrganizationsMap.put(c3prUserGroupType.getCode(), organizationIdList);
+	    		}
+	    	}
+	    }
+        return roleBasedOrganizationsMap;
 	}
 
 	public ProvisioningSessionFactory getProvisioningSessionFactory() {

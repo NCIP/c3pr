@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.dao;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,6 +32,7 @@ import com.semanticbits.coppa.infrastructure.RemoteSession;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.ContactMechanismType;
+import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
@@ -607,6 +609,7 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 				log.debug("Creating CSM user.");
 				populateCSMUser(personUser, csmUser);
 				csmUser.setLoginName(username.toLowerCase());
+				csmUser.setStartDate(Calendar.getInstance().getTime());
 				csmUser.setPassword(((edu.duke.cabig.c3pr.domain.User)personUser).generatePassword());
 				userProvisioningManager.createUser(csmUser);
 				personUser.setLoginId(csmUser.getUserId().toString());
@@ -619,6 +622,8 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 			log.debug("Updating existing CSM user.");
 			try {
 				populateCSMUser(personUser, csmUser);
+				//update endDate (for user status) if necessary
+				updateEndDate(personUser, csmUser);
 				userProvisioningManager.modifyUser(csmUser);
 			} catch (CSTransactionException e) {
 				throw new C3PRBaseException("not able to update CSM user", e);
@@ -632,6 +637,24 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 	}
 	
 	
+	/**
+	 * Update end date. Set it to null to activate user and set it to today to de-activate user.
+	 *
+	 * @param personUser the person user
+	 * @param csmUser the csm user
+	 */
+	private void updateEndDate(PersonUser personUser, User csmUser) {
+		boolean isDeactivated = SecurityUtils.isUserDeactivated(csmUser.getEndDate());
+		if(isDeactivated==true && personUser.getUserStatus().equals(StatusType.AC.getName()) ){
+			//activate user
+			csmUser.setEndDate(null);
+		}
+		if(isDeactivated==false && personUser.getUserStatus().equals(StatusType.IN.getName()) ){
+			//de-activate user
+			csmUser.setEndDate(Calendar.getInstance().getTime());
+		}
+	}
+
 	/**
 	 * Assign roles to organization.
 	 *
@@ -951,6 +974,37 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 			}
 		}
 		return reducedHcsRsMap;
+	}
+	
+	public List<PersonUser> getAllStudyScopedStaff(List<PersonUser> staffList, HealthcareSite healthcareSite) {
+		Set<PersonUser> researchStaffSet = new HashSet<PersonUser>();
+		User user = null;
+		for (PersonUser researchStaff : staffList) {
+			try {
+				user = getCSMUser(researchStaff);
+			} catch (CSObjectNotFoundException e) {
+				logger.error("Failed to load user for :"+ researchStaff.getFirstName());
+				logger.error(e.getMessage());
+				continue;
+			}
+			if(user != null){
+				for (C3PRUserGroupType role : C3PRUserGroupType.getStudyScopedRoles()) {
+					try {
+						if (userProvisioningManager.checkPermission(user.getLoginName(), "Study", role.getCode())) {
+							researchStaffSet.add(researchStaff);
+						}
+					} catch (CSObjectNotFoundException e) {
+						log.error(e.getMessage());
+					} catch (CSException e) {
+						log.error(e.getMessage());
+					}
+				}
+			} else {
+				log.warn("No csm user exists for staff with first Name: "+researchStaff.getFirstName());
+			}
+		}
+		
+		return new ArrayList<PersonUser>(researchStaffSet);
 	}
 
 	

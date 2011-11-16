@@ -223,11 +223,11 @@
     <STU_SUB_REG_STATUSES id="1000" version="1" effective_date="2000-01-01" per_reg_st_id="1000" stu_sub_id="1000"/>
     <STU_SUB_REG_STATUSES id="1001" version="1" effective_date="2010-01-01" per_reg_st_id="1001" stu_sub_id="1001"/>
     
-    <REASONS id="1000" version="1" dtype="REGISTRY_STATUS" code="FAILED INCLUSION" description="FAILED INCLUSION" primary_indicator="1" registry_st_id="1002" stu_sub_reg_st_id="1000"/>
+    <REASONS id="1000" version="1" dtype="REGISTRY_STATUS" code="FAILED INCLUSION" description="FAILED INCLUSION" primary_indicator="1" registry_st_id="1002" />
     <REASONS id="1001" version="1" dtype="REGISTRY_STATUS" code="FAILED EXCLUSION" description="FAILED EXCLUSION" primary_indicator="1" registry_st_id="1002"/>
     <REASONS id="1002" version="1" dtype="REGISTRY_STATUS" code="DIED" description="DIED" primary_indicator="1" registry_st_id="1009"/>
     <REASONS id="1003" version="1" dtype="REGISTRY_STATUS" code="UNWILLING" description="UNWILLING" primary_indicator="1" registry_st_id="1009"/>
     
-    
+    <REGISTRY_REASONS_ASSN STU_SUB_REG_ST_ID="1000" REASON_ID="1000" />
     <CONTACT_MECHANISMS/>
 </dataset>

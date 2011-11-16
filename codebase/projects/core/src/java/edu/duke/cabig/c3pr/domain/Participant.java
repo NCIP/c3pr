@@ -1,8 +1,10 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -94,11 +96,33 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	
 	private Address address;
 	
+//	private List<Relationship> relatedTo = new ArrayList<Relationship>();
+	
+//	private List<Relationship> relatedFrom = new ArrayList<Relationship>();
+	
+	private final String householdIdType = "HOUSEHOLD_IDENTIFIER";
+	
+
+	/*@OneToMany(mappedBy = "secondaryParticipant")
+	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<Relationship> getRelatedFrom() {
+		return relatedFrom;
+	}
+	
+	
+	// this should not be used for setting a relationship. instead use addRelatedTo
+	public void setRelatedFrom(List<Relationship> relatedFrom){
+		// do nothing
+	}*/
+
+	
 	/**
 	 * Instantiates a new participant.
 	 */
 	public Participant() {
 		lazyListHelper = new LazyListHelper();
+		lazyListHelper.add(Relationship.class,new ParameterizedBiDirectionalInstantiateFactory<Relationship>(Relationship.class, this,"PrimaryParticipant"));
 		lazyListHelper.add(OrganizationAssignedIdentifier.class,
 				new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(
 						OrganizationAssignedIdentifier.class));
@@ -109,6 +133,32 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 		setIdentifiers(new ArrayList<Identifier>());
 		healthcareSites = new ArrayList<HealthcareSite>();
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
+	}
+
+	@OneToMany(mappedBy = "primaryParticipant")
+	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@Where(clause = "retired_indicator  = 'false'")
+	public List<Relationship> getRelatedToInternal() {
+		return lazyListHelper.getInternalList(Relationship.class);
+	}
+	
+	@Transient
+	public List<Relationship> getRelatedTo() {
+		return lazyListHelper.getLazyList(Relationship.class);
+	}
+	
+	public void setRelatedToInternal(List<Relationship> relatedTo) {
+		lazyListHelper.setInternalList(Relationship.class, relatedTo);
+	}
+	
+	
+	public void setRelatedTo(List<Relationship> relatedTo) {
+		setRelatedToInternal(relatedTo);
+	}
+	
+	public void addRelatedTo(Relationship relationship){
+		lazyListHelper.getInternalList(Relationship.class).add(relationship);
+		relationship.setPrimaryParticipant(this);
 	}
 
 	
@@ -619,7 +669,7 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	public List<CustomField> getCustomFieldsInternal() {
 		return lazyListHelper.getInternalList(CustomField.class);
 	}
-
+    
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.domain.customfield.Customizable#getCustomFields()
 	 */
@@ -865,11 +915,12 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	public void setStateCode(ParticipantStateCode stateCode) {
 		this.stateCode = stateCode;
 	}
-
+	
 	@OneToMany(fetch=FetchType.EAGER)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "participant_id")
-	@OrderBy("id")
+	@Where(clause = "retired_indicator  = 'false'")
+	@OrderBy("startDate desc")
 	public Set<Address> getAddresses() {
 		if (this.address!=null && !this.address.isBlank() && !addresses.contains(this.address)) {
 			addresses.add(this.address);
@@ -940,6 +991,53 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	@Deprecated	
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	
+	@Transient
+	public List<String> getHouseholdIdentifiers(){
+		List<String> householdIds = new ArrayList<String>();
+		for(SystemAssignedIdentifier sysId : this.getSystemAssignedIdentifiers()){
+			if(sysId.getType().equals(householdIdType)){
+				householdIds.add(sysId.getValue());
+			}
+		}
+		return householdIds;
+	}
+	
+	@Transient
+	public boolean containsHouseholdId(String id){
+		for(SystemAssignedIdentifier sysId : this.getSystemAssignedIdentifiers()){
+			if(sysId.getType().equals(householdIdType) && sysId.getValue().equals(id) ){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Transient
+	public boolean getIsMinor(){
+		if (getBirthDate() == null) return false;
+		long ageInMillis = new Date().getTime() - this.birthDate.getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(ageInMillis);
+        
+        Calendar epochCal = Calendar.getInstance();
+        epochCal.setTimeInMillis(0);
+
+        return cal.get(Calendar.YEAR) -  epochCal.get(Calendar.YEAR)< 18;
+	}
+	
+	@Transient
+	public Address getAddressById(int id){
+		Iterator<Address> addressIterator = this.addresses.iterator();
+		Address address = null;
+		while(addressIterator.hasNext()){
+			address = addressIterator.next();
+			if(address.getId().equals(id)){
+				return address;
+			}
+		}
+		return null;
 	}
 	
 }

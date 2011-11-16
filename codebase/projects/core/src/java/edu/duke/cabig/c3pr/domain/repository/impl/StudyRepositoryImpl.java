@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.RegistryStatusReason;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -345,6 +346,10 @@ public class StudyRepositoryImpl implements StudyRepository {
 
 	public Study getByPrimaryIdentifier(Identifier identifier) {
 		return studyDao.getByPrimaryIdentifier(identifier);
+	}
+	
+	public boolean isSecondaryReasonAssociatedToExistingStudySubjects(RegistryStatusReason registryStatusReason){
+		return studyDao.isSecondaryReasonAssociatedToExistingStudySubjects(registryStatusReason);
 	}
 
 }

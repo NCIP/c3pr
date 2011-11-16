@@ -24,6 +24,40 @@
         </property>
 
     </bean>
+    
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+    
+    <bean id="userCache"
+          class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
+        <property name="cache">
+            <bean
+                    class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                <property name="cacheManager" ref="cacheManager"/>
+                <property name="cacheName" value="userCache"/>
+
+            </bean>
+        </property>
+    </bean>    
+    
+	<bean id="csmAuthenticationManager" class="gov.nih.nci.security.SecurityServiceProvider"
+          factory-method="getAuthenticationManager">
+        <constructor-arg ref="csmApplicationContextName"/>
+        <!-- Setting all the 3 values below to 0 will disable CSM's LockOutManager -->
+        <constructor-arg type="java.lang.String"><value>0</value></constructor-arg><!-- lockoutTime -->
+        <constructor-arg type="java.lang.String"><value>0</value></constructor-arg><!-- allowedLoginTime -->
+        <constructor-arg type="java.lang.String"><value>0</value></constructor-arg><!-- allowedAttempts -->
+    </bean>   
+ 
+	<bean id="localAuthenticationProvider" class="edu.duke.cabig.c3pr.accesscontrol.C3prCSMAuthenticationProvider">
+		<property name="csmAuthenticationManager" ref="csmAuthenticationManager"/>
+        <property name="userDetailsService" ref="csmUserDetailsService"/>
+        <property name="userCache" ref="userCache"/>
+        <property name="passwordPolicyService" ref="passwordPolicyService"/>
+        <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
+        <property name="personUserDao" ref="personUserDao"/>
+        <property name="userDao" ref="userDao"/>
+    </bean>    
+    
 <!-- 
     <aop:aspectj-autoproxy/>
     <aop:spring-configured/>  -->
@@ -253,31 +287,7 @@
         <property name="domainObjectC3PRAuhthorizationCheckProvidersMap"
             ref="domainObjectC3PRAuhthorizationCheckProvidersMap"/>
     </bean>
-
-    <bean id="localAuthenticationProvider"
-          class="gov.nih.nci.security.acegi.csm.authentication.CSMAuthenticationProvider">
-        <property name="csmAuthenticationManager">
-            <bean class="gov.nih.nci.security.SecurityServiceProvider"
-                  factory-method="getAuthenticationManager">
-                <constructor-arg ref="csmApplicationContextName"/>
-            </bean>
-        </property>
-        <property name="userDetailsService" ref="csmUserDetailsService"/>
-        <property name="userCache" ref="userCache"/>
-    </bean>
-
-    <bean id="userCache"
-          class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
-        <property name="cache">
-            <bean
-                    class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-                <property name="cacheManager" ref="cacheManager"/>
-                <property name="cacheName" value="userCache"/>
-
-            </bean>
-        </property>
-    </bean>
-
+ 
     <!--CAS Configuration for WEB-SSO-->
     <bean id="webSSOAuthenticationProvider" class="org.acegisecurity.providers.cas.CasAuthenticationProvider">
         <property name="casAuthoritiesPopulator">
@@ -368,8 +378,6 @@
             <value>ticketCache</value>
         </property>
     </bean>
-
-    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
 
 	<bean id="gridSecurityUtils" class="edu.duke.cabig.c3pr.utils.GridSecurityUtils">
 		<property name="userDetailsService" ref="csmUserDetailsService"/>

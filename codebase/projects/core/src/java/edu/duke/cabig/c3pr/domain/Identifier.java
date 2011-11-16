@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -9,6 +11,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 
 /**
  * The Class Identifier.
@@ -30,6 +34,36 @@ public abstract class Identifier extends AbstractMutableDeletableDomainObject {
 
     /** The primary indicator. */
     private Boolean primaryIndicator = false;
+    
+    private Date startDate;
+    
+    private Date endDate;
+    
+    public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+	
+	@Transient
+	public String getStartDateStr(){
+		return CommonUtils.getDateString(startDate);
+	}
+	
+	@Transient
+	public String getEndDateStr(){
+		return CommonUtils.getDateString(endDate);
+	}
 
     /**
      * Null-safe conversion from primaryIndicator property to simple boolean. TODO: switch the db
@@ -50,7 +84,6 @@ public abstract class Identifier extends AbstractMutableDeletableDomainObject {
     public void setTypeInternal(String type){
     	this.typeInternal = type;
     }
-
 
 	/**
      * Gets the value.

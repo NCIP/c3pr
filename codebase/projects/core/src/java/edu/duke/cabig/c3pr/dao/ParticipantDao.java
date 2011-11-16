@@ -342,6 +342,56 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         }
         return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
+    
+    
+    /**
+     * Gets the by subnames.
+     * 
+     * @param subnames the subnames
+     * @param healthcareSite the healthcare site
+     * 
+     * @return the by subnames
+     */
+    public List<Participant> getBySubnames(String[] subnames) {
+    	SUBSTRING_MATCH_PROPERTIES = Arrays.asList("firstName", "lastName", "middleName");
+    	Set<Participant> participants = new HashSet<Participant>();
+    	
+    	participants.addAll(findBySubname(subnames,null,null, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES));
+    	
+    	for(String subname:subnames){
+    		participants.addAll(searchByPrimaryIdentifierValue(subname));
+    	}
+    	
+    	return new ArrayList<Participant>(participants);
+    }
+    
+    /**
+     * Search by identifier.
+     * 
+     * @param id the id
+     * @return the list< participant>
+     */
+    @SuppressWarnings("unchecked")
+    public List<Participant> searchByPrimaryIdentifierValue(String identifier) {
+        return (List<Participant>) getHibernateTemplate().find(
+                                        "select P from Participant P, Identifier I where lower(I.value) like '%" + identifier.toLowerCase() + "%' and I.primaryIndicator = '1' and I=any elements(P.identifiers)");
+    }
+    private List<HealthcareSite> getBySubIdentifier(String[] subnames) {
+		List<HealthcareSite> healthcareSitesByIdentifier = new ArrayList<HealthcareSite>();
+		for(String subname: subnames){
+			if(!StringUtils.isEmpty(subname)){
+				Criteria orgCriteria = getHibernateTemplate().getSessionFactory()
+												.getCurrentSession().createCriteria(HealthcareSite.class);
+				Criteria identifiersAssignedToOrganizationCriteria = orgCriteria.createCriteria("identifiersAssignedToOrganization");
+				identifiersAssignedToOrganizationCriteria.add(Expression.ilike("value", "%"+subname+"%"));
+				
+				if(orgCriteria.list().size() > 0){
+					healthcareSitesByIdentifier.addAll(orgCriteria.list());
+				}    
+			}
+		}
+		return healthcareSitesByIdentifier;
+	}
 
     /**
      * Initialize.
@@ -364,6 +414,8 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
         for(HealthcareSite  healthcareSite: participant.getHealthcareSites()){
         	getHibernateTemplate().initialize(healthcareSite.getIdentifiersAssignedToOrganization());
         }
+        
+        getHibernateTemplate().initialize(participant.getRelatedToInternal());
         getHibernateTemplate().initialize(participant.getCustomFieldsInternal());
         getHibernateTemplate().initialize(participant.getStudySubjectDemographics());
         getHibernateTemplate().initialize(participant.getAddresses());

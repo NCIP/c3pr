@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.domain.factory;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +51,6 @@ public class Summary3ReportFactory {
 		List<Summary3ReportDiseaseSite> diseaseSites = new ArrayList<Summary3ReportDiseaseSite>();
 		diseaseSites = summary3ReportDao.getAllOrderedByName();
 		
-	//	int summary3DiseaseSiteRegistrationsCount =0;
 		int newlyEnrolledTotalTherapeuticPatients = 0;
 		
 		for(Summary3ReportDiseaseSite summary3ReportDiseaseSite:diseaseSites){
@@ -60,8 +58,6 @@ public class Summary3ReportFactory {
 			int newlyEnrolledTherapeuticPatientsForGivenDiseaseSite = summary3ReportDao.getNewlyEnrolledTherapeuticStudySubjectCountForGivenSummary3ReportDiseaseSite(summary3ReportDiseaseSite, hcs, reportStartDate, reportEndDate);
 			// update the newly enrolled therapeutic patients with those for the particular disease
 			newlyEnrolledTotalTherapeuticPatients = newlyEnrolledTotalTherapeuticPatients + newlyEnrolledTherapeuticPatientsForGivenDiseaseSite;
-		//	int newlyRegisteredPatientsForGivenICD9DiseaseSite = summary3ReportDao.getNewlyRegisteredSubjectCountForGivenSummary3ReportDiseaseSite(summary3ReportDiseaseSite, hcs, reportStartDate, reportEndDate);
-		//	summary3DiseaseSiteRegistrationsCount = summary3DiseaseSiteRegistrationsCount + newlyRegisteredPatientsForGivenICD9DiseaseSite;
 			registrationsForDiseaseSite.put("newlyRegisteredPatients", " - ");
 			registrationsForDiseaseSite.put("newlyEnrolledTherapeuticPatients", newlyEnrolledTherapeuticPatientsForGivenDiseaseSite);
 			
@@ -74,7 +70,6 @@ public class Summary3ReportFactory {
 		Map totalRegistrationCounts = new LinkedHashMap<String,Object>();
 	
 		Summary3ReportDiseaseSite totalICD9DiseaseSite = new Summary3ReportDiseaseSite();
-	//	Integer newlyRegisteredTotalPatients = summary3ReportDao.getNewlyRegisteredSubjectCount(hcs, reportStartDate, reportEndDate);
 		totalRegistrationCounts.put("newlyRegisteredPatients", " - ");
 		totalRegistrationCounts.put("newlyEnrolledTherapeuticPatients", newlyEnrolledTotalTherapeuticPatients);
 		

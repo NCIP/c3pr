@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.service;
 
+import edu.duke.cabig.c3pr.domain.Correspondence;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -32,5 +33,7 @@ public interface ScheduledNotificationService {
 	public Integer saveScheduledNotification(PlannedNotification plannedNotification, StudySubject studySubject);
 	
 	public Integer saveScheduledNotification(PlannedNotification plannedNotification, Participant participant);
+	
+	public Integer saveScheduledNotification(PlannedNotification plannedNotification, Correspondence correspondence);
 
 }

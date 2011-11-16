@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
+import java.util.List;
+import java.util.Map;
+
 import org.acegisecurity.GrantedAuthority;
 import org.globus.gsi.GlobusCredential;
 
@@ -23,14 +26,15 @@ public class WebSSOUser extends AuthorizedUser {
 
     private GlobusCredential gridCredential;
 
-    public WebSSOUser(String string, String string1, boolean b, boolean b1, boolean b2, boolean b3,
-                    GrantedAuthority[] grantedAuthorities, ProvisioningSession provisioningSession, RolePrivilege rolePrivileges[], PersonUser researchStaff) throws IllegalArgumentException {
-        super(string, string1, b, b1, b2, b3, grantedAuthorities, provisioningSession, rolePrivileges, researchStaff);
+    public WebSSOUser(String string, String string1, boolean b, boolean b1, boolean b2, boolean b3, GrantedAuthority[] grantedAuthorities, 
+                    ProvisioningSession provisioningSession, RolePrivilege rolePrivileges[], PersonUser researchStaff, Map<String, List<String>> roleBasedOrganizationsMap) 
+    				throws IllegalArgumentException {
+        super(string, string1, b, b1, b2, b3, grantedAuthorities, provisioningSession, rolePrivileges, researchStaff, roleBasedOrganizationsMap);
     }
 
     public WebSSOUser(AuthorizedUser user) {
         this(user.getUsername(), user.getPassword(), true, true, true, true, user.getAuthorities(), 
-        		user.getProvisioningSession(), user.getRolePrivileges(), user.getPersonUser());
+        		user.getProvisioningSession(), user.getRolePrivileges(), user.getPersonUser(), user.getRoleBasedOrganizationsMap());
     }
 
     public String getGridId() {

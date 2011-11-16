@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -15,6 +16,8 @@ import javax.persistence.Transient;
 import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
@@ -41,6 +44,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 	}
 
 	@OneToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@JoinColumn(name = "study_subject_ver_id")
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
@@ -78,7 +82,7 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 		this.studySubject = studySubject;
 	}
 
-	@ManyToOne
+	@ManyToOne (fetch = FetchType.LAZY)
 	 @JoinColumn(name = "study_site_ver_id", nullable=false)
 	 @Cascade( { CascadeType.LOCK })
 	public StudySiteStudyVersion getStudySiteStudyVersion() {

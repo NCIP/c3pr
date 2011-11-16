@@ -18,6 +18,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -162,6 +164,7 @@ public class ContactMechanism extends AbstractMutableDeletableDomainObject {
 	}
 
 	@OneToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name="cntct_id")
     @OrderBy("id")

@@ -30,6 +30,10 @@ public class StudySubjectSecurityFilter implements DomainObjectSecurityFilterer{
 			Filterer returnObject) {
 
 		logger.debug("Authorizing the user and filtering studies.");
+		if(SecurityUtils.isSuperUser()){
+			logger.debug("user is a superuser. skipping authorization...");
+			return returnObject.getFilteredObject();
+		}
 		//check the type of filterer
 		if(returnObject instanceof CollectionFilterer || returnObject instanceof ArrayFilterer){
 			Iterator collectionIter = returnObject.iterator();

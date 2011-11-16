@@ -412,6 +412,9 @@ public class StudyValidator implements Validator {
     public void validateConsents(Object target, Errors errors) {
     	  Study study = (Study) target;
           List<Consent> consents = study.getConsents();
+          if(consents.size() == 0){
+        	  errors.rejectValue("study.consents", new Integer(getCode("C3PR.STUDY.NO.CONSENT.ERROR")).toString(), getMessageFromCode(getCode("C3PR.STUDY.NO.CONSENT.ERROR"), null, null));
+          }
           try {
               Set<Consent> uniqueConsents = new HashSet<Consent>();
               uniqueConsents.addAll(consents);
@@ -424,16 +427,37 @@ public class StudyValidator implements Validator {
               log.debug(ex.getMessage());
           }
           
-          Boolean mandatoryConsentExists = false;
-          for(Consent consent:consents){
-        	  if(consent.getMandatoryIndicator()){
-        		  mandatoryConsentExists = true;
-        		  break;
-        	  }
-          }
+          switch(study.getConsentRequired()){
           
-          if (!mandatoryConsentExists){
-        	  errors.reject("consentsMandatoryIndicator","There should be at least one mandatory consent");
+          case AS_MARKED_BELOW :
+        	  Boolean mandatoryConsentExists = false;
+	          for(Consent consent:consents){
+	        	  if(consent.getMandatoryIndicator()){
+	        		  mandatoryConsentExists = true;
+	        		  break;
+	        	  }
+	          }
+	          if (!mandatoryConsentExists){
+	        	  errors.reject("consentsMandatoryIndicator","At least one consent should be marked as mandatory");
+	          }
+        	  break;
+          case ALL:
+        	  for(Consent consent:consents){
+	        	  if(!consent.getMandatoryIndicator()){
+	        		  errors.reject("consentsMandatoryIndicator","All consents should be marked as mandatory");
+	        		  break;
+	        	  }
+	          }
+        	  break;
+          case ONE:
+          case NONE:
+        	  for(Consent consent:consents){
+	        	  if(consent.getMandatoryIndicator()){
+	        		  errors.reject("consentsMandatoryIndicator","None of the consents should be marked as mandatory");
+	        		  break;
+	        	  }
+	          }
+        	  break;
           }
     }
 

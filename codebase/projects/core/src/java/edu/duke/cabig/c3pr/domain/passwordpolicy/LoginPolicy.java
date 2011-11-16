@@ -12,6 +12,8 @@ public class LoginPolicy {
     private int lockOutDuration;
 
     private int maxPasswordAge;
+    
+    private int allowedLoginTime;
 
     @NumInRange(min = 0)
     public int getAllowedFailedLoginAttempts() {
@@ -40,6 +42,24 @@ public class LoginPolicy {
     public void setMaxPasswordAge(int maxPasswordAge) {
         this.maxPasswordAge = maxPasswordAge;
     }
+    
+	/**
+	 * Gets the allowed login time.
+	 *
+	 * @return the allowed login time
+	 */
+	public int getAllowedLoginTime() {
+		return allowedLoginTime;
+	}
+
+	/**
+	 * Sets the allowed login time.
+	 *
+	 * @param allowedLoginTime the new allowed login time
+	 */
+	public void setAllowedLoginTime(int allowedLoginTime) {
+		this.allowedLoginTime = allowedLoginTime;
+	}
 
     public String toString() {
         return "Maximum password age is " + maxPasswordAge + " (seconds).\n"

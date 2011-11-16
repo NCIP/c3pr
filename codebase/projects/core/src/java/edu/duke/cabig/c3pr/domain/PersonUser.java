@@ -24,6 +24,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.constants.ContactMechanismType;
 import edu.duke.cabig.c3pr.constants.PersonUserType;
 import edu.duke.cabig.c3pr.constants.StatusType;
 
@@ -49,7 +50,7 @@ public abstract class PersonUser extends User {
     /** The healthcare site. */
 	private List<HealthcareSite> healthcareSites = new ArrayList<HealthcareSite>();
     
-	/** The status code. */
+	/** The status code. This pertains to the status of the research staff. */
     private StatusType statusCode = StatusType.AC;
     
 	/** The user based recipient. */
@@ -60,6 +61,9 @@ public abstract class PersonUser extends User {
     
     /** The person user type. */
     private PersonUserType personUserType;
+    
+    /** The User's status (Activate/De-activated). Based on the endDate value of the CSM user account. */
+    private String userStatus;
     
 	/**
 	 * Instantiates a new research staff.
@@ -305,6 +309,32 @@ public abstract class PersonUser extends User {
 	public void setPersonUserType(PersonUserType personUserType) {
 		this.personUserType = personUserType;
 	}
+
+	/**
+	 * Gets the user status based on the CSM endDate.
+	 *
+	 * @return the user status
+	 */
+	@Transient
+	public String getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(String userStatus) {
+		this.userStatus = userStatus;
+	}
+	
+	@Transient
+	public String getEmail(){
+		String email = "";
+		for(ContactMechanism cm : getContactMechanisms()){
+			if(cm.getType()==ContactMechanismType.EMAIL){
+				email = cm.getValue();
+			}
+		}
+		return email;
+	}
+	
 	
 	
 }

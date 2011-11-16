@@ -2,8 +2,11 @@ package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -446,6 +449,11 @@ public class SecurityUtils {
 		return ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPersonUser();
 	}
 	
+	/**
+	 * Gets the Suite roles which have no privileges in C3PR..
+	 *
+	 * @return the non c3 pr roles
+	 */
 	public static List<RoleTypes> getNonC3PRRoles(){
 		List<RoleTypes> nonC3PRRoles = new ArrayList<RoleTypes>();
 
@@ -461,6 +469,11 @@ public class SecurityUtils {
 		return nonC3PRRoles;
 	}
 	
+	/**
+	 * Gets the study scoped roles.
+	 *
+	 * @return the study scoped roles
+	 */
 	public static List<String> getStudyScopedRoles(){
 		List<String> studyScopedRoles = new ArrayList<String>();
 
@@ -515,6 +528,14 @@ public class SecurityUtils {
 		return studyScopedRoles;
 	}
 	
+	/**
+	 * Gets the list of organizations, the logged in user has access to with the privilege passed in.
+	 * This list is populated during login and saved in the AuthorizedUSer object.
+	 *
+	 * @param privlegeType the privlege type
+	 * @param servletContext the servlet context
+	 * @return the logged in users organizations
+	 */
 	public static List<HealthcareSite> getLoggedInUsersOrganizations(String privlegeType, ServletContext servletContext){
 		List hcsList = new ArrayList<HealthcareSite>();
 		if(StringUtils.isBlank(privlegeType)){
@@ -522,23 +543,15 @@ public class SecurityUtils {
 		}
 		Set<C3PRUserGroupType> groupSet = getRolesForLoggedInUser(UserPrivilegeType.valueOf(privlegeType.trim()));
 		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-		
-		ProvisioningSessionFactory provisioningSessionFactory = (ProvisioningSessionFactory)context.getBean("provisioningSessionFactory");
 		HealthcareSiteDao healthcareSiteDao = (HealthcareSiteDao)context.getBean("healthcareSiteDao");
-		PersonUser personUser = ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPersonUser();
-		Set<String> organizationIdSet = new HashSet<String>();
+		
+		Map<String, List<String>> roleBasedOrganizationsMap = ((AuthorizedUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getRoleBasedOrganizationsMap();
+		List<String> organizationIdList = new ArrayList<String>();
 	    for(C3PRUserGroupType c3prUserGroupType:groupSet){
-	    	if(!SecurityUtils.isGlobalRole(c3prUserGroupType)){
-	    		ProvisioningSession provisioningSession = provisioningSessionFactory.createSession(new Long(personUser.getLoginId()));
-	        	
-	            SuiteRole suiteRole = C3PRUserGroupType.getUnifiedSuiteRole(c3prUserGroupType);
-	            SuiteRoleMembership suiteRoleMembership = provisioningSession.getProvisionableRoleMembership(suiteRole);
-	    	    //add all site identifiers to a set
-	    		if(suiteRole.isSiteScoped() && !suiteRoleMembership.isAllSites()){
-	    			organizationIdSet.addAll(suiteRoleMembership.getSiteIdentifiers());
-	    		}
+	    	if(roleBasedOrganizationsMap.containsKey(c3prUserGroupType.getCode())){
+	    		organizationIdList = roleBasedOrganizationsMap.get(c3prUserGroupType.getCode());
 	    		HealthcareSite healthcareSite;
-	    		for(String hcsId: organizationIdSet){
+	    		for(String hcsId: organizationIdList){
 	     			healthcareSite = healthcareSiteDao.getByCtepCodeFromLocal(hcsId);
 	     			if(healthcareSite != null && ! hcsList.contains(healthcareSite)){
 	     				hcsList.add(healthcareSite);
@@ -547,8 +560,22 @@ public class SecurityUtils {
 	    	}
 	    }
         return hcsList;
-		
 	}
+	
+	
+	/**
+	 * Checks if the user has been deactivated based on the users endDate in csm_user.
+	 *
+	 * @param userEndDate the user end date from csm_user
+	 * @return true, if is user deactivated
+	 */
+	public static boolean isUserDeactivated(Date userEndDate){
+		if(userEndDate != null && DateUtil.compareDate(userEndDate,Calendar.getInstance().getTime()) <= 0){
+			return true;
+		}
+		return false;
+	}
+	
 
 	public ApplicationContext getApplicationContext() {
 		return applicationContext;

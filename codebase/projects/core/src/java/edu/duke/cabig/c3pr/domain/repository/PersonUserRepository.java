@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.domain.repository;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.RoleBasedHealthcareSitesAndStudiesDTO;
@@ -19,7 +18,7 @@ public interface PersonUserRepository {
 	public PersonUser getByAssignedIdentifier(String assignedIdentifier);
 	public PersonUser getByAssignedIdentifierFromLocal(String assignedIdentifier);
 	public List<PersonUser> getRemoteResearchStaff(PersonUser staff);
-	public gov.nih.nci.security.authorization.domainobjects.User getCSMUser(C3PRUser user) ;
+	public gov.nih.nci.security.authorization.domainobjects.User getCSMUser(PersonUser staff) ;
 	public gov.nih.nci.security.authorization.domainobjects.User getCSMUserByUserName(String userName);
 	public List<C3PRUserGroupType> getGroupsForUser(User csmUser);
 	public List<String> getOrganizationIdsForUser(User csmUser, C3PRUserGroupType c3prUserGroupType);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 
 /**
@@ -29,6 +30,17 @@ public class PlannedNotificationDao extends GridIdentifiableDao<PlannedNotificat
         return getHibernateTemplate().find("from PlannedNotification");
     }
     
+    /**
+     * Gets all the PlannedNotifications.
+     * 
+     * @return the list of PlannedNotifications
+     */
+    public PlannedNotification getByEventName(NotificationEventTypeEnum event) {
+    	
+    	List<PlannedNotification> plannedNotifications =  (List<PlannedNotification>)getHibernateTemplate().find
+		("from PlannedNotification p left join fetch p.userBasedRecipientInternal where p.eventName = ?"  , new Object[]{event});
+		return (plannedNotifications.size()>0? plannedNotifications.get(0):null);
+    }
     
     /**
 	 * Save or update.

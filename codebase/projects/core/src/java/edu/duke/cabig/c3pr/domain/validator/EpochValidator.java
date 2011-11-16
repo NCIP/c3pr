@@ -63,18 +63,20 @@ public class EpochValidator implements Validator {
     
     public void validateIndicators(Object target,Errors errors){
     	Epoch epoch = (Epoch) target;
-    	if(epoch.getType() == EpochType.RESERVING &&(epoch.getEnrollmentIndicator() || epoch.getType() == EpochType.TREATMENT || epoch.getRandomizedIndicator())){
-    		errors.rejectValue("reservationIndicator",new Integer(studyValidator
+    	if(epoch.getRandomizedIndicator()){
+    		if(epoch.getType() != EpochType.TREATMENT){
+    			errors.rejectValue("type",new Integer(studyValidator
+                        .getCode("C3PR.STUDY.EPOCH.INVALID_TREATMENT_INDICATOR.CODE")).toString(),
+                        studyValidator.getMessageFromCode(studyValidator
+                                        .getCode("C3PR.STUDY.EPOCH.INVALID_TREATMENT_INDICATOR.CODE"), null,
+                                        null));
+    		}
+    		
+    	}else if(epoch.getType() == EpochType.RESERVING &&(epoch.getEnrollmentIndicator() || epoch.getType() == EpochType.TREATMENT )) {
+    		errors.rejectValue("type",new Integer(studyValidator
                     .getCode("C3PR.STUDY.EPOCH.INVALID_RESERVATION_INDICATOR.CODE")).toString(),
                     studyValidator.getMessageFromCode(studyValidator
                                     .getCode("C3PR.STUDY.EPOCH.INVALID_RESERVATION_INDICATOR.CODE"), null,
-                                    null));
-    	}
-    	if(epoch.getRandomizedIndicator() && epoch.getType() != EpochType.TREATMENT){
-    		errors.rejectValue("treatmentIndicator",new Integer(studyValidator
-                    .getCode("C3PR.STUDY.EPOCH.INVALID_TREATMENT_INDICATOR.CODE")).toString(),
-                    studyValidator.getMessageFromCode(studyValidator
-                                    .getCode("C3PR.STUDY.EPOCH.INVALID_TREATMENT_INDICATOR.CODE"), null,
                                     null));
     	}
     	if(epoch.getType() == EpochType.TREATMENT && !epoch.getEnrollmentIndicator()){

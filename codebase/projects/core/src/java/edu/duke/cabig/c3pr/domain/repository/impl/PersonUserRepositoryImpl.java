@@ -6,13 +6,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.constants.StatusType;
 import edu.duke.cabig.c3pr.dao.PersonUserDao;
-import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.repository.PersonUserRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.RoleBasedHealthcareSitesAndStudiesDTO;
+import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.security.UserProvisioningManager;
@@ -64,8 +65,17 @@ public class PersonUserRepositoryImpl implements PersonUserRepository {
 		return false ;
 	}
 	
-	public User getCSMUser(C3PRUser user) {
-		return getCSMUserByUserName(user.getLoginId());
+	public User getCSMUser(PersonUser staff) {
+		User user =  getCSMUserByUserName(staff.getLoginId());
+		//set the user status in personUser before returning..consider moving this logic to better location.
+		if(user != null){
+			if(SecurityUtils.isUserDeactivated(user.getEndDate())){
+				staff.setUserStatus(StatusType.IN.getName());
+	    	} else {
+	    		staff.setUserStatus(StatusType.AC.getName());
+	    	}
+		}
+		return user;
 	}
 	
 	public User getCSMUserByUserName(String userName) {

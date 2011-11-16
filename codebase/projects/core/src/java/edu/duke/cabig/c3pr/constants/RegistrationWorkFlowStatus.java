@@ -9,7 +9,7 @@ public enum RegistrationWorkFlowStatus implements CodedEnum<String> {
    PENDING("Pending"),  RESERVED(
                     "Reserved"),OFF_STUDY("Off-Study"),  
                     PENDING_ON_STUDY("Pending On-Study"),ON_STUDY("On-Study") ,INVALID("Invalid"),
-                    NOT_REGISTERED("Not Registered");
+                    NOT_REGISTERED("Not Registered"),INELIGIBLE("Ineligible");
    
    // TODO
    // following to be removed with the appropriate data migration script

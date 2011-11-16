@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -19,6 +18,8 @@ import javax.persistence.Transient;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
@@ -39,7 +40,8 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 public class StudySubjectDemographics extends PersonBase implements Customizable,IdentifiableObject{
 	
 	
-	@OneToMany(fetch=FetchType.EAGER)
+	@OneToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "stu_sub_demographics_id")
 	@OrderBy("id")
@@ -180,7 +182,7 @@ public class StudySubjectDemographics extends PersonBase implements Customizable
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 	}
 	
-	@OneToMany(mappedBy = "studySubjectDemographics",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "studySubjectDemographics")
 	@Cascade (CascadeType.LOCK)
 	public List<StudySubject> getRegistrations() {
 		return registrations;
@@ -195,7 +197,7 @@ public class StudySubjectDemographics extends PersonBase implements Customizable
 		registration.setStudySubjectDemographics(this);
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "prt_id", nullable = false)
 		public Participant getMasterSubject() {
 		return masterSubject;
@@ -230,7 +232,8 @@ public class StudySubjectDemographics extends PersonBase implements Customizable
 	 * 
 	 * @return the identifiers
 	 */
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "stu_sub_dmgphcs_id")
 	@Where(clause = "retired_indicator  = 'false'")
@@ -400,6 +403,7 @@ public class StudySubjectDemographics extends PersonBase implements Customizable
 //	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 //	@JoinTable(name = "race_code_assocn", joinColumns = @JoinColumn(name = "stu_sub_dmgphcs_id"), inverseJoinColumns = @JoinColumn(name = "race_code_id")) 
 	@OneToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name="stu_sub_dmgphcs_id")
 	public List<RaceCodeAssociation> getRaceCodeAssociations() {
@@ -567,6 +571,7 @@ public class StudySubjectDemographics extends PersonBase implements Customizable
 	 * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
 	 */
 	@OneToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "stu_sub_dmgphcs_id")
 	@OrderBy("id")

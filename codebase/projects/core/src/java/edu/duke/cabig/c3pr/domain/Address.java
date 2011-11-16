@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,10 +16,14 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.constants.AddressUse;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
@@ -35,11 +40,51 @@ public class Address extends AbstractMutableDeletableDomainObject {
 
     private String stateCode;
 
-    private String postalCode;
+    public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	private String postalCode;
 
     private String countryCode;
     
-    private Set<AddressUseAssociation> addressUseAssociation = new LinkedHashSet<AddressUseAssociation>();
+    private Date startDate;
+    
+    private Date endDate;
+    
+    private boolean primaryIndicator = false;
+    
+    private String identifier;
+    
+    public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public boolean isPrimaryIndicator() {
+		return primaryIndicator;
+	}
+
+	public void setPrimaryIndicator(boolean primaryIndicator) {
+		this.primaryIndicator = primaryIndicator;
+	}
+
+	private Set<AddressUseAssociation> addressUseAssociation = new LinkedHashSet<AddressUseAssociation>();
 
     public Address() {
     }
@@ -142,25 +187,6 @@ public class Address extends AbstractMutableDeletableDomainObject {
 	}
 
 	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((city == null) ? 0 : city.hashCode());
-		result = prime * result
-				+ ((countryCode == null) ? 0 : countryCode.hashCode());
-		result = prime * result
-				+ ((postalCode == null) ? 0 : postalCode.hashCode());
-		result = prime * result
-				+ ((stateCode == null) ? 0 : stateCode.hashCode());
-		result = prime * result
-				+ ((streetAddress == null) ? 0 : streetAddress.hashCode());
-		return result;
-	}
-
-	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -168,52 +194,12 @@ public class Address extends AbstractMutableDeletableDomainObject {
 		if (this == obj) {
 			return true;
 		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (!(obj instanceof Address)) {
-			return false;
-		}
-		Address other = (Address) obj;
-		if (city == null) {
-			if (other.city != null) {
-				return false;
-			}
-		} else if (!city.equals(other.city)) {
-			return false;
-		}
-		if (countryCode == null) {
-			if (other.countryCode != null) {
-				return false;
-			}
-		} else if (!countryCode.equals(other.countryCode)) {
-			return false;
-		}
-		if (postalCode == null) {
-			if (other.postalCode != null) {
-				return false;
-			}
-		} else if (!postalCode.equals(other.postalCode)) {
-			return false;
-		}
-		if (stateCode == null) {
-			if (other.stateCode != null) {
-				return false;
-			}
-		} else if (!stateCode.equals(other.stateCode)) {
-			return false;
-		}
-		if (streetAddress == null) {
-			if (other.streetAddress != null) {
-				return false;
-			}
-		} else if (!streetAddress.equals(other.streetAddress)) {
-			return false;
-		}
-		return true;
+		
+		return false;
 	}
 
 	@OneToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name="add_id")
     @OrderBy("id")
@@ -244,5 +230,15 @@ public class Address extends AbstractMutableDeletableDomainObject {
 	
 	public void addAddressUse(AddressUse use){
 		addressUseAssociation.add(new AddressUseAssociation(use));
+	}
+	
+	@Transient
+	public String getStartDateStr(){
+		return CommonUtils.getDateString(startDate);
+	}
+	
+	@Transient
+	public String getEndDateStr(){
+		return CommonUtils.getDateString(endDate);
 	}
 }

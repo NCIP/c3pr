@@ -332,4 +332,24 @@ public class DateUtil extends DateUtils {
     	return date.getYear() + 1900;
     }
     
+    public static int compareDate(Date d1, Date d2) {
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(d1);
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(d2);
+
+        int x = c1.get(Calendar.YEAR);
+        int y = c2.get(Calendar.YEAR);
+        if (x != y) return x - y;
+
+        x = c1.get(Calendar.MONTH);
+        y = c2.get(Calendar.MONTH);
+        if (x != y) return x - y;
+
+        x = c1.get(Calendar.DATE);
+        y = c2.get(Calendar.DATE);
+        return x - y;
+    }
+    
 }

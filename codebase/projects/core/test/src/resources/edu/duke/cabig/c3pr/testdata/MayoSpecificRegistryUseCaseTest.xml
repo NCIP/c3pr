@@ -74,4 +74,6 @@
     <REASONS id="1002" version="1" dtype="REGISTRY_STATUS" code="DIED" description="DIED" primary_indicator="1" registry_st_id="1009"/>
     <REASONS id="1003" version="1" dtype="REGISTRY_STATUS" code="UNWILLING" description="UNWILLING" primary_indicator="1" registry_st_id="1007"/>
     
+    <REGISTRY_REASONS_ASSN />
+    
 </dataset>

@@ -170,7 +170,7 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		multiInstitutionIndicator = false;
 		standaloneIndicator = true;
 		companionIndicator = false;
-		consentRequired = ConsentRequired.ONE;
+		consentRequired = ConsentRequired.AS_MARKED_BELOW;
 		therapeuticIntentIndicator = false;
 
 		lazyListHelper = new LazyListHelper();

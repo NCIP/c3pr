@@ -62,7 +62,7 @@ public class PasswordPolicyServiceImpl implements PasswordPolicyService {
     public void setCsmUserRepository(final CSMUserRepository csmUserRepository) {
         this.csmUserRepository = csmUserRepository;
         passwordCreationPolicyValidator.setCsmUserRepository(csmUserRepository);
-        loginPolicyValidator.setCsmUserRepository(csmUserRepository);
+        //loginPolicyValidator.setCsmUserRepository(csmUserRepository);
 
     }
 

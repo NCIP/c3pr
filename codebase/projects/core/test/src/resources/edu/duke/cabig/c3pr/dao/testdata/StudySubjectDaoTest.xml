@@ -18,6 +18,9 @@
     <PARTICIPANTS id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" /> 
    	<PARTICIPANTS id="1010" version="1" first_name="Ru" last_name="Clo" birth_date="2000-01-01" administrative_gender_code="M"  retired_indicator = "false" />       
     
+    <relationships/>
+    
+    
     <stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" retired_indicator="false" />
     <stu_sub_demographics id="1001" version="1" first_name="Romeo" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" retired_indicator="false" />
     <stu_sub_demographics id="1002" version="1" first_name="Monish" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" retired_indicator="false" /> 
@@ -52,18 +55,12 @@
 	<STU_SITE_STATUS_HISTORY id="1010" version="1" sto_id="1010" site_study_status="ACTIVE"  start_date="2000-01-01" />
 	
         
-    <study_site_versions id="1000" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
-    stu_version_id="1000" sto_id="1000"/>
-    <study_site_versions id="1001" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
-    stu_version_id="1000" sto_id="1001"/>
-    <study_site_versions id="1002" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
-    stu_version_id="1001" sto_id="1002"/>
-    <study_site_versions id="1003" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
-    stu_version_id="1001" sto_id="1003"/>
-    <study_site_versions id="1010" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
-    stu_version_id="1000" sto_id="1010"/>
-    <study_site_versions id="1011" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01"
-    stu_version_id="1002" sto_id="1010"/>
+    <study_site_versions id="1000" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1000" sto_id="1000"/>
+    <study_site_versions id="1001" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1000" sto_id="1001"/>
+    <study_site_versions id="1002" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1001" sto_id="1002"/>
+    <study_site_versions id="1003" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1001" sto_id="1003"/>
+    <study_site_versions id="1010" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1000" sto_id="1010"/>
+    <study_site_versions id="1011" version="1" start_date="2001-01-01" irb_approval_date="2000-01-01" stu_version_id="1002" sto_id="1010"/>
     
     <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
             
@@ -176,6 +173,10 @@
  	<SUB_CON_QUE_ANS/>
  	
 	<stu_sub_associations parent_stu_sub_id="1000" child_stu_sub_id="1001" />
+	
+	<correspondences id="1000" version="0" type="PHONE" stu_sub_id="1004" time="2011-11-11" retired_indicator="false"/>
+	
+	<corr_per_users_assoc/>
     
     <SCHEDULED_EPOCHS id="1000" version="1" start_date="2006-03-05" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1000" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" off_epoch_date="2007-01-01"/>
     <SCHEDULED_EPOCHS id="1001" version="1" start_date="2007-01-02" eligibility_indicator="1" ELIGIBILITY_WAIVER_REASON_TEXT="reason" study_subject_ver_id="1000"  eph_id="1005" sc_epoch_workflow_status="ON_EPOCH" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator = "false" off_epoch_date="2008-11-10"/>  
@@ -197,7 +198,7 @@
     <IDENTIFIERS id="1002" version="1" value="grid" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator="false"  spa_id="1001"/>
     <IDENTIFIERS id="1000" version="1" value="nci1" type="local" system_name="nci" dtype="SAI" stu_id="1000" retired_indicator="false"/>
     <IDENTIFIERS id="1007" version="1" value="nci2" type="CTEP" dtype="OAI" retired_indicator="false" stu_id="1001"  hcs_id="1003" primary_indicator="1"/>
-    <IDENTIFIERS id="1017" version="1" value="himanshu" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" retired_indicator="false" stu_id="1001"  hcs_id="1003" primary_indicator="1"/>    
+    <IDENTIFIERS id="1017" version="1" value="himanshu" type="COORDINATING_CENTER_IDENTIFIER" dtype="OAI" retired_indicator="false" stu_id="1001"  hcs_id="1003" primary_indicator="0"/>    
     <IDENTIFIERS id="1003" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1000"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1004" version="1" value="code" type="CTEP" dtype="OAI" retired_indicator="false" org_id="1001"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1005" version="1" value="code" type="NCI" dtype="OAI" retired_indicator="false" org_id="1002"  hcs_id="1003" primary_indicator="1"/>
@@ -206,11 +207,36 @@
     <IDENTIFIERS id="1006" version="1" value="mrn" type="MRN" dtype="OAI" retired_indicator="false" prt_id="1000"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1008" version="1" value="coperative" type="local" system_name="c3pr" dtype="SAI" prt_id="1002" retired_indicator="false"/>
     <IDENTIFIERS id="1009" version="1" value="abc123" type="local" system_name="c3pr" dtype="SAI" stu_id="1001" retired_indicator="false"/> 
-    <IDENTIFIERS id="1010" version="1" value="nci1" type="CTEP" dtype="OAI" retired_indicator="false" spa_id="1001"  hcs_id="1003" primary_indicator="1"/>   
+    <IDENTIFIERS id="1010" version="1" value="nci1" type="CTEP" dtype="OAI" retired_indicator="false" spa_id="1001"  hcs_id="1003" primary_indicator="1"/> 
       
     <IDENTIFIERS id="1011" version="1" value="mrn" type="MRN" dtype="OAI" retired_indicator="false" stu_sub_dmgphcs_id="1000"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1018" version="1" value="participant" type="MRN" dtype="OAI" retired_indicator="false" stu_sub_dmgphcs_id="1002"  hcs_id="1003" primary_indicator="1"/>
     <IDENTIFIERS id="1012" version="1" value="coperative" type="local" system_name="c3pr" dtype="SAI" stu_sub_dmgphcs_id="1001" retired_indicator="false"/> 
     
+    <IDENTIFIERS id="1019" version="1" value="test_val123" type="CTEP" dtype="OAI" retired_indicator="false" spa_id="1002"  hcs_id="1003" primary_indicator="1"/>  
+    
+    <CONTACT_MECHANISMS id="1000" stu_sub_dmgphcs_id="1002" version="1" type="EMAIL" value="test@mail.com" dtype="Local"/>
+  	<CONTACT_MECHANISMS id="1001" stu_sub_dmgphcs_id="1002" version="1" type="Fax" value="7037872322" dtype="Local"/>
+    
     <CONTACT_MECHANISMS/>
+    
+     <REGISTRY_STATUSES id="1000" version="1" code="Pre-Enrolled" description="Pre-Enrolled"/>
+	 <REGISTRY_STATUSES id="1001" version="1" code="Enrolled" description="Enrolled"/>
+	 <REGISTRY_STATUSES id="1002" version="1" code="Screen Failed" description="Screen Failed"/>
+	 <REGISTRY_STATUSES id="1003" version="1" code="Accrued" description="Accrued"/>
+	 <REGISTRY_STATUSES id="1004" version="1" code="Active Intervention" description="Active Intervention"/>
+	 <REGISTRY_STATUSES id="1005" version="1" code="Long-Term Followup" description="Long-Term Followup"/>
+	 
+	<PERMISSIBLE_REG_STATS id="1000" version="0" registry_st_id="1000" study_id="1000" retired_indicator="false"/>
+  	<PERMISSIBLE_REG_STATS id="1001" version="0" registry_st_id="1001" study_id="1001" retired_indicator="false"/>
+  	<PERMISSIBLE_REG_STATS id="1002" version="0" registry_st_id="1002" study_id="1001" retired_indicator="false"/>
+  	<PERMISSIBLE_REG_STATS id="1003" version="0" registry_st_id="1003" study_id="1002" retired_indicator="false"/>
+  	<PERMISSIBLE_REG_STATS id="1004" version="0" registry_st_id="1004" study_id="1002" retired_indicator="false"/>
+  	<PERMISSIBLE_REG_STATS id="1005" version="0" registry_st_id="1005" study_id="1002" retired_indicator="false"/>
+  	
+  	<STU_SUB_REG_STATUSES id="1000" version="0" effective_date="2010-10-07" per_reg_st_id="1000" stu_sub_id="1000" retired_indicator="false"/>
+  	<STU_SUB_REG_STATUSES id="1001" version="0" effective_date="2003-10-07" per_reg_st_id="1001" stu_sub_id="1002" retired_indicator="false"/>
+  	<STU_SUB_REG_STATUSES id="1002" version="0" effective_date="2004-03-25" per_reg_st_id="1002" stu_sub_id="1002" retired_indicator="false"/>
+  	<STU_SUB_REG_STATUSES id="1003" version="0" effective_date="2010-10-07" per_reg_st_id="1003" stu_sub_id="1001" retired_indicator="false"/>
+  	<STU_SUB_REG_STATUSES id="1004" version="0" effective_date="2000-11-17" per_reg_st_id="1004" stu_sub_id="1003" retired_indicator="false"/>
 </dataset>

@@ -5,6 +5,8 @@
 		<display-name>Registration</display-name>
 		<table-name>study_subjects</table-name>
 		<table-alias>StudySubject_xx</table-alias>
+		<!--  <join>left join fetch StudySubject_xx.identifiers left join fetch StudySubject_xx.studySubjectRegistryStatusHistoryInternal left join fetch StudySubject_xx.studySubjectStudyVersions</join> -->
+    <join>inner join fetch StudySubject_xx.studySubjectDemographics</join>
 		<!--Search by registration specific criterion -->
 		<dependent-object>
 			<class-name>edu.duke.cabig.c3pr.domain.StudySubject</class-name>

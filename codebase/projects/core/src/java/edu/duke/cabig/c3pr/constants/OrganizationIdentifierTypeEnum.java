@@ -21,7 +21,8 @@ public enum OrganizationIdentifierTypeEnum implements CodedEnum<String> {
 	SITE_IDENTIFIER("Site Identifier"),
 	STUDY_SUBJECT_IDENTIFIER("Study Subject Identifier"),
 	SUBJECT_IDENTIFIER("Subject Identifier"),
-	GRID_IDENTIFIER("Grid Identifier");
+	GRID_IDENTIFIER("Grid Identifier"),
+	HOUSEHOLD_IDENTIFIER("Household Identifier");
 
     private String code;
 

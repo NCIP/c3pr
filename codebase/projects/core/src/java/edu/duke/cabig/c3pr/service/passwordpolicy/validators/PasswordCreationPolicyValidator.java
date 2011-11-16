@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.service.passwordpolicy.validators;
 
-import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordCreationPolicy;
 import edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy;
@@ -9,7 +8,6 @@ import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 public class PasswordCreationPolicyValidator implements PasswordPolicyValidator {
 
     private CombinationValidator combinationValidator;
-
     private CSMUserRepository csmUserRepository;
 
     public PasswordCreationPolicyValidator() {
@@ -55,6 +53,4 @@ public class PasswordCreationPolicyValidator implements PasswordPolicyValidator 
         this.csmUserRepository = csmUserRepository;
         this.combinationValidator.setCsmUserRepository(csmUserRepository);
     }
-
-
 }

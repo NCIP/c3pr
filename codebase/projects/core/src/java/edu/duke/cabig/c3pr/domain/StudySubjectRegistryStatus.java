@@ -6,12 +6,15 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -69,9 +72,14 @@ public class StudySubjectRegistryStatus extends AbstractMutableDeletableDomainOb
 		this.permissibleStudySubjectRegistryStatus = permissibleStudySubjectRegistryStatus;
 	}
 
-	@OneToMany
+	@ManyToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@Cascade( { CascadeType.LOCK })
-	@JoinColumn(name = "stu_sub_reg_st_id")
+	@JoinTable(
+        name="REGISTRY_REASONS_ASSN",
+        joinColumns=@JoinColumn(name="STU_SUB_REG_ST_ID"),
+        inverseJoinColumns=@JoinColumn(name="REASON_ID")
+    )
 	public List<RegistryStatusReason> getReasons() {
 		return reasons;
 	}

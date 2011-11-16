@@ -118,7 +118,20 @@ public class Configuration extends DatabaseBackedConfiguration {
 					.add(new DefaultConfigurationProperty.Text("esb.timeout"));
     
     public static final ConfigurationProperty<String> COPPA_ENABLE = PROPERTIES
-    .add(new DefaultConfigurationProperty.Text("coppaEnable"));
+    				.add(new DefaultConfigurationProperty.Text("coppaEnable"));
+    
+    public static final ConfigurationProperty<String> SRS_ENABLE_CUSTOM_HQL = PROPERTIES
+			.add(new DefaultConfigurationProperty.Text("subjectRegistryService.enableCustomHQL"));
+	
+    public static final ConfigurationProperty<String> SRS_LOAD_STUDY = PROPERTIES
+					.add(new DefaultConfigurationProperty.Text("subjectRegistryService.loadStudy"));
+    
+    public static final ConfigurationProperty<String> SRS_LOAD_STUDY_SITE = PROPERTIES
+					.add(new DefaultConfigurationProperty.Text("subjectRegistryService.loadStudySite"));
+    
+    public static final ConfigurationProperty<String> SRS_LOAD_STUDY_IDENTIFIER = PROPERTIES
+					.add(new DefaultConfigurationProperty.Text("subjectRegistryService.loadStudyIdentifier"));;
+	
     
     
     protected Class<? extends ConfigurationEntry> getConfigurationEntryClass() {

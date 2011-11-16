@@ -76,10 +76,6 @@
 		<constructor-arg index="1" ref="connectionProperties"/>
     </bean>
 
-    <bean id="csmAuthenticationManager" class="gov.nih.nci.security.SecurityServiceProvider" factory-method="getAuthenticationManager">
-        <constructor-arg ref="csmApplicationContextName"/>
-    </bean>
-
 	<bean id="provisioningSessionFactory" class="gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory">
 		<property name="authorizationManager" ref="csmUserProvisioningManager"/>
 	</bean>
@@ -98,5 +94,5 @@
         <property name="userDao"
                   ref="userDao"/>  
     </bean>
-	
+    
 </beans>

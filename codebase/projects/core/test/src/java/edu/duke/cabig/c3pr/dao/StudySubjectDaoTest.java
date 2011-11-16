@@ -18,7 +18,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -29,14 +33,21 @@ import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import com.semanticbits.querybuilder.AdvancedSearchHelper;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.constants.AMPMEnum;
+import edu.duke.cabig.c3pr.constants.ConsentingMethod;
+import edu.duke.cabig.c3pr.constants.CorrespondencePurpose;
+import edu.duke.cabig.c3pr.constants.CorrespondenceType;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.constants.TimeZoneEnum;
+import edu.duke.cabig.c3pr.domain.AdvancedSearchCriteriaParameterUtil;
 import edu.duke.cabig.c3pr.domain.Consent;
 import edu.duke.cabig.c3pr.domain.ConsentQuestion;
+import edu.duke.cabig.c3pr.domain.Correspondence;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -45,6 +56,7 @@ import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -60,9 +72,12 @@ import edu.duke.cabig.c3pr.domain.SubjectConsentQuestionAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
+import edu.emory.mathcs.backport.java.util.Arrays;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
@@ -74,6 +89,7 @@ import gov.nih.nci.common.exception.XMLUtilityException;
 @C3PRUseCases( { ADD_DISEASE_SUBJECT, ASSIGN_EXISTING_PARTICIPANT, ASSIGN_REGISTERED_PARTICIPANT,
         CREATE_INCOMPLETE_REGISTERATION, CREATE_LOCAL_REGISTERATION, ASSIGN_ARM,
         UPDATE_REGISTERATION_STATUS })
+@SuppressWarnings(value="unchecked")
 public class StudySubjectDaoTest extends DaoTestCase {
     private ParticipantDao dao;
 
@@ -95,6 +111,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
 
     private StudySubjectStudyVersionDao studySubjectStudyVersionDao;
     
+    private PersonUserDao personUserDao;
+    
     private XmlMarshaller xmlUtility;
 
     private XmlMarshaller xmlUtilityStudy;
@@ -112,6 +130,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         studySubjectDao.setStudySiteDao(studySiteDao);
         studySubjectDao.setParticipantDao(dao);
         studySiteStudyVersionDao = (StudySiteStudyVersionDao) getApplicationContext().getBean("studySiteStudyVersionDao");
+        personUserDao = (PersonUserDao)getApplicationContext().getBean("personUserDao");
         studySubjectStudyVersionDao = (StudySubjectStudyVersionDao) getApplicationContext().getBean("studySubjectStudyVersionDao");
         scheduledEpochDao = (ScheduledEpochDao) getApplicationContext()
                         .getBean("scheduledEpochDao");
@@ -1186,7 +1205,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
     }
 
     public void testAdvancedStudySearchAfterInitializationWithObjectsFromDatabase() throws Exception{
-    	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
     	StudySubject studySubject = new StudySubject(true);
 
     	Participant participant = dao.getById(1000);
@@ -2362,6 +2380,821 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		
 		List<StudySubject> registrations = studySubjectDao.search(criteriaParameters);
 		assertEquals("unexpected registration(s) found", 0,  registrations.size());
+	}
+	
+	public void testSaveStudySubjectWithCorrespondences() throws Exception {
+	       StudySubject studySubject = studySubjectDao.getById(1000);
+	       Correspondence correspondence1 = new Correspondence();
+	       correspondence1.setNotes("Correspndence notes");
+	       correspondence1.setAction("ACTION1");
+	       correspondence1.setType(CorrespondenceType.FACE_TO_FACE);
+	       Date currentDate = new Date();
+	       correspondence1.setTime(currentDate);
+	       correspondence1.setPurpose(CorrespondencePurpose.PURPOSE_4);
+	       correspondence1.setText("Text of Correspondence1");
+	       studySubject.addCorrespondence(correspondence1);
+	       studySubjectDao.save(studySubject);
+	       interruptSession();
+	       
+	       StudySubject updatedStudySubject = studySubjectDao.getById(1000);
+	       assertEquals("Expected 1 correspondence for the study subject", 1, updatedStudySubject.getCorrespondences().size());
+	       assertEquals("Wrong correspondence action", "ACTION1", updatedStudySubject.getCorrespondences().get(0).getAction());
+	       assertEquals("Wrong correspondence notes", "Correspndence notes", updatedStudySubject.getCorrespondences().get(0).getNotes());
+	       assertEquals("Wrong correspondence type", CorrespondenceType.FACE_TO_FACE, updatedStudySubject.getCorrespondences().get(0).getType());
+	       assertEquals("Wrong correspondence purpose", CorrespondencePurpose.PURPOSE_4, updatedStudySubject.getCorrespondences().get(0).getPurpose());
+	       assertTrue("Wrong correspondence time", CommonUtils.getDateString(currentDate).equals(CommonUtils.getDateString(
+	    		   updatedStudySubject.getCorrespondences().get(0).getTime())));
+	    }
+	
+	public void testSaveStudySubjectWithCorrespondencesViaLazyList() throws Exception {
+	       StudySubject studySubject = studySubjectDao.getById(1000);
+	       assertEquals("Expected no correspondences for the study subject", 0, studySubject.getCorrespondences().size());
+	       
+	       studySubject.getCorrespondences().get(0).setNotes("Correspndence notes");
+	       studySubject.getCorrespondences().get(0).setAction("ACTION1");
+	       studySubject.getCorrespondences().get(0).setType(CorrespondenceType.FACE_TO_FACE);
+	       Date currentDate = new Date();
+	       studySubject.getCorrespondences().get(0).setTime(currentDate);
+	       studySubject.getCorrespondences().get(0).setPurpose(CorrespondencePurpose.PURPOSE_4);
+	       studySubject.getCorrespondences().get(0).setText("Text of Correspondence1");
+	       studySubjectDao.save(studySubject);
+	       interruptSession();
+	       
+	       StudySubject updatedStudySubject = studySubjectDao.getById(1000);
+	       assertEquals("Expected 1 correspondence for the study subject", 1, updatedStudySubject.getCorrespondences().size());
+	       assertEquals("Wrong correspondence action", "ACTION1", updatedStudySubject.getCorrespondences().get(0).getAction());
+	       assertEquals("Wrong correspondence notes", "Correspndence notes", updatedStudySubject.getCorrespondences().get(0).getNotes());
+	       assertEquals("Wrong correspondence type", CorrespondenceType.FACE_TO_FACE, updatedStudySubject.getCorrespondences().get(0).getType());
+	       assertEquals("Wrong correspondence purpose", CorrespondencePurpose.PURPOSE_4, updatedStudySubject.getCorrespondences().get(0).getPurpose());
+	       assertTrue("Wrong correspondence time", CommonUtils.getDateString(currentDate).equals(CommonUtils.getDateString(
+	    		   updatedStudySubject.getCorrespondences().get(0).getTime())));
+	    }
+	public void testSaveCorrespondenceWithNotifiedStudyPersonnel() throws Exception{
+		   StudySubject studySubject = studySubjectDao.getById(1000);
+	       assertEquals("Expected no correspondences for the study subject", 0, studySubject.getCorrespondences().size());
+	       
+	       studySubject.getCorrespondences().get(0).setNotes("Correspndence notes");
+	       studySubject.getCorrespondences().get(0).setAction("ACTION5");
+	       studySubject.getCorrespondences().get(0).setType(CorrespondenceType.FACE_TO_FACE);
+	       Date currentDate = new Date();
+	       
+	       studySubject.getCorrespondences().get(0).setTime(currentDate);
+	       PersonUser personSpokenTo = personUserDao.getById(1000);
+	       PersonUser notifiedUser1 = personUserDao.getById(1001);
+	       PersonUser notifiedUser2 = personUserDao.getById(1002);
+	       studySubject.getCorrespondences().get(0).setPersonSpokenTo(personSpokenTo);
+	       studySubject.getCorrespondences().get(0).getNotifiedStudyPersonnel().add(personSpokenTo);
+	       studySubject.getCorrespondences().get(0).getNotifiedStudyPersonnel().add(notifiedUser1);
+	       studySubject.getCorrespondences().get(0).getNotifiedStudyPersonnel().add(notifiedUser2);
+	      
+
+	       studySubjectDao.save(studySubject);
+	       interruptSession();
+	       StudySubject updatedStudySubject = studySubjectDao.getById(1000);
+	       
+	       assertNotNull("Person spoken to not saved",updatedStudySubject.getCorrespondences().get(0).getPersonSpokenTo());
+	       assertEquals("Unexpected person user",personSpokenTo.getFullName(),updatedStudySubject.getCorrespondences().get(0).
+	    		   getPersonSpokenTo().getFullName());
+	       assertEquals("Unexpected person user",personSpokenTo.getAssignedIdentifier(),updatedStudySubject.getCorrespondences().
+	    		   get(0).getPersonSpokenTo().getAssignedIdentifier());
+	       assertEquals("Wrong number of person users",3,updatedStudySubject.getCorrespondences().get(0).getNotifiedStudyPersonnel().size());
+	       assertEquals("Wrong notified person user",personSpokenTo,updatedStudySubject.getCorrespondences().
+	    		   get(0).getNotifiedStudyPersonnel().get(0));
+	       assertEquals("Wrong notified perosn user",notifiedUser2,updatedStudySubject.getCorrespondences().
+	    		   get(0).getNotifiedStudyPersonnel().get(2));
+	}
+		
+	public void testSaveCorrespondencesWithStartAndEndTime() throws Exception {
+		   StudySubject studySubject = studySubjectDao.getById(1000);
+	       assertEquals("Expected no correspondences for the study subject", 0, studySubject.getCorrespondences().size());
+	       
+	       studySubject.getCorrespondences().get(0).setNotes("Correspndence notes");
+	       studySubject.getCorrespondences().get(0).setAction("ACTION5");
+	       studySubject.getCorrespondences().get(0).setType(CorrespondenceType.FACE_TO_FACE);
+	       Date currentDate = new Date();
+	       
+	       studySubject.getCorrespondences().get(0).setTime(currentDate);
+	       
+	       studySubject.getCorrespondences().get(0).setStartTimeMinutes(11);
+	       studySubject.getCorrespondences().get(0).setStartTimeHours(11);
+	       studySubject.getCorrespondences().get(0).setStartTimeAmPm(AMPMEnum.AM);
+	       
+	       
+	       studySubject.getCorrespondences().get(0).setEndTimeMinutes(1);
+	       studySubject.getCorrespondences().get(0).setEndTimeHours(1);
+	       studySubject.getCorrespondences().get(0).setEndTimeAmPm(AMPMEnum.PM);
+	       
+	       studySubject.getCorrespondences().get(0).setTimeZone(TimeZoneEnum.ALASKA);
+	     
+	       studySubjectDao.save(studySubject);
+	       interruptSession();
+	       
+	       StudySubject updatedStudySubject = studySubjectDao.getById(1000);
+	       assertEquals("Wrong Time Zone",TimeZoneEnum.ALASKA,updatedStudySubject.getCorrespondences().get(0).getTimeZone());
+	       
+	       assertEquals("Wrong start time hours",11,updatedStudySubject.getCorrespondences().get(0).getStartTimeHours());
+	       assertEquals("Wrong start time minutes",11,updatedStudySubject.getCorrespondences().get(0).getStartTimeMinutes());
+	       assertEquals("Wrong start time am/pm",AMPMEnum.AM,updatedStudySubject.getCorrespondences().get(0).getStartTimeAmPm());
+	      
+	       assertEquals("Wrong end time hours",1,updatedStudySubject.getCorrespondences().get(0).getEndTimeHours());
+	       assertEquals("Wrong end time minutes",1,updatedStudySubject.getCorrespondences().get(0).getEndTimeMinutes());
+	       assertEquals("Wrong end time am/pm",AMPMEnum.PM,updatedStudySubject.getCorrespondences().get(0).getEndTimeAmPm());
+	       
+	}
+	
+	public void testSavePersonSpokenToWithCorrespondence() throws Exception{
+		 StudySubject studySubject = studySubjectDao.getById(1000);
+	       assertEquals("Expected no correspondences for the study subject", 0, studySubject.getCorrespondences().size());
+	       
+	       studySubject.getCorrespondences().get(0).setNotes("Correspndence notes");
+	       studySubject.getCorrespondences().get(0).setAction("ACTION5");
+	       studySubject.getCorrespondences().get(0).setType(CorrespondenceType.FACE_TO_FACE);
+	       Date currentDate = new Date();
+	       
+	       studySubject.getCorrespondences().get(0).setTime(currentDate);
+	       PersonUser personSpokenTo = personUserDao.getById(1000);
+	       studySubject.getCorrespondences().get(0).setPersonSpokenTo(personSpokenTo);
+	
+	       studySubjectDao.save(studySubject);
+	       interruptSession();
+	       StudySubject updatedStudySubject = studySubjectDao.getById(1000);
+	       
+	       assertNotNull("Person spoken to not saved",updatedStudySubject.getCorrespondences().get(0).getPersonSpokenTo());
+	       assertEquals("Person spoken to not saved",personSpokenTo.getFullName(),updatedStudySubject.getCorrespondences().get(0).
+	    		   getPersonSpokenTo().getFullName());
+	       assertEquals("Person spoken to not saved",personSpokenTo.getAssignedIdentifier(),updatedStudySubject.getCorrespondences().
+	    		   get(0).getPersonSpokenTo().getAssignedIdentifier());
+	}
+	
+	public void testGetStudySubjectByCorrespondence() throws Exception{
+		StudySubject studySubject = studySubjectDao.getByCorrespondenceId(100);
+		assertNull("un expected correspondence",studySubject);
+		
+		studySubject = studySubjectDao.getByCorrespondenceId(1000);
+		assertNotNull("expected correspondence",studySubject);
+		assertEquals("wrong study subject",new Integer(1004),studySubject.getId());
+	}
+	
+
+	//test input case 1
+	public void testOptionalLoadingByStudyIdentifierValue() throws Exception{
+		
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		
+		studySubjects= studySubjectDao.retrieveStudySubjectsByStudyIdentifierValue("nci");
+		assertEquals("Unexpected study subjects",2,studySubjects.size());
+		
+		/*studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierValue("nci2");*/
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studyIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
+		advParameters.add(advParam1);
+		
+		studySubjects = studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Unexpected study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// load study site
+		testLoadStudySite(studySubjects);
+		
+		// load study
+		testLoadStudy(studySubjects);
+		
+	}
+	
+	
+	// test input case 2
+	public void testOptionalLoadingByStudySubjectIdentifierValue() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+	//	studySubjects = studySubjectDao.retrieveStudySubjectsByStudySubjectIdentifierValue("test_val123");
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studySubjectIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"test_val123"}));
+		advParameters.add(advParam1);
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+		// load study site
+		testLoadStudySite(studySubjects);
+		
+	}
+	
+	//test input case 3
+	public void testOptionalLoadingByDocumentId() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+	//	studySubjects = studySubjectDao.retrieveStudySubjectsByStudySubjectConsentDocumentId("1.2");
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.consentDocumentIdAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"1.2"}));
+		advParameters.add(advParam1);
+		
+		studySubjects = studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+		// load study site
+		testLoadStudySite(studySubjects);
+		
+	}
+	
+	//test input case 4
+	public void testOptionalLoadingBySubjectIdentifierValue() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+	//	studySubjects = studySubjectDao.retrieveStudySubjectsBySubjectIdentifierValue("participant");
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.subjectIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"participant"}));
+		advParameters.add(advParam1);
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+		// load study site
+		testLoadStudySite(studySubjects);
+		
+	}
+	
+	//test input case 5
+	public void testOptionalLoadingByStudyIdentifierValueAndRegistryStatusCode() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndRegistryStatusCode("nci2", "Active Intervention");
+		assertEquals("Wrong number of study subjects",0,studySubjects.size());
+		
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndRegistryStatusCode("nci2", "Screen Failed");
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		
+	//	studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndRegistryStatusCode("nci2", "Enrolled");
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studyIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
+		advParameters.add(advParam1);
+		
+		AdvancedSearchCriteriaParameter advParam2 =AdvancedSearchCriteriaParameterUtil.registryStatusCodeAdvancedParameter;
+		advParam2.setValues(Arrays.asList(new String[]{"Enrolled"}));
+		advParameters.add(advParam2);
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+	}
+	
+	//test input case 6
+	public void testOptionalLoadingByStudyIdentifierAndSubjectIdentifier() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci1", "mrn");
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci2", "coperative");
+		assertEquals("Wrong number of study subjects",0,studySubjects.size());
+		
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci1", "participant");
+		assertEquals("Wrong number of study subjects",0,studySubjects.size());
+		
+	//	studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndSubjectIdentifierValue("nci2", "participant");
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studyIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
+		advParameters.add(advParam1);
+		
+		AdvancedSearchCriteriaParameter advParam2 =AdvancedSearchCriteriaParameterUtil.subjectIdentifierValueAdvancedParameter;
+		advParam2.setValues(Arrays.asList(new String[]{"participant"}));
+		advParameters.add(advParam2);
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+	}
+	
+	
+	//test input case 7
+	public void testOptionalLoadingWithStudyIdentifierByStudyIdentifierValueAndType() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndType("nci1","CTEP");
+		assertEquals("Unexpected study subjects",0,studySubjects.size());
+		
+//		studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndType("nci2","CTEP");
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studyIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
+		advParameters.add(advParam1);
+		
+		AdvancedSearchCriteriaParameter advParam2 =AdvancedSearchCriteriaParameterUtil.studyIdentifierTypeAdvancedParameter;
+		advParam2.setValues(Arrays.asList(new String[]{"CTEP"}));
+		advParameters.add(advParam2);
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Unexpected study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+	}
+	
+	//test input case 8
+	public void testOptionalLoadingByStudySubjectIdentifierValueAndType() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+//		studySubjects = studySubjectDao.retrieveStudySubjectsByStudySubjectIdentifierValueAndType("test_val123","CTEP");
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		
+		AdvancedSearchCriteriaParameter advParam2 =AdvancedSearchCriteriaParameterUtil.studySubjectIdentifierTypeAdvancedParameter;
+		advParam2.setValues(Arrays.asList(new String[]{"CTEP"}));
+		advParameters.add(advParam2);
+		
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studySubjectIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"test_val123"}));
+		advParameters.add(advParam1);
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+	}
+	
+	//test input case 9
+	public void testOptionalLoadingBySubjectIdentifierValueAndType() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+	//	studySubjects = studySubjectDao.retrieveStudySubjectsBySubjectIdentifierValueAndType("participant","MRN");
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		
+		AdvancedSearchCriteriaParameter advParam2 =AdvancedSearchCriteriaParameterUtil.subjectIdentifierTypeAdvancedParameter;
+		advParam2.setValues(Arrays.asList(new String[]{"MRN"}));
+		advParameters.add(advParam2);
+		
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.subjectIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"participant"}));
+		advParameters.add(advParam1);
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// make sure study subject versions are not loaded
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+		// make sure study subject versions are not loaded
+	}
+	
+	//test input case 10
+	public void testOptionalLoadingByStudyIdentifierAndRegistryStatusCodeAndSubjectLastName() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+	//	studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastName("nci2", "Enrolled","Gomez");
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studyIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
+		advParameters.add(advParam1);
+		
+		AdvancedSearchCriteriaParameter advParam2 =AdvancedSearchCriteriaParameterUtil.registryStatusCodeAdvancedParameter;
+		advParam2.setValues(Arrays.asList(new String[]{"Enrolled"}));
+		advParameters.add(advParam2);
+		
+		AdvancedSearchCriteriaParameter advParam3 = new AdvancedSearchCriteriaParameter();
+		advParam3.setObjectName("edu.duke.cabig.c3pr.domain.StudySubjectDemographics");
+		advParam3.setAttributeName("lastName");
+		advParam3.setPredicate("!=");
+		advParam3.setValues(Arrays.asList(new String[]{"Gomez"}));
+		advParameters.add(advParam3);
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",0,studySubjects.size());
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastName("nci2", "Enrolled","NotGomez");
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+	}
+	
+	//test input case 11
+	public void testOptionalLoadingByStudyIdentifierAndRegistryStatusCodeAndSubjectLastNameAndRegistryStatusEffectiveDate() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastName("nci2", "Enrolled","NotGomez");
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastNameAndRegistryStatusEffeciveDate
+				("nci2", "Pre-Enrolled","NotGomez",DateUtil.getUtilDateFromString("10/08/2003","mm/dd/yyyy"));
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		
+	/*	studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierAndRegistryStatusCodeAndLastNameAndRegistryStatusEffeciveDate
+				("nci2", "Enrolled","NotGomez",DateUtil.getUtilDateFromString("10/06/2003","mm/dd/yyyy"));*/
+		
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studyIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
+		advParameters.add(advParam1);
+		
+		AdvancedSearchCriteriaParameter advParam2 =AdvancedSearchCriteriaParameterUtil.registryStatusCodeAdvancedParameter;
+		advParam2.setValues(Arrays.asList(new String[]{"Enrolled"}));
+		advParameters.add(advParam2);
+		
+		AdvancedSearchCriteriaParameter advParam3 = new AdvancedSearchCriteriaParameter();
+		advParam3.setObjectName("edu.duke.cabig.c3pr.domain.StudySubjectDemographics");
+		advParam3.setAttributeName("lastName");
+		advParam3.setPredicate("!=");
+		advParam3.setValues(Arrays.asList(new String[]{"NotGomez"}));
+		advParameters.add(advParam3);
+		
+		AdvancedSearchCriteriaParameter advParam4 = new AdvancedSearchCriteriaParameter();
+		advParam4.setObjectName("edu.duke.cabig.c3pr.domain.StudySubjectRegistryStatus");
+		advParam4.setAttributeName("effectiveDate");
+		advParam4.setPredicate(">");
+		advParam4.setValues(Arrays.asList(new String[]{"10/06/2003"}));
+		advParameters.add(advParam4);
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+	}
+	
+	//test input case 12
+	public void testOptionalLoadingByStudyIdentifierAndStudySubjectIdentifier() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci1", "nci");
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci2", "nci1");
+		assertEquals("Wrong number of study subjects",0,studySubjects.size());
+		
+		studySubjects =studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci1", "test_val123");
+		assertEquals("Wrong number of study subjects",0,studySubjects.size());
+		
+	//	studySubjects = studySubjectDao.retrieveStudySubjectsByStudyIdentifierValueAndStudySubjectIdentifierValue("nci2", "test_val123");
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studyIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
+		advParameters.add(advParam1);
+		
+		AdvancedSearchCriteriaParameter advParam2 =AdvancedSearchCriteriaParameterUtil.studySubjectIdentifierValueAdvancedParameter;
+		advParam2.setValues(Arrays.asList(new String[]{"test_val123"}));
+		advParameters.add(advParam2);
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+	}
+	
+	//test input case 13
+	public void testOptionalLoadingByNullableStudyIdentifierValueAndDocumentId() throws Exception{
+		
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studyIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{}));
+		advParameters.add(advParam1);
+		
+		AdvancedSearchCriteriaParameter advParam2 =AdvancedSearchCriteriaParameterUtil.consentDocumentIdAdvancedParameter;
+		advParam2.setValues(Arrays.asList(new String[]{"1.2"}));
+		advParameters.add(advParam2);
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		
+//		studySubjects = studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId(null,"1.2");
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		
+		studySubjects =studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId("nci","1.2");
+		assertEquals("Wrong number of study subjects",0,studySubjects.size());
+		
+		studySubjects =studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId("nci2","abc");
+		assertEquals("Wrong number of study subjects",0,studySubjects.size());
+		
+//		studySubjects = studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierAndStudySubjectConsentDocumentId("nci2","1.2");
+		
+		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
+		
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+	}
+	
+	//test input case 14/ 5
+	public void testOptionalLoadingByNullableStudyIdentifierValueAndRegistryStatusCode() throws Exception{
+		
+		List<StudySubject> studySubjects = new ArrayList<StudySubject>();
+		studySubjects =studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierValueAndRegistryStatusCode("nci2", "Active Intervention");
+		assertEquals("Wrong number of study subjects",0,studySubjects.size());
+
+		List<AdvancedSearchCriteriaParameter> advParameters = new ArrayList<AdvancedSearchCriteriaParameter>();
+		
+		AdvancedSearchCriteriaParameter advParam1 =AdvancedSearchCriteriaParameterUtil.studyIdentifierValueAdvancedParameter;
+		advParam1.setValues(Arrays.asList(new String[]{"nci2"}));
+		advParameters.add(advParam1);
+		
+		AdvancedSearchCriteriaParameter advParam2 =AdvancedSearchCriteriaParameterUtil.registryStatusCodeAdvancedParameter;
+		advParam2.setValues(Arrays.asList(new String[]{"Screen Failed"}));
+		advParameters.add(advParam2);
+		
+//		studySubjects = studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierValueAndRegistryStatusCode("nci2", "Screen Failed");
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		
+//		studySubjects = studySubjectDao.retrieveStudySubjectsByNullableStudyIdentifierValueAndRegistryStatusCode(null, "Enrolled");
+		
+		advParam1.setValues(null);
+		studySubjects =studySubjectDao.invokeCustomHQLSearch(advParameters);
+		assertEquals("Wrong number of study subjects",1,studySubjects.size());
+		assertNotNull("expected payment method to be loaded", studySubjects.get(0).getPaymentMethod());
+		assertEquals("wrong payment method", "mediclaim", studySubjects.get(0).getPaymentMethod());
+		assertNotNull("expected registration data entry status to be loaded", studySubjects.get(0).getRegDataEntryStatus());
+		assertEquals("wrong registration data entry status", RegistrationDataEntryStatus.INCOMPLETE, studySubjects.get(0).getRegDataEntryStatus());
+		
+		// make sure that subject demographics is loaded
+		testLoadStudySubjectDemographics(studySubjects);
+		
+		// make sure study subject versions are not loaded
+	//	assertEquals("Unexpected study subject versions",0,studySubjects.get(0).getStudySubjectStudyVersions().size());
+		
+		// test load study subject consent versions
+		loadStudySubjectConsents(studySubjects);
+		
+		// test load study primary identifier
+		loadStudyPrimaryIdentifier(studySubjects);
+		
+		// make sure study subject versions are not loaded
+		//assertEquals("Unexpected study subject versions",0,studySubjects.get(0).getStudySubjectStudyVersions().size());
+	}
+	
+	private void loadStudySubjectConsents(List<StudySubject> studySubjects){
+		
+		List<Integer> ids = new ArrayList<Integer>();
+		for(StudySubject ss : studySubjects) {
+			ids.add(ss.getStudySubjectVersionId());
+		}
+		// load study subject consent versions
+		List<Object> objects = studySubjectDao.
+				loadStudySubjectConsentVersionsByStudySubjectVersionIds(ids);
+		List<StudySubjectConsentVersion> studySubjectConsents = new ArrayList<StudySubjectConsentVersion>();
+		for(Object obj : objects){
+			if(obj !=null){ 
+				StudySubjectConsentVersion sscv = (StudySubjectConsentVersion) ((Object[])obj)[0];
+				studySubjectConsents.add(sscv);
+			}
+		}
+		assertEquals("Wrong number of subject consents",1,studySubjectConsents.size());
+		assertEquals("Wrong consenting method",ConsentingMethod.WRITTEN,studySubjectConsents.get(0).getConsentingMethod());
+		assertEquals("Wrong consent delivery date","01/10/2009",studySubjectConsents.get(0).getConsentDeliveryDateStr());
+			
+		}
+	
+	private void loadStudyPrimaryIdentifier(List<StudySubject> studySubjects){
+		List<Integer> ids = new ArrayList<Integer>();
+		for(StudySubject ss : studySubjects) {
+			ids.add(ss.getStudyId());
+		}
+		List<Object> objects = studySubjectDao.loadPrimaryStudyIdentifierByStudyIds(ids);
+		
+		for(Object obj : objects){
+			if(obj !=null){ 
+				Integer studyId = (Integer) ((Object[])obj)[0];
+				Identifier identifier = (Identifier)((Object[])obj)[1];
+				assertNotNull("Expected primary identifier",identifier);
+				assertTrue("Wrong identifier class", identifier instanceof OrganizationAssignedIdentifier);
+				OrganizationAssignedIdentifier oaid = (OrganizationAssignedIdentifier) identifier;
+				assertTrue("Expected primary identifier",oaid.getPrimaryIndicator());
+				assertEquals("Wrong identifier value","nci2",oaid.getValue());
+				assertEquals("Wrong identifier type","CTEP",identifier.getTypeInternal());
+			}
+		}
+		
+	}
+	
+	private void testLoadStudySubjectDemographics(List<StudySubject> studySubjects){
+		assertNotNull("Expected subject demographics",studySubjects.get(0).getStudySubjectDemographics());
+		assertEquals("Wrong number of subject identifiers are loaded",1,studySubjects.get(0).getStudySubjectDemographics().getIdentifiers().size());
+		assertEquals("Wrong subject identifier","participant",studySubjects.get(0).getStudySubjectDemographics().getIdentifiers().get(0).getValue());
+		assertEquals("Wrong subject identifier","participant",studySubjects.get(0).getStudySubjectDemographics().getIdentifiers().get(0).getValue());
+		assertEquals("Wrong subject identifier type","MRN",studySubjects.get(0).getStudySubjectDemographics().getIdentifiers().get(0).getTypeInternal());
+		assertEquals("Wrong number of subject contacts",2,studySubjects.get(0).getStudySubjectDemographics().getContactMechanisms().size());
+	}
+	
+	private void testLoadStudySite(List<StudySubject> studySubjects){
+		
+//		StudySite studySite = studySubjectDao.loadStudySiteByStudySubjectVersionId(studySubjects.get(0).getStudySubjectVersionId());
+		
+		List<Integer> ids = new ArrayList<Integer>();
+		for(StudySubject ss : studySubjects) {
+			ids.add(ss.getStudySubjectVersionId());
+		}
+		// load study subject consent versions
+		List<StudySite> studySites = studySubjectDao.
+				loadStudySitesByStudySubjectVersionIds(ids);
+		for(StudySite ss : studySites){
+			if(ss !=null){ 
+				assertNotNull(ss);
+				assertNotNull(ss.getHealthcareSite());
+				assertNull(ss.getStudy());
+				assertContains(ids, ss.getStudySubjectId());
+			}
+		}
+		
+	}
+	
+	private void testLoadStudy(List<StudySubject> studySubjects){
+		Set<Integer> studyIdsSet = new HashSet<Integer>();
+		for(edu.duke.cabig.c3pr.domain.StudySubject studySub : studySubjects){
+			studyIdsSet.add(studySub.getStudyId());
+		}
+		List<Integer> studyIds = new ArrayList<Integer>();
+		
+		studyIds.addAll(studyIdsSet);
+		Map<Integer, Study> studiesMap = new HashMap<Integer,Study>();
+			studyIds.addAll(studyIdsSet);
+			List<Study> studies = studySubjectDao.loadStudiesFromStudyIds(studyIds);
+			assertEquals(1, studies.size());
+			for(Study study : studies){
+				studiesMap.put(study.getId(), study);
+			}
+			
+		for(Integer i: studyIds){
+			assertNotNull(studiesMap.get(i));
+		}
 	}
 	
 }

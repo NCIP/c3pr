@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,6 +38,9 @@ public abstract class User extends C3PRUser{
     private int numFailedLogins;
 
     private List<String> passwordHistory;
+    
+	protected Date lastLoginAttemptTime;
+
 
     public User() {
         passwordHistory = new ArrayList<String>();
@@ -85,7 +90,8 @@ public abstract class User extends C3PRUser{
 
     @Transient
     public long getPasswordAge() {
-        return new Date().getTime() - getPasswordLastSet().getTime();
+    	long age = (new Date().getTime() - getPasswordLastSet().getTime())/1000;    
+        return age;
     }
 
     @CollectionOfElements
@@ -114,6 +120,28 @@ public abstract class User extends C3PRUser{
     public void setFailedLoginAttempts(int numFailedLogins) {
         this.numFailedLogins = numFailedLogins;
     }
+    
+    
+    /**
+     * Gets the last failed login attempt time.
+     *
+     * @return the last failed login attempt time
+     */
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @Column(name = "last_login")
+	public Date getLastFailedLoginAttemptTime() {
+		return lastLoginAttemptTime;
+	}
+
+	/**
+	 * Sets the last failed login attempt time.
+	 *
+	 * @param lastLoginAttemptTime the new last failed login attempt time
+	 */
+	public void setLastFailedLoginAttemptTime(Date lastLoginAttemptTime) {
+		this.lastLoginAttemptTime = lastLoginAttemptTime;
+	}    
+    
 
     /* end password stuff */
 
@@ -166,4 +194,16 @@ public abstract class User extends C3PRUser{
             throw new RuntimeException(e);
         }
     }
+    
+	/**
+	 * Calculates the time past last failed login attempt
+	 * This property is used in determining the account lock out.
+	 *
+	 * @return seconds past last failed login attempts
+	 */
+	@Transient
+	public long getSecondsPastLastFailedLoginAttempt(){
+    	if(getLastFailedLoginAttemptTime()==null) return -1;
+    	return (new Date().getTime()-getLastFailedLoginAttemptTime().getTime())/1000;
+    }    
 }

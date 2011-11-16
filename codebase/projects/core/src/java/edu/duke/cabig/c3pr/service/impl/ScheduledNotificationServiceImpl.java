@@ -19,7 +19,9 @@ import org.springframework.context.ApplicationContextAware;
 import edu.duke.cabig.c3pr.constants.EmailNotificationDeliveryStatusEnum;
 import edu.duke.cabig.c3pr.constants.NotificationEventTypeEnum;
 import edu.duke.cabig.c3pr.dao.ScheduledNotificationDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanismBasedRecipient;
+import edu.duke.cabig.c3pr.domain.Correspondence;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
 import edu.duke.cabig.c3pr.domain.RecipientScheduledNotification;
@@ -50,7 +52,13 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     
     private ScheduledNotificationDao scheduledNotificationDao;
     
-    public void setScheduledNotificationDao(
+    private StudySubjectDao studySubjectDao;
+    
+    public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
+	}
+
+	public void setScheduledNotificationDao(
 			ScheduledNotificationDao scheduledNotificationDao) {
 		this.scheduledNotificationDao = scheduledNotificationDao;
 	}
@@ -116,9 +124,69 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	return saveScheduledNotification(plannedNotification, composedMessage, soList,participant.getC3PRSystemSubjectIdentifier().getValue());
     } 
     
+    // TODO to be fixed
+    /* Update Correspondence case  */
+    public Integer saveScheduledNotification(PlannedNotification plannedNotification, Correspondence correspondence) {
+    	StudySubject studySubject = studySubjectDao.getByCorrespondenceId(correspondence.getId().intValue());
+    	
+    	StringBuilder sb = new StringBuilder("Follow up needed for subject ");
+       	if(studySubject != null){
+       		
+       		plannedNotification.setTitle("Follow up needed for subject " + studySubject.getStudySubjectDemographics().getFullName()+ " on study " +
+       				studySubject.getStudySite().getStudy().getShortTitleText());
+	    	sb.append(studySubject.getStudySubjectDemographics().getFullName());
+	    	sb.append(" (");
+	    	sb.append(studySubject.getStudySubjectDemographics().getPrimaryIdentifierValue());
+	    	sb.append(" )");
+	    	sb.append("\n on study ");
+	    	sb.append(studySubject.getStudySite().getStudy().getShortTitleText());
+	    	sb.append(" at site ");
+	    	sb.append(studySubject.getStudySite().getHealthcareSite().getName());
+       	}
+    	sb.append("\n\n Correspondence Details"); 
+    	sb.append("\n Type: ");
+    	sb.append( correspondence.getType().getCode());
+    	sb.append( "\n Date: ");
+    	sb.append(correspondence.getTimeStr());
+    	sb.append("\n Start time: ");
+    	sb.append(correspondence.getStartTimeStr());
+    	sb.append("\n End time: ");
+    	sb.append(correspondence.getEndTimeStr());
+    	sb.append("\n Purpose: ");
+    	sb.append(correspondence.getPurpose().getCode());
+    	sb.append("\n Action: ");
+    	sb.append(correspondence.getAction());
+    	sb.append("\n Resolved: ");
+    	if(correspondence.getResolved()){
+    		sb.append("Yes");
+    	}else{
+    		sb.append("No");
+    	}
+    	sb.append("\n Follow up needed: ");
+    	if(correspondence.getFollowUpNeeded()){
+    		sb.append("Yes");
+    	}else{
+    		sb.append("No");
+    	}
+    	sb.append("\n Description: ");
+    	sb.append(correspondence.getText());
+    	
+    	List<StudyOrganization> soList = new ArrayList<StudyOrganization>();
+    	ScheduledNotification scheduledNotification = null;
+    	scheduledNotification = addScheduledNotification(plannedNotification, sb.toString(), soList,null);
+    	log.debug(this.getClass().getName() + ": Exiting saveScheduledNotification()");
+    	if(scheduledNotification != null){
+	    	scheduledNotificationDao.save(scheduledNotification);
+	    	return scheduledNotification.getId();
+    	}
+    	
+    	log.error( this.getClass().getName() +"saveScheduledNotification(): ScheduledNotification was not saved successfully");
+		return 0;
+    } 
     
-    /* Generic save method called by all the above mthods to save the ScheduledNotifications    */
-    public Integer saveScheduledNotification(PlannedNotification plannedNotification, String composedMessage, List<StudyOrganization> ssList,String eventId){
+    
+    /* Generic save method called by all the above methods to save the ScheduledNotifications    */
+    public synchronized Integer saveScheduledNotification(PlannedNotification plannedNotification, String composedMessage, List<StudyOrganization> ssList,String eventId){
     	log.debug(this.getClass().getName() + ": Entering saveScheduledNotification()");
     	ScheduledNotification scheduledNotification = null;
     	
@@ -128,7 +196,8 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	Session session = sessionFactory.openSession();
 		session.setFlushMode(FlushMode.COMMIT);
     	try{
-    		session.update(plannedNotification);
+    			session.update(plannedNotification);
+    		
     		// for updating master subject notification event, planned notification is not associated to a healthcare site
     		if(plannedNotification.getHealthcareSite()!=null){
     			session.update(plannedNotification.getHealthcareSite());
@@ -198,9 +267,9 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
     	
 		
 		
-		if (plannedNotification.getEventName() == NotificationEventTypeEnum.MASTER_SUBJECT_UPDATED_EVENT){
+		if (plannedNotification.getEventName() == NotificationEventTypeEnum.MASTER_SUBJECT_UPDATED_EVENT ){
 			scheduledNotification.setStudyOrganization(soList.get(0));
-		} else{
+		}else{
 			//Add the studyOrganization containing the site which is linked to by PlannedNotifications
 			for(StudyOrganization ss: soList){
 				if(ss.getHealthcareSite().getPrimaryIdentifier().equals(plannedNotification.getHealthcareSite().getPrimaryIdentifier())){
@@ -208,8 +277,6 @@ public class ScheduledNotificationServiceImpl implements ScheduledNotificationSe
 				}
 			}
 		}
-		
-		
     	
     	return scheduledNotification;
     }

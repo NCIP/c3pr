@@ -6,8 +6,8 @@ import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum ConsentRequired implements CodedEnum<String>{
-	ONE("Atleast one"), ALL("All");
-
+	ONE("Atleast One"), ALL("All"), NONE("None"), AS_MARKED_BELOW("As Marked Below");
+ 
     private String code;
 
     ConsentRequired(String code) {

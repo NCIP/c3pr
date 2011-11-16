@@ -6,8 +6,10 @@ import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.acegisecurity.GrantedAuthority;
@@ -28,15 +30,19 @@ public class AuthorizedUser extends User {
 	
 	private RolePrivilege rolePrivileges[];
 	
+	private Map<String, List<String>> roleBasedOrganizationsMap = new HashMap<String, List<String>>();
+	
 	private PersonUser personUser;
 	
-    public AuthorizedUser(String string, String string1, boolean b, boolean b1, boolean b2, boolean b3,
-                    GrantedAuthority[] grantedAuthorities, ProvisioningSession provisioningSession, RolePrivilege rolePrivileges[], PersonUser personUser) throws IllegalArgumentException {
+    public AuthorizedUser(String string, String string1, boolean b, boolean b1, boolean b2, boolean b3, GrantedAuthority[] grantedAuthorities, 
+                    ProvisioningSession provisioningSession, RolePrivilege rolePrivileges[], PersonUser personUser, Map<String, List<String>> roleBasedOrganizationsMap) 
+    				throws IllegalArgumentException {
         super(string, string1, b, b1, b2, b3, grantedAuthorities);
         
         this.personUser = personUser;
         this.provisioningSession = provisioningSession;
         this.rolePrivileges = rolePrivileges;
+        this.roleBasedOrganizationsMap = roleBasedOrganizationsMap;
     }
 
 
@@ -76,6 +82,17 @@ public class AuthorizedUser extends User {
 
 	public PersonUser getPersonUser() {
 		return personUser;
+	}
+
+
+	public Map<String, List<String>> getRoleBasedOrganizationsMap() {
+		return roleBasedOrganizationsMap;
+	}
+
+
+	public void setRoleBasedOrganizationsMap(
+			Map<String, List<String>> roleBasedOrganizationsMap) {
+		this.roleBasedOrganizationsMap = roleBasedOrganizationsMap;
 	}
 
  }

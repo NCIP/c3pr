@@ -21,6 +21,8 @@
     <PARTICIPANTS id="1009" version="1" first_name="Rupert" last_name="Roonie" birth_date="2000-01-01" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/>
 	<PARTICIPANTS id="1010" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/>
    
+   	<relationships/>
+
    	<stu_sub_demographics id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M" ethnic_group_code="Not Reported" prt_id="1000" retired_indicator="false" />
     <stu_sub_demographics id="1001" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1000" retired_indicator="false" />
 	<stu_sub_demographics id="1005" version="1" first_name="Andrez" last_name="Gomez" birth_date="2000-01-01" administrative_gender_code="M"  ethnic_group_code="Not Reported" prt_id="1002" retired_indicator="false" />
@@ -137,8 +139,8 @@
 
 	<IDENTIFIERS id="1008" version="1" value="sub1" type="local" system_name="nci" dtype="SAI" prt_id="1004" hcs_id="1000"  retired_indicator = "false" primary_indicator="0"/>
    	<IDENTIFIERS id="1009" version="1" value="sub2" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator = "false" primary_indicator="0"/>
-    <IDENTIFIERS id="1010" version="1" value="sub3" type="local" system_name="nci" dtype="SAI" prt_id="1002" hcs_id="1000"  retired_indicator = "false"  primary_indicator="0"/>
-   	<IDENTIFIERS id="1011" version="1" value="su12" type="local" system_name="nci" dtype="SAI" prt_id="1009" retired_indicator = "false" primary_indicator="0"/>
+    <IDENTIFIERS id="1010" version="1" value="sub3" type="local" system_name="nci" dtype="SAI" prt_id="1002" hcs_id="1000"  retired_indicator = "false"  primary_indicator="1"/>
+   	<IDENTIFIERS id="1011" version="1" value="su12" type="local" system_name="nci" dtype="SAI" prt_id="1009" retired_indicator = "false" primary_indicator="1"/>
     
     <icd9_disease_sites id="1000" version="0" name="Skin" code="200" description_text="skin" depth="LEVEL2" selectable="0"  />    
 

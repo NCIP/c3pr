@@ -43,6 +43,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PlannedNotification;
+import edu.duke.cabig.c3pr.domain.RegistryStatusReason;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.domain.RemoteStudy;
@@ -868,6 +869,26 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 		 return null;
 	}
 	
+	
+	/**
+	 * Checks if secondary reason is associated to existing study subjects.
+	 *
+	 * @param registryStatusReason the registry status reason
+	 * @return true, if is secondary reason associated to existing study subjects
+	 */
+	public boolean isSecondaryReasonAssociatedToExistingStudySubjects(RegistryStatusReason registryStatusReason){
+		boolean isAssociated = false;
+		Long count = 0L;
+		count = (Long) getHibernateTemplate()
+				.find("select count(*) from StudySubjectRegistryStatus S, RegistryStatusReason R where R.id=? and R=any elements(S.reasons)",
+									new Object[] {registryStatusReason.getId()}).get(0);
+		
+		if(count > 0L){
+			isAssociated = true;
+		}
+		return isAssociated;
+	}
+	
 	public List<Study> search(String hql){
 		return (List<Study>)queryBuilderDao.search(hql);
 	}
@@ -879,5 +900,6 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 	public QueryBuilderDao getQueryBuilderDao() {
 		return queryBuilderDao;
 	}
+
 
 }

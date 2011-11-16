@@ -148,12 +148,14 @@ public class ScheduledNotificationJob extends ScheduledJob {
 			return scheduledNotificationDao.getById(scheduledNotification.getId());
     	}
     	
-    	if(plannedNotification.getEventName().equals(NotificationEventTypeEnum.MASTER_SUBJECT_UPDATED_EVENT)){
+    	if(plannedNotification.getEventName().equals(NotificationEventTypeEnum.MASTER_SUBJECT_UPDATED_EVENT) || 
+    			plannedNotification.getEventName().equals(NotificationEventTypeEnum.CORRESPONDENCE_CREATED_OR_UPDATED_EVENT)){
 			String reportText = generateReportFromHistory(plannedNotification);
 			ScheduledNotification scheduledNotification = addScheduledNotification(plannedNotification, reportText);
 			plannedNotificationDao.saveOrUpdate(plannedNotification);
 			return scheduledNotificationDao.getById(scheduledNotification.getId());
     	}
+    	
     	return null;
     }
     

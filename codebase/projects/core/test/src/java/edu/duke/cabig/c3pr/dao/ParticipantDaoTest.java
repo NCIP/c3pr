@@ -8,28 +8,32 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 import com.semanticbits.querybuilder.AdvancedSearchHelper;
-import com.semanticbits.querybuilder.QueryGenerator;
-import com.semanticbits.querybuilder.TargetObject;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.constants.AddressUse;
 import edu.duke.cabig.c3pr.constants.ContactMechanismUse;
+import edu.duke.cabig.c3pr.constants.FamilialRelationshipName;
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RaceCodeEnum;
+import edu.duke.cabig.c3pr.constants.RelationshipCategory;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RaceCodeAssociation;
+import edu.duke.cabig.c3pr.domain.Relationship;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySubjectDemographics;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.utils.CommonUtils;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
@@ -43,6 +47,7 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     private ParticipantDao participantDao;
 
     private HealthcareSiteDao healthcareSiteDao;
+	private final String householdIdType = "HOUSEHOLD_IDENTIFIER";
 
     public ParticipantDaoTest() {
     	participantDao = (ParticipantDao) getApplicationContext().getBean("participantDao");
@@ -870,4 +875,225 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
         assertEquals(Arrays.asList(ContactMechanismUse.MC, ContactMechanismUse.PG), savedParticipant.getPhoneContactMechanism().getContactUses());
         assertEquals(Arrays.asList(ContactMechanismUse.PUB), savedParticipant.getOtherContactMechanism().getContactUses());
     }
+    
+    public void testCreateParticipantRelationship() throws Exception{
+    	Participant participant1 = participantDao.getById(1000);
+    	Participant participant2 = participantDao.getById(1001);
+    	
+    	Relationship rel = new Relationship();
+    	rel.setPrimaryParticipant(participant1);
+    	rel.setSecondaryParticipant(participant2);
+    	rel.setCategory(RelationshipCategory.FAMILIAL);
+    	rel.setName(FamilialRelationshipName.FATHER);
+    	participant1.addRelatedTo(rel);
+    	
+    	participantDao.save(participant1);
+    	
+    	interruptSession();
+    	
+    	Participant relatedParticipant = participantDao.getById(1000);
+    	Participant relatedSecondaryParticipant = participantDao.getById(1001);
+    	assertEquals("Wrong number of participant relations",1,relatedParticipant.getRelatedTo().size());
+    	assertEquals("Wrong secondary participant",participant2.getId(),relatedParticipant.getRelatedTo().get(0).getSecondaryParticipant().getId());
+    	assertEquals("Wrong primary participant",participant1.getId(),relatedParticipant.getRelatedTo().get(0).getPrimaryParticipant().getId());
+    }
+    
+    
+    public void testCreateParticipantRelationshipWithLazylist() throws Exception{
+    	Participant participant1 = participantDao.getById(1000);
+    	Participant participant2 = participantDao.getById(1001);
+    	
+    	participant1.getRelatedTo().get(0).setPrimaryParticipant(participant1);
+    	participant1.getRelatedTo().get(0).setSecondaryParticipant(participant2);
+    	participant1.getRelatedTo().get(0).setCategory(RelationshipCategory.FAMILIAL);
+    	participant1.getRelatedTo().get(0).setName(FamilialRelationshipName.FATHER);
+    	participant1.addRelatedTo(participant1.getRelatedTo().get(0));
+    	
+    	participantDao.save(participant1);
+    	
+    	interruptSession();
+    	
+    	Participant relatedParticipant = participantDao.getById(1000);
+    	Participant relatedSecondaryParticipant = participantDao.getById(1001);
+    	assertEquals("Wrong number of participant relations",1,relatedParticipant.getRelatedTo().size());
+    	assertEquals("Wrong secondary participant",participant2.getId(),relatedParticipant.getRelatedTo().get(0).getSecondaryParticipant().getId());
+    	assertEquals("Wrong primary participant",participant1.getId(),relatedParticipant.getRelatedTo().get(0).getPrimaryParticipant().getId());
+    }
+    
+    public void testSaveAndRetrieveParticipantWithAddressDateRanges() throws Exception{
+    	
+    	Participant loadedParticipant = participantDao.getById(1000);
+    	assertEquals("Unexpected address",0,loadedParticipant.getAddresses().size());
+    	
+    	// add first address
+    	
+    	Address address = new Address();
+    	address.setStreetAddress("1900 Smith Barney Avenue");
+    	Calendar startCal = Calendar.getInstance();
+    	startCal.set(2001, 01, 18);
+    	
+    	Calendar endCal = Calendar.getInstance();
+    	endCal.set(2005, 03, 11);
+    	    	
+    	address.setStartDate(startCal.getTime());
+    	address.setEndDate(endCal.getTime());
+    	loadedParticipant.getAddresses().add(address);
+    	
+    	
+    	// add second address
+    	
+    	Address address1 = new Address();
+    	address1.setStreetAddress("123 whaley street");
+    	address1.setCity("Sun City");
+    	address1.setCountryCode("USA");
+    	address1.setPostalCode("12078");
+    	
+    	startCal = Calendar.getInstance();
+    	startCal.set(2005, 03, 12);
+    	
+    	endCal = Calendar.getInstance();
+    	endCal.set(2007, 05, 21);
+    	    	
+    	address1.setStartDate(startCal.getTime());
+    	address1.setEndDate(endCal.getTime());
+    	loadedParticipant.getAddresses().add(address1);
+    	
+    	// add third address
+    	
+    	Address address2 = new Address();
+    	
+    	address2.setStreetAddress("13921 main street");
+    	address2.setCity("Columbia");
+    	address2.setStateCode("OK");
+    	address2.setCountryCode("USA");
+    	address2.setPostalCode("91209");
+    	
+    	startCal = Calendar.getInstance();
+    	startCal.set(2007, 05, 22);
+    	
+    	endCal = Calendar.getInstance();
+    	endCal.set(2009, 1, 02);
+    	    	
+    	address2.setStartDate(startCal.getTime());
+    	address2.setEndDate(endCal.getTime());
+    	
+    	loadedParticipant.getAddresses().add(address2);
+    	
+    	participantDao.save(loadedParticipant);
+    	
+    	interruptSession();
+    	
+    	Participant updatedParticipant = participantDao.getById(1000);
+    	assertEquals("Wrong number of addresses", 3,updatedParticipant.getAddresses().size());
+    	assertEquals("Wrong street name",address2.getStreetAddress(),((Address)updatedParticipant.getAddresses().toArray()[0]).getStreetAddress());
+    	assertEquals("Wrong start date", CommonUtils.getDateString(address2.getStartDate()),CommonUtils.getDateString(((Address)updatedParticipant.getAddresses().toArray()[0]).getStartDate()));
+    	assertEquals("Wrong street name",address1.getStreetAddress(),((Address)updatedParticipant.getAddresses().toArray()[1]).getStreetAddress());
+    	assertEquals("Wrong start date", CommonUtils.getDateString(address1.getStartDate()),CommonUtils.getDateString(((Address)updatedParticipant.getAddresses().toArray()[1]).getStartDate()));
+    }
+    
+    public void testSaveHouseholdIdentfierWithDateRanges() throws Exception{
+    	Participant participant1 = participantDao.getById(1000);
+    	
+    	SystemAssignedIdentifier householdId = new SystemAssignedIdentifier();
+    	householdId.setSystemName("UAMS System");
+    
+    	householdId.setType(householdIdType);
+    	householdId.setValue("1");
+    	Calendar startCal = Calendar.getInstance();
+    	startCal.set(2006, 11, 03);
+    	Calendar endCal = Calendar.getInstance();
+    	endCal.set(2009, 07, 11);
+    	
+    	householdId.setStartDate(startCal.getTime());
+    	householdId.setEndDate(endCal.getTime());
+    	int noOfIdentifiers = participant1.getIdentifiers().size();
+    	
+    	
+    	participant1.addIdentifier(householdId);
+    	    	
+    	participantDao.save(participant1);
+    	
+    	interruptSession();
+    	
+    	Participant updatedParticipant = participantDao.getById(1000);
+    	assertEquals("Household identifier not added",noOfIdentifiers + 1, updatedParticipant.getIdentifiers().size());
+    	assertEquals("Wrong household id type",householdIdType,updatedParticipant.getIdentifiers().get(noOfIdentifiers).getTypeInternal());
+    	assertEquals("Wrong household id type",CommonUtils.getDateString(startCal.getTime()),CommonUtils.getDateString(updatedParticipant.getIdentifiers().get(noOfIdentifiers).getStartDate()));
+    	assertEquals("Wrong household id type",CommonUtils.getDateString(endCal.getTime()),CommonUtils.getDateString(updatedParticipant.getIdentifiers().get(noOfIdentifiers).getEndDate()));
+    	
+    }
+    
+    public void testGetIsMinor() throws Exception{
+    	Participant participant = participantDao.getById(1000);
+    	Date birthDate = participant.getBirthDate();
+    	Calendar cal = Calendar.getInstance();
+    	cal.setTime(birthDate);
+    	
+    	assertTrue(participant.getIsMinor());
+    	assertEquals("Wrong birth year",2000,cal.get(Calendar.YEAR));
+    	
+    	cal.add(Calendar.YEAR, -7);
+    	birthDate.setTime(cal.getTimeInMillis());
+    	assertFalse(participant.getIsMinor());
+    }
+    
+    public void testGetBySubnamesAndIdentifier() throws Exception{
+    	String[] subnames = new String[]{"SU"};
+    	List<Participant> participants = participantDao.getBySubnames(subnames);
+    	assertEquals("Wrong number of participants",2,participants.size());
+    	
+    }
+    
+    public void testSaveParticipantWithMultipleAddressesAndRetire() throws Exception{
+    	Participant participant = participantDao.getById(1000);
+    	assertEquals("Unexpected addresses",0,participant.getAddresses().size());
+    	
+    	Address address1 = new Address();
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.set(2007, 07, 11);
+    	Date addressStartDate = cal.getTime(); 
+    	
+    	address1.setStartDate(addressStartDate);
+    	participant.getAddresses().add(address1);
+    	participantDao.save(participant);
+    	
+    	interruptSession();
+    	
+    	Participant updatedParticipant1 = participantDao.getById(1000);
+    	assertEquals("Participant address not saved",1,updatedParticipant1.getAddresses().size());
+    	
+    	
+    	Address address2 = new Address();
+    	
+    	cal.set(2009, 07, 11);
+    	addressStartDate = cal.getTime();
+    	address2.setStartDate(addressStartDate);
+    	String streetAddress= "Street address 2";
+    	address2.setStreetAddress(streetAddress);
+    	
+    	updatedParticipant1.getAddresses().add(address2);
+    	participantDao.save(updatedParticipant1);
+    	
+    	interruptSession();
+    	
+    	Participant updatedParticipant2 = participantDao.getById(1000);
+    	assertEquals("Participant address not saved",2,updatedParticipant2.getAddresses().size());
+    	
+    	Iterator<Address> addressIterator = updatedParticipant2.getAddresses().iterator();
+    	Address latestAddress = (Address)addressIterator.next();
+    	
+    	assertEquals("Participant street address not correct",streetAddress,latestAddress.getStreetAddress());
+    	
+    	latestAddress.setRetiredIndicatorAsTrue();
+    	
+    	participantDao.save(updatedParticipant2);
+    	
+    	interruptSession();
+    	
+    	Participant updatedParticipant3 = participantDao.getById(1000);
+    	assertEquals("Participant address not retired",1,updatedParticipant3.getAddresses().size());
+    }
+    
+    
 }

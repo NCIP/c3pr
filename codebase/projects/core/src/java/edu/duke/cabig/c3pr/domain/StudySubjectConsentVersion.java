@@ -23,6 +23,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -130,6 +132,7 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 
 
 	@OneToMany
+	@Fetch(FetchMode.SUBSELECT)
 	@JoinColumn(name="stu_sub_con_ver_id",nullable=false)
 	@Cascade(value={CascadeType.ALL,CascadeType.DELETE_ORPHAN})
 	public List<SubjectConsentQuestionAnswer> getSubjectConsentAnswers() {

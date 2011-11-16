@@ -29,7 +29,6 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
     }
 
     public static String getBlankIfNull(String str) {
-        boolean test = false;
         if (str == null) return "";
         return str;
     }
