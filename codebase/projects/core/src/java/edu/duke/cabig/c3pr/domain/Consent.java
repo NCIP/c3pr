@@ -10,7 +10,6 @@ import java.util.StringTokenizer;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -53,7 +52,7 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 		this.descriptionText = descriptionText;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="stu_version_id", nullable = false)
 	public StudyVersion getStudyVersion() {
 		return studyVersion;
