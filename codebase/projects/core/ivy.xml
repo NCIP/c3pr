@@ -74,6 +74,7 @@
         		<exclude conf="*" name="asm" />
         		<exclude conf="*" name="asm-attrs" />
         	</dependency>
+        	<dependency  org="javax.persistence" name="persistence-api" rev="1.0" />
  			<dependency  org="cglib" name="cglib-nodep" rev="2.1_3" />
  			<dependency org="org.hibernate" name="hibernate-annotations" rev="3.2.1.ga" />
 			<dependency org="org.jibx"  name="jibx-run" rev="1.0.1" />
