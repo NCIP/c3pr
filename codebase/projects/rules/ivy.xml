@@ -80,6 +80,7 @@
 			<dependency org="javax.xml.ws" name="jaxws-api" rev="2.1" />
 			<dependency org="jdom" name="jdom" rev="1.0" />
 			<dependency org="xalan" name="xalan" rev="2.7.0" />
+			<dependency org="xalan" name="serializer" rev="2.7.1" />
       			<dependency org="com.sun.xml.bind" name="jaxb-xjc" rev="2.1.3"/>
 			<dependency org="xjc-plugin" name="collection-setter-injector" rev="1.0"/>
 			
