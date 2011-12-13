@@ -306,7 +306,7 @@
 	<target name="load-ajc" unless="loaded.ajc" description="--> define the ajc task">
 		<taskdef name="ajc" classname="org.aspectj.tools.ant.taskdefs.Ajc10">
 			<classpath>
-				<pathelement location="${lib.dir}/aspectjtools-1.5.3.jar"/>
+				<pathelement location="${lib.dir}/aspectjtools-1.6.12.jar"/>
 			</classpath>
 		</taskdef>
 		<property name="loaded.ajc" value="true" />

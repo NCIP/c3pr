@@ -1,14 +1,14 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.PersonUser;
-import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
-import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
-
 import java.util.List;
 
 import org.acegisecurity.Authentication;
 import org.apache.log4j.Logger;
+
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.PersonUser;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMAuthorizationCheck;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMObjectIdGenerator;
 
 
 /**

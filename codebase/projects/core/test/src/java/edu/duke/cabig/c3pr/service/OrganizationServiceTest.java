@@ -11,7 +11,6 @@ import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.ContextTools;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
-import gov.nih.nci.security.dao.DIAuthorizationDao;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 7, 2007 Time: 2:06:36 PM To change this template
@@ -22,8 +21,6 @@ import gov.nih.nci.security.dao.DIAuthorizationDao;
 public class OrganizationServiceTest extends DaoTestCase {
 
     private OrganizationService organizationService;
-
-    private DIAuthorizationDao csmAuthorizationDao;
 
     private HealthcareSite dummySite;
 
@@ -83,14 +80,6 @@ public class OrganizationServiceTest extends DaoTestCase {
 
     public void setOrganizationService(OrganizationService organizationService) {
         this.organizationService = organizationService;
-    }
-
-    public DIAuthorizationDao getCsmAuthorizationDao() {
-        return csmAuthorizationDao;
-    }
-
-    public void setCsmAuthorizationDao(DIAuthorizationDao csmAuthorizationDao) {
-        this.csmAuthorizationDao = csmAuthorizationDao;
     }
 
 }

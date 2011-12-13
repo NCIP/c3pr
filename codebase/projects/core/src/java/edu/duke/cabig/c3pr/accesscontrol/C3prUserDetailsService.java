@@ -10,11 +10,11 @@ import edu.duke.cabig.c3pr.domain.LocalPersonUser;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.RolePrivilege;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMUserDetailsService;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSessionFactory;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRoleMembership;
-import gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService;
 import gov.nih.nci.security.authorization.domainobjects.User;
 
 import java.text.SimpleDateFormat;

@@ -14,8 +14,8 @@ import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.LocalStudy;
 import edu.duke.cabig.c3pr.domain.Study;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.AuthorizationSwitch;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
-import gov.nih.nci.security.acegi.csm.authorization.AuthorizationSwitch;
 
 public class C3PRBasedAfterInvocationFilteringProviderUnitTest extends AbstractTestCase{
 

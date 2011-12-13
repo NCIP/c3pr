@@ -1,19 +1,19 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.acegisecurity.Authentication;
+
 import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.cabig.ctms.suite.authorization.SuiteRole;
-import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import org.acegisecurity.Authentication;
 
 /**
  * User: Vinay Gangoli

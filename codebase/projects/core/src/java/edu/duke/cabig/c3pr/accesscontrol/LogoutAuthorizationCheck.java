@@ -1,9 +1,9 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-import edu.duke.cabig.c3pr.tools.Configuration;
-import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
-
 import org.acegisecurity.Authentication;
+
+import edu.duke.cabig.c3pr.tools.Configuration;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMAuthorizationCheck;
 
 /**
  * User: ion

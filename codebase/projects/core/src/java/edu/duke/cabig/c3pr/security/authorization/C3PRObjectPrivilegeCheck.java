@@ -1,12 +1,11 @@
 package edu.duke.cabig.c3pr.security.authorization;
 
+import org.acegisecurity.Authentication;
+
 import edu.duke.cabig.c3pr.accesscontrol.UserPrivilege;
-import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.security.acegi.csm.authorization.AbstractObjectPrivilegeCSMAuthorizationCheck;
-
-import org.acegisecurity.Authentication;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.AbstractObjectPrivilegeCSMAuthorizationCheck;
 
 /**
  * The Class C3PRObjectPrivilegeCSMAuthorizationCheck.

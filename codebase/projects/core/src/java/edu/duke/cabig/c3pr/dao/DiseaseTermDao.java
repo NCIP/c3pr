@@ -1,11 +1,10 @@
 package edu.duke.cabig.c3pr.dao;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * @author Krikor Krumlian

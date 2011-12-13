@@ -1,15 +1,5 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-import edu.duke.cabig.c3pr.dao.PersonUserDao;
-import edu.duke.cabig.c3pr.dao.UserDao;
-import edu.duke.cabig.c3pr.domain.PersonUser;
-import edu.duke.cabig.c3pr.domain.User;
-import edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy;
-import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordPolicyService;
-import edu.duke.cabig.c3pr.service.passwordpolicy.validators.LoginPolicyValidator;
-import gov.nih.nci.security.UserProvisioningManager;
-import gov.nih.nci.security.acegi.csm.authentication.CSMAuthenticationProvider;
-
 import java.util.Date;
 
 import org.acegisecurity.AccountExpiredException;
@@ -23,6 +13,16 @@ import org.acegisecurity.userdetails.UserDetails;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.annotation.Transactional;
+
+import edu.duke.cabig.c3pr.dao.PersonUserDao;
+import edu.duke.cabig.c3pr.dao.UserDao;
+import edu.duke.cabig.c3pr.domain.PersonUser;
+import edu.duke.cabig.c3pr.domain.User;
+import edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy;
+import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordPolicyService;
+import edu.duke.cabig.c3pr.service.passwordpolicy.validators.LoginPolicyValidator;
+import gov.nih.nci.cabig.ctms.acegi.csm.authentication.CSMAuthenticationProvider;
+import gov.nih.nci.security.UserProvisioningManager;
 
 public class C3prCSMAuthenticationProvider extends CSMAuthenticationProvider{
 	

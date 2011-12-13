@@ -1,8 +1,6 @@
 package edu.duke.cabig.c3pr.aspects.compiletime;
 
 import org.apache.log4j.Logger;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
 
 
 //@Aspect

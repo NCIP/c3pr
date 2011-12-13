@@ -9,7 +9,6 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.OrganizationService;
 import gov.nih.nci.security.UserProvisioningManager;
-import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 7, 2007 Time: 1:32:14 PM To change this template

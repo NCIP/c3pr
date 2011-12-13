@@ -25,19 +25,17 @@
 
     </bean>
     
-    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
-    
-    <bean id="userCache"
-          class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
+    <bean id="userCache" class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
         <property name="cache">
-            <bean
-                    class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+            <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
                 <property name="cacheManager" ref="cacheManager"/>
                 <property name="cacheName" value="userCache"/>
-
+                <property name="overflowToDisk" value="false" />
             </bean>
         </property>
-    </bean>    
+    </bean>
+    <!-- Cached Manager -->
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" lazy-init="true"/>
     
 	<bean id="csmAuthenticationManager" class="gov.nih.nci.security.SecurityServiceProvider"
           factory-method="getAuthenticationManager">
@@ -87,7 +85,7 @@
 
 
     <bean id="daoSecurityInterceptorAspectBean"
-          class="gov.nih.nci.security.acegi.csm.aop.SecurityInterceptorAspect">
+          class="gov.nih.nci.cabig.ctms.acegi.csm.aop.SecurityInterceptorAspect">
         <property name="securityInterceptor"
                   ref="daoSecurityInterceptor"/>
     </bean>
@@ -186,7 +184,7 @@
     </util:map>
 
     <bean id="joinPointPrivilegeAndObjectIdGenerator"
-          class="gov.nih.nci.security.acegi.csm.authorization.JoinPointPrivilegeAndObjectIdGenerator">
+          class="gov.nih.nci.cabig.ctms.acegi.csm.authorization.JoinPointPrivilegeAndObjectIdGenerator">
         <property name="objectPrivilegeMap"
                   ref="joinPointObjectPrivilegeMap"/>
     </bean>
@@ -220,12 +218,12 @@
                 <property name="decisionVoters">
                     <list>
                         <bean
-                                class="gov.nih.nci.security.acegi.csm.vote.AuthorizationSwitchVoter">
+                                class="gov.nih.nci.cabig.ctms.acegi.csm.vote.AuthorizationSwitchVoter">
                             <property name="authorizationSwitch" ref="authorizationSwitch"/>
                             <property name="requiresAuthentication" value="false"/>
                         </bean>
                         <bean
-                                class="gov.nih.nci.security.acegi.csm.vote.CSMAuthorizationCheckVoter">
+                                class="gov.nih.nci.cabig.ctms.acegi.csm.vote.CSMAuthorizationCheckVoter">
                             <property name="processConfigAttribute"
                                       value="CSM_AUTHN_CHECK"/>
                             <property name="authorizationCheck"

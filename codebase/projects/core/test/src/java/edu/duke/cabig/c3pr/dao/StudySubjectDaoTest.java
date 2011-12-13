@@ -16,6 +16,7 @@ import java.io.StringReader;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -77,7 +78,6 @@ import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
-import edu.emory.mathcs.backport.java.util.Arrays;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**

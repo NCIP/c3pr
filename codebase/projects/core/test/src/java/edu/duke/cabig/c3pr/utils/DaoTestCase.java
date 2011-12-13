@@ -178,7 +178,7 @@ public abstract class DaoTestCase extends DbTestCase {
     }
 
     protected final void dumpResults(String sql) {
-        List<Map<String, String>> rows = new JdbcTemplate(getDataSource()).query(sql,
+        List<Map<String, Object>> rows = new JdbcTemplate(getDataSource()).query(sql,
                         new ColumnMapRowMapper() {
                             protected Object getColumnValue(ResultSet rs, int index)
                                             throws SQLException {
@@ -191,8 +191,8 @@ public abstract class DaoTestCase extends DbTestCase {
             Map<String, Integer> colWidths = new HashMap<String, Integer>();
             for (String colName : rows.get(0).keySet()) {
                 colWidths.put(colName, colName.length());
-                for (Map<String, String> row : rows) {
-                    colWidths.put(colName, Math.max(colWidths.get(colName), row.get(colName)
+                for (Map<String, Object> row : rows) {
+                    colWidths.put(colName, Math.max(colWidths.get(colName), ((String)row.get(colName))
                                     .length()));
                 }
             }
@@ -203,9 +203,9 @@ public abstract class DaoTestCase extends DbTestCase {
             }
             dump.append('\n');
 
-            for (Map<String, String> row : rows) {
+            for (Map<String, Object> row : rows) {
                 for (String colName : row.keySet()) {
-                    StringUtils.appendWithPadding(row.get(colName), colWidths.get(colName), false,
+                    StringUtils.appendWithPadding((String)row.get(colName), colWidths.get(colName), false,
                                     dump);
                     dump.append(" | ");
                 }

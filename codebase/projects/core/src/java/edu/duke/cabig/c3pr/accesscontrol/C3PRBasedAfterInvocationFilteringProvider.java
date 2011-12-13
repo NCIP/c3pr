@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.AuthorizationSwitch;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+
 import java.util.Collection;
 import java.util.LinkedHashMap;
 
@@ -9,9 +12,6 @@ import org.acegisecurity.ConfigAttribute;
 import org.acegisecurity.ConfigAttributeDefinition;
 import org.acegisecurity.afterinvocation.AfterInvocationProvider;
 import org.apache.log4j.Logger;
-
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
-import gov.nih.nci.security.acegi.csm.authorization.AuthorizationSwitch;
 
 public class C3PRBasedAfterInvocationFilteringProvider implements AfterInvocationProvider{
 	/**

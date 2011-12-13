@@ -48,7 +48,7 @@ public class InterceptorNotifier implements ApplicationListener, ApplicationCont
      */
     public void onApplicationEvent(ApplicationEvent evt) {
         if (evt instanceof ContextRefreshedEvent) {
-        	 Map<String, Interceptor> emptyInterceptorMap = applicationContext.getBeansOfType(EmptyInterceptor.class);
+        	 Map<String, EmptyInterceptor> emptyInterceptorMap = applicationContext.getBeansOfType(EmptyInterceptor.class);
 
              Set<String> set = emptyInterceptorMap.keySet();
              List<Interceptor> interceptorList = new ArrayList<Interceptor>();
@@ -56,7 +56,7 @@ public class InterceptorNotifier implements ApplicationListener, ApplicationCont
                  interceptorList.add(emptyInterceptorMap.get(str));
              }
 
-             Map<String, Interceptor> chainedInterceptorMap = applicationContext.getBeansOfType(ChainedInterceptor.class);
+             Map<String, ChainedInterceptor> chainedInterceptorMap = applicationContext.getBeansOfType(ChainedInterceptor.class);
              Set<String> cSet = chainedInterceptorMap.keySet();
              for (String str : cSet) {
                  ((ChainedInterceptor)chainedInterceptorMap.get(str)).setInterceptors(interceptorList.toArray(new Interceptor[0]));

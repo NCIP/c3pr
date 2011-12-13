@@ -26,7 +26,7 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
-import org.hibernate.validator.NotNull;
+//import org.hibernate.validator.NotNull;
 
 @Entity
 @Table(name = "consents", uniqueConstraints = { @UniqueConstraint(columnNames = { "stu_version_id", "name" }) })
@@ -172,7 +172,7 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 	}
 
 
-	@NotNull
+	//TODO: @NotNull
 	public String getName() {
 		return name;
 	}

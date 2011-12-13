@@ -2,16 +2,15 @@ package edu.duke.cabig.c3pr.accesscontrol;
 
 import java.util.List;
 
+import org.acegisecurity.Authentication;
+import org.apache.log4j.Logger;
+
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
-import gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck;
-import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
-
-import org.acegisecurity.Authentication;
-import org.apache.log4j.Logger;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMAuthorizationCheck;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMGroupAuthorizationCheck;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMObjectIdGenerator;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Sep 20, 2007 Time: 12:36:31 PM To change this

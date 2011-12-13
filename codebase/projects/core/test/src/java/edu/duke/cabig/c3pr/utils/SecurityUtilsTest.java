@@ -8,13 +8,11 @@ import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.userdetails.User;
-import org.aspectj.weaver.ast.HasAnnotation;
 import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.accesscontrol.AuthorizedUser;
 import edu.duke.cabig.c3pr.accesscontrol.UserPrivilege;
-import edu.duke.cabig.c3pr.constants.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.constants.RoleTypes;
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import gov.nih.nci.cabig.ctms.suite.authorization.ProvisioningSession;

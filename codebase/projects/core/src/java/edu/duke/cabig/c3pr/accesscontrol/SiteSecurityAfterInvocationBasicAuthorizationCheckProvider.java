@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
-import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.security.constants.Constants;
 
 import java.util.LinkedHashMap;

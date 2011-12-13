@@ -2,8 +2,8 @@ package edu.duke.cabig.c3pr.security;
 
 import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
-import gov.nih.nci.security.acegi.csm.authorization.CSMPrivilegeGenerator;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMObjectIdGenerator;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMPrivilegeGenerator;
 
 /**
  * Will generate id and privilege for any c3pr domain object.

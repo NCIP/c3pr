@@ -31,7 +31,7 @@
         <constructor-arg value="ACCESS"/>
     </bean>
 
-    <bean id="authorizationSwitch" class="gov.nih.nci.security.acegi.csm.authorization.AuthorizationSwitch">
+    <bean id="authorizationSwitch" class="gov.nih.nci.cabig.ctms.acegi.csm.authorization.AuthorizationSwitch">
         <property name="on" ref="booleanFromString">
         </property>
     </bean>
@@ -47,18 +47,20 @@
                 <property name="dataSource" ref="csmDataSource"/>
                 <property name="mappingResources">
                     <list>
-                        <value>gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml</value>
-                        <value>gov/nih/nci/security/authorization/domainobjects/Application.hbm.xml</value>
-                        <value>gov/nih/nci/security/authorization/domainobjects/Role.hbm.xml</value>
-                        <value>gov/nih/nci/security/dao/hibernate/RolePrivilege.hbm.xml</value>
-                        <value>gov/nih/nci/security/dao/hibernate/UserGroup.hbm.xml</value>
-                        <value>gov/nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.hbm.xml</value>
-                        <value>gov/nih/nci/security/authorization/domainobjects/Group.hbm.xml</value>
-                        <value>gov/nih/nci/security/authorization/domainobjects/User.hbm.xml</value>
-                        <value>gov/nih/nci/security/authorization/domainobjects/ProtectionGroup.hbm.xml</value>
-                        <value>gov/nih/nci/security/authorization/domainobjects/ProtectionElement.hbm.xml</value>
-                        <value>gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.hbm.xml</value>
-                        <value>gov/nih/nci/security/authorization/domainobjects/UserProtectionElement.hbm.xml</value>
+                        <value>gov/nih/nci/security/authorization/domainobjects/InstanceLevelMappingElement.hbm.xml</value>
+		                <value>gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml</value>
+		                <value>gov/nih/nci/security/authorization/domainobjects/Application.hbm.xml</value>
+		                <value>gov/nih/nci/security/authorization/domainobjects/FilterClause.hbm.xml</value>
+		                <value>gov/nih/nci/security/authorization/domainobjects/Role.hbm.xml</value>
+		                <value>gov/nih/nci/security/dao/hibernate/RolePrivilege.hbm.xml</value>
+		                <value>gov/nih/nci/security/dao/hibernate/UserGroup.hbm.xml</value>
+		                <value>gov/nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.hbm.xml</value>
+		                <value>gov/nih/nci/security/authorization/domainobjects/Group.hbm.xml</value>
+		                <value>gov/nih/nci/security/authorization/domainobjects/User.hbm.xml</value>
+		                <value>gov/nih/nci/security/authorization/domainobjects/ProtectionGroup.hbm.xml</value>
+		                <value>gov/nih/nci/security/authorization/domainobjects/ProtectionElement.hbm.xml</value>
+		                <value>gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.hbm.xml</value>
+		                <value>gov/nih/nci/security/authorization/domainobjects/UserProtectionElement.hbm.xml</value>
                     </list>
                 </property>
                 <property name="hibernateProperties">

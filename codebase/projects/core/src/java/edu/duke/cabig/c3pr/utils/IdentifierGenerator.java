@@ -1,8 +1,7 @@
 package edu.duke.cabig.c3pr.utils;
 
 import java.util.List;
-
-import org.apache.jackrabbit.uuid.UUID;
+import java.util.UUID;
 
 import edu.duke.cabig.c3pr.constants.OrganizationIdentifierTypeEnum;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;

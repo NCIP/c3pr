@@ -5,34 +5,54 @@
         xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
     ">
+    
+    <bean id="dataSource" class="edu.duke.cabig.c3pr.utils.DeferredLoadingFactoryBean">
+        <property name="beanNames">
+            <list>
+                <value>localPoolDataSource</value>
+            </list>
+        </property>
+    </bean>
 
-    <bean id="dataSourceTemplate" abstract="true"
-          class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="${datasource.driver}"/>
-        <!--set to no limit-->
-        <property name="maxActive" value="0"/>
-        <property name="maxIdle" value="-1"/>
-        <property name="maxWait" value="180000"/>
-        <property name="removeAbandoned" value="true"/>
-        <property name="removeAbandonedTimeout" value="300"/>
-        <property name="logAbandoned" value="true"/>
-        <property name="testWhileIdle" value="true"/>
-        <property name="testOnReturn" value="true"/>
-        <property name="timeBetweenEvictionRunsMillis" value="300000"/>
-        <property name="minEvictableIdleTimeMillis" value="600000"/>
+    <bean id="localPoolDataSource" lazy-init="true" class="org.apache.commons.dbcp.BasicDataSource"
+        p:driverClassName="${datasource.driver}"
+        p:maxActive="10" p:maxIdle="2"
+        p:maxWait="180000"
+        p:removeAbandoned="true"
+        p:removeAbandonedTimeout="300"
+        p:logAbandoned="true"
+        p:testWhileIdle="true"
+        p:testOnReturn="true"
+        p:timeBetweenEvictionRunsMillis="300000"
+        p:minEvictableIdleTimeMillis="600000"
+        p:url="${datasource.url}"
+        p:username="${datasource.username}"
+        p:password="${datasource.password}" />
+        
+         
+       <bean id="csmDataSource" class="edu.duke.cabig.c3pr.utils.DeferredLoadingFactoryBean">
+        <property name="beanNames">
+            <list>
+                <value>csmLocalPoolDataSource</value>
+            </list>
+        </property>
     </bean>
-    <bean id="dataSource" parent="dataSourceTemplate">
-        <property name="url" value="${datasource.url}"/>
-        <property name="username" value="${datasource.username}"/>
-        <property name="password" value="${datasource.password}"/>
-    </bean>
-    
-    <bean id="csmDataSource" parent="dataSourceTemplate">
-        <property name="url" value="${csmDatasource.url}"/>
-        <property name="username" value="${csmDatasource.username}"/>
-        <property name="password" value="${csmDatasource.password}"/>
-    </bean>
-    
+
+    <bean id="csmLocalPoolDataSource" lazy-init="true" class="org.apache.commons.dbcp.BasicDataSource"
+        p:driverClassName="${csmDatasource.driver}"
+        p:maxActive="5" p:maxIdle="2"
+        p:maxWait="180000"
+        p:removeAbandoned="true"
+        p:removeAbandonedTimeout="300"
+        p:logAbandoned="true"
+        p:testWhileIdle="true"
+        p:testOnReturn="true"
+        p:timeBetweenEvictionRunsMillis="300000"
+        p:minEvictableIdleTimeMillis="600000"
+        p:url="${csmDatasource.url}"
+        p:username="${csmDatasource.username}"
+        p:password="${csmDatasource.password}" /> 
+
     <bean id="hibernateProperties"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
