@@ -33,132 +33,99 @@
 
 	<dependencies
 		defaultconfmapping="build->master(*);runtime->runtime(*),master(*);dist->master(*),runtime(default);distGrid->master(*),runtime(default)">
-		<exclude conf="*" name="cglib" />
-		<exclude conf="*" name="asm-attrs" />
-
-		<!-- c3pr module dependencies -->
-		<dependency org="org.springframework" name="spring" rev="2.0.2"
-			force="true" />
-		<dependency org="org.springframework" name="spring-context"
-			rev="2.0.2" force="true" />
-
-		<dependency org="commons-collections" name="commons-collections"
-			rev="3.2" />
-		<dependency org="commons-lang" name="commons-lang" rev="2.4" />
-		<dependency org="commons-logging" name="commons-logging"
-			rev="1.1" />
-		<dependency org="org.slf4j" name="slf4j-api" rev="1.4.0"/>
-		<dependency org="net.sourceforge.collections"
-			name="collections-generic" rev="4.01" />
-		<dependency org="edu.northwestern.bioinformatics"
-			name="core-commons" rev="77" />
-
-		<dependency org="org.acegisecurity" name="acegi-security" rev="1.0.3">
-				<exclude org="gov.nih.nci.security" module="csmapi" rev="3.2.1-ctms00" conf="*"/>
-				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>		
-		</dependency>
-		<dependency org="castor" name="castor" rev="0.9.9" />
-		<dependency org="jdom" name="jdom" rev="1.0" />
-		<dependency org="org.apache.xmlgraphics" name="fop" rev="0.93" />
-		<dependency org="commons-beanutils" name="commons-beanutils"
-			rev="1.7.0" />
+		<exclude org="asm" name="*"/>
+		<exclude conf="*" org="org.slf4j" name="slf4j-log4j12"/>
+        <exclude conf="*" org="apache" />
+        <exclude conf="*" org="pull-parser" />
+        <exclude org="org.springframework" module="spring-dao" />
+        <exclude org="org.springframework" module="spring-support" />
+        <exclude org="org.springframework" module="spring-remoting" />
+        <exclude org="org.springframework" module="spring-jdbc" />
+        <exclude org="cglib" module="cglib" />
 		
-		<dependency org="org.apache.geronimo.specs"
-			name="geronimo-jms_1.1_spec" rev="1.1" />
+		<!-- apache commons -->
+        <dependency org="commons-lang" name="commons-lang" rev="2.4" />
+        <dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>
 
-		<dependency org="jboss" name="jboss-jsr77" rev="3.2.3" />
-		<dependency org="org.apache.activemq" name="activemq-core"
-			rev="4.1.1" conf="build;runtime;dist" />
-		<dependency org="gov.nih.nci.caxchange"
-			name="caXchangeRequestProcessor-common" rev="1.3" />
-		<dependency org="gov.nih.nci.caxchange"
-			name="caXchangeRequestProcessor-stubs" rev="1.3" />
-		<dependency org="gov.nih.nci.caxchange"
-			name="caXchangeRequestProcessor-client" rev="1.3" />
-		<dependency org="gov.nih.nci.caxchange"
-					name="CaXchangeRequestProcessor-service" rev="1.3" />
-		<dependency org="gov.nih.nci.caxchange" name="CoreServices-common" rev="3.0" />
-		<dependency org="gov.nih.nci.caxchange" name="CoreServices-stubs" rev="3.1" />
-		<dependency org="gov.nih.nci.caxchange" name="CoreServices-client" rev="3.1" />
-		<dependency org="gov.nih.nci.caxchange"	name="CoreServices-service" rev="3.1" />
-		<dependency org="gov.nih.nci.caxchange" name="CoreServices-config" rev="3.1" />
+        <!-- Spring framework -->
+        <dependency org="org.springframework" name="spring-core" rev="3.0.6.RELEASE"/>
+        <dependency org="org.springframework" name="spring-beans" rev="3.0.6.RELEASE"/>
+        <dependency org="org.acegisecurity" name="acegi-security" rev="1.0.7"  />
 		
-		<!-- jars for PA -->
-		<dependency org="gov.nih.nci.caxchange" name="PAServices-common" rev="3.1" />
-		<dependency org="gov.nih.nci.caxchange" name="PAServices-stubs" rev="3.1" />
-		<dependency org="gov.nih.nci.caxchange" name="PAServices-client" rev="3.1" />
-		<dependency org="gov.nih.nci.caxchange" name="PAServices-service" rev="3.1" />	
-		
-		<!-- coppa commons jar for PA -->
-		<dependency org="gov.nih.nci.caxchange" name="coppa-commons" rev="1.2.3" />
-		
-		<dependency org="gov.nih.nci.cagrid" name="cagrid-cds-client" rev="1.2" />
-		<dependency org="gov.nih.nci.cagrid" name="cagrid-cds-common" rev="1.2" />
-		<dependency org="gov.nih.nci.cagrid" name="cagrid-cds-stubs" rev="1.2" />
-		<dependency org="gov.nih.nci.cagrid" name="cagrid-casclient" rev="2.0.11" />
-		<!-- TODO : Check if Grid END-->
-
-		<dependency org="asm" name="asm" rev="2.2.3" />
-		<dependency org="org.globus" name="cog-jglobus" rev="1.2"
-			conf="build;runtime;dist" />
-
 		<!-- CTMS commons dependencies -->
-		<dependency org="gov.nih.nci.cabig.ctms"
-			name="ctms-commons-base" rev="${ctmsi.commons.version}" transitive="false" />
-		<dependency org="gov.nih.nci.cabig.ctms"
-			name="ctms-commons-core" rev="${ctmsi.commons.version}" transitive="false" />
-		<!--<dependency org="gov.nih.nci.security.acegi" name="acegi-csm"
-			rev="${ctmsi.acegi.version}" transitive="true" />-->
-		<dependency org="gov.nih.nci.security.acegi" name="acegi-grid"
-			rev="${ctmsi.acegi.version}" transitive="true" >
-				<exclude org="gov.nih.nci.security" module="csmapi" rev="3.2.1-ctms00" conf="*"/>
-				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>
+		<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-base" rev="${ctmsi.commons.version}"   transitive="false" />
+		<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-core" rev="${ctmsi.commons.version}"   transitive="false" />
+		<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-lang" rev="${ctmsi.commons.version}"   transitive="false" />
+		
+		<!-- Globus -->
+		<dependency org="org.globus" name="cog-jglobus" rev="1.2" conf="build;runtime;dist" />
+		<dependency org="globus" name="axis" rev="1.2RC2"/>
+		<dependency org="globus" name="ws-addressing" rev="1.0"/>
+		<dependency org="globus" name="ws-core-client" rev="4.0.3"/>
+		
+		<!-- JMS -->
+		<dependency org="javax.jms" name="jms-api" rev="1.1-rev-1"/>
+		
+		<!-- log4j -->
+		<dependency org="log4j" name="log4j" rev="1.2.12" >
+		    <artifact name="log4j" type="jar" />
 		</dependency>
 		
-		<dependency org="gov.nih.nci.cabig.ctms"
-			name="ctms-commons-lang" rev="${ctmsi.commons.version}" transitive="false" />
-		
-		<dependency org="gov.nih.nci.cabig.ctms"
-			name="ctms-commons-testing-uctrace" rev="${ctmsi.commons.version}">
-				<exclude org="gov.nih.nci.security" module="csmapi" rev="3.2.1-ctms00" conf="*"/>
-				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>
+		<!-- caXchange -->
+		<dependency org="gov.nih.nci.caxchange" name="coppa-commons" rev="1.2.3" conf="*->publish,runtime">
+            <artifact name="coppa-commons" />
+        </dependency>
+        <dependency org="gov.nih.nci.caxchange"  name="caXchange-cxf-stubs-jar" rev="2.0">
+            <artifact name="caXchange-cxf-stubs-jar" />
+        </dependency>
+        <dependency org="gov.nih.nci.caxchange"  name="caXchangeRequestProcessor-client" rev="1.3">
+            <artifact name="CaXchangeRequestProcessor-client" />
+        </dependency>
+        <dependency org="gov.nih.nci.caxchange"  name="caXchangeRequestProcessor-common" rev="1.3">
+            <artifact name="CaXchangeRequestProcessor-common" />
+        </dependency>
+        <dependency org="gov.nih.nci.caxchange"  name="caXchangeRequestProcessor-stubs" rev="1.3">
+            <artifact name="CaXchangeRequestProcessor-stubs" />
+        </dependency>
+        
+        <!-- caXchange transitive dependencies -->
+        <dependency org="org.apache.geronimo.specs"  name="geronimo-jms_1.1_spec" rev="1.1" />
+        <dependency org="org.apache.geronimo.specs"  name="geronimo-activation_1.1_spec" rev="1.0.2" />
+        <dependency org="org.apache.geronimo.specs"  name="geronimo-annotation_1.0_spec" rev="1.1.1" />
+        <dependency org="org.apache.geronimo.specs"  name="geronimo-jaxws_2.1_spec" rev="1.0" />
+        <dependency org="org.apache.geronimo.specs"  name="geronimo-stax-api_1.0_spec" rev="1.0.1" />
+        <dependency org="org.apache.geronimo.specs"  name="geronimo-ws-metadata_2.0_spec" rev="1.1.2" />
+        
+        <!-- PA related jars -->   <!-- >>>>>>> Can remove, once the remoteentitymanager sync their dependency <<<<<<<<<<< -->
+        <dependency org="gov.nih.nci.caxchange" name="PAServices-common" rev="3.1" />
+        <dependency org="gov.nih.nci.caxchange" name="PAServices-stubs" rev="3.1" />
+        <dependency org="gov.nih.nci.caxchange" name="PAServices-client" rev="3.1" />
+        <dependency org="gov.nih.nci.caxchange" name="PAServices-service" rev="3.1" />
+        <!-- jars for PO -->    <!-- >>>>>>> Can remove, once the remoteentitymanager sync their dependency <<<<<<<<<<< -->
+        <dependency org="gov.nih.nci.caxchange" name="CoreServices-common" rev="3.0"/>
+        <dependency org="gov.nih.nci.caxchange" name="CoreServices-stubs" rev="3.1"/>
+        <dependency org="gov.nih.nci.caxchange" name="CoreServices-client" rev="3.1"/>
+        <dependency org="gov.nih.nci.caxchange" name="CoreServices-service" rev="3.1"/>
+        <dependency org="gov.nih.nci.caxchange" name="CoreServices-config" rev="3.1"/>
+        
+        <!-- caGrid Dependencies -->
+        <dependency org="caGrid" name="dorian" rev="1.3" conf="*->client"/>
+        <dependency org="caGrid" name="dorian-deprecated" rev="1.2" conf="*->stubs"> Needed by 'gridAuthenticationClient' in applicationContext-web-security.xml
+			<artifact name="caGrid-dorian-stubs"/>
 		</dependency>
-			
-		<dependency org="wsdl4j"
-			name="wsdl4j" rev="1.5" />
-
+		
 		<!-- Test/Runtime dependencies -->
-		<dependency org="org.dbunit" name="dbunit" rev="2.2.1" conf="build->default;test->default">
-			<exclude org="org.slf4j" module="slf4j-api" rev="1.4.3"/>
-		</dependency>
+        <dependency org="org.dbunit" name="dbunit" rev="2.4.8" conf="build->default;test->default">
+            <exclude org="org.slf4j" module="slf4j-api" rev="1.4.3"/>
+        </dependency>
 
-		<!-- Test only dependencies -->
-		<dependency org="org.springframework" name="spring-mock"
-			rev="2.0.2" force="true" conf="test->default" />
-		<dependency org="edu.northwestern.bioinformatics"
-			name="core-commons-testing" rev="77" conf="test->default">
-				<exclude org="gov.nih.nci.security" module="csmapi" rev="3.2.1-ctms00" conf="*"/>
-				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>		
-		</dependency>
-		<dependency org="org.easymock" name="easymockclassextension"
-			rev="2.2.1" conf="test->default" />
-		<dependency org="junit" name="junit" rev="3.8.1"
-			conf="test->default" />
-		<dependency org="gov.nih.nci.cabig.ctms"
-			name="ctms-commons-testing-all" rev="0.8" conf="test->default">
-				<exclude org="gov.nih.nci.security" module="csmapi" rev="3.2.1-ctms00" conf="*"/>
-				<exclude org="gov.nih.nci.security" module="clm" rev="3.2.1-ctms00" conf="*"/>
-		</dependency>
-		
-		<dependency org="javax.xml.soap" name="saaj-api" rev="1.3"
-			conf="build;runtime;dist" />
-		<dependency org="com.sun.xml.messaging.saaj" name="saaj-impl" rev="1.3.3"
-			conf="build;runtime;dist" />			
-		
-		<exclude org="org.globus" name="saaj" rev="4.0.3-globus"/>
-		<exclude org="xml-security" name="xmlsec" rev="1.3.0"/>
-		<exclude org="org.globus" name="xmlsec" rev="1.2"/>
-		<exclude org="org.globus" name="wss4j" rev="4.0-cagrid1.0"/>
+		<!-- Test Only Dependencies -->
+       	<dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default" />
+       	<dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default" />
+        <dependency org="org.springframework" name="spring-test" rev="3.0.6.RELEASE" force="true" conf="test->default" />
+       	<dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
+		<dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
+		<dependency org="org.apache.activemq" name="activemq-core" rev="4.1.1" conf="test->default(*)"/>
 		
 	</dependencies>
 </ivy-module>
