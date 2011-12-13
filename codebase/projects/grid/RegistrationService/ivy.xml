@@ -37,6 +37,8 @@
 	</publications>
 
 	<dependencies defaultconfmapping="build->master(*);runtime->runtime(*),master(*);dist->master(*),runtime(default);distGrid->master(*),runtime(default)">
-		<dependency org="org.springframework" name="spring" rev="2.0.7" force="true"/>
+<!-- 		<dependency org="org.springframework" name="spring" rev="2.0.7" force="true"/> -->
+		<dependency org="org.springframework" name="spring-core" rev="3.0.6.RELEASE"/>
+		<dependency org="org.springframework" name="spring-context-support" rev="3.0.6.RELEASE"/>
 	</dependencies>
 </ivy-module>
