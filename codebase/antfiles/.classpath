@@ -4,15 +4,13 @@
 	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry kind="src" path="test/src/resources"/>
 	<classpathentry kind="src" path="test/src/java"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/classpath-modifier.jar"/>
-	<classpathentry kind="lib" path="lib/maven-ant-tasks-2.0.7.jar"/>
-	<classpathentry kind="lib" path="build/lib/commons-io-1.3.1.jar"/>
-	<classpathentry kind="lib" path="build/lib/log4j-1.2.12.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 6"/>
+	<classpathentry kind="lib" path="build/lib/ant-1.7.0.jar"/>
+	<classpathentry kind="lib" path="build/lib/ant-launcher-1.7.0.jar"/>
 	<classpathentry kind="lib" path="build/lib/cobertura-1.9rc1.jar"/>
-	<classpathentry kind="var" path="ANT_HOME/lib/ant.jar"/>
-	<classpathentry kind="var" path="ANT_HOME"/>
-	<classpathentry kind="var" path="GLOBUS_LOCATION"/>
-	<classpathentry kind="lib" path="build/lib/ctms-commons-base-1.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="build/lib/commons-io-1.3.1.jar"/>
+	<classpathentry kind="lib" path="build/lib/log4j-1.2.9.jar"/>
+	<classpathentry kind="lib" path="build/lib/oro-2.0.8.jar"/>
+	<classpathentry kind="lib" path="build/lib/ctms-commons-base-1.0.9.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin1"/>
 </classpath>

@@ -30,7 +30,7 @@
 	</condition>
 
 	<condition property="jsch.available">
-		<available file="${ivy.jar.dir}/jsch-0.1.31.jar" />
+		<available file="${ivy.jar.dir}/jsch-0.1.38.jar" />
 	</condition>
 
 	<condition property="ant.contrib.available">
@@ -266,7 +266,7 @@
 	====================================================== -->
 	<target name="download-jsch" unless="jsch.available">
 		<echo message="Downloading jsch....." />
-			<get src="${ivy.sftp.remote}" dest="${ivy.jar.dir}/jsch-0.1.31.jar" verbose="true" usetimestamp="true" />
+			<get src="${ivy.sftp.remote}" dest="${ivy.jar.dir}/jsch-0.1.38.jar" verbose="true" usetimestamp="true" />
 	</target>
 
 	<!-- ====================================================
@@ -294,7 +294,11 @@
 	<target name="load-online-settings" if="online">	
 		<echo message="Going for online settings" />
 		<path id="ivy.lib.path">
-			<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+			<!--<fileset dir="${ivy.jar.dir}" includes="*.jar"/> -->
+			<fileset dir="${ivy.jar.dir}">
+				<include name="ivy*.jar" />
+				<include name="jsch-0.1.38.jar" />
+			</fileset>
 		</path>
 	   	<taskdef resource="org/apache/ivy/ant/antlib.xml"
 	   	         uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
@@ -305,7 +309,11 @@
 	<target name="load-offline-settings" unless="ivy.loaded">
 		<echo message="Going for offline settings" />
 		<path id="ivy.lib.path">
-			<fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+			<!--<fileset dir="${ivy.jar.dir}" includes="*.jar"/> -->
+			<fileset dir="${ivy.jar.dir}">
+				<include name="ivy*.jar" />
+				<include name="jsch-0.1.38.jar" />
+			</fileset>
 		</path>
 	   	<taskdef resource="org/apache/ivy/ant/antlib.xml"
 	   	         uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
@@ -353,11 +361,11 @@
 	<!-- ==========================================================
 	          target: report updated
 	      ============================================================ -->
-	   <target name="report" depends="resolve" description="--> generates a report of dependencies">
-	     <echo message="Executing in ${ant.project.name}" />
-	     <mkdir dir="${build.dir}/dependency-reports"/>
-	     <ivy:report todir="${build.dir}/dependency-reports" settingsRef="c3pr.ivy.instance" graph="true"/>
-	   </target>
+	<target name="report" depends="resolve, resolve-test" description="--> generates a report of dependencies">
+    	<echo message="Executing in ${ant.project.name}" />
+    	<mkdir dir="${build.dir}/dependency-reports"/>
+        <ivy:report todir="${build.dir}/dependency-reports" resolveId="[org]-[module]" settingsRef="c3pr.ivy.instance" />
+    </target>
 
 
     <!-- ===============================================================
