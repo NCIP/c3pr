@@ -10,7 +10,7 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.reset;
 import static org.easymock.classextension.EasyMock.verify;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -34,7 +34,6 @@ import edu.duke.cabig.c3pr.webservice.iso21090.CD;
 import edu.duke.cabig.c3pr.webservice.iso21090.NullFlavor;
 import edu.duke.cabig.c3pr.webservice.iso21090.UpdateMode;
 import edu.duke.cabig.c3pr.webservice.studyutility.impl.StudyUtilityImpl;
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * @author dkrylov

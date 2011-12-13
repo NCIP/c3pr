@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.junit.launchconfig">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/web/test/src/java/edu/duke/cabig/c3pr/webservice/integration/StudyUtilityWebServiceTest.java"/>
+<listEntry value="/c3pr-web/test/src/java/edu/duke/cabig/c3pr/webservice/integration/StudyUtilityWebServiceTest.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -75,6 +75,6 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="edu.duke.cabig.c3pr.webservice.integration.StudyUtilityWebServiceTest"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="web"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="c3pr-web"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dtest.datasource.file=C:/Users/SemanticBits/MyDownloads/Tomcat/apache-tomcat-5.5.23/conf/c3pr/datasource.properties -Dtest.war.file=C:/local/c3pr/c3pr.war -Dclean.catalina.home=true -XX:MaxPermSize=350M -Xmx900M"/>
 </launchConfiguration>

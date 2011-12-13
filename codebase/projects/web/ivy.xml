@@ -33,7 +33,40 @@
        
        
         <dependencies  defaultconfmapping="build->master(*);runtime->runtime(*),master(*);dist->master(*),runtime(default);distGrid->master(*),runtime(default)"  >
-			<exclude conf="*" name="cglib" />
+			<!-- exclusion based on spring/hibernate/bering -->
+			<exclude conf="*" org="objectweb" module="asm"/>
+            <exclude org="hibernate" />
+            <exclude org="ehcache" />
+            <exclude org="cglib" module="cglib" />
+            <exclude org="xml-security" name="xmlsec" rev="1.3.0"/>
+			<exclude org="org.globus" name="xmlsec" rev="1.2"/>
+			<exclude org="org.globus" name="wss4j" rev="4.0-cagrid1.0"/>
+			<exclude org="org.globus" name="xalan" rev="2.6.0"/>
+			<exclude org="gov.nih.nci.cagrid" name="cagrid-opensaml" rev="1.0"/>
+			<exclude org="jaxb" name="jaxb-xjc" rev="2.0-SNAPSHOT"/>
+
+			<!-- exclusion based on class loading -->
+
+			<exclude conf="runtime,dist,distGrid" name="logkit"  />
+			<!-- <exclude conf="runtime,dist,distGrid" module="commons-codec"  /> -->
+			<exclude conf="dist,distGrid" module="hsqldb" />
+			<exclude conf="dist,distGrid" name="jta" />
+			<exclude conf="dist,distGrid" module="collection-setter-injector" />
+			<exclude conf="dist,distGrid" module="commons-beanutils-core" />
+			<exclude conf="dist,distGrid" module="commons-configuration" />
+			<exclude conf="dist,distGrid" org="cryptix"  />
+			<exclude conf="dist,distGrid" module="icu4j" />
+			<exclude conf="dist,distGrid" module="jgss" />
+			<exclude conf="dist,distGrid" module="jxl" />
+			<exclude conf="dist,distGrid" module="xom" />
+			<exclude conf="runtime,dist,distGrid" module="xmlParserAPIs" rev="2.0.2"/>
+			<exclude conf="dist,distGrid" module="subject" />
+			<exclude conf="*" org="org.slf4j" name="slf4j-log4j12"/>
+            <exclude conf="*" org="apache" />
+            <exclude conf="*" org="pull-parser" />
+			<exclude conf="*" name="asm-attrs" />
+			
+			
 			<!-- c3pr module dependencies -->
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
 				conf="build->default;runtime->default;dist->dist;distGrid->distGrid">
@@ -44,42 +77,61 @@
 				conf="build->default;runtime->default;dist->dist;distGrid->distGrid">
 				<exclude conf="*" name="poi" />
 			</dependency>
-				
-			<dependency org="asm" name="asm-commons" rev="2.2.3" force="true"/>
-			<dependency org="gov.nih.nci" name="client" rev="1.1" />
 			
-        	<dependency org="org.springframework" name="spring" rev="2.0.7" force="true"/>
-        	<dependency org="org.springframework" name="spring-aspects" rev="2.0.7" force="true" />
-        	<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" />
-        	
-        	<dependency org="cobertura" name="cobertura" rev="1.9rc1" />
-			<dependency org="checkstyle" name="checkstyle" rev="4.4" />
-        	<dependency org="commons-collections" name="commons-collections" rev="3.2" />
-        	<dependency org="commons-lang" name="commons-lang" rev="2.4" />
-        	<dependency org="commons-logging" name="commons-logging" rev="1.1" />
-        	<dependency org="commons-fileupload" name="commons-fileupload" rev="1.2" />
-			<dependency org="commons-validator" name="commons-validator" rev="1.1.4" />
-			<dependency org="net.sourceforge.collections" name="collections-generic" rev="4.01" />
-			<dependency org="edu.northwestern.bioinformatics" name="core-commons" rev="77" />
+			<!-- CTMS commons dependencies -->
+			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-base" rev="${ctmsi.commons.version}"   transitive="false" />
+			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-core" rev="${ctmsi.commons.version}"   transitive="false" />
+			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-lang" rev="${ctmsi.commons.version}"   transitive="false" />
+			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-web" rev="${ctmsi.commons.version}"   transitive="false" />
+
+            <!-- apache commons -->
+            <dependency org="commons-lang" name="commons-lang" rev="2.4" />
+            <dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>
+            <dependency org="net.sourceforge.collections" name="collections-generic" rev="4.01"/>
+            <dependency org="edu.northwestern.bioinformatics" name="core-commons" rev="77"   /> <!-- Northwestern -->
+            <dependency org="commons-validator" name="commons-validator" rev="1.1.4"  />
+            <dependency org="commons-fileupload" name="commons-fileupload" rev="1.2" />
+
+            <!-- Spring framework -->
+            <dependency org="org.springframework" name="spring-core" rev="3.0.6.RELEASE"/>
+            <dependency org="org.springframework" name="spring-beans" rev="3.0.6.RELEASE"/>
+            <dependency org="org.springframework" name="spring-aop" rev="3.0.6.RELEASE"/>
+            <dependency org="org.springframework" name="spring-aspects" rev="3.0.6.RELEASE"/>
+            <dependency org="org.springframework" name="spring-tx" rev="3.0.6.RELEASE"/>
+            <dependency org="org.springframework" name="spring-jdbc" rev="3.0.6.RELEASE"/>
+            <dependency org="org.springframework" name="spring-context-support" rev="3.0.6.RELEASE"/>
+            <dependency org="org.springframework" name="spring-orm" rev="3.0.6.RELEASE"/>
+            <dependency org="org.springframework" name="spring-webmvc" rev="3.0.6.RELEASE"/>
+            <dependency org="org.acegisecurity" name="acegi-security" rev="1.0.7"  />
 			
-			 <dependency org="org.openqa.selenium.client-drivers" name="selenium-java-client-driver" conf="test->default"
-                    rev="0.9.2"/>
+			<!-- Bean Shell (Spring & Hibernate)-->
+			<dependency org="org.beanshell" name="bsh" rev="2.0b4"/>
 			
-			<dependency org="org.acegisecurity" name="acegi-security" rev="1.0.3" />
-        	<dependency org="castor" name="castor" rev="0.9.9"/>
-        	<dependency org="jdom" name="jdom" rev="1.0" />
-        	<dependency org="commons-beanutils" name="commons-beanutils" rev="1.7.0" />
-        	<dependency org="org.hibernate" name="hibernate" rev="3.2.1.ga">
-        		<exclude conf="*" name="cglib" />
-        		<exclude conf="*" name="asm" />
-        		<exclude conf="*" name="asm-attrs" />
-        	</dependency>
- 			<dependency  org="cglib" name="cglib-nodep" rev="2.1_3" />
- 			<dependency org="org.hibernate" name="hibernate-annotations" rev="3.2.1.ga" />
-        	<dependency org="jboss"  name="jboss-jsr77" rev="3.2.3" />
-        	<dependency org="freemarker" name="freemarker" rev="2.3.4" />
-        	<dependency org="opensymphony" name="quartz-all" rev="1.6.0" />
-        	<dependency org="opensymphony" name="sitemesh" rev="2.2.1" />
+            <!-- ASM dependency (Spring & Hibernate) 2.2.3 -->
+            <dependency org="asm" name="asm-commons" rev="3.2"/>
+            <dependency org="asm" name="asm" rev="3.2"/>
+
+            <!-- CGLIB No dependency (needed for Spring)-->
+            <dependency org="cglib" name="cglib-nodep" rev="2.2"/>
+            
+            <!-- Cache Web module-->
+			<dependency org="net.sf.ehcache" name="ehcache-web" rev="2.0.4"/>
+            
+            <!-- Castor -->
+            <dependency org="castor" name="castor" rev="0.9.9"/>
+            
+            <!-- Other XML dependencies -->
+            <dependency org="xml-apis"  name="xml-apis" rev="2.0.2"  />
+            <dependency org="org.jdom" name="jdom" rev="1.1"/>
+            
+            <!-- Freemarker -->
+			<dependency org="freemarker" name="freemarker" rev="2.3.4" />
+			
+			<!-- web technologies -->
+			<dependency org="org.directwebremoting" name="dwr" rev="2.0.3" />
+			<dependency org="org.extremecomponents" name="extremecomponents" rev="1.0.1" />
+			<dependency org="opensymphony" name="sitemesh" rev="2.2.1" />
+			<dependency org="displaytag" name="displaytag" rev="1.1" />
         	
         	<dependency org="gov.nih.nci.ccts.grid.smoketest"
         	name="smokeTestService-common" rev="1.2" />
@@ -89,103 +141,16 @@
         		name="smokeTestService-client" rev="1.2" />
         	<!-- TODO : Check if Grid END-->
         	
-        	<dependency org="commons-dbcp" name="commons-dbcp" rev="1.2.1" >
-        		<exclude name="xml-apis" conf="*"/>
-        		<exclude name="xerces" conf="*"/>
-        	</dependency>
-        	<dependency org="postgresql" name="postgresql" rev="8.2-504.jdbc3" conf="build->default;test->default"/>
-        	<dependency org="hsqldb" name="hsqldb" rev="1.8.0.7" />
-        	<dependency org="oracle" name="ojdbc14" rev="10.2.0.2" conf="build->default;test->default"/>
+        	<!-- Apache POI dependencies -->
+			<dependency org="poi" name="poi" rev="3.5-beta5" force="true">
+				<exclude module="log4j" />
+				<exclude module="commons-logging" />
+			</dependency>
         	
-        	 <!-- Groovy (used by bering) needs this version of asm, but hibernate is pulling in 1.5.3 -->
-        	<dependency org="asm" name="asm" rev="2.2.3" />
-        	<dependency org="edu.northwestern.bioinformatics"  name="bering" rev="0.7">
-        		<exclude name="spring" conf="*" />
-        		<exclude name="spring-mock" conf="*" />
-        	</dependency>
-        	
-        	
-        	<dependency org="javax.mail" name="mail" rev="1.4" />
-        	<dependency org="javax.activation" name="activation" rev="1.1" />
-        	<dependency org="net.jawr" name="jawr" rev="2.1" />
-        	
-        	<!-- compile only dependencies -->
-        	<dependency org="javax.servlet" name="jstl" rev="1.1.2" conf="build->default(*)" />
-			<dependency org="taglibs" name="standard" rev="1.1.2" conf="build->default(*)" />
-<!--
-        	<dependency org="ant" name="ant" rev="1.6.5" conf="core"/>
--->        	
-			<dependency org="org.globus" name="cog-jglobus" rev="1.2" conf="build;runtime;dist" />
+        	<!-- Servlet & JSP -->
+            <dependency org="javax.servlet" name="servlet-api" rev="2.3" conf="build->default(*);test->default(*)"/>
+            <dependency org="jspapi" name="jsp-api" rev="2.0" transitive="true" conf="build->default(*);test->default(*)"/>
 
-			<!-- CTMS commons dependencies -->
-			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-web" rev="${ctmsi.commons.version}" transitive="false"/>
-			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-uctrace" rev="${ctmsi.commons.version}" />
-			
-			<!-- Test/Runtime dependencies -->
-        	<dependency org="org.dbunit" name="dbunit" rev="2.2.1" conf="build->default;test->default">
-        		<exclude org="org.slf4j" module="slf4j-api" rev="1.4.3"/>
-        	</dependency>
-        	
-        	<!-- Web service codegen dependencies -->
-        	<!-- <dependency org="com.sun.xml.ws" name="webservices-api" rev="1.5" conf="ws->default" /> -->
-			<dependency org="com.sun.xml.ws" name="webservices-rt" rev="1.5" conf="ws->default" />        	
-			<dependency org="com.sun.tools.ws" name="webservices-tools" rev="1.5" conf="ws->default" /> 
-			<dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" transitive="false" conf="ws->default" />
-						
-			<!-- Test only dependencies -->
-			<dependency org="org.springframework" name="spring-mock" rev="2.0.2" force="true" conf="test->default" />
-			<dependency org="org.springframework" name="spring" rev="2.0.7" force="true" conf="test->default" />        	
-        	<dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default" />
-        	<dependency org="edu.northwestern.bioinformatics" name="core-commons" rev="77" conf="test->default"/>
-        	<dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default" />
-        	<dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
-        	<dependency org="commons-io" name="commons-io" rev="1.3.1" conf="test->default"/>
-			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
-			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
-				conf="test"/>
-        	<dependency org="commons-dbcp" name="commons-dbcp" rev="1.2.1" conf="test->default">
-        		<exclude name="xml-apis" conf="*"/>
-        		<exclude name="xerces" conf="*"/>
-        	</dependency>	
-        	<dependency org="org.slf4j" name="slf4j-api" rev="1.4.3" conf="test->default"/>			
-			<dependency org="javax.servlet" name="servlet-api" rev="2.5" 
-				conf="test->default"/>			
-				
-			<dependency org="javax.xml.ws" name="jaxws-api" rev="2.1" conf="test->default"/>
-			<dependency org="com.sun.xml.bind" name="jaxb-xjc" rev="2.1.3" conf="test->default"/>
-			<dependency org="org.apache.geronimo.specs" name="geronimo-activation_1.1_spec" rev="1.0.2" conf="test->default"/>
-			<dependency org="com.sun.xml.ws" name="jaxws-rt" rev="2.1.7" conf="test->default"/>
-			<dependency org="com.sun.xml.bind" name="jaxb-impl" rev="2.1.9" force="true" conf="test->default"/>
-								
-				
-			<!-- tomcat jars for embedded container -->
-			<dependency org="org.apache.tomcat" name="catalina" rev="6.0.29" conf="test->default" />
-			<dependency org="org.apache.tomcat" name="coyote" rev="6.0.29" conf="test->default" />
-			<dependency org="org.apache.tomcat" name="jasper" rev="6.0.29" conf="test->default" />
-						
-			<!-- Following dependencies retrieve jars which normally go into Tomcat/common/lib.
-			     For embedded container, they need to be on the classpath.
-			-->
-			<dependency org="bouncycastle" name="bouncycastle-jce-jdk13" rev="125-cagrid1.0" conf="test->default" />
-			<dependency org="org.globus" name="cog-jglobus" rev="1.2" conf="test->default" />
-			<dependency org="cryptix" name="cryptix" rev="3.2-cagrid1.0" conf="test->default" />
-			<dependency org="cryptix" name="cryptix-impl" rev="3.2-cagrid1.0" conf="test->default" />
-			<dependency org="cryptix" name="cryptix-asn1" rev="3.2-cagrid1.0" conf="test->default" />
-			<dependency org="com.claymoresystems" name="puretls" rev="1.0-SNAPSHOT" conf="test->default"/>					
-			<!-- End of test-only dependencies. -->
-
-			<!-- Web specific dependencies -->
-			<dependency org="org.directwebremoting" name="dwr" rev="2.0.rc2" />
-			<dependency org="org.extremecomponents" name="extremecomponents" rev="1.0.1" />
-			<dependency org="poi" name="poi" rev="3.5-beta5" force="true" />
-			<dependency org="displaytag" name="displaytag" rev="1.1" />
-			<!-- <dependency org="jboss" name="mvel-1.3.4-java1.4.2" rev="1.3.4" />-->
-			<dependency org="net.sf.ehcache" name="ehcache-web" rev="1.6.0-beta2" />
-			<exclude org="org.slf4j" name="slf4j-log4j12" rev="1.3.0"/>
-			
-			
-			<exclude org="org.globus" name="saaj" rev="4.0.3-globus"/>
-			
 			<!-- Apache CXF -->			
 			<dependency org="org.apache.cxf" name="cxf-rt-frontend-jaxws" rev="2.1.10">			
 				<exclude org="org.springframework"></exclude>				
@@ -209,16 +174,50 @@
 				<artifact name="xmlsec" type="jar" ext="jar"/>				
 			</dependency>		
 			<dependency org="com.semanticbits" name="opensaml" rev="1.1"/>
-				
-			<exclude org="xml-security" name="xmlsec" rev="1.3.0"/>
-			<exclude org="org.globus" name="xmlsec" rev="1.2"/>
-			<exclude org="org.globus" name="wss4j" rev="4.0-cagrid1.0"/>
-			<exclude org="org.globus" name="xalan" rev="2.6.0"/>
-			<exclude org="gov.nih.nci.cagrid" name="cagrid-opensaml" rev="1.0"/>
-			<exclude org="jaxb" name="jaxb-xjc" rev="2.0-SNAPSHOT"/>				  
-		  	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="1.31" />
-        	
-        	<dependency org="yourkit" name="yjp" rev="8.0.24" conf="test->default"/>
+			
+			<!-- Others -->
+			<dependency org="junit" name="junit" rev="3.8.1" force="true"/>
+			
+			<!-- Web service codegen dependencies -->
+			<dependency org="com.sun.xml.ws" name="webservices-rt" rev="1.5" conf="ws->default" />        	
+			<dependency org="com.sun.tools.ws" name="webservices-tools" rev="1.5" conf="ws->default" />
+			<dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" transitive="false" conf="ws->default" >
+			    <artifact name="ant-contrib" type="jar" />
+			</dependency>
+			
+			<!-- Test/Runtime dependencies -->
+            <dependency org="org.dbunit" name="dbunit" rev="2.4.8" conf="build->default;test->default">
+                <exclude org="org.slf4j" module="slf4j-api" rev="1.4.3"/>
+            </dependency>
+
+			<!-- Test Only Dependencies -->
+			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" conf="test"/>
+        	<dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default" />
+        	<dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default" />
+        	<dependency org="org.springframework" name="spring-mock" rev="3.0.6.RELEASE" conf="test->default(*)" />
+             <dependency org="org.springframework" name="spring-test" rev="3.0.6.RELEASE" force="true" conf="test->default" />
+        	<dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
+            <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-unit" rev="${ctmsi.commons.version}" conf="test->default(*)" transitive="false"/>            
+			<dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
+			<dependency org="yourkit" name="yjp" rev="8.0.24" conf="test->default"/>
         	<dependency org="yourkit" name="yjp-controller-api-redist" rev="8.0.24" conf="test->default"/>
+        	<dependency org="org.openqa.selenium.client-drivers" name="selenium-java-client-driver" conf="test->default" rev="0.9.2"/>
+			
+			<!-- tomcat jars for embedded container -->
+			<dependency org="org.apache.tomcat" name="catalina" rev="6.0.29" conf="test->default" />
+			<dependency org="org.apache.tomcat" name="coyote" rev="6.0.29" conf="test->default" />
+			<dependency org="org.apache.tomcat" name="jasper" rev="6.0.29" conf="test->default" />
+        	
+			<!-- Following dependencies retrieve jars which normally go into Tomcat/common/lib.
+			     For embedded container, they need to be on the classpath.
+			-->
+			<dependency org="bouncycastle" name="bouncycastle-jce-jdk13" rev="125-cagrid1.0" conf="test->default" />
+			<dependency org="org.globus" name="cog-jglobus" rev="1.2" conf="test->default" />
+			<dependency org="cryptix" name="cryptix" rev="3.2-cagrid1.0" conf="test->default" />
+			<dependency org="cryptix" name="cryptix-impl" rev="3.2-cagrid1.0" conf="test->default" />
+			<dependency org="cryptix" name="cryptix-asn1" rev="3.2-cagrid1.0" conf="test->default" />
+			<dependency org="com.claymoresystems" name="puretls" rev="1.0-SNAPSHOT" conf="test->default"/>					
+			<!-- End of test-only dependencies. -->
+
         </dependencies>
 </ivy-module>

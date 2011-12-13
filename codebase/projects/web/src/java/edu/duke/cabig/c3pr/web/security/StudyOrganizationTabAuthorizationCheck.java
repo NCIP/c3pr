@@ -1,17 +1,17 @@
 package edu.duke.cabig.c3pr.web.security;
 
-import java.util.Map;
-
-import org.acegisecurity.Authentication;
-import org.springframework.beans.factory.annotation.Required;
-
 import edu.duke.cabig.c3pr.constants.UserPrivilegeType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
+
+import java.util.Map;
+
+import org.acegisecurity.Authentication;
+import org.springframework.beans.factory.annotation.Required;
 
 
 public class StudyOrganizationTabAuthorizationCheck implements TabAuthroizationCheck{
