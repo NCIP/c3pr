@@ -31,7 +31,6 @@ import org.drools.repository.PackageItem;
 import org.drools.repository.RulesRepository;
 import org.drools.repository.RulesRepositoryException;
 import org.drools.repository.StateItem;
-import org.springmodules.jcr.JcrTemplate;
 import org.springmodules.jcr.support.JcrDaoSupport;
 
 /**
@@ -53,7 +52,6 @@ public class RepositoryServiceImpl extends JcrDaoSupport implements RepositorySe
 
     private RulesRepository rulesRepository;
 
-    private JcrTemplate template;
 
     private Repository repository;
 
@@ -319,14 +317,6 @@ public class RepositoryServiceImpl extends JcrDaoSupport implements RepositorySe
 
     public void moveRule(String newRuleSetName, String ruleId) {
         getRulesRepository().moveRuleItemPackage(newRuleSetName, ruleId, "");
-    }
-
-    public JcrTemplate getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(JcrTemplate template) {
-        this.template = template;
     }
 
     public Repository getRepository() {
