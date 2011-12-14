@@ -98,6 +98,7 @@
     </target>
 
 	<target name="deploy-prebuilt" description="Deploys a prebuild webapp">
+		<echo message="lib dir is ${lib.dir}"/>
         <copy todir="${webinf.lib.dir}" preservelastmodified="true">
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar"/>

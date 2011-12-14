@@ -53,7 +53,6 @@
 			<exclude conf="dist,distGrid" name="jta" />
 			<exclude conf="dist,distGrid" module="collection-setter-injector" />
 			<exclude conf="dist,distGrid" module="commons-beanutils-core" />
-			<exclude conf="dist,distGrid" module="commons-configuration" />
 			<exclude conf="dist,distGrid" org="cryptix"  />
 			<exclude conf="dist,distGrid" module="icu4j" />
 			<exclude conf="dist,distGrid" module="jgss" />
@@ -87,6 +86,7 @@
             <!-- apache commons -->
             <dependency org="commons-lang" name="commons-lang" rev="2.4" />
             <dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>
+            <dependency org="commons-configuration" name="commons-configuration" rev="1.5" transitive="false"/>
             <dependency org="net.sourceforge.collections" name="collections-generic" rev="4.01"/>
             <dependency org="edu.northwestern.bioinformatics" name="core-commons" rev="77"   /> <!-- Northwestern -->
             <dependency org="commons-validator" name="commons-validator" rev="1.1.4"  />
