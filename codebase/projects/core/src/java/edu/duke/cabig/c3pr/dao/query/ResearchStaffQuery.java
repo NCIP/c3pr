@@ -6,7 +6,7 @@ package edu.duke.cabig.c3pr.dao.query;
  */
 public class ResearchStaffQuery extends AbstractQuery {
 
-    private static String queryString = "SELECT distinct rs from PersonUser rs left join fetch rs.healthcareSites order by rs.id";
+    private static String queryString = "SELECT distinct rs from PersonUser rs, ContactMechanism cm left join fetch rs.healthcareSites order by rs.id";
 
     private static String FIRST_NAME = "firstName";
 
@@ -43,7 +43,7 @@ public class ResearchStaffQuery extends AbstractQuery {
 
     public void filterByEmailAddress(final String emailAddress) {
         String searchString = "%" + emailAddress.trim().toLowerCase() + "%";
-        andWhere("lower(rs.contactMechanisms.value) LIKE :" + EMAIL_ADDRESS);
+        andWhere("cm = any elements(rs.contactMechanisms) and lower(cm.value) LIKE :" + EMAIL_ADDRESS);
         setParameter(EMAIL_ADDRESS, searchString);
     }
 
