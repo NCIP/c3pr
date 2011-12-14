@@ -79,6 +79,7 @@
         	
         	<!-- caaers websso -->
         	<dependency org="gov.nih.nci.cagrid.websso" name="caaers-cas-patch" rev="1.5" />
+        	<dependency org="cas" name="casclient" rev="2.0.11"/>
         	
         	<!-- Connection Pool  -->
             <dependency org="commons-dbcp" name="commons-dbcp" rev="1.2.2">
