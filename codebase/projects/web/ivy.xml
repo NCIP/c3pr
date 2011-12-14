@@ -120,6 +120,9 @@
             <!-- Castor -->
             <dependency org="castor" name="castor" rev="0.9.9"/>
             
+            <!-- JAWR -->
+			 <dependency org="net.jawr" name="jawr" rev="2.1" />
+            
             <!-- Other XML dependencies -->
             <dependency org="xml-apis"  name="xml-apis" rev="2.0.2"  />
             <dependency org="org.jdom" name="jdom" rev="1.1"/>
@@ -150,6 +153,10 @@
         	<!-- Servlet & JSP -->
             <dependency org="javax.servlet" name="servlet-api" rev="2.3" conf="build->default(*);test->default(*)"/>
             <dependency org="jspapi" name="jsp-api" rev="2.0" transitive="true" conf="build->default(*);test->default(*)"/>
+            
+            <!-- JSTL   dependency -->
+            <dependency org="jstl" name="jstl" rev="1.1.2" force="true"/>
+            <dependency org="taglibs" name="standard" rev="1.1.2" force="true"/>
 
 			<!-- Apache CXF -->			
 			<dependency org="org.apache.cxf" name="cxf-rt-frontend-jaxws" rev="2.1.10">			

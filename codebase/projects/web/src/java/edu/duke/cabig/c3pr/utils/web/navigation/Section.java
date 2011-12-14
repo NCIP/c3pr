@@ -52,7 +52,9 @@ public class Section {
     }
 
     public void setPathMappings(List<String> pathMappings) {
-        this.pathMappings = pathMappings;
+    	//TODO: commented this out. Not needed. After tech stack upgrade this is giving issues.
+    	//Investigate using CTMS commons section class.
+//        this.pathMappings = pathMappings;
     }
 
     public List<Task> getTasks() {
