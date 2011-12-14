@@ -130,7 +130,7 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 	 * @return the by sub name and sub email
 	 */
 	public List<PersonUser> getBySubNameAndSubEmail(String[] subnames) {
-		return findBySubname(subnames,null ,
+		return findBySubname(subnames,null ,null,
 				EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
 	}
 

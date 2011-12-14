@@ -66,7 +66,7 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 * @return the by subnames
 	 */
     public List<StudyPersonnel> getBySubnames(String[] subnames, int healthcareSiteId) {
-        return findBySubname(subnames, "o.studyOrganization.healthcareSite.id = '" + healthcareSiteId + "'",
+        return findBySubname(subnames, null, "o.studyOrganization.healthcareSite.id = '" + healthcareSiteId + "'",
                         EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
     
@@ -227,9 +227,10 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	@SuppressWarnings("unchecked")
 	public List<StudyPersonnel> getByExample(String sitePrimaryIdentifier, String studyPrimaryId, Integer personUserId, String roleCode) {
         return getHibernateTemplate().find(
-                "Select s from StudyPersonnel s where s.studyOrganization.studyInternal.identifiers.value = ? and s.studyOrganization.studyInternal.identifiers.typeInternal = 'COORDINATING_CENTER_IDENTIFIER' and " +
-                "s.studyOrganization.healthcareSite.identifiersAssignedToOrganization.value = ? and s.studyOrganization.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1' and "+
-                "s.personUser.id = ? and s.studyPersonnelRolesInternal.role = ?",
+                "Select s from StudyPersonnel s, IN (s.studyOrganization.studyInternal.identifiers) as I1, IN " +
+                "(s.studyOrganization.healthcareSite.identifiersAssignedToOrganization) AS I2, IN (s.studyPersonnelRolesInternal) " +
+                "AS spr where I1.value = ? and I1.typeInternal = 'COORDINATING_CENTER_IDENTIFIER' and I2.value = ? and " +
+                "I2.primaryIndicator = '1' and s.personUser.id = ? and spr.role = ?",
                 new Object[] {studyPrimaryId, sitePrimaryIdentifier, personUserId, roleCode});
 	}
 	

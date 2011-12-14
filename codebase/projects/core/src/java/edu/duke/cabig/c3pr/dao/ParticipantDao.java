@@ -356,7 +356,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
     	SUBSTRING_MATCH_PROPERTIES = Arrays.asList("firstName", "lastName", "middleName");
     	Set<Participant> participants = new HashSet<Participant>();
     	
-    	participants.addAll(findBySubname(subnames,null,null, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES));
+    	participants.addAll(findBySubname(subnames,null,null,null, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES));
     	
     	for(String subname:subnames){
     		participants.addAll(searchByPrimaryIdentifierValue(subname));

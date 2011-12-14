@@ -174,9 +174,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     public List<Study> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
         return (List<Study>) getHibernateTemplate()
                 .find("select S from Study S, Identifier I where I.healthcareSite.id in " + 
-            		"(select h.id from HealthcareSite h, Identifier I where " +
-            		"h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1')"  +
-                    " and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
+            		"(select h.id from HealthcareSite h, Identifier I, IN (h.identifiersAssignedToOrganization) AS I1 where " +
+            		"I1.value=? and I1.primaryIndicator = '1') and I.value=? and I.typeInternal=? and I=any elements(S.identifiers)",
                     new Object[] {id.getHealthcareSite().getPrimaryIdentifier(), id.getValue(), id.getType().getName()});
     }
 
@@ -301,7 +300,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     	
     	List<String> SUBSTRING_MATCH_PROPERTIES_FOR_IDENTIFIER = Arrays.asList("identifiers.value");
 
-    	List<Study> studiesFromIdentifier = findBySubname(subnames, "LOWER(o.identifiers.typeInternal) LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES_FOR_IDENTIFIER, EXACT_MATCH_PROPERTIES);
+    	List<Study> studiesFromIdentifier = findBySubname(subnames, " IN (o.identifiers) AS I", "LOWER(I).typeInternal LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES_FOR_IDENTIFIER, EXACT_MATCH_PROPERTIES);
     	
     	List<Study> studiesFromShortTitle = findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, "StudyVersion", "studyVersionsInternal");
     	

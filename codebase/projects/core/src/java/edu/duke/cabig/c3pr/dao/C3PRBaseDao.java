@@ -4,6 +4,7 @@ import edu.duke.cabig.c3pr.domain.IdentifiableObject;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.dao.AbstractDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
@@ -70,7 +71,7 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 	 * A variation of {@link #findBySubname} that does not allow for extra conditions
 	 */
 	protected List<T> findBySubname(String[] subnames, List<String> substringMatchProperties, List<String> exactMatchProperties) {
-		return findBySubname(subnames, null, null, substringMatchProperties, exactMatchProperties);
+		return findBySubname(subnames,null, null, null, substringMatchProperties, exactMatchProperties);
 	}
 	
 	protected List<T> findBySubname(String[] subnames, List<String> substringMatchProperties, List<String> exactMatchProperties, String subClass, String name) {
@@ -97,11 +98,15 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
 	 * @return a list of matching domain object instances
 	 */
 	@SuppressWarnings("unchecked")
-	protected List<T> findBySubname(String[] subnames, String extraConditions,
+	protected List<T> findBySubname(String[] subnames, String extraSelectConditions, String extraConditions,
 			List<Object> extraParameters, List<String> substringMatchProperties,
 			List<String> exactMatchProperties) {
 		StringBuilder query = new StringBuilder("select distinct o from ").append(domainClass().getName()).append(
 		" o ");
+		if(!StringUtils.isBlank(extraSelectConditions)){
+			query.append(",");
+			query.append(extraSelectConditions);
+		}
 		List<Object> params = new LinkedList<Object>();
 		if(extraConditions != null || extraParameters != null || subnames.length > 0){
 			query.append("where ") ;

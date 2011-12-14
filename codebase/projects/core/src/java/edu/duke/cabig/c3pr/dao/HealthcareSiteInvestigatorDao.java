@@ -70,7 +70,7 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
 //    	remoteInvestigator.getHealthcareSiteInvestigators().add(hcsi);
 //    	investigatorDao.getRemoteInvestigatorsAndUpdateDatabase(remoteInvestigator);
     	
-    	return findBySubname(subnames, "o.healthcareSite.id = '" + healthcareSiteId + "'",
+    	return findBySubname(subnames, null, "o.healthcareSite.id = '" + healthcareSiteId + "'",
                         EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
@@ -100,7 +100,7 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
      * @return the by sub name and sub email
      */
     public List<HealthcareSiteInvestigator> getBySubNameAndSubEmail(String[] subnames) {
-    	return findBySubname(subnames," o.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1'",
+    	return findBySubname(subnames,"IN (o.healthcareSite.identifiersAssignedToOrganization) AS I "," I.primaryIndicator = '1'",
                  EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 

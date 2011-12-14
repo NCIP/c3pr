@@ -65,8 +65,8 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
     @SuppressWarnings("unchecked")
 	public List<StudySite> getBySitePrimaryIdentifier(String ctepCode) {
         return getHibernateTemplate().find(
-           "Select s from StudySite s where " +
-           "s.healthcareSite.identifiersAssignedToOrganization.value = ? and s.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1'",
+           "Select s from StudySite s, IN (s.healthcareSite.identifiersAssignedToOrganization) AS I where " +
+           "I.value = ? and I.primaryIndicator = '1'",
            new Object[] {ctepCode});
     }
     
@@ -80,8 +80,8 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
     @SuppressWarnings("unchecked")
 	public List<StudySite> getBySitePrimaryIdentifierAndStudyCoordinatingCenterIdentifier(String studyId, String sitePrimaryId) {
         return getHibernateTemplate().find(
-           "Select s from StudySite s where s.studyInternal.identifiers.value = ? and s.studyInternal.identifiers.typeInternal = 'COORDINATING_CENTER_IDENTIFIER' and " +
-           "s.healthcareSite.identifiersAssignedToOrganization.value = ? and s.healthcareSite.identifiersAssignedToOrganization.primaryIndicator = '1'",
+           "Select s from StudySite s, IN (s.studyInternal.identifiers) AS I1, IN (s.healthcareSite.identifiersAssignedToOrganization) AS I2 " +
+           "where I1.value = ? and I1.typeInternal = 'COORDINATING_CENTER_IDENTIFIER' and I2.value = ? and I2.primaryIndicator = '1'",
            new Object[] {studyId, sitePrimaryId});
     }
 

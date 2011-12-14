@@ -48,7 +48,7 @@ public class ICD9DiseaseSiteDao extends GridIdentifiableDao<ICD9DiseaseSite> {
      * @return the by subnames
      */
     public List<ICD9DiseaseSite> getBySubnames(String[] subnames) {
-        return findBySubname(subnames, null, EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES,
+        return findBySubname(subnames,null, null, EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES,
                         EXACT_MATCH_PROPERTIES);
     }
     
