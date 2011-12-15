@@ -31,9 +31,6 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
     /** The Constant EXTRA_PARAMS. */
     private static final List<Object> EXTRA_PARAMS = Collections.emptyList();
     
-    /** The Constant SUBNAME_SUBEMAIL_MATCH_PROPERTIES. */
-    private static final List<String> SUBNAME_SUBEMAIL_MATCH_PROPERTIES = Arrays.asList("investigator.firstName","investigator.lastName","investigator.contactMechanisms.value");
-    
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.dao.C3PRBaseDao#domainClass()
      */
@@ -100,8 +97,11 @@ public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<Healthcar
      * @return the by sub name and sub email
      */
     public List<HealthcareSiteInvestigator> getBySubNameAndSubEmail(String[] subnames) {
-    	return findBySubname(subnames,"IN (o.healthcareSite.identifiersAssignedToOrganization) AS I "," I.primaryIndicator = '1'",
-                 EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+    	String queryTemplate = "LOWER(o.investigator.firstName) LIKE ? or LOWER(o.investigator.lastName) LIKE ? or LOWER(cm.value) LIKE ?";
+    	return getHibernateTemplate().find("select distinct o from edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator o ," +
+    			"IN (o.healthcareSite.identifiersAssignedToOrganization) AS I, ContactMechanism cm " +
+    			"where  I.primaryIndicator = '1' and cm = any elements(o.investigator.contactMechanisms) " +
+    			"and " + buildSubNameQuery(queryTemplate, subnames.length), buildSubNames(subnames, 3));
     }
 
     /**

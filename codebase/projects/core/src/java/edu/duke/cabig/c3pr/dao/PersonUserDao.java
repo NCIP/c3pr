@@ -70,14 +70,6 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 	private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays
 			.asList("firstName", "lastName");
 
-	/** The Constant SUBNAME_SUBEMAIL_MATCH_PROPERTIES. */
-	private static final List<String> SUBNAME_SUBEMAIL_MATCH_PROPERTIES = Arrays
-			.asList("firstName", "lastName", "contactMechanisms.value");
-
-	/** The Constant EXACT_MATCH_PROPERTIES. */
-	private static final List<String> EXACT_MATCH_PROPERTIES = Collections
-			.emptyList();
-
 	/** The Constant EXTRA_PARAMS. */
 	private static final List<Object> EXTRA_PARAMS = Collections.emptyList();
 
@@ -130,8 +122,9 @@ public class PersonUserDao extends GridIdentifiableDao<PersonUser> {
 	 * @return the by sub name and sub email
 	 */
 	public List<PersonUser> getBySubNameAndSubEmail(String[] subnames) {
-		return findBySubname(subnames,null ,null,
-				EXTRA_PARAMS, SUBNAME_SUBEMAIL_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+		String queryTemplate = "LOWER(o.firstName) LIKE ? or LOWER(o.lastName) LIKE ? or LOWER(cm.value) LIKE ?";
+		return getHibernateTemplate().find("select distinct o from edu.duke.cabig.c3pr.domain.PersonUser o , ContactMechanism cm " +
+				"where cm = any elements(o.contactMechanisms) and " + buildSubNameQuery(queryTemplate, subnames.length), buildSubNames(subnames, 3));
 	}
 
 	/**

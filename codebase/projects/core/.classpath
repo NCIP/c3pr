@@ -201,5 +201,5 @@
 	<classpathentry kind="lib" path="build/lib/csmapi-4.2.jar"/>
 	<classpathentry kind="lib" path="build/lib/spring-orm-3.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="build/classes"/>
-	<classpathentry kind="output" path="bin1"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

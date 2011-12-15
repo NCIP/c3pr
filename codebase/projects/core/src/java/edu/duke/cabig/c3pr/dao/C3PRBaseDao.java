@@ -261,4 +261,23 @@ public abstract class C3PRBaseDao<T extends DomainObject> extends AbstractDomain
         }
         return  (List<T>) li;
 	}
+	
+	public String buildSubNameQuery(String queryTemplate, int count){
+		String query="";
+		for(int i = 0 ; i<count ; i++){
+			query+="("+queryTemplate+")";
+			if(i < count-1) query+=" and ";
+		}
+		return query;
+	}
+	
+	public Object[] buildSubNames(String[] subNamesBase, int count){
+		List<String> subNames = new ArrayList<String>();
+		for(String subName: subNamesBase){
+			for(int i=0 ; i<count ; i++){
+				subNames.add("%"+subName.toLowerCase()+"%");
+			}
+		}
+		return subNames.toArray();
+	}
 }

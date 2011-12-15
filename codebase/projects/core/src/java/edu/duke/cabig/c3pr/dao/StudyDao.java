@@ -77,9 +77,6 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
     /** The Constant EXACT_MATCH_PROPERTIES. */
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
-	 /** The Constant extraParameters. */
-    private static final List EXTRA_PARAMETERS = Arrays.asList("%center%");
-    
     /** The log. */
     private static Log log = LogFactory.getLog(StudyDao.class);
     
@@ -298,9 +295,11 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      */
     public List<Study> getStudiesBySubnamesWithExtraConditionsForPrimaryIdentifier(String[] subnames) {
     	
-    	List<String> SUBSTRING_MATCH_PROPERTIES_FOR_IDENTIFIER = Arrays.asList("identifiers.value");
+    	String queryTemplate = "LOWER(i.value) LIKE ?";
+    	List<Study> studiesFromIdentifier = getHibernateTemplate().find("select distinct o from edu.duke.cabig.c3pr.domain.Study o , Identifier i " +
+    			"								where i= any elements(o.identifiers) and LOWER(i.typeInternal) LIKE '%center%'  and  " +
+    											buildSubNameQuery(queryTemplate, subnames.length), buildSubNames(subnames, 1));
 
-    	List<Study> studiesFromIdentifier = findBySubname(subnames, " IN (o.identifiers) AS I", "LOWER(I).typeInternal LIKE ? ", EXTRA_PARAMETERS, SUBSTRING_MATCH_PROPERTIES_FOR_IDENTIFIER, EXACT_MATCH_PROPERTIES);
     	
     	List<Study> studiesFromShortTitle = findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES, "StudyVersion", "studyVersionsInternal");
     	
