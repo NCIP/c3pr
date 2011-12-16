@@ -537,7 +537,7 @@
 								<tr id="table3-${cmStatus.index}">
 								<td class="alt">
 									<form:input size="30" path="healthcareSite.plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${cmStatus.index}].contactMechanisms[0].value" 
-											cssClass="required validate-notEmpty&&EMAIL" /></td>
+											cssClass="required validate-notEmpty$$EMAIL" /></td>
 								<td class="alt" valign="top"><a
 									href="javascript:RowManager.deleteRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${cmStatus.index},'${cm.id==null?'HC#':'ID#'}${cm.id==null?cm.hashCode:cm.id}');">
 									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
@@ -742,7 +742,7 @@
 				<td class="alt">
 		            <input id="plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value" 
 		            	   name="healthcareSite.plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[TERTIARY.NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
-						   class="required validate-notEmpty&&EMAIL" size="30" type="text" />
+						   class="required validate-notEmpty$$EMAIL" size="30" type="text" />
 	            </td>
 				<td class="alt" valign="top"><a
 					href="javascript:RowManager.deleteRow(RowManager.getTertiaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),TERTIARY.NESTED.PAGE.ROW.INDEX,-1);">

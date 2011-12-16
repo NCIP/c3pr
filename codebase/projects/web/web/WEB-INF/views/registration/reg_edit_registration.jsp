@@ -49,7 +49,7 @@ function editRegistration(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.consentSignedDate"/></div>
 			<div class="value">
-				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
+				<tags:dateInput path="studySubject.studySubjectStudyVersion.studySubjectConsentVersions[0].informedConsentSignedDate" validateDate="true" cssClass='required validate-notEmpty$$DATE'/>
 			</div>
 		</div>
 	</c:if>
@@ -67,7 +67,7 @@ function editRegistration(){
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 		<div class="value">
-			<input type="text" name="studySubject.startDate" id="startDate" value="${ command.studySubject.startDateStr}" class="date validate-DATE&&notEmpty" />
+			<input type="text" name="studySubject.startDate" id="startDate" value="${ command.studySubject.startDateStr}" class="date validate-DATE$$notEmpty" />
             <a href="#" id="startDate-calbutton">
            	   	<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
            	</a>

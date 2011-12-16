@@ -223,7 +223,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 					</div>
 					<div class="row">
 						<div class="label"><tags:requiredIndicator /><fmt:message key="participant.birthDate"/></div>
-						<div class="value"><form:input path="participant.birthDate" cssClass="required validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
+						<div class="value"><form:input path="participant.birthDate" cssClass="required validate-notEmpty$$DATE" /> (mm/dd/yyyy)&nbsp;</div>
 					</div>
 				</div>
 				<div class="rightpanel">
@@ -332,7 +332,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 			                        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.identifier"/></div>
 			                        <div class="value"><input type="text" name="participant.organizationAssignedIdentifiers[0].value" 
 									size="30" maxlength="33"
-									value="${command.participant.organizationAssignedIdentifiers[0].value}" class="required validate-notEmpty&&HTML_SPECIAL_CHARS" />
+									value="${command.participant.organizationAssignedIdentifiers[0].value}" class="required validate-notEmpty$$HTML_SPECIAL_CHARS" />
 									<tags:hoverHint keyProp="subject.MRN.value"/>
 									<input type="hidden" name="participant.organizationAssignedIdentifiers[0].primaryIndicator" 
 										id="organizationAssignedIdentifiers[0].primaryIndicator"value="true"/></div>

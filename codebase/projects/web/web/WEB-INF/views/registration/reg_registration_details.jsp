@@ -369,7 +369,7 @@ function hideDiseaseIndicator(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="scheduledEpoch.startDate"/></div>
 			<div class="value">
-				<tags:dateInput path="studySubject.scheduledEpoch.startDate" validateDate="true" cssClass='validate-notEmpty&&DATE'/>
+				<tags:dateInput path="studySubject.scheduledEpoch.startDate" validateDate="true" cssClass='validate-notEmpty$$DATE'/>
 			</div>
 		</div>
 	</c:if>
@@ -378,7 +378,7 @@ function hideDiseaseIndicator(){
 		<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="registration.startDate"/></div>
 			<div class="value">
-				<tags:dateInput path="studySubject.startDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
+				<tags:dateInput path="studySubject.startDate" validateDate="true" cssClass='required validate-notEmpty$$DATE'/>
 			</div>
 		</div>
 	</c:if>

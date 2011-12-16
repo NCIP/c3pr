@@ -442,7 +442,7 @@ function toggleUserStatus(){
 			</div>
 	        <div class="row">
 	            <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.email" /></div>
-				<tags:researchStaffInput id="email" commandClass="${command.personUser.class}" cssClass="required validate-notEmpty&&EMAIL" path="personUser.email" size="30" value="${command.personUser.email}" onkeyup="copyUsername();"></tags:researchStaffInput>
+				<tags:researchStaffInput id="email" commandClass="${command.personUser.class}" cssClass="required validate-notEmpty$$EMAIL" path="personUser.email" size="30" value="${command.personUser.email}" onkeyup="copyUsername();"></tags:researchStaffInput>
 	       	</div>
 		</div>
 	    <div class="rightpanel">
@@ -626,7 +626,7 @@ function toggleUserStatus(){
 	        			${command.userName}
 	        		</c:when>
 	        		<c:otherwise>
-	        			<form:input id="loginId" size="20" path="userName" cssClass="required validate-notEmpty&&MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
+	        			<form:input id="loginId" size="20" path="userName" cssClass="required validate-notEmpty$$MAXLENGTH100"/><tags:hoverHint keyProp="contactMechanism.username"/>
 	        			<input id="usernameCheckbox" name="copyEmailAdress" type="checkbox" onclick="handleUsername();"/> <i><fmt:message key="researchStaff.copyEmailAddress" /></i>
 	        			<input id="copiedEmailAddress" type="hidden"/>
 	        		</c:otherwise>	

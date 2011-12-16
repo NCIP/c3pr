@@ -40,9 +40,9 @@
 // date             | DATE               | <[input].... type=.... class=validate-DATE[(<format>)]
 // HTML characters  | HTML_SPECIAL_CHARS | <[input].... type=.... class=validate-HTML_SPECIAL_CHARS
 //
-// NOTE : For Multiple validation use JAVA 'and' notation ('&&').
+// NOTE : For Multiple validation use JAVA 'and' notation ('$$').
 // Example:
-//  <[input].... type=.... class=validate-NOTEMPTY&&MINLENGTH7&&EMAIL
+//  <[input].... type=.... class=validate-NOTEMPTY$$MINLENGTH7$$EMAIL
 // ------------------------------------------------------------------
 
 // VALIDATION ERROR DISPLAY:
@@ -127,7 +127,7 @@ var ValidationManager = {
 																return cls.indexOf('validate') == 0
 															})
 		validationTypeStr=validationTypeStr.substr(9)
-		validations=validationTypeStr.split("&&")
+		validations=validationTypeStr.split("$$")
 		for(i=0 ; i<validations.length ; i++){
 			validationType=validations[i]
 			if(validationType.toUpperCase()=='NOTEMPTY'||validationType==''){
@@ -146,13 +146,13 @@ var ValidationManager = {
 				element.htmlescape = true 
 				element.htmlescapeError = ValidationManager.ERROR_MSG_HTML_SPECIAL_CHARS
 			}else {
-				element.pattern = validationType
+				Element.writeAttribute(element, "vpattern", validationType);
 				element.patternError = ValidationManager.ERROR_MSG_PATTERN
 			}
 		}
 	},
 	showError: function(element,msg){
-		strategies=ValidationManager.ERROR_STRATEGY.split("&&")
+		strategies=ValidationManager.ERROR_STRATEGY.split("$$")
 		for(i=0 ; i<strategies.length ; i++){
 		errorStrategy1=strategies[i]
 			if(errorStrategy1=="text"){
@@ -165,7 +165,7 @@ var ValidationManager = {
 		}
 	},
 	removeError: function(element){
-		strategies=ValidationManager.ERROR_STRATEGY.split("&&")
+		strategies=ValidationManager.ERROR_STRATEGY.split("$$")
 		for(i=0 ; i<strategies.length ; i++){
 		errorStrategy2=strategies[i]
 			if(errorStrategy2=="text"){

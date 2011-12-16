@@ -97,7 +97,7 @@ function navRollOver(obj, state) {
 															</table>
 														</td>
 														<td style="border:0px;"><tags:requiredIndicator /><b>Waiver reason</b>
-														<form:textarea path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${waiverAnswerIndex}].waiverReason" cols="55" rows="2" cssClass="required validate-notEmpty&&maxlength190"/></td>
+														<form:textarea path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${waiverAnswerIndex}].waiverReason" cols="55" rows="2" cssClass="required validate-notEmpty$$maxlength190"/></td>
 													</tr>
 												</table>
 												</td>
@@ -184,7 +184,7 @@ function navRollOver(obj, state) {
 														</table>
 													</td>
 													<td style="border:0px;"><tags:requiredIndicator /><b>Waiver reason</b>
-													<form:textarea path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${waiverAnswerIndex}].waiverReason" cols="55" rows="2" cssClass="required validate-notEmpty&&maxlength190"/></td>
+													<form:textarea path="studySubject.scheduledEpoch.subjectEligibilityAnswers[${waiverAnswerIndex}].waiverReason" cols="55" rows="2" cssClass="required validate-notEmpty$$maxlength190"/></td>
 												</tr>
 											</table>
 											</td>

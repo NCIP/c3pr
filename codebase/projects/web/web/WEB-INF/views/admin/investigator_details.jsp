@@ -262,7 +262,7 @@ function submitForm(){
 					</c:when>
 					<c:otherwise>
 						<div class="value">
-							<form:input size="30" path="email" cssClass="required validate-notEmpty&&EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
+							<form:input size="30" path="email" cssClass="required validate-notEmpty$$EMAIL" /><tags:hoverHint keyProp="contactMechanism.email"/>
 						  </div>
 					</c:otherwise>
 				</c:choose>

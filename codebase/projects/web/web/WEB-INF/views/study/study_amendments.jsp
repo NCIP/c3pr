@@ -9,7 +9,7 @@ function amendmentTypeChanged(){
 	$("gracePeriodInput").className="" ;
 	if($('study.currentStudyAmendment.amendmentType').value == 'IMMEDIATE_AFTER_GRACE_PERIOD'){
 		$('gracePeriodDiv').style.display = "";
-		 $("gracePeriodInput").className="validate-notEmpty&&NONZERO_NUMERIC";
+		 $("gracePeriodInput").className="validate-notEmpty$$NONZERO_NUMERIC";
 	} else {
 		$('gracePeriodDiv').style.display = "none";
 	}
@@ -64,7 +64,7 @@ function validateAmendmentReasons(){
 			</div>
 			<c:if test="${command.study.currentStudyAmendment.amendmentType == 'IMMEDIATE_AFTER_GRACE_PERIOD'}">
 			<script>
-					$("gracePeriodInput").className="validate-notEmpty&&NONZERO_NUMERIC";
+					$("gracePeriodInput").className="validate-notEmpty$$NONZERO_NUMERIC";
 			</script>
 			</c:if>
 			<div class="row">

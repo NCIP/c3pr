@@ -11,7 +11,7 @@
 	<div class="row">
 		<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.targetAccrual"/></div>
 		<div class="value">
-			<input type="text" name="study.targetAccrualNumber" id="targetAccrualNumber" class="validate-NUMERIC&&notEmpty" />
+			<input type="text" name="study.targetAccrualNumber" id="targetAccrualNumber" class="validate-NUMERIC$$notEmpty" />
             <tags:hoverHint keyProp="study.targetAccrualNumber"/>
 		</div>
 	</div>

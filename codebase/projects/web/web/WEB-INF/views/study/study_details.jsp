@@ -213,14 +213,14 @@
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="study.shortTitle"/></div>
             <div class="value">
-            	<form:textarea path="study.shortTitleText" rows="2" cols="30" cssClass="required validate-notEmpty&&maxlength190" id="_shortTitle"/>
+            	<form:textarea path="study.shortTitleText" rows="2" cols="30" cssClass="required validate-notEmpty$$maxlength190" id="_shortTitle"/>
             	<tags:hoverHint keyProp="study.shortTitleText"/>
             </div>
         </div>
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="study.longTitle"/></div>
             <div class="value">
-            	<form:textarea path="study.longTitleText" rows="2" cols="30" cssClass="required validate-notEmpty&&maxlength1024" />
+            	<form:textarea path="study.longTitleText" rows="2" cols="30" cssClass="required validate-notEmpty$$maxlength1024" />
             	<tags:hoverHint keyProp="study.longTitleText"/>
             </div>
         </div>
@@ -259,7 +259,7 @@
         <div class="row">
             <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.targetAccrual"/></div>
             <div class="value">
-            	<form:input path="study.targetAccrualNumber" size="10" maxlength="6" cssClass="required validate-notEmpty&&numeric" />
+            	<form:input path="study.targetAccrualNumber" size="10" maxlength="6" cssClass="required validate-notEmpty$$numeric" />
             	<tags:hoverHint keyProp="study.targetAccrualNumber"/>
             </div>
         </div>

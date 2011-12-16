@@ -461,7 +461,7 @@
         <div class="row">
             <div class="label"><fmt:message key="registration.startDate"/>:</div>
             <div class="value">
-           		<tags:inPlaceEdit value="${command.studySubject.startDateStr}" path="studySubject.startDate" id="startDate" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
+           		<tags:inPlaceEdit value="${command.studySubject.startDateStr}" path="studySubject.startDate" id="startDate" validations="validate-notEmpty$$DATE" disable="${!canEditRegistrationRecord}"/>
             </div>
         </div>
         <div class="row">
@@ -473,7 +473,7 @@
         	<div class="row">
                 <div class="label"><fmt:message key="registration.offStudyDate"/>:</div>
                 <div class="value">
-                	<tags:inPlaceEdit value="${command.studySubject.offStudyDateStr}" path="studySubject.offStudyDate" id="offStudyDate" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
+                	<tags:inPlaceEdit value="${command.studySubject.offStudyDateStr}" path="studySubject.offStudyDate" id="offStudyDate" validations="validate-notEmpty$$DATE" disable="${!canEditRegistrationRecord}"/>
                 </div>
             </div>
             <table class="tablecontent">
@@ -624,7 +624,7 @@
 								<c:when test="${studySubjectConsentVersion.informedConsentSignedDateStr != null && studySubjectConsentVersion.informedConsentSignedDateStr != ''}"> 
 									<td>
 										<tags:inPlaceEdit value="${studySubjectConsentVersion.informedConsentSignedDateStr}" path="studySubject.studySubjectConsentVersions[${status.index}].informedConsentSignedDate" 
-											id="informedConsentSignedDate_${status.index}" validations="validate-notEmpty&&DATE" disable="${!canEditRegistrationRecord}"/>
+											id="informedConsentSignedDate_${status.index}" validations="validate-notEmpty$$DATE" disable="${!canEditRegistrationRecord}"/>
 									</td>
 									<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentDeliveryDateStr}"/></td>
 									<td><tags:noDataAvailable value="${studySubjectConsentVersion.consentingMethod.displayName}"/></td>

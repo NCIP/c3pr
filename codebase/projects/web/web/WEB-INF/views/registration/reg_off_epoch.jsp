@@ -68,7 +68,7 @@
 <div class="row">
   	<div class="label"><tags:requiredIndicator />${offEpochLabel }</div>
   	<div class="value">
-  		<tags:dateInput path="offEpochDate" validateDate="true" cssClass='required validate-notEmpty&&DATE'/>
+  		<tags:dateInput path="offEpochDate" validateDate="true" cssClass='required validate-notEmpty$$DATE'/>
   	</div>
  </div>
 <chrome:division title="${offEpochDivisionTitle}">

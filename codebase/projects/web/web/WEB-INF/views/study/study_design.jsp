@@ -191,7 +191,7 @@ DELETED TD
               <form:input
 											path="study.epochs[${treatmentEpochCount.index}].accrualCeiling"
 											size="14" maxlength="5"
-											cssClass="validate-numeric&&nonzero_numeric" />
+											cssClass="validate-numeric$$nonzero_numeric" />
 	                                		<tags:hoverHint
 											id="study.nonTreatmentEpoch.accrualCeiling-${treatmentEpochCount.index}"
 											keyProp="study.nonTreatmentEpoch.accrualCeiling" />
@@ -272,7 +272,7 @@ DELETED TD
 	                </td>
 	                <td valign="top" align="left">
 	                	<form:input path="study.epochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber" size="6" maxlength="6"
-													cssClass="validate-numeric&&nonzero_numeric" />
+													cssClass="validate-numeric$$nonzero_numeric" />
 					</td>
 	                <td valign="top" align="left">
 	                    <a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(genericEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },'${arm.id==null?'HC#':'ID#'}${arm.id==null?arm.hashCode:arm.id}');">
@@ -420,7 +420,7 @@ DELETED TD
 							<td align="left"><input type="text"
 								id="study.epochs[PAGE.ROW.INDEX].accrualCeiling"
 								name="study.epochs[PAGE.ROW.INDEX].accrualCeiling" size="14"
-								maxlength="5" class="validate-numeric&&nonzero_numeric" /> <tags:hoverHint
+								maxlength="5" class="validate-numeric$$nonzero_numeric" /> <tags:hoverHint
 								id="study.nonTreatmentEpoch.accrualCeiling-PAGE.ROW.INDEX"
 								keyProp="study.nonTreatmentEpoch.accrualCeiling" />
 							</td>

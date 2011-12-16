@@ -54,7 +54,7 @@
 							<table>
 								<tr><td><b><fmt:message key="c3pr.common.targetAccrual"/></b></td>
 									<td>
-										<form:input size="5" path="study.plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6" cssClass="required validate-notEmpty&&NUMERIC" />
+										<form:input size="5" path="study.plannedNotifications[${nStatus.index}].studyThreshold" maxlength="6" cssClass="required validate-notEmpty$$NUMERIC" />
 									</td>
 								</tr>
 							</table>
@@ -72,7 +72,7 @@
 									<tr id="table1-${emailStatus.index}">
 										<td class="alt"><form:input						 
 											path="study.plannedNotifications[${nStatus.index}].contactMechanismBasedRecipient[${emailStatus.index}].contactMechanisms[0].value"
-											size="30" cssClass="required validate-notEmpty&&EMAIL" /></td>
+											size="30" cssClass="required validate-notEmpty$$EMAIL" /></td>
 										<td class="alt"><a
 											href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${cmbr.id==null?'HC#':'ID#'}${cmbr.id==null?cmbr.hashCode:cmbr.id}');">
 										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -134,7 +134,7 @@
 						<table>
 							<tr><td><b><fmt:message key="c3pr.common.targetAccrual"/></b></td>
 								<td>
-									<input type="text" size="5" name="study.plannedNotifications[PAGE.ROW.INDEX].studyThreshold" maxlength="6" class="required validate-notEmpty&&NUMERIC" />
+									<input type="text" size="5" name="study.plannedNotifications[PAGE.ROW.INDEX].studyThreshold" maxlength="6" class="required validate-notEmpty$$NUMERIC" />
 								</td>
 							</tr>
 						</table>
@@ -174,7 +174,7 @@
 	<tr>
 		<td class="alt"><input type="text"
 			name="study.plannedNotifications[PAGE.ROW.INDEX].contactMechanismBasedRecipient[NESTED.PAGE.ROW.INDEX].contactMechanisms[0].value"
-			size="30" class="required validate-notEmpty&&EMAIL" /></td>
+			size="30" class="required validate-notEmpty$$EMAIL" /></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
 		<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>

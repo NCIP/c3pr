@@ -29,7 +29,7 @@
    			<div class="row">
    				<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.common.startDate"/></div>
 	   			<div class="value">
-	   				<input type="text" id="formStartDate" name="healthcareSite.investigatorGroups[${groupIndex }].startDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].startDateStr}" class="required validate-notEmpty&&DATE"/>
+	   				<input type="text" id="formStartDate" name="healthcareSite.investigatorGroups[${groupIndex }].startDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].startDateStr}" class="required validate-notEmpty$$DATE"/>
 	        			<a href="#" id="linkStartDate">
 			               <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
 			            </a>
@@ -77,7 +77,7 @@
 		                <input type="text" id="investigators[${status.index}].startDate"
 		                        name="healthcareSite.investigatorGroups[${groupIndex}].siteInvestigatorGroupAffiliations[${status.index}].startDate"
 		                        value="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations[status.index].startDateStr}"
-		                        class="required validate-notEmpty&&DATE">
+		                        class="required validate-notEmpty$$DATE">
 		                 <a href="#" id="investigators[${status.index}].startDate-calbutton">
 		                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
 		                </a>
@@ -152,7 +152,7 @@
             <td>
                 <input type="text" id="investigators[PAGE.ROW.INDEX].startDate"
                         name="healthcareSite.investigatorGroups[${groupIndex}].siteInvestigatorGroupAffiliations[PAGE.ROW.INDEX].startDate"
-                        class="required validate-notEmpty&&DATE">
+                        class="required validate-notEmpty$$DATE">
                  <a href="#" id="investigators[PAGE.ROW.INDEX].startDate-calbutton">
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>

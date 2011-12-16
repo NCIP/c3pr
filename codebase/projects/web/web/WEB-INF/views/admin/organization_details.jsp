@@ -114,7 +114,7 @@ div.row div.label {
 				</c:when>
 				<c:otherwise>
 					<div class="value"><form:input size="40" path="name"
-						cssClass="required validate-notEmpty&&maxlength200" /><tags:hoverHint
+						cssClass="required validate-notEmpty$$maxlength200" /><tags:hoverHint
 						keyProp="organization.name" /></div>
 				</c:otherwise>
 			</c:choose>

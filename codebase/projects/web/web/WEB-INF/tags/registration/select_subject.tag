@@ -368,7 +368,7 @@
                                                 <tags:requiredIndicator/><fmt:message key="participant.birthDate"/>
                                             </div>
                                             <div class="value">
-                                                <input id="birthDate" name="participant.birthDate" type="text" value="" class="required validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
+                                                <input id="birthDate" name="participant.birthDate" type="text" value="" class="required validate-notEmpty$$DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span class="red"></span>
                                             </div>
                                         </div>
                                     </div>

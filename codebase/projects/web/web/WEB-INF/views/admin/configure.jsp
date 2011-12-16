@@ -34,15 +34,15 @@
     function manageCCTSConfiguration(box) {
         if (box.value == 'true') {
             Effect.OpenUp('cctsConfig');
-        	$("smokeTestURL").className="validate-notEmpty&&URL";
-            $("c3dViewerBaseUrl").className="validate-notEmpty&&URL";
-            $("caaersBaseUrl").className="validate-notEmpty&&URL";
-            $("pscBaseUrl").className="validate-notEmpty&&URL";
-            $("esbUrl").className="validate-notEmpty&&URL";
+        	$("smokeTestURL").className="validate-notEmpty$$URL";
+            $("c3dViewerBaseUrl").className="validate-notEmpty$$URL";
+            $("caaersBaseUrl").className="validate-notEmpty$$URL";
+            $("pscBaseUrl").className="validate-notEmpty$$URL";
+            $("esbUrl").className="validate-notEmpty$$URL";
             $("c3d_window_name").className="validate-notEmpty";
             $("caaers_window_name").className="validate-notEmpty";
             $("psc_window_name").className="validate-notEmpty";
-            $("esb.timeout").className="validate-notEmpty&&NUMERIC";		
+            $("esb.timeout").className="validate-notEmpty$$NUMERIC";		
         }else
         {
             Effect.CloseDown('cctsConfig');

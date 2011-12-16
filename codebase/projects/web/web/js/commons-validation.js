@@ -50,20 +50,21 @@ function validateFields(formFields, displayError) {
          }
          
          // pattern (credit card number, email address, zip or postal code, alphanumeric, numeric, url)
-         if (element.pattern) {
-            if ( ( (element.pattern.toLowerCase() == 'visa' || element.pattern.toLowerCase() == 'mastercard' || element.pattern.toLowerCase() == 'american express' || element.pattern.toLowerCase() == 'diners club' || element.pattern.toLowerCase() == 'discover' || element.pattern.toLowerCase() == 'enroute' || element.pattern.toLowerCase() == 'jcb' || element.pattern.toLowerCase() == 'credit card') && isValidCreditCard(element.value, element.pattern) == false) ||
-                  (element.pattern.toLowerCase() == 'email' && isValidEmailStrict(element.value) == false) ||
-                  (element.pattern.toLowerCase() == 'url' && isValidUrl(element.value) == false) ||
-                  (element.pattern.toLowerCase() == 'zip_postal_code' && isValidZipcode(element.value) == false && isValidPostalcode(element.value) == false) ||
-                  (element.pattern.toLowerCase() == 'zipcode' && isValidZipcode(element.value) == false) ||
-                  (element.pattern.toLowerCase() == 'postal code' && isValidPostalcode(element.value) == false) ||
-                  (element.pattern.toLowerCase() == 'us_phone_no' && 
+         var vPattern = Element.readAttribute(element, "vpattern");
+         if (vPattern) {
+            if ( ( (vPattern.toLowerCase() == 'visa' || vPattern.toLowerCase() == 'mastercard' || vPattern.toLowerCase() == 'american express' || vPattern.toLowerCase() == 'diners club' || vPattern.toLowerCase() == 'discover' || vPattern.toLowerCase() == 'enroute' || vPattern.toLowerCase() == 'jcb' || vPattern.toLowerCase() == 'credit card') && isValidCreditCard(element.value, vPattern) == false) ||
+                  (vPattern.toLowerCase() == 'email' && isValidEmailStrict(element.value) == false) ||
+                  (vPattern.toLowerCase() == 'url' && isValidUrl(element.value) == false) ||
+                  (vPattern.toLowerCase() == 'zip_postal_code' && isValidZipcode(element.value) == false && isValidPostalcode(element.value) == false) ||
+                  (vPattern.toLowerCase() == 'zipcode' && isValidZipcode(element.value) == false) ||
+                  (vPattern.toLowerCase() == 'postal code' && isValidPostalcode(element.value) == false) ||
+                  (vPattern.toLowerCase() == 'us_phone_no' && 
                      ( (element.prefix && element.suffix && isValidUSPhoneNumber(element.value, form[element.prefix].value, form[element.suffix].value) == false) || 
                         (!element.prefix && !element.suffix && isValidUSPhoneNumber(element.value) == false) ) ) ||
-                  (element.pattern.toLowerCase() == 'alphanumeric' && isAlphanumeric(element.value, true) == false) ||
-                  (element.pattern.toLowerCase() == 'numeric' && isNumeric(element.value, true) == false) ||
-                  (element.pattern.toLowerCase() == 'alphabetic' && isAlphabetic(element.value, true) == false) ||
-                  (element.pattern.toLowerCase().indexOf('date') == 0 && isCorrectDate(element.value) == false)) {
+                  (vPattern.toLowerCase() == 'alphanumeric' && isAlphanumeric(element.value, true) == false) ||
+                  (vPattern.toLowerCase() == 'numeric' && isNumeric(element.value, true) == false) ||
+                  (vPattern.toLowerCase() == 'alphabetic' && isAlphabetic(element.value, true) == false) ||
+                  (vPattern.toLowerCase().indexOf('date') == 0 && isCorrectDate(element.value) == false)) {
                displayError?ValidationManager.showError(element,element.patternError):null;
                validForm=false;
                continue;

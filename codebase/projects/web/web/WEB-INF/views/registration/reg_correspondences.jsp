@@ -457,7 +457,7 @@ function sendNotification(id){
 							<tr>
 								<td align="right"><tags:requiredIndicator /><b><fmt:message key="registration.correspondence.time"/></b></td>
 								<td><input type="text" id="studySubject.correspondences[PAGE.ROW.INDEX].time" size="11"
-						                name="studySubject.correspondences[PAGE.ROW.INDEX].time" class="required validate-notEmpty&&DATE"
+						                name="studySubject.correspondences[PAGE.ROW.INDEX].time" class="required validate-notEmpty$$DATE"
 						                onkeyup="updateName('correspondence-PAGE.ROW.INDEX', 'Correspondence: ' + this.value);">
 										<a href="#" id="studySubject.correspondences[PAGE.ROW.INDEX].time-calbutton">
 						                   <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0"/>

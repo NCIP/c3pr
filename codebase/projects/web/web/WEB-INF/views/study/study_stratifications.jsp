@@ -326,7 +326,7 @@
 										<tr><td><b><fmt:message key="study.question"/></b></td></tr>
 										<tr><td>
 											<form:textarea path="study.epochs[${epochCount.index }].stratificationCriteria[${status.index}].questionText"
-										rows="2" cols="60" cssClass="required validate-notEmpty&&MAXLENGTH200" onkeyup="updateName('questionTitle-${epochCount.index }-${status.index }', 'Question: ' + this.value);"/>
+										rows="2" cols="60" cssClass="required validate-notEmpty$$MAXLENGTH200" onkeyup="updateName('questionTitle-${epochCount.index }-${status.index }', 'Question: ' + this.value);"/>
 										</td></tr>
 									</table>
 								</td>
@@ -339,7 +339,7 @@
 											<tr id="table1-${statusAns.index }">
 												<td class="alt"><form:input
 													path="study.epochs[${epochCount.index }].stratificationCriteria[${status.index}].permissibleAnswers[${statusAns.index}].permissibleAnswer"
-													size="30" cssClass="required validate-notEmpty&&MAXLENGTH200" /></td>
+													size="30" cssClass="required validate-notEmpty$$MAXLENGTH200" /></td>
 												<c:choose>
 													<c:when test="${statusAns.index < 2}">
 													</c:when>
@@ -423,7 +423,7 @@
 						<table class=""  width="50%">
 							<tr><td><b><fmt:message key="study.question"/></b></td></tr>
 							<tr><td>
-								<TEXTAREA name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText" rows="2" cols="60" class="required validate-notEmpty&&MAXLENGTH200" onkeyup="updateName('questionTitle-${epochCount.index }-PAGE.ROW.INDEX', 'Question: ' + this.value);" ></TEXTAREA>
+								<TEXTAREA name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText" rows="2" cols="60" class="required validate-notEmpty$$MAXLENGTH200" onkeyup="updateName('questionTitle-${epochCount.index }-PAGE.ROW.INDEX', 'Question: ' + this.value);" ></TEXTAREA>
 							</td></tr>
 						</table>
 					</td>
@@ -438,12 +438,12 @@
 							<tr id="table1-0">
 								<td><input type="text"
 									name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[0].permissibleAnswer"
-									size="30" class="required validate-notEmpty&&MAXLENGTH200" /></td>
+									size="30" class="required validate-notEmpty$$MAXLENGTH200" /></td>
 							</tr>
 							<tr id="table1-1">
 								<td><input type="text"
 									name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[1].permissibleAnswer"
-									size="30" class="required validate-notEmpty&&MAXLENGTH200" /></td>
+									size="30" class="required validate-notEmpty$$MAXLENGTH200" /></td>
 							</tr>
 						</table>
 					</td>
@@ -460,7 +460,7 @@
 		<tr>
 			<td><input type="text"
 				name="study.epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[NESTED.PAGE.ROW.INDEX].permissibleAnswer"
-				size="30" class="required validate-notEmpty&&MAXLENGTH200" /></td>
+				size="30" class="required validate-notEmpty$$MAXLENGTH200" /></td>
 			<td><a
 				href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
 			<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
