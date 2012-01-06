@@ -18,7 +18,11 @@ public enum ConsentRequired implements CodedEnum<String>{
     public String getCode() {
         return code;
     }
-
+    
+    public String getName() {
+        return name();
+    }
+        
     public static ConsentRequired getByCode(String code) {
         return getByClassAndCode(ConsentRequired.class, code);
     }

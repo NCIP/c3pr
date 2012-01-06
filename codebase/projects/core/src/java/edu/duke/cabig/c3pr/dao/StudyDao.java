@@ -261,6 +261,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
             getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
             for(StudyInvestigator studyInvestigator:studyOrganization.getStudyInvestigatorsInternal()){
             	getHibernateTemplate().initialize(studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getContactMechanisms());
+            	getHibernateTemplate().initialize(studyInvestigator.getHealthcareSiteInvestigator().getHealthcareSite().getIdentifiersAssignedToOrganization());
             }
             for(StudyPersonnel studyPersonnel:studyOrganization.getStudyPersonnelInternal()){
             	getHibernateTemplate().initialize(studyPersonnel.getPersonUser().getContactMechanisms());
@@ -349,7 +350,7 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 
 	private List<Study> getExternalStudiesByExampleFromResolver(Study exampleStudy) {
 		if(exampleStudy.getIdentifiers().size() > 0){
-			List<Study> localStudyList = getHibernateTemplate().find("from Study s where s.identifiers.value = ?", exampleStudy.getIdentifiers().get(0).getValue());
+			List<Study> localStudyList = getHibernateTemplate().find("select s from Study s, Identifier i where i = any elements(s.identifiers) and i.value = ?", exampleStudy.getIdentifiers().get(0).getValue());
 			if(localStudyList.size() > 0){
 				return localStudyList;
 			}
