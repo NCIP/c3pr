@@ -147,6 +147,7 @@ public class CreateParticipantController<C extends ParticipantWrapper> extends
     @Override
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
                     throws Exception {
+    	binder.setAutoGrowNestedPaths(Boolean.FALSE);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
         binder.registerCustomEditor(ContactMechanismType.class, new EnumByNameEditor(ContactMechanismType.class));

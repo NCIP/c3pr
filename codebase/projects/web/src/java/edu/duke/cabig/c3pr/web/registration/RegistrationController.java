@@ -306,7 +306,8 @@ public abstract class RegistrationController<C extends StudySubjectWrapper> exte
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
                     throws Exception {
-    	 super.initBinder(request, binder);
+    	binder.setAutoGrowNestedPaths(Boolean.FALSE);
+    	super.initBinder(request, binder);
     	binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     	binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(

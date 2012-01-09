@@ -39,6 +39,7 @@ public abstract class AbstractCreateC3PRUserController<X extends C3PRUser, D ext
 
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
                     throws Exception {
+    	binder.setAutoGrowNestedPaths(Boolean.FALSE);
         super.initBinder(request, binder);
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));

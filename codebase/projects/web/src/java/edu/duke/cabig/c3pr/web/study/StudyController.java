@@ -143,6 +143,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
 
     @Override
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+    	binder.setAutoGrowNestedPaths(Boolean.FALSE);
         super.initBinder(request, binder);
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(false));
         binder.registerCustomEditor(healthcareSiteDao.domainClass(), new CustomDaoEditor( healthcareSiteDao));
@@ -166,6 +167,7 @@ public abstract class StudyController<C extends StudyWrapper> extends AutomaticS
         binder.registerCustomEditor(StudySponsorType.class, new EnumByNameEditor( StudySponsorType.class));
         binder.registerCustomEditor(StudyCategory.class, new EnumByNameEditor( StudyCategory.class));
         binder.registerCustomEditor(NCIRecognizedProgramName.class, new EnumByNameEditor( NCIRecognizedProgramName.class));
+       
         
     }
 
