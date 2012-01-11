@@ -61,7 +61,7 @@
 		<dependency org="org.globus" name="cog-jglobus" rev="1.2" conf="build;runtime;dist" />
 		<dependency org="globus" name="axis" rev="1.2RC2"/>
 		<dependency org="globus" name="ws-addressing" rev="1.0"/>
-		<dependency org="globus" name="ws-core-client" rev="4.0.3"/>
+		<dependency org="globus" name="ws-core-client" rev="4.0.3"/> 
 		
 		<!-- JMS -->
 		<dependency org="javax.jms" name="jms-api" rev="1.1-rev-1"/>
@@ -72,7 +72,7 @@
 		</dependency>
 		
 		<!-- caXchange -->
-		<dependency org="gov.nih.nci.caxchange" name="coppa-commons" rev="1.2.3" conf="*->publish,runtime">
+		<!-- <dependency org="gov.nih.nci.caxchange" name="coppa-commons" rev="1.2.3" conf="*->publish,runtime">
             <artifact name="coppa-commons" />
         </dependency>
         <dependency org="gov.nih.nci.caxchange"  name="caXchange-cxf-stubs-jar" rev="2.0">
@@ -86,38 +86,45 @@
         </dependency>
         <dependency org="gov.nih.nci.caxchange"  name="caXchangeRequestProcessor-stubs" rev="1.3">
             <artifact name="CaXchangeRequestProcessor-stubs" />
+        </dependency> -->
+        
+        <dependency org="gov.nih.nci.caxchange" name="CaXchangeRequestProcessor" rev="2.4_M2">
+            <exclude name="CaXchangeRequestProcessor-service" />
+            <exclude name="CaXchangeRequestProcessor-tests" />
         </dependency>
         
         <!-- caXchange transitive dependencies -->
-        <dependency org="org.apache.geronimo.specs"  name="geronimo-jms_1.1_spec" rev="1.1" />
+        <!-- <dependency org="org.apache.geronimo.specs"  name="geronimo-jms_1.1_spec" rev="1.1" />
         <dependency org="org.apache.geronimo.specs"  name="geronimo-activation_1.1_spec" rev="1.0.2" />
         <dependency org="org.apache.geronimo.specs"  name="geronimo-annotation_1.0_spec" rev="1.1.1" />
         <dependency org="org.apache.geronimo.specs"  name="geronimo-jaxws_2.1_spec" rev="1.0" />
         <dependency org="org.apache.geronimo.specs"  name="geronimo-stax-api_1.0_spec" rev="1.0.1" />
-        <dependency org="org.apache.geronimo.specs"  name="geronimo-ws-metadata_2.0_spec" rev="1.1.2" />
+        <dependency org="org.apache.geronimo.specs"  name="geronimo-ws-metadata_2.0_spec" rev="1.1.2" /> -->
         
         <!-- PA related jars -->   <!-- >>>>>>> Can remove, once the remoteentitymanager sync their dependency <<<<<<<<<<< -->
-        <dependency org="gov.nih.nci.caxchange" name="PAServices-common" rev="3.1" />
+        <!--  <dependency org="gov.nih.nci.caxchange" name="PAServices-common" rev="3.1" />
         <dependency org="gov.nih.nci.caxchange" name="PAServices-stubs" rev="3.1" />
         <dependency org="gov.nih.nci.caxchange" name="PAServices-client" rev="3.1" />
-        <dependency org="gov.nih.nci.caxchange" name="PAServices-service" rev="3.1" />
+        <dependency org="gov.nih.nci.caxchange" name="PAServices-service" rev="3.1" /> -->
         <!-- jars for PO -->    <!-- >>>>>>> Can remove, once the remoteentitymanager sync their dependency <<<<<<<<<<< -->
-        <dependency org="gov.nih.nci.caxchange" name="CoreServices-common" rev="3.0"/>
+        <!--  <dependency org="gov.nih.nci.caxchange" name="CoreServices-common" rev="3.0"/>
         <dependency org="gov.nih.nci.caxchange" name="CoreServices-stubs" rev="3.1"/>
         <dependency org="gov.nih.nci.caxchange" name="CoreServices-client" rev="3.1"/>
         <dependency org="gov.nih.nci.caxchange" name="CoreServices-service" rev="3.1"/>
-        <dependency org="gov.nih.nci.caxchange" name="CoreServices-config" rev="3.1"/>
+        <dependency org="gov.nih.nci.caxchange" name="CoreServices-config" rev="3.1"/>-->
         
-        <!-- caGrid Dependencies -->
-        <dependency org="caGrid" name="dorian" rev="1.3" conf="*->client"/>
-        <dependency org="caGrid" name="dorian-deprecated" rev="1.2" conf="*->stubs"> Needed by 'gridAuthenticationClient' in applicationContext-web-security.xml
-			<artifact name="caGrid-dorian-stubs"/>
-		</dependency>
-		
 		<!-- Test/Runtime dependencies -->
         <dependency org="org.dbunit" name="dbunit" rev="2.4.8" conf="build->default;test->default">
             <exclude org="org.slf4j" module="slf4j-api" rev="1.4.3"/>
         </dependency>
+        
+        <!-- caGrid Dependencies -->
+        <dependency org="caGrid" name="dorian" rev="1.4" conf="test->*">
+        	<exclude org="junit" name="*"/>
+        </dependency>
+        <dependency org="caGrid" name="dorian-deprecated" rev="1.2" conf="test->*">
+			<artifact name="caGrid-dorian-stubs"/>
+		</dependency>
 
 		<!-- Test Only Dependencies -->
        	<dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default" />

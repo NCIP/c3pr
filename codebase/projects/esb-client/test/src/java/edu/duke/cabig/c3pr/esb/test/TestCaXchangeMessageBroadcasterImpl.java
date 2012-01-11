@@ -17,7 +17,6 @@ import edu.duke.cabig.c3pr.esb.Metadata;
 import edu.duke.cabig.c3pr.esb.OperationNameEnum;
 import edu.duke.cabig.c3pr.esb.ServiceTypeEnum;
 import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
-import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
 
 public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 
@@ -48,11 +47,11 @@ public class TestCaXchangeMessageBroadcasterImpl extends TestCase{
 		messageTypesMapping.put("HealthCareProviderCorrelation", "HEALTH_CARE_PROVIDER_CORRELATION");
 		messageTypesMapping.put("HealthCareFacility", "HEALTH_CARE_FACILITY");
 		
-		TestMultisiteDelegatedCredentialProvider testMultisiteDelegatedCredentialProvider = new TestMultisiteDelegatedCredentialProvider(username, password);
-		testMultisiteDelegatedCredentialProvider.setIdpUrl(idpUrl);
-		testMultisiteDelegatedCredentialProvider.setIfsUrl(ifsUrl);
+		//TestMultisiteDelegatedCredentialProvider testMultisiteDelegatedCredentialProvider = new TestMultisiteDelegatedCredentialProvider(username, password);
+//		testMultisiteDelegatedCredentialProvider.setIdpUrl(idpUrl);
+//		testMultisiteDelegatedCredentialProvider.setIfsUrl(ifsUrl);
 		
-		messageBroadcaster.setDelegatedCredentialProvider(testMultisiteDelegatedCredentialProvider);
+		//messageBroadcaster.setDelegatedCredentialProvider(testMultisiteDelegatedCredentialProvider);
 		messageBroadcaster.setCaXchangeURL(caXchangeUrl);
 		messageBroadcaster.setMessageTypesMapping(messageTypesMapping);
 

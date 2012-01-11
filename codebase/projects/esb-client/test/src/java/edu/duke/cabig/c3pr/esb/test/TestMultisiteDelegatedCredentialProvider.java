@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.esb.infrastructure;
+package edu.duke.cabig.c3pr.esb.test;
 
 import org.globus.gsi.GlobusCredential;
 

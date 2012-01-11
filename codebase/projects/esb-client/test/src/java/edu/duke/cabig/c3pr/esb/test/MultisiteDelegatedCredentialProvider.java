@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.esb.infrastructure;
+package edu.duke.cabig.c3pr.esb.test;
 
 import java.io.IOException;
 import java.util.Properties;
