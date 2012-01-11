@@ -7,7 +7,7 @@ import com.semanticbits.coppasimulator.util.CoppaObjectFactory;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.RemoteHealthcareSite;
 import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
-import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
+import edu.duke.cabig.c3pr.esb.test.TestMultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.ApplicationContextTest;
 import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;

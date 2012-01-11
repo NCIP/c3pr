@@ -726,10 +726,10 @@
     	 <property name="c3prErrorMessages" ref="c3prErrorMessages" />
     </bean>
 
-    <bean id="multisiteDelegatedCredentialProvider" class="edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider">
-		<property name="idpUrl"><value>${idp.url}</value></property>
-		<property name="ifsUrl"><value>${ifs.url}</value></property>
-	</bean>
+<!--     <bean id="multisiteDelegatedCredentialProvider" class="edu.duke.cabig.c3pr.esb.infrastructure.MultisiteDelegatedCredentialProvider"> -->
+<!-- 		<property name="idpUrl"><value>${idp.url}</value></property> -->
+<!-- 		<property name="ifsUrl"><value>${ifs.url}</value></property> -->
+<!-- 	</bean> -->
 
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
           autowire="byName"/>

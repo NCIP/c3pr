@@ -8,7 +8,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.LocalHealthcareSite;
 import edu.duke.cabig.c3pr.domain.RemoteInvestigator;
 import edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl;
-import edu.duke.cabig.c3pr.esb.infrastructure.TestMultisiteDelegatedCredentialProvider;
+import edu.duke.cabig.c3pr.esb.test.TestMultisiteDelegatedCredentialProvider;
 import edu.duke.cabig.c3pr.utils.ApplicationContextTest;
 import edu.duke.cabig.c3pr.utils.PersonOrganizationResolverUtils;
 

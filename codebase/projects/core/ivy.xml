@@ -59,7 +59,9 @@
 			
 			<!-- c3pr module dependencies -->
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-esb-client" rev="latest.integration" 
-				conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
+				conf="build->default;runtime->default;dist->dist;distGrid->distGrid;test->test">
+				<exclude org="junit" name="*"/>
+			</dependency>
 			<dependency org="edu.duke.cabig.c3pr" name="c3pr-management" rev="latest.integration" 
 			conf="build->default;runtime->default;dist->dist;distGrid->distGrid"/>
         	<dependency org="edu.duke.cabig.c3pr"
@@ -176,10 +178,10 @@
             </dependency>
 
             <!--Home grown infrastructure jar for COPPA  -->
-            <dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="1.2" transitive="false" />
+            <dependency org="com.semanticbits.remoteentitymanager" name="remoteentitymanager" rev="1.2.2" />
         	
         	<!-- cagrid -->
-        	<dependency org="caGrid" name="cds" rev="1.3" >
+        	<dependency org="caGrid" name="cds" rev="1.4" >
                 <artifact name="caGrid-cds-client" conf="*->client" />
                 <exclude org="mysql" conf="*"/>
                 <exclude org="caGrid" name="gridgrouper" conf="*"/>
