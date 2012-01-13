@@ -91,17 +91,16 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubjectWrapper> 
         refdata.put("orgIdentifiersTypeRefData", configMap.get("participantIdentifiersType"));
         refdata.put("sysIdentifiersTypeRefData", sysParticipantIdentifiersType);
         
-        Map<String,Object> familialRelationshipNames = new HashMap<String,Object>();
-        for(FamilialRelationshipName familialRelationshipName : FamilialRelationshipName.values()){
-        	familialRelationshipNames.put(familialRelationshipName.getName(), familialRelationshipName.getCode());
+        List<Lov> familialRelationshipNames = new ArrayList<Lov>();
+        Lov lov = new Lov();
+        for(FamilialRelationshipName familialRelationship : FamilialRelationshipName.values()){
+        	lov = new Lov();
+        	lov.setCode(familialRelationship.getName());
+        	lov.setDesc(familialRelationship.getCode());
+        	familialRelationshipNames.add(lov);
         }
         refdata.put("familialRelationshipNames",familialRelationshipNames);
         
-        Map<String,Object> relationshipCategories = new HashMap<String,Object>();
-        for(RelationshipCategory relationshipCategory : RelationshipCategory.values()){
-        	relationshipCategories.put(relationshipCategory.getName(), relationshipCategory.getCode());
-        }
-        refdata.put("relationshipCategories",relationshipCategories);
         
         if (command.getStudySubject().getSystemAssignedIdentifiers()!= null && command.getStudySubject().getSystemAssignedIdentifiers().size()>0) {
             refdata.put("disableForm", new Boolean(true));

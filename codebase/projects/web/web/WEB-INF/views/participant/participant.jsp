@@ -283,8 +283,8 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 								path="participant.relatedTo[${familyMemberStatus.index}].name"
 								cssClass="required validate-notEmpty">
 								<option value="">Please Select</option>
-								<form:options items="${familialRelationshipNames}" itemLabel="value"
-									itemValue="key" />
+								<form:options items="${familialRelationshipNames}" itemLabel="desc"
+									itemValue="code" />
 							</form:select></td>
 							<td class="alt"><a
 								href="javascript:RowManager.deleteRow(familyMemberRowInserterProps,${familyMemberStatus.index},'${familyMember.id==null?'HC#':'ID#'}${familyMember.id==null?familyMember.hashCode:familyMember.id}');"><img

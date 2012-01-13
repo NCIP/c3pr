@@ -72,20 +72,16 @@ public class ParticipantDetailsTab extends ParticipantTab {
 	        refdata.put("mandatory", "true");
 	        refdata.put("raceCodes", WebUtils.collectOptions(RaceCodeEnum.values()));
 	        
-	        Map<String,Object> familialRelationshipNames = new HashMap<String,Object>();
-	        for(FamilialRelationshipName familialRelationshipName : FamilialRelationshipName.values()){
-	        	familialRelationshipNames.put(familialRelationshipName.getName(), familialRelationshipName.getCode());
+	        List<Lov> familialRelationshipNames = new ArrayList<Lov>();
+	        Lov lov = new Lov();
+	        for(FamilialRelationshipName familialRelationship : FamilialRelationshipName.values()){
+	        	lov = new Lov();
+	        	lov.setCode(familialRelationship.getName());
+	        	lov.setDesc(familialRelationship.getCode());
+	        	familialRelationshipNames.add(lov);
 	        }
 	        refdata.put("familialRelationshipNames",familialRelationshipNames);
 	        
-	        
-	        Map<String,Object> relationshipCategories = new HashMap<String,Object>();
-	        for(RelationshipCategory relationshipCategory : RelationshipCategory.values()){
-	        	relationshipCategories.put(relationshipCategory.getName(), relationshipCategory.getCode());
-	        }
-	        refdata.put("relationshipCategories",relationshipCategories);
-
-
 	        Participant participant = command.getParticipant();
 	        for(Object object : WebUtils.collectOptions(RaceCodeEnum.values())){
 	        	RaceCodeEnum raceCode = (RaceCodeEnum) object ;
