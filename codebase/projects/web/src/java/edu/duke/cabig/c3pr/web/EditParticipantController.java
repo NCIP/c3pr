@@ -127,6 +127,7 @@ public class EditParticipantController<C extends ParticipantWrapper> extends
 
     protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
                     throws Exception {
+    	binder.setAutoGrowNestedPaths(Boolean.FALSE);
         super.initBinder(req, binder);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
                         "MM/dd/yyyy"), true));
