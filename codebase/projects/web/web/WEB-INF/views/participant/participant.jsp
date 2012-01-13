@@ -610,7 +610,7 @@ function handleSaveSubjectDetailsAndReturnToRegistration(){
 			class="required validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${familialRelationshipNames}" var="id">
-				<option value="${id.key}">${id.value}</option>
+				<option value="${id.code}">${id.desc}</option>
 			</c:forEach>
 		</select></td>
 		<td class="alt"><a
