@@ -39,12 +39,10 @@
 			<!-- exclusion based on class loading -->
 
 			<exclude conf="runtime,dist,distGrid" name="logkit"  />
-			<!-- <exclude conf="runtime,dist,distGrid" module="commons-codec"  /> -->
 			<exclude conf="dist,distGrid" module="hsqldb" />
 			<exclude conf="dist,distGrid" name="jta" />
 			<exclude conf="dist,distGrid" module="collection-setter-injector" />
 			<exclude conf="dist,distGrid" module="commons-beanutils-core" />
-<!-- 			<exclude conf="dist,distGrid" module="commons-configuration" /> -->
 			<exclude conf="dist,distGrid" org="cryptix"  />
 			<exclude conf="dist,distGrid" module="icu4j" />
 			<exclude conf="dist,distGrid" module="jgss" />
@@ -155,10 +153,6 @@
 				<exclude module="log4j" />
 				<exclude module="commons-logging" />
 			</dependency>
-<!-- 			<dependency org="org.apache.poi" name="poi" rev="3.0-FINAL" > -->
-<!-- 				<exclude module="log4j" /> -->
-<!-- 				<exclude module="commons-logging" /> -->
-<!-- 			</dependency> -->
 
             <!-- Other XML dependencies -->
             <dependency org="xml-apis"  name="xml-apis" rev="2.0.2"  />
@@ -200,10 +194,6 @@
         	<dependency org="gov.nih.nci" name="client" rev="1.1" />
         	<dependency org="handle" name="handlerservice" rev="1.5.0" />
         	<dependency org="org.apache.xmlgraphics" name="fop" rev="0.93">
-<!--         		<exclude org="org.apache.xmlgraphics" name="xmlgraphics-commons" conf="*"/> -->
-<!--         		<exclude org="batik" conf="*"/> -->
-<!--         		<exclude org="org.apache.avalon.framework" conf="*"/> -->
-<!--         		<exclude org="rhino" conf="*"/> -->
         	</dependency>
         	<dependency org="ant-contrib" name="ant-contrib" rev="1.0b2" force="true" conf="build->default(*);test->default(*)" transitive="false"/>
         	
@@ -213,19 +203,7 @@
             </dependency>
 
 			<!-- Test Only Dependencies -->
-			<dependency org="commons-configuration" name="commons-configuration" rev="1.5" conf="test->default" transitive="false">
-<!-- 				<exclude org="commons-jxpath" conf="*"/> -->
-<!-- 				<exclude org="xerces" conf="*"/> -->
-<!-- 				<exclude org="xalan" conf="*"/> -->
-<!-- 				<exclude org="javax.servlet" conf="*"/> -->
-<!-- 				<exclude org="javax.mail" conf="*"/> -->
-<!-- 				<exclude org="ant" conf="*"/> -->
-<!-- 				<exclude org="commons-dbcp" conf="*"/> -->
-<!-- 				<exclude org="commons-pool" conf="*"/> -->
-<!-- 				<exclude org="hsqldb" conf="*"/> -->
-<!-- 				<exclude org="dbunit" conf="*"/> -->
-<!-- 				<exclude org="junit" conf="*"/> -->
-			</dependency>
+			<dependency org="commons-configuration" name="commons-configuration" rev="1.5" conf="test->default" transitive="false"/>
         	<dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default" />
         	<dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default" />
         	<dependency org="org.springframework" name="spring-mock" rev="3.0.6.RELEASE" conf="test->default(*)" />
