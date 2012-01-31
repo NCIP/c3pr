@@ -35,6 +35,7 @@ This file is the is the settings file used by IVY.  It is a good starting point 
                 <!-- remote enterprise repository -->
                 <artifact pattern="http://repo.semanticbits.com/ivy-repo/bda/[organisation]/[module]/jars/[artifact]-[revision].[ext]" />
                 <artifact pattern="http://repo.semanticbits.com/ivy-repo/bda/[organisation]/[module]/zips/[artifact]-[revision].[ext]" />
+                <artifact pattern="http://repo.semanticbits.com/ivy-repo/bda/[organisation]/[module]/xmls/[artifact]-[revision].[ext]" />
                 <artifact pattern="http://repo.semanticbits.com/ivy-repo/bda/[organisation]/[module]/ivy-[revision].xml" />
                 <ivy pattern="http://repo.semanticbits.com/ivy-repo/bda/[organisation]/[module]/ivy-[revision].xml" />
         </url>         
