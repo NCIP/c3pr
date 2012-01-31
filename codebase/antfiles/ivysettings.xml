@@ -16,92 +16,78 @@
 			<artifact pattern="${ivy.cache}/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]"/>
 		</filesystem>
 		
-		<!-- NCI IVY repository -->
-        <url name="nci-ivy-repo" >
-          <ivy pattern="https://ncisvn.nci.nih.gov/svn/cbiit-ivy-repo/trunk/[organisation]/[module]/[revision]/ivy.xml" />
-          <artifact pattern="https://ncisvn.nci.nih.gov/svn/cbiit-ivy-repo/trunk/[organisation]/[module]/[revision]/[module]-[revision].[ext]" />
-          <artifact pattern="https://ncisvn.nci.nih.gov/svn/cbiit-ivy-repo/trunk/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-        </url>
-
-        <!-- caGrid 1.3 repository -->
+		 <!-- caGrid 1.4 repository -->
         <url name="nci-cagrid-repo">
             <ivy pattern="http://software.cagrid.org/repository-1.4/[organisation]/[module]/ivy-[revision].xml" />
             <artifact pattern="http://software.cagrid.org/repository-1.4/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
         </url>
-
-		<!--  Semanticbits shared repository [using http] -->
-
-		<url name="semanticbits-repo-http">
-			<ivy pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/ivy.xml" />
-  			<artifact pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/[artifact].[ext]" />
-		</url>
-
-
-		<url name="semanticbits-caaers-repo-http">
-			<ivy pattern="http://repo.semanticbits.com/ivy-repo/caAERS/[organisation]/[module]/ivy-[revision].xml" />
-  			<artifact pattern="http://repo.semanticbits.com/ivy-repo/caAERS/[organisation]/[module]/jars/[artifact]-[revision].[ext]" />
-		</url>
-
-		<!-- Maven 2 -->	
-		<ibiblio name="maven2" m2compatible="true"/>
-	    
-	    <!--  Northwestern RHLCCC Bioinformatics  -->
-		<ibiblio name="maven2-northwestern" m2compatible="true"
-				root="http://download.bioinformatics.northwestern.edu/download/maven2"
-				changingPattern=".*SNAPSHOT" />
 			
 			<!--  Semanticbits shared repository [using sftp] -->
-<!-- 		<url name="semanticbits-repo-http"> -->
-<!-- 			<ivy pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/ivy.xml" /> -->
-<!--   			<artifact pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/[artifact].[ext]" /> -->
-<!-- 		</url> -->
-<!-- 		<url name="semanticbits-caaers-repo-http"> -->
-<!-- 			<ivy pattern="http://repo.semanticbits.com/ivy-repo/caAERS/[organisation]/[module]/ivy-[revision].xml" /> -->
-<!-- 			<artifact pattern="http://repo.semanticbits.com/ivy-repo/caAERS/[organisation]/[module]/jars/[artifact]-[revision].[ext]" /> -->
-<!-- 		</url> -->
+		<url name="semanticbits-repo-http">
+			<ivy pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/ivy.xml" />
+			<ivy pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/ivy-[revision].xml" />
+  			<artifact pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/[artifact].[ext]" />
+  			<artifact pattern="http://repo.semanticbits.com/ivy-repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+		</url>
+		
+		<!-- The caAERS repository, all the JARs that are not available elsewhere are moved here -->
+       <url name="semanticbits-repo-caAERS-http">
+           <ivy pattern="http://repo.semanticbits.com/ivy-repo/caAERS/[organisation]/[module]/ivy-[revision].xml" />
+           <artifact pattern="http://repo.semanticbits.com/ivy-repo/caAERS/[organisation]/[module]/[type]s/[artifact]-[revision].[ext]" />
+       </url>
+		
+		<!-- Maven 2 -->
+		<ibiblio name="maven2" m2compatible="true"/>
+   
+   		<!--  Northwestern RHLCCC Bioinformatics  -->
+		<ibiblio name="maven2-northwestern" m2compatible="true"	root="http://download.bioinformatics.northwestern.edu/download/maven2"
+			changingPattern=".*SNAPSHOT" />
+
+        <!-- Nexus NCI -->
+        <ibiblio name="maven2-NCI-3rdparty" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/thirdparty"
+                 changingPattern="SNAPSHOT"/>
+        <ibiblio name="maven2-NCI-m2central" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/central"
+                 changingPattern="SNAPSHOT"/>
+        <ibiblio name="maven2-NCI-jboss" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/jboss" 
+        	changingPattern="SNAPSHOT"/>
+		
+		
 		<!-- created for publishing esb-client -->
-<!-- 		<sftp name="semanticbits-repo-alfie" user="userivy" userPassword="userivy" host="alfie.semanticbits.com"> -->
-<!-- 		  <ivy pattern="/usr/local/tomcats/ivy-repository/[organisation]/[module]/[revision]/ivy.xml"/> -->
-<!-- 		  <artifact pattern="/usr/local/tomcats/ivy-repository/[organisation]/[module]/[revision]/[artifact].[ext]"/> -->
-<!-- 		</sftp>  -->
-<!-- 				 Northwestern RHLCCC Bioinformatics  -->
-<!-- 		<ibiblio name="maven2-northwestern" m2compatible="true" -->
-<!-- 			root="http://download.bioinformatics.northwestern.edu/download/maven2" -->
-<!-- 			changingPattern=".*SNAPSHOT"  -->
-<!-- 			/> -->
+		<sftp name="semanticbits-repo-alfie" user="userivy" userPassword="userivy" host="alfie.semanticbits.com">
+		  <ivy pattern="/usr/local/tomcats/ivy-repository/[organisation]/[module]/[revision]/ivy.xml"/>
+		  <artifact pattern="/usr/local/tomcats/ivy-repository/[organisation]/[module]/[revision]/[artifact].[ext]"/>
+		</sftp> 
 
-<!-- 		<ibiblio name="maven2-http" m2compatible="true" -->
-<!-- 			root="http://maven2.mirrors.skynet.be/pub/maven2" -->
-<!-- 			changingPattern=".*SNAPSHOT"  -->
-<!-- 			/> -->
+		<ibiblio name="maven2-http" m2compatible="true"
+			root="http://maven2.mirrors.skynet.be/pub/maven2"
+			changingPattern=".*SNAPSHOT" 
+			/>
 		<!--  useful at least for javax.transaction.jta -->
-<!-- 		<ibiblio name="maven2-codehaus-mule" m2compatible="true" -->
-<!-- 			root="http://dist.codehaus.org/mule/dependencies/maven2" -->
-<!-- 			changingPattern=".*SNAPSHOT" -->
-<!-- 			 /> -->
-<!-- 		<ibiblio name="maven2-codehaus" m2compatible="true" -->
-<!-- 			root="http://repository.codehaus.org" changingPattern=".*SNAPSHOT"/> -->
+		<ibiblio name="maven2-codehaus-mule" m2compatible="true"
+			root="http://dist.codehaus.org/mule/dependencies/maven2"
+			changingPattern=".*SNAPSHOT"
+			 />
+		<ibiblio name="maven2-codehaus" m2compatible="true"
+			root="http://repository.codehaus.org" changingPattern=".*SNAPSHOT"/>
 			
-<!-- 		<ibiblio name="maven2-http" m2compatible="true" -->
-<!-- 			root="http://repository.jboss.com/maven2" changingPattern=".*SNAPSHOT"/> -->
+		<ibiblio name="maven2-http" m2compatible="true"
+			root="http://repository.jboss.com/maven2" changingPattern=".*SNAPSHOT"/>
 
-<!--         <ibiblio name="openqa" m2compatible="true" -->
-<!--                            root="http://archiva.openqa.org/repository/releases/" changingPattern=".*SNAPSHOT"/> -->
+        <ibiblio name="openqa" m2compatible="true"
+                           root="http://archiva.openqa.org/repository/releases/" changingPattern=".*SNAPSHOT"/>
 
-<!-- 		<ibiblio name="download-java-net" m2compatible="true" root="http://download.java.net/maven/2" changingPattern=".*SNAPSHOT" /> -->
+		<ibiblio name="download-java-net" m2compatible="true" root="http://download.java.net/maven/2" changingPattern=".*SNAPSHOT" />
 		
-<!-- 		<ibiblio name="mvn.repo" root="http://mirrors.ibiblio.org/pub/mirrors/maven2" m2compatible="true" changingPattern=".*SNAPSHOT"> -->
-<!-- 		</ibiblio>           -->
+		<ibiblio name="mvn.repo" root="http://mirrors.ibiblio.org/pub/mirrors/maven2" m2compatible="true" changingPattern=".*SNAPSHOT">
+		</ibiblio>          
 		
-<!-- 		<ibiblio name="java.net" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" /> -->
+		<ibiblio name="java.net" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" />
 		
-<!-- 		<ibiblio name="nci-ivy-repo" root="https://ncisvn.nci.nih.gov/svn/cbiit-ivy-repo/trunk/" pattern="[organization]/[module]/[revision]/[artifact]-[revision].[ext]" /> -->
-		
-<!-- 		<url name="ncicb-ivy-repo" m2compatible="false"> -->
-<!-- 			<ivy pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/ivy.xml" /> -->
-<!-- 			<artifact -->
-<!-- 				pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" /> -->
-<!-- 		</url>		 -->
+		<url name="ncicb-ivy-repo" m2compatible="false">
+			<ivy pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/ivy.xml" />
+			<artifact
+				pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+		</url>		
        </chain>
 		
 	</resolvers>
