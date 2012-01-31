@@ -1,5 +1,5 @@
 <ivysettings>
-	<property name="nci.ivy.repo" value="http://gforge.nci.nih.gov/svnroot/commonlibrary/trunk/ivy-repo" />
+	<property name="nci.ivy.repo" value="http://repo.semanticbits.com/ivy-repo/bda" />
 	<settings defaultResolver="nci-chain" />
 	<caches defaultCacheDir="${user.home}/.ivy2-${ant.project.name}" useOrigin="true"/>
 	<resolvers>
