@@ -86,7 +86,7 @@
 			<dependency org="javassist" name="javassist" rev="3.12.0.GA"/>
 			
 			<!-- Rules Jar -->
-            <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.3.3">
+            <dependency org="com.semanticbits.rules" name="semanticbits-rules" rev="1.3.5">
             	<exclude  org="org.springframework"/>
             	<exclude  org="ant"/>
             	<exclude  org="xjc-plugin"/>
