@@ -141,6 +141,7 @@
    	<IDENTIFIERS id="1009" version="1" value="sub2" type="local" system_name="nci" dtype="SAI" prt_id="1001" retired_indicator = "false" primary_indicator="0"/>
     <IDENTIFIERS id="1010" version="1" value="sub3" type="local" system_name="nci" dtype="SAI" prt_id="1002" hcs_id="1000"  retired_indicator = "false"  primary_indicator="1"/>
    	<IDENTIFIERS id="1011" version="1" value="su12" type="local" system_name="nci" dtype="SAI" prt_id="1009" retired_indicator = "false" primary_indicator="1"/>
+   	<IDENTIFIERS id="1012" version="1" value="orgID" type="localOrg" dtype="OAI" prt_id="1000" hcs_id="1000" org_id="1000" retired_indicator = "false" primary_indicator="0"/>
     
     <icd9_disease_sites id="1000" version="0" name="Skin" code="200" description_text="skin" depth="LEVEL2" selectable="0"  />    
 

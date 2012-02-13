@@ -147,7 +147,8 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
     public void testSearchByExampleWithIdentifier() {
     	Participant participant = new Participant();
     	SystemAssignedIdentifier systemAssignedIdentifier = new SystemAssignedIdentifier();
-    	systemAssignedIdentifier.setType("local");
+    	systemAssignedIdentifier.setSystemName("nci");
+    	systemAssignedIdentifier.setTypeInternal("local");
     	systemAssignedIdentifier.setValue("nci");
 
     	participant.getIdentifiers().add(systemAssignedIdentifier);
@@ -156,6 +157,26 @@ public class ParticipantDaoTest extends ContextDaoTestCase<ParticipantDao> {
 
     	assertEquals(1, participantList.size());
     	assertEquals("Rudolph", participantList.get(0).getFirstName());
+    	
+    	// no results should come when system assigned identifer type is changed
+    	systemAssignedIdentifier.setTypeInternal("localChanged");
+
+    	participantList = getDao().searchByExample(participant, true);
+    	assertEquals(0, participantList.size());
+    	
+    	participant.getIdentifiers().clear();
+    	
+    	OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+    	HealthcareSite hcs = healthcareSiteDao.getById(1000);
+    	orgIdentifier.setHealthcareSite(hcs);
+    	orgIdentifier.setTypeInternal("localOrg");
+    	orgIdentifier.setValue("orgID");
+    	participant.getIdentifiers().add(orgIdentifier);
+    	
+    	participantList = getDao().searchByExample(participant, true);
+    	assertEquals(1, participantList.size());
+    	assertEquals("Rudolph", participantList.get(0).getFirstName());
+    	
 	}
 
     /**

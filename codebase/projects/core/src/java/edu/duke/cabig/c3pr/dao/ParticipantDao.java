@@ -103,15 +103,34 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
             participantCriteria.add(example);
             
             if (participant.getIdentifiers().size() > 0) {
-            	Criterion identifierCriterion = Restrictions.ilike("value", "%"
+            	Criterion identifierValueCriterion = Restrictions.ilike("value", "%"
                         + participant.getIdentifiers().get(0).getValue()
                         + "%");
+            	Criterion identifierTypeCriterion = Restrictions.ilike("typeInternal", "%"
+                        + participant.getIdentifiers().get(0).getTypeInternal() + "%");
+                if(participant.getIdentifiers().get(0) instanceof SystemAssignedIdentifier){
+            		Criterion identifierSourceCriterion = Restrictions.ilike("systemName", "%"
+            				+ ((SystemAssignedIdentifier)participant.getIdentifiers().get(0)).getSystemName() + "%"); 
+            		participantCriteria.createCriteria("identifiers").add(identifierValueCriterion)
+                	.add(identifierSourceCriterion).add(identifierTypeCriterion);
+            	} else {
+            		Criteria identifiersCriteria= participantCriteria.createCriteria("identifiers");
+            		identifiersCriteria.add(identifierValueCriterion).add(identifierTypeCriterion);
+            		
+            		if(((OrganizationAssignedIdentifier)participant.getIdentifiers().get(0)).getHealthcareSite().getIdentifiersAssignedToOrganization().size() > 0){
+            			Criteria organizationCriteria = identifiersCriteria.createCriteria("healthcareSite");
+            			organizationCriteria.createCriteria("identifiersAssignedToOrganization").add(Restrictions.ilike("value", "%"
+                        + ((OrganizationAssignedIdentifier)participant.getIdentifiers().get(0)).getHealthcareSite().getIdentifiersAssignedToOrganization().get(0).getValue()
+                        + "%"));
+            			
+            		}
+            	}
+                
             	for(int i=1 ; i<participant.getIdentifiers().size() ; i++){
-            		 identifierCriterion = Restrictions.or(identifierCriterion, Restrictions.ilike("value", "%"
+            		 identifierValueCriterion = Restrictions.or(identifierValueCriterion, Restrictions.ilike("value", "%"
                                                 + participant.getIdentifiers().get(i).getValue()
                                                 + "%"));
             	}
-            	participantCriteria.createCriteria("identifiers").add(identifierCriterion);
             }
 			final Address address = participant.getAddressInternal();
 			if (useAddress && address != null) {
