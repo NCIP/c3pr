@@ -52,6 +52,7 @@ public class OrganizationAssignedIdentifier extends Identifier implements
     	return OrganizationAssignedIdentifier.getOrganizationIdentifierEnumByCode(typeInternal);
 	}
 
+    // TODO should get rid of this method as it is redundant. Enum object can be obtained from string using valueOf()
     public static OrganizationIdentifierTypeEnum getOrganizationIdentifierEnumByCode(String type) {
     	if(OrganizationIdentifierTypeEnum.AI.getName().equalsIgnoreCase(type)){
 			return OrganizationIdentifierTypeEnum.AI;
@@ -106,6 +107,9 @@ public class OrganizationAssignedIdentifier extends Identifier implements
 		}
 		if(OrganizationIdentifierTypeEnum.SUBJECT_IDENTIFIER.getName().equalsIgnoreCase(type)){
 			return OrganizationIdentifierTypeEnum.SUBJECT_IDENTIFIER;
+		}
+		if(OrganizationIdentifierTypeEnum.HOUSEHOLD_IDENTIFIER.getName().equalsIgnoreCase(type)){
+			return OrganizationIdentifierTypeEnum.HOUSEHOLD_IDENTIFIER;
 		}
     	return null;
 	}
