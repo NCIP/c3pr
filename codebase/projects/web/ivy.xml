@@ -118,7 +118,7 @@
 			<dependency org="net.sf.ehcache" name="ehcache-web" rev="2.0.4"/>
             
             <!-- Castor -->
-            <dependency org="castor" name="castor" rev="0.9.9"/>
+            <dependency org="castor" name="castor" rev="1.0.2"/>
             
             <!-- JAWR -->
 			 <dependency org="net.jawr" name="jawr" rev="2.1" />
