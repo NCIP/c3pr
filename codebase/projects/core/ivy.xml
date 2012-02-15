@@ -137,7 +137,7 @@
 			</dependency>
             
             <!-- Castor -->
-            <dependency org="castor" name="castor" rev="0.9.9"/>
+            <dependency org="castor" name="castor" rev="1.0.2"/>
             
             <!-- Apache commons -->
             <dependency org="net.sourceforge.collections" name="collections-generic" rev="4.01"/>
