@@ -55,41 +55,15 @@
 		
 		
 		<!-- created for publishing esb-client -->
+		<!--  
 		<sftp name="semanticbits-repo-alfie" user="userivy" userPassword="userivy" host="alfie.semanticbits.com">
 		  <ivy pattern="/usr/local/tomcats/ivy-repository/[organisation]/[module]/[revision]/ivy.xml"/>
 		  <artifact pattern="/usr/local/tomcats/ivy-repository/[organisation]/[module]/[revision]/[artifact].[ext]"/>
 		</sftp> 
+		-->
 
-		<ibiblio name="maven2-http" m2compatible="true"
-			root="http://maven2.mirrors.skynet.be/pub/maven2"
-			changingPattern=".*SNAPSHOT" 
-			/>
 		<!--  useful at least for javax.transaction.jta -->
-		<ibiblio name="maven2-codehaus-mule" m2compatible="true"
-			root="http://dist.codehaus.org/mule/dependencies/maven2"
-			changingPattern=".*SNAPSHOT"
-			 />
-		<ibiblio name="maven2-codehaus" m2compatible="true"
-			root="http://repository.codehaus.org" changingPattern=".*SNAPSHOT"/>
-			
-		<ibiblio name="maven2-http" m2compatible="true"
-			root="http://repository.jboss.com/maven2" changingPattern=".*SNAPSHOT"/>
-
-        <ibiblio name="openqa" m2compatible="true"
-                           root="http://archiva.openqa.org/repository/releases/" changingPattern=".*SNAPSHOT"/>
-
-		<ibiblio name="download-java-net" m2compatible="true" root="http://download.java.net/maven/2" changingPattern=".*SNAPSHOT" />
 		
-		<ibiblio name="mvn.repo" root="http://mirrors.ibiblio.org/pub/mirrors/maven2" m2compatible="true" changingPattern=".*SNAPSHOT">
-		</ibiblio>          
-		
-		<ibiblio name="java.net" root="http://download.java.net/maven/1/" pattern="[organization]/jars/[module]-[revision].[ext]" />
-		
-		<url name="ncicb-ivy-repo" m2compatible="false">
-			<ivy pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/ivy.xml" />
-			<artifact
-				pattern="${nci.ivy.repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
-		</url>		
        </chain>
 		
 	</resolvers>
