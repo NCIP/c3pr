@@ -50,7 +50,7 @@
                  changingPattern="SNAPSHOT"/>
         <ibiblio name="maven2-NCI-jboss" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/jboss" 
         	changingPattern="SNAPSHOT"/>
-         <ibiblio name="maven2-NCI-jboss" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/releases" 
+         <ibiblio name="maven2-NCI-releases" m2compatible="true" root="https://ncimvn.nci.nih.gov/nexus/content/repositories/releases" 
         	changingPattern="SNAPSHOT"/>
 		
 		
