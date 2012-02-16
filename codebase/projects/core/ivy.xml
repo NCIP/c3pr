@@ -36,12 +36,6 @@
             <exclude org="ehcache" />
             <exclude org="cglib" module="cglib" />
             
-            <!-- JSP-API-* should be excluded -->
-			<exclude org="jspapi" module="jsp-api" />
-			<exclude org="javax.servlet" module="jsp-api" />
-			<exclude org="javax.servlet" module="servlet-api" conf="publish,default,dist,distGrid" />
-			<exclude org="cglib" module="cglib" conf="*" />
-
 			<!-- exclusion based on class loading -->
 
 			<exclude conf="runtime,dist,distGrid" name="logkit"  />
