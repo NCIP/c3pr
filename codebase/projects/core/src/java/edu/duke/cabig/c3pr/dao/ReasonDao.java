@@ -11,7 +11,7 @@ import edu.duke.cabig.c3pr.domain.OffScreeningReason;
 import edu.duke.cabig.c3pr.domain.OffStudyReason;
 import edu.duke.cabig.c3pr.domain.OffTreatmentReason;
 import edu.duke.cabig.c3pr.domain.Reason;
-import gov.nih.nci.logging.api.util.StringUtils;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 
 /**

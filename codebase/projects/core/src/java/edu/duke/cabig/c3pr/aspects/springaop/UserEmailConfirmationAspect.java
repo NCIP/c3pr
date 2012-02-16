@@ -14,7 +14,7 @@ import org.springframework.mail.SimpleMailMessage;
 import edu.duke.cabig.c3pr.domain.PersonUser;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.utils.RoleBasedHealthcareSitesAndStudiesDTO;
-import gov.nih.nci.logging.api.util.StringUtils;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Oct 2, 2007 Time: 4:46:46 PM To change this template
