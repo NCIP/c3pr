@@ -44,12 +44,6 @@
 			<exclude org="org.globus" name="xalan" rev="2.6.0"/>
 			<exclude org="gov.nih.nci.cagrid" name="cagrid-opensaml" rev="1.0"/>
 			<exclude org="jaxb" name="jaxb-xjc" rev="2.0-SNAPSHOT"/>
-			
-			<!-- JSP-API-* should be excluded -->
-			<exclude org="jspapi" module="jsp-api" />
-			<exclude org="javax.servlet" module="jsp-api" />
-			<exclude org="javax.servlet" module="servlet-api" conf="publish,default,dist,distGrid" />
-			<exclude org="cglib" module="cglib" conf="*" />
 
 			<!-- exclusion based on class loading -->
 
