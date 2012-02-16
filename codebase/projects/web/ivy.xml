@@ -85,7 +85,7 @@
 
             <!-- apache commons -->
             <dependency org="commons-lang" name="commons-lang" rev="2.4" />
-            <dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>
+            <dependency org="commons-collections" name="commons-collections" rev="3.2" force="true" conf="*->default(*)"/>
             <dependency org="commons-configuration" name="commons-configuration" rev="1.5" transitive="false"/>
             <dependency org="net.sourceforge.collections" name="collections-generic" rev="4.01"/>
             <dependency org="edu.northwestern.bioinformatics" name="core-commons" rev="77"   /> <!-- Northwestern -->
@@ -193,8 +193,9 @@
 			</dependency>
 			
 			<!-- Test/Runtime dependencies -->
-            <dependency org="org.dbunit" name="dbunit" rev="2.4.8" conf="build->default;test->default">
+             <dependency org="org.dbunit" name="dbunit" rev="2.4.8" conf="build->default;test->default">
                 <exclude org="org.slf4j" module="slf4j-api" rev="1.4.3"/>
+                <exclude org="commons-collections"/>
             </dependency>
 
 			<!-- Test Only Dependencies -->
