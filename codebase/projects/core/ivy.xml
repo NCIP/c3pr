@@ -35,6 +35,12 @@
             <exclude org="hibernate" />
             <exclude org="ehcache" />
             <exclude org="cglib" module="cglib" />
+            
+            <!-- JSP-API-* should be excluded -->
+			<exclude org="jspapi" module="jsp-api" />
+			<exclude org="javax.servlet" module="jsp-api" />
+			<exclude org="javax.servlet" module="servlet-api" conf="publish,default,dist,distGrid" />
+			<exclude org="cglib" module="cglib" conf="*" />
 
 			<!-- exclusion based on class loading -->
 
@@ -189,7 +195,7 @@
             <dependency org="org.jvnet.jaxb2-commons" name="collection-setter-injector" rev="1.0"/> <!-- Northwestern -->
             
             <!-- Servlet & JSP -->
-            <dependency org="javax.servlet" name="servlet-api" rev="2.4" conf="build->default(*);test->default(*)"/>
+            <dependency org="javax.servlet" name="servlet-api" rev="2.3" conf="build->default(*);test->default(*)"/>
         	
         	<!-- Others -->
         	<dependency org="gov.nih.nci" name="client" rev="1.1" />
@@ -209,7 +215,9 @@
         	<dependency org="edu.northwestern.bioinformatics" name="core-commons-testing" rev="77" conf="test->default" />
         	<dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default" />
         	<dependency org="org.springframework" name="spring-mock" rev="3.0.6.RELEASE" conf="test->default(*)" />
-             <dependency org="org.springframework" name="spring-test" rev="3.0.6.RELEASE" force="true" conf="test->default" />
+            <dependency org="org.springframework" name="spring-test" rev="3.0.6.RELEASE" force="true" conf="test->default">
+             <exclude org="javax.servlet"/>
+            </dependency>
         	<dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
             <dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-unit" rev="${ctmsi.commons.version}" conf="test->default(*)" transitive="false"/>            
 			<dependency org="cobertura" name="cobertura" rev="1.8" conf="test->default(*)"/>
