@@ -195,7 +195,6 @@
 			<!-- Test/Runtime dependencies -->
              <dependency org="org.dbunit" name="dbunit" rev="2.4.8" conf="build->default;test->default">
                 <exclude org="org.slf4j" module="slf4j-api" rev="1.4.3"/>
-                <exclude org="commons-collections"/>
             </dependency>
 
 			<!-- Test Only Dependencies -->
