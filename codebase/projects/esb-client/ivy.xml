@@ -42,6 +42,7 @@
         <exclude org="org.springframework" module="spring-remoting" />
         <exclude org="org.springframework" module="spring-jdbc" />
         <exclude org="cglib" module="cglib" />
+        <exclude org="commons-collections"/>
 		
 		<!-- apache commons -->
         <dependency org="commons-lang" name="commons-lang" rev="2.4" />
