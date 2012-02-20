@@ -23,6 +23,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRDuplicatePrimaryStudyIdentifierException;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.webservice.common.AdvanceSearchCriterionParameter;
 import edu.duke.cabig.c3pr.webservice.common.Consent;
 import edu.duke.cabig.c3pr.webservice.common.DocumentIdentifier;
@@ -58,7 +59,6 @@ import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyConsentResponse;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusRequest;
 import edu.duke.cabig.c3pr.webservice.studyutility.UpdateStudyStatusResponse;
-import gov.nih.nci.logging.api.util.StringUtils;
 
 /**
  * The Class StudyUtilityImpl.
