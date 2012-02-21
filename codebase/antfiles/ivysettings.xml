@@ -1,6 +1,8 @@
 <ivysettings>
 	<settings defaultResolver="c3pr-resolver" validate="false" />
-	<cache basedir="${ivy.cache}"/>
+	<caches default="c3prCache">
+        <cache name="c3prCache" basedir="${user.home}/.ivy2/c3pr-cache"/>
+    </caches>
 	<resolvers>
 		<chain name="c3pr-resolver" returnFirst="true" dual="true">
 		<!--  Local Ivy repository -->
