@@ -151,7 +151,7 @@
 			</dependency>
         	
         	<!-- Servlet & JSP -->
-            <dependency org="javax.servlet" name="servlet-api" rev="2.3" force="true" conf="*->default(*)"/>
+            <dependency org="javax.servlet" name="servlet-api" rev="2.5" force="true" conf="*->default(*)"/>
             <dependency org="jspapi" name="jsp-api" rev="2.0" transitive="true" conf="build->default(*);test->default(*)"/>
             
             <!-- JSTL   dependency -->
