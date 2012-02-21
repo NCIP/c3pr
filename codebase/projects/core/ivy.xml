@@ -65,6 +65,9 @@
         	<dependency org="edu.duke.cabig.c3pr"
         		name="RegistrationService" rev="latest.integration" transitive="false" />
         	
+        	<!-- Servlet & JSP -->
+            <dependency org="javax.servlet" name="servlet-api" rev="2.5" force="true"/>
+            
         	<!-- query builder -->
         	<dependency org="com.semanticbits.querybuilder" name="query-builder" rev="1.31">
         		<exclude org="javax.xml.bind" conf="*"/>
@@ -188,9 +191,6 @@
             <dependency org="com.sun.xml.bind" name="jaxb-xjc" rev="2.2"/>
             <dependency org="org.jvnet.jaxb2-commons" name="collection-setter-injector" rev="1.0"/> <!-- Northwestern -->
             
-            <!-- Servlet & JSP -->
-            <dependency org="javax.servlet" name="servlet-api" rev="2.5" force="true"/>
-        	
         	<!-- Others -->
         	<dependency org="gov.nih.nci" name="client" rev="1.1" />
         	<dependency org="handle" name="handlerservice" rev="1.5.0" />
