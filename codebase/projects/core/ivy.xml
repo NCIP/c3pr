@@ -189,7 +189,7 @@
             <dependency org="org.jvnet.jaxb2-commons" name="collection-setter-injector" rev="1.0"/> <!-- Northwestern -->
             
             <!-- Servlet & JSP -->
-            <dependency org="javax.servlet" name="servlet-api" rev="2.3" force="true" conf="*->default(*)"/>
+            <dependency org="javax.servlet" name="servlet-api" rev="2.5" force="true" conf="*->default(*)"/>
         	
         	<!-- Others -->
         	<dependency org="gov.nih.nci" name="client" rev="1.1" />
