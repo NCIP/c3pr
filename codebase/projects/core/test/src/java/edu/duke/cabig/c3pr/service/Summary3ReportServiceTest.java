@@ -288,8 +288,8 @@ public class Summary3ReportServiceTest extends DaoTestCase {
 								.item(i - 4))).getElementsByTagName("value")
 								.item(3))).getFirstChild().getNodeValue());
 			}
-			FileOutputStream output = new FileOutputStream(new File(
-					"c:/users/iris/Reports/Summary3Report.xls"));
+			File outputFile = new File(System.getProperty("user.home")+File.separator+"Summary3Report.xls");
+			FileOutputStream output = new FileOutputStream(outputFile);
 			wb.write(output);
 			output.flush();
 			output.close();
