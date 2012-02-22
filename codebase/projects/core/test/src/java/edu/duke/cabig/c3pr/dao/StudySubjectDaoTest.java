@@ -876,7 +876,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     }
 
     private Object createRegistration(StudySubject studySubject) {
-        studySubject.setRegDataEntryStatus(studySubject.evaluateRegistrationDataEntryStatus());
+    //    studySubject.setRegDataEntryStatus(studySubject.evaluateRegistrationDataEntryStatus());
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
                         evaluateScheduledEpochDataEntryStatus(studySubject));
         ScheduledEpoch current = studySubject.getScheduledEpoch();
@@ -2458,10 +2458,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	       assertEquals("Unexpected person user",personSpokenTo.getAssignedIdentifier(),updatedStudySubject.getCorrespondences().
 	    		   get(0).getPersonSpokenTo().getAssignedIdentifier());
 	       assertEquals("Wrong number of person users",3,updatedStudySubject.getCorrespondences().get(0).getNotifiedStudyPersonnel().size());
-	       assertEquals("Wrong notified person user",personSpokenTo,updatedStudySubject.getCorrespondences().
-	    		   get(0).getNotifiedStudyPersonnel().get(0));
-	       assertEquals("Wrong notified perosn user",notifiedUser2,updatedStudySubject.getCorrespondences().
-	    		   get(0).getNotifiedStudyPersonnel().get(2));
 	}
 		
 	public void testSaveCorrespondencesWithStartAndEndTime() throws Exception {
