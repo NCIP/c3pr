@@ -772,6 +772,7 @@
 					<exclude name="edu/duke/cabig/c3pr/webservice/integration/*.class"/>
 					<exclude name="edu/duke/cabig/**/SubjectRegistryMayoUseCaseIntegrationTest.class"/>
 					<exclude name="edu/duke/cabig/**/*RegistrationTimelineXMLTransformerTest.class"/>
+					<exclude name="edu/duke/cabig/**/*C3DPatientPositionResponseHandlerTestCase.xml"/>
 					<!--commented until xsd for CCTS support is finalized -->
 					<!-- we have commented couple of test cases in StudySubjectServiceIntegrationTestCase , we need to fix them later-->
 				</fileset>
