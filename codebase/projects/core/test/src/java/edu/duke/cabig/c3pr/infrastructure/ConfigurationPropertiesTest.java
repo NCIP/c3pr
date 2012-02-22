@@ -26,7 +26,7 @@ public class ConfigurationPropertiesTest extends TestCase {
     
     public void testGetProperties() throws Exception {
     	Configuration conf = new Configuration();
-    	assertEquals("Property count should be 35", 35, conf.getProperties().size());
+    	assertEquals("Property count should be 39", 39, conf.getProperties().size());
     }
     
 }
