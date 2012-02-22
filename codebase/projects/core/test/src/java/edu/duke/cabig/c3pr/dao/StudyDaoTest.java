@@ -1098,10 +1098,12 @@ public class StudyDaoTest extends DaoTestCase {
                             .size());
             assertEquals("Expected to get 3 Arms: ", 3, newTreatmentEpochs.get(0).getArms().size());
             assertEquals("Expected to get 1 Arm: ", 1, newTreatmentEpochs.get(1).getArms().size());
-            assertEquals("Expected to get Arm with name, Arm A: ", "Arm A", newTreatmentEpochs.get(
-                            0).getArms().get(0).getName());
+            List<Arm> arms = new ArrayList<Arm>();
+            arms.addAll(newTreatmentEpochs.get(1).getArms());
+            Collections.sort(arms);
+            assertEquals("Expected to get Arm with name, Arm A: ", "Arm A", arms.get(0).getName());
             assertEquals("Expected to get Arm with name, Test Arm: ", "Test Arm",
-                            newTreatmentEpochs.get(1).getArms().get(0).getName());
+            		arms.get(0).getName());
 
         }
     }
