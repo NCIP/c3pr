@@ -10,6 +10,7 @@ import java.util.Map;
 import org.easymock.classextension.EasyMock;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
+import edu.duke.cabig.c3pr.constants.ConsentRequired;
 import edu.duke.cabig.c3pr.constants.ConsentingMethod;
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.EpochType;
@@ -106,6 +107,12 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateRegistrationDataEntryStatusComplete() throws Exception {
     	studySubjectStudyVersion.setStudySubject(studySubject);
+
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySite.getStudy()).andReturn(study);
+    	EasyMock.expect(study.getConsentRequired()).andReturn(ConsentRequired.AS_MARKED_BELOW);
+    	
     	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
     	EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(false);
@@ -127,6 +134,11 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateRegistrationDataEntryStatusComplete1() {
     	studySubjectStudyVersion.setStudySubject(studySubject);
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySite.getStudy()).andReturn(study);
+    	EasyMock.expect(study.getConsentRequired()).andReturn(ConsentRequired.AS_MARKED_BELOW);
+    	
     	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch);
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch);
     	EasyMock.expect(epoch.getEnrollmentIndicator()).andReturn(false);
@@ -638,6 +650,11 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
 		EasyMock.expect(studySite.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion).times(1);
     	studySubjectStudyVersion.setStudySiteStudyVersion(studySiteStudyVersion);
 
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySite.getStudy()).andReturn(study);
+    	EasyMock.expect(study.getConsentRequired()).andReturn(ConsentRequired.AS_MARKED_BELOW);
+
 		CompanionStudyAssociation companionStudyAssociation = registerMockFor(CompanionStudyAssociation.class);
 		ArrayList<CompanionStudyAssociation> companionStudyAssociations = new ArrayList<CompanionStudyAssociation>();
 		companionStudyAssociations.add(companionStudyAssociation);
@@ -680,6 +697,9 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
     	//EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
     	EasyMock.expect(studySiteStudyVersion.getStudyVersion()).andReturn(studyVersion);
     	
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySite.getStudy()).andReturn(study);
+    	EasyMock.expect(study.getConsentRequired()).andReturn(ConsentRequired.AS_MARKED_BELOW);
 
 
 		EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
@@ -900,6 +920,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testCanReserve() throws Exception{
     	studySubjectStudyVersion.setStudySubject(studySubject);
+    	
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySite.getStudy()).andReturn(study);
+    	EasyMock.expect(study.getConsentRequired()).andReturn(ConsentRequired.AS_MARKED_BELOW);
+    	
     	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(3);
     	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
     	List<StudySubjectConsentVersion> studySubjectConsentVersions = new ArrayList<StudySubjectConsentVersion>();
@@ -959,8 +985,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      * @throws Exception the exception
      */
     public void testRegister2() throws Exception{
-    	
     	studySubjectStudyVersion.setStudySubject(studySubject);
+    	
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySite.getStudy()).andReturn(study);
+    	EasyMock.expect(study.getConsentRequired()).andReturn(ConsentRequired.AS_MARKED_BELOW);
      	EasyMock.expect(studySubjectStudyVersion.getCurrentScheduledEpoch()).andReturn(scheduledEpoch).times(4);
     	studySubjectStudyVersion.addScheduledEpoch(scheduledEpoch);
 
@@ -1002,6 +1032,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testRegister3() throws Exception{
     	studySubjectStudyVersion.setStudySubject(studySubject);
+    	
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySite.getStudy()).andReturn(study);
+    	EasyMock.expect(study.getConsentRequired()).andReturn(ConsentRequired.AS_MARKED_BELOW);
+    	
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
     	EasyMock.expect(scheduledEpoch.getScEpochWorkflowStatus()).andReturn(ScheduledEpochWorkFlowStatus.PENDING_ON_EPOCH);
  		EasyMock.expect(epoch.getRandomizedIndicator()).andReturn(false);
@@ -1075,6 +1111,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testReserve3() throws Exception{
     	studySubjectStudyVersion.setStudySubject(studySubject);
+    	
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySite.getStudy()).andReturn(study);
+    	EasyMock.expect(study.getConsentRequired()).andReturn(ConsentRequired.AS_MARKED_BELOW);
+    	
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
  		EasyMock.expect(epoch.getType()).andReturn(EpochType.RESERVING);
     	EasyMock.expect(scheduledEpoch.evaluateScheduledEpochDataEntryStatus((List<Error>)EasyMock.anyObject())).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
@@ -1107,6 +1149,12 @@ public void testRequiresCoordinatingCenterApprovalTrue(){
      */
     public void testReserve4() throws Exception{
     	studySubjectStudyVersion.setStudySubject(studySubject);
+    	
+    	EasyMock.expect(studySubjectStudyVersion.getStudySiteStudyVersion()).andReturn(studySiteStudyVersion);
+    	EasyMock.expect(studySiteStudyVersion.getStudySite()).andReturn(studySite);
+    	EasyMock.expect(studySite.getStudy()).andReturn(study);
+    	EasyMock.expect(study.getConsentRequired()).andReturn(ConsentRequired.AS_MARKED_BELOW);
+    	
     	EasyMock.expect(scheduledEpoch.getEpoch()).andReturn(epoch).times(1);
  		EasyMock.expect(epoch.getType()).andReturn(EpochType.RESERVING);
     	EasyMock.expect(scheduledEpoch.evaluateScheduledEpochDataEntryStatus((List<Error>)EasyMock.anyObject())).andReturn(ScheduledEpochDataEntryStatus.COMPLETE);
