@@ -48,8 +48,8 @@ public class Summary3ReportDao extends GridIdentifiableDao<Summary3Report> imple
 		 		"ss.startDate >= ? and ss.startDate <= ? and ss.regWorkflowStatus != 'PENDING' and " +
 		 		"ss.diseaseHistoryInternal.icd9DiseaseSite.summary3ReportDiseaseSite.name = ? and ssv.studySiteStudyVersion.studySite.studyInternal.therapeuticIntentIndicator = '1' " +
 		 		"and ssv.studySiteStudyVersion.studySite.healthcareSite.id in " +
-		 		"(select h.id from HealthcareSite h where " +
-  			    "h.identifiersAssignedToOrganization.value=? and h.identifiersAssignedToOrganization.primaryIndicator = '1')",
+		 		"(select h.id from HealthcareSite h, Identifier i where " +
+  			    "i = any elements (h.identifiersAssignedToOrganization) and i.value=? and i.primaryIndicator = '1')",
                 new Object[] {startDate, endDate,summary3ReportDiseaseSite.getName(), hcs.getCtepCode()}).size();
 	}
 
