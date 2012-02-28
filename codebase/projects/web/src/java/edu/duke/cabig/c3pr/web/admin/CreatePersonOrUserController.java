@@ -570,7 +570,10 @@ public class CreatePersonOrUserController extends SimpleFormController{
 			  wrapper.setUserStatus(StatusType.IN.getCode());
 		  }
 	  } else {
-		  wrapper.setPersonUser(personUser);  
+		  wrapper.setPersonUser(personUser); 
+		  if (StringUtils.equals(flowVar, SETUP_FLOW)){
+			  personUser.setUserStatus(StatusType.AC.getName());
+		  }
 		  if(personUser.getUserStatus().equalsIgnoreCase(StatusType.AC.getName())){
 			  wrapper.setUserStatus(StatusType.AC.getCode());
 		  } else {
