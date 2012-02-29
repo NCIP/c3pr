@@ -527,9 +527,9 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 
 	@Transient
 	public String getTrimmedShortTitleText() {
-		return StringUtils.getTrimmedText(getShortTitleText(), 40);
+		return StringUtils.getTrimmedText(StringUtils.removeCarriageReturnCharacters(getShortTitleText()), 40);
 	}
-
+	
 	@Transient
 	public String getPrimaryIdentifier() {
 		for (Identifier identifier : getIdentifiers()) {
