@@ -24,6 +24,15 @@
 			$(attributeId).value = true;
 		}
 	}
+	
+	function setValueTrueIfChecked(element){
+		attributeId = element.id + '-hidden';
+		if(element.checked == true){
+			$(attributeId).value = true;
+		}else {
+			$(attributeId).value = false;
+		}
+	}
 	function validateAndSubmitForm(){
 		
 		if($('registrationStartDate').value == ""){
@@ -626,6 +635,14 @@ color:white;
                        </c:if>
                    </c:forEach>
                 </select>
+   	    	</div>
+        </div>
+        
+         <div class="row" >
+        	<div class="label"><fmt:message key="registration.includeAllScheduledEpochs"/></div>
+          	<div class="value" >
+          		<input type="hidden" id="includeAllScheduledEpochs-hidden" name="includeAllScheduledEpochs-hidden" value="false"/>
+          		<input type="checkbox" id="includeAllScheduledEpochs" name="includeAllScheduledEpochs" onclick="setValueTrueIfChecked(this);">
    	    	</div>
         </div>
         

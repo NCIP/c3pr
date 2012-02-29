@@ -8,16 +8,19 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.semanticbits.querybuilder.AdvancedSearchCriteriaParameter;
 
 import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.constants.EpochType;
 import edu.duke.cabig.c3pr.constants.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.constants.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.dao.ReasonDao;
-import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.OffEpochReason;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
 
@@ -70,6 +73,7 @@ public class RegistrationAdvancedSearchController extends AdvancedSearchControll
 			throws Exception {
 		AdvancedSearchWrapper wrapper  = (AdvancedSearchWrapper) command ;
 		List<AdvancedSearchCriteriaParameter> criteriaList = new ArrayList<AdvancedSearchCriteriaParameter>();
+		
 		for(AdvancedSearchCriteriaParameter searchCriteria : wrapper.getSearchCriteriaList()){
 			searchCriteria.setValues(WebUtils.removeEmptyStrings(searchCriteria.getValues()));
 			if(searchCriteria.getValues().size() != 0 ){
@@ -78,7 +82,35 @@ public class RegistrationAdvancedSearchController extends AdvancedSearchControll
 		}
 		List<StudySubject> registrations = getAdvancedSearchRepository().searchRegistrations(criteriaList);
 		Map map = errors.getModel();
-		map.put("registrations", registrations);
+		if(request.getParameter("includeAllScheduledEpochs-hidden") !=null && request.getParameter("includeAllScheduledEpochs-hidden").equals("false")){
+			List<ScheduledEpochWorkFlowStatus> schEpochStatusList = new ArrayList<ScheduledEpochWorkFlowStatus>();
+			List<String> offEpochReasonsList = new ArrayList<String>();
+			List<EpochType> epochTypesList = new ArrayList<EpochType>();
+			
+			for(AdvancedSearchCriteriaParameter searchCriteria : wrapper.getSearchCriteriaList()){
+				if(searchCriteria.getObjectName().equals("edu.duke.cabig.c3pr.domain.ScheduledEpoch") && 
+						searchCriteria.getAttributeName().equals("scEpochWorkflowStatus.code")){
+					for(String value : searchCriteria.getValues()){
+						schEpochStatusList.add(ScheduledEpochWorkFlowStatus.valueOf(value));
+					}
+				}
+				if(searchCriteria.getObjectName().equals("edu.duke.cabig.c3pr.domain.Reason") && 
+						searchCriteria.getAttributeName().equals("code")){
+					offEpochReasonsList.addAll(searchCriteria.getValues());
+				}
+				if(searchCriteria.getObjectName().equals("edu.duke.cabig.c3pr.domain.Epoch") && 
+						searchCriteria.getAttributeName().equals("type.code")){
+					for(String value : searchCriteria.getValues()){
+						epochTypesList.add(EpochType.valueOf(value));
+					}
+				}
+			}
+			List<StudySubject> filteredRegistrations = filterRegistrationsRelatedToLatestScheduledEpoch(registrations, 	schEpochStatusList,
+					epochTypesList, offEpochReasonsList);
+			map.put("registrations", filteredRegistrations);
+		} else{
+			map.put("registrations", registrations);
+		}
 		
 		request.getSession().setAttribute("resultsViewColumnList", getAdvancedStudySearchResultColumns());
 		request.getSession().setAttribute("searchResultsRowList", getAdvancedStudySearchResultRows(registrations));
@@ -167,5 +199,34 @@ public class RegistrationAdvancedSearchController extends AdvancedSearchControll
 		
 		return advancedSearchRegistrations;
 		
+	}
+	
+	private List<StudySubject> filterRegistrationsRelatedToLatestScheduledEpoch(List<StudySubject> registrations, List<ScheduledEpochWorkFlowStatus>
+	schEpochStatusList, List<EpochType> epochTypesList, List<String> offEpochReasonCodesList){
+		List<StudySubject> filteredStudySubjects = new ArrayList<StudySubject>();
+		
+		for(StudySubject studySubject : registrations){
+			ScheduledEpoch currentScheduledEpoch = studySubject.getScheduledEpoch();
+			
+			List<String> latestEpochOffEpochReasonCodes = new ArrayList<String>();
+			for(OffEpochReason offEpochReason: currentScheduledEpoch.getOffEpochReasons()){
+				latestEpochOffEpochReasonCodes.add(offEpochReason.getReason().getCode());
+			}
+			if(!offEpochReasonCodesList.isEmpty() && CollectionUtils.intersection(latestEpochOffEpochReasonCodes, offEpochReasonCodesList).isEmpty()){
+				continue;
+			}
+		
+			if(!schEpochStatusList.isEmpty() && !schEpochStatusList.contains(currentScheduledEpoch.getScEpochWorkflowStatus())){
+				continue;
+			}
+		
+			if(!epochTypesList.isEmpty() && !epochTypesList.contains(currentScheduledEpoch.getEpoch().getType())){
+				continue;
+			}
+			
+			filteredStudySubjects.add(studySubject);
+		}
+		
+		return filteredStudySubjects;
 	}
 }
