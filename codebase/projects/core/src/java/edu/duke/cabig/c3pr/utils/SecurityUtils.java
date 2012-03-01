@@ -376,7 +376,7 @@ public class SecurityUtils {
 			} else {
 				//e.g: add NC010 from "HealthcareSite.NC010" to the userAccessibleOrganizationIdsList
 				for(String siteId:suiteRoleMembership.getSiteIdentifiers()){
-					userAccessibleOrganizationIdsList.add(siteId.substring(siteId.indexOf(".") + 1));
+					userAccessibleOrganizationIdsList.add(siteId);
 				}
 			}
 		}
@@ -399,7 +399,7 @@ public class SecurityUtils {
 			
 			//add NC010 from "HealthcareSite.NC010" to the userAccessibleOrganizationIdsList
 			for(String studyId:suiteRoleMembership.getStudyIdentifiers()){
-				userAccessibleStudyIdsList.add(studyId.substring(studyId.indexOf(".") + 1));
+				userAccessibleStudyIdsList.add(studyId);
 			}
 		}
 		return userAccessibleStudyIdsList;
