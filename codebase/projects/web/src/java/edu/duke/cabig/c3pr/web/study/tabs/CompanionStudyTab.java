@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.StudyPersonnelRole;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.study.StudyWrapper;
@@ -126,6 +127,11 @@ public class CompanionStudyTab extends StudyTab {
 			for (StudyPersonnel studyPersonnel : studySite.getStudyPersonnel()) {
 				StudyPersonnel sPersonnel = new StudyPersonnel();
 				sPersonnel.setPersonUser(studyPersonnel.getPersonUser());
+				for(StudyPersonnelRole studyPersonnelRole : studyPersonnel.getStudyPersonnelRoles()){
+					StudyPersonnelRole sPersonnelRole = new StudyPersonnelRole();
+					sPersonnelRole.setRole(studyPersonnelRole.getRole());
+					sPersonnel.getStudyPersonnelRoles().add(sPersonnelRole);
+				}
 				sPersonnel.setRoleCode(studyPersonnel.getRoleCode());
 				sPersonnel.setStartDate(studyPersonnel.getStartDate());
 				sPersonnel.setStatusCode(studyPersonnel.getStatusCode());
