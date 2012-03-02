@@ -271,23 +271,9 @@ function updateRoleSummary(index, isSiteScoped, isStudyScoped){
 } 
 
 ValidationManager.submitPostProcess= function(formElement, flag){	
-	<c:if test="${FLOW == 'SAVE_FLOW'}">
-		createAsUser = $('createAsUser0');
-		createAsStaff = $('createAsStaff0');
-	</c:if>
-	<c:if test="${FLOW == 'EDIT_FLOW'}">
-		createAsUser = $('createAsUser1');
-		createAsStaff = $('createAsStaff1');
-	</c:if>
-	<c:choose>
-		<c:when test="${FLOW == 'SETUP_FLOW'}">
-			assgndId = $('assignedIdInput0');
-		</c:when>
-		<c:otherwise>
-			assgndId = $('assignedIdInput1');
-		</c:otherwise>
-	</c:choose>
-		
+	createAsUser = $('createAsUser');
+	createAsStaff = $('createAsStaff');
+	assgndId = $('assignedIdInput')
 	ValidationManager.removeError(createAsUser);
 	if(assgndId != null) {
 		ValidationManager.removeError(assgndId);
@@ -322,50 +308,23 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 }
 
 //display associated staff organizations section if createAsStaff is checked
-function toggleStaffDisplay0(){
-	createAsStaff = $('createAsStaff0');
-	orgInfo = $('organizationInformation1');
-	assignedId = $('assignedIdentifier1');
+function toggleStaffDisplay(){
+	createAsStaff = $('createAsStaff');
+	orgInfo = $('OrganizationInformation')
+	assignedIdentifier = $('assignedIdentifier')
 	if(createAsStaff != null && createAsStaff.checked == true){
 		new Effect.BlindDown(orgInfo);
-		new Effect.BlindDown(assignedId);
+		new Effect.BlindDown(assignedIdentifier);
 	} else {
 		new Effect.BlindUp(orgInfo);
-		new Effect.BlindUp(assignedId);
-	}
-}
-
-function toggleStaffDisplay1(){
-	createAsStaff = $('createAsStaff1');
-	orgInfo = $('organizationInformation1');
-	assignedId = $('assignedIdentifier1');
-	if(createAsStaff != null && createAsStaff.checked == true){
-		new Effect.BlindDown(orgInfo);
-		new Effect.BlindDown(assignedId);
-	} else {
-		new Effect.BlindUp(orgInfo);
-		new Effect.BlindUp(assignedId);
-	}
-}
-
-
-//display user section if createAsUser is checked
-function toggleUserDisplay0(){
-    createAsUser = $('createAsUser0');
-	ell = $('accountInformation1')
-	if(createAsUser != null && createAsUser.checked == true){
-		//display user sections
-		new Effect.BlindDown(ell);
-	} else {
-		//hide user sections
-		new Effect.BlindUp(ell);
+		new Effect.BlindUp(assignedIdentifier);
 	}
 }
 
 //display user section if createAsUser is checked
-function toggleUserDisplay1(){
-    createAsUser = $('createAsUser1');
-	ell = $('accountInformation1')
+function toggleUserDisplay(){
+    createAsUser = $('createAsUser');
+	ell = $('AccountInformation')
 	if(createAsUser != null && createAsUser.checked == true){
 		//display user sections
 		new Effect.BlindDown(ell);
@@ -429,7 +388,6 @@ function toggleUserStatus(){
 	form._toggleStatus.value="true";
 	form.submit();
 }
-
 </script>
 
 </head>
@@ -501,16 +459,16 @@ function toggleUserStatus(){
 				<c:when  test="${FLOW == 'SETUP_FLOW'}">
 		        	<div class="row" >
 		   	        	<div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
-			        	<tags:researchStaffInput id="assignedIdInput0" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" cssClass="required validate-notEmpty"
+			        	<tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" cssClass="required validate-notEmpty"
 			        				size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
 			    	</div>
 			    	<div class="row">
 		            	<div class="label"><fmt:message key="researchstaff.createAsStaff" /></div>
-		            	<form:checkbox id="createAsStaffSetUp" path="createAsStaff" disabled="true"/>
+		            	<form:checkbox id="createAsStaff" path="createAsStaff" disabled="true"/>
 		        	</div>
 		        	<div class="row" >
 		            	<div class="label"><fmt:message key="researchstaff.createAsUser" /></div>
-		            	<form:checkbox id="createAsUserSetup" path="createAsUser"  disabled="true"/>
+		            	<form:checkbox id="createAsUser" path="createAsUser"  disabled="true"/>
 		        	</div>
 				</c:when>
 				<c:otherwise>
@@ -518,11 +476,11 @@ function toggleUserStatus(){
 			        <c3pr:checkprivilege hasPrivileges="UI_RESEARCHSTAFF_CREATE">
 			        	<c:set var="staffdisplay" value="display"/>
 			        
-			        	<div class="row" style="${staffdisplay}" id="assignedIdentifier1">
+			        	<div class="row" style="${staffdisplay}" id="assignedIdentifier">
 				   	        <div class="label"><tags:requiredIndicator /><fmt:message key="c3pr.person.identifier"/></div>
 				   	        <c:choose>
 					   	        <c:when test="${empty command.personUser.assignedIdentifier || isSuperUser}"> 
-						        	<tags:researchStaffInput id="assignedIdInput1" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
+						        	<tags:researchStaffInput id="assignedIdInput" commandClass="${command.personUser.class}" path="personUser.assignedIdentifier" size="25" value="${command.personUser.assignedIdentifier}"></tags:researchStaffInput>    
 					   	        </c:when>
 					   	        <c:otherwise>
 					   	        	&nbsp;&nbsp;${command.personUser.assignedIdentifier}
@@ -533,10 +491,10 @@ function toggleUserStatus(){
 		        	 <div class="row" style="${staffdisplay}">
 			            <div class="label"><fmt:message key="researchstaff.createAsStaff" /></div>
 			            <c:if test="${FLOW == 'SAVE_FLOW'}">
-			            	<form:checkbox id="createAsStaff0" path="createAsStaff" onclick="toggleStaffDisplay0()"/>
+			            	<form:checkbox id="createAsStaff" path="createAsStaff" onclick="toggleStaffDisplay()"/>
 			            </c:if>
 			            <c:if test="${FLOW == 'EDIT_FLOW'}">
-			            	<input type="checkbox" id="createAsStaff1" name="createAsStaff1" onclick="toggleStaffDisplay1()" value="true"  <c:if test="${command.isStaff == 'true' || command.createAsStaff}">disabled="disabled" checked</c:if> />
+			            	<input type="checkbox" id="createAsStaff" name="createAsStaff" onclick="toggleStaffDisplay()" value="true"  <c:if test="${command.isStaff == 'true' || command.createAsStaff}">disabled="disabled" checked</c:if> />
 			            </c:if>
 			        </div>
 			        
@@ -547,10 +505,10 @@ function toggleUserStatus(){
 			        <div class="row" style="${userdisplay}">
 			            <div class="label"><fmt:message key="researchstaff.createAsUser" /></div>
 			            <c:if test="${FLOW == 'SAVE_FLOW'}">
-			            	<form:checkbox id="createAsUser0" path="createAsUser" onclick="toggleUserDisplay0()" />
+			            	<form:checkbox id="createAsUser" path="createAsUser" onclick="toggleUserDisplay()" />
 			            </c:if>
 			            <c:if test="${FLOW == 'EDIT_FLOW'}">
-			            	<input type="checkbox" id="createAsUser1" name="createAsUser1" onclick="toggleUserDisplay1()" value="true"  <c:if test="${command.isUser == 'true' || command.createAsUser}">disabled="disabled" checked</c:if> />
+			            	<input type="checkbox" id="createAsUser" name="createAsUser" onclick="toggleUserDisplay()" value="true"  <c:if test="${command.isUser == 'true' || command.createAsUser}">disabled="disabled" checked</c:if> />
 			            </c:if>
 			        </div>
 				</c:otherwise>
@@ -567,7 +525,7 @@ function toggleUserStatus(){
 	<c:set var="allowOrganizationDisplay" value="true" />
 </c:if> 
 
-<div id="organizationInformation1">
+<div id="OrganizationInformation">
 	<c:if test="${allowOrganizationDisplay == 'true'}">
 		<chrome:box title="Associated Organizations" id="organization_details">
 			<chrome:flashMessage />
@@ -707,7 +665,7 @@ function toggleUserStatus(){
 </c:if>
 
 <c3pr:checkprivilege hasPrivileges="USER_CREATE">
-	<div id="accountInformation1">
+	<div id="AccountInformation">
 		<chrome:box title="Account Information" >
 			<tags:instructions code="research_staff_account_information" />
 			<!-- start of username display -->
@@ -743,10 +701,10 @@ function toggleUserStatus(){
 			        <div class="value">&nbsp;${command.userStatus}&nbsp;&nbsp;&nbsp;<br/>
 			        	<c:choose>
 				        	<c:when test="${command.userStatus eq 'Active'}">
-				        		<tags:button id="toggleStatus0" type="button" color="red" value="Deactivate User"  onclick="toggleUserStatus()" size="small"/>
+				        		<tags:button id="toggleStatus" type="button" color="red" value="Deactivate User"  onclick="toggleUserStatus()" size="small"/>
 				        	</c:when>
 				        	<c:otherwise>
-				        		<tags:button id="toggleStatus1" type="button" color="green" value="Activate User"  onclick="toggleUserStatus()" size="small"/>
+				        		<tags:button id="toggleStatus" type="button" color="green" value="Activate User"  onclick="toggleUserStatus()" size="small"/>
 				        	</c:otherwise>
 			        	</c:choose>
 			        </div>
@@ -1019,7 +977,7 @@ function toggleUserStatus(){
             </thead>
             <c:forEach items="${command.personUser.externalResearchStaff}"  var="remRs" varStatus="rdStatus">
               <tr>
-              	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onclick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
+              	<td><input type="radio" name="remotersradio" value=${rdStatus.index} id="remoters-radio" onClick="javascript:selectResearchStaff('${rdStatus.index}');"/></td>
                 <td align="left">${remRs.firstName}</td>
                 <td align="left">${remRs.lastName}</td>
                 <td align="left">${remRs.email}</td>
@@ -1058,16 +1016,10 @@ function toggleUserStatus(){
 </div>
 
 <script>
-	new FormQueryStringUtils($('command')).stripQueryString('assignedIdentifier1');
+	new FormQueryStringUtils($('command')).stripQueryString('assignedIdentifier');
 	function toggle(){
-		<c:if test="${FLOW == 'SAVE_FLOW'}">
-			toggleStaffDisplay0();
-			toggleUserDisplay0();
-		</c:if>
-		<c:if test="${FLOW == 'EDIT_FLOW'}">
-			toggleStaffDisplay1();
-			toggleUserDisplay1();
-		</c:if>
+		toggleStaffDisplay();
+		toggleUserDisplay();
 	}	
 	window.onload=toggle;
 </script>
