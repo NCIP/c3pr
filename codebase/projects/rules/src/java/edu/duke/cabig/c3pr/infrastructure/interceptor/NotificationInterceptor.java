@@ -85,9 +85,9 @@ public class NotificationInterceptor extends EmptyInterceptor implements Applica
 		session.setFlushMode(FlushMode.MANUAL);
 		result = new ArrayList<PlannedNotification>();
         try {
-          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o where p.id = o.plannedNotificationsInternal.id and " +
-          "o.identifiersAssignedToOrganization.primaryIndicator = 'true' and " +
-          "o.identifiersAssignedToOrganization.value in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
+          Query query =  session.createQuery("select p from PlannedNotification p, HealthcareSite o, Identifier i where p = any elements(o.plannedNotificationsInternal) and " +
+          "i = any elements(o.identifiersAssignedToOrganization) and i.primaryIndicator = 'true' and " +
+          "i.value in (:nciCodeList)").setParameterList("nciCodeList",nciCodeList);
           
           result = query.list();
         }
