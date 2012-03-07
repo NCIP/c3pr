@@ -47,9 +47,10 @@ public class CompanionStudyTab extends StudyTab {
     	CompanionStudyAssociation companionStudyAssociation = study.getCompanionStudyAssociations().get(index);
     	companionStudyAssociation.setCompanionStudy(companionStudy);
     	companionStudyAssociation.setMandatoryIndicator(Boolean.FALSE);
-    	studyDao.save(study);
+    	// changed from save to merge because of a hibernate bug, https://hibernate.onjira.com/browse/HHH-5267
+    	Study mergedStudy = studyDao.merge(study);
     	
-    	study = studyDao.getById(study.getId());
+    	study = studyDao.getById(mergedStudy.getId());
     	
     	wrapper.setStudy(study);
     	Map<String, Object> map = new HashMap<String, Object>();
