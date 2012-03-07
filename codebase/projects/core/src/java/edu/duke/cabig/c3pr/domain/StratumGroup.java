@@ -90,8 +90,8 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
      * 
      * @return the stratification criterion answer combination internal
      */
-    @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "STR_GRP_ID")
     public List<StratificationCriterionAnswerCombination> getStratificationCriterionAnswerCombinationInternal() {
         return lazyListHelper.getInternalList(StratificationCriterionAnswerCombination.class);
@@ -128,8 +128,8 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject implement
      * 
      * @return the book randomization entry internal
      */
-    @OneToMany(mappedBy = "stratumGroup", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "stratumGroup", fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     public List<BookRandomizationEntry> getBookRandomizationEntryInternal() {
         return lazyListHelper.getInternalList(BookRandomizationEntry.class);
     }

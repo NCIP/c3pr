@@ -154,8 +154,8 @@ public class InvestigatorGroup extends AbstractMutableDeletableDomainObject impl
      * 
      * @return the site investigator group affiliations internal
      */
-    @OneToMany(mappedBy = "investigatorGroup", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "investigatorGroup", fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     public List<SiteInvestigatorGroupAffiliation> getSiteInvestigatorGroupAffiliationsInternal() {
         return lazyListHelper.getInternalList(SiteInvestigatorGroupAffiliation.class);
     }

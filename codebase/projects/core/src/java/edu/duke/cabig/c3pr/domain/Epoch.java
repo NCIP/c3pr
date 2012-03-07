@@ -410,8 +410,8 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	 *
 	 * @return the arms internal
 	 */
-	@OneToMany(fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@JoinColumn(name = "eph_id")
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<Arm> getArmsInternal() {
@@ -460,8 +460,8 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	 *
 	 * @return the stratification criteria internal
 	 */
-	@OneToMany(fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@JoinColumn(name = "EPH_ID")
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<StratificationCriterion> getStratificationCriteriaInternal() {
@@ -515,8 +515,8 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	 *
 	 * @return the eligibility criteria
 	 */
-	@OneToMany
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(orphanRemoval=true)
+	@Cascade( { CascadeType.ALL})
 	@JoinColumn(name = "EPH_ID")
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<EligibilityCriteria> getEligibilityCriteria() {
@@ -587,8 +587,8 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	 *
 	 * @return the stratum groups internal
 	 */
-	@OneToMany(fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@JoinColumn(name = "epochs_id")
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("stratumGroupNumber")
@@ -634,9 +634,9 @@ public class Epoch extends AbstractMutableDeletableDomainObject{
 	 *
 	 * @return the randomization
 	 */
-	@OneToOne
+	@OneToOne(orphanRemoval=true)
 	@JoinColumn(name = "rndm_id")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
 	public Randomization getRandomization() {
 		return randomization;
 	}

@@ -79,8 +79,8 @@ public class BaseInvestigatorDataContainer extends AbstractMutableDeletableDomai
 	 /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
      */
-    @OneToMany
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "INV_ID")
     @OrderBy("id")
     public List<BaseContactMechanismDataContainer> getContactMechanisms() {

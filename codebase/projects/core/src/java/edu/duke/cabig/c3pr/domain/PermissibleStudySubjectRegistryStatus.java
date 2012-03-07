@@ -34,8 +34,8 @@ public class PermissibleStudySubjectRegistryStatus extends AbstractMutableDeleta
 		this.registryStatus = registryStatus;
 	}
 
-	@OneToMany
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@OneToMany(orphanRemoval=true)
+	@Cascade( { CascadeType.ALL})
 	@JoinColumn(name = "per_reg_st_id")
 	public List<RegistryStatusReason> getSecondaryReasons() {
 		return secondaryReasons;

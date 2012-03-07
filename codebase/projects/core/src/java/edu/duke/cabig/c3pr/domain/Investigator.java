@@ -152,8 +152,8 @@ public abstract class Investigator extends C3PRUser {
      * 
      * @return the healthcare site investigators internal
      */
-    @OneToMany(mappedBy = "investigator")
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "investigator", orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigatorsInternal() {
         return lazyListHelper.getInternalList(HealthcareSiteInvestigator.class);
     }
@@ -209,8 +209,8 @@ public abstract class Investigator extends C3PRUser {
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
      */
-    @OneToMany
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "INV_ID")
     @OrderBy("id")
     public Set<ContactMechanism> getContactMechanisms() {

@@ -116,8 +116,8 @@ public abstract class PersonUser extends User {
      * 
      * @return the study personnels
      */
-    @OneToMany(mappedBy = "personUser")
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "personUser", orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL })
     public List<StudyPersonnel> getStudyPersonnels() {
         return studyPersonnels;
     }
@@ -134,8 +134,8 @@ public abstract class PersonUser extends User {
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
      */
-    @OneToMany
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "RS_ID")
     @OrderBy("id")
     public Set<ContactMechanism> getContactMechanisms() {
@@ -246,7 +246,7 @@ public abstract class PersonUser extends User {
 	 * @return the healthcareSites
 	 */
     @ManyToMany
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
 	@JoinTable(name = "rs_hc_site_assocn", joinColumns = @JoinColumn(name = "rs_id"), inverseJoinColumns = @JoinColumn(name = "hcs_id"))
 	public List<HealthcareSite> getHealthcareSites() { 	
 		return healthcareSites;

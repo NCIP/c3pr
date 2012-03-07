@@ -43,10 +43,10 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 				new InstantiateFactory<StudySubjectConsentVersion>(StudySubjectConsentVersion.class));
 	}
 
-	@OneToMany
+	@OneToMany(orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
 	@JoinColumn(name = "study_subject_ver_id")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("id")
 	public List<StudySubjectConsentVersion> getStudySubjectConsentVersionsInternal() {
@@ -94,8 +94,8 @@ public class StudySubjectStudyVersion extends AbstractMutableDeletableDomainObje
 		this.studySiteStudyVersion = studySiteStudyVersion;
 	}
 
-	@OneToMany
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(orphanRemoval=true)
+	@Cascade( { CascadeType.ALL})
 	@JoinColumn(name = "study_subject_ver_id")
 	public List<ScheduledEpoch> getScheduledEpochs() {
 		return scheduledEpochs;

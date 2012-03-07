@@ -122,8 +122,8 @@ public class StudySiteStudyVersion extends AbstractMutableDeletableDomainObject 
 		this.startDate = startDate;
 	}
 
-	@OneToMany(mappedBy = "studySiteStudyVersion")
-	@Cascade(value = { CascadeType.LOCK, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy = "studySiteStudyVersion", orphanRemoval=true)
+	@Cascade(value = { CascadeType.LOCK })
 	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
 		return studySubjectStudyVersions;
 	}

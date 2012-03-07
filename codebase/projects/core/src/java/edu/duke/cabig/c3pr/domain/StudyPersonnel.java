@@ -216,8 +216,8 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
         return true;
     }
     
-    @OneToMany
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
     @JoinColumn(name="stu_prsnl_id")
     public List<StudyPersonnelRole> getStudyPersonnelRolesInternal() {
         return lazyListHelper.getInternalList(StudyPersonnelRole.class);

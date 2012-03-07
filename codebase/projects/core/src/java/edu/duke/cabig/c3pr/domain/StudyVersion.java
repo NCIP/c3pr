@@ -200,9 +200,9 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		this.randomizationType = randomizationType;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
 	@JoinColumn(name="stu_version_id")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("epochOrder")
 	public List<Epoch> getEpochsInternal() {
@@ -240,8 +240,8 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return null;
 	}
 
-	@OneToMany(mappedBy="studyVersion")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy="studyVersion", orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 //	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy ("id")
 	public List<Consent> getConsentsInternal() {
@@ -280,9 +280,9 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		this.study = study;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
 	@JoinColumn(name="stu_version_id")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
 	public List<StudyDisease> getStudyDiseases() {
 		return studyDiseases;
 	}
@@ -453,8 +453,8 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
 	}
 
-    @OneToMany(mappedBy = "parentStudyVersion", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "parentStudyVersion", fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("id")
 	public List<CompanionStudyAssociation> getCompanionStudyAssociationsInternal() {
@@ -685,8 +685,8 @@ public class StudyVersion extends AbstractMutableDeletableDomainObject implement
 		}
 	}
 
-	@OneToMany(mappedBy = "studyVersion")
-	@Cascade(value = { CascadeType.LOCK, CascadeType.DELETE_ORPHAN})
+	@OneToMany(mappedBy = "studyVersion", orphanRemoval=true)
+	@Cascade(value = { CascadeType.LOCK})
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<StudySiteStudyVersion> getStudySiteStudyVersionsInternal() {
 		return lazyListHelper.getInternalList(StudySiteStudyVersion.class);

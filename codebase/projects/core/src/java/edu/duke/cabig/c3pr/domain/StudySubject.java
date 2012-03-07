@@ -193,8 +193,8 @@ public class StudySubject extends
 		return backDatedReasonText;
 	}
 
-	@OneToMany
-	@Cascade( {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@OneToMany(orphanRemoval=true)
+	@Cascade( {CascadeType.ALL})
 	@JoinColumn(name = "stu_sub_id", nullable= false)
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("time desc")
@@ -298,9 +298,9 @@ public class StudySubject extends
 		this.studySubjectStudyVersions = studySubjectStudyVersions;
 	}
 
-	@OneToMany(mappedBy = "studySubject")
+	@OneToMany(mappedBy = "studySubject", orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
 	public List<StudySubjectStudyVersion> getStudySubjectStudyVersions() {
 		return studySubjectStudyVersions;
 	}
@@ -417,8 +417,8 @@ public class StudySubject extends
 	 *
 	 * @return the disease history internal
 	 */
-	@OneToOne
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToOne(orphanRemoval=true)
+	@Cascade( { CascadeType.ALL})
 	@JoinColumn(name = "DISEASE_HISTORY_ID")
 	public DiseaseHistory getDiseaseHistoryInternal() {
 		return diseaseHistory;
@@ -586,9 +586,9 @@ public class StudySubject extends
 	 *
 	 * @return the identifiers
 	 */
-	@OneToMany
+	@OneToMany(orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
-	@Cascade( { CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade( { CascadeType.MERGE, CascadeType.ALL})
 	@JoinColumn(name = "SPA_ID")
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy
@@ -1115,8 +1115,8 @@ public class StudySubject extends
 	 *
 	 * @return the child study subjects
 	 */
-	@OneToMany(mappedBy = "parentStudySubject")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy = "parentStudySubject", orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	public List<StudySubject> getChildStudySubjects() {
 		return childStudySubjects;
 	}
@@ -1200,8 +1200,8 @@ public class StudySubject extends
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject#getEndpoints()
 	 */
-	@OneToMany
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@JoinColumn(name = "stu_sub_id")
 	public List<EndPoint> getEndpoints() {
 		return endpoints;
@@ -1827,8 +1827,8 @@ public class StudySubject extends
 	 *
 	 * @return the custom fields internal
 	 */
-	@OneToMany(mappedBy = "studySubject", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy = "studySubject", fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	public List<CustomField> getCustomFieldsInternal() {
 		return lazyListHelper.getInternalList(CustomField.class);
 	}
@@ -2487,9 +2487,9 @@ public class StudySubject extends
 		
 	}
 	
-	@OneToMany
+	@OneToMany(orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade( { CascadeType.ALL})
 	@JoinColumn(name = "stu_sub_id", nullable=false)
 	public List<StudySubjectRegistryStatus> getStudySubjectRegistryStatusHistoryInternal() {
 		return studySubjectRegistryStatusHistory;

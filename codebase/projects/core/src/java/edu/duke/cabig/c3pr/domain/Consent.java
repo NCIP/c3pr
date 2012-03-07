@@ -121,9 +121,9 @@ public class Consent extends AbstractMutableDeletableDomainObject implements Com
 		return mandatoryIndicator;
 	}
 
-	@OneToMany
+	@OneToMany(orphanRemoval=true)
 	@JoinColumn(name = "con_id",nullable=false)
-	@Cascade(value={CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+	@Cascade(value={CascadeType.ALL})
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("id")
 	public List<ConsentQuestion> getQuestionsInternal() {

@@ -131,10 +131,10 @@ public class StudySubjectConsentVersion extends AbstractMutableDeletableDomainOb
 	}
 
 
-	@OneToMany
+	@OneToMany(orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
 	@JoinColumn(name="stu_sub_con_ver_id",nullable=false)
-	@Cascade(value={CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+	@Cascade(value={CascadeType.ALL})
 	public List<SubjectConsentQuestionAnswer> getSubjectConsentAnswers() {
 		return subjectConsentAnswers;
 	}

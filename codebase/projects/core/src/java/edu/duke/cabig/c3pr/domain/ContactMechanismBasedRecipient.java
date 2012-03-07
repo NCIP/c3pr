@@ -44,8 +44,8 @@ public class ContactMechanismBasedRecipient extends Recipient {
      * 
      * @return the contact mechanisms internal
      */
-    @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "recipients_id")
     @Where(clause = "retired_indicator  = 'false'")
     public List<ContactMechanism> getContactMechanismsInternal() {

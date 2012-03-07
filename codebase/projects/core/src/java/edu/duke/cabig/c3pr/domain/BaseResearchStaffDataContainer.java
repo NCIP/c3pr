@@ -69,8 +69,8 @@ public class BaseResearchStaffDataContainer extends AbstractMutableDeletableDoma
 	 /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
      */
-    @OneToMany
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "RS_ID")
     @OrderBy("id")
     public List<BaseContactMechanismDataContainer> getContactMechanisms() {
@@ -101,7 +101,7 @@ public class BaseResearchStaffDataContainer extends AbstractMutableDeletableDoma
 	}
 	
 	@ManyToMany
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
 	@JoinTable(name = "rs_hc_site_assocn", joinColumns = @JoinColumn(name = "rs_id"), inverseJoinColumns = @JoinColumn(name = "hcs_id"))
 	public List<BaseOrganizationDataContainer> getBaseOrganizationDataContainers() {
 		return baseOrganizationDataContainers;

@@ -57,7 +57,7 @@ public class BaseOrganizationDataContainer extends AbstractMutableDomainObject{
 	
     private List<BaseResearchStaffDataContainer> baseResearchStaffDataContainers = new ArrayList<BaseResearchStaffDataContainer>();
     @ManyToMany(mappedBy = "baseOrganizationDataContainers" )
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
     public List<BaseResearchStaffDataContainer> getBaseResearchStaffDataContainers() {
         return baseResearchStaffDataContainers;
     }

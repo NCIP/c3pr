@@ -105,8 +105,8 @@ public abstract class HealthcareSite extends Organization implements Comparable<
      *
      * @return the healthcare site investigators
      */
-    @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigators() {
         return healthcareSiteInvestigators;
     }
@@ -128,7 +128,7 @@ public abstract class HealthcareSite extends Organization implements Comparable<
      * @return the person users
      */
     @ManyToMany(mappedBy = "healthcareSites" )
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
     public List<PersonUser> getPersonUsers() {
         return personUsers;
     }
@@ -318,8 +318,8 @@ public abstract class HealthcareSite extends Organization implements Comparable<
      *
      * @return the investigator groups internal
      */
-    @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     public List<InvestigatorGroup> getInvestigatorGroupsInternal() {
         return lazyListHelper.getInternalList(InvestigatorGroup.class);
     }

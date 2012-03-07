@@ -115,8 +115,8 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
      * 
      * @return the user based recipient internal
      */
-    @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(fetch = FetchType.LAZY,orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "planned_notfns_id", nullable = false)
     @Where(clause = "DTYPE = 'ER' and retired_indicator  = 'false'")
     public List<UserBasedRecipient> getUserBasedRecipientInternal() {
@@ -155,8 +155,8 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
      * 
      * @return the role based recipient internal
      */
-    @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(fetch = FetchType.LAZY,orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "planned_notfns_id", nullable = false)
     @Where(clause = "DTYPE = 'RR' and retired_indicator  = 'false'")
     public List<RoleBasedRecipient> getRoleBasedRecipientInternal() {
@@ -195,8 +195,8 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
      * 
      * @return the contact mechanism based recipient internal
      */
-    @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "planned_notfns_id", nullable = false)
     @Where(clause = "DTYPE = 'CMR' and retired_indicator  = 'false'")
     public List<ContactMechanismBasedRecipient> getContactMechanismBasedRecipientInternal() {
@@ -235,8 +235,8 @@ public class PlannedNotification extends AbstractMutableDeletableDomainObject {
      * 
      * @return the scheduled notifications internal
      */
-    @OneToMany(fetch = FetchType.LAZY)
-    @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.MERGE, CascadeType.DELETE_ORPHAN})
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = {CascadeType.SAVE_UPDATE, CascadeType.MERGE})
     @JoinColumn(name = "planned_notfns_id", nullable = false)
     @Where(clause = "retired_indicator  = 'false'")
 //    @OrderBy(clause="date_sent desc")

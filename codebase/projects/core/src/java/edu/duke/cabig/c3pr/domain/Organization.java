@@ -62,8 +62,8 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         this.contactMechanisms = contactMechanisms;
     }
 
-    @OneToMany
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "ORG_ID")
     @OrderBy("id")
     public List<ContactMechanism> getContactMechanisms() {
@@ -155,8 +155,8 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         this.descriptionText = descriptionText;
     }
 
-    @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.DELETE, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = { CascadeType.DELETE})
     public List<StudyOrganization> getStudyOrganizations() {
         return studyOrganizations;
     }
@@ -171,7 +171,7 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
      * @return
      */
     @OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
-   // @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+   // @Cascade(value = { CascadeType.ALL})
     public List<OrganizationAssignedIdentifier> getIdentifiers() {
         return identifiers;
     }
@@ -186,8 +186,8 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
 	 * 
 	 * @return the identifiers
 	 */
-	@OneToMany(fetch = FetchType.LAZY)
-	@Cascade({CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade({CascadeType.MERGE, CascadeType.ALL})
 	@JoinColumn(name = "ORG_ID")
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy
@@ -307,8 +307,8 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         return true;
     }
 
-    @OneToMany(mappedBy="healthcareSite", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy="healthcareSite", fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @Where(clause="retired_indicator = 'false'")
  	public List<PlannedNotification> getPlannedNotificationsInternal() {
         return lazyListHelper.getInternalList(PlannedNotification.class);

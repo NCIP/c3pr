@@ -42,9 +42,9 @@ public class BookRandomization extends Randomization {
      * 
      * @return the book randomization entry internal
      */
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
     @JoinColumn(name = "rndm_id", nullable = false)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @Cascade(value = { CascadeType.ALL})
     @OrderBy("stratumGroup, position")
     public List<BookRandomizationEntry> getBookRandomizationEntryInternal() {
         return lazyListHelper.getInternalList(BookRandomizationEntry.class);

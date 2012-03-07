@@ -142,9 +142,9 @@ public class StratificationCriterion extends AbstractMutableDeletableDomainObjec
      * 
      * @return the permissible answers internal
      */
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
     @JoinColumn(name = "str_cri_id", nullable = false)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @Cascade(value = { CascadeType.ALL})
     @Where(clause = "retired_indicator = 'false'")
     public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswersInternal() {
         return lazyListHelper.getInternalList(StratificationCriterionPermissibleAnswer.class);

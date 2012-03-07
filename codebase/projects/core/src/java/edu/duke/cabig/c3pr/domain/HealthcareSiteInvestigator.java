@@ -209,8 +209,8 @@ public class HealthcareSiteInvestigator extends AbstractMutableDeletableDomainOb
      * 
      * @return the site investigator group affiliations
      */
-    @OneToMany(mappedBy = "healthcareSiteInvestigator", fetch = FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "healthcareSiteInvestigator", fetch = FetchType.LAZY, orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     public List<SiteInvestigatorGroupAffiliation> getSiteInvestigatorGroupAffiliations() {
         return siteInvestigatorGroupAffiliations;
     }

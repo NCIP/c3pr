@@ -535,8 +535,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		return studySiteStudyVersion == null ? false : (studySiteStudyVersion.getStudyVersion() == studyVersion);
 	}
 
-	@OneToMany(mappedBy = "studySite")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy = "studySite", orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	public List<StudySiteStudyVersion> getStudySiteStudyVersions() {
 		return studySiteStudyVersions;
 	}
@@ -684,8 +684,8 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
     	this.addSiteStatusHistory(siteStatusHistory);
 	}
 	
-	@OneToMany(mappedBy = "studySite", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy = "studySite", fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<SiteStatusHistory> getSiteStatusHistoryInternal() {
 		return lazyListHelper.getInternalList(SiteStatusHistory.class);

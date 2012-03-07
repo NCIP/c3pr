@@ -103,8 +103,8 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	private final String householdIdType = "HOUSEHOLD_IDENTIFIER";
 	
 
-	/*@OneToMany(mappedBy = "secondaryParticipant")
-	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	/*@OneToMany(mappedBy = "secondaryParticipant", orphanRemoval=true)
+	@Cascade({CascadeType.ALL})
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<Relationship> getRelatedFrom() {
 		return relatedFrom;
@@ -135,8 +135,8 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 		lazyListHelper.add(CustomField.class,new ParameterizedBiDirectionalInstantiateFactory<CustomField>(CustomField.class, this));
 	}
 
-	@OneToMany(mappedBy = "primaryParticipant")
-	@Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@OneToMany(mappedBy = "primaryParticipant", orphanRemoval=true)
+	@Cascade({CascadeType.ALL})
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<Relationship> getRelatedToInternal() {
 		return lazyListHelper.getInternalList(Relationship.class);
@@ -204,8 +204,8 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	 * 
 	 * @return the identifiers
 	 */
-	@OneToMany(fetch = FetchType.LAZY)
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade( { CascadeType.ALL})
 	@JoinColumn(name = "PRT_ID")
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy
@@ -281,8 +281,8 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
 	 */
-	@OneToMany
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@JoinColumn(name = "PRT_ID")
 	@OrderBy("id")	
 	public Set<ContactMechanism> getContactMechanisms() {
@@ -395,8 +395,8 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 	 * 
 	 * @return the race codes
 	 */
-	@OneToMany
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
     @JoinColumn(name="sub_id")
     @OrderBy("id")
 	public Set<RaceCodeAssociation> getRaceCodeAssociations() {
@@ -664,8 +664,8 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
      * 
      * @return the custom fields internal
      */
-    @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	public List<CustomField> getCustomFieldsInternal() {
 		return lazyListHelper.getInternalList(CustomField.class);
 	}
@@ -916,8 +916,8 @@ public class Participant extends PersonBase implements Comparable<Participant> ,
 		this.stateCode = stateCode;
 	}
 	
-	@OneToMany(fetch=FetchType.EAGER)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(fetch=FetchType.EAGER, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@JoinColumn(name = "participant_id")
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("startDate desc")

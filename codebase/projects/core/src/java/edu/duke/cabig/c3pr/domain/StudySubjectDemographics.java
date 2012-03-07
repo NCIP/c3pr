@@ -40,9 +40,9 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 public class StudySubjectDemographics extends PersonBase implements Customizable,IdentifiableObject{
 	
 	
-	@OneToMany
+	@OneToMany(orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
 	@JoinColumn(name = "stu_sub_demographics_id")
 	@OrderBy("id")
 	public Set<Address> getAddresses() {
@@ -232,9 +232,9 @@ public class StudySubjectDemographics extends PersonBase implements Customizable
 	 * 
 	 * @return the identifiers
 	 */
-	@OneToMany
+	@OneToMany(orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade( { CascadeType.ALL })
 	@JoinColumn(name = "stu_sub_dmgphcs_id")
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy
@@ -400,11 +400,11 @@ public class StudySubjectDemographics extends PersonBase implements Customizable
 //	    }
 //	  )
 //	@ManyToMany
-//	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+//	@Cascade(value = { CascadeType.ALL})
 //	@JoinTable(name = "race_code_assocn", joinColumns = @JoinColumn(name = "stu_sub_dmgphcs_id"), inverseJoinColumns = @JoinColumn(name = "race_code_id")) 
-	@OneToMany
+	@OneToMany(orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL })
     @JoinColumn(name="stu_sub_dmgphcs_id")
 	public List<RaceCodeAssociation> getRaceCodeAssociations() {
 		if(raceCodeAssociations == null){
@@ -534,8 +534,8 @@ public class StudySubjectDemographics extends PersonBase implements Customizable
      * 
      * @return the custom fields internal
      */
-    @OneToMany(mappedBy = "studySubjectDemographics")
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "studySubjectDemographics", orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL })
 	public List<CustomField> getCustomFieldsInternal() {
 		return lazyListHelper.getInternalList(CustomField.class);
 	}
@@ -570,9 +570,9 @@ public class StudySubjectDemographics extends PersonBase implements Customizable
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.domain.Person#getContactMechanisms()
 	 */
-	@OneToMany
+	@OneToMany (orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
 	@JoinColumn(name = "stu_sub_dmgphcs_id")
 	@OrderBy("id")
 	public Set<ContactMechanism> getContactMechanisms() {

@@ -103,8 +103,8 @@ public abstract class CustomFieldDefinition extends AbstractMutableDeletableDoma
 		return study;
 	}
 	
-	@OneToMany(mappedBy = "customFieldDefinition", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy = "customFieldDefinition", fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	public List<CustomFieldPermissibleValue> getCustomFieldPermissibleValuesInternal() {
 		return lazyListHelper.getInternalList(CustomFieldPermissibleValue.class);
 	}
@@ -124,8 +124,8 @@ public abstract class CustomFieldDefinition extends AbstractMutableDeletableDoma
 	}
 	
 	
-	@OneToMany(mappedBy = "customFieldDefinition", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy = "customFieldDefinition", fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	public List<CustomField> getCustomFieldsInternal() {
 		return lazyListHelper.getInternalList(CustomField.class);
 	}

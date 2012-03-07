@@ -405,8 +405,8 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
      * 
      * @return the subject eligibility answers internal
      */
-    @OneToMany
-    @Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(orphanRemoval=true)
+    @Cascade( { CascadeType.ALL})
     @JoinColumn(name = "SCEPH_ID", nullable = false)
     public List<SubjectEligibilityAnswer> getSubjectEligibilityAnswersInternal() {
         return lazyListHelper.getInternalList(SubjectEligibilityAnswer.class);
@@ -455,8 +455,8 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
      * 
      * @return the subject stratification answers internal
      */
-    @OneToMany
-    @Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(orphanRemoval=true)
+    @Cascade( { CascadeType.ALL})
     @JoinColumn(name = "SCEPH_ID", nullable = false)
     public List<SubjectStratificationAnswer> getSubjectStratificationAnswersInternal() {
         return lazyListHelper.getInternalList(SubjectStratificationAnswer.class);
@@ -510,8 +510,8 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
      * 
      * @return the scheduled arms internal
      */
-    @OneToMany
-    @Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(orphanRemoval=true)
+    @Cascade( { CascadeType.ALL})
     @JoinColumn(name = "SCEPH_ID", nullable = false)
     public List<ScheduledArm> getScheduledArmsInternal() {
         return lazyListHelper.getInternalList(ScheduledArm.class);
@@ -696,8 +696,8 @@ public class ScheduledEpoch extends AbstractMutableDeletableDomainObject impleme
 		return false;
 	}
 
-    @OneToMany
-    @Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(orphanRemoval=true)
+    @Cascade( { CascadeType.ALL})
     @JoinColumn(name = "SCEPH_ID", nullable = false)
 	public List<OffEpochReason> getOffEpochReasons() {
 		return offEpochReasons;

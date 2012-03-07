@@ -396,8 +396,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		return null;
 	}
 
-	@OneToMany
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(orphanRemoval=true)
+	@Cascade( { CascadeType.ALL})
 	@JoinColumn(name = "STU_ID")
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy
@@ -430,9 +430,9 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		getStudyVersion().setEpochs(epochs);
 	}
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval=true)
 	@JoinColumn(name = "stu_id", nullable = true)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy("id")
 	public List<PlannedNotification> getPlannedNotificationsInternal() {
@@ -1022,8 +1022,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 
 	}
 
-	@OneToMany
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@JoinColumn(name = "stu_id")
 	public List<EndPoint> getEndpoints() {
 		return endpoints;
@@ -1114,8 +1114,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	}
 
 
-	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	public List<CustomFieldDefinition> getCustomFieldDefinitionsInternal() {
 		return lazyListHelper.getInternalList(CustomFieldDefinition.class);
 	}
@@ -1134,8 +1134,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 		customFieldDefinition.setStudy(this);
 	}
 
-	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	public List<CustomField> getCustomFieldsInternal() {
 		return lazyListHelper.getInternalList(CustomField.class);
 	}
@@ -1185,8 +1185,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 
 	}
 
-	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy ("versionDate")
 	public List<StudyVersion> getStudyVersionsInternal() {
@@ -1238,8 +1238,8 @@ public abstract class Study extends InteroperableAbstractMutableDeletableDomainO
 	   return null;
 	}
 
-	@OneToMany
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	@JoinColumn(name = "study_id", nullable=false)
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<PermissibleStudySubjectRegistryStatus> getPermissibleStudySubjectRegistryStatusesInternal() {

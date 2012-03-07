@@ -272,8 +272,8 @@ public abstract class EndPoint extends AbstractMutableDeletableDomainObject impl
      * 
      * @return the errors
      */
-    @OneToMany(fetch=FetchType.EAGER)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(fetch=FetchType.EAGER, orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @JoinColumn(name = "endpoint_id", nullable=false)
     public List<Error> getErrors() {
         return errors;

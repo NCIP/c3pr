@@ -113,8 +113,8 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
      * 
      * @return the study investigators internal
      */
-    @OneToMany(mappedBy = "studyOrganization")
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "studyOrganization",orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @Where(clause = "retired_indicator = 'false'")
     public List<StudyInvestigator> getStudyInvestigatorsInternal() {
         return lazyListHelper.getInternalList(StudyInvestigator.class);
@@ -168,8 +168,8 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
      * 
      * @return the study personnel internal
      */
-    @OneToMany(mappedBy = "studyOrganization")
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "studyOrganization", orphanRemoval=true)
+    @Cascade(value = { CascadeType.ALL})
     @Where(clause = "retired_indicator = 'false'")
     public List<StudyPersonnel> getStudyPersonnelInternal() {
         return lazyListHelper.getInternalList(StudyPersonnel.class);
@@ -304,8 +304,8 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
     /* (non-Javadoc)
      * @see edu.duke.cabig.c3pr.domain.InteroperableAbstractMutableDeletableDomainObject#getEndpoints()
      */
-    @OneToMany(mappedBy="studyOrganization")
-    @Cascade(value = { CascadeType.DELETE, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy="studyOrganization",orphanRemoval=true)
+    @Cascade(value = { CascadeType.DELETE})
     public List<EndPoint> getEndpoints() {
         return endpoints;
     }
@@ -390,8 +390,8 @@ public abstract class StudyOrganization extends InteroperableAbstractMutableDele
      * 
      * @return the custom field definitions internal
      */
-    @OneToMany(mappedBy = "studyOrganization", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @OneToMany(mappedBy = "studyOrganization", fetch = FetchType.LAZY, orphanRemoval=true)
+	@Cascade(value = { CascadeType.ALL})
 	public List<CustomFieldDefinition> getCustomFieldDefinitionsInternal() {
 		return lazyListHelper.getInternalList(CustomFieldDefinition.class);
 	}

@@ -198,9 +198,9 @@ public class Address extends AbstractMutableDeletableDomainObject {
 		return false;
 	}
 
-	@OneToMany
+	@OneToMany(orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
     @JoinColumn(name="add_id")
     @OrderBy("id")
 	public Set<AddressUseAssociation> getAddressUseAssociation() {

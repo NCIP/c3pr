@@ -163,9 +163,9 @@ public class ContactMechanism extends AbstractMutableDeletableDomainObject {
 		return "ContactMechanism [type=" + type + ", value=" + value + "]";
 	}
 
-	@OneToMany
+	@OneToMany(orphanRemoval=true)
 	@Fetch(FetchMode.SUBSELECT)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Cascade(value = { CascadeType.ALL})
     @JoinColumn(name="cntct_id")
     @OrderBy("id")
 	public Set<ContactMechanismUseAssociation> getContactMechanismUseAssociation() {

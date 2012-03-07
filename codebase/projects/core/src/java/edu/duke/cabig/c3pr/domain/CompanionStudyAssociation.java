@@ -94,8 +94,8 @@ public class CompanionStudyAssociation extends AbstractMutableDeletableDomainObj
 		this.mandatoryIndicator = mandatoryIndicator;
 	}
 
-	@OneToMany
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(orphanRemoval=true)
+	@Cascade( { CascadeType.ALL})
 	@JoinColumn(name = "comp_assoc_id")
 	public List<StudySite> getStudySites() {
 		return studySites;

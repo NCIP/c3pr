@@ -36,8 +36,8 @@ public class RegistryStatus extends AbstractMutableDeletableDomainObject{
 		this.primaryReasons = primaryReasons;
 	}
 
-	@OneToMany
-	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OneToMany(orphanRemoval=true)
+	@Cascade( { CascadeType.ALL})
 	@JoinColumn(name = "registry_st_id")
 	public List<RegistryStatusReason> getPrimaryReasons() {
 		return primaryReasons;
