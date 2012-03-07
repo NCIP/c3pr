@@ -30,7 +30,7 @@ import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.IdentifierGenerator;
 import edu.duke.cabig.c3pr.utils.PersistedStudySubjectCreator;
 
-public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
+public class StudySubjectRepositoryIntegrationTest extends DaoTestCase {
     private StudySubjectDao studySubjectDao;
     
     private PersonUserDao personUserDao;

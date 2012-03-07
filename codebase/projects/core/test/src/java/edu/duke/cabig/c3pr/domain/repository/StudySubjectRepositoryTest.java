@@ -46,7 +46,7 @@ import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 
-public class StudySubjectRepositoryTestCase extends AbstractTestCase {
+public class StudySubjectRepositoryTest extends AbstractTestCase {
     private StudySubjectDao studySubjectDao;
 
     private EpochDao epochDao;
@@ -73,7 +73,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
 
     private IdentifierGenerator identifierGenerator ;
 
-    private Logger log = Logger.getLogger(StudySubjectRepositoryTestCase.class.getName());
+    private Logger log = Logger.getLogger(StudySubjectRepositoryTest.class.getName());
     
     /** The study. */
 	private Study study;
