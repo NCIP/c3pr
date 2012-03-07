@@ -437,7 +437,7 @@
 																value="${command.study.organizationAssignedIdentifiers[0].healthcareSite.id}" />
 								</c:when>
 						<c:otherwise>
-							<form:select path="study.studyCoordinatingCenters[0].healthcareSite" onchange="updateCoCenterInputOnSelect();" cssClass="required validate-notEmpty" cssStyle="width: 235px;">
+							<form:select path="study.studyCoordinatingCenters[0].healthcareSite" id="study.studyCoordinatingCenters[0].healthcareSite" onchange="updateCoCenterInputOnSelect();" cssClass="required validate-notEmpty" cssStyle="width: 235px;">
 								<tags:userOrgOptions preSelectedSiteId="${command.study.studyCoordinatingCenters[0].healthcareSite.id}" privilege="STUDY_DEFINITION_DETAILS_UPDATE"/>
 							</form:select>
 							<input type="hidden" id="coCenter-hidden1" name="study.organizationAssignedIdentifiers[0].healthcareSite"
