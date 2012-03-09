@@ -45,14 +45,16 @@ function validateAmendmentReasons(){
 		<chrome:division id="study-amendments">
 			<div class="row">
 				<div class="label"><tags:requiredIndicator /><fmt:message key="study.versionNameNumber" /></div>
-				<div class="value"><form:input
-					path="study.currentStudyAmendment.name" size="25" cssClass="validate-NOTEMPTY" /><tags:hoverHint keyProp="study.versionNameNumber"/></div>
+				<div class="value"><form:input path="study.currentStudyAmendment.name" size="25" cssClass="validate-NOTEMPTY" /><tags:hoverHint keyProp="study.versionNameNumber"/>
+				</div>
 			</div>
 			<div class="row">
 			<div class="label"><tags:requiredIndicator /><fmt:message key="study.amendmentType" /></div>
 			<div class="value">
 				<form:select path="study.currentStudyAmendment.amendmentType" cssClass="required validate-notEmpty" onchange="amendmentTypeChanged();">
-                	<form:options items="${amendmentTypeOptions}" itemLabel="desc" itemValue="code" />
+					<c:forEach items="${amendmentTypeOptions}" var="amendmentTypeOption" varStatus="amendmentTypeOptionIndex">
+		            		<form:option value="${amendmentTypeOption.key}">${amendmentTypeOption.value}</form:option>
+		            </c:forEach>
             	</form:select>
             	<tags:hoverHint keyProp="study.amendmentType"/>
 			</div>
