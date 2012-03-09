@@ -30,6 +30,7 @@
 		width:38%;
 	}
 </style>
+<jsp:useBean id="now" class="java.util.Date"/>
 <div id="statusChangeConfirmation" style="display : none;padding: 15px;">
 	<img src="<tags:imageUrl name="error-yellow.png" />" alt="" style="vertical-align:middle;" /> <fmt:message key="STUDY.SITE.STATUS_CHANGE.WARNING"/>
 	<div class="flow-buttons">
@@ -87,21 +88,23 @@
 				<div class="value">
 					<c:choose>
 						<c:when test="${isSiteManageable && fn:length(site.siteStatusHistory)  == 1}">
-							<input type="text" name="study.studySites[${index}].irbApprovalDate" id="irbApprovalDate-${site.healthcareSite.primaryIdentifier}"
+							<input type="text" <c:if test="${site.study.studyVersion.versionDate gt now}"> disabled="true" </c:if> name="study.studySites[${index}].irbApprovalDate" id="irbApprovalDate-${site.healthcareSite.primaryIdentifier}"
 							class="date validate-DATE" value="${site.currentStudySiteStudyVersion.irbApprovalDateStr}"/>
-			            	<a href="#" id="irbApprovalDate-${site.healthcareSite.primaryIdentifier}-calbutton">
-			           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
-			           		</a>
-			           		<script type="text/javascript">
-								Calendar.setup(
-						            {
-						                inputField  : "irbApprovalDate-${site.healthcareSite.primaryIdentifier}",
-						                button      : "irbApprovalDate-${site.healthcareSite.primaryIdentifier}-calbutton",
-						                ifFormat    : "%m/%d/%Y", 
-						                weekNumbers : false
-						            }
-						        );
-							</script>
+							 <c:if test="${site.study.studyVersion.versionDate <= now}">
+				            	<a href="#" id="irbApprovalDate-${site.healthcareSite.primaryIdentifier}-calbutton">
+				           	   		<img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="top"/>
+				           		</a>
+				           		<script type="text/javascript">
+									Calendar.setup(
+							            {
+							                inputField  : "irbApprovalDate-${site.healthcareSite.primaryIdentifier}",
+							                button      : "irbApprovalDate-${site.healthcareSite.primaryIdentifier}-calbutton",
+							                ifFormat    : "%m/%d/%Y", 
+							                weekNumbers : false
+							            }
+							        );
+								</script>
+							 </c:if>
 						</c:when>
 						<c:otherwise>
 							${empty site.currentStudySiteStudyVersion.irbApprovalDateStr?'Not specified':site.currentStudySiteStudyVersion.irbApprovalDateStr }
@@ -144,40 +147,51 @@
 		<c:set var="closeToAccrualAndTreatment" value="false"/>
 		<c:set var="temporaryCloseToAccrual" value="false"/>
 		<c:set var="temporaryCloseToAccrualAndTreatment" value="false"/>
-		<c:forEach items="${site.possibleTransitions}" var="possibleAction">
-		<c:choose>
-			<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
-				<c:if test="${site.hostedMode || isSiteLocal}">
+			<c:forEach items="${site.possibleTransitions}" var="possibleAction">
+			<c:choose>
+				<c:when test="${possibleAction=='ACTIVATE_STUDY_SITE'}">
+					<c:if test="${site.hostedMode || isSiteLocal}">
+						<c:choose>
+							<c:when test="${site.study.studyVersion.versionDate gt now}">
+								<tags:button type="button" color="blue" value="${possibleAction.displayName }"  disabled="true"  id="${possibleAction}" onclick="$('siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}').style.display='';chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
+								<img id="siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+								<div><span style="color:orange">Study site IRB approval date cannot be specified and site be activated until the study becomes 
+									'Open' on ${site.study.studyVersion.versionDateStr} </span>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<tags:button type="button" color="blue" value="${possibleAction.displayName }"  id="${possibleAction}" onclick="$('siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}').style.display='';chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
+								<img id="siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+				</c:when>
+				<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL'}">
+					<c:if test="${site.hostedMode || isLocalSiteCoordinating}">
+						<c:set var="closeToAccrual" value="true"/>
+					</c:if>
+				</c:when>
+				<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
+					<c:if test="${site.hostedMode || isLocalSiteCoordinating}">
+						<c:set var="closeToAccrualAndTreatment" value="true"/>
+					</c:if>
+				</c:when>
+				<c:when test="${possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL'}">
+					<c:if test="${site.hostedMode || isLocalSiteCoordinating}">
+						<c:set var="temporaryCloseToAccrual" value="true"/>
+					</c:if>
+				</c:when>
+				<c:when test="${possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
+					<c:if test="${isSiteManageable}">
+						<c:set var="temporaryCloseToAccrualAndTreatment" value="true"/>
+					</c:if>
+				</c:when>
+				<c:otherwise>
 					<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="$('siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}').style.display='';chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
 					<img id="siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
-				</c:if>
-			</c:when>
-			<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL'}">
-				<c:if test="${site.hostedMode || isLocalSiteCoordinating}">
-					<c:set var="closeToAccrual" value="true"/>
-				</c:if>
-			</c:when>
-			<c:when test="${possibleAction=='CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
-				<c:if test="${site.hostedMode || isLocalSiteCoordinating}">
-					<c:set var="closeToAccrualAndTreatment" value="true"/>
-				</c:if>
-			</c:when>
-			<c:when test="${possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL'}">
-				<c:if test="${site.hostedMode || isLocalSiteCoordinating}">
-					<c:set var="temporaryCloseToAccrual" value="true"/>
-				</c:if>
-			</c:when>
-			<c:when test="${possibleAction=='TEMPORARILY_CLOSE_STUDY_SITE_TO_ACCRUAL_AND_TREATMENT'}">
-				<c:if test="${isSiteManageable}">
-					<c:set var="temporaryCloseToAccrualAndTreatment" value="true"/>
-				</c:if>
-			</c:when>
-			<c:otherwise>
-				<tags:button type="button" color="blue" value="${possibleAction.displayName }" id="${possibleAction}" onclick="$('siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}').style.display='';chooseEffectiveDate('${site.healthcareSite.primaryIdentifier}', '${possibleAction}');" size="small"/>
-				<img id="siteIndicator-${site.healthcareSite.primaryIdentifier}-${possibleAction}" src="<tags:imageUrl name="indicator.white.gif"/>" alt="Indicator" align="middle" style="display:none">
-			</c:otherwise>
-		</c:choose>
-		</c:forEach>
+				</c:otherwise>
+			</c:choose>
+			</c:forEach>
 		<c:if test="${closeToAccrual || closeToAccrualAndTreatment || temporaryCloseToAccrual || temporaryCloseToAccrualAndTreatment}">
 			<tags:button type="button" color="blue" value="Close Study Site" id="closeStudy"
 			onclick="Effect.SlideDown('close-choices-${site.healthcareSite.primaryIdentifier }')" size="small"/>
