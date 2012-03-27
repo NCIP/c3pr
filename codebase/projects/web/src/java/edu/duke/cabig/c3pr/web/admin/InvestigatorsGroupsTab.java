@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
@@ -36,7 +37,7 @@ public class InvestigatorsGroupsTab<C> extends InPlaceEditableTab<C> {
 
     @Override
     protected ModelAndView postProcessInPlaceEditing(HttpServletRequest request, C command,
-                    String property, String value) throws Exception {
+                    String property, String value, Errors errors) throws Exception {
         InvestigatorGroupsCommand investigatorGroupsCommand = (InvestigatorGroupsCommand) command;
         Map<String, String> map = new HashMap<String, String>();
         String retValue = "";
