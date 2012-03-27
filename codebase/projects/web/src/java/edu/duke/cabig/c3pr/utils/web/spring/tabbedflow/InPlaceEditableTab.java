@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -36,21 +37,32 @@ public class InPlaceEditableTab<C> extends WorkFlowTab<C> {
         super(longTitle, shortTitle, "");
     }
 
-    public ModelAndView doInPlaceEdit(HttpServletRequest request, Object command, Errors error)
+    public ModelAndView doInPlaceEdit(HttpServletRequest request, Object command, Errors errors)
                     throws Exception {
         String name = request.getParameter(IN_PLACE_PARAM_NAME);
         String value = request.getParameter(name);
-        return postProcessInPlaceEditing(request, (C) command, name, value);
+        return postProcessInPlaceEditing(request, (C) command, name, value, errors);
     }
 
     protected ModelAndView postProcessInPlaceEditing(HttpServletRequest request, C command,
-                    String property, String value) throws Exception {
+                    String property, String value,  Errors errors) throws Exception {
         Map<String, String> map = new HashMap<String, String>();
         String pathToGet = request.getParameter(PATH_TO_GET);
         if (!StringUtils.getBlankIfNull(pathToGet).equals("")) {
         	value = (String) new BeanWrapperImpl(command).getPropertyValue(pathToGet);
+        	 map.put(AjaxableUtils.getFreeTextModelName(), value);
         }
-        map.put(AjaxableUtils.getFreeTextModelName(), value);
+        
+        if(errors.hasErrors()){
+        	StringBuilder sb = new StringBuilder(value);
+        	for(ObjectError error : errors.getAllErrors()){
+        		sb.append("<ul class=\"errors\"> <li>"+ error.getDefaultMessage() + "</li> </ul>");
+        	}
+        	 map.put(AjaxableUtils.getFreeTextModelName(), sb.toString());
+        } else {
+        	 map.put(AjaxableUtils.getFreeTextModelName(), value);
+        }
+       
         return new ModelAndView("", map);
     }
 }
