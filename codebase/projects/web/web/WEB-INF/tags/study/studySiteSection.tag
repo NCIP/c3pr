@@ -14,6 +14,7 @@
 <%@attribute name="action" type="edu.duke.cabig.c3pr.constants.APIName"%>
 <%@attribute name="errorMessage"%>
 <%@attribute name="isNewStudySite"%>
+<%@attribute name="site_index"%>
 <c:set var="keepOpen" value="${(!empty maximized && maximized) || fn:contains(openSections, site.healthcareSite.primaryIdentifier)}"/>
 <c:set var="isActionSuccess" value="${empty errorMessage?true:false}" />
 <c:set var="isLocalSiteCoordinating" value="${localNCICode==site.study.studyCoordinatingCenters[0].healthcareSite.primaryIdentifier}"/>
@@ -107,7 +108,20 @@
 							 </c:if>
 						</c:when>
 						<c:otherwise>
-							${empty site.currentStudySiteStudyVersion.irbApprovalDateStr?'Not specified':site.currentStudySiteStudyVersion.irbApprovalDateStr }
+								<c:choose>
+									<c:when test="${empty site.currentStudySiteStudyVersion.irbApprovalDateStr}">'Not specified'</c:when>
+									<c:otherwise>
+										<c:choose>
+											<c:when test="${site.currentStudySiteStudyVersion.irbApprovalDate.time le yearOld.timeInMillis}">
+												<tags:inPlaceEdit value="${site.currentStudySiteStudyVersion.irbApprovalDateStr}" path="study.studySites[${site_index}].studySiteStudyVersions[${site.currentStudySiteStudyVersionIndex}].irbApprovalDate" 
+												id="irbApprovalDateRenewal_${site.healthcareSite.primaryIdentifier}" validations="validate-notEmpty"/>
+											</c:when>
+											<c:otherwise>
+												${site.currentStudySiteStudyVersion.irbApprovalDateStr}
+											</c:otherwise>
+										</c:choose>
+									</c:otherwise>
+								</c:choose>
 						</c:otherwise>
 					</c:choose>
 				</div>

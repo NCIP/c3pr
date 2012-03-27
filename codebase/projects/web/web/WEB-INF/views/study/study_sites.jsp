@@ -189,6 +189,33 @@
 		win.setContent(arr[0]) ;
 		win.showCenter(true);
 	}
+	
+	  function activateInPlaceEditingForIRBApprovalDateRenewal(localEditEvent) {
+			showWarning(localEditEvent, irbApprovalDateRenewalArray);
+	    }
+	
+	 Event.observe(window, "load", function() {
+    		Event.observe("editInPlaceForIRBApprovalDateRenewal", "click", activateInPlaceEditingForIRBApprovalDateRenewal);
+    	})
+    	
+	  function activateInPlaceEditing(localEditEvent, array) {
+	        for (var aE = 0; aE < array.length; aE++) {
+	        	array[aE].enterEditMode(localEditEvent);
+	        }
+    	}
+
+		function showWarning(localEditEvent, array){
+			Dialog.confirm("This step will update the study site IRB approval date. Are you sure you want to continue?", 
+	            	{width:20,height:25, okLabel: "Continue", buttonClass: "button", id: "myDialogId", 
+	        		cancel:function(win) {
+	    			}, 
+	        		ok:function(win) {
+	    				activateInPlaceEditing(localEditEvent, array); 
+	            		return true;
+	            		} 
+	        		}); 
+	    }
+    	
 	</script>
 </head>
 <body>
