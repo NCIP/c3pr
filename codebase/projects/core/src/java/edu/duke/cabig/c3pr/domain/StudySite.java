@@ -743,4 +743,15 @@ public class StudySite extends StudyOrganization implements Comparable<StudySite
 		return currentSiteStudyVersion;
 	}
 	
+	@Transient
+	public int getCurrentStudySiteStudyVersionIndex(){
+		Date currentDate = new Date();
+		StudySiteStudyVersion currentSiteStudyVersion= getStudySiteStudyVersion(currentDate);
+		if(currentSiteStudyVersion == null){
+			List<StudySiteStudyVersion> listStudySiteStudyVersion = getSortedStudySiteStudyVersions();
+			return getStudySiteStudyVersions().indexOf(listStudySiteStudyVersion.get(listStudySiteStudyVersion.size() - 1));
+		}
+		return getStudySiteStudyVersions().indexOf(currentSiteStudyVersion);
+	}
+	
 }
