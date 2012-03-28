@@ -14,10 +14,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.constants.APIName;
-import edu.duke.cabig.c3pr.constants.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.constants.WorkFlowStatusType;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.CompanionStudyAssociation;
@@ -320,4 +318,24 @@ public class StudySitesTab extends StudyTab {
 		return map;
 	}
 	
+	@Override
+	public ModelAndView doInPlaceEdit(HttpServletRequest request,
+			Object command, Errors errors) throws Exception {
+		 Study study = ((StudyWrapper) command).getStudy();
+		  String name = request.getParameter(IN_PLACE_PARAM_NAME);
+	      String value = request.getParameter(name);
+	      value = StringUtils.removeCarriageReturnCharacters(value);
+	      if(name.contains("irbApprovalDate") && value != null){
+	    	  Date newIRBApprovalDate = DateUtil.getUtilDateFromString(value, "MM/dd/yyyy");
+	    	  if(newIRBApprovalDate.before(study.getStudyVersion(new Date()).getVersionDate())){
+	    		  errors.reject("temp property", "IRB approval date : " + DateUtil.getFormattedDate("MM/dd/yyyy", newIRBApprovalDate) + 
+	    				  " cannot be older than study version date : " + study.getStudyVersion(new Date()).getVersionDateStr());
+	    	  } else if(newIRBApprovalDate.after(new Date())){
+	    		  errors.reject("temp property", "IRB approval date : " + DateUtil.getFormattedDate("MM/dd/yyyy", newIRBApprovalDate) + 
+	    				  " cannot be a future date");
+	    	  }
+	    	  
+	      }
+		return super.doInPlaceEdit(request, command, errors);
+	}
 }
