@@ -245,6 +245,7 @@
 		$('studySearchType').value = $('searchType').value ;
 		$('studySearchText').value = $('searchText').value ;
 		$('searchedForStudy').value = $('searchedStudy').value ;
+		$('_targetid').name = '_target0';
 		$('updateParticipantForm').submit();
     	}
 </script>
@@ -255,7 +256,7 @@
 	 <input type="hidden" id="studySearchType" name="studySearchType" value=""/>
 	 <input type="hidden" id="studySearchText" name="studySearchText" value=""/>
 	 <input type="hidden" name="searchedForStudy" id="searchedForStudy" value="false">
-	 <input type="hidden" name="_target0" id="_target" value="0"/>
+	 <input type="hidden" name="_targetname" id="_targetid"/>
 </form>
 
 <tags:minimizablePanelBox title="Select Subject" boxId="SubjectBox">

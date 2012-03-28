@@ -47,8 +47,5 @@
 </div>
 </tags:minimizablePanelBox>
 <div id="epochAccrualCeilingResponse" style="display:none;"></div>
-<form:form id="accrualForm">
-	<tags:tabFields tab="${tab}"/>
-</form:form>
 
 
