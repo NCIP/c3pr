@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +32,10 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.SecurityUtils;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.WebUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AjaxableUtils;
 import edu.duke.cabig.c3pr.web.registration.RegistrationControllerUtils;
@@ -379,6 +382,27 @@ public class RegistrationOverviewTab<C extends StudySubjectWrapper> extends
 			e.printStackTrace();
 		} 
 		return null;
+	}
+    
+    @Override
+	public ModelAndView doInPlaceEdit(HttpServletRequest request,
+			Object command, Errors errors) throws Exception {
+		 StudySubject studySubject = ((StudySubjectWrapper) command).getStudySubject();
+		  String name = request.getParameter(IN_PLACE_PARAM_NAME);
+	      String value = request.getParameter(name);
+	      value = StringUtils.removeCarriageReturnCharacters(value);
+	      if(name.contains("informedConsentSignedDate") && value != null){
+	    	  Date newInformedConsentSignedDate = DateUtil.getUtilDateFromString(value, "MM/dd/yyyy");
+	    	  if(newInformedConsentSignedDate.before(studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStartDate())){
+	    		  errors.reject("temp property", "Informed consent signed date: " + DateUtil.getFormattedDate("MM/dd/yyyy", newInformedConsentSignedDate) + 
+	    				  " cannot be older than study site version start date : " + studySubject.getStudySubjectStudyVersion().getStudySiteStudyVersion().getStartDateStr());
+	    	  } else if(newInformedConsentSignedDate.after(new Date())){
+	    		  errors.reject("temp property", "Informed consent signed date : " + DateUtil.getFormattedDate("MM/dd/yyyy", newInformedConsentSignedDate) + 
+	    				  " cannot be a future date ");
+	    	  }
+	    	  
+	      }
+		return super.doInPlaceEdit(request, command, errors);
 	}
     
     @Override
