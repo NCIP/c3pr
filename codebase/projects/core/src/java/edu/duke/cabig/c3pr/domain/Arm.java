@@ -54,8 +54,7 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
     }
 
     public int compareTo(Arm o) {
-        if (this.equals(o)) return 0;
-        else return 1;
+       return this.getName().compareTo(o.getName());
     }
 
     @Override
