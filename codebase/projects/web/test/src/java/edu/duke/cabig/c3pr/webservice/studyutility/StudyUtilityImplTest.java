@@ -62,7 +62,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 
 	}
 
-	public void testCreateStudy() throws C3PRCodedException,
+	public void commented_testCreateStudy() throws C3PRCodedException,
 			StudyUtilityFaultMessage {
 
 		// successful study creation
@@ -354,7 +354,7 @@ public class StudyUtilityImplTest extends WebServiceRelatedTestCase {
 		testGetSingleStudySemantics(assertThrows);
 	}
 
-	public void testUpdateStudy() throws C3PRCodedException,
+	public void commented_testUpdateStudy() throws C3PRCodedException,
 			StudyUtilityFaultMessage {
 
 		// successful study update
