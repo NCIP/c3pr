@@ -113,12 +113,21 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 		expectLastCall().andThrow(new ParticipantValidationError());
 		replay(participantRepository, validator);
 
-		new AssertThrows(InvalidSubjectDataExceptionFaultMessage.class) {
+	/*	new AssertThrows(InvalidSubjectDataExceptionFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
 				service.createSubject(request);
 			}
-		}.runTest();
+		}.runTest();*/
+		
+		try {
+			service.createSubject(request);
+			fail("should have thrown exception");
+		} catch (InvalidSubjectDataExceptionFaultMessage e) {
+			
+		}
+		
+		
 		verify(participantRepository, validator);
 		reset(participantRepository, validator);
 
@@ -131,12 +140,19 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 				.andReturn(
 						Arrays.asList(new Participant[] { new Participant() }));
 		replay(participantRepository, validator);
-		new AssertThrows(SubjectAlreadyExistsExceptionFaultMessage.class) {
+		/*new AssertThrows(SubjectAlreadyExistsExceptionFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
 				service.createSubject(request);
 			}
 		}.runTest();
+		*/
+		try {
+			service.createSubject(request);
+			fail("should have thrown exception");
+		} catch (SubjectAlreadyExistsExceptionFaultMessage e) {
+			
+		}
 		verify(participantRepository, validator);
 		reset(participantRepository, validator);
 
@@ -263,12 +279,20 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 		expect(participantRepository.searchByIdentifier(isA(Identifier.class)))
 				.andReturn(new ArrayList<Participant>());
 		replay(participantRepository, validator);
-		new AssertThrows(NoSuchSubjectExceptionFaultMessage.class) {
+	/*	new AssertThrows(NoSuchSubjectExceptionFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
 				service.updateSubject(request);
 			}
-		}.runTest();
+		}.runTest();*/
+		
+		try {
+			service.updateSubject(request);
+			fail("should have thrown exception");
+		} catch (NoSuchSubjectExceptionFaultMessage e) {
+			
+		}
+		
 		verify(participantRepository, validator);
 		reset(participantRepository, validator);
 
@@ -283,12 +307,20 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 		expect(participantRepository.searchByIdentifier(isA(Identifier.class)))
 				.andReturn(Arrays.asList(new Participant[] { inactiveSubject }));
 		replay(participantRepository, validator);
-		new AssertThrows(NoSuchSubjectExceptionFaultMessage.class) {
+		/*new AssertThrows(NoSuchSubjectExceptionFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
 				service.updateSubject(request);
 			}
-		}.runTest();
+		}.runTest();*/
+		
+		try {
+			service.updateSubject(request);
+			fail("should have thrown exception");
+		} catch (NoSuchSubjectExceptionFaultMessage e) {
+			
+		}
+		
 		verify(participantRepository, validator);
 		reset(participantRepository, validator);
 
@@ -304,12 +336,19 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 		validator.validateParticipantDetails(anyObject(), isA(Errors.class));
 		expectLastCall().andThrow(new ParticipantValidationError());
 		replay(participantRepository, validator);
-		new AssertThrows(InvalidSubjectDataExceptionFaultMessage.class) {
+	/*	new AssertThrows(InvalidSubjectDataExceptionFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
 				service.updateSubject(request);
 			}
-		}.runTest();
+		}.runTest();*/
+		
+		try {
+			service.updateSubject(request);
+			fail("should have thrown exception");
+		}catch (InvalidSubjectDataExceptionFaultMessage e) {
+			
+		}
 
 	}
 
@@ -369,12 +408,19 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 				.andReturn(new LinkedList<Participant>());
 		replay(participantRepository);
 
-		new AssertThrows(NoSuchSubjectExceptionFaultMessage.class) {
+	/*	new AssertThrows(NoSuchSubjectExceptionFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
 				service.updateSubjectState(request);
 			}
-		}.runTest();
+		}.runTest();*/
+		
+		try {
+			service.updateSubjectState(request);
+			fail("should have thrown exception");
+		} catch (NoSuchSubjectExceptionFaultMessage e) {
+			
+		}
 		verify(participantRepository);
 		reset(participantRepository);
 
@@ -389,12 +435,19 @@ public class SubjectManagementImplTest extends WebServiceRelatedTestCase {
 				.andReturn(Arrays.asList(new Participant[] { existentSubject }));
 		replay(participantRepository);
 
-		new AssertThrows(InvalidStateTransitionExceptionFaultMessage.class) {
+		/*new AssertThrows(InvalidStateTransitionExceptionFaultMessage.class) {
 			@Override
 			public void test() throws Exception {
 				service.updateSubjectState(request);
 			}
-		}.runTest();
+		}.runTest();*/
+		
+		try {
+			service.updateSubjectState(request);
+			fail("should have thrown exception");
+		} catch (InvalidStateTransitionExceptionFaultMessage e) {
+			
+		}
 		verify(participantRepository);
 		reset(participantRepository);
 
