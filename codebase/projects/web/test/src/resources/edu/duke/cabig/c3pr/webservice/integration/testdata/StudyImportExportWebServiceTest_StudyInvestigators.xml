@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <dataset>
 	<study_investigators role_code="Principal Investigator"
 		status_code="AC" assigned_identifier="inv01" name="Mayo Clinic Rochester" />

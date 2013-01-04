@@ -1,3 +1,9 @@
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Body>
         <ns4:InitiateSubjectRegistryResponse xmlns:ns4="http://enterpriseservices.nci.nih.gov/SubjectRegistryService" xmlns:ns3="http://enterpriseservices.nci.nih.gov/SubjectRegistry" xmlns:ns2="uri:iso.org:21090">

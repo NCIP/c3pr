@@ -1,3 +1,9 @@
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <dataset>
     
     <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="2000-01-01" administrative_gender_code="Male"  retired_indicator = "false" ethnic_group_code="Unknown"/>

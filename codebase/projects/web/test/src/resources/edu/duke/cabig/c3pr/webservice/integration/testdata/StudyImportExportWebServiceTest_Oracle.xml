@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <dataset>
 	<csm_user user_id="4" login_name="jdoe01" first_name="John"
 		last_name="Doe" organization="" department="" title="" phone_number=""

@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='utf-8' ?>
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <ftstdata>
 <topic name="admin_configure" url="admin_configure.htm" />
 <topic name="Before_You_Begin" url="Before_You_Begin.htm" />

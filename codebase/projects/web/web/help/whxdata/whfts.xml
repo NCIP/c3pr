@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='utf-8' ?>
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <fts>
 <chunkinfo url="whfwdata0.xml" first="%" last="few"/>
 <chunkinfo url="whfwdata1.xml" first="field" last="responsibl"/>

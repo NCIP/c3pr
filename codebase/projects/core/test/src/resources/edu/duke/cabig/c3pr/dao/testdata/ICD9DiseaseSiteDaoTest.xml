@@ -1,3 +1,9 @@
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <dataset>
 	<icd9_disease_sites id="1001" version="0" name="Neoplasm2" code="200" description_text="Neoplasm2" parent_id="1000" depth="LEVEL2" selectable="0"  />
 	<icd9_disease_sites id="1000" version="0" name="skinandmouth" code="200.1" description_text="Neoplasm1" depth="LEVEL1" selectable="0" />

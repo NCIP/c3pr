@@ -1,3 +1,9 @@
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <dataset>
 	<CSM_USER user_id="1000" login_name="c3pr_admin_etc" first_name="c3pr_etc" last_name="admin_etc" />
 	<CSM_GROUP group_id="1000" group_name="edu.duke.cabig.c3pr.domain.HealthcareSite.RM-TST-ID-1000	" group_desc="" application_id="-1" />

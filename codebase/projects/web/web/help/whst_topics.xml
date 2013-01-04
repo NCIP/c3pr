@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='ISO-8859-1' ?>
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <topictemplate>
  <topic type="normal">
   <add tag="head" pos="endbefore" >

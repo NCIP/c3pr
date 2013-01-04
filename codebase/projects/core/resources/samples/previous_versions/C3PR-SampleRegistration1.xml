@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <registrations>
 	<registration xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
 		gridId="9ac690cb-fa32-4139-be4c-32910a526022">

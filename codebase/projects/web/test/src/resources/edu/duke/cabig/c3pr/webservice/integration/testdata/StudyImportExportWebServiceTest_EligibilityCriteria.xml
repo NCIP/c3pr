@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <dataset>
 	<eligibility_criteria question_number="1.00"
 		question_text="Incl q 1" not_applicable_indicator="0" dtype="I" />

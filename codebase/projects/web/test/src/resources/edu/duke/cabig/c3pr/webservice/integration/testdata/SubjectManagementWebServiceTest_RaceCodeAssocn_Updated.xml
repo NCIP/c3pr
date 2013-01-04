@@ -1,4 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!--
+  Copyright Duke Comprehensive Cancer Center and SemanticBits
+   
+     Distributed under the OSI-approved BSD 3-Clause License.
+     See  https://github.com/NCIP/c3pr/LICENSE.txt for details.
+-->
 <dataset>
 	<race_code_assocn race_code="Black_or_African_American" retired_indicator="false" />	
 </dataset>
