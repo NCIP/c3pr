@@ -241,5 +241,7 @@
 	<classpathentry kind="lib" path="/RegistrationService/build/dist/RegistrationService-stubs.jar"/>
 	<classpathentry kind="lib" path="/RegistrationService/build/dist/RegistrationService-tests.jar"/>
 	<classpathentry kind="lib" path="/esb-client/build/dist/c3pr-esb-client-tests.jar"/>
+	<classpathentry kind="lib" path="build/dist/c3pr-core-tests.jar"/>
+	<classpathentry kind="lib" path="build/dist/c3pr-core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
